@@ -29,7 +29,8 @@ dobleces, viñeta envejecida, tarjetas con la esquina doblada y sombras cálidas
 Dos estilos en Ajustes: **Papel antiguo** (por defecto, mejor contraste) y **Pastel marrón**. Los años,
 meses, semanas y días son botones flotantes que se hunden al tocarlos, y un FAB lleva a Hoy, esta semana,
 este mes o este año. Pantalla de inicio del sistema (SplashScreen API) más una ventana de inicio animada.
-Logos y vistas previas en `diseno/`.
+Logo: el **sello de cera de Ruta a la Cima** (original del autor), en la barra, la ventana de inicio, el ícono
+y la pantalla de arranque. Archivo en alta resolución y vistas previas en `diseno/`.
 
 ## Diseño con IA (skill "impeccable")
 

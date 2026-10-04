@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Ícono de la pantalla de inicio (Android 12+): el sello ocupa el centro 2/3 visible. -->
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="288dp" android:height="288dp" android:viewportWidth="768" android:viewportHeight="768">
-    <group android:translateX="128" android:translateY="128">
-    <path android:fillColor="#6B2A1A" android:pathData="M10.0,256.0 a246,246 0 1,0 492,0 a246,246 0 1,0 -492,0" />
-    <path android:fillColor="#00000000" android:strokeColor="#E8C77A" android:strokeWidth="5" android:strokeAlpha="0.85"
-        android:pathData="M34.0,256.0 a222,222 0 1,0 444,0 a222,222 0 1,0 -444,0" />
-    <path android:fillColor="#E8C77A" android:pathData="M316.0,170.0 a30,30 0 1,0 60,0 a30,30 0 1,0 -60,0" />
-    <path android:fillColor="#8E4A2E" android:pathData="M96,356 L214,196 L262,252 L300,210 L416,356 Z" />
-    <path android:fillColor="#F5EAD2" android:pathData="M120,356 L256,150 L392,356 Z" />
-    <path android:fillColor="#E2D1AC" android:pathData="M256,150 L392,356 L300,356 Z" />
-    <path android:fillColor="#FFFFFF" android:fillAlpha="0.9" android:pathData="M256,150 L292,205 L272,196 L256,214 L240,196 L220,205 Z" />
-    <path android:fillColor="#B8862F" android:pathData="M205.0,356.0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M221.8,346.1 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M239.8,336.8 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M256.9,327.9 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M272.0,316.0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M268.0,298.6 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M252.5,286.1 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M238.2,272.9 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M236.7,255.3 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M251.4,243.2 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M268.1,232.7 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M277.3,216.3 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0 M268.5,199.2 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
-    <path android:fillColor="#00000000" android:strokeColor="#3A2A1C" android:strokeWidth="7" android:strokeLineCap="round" android:pathData="M256,150 L256,104" />
-    <path android:fillColor="#E8C77A" android:pathData="M259,106 L300,118 L259,132 Z" />
-    <path android:fillColor="#00000000" android:strokeColor="#E8C77A" android:strokeWidth="6" android:strokeLineCap="round" android:pathData="M86,356 H426" />
-    </group>
-</vector>
+<!-- Pantalla de inicio del sistema: el sello de cera de Ruta a la Cima centrado (zona visible 2/3). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:width="288dp" android:height="288dp">
+        <shape android:shape="rectangle"><solid android:color="@android:color/transparent" /></shape>
+    </item>
+    <item android:width="184dp" android:height="184dp" android:gravity="center"
+        android:drawable="@drawable/logo_sello" />
+</layer-list>

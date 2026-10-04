@@ -84,7 +84,7 @@ fun OnboardingScreen() {
             when (paso) {
                 0 -> {
                     Spacer(Modifier.height(24.dp))
-                    Image(painterResource(R.drawable.logo_rutacima), stringResource(R.string.app_name),
+                    Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name),
                         modifier = Modifier.size(140.dp).align(Alignment.CenterHorizontally))
                     Text(stringResource(R.string.onb_bienvenida), style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)

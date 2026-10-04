@@ -156,7 +156,7 @@ private fun AppPrincipal() {
                 TopAppBar(
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Image(painterResource(R.drawable.logo_rutacima), null, Modifier.size(30.dp))
+                            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(38.dp))
                             Spacer(Modifier.width(10.dp))
                             Text(
                                 if (pestana.ruta == Rutas.RUTA) stringResource(R.string.app_name) else stringResource(pestana.titulo),

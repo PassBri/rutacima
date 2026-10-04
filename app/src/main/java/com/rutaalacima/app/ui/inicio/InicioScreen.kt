@@ -92,7 +92,7 @@ fun InicioScreen(onTerminar: () -> Unit) {
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box(
-                Modifier.size(200.dp).graphicsLayer {
+                Modifier.size(214.dp).graphicsLayer {
                     val e = 0.6f + 0.4f * sello.value
                     scaleX = e; scaleY = e; alpha = sello.value.coerceIn(0f, 1f)
                 },
@@ -103,10 +103,8 @@ fun InicioScreen(onTerminar: () -> Unit) {
                     drawCircle(oro, radius = size.minDimension / 2 - 4f,
                         style = Stroke(width = 5f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 22f)), cap = androidx.compose.ui.graphics.StrokeCap.Round))
                 }
-                Image(
-                    painterResource(R.drawable.logo_rutacima), null,
-                    Modifier.size(164.dp).shadow(16.dp, CircleShape, ambientColor = Papel.Sombra, spotColor = Papel.Sombra).clip(CircleShape),
-                )
+                // Sello de cera de Ruta a la Cima (con su propia sombra y relieve)
+                Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(178.dp))
             }
             Spacer(Modifier.height(28.dp))
             Text(
@@ -142,7 +140,7 @@ fun InicioScreen(onTerminar: () -> Unit) {
             Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 28.dp).graphicsLayer { alpha = lema.value },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(painterResource(R.drawable.logo_rutacima), null, Modifier.size(22.dp))
+            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(26.dp))
             Spacer(Modifier.width(8.dp))
             Text(stringResource(R.string.inicio_serie), style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.5.sp)
