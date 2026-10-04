@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.onboarding
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.material3.Icon
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.Icons
@@ -75,7 +76,7 @@ fun OnboardingScreen() {
     var cumbre by rememberSaveable { mutableStateOf("") }
     var faseNombre by rememberSaveable { mutableStateOf<String?>(null) }
 
-    Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+    Surface(Modifier.fillMaxSize().fondoPapel(), color = androidx.compose.ui.graphics.Color.Transparent) {
         Column(
             Modifier.fillMaxSize().safeDrawingPadding().imePadding().verticalScroll(rememberScrollState()).padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),

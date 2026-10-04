@@ -4,12 +4,16 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.rutaalacima.app.ui.RutaRoot
 import com.rutaalacima.app.ui.theme.RutaTheme
 
 /** AppCompatActivity para que el cambio de idioma por app (12 idiomas) se aplique al instante. */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Pantalla de inicio del sistema con el sello (debe ir antes de super.onCreate)
+        installSplashScreen()
+        com.rutaalacima.app.ui.theme.EstiloActual.cargar(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         pedirPermisoNotificaciones()

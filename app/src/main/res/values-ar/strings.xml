@@ -592,4 +592,13 @@
     <string name="frase_120_12">اشكر على ثلاثة أشياء قبل النوم. الامتنان وقود الصعود.</string>
     <string name="frase_120_13">إن سقطت اليوم فانهض اليوم. الطريق طويل وفيه وقت لتصعد من جديد.</string>
     <string name="frase_120_14">قمتك تنتظرك. هذا اليوم جزء من الطريق.</string>
+    <string name="estilo">نمط الورق</string>
+    <string name="estilo_antiguo">ورق عتيق</string>
+    <string name="estilo_pastel">باستيل بني</string>
+    <string name="inicio_lema">طريقك نحو 120 عامًا</string>
+    <string name="inicio_serie">سلسلة RUTA A LA CIMA</string>
+    <string name="ruta_esta_semana">هذا الأسبوع</string>
+    <string name="ruta_este_mes">هذا الشهر</string>
+    <string name="ruta_este_anio">هذا العام</string>
+    <string name="ruta_ir_a">انتقل إلى…</string>
 </resources>

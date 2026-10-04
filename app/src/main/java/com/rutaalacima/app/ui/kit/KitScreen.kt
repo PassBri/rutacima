@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.kit
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -112,8 +113,11 @@ fun KitScreen(
     val semana by vm.semana.collectAsStateWithLifecycle()
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(stringResource(R.string.kit_titulo)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )

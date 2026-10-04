@@ -592,4 +592,13 @@
     <string name="frase_120_12">Remercie pour trois choses avant de dormir. La gratitude est le carburant de l\'ascension.</string>
     <string name="frase_120_13">Si tu tombes aujourd\'hui, relève-toi aujourd\'hui. Le chemin est long et il y a le temps de regrimper.</string>
     <string name="frase_120_14">Ton sommet t\'attend. Cette journée fait partie du chemin.</string>
+    <string name="estilo">Style de papier</string>
+    <string name="estilo_antiguo">Papier ancien</string>
+    <string name="estilo_pastel">Pastel brun</string>
+    <string name="inicio_lema">Ton chemin vers 120 ans</string>
+    <string name="inicio_serie">SÉRIE RUTA A LA CIMA</string>
+    <string name="ruta_esta_semana">Cette semaine</string>
+    <string name="ruta_este_mes">Ce mois-ci</string>
+    <string name="ruta_este_anio">Cette année</string>
+    <string name="ruta_ir_a">Aller à…</string>
 </resources>

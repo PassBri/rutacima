@@ -592,4 +592,13 @@
     <string name="frase_120_12">자기 전에 감사한 일 세 가지를 떠올려 보세요. 감사는 오르막의 연료예요.</string>
     <string name="frase_120_13">오늘 넘어졌다면 오늘 다시 일어나세요. 길은 길고, 다시 오를 시간은 충분해요.</string>
     <string name="frase_120_14">당신의 정상이 기다리고 있어요. 오늘도 그 길의 일부예요.</string>
+    <string name="estilo">종이 스타일</string>
+    <string name="estilo_antiguo">빈티지 종이</string>
+    <string name="estilo_pastel">브라운 파스텔</string>
+    <string name="inicio_lema">120세를 향한 나의 길</string>
+    <string name="inicio_serie">RUTA A LA CIMA 시리즈</string>
+    <string name="ruta_esta_semana">이번 주</string>
+    <string name="ruta_este_mes">이번 달</string>
+    <string name="ruta_este_anio">올해</string>
+    <string name="ruta_ir_a">이동…</string>
 </resources>

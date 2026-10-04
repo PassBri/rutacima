@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.metas
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.Arrangement
@@ -201,8 +202,11 @@ fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: ()
     val ultimo = if (vm.nivel == NivelMeta.MES) 2 else 3
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(if (vm.guardada) stringResource(R.string.meta_creada) else stringResource(pasos[vm.paso.coerceAtMost(3)])) },
                 navigationIcon = {
                     IconButton(onClick = { if (vm.paso > 0 && !vm.guardada) vm.paso-- else onBack() }) {

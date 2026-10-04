@@ -592,4 +592,13 @@
     <string name="frase_120_12">Поблагодари за три вещи перед сном. Благодарность — топливо восхождения.</string>
     <string name="frase_120_13">Если сегодня упал, поднимись сегодня. Путь долгий, и есть время подняться снова.</string>
     <string name="frase_120_14">Твоя вершина ждёт тебя. Этот день — часть пути.</string>
+    <string name="estilo">Стиль бумаги</string>
+    <string name="estilo_antiguo">Старинная бумага</string>
+    <string name="estilo_pastel">Коричневая пастель</string>
+    <string name="inicio_lema">Твой путь к 120 годам</string>
+    <string name="inicio_serie">СЕРИЯ RUTA A LA CIMA</string>
+    <string name="ruta_esta_semana">Эта неделя</string>
+    <string name="ruta_este_mes">Этот месяц</string>
+    <string name="ruta_este_anio">Этот год</string>
+    <string name="ruta_ir_a">Перейти к…</string>
 </resources>

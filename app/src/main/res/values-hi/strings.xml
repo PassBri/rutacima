@@ -592,4 +592,13 @@
     <string name="frase_120_12">सोने से पहले तीन बातों के लिए आभारी हों। कृतज्ञता चढ़ाई का ईंधन है।</string>
     <string name="frase_120_13">अगर आज गिरें, तो आज ही उठ खड़े हों। रास्ता लंबा है और फिर से चढ़ने का समय है।</string>
     <string name="frase_120_14">आपका शिखर आपका इंतज़ार कर रहा है। यह दिन भी सफ़र का हिस्सा है।</string>
+    <string name="estilo">कागज़ की शैली</string>
+    <string name="estilo_antiguo">पुराना कागज़</string>
+    <string name="estilo_pastel">भूरा पेस्टल</string>
+    <string name="inicio_lema">120 वर्षों की ओर आपकी राह</string>
+    <string name="inicio_serie">RUTA A LA CIMA श्रृंखला</string>
+    <string name="ruta_esta_semana">इस सप्ताह</string>
+    <string name="ruta_este_mes">इस महीने</string>
+    <string name="ruta_este_anio">इस वर्ष</string>
+    <string name="ruta_ir_a">यहाँ जाएँ…</string>
 </resources>

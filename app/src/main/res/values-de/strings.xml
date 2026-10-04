@@ -592,4 +592,13 @@
     <string name="frase_120_12">Sei vor dem Schlafen für drei Dinge dankbar. Dankbarkeit ist der Treibstoff des Aufstiegs.</string>
     <string name="frase_120_13">Wenn du heute fällst, steh heute wieder auf. Der Weg ist lang, und es bleibt Zeit, wieder aufzusteigen.</string>
     <string name="frase_120_14">Dein Gipfel wartet auf dich. Dieser Tag ist Teil des Weges.</string>
+    <string name="estilo">Papierstil</string>
+    <string name="estilo_antiguo">Altes Papier</string>
+    <string name="estilo_pastel">Braunes Pastell</string>
+    <string name="inicio_lema">Dein Weg zu 120 Jahren</string>
+    <string name="inicio_serie">REIHE RUTA A LA CIMA</string>
+    <string name="ruta_esta_semana">Diese Woche</string>
+    <string name="ruta_este_mes">Dieser Monat</string>
+    <string name="ruta_este_anio">Dieses Jahr</string>
+    <string name="ruta_ir_a">Gehe zu…</string>
 </resources>

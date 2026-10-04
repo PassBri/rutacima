@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.axes
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -96,8 +97,11 @@ fun AxesScreen(onBack: () -> Unit) {
     val anterior = historial.getOrNull(1)
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(stringResource(R.string.mis_ejes)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )

@@ -1,5 +1,17 @@
 package com.rutaalacima.app.ui.ruta
 
+import androidx.compose.animation.expandVertically
+import androidx.compose.material.icons.filled.Explore
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.EventNote
+import androidx.compose.material.icons.filled.ViewWeek
+import androidx.compose.material.icons.filled.Today
+import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ripple
+import com.rutaalacima.app.ui.theme.hojaPapel
+import com.rutaalacima.app.ui.theme.rememberToque
+import com.rutaalacima.app.ui.theme.flotante
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -203,11 +215,12 @@ fun RutaScreen(
         )
     }
 
+    Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
         Migas(nivel, perfil, ir)
         AnimatedContent(targetState = nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
             LazyColumn(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = contentPadding.calculateBottomPadding() + 24.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = contentPadding.calculateBottomPadding() + 96.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 when (n) {
@@ -218,6 +231,59 @@ fun RutaScreen(
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, checks, vm, onPlanificador, onKit, onPublicar)
                 }
             }
+        }
+    }
+        SaltosRapidos(
+            modifier = Modifier.align(Alignment.BottomEnd)
+                .padding(end = 16.dp, bottom = contentPadding.calculateBottomPadding() + 16.dp),
+            ir = ir,
+        )
+    }
+}
+
+/**
+ * Botón flotante (FAB) con atajos: Hoy, Esta semana, Este mes, Este año. Un solo FAB por
+ * pantalla (Material 3); al abrirse muestra los atajos como FAB pequeños con su etiqueta.
+ */
+@Composable
+private fun SaltosRapidos(modifier: Modifier, ir: (Nivel) -> Unit) {
+    var abierto by rememberSaveable { mutableStateOf(false) }
+    val h = hoy()
+    val atajos = listOf(
+        Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
+        Triple(R.string.ruta_esta_semana, Icons.Filled.ViewWeek, Nivel.Semana(h.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))),
+        Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),
+        Triple(R.string.ruta_este_anio, Icons.Filled.EventNote, Nivel.Anio(h.year)),
+    )
+    Column(modifier, horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        androidx.compose.animation.AnimatedVisibility(
+            visible = abierto,
+            enter = fadeIn() + androidx.compose.animation.expandVertically(expandFrom = Alignment.Bottom),
+            exit = fadeOut() + androidx.compose.animation.shrinkVertically(shrinkTowards = Alignment.Bottom),
+        ) {
+            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                atajos.forEach { (texto, icono, destino) ->
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            stringResource(texto), style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.hojaPapel(elevacion = 2.dp, doblez = 0.dp, pliegue = false).padding(horizontal = 12.dp, vertical = 6.dp),
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        SmallFloatingActionButton(
+                            onClick = { abierto = false; ir(destino) },
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
+                            contentColor = MaterialTheme.colorScheme.primary,
+                        ) { Icon(icono, stringResource(texto)) }
+                    }
+                }
+            }
+        }
+        FloatingActionButton(
+            onClick = { abierto = !abierto },
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+        ) {
+            Icon(if (abierto) Icons.Filled.Close else Icons.Filled.Explore, stringResource(R.string.ruta_ir_a))
         }
     }
 }
@@ -255,11 +321,12 @@ private fun Migas(nivel: Nivel, perfil: PerfilEntity, ir: (Nivel) -> Unit) {
             item {
                 val ultimo = i == pasos.lastIndex
                 Text(
-                    texto, style = MaterialTheme.typography.labelLarge,
+                    texto, style = MaterialTheme.typography.labelLarge, maxLines = 1,
                     fontWeight = if (ultimo) FontWeight.Bold else FontWeight.Normal,
                     color = if (ultimo) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.clip(RoundedCornerShape(50))
-                        .background(if (ultimo) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh)
+                    modifier = Modifier.flotante(rememberToque(), RoundedCornerShape(50), if (ultimo) 4.dp else 2.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(if (ultimo) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerLowest)
                         .clickable { ir(destino) }.padding(horizontal = 12.dp, vertical = 8.dp),
                 )
                 if (!ultimo) Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(16.dp),
@@ -423,9 +490,14 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                 val anio = anioNac + e
                 val pasado = e < edad
                 val actual = e == edad
-                Box(Modifier.weight(1f).aspectRatio(1f).padding(3.dp).clip(CircleShape).clickable { onAnio(anio) }, contentAlignment = Alignment.Center) {
+                val toque = rememberToque()
+                Box(Modifier.weight(1f).aspectRatio(1f).padding(3.dp), contentAlignment = Alignment.Center) {
                     Box(
-                        Modifier.fillMaxSize(0.86f).clip(CircleShape)
+                        Modifier.fillMaxSize(0.86f)
+                            // Años vividos y con recuerdos flotan sobre el papel; los futuros quedan casi al ras
+                            .flotante(toque, CircleShape, if (pasado || actual || anio in aniosConRecuerdos) 3.dp else 0.5.dp)
+                            .clip(CircleShape)
+                            .clickable(interactionSource = toque, indication = ripple()) { onAnio(anio) }
                             .background(
                                 when {
                                     anio in aniosConRecuerdos -> recuerdo
@@ -491,10 +563,11 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
                     val av = if (metasMes.isEmpty()) 0f else metasMes.map { it.avance() }.average().toFloat()
                     val nRec = recuerdos.count { it.mesDelAnio() == m }
                     val esActual = YearMonth.of(anio, m) == YearMonth.from(hoy())
+                    val toque = rememberToque()
                     Column(
-                        Modifier.weight(1f).clip(RoundedCornerShape(16.dp))
-                            .background(if (esActual) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow)
-                            .clickable { ir(Nivel.Mes(YearMonth.of(anio, m))) }.padding(12.dp),
+                        Modifier.weight(1f).flotante(toque, RoundedCornerShape(16.dp), 4.dp).clip(RoundedCornerShape(16.dp))
+                            .background(if (esActual) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLowest)
+                            .clickable(interactionSource = toque, indication = ripple()) { ir(Nivel.Mes(YearMonth.of(anio, m))) }.padding(12.dp),
                     ) {
                         Text(nombreMes(m), style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Text(stringResource(R.string.ruta_n_metas, metasMes.size), style = MaterialTheme.typography.labelSmall,
@@ -571,7 +644,9 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
                     Text(
                         "S${semana.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR)}", style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center,
-                        modifier = Modifier.width(36.dp).clip(RoundedCornerShape(8.dp)).clickable { ir(Nivel.Semana(semana)) }.padding(vertical = 10.dp),
+                        modifier = Modifier.width(36.dp).padding(end = 4.dp).flotante(rememberToque(), RoundedCornerShape(8.dp), 2.dp)
+                            .clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                            .clickable { ir(Nivel.Semana(semana)) }.padding(vertical = 10.dp),
                     )
                     (0..6).forEach { d ->
                         val f = semana.plusDays(d.toLong())
@@ -616,14 +691,15 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
 private fun DiaCelda(f: LocalDate, habitos: Int, conAgenda: Boolean, conRecuerdo: Boolean, onClick: () -> Unit) {
     val esHoy = f == hoy()
     val nivel = (habitos / ChecklistDiario.TOTAL.toFloat()).coerceIn(0f, 1f)
+    val toque = rememberToque()
     Box(
-        Modifier.fillMaxSize().clip(RoundedCornerShape(10.dp))
+        Modifier.fillMaxSize().flotante(toque, RoundedCornerShape(10.dp), if (esHoy) 5.dp else 2.dp).clip(RoundedCornerShape(10.dp))
             .background(
-                if (habitos > 0) MaterialTheme.colorScheme.primary.copy(alpha = 0.18f + 0.6f * nivel)
-                else MaterialTheme.colorScheme.surfaceContainerHigh,
+                if (habitos > 0) androidx.compose.ui.graphics.lerp(MaterialTheme.colorScheme.surfaceContainerLowest, MaterialTheme.colorScheme.primary, 0.18f + 0.6f * nivel)
+                else MaterialTheme.colorScheme.surfaceContainerLowest,
             )
             .then(if (esHoy) Modifier.border(2.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(10.dp)) else Modifier)
-            .clickable(onClick = onClick),
+            .clickable(interactionSource = toque, indication = ripple(), onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Text("${f.dayOfMonth}", style = MaterialTheme.typography.labelMedium,

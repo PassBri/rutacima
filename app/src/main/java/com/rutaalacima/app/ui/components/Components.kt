@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.components
 
+import androidx.compose.runtime.remember
+import com.rutaalacima.app.ui.theme.flotante
+import com.rutaalacima.app.ui.theme.hojaPapel
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -73,23 +76,26 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier) {
     }
 }
 
+/**
+ * Tarjeta de la app como hoja de papel: sombra cálida, pliegue diagonal y esquina doblada.
+ * Si es tocable, flota y se hunde al tocarla (Material 3: estado presionado visible).
+ */
 @Composable
 fun RutaCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    val colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-    val border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-    if (onClick != null) {
-        OutlinedCard(onClick = onClick, modifier = modifier.fillMaxWidth(), colors = colors, border = border) {
-            Column(Modifier.padding(16.dp), content = content)
-        }
-    } else {
-        OutlinedCard(modifier = modifier.fillMaxWidth(), colors = colors, border = border) {
-            Column(Modifier.padding(16.dp), content = content)
-        }
-    }
+    val forma = remember { com.rutaalacima.app.ui.theme.FormaHoja() }
+    val toque = com.rutaalacima.app.ui.theme.rememberToque()
+    val base = modifier.fillMaxWidth()
+        .then(if (onClick != null) Modifier.flotante(toque, forma, elevacion = 0.dp) else Modifier)
+        .hojaPapel()
+    Column(
+        (if (onClick != null) base.clip(forma).clickable(interactionSource = toque, indication = androidx.compose.material3.ripple(), onClick = onClick)
+        else base).padding(16.dp),
+        content = content,
+    )
 }
 
 @Composable

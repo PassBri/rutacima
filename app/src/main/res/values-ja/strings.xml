@@ -592,4 +592,13 @@
     <string name="frase_120_12">眠る前に3つのことに感謝しよう。感謝は登り続けるための燃料。</string>
     <string name="frase_120_13">今日転んだら、今日立ち上がろう。道は長く、また登る時間はある。</string>
     <string name="frase_120_14">あなたの頂が待っている。今日という日もその道の一部。</string>
+    <string name="estilo">紙のスタイル</string>
+    <string name="estilo_antiguo">古紙</string>
+    <string name="estilo_pastel">ブラウンパステル</string>
+    <string name="inicio_lema">120歳へのあなたの道</string>
+    <string name="inicio_serie">RUTA A LA CIMA シリーズ</string>
+    <string name="ruta_esta_semana">今週</string>
+    <string name="ruta_este_mes">今月</string>
+    <string name="ruta_este_anio">今年</string>
+    <string name="ruta_ir_a">移動…</string>
 </resources>

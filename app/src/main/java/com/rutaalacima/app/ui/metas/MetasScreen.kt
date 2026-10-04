@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.metas
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -262,8 +263,11 @@ fun PlanificadorScreen(
     onOpenWorkbook: (String) -> Unit,
 ) {
     androidx.compose.material3.Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             androidx.compose.material3.TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(stringResource(R.string.planificador)) },
                 navigationIcon = {
                     androidx.compose.material3.IconButton(onClick = onBack) {

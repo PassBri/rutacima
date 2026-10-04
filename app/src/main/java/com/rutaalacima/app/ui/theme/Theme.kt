@@ -6,6 +6,8 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -29,51 +31,102 @@ object Marca {
     val NocheSuperficie = Color(0xFF2A1D19)
 }
 
-private val Claro = lightColorScheme(
-    primary = Marca.Burdeos,
-    onPrimary = Color.White,
-    primaryContainer = Color(0xFFF3DAD5),
-    onPrimaryContainer = Marca.TintaCafe,
-    secondary = Marca.Oro,
-    onSecondary = Marca.TintaCafe,
-    secondaryContainer = Marca.OroPalido,
-    onSecondaryContainer = Marca.TintaCafe,
-    tertiary = Marca.Kraft,
-    onTertiary = Marca.TintaCafe,
-    background = Marca.Crema,
-    onBackground = Marca.TintaCafe,
-    surface = Marca.Crema,
-    onSurface = Marca.TintaCafe,
-    surfaceVariant = Color(0xFFF2EADB),
-    onSurfaceVariant = Color(0xFF5B4A42),
-    surfaceContainer = Color(0xFFF7F1E4),
-    surfaceContainerLow = Color(0xFFFAF5EA),
-    surfaceContainerHigh = Color(0xFFF2EADB),
-    outline = Color(0xFFCCBFA8),
-    outlineVariant = Color(0xFFE5DACA),
+/** Estilos de papel de la app. Se eligen en Ajustes. */
+enum class EstiloPapel { ANTIGUO, PASTEL }
+
+/** Estilo actual (se carga en MainActivity y se cambia en vivo desde Ajustes). */
+object EstiloActual {
+    var estilo by androidx.compose.runtime.mutableStateOf(EstiloPapel.ANTIGUO)
+    private const val PREFS = "ajustes_estilo"
+
+    fun cargar(c: android.content.Context) {
+        estilo = runCatching { EstiloPapel.valueOf(c.getSharedPreferences(PREFS, 0).getString("estilo", null) ?: "") }
+            .getOrDefault(EstiloPapel.ANTIGUO)
+    }
+
+    fun cambiar(c: android.content.Context, e: EstiloPapel) {
+        estilo = e
+        c.getSharedPreferences(PREFS, 0).edit().putString("estilo", e.name).apply()
+    }
+}
+
+/** Papel antiguo: pergamino, tinta sepia, lacre y ocre. Contraste de texto ≥ 4.5:1. */
+private val PapelAntiguo = lightColorScheme(
+    primary = Color(0xFF6B2A1A),
+    onPrimary = Color(0xFFFBF3E3),
+    primaryContainer = Color(0xFFEFD9C8),
+    onPrimaryContainer = Color(0xFF3A1A10),
+    secondary = Color(0xFFB8862F),
+    onSecondary = Color(0xFF2E1F0E),
+    secondaryContainer = Color(0xFFF0E0B8),
+    onSecondaryContainer = Color(0xFF3A2A1C),
+    tertiary = Color(0xFF8E4A2E),
+    onTertiary = Color(0xFFFBF3E3),
+    background = Color(0xFFEADCBE),
+    onBackground = Color(0xFF3A2A1C),
+    surface = Color(0xFFF5EAD2),
+    onSurface = Color(0xFF3A2A1C),
+    surfaceVariant = Color(0xFFE2D1AC),
+    onSurfaceVariant = Color(0xFF6E5A45),
+    surfaceContainerLowest = Color(0xFFFBF3E3),
+    surfaceContainerLow = Color(0xFFF5EAD2),
+    surfaceContainer = Color(0xFFF0E3C6),
+    surfaceContainerHigh = Color(0xFFE8D9B8),
+    surfaceContainerHighest = Color(0xFFE2D1AC),
+    outline = Color(0xFFB9A27A),
+    outlineVariant = Color(0xFFD7C49D),
 )
 
+/** Pastel marrón: café con leche, moca y caramelo. */
+private val PastelMarron = lightColorScheme(
+    primary = Color(0xFF7A5544),
+    onPrimary = Color(0xFFFFF8F2),
+    primaryContainer = Color(0xFFEBD8CC),
+    onPrimaryContainer = Color(0xFF3B2A22),
+    secondary = Color(0xFFC98B4E),
+    onSecondary = Color(0xFF2E1F12),
+    secondaryContainer = Color(0xFFF3E1CC),
+    onSecondaryContainer = Color(0xFF3B2A22),
+    tertiary = Color(0xFFB07D7A),
+    onTertiary = Color(0xFF2E1F1E),
+    background = Color(0xFFEFE4D8),
+    onBackground = Color(0xFF4A3A33),
+    surface = Color(0xFFFAF3EC),
+    onSurface = Color(0xFF4A3A33),
+    surfaceVariant = Color(0xFFE8DCCF),
+    onSurfaceVariant = Color(0xFF6F5E55),
+    surfaceContainerLowest = Color(0xFFFFFBF7),
+    surfaceContainerLow = Color(0xFFFAF3EC),
+    surfaceContainer = Color(0xFFF5ECE3),
+    surfaceContainerHigh = Color(0xFFEDE1D5),
+    surfaceContainerHighest = Color(0xFFE8DCCF),
+    outline = Color(0xFFC2AE9F),
+    outlineVariant = Color(0xFFDCCBBB),
+)
+
+/** Modo oscuro: noche cálida con oro y crema. */
 private val Oscuro = darkColorScheme(
     primary = Marca.OroClaro,
     onPrimary = Marca.TintaCafe,
     primaryContainer = Marca.BurdeosClaro,
     onPrimaryContainer = Marca.OroPalido,
-    secondary = Color(0xFFE6A49E),
+    secondary = Marca.Oro,
     onSecondary = Marca.TintaCafe,
-    secondaryContainer = Color(0xFF4A2A1E),
-    onSecondaryContainer = Marca.OroPalido,
     tertiary = Marca.Kraft,
+    onTertiary = Marca.TintaCafe,
     background = Marca.Noche,
-    onBackground = Color(0xFFF1E6D6),
-    surface = Marca.Noche,
-    onSurface = Color(0xFFF1E6D6),
-    surfaceVariant = Color(0xFF3A2C26),
-    onSurfaceVariant = Color(0xFFD8C6B5),
+    onBackground = Marca.OroPalido,
+    surface = Marca.NocheSuperficie,
+    onSurface = Marca.OroPalido,
+    surfaceVariant = Color(0xFF3A2A24),
+    onSurfaceVariant = Color(0xFFD8C6B0),
+    surfaceContainerLowest = Color(0xFF160E0C),
+    surfaceContainerLow = Color(0xFF241915),
     surfaceContainer = Marca.NocheSuperficie,
-    surfaceContainerLow = Color(0xFF231815),
-    surfaceContainerHigh = Color(0xFF34261F),
-    outline = Color(0xFF7D6A5E),
-    outlineVariant = Color(0xFF4A3B33),
+    surfaceContainerHigh = Color(0xFF33251F),
+    surfaceContainerHighest = Color(0xFF3A2A24),
+    outline = Color(0xFF8C7765),
+    outlineVariant = Color(0xFF4E3D34),
 )
 
 private val Lectura = FontFamily.Serif
@@ -103,7 +156,11 @@ val EstiloCita = TextStyle(
 @Composable
 fun RutaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = if (darkTheme) Oscuro else Claro,
+        colorScheme = when {
+            darkTheme -> Oscuro
+            EstiloActual.estilo == EstiloPapel.PASTEL -> PastelMarron
+            else -> PapelAntiguo
+        },
         typography = RutaTypography,
         content = content,
     )

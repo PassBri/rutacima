@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.planner
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.R
@@ -66,8 +67,11 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
     var nuevaAccion by remember { mutableStateOf("") }
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(stringResource(if (vm.id == 0L) R.string.nuevo_proposito else R.string.proposito)) },
                 navigationIcon = { IconButton(onClick = { if (p.titulo.isNotBlank() && !vm.guardado) vm.guardar(onBack) else onBack() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.guardar_y_volver)) } },

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Sello de papel: disco con borde dentado suave -->
+  <circle cx="256" cy="256" r="246" fill="#6B2A1A"/>
+  <circle cx="256" cy="256" r="222" fill="none" stroke="#E8C77A" stroke-width="6" stroke-dasharray="2 12" stroke-linecap="round"/>
+  <!-- Sol -->
+  <circle cx="346" cy="170" r="30" fill="#E8C77A"/>
+  <!-- Montaña trasera -->
+  <path d="M96 356 L214 196 L262 252 L300 210 L416 356 Z" fill="#8E4A2E"/>
+  <!-- Montaña principal -->
+  <path d="M120 356 L256 150 L392 356 Z" fill="#F5EAD2"/>
+  <path d="M256 150 L392 356 L300 356 Z" fill="#E2D1AC"/>
+  <!-- Nieve -->
+  <path d="M256 150 L292 205 L272 196 L256 214 L240 196 L220 205 Z" fill="#FFFFFF" opacity=".9"/>
+  <!-- Camino en zigzag hasta la cima -->
+  <path d="M210 356 C250 330 300 320 270 296 C240 272 222 262 262 240 C292 224 286 206 262 190" fill="none" stroke="#B8862F" stroke-width="10" stroke-linecap="round" stroke-dasharray="1 18"/>
+  <!-- Bandera -->
+  <path d="M256 150 L256 104" stroke="#3A2A1C" stroke-width="7" stroke-linecap="round"/>
+  <path d="M259 106 L300 118 L259 132 Z" fill="#E8C77A"/>
+  <!-- Suelo -->
+  <path d="M86 356 H426" stroke="#E8C77A" stroke-width="6" stroke-linecap="round"/>
+</svg>

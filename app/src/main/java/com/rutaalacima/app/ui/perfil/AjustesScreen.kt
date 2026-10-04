@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.perfil
 
+import com.rutaalacima.app.ui.theme.EstiloActual
+import com.rutaalacima.app.ui.theme.EstiloPapel
+import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.notificaciones.Recordatorios
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Row
@@ -139,8 +142,11 @@ fun AjustesScreen(onBack: () -> Unit) {
     }
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = { Text(stringResource(R.string.ajustes)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )
@@ -157,6 +163,16 @@ fun AjustesScreen(onBack: () -> Unit) {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(codigo))
                 })
                 Text(stringResource(R.string.idioma_contenido), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            item { SectionTitle(stringResource(R.string.estilo)) }
+            item {
+                val ctx = LocalContext.current
+                ChipSelector(
+                    null, EstiloPapel.entries, EstiloActual.estilo,
+                    { stringResource(if (it == EstiloPapel.ANTIGUO) R.string.estilo_antiguo else R.string.estilo_pastel) },
+                    { EstiloActual.cambiar(ctx, it) },
+                )
             }
 
             item { SectionTitle(stringResource(R.string.recordatorio_titulo)) }

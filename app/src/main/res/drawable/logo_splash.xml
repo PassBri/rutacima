@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Primer plano del ícono adaptativo: el sello de RutaCima dentro de la zona segura (66 dp). -->
+<!-- Ícono de la pantalla de inicio (Android 12+): el sello ocupa el centro 2/3 visible. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
-    <group android:scaleX="0.13" android:scaleY="0.13" android:translateX="20.72" android:translateY="20.72">
+    android:width="288dp" android:height="288dp" android:viewportWidth="768" android:viewportHeight="768">
+    <group android:translateX="128" android:translateY="128">
     <path android:fillColor="#6B2A1A" android:pathData="M10.0,256.0 a246,246 0 1,0 492,0 a246,246 0 1,0 -492,0" />
     <path android:fillColor="#00000000" android:strokeColor="#E8C77A" android:strokeWidth="5" android:strokeAlpha="0.85"
         android:pathData="M34.0,256.0 a222,222 0 1,0 444,0 a222,222 0 1,0 -444,0" />

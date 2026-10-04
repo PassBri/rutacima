@@ -6,4 +6,13 @@
         <item name="colorPrimary">@color/burdeos</item>
         <item name="colorAccent">@color/oro</item>
     </style>
+
+    <!-- Pantalla de inicio del sistema (Android 12+ y retrocompatible con core-splashscreen):
+         papel antiguo con el sello de RutaCima; luego pasa al tema de la app. -->
+    <style name="Theme.RutaCima.Inicio" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/papel</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo_splash</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="postSplashScreenTheme">@style/Theme.RutaCima</item>
+    </style>
 </resources>

@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.coach
 
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -90,8 +91,11 @@ fun CoachScreen(onBack: () -> Unit) {
     ).map { stringResource(it) }
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             TopAppBar(
+                colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.AutoAwesome, null, tint = MaterialTheme.colorScheme.secondary)

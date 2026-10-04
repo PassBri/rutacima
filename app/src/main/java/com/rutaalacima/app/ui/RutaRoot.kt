@@ -1,5 +1,9 @@
 package com.rutaalacima.app.ui
 
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.shadow
+import com.rutaalacima.app.ui.theme.Papel
+import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -123,8 +127,14 @@ class RootViewModel(c: AppContainer) : ViewModel() {
 fun RutaRoot() {
     val vm = rutaViewModel { RootViewModel(it) }
     val estado by vm.estado.collectAsStateWithLifecycle()
+    // Ventana de inicio animada una vez por arranque
+    var inicioVisto by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
+    if (!inicioVisto) {
+        com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { inicioVisto = true })
+        return
+    }
     when (estado) {
-        EstadoApp.CARGANDO -> Box(Modifier.fillMaxSize())
+        EstadoApp.CARGANDO -> Box(Modifier.fillMaxSize().fondoPapel())
         EstadoApp.ONBOARDING -> OnboardingScreen()
         EstadoApp.LISTO -> AppPrincipal()
     }
@@ -139,6 +149,8 @@ private fun AppPrincipal() {
     val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
 
     Scaffold(
+        modifier = Modifier.fondoPapel(),
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             if (pestana != null) {
                 TopAppBar(
@@ -165,13 +177,16 @@ private fun AppPrincipal() {
                             Icon(Icons.Filled.AutoAwesome, stringResource(R.string.coach), tint = MaterialTheme.colorScheme.secondary)
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 )
             }
         },
         bottomBar = {
             if (pestana != null) {
-                NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
+                NavigationBar(
+                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    modifier = Modifier.shadow(10.dp, ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
+                ) {
                     PESTANAS.forEach { p ->
                         NavigationBarItem(
                             selected = rutaActual == p.ruta,

@@ -592,4 +592,13 @@
     <string name="frase_120_12">Ringrazia per tre cose prima di dormire. La gratitudine è il carburante della salita.</string>
     <string name="frase_120_13">Se oggi cadi, rialzati oggi. Il cammino è lungo e c\'è tempo per tornare a salire.</string>
     <string name="frase_120_14">La tua vetta ti aspetta. Questo giorno fa parte del cammino.</string>
+    <string name="estilo">Stile della carta</string>
+    <string name="estilo_antiguo">Carta antica</string>
+    <string name="estilo_pastel">Pastello marrone</string>
+    <string name="inicio_lema">Il tuo cammino verso i 120 anni</string>
+    <string name="inicio_serie">SERIE RUTA A LA CIMA</string>
+    <string name="ruta_esta_semana">Questa settimana</string>
+    <string name="ruta_este_mes">Questo mese</string>
+    <string name="ruta_este_anio">Quest’anno</string>
+    <string name="ruta_ir_a">Vai a…</string>
 </resources>

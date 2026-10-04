@@ -24,8 +24,12 @@ y bienvenida con compromiso.
 coreano, árabe, hindi y ruso. Se cambian en Ajustes o desde los ajustes de idioma por app de Android 13+.
 El contenido de las guías (workbooks) está en español.
 
-**Diseño:** sin imágenes de los libros; ilustraciones vectoriales de montañas generadas en código
-(`ui/components/Arte.kt`) e íconos Material.
+**Diseño de papel (Material Design 3):** la app simula una hoja de papel plegada en tercios, con grano,
+dobleces, viñeta envejecida, tarjetas con la esquina doblada y sombras cálidas (`ui/theme/Papel.kt`).
+Dos estilos en Ajustes: **Papel antiguo** (por defecto, mejor contraste) y **Pastel marrón**. Los años,
+meses, semanas y días son botones flotantes que se hunden al tocarlos, y un FAB lleva a Hoy, esta semana,
+este mes o este año. Pantalla de inicio del sistema (SplashScreen API) más una ventana de inicio animada.
+Logos y vistas previas en `diseno/`.
 
 ## Diseño con IA (skill "impeccable")
 

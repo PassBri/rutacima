@@ -592,4 +592,13 @@
     <string name="frase_120_12">睡前感恩三件事。感恩是攀登的燃料。</string>
     <string name="frase_120_13">如果今天跌倒了，就在今天站起来。路很长，还有时间再次攀登。</string>
     <string name="frase_120_14">你的山峰在等你。今天也是这条路的一部分。</string>
+    <string name="estilo">纸张风格</string>
+    <string name="estilo_antiguo">复古纸张</string>
+    <string name="estilo_pastel">棕色柔和</string>
+    <string name="inicio_lema">你迈向 120 岁的道路</string>
+    <string name="inicio_serie">RUTA A LA CIMA 系列</string>
+    <string name="ruta_esta_semana">本周</string>
+    <string name="ruta_este_mes">本月</string>
+    <string name="ruta_este_anio">今年</string>
+    <string name="ruta_ir_a">前往…</string>
 </resources>

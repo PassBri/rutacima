@@ -592,4 +592,13 @@
     <string name="frase_120_12">Be grateful for three things before sleep. Gratitude is the fuel of the climb.</string>
     <string name="frase_120_13">If you fall today, get up today. The road is long and there\'s time to climb again.</string>
     <string name="frase_120_14">Your summit is waiting. This day is part of the road.</string>
+    <string name="estilo">Paper style</string>
+    <string name="estilo_antiguo">Vintage paper</string>
+    <string name="estilo_pastel">Brown pastel</string>
+    <string name="inicio_lema">Your road to 120 years</string>
+    <string name="inicio_serie">RUTA A LA CIMA SERIES</string>
+    <string name="ruta_esta_semana">This week</string>
+    <string name="ruta_este_mes">This month</string>
+    <string name="ruta_este_anio">This year</string>
+    <string name="ruta_ir_a">Go to…</string>
 </resources>
