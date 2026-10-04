@@ -54,3 +54,36 @@ object Vida {
 /** Años que cubre el plan: tantos como el horizonte más largo de los propósitos (mínimo 5). */
 fun aniosDelPlan(anioInicio: Int, horizonte: Int): List<Int> =
     (0 until horizonte.coerceIn(5, 20)).map { anioInicio + it }
+
+/**
+ * Recordatorio del día del "camino hacia los N años": qué día de la vida es hoy, cuántos
+ * días quedan hasta la meta y una frase que cambia cada día.
+ */
+data class RecordatorioVida(
+    val diaDeVida: Long,
+    val diasTotales: Long,
+    val diasRestantes: Long,
+    val edad: Int,
+    val meta: Int,
+    /** Índice 0..TOTAL_FRASES-1 de la frase del día (rota cada día). */
+    val frase: Int,
+) {
+    val avance: Float get() = if (diasTotales <= 0) 0f else (diaDeVida.toFloat() / diasTotales).coerceIn(0f, 1f)
+
+    companion object {
+        const val TOTAL_FRASES = 14
+
+        fun calcular(anioNac: Int, mesNac: Int, meta: Int, hoy: java.time.LocalDate): RecordatorioVida {
+            val nacimiento = java.time.LocalDate.of(anioNac, mesNac.coerceIn(1, 12), 1)
+            val fin = nacimiento.plusYears(meta.toLong())
+            val dia = java.time.temporal.ChronoUnit.DAYS.between(nacimiento, hoy) + 1
+            val total = java.time.temporal.ChronoUnit.DAYS.between(nacimiento, fin)
+            val edad = java.time.Period.between(nacimiento, hoy).years
+            return RecordatorioVida(
+                diaDeVida = dia.coerceAtLeast(1), diasTotales = total,
+                diasRestantes = (total - dia).coerceAtLeast(0), edad = edad, meta = meta,
+                frase = (hoy.toEpochDay() % TOTAL_FRASES).toInt(),
+            )
+        }
+    }
+}

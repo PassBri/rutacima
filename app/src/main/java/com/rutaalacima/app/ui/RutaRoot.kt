@@ -11,7 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
@@ -57,7 +57,8 @@ import com.rutaalacima.app.ui.comunidad.PublicarScreen
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.hoy.HoyScreen
 import com.rutaalacima.app.ui.kit.KitScreen
-import com.rutaalacima.app.ui.metas.MetasScreen
+import com.rutaalacima.app.ui.metas.PlanificadorScreen
+import com.rutaalacima.app.ui.ruta.RutaScreen
 import com.rutaalacima.app.ui.metas.NivelMeta
 import com.rutaalacima.app.ui.metas.NuevaMetaScreen
 import com.rutaalacima.app.ui.onboarding.OnboardingScreen
@@ -73,8 +74,10 @@ import kotlinx.coroutines.flow.stateIn
 
 /** Rutas de navegación. */
 object Rutas {
+    const val RUTA = "ruta"
     const val HOY = "hoy"
-    const val METAS = "metas"
+    /** Planificador completo: pestaña inicial y fecha (ISO o "-"). */
+    const val METAS = "metas/{tab}/{fecha}"
     const val COMUNIDAD = "comunidad"
     const val APRENDE = "aprende"
     const val PERFIL = "perfil"
@@ -89,6 +92,7 @@ object Rutas {
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
 
+    fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
@@ -100,8 +104,8 @@ object Rutas {
 private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVector)
 
 private val PESTANAS = listOf(
+    Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain),
     Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today),
-    Pestana(Rutas.METAS, R.string.tab_metas, Icons.Filled.Flag),
     Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, Icons.Filled.Groups),
     Pestana(Rutas.APRENDE, R.string.tab_aprende, Icons.AutoMirrored.Filled.MenuBook),
     Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person),
@@ -143,7 +147,7 @@ private fun AppPrincipal() {
                             Image(painterResource(R.drawable.logo_rutacima), null, Modifier.size(30.dp))
                             Spacer(Modifier.width(10.dp))
                             Text(
-                                if (pestana.ruta == Rutas.HOY) stringResource(R.string.app_name) else stringResource(pestana.titulo),
+                                if (pestana.ruta == Rutas.RUTA) stringResource(R.string.app_name) else stringResource(pestana.titulo),
                                 style = MaterialTheme.typography.titleLarge,
                             )
                         }
@@ -183,7 +187,19 @@ private fun AppPrincipal() {
     ) { padding ->
         val abrirWorkbook: (String) -> Unit = { nav.navigate(Rutas.workbook(it)) }
         val abrirSeccion: (String, Int) -> Unit = { id, i -> nav.navigate(Rutas.seccion(id, i)) }
-        NavHost(nav, startDestination = Rutas.HOY) {
+        NavHost(nav, startDestination = Rutas.RUTA) {
+            composable(Rutas.RUTA) {
+                RutaScreen(
+                    contentPadding = padding,
+                    onPlanificador = { tab, fecha -> nav.navigate(Rutas.planificador(tab, fecha)) },
+                    onNuevaMeta = { nav.navigate(Rutas.nuevaMeta(it)) },
+                    onProposito = { nav.navigate(Rutas.proposito(it)) },
+                    onPublicar = { nav.navigate(Rutas.publicar(it)) },
+                    onAbrirPost = { nav.navigate(Rutas.post(it)) },
+                    onKit = { nav.navigate(Rutas.KIT) },
+                    onAjustes = { nav.navigate(Rutas.AJUSTES) },
+                )
+            }
             composable(Rutas.HOY) {
                 HoyScreen(
                     contentPadding = padding,
@@ -192,9 +208,14 @@ private fun AppPrincipal() {
                     onIrA = { ruta -> if (PESTANAS.any { it.ruta == ruta }) nav.irAPestana(ruta) else nav.navigate(ruta) },
                 )
             }
-            composable(Rutas.METAS) {
-                MetasScreen(
-                    contentPadding = padding,
+            composable(
+                Rutas.METAS,
+                arguments = listOf(navArgument("tab") { type = NavType.IntType }, navArgument("fecha") { type = NavType.StringType }),
+            ) { e ->
+                PlanificadorScreen(
+                    tabInicial = e.arguments?.getInt("tab") ?: 0,
+                    fechaInicial = e.arguments?.getString("fecha")?.let { runCatching { java.time.LocalDate.parse(it) }.getOrNull() },
+                    onBack = { nav.popBackStack() },
                     onNuevaMeta = { nav.navigate(Rutas.nuevaMeta(it)) },
                     onOpenProposito = { nav.navigate(Rutas.proposito(it)) },
                     onOpenWorkbook = abrirWorkbook,

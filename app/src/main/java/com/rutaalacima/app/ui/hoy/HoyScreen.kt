@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.hoy
 
+import com.rutaalacima.app.ui.ruta.RecordatorioDiaCard
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Surface
 import androidx.compose.foundation.background
@@ -146,6 +147,8 @@ fun HoyScreen(
         ),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
+        // Recordatorio del día del camino hacia los 120 años
+        item { RecordatorioDiaCard(perfil, onAjustes = { onIrA(Rutas.AJUSTES) }) }
         item {
             Text(
                 if (perfil.nombre.isBlank()) stringResource(R.string.hola_senderista)
@@ -157,7 +160,7 @@ fun HoyScreen(
 
         // Cumbre + avance global
         item {
-            Card(shape = RoundedCornerShape(24.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.METAS) }) {
+            Card(shape = RoundedCornerShape(24.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.RUTA) }) {
                 MontanaArte(semilla = "cumbre-${perfil.nombre}", paleta = 1, modifier = Modifier.fillMaxWidth().height(190.dp)) {
                     Box(
                         Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x99000000), Color.Transparent, Color(0xCC000000)))),
@@ -190,7 +193,7 @@ fun HoyScreen(
             val anuales = (c?.propositos?.flatMap { it.anios }.orEmpty() + c?.aniosSueltos.orEmpty()).filter { it.meta.anio == hoy().year }
             val anio = anuales.map { it.avance }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
             val mes = metasMes.map { it.avance() }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
-            RutaCard(onClick = { onIrA(Rutas.METAS) }) {
+            RutaCard(onClick = { onIrA(Rutas.planificador(0)) }) {
                 Text(stringResource(R.string.tu_cascada), style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(10.dp))
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -213,7 +216,7 @@ fun HoyScreen(
                     Spacer(Modifier.height(8.dp))
                     OutlinedTextField(a.prioridad, { v -> vm.editarAgenda { it.copy(prioridad = v) } },
                         label = { Text(stringResource(R.string.prioridad_1)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-                    TextButton(onClick = { onIrA(Rutas.METAS) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
+                    TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
                 }
             }
         }

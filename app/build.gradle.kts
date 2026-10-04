@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.coil.compose)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.work.runtime)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

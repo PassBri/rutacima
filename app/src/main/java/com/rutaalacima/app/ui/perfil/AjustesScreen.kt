@@ -1,5 +1,14 @@
 package com.rutaalacima.app.ui.perfil
 
+import com.rutaalacima.app.notificaciones.Recordatorios
+import androidx.compose.ui.Alignment
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Switch
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.platform.LocalContext
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.components.FechaField
 import androidx.compose.material3.Slider
@@ -148,6 +157,36 @@ fun AjustesScreen(onBack: () -> Unit) {
                     AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(codigo))
                 })
                 Text(stringResource(R.string.idioma_contenido), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+
+            item { SectionTitle(stringResource(R.string.recordatorio_titulo)) }
+            item {
+                val ctx = LocalContext.current
+                val alcance = rememberCoroutineScope()
+                var activo by remember { mutableStateOf(Recordatorios.activo(ctx)) }
+                var hora by remember { mutableStateOf(Recordatorios.hora(ctx)) }
+                val permiso = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+                RutaCard {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.recordatorio_ajuste), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                        Switch(checked = activo, onCheckedChange = {
+                            activo = it
+                            Recordatorios.configurar(ctx, it, hora)
+                            if (it && android.os.Build.VERSION.SDK_INT >= 33 && !Recordatorios.puedeNotificar(ctx)) {
+                                permiso.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                            }
+                        })
+                    }
+                    if (activo) {
+                        ChipSelector(stringResource(R.string.recordatorio_hora), Recordatorios.HORAS, hora,
+                            { "%02d:00".format(it) }, { hora = it; Recordatorios.configurar(ctx, true, it) })
+                        TextButton(onClick = {
+                            if (android.os.Build.VERSION.SDK_INT >= 33 && !Recordatorios.puedeNotificar(ctx)) {
+                                permiso.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                            } else alcance.launch { Recordatorios.mostrar(ctx) }
+                        }) { Text(stringResource(R.string.recordatorio_probar)) }
+                    }
+                }
             }
 
             item { SectionTitle(stringResource(R.string.mi_perfil)) }

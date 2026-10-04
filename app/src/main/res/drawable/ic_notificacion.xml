@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ícono monocromo de notificación: montaña con bandera. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M2,20 L9.5,7 L13,13 L15.5,9.5 L22,20 Z" />
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M9,2 L9,7 L10,7 L10,4.6 L13,3.8 L10,3 Z" />
+</vector>

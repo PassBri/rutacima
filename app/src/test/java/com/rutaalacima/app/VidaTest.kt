@@ -33,4 +33,12 @@ class VidaTest {
         assertEquals(2045, aniosDelPlan(2026, 20).last())
         assertEquals(5, aniosDelPlan(2026, 2).size)
     }
+
+    @Test fun recordatorioDelDia() {
+        val r = com.rutaalacima.app.domain.model.RecordatorioVida.calcular(1987, 3, 120, java.time.LocalDate.of(2026, 10, 4))
+        assertEquals(39, r.edad)
+        assertEquals(java.time.temporal.ChronoUnit.DAYS.between(java.time.LocalDate.of(1987, 3, 1), java.time.LocalDate.of(2026, 10, 4)) + 1, r.diaDeVida)
+        assertEquals(r.diasTotales - r.diaDeVida, r.diasRestantes)
+        assert(r.frase in 0 until com.rutaalacima.app.domain.model.RecordatorioVida.TOTAL_FRASES)
+    }
 }

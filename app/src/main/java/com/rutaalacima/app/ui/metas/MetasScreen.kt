@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.metas
 
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -81,12 +82,18 @@ fun MetasScreen(
     onNuevaMeta: (NivelMeta) -> Unit,
     onOpenProposito: (Long) -> Unit,
     onOpenWorkbook: (String) -> Unit,
+    tabInicial: Int = 0,
+    fechaInicial: java.time.LocalDate? = null,
 ) {
     val vm = rutaViewModel { PlannerViewModel(it) }
     val agenda = rutaViewModel { AgendaViewModel(it) }
     val mes = rutaViewModel { MesViewModel(it) }
     val cascadaVm = rutaViewModel { CascadaViewModel(it) }
-    var tab by rememberSaveable { mutableIntStateOf(0) }
+    var tab by rememberSaveable { mutableIntStateOf(tabInicial) }
+    // Al llegar desde la cascada de la vida: abrir el día o el mes elegido.
+    androidx.compose.runtime.LaunchedEffect(fechaInicial) {
+        fechaInicial?.let { agenda.abrir(it); mes.ir(YearMonth.from(it)) }
+    }
     val titulos = listOf(
         R.string.metas_tab_cascada, R.string.metas_tab_dia, R.string.metas_tab_mes,
         R.string.metas_tab_anio, R.string.metas_tab_5anios, R.string.metas_tab_balance,
@@ -240,5 +247,34 @@ private fun Encabezado(nivel: String, titulo: String, eje: Eje?, avance: Float, 
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
+    }
+}
+
+/** Planificador completo como pantalla propia (se abre desde la Ruta de la vida). */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+fun PlanificadorScreen(
+    tabInicial: Int,
+    fechaInicial: java.time.LocalDate?,
+    onBack: () -> Unit,
+    onNuevaMeta: (NivelMeta) -> Unit,
+    onOpenProposito: (Long) -> Unit,
+    onOpenWorkbook: (String) -> Unit,
+) {
+    androidx.compose.material3.Scaffold(
+        topBar = {
+            androidx.compose.material3.TopAppBar(
+                title = { Text(stringResource(R.string.planificador)) },
+                navigationIcon = {
+                    androidx.compose.material3.IconButton(onClick = onBack) {
+                        androidx.compose.material3.Icon(
+                            androidx.compose.material.icons.Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver),
+                        )
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        MetasScreen(padding, onNuevaMeta, onOpenProposito, onOpenWorkbook, tabInicial, fechaInicial)
     }
 }
