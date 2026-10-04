@@ -172,7 +172,15 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}) {
                 val ctx = LocalContext.current
                 ChipSelector(
                     null, EstiloPapel.entries, EstiloActual.estilo,
-                    { stringResource(if (it == EstiloPapel.ANTIGUO) R.string.estilo_antiguo else R.string.estilo_pastel) },
+                    {
+                        stringResource(
+                            when (it) {
+                                EstiloPapel.BLANCO -> R.string.estilo_blanco
+                                EstiloPapel.ANTIGUO -> R.string.estilo_antiguo
+                                EstiloPapel.PASTEL -> R.string.estilo_pastel
+                            },
+                        )
+                    },
                     { EstiloActual.cambiar(ctx, it) },
                 )
             }

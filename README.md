@@ -26,7 +26,8 @@ El contenido de las guías (workbooks) está en español.
 
 **Diseño de papel (Material Design 3):** la app simula una hoja de papel plegada en tercios, con grano,
 dobleces, viñeta envejecida, tarjetas con la esquina doblada y sombras cálidas (`ui/theme/Papel.kt`).
-Dos estilos en Ajustes: **Papel antiguo** (por defecto, mejor contraste) y **Pastel marrón**. Los años,
+Tres estilos en Ajustes: **Papel blanco** (por defecto: hojas blancas sobre un fondo hueso, con sombras
+burdeos del sello y grano suave), **Papel antiguo** y **Pastel marrón**. Los años,
 meses, semanas y días son botones flotantes que se hunden al tocarlos, y un FAB lleva a Hoy, esta semana,
 este mes o este año. Pantalla de inicio del sistema (SplashScreen API) más una ventana de inicio animada.
 Logo: el **sello de cera de Ruta a la Cima** (original del autor), en la barra, la ventana de inicio, el ícono

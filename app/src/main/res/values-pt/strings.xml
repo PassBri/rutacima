@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Frases abertas: %1$d de 365</string>
     <string name="frases_vacio">Você ainda não abriu nenhuma frase este ano. Amanhã outra espera por você.</string>
     <string name="recordatorio_frase_sellada">Sua frase do dia está esperando, selada. Abra com seu rosto ou PIN.</string>
+    <string name="estilo_blanco">Papel branco</string>
 </resources>

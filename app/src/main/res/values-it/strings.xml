@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Frasi aperte: %1$d di 365</string>
     <string name="frases_vacio">Quest\'anno non hai ancora aperto nessuna frase. Domani ne troverai un\'altra.</string>
     <string name="recordatorio_frase_sellada">La tua frase del giorno ti aspetta, sigillata. Aprila con il volto o il PIN.</string>
+    <string name="estilo_blanco">Carta bianca</string>
 </resources>

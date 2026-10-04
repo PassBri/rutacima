@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Quotes opened: %1$d of 365</string>
     <string name="frases_vacio">You haven\'t opened any quotes this year yet. Another one awaits you tomorrow.</string>
     <string name="recordatorio_frase_sellada">Your daily quote is waiting, sealed. Open it with your face or PIN.</string>
+    <string name="estilo_blanco">White paper</string>
 </resources>

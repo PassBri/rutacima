@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Citations ouvertes : %1$d sur 365</string>
     <string name="frases_vacio">Tu n\'as encore ouvert aucune citation cette année. Une autre t\'attend demain.</string>
     <string name="recordatorio_frase_sellada">Ta citation du jour t\'attend, scellée. Ouvre-la avec ton visage ou ton code PIN.</string>
+    <string name="estilo_blanco">Papier blanc</string>
 </resources>

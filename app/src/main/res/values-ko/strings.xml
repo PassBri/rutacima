@@ -629,4 +629,5 @@
     <string name="mis_frases_n">연 문장: %1$d / 365</string>
     <string name="frases_vacio">올해는 아직 연 문장이 없어요. 내일 또 다른 문장이 기다리고 있어요.</string>
     <string name="recordatorio_frase_sellada">봉인된 오늘의 문장이 기다리고 있어요. 얼굴 또는 PIN으로 열어 보세요.</string>
+    <string name="estilo_blanco">흰 종이</string>
 </resources>

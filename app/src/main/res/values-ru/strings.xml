@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Открыто фраз: %1$d из 365</string>
     <string name="frases_vacio">В этом году ты ещё не открыл(а) ни одной фразы. Завтра тебя ждёт новая.</string>
     <string name="recordatorio_frase_sellada">Твоя фраза дня ждёт тебя запечатанной. Открой её лицом или PIN-кодом.</string>
+    <string name="estilo_blanco">Белая бумага</string>
 </resources>

@@ -32,16 +32,16 @@ object Marca {
 }
 
 /** Estilos de papel de la app. Se eligen en Ajustes. */
-enum class EstiloPapel { ANTIGUO, PASTEL }
+enum class EstiloPapel { BLANCO, ANTIGUO, PASTEL }
 
 /** Estilo actual (se carga en MainActivity y se cambia en vivo desde Ajustes). */
 object EstiloActual {
-    var estilo by androidx.compose.runtime.mutableStateOf(EstiloPapel.ANTIGUO)
+    var estilo by androidx.compose.runtime.mutableStateOf(EstiloPapel.BLANCO)
     private const val PREFS = "ajustes_estilo"
 
     fun cargar(c: android.content.Context) {
         estilo = runCatching { EstiloPapel.valueOf(c.getSharedPreferences(PREFS, 0).getString("estilo", null) ?: "") }
-            .getOrDefault(EstiloPapel.ANTIGUO)
+            .getOrDefault(EstiloPapel.BLANCO)
     }
 
     fun cambiar(c: android.content.Context, e: EstiloPapel) {
@@ -49,6 +49,36 @@ object EstiloActual {
         c.getSharedPreferences(PREFS, 0).edit().putString("estilo", e.name).apply()
     }
 }
+
+/**
+ * Papel blanco (por defecto): hojas blancas sobre un fondo blanco cálido; el color de la app
+ * vive en el sello, los botones y las sombras (burdeos y dorado). Limpio y de alto contraste.
+ */
+private val PapelBlanco = lightColorScheme(
+    primary = Color(0xFF6B2A1A),
+    onPrimary = Color(0xFFFFFFFF),
+    primaryContainer = Color(0xFFF6E3DD),
+    onPrimaryContainer = Color(0xFF3A1A10),
+    secondary = Color(0xFFB8862F),
+    onSecondary = Color(0xFF2E1F0E),
+    secondaryContainer = Color(0xFFF6EBD3),
+    onSecondaryContainer = Color(0xFF3A2A1C),
+    tertiary = Color(0xFF8E4A2E),
+    onTertiary = Color(0xFFFFFFFF),
+    background = Color(0xFFF7F3EE),
+    onBackground = Color(0xFF2E211B),
+    surface = Color(0xFFFFFFFF),
+    onSurface = Color(0xFF2E211B),
+    surfaceVariant = Color(0xFFEFE7DE),
+    onSurfaceVariant = Color(0xFF6B5B52),
+    surfaceContainerLowest = Color(0xFFFFFFFF),
+    surfaceContainerLow = Color(0xFFFFFFFF),
+    surfaceContainer = Color(0xFFFBF8F4),
+    surfaceContainerHigh = Color(0xFFF3EDE6),
+    surfaceContainerHighest = Color(0xFFEDE5DC),
+    outline = Color(0xFFCDBFB3),
+    outlineVariant = Color(0xFFE8DED4),
+)
 
 /** Papel antiguo: pergamino, tinta sepia, lacre y ocre. Contraste de texto ≥ 4.5:1. */
 private val PapelAntiguo = lightColorScheme(
@@ -159,7 +189,8 @@ fun RutaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable (
         colorScheme = when {
             darkTheme -> Oscuro
             EstiloActual.estilo == EstiloPapel.PASTEL -> PastelMarron
-            else -> PapelAntiguo
+            EstiloActual.estilo == EstiloPapel.ANTIGUO -> PapelAntiguo
+            else -> PapelBlanco
         },
         typography = RutaTypography,
         content = content,

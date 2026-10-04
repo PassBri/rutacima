@@ -629,4 +629,5 @@
     <string name="mis_frases_n">開いた言葉：%1$d / 365</string>
     <string name="frases_vacio">今年はまだ言葉を開いていません。明日、また新しい言葉が待っています。</string>
     <string name="recordatorio_frase_sellada">封印された今日の言葉が待っています。顔またはPINで開きましょう。</string>
+    <string name="estilo_blanco">白い紙</string>
 </resources>

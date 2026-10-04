@@ -40,8 +40,16 @@ import kotlin.random.Random
  * roles de color de Material 3, así funciona igual en papel antiguo, pastel y modo oscuro.
  */
 object Papel {
-    /** Color de las sombras: café tostado (las sombras del papel nunca son grises). */
-    val Sombra = Color(0xFF4A3218)
+    /**
+     * Color de las sombras, nunca gris: en papel blanco son burdeos (el color del sello);
+     * en papel antiguo y pastel, café tostado.
+     */
+    val Sombra: Color
+        get() = if (EstiloActual.estilo == EstiloPapel.BLANCO) Color(0xFF7A2418) else Color(0xFF4A3218)
+
+    /** Cuánto se nota el papel (grano y dobleces): sutil en blanco, marcado en antiguo. */
+    val intensidad: Float
+        get() = if (EstiloActual.estilo == EstiloPapel.BLANCO) 0.45f else 1f
 
     /** Textura de grano: 160×160 px, semilla fija, se genera una sola vez. */
     val grano by lazy {
@@ -64,15 +72,16 @@ fun Modifier.fondoPapel(): Modifier = composed {
     val oscuro = MaterialTheme.colorScheme.background.luminanceAprox() < 0.3f
     drawWithCache {
         val grano = ShaderBrush(ImageShader(Papel.grano, TileMode.Repeated, TileMode.Repeated))
-        val sombra = Papel.Sombra.copy(alpha = if (oscuro) 0.35f else 0.10f)
-        val luz = Color.White.copy(alpha = if (oscuro) 0.04f else 0.35f)
+        val k = Papel.intensidad
+        val sombra = Papel.Sombra.copy(alpha = if (oscuro) 0.35f else 0.10f * k)
+        val luz = Color.White.copy(alpha = if (oscuro) 0.04f else 0.35f + 0.4f * (1 - k))
         val vineta = Brush.radialGradient(
-            0.6f to Color.Transparent, 1f to Papel.Sombra.copy(alpha = if (oscuro) 0.4f else 0.16f),
+            0.6f to Color.Transparent, 1f to Papel.Sombra.copy(alpha = if (oscuro) 0.4f else 0.16f * k),
             center = Offset(size.width / 2, size.height * 0.42f), radius = size.maxDimension * 0.75f,
         )
         onDrawBehind {
             drawRect(fondo)
-            drawRect(grano, alpha = if (oscuro) 0.5f else 1f)
+            drawRect(grano, alpha = if (oscuro) 0.5f else k)
             // Doblez vertical: sombra de un lado, brillo del otro
             val cx = size.width / 2
             drawRect(Brush.horizontalGradient(listOf(Color.Transparent, sombra), startX = cx - 18f, endX = cx),
@@ -147,7 +156,7 @@ fun Modifier.hojaPapel(
             onDrawWithContent {
                 val p = (outline as Outline.Generic).path
                 drawPath(p, papel)
-                drawPath(p, grano, alpha = 0.6f)
+                drawPath(p, grano, alpha = 0.6f * Papel.intensidad)
                 if (pliegue) drawPath(p, diag)
                 drawContent()
                 // Sombra bajo la oreja y la oreja doblada

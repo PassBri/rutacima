@@ -629,4 +629,5 @@
     <string name="mis_frases_n">Geöffnete Zitate: %1$d von 365</string>
     <string name="frases_vacio">Du hast dieses Jahr noch kein Zitat geöffnet. Morgen wartet ein neues auf dich.</string>
     <string name="recordatorio_frase_sellada">Dein Zitat des Tages wartet versiegelt auf dich. Öffne es mit Gesicht oder PIN.</string>
+    <string name="estilo_blanco">Weißes Papier</string>
 </resources>

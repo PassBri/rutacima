@@ -629,4 +629,5 @@
     <string name="mis_frases_n">已打开语录：%1$d / 365</string>
     <string name="frases_vacio">今年你还没有打开任何语录。明天还有新的等着你。</string>
     <string name="recordatorio_frase_sellada">你的每日语录已封好，正等着你。用面孔或 PIN 码打开它。</string>
+    <string name="estilo_blanco">白纸</string>
 </resources>

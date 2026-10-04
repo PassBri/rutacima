@@ -629,4 +629,5 @@
     <string name="mis_frases_n">العبارات المفتوحة: %1$d من 365</string>
     <string name="frases_vacio">لم تفتح أي عبارة هذا العام بعد. ستنتظرك عبارة جديدة غدًا.</string>
     <string name="recordatorio_frase_sellada">عبارة يومك بانتظارك مختومة. افتحها بوجهك أو رمز PIN.</string>
+    <string name="estilo_blanco">ورق أبيض</string>
 </resources>

@@ -629,4 +629,5 @@
     <string name="mis_frases_n">खोले गए विचार: 365 में से %1$d</string>
     <string name="frases_vacio">इस साल आपने अभी तक कोई विचार नहीं खोला है। कल एक और विचार आपका इंतज़ार करेगा।</string>
     <string name="recordatorio_frase_sellada">सील किया हुआ आपका आज का विचार इंतज़ार कर रहा है। इसे चेहरे या PIN से खोलें।</string>
+    <string name="estilo_blanco">सफ़ेद कागज़</string>
 </resources>
