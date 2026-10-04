@@ -45,12 +45,14 @@ import com.rutaalacima.app.data.content.CalloutBlock
 import com.rutaalacima.app.data.content.CheckBlock
 import com.rutaalacima.app.data.content.ChoiceBlock
 import com.rutaalacima.app.data.content.HeadingBlock
+import com.rutaalacima.app.data.content.ImageBlock
 import com.rutaalacima.app.data.content.InputTableBlock
 import com.rutaalacima.app.data.content.ParagraphBlock
 import com.rutaalacima.app.data.content.PromptBlock
 import com.rutaalacima.app.data.content.QuoteBlock
 import com.rutaalacima.app.data.content.ScaleBlock
 import com.rutaalacima.app.data.content.TableBlock
+import com.rutaalacima.app.ui.components.AssetImage
 import com.rutaalacima.app.ui.components.ScaleSelector
 import com.rutaalacima.app.ui.theme.EstiloCita
 
@@ -76,6 +78,7 @@ fun BlockView(block: Block, r: Respuestas, modifier: Modifier = Modifier) {
         is QuoteBlock -> QuoteView(block.text, modifier)
         is CalloutBlock -> CalloutView(block, r, modifier)
         is TableBlock -> TableView(block, modifier)
+        is ImageBlock -> AssetImage(block.src, block.ratio, modifier, contentScale = androidx.compose.ui.layout.ContentScale.Fit)
         is PromptBlock -> PromptView(block, r, modifier)
         is ScaleBlock -> ScaleView(block, r, modifier)
         is CheckBlock -> CheckView(block, r, modifier)

@@ -1,7 +1,9 @@
 package com.rutaalacima.app
 
 import android.content.Context
+import com.rutaalacima.app.data.AgendaRepository
 import com.rutaalacima.app.data.ChecklistRepository
+import com.rutaalacima.app.data.PlanAnualRepository
 import com.rutaalacima.app.data.EjesRepository
 import com.rutaalacima.app.data.PerfilRepository
 import com.rutaalacima.app.data.PlanificadorRepository
@@ -25,4 +27,6 @@ class AppContainer(context: Context) {
     val ejes = EjesRepository(db)
     val checklist = ChecklistRepository(db)
     val planificador = PlanificadorRepository(db)
+    val agenda = AgendaRepository(db)
+    val planAnual = PlanAnualRepository(db)
 }

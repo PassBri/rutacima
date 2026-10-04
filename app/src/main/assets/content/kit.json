@@ -4,6 +4,7 @@
  "subtitle": "7 herramientas de uso diario",
  "category": "herramientas",
  "order": 10,
+ "cover": "kit_1.jpg",
  "sections": [
   {
    "id": "kit.sec0",
@@ -948,6 +949,11 @@
     {
      "type": "paragraph",
      "text": "Imprime este kit. Márcalo. Úsalo."
+    },
+    {
+     "type": "image",
+     "src": "kit_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

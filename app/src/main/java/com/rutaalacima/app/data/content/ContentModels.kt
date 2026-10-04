@@ -18,6 +18,8 @@ data class WorkbookSummary(
     val order: Int = 0,
     val sections: Int = 0,
     val inputs: Int = 0,
+    /** Imagen de portada en assets/content/img (opcional). */
+    val cover: String? = null,
 )
 
 @Serializable
@@ -27,6 +29,7 @@ data class Workbook(
     val subtitle: String = "",
     val category: String = "ruta",
     val order: Int = 0,
+    val cover: String? = null,
     val sections: List<Section> = emptyList(),
 ) {
     /** Todos los campos editables del workbook (incluye los anidados en recuadros). */
@@ -50,6 +53,7 @@ enum class Categoria(val clave: String, val titulo: String) {
     RUTA("ruta", "La Ruta"),
     HERRAMIENTAS("herramientas", "Herramientas"),
     BONOS("bonos", "Bonos"),
+    LECTURAS("lecturas", "Lecturas"),
     FACILITADOR("facilitador", "Facilitadores");
 
     companion object {
@@ -84,6 +88,11 @@ data class QuoteBlock(val text: String) : Block
 @Serializable
 @SerialName("callout")
 data class CalloutBlock(val blocks: List<Block> = emptyList()) : Block
+
+/** Ilustración (assets/content/img/[src]); [ratio] = ancho / alto. */
+@Serializable
+@SerialName("image")
+data class ImageBlock(val src: String, val ratio: Float = 0.8f) : Block
 
 @Serializable
 @SerialName("table")

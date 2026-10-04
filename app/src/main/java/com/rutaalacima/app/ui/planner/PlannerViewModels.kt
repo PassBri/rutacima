@@ -35,6 +35,7 @@ class PlannerViewModel(private val c: AppContainer) : ViewModel() {
     fun guardarMeta(m: MetaAnualEntity) = viewModelScope.launch { c.planificador.guardarMeta(m) }
     fun eliminarMeta(m: MetaAnualEntity) = viewModelScope.launch { c.planificador.eliminarMeta(m) }
     fun guardarBalance(b: BalanceAnualEntity) = viewModelScope.launch { c.planificador.guardarBalance(b) }
+    fun mesesConBalance(anio: Int): Flow<Set<Int>> = c.planAnual.mesesConBalance(anio)
     fun cambiarAnioInicio(anio: Int) = viewModelScope.launch { c.perfil.actualizar { it.copy(anioInicioPlan = anio) } }
 }
 

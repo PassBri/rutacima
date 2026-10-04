@@ -4,6 +4,7 @@
  "subtitle": "Guía de reflexión para las 7 fases",
  "category": "ruta",
  "order": 3,
+ "cover": "viaje_1.jpg",
  "sections": [
   {
    "id": "viaje.sec0",
@@ -527,6 +528,11 @@
     {
      "type": "paragraph",
      "text": "Tu viaje es único y perfecto tal como es..."
+    },
+    {
+     "type": "image",
+     "src": "viaje_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

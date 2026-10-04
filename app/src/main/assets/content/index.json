@@ -5,8 +5,9 @@
   "subtitle": "Secuencia didáctica · 7 pasos",
   "category": "ruta",
   "order": 1,
+  "cover": "descubre_1.jpg",
   "sections": 8,
-  "inputs": 31
+  "inputs": 26
  },
  {
   "id": "seis_ejes",
@@ -14,6 +15,7 @@
   "subtitle": "Workbook didáctico",
   "category": "ruta",
   "order": 2,
+  "cover": "seis_ejes_1.jpg",
   "sections": 10,
   "inputs": 95
  },
@@ -23,6 +25,7 @@
   "subtitle": "Guía de reflexión para las 7 fases",
   "category": "ruta",
   "order": 3,
+  "cover": "viaje_1.jpg",
   "sections": 9,
   "inputs": 41
  },
@@ -32,6 +35,7 @@
   "subtitle": "Antes de ascender, conócete a ti mismo",
   "category": "ruta",
   "order": 4,
+  "cover": "diagnostico_1.jpg",
   "sections": 9,
   "inputs": 179
  },
@@ -41,8 +45,9 @@
   "subtitle": "Cómo integrar los 6 ejes",
   "category": "ruta",
   "order": 5,
+  "cover": "confluencia_1.jpg",
   "sections": 5,
-  "inputs": 59
+  "inputs": 40
  },
  {
   "id": "portales",
@@ -50,6 +55,7 @@
   "subtitle": "Rituales para cruzar de fase",
   "category": "ruta",
   "order": 6,
+  "cover": "portales_1.jpg",
   "sections": 11,
   "inputs": 58
  },
@@ -59,6 +65,7 @@
   "subtitle": "Monetización ética de tu cumbre",
   "category": "ruta",
   "order": 7,
+  "cover": "proposito_valor_1.jpg",
   "sections": 9,
   "inputs": 39
  },
@@ -68,6 +75,7 @@
   "subtitle": "Mentores, accountability y red de apoyo",
   "category": "ruta",
   "order": 8,
+  "cover": "campamento_1.jpg",
   "sections": 9,
   "inputs": 21
  },
@@ -77,6 +85,7 @@
   "subtitle": "Celebrar, integrar y descender",
   "category": "ruta",
   "order": 9,
+  "cover": "desde_cima_1.jpg",
   "sections": 9,
   "inputs": 102
  },
@@ -86,6 +95,7 @@
   "subtitle": "7 herramientas de uso diario",
   "category": "herramientas",
   "order": 10,
+  "cover": "kit_1.jpg",
   "sections": 9,
   "inputs": 78
  },
@@ -95,6 +105,7 @@
   "subtitle": "Relaciones desde la plenitud",
   "category": "ruta",
   "order": 11,
+  "cover": "companero_1.jpg",
   "sections": 10,
   "inputs": 68
  },
@@ -104,6 +115,7 @@
   "subtitle": "Aprender a leer la montaña",
   "category": "ruta",
   "order": 12,
+  "cover": "caidas_1.jpg",
   "sections": 8,
   "inputs": 30
  },
@@ -113,6 +125,7 @@
   "subtitle": "8 protocolos de reorientación",
   "category": "herramientas",
   "order": 13,
+  "cover": "niebla_1.jpg",
   "sections": 8,
   "inputs": 66
  },
@@ -122,6 +135,7 @@
   "subtitle": "Talleres, dinámicas y certificación",
   "category": "facilitador",
   "order": 14,
+  "cover": "facilitadores_1.jpg",
   "sections": 19,
   "inputs": 32
  },
@@ -131,8 +145,8 @@
   "subtitle": "Bono 1 · 150 indicadores por eje",
   "category": "bonos",
   "order": 15,
-  "sections": 2,
-  "inputs": 12
+  "sections": 7,
+  "inputs": 14
  },
  {
   "id": "bono_metas",
@@ -140,8 +154,8 @@
   "subtitle": "Bono 2 · 80+ metas para adaptar",
   "category": "bonos",
   "order": 16,
-  "sections": 3,
-  "inputs": 12
+  "sections": 10,
+  "inputs": 11
  },
  {
   "id": "bono_confluencia",
@@ -159,7 +173,7 @@
   "category": "bonos",
   "order": 18,
   "sections": 1,
-  "inputs": 34
+  "inputs": 28
  },
  {
   "id": "planificador_cierre",
@@ -169,5 +183,52 @@
   "order": 19,
   "sections": 4,
   "inputs": 22
+ },
+ {
+  "id": "bono_acciones",
+  "title": "Banco de Acciones Multi-Eje",
+  "subtitle": "Bono 5 · 200+ acciones que activan varios ejes",
+  "category": "bonos",
+  "order": 20,
+  "sections": 22,
+  "inputs": 81
+ },
+ {
+  "id": "bono_anti_abandono",
+  "title": "Sistema Anti-Abandono",
+  "subtitle": "Bono 6 · Protocolos de recuperación",
+  "category": "bonos",
+  "order": 21,
+  "sections": 8,
+  "inputs": 48
+ },
+ {
+  "id": "bono_evidencias",
+  "title": "Kit de Evidencias",
+  "subtitle": "Bono 7 · Sistema de progreso visible",
+  "category": "bonos",
+  "order": 22,
+  "sections": 8,
+  "inputs": 18
+ },
+ {
+  "id": "ebook",
+  "title": "Ruta a la Cima",
+  "subtitle": "Ebook · Un mapa para encontrar tu propósito y diseñar una vida con sentido",
+  "category": "lecturas",
+  "order": 23,
+  "cover": "ebook_1.jpg",
+  "sections": 12,
+  "inputs": 0
+ },
+ {
+  "id": "teoria",
+  "title": "Teoría del Viaje Transformativo",
+  "subtitle": "Fundamentos, modelo, metodología e instrumento de evaluación",
+  "category": "lecturas",
+  "order": 24,
+  "cover": "teoria_1.jpg",
+  "sections": 11,
+  "inputs": 23
  }
 ]

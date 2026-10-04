@@ -115,6 +115,8 @@ data class MetaAnualEntity(
     val obstaculo: String = "",
     val proximaAccion: String = "",
     val fechaRevision: Long? = null,
+    val fechaInicio: Long? = null,
+    val fechaFin: Long? = null,
 )
 
 /** Balance anual: "¿Cómo me sentí?", reflexión positiva/negativa, lo mejor y objetivos. */
@@ -127,3 +129,59 @@ data class BalanceAnualEntity(
     val loMejor: String = "",
     val objetivosProximo: String = "",
 )
+
+/**
+ * Página del Planificador diario. fecha = yyyy-MM-dd.
+ * [horario] guarda las franjas "Planifique su día" como JSON {"4": "…", "5": "…"} (hora 0-23).
+ */
+@Entity(tableName = "agenda_diaria")
+data class AgendaDiaEntity(
+    @PrimaryKey val fecha: String,
+    val intencion: String = "",
+    val prioridad: String = "",
+    val horario: String = "{}",
+    val metas: String = "",
+    val pendientes: String = "",
+    val victorias: String = "",
+    val aprendizaje: String = "",
+    val gratitud: String = "",
+    val ingresos: String = "",
+    val gastos: String = "",
+    val ahorro: String = "",
+    val inversion: String = "",
+    /** Energía 0-5 (○ ○ ○ ○ ○). */
+    val energia: Int = 0,
+    /** Vasos de agua 0-8. */
+    val agua: Int = 0,
+    val notas: String = "",
+)
+
+/** Página mensual del Plan anual: balance, actividades y notas. clave = yyyy-MM. */
+@Entity(tableName = "meses", indices = [Index("anio")])
+data class MesEntity(
+    @PrimaryKey val clave: String,
+    val anio: Int,
+    val mes: Int,
+    val comoEstuvo: String = "",
+    val agradecido: String = "",
+    val mejorar: String = "",
+    val logros: String = "",
+    val desafios: String = "",
+    val objetivosProximo: String = "",
+    val actividades: String = "",
+    val notas: String = "",
+)
+
+/** Meta mensual con registro de cumplimiento por día (dias = "1,2,15"). */
+@Entity(tableName = "metas_mensuales", indices = [Index(value = ["anio", "mes"])])
+data class MetaMensualEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val anio: Int,
+    val mes: Int,
+    val orden: Int = 0,
+    val texto: String,
+    val dias: String = "",
+    val cumplida: Boolean = false,
+)
+
+fun MetaMensualEntity.diasMarcados(): Set<Int> = dias.split(',').mapNotNull { it.trim().toIntOrNull() }.toSet()

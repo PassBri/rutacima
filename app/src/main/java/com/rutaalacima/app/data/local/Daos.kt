@@ -28,7 +28,7 @@ interface RespuestaDao {
     @Query("SELECT * FROM respuestas WHERE workbookId = :workbookId")
     suspend fun getWorkbook(workbookId: String): List<RespuestaEntity>
 
-    @Query("SELECT workbookId, COUNT(*) AS respondidas FROM respuestas WHERE valor != '' GROUP BY workbookId")
+    @Query("SELECT workbookId, COUNT(*) AS respondidas FROM respuestas WHERE valor != '' AND clave NOT LIKE '%#%' GROUP BY workbookId")
     fun observeConteos(): Flow<List<ConteoRespuestas>>
 
     @Upsert
@@ -39,6 +39,10 @@ interface RespuestaDao {
 
     @Query("SELECT * FROM respuestas ORDER BY actualizadoEn DESC LIMIT 1")
     fun observeUltima(): Flow<RespuestaEntity?>
+
+    /** Última sección abierta de cada workbook (clave "<workbookId>#ultima"). */
+    @Query("SELECT * FROM respuestas WHERE clave LIKE '%#ultima'")
+    fun observeUltimasSecciones(): Flow<List<RespuestaEntity>>
 }
 
 data class ConteoRespuestas(val workbookId: String, val respondidas: Int)
@@ -123,4 +127,39 @@ interface PlanificadorDao {
 
     @Upsert
     suspend fun upsertBalance(b: BalanceAnualEntity)
+}
+
+@Dao
+interface AgendaDao {
+    @Query("SELECT * FROM agenda_diaria WHERE fecha = :fecha")
+    suspend fun get(fecha: String): AgendaDiaEntity?
+
+    /** Fechas (yyyy-MM-dd) con agenda en un mes; prefijo = "yyyy-MM". */
+    @Query("SELECT fecha FROM agenda_diaria WHERE fecha LIKE :prefijo || '%'")
+    fun observeFechasDelMes(prefijo: String): Flow<List<String>>
+
+    @Upsert
+    suspend fun upsert(dia: AgendaDiaEntity)
+}
+
+@Dao
+interface PlanAnualDao {
+    @Query("SELECT * FROM meses WHERE clave = :clave")
+    suspend fun getMes(clave: String): MesEntity?
+
+    /** Meses del año que ya tienen balance (para los círculos Ene…Dic). */
+    @Query("SELECT mes FROM meses WHERE anio = :anio AND (comoEstuvo != '' OR logros != '' OR objetivosProximo != '')")
+    fun observeMesesConBalance(anio: Int): Flow<List<Int>>
+
+    @Upsert
+    suspend fun upsertMes(m: MesEntity)
+
+    @Query("SELECT * FROM metas_mensuales WHERE anio = :anio AND mes = :mes ORDER BY orden, id")
+    fun observeMetasMes(anio: Int, mes: Int): Flow<List<MetaMensualEntity>>
+
+    @Upsert
+    suspend fun upsertMetaMes(m: MetaMensualEntity)
+
+    @Delete
+    suspend fun deleteMetaMes(m: MetaMensualEntity)
 }

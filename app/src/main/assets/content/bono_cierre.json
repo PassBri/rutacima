@@ -34,66 +34,16 @@
      "label": "PASO 1: Evaluar Metas (5 min)"
     },
     {
-     "type": "paragraph",
-     "text": "Meta"
-    },
-    {
-     "type": "paragraph",
-     "text": "Estado"
-    },
-    {
-     "type": "paragraph",
-     "text": "%"
-    },
-    {
-     "type": "prompt",
-     "id": "bono_cierre.q4",
-     "label": "Evidencia"
-    },
-    {
-     "type": "choice",
-     "id": "bono_cierre.c5",
-     "label": "",
-     "options": [
-      "L",
-      "P",
-      "N"
-     ]
-    },
-    {
-     "type": "prompt",
-     "id": "bono_cierre.q6",
-     "label": ""
-    },
-    {
-     "type": "choice",
-     "id": "bono_cierre.c9",
-     "label": "",
-     "options": [
-      "L",
-      "P",
-      "N"
-     ]
-    },
-    {
-     "type": "prompt",
-     "id": "bono_cierre.q10",
-     "label": ""
-    },
-    {
-     "type": "choice",
-     "id": "bono_cierre.c13",
-     "label": "",
-     "options": [
-      "L",
-      "P",
-      "N"
-     ]
-    },
-    {
-     "type": "prompt",
-     "id": "bono_cierre.q14",
-     "label": ""
+     "type": "inputTable",
+     "id": "bono_cierre.t4",
+     "headers": [
+      "Meta",
+      "Estado",
+      "%",
+      "Evidencia"
+     ],
+     "rowLabels": [],
+     "rows": 3
     },
     {
      "type": "paragraph",
@@ -101,7 +51,7 @@
     },
     {
      "type": "check",
-     "id": "bono_cierre.k16",
+     "id": "bono_cierre.k5",
      "label": "PASO 2: Revisar Indicadores (3 min)"
     },
     {
@@ -110,17 +60,17 @@
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q17",
+     "id": "bono_cierre.q6",
      "label": "Indicador con mejor desempeño:"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q18",
+     "id": "bono_cierre.q7",
      "label": "Indicador que necesita atención:"
     },
     {
      "type": "check",
-     "id": "bono_cierre.k19",
+     "id": "bono_cierre.k8",
      "label": "PASO 3: Calificar los 6 Ejes (3 min)"
     },
     {
@@ -129,114 +79,114 @@
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s20",
+     "id": "bono_cierre.s9",
      "label": "VOL (Voluntad)",
      "min": 1,
      "max": 10
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s21",
+     "id": "bono_cierre.s10",
      "label": "MAE (Maestría)",
      "min": 1,
      "max": 10
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s22",
+     "id": "bono_cierre.s11",
      "label": "VOZ (Voz)",
      "min": 1,
      "max": 10
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s23",
+     "id": "bono_cierre.s12",
      "label": "VAL (Valor)",
      "min": 1,
      "max": 10
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s24",
+     "id": "bono_cierre.s13",
      "label": "EVO (Evolución)",
      "min": 1,
      "max": 10
     },
     {
      "type": "scale",
-     "id": "bono_cierre.s25",
+     "id": "bono_cierre.s14",
      "label": "TRA (Trascendencia)",
      "min": 1,
      "max": 10
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q26",
+     "id": "bono_cierre.q15",
      "label": "Eje más fuerte este mes:"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q27",
+     "id": "bono_cierre.q16",
      "label": "Eje que necesita más atención:"
     },
     {
      "type": "check",
-     "id": "bono_cierre.k28",
+     "id": "bono_cierre.k17",
      "label": "PASO 4: Extraer Aprendizajes (5 min)"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q29",
+     "id": "bono_cierre.q18",
      "label": "Top 3 logros del mes:"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q30",
+     "id": "bono_cierre.q19",
      "label": "Lección más valiosa:"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q31",
+     "id": "bono_cierre.q20",
      "label": "¿Qué haría diferente si pudiera repetir el mes?"
     },
     {
      "type": "check",
-     "id": "bono_cierre.k32",
+     "id": "bono_cierre.k21",
      "label": "PASO 5: Celebrar y Agradecer (2 min)"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q33",
+     "id": "bono_cierre.q22",
      "label": "¿Qué merece ser celebrado?"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q34",
+     "id": "bono_cierre.q23",
      "label": "¿Por qué/quién estoy agradecido?"
     },
     {
      "type": "check",
-     "id": "bono_cierre.k35",
+     "id": "bono_cierre.k24",
      "label": "PASO 6: Decisión para Próximo Mes (2 min)"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q36",
+     "id": "bono_cierre.q25",
      "label": "Basado en este mes, ¿qué 1 cosa cambiaré o reforzaré el próximo mes?"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q37",
+     "id": "bono_cierre.q26",
      "label": "Acción concreta:"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q38",
+     "id": "bono_cierre.q27",
      "label": "Cierre completado"
     },
     {
      "type": "prompt",
-     "id": "bono_cierre.q39",
+     "id": "bono_cierre.q28",
      "label": "Fecha:"
     }
    ]

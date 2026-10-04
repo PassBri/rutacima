@@ -1,6 +1,7 @@
 package com.rutaalacima.app.ui.planner
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +36,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -79,22 +80,27 @@ fun PlannerScreen(
     onOpenWorkbook: (String) -> Unit,
 ) {
     val vm = rutaViewModel { PlannerViewModel(it) }
+    val agenda = rutaViewModel { AgendaViewModel(it) }
+    val mes = rutaViewModel { MesViewModel(it) }
     var tab by rememberSaveable { mutableIntStateOf(0) }
-    val titulos = listOf("Propósitos", "Metas anuales", "Balance")
+    val titulos = listOf("Hoy", "Mes", "Año", "5 años", "Balance")
 
     Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
         Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-            Text("Planificador 5 años", style = MaterialTheme.typography.headlineMedium)
-            Text("Tu cumbre a 5 años y sus campamentos base.", style = MaterialTheme.typography.bodyMedium,
+            Text("Planificador", style = MaterialTheme.typography.headlineMedium)
+            Text("Del día a tu cumbre de 5 años: cada paso cuenta.", style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        TabRow(selectedTabIndex = tab, containerColor = Color.Transparent, modifier = Modifier.padding(top = 8.dp)) {
+        ScrollableTabRow(selectedTabIndex = tab, containerColor = Color.Transparent, edgePadding = 8.dp,
+            modifier = Modifier.padding(top = 8.dp)) {
             titulos.forEachIndexed { i, t -> Tab(selected = tab == i, onClick = { tab = i }, text = { Text(t) }) }
         }
         val bottom = contentPadding.calculateBottomPadding()
         when (tab) {
-            0 -> PropositosTab(vm, bottom, onOpenProposito)
-            1 -> MetasTab(vm, bottom)
+            0 -> DayPlannerTab(agenda, bottom)
+            1 -> MonthPlannerTab(mes, bottom) { fecha -> agenda.abrir(fecha); tab = 0 }
+            2 -> MetasTab(vm, bottom) { anioMes, numMes -> mes.ir(java.time.YearMonth.of(anioMes, numMes)); tab = 1 }
+            3 -> PropositosTab(vm, bottom, onOpenProposito)
             else -> BalanceTab(vm, bottom, onOpenWorkbook)
         }
     }
@@ -198,7 +204,7 @@ private fun SelectorAnio(anios: List<Int>, actual: Int, onSelect: (Int) -> Unit)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp) {
+private fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp, onAbrirMes: (Int, Int) -> Unit) {
     val perfil by vm.perfil.collectAsStateWithLifecycle()
     val todas by vm.metas.collectAsStateWithLifecycle()
     val propositos by vm.propositos.collectAsStateWithLifecycle()
@@ -216,8 +222,22 @@ private fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp) 
         ) {
             item {
                 SelectorAnio(anios, anioSel) { anio = it }
+                val conBalance by remember(anioSel) { vm.mesesConBalance(anioSel) }.collectAsState(initial = emptySet())
+                Text("Meses del año (● = balance mensual hecho). Toca uno para abrirlo.", style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                    listOf("E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D").forEachIndexed { i, ini ->
+                        val hecho = (i + 1) in conBalance
+                        Column(horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.clip(RoundedCornerShape(6.dp)).clickable { onAbrirMes(anioSel, i + 1) }.padding(2.dp)) {
+                            Text(ini, style = MaterialTheme.typography.labelSmall)
+                            Box(Modifier.size(16.dp).clip(RoundedCornerShape(8.dp))
+                                .background(if (hecho) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant))
+                        }
+                    }
+                }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Los campamentos base: tus metas anuales.", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                    Text("Construye tu año extraordinario: tus 10 metas del año (campamentos base).", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
                     IconButton(onClick = { leyenda = true }) { Icon(Icons.Outlined.Info, "Matriz y semáforo") }
                 }
             }
@@ -290,6 +310,10 @@ private fun MetaCard(m: MetaAnualEntity, propositos: List<PropositoEntity>, onCl
         ProgressLine(m.avance / 100f, Modifier.padding(top = 6.dp), color = estado.color.asColor())
         if (m.obstaculo.isNotBlank()) Text("Obstáculo: ${m.obstaculo}", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 6.dp))
         if (m.proximaAccion.isNotBlank()) Text("Próxima acción: ${m.proximaAccion}", style = MaterialTheme.typography.bodyMedium)
+        if (m.fechaInicio != null || m.fechaFin != null) {
+            Text("${m.fechaInicio?.let { formatoFechaUtc(it) } ?: "—"}  →  ${m.fechaFin?.let { formatoFechaUtc(it) } ?: "—"}",
+                style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
         m.fechaRevision?.let { Text("Revisión: ${formatoFechaUtc(it)}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
     }
 }
@@ -336,6 +360,8 @@ private fun MetaEditor(
             { m = m.copy(estado = it.name, avance = it.porcentaje ?: m.avance) }, color = { it.color.asColor() })
         OutlinedTextField(m.obstaculo, { m = m.copy(obstaculo = it) }, label = { Text("Obstáculo principal") }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(m.proximaAccion, { m = m.copy(proximaAccion = it) }, label = { Text("Próxima acción") }, modifier = Modifier.fillMaxWidth())
+        FechaField("Inicio", m.fechaInicio, { m = m.copy(fechaInicio = it) })
+        FechaField("Fin", m.fechaFin, { m = m.copy(fechaFin = it) })
         FechaField("Fecha de revisión", m.fechaRevision, { m = m.copy(fechaRevision = it) })
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             onEliminar?.let { OutlinedButton(onClick = it) { Text("Eliminar") } }

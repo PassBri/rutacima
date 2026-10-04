@@ -1,6 +1,9 @@
 package com.rutaalacima.app.data
 
 import com.rutaalacima.app.data.local.AccionEntity
+import com.rutaalacima.app.data.local.AgendaDiaEntity
+import com.rutaalacima.app.data.local.MesEntity
+import com.rutaalacima.app.data.local.MetaMensualEntity
 import com.rutaalacima.app.data.local.BalanceAnualEntity
 import com.rutaalacima.app.data.local.ChecklistDiarioEntity
 import com.rutaalacima.app.data.local.EvaluacionEjesEntity
@@ -35,6 +38,11 @@ class RespuestasRepository(private val db: RutaDatabase) {
         db.respuestaDao().observeConteos().map { list -> list.associate { it.workbookId to it.respondidas } }
 
     val ultimaRespuesta: Flow<RespuestaEntity?> = db.respuestaDao().observeUltima()
+
+    /** workbookId -> índice de la última sección abierta. */
+    val ultimasSecciones: Flow<Map<String, Int>> = db.respuestaDao().observeUltimasSecciones().map { list ->
+        list.associate { it.workbookId to (it.valor.toIntOrNull() ?: 0) }
+    }
 
     suspend fun guardar(workbookId: String, clave: String, valor: String) {
         if (valor.isEmpty()) db.respuestaDao().delete(clave)
@@ -87,4 +95,34 @@ class PlanificadorRepository(private val db: RutaDatabase) {
     suspend fun guardarMeta(m: MetaAnualEntity) = dao.upsertMeta(m)
     suspend fun eliminarMeta(m: MetaAnualEntity) = dao.deleteMeta(m)
     suspend fun guardarBalance(b: BalanceAnualEntity) = dao.upsertBalance(b)
+}
+
+class AgendaRepository(private val db: RutaDatabase) {
+    suspend fun dia(fecha: LocalDate): AgendaDiaEntity =
+        db.agendaDao().get(fecha.toString()) ?: AgendaDiaEntity(fecha = fecha.toString())
+
+    suspend fun guardar(dia: AgendaDiaEntity) = db.agendaDao().upsert(dia)
+
+    /** Días del mes que tienen agenda diligenciada. */
+    fun diasConAgenda(anio: Int, mes: Int): Flow<Set<Int>> =
+        db.agendaDao().observeFechasDelMes("%04d-%02d".format(anio, mes)).map { fechas ->
+            fechas.mapNotNull { runCatching { LocalDate.parse(it).dayOfMonth }.getOrNull() }.toSet()
+        }
+}
+
+class PlanAnualRepository(private val db: RutaDatabase) {
+    private val dao = db.planAnualDao()
+
+    suspend fun mes(anio: Int, mes: Int): MesEntity =
+        dao.getMes(clave(anio, mes)) ?: MesEntity(clave = clave(anio, mes), anio = anio, mes = mes)
+
+    suspend fun guardarMes(m: MesEntity) = dao.upsertMes(m)
+    fun mesesConBalance(anio: Int): Flow<Set<Int>> = dao.observeMesesConBalance(anio).map { it.toSet() }
+    fun metasMes(anio: Int, mes: Int): Flow<List<MetaMensualEntity>> = dao.observeMetasMes(anio, mes)
+    suspend fun guardarMetaMes(m: MetaMensualEntity) = dao.upsertMetaMes(m)
+    suspend fun eliminarMetaMes(m: MetaMensualEntity) = dao.deleteMetaMes(m)
+
+    companion object {
+        fun clave(anio: Int, mes: Int) = "%04d-%02d".format(anio, mes)
+    }
 }

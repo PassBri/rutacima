@@ -4,6 +4,7 @@
  "subtitle": "Secuencia didáctica · 7 pasos",
  "category": "ruta",
  "order": 1,
+ "cover": "descubre_1.jpg",
  "sections": [
   {
    "id": "descubre.sec0",
@@ -577,73 +578,21 @@
      "text": "Define acciones CONCRETAS para los próximos 90 días que fortalezcan cada uno de tus ejes:"
     },
     {
-     "type": "heading",
-     "level": 2,
-     "text": "EJE"
-    },
-    {
-     "type": "paragraph",
-     "text": "ACCIONES CONCRETAS (próximos 90 días)"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "VOLUNTAD"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q21",
-     "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "MAESTRÍA"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q22",
-     "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "VOZ"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q23",
-     "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "VALOR"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q24",
-     "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "EVOLUCIÓN"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q25",
-     "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "TRASCENDENCIA"
-    },
-    {
-     "type": "prompt",
-     "id": "descubre.q26",
-     "label": ""
+     "type": "inputTable",
+     "id": "descubre.t21",
+     "headers": [
+      "EJE",
+      "ACCIONES CONCRETAS (próximos 90 días)"
+     ],
+     "rowLabels": [
+      "VOLUNTAD",
+      "MAESTRÍA",
+      "VOZ",
+      "VALOR",
+      "EVOLUCIÓN",
+      "TRASCENDENCIA"
+     ],
+     "rows": 6
     },
     {
      "type": "heading",
@@ -652,13 +601,13 @@
     },
     {
      "type": "prompt",
-     "id": "descubre.q27",
+     "id": "descubre.q22",
      "label": "(Define UNA meta específica, medible y con fecha):",
      "title": "En 90 días habré logrado:"
     },
     {
      "type": "prompt",
-     "id": "descubre.q28",
+     "id": "descubre.q23",
      "label": "Fecha límite:"
     }
    ]
@@ -678,12 +627,12 @@
     },
     {
      "type": "prompt",
-     "id": "descubre.q29",
+     "id": "descubre.q24",
      "label": "Yo,"
     },
     {
      "type": "prompt",
-     "id": "descubre.q30",
+     "id": "descubre.q25",
      "label": "me comprometo hoy,"
     },
     {
@@ -726,8 +675,13 @@
     },
     {
      "type": "prompt",
-     "id": "descubre.q31",
+     "id": "descubre.q26",
      "label": "Específicamente me comprometo a:"
+    },
+    {
+     "type": "image",
+     "src": "descubre_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

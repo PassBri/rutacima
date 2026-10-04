@@ -249,12 +249,13 @@
      "type": "prompt",
      "id": "bono_indicadores.q2",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Maestría (MAE)"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec2",
+   "title": "Maestría (MAE)",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "25 indicadores disponibles"
@@ -315,9 +316,11 @@
      "mark": "•"
     },
     {
-     "type": "bullet",
-     "text": "Nivel de dominio en herramienta clave (1-10)",
-     "mark": "•"
+     "type": "scale",
+     "id": "bono_indicadores.s6",
+     "label": "Nivel de dominio en herramienta clave",
+     "min": 1,
+     "max": 10
     },
     {
      "type": "bullet",
@@ -386,19 +389,20 @@
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q6",
+     "id": "bono_indicadores.q7",
      "label": "Espacio para tus indicadores personalizados:"
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q7",
+     "id": "bono_indicadores.q8",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Voz (VOZ)"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec3",
+   "title": "Voz (VOZ)",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "25 indicadores disponibles"
@@ -530,19 +534,20 @@
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q11",
+     "id": "bono_indicadores.q12",
      "label": "Espacio para tus indicadores personalizados:"
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q12",
+     "id": "bono_indicadores.q13",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Valor (VAL)"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec4",
+   "title": "Valor (VAL)",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "25 indicadores disponibles"
@@ -674,19 +679,20 @@
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q16",
+     "id": "bono_indicadores.q17",
      "label": "Espacio para tus indicadores personalizados:"
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q17",
+     "id": "bono_indicadores.q18",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Evolución (EVO)"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec5",
+   "title": "Evolución (EVO)",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "25 indicadores disponibles"
@@ -807,9 +813,11 @@
      "mark": "•"
     },
     {
-     "type": "bullet",
-     "text": "Autenticidad en comunicación (1-10)",
-     "mark": "•"
+     "type": "scale",
+     "id": "bono_indicadores.s22",
+     "label": "Autenticidad en comunicación",
+     "min": 1,
+     "max": 10
     },
     {
      "type": "bullet",
@@ -818,19 +826,20 @@
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q21",
+     "id": "bono_indicadores.q23",
      "label": "Espacio para tus indicadores personalizados:"
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q22",
+     "id": "bono_indicadores.q24",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Trascendencia (TRA)"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec6",
+   "title": "Trascendencia (TRA)",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "25 indicadores disponibles"
@@ -962,12 +971,12 @@
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q26",
+     "id": "bono_indicadores.q28",
      "label": "Espacio para tus indicadores personalizados:"
     },
     {
      "type": "prompt",
-     "id": "bono_indicadores.q27",
+     "id": "bono_indicadores.q29",
      "label": ""
     },
     {

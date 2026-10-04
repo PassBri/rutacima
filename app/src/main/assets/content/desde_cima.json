@@ -4,6 +4,7 @@
  "subtitle": "Celebrar, integrar y descender",
  "category": "ruta",
  "order": 9,
+ "cover": "desde_cima_1.jpg",
  "sections": [
   {
    "id": "desde_cima.sec0",
@@ -1463,6 +1464,11 @@
     {
      "type": "paragraph",
      "text": "www.routetotop.com"
+    },
+    {
+     "type": "image",
+     "src": "desde_cima_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

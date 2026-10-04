@@ -67,7 +67,7 @@ private data class Pestana(val ruta: String, val titulo: String, val icono: Imag
 private val PESTANAS = listOf(
     Pestana(Rutas.INICIO, "Inicio", Icons.Filled.Home),
     Pestana(Rutas.RUTA, "Ruta", Icons.AutoMirrored.Filled.MenuBook),
-    Pestana(Rutas.PLAN, "Plan 5 años", Icons.Filled.Terrain),
+    Pestana(Rutas.PLAN, "Plan", Icons.Filled.Terrain),
     Pestana(Rutas.EJES, "Ejes", Icons.Filled.Hub),
     Pestana(Rutas.KIT, "Kit", Icons.Filled.MedicalServices),
 )
@@ -122,6 +122,7 @@ private fun AppPrincipal() {
                     onOpenWorkbook = { nav.navigate(Rutas.workbook(it)) },
                     onGoToAxes = { nav.irAPestana(Rutas.EJES) },
                     onGoToKit = { nav.irAPestana(Rutas.KIT) },
+                    onGoToPlan = { nav.irAPestana(Rutas.PLAN) },
                 )
             }
             composable(Rutas.RUTA) { LibraryScreen(padding) { nav.navigate(Rutas.workbook(it)) } }

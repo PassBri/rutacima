@@ -4,6 +4,7 @@
  "subtitle": "Workbook didáctico",
  "category": "ruta",
  "order": 2,
+ "cover": "seis_ejes_1.jpg",
  "sections": [
   {
    "id": "seis_ejes.sec0",
@@ -739,21 +740,10 @@
      "text": "RESUMEN DE MIS EJES"
     },
     {
-     "type": "paragraph",
-     "text": "Eje"
-    },
-    {
-     "type": "paragraph",
-     "text": "Mi estado actual"
-    },
-    {
-     "type": "paragraph",
-     "text": "Puntaje promedio"
-    },
-    {
      "type": "prompt",
      "id": "seis_ejes.q63",
-     "label": "Voluntad"
+     "title": "Voluntad",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -765,7 +755,8 @@
     {
      "type": "prompt",
      "id": "seis_ejes.q65",
-     "label": "Maestría"
+     "title": "Maestría",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -777,7 +768,8 @@
     {
      "type": "prompt",
      "id": "seis_ejes.q67",
-     "label": "Voz"
+     "title": "Voz",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -789,7 +781,8 @@
     {
      "type": "prompt",
      "id": "seis_ejes.q69",
-     "label": "Valor"
+     "title": "Valor",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -801,7 +794,8 @@
     {
      "type": "prompt",
      "id": "seis_ejes.q71",
-     "label": "Evolución"
+     "title": "Evolución",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -813,7 +807,8 @@
     {
      "type": "prompt",
      "id": "seis_ejes.q73",
-     "label": "Trascendencia"
+     "title": "Trascendencia",
+     "label": "Mi estado actual"
     },
     {
      "type": "scale",
@@ -1008,6 +1003,11 @@
      "type": "prompt",
      "id": "seis_ejes.q95",
      "label": "(Sintetiza tu cumbre en una declaración poderosa de máximo 20 palabras)"
+    },
+    {
+     "type": "image",
+     "src": "seis_ejes_2.jpg",
+     "ratio": 0.8
     },
     {
      "type": "paragraph",

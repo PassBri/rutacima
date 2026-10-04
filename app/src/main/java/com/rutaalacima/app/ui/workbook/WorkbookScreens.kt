@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.rutaalacima.app.ui.components.AssetImage
 import com.rutaalacima.app.ui.components.ProgressLine
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
@@ -79,21 +80,28 @@ fun WorkbookIndexScreen(
         ) {
             item {
                 Column(Modifier.padding(bottom = 8.dp)) {
+                    wb.cover?.let { portada ->
+                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                            Box(Modifier.fillMaxWidth(0.55f)) { AssetImage(portada, 0.8f, contentDescription = wb.title) }
+                        }
+                        Spacer(Modifier.height(12.dp))
+                    }
                     Text(wb.subtitle, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(12.dp))
                     val p = wb.progreso(respuestas)
                     ProgressLine(p)
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        "${(p * 100).toInt()}% completado · ${wb.fields.size} ejercicios",
+                        if (wb.fields.isEmpty()) "Lectura · ${wb.sections.size} secciones" else "${(p * 100).toInt()}% completado · ${wb.fields.size} ejercicios",
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(Modifier.height(12.dp))
+                    val ultima = respuestas["${wb.id}#ultima"]?.toIntOrNull()
                     Button(onClick = {
-                        val siguiente = wb.sections.indexOfFirst { it.progreso(respuestas) in 0f..0.999f }
-                        onOpenSection(if (siguiente >= 0) siguiente else 0)
-                    }) { Text(if (p > 0f) "Continuar" else "Comenzar") }
+                        val siguiente = ultima ?: wb.sections.indexOfFirst { it.progreso(respuestas) in 0f..0.999f }
+                        onOpenSection(siguiente.coerceIn(0, wb.sections.lastIndex))
+                    }) { Text(if (p > 0f || ultima != null) "Continuar" else "Comenzar") }
                 }
             }
             itemsIndexed(wb.sections) { i, s ->
@@ -141,6 +149,10 @@ fun SectionScreen(
     var index by rememberSaveable(workbookId) { mutableIntStateOf(startIndex) }
     val listState = rememberLazyListState()
     LaunchedEffect(index) { listState.scrollToItem(0) }
+    LaunchedEffect(index, vm.cargado) {
+        // Recuerda la última sección abierta (sirve de marcador en las lecturas).
+        if (vm.cargado) vm.fijar("$workbookId#ultima", index.toString())
+    }
     val respuestas = vm.comoRespuestas()
 
     Scaffold(

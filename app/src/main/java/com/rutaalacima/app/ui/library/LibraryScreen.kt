@@ -29,6 +29,7 @@ import androidx.lifecycle.viewModelScope
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.data.content.Categoria
 import com.rutaalacima.app.data.content.WorkbookSummary
+import com.rutaalacima.app.ui.components.AssetImage
 import com.rutaalacima.app.ui.components.ProgressLine
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.SectionTitle
@@ -43,9 +44,13 @@ data class WorkbookItem(val resumen: WorkbookSummary, val progreso: Float)
 
 class LibraryViewModel(c: AppContainer) : ViewModel() {
     val items: StateFlow<Map<Categoria, List<WorkbookItem>>> =
-        combine(flow { emit(c.contenido.index()) }, c.respuestas.conteos) { index, conteos ->
+        combine(flow { emit(c.contenido.index()) }, c.respuestas.conteos, c.respuestas.ultimasSecciones) { index, conteos, ultimas ->
             index.map { w ->
-                val p = if (w.inputs == 0) 0f else (conteos[w.id] ?: 0).toFloat() / w.inputs
+                val p = when {
+                    w.inputs > 0 -> (conteos[w.id] ?: 0).toFloat() / w.inputs
+                    w.sections > 0 -> ultimas[w.id]?.let { (it + 1).toFloat() / w.sections } ?: 0f
+                    else -> 0f
+                }
                 WorkbookItem(w, p.coerceAtMost(1f))
             }.groupBy { Categoria.from(it.resumen.category) }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
@@ -86,15 +91,20 @@ fun LibraryScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit) {
 private fun WorkbookRow(item: WorkbookItem, onClick: () -> Unit) {
     RutaCard(onClick = onClick) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier.size(44.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.primary),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    item.resumen.order.toString().padStart(2, '0'),
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    fontWeight = FontWeight.Bold,
-                )
+            val portada = item.resumen.cover
+            if (portada != null) {
+                Box(Modifier.width(46.dp)) { AssetImage(portada, 0.8f) }
+            } else {
+                Box(
+                    Modifier.size(46.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.primary),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        item.resumen.title.take(1),
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
             }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {

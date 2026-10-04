@@ -4,6 +4,7 @@
  "subtitle": "Monetización ética de tu cumbre",
  "category": "ruta",
  "order": 7,
+ "cover": "proposito_valor_1.jpg",
  "sections": [
   {
    "id": "proposito_valor.sec0",
@@ -1154,6 +1155,11 @@
     {
      "type": "paragraph",
      "text": "Ahora ve y genera valor."
+    },
+    {
+     "type": "image",
+     "src": "proposito_valor_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

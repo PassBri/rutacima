@@ -4,6 +4,7 @@
  "subtitle": "8 protocolos de reorientación",
  "category": "herramientas",
  "order": 13,
+ "cover": "niebla_1.jpg",
  "sections": [
   {
    "id": "niebla.sec0",
@@ -1029,6 +1030,11 @@
        "text": "Sigue caminando."
       }
      ]
+    },
+    {
+     "type": "image",
+     "src": "niebla_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

@@ -15,8 +15,11 @@ import androidx.room.RoomDatabase
         AccionEntity::class,
         MetaAnualEntity::class,
         BalanceAnualEntity::class,
+        AgendaDiaEntity::class,
+        MesEntity::class,
+        MetaMensualEntity::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class RutaDatabase : RoomDatabase() {
@@ -25,6 +28,8 @@ abstract class RutaDatabase : RoomDatabase() {
     abstract fun evaluacionDao(): EvaluacionDao
     abstract fun checklistDao(): ChecklistDao
     abstract fun planificadorDao(): PlanificadorDao
+    abstract fun agendaDao(): AgendaDao
+    abstract fun planAnualDao(): PlanAnualDao
 
     companion object {
         fun build(context: Context): RutaDatabase =

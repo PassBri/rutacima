@@ -4,6 +4,11 @@ Uso: python3 convert.py <carpeta_docx> <carpeta_salida>
 """
 import json, re, sys, os, glob
 from docx import Document
+from io import BytesIO
+from PIL import Image
+
+A_BLIP = '{http://schemas.openxmlformats.org/drawingml/2006/main}blip'
+R_EMBED = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}embed'
 
 W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 
@@ -60,11 +65,43 @@ def is_caps_heading(t):
 
 
 class Converter:
-    def __init__(self, wid, styles):
+    def __init__(self, wid, styles, part=None, img_dir=None):
         self.wid = wid
         self.styles = styles
         self.n = 0
         self.stack = []
+        self.part = part
+        self.img_dir = img_dir
+        self.rids = set()
+        self.cover = None
+        self.n_img = 0
+
+    def images(self, p, blocks):
+        """Extrae las imágenes del párrafo: la primera del documento es la portada; los sellos cuadrados se omiten."""
+        if self.part is None or self.img_dir is None:
+            return
+        for blip in p.iter(A_BLIP):
+            rid = blip.get(R_EMBED)
+            if not rid or rid in self.rids or rid not in self.part.related_parts:
+                continue
+            self.rids.add(rid)
+            try:
+                im = Image.open(BytesIO(self.part.related_parts[rid].blob))
+                im.load()
+            except Exception:
+                continue
+            w, h = im.size
+            if w < 300 or 0.9 < w / h < 1.1:   # íconos y sellos
+                continue
+            im = im.convert('RGB')
+            im.thumbnail((900, 1200))
+            self.n_img += 1
+            name = f'{self.wid}_{self.n_img}.jpg'
+            im.save(os.path.join(self.img_dir, name), 'JPEG', quality=78, optimize=True, progressive=True)
+            if self.cover is None:
+                self.cover = name
+            else:
+                blocks.append({'type': 'image', 'src': name, 'ratio': round(im.size[0] / im.size[1], 4)})
 
     def nid(self, kind):
         self.n += 1
@@ -94,6 +131,10 @@ class Converter:
             return
         if self.stack and re.match(r'^[A-ZÁÉÍÓÚÑ][A-ZÁÉÍÓÚÑ \-]{3,40}\s+[-–]\s+\S', t) and len(t) < 140:
             blocks.append({'type': 'check', 'id': self.nid('k'), 'label': t})
+            return
+        m10 = re.match(r'^(.+?)\s*\(1\s*-\s*10\)\s*$', t)
+        if m10:
+            blocks.append({'type': 'scale', 'id': self.nid('s'), 'label': m10.group(1).strip(), 'min': 1, 'max': 10})
             return
         m = NUM_PROMPT.match(t)
         if m:
@@ -202,8 +243,15 @@ class Converter:
                 and all(not e for r in empties for e in r) and not any('/10' in x for r in texts for x in r):
             blocks.append({'type': 'table', 'headers': texts[0], 'rows': texts[1:]})
             return
-        # 2) Tabla de captura: encabezado con texto + filas con celdas vacías
-        if ncols >= 2 and len(rows) >= 2 and not has_nested and not has_numprompt \
+        # 1b) Checklist en tabla: última columna es una casilla ☐
+        if ncols >= 2 and len(rows) >= 2 and all(r[-1].strip() in ('☐', '◻') for r in texts[1:]):
+            for r in texts[1:]:
+                lab = ' — '.join(x for x in r[:-1] if x)
+                blocks.append({'type': 'check', 'id': self.nid('k'), 'label': lab})
+            return
+        # 2) Tabla de captura: encabezado con texto + filas con celdas vacías (o cajas "Escriba aquí")
+        if ncols >= 2 and len(rows) >= 2 and not has_numprompt \
+                and all(x and len(x) < 80 for x in texts[0]) \
                 and all(not e for e in empties[0]) and any(any(e) for e in empties[1:]):
             headers = texts[0]
             body = rows[1:]
@@ -263,6 +311,10 @@ class Converter:
         for child in el.iterchildren():
             tag = child.tag.replace(W, '')
             if tag == 'p':
+                st = pstyle(child, self.styles)
+                if st.lower().startswith('toc') or ptext(child).lower() in ('tabla de contenido', 'contenido', 'índice'):
+                    continue
+                self.images(child, blocks)
                 self.add_text(blocks, ptext(child), pstyle(child, self.styles), is_bullet(child))
             elif tag == 'tbl':
                 self.table(child, blocks)
@@ -291,8 +343,12 @@ def sectionize(blocks, wid):
     for b in blocks:
         start = b['type'] == 'heading' and (b['level'] == 1 or (b['level'] == 2 and SECTION_KW.match(b['text']) and len(b['text']) > 6))
         if start and cur['blocks']:
-            sections.append(cur)
-            cur = {'id': f'{wid}.sec{len(sections)}', 'title': b['text'].title() if b['text'].isupper() else b['text'], 'blocks': []}
+            arrastre = []
+            while cur['blocks'] and cur['blocks'][-1]['type'] == 'image':
+                arrastre.insert(0, cur['blocks'].pop())
+            if cur['blocks']:
+                sections.append(cur)
+            cur = {'id': f'{wid}.sec{len(sections)}', 'title': b['text'].title() if b['text'].isupper() else b['text'], 'blocks': arrastre}
             continue
         if start:
             cur['title'] = b['text'].title() if b['text'].isupper() else b['text']
@@ -303,26 +359,45 @@ def sectionize(blocks, wid):
     # fusionar secciones muy pequeñas sin campos con la siguiente
     merged = []
     for s in sections:
-        if merged and len(merged[-1]['blocks']) <= 1 and not any(x['type'] not in ('paragraph', 'quote') for x in merged[-1]['blocks']):
+        if merged and len(merged[-1]['blocks']) <= 1 and not any(x['type'] not in ('paragraph', 'quote', 'image') for x in merged[-1]['blocks']):
             prev = merged.pop()
             s['blocks'] = ([{'type': 'heading', 'level': 2, 'text': prev['title']}] if prev['title'] != 'Inicio' else []) + prev['blocks'] + s['blocks']
             if prev['title'] != 'Inicio' and s['title'] == 'Inicio':
                 s['title'] = prev['title']
         merged.append(s)
-    for i, s in enumerate(merged):
+    # dividir secciones muy largas en sus subtítulos de nivel 2
+    final = []
+    for s in merged:
+        if len(s['blocks']) <= 150:
+            final.append(s)
+            continue
+        cur = {'title': s['title'], 'blocks': []}
+        for b in s['blocks']:
+            if b['type'] == 'heading' and b['level'] <= 2 and len(cur['blocks']) >= 20:
+                arrastre = []
+                while cur['blocks'] and cur['blocks'][-1]['type'] == 'image':
+                    arrastre.insert(0, cur['blocks'].pop())
+                final.append(cur)
+                cur = {'title': b['text'].title() if b['text'].isupper() else b['text'], 'blocks': arrastre}
+                continue
+            cur['blocks'].append(b)
+        final.append(cur)
+    for i, s in enumerate(final):
         s['id'] = f'{wid}.sec{i}'
-    return merged
+    return [{'id': s['id'], 'title': s['title'], 'blocks': s['blocks']} for s in final]
 
 
-def convert(path, meta):
+def convert(path, meta, img_dir=None):
     doc = Document(path)
     styles = {s.style_id: s.name for s in doc.styles}
-    c = Converter(meta['id'], styles)
+    c = Converter(meta['id'], styles, doc.part, img_dir)
     blocks = []
     c.container(doc.element.body, blocks)
     blocks = clean(blocks)
     secs = sectionize(blocks, meta['id'])
     data = dict(meta)
+    if c.cover:
+        data['cover'] = c.cover
     data['sections'] = secs
     return data
 
@@ -332,7 +407,7 @@ CATALOG = [
     # (patrón de archivo, id, título, subtítulo, categoría, orden)
     ('DESCUBRE_TU_CUMBRE', 'descubre', 'Descubre tu Cumbre Personal', 'Secuencia didáctica · 7 pasos', 'ruta', 1),
     ('LOS_6_EJES', 'seis_ejes', 'Los 6 Ejes de tu Cumbre', 'Workbook didáctico', 'ruta', 2),
-    ('VIAJE_TRANSFORMATIVO', 'viaje', 'El Viaje Transformativo', 'Guía de reflexión para las 7 fases', 'ruta', 3),
+    ('2._VIAJE_TRANSFORMATIVO', 'viaje', 'El Viaje Transformativo', 'Guía de reflexión para las 7 fases', 'ruta', 3),
     ('DIAGN_STICO', 'diagnostico', 'Diagnóstico Personal', 'Antes de ascender, conócete a ti mismo', 'ruta', 4),
     ('CONFLUENCIA', 'confluencia', 'Confluencia', 'Cómo integrar los 6 ejes', 'ruta', 5),
     ('PORTALES', 'portales', 'Portales y Transiciones', 'Rituales para cruzar de fase', 'ruta', 6),
@@ -348,26 +423,39 @@ CATALOG = [
     ('BONO_2', 'bono_metas', 'Banco de Metas', 'Bono 2 · 80+ metas para adaptar', 'bonos', 16),
     ('BONO_3', 'bono_confluencia', 'Plantillas de Confluencia', 'Bono 3 · 10 proyectos multi-eje', 'bonos', 17),
     ('BONO_4', 'bono_cierre', 'Checklist de Cierre Mensual', 'Bono 4 · 20-30 minutos al mes', 'bonos', 18),
+    ('BOOM_5', 'bono_acciones', 'Banco de Acciones Multi-Eje', 'Bono 5 · 200+ acciones que activan varios ejes', 'bonos', 20),
+    ('BOOM_6', 'bono_anti_abandono', 'Sistema Anti-Abandono', 'Bono 6 · Protocolos de recuperación', 'bonos', 21),
+    ('BOOM_7', 'bono_evidencias', 'Kit de Evidencias', 'Bono 7 · Sistema de progreso visible', 'bonos', 22),
+    ('EBOOK', 'ebook', 'Ruta a la Cima', 'Ebook · Un mapa para encontrar tu propósito y diseñar una vida con sentido', 'lecturas', 23),
+    ('TEORIA_DEL_VIAJE', 'teoria', 'Teoría del Viaje Transformativo', 'Fundamentos, modelo, metodología e instrumento de evaluación', 'lecturas', 24),
 ]
 
 if __name__ == '__main__':
     src, out = sys.argv[1], sys.argv[2]
     os.makedirs(out, exist_ok=True)
+    img_dir = os.path.join(out, 'img')
+    os.makedirs(img_dir, exist_ok=True)
+    for f in glob.glob(os.path.join(img_dir, '*.jpg')):
+        os.remove(f)
     index = []
     for pat, wid, title, sub, cat, order in CATALOG:
         files = [f for f in glob.glob(os.path.join(src, '*.docx')) if pat in os.path.basename(f)]
         if not files:
             print('FALTA', pat)
             continue
+        if len(files) > 1:
+            print('AMBIGUO', pat, files)
         meta = {'id': wid, 'title': title, 'subtitle': sub, 'category': cat, 'order': order}
-        data = convert(files[0], meta)
+        data = convert(files[0], meta, img_dir)
+        if data.get('cover'):
+            meta['cover'] = data['cover']
         with open(os.path.join(out, wid + '.json'), 'w', encoding='utf-8') as fh:
             json.dump(data, fh, ensure_ascii=False, indent=1)
         def count(blocks):
             return sum(count(b['blocks']) if b['type'] == 'callout' else (1 if b['type'] in ('prompt', 'scale', 'check', 'choice', 'inputTable') else 0) for b in blocks)
         n_inputs = sum(count(s['blocks']) for s in data['sections'])
         index.append({**meta, 'sections': len(data['sections']), 'inputs': n_inputs})
-        print(f'{wid:18s} secciones={len(data["sections"]):3d} campos={n_inputs}')
+        print(f'{wid:18s} secciones={len(data["sections"]):3d} campos={n_inputs} imagenes={sum(1 for x in data["sections"] for b in x["blocks"] if b["type"]=="image") + (1 if data.get("cover") else 0)}')
     # Workbooks curados a mano (no vienen de un .docx): se conservan en el índice.
     generados = {i['id'] for i in index}
     for f in sorted(glob.glob(os.path.join(out, '*.json'))):
@@ -377,7 +465,7 @@ if __name__ == '__main__':
         d = json.load(open(f, encoding='utf-8'))
         def count(blocks):
             return sum(count(b['blocks']) if b['type'] == 'callout' else (1 if b['type'] in ('prompt', 'scale', 'check', 'choice', 'inputTable') else 0) for b in blocks)
-        index.append({k: d[k] for k in ('id', 'title', 'subtitle', 'category', 'order')} | {'sections': len(d['sections']), 'inputs': sum(count(s['blocks']) for s in d['sections'])})
+        index.append({k: d[k] for k in ('id', 'title', 'subtitle', 'category', 'order', 'cover') if k in d} | {'sections': len(d['sections']), 'inputs': sum(count(s['blocks']) for s in d['sections'])})
         print(f'{wid:18s} (curado a mano)')
     index.sort(key=lambda i: i['order'])
     with open(os.path.join(out, 'index.json'), 'w', encoding='utf-8') as fh:

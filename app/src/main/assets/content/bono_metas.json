@@ -259,12 +259,13 @@
      "type": "prompt",
      "id": "bono_metas.q2",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Dinero y finanzas"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec2",
+   "title": "Dinero y finanzas",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -408,12 +409,13 @@
      "type": "prompt",
      "id": "bono_metas.q4",
      "label": ""
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Escritura y creación"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec3",
+   "title": "Escritura y creación",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -552,12 +554,13 @@
      "type": "prompt",
      "id": "bono_metas.q5",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Estudio y educación"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec4",
+   "title": "Estudio y educación",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -696,12 +699,13 @@
      "type": "prompt",
      "id": "bono_metas.q6",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Hábitos y disciplina"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec5",
+   "title": "Hábitos y disciplina",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -840,12 +844,13 @@
      "type": "prompt",
      "id": "bono_metas.q7",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Carrera y desarrollo profesional"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec6",
+   "title": "Carrera y desarrollo profesional",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -984,12 +989,13 @@
      "type": "prompt",
      "id": "bono_metas.q8",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Relaciones y familia"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec7",
+   "title": "Relaciones y familia",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -1128,12 +1134,13 @@
      "type": "prompt",
      "id": "bono_metas.q9",
      "label": "Tus metas personalizadas en esta categoría:"
-    },
-    {
-     "type": "heading",
-     "level": 2,
-     "text": "Creatividad y arte"
-    },
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec8",
+   "title": "Creatividad y arte",
+   "blocks": [
     {
      "type": "paragraph",
      "text": "10 metas de ejemplo"
@@ -1276,7 +1283,7 @@
    ]
   },
   {
-   "id": "bono_metas.sec2",
+   "id": "bono_metas.sec9",
    "title": "Hoja de Trabajo: Mis Metas Definidas",
    "blocks": [
     {
@@ -1284,26 +1291,16 @@
      "text": "Usa esta hoja para convertir las plantillas en TUS metas específicas"
     },
     {
-     "type": "paragraph",
-     "text": "Meta (específica)"
-    },
-    {
-     "type": "paragraph",
-     "text": "Resultado Observable"
-    },
-    {
-     "type": "paragraph",
-     "text": "Plazo"
-    },
-    {
-     "type": "prompt",
-     "id": "bono_metas.q11",
-     "label": "Categoría"
-    },
-    {
-     "type": "prompt",
-     "id": "bono_metas.q12",
-     "label": ""
+     "type": "inputTable",
+     "id": "bono_metas.t11",
+     "headers": [
+      "Meta (específica)",
+      "Resultado Observable",
+      "Plazo",
+      "Categoría"
+     ],
+     "rowLabels": [],
+     "rows": 10
     },
     {
      "type": "paragraph",

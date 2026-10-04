@@ -4,6 +4,7 @@
  "subtitle": "Cómo integrar los 6 ejes",
  "category": "ruta",
  "order": 5,
+ "cover": "confluencia_1.jpg",
  "sections": [
   {
    "id": "confluencia.sec0",
@@ -784,21 +785,10 @@
      "label": ""
     },
     {
-     "type": "paragraph",
-     "text": "Eje"
-    },
-    {
-     "type": "paragraph",
-     "text": "Cómo activa cada eje:"
-    },
-    {
-     "type": "paragraph",
-     "text": "Puntaje promedio"
-    },
-    {
      "type": "prompt",
      "id": "confluencia.q25",
-     "label": "Voluntad"
+     "title": "Voluntad",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -810,7 +800,8 @@
     {
      "type": "prompt",
      "id": "confluencia.q27",
-     "label": "Maestría"
+     "title": "Maestría",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -822,7 +813,8 @@
     {
      "type": "prompt",
      "id": "confluencia.q29",
-     "label": "Voz"
+     "title": "Voz",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -834,7 +826,8 @@
     {
      "type": "prompt",
      "id": "confluencia.q31",
-     "label": "Valor"
+     "title": "Valor",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -846,7 +839,8 @@
     {
      "type": "prompt",
      "id": "confluencia.q33",
-     "label": "Evolución"
+     "title": "Evolución",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -858,7 +852,8 @@
     {
      "type": "prompt",
      "id": "confluencia.q35",
-     "label": "Trascendencia"
+     "title": "Trascendencia",
+     "label": "Cómo activa cada eje:"
     },
     {
      "type": "scale",
@@ -953,89 +948,15 @@
      "text": "Tus acciones Multi-Eje:"
     },
     {
-     "type": "paragraph",
-     "text": "Ejes que fortalece:"
-    },
-    {
-     "type": "paragraph",
-     "text": "Acciones que puedes hacer que fortalezcan 2+ ejes:"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q37",
-     "label": "Puntaje promedio"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q38",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s39",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q40",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s42",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q43",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s45",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q46",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s48",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q49",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s51",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q52",
-     "label": ""
-    },
-    {
-     "type": "scale",
-     "id": "confluencia.s54",
-     "label": "Puntaje",
-     "min": 1,
-     "max": 10
+     "type": "inputTable",
+     "id": "confluencia.t37",
+     "headers": [
+      "Ejes que fortalece:",
+      "Acciones que puedes hacer que fortalezcan 2+ ejes:",
+      "Puntaje promedio"
+     ],
+     "rowLabels": [],
+     "rows": 6
     },
     {
      "type": "heading",
@@ -1097,56 +1018,15 @@
      "text": "Mi plan de ciclos para el próximo año:"
     },
     {
-     "type": "paragraph",
-     "text": "Ejes que fortalece:"
-    },
-    {
-     "type": "paragraph",
-     "text": "Acción principal:"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q55",
-     "label": "Ciclos"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q56",
-     "label": ""
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q57",
-     "label": "CICLO 1 (próximos 90 días):"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q58",
-     "label": ""
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q59",
-     "label": "CICLO 2 (próximos 90 días):"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q60",
-     "label": ""
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q61",
-     "label": "CICLO 3 (próximos 90 días):"
-    },
-    {
-     "type": "prompt",
-     "id": "confluencia.q62",
-     "label": ""
-    },
-    {
-     "type": "paragraph",
-     "text": "CICLO 4 (próximos 90 días):"
+     "type": "inputTable",
+     "id": "confluencia.t38",
+     "headers": [
+      "Ejes que fortalece:",
+      "Acción principal:",
+      "Ciclos"
+     ],
+     "rowLabels": [],
+     "rows": 4
     }
    ]
   },
@@ -1189,12 +1069,12 @@
     },
     {
      "type": "check",
-     "id": "confluencia.k63",
+     "id": "confluencia.k39",
      "label": "Ahora describe esa visión: Cuando mis 6 ejes fluyen juntos, mi vida se ve así:"
     },
     {
      "type": "prompt",
-     "id": "confluencia.q64",
+     "id": "confluencia.q40",
      "label": ""
     },
     {
@@ -1204,6 +1084,11 @@
     {
      "type": "paragraph",
      "text": "Ahora ve y créala."
+    },
+    {
+     "type": "image",
+     "src": "confluencia_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

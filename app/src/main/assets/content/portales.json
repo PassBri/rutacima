@@ -4,6 +4,7 @@
  "subtitle": "Rituales para cruzar de fase",
  "category": "ruta",
  "order": 6,
+ "cover": "portales_1.jpg",
  "sections": [
   {
    "id": "portales.sec0",
@@ -1120,6 +1121,11 @@
        "text": "¿Estás listo para cruzar?"
       }
      ]
+    },
+    {
+     "type": "image",
+     "src": "portales_2.jpg",
+     "ratio": 0.8
     }
    ]
   }

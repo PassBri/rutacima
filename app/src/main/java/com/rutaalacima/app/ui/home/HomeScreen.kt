@@ -84,6 +84,7 @@ fun HomeScreen(
     onOpenWorkbook: (String) -> Unit,
     onGoToAxes: () -> Unit,
     onGoToKit: () -> Unit,
+    onGoToPlan: () -> Unit = {},
 ) {
     val vm = rutaViewModel { HomeViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -175,6 +176,15 @@ fun HomeScreen(
                 ProgressLine(checks.size / ChecklistDiario.TOTAL.toFloat())
                 Text("${checks.size}/${ChecklistDiario.TOTAL} · ${ChecklistDiario.lectura(checks.size)}",
                     style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+
+        // Planificador diario
+        item {
+            RutaCard(onClick = onGoToPlan) {
+                Text("Planificador de hoy", style = MaterialTheme.typography.titleMedium)
+                Text("Intención, prioridad #1, horario, victorias y gratitud.", style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
 

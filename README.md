@@ -11,8 +11,8 @@ interactivos, el Planificador 5 años y el Kit de Emergencia.
 | Pestaña | Contenido |
 |---|---|
 | **Inicio** | Cumbre en una frase, fase actual del viaje (con su portal), radar de los 6 ejes, checklist de hoy, "continúa donde quedaste" y recordatorio del día. |
-| **Ruta** | Biblioteca con los 18 workbooks + el cierre del planificador, agrupados en La Ruta, Herramientas, Bonos y Facilitadores. Cada uno se diligencia en la app y se guarda solo. |
-| **Plan 5 años** | 10 propósitos con prioridad ABCD, eje, indicador de éxito, visualización y plan de acción con fechas; metas anuales con matriz de decisión (Continuar/Acelerar/Pausar/Eliminar), semáforo de avance y fecha de revisión; balance anual. |
+| **Ruta** | Biblioteca de 24 documentos con portada: La Ruta, Herramientas, Bonos 1–7, Lecturas (Ebook *Ruta a la Cima* y *Teoría del Viaje Transformativo* con su instrumento de evaluación) y Facilitadores. Se diligencian en la app y se guardan solos; las lecturas recuerdan dónde quedaste. |
+| **Plan** | **Hoy:** planificador diario (intención, prioridad #1, horario 4:00 am–3:00 am, metas, pendientes, victorias, aprendizaje, gratitud, control financiero, energía y agua). **Mes:** portada de montaña, calendario, metas mensuales con registro día a día, actividades, notas y balance mensual. **Año:** 10 metas del año con fechas, matriz de decisión, prioridad ABCD y semáforo, y los 12 meses del año. **5 años:** propósitos con plan de acción. **Balance:** balance anual y cierre de los 5 años. |
 | **Ejes** | Evaluación 1–10 de Voluntad, Maestría, Voz, Valor, Evolución y Trascendencia, radar comparado con la evaluación anterior, interpretación sobre 60 e historial. |
 | **Kit** | Acceso a los protocolos de "Cuando te pierdes en la niebla", checklist diario de 18 hábitos (3 por eje), tracker de 7 días, matriz de decisiones con puntaje, tarjetas de recordatorio y accesos a revisión mensual, plan semanal, reorientación y cierre mensual. |
 
@@ -68,6 +68,9 @@ python3 tools/convert.py <carpeta_con_los_docx> app/src/main/assets/content
 python3 tools/show.py app/src/main/assets/content/diagnostico.json   # revisar el resultado
 ```
 
+Las imágenes de cada Word se guardan en `assets/content/img` (la primera es la portada; los sellos
+cuadrados se omiten). Las portadas de los meses del Plan anual están en `assets/plan`.
+
 El conversor detecta como campo editable todo lo que en el Word va seguido de "Escriba aquí",
 una caja vacía o una línea `____`; los `☐ 01` como preguntas numeradas; los `/10` como escalas;
 y los `☐ Sí ☐ No` como opciones. Los IDs de campo dependen del orden del documento: si cambias
@@ -76,11 +79,12 @@ mucho un Word ya publicado, las respuestas guardadas de ese workbook pueden qued
 
 ## Pruebas
 
-`./gradlew test` valida que los 19 JSON se lean, que no haya IDs repetidos, que los protocolos y
+`./gradlew test` valida que los 24 JSON se lean, que no haya IDs repetidos, que los protocolos y
 herramientas se encuentren, y las reglas del dominio (semáforo, matriz, checklist, plan de 5 años).
 
 ## Pendiente / próximos pasos
 
+- Sección 5 del instrumento de la *Teoría* tiene 3 preguntas (las demás tienen 5), así que su máximo es 30, no 50.
 - Protocolos 6 ("Dudo de mi cumbre") y 7 ("Me autosaboteo") de *Cuando te pierdes en la niebla*:
   están en el índice del documento pero no tienen contenido; la app los muestra "En preparación".
 - Exportar respuestas a PDF/Word y copia de seguridad (Drive o archivo).
