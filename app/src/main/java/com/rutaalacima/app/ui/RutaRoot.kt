@@ -1,6 +1,32 @@
 package com.rutaalacima.app.ui
 
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.draw.shadow
 import com.rutaalacima.app.ui.theme.Papel
 import com.rutaalacima.app.ui.theme.fondoPapel
@@ -24,9 +50,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -155,14 +178,12 @@ private fun AppPrincipal() {
         topBar = {
             if (pestana != null) {
                 TopAppBar(
+                    // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(38.dp))
+                            Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(30.dp))
                             Spacer(Modifier.width(10.dp))
-                            Text(
-                                if (pestana.ruta == Rutas.RUTA) stringResource(R.string.app_name) else stringResource(pestana.titulo),
-                                style = MaterialTheme.typography.titleLarge,
-                            )
+                            Text(stringResource(pestana.titulo), style = MaterialTheme.typography.titleLarge)
                         }
                     },
                     actions = {
@@ -184,20 +205,7 @@ private fun AppPrincipal() {
         },
         bottomBar = {
             if (pestana != null) {
-                NavigationBar(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    modifier = Modifier.shadow(10.dp, ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
-                ) {
-                    PESTANAS.forEach { p ->
-                        NavigationBarItem(
-                            selected = rutaActual == p.ruta,
-                            onClick = { nav.irAPestana(p.ruta) },
-                            icon = { Icon(p.icono, contentDescription = null) },
-                            label = { Text(stringResource(p.titulo), maxLines = 1) },
-                            colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.secondaryContainer),
-                        )
-                    }
-                }
+                BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) })
             }
         },
     ) { padding ->
@@ -303,5 +311,104 @@ private fun NavHostController.irAPestana(ruta: String) {
         popUpTo(graph.findStartDestination().id) { saveState = true }
         launchSingleTop = true
         restoreState = true
+    }
+}
+
+/**
+ * Barra inferior compacta: solo íconos (56 dp en vez de 80). Al apoyar el dedo aparece el
+ * nombre de la pestaña en una etiqueta de papel; si deslizas el dedo por la barra, la etiqueta
+ * sigue al dedo (con una vibración suave en cada ícono) y al soltar abre esa pestaña.
+ * Con TalkBack cada ícono se anuncia con su nombre y se activa con doble toque.
+ */
+@Composable
+private fun BarraIconos(actual: String?, onIr: (String) -> Unit) {
+    var sobre by remember { mutableStateOf<Int?>(null) }
+    val ir by androidx.compose.runtime.rememberUpdatedState(onIr)
+    val haptic = LocalHapticFeedback.current
+    val n = PESTANAS.size
+    val colores = MaterialTheme.colorScheme
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .shadow(10.dp, RectangleShape, clip = false, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+            .background(colores.surfaceContainerLow)
+            .navigationBarsPadding()
+            .height(56.dp)
+            .pointerInput(Unit) {
+                awaitEachGesture {
+                    val abajo = awaitFirstDown()
+                    fun indice(x: Float) = (x / size.width * n).toInt().coerceIn(0, n - 1)
+                    var i = indice(abajo.position.x)
+                    sobre = i
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    var soltado = false
+                    try {
+                        while (true) {
+                            val evento = awaitPointerEvent()
+                            val c = evento.changes.firstOrNull { it.id == abajo.id } ?: break
+                            if (!c.pressed) { soltado = true; break }
+                            val j = indice(c.position.x)
+                            if (j != i) {
+                                i = j
+                                sobre = j
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            }
+                            c.consume()
+                        }
+                    } finally {
+                        sobre = null
+                    }
+                    if (soltado) ir(PESTANAS[i].ruta)
+                }
+            },
+    ) {
+        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
+            PESTANAS.forEachIndexed { k, p ->
+                val elegida = actual == p.ruta
+                val nombre = stringResource(p.titulo)
+                Box(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .semantics {
+                            role = Role.Tab
+                            selected = elegida
+                            contentDescription = nombre
+                            onClick { onIr(p.ruta); true }
+                        },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    val resaltada = elegida || sobre == k
+                    Box(
+                        Modifier
+                            .size(width = 56.dp, height = 32.dp)
+                            .background(if (resaltada) colores.secondaryContainer else Color.Transparent, CircleShape),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            p.icono, contentDescription = null,
+                            tint = if (elegida) colores.primary else colores.onSurfaceVariant,
+                        )
+                    }
+                    // Etiqueta flotante con el nombre, encima del ícono que toca el dedo
+                    if (sobre == k) {
+                        Text(
+                            nombre,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = colores.onPrimary,
+                            maxLines = 1,
+                            modifier = Modifier
+                                .align(Alignment.TopCenter)
+                                .wrapContentSize(unbounded = true)
+                                .offset(y = (-44).dp)
+                                .zIndex(1f)
+                                .shadow(6.dp, RoundedCornerShape(10.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+                                .background(colores.primary, RoundedCornerShape(10.dp))
+                                .padding(horizontal = 12.dp, vertical = 6.dp),
+                        )
+                    }
+                }
+            }
+        }
     }
 }

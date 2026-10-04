@@ -1,37 +1,59 @@
-# RutaCima · App Android
+# RutaCima
 
-**RutaCima** es la app del método **Ruta a la Cima** (7 Fases × 6 Ejes): un planificador de metas en
-cascada —**largo plazo (5, 10, 15 o 20 años) → año → mes → hoy**— con coach de inteligencia artificial y una comunidad tipo red
-social donde cada persona comparte con fotos sus logros, su vision board y el registro de cada año de su vida.
+**Tu vida hasta los 120 años, vista año por año y día por día.**
+
+RutaCima es la app del método **Ruta a la Cima** (7 Fases × 6 Ejes). Muestra tu vida como un camino de
+puntos —un punto por año, hasta 120— y baja en cascada a meses, semanas y días, para que cada cosa que
+haces hoy se vea en tu propósito a 5, 10, 15 o 20 años. Incluye un coach con inteligencia artificial,
+365 frases de los libros selladas con cera y una comunidad para compartir el ascenso.
 
 > Serie Ruta a la Cima · © 2026 Brian Gonzalo Suárez Acevedo. Todos los derechos reservados.
 
-## Qué hace la app (v0.3)
+<p align="center">
+  <img src="diseno/RutaCima_papel_blanco.png" alt="Pantallas de RutaCima en papel blanco" width="860">
+</p>
 
-| Pestaña | Contenido |
+## Qué hace (v0.4)
+
+| Sección | Contenido |
 |---|---|
-| **Hoy** | Tu cumbre en una frase, anillos de avance de la cascada (5 años, año, mes, hoy), prioridad #1, metas del mes para marcar el día con un toque, checklist de 18 hábitos, botones de rescate ("me perdí", "tuve un mal día", kit de emergencia), acceso al coach y a compartir avance. |
-| **Metas** | **Cascada** con avance automático (lo que marcas cada día sube al mes, al año y al propósito) y pestañas **Día, Mes, Año, Largo plazo y Balance**. Cada propósito elige su horizonte: 5, 10, 15 o 20 años, y el plan anual se extiende hasta ese año del planificador. El botón **Nueva meta** abre un asistente de 4 pasos que usa los bonos: banco de metas, banco de indicadores, banco de acciones y proyectos de confluencia, más "Mejorar con IA" (formato ORSE). |
-| **Comunidad** | Feed con formato propio de "bitácora": postal horizontal 4:3 con la meta y el eje, o cita destacada si no hay foto. Tipos: logros, evidencias, visión, metas y reflexiones. Impulsos (votos), comentarios, seguir personas y compartir. Visibilidad pública, seguidores o solo yo. |
-| **Aprende** | Las 24 guías organizadas por las etapas del ascenso (Conócete, Traza tu ruta, Camina, Supera obstáculos, Celebra la cima), bancos de herramientas, lecturas y facilitadores. Las evaluaciones ahora **generan resultados**: total, porcentaje, interpretación, barras por grupo, foco sugerido y radar de ejes que se puede guardar en "Mis Ejes". |
-| **Perfil** | Publicaciones en fichas 4:5 a dos columnas, **Mi vida** (línea de la vida en puntos: un punto por año, 10 por fila, hasta tu esperanza de vida; al tocar un año se abre mes a mes con lo que registraste), **Vision board** y **Ejes** (evaluación 1–10, radar comparado e historial). Ajustes: idioma, perfil y cuenta. |
+| **Mi ruta** | "Camino hacia los 100 años" (o la meta que elijas, de 60 a 120): un punto por año, con banderas en los años que tienen metas. Al tocar un año se abre en cascada: **año → mes → semana → día**. Recordatorio del día con el día de vida, los días que quedan y una frase. Botón flotante para saltar a hoy, esta semana, este mes o este año. |
+| **Hoy** | Tu cumbre en una frase, anillos de avance (propósito, año, mes y hoy), prioridad #1, metas del mes, checklist de 18 hábitos por eje y botones de rescate ("me perdí", "tuve un mal día", kit de emergencia). |
+| **Metas** | Planificador en cascada con avance automático: lo que marcas cada día sube al mes, al año y al propósito. Asistente de 4 pasos con los bancos de metas, indicadores, acciones y proyectos de confluencia. |
+| **Comunidad** | Bitácora con postales 4:3 (o cita destacada si no hay foto): logros, evidencias, visión, metas y reflexiones. Impulsos, comentarios, seguir personas y elegir quién ve cada publicación. |
+| **Aprende** | 24 guías por etapas del ascenso, bancos de herramientas y lecturas. Las evaluaciones dan resultados: puntaje, interpretación, barras por grupo y radar de ejes. |
+| **Perfil** | Publicaciones a dos columnas (4:5), **Mi vida**, **Mis frases**, vision board y **Ejes** con historial. |
 
-Además: **Coach IA** (orienta con tus metas, ejes y avance reales; sin servidor funciona en modo guía),
-**Kit de emergencia** (protocolos de la niebla, checklist, tracker de 7 días, matriz de decisiones, tarjetas)
-y bienvenida con compromiso.
+Además:
 
-**Idiomas de la interfaz (12):** español, inglés, portugués, francés, alemán, italiano, chino, japonés,
-coreano, árabe, hindi y ruso. Se cambian en Ajustes o desde los ajustes de idioma por app de Android 13+.
-El contenido de las guías (workbooks) está en español.
+- **Frase del día sellada:** 365 frases tomadas de los libros, una por día. Se abre rompiendo el sello con el
+  rostro o la huella (lo verifica el teléfono; la app nunca ve tu cara) o con una clave propia.
+- **Coach IA** que conoce tus metas, ejes y avance. Sin servidor funciona en modo guía.
+- **Recordatorio diario** a la hora que elijas y **Kit de emergencia** (protocolos de la niebla, tracker de 7 días, matriz de decisiones).
+- **12 idiomas:** español, inglés, portugués, francés, alemán, italiano, chino, japonés, coreano, árabe, hindi y ruso.
 
-**Diseño de papel (Material Design 3):** la app simula una hoja de papel plegada en tercios, con grano,
-dobleces, viñeta envejecida, tarjetas con la esquina doblada y sombras cálidas (`ui/theme/Papel.kt`).
-Tres estilos en Ajustes: **Papel blanco** (por defecto: hojas blancas sobre un fondo hueso, con sombras
-burdeos del sello y grano suave), **Papel antiguo** y **Pastel marrón**. Los años,
-meses, semanas y días son botones flotantes que se hunden al tocarlos, y un FAB lleva a Hoy, esta semana,
-este mes o este año. Pantalla de inicio del sistema (SplashScreen API) más una ventana de inicio animada.
-Logo: el **sello de cera de Ruta a la Cima** (original del autor), en la barra, la ventana de inicio, el ícono
-y la pantalla de arranque. Archivo en alta resolución y vistas previas en `diseno/`.
+## Diseño
+
+- **Papel blanco** por defecto: hojas blancas sobre un fondo hueso, sombras burdeos (el color del sello) y grano suave.
+  En Ajustes también están **Papel antiguo** y **Pastel marrón**. Todo sigue Material Design 3 (`ui/theme/Papel.kt`).
+- **Barra inferior compacta:** solo íconos. Al apoyar el dedo aparece el nombre de la pestaña; si deslizas el dedo
+  por la barra, el nombre lo sigue y al soltar se abre esa pestaña. Con TalkBack cada ícono se anuncia con su nombre.
+- La barra superior muestra el sello y el nombre de la pantalla en la que estás.
+- Los años, meses, semanas y días son botones flotantes que se hunden al tocarlos.
+- **Logo:** el sello de cera de Ruta a la Cima (original del autor) en el ícono, el arranque, la ventana de inicio y la barra.
+  Archivos en alta resolución y vistas previas en `diseno/`.
+
+## RutaCima Web
+
+`web/index.html` es la versión para computador, al estilo de WhatsApp Web: pantalla de vinculación con código QR,
+riel de íconos (el nombre aparece al pasar el cursor), lista a la izquierda y detalle a la derecha. Incluye Mi ruta,
+Hoy, Comunidad, Aprende, Coach, Mis frases y Perfil, con tema claro y oscuro, y se adapta al teléfono.
+Por ahora es una **demostración con una ruta de ejemplo**; la vinculación real con el teléfono llega con el servidor.
+Se abre con doble clic o se puede publicar con GitHub Pages (carpeta `/web`).
+
+<p align="center">
+  <img src="diseno/web_mi_ruta.png" alt="RutaCima Web: Mi ruta" width="720">
+</p>
 
 ## Diseño con IA (skill "impeccable")
 
@@ -78,7 +100,7 @@ app/src/main/
 ├── assets/content/          ← workbooks en JSON (generados desde los .docx)
 ├── assets/bancos/           ← bancos de metas, indicadores, acciones y proyectos
 ├── java/com/rutaalacima/app/
-│   ├── domain/model/        ← Eje, Fase, Prioridad, Decisión, Semáforo, Kit (reglas del método)
+│   ├── domain/model/        ← Eje, Fase, Vida (120 años), Frases, Prioridad, Kit (reglas del método)
 │   ├── data/content/        ← modelo de bloques, lectura de assets y cálculo de resultados
 │   ├── data/local/          ← Room: perfil, respuestas, ejes, checklist, planificador, posts, coach
 │   ├── data/Cascada.kt      ← avance automático día → mes → año → 5 años
@@ -88,6 +110,7 @@ app/src/main/
 │                              workbook, planner, kit, axes, onboarding, i18n
 ├── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y función "coach" (Deno)
+web/index.html               ← RutaCima Web (versión para computador)
 tools/convert.py             ← conversor .docx → JSON · tools/bancos.py ← bancos
 ```
 
@@ -105,12 +128,13 @@ Los IDs de campo dependen del orden del documento. `planificador_cierre.json` es
 
 ## Pruebas
 
-`./gradlew test` valida los 24 JSON, los IDs únicos, el cálculo de resultados de las evaluaciones
-y las reglas del dominio.
+`./gradlew test` valida los 24 JSON, los IDs únicos, el cálculo de resultados de las evaluaciones,
+el calendario de vida, las 365 frases y las reglas del dominio.
 
 ## Próximos pasos
 
-- Notificaciones (revisión mensual, checklist diario) con WorkManager.
+- Vincular RutaCima Web con el teléfono (código QR + Supabase).
+- Revisión mensual con WorkManager.
 - Traducción del contenido de las guías con IA.
 - Exportar a PDF y copia de seguridad; modo facilitador para grupos.
 - Dominio sugerido: rutacima.app.
