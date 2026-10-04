@@ -1,0 +1,173 @@
+[
+ {
+  "id": "descubre",
+  "title": "Descubre tu Cumbre Personal",
+  "subtitle": "Secuencia didáctica · 7 pasos",
+  "category": "ruta",
+  "order": 1,
+  "sections": 8,
+  "inputs": 31
+ },
+ {
+  "id": "seis_ejes",
+  "title": "Los 6 Ejes de tu Cumbre",
+  "subtitle": "Workbook didáctico",
+  "category": "ruta",
+  "order": 2,
+  "sections": 10,
+  "inputs": 95
+ },
+ {
+  "id": "viaje",
+  "title": "El Viaje Transformativo",
+  "subtitle": "Guía de reflexión para las 7 fases",
+  "category": "ruta",
+  "order": 3,
+  "sections": 9,
+  "inputs": 41
+ },
+ {
+  "id": "diagnostico",
+  "title": "Diagnóstico Personal",
+  "subtitle": "Antes de ascender, conócete a ti mismo",
+  "category": "ruta",
+  "order": 4,
+  "sections": 9,
+  "inputs": 179
+ },
+ {
+  "id": "confluencia",
+  "title": "Confluencia",
+  "subtitle": "Cómo integrar los 6 ejes",
+  "category": "ruta",
+  "order": 5,
+  "sections": 5,
+  "inputs": 59
+ },
+ {
+  "id": "portales",
+  "title": "Portales y Transiciones",
+  "subtitle": "Rituales para cruzar de fase",
+  "category": "ruta",
+  "order": 6,
+  "sections": 11,
+  "inputs": 58
+ },
+ {
+  "id": "proposito_valor",
+  "title": "Del Propósito al Valor",
+  "subtitle": "Monetización ética de tu cumbre",
+  "category": "ruta",
+  "order": 7,
+  "sections": 9,
+  "inputs": 39
+ },
+ {
+  "id": "campamento",
+  "title": "Campamento Base",
+  "subtitle": "Mentores, accountability y red de apoyo",
+  "category": "ruta",
+  "order": 8,
+  "sections": 9,
+  "inputs": 21
+ },
+ {
+  "id": "desde_cima",
+  "title": "Desde la Cima",
+  "subtitle": "Celebrar, integrar y descender",
+  "category": "ruta",
+  "order": 9,
+  "sections": 9,
+  "inputs": 102
+ },
+ {
+  "id": "kit",
+  "title": "Kit de Emergencia",
+  "subtitle": "7 herramientas de uso diario",
+  "category": "herramientas",
+  "order": 10,
+  "sections": 9,
+  "inputs": 78
+ },
+ {
+  "id": "companero",
+  "title": "Compañero de Ascenso",
+  "subtitle": "Relaciones desde la plenitud",
+  "category": "ruta",
+  "order": 11,
+  "sections": 10,
+  "inputs": 68
+ },
+ {
+  "id": "caidas",
+  "title": "Guía de Caídas",
+  "subtitle": "Aprender a leer la montaña",
+  "category": "ruta",
+  "order": 12,
+  "sections": 8,
+  "inputs": 30
+ },
+ {
+  "id": "niebla",
+  "title": "Cuando te pierdes en la niebla",
+  "subtitle": "8 protocolos de reorientación",
+  "category": "herramientas",
+  "order": 13,
+  "sections": 8,
+  "inputs": 66
+ },
+ {
+  "id": "facilitadores",
+  "title": "Manual para Facilitadores",
+  "subtitle": "Talleres, dinámicas y certificación",
+  "category": "facilitador",
+  "order": 14,
+  "sections": 19,
+  "inputs": 32
+ },
+ {
+  "id": "bono_indicadores",
+  "title": "Banco de Indicadores",
+  "subtitle": "Bono 1 · 150 indicadores por eje",
+  "category": "bonos",
+  "order": 15,
+  "sections": 2,
+  "inputs": 12
+ },
+ {
+  "id": "bono_metas",
+  "title": "Banco de Metas",
+  "subtitle": "Bono 2 · 80+ metas para adaptar",
+  "category": "bonos",
+  "order": 16,
+  "sections": 3,
+  "inputs": 12
+ },
+ {
+  "id": "bono_confluencia",
+  "title": "Plantillas de Confluencia",
+  "subtitle": "Bono 3 · 10 proyectos multi-eje",
+  "category": "bonos",
+  "order": 17,
+  "sections": 3,
+  "inputs": 36
+ },
+ {
+  "id": "bono_cierre",
+  "title": "Checklist de Cierre Mensual",
+  "subtitle": "Bono 4 · 20-30 minutos al mes",
+  "category": "bonos",
+  "order": 18,
+  "sections": 1,
+  "inputs": 34
+ },
+ {
+  "id": "planificador_cierre",
+  "title": "Cierre del Planificador 5 años",
+  "subtitle": "Evaluación de propósitos y ¿Quién soy ahora?",
+  "category": "herramientas",
+  "order": 19,
+  "sections": 4,
+  "inputs": 22
+ }
+]

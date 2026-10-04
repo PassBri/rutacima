@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.RutaALaCima" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/noche</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

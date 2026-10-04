@@ -1,0 +1,3655 @@
+{
+ "id": "facilitadores",
+ "title": "Manual para Facilitadores",
+ "subtitle": "Talleres, dinámicas y certificación",
+ "category": "facilitador",
+ "order": 14,
+ "sections": [
+  {
+   "id": "facilitadores.sec0",
+   "title": "Introducción Para Facilitadores",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Facilitar es crear el espacio donde otros descubren su propia cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía es tu compañera en el arte de facilitar experiencias transformadoras con la metodología Ruta a la cima. No es un manual de instrucciones rígido: es un mapa flexible que te ayudará a guiar a otros en su ascenso hacia su Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Como facilitador certificado, tu rol es crear las condiciones para que cada senderista encuentre su propio camino. No eres quien da respuestas, eres quien hace las preguntas correctas."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Lo que encontrarás en esta guía:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Fundamentos de la facilitación transformadora"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estructura de talleres de 1 hora, 3 horas y 1 día completo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dinámicas grupales probadas para cada fase del viaje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Preguntas poderosas que abren conciencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Protocolos para manejar resistencias y situaciones difíciles"
+    },
+    {
+     "type": "paragraph",
+     "text": "Casos reales y cómo navegarlos"
+    },
+    {
+     "type": "paragraph",
+     "text": "El camino hacia tu certificación como facilitador"
+    },
+    {
+     "type": "paragraph",
+     "text": "Instrucciones: Lee esta guía completa antes de tu primer taller. Marca las secciones que resuenan contigo. Adapta lo que necesites, pero respeta la esencia de la metodología."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec1",
+   "title": "Parte 1: Fundamentos De La Facilitación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La facilitación auténtica requiere tres cosas: presencia, humildad y servicio"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Los 5 principios del facilitador"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. PRESENCIA TOTAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Como facilitador, tu presencia es tu herramienta más poderosa. Estar presente significa:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Escuchar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observar sin juzgar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estar disponible emocionalmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confiar en el proceso más que en tu conocimiento"
+    },
+    {
+     "type": "paragraph",
+     "text": "Soltar la necesidad de 'arreglar' a las personas"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. HUMILDAD RADICAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reconoce que cada senderista tiene su propia sabiduría interna. Tu trabajo no es demostrar cuánto sabes, sino:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Honrar el viaje único de cada persona"
+    },
+    {
+     "type": "paragraph",
+     "text": "Admitir cuando no tienes respuestas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aprender de cada grupo que facilitas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recordar que tú también sigues en el camino"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitar desde la experiencia, no desde el ego"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. SERVICIO GENUINO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitas para servir, no para brillar. El éxito del taller se mide por el crecimiento de los participantes, no por tu performance:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El protagonista es el grupo, no tú"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu satisfacción viene de ver avances en otros"
+    },
+    {
+     "type": "paragraph",
+     "text": "Celebras los insights del grupo como propios"
+    },
+    {
+     "type": "paragraph",
+     "text": "Te retiras cuando tu presencia ya no es necesaria"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dejas espacio para que emerja la magia colectiva"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. CONFIANZA EN EL PROCESO"
+    },
+    {
+     "type": "paragraph",
+     "text": "La metodología RouteToTop funciona cuando confías en ella. Esto significa:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No saltar fases por impaciencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Respetar los tiempos de procesamiento del grupo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Permitir silencios incómodos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confiar que las preguntas correctas llevan a las respuestas correctas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sostener el espacio incluso cuando parezca que 'no pasa nada'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "5. VULNERABILIDAD ESTRATÉGICA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compartir tu propio viaje sin convertirte en el centro de atención:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa tu historia para crear conexión, no para impresionar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Muestra tus cicatrices, no tus heridas abiertas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte lo aprendido, no solo lo vivido"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sé breve en tus anécdotas personales (2-3 minutos máximo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Regresa siempre el foco al grupo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Lo que NO es un facilitador RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Clarifica tu rol eliminando estas ideas:"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres un gurú con todas las respuestas"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres un terapeuta (sabes cuándo derivar a profesionales)"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres un motivador superficial que solo da ánimo"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres un coach que dirige el camino del cliente"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres un conferencista que habla y habla"
+    },
+    {
+     "type": "paragraph",
+     "text": "❌ NO eres el protagonista del evento"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Lo que SÍ es un facilitador RouteToTop"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un creador de espacios seguros para la exploración",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un hacedor de preguntas que despiertan conciencia",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un guardián del proceso y de la metodología",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un espejo que refleja verdades sin distorsionar",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un compañero que ha recorrido (y sigue recorriendo) el camino",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Eres un catalizador de transformación, no su fuente",
+     "mark": "✓"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec2",
+   "title": "Parte 2: Estructura De Talleres",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El tiempo es solo el envase; la transformación es el contenido"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FORMATO 1: TALLER DE 1 HORA (Introducción a Cumbre Personal)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Este formato es ideal para:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eventos corporativos o conferencias"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sesiones de introducción a RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Primeros contactos con grupos nuevos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Generar interés para talleres más profundos"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Estructura sugerida (60 minutos):"
+    },
+    {
+     "type": "paragraph",
+     "text": "0-10 min: APERTURA Y CONEXIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Bienvenida y presentación breve (2 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio rompehielo: 'Tu montaña en una palabra' (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Encuadre del taller y acuerdos grupales (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "10-25 min: CONCEPTO CENTRAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Introducción a 'Cumbre Personal' (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Las 7 Fases del Viaje (resumen visual, 5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mini-ejercicio: Identifica en qué fase estás (5 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "25-50 min: EXPERIENCIA PRÁCTICA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de Orientación: '¿Qué es tu Cumbre?' (10 min individual)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compartir en parejas (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Insights grupales (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "50-60 min: CIERRE Y ACCIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexión grupal: '¿Qué te llevas?' (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Primer paso concreto para la próxima semana (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cierre y próximos pasos (2 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FORMATO 2: TALLER DE 3 HORAS (Inmersión en los 6 Ejes)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Este formato es ideal para:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Talleres sabatinos o dominicales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Programas de desarrollo corporativo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Retiros cortos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Grupos que ya conocen RouteToTop básicamente"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Estructura sugerida (180 minutos):"
+    },
+    {
+     "type": "paragraph",
+     "text": "0-20 min: APERTURA PROFUNDA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Check-in grupal: '¿Cómo llegas hoy?' (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Encuadre y acuerdos de espacio seguro (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de centramiento/respiración (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "20-50 min: MARCO CONCEPTUAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presentación de los 6 ejes de cumbre personal (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Historia personal del facilitador (breve, 5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Preguntas y clarificaciones (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "50-120 min: TRABAJO PERSONAL (70 minutos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de autoevaluación de los 6 Ejes (30 min individual)"
+    },
+    {
+     "type": "paragraph",
+     "text": "DESCANSO (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identificación de ejes débiles y fuertes (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compartir en tríos (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "120-160 min: DISEÑO DE RUTA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: 'Mi primer paso en el eje más débil' (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Protocolo de accountability en parejas (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compromisos públicos (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "160-180 min: CIERRE CEREMONIAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Círculo de cierre: '¿Qué integras hoy?' (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Entrega de materiales/próximos pasos (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cierre ritual (2 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FORMATO 3: TALLER DE 1 DÍA COMPLETO (Viaje transformativo intensivo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Este formato es ideal para:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Retiros de fin de semana"
+    },
+    {
+     "type": "paragraph",
+     "text": "Programas de liderazgo intensivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sesiones de planificación anual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Grupos comprometidos con transformación profunda"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Estructura sugerida (8 horas con pausas):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "8:00-9:00 - APERTURA Y ORIENTACIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Llegada y bienvenida con música/ambiente (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Círculo de apertura profundo (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Contexto del día y objetivos (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de intención personal (15 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "9:00-11:00 - MAÑANA: AUTOCONOCIMIENTO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presentación de las 7 fases del viaje (30 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de mapeo personal: '¿Dónde estoy?' (45 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compartir en grupos pequeños (30 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Síntesis grupal (15 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "11:00-11:30 - DESCANSO"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "11:30-13:30 - PROFUNDIZACIÓN: LOS 6 EJES"
+    },
+    {
+     "type": "paragraph",
+     "text": "Exploración detallada de cada eje (60 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Autoevaluación completa (40 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identificación de patrones y bloqueos (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "13:30-14:30 - ALMUERZO (conversaciones libres)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "14:30-16:30 - TARDE: DISEÑO DE RUTA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: 'Mi Cumbre Personal definida' (45 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Trazado de ruta personalizada (45 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identificación de recursos y apoyos (30 min)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "16:30-17:00 - DESCANSO"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "17:00-18:00 - CIERRE Y COMPROMISO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Formación de grupos de accountability (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compromisos de los próximos 30 días (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Círculo de cierre ceremonial (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Despedida (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nota del facilitador: Un día completo permite transformación profunda. Cuida la energía grupal con descansos adecuados, música, movimiento. No subestimes el poder del almuerzo como espacio de integración informal."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec3",
+   "title": "Parte 3: Dinámicas Grupales Poderosas",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Las mejores dinámicas son simples, profundas y reveladoras"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DINÁMICA 1: Círculo de apertura (10-20 min)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cuando usarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Al inicio de cualquier taller para crear conexión y presencia grupal."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo facilitarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sentados en círculo (obligatorio, no en filas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "El facilitador inicia compartiendo brevemente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada persona responde a una pregunta de check-in"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 1-2 minutos por persona"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sin comentarios ni feedback entre participantes"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Preguntas sugeridas de check-in:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo llegas hoy a este espacio? (estado emocional)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué te trae aquí? (intención)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué estás dejando afuera de esta sala para estar presente? (soltar)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si tu estado actual fuera un paisaje, ¿cuál sería? (metáfora)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tip del facilitador: Escucha atentamente. Los check-ins te dan información valiosa sobre la energía grupal y posibles resistencias."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DINÁMICA 2: La montaña en papel (30-45 min)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cuando usarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para visualizar el viaje personal y hacer tangible el concepto de Cumbre Personal."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Materiales necesarios:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hojas tamaño carta o A4"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marcadores de colores"
+    },
+    {
+     "type": "paragraph",
+     "text": "Post-its"
+    },
+    {
+     "type": "paragraph",
+     "text": "Música instrumental suave"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Instrucciones paso a paso:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Entrega materiales y pon música (2 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Instrucción: 'Dibuja tu montaña personal. No importa tu habilidad artística. Esta montaña representa tu vida, tu viaje.' (1 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Trabajo individual en silencio (15 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dibujar la montaña"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marcar dónde están ahora (punto en el camino)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marcar su cumbre (¿qué hay arriba?)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identificar obstáculos o desafíos (rocas, grietas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identificar recursos o apoyos (refugios, compañeros)"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Compartir en parejas (10 min cada uno)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Voluntarios comparten con todo el grupo (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Facilitador cierra con síntesis (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tip del facilitador: Esta dinámica genera insights profundos. Respeta el silencio del trabajo individual. Algunos llorarán, y está bien. Ten pañuelos a mano."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DINÁMICA 3: Triadas de accountability (40-60 min)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cuando usarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para formar grupos de apoyo mutuo que continúen después del taller."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo facilitarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Explicar el concepto de accountability (5 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "No es supervisión ni control"
+    },
+    {
+     "type": "paragraph",
+     "text": "Es apoyo mutuo y recordatorio de compromisos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Funciona mejor en grupos de 3 personas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Requiere compromiso de al menos 3 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Formar tríadas (10 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invita al grupo a formar grupos de 3"
+    },
+    {
+     "type": "paragraph",
+     "text": "Criterio: Química personal, no amistad previa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evita que personas muy cercanas queden juntas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si sobra 1 persona, únela a una tríada (formar un cuarteto)"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Protocolo de primera reunión en tríadas (30 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada persona comparte: su Cumbre Personal + su mayor obstáculo (7 min c/u)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Definir frecuencia de reuniones (semanal, quincenal, mensual)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acordar canal de comunicación (WhatsApp, Zoom, presencial)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Intercambiar contactos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Agendar primera reunión post-taller"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Plenaria: Cada tríada comparte sus acuerdos (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tip del facilitador: Las tríadas que funcionan cambian vidas. Enfatiza que el compromiso es con ellos mismos, no contigo. Ofrece un 'protocolo de reunión' escrito (ver Anexo)."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DINÁMICA 4: El espejo de los 6 ejes (45-60 min)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cuando usarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para evaluación profunda y feedback entre pares sobre los 6 ejes."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo facilitarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Formar parejas (2 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Explicar el ejercicio (3 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada persona será 'espejo' de la otra. El espejo no juzga, solo refleja lo que observa."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Ronda A (20 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Persona A comparte su autoevaluación de los 6 ejes (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Persona B hace de espejo: '¿Te has visto en tu Voz?' 'Cuando hablas de Maestría, ¿qué noto?' (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Ronda B: Intercambiar roles (20 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Cierre en parejas (5 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué descubriste al verte reflejado?"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Plenaria (10 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Voluntarios comparten insights"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tip del facilitador: Esta dinámica requiere confianza grupal. Úsala solo después de al menos 90 minutos juntos. Recuerda: el espejo refleja, no aconseja."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DINÁMICA 5: Camino de objetos (30 min)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cuando usarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para cerrar talleres de manera memorable y simbólica."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Materiales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetos diversos (piedras, flores, velas, tarjetas, símbolos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Espacio despejado en el suelo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo facilitarla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Coloca los objetos en el centro de la sala (5 min) (Variante: traer objetos de senderismo de la casa)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Instrucción (2 min):"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Elige un objeto que represente lo que te llevas de hoy, o lo que necesitas para tu próximo paso'"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. En silencio, cada persona elige su objeto (5 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Círculo final: Cada persona muestra su objeto y comparte brevemente por qué lo eligió (15 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Cierre del facilitador (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tip del facilitador: Este cierre genera momentos mágicos. Permite que se lleven el objeto si es posible (no si son muy valiosos). Si no pueden llevárselo, toma una foto del objeto con ellos."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec4",
+   "title": "Parte 4: Preguntas Poderosas Para Guiar",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La pregunta correcta abre puertas que ninguna respuesta puede abrir"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El arte de preguntar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Como facilitador, tu principal herramienta no es lo que dices, sino lo que preguntas. Las preguntas poderosas tienen estas características:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Son abiertas (no se responden con sí/no)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invitan a la reflexión profunda"
+    },
+    {
+     "type": "paragraph",
+     "text": "No tienen 'respuesta correcta'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Generan conciencia, no culpa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Parten de la curiosidad genuina, no del juicio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Se hacen desde el silencio, no desde la ansiedad"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Preguntas para cada Fase del Viaje"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 1: ORIENTACIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Claridad sobre valores y dirección"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si tu vida tuviera una brújula interna, ¿hacia dónde apunta?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es lo que realmente, realmente te importa?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué tendría que pasar para que te sintieras en tu camino correcto?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si eliminaras todo lo que 'deberías' querer, ¿qué quedaría?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué verdad sobre ti mismo has estado evitando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué conversación necesitas tener contigo mismo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 2: PREPARACIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Identificar recursos y cerrar brechas"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué habilidad, si la tuvieras, cambiaría todo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué estás posponiendo aprender?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué sistema o hábito te falta para sostener tu viaje?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si miraras tu día actual, ¿qué porcentaje está alineado con tu cumbre?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué necesitas soltar para crear espacio para lo nuevo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué pequeño paso podrías dar mañana?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 3: TRAVESÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Sostener el esfuerzo y ajustar rumbo"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué te está pidiendo esta fase del viaje?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo sabes que estás avanzando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué resistencia estás encontrando en ti mismo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué narrativa te estás contando sobre por qué no puedes?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué celebración pequeña te estás negando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Quién necesitas ser para cruzar este tramo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 4: PRUEBA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Enfrentar miedos y creencias limitantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué miedo estás evitando nombrar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué creencia sobre ti mismo está siendo desafiada?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué perderías si realmente lo lograras?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué historia de ti mismo morirá en esta cumbre?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué necesitas escuchar de ti mismo ahora?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo te hablarías si fueras tu mejor amigo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 5: CUMBRE"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Reconocer logros e integrar aprendizajes"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué cambió en ti durante el ascenso?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué fortaleza descubriste que no sabías que tenías?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo es diferente la vista desde aquí?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué se ve desde la cumbre que no veías desde abajo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Quién eras cuando empezaste vs. quién eres ahora?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué quieres que esta cumbre signifique para ti?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 6: DESCENSO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Integrar y aterrizar la transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué te llevas de la cumbre a tu vida cotidiana?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo mantendrás viva esta claridad?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué práctica diaria te anclaría en lo aprendido?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Quién en tu vida notará el cambio en ti?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo compartes lo vivido sin perder su esencia?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué ritual o recordatorio necesitas crear?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "FASE 7: INTEGRACIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Objetivo: Incorporar lo aprendido y preparar nueva cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué nueva normalidad estás creando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo es tu vida diferente ahora?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué siguiente cumbre comienza a revelarse?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué aprendiste sobre ti que cambia todo lo que viene?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿A quién puedes ahora servir con lo que descubriste?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué legado quieres dejar en otros con tu viaje?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Preguntas para cada eje de cumbre personal"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 1: VOLUNTAD"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es eso que te despierta a las 3 AM?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué  harías, aunque nadie te lo agradeciera?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuándo fue la última vez que sentiste un 'llamado' interno?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué impulso interno has estado ignorando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué te impulsaría a levantarte cada día sin alarma?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 2: MAESTRÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿En qué áreas de tu vida eres ya un maestro que no reconoces?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué habilidad dominas cuando nadie está mirando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué práctica diaria te haría sentir más competente?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué destreza, si la perfeccionaras, cambiaría tu juego?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde estás eligiendo comodidad sobre crecimiento?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 3: VOZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué verdad tuya no estás diciendo en voz alta?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde estás amoldando tu voz a lo que otros esperan?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué mensaje tuyo único el mundo necesita escuchar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuándo fue la última vez que hablaste desde tu autenticidad total?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué pasaría si dejaras de traducir tu verdad para hacerla aceptable?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 4: VALOR"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué valor económico generas que no estás reconociendo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde estás dando más de lo que recibes?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué creencia sobre el dinero/valor te está limitando?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo sería sostenible tu Cumbre Personal económicamente?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué necesitas para que tu propósito también te sostenga materialmente?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 5: EVOLUCIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿En qué aspecto de tu vida has dejado de crecer?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué nueva versión de ti está pidiendo nacer?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde te has vuelto demasiado cómodo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué experiencia nueva te aterroriza y por eso la necesitas?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué aprendizaje te emocionaría incorporar?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 6: TRASCENDENCIA"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué legado quieres dejar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo tu Cumbre Personal sirve a algo mayor que tú?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué causa o propósito te conecta con lo sagrado?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde sientes que tu vida individual toca lo universal?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué estás construyendo que te sobrevivirá?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Técnicas de indagación poderosa"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. LA PREGUNTA ESPEJO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando alguien te pregunta algo, refléjale la pregunta:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participante: '¿Crees que debería renunciar a mi trabajo?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitador: '¿Qué crees tú que deberías hacer?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. LA PREGUNTA AMPLIFICADORA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando alguien da una respuesta superficial, profundiza:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participante: 'Quiero ser exitoso'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitador: '¿Qué significa éxito para ti, específicamente?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. LA PREGUNTA DEL CUERPO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lleva la reflexión al cuerpo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'¿Dónde en tu cuerpo sientes esa resistencia?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Si tu intuición pudiera hablarte ahora, ¿qué diría?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. LA PREGUNTA PARADÓJICA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invierte la lógica para crear insight:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'¿Qué ganarías si NO alcanzaras tu cumbre?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "'¿Cómo estás saboteando activamente tu propio éxito?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "5. LA PREGUNTA DE ESCALA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa números para concretar:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'En una escala del 1 al 10, ¿dónde estás en este eje?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "'¿Qué te haría pasar de 5 a 6?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recuerda: La pregunta perfecta nace del silencio y la presencia genuina. No pienses la siguiente pregunta mientras te responden. Escucha de verdad."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec5",
+   "title": "Parte 5: Manejo De Resistencias Grupales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La resistencia no es el enemigo; es información"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Tipos de resistencias comunes"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 1: El Escéptico"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cruza los brazos, lenguaje corporal cerrado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuestiona cada ejercicio: '¿Y esto para qué sirve?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte anécdotas de fracasos de otros métodos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Se mantiene al margen en ejercicios grupales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "NO te lo tomes personal ni entres en debate"
+    },
+    {
+     "type": "paragraph",
+     "text": "Valida su escepticismo: 'Entiendo que seas cauteloso'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invítalo a probar desde la experiencia, no desde la creencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dale permiso de participar 'como experimento'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si sigue disruptivo, habla en privado en un descanso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'No te pido que creas, solo que pruebes. Después decides si tiene valor para ti.'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 2: El Dominante"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acapara la conversación en ejercicios grupales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Interrumpe a otros participantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Da consejos no solicitados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compite por ser 'el mejor del grupo'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte historias largas que lo ponen como protagonista"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Establece tiempos claros: 'Tienes 2 minutos por persona'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa timer visible si es necesario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Interrumpe con amabilidad: 'Gracias [nombre], guardemos espacio para todos'"
+    },
+    {
+     "type": "paragraph",
+     "text": "En ejercicios de parejas/tríadas, rótalo lejos de personalidades más pasivas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reconoce su valor sin darle todo el espacio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Tu aporte es valioso, y también lo es el silencio que da espacio a otros.'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 3: El Silencioso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nunca comparte voluntariamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Da respuestas mínimas cuando se le pregunta"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evita contacto visual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participa solo cuando es obligatorio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "NO lo fuerces a compartir públicamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece múltiples canales: escribir, dibujar, compartir en parejas"
+    },
+    {
+     "type": "paragraph",
+     "text": "En descansos, acércate y pregunta cómo está"
+    },
+    {
+     "type": "paragraph",
+     "text": "Valida que el silencio también es una forma válida de participar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si se anima a compartir algo pequeño, reconócelo con calidez"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Tu proceso interno es tan válido como el de quienes comparten en voz alta.'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 4: El Víctima"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada pregunta la responde con sus problemas insolubles"
+    },
+    {
+     "type": "paragraph",
+     "text": "Rechaza sugerencias con 'sí, pero...'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Busca que el facilitador o el grupo lo rescate"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte dramas para recibir atención/lástima"
+    },
+    {
+     "type": "paragraph",
+     "text": "No se responsabiliza de sus circunstancias"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Empatiza SIN rescatar: 'Escucho que ha sido difícil'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Redirige a responsabilidad: '¿Qué está en tu poder cambiar?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "NO permitas que secuestre el espacio grupal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca límites con compasión: 'Esto suena profundo, podemos hablar en el descanso'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si persiste, sugiere apoyo terapéutico profesional"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Honro tu dolor, y confío en tu capacidad de transformarlo. ¿Qué pequeño poder tienes hoy?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 5: El Intelectual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Vive todo desde la cabeza, evita lo emocional"
+    },
+    {
+     "type": "paragraph",
+     "text": "Intelectualiza en vez de sentir"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pide más teoría, evita ejercicios vivenciales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Analiza a otros en vez de mirar hacia adentro"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa el conocimiento como escudo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Valida su intelecto: 'Tu capacidad de análisis es clara'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invítalo a bajar de la cabeza al cuerpo/corazón"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pregunta: '¿Qué SIENTES sobre esto?' en vez de '¿Qué PIENSAS?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa ejercicios corporales o creativos para sacarlo del análisis"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reconoce que puede ser mecanismo de protección"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Tu intelecto te trajo hasta aquí. ¿Qué emerge si dejas que tu corazón también hable?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RESISTENCIA 6: El Payaso/Distractor"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hace bromas en momentos profundos/serios"
+    },
+    {
+     "type": "paragraph",
+     "text": "Desvía conversaciones importantes con humor"
+    },
+    {
+     "type": "paragraph",
+     "text": "Rompe la energía del grupo constantemente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa la risa para evitar vulnerabilidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo navegarlo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ríe SI es genuinamente gracioso, luego redirige"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nombra el patrón con cariño: 'Noto que cuando nos acercamos a algo profundo, aparece el humor'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pregunta: '¿Qué evitas sentir cuando haces esa broma?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Invítalo a probar la incomodidad de la seriedad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Protege el espacio para quienes sí quieren profundizar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Tu humor es un regalo. Y también lo es tu verdad sin disfraces.'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec6",
+   "title": "Protocolo general para resistencias",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 1: OBSERVA SIN JUZGAR"
+    },
+    {
+     "type": "paragraph",
+     "text": "La resistencia es información. ¿Qué te está diciendo sobre la persona o sobre el grupo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 2: RESPIRA Y CENTRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "No reacciones desde tu ego herido. La resistencia rara vez es sobre ti."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 3: NOMBRA LO QUE VES (opcional)"
+    },
+    {
+     "type": "paragraph",
+     "text": "A veces nombrar con compasión desactiva la resistencia: 'Noto que el grupo está en silencio. ¿Qué está pasando?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 4: OFRECE OPCIONES"
+    },
+    {
+     "type": "paragraph",
+     "text": "Siempre da autonomía: 'Puedes participar así, así o así. Tú decides.'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 5: PROTEGE AL GRUPO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu lealtad primera es con el colectivo. Si alguien secuestra el espacio, interven con firmeza compasiva."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 6: CONVERSACIÓN PRIVADA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si la resistencia es persistente, háblalo en un descanso, nunca frente al grupo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Recuerda: La mayoría de las resistencias son mecanismos de protección. Trátalas con respeto, no como enemigos a vencer."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec7",
+   "title": "CASO 1: Alguien llora intensamente",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Parte 6: Casos Difíciles Y Cómo Navegarlos"
+    },
+    {
+     "type": "quote",
+     "text": "Los momentos difíciles son donde los facilitadores se forjan"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El ejercicio tocó una herida emocional profunda. Las lágrimas son sanación, no problema."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Entrar en pánico o sentirte culpable"
+    },
+    {
+     "type": "paragraph",
+     "text": "Correr a 'arreglarlo' o detener el llanto"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hacer que la persona se sienta avergonzada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Poner el foco de todo el grupo en su crisis"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mantén la calma y presencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece pañuelos discretamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Da espacio: 'Está bien. Tómate tu tiempo.'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pregunta en voz baja: '¿Necesitas un momento afuera?' (sin forzar)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si dice que está bien, créele y continúa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si necesita salir, acompaña brevemente o pide a un compañero que lo haga"
+    },
+    {
+     "type": "paragraph",
+     "text": "Al regresar al grupo, no hagas gran cosa de ello"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Las lágrimas son bienvenidas aquí. Son señal de que algo importante está moviéndose.'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec8",
+   "title": "CASO 2: Alguien revela trauma profundo inesperado",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El espacio seguro que creaste permitió que saliera algo que la persona tenía guardado. Es un acto de confianza."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Convertirte en terapeuta (no lo eres)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Permitir que se vuelva sesión grupal de terapia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Minimizar con frases como 'otros la tienen peor'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dar consejos o soluciones rápidas"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Escucha con presencia total (30-60 segundos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Agradece la confianza: 'Gracias por compartir esto con nosotros'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Valida sin dramatizar: 'Eso suena muy doloroso'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Redirige suavemente: 'Esto suena como algo profundo que merece espacio especializado. ¿Has considerado trabajarlo con un terapeuta?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece hablar en privado después del taller"
+    },
+    {
+     "type": "paragraph",
+     "text": "Continúa con el programa sin hacer gran espectáculo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Honro tu valentía al compartir esto. Este espacio es seguro, y también reconozco que algunos temas requieren apoyo profesional especializado.'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec9",
+   "title": "CASO 3: Dos participantes entran en conflicto",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Las dinámicas revelaron tensión preexistente, o hubo un malentendido en el ejercicio."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tomar partido por alguno"
+    },
+    {
+     "type": "paragraph",
+     "text": "Permitir que el conflicto secuestre el espacio grupal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ignorarlo esperando que se resuelva solo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Convertirte en juez"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pausa la discusión con firmeza: 'Alto. Respiren.'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nombra lo que ves: 'Veo que hay una tensión aquí'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece espacio privado: 'Tomemos un descanso de 10 minutos. [Nombres], ¿pueden conversar esto aparte?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si es algo grupal relevante, facilita un diálogo estructurado (cada uno habla 2 min sin interrupciones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Busca el aprendizaje grupal: '¿Qué nos enseña esto sobre cómo nos comunicamos?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sigue adelante cuando se resuelva o se contenga"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Los conflictos revelan lo que está vivo en nosotros. Usemos esto como espejo, no como batalla.'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec10",
+   "title": "CASO 4: Nadie participa / Silencio grupal incómodo",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puede ser resistencia, falta de confianza, fatiga, o simplemente un grupo introvertido."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Llenar el silencio con tu voz nerviosamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presionar: '¡Vamos, alguien tiene que hablar!'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sentirte personalmente rechazado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Abandonar la pregunta muy rápido"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "SOSTÉN EL SILENCIO. Cuenta hasta 30 mentalmente antes de intervenir"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reformula la pregunta de otra manera"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece canales alternativos: 'Escríbanlo primero, luego compartimos'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reduce el tamaño: 'Compartan primero en parejas, luego traemos al grupo'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nombra el elefante: 'Noto que hay silencio. ¿Qué necesitan para sentirse cómodos compartiendo?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte tú algo breve y vulnerable para modelar"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'El silencio también es una respuesta. Los escucho en su quietud.'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec11",
+   "title": "CASO 5: Te das cuenta de que perdiste al grupo",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El contenido no resonó, el ritmo fue muy rápido/lento, o hay algo externo afectando (hora del día, evento previo)."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Seguir con el plan como si nada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Culpar al grupo: 'Ustedes no están participando'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Colapsar en inseguridad visible"
+    },
+    {
+     "type": "paragraph",
+     "text": "Improvisar caóticamente sin estructura"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PAUSA. Respira. Reconéctate contigo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Admítelo con humildad: 'Siento que perdí la conexión con ustedes. ¿Qué necesitan?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Check-in grupal rápido: '¿Cómo están? ¿Qué les pasa?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ajusta el plan según lo que escuchas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece descanso si hay fatiga"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cambia la energía: pon música, haz un ejercicio corporal, abre ventanas"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Mi trabajo es servirles, no seguir un guion perfecto. ¿Qué necesitan de mí ahora?'"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec12",
+   "title": "CASO 6: Alguien cuestiona tu autoridad/credibilidad",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué está pasando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puede ser su forma de procesar, una proyección personal, o genuina curiosidad sobre tus calificaciones."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué NO hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ponerte a la defensiva"
+    },
+    {
+     "type": "paragraph",
+     "text": "Listar tus logros para validarte"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sentirte atacado personalmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Desestimar la pregunta"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué SÍ hacer:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mantén la calma y el centro"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con honestidad: 'Soy facilitador certificado RouteToTop y he recorrido este viaje personalmente'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparte tu experiencia relevante brevemente (2 min max)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Redirige: 'Y lo más importante es lo que TÚ descubras en tu propio viaje, no mi credencial'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ofrece conversar después si tiene dudas específicas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Continúa sin darle más peso del necesario"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Frase clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'No estoy aquí como gurú, estoy aquí como alguien que ha caminado este sendero y puede acompañarte en el tuyo.'"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Cuando derivar a un profesional"
+    },
+    {
+     "type": "paragraph",
+     "text": "Como facilitador, NO eres terapeuta. Debes derivar cuando:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Alguien menciona pensamientos suicidas o autolesivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Se evidencia trastorno mental grave (psicosis, disociación severa)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hay historia de trauma complejo que necesita procesamiento especializado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Alguien busca en ti la solución a problemas de salud mental"
+    },
+    {
+     "type": "paragraph",
+     "text": "La persona claramente necesita más que lo que un taller puede ofrecer"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sientes que la situación excede tu capacidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo derivar con compasión:"
+    },
+    {
+     "type": "paragraph",
+     "text": "'Lo que compartes es importante y profundo. Honestamente, creo que merece el espacio especializado de un terapeuta que pueda acompañarte con las herramientas adecuadas. Yo estoy aquí para facilitar tu viaje hacia tu cumbre, pero esto suena como algo que requiere apoyo profesional. ¿Está bien?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "RECUERDA: Derivar no es fracaso, es responsabilidad. Conoce tus límites y honra el bienestar del participante."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec13",
+   "title": "Parte 7: Certificación Como Facilitador",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La certificación no te hace facilitador; tu compromiso con el servicio sí"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El Camino de Certificación"
+    },
+    {
+     "type": "paragraph",
+     "text": "La certificación RouteToTop no es solo un título: es un compromiso con la excelencia en facilitar transformación. El proceso tien e tres niveles:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "NIVEL 1: FACILITADOR APRENDIZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "Requisitos:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Haber completado tu propio viaje con los workbooks de RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participar en un taller intensivo de formación (1 día completo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estudiar esta Guía del Facilitador a profundidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Co-facilitar al menos 2 talleres con un facilitador certificado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recibir feedback estructurado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puedes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Co-facilitar talleres con supervisión"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitar grupos pequeños (máximo 8 personas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usar todos los materiales RouteToTop con atribución"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "NIVEL 2: FACILITADOR CERTIFICADO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Requisitos:"
+    },
+    {
+     "type": "paragraph",
+     "text": "12 meses como Facilitador Aprendiz"
+    },
+    {
+     "type": "paragraph",
+     "text": "Haber facilitado al menos 10 talleres (solo o co-facilitando)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Demostrar dominio de las 7 Fases y 6 Ejes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presentar un taller de certificación evaluado por facilitador máster"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completar cuestionario de casos difíciles"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recibir evaluaciones positivas de al menos 20 participantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puedes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitar talleres de cualquier formato (1hr, 3hrs, 1 día)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Grupos de hasta 25 personas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cobrar por tus servicios de facilitación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usar el logo 'Facilitador Certificado RouteToTop'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acceder a comunidad privada de facilitadores"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "NIVEL 3: FACILITADOR MÁSTER"
+    },
+    {
+     "type": "paragraph",
+     "text": "Requisitos:"
+    },
+    {
+     "type": "paragraph",
+     "text": "24 meses como Facilitador Certificado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Haber facilitado al menos 50 talleres"
+    },
+    {
+     "type": "paragraph",
+     "text": "Desarrollar una especialización o adaptación única de la metodología"
+    },
+    {
+     "type": "paragraph",
+     "text": "Certificar al menos 3 nuevos facilitadores"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presentar un caso de estudio documentado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Entrevista con el equipo RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puedes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Certificar nuevos facilitadores (niveles 1 y 2)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crear adaptaciones de la metodología para nichos específicos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Diseñar programas extendidos (6 meses, 1 año)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Representar oficialmente a RouteToTop en eventos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participar en el desarrollo de nuevos materiales"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Código de ética del facilitador"
+    },
+    {
+     "type": "paragraph",
+     "text": "Como facilitador certificado, te comprometes a:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. INTEGRIDAD"
+    },
+    {
+     "type": "paragraph",
+     "text": "Representar honestamente tus calificaciones y experiencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "No prometer resultados que no puedes garantizar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ser transparente sobre tus propias limitaciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dar crédito a RouteToTop y otros autores cuando corresponda"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. CONFIDENCIALIDAD"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lo compartido en el taller se queda en el taller (salvo riesgo de daño)"
+    },
+    {
+     "type": "paragraph",
+     "text": "No usar historias de participantes sin permiso explícito"
+    },
+    {
+     "type": "paragraph",
+     "text": "Proteger la privacidad de todos los asistentes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Manejar datos personales con responsabilidad"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. NO MALEFICENCIA"
+    },
+    {
+     "type": "paragraph",
+     "text": "No causar daño intencionalmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Derivar cuando la situación exceda tu capacidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "No aprovecharte de la vulnerabilidad de los participantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "No establecer relaciones inapropiadas con participantes (románticas, de negocios con conflicto de interés)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. SERVICIO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Priorizar el bienestar del grupo sobre tu ego"
+    },
+    {
+     "type": "paragraph",
+     "text": "Continuar tu propio crecimiento personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Buscar supervisión y feedback regularmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Contribuir a la comunidad de facilitadores"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "5. EXCELENCIA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Prepararte adecuadamente para cada taller"
+    },
+    {
+     "type": "paragraph",
+     "text": "Llegar descansado y centrado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Actualizar tus conocimientos continuamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mantener estándares altos de facilitación"
+    },
+    {
+     "type": "paragraph",
+     "text": "La violación del código de ética puede resultar en suspensión o revocación de la certificación. Toma este compromiso seriamente."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proceso de aplicación a la certificación"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 1: Autoevaluación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde honestamente:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿He completado mi propio viaje con RouteToTop?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Estoy listo para sostener el espacio para otros?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Tengo la estabilidad personal para facilitar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Puedo manejar dinámicas grupales complejas?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Estoy dispuesto al estudio y práctica continua?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 2: Formación Inicial"
+    },
+    {
+     "type": "paragraph",
+     "text": "Asiste al taller de formación de facilitadores (1 día completo) donde:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Experimentas la metodología desde el rol de facilitador"
+    },
+    {
+     "type": "paragraph",
+     "text": "Practicas dinámicas con feedback en vivo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Conoces a otros facilitadores en formación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recibes esta guía y materiales complementarios"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 3: Práctica Supervisada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Co-facilita al menos 2 talleres con un facilitador certificado que:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Te observa en acción"
+    },
+    {
+     "type": "paragraph",
+     "text": "Te da feedback constructivo después"
+    },
+    {
+     "type": "paragraph",
+     "text": "Te permite tomar responsabilidades progresivamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa tu preparación para certificarte"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 4: Aplicación Formal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Envía tu aplicación que incluya:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Formulario completado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evidencia de tu viaje personal RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cartas de recomendación de facilitadores supervisores"
+    },
+    {
+     "type": "paragraph",
+     "text": "Video de 15 min facilitando (puede ser simulado)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ensayo de 500 palabras: '¿Por qué quiero facilitar?'"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 5: Taller de Certificación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitas un taller de 60 min frente a evaluadores donde demuestras:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dominio de la metodología"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presencia y manejo de grupo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Capacidad de hacer preguntas poderosas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gestión de dinámicas difíciles (simuladas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Coherencia entre mensaje y ser"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PASO 6: Retroalimentación y Decisión"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recibes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Feedback detallado de evaluadores"
+    },
+    {
+     "type": "paragraph",
+     "text": "Decisión: Aprobado / Aprobado con observaciones / Repetir en 3 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "Plan de desarrollo si hay áreas de mejora"
+    },
+    {
+     "type": "paragraph",
+     "text": "Certificado digital e impreso si apruebas"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Mantenimiento de la Certificación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para mantener tu certificación activa, debes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitar al menos 4 talleres al año"
+    },
+    {
+     "type": "paragraph",
+     "text": "Participar en sesiones de supervisión grupal (trimestrales)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completar 10 horas de educación continua anualmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Renovar tu compromiso con el código de ética cada año"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pagar cuota de membresía anual de facilitadores"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para iniciar tu proceso de certificación, visita www.routetotop.com/certificacion o contacta a certificacion@routetotop.com"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec14",
+   "title": "Cierre: Tu Llamado Como Facilitador",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Ser facilitador es un privilegio y una responsabilidad sagrada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has llegado al final de esta guía, pero el comienzo de tu camino como facilitador RouteToTop."
+    },
+    {
+     "type": "paragraph",
+     "text": "Recuerda siempre:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No eres el héroe de la historia; el grupo lo es"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu trabajo no es tener todas las respuestas, sino hacer las mejores preguntas"
+    },
+    {
+     "type": "paragraph",
+     "text": "La transformación ocurre en los espacios que sostienes, no en las palabras que dices"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu presencia importa más que tu perfección"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada grupo es diferente; suelta el apego al plan perfecto"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus propias heridas sanadas son tu mayor credencial"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facilitar es servicio, no performance"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confía en el proceso, incluso cuando no veas resultados inmediatos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu propia práctica personal alimenta tu capacidad de facilitar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nunca dejas de ser senderista mientras facilitas"
+    },
+    {
+     "type": "paragraph",
+     "text": "El mundo necesita más espacios donde las personas puedan encontrar su cumbre personal. Al convertirte en facilitador certificado RouteToTop, te unes a una red global de creadores de estos espacios."
+    },
+    {
+     "type": "paragraph",
+     "text": "No lo hagas solo. Busca mentores, pide feedback, sé vulnerable con otros facilitadores. La comunidad de facilitadores RouteToTop está aquí para apoyarte."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias por tu compromiso con este trabajo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias por elegir servir."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias por crear espacios donde otros pueden encontrar su camino."
+    },
+    {
+     "type": "paragraph",
+     "text": "Bienvenido a la red de facilitadores RouteToTop."
+    },
+    {
+     "type": "paragraph",
+     "text": "Que tu facilitación sea siempre al servicio de las cumbres de otros."
+    },
+    {
+     "type": "paragraph",
+     "text": "RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "Certificación de Facilitadores"
+    },
+    {
+     "type": "paragraph",
+     "text": "www.routetotop.com"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec15",
+   "title": "Anexo A: Protocolo De Reunión Para Tríadas",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Frecuencia sugerida: Semanal o quincenal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Duración: 60-90 minutos"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Estructura de cada reunión:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Check-in (15 min total - 5 min c/u)"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Cómo llego hoy?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué pasó desde la última reunión?",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Revisión de compromisos anteriores (15 min)"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Cumpliste lo que dijiste que harías?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Si no, ¿qué te detuvo?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sin juzgar, solo observar patrones",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Trabajo profundo (30-45 min - 10-15 min c/u)"
+    },
+    {
+     "type": "bullet",
+     "text": "Una persona comparte su desafío actual",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Los otros dos hacen preguntas poderosas (no aconsejan)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Rotar cada semana quién empieza",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Compromisos para la próxima reunión (10 min)"
+    },
+    {
+     "type": "bullet",
+     "text": "Cada uno declara UNA acción concreta",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Específica, medible, con fecha",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Check-out (5 min)"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué me llevo de hoy?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cierre breve",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Acuerdos de tríada:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puntualidad y respeto al tiempo de todos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confidencialidad absoluta"
+    },
+    {
+     "type": "paragraph",
+     "text": "Presencia total (sin teléfonos, sin distracciones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Honestidad, incluso cuando incómoda"
+    },
+    {
+     "type": "paragraph",
+     "text": "Preguntar más, aconsejar menos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Celebrar avances, por pequeños que sean"
+    },
+    {
+     "type": "paragraph",
+     "text": "Revisar la efectividad del grupo cada 3 meses"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec16",
+   "title": "Anexo B: Checklist Del Facilitador",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ANTES DEL TALLER"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1 semana antes:"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k1",
+     "label": "Confirmar espacio/sala"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k2",
+     "label": "Enviar recordatorio a participantes"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k3",
+     "label": "Preparar materiales (workbooks, hojas, marcadores)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k4",
+     "label": "Revisar esta guía y tu plan del taller"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k5",
+     "label": "Meditar/prepararte personalmente"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1 día antes:"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k6",
+     "label": "Confirmar asistencia"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k7",
+     "label": "Revisar nombres de participantes"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k8",
+     "label": "Empacar materiales"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k9",
+     "label": "Preparar playlist de música"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k10",
+     "label": "Dormir bien"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2 horas antes:"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k11",
+     "label": "Llegar temprano al espacio"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k12",
+     "label": "Configurar sala en círculo (nunca filas)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k13",
+     "label": "Probar equipo de audio/video"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k14",
+     "label": "Poner música ambiente"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k15",
+     "label": "Tener agua/café disponible"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k16",
+     "label": "Centrarte: 10 min de respiración/meditación"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DURANTE EL TALLER"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k17",
+     "label": "Dar bienvenida cálida a cada persona"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k18",
+     "label": "Empezar puntual"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k19",
+     "label": "Establecer acuerdos grupales"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k20",
+     "label": "Proteger los tiempos (usa timer si es necesario)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k21",
+     "label": "Observar lenguaje corporal del grupo"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k22",
+     "label": "Tomar descansos adecuados"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k23",
+     "label": "Mantener energía alta pero centrada"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k24",
+     "label": "Cerrar a tiempo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DESPUÉS DEL TALLER"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k25",
+     "label": "Despedirse de cada participante"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k26",
+     "label": "Ordenar el espacio"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k27",
+     "label": "Tomar 10 min para ti (no salir corriendo)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k28",
+     "label": "Escribir notas de lo sucedido (mientras está fresco)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k29",
+     "label": "Enviar mensaje de seguimiento al grupo (24-48hrs)"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k30",
+     "label": "Autoevaluar: ¿Qué funcionó? ¿Qué mejorar?"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k31",
+     "label": "Actualizar horas de facilitación en tu log"
+    },
+    {
+     "type": "check",
+     "id": "facilitadores.k32",
+     "label": "Descansar y recargar"
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec17",
+   "title": "Anexo C: Frases Útiles Del Facilitador",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para abrir espacio:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tómate tu tiempo. No hay prisa."
+    },
+    {
+     "type": "paragraph",
+     "text": "Respira. Estás en un espacio seguro."
+    },
+    {
+     "type": "paragraph",
+     "text": "No hay respuestas correctas, solo tu verdad."
+    },
+    {
+     "type": "paragraph",
+     "text": "Puedes pasar si lo necesitas."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para profundizar:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Puedes decir más sobre eso?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué más hay ahí?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Dónde sientes eso en tu cuerpo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si eso tuviera una voz, ¿qué diría?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para redirigir:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eso suena importante. Guardémoslo para después del taller."
+    },
+    {
+     "type": "paragraph",
+     "text": "Volvamos al enfoque de hoy."
+    },
+    {
+     "type": "paragraph",
+     "text": "Escucho eso, y también necesitamos dar espacio a todos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias. ¿Quién más quiere compartir?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para validar:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias por tu honestidad."
+    },
+    {
+     "type": "paragraph",
+     "text": "Eso toma coraje."
+    },
+    {
+     "type": "paragraph",
+     "text": "Te escucho."
+    },
+    {
+     "type": "paragraph",
+     "text": "Veo tu esfuerzo."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para manejar dificultades:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Respiren todos. Hagamos una pausa."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esto es parte del proceso."
+    },
+    {
+     "type": "paragraph",
+     "text": "Está bien sentir incomodidad."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué necesita el grupo ahora?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Para cerrar:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué se llevan de hoy?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuál es su próximo paso?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gracias por su presencia y valentía."
+    },
+    {
+     "type": "paragraph",
+     "text": "Los veo en su camino hacia su cumbre."
+    }
+   ]
+  },
+  {
+   "id": "facilitadores.sec18",
+   "title": "Anexo D: Recursos Y Contactos",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Sitio web oficial:"
+    },
+    {
+     "type": "paragraph",
+     "text": "www.routetotop.com"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Comunidad de facilitadores:"
+    },
+    {
+     "type": "paragraph",
+     "text": "community.routetotop.com/facilitadores"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Certificación:"
+    },
+    {
+     "type": "paragraph",
+     "text": "certificacion@routetotop.com"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Soporte técnico:"
+    },
+    {
+     "type": "paragraph",
+     "text": "soporte@routetotop.com"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Materiales adicionales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "materiales.routetotop.com"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Redes sociales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Instagram: @routetotop"
+    },
+    {
+     "type": "paragraph",
+     "text": "LinkedIn: RouteToTop Official"
+    },
+    {
+     "type": "paragraph",
+     "text": "Facebook: Grupo de Facilitadores RouteToTop"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Supervisión grupal:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Primer viernes de cada mes, 18:00 GMT"
+    },
+    {
+     "type": "paragraph",
+     "text": "Zoom link en la comunidad privada"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Lectura recomendada:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El Arte de Facilitar - Dale Hunter"
+    },
+    {
+     "type": "paragraph",
+     "text": "The Skilled Facilitator - Roger Schwarz"
+    },
+    {
+     "type": "paragraph",
+     "text": "Coaching with the Enneagram - Claudio Naranjo"
+    },
+    {
+     "type": "paragraph",
+     "text": "The Way of Council - Jack Zimmerman"
+    }
+   ]
+  }
+ ]
+}

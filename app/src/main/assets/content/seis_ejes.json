@@ -1,0 +1,1019 @@
+{
+ "id": "seis_ejes",
+ "title": "Los 6 Ejes de tu Cumbre",
+ "subtitle": "Workbook didáctico",
+ "category": "ruta",
+ "order": 2,
+ "sections": [
+  {
+   "id": "seis_ejes.sec0",
+   "title": "Introducción",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tu Cumbre Personal no aparece de un día para otro; se revela gradualmente mientras asciendes por las fases del Viaje Transformativo. Cada paso del recorrido despierta una fuerza interna, y cuando esas fuerzas se unen, forman la estructura completa de tu Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Los seis ejes son:"
+    },
+    {
+     "type": "paragraph",
+     "text": "VOLUNTAD - La llama que enciende tu camino"
+    },
+    {
+     "type": "paragraph",
+     "text": "MAESTRÍA - La fortaleza que construyes con el tiempo"
+    },
+    {
+     "type": "paragraph",
+     "text": "VOZ - Tu expresión auténtica en el mundo"
+    },
+    {
+     "type": "paragraph",
+     "text": "VALOR - La capacidad de sostener tu vida con coherencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "EVOLUCIÓN - Tu crecimiento constante"
+    },
+    {
+     "type": "paragraph",
+     "text": "TRASCENDENCIA - Tu conexión con tu legado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Instrucciones: Completa cada eje con honestidad profunda. Este ejercicio te ayudará a identificar dónde estás y hacia dónde necesitas dirigirte."
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec1",
+   "title": "Los 6 Ejes De Tu Cumbre Personal",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tu Cumbre Personal es el punto donde todas las dimensiones de tu identidad se encuentran. Estos seis ejes son las fuerzas internas que, al activarse y converger, te llevan a ese estado de plenitud y propósito."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "EJE",
+      "DEFINICIÓN",
+      "PREGUNTA CLAVE"
+     ],
+     "rows": [
+      [
+       "VOLUNTAD",
+       "Lo que despierta tu impulso interior",
+       "¿Qué me mueve?"
+      ],
+      [
+       "MAESTRÍA",
+       "Lo que construyes con disciplina",
+       "¿En qué soy excelente?"
+      ],
+      [
+       "VOZ",
+       "Lo que tu autenticidad representa",
+       "¿Qué mensaje tengo?"
+      ],
+      [
+       "VALOR",
+       "Lo que puedes monetizar",
+       "¿Cómo sostengo mi vida?"
+      ],
+      [
+       "EVOLUCIÓN",
+       "Lo que te hace crecer",
+       "¿Cómo estoy mejorando?"
+      ],
+      [
+       "TRASCENDENCIA",
+       "Lo que te conecta con lo mayor",
+       "¿Qué legado dejo?"
+      ]
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EJERCICIO: AUTOEVALUACIÓN DE TUS EJES"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa cada eje del 1 al 10 según tu situación actual. Sé honesto contigo mismo."
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s1",
+     "label": "VOLUNTAD · ¿Tengo claridad sobre qué me mueve y hacia dónde voy?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s2",
+     "label": "MAESTRÍA · ¿He desarrollado habilidades y disciplina consistentes?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s3",
+     "label": "VOZ · ¿Expreso mi autenticidad y mi mensaje al mundo?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s4",
+     "label": "VALOR · ¿He transformado mi talento en valor económico sostenible?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s5",
+     "label": "EVOLUCIÓN · ¿Estoy creciendo y evolucionando constantemente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s6",
+     "label": "TRASCENDENCIA · ¿Mi vida tiene un sentido que trasciende mis necesidades individuales?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Interpretación de resultados:"
+    },
+    {
+     "type": "bullet",
+     "text": "8-10: Este eje está fuerte y activo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "5-7: Este eje está en desarrollo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "1-4: Este eje necesita atención urgente",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec2",
+   "title": "Eje 1: La Voluntad",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La llama que enciende tu camino"
+    },
+    {
+     "type": "paragraph",
+     "text": "La voluntad es el origen del viaje. Es el primer fuego que se enciende en tu interior cuando descubres que deseas un cambio, una expansión o una transformación. Esta fuerza no nace de aplausos externos ni de expectativas ajenas; nace de un llamado profundo, silencioso y persistente que te impulsa a moverte hacia una vida más auténtica."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo reconocer tu voluntad?"
+    },
+    {
+     "type": "bullet",
+     "text": "Es ese impulso que te despierta a las 3 AM",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Es esa sensación de \"tiene que haber algo más\"",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Es ese llamado que no te deja en paz",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Es esa verdad profunda que te impulsa a avanzar incluso sin saber cómo",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q7",
+     "number": "01",
+     "label": "¿Qué cosas te entusiasman profundamente incluso cuando no hay nadie mirando?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q8",
+     "number": "02",
+     "label": "¿Qué harías, aunque no te pagaran, solo porque te llena de energía hacerlo?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q9",
+     "number": "03",
+     "label": "¿En qué experiencias sientes que conectas con lo más auténtico de ti y el tiempo parece desaparecer?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q10",
+     "number": "04",
+     "label": "¿Qué verdad profunda me impulsa a avanzar? Completa: \"Sé en lo más profundo de mi ser que...\""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu VOLUNTAD"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s11",
+     "label": "¿Tengo claridad absoluta sobre lo que me mueve?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s12",
+     "label": "¿Mi voluntad es auténtica (no impuesta por otros)?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s13",
+     "label": "¿Siento ese fuego interior que me impulsa a actuar?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec3",
+   "title": "Eje 2: La Maestría",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La fortaleza que construyes con el tiempo"
+    },
+    {
+     "type": "paragraph",
+     "text": "La maestría representa tus habilidades, tus competencias, tu disciplina y todo aquello que has construido con dedicación a lo largo de tu vida. Es el conjunto de saberes, talentos y capacidades que te permiten avanzar con seguridad por el camino. La maestría no es accidental: es el resultado de práctica constante, de aprendizaje sostenido y de la disposición a mejorar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Componentes de la maestría:"
+    },
+    {
+     "type": "bullet",
+     "text": "Educación formal (títulos, certificaciones)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Educación autodidacta (libros, cursos, experiencia)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Habilidades desarrolladas (técnicas, prácticas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Disciplina diaria (hábitos, sistemas)",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q14",
+     "number": "01",
+     "label": "Mi educación formal: Lista tus títulos, certificaciones, formación académica:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q15",
+     "number": "02",
+     "label": "Mi educación autodidacta: Libros clave, cursos, mentores, experiencias de aprendizaje:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q16",
+     "number": "03",
+     "label": "Mis habilidades más fuertes: ¿En qué soy realmente bueno? (5 habilidades mínimo):"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q17",
+     "number": "04",
+     "label": "Habilidades que necesito desarrollar: ¿Qué me falta para alcanzar mi cumbre?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q18",
+     "number": "05",
+     "label": "Mis hábitos de disciplina diaria: ¿Qué hago todos los días para fortalecer mi maestría?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q19",
+     "number": "06",
+     "label": "¿Qué habilidades o conocimientos puedes enseñar fácilmente a otros?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q20",
+     "number": "07",
+     "label": "¿Qué has perfeccionado con la práctica consciente y el paso del tiempo?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q21",
+     "number": "08",
+     "label": "¿Qué puedes construir o crear que otros consideren útil o transformador?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu MAESTRÍA"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s22",
+     "label": "¿Tengo habilidades sólidas y diferenciadas?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s23",
+     "label": "¿Practico y mejoro mis habilidades consistentemente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s24",
+     "label": "¿Tengo disciplina y sistemas que sostienen mi maestría?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec4",
+   "title": "Eje 3: La Voz",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu expresión auténtica en el mundo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu voz es el puente entre tu mundo interno y el mundo que te rodea. No se limita a cómo hablas o cómo escribes: es la manera en que expresas tu esencia, tus ideas, tus emociones y tu propósito. A medida que avanzas en tu viaje, tu voz se vuelve más auténtica y más clara. Dejas de silenciarte, de imitar, de complacer. Comienzas a expresar tu verdad con responsabilidad y con integridad."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo se manifiesta tu voz?"
+    },
+    {
+     "type": "bullet",
+     "text": "En lo que escribes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "En cómo hablas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "En lo que creas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "En tu mensaje al mundo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "En tu influencia sobre otros",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q25",
+     "number": "01",
+     "label": "¿Qué representa mi voz en el mundo? Completa: \"Mi voz representa...\""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q26",
+     "number": "02",
+     "label": "¿Cuál es mi mensaje auténtico? Si pudieras transmitir una sola verdad al mundo, ¿cuál sería? ¿Qué mensaje o verdad sientes que llevas dentro y que necesita ser compartida?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q27",
+     "number": "03",
+     "label": "¿Cómo se expresa tu autenticidad en palabras, arte o acciones? ¿En qué medios expreso mi voz? (Escritura, habla, arte, enseñanza, etc.)"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q28",
+     "number": "04",
+     "label": "¿Estoy expresando mi verdad o la de otros? Sé brutalmente honesto: ¿Tu voz es tuya o estás repitiendo lo que te enseñaron?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q29",
+     "number": "05",
+     "label": "¿Qué impacto tiene mi voz en otros? ¿Cómo responden las personas a tu mensaje?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q30",
+     "number": "06",
+     "label": "¿Cuál es el dolor, deseo o sueño colectivo con el que conectas profundamente?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu MAESTRÍA"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s31",
+     "label": "¿Expreso mi autenticidad sin miedo?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s32",
+     "label": "¿Mi mensaje es claro y consistente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s33",
+     "label": "¿Mi voz inspira, influye o transforma a otros?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec5",
+   "title": "Eje 4: El Valor",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La capacidad de sostener tu vida con coherencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "No basta con tener propósito: necesitas una forma sostenible de sostenerlo. Este eje representa tu habilidad para transformar lo que haces —tu conocimiento, tu creatividad, tu arte, tu servicio— en valor real para otros. Generar valor no significa sacrificar tu esencia; significa que tu obra tiene tanto impacto que las personas están dispuestas a apoyarla, utilizarla o invertir en ella."
+    },
+    {
+     "type": "paragraph",
+     "text": "Monetizar no es venderte: es sostener tu vida mientras expandes tu legado."
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q34",
+     "number": "01",
+     "label": "¿Qué puedo monetizar hoy? Lista tus habilidades/conocimientos que ya podrías transformar en valor económico:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q35",
+     "number": "02",
+     "label": "¿Qué valor aporto a otros? ¿Qué problema resuelvo? ¿Qué necesidad satisfago? ¿Qué transformación creo? ¿Qué ofreces que otros estarían dispuestos a pagar porque los transforma, ayuda o inspira?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q36",
+     "number": "03",
+     "label": "Mis fuentes de ingreso actuales:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q37",
+     "number": "04",
+     "label": "¿Qué sabes hacer que podrías convertir en productos, servicios o experiencias útiles para otros? Nuevas fuentes de ingreso que puedo crear: Productos, servicios, contenido, etc.:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q38",
+     "number": "05",
+     "label": "¿Cómo puedo monetizar sin perder mi esencia? ¿Cómo puedes generar ingresos sin traicionar tu propósito?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu VALOR"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s39",
+     "label": "¿Genero valor económico sostenible?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s40",
+     "label": "¿Mi trabajo tiene impacto real en otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s41",
+     "label": "¿Puedo vivir de mi propósito sin sacrificar mi esencia?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec6",
+   "title": "Eje 5: La Evolución",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu crecimiento constante"
+    },
+    {
+     "type": "paragraph",
+     "text": "La evolución es el resultado natural del movimiento. No creces por desear crecer, sino por enfrentarte a desafíos, aprender de ellos y ajustar tu camino. Los obstáculos no son enemigos del proceso: son la propia materia prima de tu transformación. Cada vez que superas una dificultad, cada vez que aprendes algo nuevo, cada vez que ajustas tu ruta, estás evolucionando."
+    },
+    {
+     "type": "paragraph",
+     "text": "La evolución ocurre en el roce con la vida."
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q42",
+     "number": "01",
+     "label": "¿Cómo he evolucionado en el último año? Cambios concretos en habilidades, mentalidad, comportamiento:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q43",
+     "number": "02",
+     "label": "¿Qué desafíos me han hecho crecer? Lista 3 obstáculos y qué aprendiste de cada uno:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q44",
+     "number": "03",
+     "label": "¿Qué estoy aprendiendo actualmente?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q45",
+     "number": "04",
+     "label": "¿En qué áreas necesitas romper tu zona de confort para evolucionar?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q46",
+     "number": "05",
+     "label": "¿Qué haré diferente este mes para crecer?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q47",
+     "number": "06",
+     "label": "¿Qué te incomoda, pero sabes que haría crecer si lo enfrentas?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q48",
+     "number": "07",
+     "label": "¿Qué desafío personal estás evitando y qué podría ganar si lo atraviesas?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu EVOLUCIÓN"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s49",
+     "label": "¿Estoy creciendo constantemente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s50",
+     "label": "¿Aprendo de mis desafíos y obstáculos?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s51",
+     "label": "¿Soy mejor hoy que hace 6 meses?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec7",
+   "title": "Eje 6: La Trascendencia",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu conexión con lo mayor que tú"
+    },
+    {
+     "type": "paragraph",
+     "text": "La trascendencia es el eje más profundo de tu Cumbre Personal. Es el espacio donde tu vida adquiere un sentido más allá de tus necesidades inmediatas. Es cuando comprendes que lo que haces no es solo para ti, sino para el mundo, para la conciencia colectiva, para algo más grande. La trascendencia convierte el logro en sabiduría y el éxito en legado."
+    },
+    {
+     "type": "paragraph",
+     "text": "No se trata de fama o reconocimiento, sino de contribución genuina."
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q52",
+     "number": "01",
+     "label": "¿Qué legado quiero dejar? Si murieras mañana, ¿qué querrías que recordaran de ti?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q53",
+     "number": "02",
+     "label": "¿Cómo contribuyo al bien mayor? ¿De qué manera tu trabajo beneficia a otros más allá de ti?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q54",
+     "number": "03",
+     "label": "¿Qué problema del mundo me duele resolver?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q55",
+     "number": "04",
+     "label": "¿Cómo quiero ser recordado en 100 años?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q56",
+     "number": "05",
+     "label": "¿Qué estoy construyendo que me trascienda? Libros, teorías, sistemas, impacto social, etc.:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q57",
+     "number": "06",
+     "label": "¿Cómo crees que debería ser tu marca personal?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q58",
+     "number": "07",
+     "label": "¿Qué prácticas o símbolos te conectan con algo eterno, invisible o sagrado?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q59",
+     "number": "08",
+     "label": "¿Cómo quieres ser recordado más allá de lo que produzcas o hagas?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Autoevaluación de tu TRASCENDENCIA"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s60",
+     "label": "¿Mi vida tiene un sentido que va más allá de mí?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s61",
+     "label": "¿Estoy construyendo un legado real?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s62",
+     "label": "¿Mi trabajo contribuye al bien colectivo?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec8",
+   "title": "Síntesis: Mi Cumbre Personal",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cuando los seis ejes se encienden, te conviertes en la montaña"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "RESUMEN DE MIS EJES"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi estado actual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puntaje promedio"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q63",
+     "label": "Voluntad"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s64",
+     "label": "Voluntad",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q65",
+     "label": "Maestría"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s66",
+     "label": "Maestría",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q67",
+     "label": "Voz"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s68",
+     "label": "Voz",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q69",
+     "label": "Valor"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s70",
+     "label": "Valor",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q71",
+     "label": "Evolución"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s72",
+     "label": "Evolución",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q73",
+     "label": "Trascendencia"
+    },
+    {
+     "type": "scale",
+     "id": "seis_ejes.s74",
+     "label": "Trascendencia",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MI CUMBRE PERSONAL DEFINIDA"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Basándote en todo lo que has reflexionado, define tu Cumbre Personal:"
+      }
+     ]
+    },
+    {
+     "type": "check",
+     "id": "seis_ejes.k75",
+     "label": "Mi Cumbre Personal es el punto donde:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q76",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi plan de acción hacia la cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "ACCIONES CONCRETAS (próximos 90 días)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Define acciones concretas para cada eje de tu Cumbre Personal:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q77",
+     "number": "01",
+     "label": "Voluntad"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q78",
+     "number": "02",
+     "label": "Maestría"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q79",
+     "number": "03",
+     "label": "Voz"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q80",
+     "number": "04",
+     "label": "Valor"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q81",
+     "number": "05",
+     "label": "Evolución"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q82",
+     "number": "06",
+     "label": "Trascendencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi compromiso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hoy inicio el ascenso hacia mi cumbre personal\""
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi compromiso conmigo mismo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo a caminar este sendero con honestidad, disciplina y paciencia. Comprendo que alcanzar mi cumbre personal es un viaje, no un destino instantáneo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo específicamente a:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q83",
+     "number": "01",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q84",
+     "number": "02",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q85",
+     "number": "03",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q86",
+     "number": "04",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q87",
+     "number": "05",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q88",
+     "number": "06",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q89",
+     "number": "07",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q90",
+     "number": "08",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q91",
+     "number": "09",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q92",
+     "number": "10",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "Bienvenido, tu cumbre te espera."
+    }
+   ]
+  },
+  {
+   "id": "seis_ejes.sec9",
+   "title": "Visualización De Mi Cumbre",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu cumbre es el punto donde todas tus dimensiones convergen"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora que has explorado las siete fases y los seis ejes, es momento de definir con claridad tu Cumbre Personal. Este no es un ejercicio de fantasía, sino de visión clara y realista sobre quién quieres ser."
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q93",
+     "number": "01",
+     "label": "Describe tu cumbre personal en detalle: ¿Cómo es tu vida cuando alcanzas tu cumbre? ¿Qué haces cada día? ¿Cómo te sientes? ¿Qué has logrado? ¿Cómo impactas a otros?"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q94",
+     "number": "02",
+     "label": "Mi cumbre en una frase:"
+    },
+    {
+     "type": "prompt",
+     "id": "seis_ejes.q95",
+     "label": "(Sintetiza tu cumbre en una declaración poderosa de máximo 20 palabras)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has completado tu mapa hacia la cumbre. Ahora comienza el ascenso."
+    }
+   ]
+  }
+ ]
+}

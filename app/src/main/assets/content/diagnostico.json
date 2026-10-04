@@ -1,0 +1,1590 @@
+{
+ "id": "diagnostico",
+ "title": "Diagnóstico Personal",
+ "subtitle": "Antes de ascender, conócete a ti mismo",
+ "category": "ruta",
+ "order": 4,
+ "sections": [
+  {
+   "id": "diagnostico.sec0",
+   "title": "Antes De Ascender, Conócete A Ti Mismo",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No puedes llegar a la cumbre sin conocer el terreno desde el cual partes"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "¿Por qué necesitas este diagnóstico?"
+      },
+      {
+       "type": "paragraph",
+       "text": "La mayoría de los senderistas cometen el mismo error: planifican su ascenso sin conocer profundamente el terreno desde el cual parten."
+      },
+      {
+       "type": "paragraph",
+       "text": "Resultado: se tropiezan con las mismas piedras una y otra vez."
+      },
+      {
+       "type": "paragraph",
+       "text": "Esta guía es diferente. No te lleva hacia adelante. Te lleva hacia ADENTRO, porque antes de conquistar la cumbre, debes conquistarte a ti mismo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Aquí explorarás:"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu historia completa (no solo los éxitos)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tus fortalezas reales (no las que crees tener)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tus creencias ocultas (las que te sabotean)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tus patrones inconscientes (por qué repites lo mismo)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tus valores profundos (qué te mueve de verdad)",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solo después de esta exploración podrás planificar tu ascenso con sabiduría y solo quien conoce su punto de partida puede trazar una ruta verdadera hacia la cumbre."
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo usar esta guía:"
+    },
+    {
+     "type": "bullet",
+     "text": "Protege este tiempo. Apaga el teléfono. Cierra la puerta. Reserva 2-3 horas ininterrumpidas. Este es el trabajo más importante que harás este año.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sé salvajemente honesto. Nadie más leerá esto. No hay espacio para la versión editada de ti mismo. Escribe la verdad cruda.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Suspende el juicio. No estás aquí para juzgarte. Estás aquí para conocerte. Observa sin criticar.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Avanza a tu ritmo. La profundidad importa más que la velocidad. Algunos ejercicios te tomarán 5 minutos. Otros, 30. Ambos está bien.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribe a mano. No en tu laptop. No en tu teléfono. A mano. Hay algo en el movimiento del lápiz sobre el papel que desentierra verdades que el teclado no alcanza. La mano no tiene tecla de borrar, y eso es exactamente lo que necesitas: verdad sin editar. Luego, cuando termines, puedes digitalizarlo en Word si quieres tenerlo organizado.",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "ADVERTENCIA: Algunas secciones pueden traer emociones difíciles. Está bien pausar y volver después."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Quién soy?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¡Descubre, acepta y ama quién eres en cada etapa de tu maravillosa aventura de vida!"
+    },
+    {
+     "type": "paragraph",
+     "text": "Embárcate en la exploración más importante: descubrir quién eres realmente. Utiliza tu guía para indagar en tus pensamientos, emociones, experiencias y sueños. Pregunta, reflexiona y escribe sobre tus pasiones, tus miedos y tus aspiraciones. Cada"
+    },
+    {
+     "type": "paragraph",
+     "text": "página es un paso hacia una comprensión más profunda de tu verdadero ser. Este viaje es sobre ti, sobre desvelar las capas de tu identidad y celebrar cada aspecto que te hace único."
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q1",
+     "label": "¿Quién soy?"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Preguntas esenciales"
+      },
+      {
+       "type": "paragraph",
+       "text": "Responde con honestidad. No hay respuestas correctas o incorrectas."
+      }
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q2",
+     "label": "¿Qué me hace único/a?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q3",
+     "label": "¿Cuáles son mis valores fundamentales?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q4",
+     "label": "¿Qué me apasiona realmente?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q5",
+     "label": "¿Cuál es mi propósito en la vida?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q6",
+     "label": "¿Qué legado quiero dejar?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Identidad personal"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q7",
+     "label": "¿Quién soy en mi esencia?",
+     "title": "Identidad personal"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q8",
+     "label": "¿Qué hago y por qué?",
+     "title": "Identidad profesional"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q9",
+     "label": "¿Cómo me relaciono con otros?",
+     "title": "Identidad relacional"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q10",
+     "label": "¿Qué creo y en qué confío?",
+     "title": "Identidad espiritual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mis fortalezas y valores"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q11",
+     "label": "¿En qué soy realmente bueno/a? ¿Qué talentos naturales poseo?",
+     "title": "Fortalezas"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q12",
+     "label": "¿Qué principios guían mi vida? ¿Qué nunca comprometeré?",
+     "title": "Identidad profesional"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q13",
+     "label": "Lo que me energiza"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q14",
+     "label": "Lo que me drena"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Momentos y percepciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Momentos que me definieron"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué experiencias cambiaron quién soy?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q15",
+     "label": "¿Qué eventos moldearon mi carácter?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo me describen"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo me ven los demás?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q16",
+     "label": "¿Qué cualidades destacan en mí?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi símbolo personal"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q17",
+     "label": "Si pudieras elegir un símbolo, imagen o metáfora que te represente,"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q18",
+     "label": "¿Por qué este símbolo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Mi lado vulnerable"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q19",
+     "label": "Mis miedos más profundos"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q20",
+     "label": "Mis inseguridades"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q21",
+     "label": "Lo que necesito sanar"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q22",
+     "label": "Patrones negativos que reconozco en mí"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Celebración y amor propio"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q23",
+     "label": "Lo que más amo de mí"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q24",
+     "label": "Logros de los que estoy orgulloso/a"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q25",
+     "label": "Cómo ha crecido"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Mis declaraciones de identidad"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q26",
+     "label": "YO SOY... (10 afirmaciones)"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q27",
+     "label": "ME COMPROMETO A... Compromisos contigo mismo/a para seguir creciendo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi línea de tiempo personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Quién era"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q28",
+     "label": "Hace 5 años"
+    },
+    {
+     "type": "paragraph",
+     "text": "Quién soy"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q29",
+     "label": "Hoy / Presente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Quién quiero ser"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q30",
+     "label": "En 5 años"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q31",
+     "label": "¿Qué ha cambiado en mí durante estos años?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu línea de tiempo"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec1",
+   "title": "Excavación 1: Tu Línea De Tiempo",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu pasado no te define, pero sí te informa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mapea tu vida completa desde el nacimiento hasta hoy. Identifica los momentos que te formaron."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Instrucciones:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para cada década de tu vida, identifica los momentos clave (positivos y negativos) que te moldearon."
+    },
+    {
+     "type": "bullet",
+     "text": "10 años",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q32",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q33",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "bullet",
+     "text": "20 años",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q34",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q35",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "paragraph",
+     "text": "21-30 años"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q36",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q37",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "paragraph",
+     "text": "31-40 años"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q38",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q39",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "bullet",
+     "text": "50 años",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q40",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q41",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "paragraph",
+     "text": "51-60 años"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q42",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q43",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "paragraph",
+     "text": "71+ años"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q44",
+     "label": "Evento clave"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q45",
+     "label": "Impacto en mi"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis de patrones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis de patrones:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mirando tu línea de tiempo completa:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q46",
+     "number": "01",
+     "label": "¿Qué patrones se repiten?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q47",
+     "number": "02",
+     "label": "¿Qué fortaleza siempre te ha salvado?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q48",
+     "number": "03",
+     "label": "¿Cuál es el momento que más te marcó? ¿Por qué?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q49",
+     "number": "04",
+     "label": "Si pudieras hablarle a tu yo de hace 10 años, ¿qué le dirías?"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec2",
+   "title": "Excavación 2: Inventario Real",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No las fortalezas que deseas tener, sino las que realmente tienes"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PARTE A: Fortalezas Reales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lista habilidades, talentos y cualidades que OTROS han reconocido en ti (no solo las que tú crees tener)."
+    },
+    {
+     "type": "paragraph",
+     "text": "Fortalezas Reales"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q50",
+     "label": "Fortaleza"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q51",
+     "label": "EVIDENCIA (cuándo la has usado)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Fortalezas Reales"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q52",
+     "label": "Fortaleza"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q53",
+     "label": "EVIDENCIA (cuándo la has usado)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Fortalezas Reales"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q54",
+     "label": "Fortaleza"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q55",
+     "label": "EVIDENCIA (cuándo la has usado)"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "PARTE B: Debilidades Honestas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sin juicio. Lista áreas donde genuinamente luchas o necesitas mejorar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Debilidades honestas"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q56",
+     "label": "Debilidad"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q57",
+     "label": "¿Es crítica para mi cumbre?)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Debilidades honestas"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q58",
+     "label": "Debilidad"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q59",
+     "label": "¿Es crítica para mi cumbre?)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Debilidades honestas"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q60",
+     "label": "Debilidad"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q61",
+     "label": "¿Es crítica para mi cumbre?)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Verdad sobre las debilidades:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No necesitas ser excelente en TODO. Solo necesitas:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Ser excepcional en tus fortalezas clave"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Fortalecer las debilidades que son críticas para tu cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Delegar o ignorar las demás"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus creencias"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec3",
+   "title": "Excavación 3: Tus Creencias Ocultas",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Lo que crees de ti mismo determina lo que logras"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus creencias son el sistema operativo de tu vida. Muchas están ocultas en tu subconsciente, pero gobiernan todo lo que haces."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de Identificación:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completa estas frases con lo PRIMERO que venga a tu mente (sin censura):"
+    },
+    {
+     "type": "paragraph",
+     "text": "CREENCIAS LIMITANTES (las que te frenan):"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q62",
+     "number": "01",
+     "label": "El dinero es:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q63",
+     "number": "02",
+     "label": "Yo no puedo…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q64",
+     "number": "03",
+     "label": "Las personas como yo…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q65",
+     "number": "04",
+     "label": "El éxito requiere…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q66",
+     "number": "05",
+     "label": "Si trato y fallo, eso significaría…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q67",
+     "number": "06",
+     "label": "No merezco…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q68",
+     "number": "07",
+     "label": "La vida es…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q69",
+     "number": "08",
+     "label": "Es demasiado tarde para"
+    },
+    {
+     "type": "paragraph",
+     "text": "CREENCIAS POTENCIADORAS (las que te impulsan):"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q70",
+     "number": "01",
+     "label": "Soy capaz de:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q71",
+     "number": "02",
+     "label": "Mi mayor fortaleza es…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q72",
+     "number": "03",
+     "label": "Merezco…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q73",
+     "number": "04",
+     "label": "Cuando me caigo, yo…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q74",
+     "number": "05",
+     "label": "Los obstáculos son…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q75",
+     "number": "06",
+     "label": "Mi propósito es…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q76",
+     "number": "07",
+     "label": "Puedo aprender…"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Transformación de Creencias:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Elige las 3 creencias limitantes más dañinas y transfórmalas:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q77",
+     "number": "01",
+     "label": "Creencia limitante:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q78",
+     "number": "01",
+     "label": "Nueva creencia potenciadora…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q79",
+     "number": "02",
+     "label": "Creencia limitante:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q80",
+     "number": "02",
+     "label": "Nueva creencia potenciadora…"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q81",
+     "number": "03",
+     "label": "Creencia limitante:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q82",
+     "number": "03",
+     "label": "Nueva creencia potenciadora…"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus patrones de autosabotaje"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec4",
+   "title": "Excavación 4: Tus Patrones De Auto-Sabotaje",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "A veces tu peor enemigo vive dentro de ti"
+    },
+    {
+     "type": "paragraph",
+     "text": "El auto-sabotaje es cuando inconscientemente destruyes tu propio progreso. Todos lo hacemos. La clave es reconocer CÓMO lo haces."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Test de Patrones:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q83",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q84",
+     "label": "Patrones comunes de auto-sabotaje:"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k85",
+     "label": "PROCRASTINACIÓN - Pospongo lo importante hasta el último momento"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q86",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k87",
+     "label": "PERFECCIONISMO - No empiezo si no puede ser perfecto"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q88",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k89",
+     "label": "DISTRACCIÓN - Encuentro mil cosas que hacer antes de lo importante"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q90",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k91",
+     "label": "AUTO-SABOTAJE DE ÉXITO - Cuando estoy cerca de lograrlo, lo arruino"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q92",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k93",
+     "label": "MIEDO AL RECHAZO - No lo intento para no ser rechazado"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q94",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k95",
+     "label": "SÍNDROME DEL IMPOSTOR - Creo que no merezco lo que he logrado"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q96",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k97",
+     "label": "COMPARACIÓN TÓXICA - Me comparo con otros y me siento inferior"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q98",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k99",
+     "label": "VICTIMIZACIÓN - Culpo a circunstancias externas de mis resultados"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q100",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k101",
+     "label": "EXCESO DE COMPROMISO - Digo sí a todo y no tengo energía para mi cumbre"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q102",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k103",
+     "label": "BÚSQUEDA DE VALIDACIÓN - Necesito aprobación constante de otros"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q104",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k105",
+     "label": "MIEDO AL ÉXITO - Temo lo que implica tener éxito (responsabilidad, envidia)"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q106",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k107",
+     "label": "PENSAMIENTO TODO O NADA - Si no es perfecto, es un fracaso"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q108",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k109",
+     "label": "ADICCIÓN AL DRAMA - Creo crisis innecesarias que me distraen"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q110",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k111",
+     "label": "ABANDONO ANTES DEL FINAL - Renuncio cuando estoy a punto de lograrlo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis Profundo:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q112",
+     "number": "01",
+     "label": "¿Cuál es mi patrón de autosabotaje MÁS frecuente?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q113",
+     "number": "02",
+     "label": "¿Cuándo apareció por primera vez en mi vida?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q114",
+     "number": "03",
+     "label": "¿Qué miedo oculto protege este patrón? (Ej: Procrastinar me protege de enfrentar el miedo al fracaso)"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q115",
+     "number": "04",
+     "label": "¿Qué haría diferente si este patrón no existiera?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q116",
+     "number": "05",
+     "label": "¿Qué acción tomaré la PRÓXIMA VEZ que aparezca este patrón?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q117",
+     "number": "06",
+     "label": "¿Qué voy a hacer diferente para romper estos patrones?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus valores fundamentales"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CÓMO USAR ESTE DOCUMENTO DIGITALMENTE"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Haz clic dentro de cada cuadrito gris al lado del patrón"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Escribe ✓ si ese patrón aplica a ti, o X si no aplica"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Completa las cajas de reflexión al final"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reconocer el patrón es el primer paso para cambiarlo."
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec5",
+   "title": "Excavación 5: Tus Valores Fundamentales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Lo que más valoras determina tus decisiones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus valores son tu brújula interna. Cuando vives alineado con ellos, tienes paz. Cuando los violas, sufres."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Ejercicio de Priorización:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Marca los 10 valores más importantes para ti de esta lista:"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k118",
+     "label": "Libertad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k119",
+     "label": "Familia"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k120",
+     "label": "Éxito"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k121",
+     "label": "Creatividad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k122",
+     "label": "Salud"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k123",
+     "label": "Aventura"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k124",
+     "label": "Seguridad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k125",
+     "label": "Amor"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k126",
+     "label": "Justicia"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k127",
+     "label": "Autenticidad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k128",
+     "label": "Contribución"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k129",
+     "label": "Crecimiento"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k130",
+     "label": "Conexión"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k131",
+     "label": "Independencia"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k132",
+     "label": "Espiritualidad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k133",
+     "label": "Reconocimiento"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k134",
+     "label": "Integridad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k135",
+     "label": "Impacto"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k136",
+     "label": "Abundancia"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k137",
+     "label": "Sabiduría"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k138",
+     "label": "Comunidad"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k139",
+     "label": "Excelencia"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k140",
+     "label": "Paz"
+    },
+    {
+     "type": "check",
+     "id": "diagnostico.k141",
+     "label": "Legado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis Profundo:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q142",
+     "number": "01",
+     "label": "De los 10 que marcaste, elige tus TOP 5 en orden de importancia:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q143",
+     "number": "02",
+     "label": "Estos son los valores que nunca comprometerías, sin importar las circunstancias"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q144",
+     "number": "03",
+     "label": "¿Cómo reflejan mis decisiones actuales estos valores?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q145",
+     "number": "04",
+     "label": "¿En qué área de mi vida necesito alinearme mejor con mis valores?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q146",
+     "number": "05",
+     "label": "¿Mi vida actual refleja mis 5 valores principales? (Sí/No y por qué)"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q147",
+     "number": "06",
+     "label": "Si NO, ¿qué debo cambiar para vivir alineado con mis valores?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Áreas de la vida"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec6",
+   "title": "Excavación 6: Áreas De La Vida",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu vida es un ecosistema, no una sola montaña"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa cada área de tu vida del 1 al 10. Un 10 significa total satisfacción, un 1 significa insatisfacción total."
+    },
+    {
+     "type": "paragraph",
+     "text": "Área de vida"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué necesita esta área?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puntaje promedio"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q148",
+     "label": "Salud física"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s149",
+     "label": "Salud física",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q150",
+     "label": "Salud mental / emocional"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s151",
+     "label": "Salud mental / emocional",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q152",
+     "label": "Relaciones / Familia"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s153",
+     "label": "Relaciones / Familia",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q154",
+     "label": "Carrera / Propósito"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s155",
+     "label": "Carrera / Propósito",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q156",
+     "label": "Finanzas"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s157",
+     "label": "Finanzas",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q158",
+     "label": "Crecimiento personal"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s159",
+     "label": "Crecimiento personal",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q160",
+     "label": "Recreación / Diversión"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s161",
+     "label": "Recreación / Diversión",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q162",
+     "label": "Contribución /Legado"
+    },
+    {
+     "type": "scale",
+     "id": "diagnostico.s163",
+     "label": "Contribución /Legado",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "paragraph",
+     "text": "Total"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis de Equilibrio:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q164",
+     "number": "01",
+     "label": "¿Cuáles son las 2 áreas con puntaje más BAJO?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q165",
+     "number": "02",
+     "label": "¿Cómo afectan esas áreas débiles mi ascenso a mi cumbre?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q166",
+     "number": "03",
+     "label": "¿Qué área necesita atención URGENTE?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis FODA personal"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec7",
+   "title": "Excavación 7: Análisis Foda Personal",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Fortalezas, Oportunidades, Debilidades, Amenazas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Este es el diagnóstico estratégico completo para planificar tu ascenso."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FORTALEZAS"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Factores internos positivos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué hago bien?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué recursos tengo?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q167",
+     "label": "¿Qué ventajas tengo?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DEBILIDADES"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Factores internos negativos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué me falta?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué hago mal?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q168",
+     "label": "¿Qué debo mejorar?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "OPORTUNIDADES"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Factores externos positivos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué puedo aprovechar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué tendencias me favorecen?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q169",
+     "label": "¿Qué puertas están abiertas?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "AMENAZAS"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Factores externos negativos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué obstáculos enfrento?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué podría impedirme?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q170",
+     "label": "¿Qué riesgos existen?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Estrategia de Acción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Basándote en tu FODA:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q171",
+     "number": "01",
+     "label": "¿Cómo puedo usar mis FORTALEZAS para aprovechar las OPORTUNIDADES?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q172",
+     "number": "02",
+     "label": "¿Cómo puedo fortalecer mis DEBILIDADES que son críticas?"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q173",
+     "number": "03",
+     "label": "¿Cómo puedo neutralizar las AMENAZAS?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Síntesis: tu perfil completo"
+    }
+   ]
+  },
+  {
+   "id": "diagnostico.sec8",
+   "title": "Síntesis: Tu Perfil Completo",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Ahora conoces tu terreno. Estás listo para planificar el ascenso."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DECLARACIÓN DE AUTOCONOCIMIENTO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Después de completar este diagnóstico, ahora sé que:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q174",
+     "number": "01",
+     "label": "Mi mayor fortaleza es:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q175",
+     "number": "02",
+     "label": "Mi mayor debilidad crítica es:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q176",
+     "number": "03",
+     "label": "Mi patrón de autosabotaje principal es:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q177",
+     "number": "04",
+     "label": "Mi creencia más limitante es:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q178",
+     "number": "05",
+     "label": "Mis 3 valores fundamentales son:"
+    },
+    {
+     "type": "prompt",
+     "id": "diagnostico.q179",
+     "number": "06",
+     "label": "El área de mi vida que necesita más atención es:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Con este conocimiento profundo de mi terreno, ahora puedo planificar mi ascenso con sabiduría."
+    }
+   ]
+  }
+ ]
+}

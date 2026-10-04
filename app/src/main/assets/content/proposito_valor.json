@@ -1,0 +1,1161 @@
+{
+ "id": "proposito_valor",
+ "title": "Del Propósito al Valor",
+ "subtitle": "Monetización ética de tu cumbre",
+ "category": "ruta",
+ "order": 7,
+ "sections": [
+  {
+   "id": "proposito_valor.sec0",
+   "title": "La Verdad Sobre Monetización",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Monetizar tu propósito no es venderte. Es sostenerte."
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "La creencia limitante más común:"
+      },
+      {
+       "type": "quote",
+       "text": "Si cobro por mi propósito, lo estoy traicionando."
+      },
+      {
+       "type": "quote",
+       "text": "El dinero es sucio y espiritualidad es pura."
+      },
+      {
+       "type": "quote",
+       "text": "Si realmente quiero ayudar, debería hacerlo gratis."
+      },
+      {
+       "type": "paragraph",
+       "text": "Resultado de esta creencia:"
+      },
+      {
+       "type": "bullet",
+       "text": "Trabajas en algo que odias para pagar las cuentas",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu propósito queda como un hobby de fin de semana",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "No tienes tiempo/energía para tu cumbre",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "Te agota y eventualmente renuncias",
+       "mark": "→"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "LA VERDAD LIBERADORA:"
+      },
+      {
+       "type": "paragraph",
+       "text": "El dinero no es el enemigo del propósito."
+      },
+      {
+       "type": "paragraph",
+       "text": "Es el COMBUSTIBLE del propósito."
+      },
+      {
+       "type": "paragraph",
+       "text": "Sin dinero:"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes dedicarte full-time a tu cumbre",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes invertir en crecer tu maestría",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes escalar tu impacto",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu propósito muere de inanición",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Con dinero generado éticamente:"
+      },
+      {
+       "type": "bullet",
+       "text": "Puedes vivir de tu propósito",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Puedes crecer tu impacto exponencialmente",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Puedes ayudar más gente",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu cumbre se vuelve sostenible",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Monetizar tu propósito es un ACTO DE AMOR propio."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué aprenderás en esta guía:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo identificar qué puedes monetizar (inventario completo)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Modelos de monetización para diferentes talentos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo calcular tu valor real en el mercado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estrategias de pricing consciente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear ofertas alineadas con tu cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Casos reales de monetización ética exitosa",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu plan de acción de monetización a 6 meses",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec1",
+   "title": "Parte 1: Inventario De Activos Monetizables",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tienes más que monetizar de lo que crees"
+    },
+    {
+     "type": "paragraph",
+     "text": "Antes de monetizar, necesitas saber QUÉ tienes para ofrecer. Este inventario te sorprenderá."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CATEGORÍA 1: Habilidades y Conocimientos"
+    },
+    {
+     "type": "inputTable",
+     "id": "proposito_valor.t1",
+     "headers": [
+      "HABILIDAD/CONOCIMIENTO",
+      "¿PUEDO MONETIZARLO?"
+     ],
+     "rowLabels": [],
+     "rows": 12
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CATEGORÍA 2: Experiencias y Sabiduría"
+    },
+    {
+     "type": "paragraph",
+     "text": "La gente paga por tu EXPERIENCIA, no solo por información."
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q2",
+     "label": "Lista experiencias valiosas que has vivido (superación de adversidad, transformaciones, logros únicos):"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q3",
+     "label": "¿Cuál de estas experiencias podría ayudar a otros?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CATEGORÍA 3: Acceso y Conexiones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus conexiones y accesos tienen valor."
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q4",
+     "label": "¿A qué personas, comunidades, o espacios tienes acceso que otros no tienen?"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q5",
+     "label": "¿Qué puertas puedes abrir para otros?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CATEGORÍA 4: Tiempo y Atención"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Tu tiempo y atención son recursos finitos = valiosos"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Cuántas horas semanales podrías dedicar a trabajo remunerado relacionado con tu cumbre?"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "Escriba aquí número de horas"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Qué valor tiene cada hora de tu atención enfocada?"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "Escriba aquí valor por hora"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CATEGORÍA 5: Procesos y Sistemas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Los sistemas que has creado tienen ENORME valor."
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q6",
+     "label": "¿Qué procesos, frameworks, o sistemas has desarrollado que otros querrían aprender?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: \"Mi sistema de gestión de tiempo\", \"Mi framework de toma de decisiones\", \"Mi proceso de creatividad\""
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec2",
+   "title": "Síntesis de tu Inventario",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "De todo lo anterior, identifica tus TOP 3 ACTIVOS MONETIZABLES:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q7",
+     "label": "ACTIVO #1 (el más valioso):"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué tiene valor?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACTIVO #2:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q8",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué tiene valor?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACTIVO #3:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q9",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué tiene valor?"
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec3",
+   "title": "Parte 2: Modelos De Monetización",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "12 formas de convertir tu activo en ingresos"
+    },
+    {
+     "type": "inputTable",
+     "id": "proposito_valor.t10",
+     "headers": [
+      "MODELO",
+      "DESCRIPCIÓN",
+      "¿APLICA A MÍ?"
+     ],
+     "rowLabels": [
+      "1. Servicios 1:1",
+      "2. Servicios grupales",
+      "3. Productos digitales",
+      "4. Membresía/Suscripción",
+      "5. Eventos presenciales",
+      "6. Contenido patrocinado",
+      "7. Afiliación",
+      "8. Licenciamiento",
+      "9. Hablar/Presentar",
+      "10. Servicios freelance",
+      "11. Productos físicos",
+      "12. Software/Apps"
+     ],
+     "rows": 12
+    },
+    {
+     "type": "paragraph",
+     "text": "De los modelos marcados, elige tus TOP 3 para comenzar:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MODELO #1:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q11",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué este?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MODELO #2:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q12",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué este?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MODELO #3:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q13",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Por qué este?"
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec4",
+   "title": "Parte 3: Calcular Tu Valor En El Mercado",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No adivines. Calcula."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio 1: Tu piso y tu techo"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "PASO 1: Calcula tu piso (lo mínimo que NECESITAS)"
+      },
+      {
+       "type": "paragraph",
+       "text": "Gastos mensuales fijos (renta, comida, servicios, etc.):"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "$"
+      },
+      {
+       "type": "paragraph",
+       "text": "× 12 meses ="
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "$"
+      },
+      {
+       "type": "paragraph",
+       "text": "al año"
+      },
+      {
+       "type": "paragraph",
+       "text": "Este es tu PISO. Nunca cobres menos de esto anualizado."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "PASO 2: Calcula tu techo (lo que MERECES)"
+      },
+      {
+       "type": "paragraph",
+       "text": "Investiga: ¿Cuánto cobran personas con tu nivel de experiencia/maestría en tu industria?"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "Precio bajo del mercado: $"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "Precio medio del mercado: $"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "Precio alto del mercado: $"
+      },
+      {
+       "type": "paragraph",
+       "text": "Tu TECHO inicial es el precio medio. Conforme creces, subes al precio alto."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio 2: Fórmula de valor"
+    },
+    {
+     "type": "paragraph",
+     "text": "TU VALOR = (Problema que resuelves × Resultado que entregas) ÷ Tiempo"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q14",
+     "label": "¿Qué problema resuelves?"
+    },
+    {
+     "type": "paragraph",
+     "text": "En escala de 1-10, ¿qué tan doloroso es ese problema para tu cliente?"
+    },
+    {
+     "type": "scale",
+     "id": "proposito_valor.s15",
+     "label": "Nivel de dolor",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q16",
+     "label": "¿Qué resultado concreto entregas?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuánto vale ese resultado en dinero/tiempo para tu cliente?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Valor del resultado:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "$"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuánto tiempo te toma entregar ese resultado?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Escriba aquí número de horas:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu precio justo debería ser 10-30% del valor del resultado."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Precio sugerido: $"
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec5",
+   "title": "Parte 4: Estrategias De Pricing Consciente",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cobra lo que vales, sin culpa"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Las 7 reglas del pricing ético"
+    },
+    {
+     "type": "paragraph",
+     "text": "REGLA #1: No cobres por debajo de tu piso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si no cubre tus necesidades básicas, no es sostenible. Punto."
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Mi piso es: $                                                 No bajaré de aquí."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #2: Cobra basado en VALOR, no en TIEMPO"
+      },
+      {
+       "type": "paragraph",
+       "text": "No es: \"Cobro $50/hora\""
+      },
+      {
+       "type": "paragraph",
+       "text": "Es: \"Resuelvo X problema que vale Y, cobro 20% de Y\""
+      },
+      {
+       "type": "paragraph",
+       "text": "Ejemplo: Si ahorras $100k a una empresa, cobrar $20k es justo."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #3: Ofrece opciones (Bueno, Mejor, Premium)"
+      },
+      {
+       "type": "paragraph",
+       "text": "Nunca ofrezcas UN solo precio. Siempre da 3 opciones:"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "BUENO: Lo básico $"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "MEJOR: Lo recomendado $"
+      },
+      {
+       "type": "heading",
+       "level": 3,
+       "text": "PREMIUM: Todo incluido $"
+      },
+      {
+       "type": "paragraph",
+       "text": "La mayoría elegirá MEJOR. Algunos elegirán PREMIUM."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #4: Aumenta precios cada 6-12 meses"
+      },
+      {
+       "type": "paragraph",
+       "text": "Tu valor crece con tu experiencia. Tus precios también deben crecer."
+      },
+      {
+       "type": "paragraph",
+       "text": "Mi siguiente aumento de precios será el: 00:00:00"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "REGLA #5: Sé transparente sobre tu pricing"
+    },
+    {
+     "type": "paragraph",
+     "text": "No escondas precios. La transparencia genera confianza."
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q17",
+     "label": "Mis precios estarán visibles en:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #6: Ofrece becas o sliding scale (si puedes)"
+      },
+      {
+       "type": "paragraph",
+       "text": "Para mantener tu propósito accesible sin sacrificarte:"
+      },
+      {
+       "type": "bullet",
+       "text": "Reserva 10-20% de tus slots para becas",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Ofrece sliding scale basado en ingresos",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Crea contenido gratuito de alta calidad",
+       "mark": "•"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #7: Si sientes resistencia a tu precio, es señal de subirlo"
+      },
+      {
+       "type": "paragraph",
+       "text": "Contraintuitivo pero cierto: Si te sientes incómodo, probablemente estás cobrando muy poco."
+      },
+      {
+       "type": "paragraph",
+       "text": "El precio correcto te hace sentir ligeramente nervioso, pero justo."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec6",
+   "title": "Parte 5: Crear Ofertas Alineadas Con Tu Cumbre",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu oferta debe servir a tu cumbre, no al revés"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Diseña tu Primera Oferta"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "NOMBRE DE LA OFERTA:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q18",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "¿PARA QUIÉN ES?"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q19",
+     "label": "(Cliente ideal específico):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "¿QUÉ PROBLEMA RESUELVE?"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q20",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "¿QUÉ RESULTADO ESPECÍFICO ENTREGAS?"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q21",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q22",
+     "label": "¿QUÉ INCLUYE? (Componentes específicos)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DURACIÓN:"
+    },
+    {
+     "type": "paragraph",
+     "text": "______________ (semanas/meses/sesiones)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FORMATO:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q23",
+     "number": "1",
+     "label": ":1    ☐ Grupal    ☐ Digital    ☐ Presencial    ☐ Híbrido"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PRECIO:"
+    },
+    {
+     "type": "paragraph",
+     "text": "$_______________________ (Basado en tu fórmula de valor)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "¿CÓMO SE ALINEA CON TU CUMBRE?"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q24",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec7",
+   "title": "Parte 6: Plan De Monetización A 6 Meses",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Del propósito al primer ingreso"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACCIÓN CLAVE"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 1"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CLARIDAD Y DISEÑO"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar inventario de activos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Elegir modelo de monetización principal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Diseñar primera oferta completa",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Calcular pricing",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q25",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 2"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CONSTRUCCIÓN"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear página de venta/landing page",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Preparar materiales (deck, propuesta, etc.)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Definir proceso de entrega",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Configurar sistemas de pago",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q26",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 3"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LANZAMIENTO BETA"
+    },
+    {
+     "type": "bullet",
+     "text": "Ofrecer a 3-5 clientes beta (precio reducido)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pedir feedback detallado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Refinar oferta basado en experiencia",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Recopilar testimonios",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q27",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 4"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ESCALA Y VISIBILIDAD"
+    },
+    {
+     "type": "bullet",
+     "text": "Aumentar precio a precio final",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear contenido que atraiga clientes (blog, videos, podcast)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Networking estratégico",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Buscar primeros 5 clientes pagando precio completo",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q28",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 5"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "OPTIMIZACIÓN"
+    },
+    {
+     "type": "bullet",
+     "text": "Analizar qué funciona y qué no",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Automatizar procesos repetitivos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Explorar segunda fuente de ingresos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Mejorar experiencia del cliente",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q29",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES 6"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EVALUACIÓN Y EXPANSIÓN"
+    },
+    {
+     "type": "bullet",
+     "text": "Revisar resultados financieros",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Alcanzaste tu piso? ¿Tu techo?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Planificar próximos 6 meses con aprendizajes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Considerar aumentar precios o agregar ofertas premium",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q30",
+     "label": "Mi acción específica:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "METAS FINANCIERAS A 6 MESES:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q31",
+     "label": "Ingresos objetivo Mes 3:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q32",
+     "label": "Ingresos objetivo Mes 6:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q33",
+     "label": "Número de clientes objetivo:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q34",
+     "label": "Si logro esto, significará:"
+    }
+   ]
+  },
+  {
+   "id": "proposito_valor.sec8",
+   "title": "Compromiso Final",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Monetizar tu propósito es honrarlo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DECLARACIÓN DE MONETIZACIÓN ÉTICA"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q35",
+     "label": "Yo,"
+    },
+    {
+     "type": "paragraph",
+     "text": ", declaro que:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Merezco ser compensado justamente por el valor que aporto."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Cobrar por mi trabajo me permite servir más y mejor."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. No traiciono mi propósito al generar dinero de él. Lo sostengo."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Mi pricing será justo, transparente y basado en el valor que entrego."
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Mantendré accesibilidad para quienes no pueden pagar precio completo."
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Reinvertiré parte de mis ganancias en crecer mi maestría e impacto."
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q36",
+     "label": "Mi primera oferta estará lista el:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q37",
+     "label": "Mi primer cliente llegará antes del:"
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q38",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "proposito_valor.q39",
+     "label": "Fecha:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu propósito merece sostenerse."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora ve y genera valor."
+    }
+   ]
+  }
+ ]
+}

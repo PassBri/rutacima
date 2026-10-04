@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Montaña dorada con bandera en la cima: símbolo de Ruta a la Cima. Zona segura 66dp centrada. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- montaña trasera -->
+    <path android:fillColor="#A8822A" android:pathData="M62,50 L80,74 L44,74 Z" />
+    <!-- montaña principal -->
+    <path android:fillColor="#C9A033" android:pathData="M50,34 L72,74 L28,74 Z" />
+    <!-- nieve en la cima -->
+    <path android:fillColor="#F5EED9" android:pathData="M50,34 L56,45 L52.5,43 L50,47 L47,43 L44,45 Z" />
+    <!-- asta y bandera -->
+    <path android:fillColor="#F5EED9" android:pathData="M49.4,22 L50.6,22 L50.6,35 L49.4,35 Z" />
+    <path android:fillColor="#F5EED9" android:pathData="M50.6,22 L59,25 L50.6,28 Z" />
+    <!-- sendero -->
+    <path android:fillColor="#00000000" android:strokeColor="#5A0C08" android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:pathData="M46,74 C52,68 42,64 49,58 C54,54 47,51 50,47" />
+</vector>

@@ -1,0 +1,1470 @@
+{
+ "id": "desde_cima",
+ "title": "Desde la Cima",
+ "subtitle": "Celebrar, integrar y descender",
+ "category": "ruta",
+ "order": 9,
+ "sections": [
+  {
+   "id": "desde_cima.sec0",
+   "title": "Introducción: El Descenso Olvidado",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Subir la montaña te transforma. Bajar conscientemente te integra"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has llegado a tu cumbre. Felicidades. Sientes la satisfacción del logro, la claridad de la perspectiva desde arriba, quizás incluso la euforia de haber conquistado lo que parecía imposible."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pero aquí está la verdad que pocos te dicen: la cumbre no es el final del viaje. Es apenas la mitad."
+    },
+    {
+     "type": "paragraph",
+     "text": "La mayoría de los senderistas celebran brevemente en la cima y luego descienden de prisa, ansiosos por la siguiente montaña. Algunos incluso sienten un vacío extraño después del logro, una sensación de '¿y ahora qué?' que no se atreven a nombrar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía existe para que tu descenso sea tan consciente e intencional como tu ascenso. Para que no solo llegues a la cumbre, sino que integres la sabiduría del viaje, celebres tus logros sin ego, consolides tus aprendizajes, y regreses transformado al valle, listo para compartir y prepararte para la siguiente cumbre."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Lo que encontrarás en esta guía:"
+    },
+    {
+     "type": "bullet",
+     "text": "Rituales de celebración auténtica (sin ego, sin minimización)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo consolidar y anclar tus aprendizajes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Preparación para el descenso consciente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Identificar tu próxima montaña (sin prisa, con claridad)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Transferencia de conocimiento: cómo enseñar lo aprendido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ejercicio de legado personal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Preparación para tu siguiente ciclo transformativo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Instrucciones: Completa esta guía después de alcanzar una cumbre importante en tu vida. No te apresures. Dale al descenso el tiempo y la atención que le diste al ascenso. La integración es tan importante como el logro."
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec1",
+   "title": "Parte 1: Rituales De Celebración Auténtica",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Celebrar sin arrogancia es honrar el esfuerzo. No celebrar es negarte tu propia transformación"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "La paradoja de la celebración"
+    },
+    {
+     "type": "paragraph",
+     "text": "Muchos senderistas tienen dificultad para celebrar sus logros:"
+    },
+    {
+     "type": "bullet",
+     "text": "Algunos minimizan: 'No es para tanto', 'Cualquiera lo hubiera hecho'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Otros caen en la arrogancia: 'Yo soy especial', 'Soy mejor que...'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Muchos simplemente pasan de largo: 'Ya, ¿y ahora qué sigue?'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La celebración auténtica es un acto de reconocimiento sin ego. Es decir: 'Esto fue difícil, lo hice, me transformé en el proceso, y eso importa.'"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ritual 1: El Momento de contemplación en la cumbre (15-30 minutos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Antes de descender, date este espacio:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 1: Arribar completamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Respira. Mira alrededor. Deja que tu cuerpo y tu mente registren que llegaste."
+    },
+    {
+     "type": "paragraph",
+     "text": "Escribe o graba en audio:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q1",
+     "label": "¿Qué veo desde aquí que no veía desde abajo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 2: Reconocer el camino recorrido"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mira hacia atrás, hacia el sendero que subiste. Reconoce mentalmente las fases por las que pasaste."
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q2",
+     "label": "¿Qué tramos fueron más difíciles?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q3",
+     "label": "¿En qué momento pensé en rendirme?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q4",
+     "label": "¿Qué me sorprendió del viaje?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 3: Honrar tu transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Quien llegó a esta cumbre no es la misma persona que empezó el ascenso."
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q5",
+     "label": "¿Quién era yo cuando empecé este viaje?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q6",
+     "label": "¿Quién soy ahora, en esta cumbre?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q7",
+     "label": "¿Qué fortaleza descubrí en mí que no sabía que tenía?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ritual 2: La carta desde la cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "Escribe una carta a ti mismo, desde la cumbre, para leerla cuando estés en el valle."
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q8",
+     "label": "Fecha:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q9",
+     "label": "Lugar (tu cumbre):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Querido/a [tu nombre]:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q10",
+     "label": "Estoy aquí, en la cumbre que soñaste. Quiero que recuerdes esto cuando vuelvas a dudar:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q11",
+     "label": "Lo que aprendí sobre ti (sobre mí) en este viaje:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q12",
+     "label": "La verdad que ahora sé, que antes no sabía:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Con amor y respeto desde la cumbre,"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q13",
+     "label": "Yo,"
+    },
+    {
+     "type": "paragraph",
+     "text": "Guarda esta carta. Ábrela en momentos de duda o cuando estés en el valle preparando tu próxima cumbre."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ritual 3: El objeto simbólico"
+    },
+    {
+     "type": "paragraph",
+     "text": "Muchas culturas ancestrales recogen un objeto de la cumbre como recordatorio físico del logro."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu objeto puede ser:"
+    },
+    {
+     "type": "bullet",
+     "text": "Una piedra de la cumbre (literal si es montaña física)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Una foto específica del momento cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Un símbolo que represente tu logro (medalla, certificado, objeto)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Un dibujo o creación artística que hagas en la cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q14",
+     "label": "Mi objeto simbólico es:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q15",
+     "label": "Lo guardo en:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q16",
+     "label": "Cuando lo vea, me recordará:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ritual 4: La celebración compartida (opcional pero poderoso)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Los logros profundos merecen ser compartidos con quienes te acompañaron."
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q17",
+     "label": "¿Con quién quiero celebrar este logro?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q18",
+     "label": "¿Cómo quiero celebrar? (Cena, reunión, ritual, mensaje personal...)"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q19",
+     "label": "¿Qué quiero decirles en esa celebración?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recuerda: La celebración auténtica incluye gratitud a quienes te apoyaron. No es arrogancia reconocer tu logro Y agradecer el apoyo recibido."
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec2",
+   "title": "Parte 2: Consolidación Y Anclaje De Aprendizajes",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La experiencia sin reflexión es solo anécdota. La reflexión profunda convierte la experiencia en sabiduría"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El valor de integrar (no solo acumular experiencias)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Vivir una experiencia transformadora no es lo mismo que integrarla. La integración ocurre cuando:"
+    },
+    {
+     "type": "bullet",
+     "text": "Reflexionas conscientemente sobre lo vivido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Extraes lecciones específicas y articulables",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Creas sistemas para que lo aprendido se vuelva parte de tu vida",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Puedes enseñar a otros lo que descubriste",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta sección te ayuda a hacer exactamente eso."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio 1: Las 7 lecciones de tu cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "Identifica las 7 lecciones más importantes que aprendiste en este viaje. Sé específico."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 1:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q20",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q21",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 2:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q22",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q23",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 3:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q24",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q25",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 4:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q26",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q27",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 5:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q28",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q29",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LECCIÓN 6:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q30",
+     "label": "Lo que aprendí:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q31",
+     "label": "Cómo lo aplicaré en mi vida:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio 2: Revisión de los 6 ejes después de la cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo se fortalecieron o transformaron tus 6 Ejes durante este viaje?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 1: VOLUNTAD"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q32",
+     "label": "Antes de la cumbre, mi voluntad estaba en:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q33",
+     "label": "Ahora, después de la cumbre, mi voluntad:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 2: MAESTRÍA"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q34",
+     "label": "Habilidades que desarrollé o refiné en este viaje:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q35",
+     "label": "Nivel de maestría alcanzado:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 3: VOZ"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q36",
+     "label": "Cómo se fortaleció mi voz auténtica:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q37",
+     "label": "Qué verdad mía ahora expreso con más claridad:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 4: VALOR"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q38",
+     "label": "Cómo cambió mi relación con el valor (económico, profesional, personal):"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q39",
+     "label": "Qué aprenderá sobre generar y recibir valor:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 5: EVOLUCIÓN"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q40",
+     "label": "En qué aspectos evolucioné más profundamente:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q41",
+     "label": "Mi próxima frontera de crecimiento:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "EJE 6: TRASCENDENCIA"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q42",
+     "label": "Cómo este logro se conecta con algo mayor que yo:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q43",
+     "label": "A quién puedo servir ahora con lo que aprendí:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio 3: Sistemas de anclaje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Los aprendizajes se pierden si no los anclas en tu vida cotidiana. Diseña sistemas que mantengan viva la transformación."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Sistema 1: Ritual diario de recordatorio"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué práctica diaria haré para mantener viva la sabiduría de esta cumbre?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q44",
+     "label": "Mi ritual será:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q45",
+     "label": "Lo haré a las:"
+    },
+    {
+     "type": "paragraph",
+     "text": "cada día"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q46",
+     "label": "Durará aproximadamente:"
+    },
+    {
+     "type": "paragraph",
+     "text": "minutos"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Sistema 2: Revisión mensual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada mes, revisaré mi integración respondiendo:"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Sigo aplicando las lecciones de mi cumbre?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué se ha diluido y necesito reforzar?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué nueva comprensión tengo ahora?",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q47",
+     "label": "Agendar revisión mensual el día:"
+    },
+    {
+     "type": "paragraph",
+     "text": "de cada mes"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Sistema 3: Recordatorios visuales"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q48",
+     "label": "¿Qué tendré en mi entorno que me recuerde esta cumbre?"
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec3",
+   "title": "Parte 3: Preparación Para El Descenso Consciente",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El descenso requiere más atención que el ascenso. Aquí es donde tropiezan los descuidados"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "La sabiduría del descenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "En el montañismo real, la mayoría de los accidentes ocurren en el descenso. ¿Por qué?"
+    },
+    {
+     "type": "bullet",
+     "text": "Fatiga después del esfuerzo de subir",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Exceso de confianza ('ya lo logré')",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Prisa por bajar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pérdida de concentración",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lo mismo ocurre en tu Cumbre Personal. El descenso requiere:"
+    },
+    {
+     "type": "bullet",
+     "text": "Humildad: No caer en el ego del logro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Paciencia: Tomarte el tiempo para integrar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Atención: No perder los aprendizajes en la euforia",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Gratitud: Reconocer lo que te trajo aquí",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: El plan de descenso"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. Ritmo del descenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "No tengo prisa. Mi descenso será:"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k49",
+     "label": "Lento y contemplativo (varios meses de integración)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k50",
+     "label": "Moderado (algunas semanas de pausa)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k51",
+     "label": "Consciente pero ágil (días de reflexión profunda)"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q52",
+     "label": "Específicamente, me daré hasta:"
+    },
+    {
+     "type": "paragraph",
+     "text": "para completar mi descenso."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. Riesgos de mi descenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué podría hacer tropezar mi descenso?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q53",
+     "label": "Riesgo 1:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q54",
+     "label": "Cómo lo evitaré:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q55",
+     "label": "Riesgo 2:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q56",
+     "label": "Cómo lo evitaré:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q57",
+     "label": "Riesgo 3:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q58",
+     "label": "Cómo lo evitaré:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. Compañía en el descenso"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q59",
+     "label": "¿Con quién quiero compartir mi descenso?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q60",
+     "label": "¿Qué conversaciones necesito tener durante mi descenso?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. Lo que dejo en la cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "No todo lo que usaste para subir te sirve para bajar. ¿Qué dejas atrás?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q61",
+     "label": "Creencias que ya no necesito:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q62",
+     "label": "Hábitos que cumplieron su función:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q63",
+     "label": "Miedos que superé:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q64",
+     "label": "Versiones de mí que ya no soy:"
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec4",
+   "title": "Parte 4: Identificar Tu Próxima Montaña",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No hay cumbre final. Hay ciclos de ascenso, cumbre, descenso, descanso, y nuevo ascenso"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El ciclo natural del senderista"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completar una cumbre no significa retirarse. Significa prepararse conscientemente para la siguiente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pero hay sabiduría en el timing:"
+    },
+    {
+     "type": "bullet",
+     "text": "No saltes inmediatamente a la próxima cumbre (adicción al logro)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No te quedes indefinidamente en el valle (miedo al esfuerzo)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Descansa lo suficiente para integrar, pero no tanto que pierdas impulso",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Exploración de tu próxima cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "IMPORTANTE: No necesitas tener claridad total ahora. Este es un ejercicio de exploración, no de compromiso."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 1: Escaneo del horizonte"
+    },
+    {
+     "type": "paragraph",
+     "text": "Desde esta cumbre, mira hacia el horizonte. ¿Qué montañas ves en la distancia?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q65",
+     "label": "Posibles próximas cumbres (lista todo lo que aparezca, sin filtrar):"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 2: ¿Cuál me llama más?"
+    },
+    {
+     "type": "paragraph",
+     "text": "De todas las montañas que veo, ¿cuál genera más resonancia en mí?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q66",
+     "label": "La montaña que más me llama es:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q67",
+     "label": "¿Por qué me llama?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 3: Verificación de voluntad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con honestidad brutal:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q68",
+     "label": "¿Es esta MI cumbre, o es una cumbre que creo que 'debería' alcanzar?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q69",
+     "label": "¿Estoy dispuesto a pagar el precio de este ascenso?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q70",
+     "label": "¿Qué tendría que sacrificar o dejar de lado para esta cumbre?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q71",
+     "label": "¿Estoy en paz con ese sacrificio?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Paso 4: Timing consciente"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuándo debería comenzar el ascenso de mi próxima cumbre?"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k72",
+     "label": "Inmediatamente (tengo energía y claridad)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k73",
+     "label": "Después de descansar (necesito recuperación)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k74",
+     "label": "Cuando complete mi descenso e integración"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k75",
+     "label": "Aún no sé, necesito más tiempo de contemplación"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q76",
+     "label": "Fecha tentativa de inicio de mi próximo ascenso:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Recuerda: No hay respuestas incorrectas. Si no sabes cuál es tu próxima cumbre, está bien. El descenso y la integración traerán claridad."
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec5",
+   "title": "Parte 5: Transferencia De Conocimiento",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La sabiduría que no se comparte muere contigo. La que enseñas se multiplica"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El acto sagrado de enseñar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Uno de los regalos más profundos de alcanzar una cumbre es poder guiar a otros en su propio ascenso."
+    },
+    {
+     "type": "paragraph",
+     "text": "Enseñar lo aprendido:"
+    },
+    {
+     "type": "bullet",
+     "text": "Consolida tus propios aprendizajes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Honra a quienes te ayudaron en tu camino",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Genera impacto más allá de ti mismo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te conecta con tu eje de trascendencia",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Diseña tu transferencia de conocimiento"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. ¿Qué aprendí que vale la pena enseñar?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q77",
+     "label": "De todo mi viaje, las 3 lecciones más valiosas para compartir son:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. ¿A quién le serviría este conocimiento?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q78",
+     "label": "¿Qué tipo de personas se beneficiarían de lo que aprendí?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q79",
+     "label": "Personas específicas a las que podría enseñar:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. ¿Cómo puedo enseñarlo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Formas en las que podría compartir mi conocimiento:"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k80",
+     "label": "Conversación uno a uno (mentoría informal)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k81",
+     "label": "Taller o presentación"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k82",
+     "label": "Escribir (blog, artículo, libro)"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k83",
+     "label": "Video o podcast"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k84",
+     "label": "Programa estructurado"
+    },
+    {
+     "type": "check",
+     "id": "desde_cima.k85",
+     "label": "Otro: _____________________________________________"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q86",
+     "label": "La forma que más resuena conmigo ahora es:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. ¿Cuándo empezaré?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q87",
+     "label": "Mi primera acción de transferencia de conocimiento será:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q88",
+     "label": "Lo haré antes de:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Principios para enseñar desde la humildad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Al compartir tu conocimiento, recuerda:"
+    },
+    {
+     "type": "bullet",
+     "text": "Enseña desde la experiencia, no desde el ego. Comparte lo que funcionó para ti, sin afirmar que es 'la verdad' universal.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Respeta el viaje único de cada persona. Tu camino no es su camino. Eres guía, no dictador.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comparte cicatrices, no heridas abiertas. Enseña desde lo integrado, no desde lo aún no resuelto.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Agradece a quienes te enseñaron. Reconoce que estás transmitiendo una sabiduría que recibiste de otros.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sigue siendo aprendiz. Enseñar una cumbre no te hace maestro de todas las montañas.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec6",
+   "title": "Parte 6: Ejercicio De Legado",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu legado no es lo que dejas cuando mueres. Es lo que construyes mientras vives"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Más allá del logro personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Alcanzar una cumbre personal es valioso. Pero las cumbres más significativas son aquellas que crean un camino para que otros también asciendan."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu legado es el impacto duradero de tu viaje en el mundo y en otros seres humanos."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Define tu legado desde esta cumbre"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. El impacto que ya generaste"
+    },
+    {
+     "type": "paragraph",
+     "text": "Al llegar a esta cumbre, ¿a quién ya impacté positivamente?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q89",
+     "label": "Personas que se beneficiaron de mi viaje:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q90",
+     "label": "¿Cómo cambió sus vidas?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. El legado que quiero construir"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dentro de 10 años, cuando mire hacia atrás a esta cumbre, ¿qué quiero que haya generado?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q91",
+     "label": "Mi legado deseado:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. Acciones concretas de legado"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q92",
+     "label": "¿Qué haré en los próximos 6 meses para construir ese legado?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. ¿Qué parte de mí quiero dejar en el mundo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si pudiera imprimir una cualidad, un valor o una enseñanza en el mundo, ¿cuál sería?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q93",
+     "label": "Mi contribución esencial al mundo:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "La pregunta del legado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con total honestidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q94",
+     "label": "Si mi vida terminara hoy, habiendo alcanzado esta cumbre, ¿estaría en paz con lo que dejé?"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q95",
+     "label": "Si la respuesta es no, ¿qué falta?"
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec7",
+   "title": "Parte 7: Preparación Para El Siguiente Ciclo",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La vida es una serie de montañas. La sabiduría está en cómo navegas los ciclos"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El senderista experimentado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has completado un ciclo completo:"
+    },
+    {
+     "type": "bullet",
+     "text": "Orientación → Preparación → Travesía → Prueba → Cumbre → Contemplación → Descenso",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora conoces el patrón. Sabes cómo se siente cada fase. Reconoces las señales de tu propio viaje."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esto te convierte en un senderista experimentado. Y con experiencia viene:"
+    },
+    {
+     "type": "bullet",
+     "text": "Confianza: Sabes que puedes completar lo que empiezas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Paciencia: Entiendes que cada fase tiene su tiempo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Humildad: Reconoces que siempre hay montañas más altas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sabiduría: Sabes elegir qué batallas pelear",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio final: Preparación para el nuevo ciclo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "1. Lo que ahora sé sobre mí como senderista"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q96",
+     "label": "Mis fortalezas como senderista:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q97",
+     "label": "Mis patrones de sabotaje que debo vigilar:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "2. Lo que aplicaré en mi próximo ascenso"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q98",
+     "label": "De este viaje, en mi próxima cumbre haré diferente:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "3. Mi mantra para el próximo ciclo"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q99",
+     "label": "En una frase, la verdad que me guiará en mi próximo ascenso:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "4. Mi compromiso"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q100",
+     "label": "Al cerrar este ciclo y prepararme para el siguiente, me comprometo a:"
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q101",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "desde_cima.q102",
+     "label": "Fecha:"
+    }
+   ]
+  },
+  {
+   "id": "desde_cima.sec8",
+   "title": "Cierre: El Senderista Eterno",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No hay cumbre final. Solo el siguiente paso en un viaje infinito"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has llegado al final de esta guía, pero no al final de tu viaje."
+    },
+    {
+     "type": "paragraph",
+     "text": "La cumbre que alcanzaste es importante. El descenso consciente que estás haciendo es sabio. La integración que completarás te transformará de formas que aún no puedes ver."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pero recuerda siempre:"
+    },
+    {
+     "type": "bullet",
+     "text": "No eres tu cumbre. Eres el senderista que la alcanzó.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No eres tu logro. Eres quien se transformó en el proceso.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No eres lo que dejaste atrás. Eres quien elegiste convertirte.",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La montaña no se mueve. Tú sí."
+    },
+    {
+     "type": "paragraph",
+     "text": "Y en ese movimiento continuo—de valle a cumbre, de cumbre a valle, de integración a nuevo llamado—se encuentra la verdadera Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "No es un punto geográfico."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es un estado de ser."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es saber quién eres cuando nadie mira."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es la paz de estar en tu camino, aunque sea difícil."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es la confianza de que puedes con lo que venga."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es la humildad de seguir aprendiendo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Es la gratitud por poder caminar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Sigue caminando, senderista."
+    },
+    {
+     "type": "paragraph",
+     "text": "Celebra cada cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Desciende con sabiduría."
+    },
+    {
+     "type": "paragraph",
+     "text": "Integra profundamente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Y cuando estés listo..."
+    },
+    {
+     "type": "paragraph",
+     "text": "Mira el horizonte."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu próxima montaña te está esperando."
+    },
+    {
+     "type": "paragraph",
+     "text": "RouteToTop"
+    },
+    {
+     "type": "paragraph",
+     "text": "La sabiduría del descenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "www.routetotop.com"
+    }
+   ]
+  }
+ ]
+}

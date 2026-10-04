@@ -1,0 +1,7 @@
+<resources>
+    <!-- Tema base de la ventana; los colores de la UI se definen en Compose (ui/theme). -->
+    <style name="Theme.RutaALaCima" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/crema</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+</resources>

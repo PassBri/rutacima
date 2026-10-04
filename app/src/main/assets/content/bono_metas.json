@@ -1,0 +1,1319 @@
+{
+ "id": "bono_metas",
+ "title": "Banco de Metas",
+ "subtitle": "Bono 2 · 80+ metas para adaptar",
+ "category": "bonos",
+ "order": 16,
+ "sections": [
+  {
+   "id": "bono_metas.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "RUTA A LA CIMA"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "BONO 2"
+    },
+    {
+     "type": "paragraph",
+     "text": "Banco de Metas por Tipo"
+    },
+    {
+     "type": "paragraph",
+     "text": "80+ Metas Listas para Adaptar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Organizadas por Áreas de Vida"
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec1",
+   "title": "Cómo Usar este banco de metas",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Las metas bien formuladas son cumbres claras que puedes alcanzar."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué hace que una meta sea buena?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Una buena meta es ORSE:"
+    },
+    {
+     "type": "bullet",
+     "text": "Observable: Puedes ver/medir cuando la alcanzas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Relevante: Importa para tu cumbre personal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Específica: No ambigua, clara en qué consiste",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "con Evidencia: Sabes exactamente qué demostrará que la lograste",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo usar estas metas:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. No copies literalmente: Estas metas son plantillas. Adapta números, plazos y detalles a tu realidad."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Enfócate en pocas: 3 metas mensuales, 10 anuales máximo. Más no es mejor."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Conecta con tus ejes: Cada meta debe activar al menos 1 de tus 6 ejes."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Haz la prueba del resultado observable: Si no puedes describir EXACTAMENTE cómo se ve cuando la logras, refórmulala."
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Usa el timeframe como guía: Ajusta según tu contexto, pero mantén realismo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Formato de cada meta:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada meta incluye tres elementos:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Meta: El objetivo que persigues"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Cómo sabrás que la alcanzaste (evidencia concreta)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: Tiempo estimado (ajústalo a tu realidad)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Salud y bienestar"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Perder 10 kg de forma sostenible",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Peso en báscula cada lunes, medidas corporales mensuales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Correr 5km sin parar",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Completar 5km en menos de 35 min certificado por app"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Hacer 50 flexiones consecutivas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Video haciendo 50 flexiones con buena forma"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 2 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Reducir colesterol a nivel normal",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Examen de sangre mostrando LDL < 100 mg/dL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 4 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Dormir 7-8 horas diarias consistentemente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 21 días consecutivos con 7+ horas según tracker"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 1 mes"
+    },
+    {
+     "type": "bullet",
+     "text": "Eliminar dolor de espalda crónico",
+     "mark": "•"
+    },
+    {
+     "type": "scale",
+     "id": "bono_metas.s1",
+     "label": "Observable: 7 días consecutivos sin dolor valorado >3",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar ayuno intermitente 16/8 por 30 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 30 días marcados en calendario de ayuno"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 1 mes"
+    },
+    {
+     "type": "bullet",
+     "text": "Meditar 20 min diarios por 90 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Racha de 90 días en app de meditación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Bajar presión arterial a rango normal",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Lecturas <120/80 por 2 semanas consecutivas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aumentar 5kg de masa muscular",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Dexa scan mostrando +5kg músculo vs grasa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q2",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Dinero y finanzas"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Ahorrar $5,000 USD",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Cuenta de ahorros mostrando saldo de $5,000"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Generar $1,000 en ingresos pasivos/mes",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Estados bancarios mostrando $1,000 de fuentes pasivas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Eliminar $10,000 en deuda",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Estados de cuenta mostrando saldo en $0"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aumentar ingresos 30%",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Comparar ingreso mensual promedio vs año anterior"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear fondo de emergencia de 6 meses",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Cuenta separada con 6x gastos mensuales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Invertir $10,000 en índices S&P500",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Portfolio mostrando $10,000 en ETFs"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Lanzar producto digital que genere $500/mes",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Dashboard mostrando ventas mensuales >$500"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Conseguir 10 clientes recurrentes",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Lista de 10 clientes con contratos activos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Alcanzar $100k en ingresos anuales",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Declaración fiscal mostrando $100k+ brutos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Reducir gastos fijos 20%",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Comparar gastos mensuales vs baseline"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q3",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q4",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Escritura y creación"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir y publicar un libro de 50,000 palabras",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Libro publicado en Amazon con 50k+ palabras"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir 500 palabras diarias por 100 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 100 entradas en documento con >500 palabras"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 100 días"
+    },
+    {
+     "type": "bullet",
+     "text": "Publicar 52 artículos de blog (1/semana)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 52 posts publicados en sitio web"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar primer borrador de novela",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Manuscrito de 80k+ palabras terminado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Publicar artículo en medio reconocido",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Artículo publicado en Medium, Substack u otro"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear portafolio con 20 piezas escritas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Website mostrando 20 artículos/historias"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir guion de cortometraje",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Guion de 15-20 páginas formateado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 2 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Ganar concurso literario",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Certificado o notificación de premio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Construir newsletter con 1,000 suscriptores",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Plataforma mostrando 1,000+ subscribers"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir biografía familiar (50 páginas)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Documento impreso de 50+ páginas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q5",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Estudio y educación"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Obtener certificación profesional",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Certificado digital o físico recibido"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar maestría o posgrado",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Título universitario recibido"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 24 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Leer 52 libros (1/semana)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Lista verificada de 52 libros completados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Dominar Python para data science",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Completar 3 proyectos reales + certificación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aprender inglés nivel C1",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Certificado TOEFL/IELTS mostrando C1"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar 10 cursos online",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 10 certificados de finalización"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aprobar examen de licencia profesional",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Documento oficial de aprobación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Estudiar 2 horas diarias por 180 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Registro diario de 180 sesiones de estudio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Dominar Excel avanzado",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Construir 5 dashboards complejos funcionales"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Leer 12 papers académicos de mi campo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Resúmenes escritos de 12 papers"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q6",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Hábitos y disciplina"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Racha de 100 días meditando",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: App mostrando 100 días consecutivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 100 días"
+    },
+    {
+     "type": "bullet",
+     "text": "Despertar a las 5am por 30 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 30 fotos del amanecer o registro horario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 1 mes"
+    },
+    {
+     "type": "bullet",
+     "text": "30 días sin redes sociales",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Apps bloqueadas + 30 días marcados calendario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 1 mes"
+    },
+    {
+     "type": "bullet",
+     "text": "Gimnasio 5x/semana por 12 semanas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 60 check-ins registrados en gym"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir diario por 365 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Cuaderno con 365 entradas fechadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "No compras impulsivas por 90 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 90 días sin compras fuera de lista planificada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Leer 30 min antes de dormir por 60 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 60 días registrados + 10 libros completados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 2 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Preparar comidas saludables 7 días/semana",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 12 semanas de meal prep fotográfico"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Caminar 10,000 pasos diarios por 100 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 100 días en tracker >10k pasos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 100 días"
+    },
+    {
+     "type": "bullet",
+     "text": "Cero alcohol por 6 meses",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 180 días marcados en app de sobriedad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q7",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Carrera y desarrollo profesional"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Conseguir ascenso a gerencia",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Contrato con nuevo título y salario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Cambiar de industria exitosamente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Contrato firmado en nueva industria"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aumentar salario 20%",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Carta de aumento o nueva oferta laboral"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Liderar proyecto de $100k+",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Documentación de proyecto como PM"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Hablar en 3 conferencias de industria",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 3 certificados de ponente o grabaciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Construir red de 50 contactos clave",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: LinkedIn con 50 conexiones estratégicas activas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Publicar caso de estudio profesional",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Case study publicado en portafolio o medio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Obtener mentor en mi campo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 3 meses de reuniones mensuales con mentor"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Lanzar consultoría independiente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 3 clientes pagando + LLC registrada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Ser reconocido como experto (prensa/podcast)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 3 apariciones en medios del sector"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q8",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Relaciones y familia"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Cena familiar 4x/mes sin dispositivos",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 12 meses x 4 cenas = 48 cenas registradas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Viaje familiar significativo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Álbum de fotos + recuerdos del viaje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Terapia de pareja por 6 meses",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 24 sesiones completadas con terapeuta"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Llamar a padres 2x/semana",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 96 llamadas registradas en 12 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Organizar reunión familiar mensual",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 12 reuniones documentadas con fotos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir cartas a cada miembro familia",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 5 cartas escritas y entregadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear tradición familiar nueva",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Documentar 4 repeticiones de tradición"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Resolver conflicto familiar pendiente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Conversación difícil completada + acuerdo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Date night semanal con pareja",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 48 citas registradas en 12 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Enseñar habilidad a hijo/familiar",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Familiar demuestra dominio de habilidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q9",
+     "label": "Tus metas personalizadas en esta categoría:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Creatividad y arte"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 metas de ejemplo"
+    },
+    {
+     "type": "bullet",
+     "text": "Pintar 12 cuadros (1/mes)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 12 obras terminadas y fotografiadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Aprender a tocar 10 canciones en guitarra",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: 10 videos tocando canciones completas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Crear canal YouTube con 50 videos",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Canal con 50 videos publicados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Exhibir arte en galería local",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Invitación a expo + obras exhibidas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Grabar EP de 5 canciones originales",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: EP publicado en Spotify/plataformas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Tomar 365 fotos (proyecto diario)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Álbum con 365 fotos fechadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 12 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Completar curso de fotografía profesional",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Certificado + portafolio de 20 fotos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 3 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribir y dirigir cortometraje",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Video de 10 min publicado online"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Vender primera pieza de arte",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Comprobante de venta y testimonio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "bullet",
+     "text": "Colaborar con otro artista en proyecto",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Observable: Proyecto conjunto terminado y publicado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Timeframe: 6 meses"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q10",
+     "label": "Tus metas personalizadas en esta categoría:"
+    }
+   ]
+  },
+  {
+   "id": "bono_metas.sec2",
+   "title": "Hoja de Trabajo: Mis Metas Definidas",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Usa esta hoja para convertir las plantillas en TUS metas específicas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Meta (específica)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Resultado Observable"
+    },
+    {
+     "type": "paragraph",
+     "text": "Plazo"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q11",
+     "label": "Categoría"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_metas.q12",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "✦"
+    },
+    {
+     "type": "paragraph",
+     "text": "Una meta bien formulada es mitad del camino recorrido."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+# Gradle / Android Studio
+.gradle/
+build/
+/local.properties
+/captures
+.externalNativeBuild
+.cxx
+*.iml
+.idea/
+.DS_Store
+.kotlin/
+
+# Firmas y secretos: nunca subir al repositorio
+*.jks
+*.keystore
+keystore.properties
+google-services.json
+
+# Python (herramienta de conversión)
+__pycache__/
+*.pyc
