@@ -595,10 +595,22 @@
     <string name="estilo">Стиль бумаги</string>
     <string name="estilo_antiguo">Старинная бумага</string>
     <string name="estilo_pastel">Коричневая пастель</string>
-    <string name="inicio_lema">Твой путь к 120 годам</string>
     <string name="inicio_serie">СЕРИЯ RUTA A LA CIMA</string>
     <string name="ruta_esta_semana">Эта неделя</string>
     <string name="ruta_este_mes">Этот месяц</string>
     <string name="ruta_este_anio">Этот год</string>
     <string name="ruta_ir_a">Перейти к…</string>
+    <string name="inicio_frase_1">Карта без действия — всего лишь мечта.</string>
+    <string name="inicio_frase_2">Время идти пришло.</string>
+    <string name="inicio_frase_3">Ты упал не потому, что потерпел неудачу. Ты упал, потому что шёл.</string>
+    <string name="inicio_frase_4">Прежде чем подниматься, узнай, где ты стоишь.</string>
+    <string name="inicio_frase_5">Заблудиться — не значит проиграть. Это часть пути.</string>
+    <string name="inicio_frase_6">Нет последней вершины. Есть только следующий шаг в бесконечном пути.</string>
+    <string name="inicio_frase_7">Теперь ты знаешь свою местность. Ты готов планировать восхождение.</string>
+    <string name="inicio_frase_8">Когда загораются шесть осей, ты становишься горой.</string>
+    <string name="inicio_frase_9">Вершина — не конец. Это начало чего-то большего.</string>
+    <string name="inicio_frase_10">Цикл завершается. Цикл начинается.</string>
+    <string name="inicio_frase_11">Путь у каждого свой, но не одинокий.</string>
+    <string name="inicio_frase_12">Ты не твоя вершина. Ты — путник, который её достиг.</string>
+    <string name="inicio_accion">Сделать шаг сегодня</string>
 </resources>

@@ -595,10 +595,22 @@
     <string name="estilo">Paper style</string>
     <string name="estilo_antiguo">Vintage paper</string>
     <string name="estilo_pastel">Brown pastel</string>
-    <string name="inicio_lema">Your road to 120 years</string>
     <string name="inicio_serie">RUTA A LA CIMA SERIES</string>
     <string name="ruta_esta_semana">This week</string>
     <string name="ruta_este_mes">This month</string>
     <string name="ruta_este_anio">This year</string>
     <string name="ruta_ir_a">Go to…</string>
+    <string name="inicio_frase_1">A map without action is only a dream.</string>
+    <string name="inicio_frase_2">The time to walk has come.</string>
+    <string name="inicio_frase_3">You didn’t fall because you failed. You fell because you were walking.</string>
+    <string name="inicio_frase_4">Before you climb, you must know where you stand.</string>
+    <string name="inicio_frase_5">Getting lost is not failing. It is part of the journey.</string>
+    <string name="inicio_frase_6">There is no final summit. Only the next step in an endless journey.</string>
+    <string name="inicio_frase_7">Now you know your terrain. You are ready to plan the ascent.</string>
+    <string name="inicio_frase_8">When the six axes light up, you become the mountain.</string>
+    <string name="inicio_frase_9">The summit is not the end. It is the beginning of something greater.</string>
+    <string name="inicio_frase_10">The cycle is complete. The cycle begins.</string>
+    <string name="inicio_frase_11">The journey is individual, but not solitary.</string>
+    <string name="inicio_frase_12">You are not your summit. You are the hiker who reached it.</string>
+    <string name="inicio_accion">Take today’s step</string>
 </resources>

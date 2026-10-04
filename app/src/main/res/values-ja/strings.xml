@@ -595,10 +595,22 @@
     <string name="estilo">紙のスタイル</string>
     <string name="estilo_antiguo">古紙</string>
     <string name="estilo_pastel">ブラウンパステル</string>
-    <string name="inicio_lema">120歳へのあなたの道</string>
     <string name="inicio_serie">RUTA A LA CIMA シリーズ</string>
     <string name="ruta_esta_semana">今週</string>
     <string name="ruta_este_mes">今月</string>
     <string name="ruta_este_anio">今年</string>
     <string name="ruta_ir_a">移動…</string>
+    <string name="inicio_frase_1">行動のない地図は、ただの夢にすぎない。</string>
+    <string name="inicio_frase_2">歩き出す時が来た。</string>
+    <string name="inicio_frase_3">失敗したから転んだのではない。歩いていたから転んだのだ。</string>
+    <string name="inicio_frase_4">登る前に、自分が今どこに立っているかを知ろう。</string>
+    <string name="inicio_frase_5">迷うことは失敗ではない。旅の一部だ。</string>
+    <string name="inicio_frase_6">最後の頂上はない。あるのは終わりなき旅の次の一歩だけ。</string>
+    <string name="inicio_frase_7">自分の地形がわかった。登頂の計画を立てる準備はできている。</string>
+    <string name="inicio_frase_8">六つの軸が灯るとき、あなたは山そのものになる。</string>
+    <string name="inicio_frase_9">頂上は終わりではない。もっと大きな何かの始まりだ。</string>
+    <string name="inicio_frase_10">循環は完了し、循環は始まる。</string>
+    <string name="inicio_frase_11">旅は一人ひとりのものだが、孤独ではない。</string>
+    <string name="inicio_frase_12">あなたは頂上ではない。頂上にたどり着いた登山者だ。</string>
+    <string name="inicio_accion">今日の一歩を踏み出す</string>
 </resources>

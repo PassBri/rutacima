@@ -595,10 +595,22 @@
     <string name="estilo">종이 스타일</string>
     <string name="estilo_antiguo">빈티지 종이</string>
     <string name="estilo_pastel">브라운 파스텔</string>
-    <string name="inicio_lema">120세를 향한 나의 길</string>
     <string name="inicio_serie">RUTA A LA CIMA 시리즈</string>
     <string name="ruta_esta_semana">이번 주</string>
     <string name="ruta_este_mes">이번 달</string>
     <string name="ruta_este_anio">올해</string>
     <string name="ruta_ir_a">이동…</string>
+    <string name="inicio_frase_1">행동 없는 지도는 꿈일 뿐이다.</string>
+    <string name="inicio_frase_2">걸어갈 때가 왔다.</string>
+    <string name="inicio_frase_3">실패해서 넘어진 게 아니다. 걷고 있었기에 넘어진 것이다.</string>
+    <string name="inicio_frase_4">오르기 전에, 지금 어디에 서 있는지 알아야 한다.</string>
+    <string name="inicio_frase_5">길을 잃는 것은 실패가 아니다. 여정의 일부다.</string>
+    <string name="inicio_frase_6">마지막 정상은 없다. 끝없는 여정의 다음 걸음만 있을 뿐.</string>
+    <string name="inicio_frase_7">이제 너의 지형을 안다. 오를 계획을 세울 준비가 되었다.</string>
+    <string name="inicio_frase_8">여섯 개의 축이 켜질 때, 너는 산이 된다.</string>
+    <string name="inicio_frase_9">정상은 끝이 아니다. 더 큰 무언가의 시작이다.</string>
+    <string name="inicio_frase_10">순환은 완성되고, 순환은 시작된다.</string>
+    <string name="inicio_frase_11">여정은 각자의 것이지만, 외롭지 않다.</string>
+    <string name="inicio_frase_12">너는 너의 정상이 아니다. 그곳에 닿은 산행자다.</string>
+    <string name="inicio_accion">오늘의 한 걸음 내딛기</string>
 </resources>

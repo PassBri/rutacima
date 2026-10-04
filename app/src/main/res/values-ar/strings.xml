@@ -595,10 +595,22 @@
     <string name="estilo">نمط الورق</string>
     <string name="estilo_antiguo">ورق عتيق</string>
     <string name="estilo_pastel">باستيل بني</string>
-    <string name="inicio_lema">طريقك نحو 120 عامًا</string>
     <string name="inicio_serie">سلسلة RUTA A LA CIMA</string>
     <string name="ruta_esta_semana">هذا الأسبوع</string>
     <string name="ruta_este_mes">هذا الشهر</string>
     <string name="ruta_este_anio">هذا العام</string>
     <string name="ruta_ir_a">انتقل إلى…</string>
+    <string name="inicio_frase_1">الخريطة بلا فعل ليست إلا حلمًا.</string>
+    <string name="inicio_frase_2">لقد حان وقت المسير.</string>
+    <string name="inicio_frase_3">لم تسقط لأنك فشلت، بل لأنك كنت تمشي.</string>
+    <string name="inicio_frase_4">قبل أن تصعد، عليك أن تعرف أين تقف.</string>
+    <string name="inicio_frase_5">أن تضيع ليس فشلًا، بل جزء من الرحلة.</string>
+    <string name="inicio_frase_6">لا توجد قمة أخيرة، بل الخطوة التالية في رحلة لا تنتهي.</string>
+    <string name="inicio_frase_7">الآن تعرف أرضك. أنت جاهز لتخطيط الصعود.</string>
+    <string name="inicio_frase_8">حين تتّقد المحاور الستة، تصبح أنت الجبل.</string>
+    <string name="inicio_frase_9">القمة ليست النهاية، بل بداية شيء أعظم.</string>
+    <string name="inicio_frase_10">تكتمل الدورة. وتبدأ الدورة.</string>
+    <string name="inicio_frase_11">الرحلة فردية، لكنها ليست وحيدة.</string>
+    <string name="inicio_frase_12">لستَ قمتك، بل أنت السائر الذي بلغها.</string>
+    <string name="inicio_accion">اخطُ خطوة اليوم</string>
 </resources>

@@ -595,10 +595,22 @@
     <string name="estilo">Papierstil</string>
     <string name="estilo_antiguo">Altes Papier</string>
     <string name="estilo_pastel">Braunes Pastell</string>
-    <string name="inicio_lema">Dein Weg zu 120 Jahren</string>
     <string name="inicio_serie">REIHE RUTA A LA CIMA</string>
     <string name="ruta_esta_semana">Diese Woche</string>
     <string name="ruta_este_mes">Dieser Monat</string>
     <string name="ruta_este_anio">Dieses Jahr</string>
     <string name="ruta_ir_a">Gehe zu…</string>
+    <string name="inicio_frase_1">Eine Karte ohne Handeln ist nur ein Traum.</string>
+    <string name="inicio_frase_2">Die Zeit zu gehen ist gekommen.</string>
+    <string name="inicio_frase_3">Du bist nicht gefallen, weil du gescheitert bist. Du bist gefallen, weil du gegangen bist.</string>
+    <string name="inicio_frase_4">Bevor du aufsteigst, musst du wissen, wo du stehst.</string>
+    <string name="inicio_frase_5">Sich zu verirren ist kein Scheitern. Es gehört zur Reise.</string>
+    <string name="inicio_frase_6">Es gibt keinen letzten Gipfel. Nur den nächsten Schritt auf einer endlosen Reise.</string>
+    <string name="inicio_frase_7">Jetzt kennst du dein Gelände. Du bist bereit, den Aufstieg zu planen.</string>
+    <string name="inicio_frase_8">Wenn die sechs Achsen aufleuchten, wirst du zum Berg.</string>
+    <string name="inicio_frase_9">Der Gipfel ist nicht das Ende. Er ist der Anfang von etwas Größerem.</string>
+    <string name="inicio_frase_10">Der Kreis schließt sich. Der Kreis beginnt.</string>
+    <string name="inicio_frase_11">Die Reise ist persönlich, aber nicht einsam.</string>
+    <string name="inicio_frase_12">Du bist nicht dein Gipfel. Du bist der Wanderer, der ihn erreicht hat.</string>
+    <string name="inicio_accion">Den Schritt von heute gehen</string>
 </resources>

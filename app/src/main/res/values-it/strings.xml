@@ -595,10 +595,22 @@
     <string name="estilo">Stile della carta</string>
     <string name="estilo_antiguo">Carta antica</string>
     <string name="estilo_pastel">Pastello marrone</string>
-    <string name="inicio_lema">Il tuo cammino verso i 120 anni</string>
     <string name="inicio_serie">SERIE RUTA A LA CIMA</string>
     <string name="ruta_esta_semana">Questa settimana</string>
     <string name="ruta_este_mes">Questo mese</string>
     <string name="ruta_este_anio">Quest’anno</string>
     <string name="ruta_ir_a">Vai a…</string>
+    <string name="inicio_frase_1">Una mappa senza azione è solo un sogno.</string>
+    <string name="inicio_frase_2">È arrivato il momento di camminare.</string>
+    <string name="inicio_frase_3">Non sei caduto perché hai fallito. Sei caduto perché stavi camminando.</string>
+    <string name="inicio_frase_4">Prima di salire, devi sapere dove ti trovi.</string>
+    <string name="inicio_frase_5">Perdersi non è fallire. Fa parte del viaggio.</string>
+    <string name="inicio_frase_6">Non c’è una vetta finale. Solo il prossimo passo in un viaggio infinito.</string>
+    <string name="inicio_frase_7">Ora conosci il tuo terreno. Sei pronto a pianificare la salita.</string>
+    <string name="inicio_frase_8">Quando i sei assi si accendono, diventi la montagna.</string>
+    <string name="inicio_frase_9">La vetta non è la fine. È l’inizio di qualcosa di più grande.</string>
+    <string name="inicio_frase_10">Il ciclo si compie. Il ciclo comincia.</string>
+    <string name="inicio_frase_11">Il viaggio è individuale, ma non solitario.</string>
+    <string name="inicio_frase_12">Non sei la tua vetta. Sei l’escursionista che l’ha raggiunta.</string>
+    <string name="inicio_accion">Fai il passo di oggi</string>
 </resources>

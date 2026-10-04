@@ -595,10 +595,22 @@
     <string name="estilo">纸张风格</string>
     <string name="estilo_antiguo">复古纸张</string>
     <string name="estilo_pastel">棕色柔和</string>
-    <string name="inicio_lema">你迈向 120 岁的道路</string>
     <string name="inicio_serie">RUTA A LA CIMA 系列</string>
     <string name="ruta_esta_semana">本周</string>
     <string name="ruta_este_mes">本月</string>
     <string name="ruta_este_anio">今年</string>
     <string name="ruta_ir_a">前往…</string>
+    <string name="inicio_frase_1">没有行动的地图只是一场梦。</string>
+    <string name="inicio_frase_2">出发的时刻已经到来。</string>
+    <string name="inicio_frase_3">你跌倒不是因为失败，而是因为你在前行。</string>
+    <string name="inicio_frase_4">在攀登之前，你必须知道自己站在哪里。</string>
+    <string name="inicio_frase_5">迷路不是失败，而是旅程的一部分。</string>
+    <string name="inicio_frase_6">没有最后的巅峰，只有无尽旅程中的下一步。</string>
+    <string name="inicio_frase_7">现在你了解了自己的地形，可以规划攀登了。</string>
+    <string name="inicio_frase_8">当六个轴心被点亮，你就成了那座山。</string>
+    <string name="inicio_frase_9">巅峰不是终点，而是更伟大事物的开端。</string>
+    <string name="inicio_frase_10">一个循环完成，一个循环开始。</string>
+    <string name="inicio_frase_11">旅程是个人的，但并不孤单。</string>
+    <string name="inicio_frase_12">你不是你的巅峰，你是抵达巅峰的那位行者。</string>
+    <string name="inicio_accion">迈出今天的一步</string>
 </resources>

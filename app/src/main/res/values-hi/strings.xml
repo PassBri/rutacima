@@ -595,10 +595,22 @@
     <string name="estilo">कागज़ की शैली</string>
     <string name="estilo_antiguo">पुराना कागज़</string>
     <string name="estilo_pastel">भूरा पेस्टल</string>
-    <string name="inicio_lema">120 वर्षों की ओर आपकी राह</string>
     <string name="inicio_serie">RUTA A LA CIMA श्रृंखला</string>
     <string name="ruta_esta_semana">इस सप्ताह</string>
     <string name="ruta_este_mes">इस महीने</string>
     <string name="ruta_este_anio">इस वर्ष</string>
     <string name="ruta_ir_a">यहाँ जाएँ…</string>
+    <string name="inicio_frase_1">कर्म के बिना नक्शा सिर्फ़ एक सपना है।</string>
+    <string name="inicio_frase_2">चलने का समय आ गया है।</string>
+    <string name="inicio_frase_3">आप असफल होने से नहीं गिरे। आप चल रहे थे, इसलिए गिरे।</string>
+    <string name="inicio_frase_4">चढ़ने से पहले जानिए कि आप कहाँ खड़े हैं।</string>
+    <string name="inicio_frase_5">भटकना असफलता नहीं है। यह यात्रा का हिस्सा है।</string>
+    <string name="inicio_frase_6">कोई अंतिम शिखर नहीं है। बस अनंत यात्रा का अगला कदम है।</string>
+    <string name="inicio_frase_7">अब आप अपनी ज़मीन जानते हैं। चढ़ाई की योजना बनाने के लिए तैयार हैं।</string>
+    <string name="inicio_frase_8">जब छहों धुरियाँ जल उठती हैं, आप स्वयं पर्वत बन जाते हैं।</string>
+    <string name="inicio_frase_9">शिखर अंत नहीं है। यह किसी बड़ी चीज़ की शुरुआत है।</string>
+    <string name="inicio_frase_10">चक्र पूरा होता है। चक्र शुरू होता है।</string>
+    <string name="inicio_frase_11">यात्रा व्यक्तिगत है, पर अकेली नहीं।</string>
+    <string name="inicio_frase_12">आप अपना शिखर नहीं हैं। आप वह पथिक हैं जो वहाँ पहुँचा।</string>
+    <string name="inicio_accion">आज का कदम उठाइए</string>
 </resources>

@@ -595,10 +595,22 @@
     <string name="estilo">Estilo de papel</string>
     <string name="estilo_antiguo">Papel antigo</string>
     <string name="estilo_pastel">Pastel marrom</string>
-    <string name="inicio_lema">Seu caminho para os 120 anos</string>
     <string name="inicio_serie">SÉRIE RUTA A LA CIMA</string>
     <string name="ruta_esta_semana">Esta semana</string>
     <string name="ruta_este_mes">Este mês</string>
     <string name="ruta_este_anio">Este ano</string>
     <string name="ruta_ir_a">Ir para…</string>
+    <string name="inicio_frase_1">Um mapa sem ação é só um sonho.</string>
+    <string name="inicio_frase_2">Chegou o momento de caminhar.</string>
+    <string name="inicio_frase_3">Você não caiu porque fracassou. Caiu porque estava caminhando.</string>
+    <string name="inicio_frase_4">Antes de subir, você precisa saber onde está.</string>
+    <string name="inicio_frase_5">Perder-se não é fracassar. É parte da viagem.</string>
+    <string name="inicio_frase_6">Não há cume final. Só o próximo passo de uma viagem infinita.</string>
+    <string name="inicio_frase_7">Agora você conhece seu terreno. Está pronto para planejar a subida.</string>
+    <string name="inicio_frase_8">Quando os seis eixos se acendem, você se torna a montanha.</string>
+    <string name="inicio_frase_9">O cume não é o fim. É o começo de algo maior.</string>
+    <string name="inicio_frase_10">O ciclo se completa. O ciclo começa.</string>
+    <string name="inicio_frase_11">A viagem é individual, mas não solitária.</string>
+    <string name="inicio_frase_12">Você não é seu cume. É o caminhante que o alcançou.</string>
+    <string name="inicio_accion">Dar o passo de hoje</string>
 </resources>
