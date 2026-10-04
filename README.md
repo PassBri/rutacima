@@ -45,15 +45,38 @@ Además:
 
 ## RutaCima Web
 
-`web/index.html` es la versión para computador, al estilo de WhatsApp Web: pantalla de vinculación con código QR,
-riel de íconos (el nombre aparece al pasar el cursor), lista a la izquierda y detalle a la derecha. Incluye Mi ruta,
-Hoy, Comunidad, Aprende, Coach, Mis frases y Perfil, con tema claro y oscuro, y se adapta al teléfono.
-Por ahora es una **demostración con una ruta de ejemplo**; la vinculación real con el teléfono llega con el servidor.
-Se abre con doble clic o se puede publicar con GitHub Pages (carpeta `/web`).
+`web/` es **la misma app en el computador**, al estilo de WhatsApp Web, con la misma cuenta y los mismos datos
+que el teléfono: Mi ruta (vida → año → mes → día), Hoy (hábitos, metas del mes, cierre del día), Metas
+(propósitos, metas del año y del mes, con la misma cascada de avance), Comunidad (publicar, impulsar, comentar,
+seguir), Aprende (las 24 guías, con tus respuestas), Coach, Mis frases y Perfil (datos, meta de vida y ejes).
+Lo que cambias en un lado aparece en el otro.
+
+**Cómo se conectan.** En la app: **Perfil › ícono del computador (RutaCima Web) › Escanear código**, y apuntas
+al código QR que muestra la web (o escribes sus 8 letras). Desde ahí el computador queda vinculado a tu cuenta
+hasta que lo desvincules desde el teléfono o cierres la sesión en la web.
+
+- La app guarda todo en el teléfono (Room) y, mientras haya un computador vinculado, sincroniza cada cambio con la
+  tabla `ruta_datos` de Supabase (`data/web/RutaWebRepository.kt`): al abrir la app, cada minuto mientras está
+  abierta y 3 segundos después de cada cambio. Las reglas de quién gana están en `domain/model/Sincronia.kt`
+  (con pruebas): si los dos lados cambiaron lo mismo, se unen los días y hábitos marcados.
+- La web escribe directo en `ruta_datos` y recibe en vivo lo que llega del teléfono (Supabase Realtime).
+- Sin `web/config.js` configurado, la web abre en **modo demostración** con una ruta de ejemplo.
 
 <p align="center">
   <img src="diseno/web_mi_ruta.png" alt="RutaCima Web: Mi ruta" width="720">
 </p>
+
+### Poner la web en marcha
+
+1. En Supabase, vuelve a ejecutar `supabase/schema.sql` completo (agrega `ruta_datos`, `dispositivos`, `vinculos`
+   y las reglas para que el computador vinculado actúe como tu cuenta).
+2. **Authentication › Sign In / Providers › Allow anonymous sign-ins**: actívalo (la web entra como invitado
+   hasta que la vinculas).
+3. Vuelve a desplegar el coach: `supabase functions deploy coach` (ahora también responde a la web).
+4. En `web/config.js` pon la misma URL y clave anon de `local.properties`.
+5. Publica la carpeta con **GitHub Pages** (Settings › Pages › rama `main`): queda en
+   `https://passbri.github.io/rutacima/web/`. Si usas otra dirección, ponla en `local.properties` como
+   `rutacima.webUrl=` para que el botón "Abrir RutaCima Web" de la app apunte ahí.
 
 ## Diseño con IA (skill "impeccable")
 
@@ -106,11 +129,12 @@ app/src/main/
 │   ├── data/Cascada.kt      ← avance automático día → mes → año → 5 años
 │   ├── data/remote/         ← cliente Supabase (Auth, PostgREST, Storage, Functions)
 │   ├── data/social/         ← comunidad (con modo demo) · data/coach/ ← coach IA
+│   ├── data/web/            ← RutaCima Web: vincular un computador y sincronizar la ruta
 │   └── ui/                  ← Compose + Material 3: hoy, metas, comunidad, aprende, perfil, coach,
 │                              workbook, planner, kit, axes, onboarding, i18n
 ├── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y función "coach" (Deno)
-web/index.html               ← RutaCima Web (versión para computador)
+web/                         ← RutaCima Web: index.html, app.js, estilos.css y config.js
 tools/convert.py             ← conversor .docx → JSON · tools/bancos.py ← bancos
 ```
 
@@ -129,11 +153,11 @@ Los IDs de campo dependen del orden del documento. `planificador_cierre.json` es
 ## Pruebas
 
 `./gradlew test` valida los 24 JSON, los IDs únicos, el cálculo de resultados de las evaluaciones,
-el calendario de vida, las 365 frases y las reglas del dominio.
+el calendario de vida, las 365 frases, la sincronización con la web y las reglas del dominio.
 
 ## Próximos pasos
 
-- Vincular RutaCima Web con el teléfono (código QR + Supabase).
+- RutaCima Web en los 12 idiomas (hoy está en español).
 - Revisión mensual con WorkManager.
 - Traducción del contenido de las guías con IA.
 - Exportar a PDF y copia de seguridad; modo facilitador para grupos.

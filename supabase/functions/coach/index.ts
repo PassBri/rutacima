@@ -70,12 +70,20 @@ Deno.serve(async (req) => {
     const { data: { user } } = await admin.auth.getUser(token);
     if (!user) return json({ error: "Inicia sesión para usar el coach." }, 401);
 
-    // Límite diario por usuario.
+    // RutaCima Web entra como usuario anónimo: el coach responde a nombre de la cuenta que lo vinculó.
+    let duenoId = user.id;
+    if (user.is_anonymous) {
+      const { data: d } = await admin.from("dispositivos").select("user_id").eq("web_uid", user.id).maybeSingle();
+      if (!d) return json({ error: "Vincula este computador desde la app para usar el coach." }, 401);
+      duenoId = d.user_id;
+    }
+
+    // Límite diario por cuenta (teléfono y web suman juntos).
     const hoy = new Date().toISOString().slice(0, 10);
-    const { data: uso } = await admin.from("ai_usage").select("usos").eq("user_id", user.id).eq("dia", hoy).maybeSingle();
+    const { data: uso } = await admin.from("ai_usage").select("usos").eq("user_id", duenoId).eq("dia", hoy).maybeSingle();
     const usos = uso?.usos ?? 0;
     if (usos >= LIMITE) return json({ texto: "Llegaste al límite de mensajes de hoy. Mañana seguimos: mientras tanto, da un paso pequeño hacia tu cumbre." });
-    await admin.from("ai_usage").upsert({ user_id: user.id, dia: hoy, usos: usos + 1 });
+    await admin.from("ai_usage").upsert({ user_id: duenoId, dia: hoy, usos: usos + 1 });
 
     const { mensajes = [], contexto = "", idioma = "es" } = await req.json();
     const limpios = (mensajes as { role: string; content: string }[])

@@ -31,6 +31,8 @@ android {
         }
         buildConfigField("String", "SUPABASE_URL", "\"${props.getProperty("supabase.url", "")}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${props.getProperty("supabase.anonKey", "")}\"")
+        // Dirección de RutaCima Web (carpeta /web publicada con GitHub Pages u otro hosting)
+        buildConfigField("String", "WEB_URL", "\"${props.getProperty("rutacima.webUrl", "https://passbri.github.io/rutacima/web/")}\"")
     }
 
     buildTypes {
@@ -86,6 +88,7 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.biometric)
+    implementation(libs.play.services.code.scanner)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

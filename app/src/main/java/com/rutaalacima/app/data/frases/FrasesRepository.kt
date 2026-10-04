@@ -42,6 +42,15 @@ class FrasesRepository(private val context: Context) {
         if (fecha.year == LocalDate.now().year) _desbloqueadas.value = nuevo
     }
 
+    /** Días (0..364) abiertos en [anio]; lo usa la sincronización con RutaCima Web. */
+    fun abiertasDe(anio: Int): Set<Int> = leer(anio)
+
+    /** Guarda los días abiertos de [anio] (sincronización: une lo abierto en la web). */
+    fun guardarAbiertas(anio: Int, dias: Set<Int>) {
+        prefs.edit().putStringSet("anio_$anio", dias.map { it.toString() }.toSet()).apply()
+        if (anio == LocalDate.now().year) _desbloqueadas.value = dias
+    }
+
     private fun leer(anio: Int): Set<Int> =
         prefs.getStringSet("anio_$anio", emptySet()).orEmpty().mapNotNull { it.toIntOrNull() }.toSet()
 

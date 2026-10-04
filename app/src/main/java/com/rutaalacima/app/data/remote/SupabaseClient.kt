@@ -166,6 +166,14 @@ class SupabaseClient(context: Context) {
         Unit
     }
 
+    /** Llama una función de la base (POST /rest/v1/rpc/nombre). Devuelve JsonNull si no hay cuerpo. */
+    suspend fun rpc(nombre: String, args: JsonElement = kotlinx.serialization.json.JsonObject(emptyMap())): JsonElement =
+        withContext(Dispatchers.IO) {
+            asegurarSesion()
+            val r = peticion("POST", "/rest/v1/rpc/$nombre", json.encodeToString(JsonElement.serializer(), args).toByteArray())
+            if (r.isBlank()) kotlinx.serialization.json.JsonNull else json.parseToJsonElement(r)
+        }
+
     // ------------------------------------------------------------------ Storage
 
     /** Sube una foto al bucket público y devuelve su URL. */

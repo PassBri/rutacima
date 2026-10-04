@@ -37,6 +37,7 @@ abstract class RutaDatabase : RoomDatabase() {
     abstract fun planAnualDao(): PlanAnualDao
     abstract fun socialDao(): SocialDao
     abstract fun coachDao(): CoachDao
+    abstract fun sincroniaDao(): SincroniaDao
 
     companion object {
         /** v4: calendario de vida (nacimiento y esperanza de vida) y propósitos a 5, 10, 15 o 20 años. */

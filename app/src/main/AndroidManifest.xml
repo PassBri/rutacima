@@ -15,13 +15,26 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.RutaCima.Inicio">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Código QR de RutaCima Web: rutacima://vincular?codigo=XXXXXXXX -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="rutacima" android:host="vincular" />
+            </intent-filter>
         </activity>
+
+        <!-- Escáner de códigos QR de RutaCima Web: se descarga al instalar, no en el primer uso -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode_ui" />
 
         <!-- Guarda el idioma elegido en la app en Android 12 o inferior (AppCompat). -->
         <service

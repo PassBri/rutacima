@@ -208,3 +208,45 @@ interface CoachDao {
     @Query("DELETE FROM coach_mensajes")
     suspend fun borrarTodo()
 }
+
+/** Lecturas y escrituras en bloque para sincronizar con RutaCima Web. */
+@Dao
+interface SincroniaDao {
+    @Query("SELECT * FROM perfil") suspend fun perfiles(): List<PerfilEntity>
+    @Query("SELECT * FROM propositos") suspend fun propositos(): List<PropositoEntity>
+    @Query("SELECT * FROM acciones") suspend fun acciones(): List<AccionEntity>
+    @Query("SELECT * FROM metas_anuales") suspend fun metasAnuales(): List<MetaAnualEntity>
+    @Query("SELECT * FROM metas_mensuales") suspend fun metasMensuales(): List<MetaMensualEntity>
+    @Query("SELECT * FROM balances_anuales") suspend fun balances(): List<BalanceAnualEntity>
+    @Query("SELECT * FROM agenda_diaria WHERE fecha >= :desde") suspend fun agenda(desde: String): List<AgendaDiaEntity>
+    @Query("SELECT * FROM meses") suspend fun meses(): List<MesEntity>
+    @Query("SELECT * FROM checklist_diario WHERE fecha >= :desde") suspend fun checklist(desde: String): List<ChecklistDiarioEntity>
+    @Query("SELECT * FROM evaluaciones_ejes") suspend fun evaluaciones(): List<EvaluacionEjesEntity>
+    @Query("SELECT * FROM respuestas") suspend fun respuestas(): List<RespuestaEntity>
+    @Query("SELECT * FROM coach_mensajes") suspend fun coach(): List<CoachMensajeEntity>
+
+    @Upsert suspend fun guardar(e: PerfilEntity)
+    @Upsert suspend fun guardar(e: PropositoEntity)
+    @Upsert suspend fun guardar(e: AccionEntity)
+    @Upsert suspend fun guardar(e: MetaAnualEntity)
+    @Upsert suspend fun guardar(e: MetaMensualEntity)
+    @Upsert suspend fun guardar(e: BalanceAnualEntity)
+    @Upsert suspend fun guardar(e: AgendaDiaEntity)
+    @Upsert suspend fun guardar(e: MesEntity)
+    @Upsert suspend fun guardar(e: ChecklistDiarioEntity)
+    @Upsert suspend fun guardar(e: EvaluacionEjesEntity)
+    @Upsert suspend fun guardar(e: RespuestaEntity)
+    @Upsert suspend fun guardar(e: CoachMensajeEntity)
+
+    @Query("DELETE FROM propositos WHERE id = :id") suspend fun borrarProposito(id: Long)
+    @Query("DELETE FROM acciones WHERE id = :id") suspend fun borrarAccion(id: Long)
+    @Query("DELETE FROM metas_anuales WHERE id = :id") suspend fun borrarMetaAnual(id: Long)
+    @Query("DELETE FROM metas_mensuales WHERE id = :id") suspend fun borrarMetaMensual(id: Long)
+    @Query("DELETE FROM balances_anuales WHERE anio = :anio") suspend fun borrarBalance(anio: Int)
+    @Query("DELETE FROM agenda_diaria WHERE fecha = :fecha") suspend fun borrarAgenda(fecha: String)
+    @Query("DELETE FROM meses WHERE clave = :clave") suspend fun borrarMes(clave: String)
+    @Query("DELETE FROM checklist_diario WHERE fecha = :fecha") suspend fun borrarChecklist(fecha: String)
+    @Query("DELETE FROM evaluaciones_ejes WHERE id = :id") suspend fun borrarEvaluacion(id: Long)
+    @Query("DELETE FROM respuestas WHERE clave = :clave") suspend fun borrarRespuesta(clave: String)
+    @Query("DELETE FROM coach_mensajes WHERE id = :id") suspend fun borrarCoach(id: Long)
+}

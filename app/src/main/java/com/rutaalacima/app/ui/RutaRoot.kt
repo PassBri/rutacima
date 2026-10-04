@@ -41,6 +41,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Person
@@ -119,6 +120,7 @@ object Rutas {
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
+    const val WEB = "web"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -172,6 +174,13 @@ private fun AppPrincipal() {
     val rutaActual = entrada?.destination?.route
     val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
 
+    // Código QR de RutaCima Web escaneado con la cámara: abrir la pantalla para confirmarlo
+    val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container
+    val codigoWeb by contenedor.web.codigoPendiente.collectAsStateWithLifecycle()
+    androidx.compose.runtime.LaunchedEffect(codigoWeb) {
+        if (codigoWeb != null && rutaActual != Rutas.WEB) nav.navigate(Rutas.WEB) { launchSingleTop = true }
+    }
+
     Scaffold(
         modifier = Modifier.fondoPapel(),
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
@@ -193,6 +202,7 @@ private fun AppPrincipal() {
                             }
                         }
                         if (pestana.ruta == Rutas.PERFIL) {
+                            IconButton(onClick = { nav.navigate(Rutas.WEB) }) { Icon(Icons.Filled.Computer, stringResource(R.string.web_titulo)) }
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
                         IconButton(onClick = { nav.navigate(Rutas.COACH) }) {
@@ -300,7 +310,12 @@ private fun AppPrincipal() {
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 PostDetalleScreen(postId = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
             }
-            composable(Rutas.AJUSTES) { AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }) }
+            composable(Rutas.AJUSTES) {
+                AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
+            }
+            composable(Rutas.WEB) {
+                com.rutaalacima.app.ui.web.WebScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) })
+            }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
     }

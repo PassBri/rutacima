@@ -4,9 +4,11 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /** Perfil del senderista (una sola fila, id = 1). */
 @Entity(tableName = "perfil")
+@Serializable
 data class PerfilEntity(
     @PrimaryKey val id: Int = 1,
     val nombre: String = "",
@@ -26,6 +28,7 @@ data class PerfilEntity(
 
 /** Respuesta a un campo de un workbook. clave = id del bloque (o id#fila_col en tablas). */
 @Entity(tableName = "respuestas", indices = [Index("workbookId")])
+@Serializable
 data class RespuestaEntity(
     @PrimaryKey val clave: String,
     val workbookId: String,
@@ -35,6 +38,7 @@ data class RespuestaEntity(
 
 /** Evaluación de los 6 ejes (1-10 cada uno). */
 @Entity(tableName = "evaluaciones_ejes")
+@Serializable
 data class EvaluacionEjesEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val fecha: Long = System.currentTimeMillis(),
@@ -54,6 +58,7 @@ fun EvaluacionEjesEntity.total(): Int = puntajes().sum()
 
 /** Checklist diario por eje. fecha = yyyy-MM-dd; marcados = ids separados por coma. */
 @Entity(tableName = "checklist_diario")
+@Serializable
 data class ChecklistDiarioEntity(
     @PrimaryKey val fecha: String,
     val marcados: String = "",
@@ -64,6 +69,7 @@ fun ChecklistDiarioEntity?.ids(): Set<String> =
 
 /** Propósito a 5 años (hasta 10). */
 @Entity(tableName = "propositos")
+@Serializable
 data class PropositoEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val orden: Int = 0,
@@ -96,6 +102,7 @@ data class PropositoEntity(
     )],
     indices = [Index("propositoId")],
 )
+@Serializable
 data class AccionEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val propositoId: Long,
@@ -108,6 +115,7 @@ data class AccionEntity(
 
 /** Meta anual (campamento base) con matriz de decisión, prioridad y semáforo. */
 @Entity(tableName = "metas_anuales", indices = [Index("anio")])
+@Serializable
 data class MetaAnualEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val anio: Int,
@@ -134,6 +142,7 @@ data class MetaAnualEntity(
 
 /** Balance anual: "¿Cómo me sentí?", reflexión positiva/negativa, lo mejor y objetivos. */
 @Entity(tableName = "balances_anuales")
+@Serializable
 data class BalanceAnualEntity(
     @PrimaryKey val anio: Int,
     val comoMeSenti: String = "",
@@ -148,6 +157,7 @@ data class BalanceAnualEntity(
  * [horario] guarda las franjas "Planifique su día" como JSON {"4": "…", "5": "…"} (hora 0-23).
  */
 @Entity(tableName = "agenda_diaria")
+@Serializable
 data class AgendaDiaEntity(
     @PrimaryKey val fecha: String,
     val intencion: String = "",
@@ -171,6 +181,7 @@ data class AgendaDiaEntity(
 
 /** Página mensual del Plan anual: balance, actividades y notas. clave = yyyy-MM. */
 @Entity(tableName = "meses", indices = [Index("anio")])
+@Serializable
 data class MesEntity(
     @PrimaryKey val clave: String,
     val anio: Int,
@@ -187,6 +198,7 @@ data class MesEntity(
 
 /** Meta mensual con registro de cumplimiento por día (dias = "1,2,15"). */
 @Entity(tableName = "metas_mensuales", indices = [Index(value = ["anio", "mes"])])
+@Serializable
 data class MetaMensualEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val anio: Int,
@@ -245,6 +257,7 @@ data class ComentarioLocalEntity(
 
 /** Conversación con el coach de IA. rol = "user" | "assistant". */
 @Entity(tableName = "coach_mensajes")
+@Serializable
 data class CoachMensajeEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val rol: String,

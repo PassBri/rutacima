@@ -136,7 +136,7 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}) {
+fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Unit = {}) {
     val vm = rutaViewModel { AjustesViewModel(it) }
     val sesion by vm.sesion.collectAsStateWithLifecycle()
     val idiomaActual = AppCompatDelegate.getApplicationLocales().toLanguageTags().substringBefore('-').ifBlank {
@@ -308,6 +308,14 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}) {
                         }
                     }
                     vm.mensaje?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary) }
+                }
+            }
+
+            item { SectionTitle(stringResource(R.string.web_titulo)) }
+            item {
+                RutaCard {
+                    Text(stringResource(R.string.web_intro), style = MaterialTheme.typography.bodyMedium)
+                    Button(onClick = onWeb, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.web_abrir_o_vincular)) }
                 }
             }
 
