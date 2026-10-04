@@ -17,6 +17,11 @@ data class PerfilEntity(
     val anioInicioPlan: Int = 2026,
     val compromisoFirmadoEn: Long? = null,
     val onboardingCompleto: Boolean = false,
+    /** Para el calendario de vida: año y mes (1-12) de nacimiento. */
+    val anioNacimiento: Int? = null,
+    val mesNacimiento: Int? = null,
+    /** Esperanza de vida elegida por la persona; null = la estimada para su país. */
+    val esperanzaVida: Int? = null,
 )
 
 /** Respuesta a un campo de un workbook. clave = id del bloque (o id#fila_col en tablas). */
@@ -75,6 +80,8 @@ data class PropositoEntity(
     val impacto: String = "",
     val reflexionFinal: String = "",
     val progreso: Int = 0,
+    /** Horizonte del propósito en años: 5, 10, 15 o 20. */
+    val horizonte: Int = 5,
     val creadoEn: Long = System.currentTimeMillis(),
 )
 

@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.planner
 
+import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.R
 import androidx.compose.ui.res.stringResource
@@ -86,8 +87,12 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
-                OutlinedTextField(p.titulo, { v -> vm.editar { it.copy(titulo = v) } }, label = { Text(stringResource(R.string.proposito_5_anios)) },
+                OutlinedTextField(p.titulo, { v -> vm.editar { it.copy(titulo = v) } }, label = { Text(stringResource(R.string.proposito_n_anios, p.horizonte)) },
                     modifier = Modifier.fillMaxWidth(), textStyle = MaterialTheme.typography.titleMedium)
+            }
+            item {
+                ChipSelector(stringResource(R.string.horizonte), Vida.HORIZONTES, p.horizonte,
+                    { stringResource(R.string.n_anios, it) }, { sel -> vm.editar { it.copy(horizonte = sel) } })
             }
             item {
                 ChipSelector(stringResource(R.string.prioridad_abcd), Prioridad.entries, Prioridad.from(p.prioridad), { "${it.clave} · " + it.texto() },

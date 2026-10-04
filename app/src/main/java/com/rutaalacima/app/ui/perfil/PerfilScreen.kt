@@ -1,5 +1,10 @@
 package com.rutaalacima.app.ui.perfil
 
+import com.rutaalacima.app.util.hoy
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -77,6 +82,7 @@ fun PerfilScreen(
     onAbrirPost: (String) -> Unit,
     onPublicar: (String) -> Unit,
     onEvaluarEjes: () -> Unit,
+    onAjustes: () -> Unit,
 ) {
     val vm = rutaViewModel { PerfilViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -84,6 +90,10 @@ fun PerfilScreen(
     val eval by vm.evaluacion.collectAsStateWithLifecycle()
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
+    // Calendario de vida: década, año y mes seleccionados
+    var decadaSel by rememberSaveable { mutableStateOf<Int?>(null) }
+    var anioSel by rememberSaveable { mutableStateOf<Int?>(hoy().year) }
+    var mesSel by rememberSaveable { mutableStateOf<Int?>(null) }
     val logros = posts.count { it.tipo == TipoPost.LOGRO }
     val metasCumplidas = cascada?.let { c ->
         (c.propositos.flatMap { it.anios } + c.aniosSueltos).count { it.avance >= 1f } +
@@ -109,7 +119,11 @@ fun PerfilScreen(
             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                 Text(perfil.nombre.ifBlank { stringResource(R.string.senderista) }, style = MaterialTheme.typography.titleLarge)
                 if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (perfil.cumbreFrase.isNotBlank()) Text("⛰ ${perfil.cumbreFrase}", style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 4.dp))
+                if (perfil.cumbreFrase.isNotBlank()) Row(Modifier.padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.Terrain, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
+                    Spacer(Modifier.width(6.dp))
+                    Text(perfil.cumbreFrase, style = MaterialTheme.typography.bodyMedium)
+                }
             }
         }
         item {
@@ -120,13 +134,18 @@ fun PerfilScreen(
         }
         when (tab) {
             0 -> cuadricula(posts, onAbrirPost, vacio = R.string.sin_publicaciones) { onPublicar("LOGRO") }
-            1 -> miVida(posts, onAbrirPost, onPublicar)
+            1 -> calendarioVida(
+                perfil, posts, decadaSel, anioSel, mesSel,
+                onDecada = { decadaSel = it },
+                onSeleccion = { a, m -> if (a == anioSel && m == null && mesSel == null) anioSel = null else { anioSel = a; mesSel = m } },
+                onAbrir = onAbrirPost, onPublicar = onPublicar, onAjustes = onAjustes,
+            )
             2 -> {
                 item {
                     Text(stringResource(R.string.vision_board_texto), style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(horizontal = 16.dp))
                 }
-                cuadricula(posts.filter { it.tipo == TipoPost.VISION }, onAbrirPost, columnas = 2, vacio = R.string.vision_vacia) { onPublicar("VISION") }
+                cuadricula(posts.filter { it.tipo == TipoPost.VISION }, onAbrirPost, vacio = R.string.vision_vacia) { onPublicar("VISION") }
                 item {
                     OutlinedButton(onClick = { onPublicar("VISION") }, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
                         Icon(Icons.Filled.Add, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.agregar_vision))
@@ -159,11 +178,11 @@ private fun Dato(n: Int, etiqueta: String) {
     }
 }
 
-/** Cuadrícula estilo Instagram (3 columnas) dentro de la lista. */
+/** Cuadrícula de bitácora: 2 columnas, fichas 4:5 redondeadas con el tipo de publicación. */
 private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
     posts: List<Post>,
     onAbrir: (String) -> Unit,
-    columnas: Int = 3,
+    columnas: Int = 2,
     vacio: Int,
     onCrear: () -> Unit,
 ) {
@@ -176,52 +195,14 @@ private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
         return
     }
     items(posts.chunked(columnas)) { fila ->
-        Row(Modifier.padding(horizontal = 2.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+        Row(Modifier.padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             fila.forEach { p ->
-                PostImagen(p, Modifier.weight(1f).clickable { onAbrir(p.id) }, conTexto = columnas < 3)
-            }
-            repeat(columnas - fila.size) { Spacer(Modifier.weight(1f).aspectRatio(1f)) }
-        }
-    }
-}
-
-/** "Mi vida por años": el registro de lo que hice en cada año de mi vida. */
-private fun androidx.compose.foundation.lazy.LazyListScope.miVida(
-    posts: List<Post>,
-    onAbrir: (String) -> Unit,
-    onPublicar: (String) -> Unit,
-) {
-    if (posts.isEmpty()) {
-        item {
-            RutaCard(Modifier.padding(horizontal = 16.dp), onClick = { onPublicar("LOGRO") }) {
-                Text(stringResource(R.string.mi_vida_vacia), style = MaterialTheme.typography.bodyLarge)
-            }
-        }
-        return
-    }
-    posts.groupBy { it.anio }.toSortedMap(compareByDescending { it }).forEach { (anio, delAnio) ->
-        item(key = "anio-$anio") {
-            Column(Modifier.padding(horizontal = 16.dp)) {
-                Row(verticalAlignment = Alignment.Bottom) {
-                    Text("$anio", style = MaterialTheme.typography.displaySmall, color = MaterialTheme.colorScheme.primary)
-                    Spacer(Modifier.width(12.dp))
-                    Text(
-                        stringResource(R.string.anio_resumen, delAnio.size, delAnio.count { it.tipo == TipoPost.LOGRO }),
-                        style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(bottom = 8.dp),
-                    )
-                }
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    items(delAnio, key = { it.id }) { p ->
-                        Column(Modifier.width(140.dp).clickable { onAbrir(p.id) }) {
-                            PostImagen(p, Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)), conTexto = false)
-                            Spacer(Modifier.height(4.dp))
-                            TipoBadge(p.tipo)
-                            Text(p.metaTitulo.ifBlank { p.texto }, style = MaterialTheme.typography.bodySmall, maxLines = 2)
-                        }
-                    }
+                Box(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).clickable { onAbrir(p.id) }) {
+                    PostImagen(p, Modifier.fillMaxWidth(), conTexto = true, ratio = 4f / 5f)
+                    Box(Modifier.align(Alignment.TopStart).padding(8.dp)) { TipoBadge(p.tipo) }
                 }
             }
+            repeat(columnas - fila.size) { Spacer(Modifier.weight(1f)) }
         }
     }
 }

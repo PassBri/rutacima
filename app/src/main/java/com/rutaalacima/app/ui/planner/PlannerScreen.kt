@@ -138,6 +138,8 @@ private fun PropositoCard(p: PropositoEntity, onClick: () -> Unit) {
                 Spacer(Modifier.height(4.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     PrioridadBadge(prioridad)
+                    Text(stringResource(R.string.n_anios, p.horizonte), style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
                     Eje.fromCodigo(p.eje)?.let { EjeChip(it) }
                 }
             }
@@ -176,7 +178,7 @@ internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp,
     val perfil by vm.perfil.collectAsStateWithLifecycle()
     val todas by vm.metas.collectAsStateWithLifecycle()
     val propositos by vm.propositos.collectAsStateWithLifecycle()
-    val anios = aniosDelPlan(perfil.anioInicioPlan)
+    val anios = aniosDelPlan(perfil.anioInicioPlan, propositos.maxOfOrNull { it.horizonte } ?: 5)
     var anio by rememberSaveable { mutableIntStateOf(-1) }
     val anioSel = if (anio in anios) anio else anios.first()
     var editando by remember { mutableStateOf<MetaAnualEntity?>(null) }
@@ -344,7 +346,8 @@ private fun MetaEditor(
 @Composable
 internal fun BalanceTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp, onOpenWorkbook: (String) -> Unit) {
     val perfil by vm.perfil.collectAsStateWithLifecycle()
-    val anios = aniosDelPlan(perfil.anioInicioPlan)
+    val propositosBalance by vm.propositos.collectAsStateWithLifecycle()
+    val anios = aniosDelPlan(perfil.anioInicioPlan, propositosBalance.maxOfOrNull { it.horizonte } ?: 5)
     var anio by rememberSaveable { mutableIntStateOf(-1) }
     val anioSel = if (anio in anios) anio else anios.first()
     val guardado by remember(anioSel) { vm.balance(anioSel) }.collectAsState(initial = null)

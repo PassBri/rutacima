@@ -1,5 +1,14 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.TrackChanges
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.PhotoCamera
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.ui.graphics.vector.ImageVector
+import com.rutaalacima.app.ui.theme.asColor
+import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.height
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -69,19 +78,22 @@ fun Avatar(nombre: String, url: String = "", tamano: Int = 40) {
     }
 }
 
-/** Foto de la publicación o, si no tiene, un paisaje vectorial con el texto (estilo historia). */
+/**
+ * Imagen de la publicación. Formato propio de RutaCima: horizontal 4:3 (la "postal de cumbre"),
+ * distinto del cuadrado/vertical de otras redes. Sin foto, se dibuja un paisaje vectorial.
+ */
 @Composable
-fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true) {
+fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true, ratio: Float = 4f / 3f) {
     if (post.foto.isNotBlank()) {
         val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
-        AsyncImage(modelo, null, modifier.aspectRatio(1f), contentScale = ContentScale.Crop)
+        AsyncImage(modelo, null, modifier.aspectRatio(ratio), contentScale = ContentScale.Crop)
     } else {
-        MontanaArte(post.id, modifier.aspectRatio(1f)) {
+        MontanaArte(post.id, modifier.aspectRatio(ratio), paleta = Eje.fromCodigo(post.eje)?.ordinal ?: 0) {
             if (conTexto) {
-                Box(Modifier.fillMaxSize().background(Color(0x66000000)).padding(24.dp), contentAlignment = Alignment.Center) {
+                Box(Modifier.fillMaxSize().background(Color(0x55000000)).padding(20.dp), contentAlignment = Alignment.Center) {
                     Text(
                         post.metaTitulo.ifBlank { post.texto }, color = Color.White, textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, maxLines = 6, overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 5, overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
@@ -89,7 +101,11 @@ fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = tr
     }
 }
 
-/** Tarjeta de publicación estilo Instagram: autor, foto, impulsos, comentarios y compartir. */
+/**
+ * Tarjeta "bitácora de ascenso": franja del color del eje, encabezado del autor, postal 4:3
+ * con margen y esquinas redondeadas (o una cita destacada si no hay foto), la meta como etiqueta
+ * y una barra de acciones en píldoras.
+ */
 @Composable
 fun PostCard(
     post: Post,
@@ -98,61 +114,128 @@ fun PostCard(
     onAbrir: () -> Unit,
 ) {
     val context = LocalContext.current
+    val eje = Eje.fromCodigo(post.eje)
+    val acento = eje?.color?.asColor() ?: MaterialTheme.colorScheme.secondary
     Card(
         onClick = onAbrir,
-        shape = RoundedCornerShape(20.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Row(Modifier.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-            Avatar(post.autorNombre, post.avatarUrl)
+        // Franja superior del color del eje
+        Box(Modifier.fillMaxWidth().height(5.dp).background(Brush.horizontalGradient(listOf(acento, acento.copy(alpha = 0.25f)))))
+        Row(Modifier.padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Avatar(post.autorNombre, post.avatarUrl, tamano = 36)
             Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
-                Text(post.autorNombre, style = MaterialTheme.typography.titleSmall)
+                Text(post.autorNombre, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
                     listOfNotNull(post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" }, haceCuanto(post.creadoEn)).joinToString(" · "),
-                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1,
                 )
             }
             if (post.visibilidad == Visibilidad.PRIVADA) Icon(Icons.Filled.Lock, stringResource(R.string.visibilidad_privada), Modifier.size(16.dp))
             Spacer(Modifier.width(6.dp))
             TipoBadge(post.tipo)
         }
-        PostImagen(post, Modifier.fillMaxWidth())
-        Row(Modifier.padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = onImpulsar) {
-                Icon(
-                    if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt, stringResource(R.string.impulsar),
-                    tint = if (post.yoImpulse) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
-                )
+
+        if (post.foto.isNotBlank()) {
+            // Postal 4:3 con margen, la meta y el eje sobre un degradado
+            Box(Modifier.padding(horizontal = 12.dp).clip(RoundedCornerShape(18.dp))) {
+                PostImagen(post, Modifier.fillMaxWidth())
+                Row(
+                    Modifier.align(Alignment.BottomStart).fillMaxWidth()
+                        .background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xAA000000))))
+                        .padding(horizontal = 12.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (post.metaTitulo.isNotBlank()) {
+                        MetaEtiqueta(post.metaTitulo, Color.White, Modifier.weight(1f))
+                    } else Spacer(Modifier.weight(1f))
+                    eje?.let { EjeChip(it) }
+                }
             }
-            Text("${post.impulsos}", style = MaterialTheme.typography.labelLarge)
-            IconButton(onClick = onComentar) { Icon(Icons.AutoMirrored.Outlined.Comment, stringResource(R.string.comentar)) }
-            Text("${post.comentarios}", style = MaterialTheme.typography.labelLarge)
+            if (post.texto.isNotBlank()) {
+                Text(post.texto, style = MaterialTheme.typography.bodyMedium, maxLines = 4, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp))
+            }
+        } else {
+            // Sin foto: cita destacada, compacta
+            Column(
+                Modifier.padding(horizontal = 12.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp))
+                    .background(acento.copy(alpha = 0.10f)).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Text("“", style = MaterialTheme.typography.displaySmall, color = acento, fontWeight = FontWeight.Black,
+                    modifier = Modifier.height(28.dp))
+                Text(post.texto, style = MaterialTheme.typography.titleMedium, maxLines = 6, overflow = TextOverflow.Ellipsis)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (post.metaTitulo.isNotBlank()) {
+                        MetaEtiqueta(post.metaTitulo, MaterialTheme.colorScheme.primary, Modifier.weight(1f))
+                    } else Spacer(Modifier.weight(1f))
+                    eje?.let { EjeChip(it) }
+                }
+            }
+        }
+
+        // Acciones en píldoras
+        Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Pildora(
+                icono = if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt,
+                texto = "${post.impulsos}", descripcion = stringResource(R.string.impulsar), activa = post.yoImpulse, onClick = onImpulsar,
+            )
+            Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
+            Spacer(Modifier.weight(1f))
             IconButton(onClick = {
                 val texto = listOf(post.metaTitulo, post.texto, "— RutaCima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }) { Icon(Icons.Outlined.Share, stringResource(R.string.compartir)) }
-            Spacer(Modifier.weight(1f))
-            Eje.fromCodigo(post.eje)?.let { EjeChip(it, Modifier.padding(end = 8.dp)) }
-        }
-        Column(Modifier.padding(start = 14.dp, end = 14.dp, bottom = 14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            if (post.metaTitulo.isNotBlank() && post.foto.isNotBlank()) {
-                Text("🎯 ${post.metaTitulo}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            }
-            if (post.texto.isNotBlank()) Text(post.texto, style = MaterialTheme.typography.bodyMedium, maxLines = 6, overflow = TextOverflow.Ellipsis)
         }
     }
 }
 
 @Composable
-fun TipoBadge(tipo: TipoPost) {
-    val emoji = when (tipo) {
-        TipoPost.LOGRO -> "🏆"; TipoPost.EVIDENCIA -> "📸"; TipoPost.VISION -> "✨"; TipoPost.META -> "🎯"; TipoPost.REFLEXION -> "💭"
+private fun Pildora(icono: androidx.compose.ui.graphics.vector.ImageVector, texto: String, descripcion: String, activa: Boolean, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick, shape = RoundedCornerShape(50),
+        color = if (activa) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh,
+    ) {
+        Row(Modifier.padding(horizontal = 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Icon(icono, descripcion, Modifier.size(18.dp),
+                tint = if (activa) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.width(6.dp))
+            Text(texto, style = MaterialTheme.typography.labelLarge)
+        }
     }
-    Text(
-        "$emoji ${tipo.texto()}",
-        style = MaterialTheme.typography.labelSmall,
-        modifier = Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.secondaryContainer).padding(horizontal = 8.dp, vertical = 3.dp),
-    )
+}
+
+/** Ícono de cada tipo de publicación (sistema de íconos Material, sin emojis). */
+fun iconoTipo(tipo: TipoPost): ImageVector = when (tipo) {
+    TipoPost.LOGRO -> Icons.Filled.EmojiEvents
+    TipoPost.EVIDENCIA -> Icons.Filled.PhotoCamera
+    TipoPost.VISION -> Icons.Filled.AutoAwesome
+    TipoPost.META -> Icons.Filled.TrackChanges
+    TipoPost.REFLEXION -> Icons.Filled.Lightbulb
+}
+
+@Composable
+fun TipoBadge(tipo: TipoPost) {
+    Row(
+        Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.secondaryContainer).padding(horizontal = 8.dp, vertical = 3.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(iconoTipo(tipo), null, Modifier.size(14.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
+        Spacer(Modifier.width(4.dp))
+        Text(tipo.texto(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSecondaryContainer)
+    }
+}
+
+/** La meta vinculada, con su ícono. */
+@Composable
+private fun MetaEtiqueta(texto: String, color: Color, modifier: Modifier = Modifier) {
+    Row(modifier, verticalAlignment = Alignment.CenterVertically) {
+        Icon(Icons.Filled.TrackChanges, null, Modifier.size(16.dp), tint = color)
+        Spacer(Modifier.width(6.dp))
+        Text(texto, color = color, style = MaterialTheme.typography.labelLarge, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    }
 }

@@ -1,20 +1,20 @@
 # RutaCima · App Android
 
 **RutaCima** es la app del método **Ruta a la Cima** (7 Fases × 6 Ejes): un planificador de metas en
-cascada —**5 años → año → mes → hoy**— con coach de inteligencia artificial y una comunidad tipo red
+cascada —**largo plazo (5, 10, 15 o 20 años) → año → mes → hoy**— con coach de inteligencia artificial y una comunidad tipo red
 social donde cada persona comparte con fotos sus logros, su vision board y el registro de cada año de su vida.
 
 > Serie Ruta a la Cima · © 2026 Brian Gonzalo Suárez Acevedo. Todos los derechos reservados.
 
-## Qué hace la app (v0.2)
+## Qué hace la app (v0.3)
 
 | Pestaña | Contenido |
 |---|---|
 | **Hoy** | Tu cumbre en una frase, anillos de avance de la cascada (5 años, año, mes, hoy), prioridad #1, metas del mes para marcar el día con un toque, checklist de 18 hábitos, botones de rescate ("me perdí", "tuve un mal día", kit de emergencia), acceso al coach y a compartir avance. |
-| **Metas** | **Cascada** con avance automático (lo que marcas cada día sube al mes, al año y al propósito de 5 años) y pestañas **Día, Mes, Año, 5 años y Balance** del planificador. El botón **Nueva meta** abre un asistente de 4 pasos que usa los bonos: banco de metas, banco de indicadores, banco de acciones y proyectos de confluencia, más "Mejorar con IA" (formato ORSE). |
-| **Comunidad** | Feed estilo Instagram con fotos: logros, evidencias, visión, metas y reflexiones. Impulsos (votos), comentarios, seguir personas y compartir. Visibilidad pública, seguidores o solo yo. |
+| **Metas** | **Cascada** con avance automático (lo que marcas cada día sube al mes, al año y al propósito) y pestañas **Día, Mes, Año, Largo plazo y Balance**. Cada propósito elige su horizonte: 5, 10, 15 o 20 años, y el plan anual se extiende hasta ese año del planificador. El botón **Nueva meta** abre un asistente de 4 pasos que usa los bonos: banco de metas, banco de indicadores, banco de acciones y proyectos de confluencia, más "Mejorar con IA" (formato ORSE). |
+| **Comunidad** | Feed con formato propio de "bitácora": postal horizontal 4:3 con la meta y el eje, o cita destacada si no hay foto. Tipos: logros, evidencias, visión, metas y reflexiones. Impulsos (votos), comentarios, seguir personas y compartir. Visibilidad pública, seguidores o solo yo. |
 | **Aprende** | Las 24 guías organizadas por las etapas del ascenso (Conócete, Traza tu ruta, Camina, Supera obstáculos, Celebra la cima), bancos de herramientas, lecturas y facilitadores. Las evaluaciones ahora **generan resultados**: total, porcentaje, interpretación, barras por grupo, foco sugerido y radar de ejes que se puede guardar en "Mis Ejes". |
-| **Perfil** | Publicaciones en cuadrícula, **Mi vida** (registro año por año), **Vision board** y **Ejes** (evaluación 1–10, radar comparado e historial). Ajustes: idioma, perfil y cuenta. |
+| **Perfil** | Publicaciones en fichas 4:5 a dos columnas, **Mi vida** (calendario de vida: cada año de tu vida como 12 meses, desde tu nacimiento hasta tu esperanza de vida; eliges década, año y mes y ves lo que registraste), **Vision board** y **Ejes** (evaluación 1–10, radar comparado e historial). Ajustes: idioma, perfil y cuenta. |
 
 Además: **Coach IA** (orienta con tus metas, ejes y avance reales; sin servidor funciona en modo guía),
 **Kit de emergencia** (protocolos de la niebla, checklist, tracker de 7 días, matriz de decisiones, tarjetas)
@@ -26,6 +26,12 @@ El contenido de las guías (workbooks) está en español.
 
 **Diseño:** sin imágenes de los libros; ilustraciones vectoriales de montañas generadas en código
 (`ui/components/Arte.kt`) e íconos Material.
+
+## Diseño con IA (skill "impeccable")
+
+El proyecto incluye la skill de diseño [impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0)
+en `.claude/skills/impeccable`. Si abres el proyecto con Claude Code, usa por ejemplo
+`/impeccable critique perfil` o `/impeccable polish comunidad`.
 
 ## Requisitos
 

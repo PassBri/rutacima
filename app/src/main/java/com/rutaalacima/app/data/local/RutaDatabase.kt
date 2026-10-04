@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [
@@ -22,7 +24,7 @@ import androidx.room.RoomDatabase
         ComentarioLocalEntity::class,
         CoachMensajeEntity::class,
     ],
-    version = 3,
+    version = 4,
     exportSchema = false,
 )
 abstract class RutaDatabase : RoomDatabase() {
@@ -37,11 +39,22 @@ abstract class RutaDatabase : RoomDatabase() {
     abstract fun coachDao(): CoachDao
 
     companion object {
+        /** v4: calendario de vida (nacimiento y esperanza de vida) y propósitos a 5, 10, 15 o 20 años. */
+        val MIGRACION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE perfil ADD COLUMN anioNacimiento INTEGER")
+                db.execSQL("ALTER TABLE perfil ADD COLUMN mesNacimiento INTEGER")
+                db.execSQL("ALTER TABLE perfil ADD COLUMN esperanzaVida INTEGER")
+                db.execSQL("ALTER TABLE propositos ADD COLUMN horizonte INTEGER NOT NULL DEFAULT 5")
+            }
+        }
+
         fun build(context: Context): RutaDatabase =
             Room.databaseBuilder(context, RutaDatabase::class.java, "rutacima.db")
-                // Mientras la app está en versión 0.x: si cambia el esquema se recrea la base.
-                // Antes de publicar, reemplazar por migraciones reales.
-                .fallbackToDestructiveMigration()
+                // Desde la v4 los datos se conservan al actualizar la app.
+                .addMigrations(MIGRACION_3_4)
+                // Solo para instalaciones de prueba muy antiguas (v1-v2).
+                .fallbackToDestructiveMigrationFrom(1, 2)
                 .build()
     }
 }

@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.onboarding
 
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -120,7 +123,13 @@ fun OnboardingScreen() {
                     QuoteView(stringResource(R.string.onb_compromiso_cita))
                     Text(stringResource(R.string.onb_compromiso_texto, nombre.trim()),
                         style = MaterialTheme.typography.bodyLarge)
-                    COMPROMISOS.forEach { Text("✓  " + stringResource(it), style = MaterialTheme.typography.bodyLarge) }
+                    COMPROMISOS.forEach {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.CheckCircle, null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.secondary)
+                            Spacer(Modifier.size(10.dp))
+                            Text(stringResource(it), style = MaterialTheme.typography.bodyLarge)
+                        }
+                    }
                     Button(
                         onClick = { vm.completar(nombre, cumbre, Fase.fromName(faseNombre)) },
                         modifier = Modifier.fillMaxWidth(),

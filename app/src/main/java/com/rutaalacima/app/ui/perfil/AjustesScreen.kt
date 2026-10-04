@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.perfil
 
+import com.rutaalacima.app.domain.model.Vida
+import com.rutaalacima.app.ui.components.FechaField
+import androidx.compose.material3.Slider
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -61,6 +64,9 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
     val servidor: Boolean get() = c.supabase.configurado
     var nombre by mutableStateOf("")
     var cumbre by mutableStateOf("")
+    /** Nacimiento como fecha UTC del día 1 del mes (para el selector de fecha). */
+    var nacimiento by mutableStateOf<Long?>(null)
+    var esperanza by mutableStateOf<Int?>(null)
     var email by mutableStateOf("")
     var clave by mutableStateOf("")
     var usuario by mutableStateOf(c.social.usuarioPropio())
@@ -75,11 +81,21 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
             val p = c.perfil.perfil.first()
             nombre = p.nombre
             cumbre = p.cumbreFrase
+            nacimiento = p.anioNacimiento?.let { a ->
+                java.time.LocalDate.of(a, p.mesNacimiento ?: 1, 1).atStartOfDay(java.time.ZoneOffset.UTC).toInstant().toEpochMilli()
+            }
+            esperanza = p.esperanzaVida
         }
     }
 
     fun guardarPerfil() = viewModelScope.launch {
-        c.perfil.actualizar { it.copy(nombre = nombre.trim(), cumbreFrase = cumbre.trim()) }
+        val fecha = nacimiento?.let { java.time.Instant.ofEpochMilli(it).atZone(java.time.ZoneOffset.UTC).toLocalDate() }
+        c.perfil.actualizar {
+            it.copy(
+                nombre = nombre.trim(), cumbreFrase = cumbre.trim(),
+                anioNacimiento = fecha?.year, mesNacimiento = fecha?.monthValue, esperanzaVida = esperanza,
+            )
+        }
         c.social.guardarIdentidad(nombre.trim(), usuario.trim())
         mensaje = null
     }
@@ -139,6 +155,15 @@ fun AjustesScreen(onBack: () -> Unit) {
                 OutlinedTextField(vm.nombre, { vm.nombre = it }, label = { Text(stringResource(R.string.tu_nombre)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
                 Spacer(Modifier.height(8.dp))
                 OutlinedTextField(vm.cumbre, { vm.cumbre = it }, label = { Text(stringResource(R.string.mi_cumbre_es)) }, modifier = Modifier.fillMaxWidth(), minLines = 2)
+                Spacer(Modifier.height(8.dp))
+                FechaField(stringResource(R.string.fecha_nacimiento), vm.nacimiento, { vm.nacimiento = it }, Modifier.fillMaxWidth())
+                Spacer(Modifier.height(8.dp))
+                val estimada = Vida.esperanzaPais(java.util.Locale.getDefault().country)
+                val valor = vm.esperanza ?: estimada
+                Text(stringResource(R.string.esperanza_vida, valor), style = MaterialTheme.typography.labelLarge)
+                Slider(value = valor.toFloat(), onValueChange = { vm.esperanza = kotlin.math.round(it).toInt() }, valueRange = 50f..110f, steps = 59)
+                Text(stringResource(R.string.esperanza_ayuda, estimada), style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(8.dp))
                 Button(onClick = { vm.guardarPerfil() }) { Text(stringResource(R.string.guardar)) }
             }

@@ -215,6 +215,7 @@ private fun AppPrincipal() {
                     onAbrirPost = { nav.navigate(Rutas.post(it)) },
                     onPublicar = { nav.navigate(Rutas.publicar(it)) },
                     onEvaluarEjes = { nav.navigate(Rutas.EJES) },
+                    onAjustes = { nav.navigate(Rutas.AJUSTES) },
                 )
             }
             composable(Rutas.WORKBOOK, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->

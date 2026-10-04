@@ -162,7 +162,7 @@ private fun CascadaTab(
         items(c.propositos, key = { "p${it.proposito.id}" }) { n ->
             RutaCard(onClick = { onOpenProposito(n.proposito.id) }) {
                 Encabezado(
-                    nivel = stringResource(R.string.nivel_5_anios), titulo = n.proposito.titulo,
+                    nivel = stringResource(R.string.proposito_n_anios, n.proposito.horizonte), titulo = n.proposito.titulo,
                     eje = Eje.fromCodigo(n.proposito.eje), avance = n.avance, automatico = n.automatico,
                 )
                 if (n.anios.isEmpty()) {

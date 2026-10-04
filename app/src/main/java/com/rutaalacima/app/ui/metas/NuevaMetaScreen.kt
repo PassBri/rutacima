@@ -71,6 +71,7 @@ import com.rutaalacima.app.data.local.MetaMensualEntity
 import com.rutaalacima.app.data.local.PropositoEntity
 import com.rutaalacima.app.domain.model.Eje
 import com.rutaalacima.app.domain.model.Prioridad
+import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.components.ChipSelector
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.SectionTitle
@@ -98,6 +99,8 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : View
     var observable by mutableStateOf("")
     var padreId by mutableStateOf<Long?>(null)
     var objetivoDias by mutableStateOf(20)
+    /** Horizonte del propósito a largo plazo: 5, 10, 15 o 20 años. */
+    var horizonte by mutableStateOf(5)
     val acciones = mutableStateListOf<String>()
 
     var bancos by mutableStateOf<Bancos?>(null)
@@ -166,6 +169,7 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : View
                         PropositoEntity(
                             titulo = titulo.trim(), prioridad = prioridad.name, eje = eje?.codigo,
                             indicadorExito = indicador.trim(), descripcion = observable.trim(),
+                            horizonte = horizonte,
                         ),
                     )
                     acciones.forEachIndexed { i, a -> c.planificador.guardarAccion(AccionEntity(propositoId = id, orden = i + 1, texto = a)) }
@@ -361,9 +365,15 @@ private fun androidx.compose.foundation.lazy.LazyListScope.pasoDetalles(vm: Nuev
         }
     }
     when (vm.nivel) {
+        NivelMeta.CINCO_ANIOS -> item {
+            ChipSelector(stringResource(R.string.horizonte), Vida.HORIZONTES, vm.horizonte,
+                { stringResource(R.string.n_anios, it) }, { vm.horizonte = it })
+            Text(stringResource(R.string.horizonte_ayuda, hoy().year + vm.horizonte), style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
         NivelMeta.ANIO -> if (vm.propositos.isNotEmpty()) item {
             ChipSelector(stringResource(R.string.conectar_con_proposito), listOf<PropositoEntity?>(null) + vm.propositos,
-                vm.propositos.firstOrNull { it.id == vm.padreId }, { it?.titulo?.take(30) ?: stringResource(R.string.ninguno) },
+                vm.propositos.firstOrNull { it.id == vm.padreId }, { it?.let { p -> "${p.horizonte}a · " + p.titulo.take(30) } ?: stringResource(R.string.ninguno) },
                 { vm.padreId = it?.id })
         }
         NivelMeta.MES -> {
@@ -374,11 +384,10 @@ private fun androidx.compose.foundation.lazy.LazyListScope.pasoDetalles(vm: Nuev
             }
             item {
                 Text(stringResource(R.string.dias_objetivo, vm.objetivoDias), style = MaterialTheme.typography.labelLarge)
-                Slider(value = vm.objetivoDias.toFloat(), onValueChange = { vm.objetivoDias = it.toInt() }, valueRange = 1f..31f, steps = 29)
+                Slider(value = vm.objetivoDias.toFloat(), onValueChange = { vm.objetivoDias = kotlin.math.round(it).toInt() }, valueRange = 1f..31f, steps = 29)
                 Text(stringResource(R.string.dias_objetivo_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
-        else -> Unit
     }
 }
 

@@ -1,5 +1,14 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -110,15 +119,17 @@ fun ComunidadScreen(
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 items(TipoPost.entries) { t ->
-                    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(4.dp)) {
-                        Box(Modifier) {
-                            Avatar(nombre = when (t) {
-                                TipoPost.LOGRO -> "🏆"; TipoPost.EVIDENCIA -> "📸"; TipoPost.VISION -> "✨"; TipoPost.META -> "🎯"; TipoPost.REFLEXION -> "💭"
-                            }, tamano = 58)
-                        }
-                        TextButton(onClick = { onPublicar(t.name) }, contentPadding = PaddingValues(0.dp)) {
-                            Text(t.texto(), style = MaterialTheme.typography.labelSmall)
-                        }
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable { onPublicar(t.name) }.padding(6.dp),
+                    ) {
+                        Box(
+                            Modifier.size(58.dp).clip(CircleShape)
+                                .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
+                            contentAlignment = Alignment.Center,
+                        ) { Icon(iconoTipo(t), null, tint = Color.White, modifier = Modifier.size(26.dp)) }
+                        Spacer(Modifier.height(6.dp))
+                        Text(t.texto(), style = MaterialTheme.typography.labelSmall)
                     }
                 }
             }

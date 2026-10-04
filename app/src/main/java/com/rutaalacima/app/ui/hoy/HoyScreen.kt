@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.hoy
 
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Surface
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -275,13 +277,28 @@ fun HoyScreen(
                     Text(stringResource(R.string.rescate_titulo), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onPrimary)
                     Text(stringResource(R.string.rescate_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
                     Spacer(Modifier.height(10.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        AssistChip(onClick = { onAbrirWorkbook(ContentRepository.NIEBLA) }, label = { Text(stringResource(R.string.me_perdi)) },
-                            leadingIcon = { Icon(Icons.Filled.Cloud, null) })
-                        AssistChip(onClick = { onAbrirWorkbook("bono_anti_abandono") }, label = { Text(stringResource(R.string.dia_malo)) },
-                            leadingIcon = { Icon(Icons.Filled.Shield, null) })
-                        AssistChip(onClick = { onIrA(Rutas.KIT) }, label = { Text(stringResource(R.string.kit)) },
-                            leadingIcon = { Icon(Icons.Filled.LocalHospital, null) })
+                    // Botones de rescate: ocupan el ancho y bajan de línea si el idioma es largo.
+                    val rescates = listOf(
+                        Triple(R.string.me_perdi, Icons.Filled.Cloud) { onAbrirWorkbook(ContentRepository.NIEBLA) },
+                        Triple(R.string.dia_malo, Icons.Filled.Shield) { onAbrirWorkbook("bono_anti_abandono") },
+                        Triple(R.string.kit, Icons.Filled.LocalHospital) { onIrA(Rutas.KIT) },
+                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        rescates.forEach { (texto, icono, accion) ->
+                            Surface(
+                                onClick = accion, shape = RoundedCornerShape(14.dp),
+                                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.14f),
+                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(icono, null, Modifier.size(20.dp))
+                                    Spacer(Modifier.width(12.dp))
+                                    Text(stringResource(texto), style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f))
+                                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(18.dp))
+                                }
+                            }
+                        }
                     }
                 }
             }
