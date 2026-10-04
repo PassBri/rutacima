@@ -4,7 +4,6 @@
  "subtitle": "Mentores, accountability y red de apoyo",
  "category": "ruta",
  "order": 8,
- "cover": "campamento_1.jpg",
  "sections": [
   {
    "id": "campamento.sec0",
@@ -1241,11 +1240,6 @@
     {
      "type": "paragraph",
      "text": "Pero el campamento base es compartido."
-    },
-    {
-     "type": "image",
-     "src": "campamento_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

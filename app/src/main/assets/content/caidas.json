@@ -4,7 +4,6 @@
  "subtitle": "Aprender a leer la montaña",
  "category": "ruta",
  "order": 12,
- "cover": "caidas_1.jpg",
  "sections": [
   {
    "id": "caidas.sec0",
@@ -1897,11 +1896,6 @@
     {
      "type": "paragraph",
      "text": "RECUERDA: Esta guía es un documento vivo. Volverás a ella después de cada caída. No para castigarte, sino para aprender y levantarte más rápido."
-    },
-    {
-     "type": "image",
-     "src": "caidas_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

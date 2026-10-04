@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.workbook
 
+import com.rutaalacima.app.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -219,7 +221,7 @@ private fun PromptView(b: PromptBlock, r: Respuestas, modifier: Modifier) {
             onValueChange = { r.escribir(b.id, it) },
             modifier = Modifier.fillMaxWidth(),
             minLines = 3,
-            placeholder = { Text("Escribe aquí…") },
+            placeholder = { Text(stringResource(R.string.escribe_aqui)) },
             textStyle = MaterialTheme.typography.bodyLarge,
         )
     }
@@ -282,7 +284,7 @@ private fun InputTableView(b: InputTableBlock, r: Respuestas, modifier: Modifier
             ) {
                 Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
-                        if (conEtiquetas) b.rowLabels[fila] else "${b.headers.firstOrNull()?.takeIf { it.isNotBlank() } ?: "Fila"} ${fila + 1}",
+                        if (conEtiquetas) b.rowLabels[fila] else "${b.headers.firstOrNull()?.takeIf { it.isNotBlank() } ?: stringResource(R.string.fila)} ${fila + 1}",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.primary,
                     )
@@ -303,7 +305,7 @@ private fun InputTableView(b: InputTableBlock, r: Respuestas, modifier: Modifier
             TextButton(onClick = { r.fijar(claveFilas, (filas + 1).toString()) }) {
                 Icon(Icons.Filled.Add, contentDescription = null)
                 Spacer(Modifier.width(6.dp))
-                Text("Agregar fila", textAlign = TextAlign.Center)
+                Text(stringResource(R.string.agregar_fila), textAlign = TextAlign.Center)
             }
         }
     }

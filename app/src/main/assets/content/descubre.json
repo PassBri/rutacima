@@ -4,7 +4,6 @@
  "subtitle": "Secuencia didáctica · 7 pasos",
  "category": "ruta",
  "order": 1,
- "cover": "descubre_1.jpg",
  "sections": [
   {
    "id": "descubre.sec0",
@@ -677,11 +676,6 @@
      "type": "prompt",
      "id": "descubre.q26",
      "label": "Específicamente me comprometo a:"
-    },
-    {
-     "type": "image",
-     "src": "descubre_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

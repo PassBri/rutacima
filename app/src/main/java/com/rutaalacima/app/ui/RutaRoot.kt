@@ -1,24 +1,40 @@
 package com.rutaalacima.app.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.MedicalServices
-import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Flag
+import androidx.compose.material.icons.filled.Groups
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Today
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -31,13 +47,22 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.rutaalacima.app.AppContainer
+import com.rutaalacima.app.R
+import com.rutaalacima.app.ui.aprende.AprendeScreen
 import com.rutaalacima.app.ui.axes.AxesScreen
+import com.rutaalacima.app.ui.coach.CoachScreen
+import com.rutaalacima.app.ui.comunidad.ComunidadScreen
+import com.rutaalacima.app.ui.comunidad.PostDetalleScreen
+import com.rutaalacima.app.ui.comunidad.PublicarScreen
 import com.rutaalacima.app.ui.components.rutaViewModel
-import com.rutaalacima.app.ui.home.HomeScreen
+import com.rutaalacima.app.ui.hoy.HoyScreen
 import com.rutaalacima.app.ui.kit.KitScreen
-import com.rutaalacima.app.ui.library.LibraryScreen
+import com.rutaalacima.app.ui.metas.MetasScreen
+import com.rutaalacima.app.ui.metas.NivelMeta
+import com.rutaalacima.app.ui.metas.NuevaMetaScreen
 import com.rutaalacima.app.ui.onboarding.OnboardingScreen
-import com.rutaalacima.app.ui.planner.PlannerScreen
+import com.rutaalacima.app.ui.perfil.AjustesScreen
+import com.rutaalacima.app.ui.perfil.PerfilScreen
 import com.rutaalacima.app.ui.planner.PropositoScreen
 import com.rutaalacima.app.ui.workbook.SectionScreen
 import com.rutaalacima.app.ui.workbook.WorkbookIndexScreen
@@ -48,28 +73,38 @@ import kotlinx.coroutines.flow.stateIn
 
 /** Rutas de navegación. */
 object Rutas {
-    const val INICIO = "inicio"
-    const val RUTA = "ruta"
-    const val PLAN = "plan"
-    const val EJES = "ejes"
-    const val KIT = "kit"
+    const val HOY = "hoy"
+    const val METAS = "metas"
+    const val COMUNIDAD = "comunidad"
+    const val APRENDE = "aprende"
+    const val PERFIL = "perfil"
     const val WORKBOOK = "workbook/{id}"
     const val SECCION = "seccion/{id}/{index}"
     const val PROPOSITO = "proposito/{id}"
+    const val KIT = "kit"
+    const val EJES = "ejes"
+    const val COACH = "coach"
+    const val NUEVA_META = "nueva_meta/{nivel}"
+    const val PUBLICAR = "publicar/{tipo}"
+    const val POST = "post/{id}"
+    const val AJUSTES = "ajustes"
 
     fun workbook(id: String) = "workbook/$id"
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
+    fun nuevaMeta(nivel: NivelMeta) = "nueva_meta/${nivel.name}"
+    fun publicar(tipo: String = "LOGRO") = "publicar/$tipo"
+    fun post(id: String) = "post/$id"
 }
 
-private data class Pestana(val ruta: String, val titulo: String, val icono: ImageVector)
+private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVector)
 
 private val PESTANAS = listOf(
-    Pestana(Rutas.INICIO, "Inicio", Icons.Filled.Home),
-    Pestana(Rutas.RUTA, "Ruta", Icons.AutoMirrored.Filled.MenuBook),
-    Pestana(Rutas.PLAN, "Plan", Icons.Filled.Terrain),
-    Pestana(Rutas.EJES, "Ejes", Icons.Filled.Hub),
-    Pestana(Rutas.KIT, "Kit", Icons.Filled.MedicalServices),
+    Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today),
+    Pestana(Rutas.METAS, R.string.tab_metas, Icons.Filled.Flag),
+    Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, Icons.Filled.Groups),
+    Pestana(Rutas.APRENDE, R.string.tab_aprende, Icons.AutoMirrored.Filled.MenuBook),
+    Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person),
 )
 
 enum class EstadoApp { CARGANDO, ONBOARDING, LISTO }
@@ -91,23 +126,54 @@ fun RutaRoot() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AppPrincipal() {
     val nav = rememberNavController()
     val entrada by nav.currentBackStackEntryAsState()
     val rutaActual = entrada?.destination?.route
-    val mostrarBarra = PESTANAS.any { it.ruta == rutaActual }
+    val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
 
     Scaffold(
+        topBar = {
+            if (pestana != null) {
+                TopAppBar(
+                    title = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(painterResource(R.drawable.logo_rutacima), null, Modifier.size(30.dp))
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                if (pestana.ruta == Rutas.HOY) stringResource(R.string.app_name) else stringResource(pestana.titulo),
+                                style = MaterialTheme.typography.titleLarge,
+                            )
+                        }
+                    },
+                    actions = {
+                        if (pestana.ruta == Rutas.COMUNIDAD || pestana.ruta == Rutas.PERFIL) {
+                            IconButton(onClick = { nav.navigate(Rutas.publicar()) }) {
+                                Icon(Icons.Filled.AddAPhoto, stringResource(R.string.publicar))
+                            }
+                        }
+                        if (pestana.ruta == Rutas.PERFIL) {
+                            IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
+                        }
+                        IconButton(onClick = { nav.navigate(Rutas.COACH) }) {
+                            Icon(Icons.Filled.AutoAwesome, stringResource(R.string.coach), tint = MaterialTheme.colorScheme.secondary)
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.background),
+                )
+            }
+        },
         bottomBar = {
-            if (mostrarBarra) {
+            if (pestana != null) {
                 NavigationBar(containerColor = MaterialTheme.colorScheme.surfaceContainer) {
                     PESTANAS.forEach { p ->
                         NavigationBarItem(
                             selected = rutaActual == p.ruta,
                             onClick = { nav.irAPestana(p.ruta) },
-                            icon = { Icon(p.icono, contentDescription = p.titulo) },
-                            label = { Text(p.titulo) },
+                            icon = { Icon(p.icono, contentDescription = null) },
+                            label = { Text(stringResource(p.titulo), maxLines = 1) },
                             colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.secondaryContainer),
                         )
                     }
@@ -115,46 +181,49 @@ private fun AppPrincipal() {
             }
         },
     ) { padding ->
-        NavHost(nav, startDestination = Rutas.INICIO) {
-            composable(Rutas.INICIO) {
-                HomeScreen(
+        val abrirWorkbook: (String) -> Unit = { nav.navigate(Rutas.workbook(it)) }
+        val abrirSeccion: (String, Int) -> Unit = { id, i -> nav.navigate(Rutas.seccion(id, i)) }
+        NavHost(nav, startDestination = Rutas.HOY) {
+            composable(Rutas.HOY) {
+                HoyScreen(
                     contentPadding = padding,
-                    onOpenWorkbook = { nav.navigate(Rutas.workbook(it)) },
-                    onGoToAxes = { nav.irAPestana(Rutas.EJES) },
-                    onGoToKit = { nav.irAPestana(Rutas.KIT) },
-                    onGoToPlan = { nav.irAPestana(Rutas.PLAN) },
+                    onAbrirWorkbook = abrirWorkbook,
+                    onAbrirSeccion = abrirSeccion,
+                    onIrA = { ruta -> if (PESTANAS.any { it.ruta == ruta }) nav.irAPestana(ruta) else nav.navigate(ruta) },
                 )
             }
-            composable(Rutas.RUTA) { LibraryScreen(padding) { nav.navigate(Rutas.workbook(it)) } }
-            composable(Rutas.PLAN) {
-                PlannerScreen(
+            composable(Rutas.METAS) {
+                MetasScreen(
                     contentPadding = padding,
+                    onNuevaMeta = { nav.navigate(Rutas.nuevaMeta(it)) },
                     onOpenProposito = { nav.navigate(Rutas.proposito(it)) },
-                    onOpenWorkbook = { nav.navigate(Rutas.workbook(it)) },
+                    onOpenWorkbook = abrirWorkbook,
                 )
             }
-            composable(Rutas.EJES) { AxesScreen(padding) }
-            composable(Rutas.KIT) {
-                KitScreen(
+            composable(Rutas.COMUNIDAD) {
+                ComunidadScreen(
                     contentPadding = padding,
-                    onOpenSection = { id, i -> nav.navigate(Rutas.seccion(id, i)) },
-                    onOpenWorkbook = { nav.navigate(Rutas.workbook(it)) },
+                    onAbrirPost = { nav.navigate(Rutas.post(it)) },
+                    onPublicar = { nav.navigate(Rutas.publicar(it)) },
+                    onCuenta = { nav.navigate(Rutas.AJUSTES) },
+                )
+            }
+            composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook) }
+            composable(Rutas.PERFIL) {
+                PerfilScreen(
+                    contentPadding = padding,
+                    onAbrirPost = { nav.navigate(Rutas.post(it)) },
+                    onPublicar = { nav.navigate(Rutas.publicar(it)) },
+                    onEvaluarEjes = { nav.navigate(Rutas.EJES) },
                 )
             }
             composable(Rutas.WORKBOOK, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 val id = e.arguments?.getString("id").orEmpty()
-                WorkbookIndexScreen(
-                    workbookId = id,
-                    onBack = { nav.popBackStack() },
-                    onOpenSection = { nav.navigate(Rutas.seccion(id, it)) },
-                )
+                WorkbookIndexScreen(workbookId = id, onBack = { nav.popBackStack() }, onOpenSection = { abrirSeccion(id, it) })
             }
             composable(
                 Rutas.SECCION,
-                arguments = listOf(
-                    navArgument("id") { type = NavType.StringType },
-                    navArgument("index") { type = NavType.IntType },
-                ),
+                arguments = listOf(navArgument("id") { type = NavType.StringType }, navArgument("index") { type = NavType.IntType }),
             ) { e ->
                 SectionScreen(
                     workbookId = e.arguments?.getString("id").orEmpty(),
@@ -165,6 +234,26 @@ private fun AppPrincipal() {
             composable(Rutas.PROPOSITO, arguments = listOf(navArgument("id") { type = NavType.LongType })) { e ->
                 PropositoScreen(propositoId = e.arguments?.getLong("id") ?: 0L, onBack = { nav.popBackStack() })
             }
+            composable(Rutas.KIT) {
+                KitScreen(onBack = { nav.popBackStack() }, onOpenSection = abrirSeccion, onOpenWorkbook = abrirWorkbook)
+            }
+            composable(Rutas.EJES) { AxesScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.NUEVA_META, arguments = listOf(navArgument("nivel") { type = NavType.StringType })) { e ->
+                val nivel = runCatching { NivelMeta.valueOf(e.arguments?.getString("nivel").orEmpty()) }.getOrDefault(NivelMeta.MES)
+                NuevaMetaScreen(
+                    nivelInicial = nivel,
+                    onBack = { nav.popBackStack() },
+                    onCompartir = { nav.popBackStack(); nav.navigate(Rutas.publicar("META")) },
+                )
+            }
+            composable(Rutas.PUBLICAR, arguments = listOf(navArgument("tipo") { type = NavType.StringType })) { e ->
+                PublicarScreen(tipoInicial = e.arguments?.getString("tipo").orEmpty(), onBack = { nav.popBackStack() })
+            }
+            composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
+                PostDetalleScreen(postId = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
+            }
+            composable(Rutas.AJUSTES) { AjustesScreen(onBack = { nav.popBackStack() }) }
         }
     }
 }

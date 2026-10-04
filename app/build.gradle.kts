@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -14,10 +16,21 @@ android {
         applicationId = "com.rutaalacima.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
+
+        // Servidor (Supabase): se leen de local.properties para no subir claves al repositorio.
+        //   supabase.url=https://xxxx.supabase.co
+        //   supabase.anonKey=eyJ...
+        // Si están vacíos, la app funciona en modo demo (todo local).
+        val props = Properties().apply {
+            val f = rootProject.file("local.properties")
+            if (f.exists()) f.inputStream().use { load(it) }
+        }
+        buildConfigField("String", "SUPABASE_URL", "\"${props.getProperty("supabase.url", "")}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${props.getProperty("supabase.anonKey", "")}\"")
     }
 
     buildTypes {
@@ -35,6 +48,11 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    androidResources {
+        // Idiomas de la interfaz (selector por app en Android 13+ y en Ajustes de la app).
+        generateLocaleConfig = true
     }
     sourceSets {
         // Los tests JVM leen el contenido real de assets para validar el JSON.
@@ -63,6 +81,8 @@ dependencies {
     ksp(libs.androidx.room.compiler)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.appcompat)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

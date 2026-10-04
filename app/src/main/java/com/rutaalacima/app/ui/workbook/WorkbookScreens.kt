@@ -45,7 +45,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.rutaalacima.app.ui.components.AssetImage
+import com.rutaalacima.app.R
+import com.rutaalacima.app.data.content.calcularResultados
+import com.rutaalacima.app.ui.components.MontanaArte
+import com.rutaalacima.app.ui.components.iconoGuia
+import com.rutaalacima.app.ui.i18n.Textos
+import androidx.compose.ui.res.stringResource
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import com.rutaalacima.app.ui.components.ProgressLine
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
@@ -66,7 +77,7 @@ fun WorkbookIndexScreen(
         topBar = {
             TopAppBar(
                 title = { Text(wb?.title ?: "", maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Volver") } },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )
         },
     ) { padding ->
@@ -80,19 +91,22 @@ fun WorkbookIndexScreen(
         ) {
             item {
                 Column(Modifier.padding(bottom = 8.dp)) {
-                    wb.cover?.let { portada ->
-                        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                            Box(Modifier.fillMaxWidth(0.55f)) { AssetImage(portada, 0.8f, contentDescription = wb.title) }
+                    MontanaArte(wb.id, Modifier.fillMaxWidth().height(150.dp).clip(RoundedCornerShape(20.dp)), bandera = false) {
+                        Box(Modifier.fillMaxSize().padding(14.dp), contentAlignment = Alignment.BottomStart) {
+                            Box(Modifier.size(52.dp).clip(CircleShape).background(Color(0xE6FFFFFF)), contentAlignment = Alignment.Center) {
+                                Icon(iconoGuia(wb.id), null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(30.dp))
+                            }
                         }
-                        Spacer(Modifier.height(12.dp))
                     }
+                    Spacer(Modifier.height(12.dp))
                     Text(wb.subtitle, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(12.dp))
                     val p = wb.progreso(respuestas)
                     ProgressLine(p)
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        if (wb.fields.isEmpty()) "Lectura · ${wb.sections.size} secciones" else "${(p * 100).toInt()}% completado · ${wb.fields.size} ejercicios",
+                        if (wb.fields.isEmpty()) stringResource(R.string.lectura_secciones, wb.sections.size)
+                        else stringResource(R.string.completado_ejercicios, (p * 100).toInt(), wb.fields.size),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -101,7 +115,26 @@ fun WorkbookIndexScreen(
                     Button(onClick = {
                         val siguiente = ultima ?: wb.sections.indexOfFirst { it.progreso(respuestas) in 0f..0.999f }
                         onOpenSection(siguiente.coerceIn(0, wb.sections.lastIndex))
-                    }) { Text(if (p > 0f || ultima != null) "Continuar" else "Comenzar") }
+                    }) { Text(stringResource(if (p > 0f || ultima != null) R.string.continuar else R.string.comenzar)) }
+                }
+            }
+            // Resultados de todas las evaluaciones del workbook
+            val resultados = wb.sections.mapIndexedNotNull { i, s -> calcularResultados(s, respuestas)?.takeIf { it.respondidas > 0 }?.let { Triple(i, s, it) } }
+            if (resultados.isNotEmpty()) {
+                item {
+                    RutaCard {
+                        Text(stringResource(R.string.tus_resultados), style = MaterialTheme.typography.titleMedium)
+                        resultados.forEach { (i, s, r) ->
+                            Row(Modifier.fillMaxWidth().clickable { onOpenSection(i) }.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                                Column(Modifier.weight(1f)) {
+                                    Text(s.title, style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                    Text(stringResource(Textos.interpretacion(r.pct)), style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                                Text("${(r.pct * 100).toInt()}%", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+                            }
+                        }
+                    }
                 }
             }
             itemsIndexed(wb.sections) { i, s ->
@@ -126,7 +159,7 @@ fun WorkbookIndexScreen(
                                 Spacer(Modifier.height(6.dp))
                                 ProgressLine(p)
                             } else {
-                                Text("Lectura", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                Text(stringResource(R.string.lectura), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
@@ -166,7 +199,7 @@ fun SectionScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
                     }
                 },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Volver") } },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )
         },
         bottomBar = {
@@ -187,12 +220,12 @@ fun SectionScreen(
                         )
                         if (index < wb.sections.lastIndex) {
                             Button(onClick = { index++ }) {
-                                Text("Siguiente")
+                                Text(stringResource(R.string.siguiente))
                                 Spacer(Modifier.width(6.dp))
                                 Icon(Icons.AutoMirrored.Filled.ArrowForward, null)
                             }
                         } else {
-                            Button(onClick = onBack) { Text("Terminar") }
+                            Button(onClick = onBack) { Text(stringResource(R.string.terminar)) }
                         }
                     }
                 }
@@ -204,6 +237,8 @@ fun SectionScreen(
             Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
             return@Scaffold
         }
+        // Resultados automáticos de las escalas 1-10 de esta sección (se recalculan al responder).
+        val resultado = calcularResultados(seccion, vm.respuestas)
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize().imePadding(),
@@ -219,6 +254,15 @@ fun SectionScreen(
             }
             itemsIndexed(seccion.blocks, key = { i, _ -> "$index-$i" }) { _, block ->
                 BlockView(block, respuestas)
+            }
+            if (resultado != null) {
+                item(key = "resultados-$index") {
+                    ResultadosCard(resultado, onGuardarEjes = { vm.guardarEnEjes(it) })
+                    if (vm.ejesGuardados) {
+                        Text(stringResource(R.string.ejes_guardados), style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 6.dp))
+                    }
+                }
             }
         }
     }

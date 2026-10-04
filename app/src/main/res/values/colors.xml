@@ -1,6 +1,5 @@
 <resources>
     <color name="burdeos">#FF5A0C08</color>
     <color name="oro">#FFC9A033</color>
-    <color name="crema">#FFFBF7EE</color>
-    <color name="noche">#FF1C1210</color>
+    <color name="fondo">#FFFBF7EE</color>
 </resources>

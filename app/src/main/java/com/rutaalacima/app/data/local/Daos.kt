@@ -154,6 +154,9 @@ interface PlanAnualDao {
     @Upsert
     suspend fun upsertMes(m: MesEntity)
 
+    @Query("SELECT * FROM metas_mensuales ORDER BY anio, mes, orden, id")
+    fun observeTodasMetasMes(): Flow<List<MetaMensualEntity>>
+
     @Query("SELECT * FROM metas_mensuales WHERE anio = :anio AND mes = :mes ORDER BY orden, id")
     fun observeMetasMes(anio: Int, mes: Int): Flow<List<MetaMensualEntity>>
 
@@ -162,4 +165,46 @@ interface PlanAnualDao {
 
     @Delete
     suspend fun deleteMetaMes(m: MetaMensualEntity)
+}
+
+@Dao
+interface SocialDao {
+    @Query("SELECT * FROM publicaciones ORDER BY creadaEn DESC")
+    fun observePublicaciones(): Flow<List<PublicacionEntity>>
+
+    @Query("SELECT * FROM publicaciones ORDER BY creadaEn DESC")
+    suspend fun todas(): List<PublicacionEntity>
+
+    @Query("SELECT * FROM publicaciones WHERE id = :id")
+    suspend fun get(id: String): PublicacionEntity?
+
+    @Upsert
+    suspend fun upsert(p: PublicacionEntity)
+
+    @Query("DELETE FROM publicaciones WHERE id = :id")
+    suspend fun delete(id: String)
+
+    @Query("SELECT * FROM comentarios_locales WHERE publicacionId = :id ORDER BY creadoEn")
+    suspend fun comentarios(id: String): List<ComentarioLocalEntity>
+
+    @Insert
+    suspend fun comentar(c: ComentarioLocalEntity)
+
+    @Query("SELECT COUNT(*) FROM comentarios_locales WHERE publicacionId = :id")
+    suspend fun contarComentarios(id: String): Int
+}
+
+@Dao
+interface CoachDao {
+    @Query("SELECT * FROM coach_mensajes ORDER BY creadoEn, id")
+    fun observe(): Flow<List<CoachMensajeEntity>>
+
+    @Query("SELECT * FROM coach_mensajes ORDER BY creadoEn DESC, id DESC LIMIT :n")
+    suspend fun ultimos(n: Int): List<CoachMensajeEntity>
+
+    @Insert
+    suspend fun insert(m: CoachMensajeEntity)
+
+    @Query("DELETE FROM coach_mensajes")
+    suspend fun borrarTodo()
 }

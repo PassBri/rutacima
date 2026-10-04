@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo de RutaCima: montaña dorada con bandera dentro de un círculo burdeos (vector, sin imágenes). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="96dp" android:height="96dp"
+    android:viewportWidth="96" android:viewportHeight="96">
+    <path android:fillColor="#5A0C08" android:pathData="M48,2a46,46 0,1 1,0 92a46,46 0,1 1,0 -92z" />
+    <path android:fillColor="#A8822A" android:pathData="M60,44 L80,72 L40,72 Z" />
+    <path android:fillColor="#C9A033" android:pathData="M45,26 L70,72 L20,72 Z" />
+    <path android:fillColor="#F5EED9" android:pathData="M45,26 L51.5,38 L48,36 L45,40 L42,36 L38.5,38 Z" />
+    <path android:fillColor="#F5EED9" android:pathData="M44.3,12 L45.7,12 L45.7,27 L44.3,27 Z" />
+    <path android:fillColor="#F5EED9" android:pathData="M45.7,12 L55,15.5 L45.7,19 Z" />
+    <path android:fillColor="#00000000" android:strokeColor="#5A0C08" android:strokeWidth="1.8"
+        android:strokeLineCap="round" android:pathData="M41,72 C48,65 37,60 45,53 C50,49 42,45 45,40" />
+</vector>

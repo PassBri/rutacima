@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
@@ -28,7 +29,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,12 +44,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.rutaalacima.app.AppContainer
+import com.rutaalacima.app.R
+import com.rutaalacima.app.ui.i18n.Textos
+import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.data.content.ContentRepository
 import com.rutaalacima.app.data.content.Workbook
 import com.rutaalacima.app.domain.model.ChecklistDiario
@@ -53,7 +61,7 @@ import com.rutaalacima.app.domain.model.Eje
 import com.rutaalacima.app.domain.model.MatrizDecisiones
 import com.rutaalacima.app.domain.model.MatrizDecisiones.Respuesta
 import com.rutaalacima.app.domain.model.Niebla
-import com.rutaalacima.app.domain.model.Tarjetas
+import java.util.Locale
 import com.rutaalacima.app.ui.components.ChipSelector
 import com.rutaalacima.app.ui.components.EjeChip
 import com.rutaalacima.app.ui.components.RutaCard
@@ -90,9 +98,10 @@ class KitViewModel(private val c: AppContainer) : ViewModel() {
     fun alternar(fecha: LocalDate, id: String) = viewModelScope.launch { c.checklist.alternar(fecha, id) }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun KitScreen(
-    contentPadding: PaddingValues,
+    onBack: () -> Unit,
     onOpenSection: (workbookId: String, index: Int) -> Unit,
     onOpenWorkbook: (String) -> Unit,
 ) {
@@ -102,17 +111,24 @@ fun KitScreen(
     val marcados by remember(fecha) { vm.dia(dia) }.collectAsState(initial = emptySet())
     val semana by vm.semana.collectAsStateWithLifecycle()
 
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.kit_titulo)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+            )
+        },
+    ) { padding ->
     LazyColumn(
         contentPadding = PaddingValues(
             start = 16.dp, end = 16.dp,
-            top = contentPadding.calculateTopPadding() + 16.dp,
-            bottom = contentPadding.calculateBottomPadding() + 24.dp,
+            top = padding.calculateTopPadding() + 8.dp,
+            bottom = padding.calculateBottomPadding() + 24.dp,
         ),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         item {
-            Text("Kit de Emergencia", style = MaterialTheme.typography.headlineMedium)
-            Text("Estas herramientas funcionan cuando las usas, no cuando las guardas.", style = MaterialTheme.typography.bodyMedium,
+            Text(stringResource(R.string.kit_intro), style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
 
@@ -123,9 +139,8 @@ fun KitScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
             ) {
                 Column(Modifier.padding(16.dp)) {
-                    Text("¿Te perdiste en la niebla?", style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary)
-                    Text("Perderse no es fracasar. Es parte del viaje. Elige el protocolo que necesitas ahora.",
-                        style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+                    Text(stringResource(R.string.niebla_titulo), style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimary)
+                    Text(stringResource(R.string.niebla_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
                 }
             }
         }
@@ -134,13 +149,13 @@ fun KitScreen(
                 items(Niebla.protocolos) { p ->
                     val idx = vm.niebla?.sectionIndexStartingWith("Protocolo ${p.numero}") ?: -1
                     Card(
-                        Modifier.width(170.dp).height(110.dp).clickable(enabled = idx >= 0) { onOpenSection(ContentRepository.NIEBLA, idx) },
+                        Modifier.width(170.dp).height(118.dp).clickable(enabled = idx >= 0) { onOpenSection(ContentRepository.NIEBLA, idx) },
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                     ) {
                         Column(Modifier.padding(12.dp)) {
-                            Text("Protocolo ${p.numero}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
-                            Text(p.titulo, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                            Text(if (idx >= 0) "“${p.cuando}”" else "En preparación", style = MaterialTheme.typography.bodySmall)
+                            Text(stringResource(R.string.protocolo_n, p.numero), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
+                            Text(stringResource(Textos.protocolo(p.numero)), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                            Text("“" + stringResource(Textos.protocoloCuando(p.numero)) + "”", style = MaterialTheme.typography.bodySmall)
                         }
                     }
                 }
@@ -148,17 +163,19 @@ fun KitScreen(
         }
 
         // ----- Herramienta 2: checklist diario
-        item { SectionTitle("Checklist diario por eje") }
+        item { SectionTitle(stringResource(R.string.checklist_diario)) }
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { fecha = dia.minusDays(1).toString() }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Día anterior") }
+                IconButton(onClick = { fecha = dia.minusDays(1).toString() }) {
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.dia_anterior))
+                }
                 Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(if (dia == hoy()) "Hoy" else formatoDia(dia), style = MaterialTheme.typography.titleMedium)
-                    Text("${marcados.size} / ${ChecklistDiario.TOTAL} · ${ChecklistDiario.lectura(marcados.size)}",
+                    Text(if (dia == hoy()) stringResource(R.string.hoy) else formatoDia(dia), style = MaterialTheme.typography.titleMedium)
+                    Text("${marcados.size} / ${ChecklistDiario.TOTAL} · " + stringResource(Textos.lecturaChecklist(marcados.size)),
                         style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 IconButton(onClick = { fecha = dia.plusDays(1).toString() }, enabled = dia < hoy()) {
-                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Día siguiente")
+                    Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.dia_siguiente))
                 }
             }
         }
@@ -172,7 +189,7 @@ fun KitScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Checkbox(checked = h.id in marcados, onCheckedChange = { vm.alternar(dia, h.id) })
-                            Text(h.texto, style = MaterialTheme.typography.bodyMedium)
+                            Text(stringResource(Textos.habito(h.id)), style = MaterialTheme.typography.bodyMedium)
                         }
                     }
                 }
@@ -182,7 +199,7 @@ fun KitScreen(
         // ----- Herramienta 6: tracker de la semana
         item {
             RutaCard {
-                Text("Últimos 7 días", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.ultimos_7_dias), style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(8.dp))
                 Row(Modifier.fillMaxWidth().height(90.dp), horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.Bottom) {
                     (6 downTo 0).forEach { d ->
@@ -195,7 +212,7 @@ fun KitScreen(
                                     .clip(RoundedCornerShape(4.dp))
                                     .background(if (n >= 10) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.outlineVariant),
                             )
-                            Text(f.dayOfWeek.getDisplayName(java.time.format.TextStyle.NARROW, java.util.Locale("es", "CO")),
+                            Text(f.dayOfWeek.getDisplayName(java.time.format.TextStyle.NARROW, Locale.getDefault()),
                                 style = MaterialTheme.typography.labelSmall)
                         }
                     }
@@ -204,22 +221,22 @@ fun KitScreen(
         }
 
         // ----- Herramienta 4: matriz de decisiones
-        item { SectionTitle("Matriz de decisiones") }
+        item { SectionTitle(stringResource(R.string.matriz_titulo)) }
         item { MatrizDecisionesCard() }
 
         // ----- Herramienta 3: tarjetas
-        item { SectionTitle("Tarjetas de recordatorio") }
+        item { SectionTitle(stringResource(R.string.tarjetas_titulo)) }
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                items(Tarjetas.frases.entries.toList()) { (eje, frase) ->
+                items(Eje.entries) { eje ->
                     Card(
-                        Modifier.width(220.dp).height(140.dp),
+                        Modifier.width(220.dp).height(150.dp),
                         colors = CardDefaults.cardColors(containerColor = eje.color.asColor().copy(alpha = 0.12f)),
                     ) {
                         Column(Modifier.padding(14.dp)) {
-                            Text(eje.nombre.uppercase(), style = MaterialTheme.typography.labelLarge, color = eje.color.asColor())
+                            Text(eje.texto().uppercase(), style = MaterialTheme.typography.labelLarge, color = eje.color.asColor())
                             Spacer(Modifier.height(6.dp))
-                            Text("“$frase”", style = MaterialTheme.typography.bodyLarge)
+                            Text("“" + stringResource(Textos.tarjeta(eje)) + "”", style = MaterialTheme.typography.bodyLarge)
                         }
                     }
                 }
@@ -227,51 +244,54 @@ fun KitScreen(
         }
 
         // ----- Resto de herramientas (formularios del workbook)
-        item { SectionTitle("Más herramientas") }
+        item { SectionTitle(stringResource(R.string.mas_herramientas)) }
         val accesos = listOf(
-            Triple("Revisión mensual", "15 minutos · primer domingo de cada mes", "Herramienta 1"),
-            Triple("Plan semanal simplificado", "10 minutos · cada domingo", "Herramienta 5"),
-            Triple("Preguntas de reorientación", "3 minutos cuando te sientas perdido", "Herramienta 7"),
+            Triple(R.string.kit_revision_mensual, R.string.kit_revision_mensual_sub, "Herramienta 1"),
+            Triple(R.string.kit_plan_semanal, R.string.kit_plan_semanal_sub, "Herramienta 5"),
+            Triple(R.string.kit_reorientacion, R.string.kit_reorientacion_sub, "Herramienta 7"),
         )
         items(accesos) { (titulo, sub, prefijo) ->
             val idx = vm.kit?.sectionIndexStartingWith(prefijo) ?: -1
             RutaCard(onClick = { if (idx >= 0) onOpenSection(ContentRepository.KIT, idx) else onOpenWorkbook(ContentRepository.KIT) }) {
-                Text(titulo, style = MaterialTheme.typography.titleMedium)
-                Text(sub, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(titulo), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(sub), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
         item {
             RutaCard(onClick = { onOpenWorkbook(ContentRepository.CIERRE_MENSUAL) }) {
-                Text("Checklist de cierre mensual", style = MaterialTheme.typography.titleMedium)
-                Text("20-30 minutos · una vez al mes", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.kit_cierre_mensual), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.kit_cierre_mensual_sub), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
+    }
     }
 }
 
 @Composable
 private fun MatrizDecisionesCard() {
+    val defA = stringResource(R.string.opcion_a)
+    val defB = stringResource(R.string.opcion_b)
     var decision by rememberSaveable { mutableStateOf("") }
-    var nombreA by rememberSaveable { mutableStateOf("Opción A") }
-    var nombreB by rememberSaveable { mutableStateOf("Opción B") }
+    var nombreA by rememberSaveable { mutableStateOf(defA) }
+    var nombreB by rememberSaveable { mutableStateOf(defB) }
     val a = remember { mutableStateListOf<Respuesta?>(null, null, null, null, null) }
     val b = remember { mutableStateListOf<Respuesta?>(null, null, null, null, null) }
 
     RutaCard {
-        OutlinedTextField(decision, { decision = it }, label = { Text("Decisión a tomar") }, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(decision, { decision = it }, label = { Text(stringResource(R.string.decision_a_tomar)) }, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedTextField(nombreA, { nombreA = it }, label = { Text("Opción A") }, modifier = Modifier.weight(1f), singleLine = true)
-            OutlinedTextField(nombreB, { nombreB = it }, label = { Text("Opción B") }, modifier = Modifier.weight(1f), singleLine = true)
+            OutlinedTextField(nombreA, { nombreA = it }, label = { Text(defA) }, modifier = Modifier.weight(1f), singleLine = true)
+            OutlinedTextField(nombreB, { nombreB = it }, label = { Text(defB) }, modifier = Modifier.weight(1f), singleLine = true)
         }
-        MatrizDecisiones.preguntas.forEachIndexed { i, pregunta ->
+        MatrizDecisiones.preguntas.indices.forEach { i ->
             Spacer(Modifier.height(12.dp))
-            Text(pregunta, style = MaterialTheme.typography.titleSmall)
-            val etiqueta: (Respuesta) -> String = { r ->
+            Text(stringResource(Textos.pregunta(i)), style = MaterialTheme.typography.titleSmall)
+            val etiqueta: @Composable (Respuesta) -> String = { r ->
                 when (r) {
-                    Respuesta.SI -> if (i == 4) "Energía" else "Sí"
-                    Respuesta.NO -> if (i == 4) "Drena" else "No"
-                    Respuesta.NEUTRO -> "Neutro"
+                    Respuesta.SI -> stringResource(if (i == 4) R.string.energia else R.string.si)
+                    Respuesta.NO -> stringResource(if (i == 4) R.string.drena else R.string.no)
+                    Respuesta.NEUTRO -> stringResource(R.string.neutro)
                 }
             }
             ChipSelector(nombreA, Respuesta.entries, a[i], etiqueta, { a[i] = if (a[i] == it) null else it })
@@ -282,8 +302,13 @@ private fun MatrizDecisionesCard() {
         val pb = MatrizDecisiones.puntaje(b)
         Text("$nombreA: $pa/5   ·   $nombreB: $pb/5", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
         if (a.any { it != null } || b.any { it != null }) {
-            Text(MatrizDecisiones.recomendacion(pa, pb, nombreA, nombreB), style = MaterialTheme.typography.bodyMedium)
+            val texto = when {
+                pa > pb -> stringResource(R.string.matriz_gana, nombreA, pa, pb)
+                pb > pa -> stringResource(R.string.matriz_gana, nombreB, pb, pa)
+                else -> stringResource(R.string.matriz_empate, pa, pb)
+            }
+            Text(texto, style = MaterialTheme.typography.bodyMedium)
         }
-        Text("Un punto por cada SÍ o ENERGÍA.", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.matriz_nota), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

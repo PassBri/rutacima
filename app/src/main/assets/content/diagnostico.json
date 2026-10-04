@@ -4,7 +4,6 @@
  "subtitle": "Antes de ascender, conócete a ti mismo",
  "category": "ruta",
  "order": 4,
- "cover": "diagnostico_1.jpg",
  "sections": [
   {
    "id": "diagnostico.sec0",
@@ -100,11 +99,6 @@
     {
      "type": "paragraph",
      "text": "ADVERTENCIA: Algunas secciones pueden traer emociones difíciles. Está bien pausar y volver después."
-    },
-    {
-     "type": "image",
-     "src": "diagnostico_2.jpg",
-     "ratio": 0.8
     },
     {
      "type": "paragraph",
@@ -1589,11 +1583,6 @@
     {
      "type": "paragraph",
      "text": "Con este conocimiento profundo de mi terreno, ahora puedo planificar mi ascenso con sabiduría."
-    },
-    {
-     "type": "image",
-     "src": "diagnostico_3.jpg",
-     "ratio": 0.8
     }
    ]
   }

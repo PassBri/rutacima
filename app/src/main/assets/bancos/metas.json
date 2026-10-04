@@ -1,0 +1,482 @@
+[
+ {
+  "area": "Salud y bienestar",
+  "meta": "Perder 10 kg de forma sostenible",
+  "observable": "Peso en báscula cada lunes, medidas corporales mensuales",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Correr 5km sin parar",
+  "observable": "Completar 5km en menos de 35 min certificado por app",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Hacer 50 flexiones consecutivas",
+  "observable": "Video haciendo 50 flexiones con buena forma",
+  "plazo": "2 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Reducir colesterol a nivel normal",
+  "observable": "Examen de sangre mostrando LDL < 100 mg/dL",
+  "plazo": "4 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Dormir 7-8 horas diarias consistentemente",
+  "observable": "21 días consecutivos con 7+ horas según tracker",
+  "plazo": "1 mes"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Eliminar dolor de espalda crónico",
+  "observable": "7 días consecutivos sin dolor valorado >3/10",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Completar ayuno intermitente 16/8 por 30 días",
+  "observable": "30 días marcados en calendario de ayuno",
+  "plazo": "1 mes"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Meditar 20 min diarios por 90 días",
+  "observable": "Racha de 90 días en app de meditación",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Bajar presión arterial a rango normal",
+  "observable": "Lecturas <120/80 por 2 semanas consecutivas",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Salud y bienestar",
+  "meta": "Aumentar 5kg de masa muscular",
+  "observable": "Dexa scan mostrando +5kg músculo vs grasa",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Ahorrar $5,000 USD",
+  "observable": "Cuenta de ahorros mostrando saldo de $5,000",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Generar $1,000 en ingresos pasivos/mes",
+  "observable": "Estados bancarios mostrando $1,000 de fuentes pasivas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Eliminar $10,000 en deuda",
+  "observable": "Estados de cuenta mostrando saldo en $0",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Aumentar ingresos 30%",
+  "observable": "Comparar ingreso mensual promedio vs año anterior",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Crear fondo de emergencia de 6 meses",
+  "observable": "Cuenta separada con 6x gastos mensuales",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Invertir $10,000 en índices S&P500",
+  "observable": "Portfolio mostrando $10,000 en ETFs",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Lanzar producto digital que genere $500/mes",
+  "observable": "Dashboard mostrando ventas mensuales >$500",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Conseguir 10 clientes recurrentes",
+  "observable": "Lista de 10 clientes con contratos activos",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Alcanzar $100k en ingresos anuales",
+  "observable": "Declaración fiscal mostrando $100k+ brutos",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Dinero y finanzas",
+  "meta": "Reducir gastos fijos 20%",
+  "observable": "Comparar gastos mensuales vs baseline",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Escribir y publicar un libro de 50,000 palabras",
+  "observable": "Libro publicado en Amazon con 50k+ palabras",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Escribir 500 palabras diarias por 100 días",
+  "observable": "100 entradas en documento con >500 palabras",
+  "plazo": "100 días"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Publicar 52 artículos de blog (1/semana)",
+  "observable": "52 posts publicados en sitio web",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Completar primer borrador de novela",
+  "observable": "Manuscrito de 80k+ palabras terminado",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Publicar artículo en medio reconocido",
+  "observable": "Artículo publicado en Medium, Substack u otro",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Crear portafolio con 20 piezas escritas",
+  "observable": "Website mostrando 20 artículos/historias",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Escribir guion de cortometraje",
+  "observable": "Guion de 15-20 páginas formateado",
+  "plazo": "2 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Ganar concurso literario",
+  "observable": "Certificado o notificación de premio",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Construir newsletter con 1,000 suscriptores",
+  "observable": "Plataforma mostrando 1,000+ subscribers",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Escritura y creación",
+  "meta": "Escribir biografía familiar (50 páginas)",
+  "observable": "Documento impreso de 50+ páginas",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Obtener certificación profesional",
+  "observable": "Certificado digital o físico recibido",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Completar maestría o posgrado",
+  "observable": "Título universitario recibido",
+  "plazo": "24 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Leer 52 libros (1/semana)",
+  "observable": "Lista verificada de 52 libros completados",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Dominar Python para data science",
+  "observable": "Completar 3 proyectos reales + certificación",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Aprender inglés nivel C1",
+  "observable": "Certificado TOEFL/IELTS mostrando C1",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Completar 10 cursos online",
+  "observable": "10 certificados de finalización",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Aprobar examen de licencia profesional",
+  "observable": "Documento oficial de aprobación",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Estudiar 2 horas diarias por 180 días",
+  "observable": "Registro diario de 180 sesiones de estudio",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Dominar Excel avanzado",
+  "observable": "Construir 5 dashboards complejos funcionales",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Estudio y educación",
+  "meta": "Leer 12 papers académicos de mi campo",
+  "observable": "Resúmenes escritos de 12 papers",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Racha de 100 días meditando",
+  "observable": "App mostrando 100 días consecutivos",
+  "plazo": "100 días"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Despertar a las 5am por 30 días",
+  "observable": "30 fotos del amanecer o registro horario",
+  "plazo": "1 mes"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "30 días sin redes sociales",
+  "observable": "Apps bloqueadas + 30 días marcados calendario",
+  "plazo": "1 mes"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Gimnasio 5x/semana por 12 semanas",
+  "observable": "60 check-ins registrados en gym",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Escribir diario por 365 días",
+  "observable": "Cuaderno con 365 entradas fechadas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "No compras impulsivas por 90 días",
+  "observable": "90 días sin compras fuera de lista planificada",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Leer 30 min antes de dormir por 60 días",
+  "observable": "60 días registrados + 10 libros completados",
+  "plazo": "2 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Preparar comidas saludables 7 días/semana",
+  "observable": "12 semanas de meal prep fotográfico",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Caminar 10,000 pasos diarios por 100 días",
+  "observable": "100 días en tracker >10k pasos",
+  "plazo": "100 días"
+ },
+ {
+  "area": "Hábitos y disciplina",
+  "meta": "Cero alcohol por 6 meses",
+  "observable": "180 días marcados en app de sobriedad",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Conseguir ascenso a gerencia",
+  "observable": "Contrato con nuevo título y salario",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Cambiar de industria exitosamente",
+  "observable": "Contrato firmado en nueva industria",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Aumentar salario 20%",
+  "observable": "Carta de aumento o nueva oferta laboral",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Liderar proyecto de $100k+",
+  "observable": "Documentación de proyecto como PM",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Hablar en 3 conferencias de industria",
+  "observable": "3 certificados de ponente o grabaciones",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Construir red de 50 contactos clave",
+  "observable": "LinkedIn con 50 conexiones estratégicas activas",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Publicar caso de estudio profesional",
+  "observable": "Case study publicado en portafolio o medio",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Obtener mentor en mi campo",
+  "observable": "3 meses de reuniones mensuales con mentor",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Lanzar consultoría independiente",
+  "observable": "3 clientes pagando + LLC registrada",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Carrera y desarrollo profesional",
+  "meta": "Ser reconocido como experto (prensa/podcast)",
+  "observable": "3 apariciones en medios del sector",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Cena familiar 4x/mes sin dispositivos",
+  "observable": "12 meses x 4 cenas = 48 cenas registradas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Viaje familiar significativo",
+  "observable": "Álbum de fotos + recuerdos del viaje",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Terapia de pareja por 6 meses",
+  "observable": "24 sesiones completadas con terapeuta",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Llamar a padres 2x/semana",
+  "observable": "96 llamadas registradas en 12 meses",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Organizar reunión familiar mensual",
+  "observable": "12 reuniones documentadas con fotos",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Escribir cartas a cada miembro familia",
+  "observable": "5 cartas escritas y entregadas",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Crear tradición familiar nueva",
+  "observable": "Documentar 4 repeticiones de tradición",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Resolver conflicto familiar pendiente",
+  "observable": "Conversación difícil completada + acuerdo",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Date night semanal con pareja",
+  "observable": "48 citas registradas en 12 meses",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Relaciones y familia",
+  "meta": "Enseñar habilidad a hijo/familiar",
+  "observable": "Familiar demuestra dominio de habilidad",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Pintar 12 cuadros (1/mes)",
+  "observable": "12 obras terminadas y fotografiadas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Aprender a tocar 10 canciones en guitarra",
+  "observable": "10 videos tocando canciones completas",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Crear canal YouTube con 50 videos",
+  "observable": "Canal con 50 videos publicados",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Exhibir arte en galería local",
+  "observable": "Invitación a expo + obras exhibidas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Grabar EP de 5 canciones originales",
+  "observable": "EP publicado en Spotify/plataformas",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Tomar 365 fotos (proyecto diario)",
+  "observable": "Álbum con 365 fotos fechadas",
+  "plazo": "12 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Completar curso de fotografía profesional",
+  "observable": "Certificado + portafolio de 20 fotos",
+  "plazo": "3 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Escribir y dirigir cortometraje",
+  "observable": "Video de 10 min publicado online",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Vender primera pieza de arte",
+  "observable": "Comprobante de venta y testimonio",
+  "plazo": "6 meses"
+ },
+ {
+  "area": "Creatividad y arte",
+  "meta": "Colaborar con otro artista en proyecto",
+  "observable": "Proyecto conjunto terminado y publicado",
+  "plazo": "6 meses"
+ }
+]

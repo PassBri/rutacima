@@ -1,0 +1,118 @@
+[
+ {
+  "nombre": "Podcast personal semanal",
+  "descripcion": "Crear y publicar un podcast semanal sobre tu área de expertise",
+  "ejes": {
+   "VOL": "Disciplina para grabar semanalmente, cumplir calendarios editorial",
+   "MAE": "Mejorar habilidades de edición audio, investigación, storytelling",
+   "VOZ": "Desarrollar tu voz única, compartir perspectivas auténticas",
+   "VAL": "Monetizar con sponsors/Patreon, generar autoridad que atrae clientes",
+   "EVO": "Confrontar miedo a hablar público, desarrollar confianza",
+   "TRA": "Inspirar audiencia, dejar contenido educativo duradero"
+  }
+ },
+ {
+  "nombre": "Newsletter + Comunidad paga",
+  "descripcion": "Newsletter semanal gratis + membresía paga con contenido exclusivo",
+  "ejes": {
+   "VOL": "Consistencia en publicar, resistir semanas sin inspiración",
+   "MAE": "Mejorar escritura, curación contenido, gestión comunidad",
+   "VOZ": "Construir autoridad en nicho, expresar ideas únicas",
+   "VAL": "MRR de suscripciones, posibilidad de sponsors",
+   "EVO": "Desarrollar pensamiento crítico, recibir feedback público",
+   "TRA": "Impactar lectores, crear comunidad de aprendizaje"
+  }
+ },
+ {
+  "nombre": "Curso online de tu habilidad",
+  "descripcion": "Crear curso estructurado enseñando algo que dominas",
+  "ejes": {
+   "VOL": "Disciplina para crear contenido, grabar videos, completar proyecto",
+   "MAE": "Profundizar expertise al enseñar, mejorar pedagogía",
+   "VOZ": "Establecer autoridad, comunicar tu metodología única",
+   "VAL": "Ingreso pasivo, escalabilidad, posicionamiento profesional",
+   "EVO": "Superar síndrome impostor, aprender tecnología educativa",
+   "TRA": "Multiplicar tu conocimiento, impactar estudiantes globalmente"
+  }
+ },
+ {
+  "nombre": "Proyecto open source",
+  "descripcion": "Construir herramienta de código abierto útil para comunidad",
+  "ejes": {
+   "VOL": "Mantener proyecto vivo, responder issues, persistir sin recompensa",
+   "MAE": "Mejorar habilidades técnicas, aprender buenas prácticas",
+   "VOZ": "Construir reputación técnica, participar comunidad dev",
+   "VAL": "Portfolio que atrae empleadores/clientes, posible sponsorship",
+   "TRA": "Contribuir bien común, ayudar otros developers, legado técnico"
+  }
+ },
+ {
+  "nombre": "Reto físico + Fundraising",
+  "descripcion": "Entrenar para maratón/triatlón y usarlo para recaudar fondos",
+  "ejes": {
+   "VOL": "Disciplina de entrenamiento diario, resistir dolor, completar meta",
+   "MAE": "Desarrollar atletismo, nutrición, recuperación",
+   "VOZ": "Compartir journey públicamente, inspirar con progreso",
+   "EVO": "Superar límites autoimpuestos, desarrollar mentalidad resiliente",
+   "TRA": "Recaudar fondos causa importante, inspirar otros a moverse"
+  }
+ },
+ {
+  "nombre": "Blog + Producto digital",
+  "descripcion": "Blog de contenido gratis que lleva a plantilla/ebook/herramienta paga",
+  "ejes": {
+   "VOL": "Publicar consistentemente, construir antes de monetizar",
+   "MAE": "Mejorar escritura SEO, diseño productos, marketing",
+   "VOZ": "Desarrollar voz editorial, construir audiencia",
+   "VAL": "Pipeline de ventas automatizado, ingresos pasivos",
+   "EVO": "Aprender emprendimiento, resistir fase sin ingresos",
+   "TRA": "Educar gratuitamente a miles, herramientas útiles perduran"
+  }
+ },
+ {
+  "nombre": "Mentoría gratuita + documentación",
+  "descripcion": "Mentoría pro-bono a 3-5 personas + documentar aprendizajes públicamente",
+  "ejes": {
+   "VOL": "Tiempo dedicado sin pago, consistencia sesiones",
+   "MAE": "Mejorar habilidades coaching, escucha activa, feedback",
+   "VOZ": "Compartir insights de mentorías (con permiso), construir reputación",
+   "VAL": "Portfolio casos éxito para consultoría futura",
+   "TRA": "Impacto directo vidas mentorados, contenido que ayuda a más"
+  }
+ },
+ {
+  "nombre": "Challenge 100 días + comunidad",
+  "descripcion": "Reto público de 100 días (código/arte/escritura) con comunidad participante",
+  "ejes": {
+   "VOL": "Completar 100 días sin romper cadena, liderar con ejemplo",
+   "MAE": "Mejorar habilidad elegida exponencialmente con práctica diaria",
+   "VOZ": "Documentar journey públicamente, liderar comunidad",
+   "VAL": "Construir audiencia, posibilidad de book deal/producto después",
+   "EVO": "Desarrollar auto-disciplina extrema, confrontar resistencia interna",
+   "TRA": "Inspirar cientos a hacer su challenge, crear movimiento"
+  }
+ },
+ {
+  "nombre": "Mini-Documental personal",
+  "descripcion": "Crear serie documental corta (YouTube) sobre tema significativo",
+  "ejes": {
+   "VOL": "Planear, filmar, editar semanalmente durante 3 meses",
+   "MAE": "Aprender video, edición, narrativa visual, investigación",
+   "VOZ": "Contar historia desde perspectiva única, desarrollar estilo visual",
+   "VAL": "Portfolio audiovisual, posibilidad monetización YouTube",
+   "TRA": "Preservar historias importantes, educar visualmente"
+  }
+ },
+ {
+  "nombre": "Libro + Lanzamiento comunitario",
+  "descripcion": "Escribir libro compartiendo proceso públicamente, lanzar con comunidad",
+  "ejes": {
+   "VOL": "Escribir consistentemente 6-12 meses, terminar manuscrito",
+   "MAE": "Desarrollar escritura extendida, estructura narrativa, edición",
+   "VOZ": "Establecer autoridad tópica, voz literaria única",
+   "VAL": "Regalías, credibilidad que abre puertas profesionales",
+   "EVO": "Confrontar vulnerabilidad de compartir ideas, recibir crítica",
+   "TRA": "Legado escrito perdura décadas, impactar lectores futuros"
+  }
+ }
+]

@@ -4,18 +4,24 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.time.format.TextStyle
 import java.util.Locale
 
-private val LOCALE_CO = Locale("es", "CO")
-private val FMT_FECHA = DateTimeFormatter.ofPattern("d MMM yyyy", LOCALE_CO)
-private val FMT_DIA = DateTimeFormatter.ofPattern("EEEE d 'de' MMMM", LOCALE_CO)
+/** Los formatos siguen el idioma elegido en la app (Locale.getDefault() lo actualiza AppCompat). */
+private fun fmtFecha() = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault())
 
 fun formatoFecha(epochMillis: Long): String =
-    Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalDate().format(FMT_FECHA)
+    Instant.ofEpochMilli(epochMillis).atZone(ZoneId.systemDefault()).toLocalDate().format(fmtFecha())
 
-fun formatoFecha(fecha: LocalDate): String = fecha.format(FMT_FECHA)
+fun formatoFecha(fecha: LocalDate): String = fecha.format(fmtFecha())
 
-fun formatoDia(fecha: LocalDate): String = fecha.format(FMT_DIA).replaceFirstChar { it.uppercase() }
+fun formatoDia(fecha: LocalDate): String {
+    val l = Locale.getDefault()
+    val dia = fecha.dayOfWeek.getDisplayName(TextStyle.FULL, l)
+    val mes = fecha.month.getDisplayName(TextStyle.FULL, l)
+    return "$dia ${fecha.dayOfMonth} $mes".replaceFirstChar { it.titlecase(l) }
+}
 
 fun LocalDate.aMillis(): Long = atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
 

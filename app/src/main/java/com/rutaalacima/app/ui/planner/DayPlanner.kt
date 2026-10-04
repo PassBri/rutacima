@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.planner
 
+import com.rutaalacima.app.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -139,14 +141,14 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
     ) {
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { vm.abrir(vm.fecha.minusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Día anterior") }
+                IconButton(onClick = { vm.abrir(vm.fecha.minusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.dia_anterior)) }
                 Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(formatoDia(vm.fecha), style = MaterialTheme.typography.titleMedium)
                     if (vm.fecha != hoy()) {
-                        TextButton(onClick = { vm.abrir(hoy()) }) { Text("Ir a hoy") }
+                        TextButton(onClick = { vm.abrir(hoy()) }) { Text(stringResource(R.string.ir_a_hoy)) }
                     }
                 }
-                IconButton(onClick = { vm.abrir(vm.fecha.plusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Día siguiente") }
+                IconButton(onClick = { vm.abrir(vm.fecha.plusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.dia_siguiente)) }
             }
         }
         if (d == null) {
@@ -155,20 +157,20 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         }
         item {
             RutaCard {
-                CampoDia("Intención del día", d.intencion) { v -> vm.editar { it.copy(intencion = v) } }
+                CampoDia(stringResource(R.string.intencion_dia), d.intencion) { v -> vm.editar { it.copy(intencion = v) } }
                 Spacer(Modifier.height(8.dp))
-                CampoDia("Mi prioridad #1 hoy", d.prioridad) { v -> vm.editar { it.copy(prioridad = v) } }
+                CampoDia(stringResource(R.string.prioridad_1_hoy), d.prioridad) { v -> vm.editar { it.copy(prioridad = v) } }
                 Spacer(Modifier.height(12.dp))
-                Text("Energía", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.energia), style = MaterialTheme.typography.labelLarge)
                 Circulos(total = 5, valor = d.energia, color = MaterialTheme.colorScheme.secondary) { n -> vm.editar { it.copy(energia = n) } }
                 Spacer(Modifier.height(8.dp))
-                Text("Agua (vasos)", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.agua_vasos), style = MaterialTheme.typography.labelLarge)
                 Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                     for (i in 1..8) {
                         val lleno = i <= d.agua
                         Icon(
                             Icons.Filled.WaterDrop,
-                            contentDescription = "Vaso $i",
+                            contentDescription = stringResource(R.string.vaso_n, i),
                             tint = if (lleno) Color(0xFF2E7D9A) else MaterialTheme.colorScheme.outlineVariant,
                             modifier = Modifier.size(30.dp).clip(CircleShape)
                                 .clickable { vm.editar { it.copy(agua = if (it.agua == i) i - 1 else i) } },
@@ -177,7 +179,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 }
             }
         }
-        item { SectionTitle("Planifique su día") }
+        item { SectionTitle(stringResource(R.string.planifique_dia)) }
         val horario = d.horarioMapa()
         val horas = if (horarioCompleto) HORAS_DEL_DIA else HORAS_DEL_DIA.filter { it in 5..22 || horario.containsKey(it) }
         items(horas, key = { "h$it" }) { h ->
@@ -195,28 +197,28 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         }
         item {
             TextButton(onClick = { horarioCompleto = !horarioCompleto }) {
-                Text(if (horarioCompleto) "Ver solo 5:00 am – 10:00 pm" else "Ver las 24 horas (4:00 am – 3:00 am)")
+                Text(stringResource(if (horarioCompleto) R.string.ver_horario_corto else R.string.ver_24_horas))
             }
         }
-        item { SectionTitle("Mi día") }
-        item { CampoDia("Metas", d.metas, 3) { v -> vm.editar { it.copy(metas = v) } } }
-        item { CampoDia("Pendientes", d.pendientes, 3) { v -> vm.editar { it.copy(pendientes = v) } } }
-        item { CampoDia("Victorias del día", d.victorias, 2) { v -> vm.editar { it.copy(victorias = v) } } }
-        item { CampoDia("Aprendizaje", d.aprendizaje, 2) { v -> vm.editar { it.copy(aprendizaje = v) } } }
-        item { CampoDia("Gratitud", d.gratitud, 2) { v -> vm.editar { it.copy(gratitud = v) } } }
-        item { SectionTitle("Control financiero") }
+        item { SectionTitle(stringResource(R.string.mi_dia)) }
+        item { CampoDia(stringResource(R.string.metas), d.metas, 3) { v -> vm.editar { it.copy(metas = v) } } }
+        item { CampoDia(stringResource(R.string.pendientes), d.pendientes, 3) { v -> vm.editar { it.copy(pendientes = v) } } }
+        item { CampoDia(stringResource(R.string.victorias_dia), d.victorias, 2) { v -> vm.editar { it.copy(victorias = v) } } }
+        item { CampoDia(stringResource(R.string.aprendizaje), d.aprendizaje, 2) { v -> vm.editar { it.copy(aprendizaje = v) } } }
+        item { CampoDia(stringResource(R.string.gratitud), d.gratitud, 2) { v -> vm.editar { it.copy(gratitud = v) } } }
+        item { SectionTitle(stringResource(R.string.control_financiero)) }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.weight(1f)) { CampoDia("Ingresos", d.ingresos) { v -> vm.editar { it.copy(ingresos = v) } } }
-                Box(Modifier.weight(1f)) { CampoDia("Gastos", d.gastos) { v -> vm.editar { it.copy(gastos = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ingresos), d.ingresos) { v -> vm.editar { it.copy(ingresos = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.gastos), d.gastos) { v -> vm.editar { it.copy(gastos = v) } } }
             }
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.weight(1f)) { CampoDia("Ahorro", d.ahorro) { v -> vm.editar { it.copy(ahorro = v) } } }
-                Box(Modifier.weight(1f)) { CampoDia("Inversión", d.inversion) { v -> vm.editar { it.copy(inversion = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ahorro), d.ahorro) { v -> vm.editar { it.copy(ahorro = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.inversion), d.inversion) { v -> vm.editar { it.copy(inversion = v) } } }
             }
         }
-        item { CampoDia("Notas", d.notas, 3) { v -> vm.editar { it.copy(notas = v) } } }
+        item { CampoDia(stringResource(R.string.notas), d.notas, 3) { v -> vm.editar { it.copy(notas = v) } } }
     }
 }
 

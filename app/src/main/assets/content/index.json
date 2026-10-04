@@ -5,7 +5,6 @@
   "subtitle": "Secuencia didáctica · 7 pasos",
   "category": "ruta",
   "order": 1,
-  "cover": "descubre_1.jpg",
   "sections": 8,
   "inputs": 26
  },
@@ -15,7 +14,6 @@
   "subtitle": "Workbook didáctico",
   "category": "ruta",
   "order": 2,
-  "cover": "seis_ejes_1.jpg",
   "sections": 10,
   "inputs": 95
  },
@@ -25,7 +23,6 @@
   "subtitle": "Guía de reflexión para las 7 fases",
   "category": "ruta",
   "order": 3,
-  "cover": "viaje_1.jpg",
   "sections": 9,
   "inputs": 41
  },
@@ -35,7 +32,6 @@
   "subtitle": "Antes de ascender, conócete a ti mismo",
   "category": "ruta",
   "order": 4,
-  "cover": "diagnostico_1.jpg",
   "sections": 9,
   "inputs": 179
  },
@@ -45,7 +41,6 @@
   "subtitle": "Cómo integrar los 6 ejes",
   "category": "ruta",
   "order": 5,
-  "cover": "confluencia_1.jpg",
   "sections": 5,
   "inputs": 40
  },
@@ -55,7 +50,6 @@
   "subtitle": "Rituales para cruzar de fase",
   "category": "ruta",
   "order": 6,
-  "cover": "portales_1.jpg",
   "sections": 11,
   "inputs": 58
  },
@@ -65,7 +59,6 @@
   "subtitle": "Monetización ética de tu cumbre",
   "category": "ruta",
   "order": 7,
-  "cover": "proposito_valor_1.jpg",
   "sections": 9,
   "inputs": 39
  },
@@ -75,7 +68,6 @@
   "subtitle": "Mentores, accountability y red de apoyo",
   "category": "ruta",
   "order": 8,
-  "cover": "campamento_1.jpg",
   "sections": 9,
   "inputs": 21
  },
@@ -85,7 +77,6 @@
   "subtitle": "Celebrar, integrar y descender",
   "category": "ruta",
   "order": 9,
-  "cover": "desde_cima_1.jpg",
   "sections": 9,
   "inputs": 102
  },
@@ -95,7 +86,6 @@
   "subtitle": "7 herramientas de uso diario",
   "category": "herramientas",
   "order": 10,
-  "cover": "kit_1.jpg",
   "sections": 9,
   "inputs": 78
  },
@@ -105,7 +95,6 @@
   "subtitle": "Relaciones desde la plenitud",
   "category": "ruta",
   "order": 11,
-  "cover": "companero_1.jpg",
   "sections": 10,
   "inputs": 68
  },
@@ -115,7 +104,6 @@
   "subtitle": "Aprender a leer la montaña",
   "category": "ruta",
   "order": 12,
-  "cover": "caidas_1.jpg",
   "sections": 8,
   "inputs": 30
  },
@@ -125,7 +113,6 @@
   "subtitle": "8 protocolos de reorientación",
   "category": "herramientas",
   "order": 13,
-  "cover": "niebla_1.jpg",
   "sections": 8,
   "inputs": 66
  },
@@ -135,7 +122,6 @@
   "subtitle": "Talleres, dinámicas y certificación",
   "category": "facilitador",
   "order": 14,
-  "cover": "facilitadores_1.jpg",
   "sections": 19,
   "inputs": 32
  },
@@ -217,7 +203,6 @@
   "subtitle": "Ebook · Un mapa para encontrar tu propósito y diseñar una vida con sentido",
   "category": "lecturas",
   "order": 23,
-  "cover": "ebook_1.jpg",
   "sections": 12,
   "inputs": 0
  },
@@ -227,7 +212,6 @@
   "subtitle": "Fundamentos, modelo, metodología e instrumento de evaluación",
   "category": "lecturas",
   "order": 24,
-  "cover": "teoria_1.jpg",
   "sections": 11,
   "inputs": 23
  }

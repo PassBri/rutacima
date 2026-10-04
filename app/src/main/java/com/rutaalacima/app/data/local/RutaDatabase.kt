@@ -18,8 +18,11 @@ import androidx.room.RoomDatabase
         AgendaDiaEntity::class,
         MesEntity::class,
         MetaMensualEntity::class,
+        PublicacionEntity::class,
+        ComentarioLocalEntity::class,
+        CoachMensajeEntity::class,
     ],
-    version = 2,
+    version = 3,
     exportSchema = false,
 )
 abstract class RutaDatabase : RoomDatabase() {
@@ -30,10 +33,12 @@ abstract class RutaDatabase : RoomDatabase() {
     abstract fun planificadorDao(): PlanificadorDao
     abstract fun agendaDao(): AgendaDao
     abstract fun planAnualDao(): PlanAnualDao
+    abstract fun socialDao(): SocialDao
+    abstract fun coachDao(): CoachDao
 
     companion object {
         fun build(context: Context): RutaDatabase =
-            Room.databaseBuilder(context, RutaDatabase::class.java, "ruta_a_la_cima.db")
+            Room.databaseBuilder(context, RutaDatabase::class.java, "rutacima.db")
                 // Mientras la app está en versión 0.x: si cambia el esquema se recrea la base.
                 // Antes de publicar, reemplazar por migraciones reales.
                 .fallbackToDestructiveMigration()

@@ -4,7 +4,6 @@
  "subtitle": "Relaciones desde la plenitud",
  "category": "ruta",
  "order": 11,
- "cover": "companero_1.jpg",
  "sections": [
   {
    "id": "companero.sec0",
@@ -1637,11 +1636,6 @@
      "type": "prompt",
      "id": "companero.q73",
      "label": "Fecha:"
-    },
-    {
-     "type": "image",
-     "src": "companero_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

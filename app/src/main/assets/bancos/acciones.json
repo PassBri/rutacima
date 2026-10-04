@@ -1,0 +1,3012 @@
+[
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Completar curso online con práctica diaria de 1h"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Leer libro técnico 30 min diarios durante 30 días"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Practicar skill difícil (idioma, instrumento, código) 100 días consecutivos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Despertar 5am diariamente para estudiar antes del trabajo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Gym 5x/semana siguiendo programa progresivo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Ayuno intermitente 16/8 mientras aprendes nutrición"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Meditar 20 min diarios usando app guiada"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Journaling matutino 500 palabras sin fallar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Eliminar redes sociales para dedicar tiempo a skill building"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE"
+  ],
+  "texto": "Bootcamp intensivo con entrega de proyectos semanales"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Publicar contenido diario (post/video) por 30 días"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Live streaming semanal a hora fija"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Newsletter semanal sin fallar 52 semanas"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Podcast semanal grabado mismo día/hora"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Vlog diario de progreso personal"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Thread de Twitter diario sobre aprendizajes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Stories diarias mostrando behind-the-scenes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Blog post semanal publicado mismo día"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Video YouTube semanal con calendario estricto"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ"
+  ],
+  "texto": "Challenge público documentado día a día"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Prospecting diario (10 emails/DMs a potenciales clientes)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Llamadas de ventas 5x/semana sin fallar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Construir producto digital trabajando 2h diarias"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Facturar clientes puntualmente cada viernes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Ahorro automático 20% cada quincena"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Side hustle: 10h semanales monetizables"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Meal prep domingos para ahorrar $300/mes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Invertir cantidad fija mensual en ETFs"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Negociar salario anualmente con data preparada"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL"
+  ],
+  "texto": "Eliminar gastos hormiga trackeando todo gasto"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Terapia semanal sin cancelar en 6 meses"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Journaling de gratitud todas las noches"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Meditación guiada 100 días consecutivos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Retiro de silencio trimestral"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Ayuno de redes sociales 30 días"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Despertar sin alarma (ritmos circadianos naturales)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Conversación difícil semanal (practicar vulnerabilidad)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Lectura de desarrollo personal 1 libro/mes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Identificar y romper 1 patrón negativo/mes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO"
+  ],
+  "texto": "Solo time semanal 3h (introspección profunda)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Voluntariado 4h semanales en misma organización"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Mentoría pro-bono 2h semanales"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Donar % fijo de ingresos mensualmente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Llamar padres/abuelos 2x semana sin fallar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Cena familiar semanal sin dispositivos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Enseñar skill gratis 1h/semana en comunidad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Cleanup ambiental mensual (basura, playa, parque)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Dar sangre cada 3 meses"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Sembrar árbol mensualmente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "TRA"
+  ],
+  "texto": "Apoyar causa social con trabajo constante"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Escribir artículo técnico mensual sobre lo aprendido"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Tutorial en YouTube de skill que dominas"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Charla en meetup sobre tu expertise"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Thread educativo semanal compartiendo conocimiento"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Podcast entrevistando expertos de tu campo"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Curso online enseñando tu skill"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Responder preguntas en StackOverflow/foros"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Contribuir a documentación open source"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Escribir libro sobre tu área de maestría"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Workshop mensual enseñando lo que sabes"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Freelance usando skill recién aprendida"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Consultoría 1-on-1 en tu área de expertise"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Vender templates/recursos de tu skill"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Curso pago sobre habilidad técnica"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Certificación que aumenta tu valor de mercado"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Portfolio de 10 proyectos vendibles"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Coaching grupal sobre tu maestría"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Membresía paga enseñando skill mensualmente"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Productizar tu conocimiento (SaaS/producto digital)"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Speaking gigs pagados sobre tu expertise"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Aprender skill que te aterra (confrontar miedo)"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Tomar clase que expone incompetencia (humildad)"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Experimentar con técnicas opuestas a tu estilo"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Aprender de alguien mucho más joven que tú"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Dominar habilidad que cuestiona tu identidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Curso de filosofía/psicología aplicada a tu campo"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Estudiar fracasos de maestros en tu área"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Journaling sobre resistencias al aprender"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Terapia enfocada en bloqueos de aprendizaje"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Retiro de aprendizaje intensivo (inmersión)"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Enseñar skill gratis a comunidad marginada"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Crear recursos educativos open source"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Mentoría gratuita a 3 personas/mes"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Tutorial gratuito de alta calidad en YouTube"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Contribuir conocimiento a Wikipedia/docs"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Dar charlas gratuitas en escuelas/universidades"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Escribir guía completa gratis para principiantes"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Responder 10 preguntas de novatos/semana"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Crear herramienta gratuita para comunidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Scholarship fund: enseñar gratis a quienes no pueden pagar"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Monetizar newsletter con sponsors/suscripciones"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Vender productos digitales a tu audiencia"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Afiliados estratégicos en contenido"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Membresía paga con contenido exclusivo"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Lanzamiento de producto propio con lista email"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Coaching 1-on-1 para seguidores"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Webinar pago mensual"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Brand deals con empresas alineadas"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Curso online para tu comunidad"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Consultoría para marcas en tu nicho"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Compartir vulnerabilidades públicamente (blog/video)"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Documentar journey de superación personal"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Podcast sobre crecimiento interior y aprendizajes"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Hablar de tus fracasos sin filtro"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Compartir journey de terapia/sanación"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Vlog de transformación personal 90 días"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Escribir sobre miedos y cómo los enfrentas"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Series de 'lo que aprendí de...' semanales"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Conversaciones profundas grabadas (podcast)"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Memoir sobre tu evolución personal"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Plataforma para amplificar voces marginadas"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Contenido educativo gratuito con impacto social"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Usar tu alcance para causas importantes"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Documentar proyecto social que lideras"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Entrevistar héroes anónimos (darles voz)"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Newsletter destacando organizaciones que ayudar"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Podcast sobre justicia social/cambio"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Campaña de awareness sobre causa importante"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Usar tu audiencia para fundraising"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Contenido que inspira acción social"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Invertir en terapia/coaching (dinero en crecimiento)"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Retiros de crecimiento personal pagados"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Cursos caros de transformación personal"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Contratar mentor/coach de alto nivel"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Invertir en experiencias transformadoras"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Pagar por accountability coach"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Terapia intensiva (2x semana) para breakthrough"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Programa de desarrollo personal premium"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Mastermind pago con gente de alto nivel"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Journaling sobre relación dinero-identidad"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Donar 10% ingresos a causas elegidas"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Crear scholarship fund en tu nombre"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Invertir en negocios de impacto social"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Pagar educación de alguien que lo necesita"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Microfinanzas/préstamos a emprendedores"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Fundar organización sin fines de lucro"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Financiar proyecto comunitario"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Legacy fund para familia/comunidad"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Invertir en startups de impacto social"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Crear fondo de emergencia para comunidad"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Terapia familiar (sanar relaciones)"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Facilitar círculos de sanación comunitarios"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Compartir aprendizajes de crecimiento personal gratis"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Mentoría enfocada en transformación, no skills"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Crear espacio seguro para vulnerabilidad grupal"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Liderar retiro de crecimiento para comunidad"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Mediar conflictos en tu familia/comunidad"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Journaling público sobre tu evolución (inspirar)"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Grupos de apoyo mutuo que facilitas"
+ },
+ {
+  "ejes": [
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Ser ejemplo viviente de transformación posible"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Blog diario técnico por 100 días (escribir + aprender + compartir)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Challenge público de dominar skill en 90 días filmado"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Newsletter semanal sobre lo que aprendiste + práctica"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Curso que creas mientras lo aprendes (learn in public)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Podcast diario primeros 30 días aprendiendo algo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "GitHub commit diario + thread explicando avances"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Vlog de bootcamp (estudiar + documentar + publicar)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Serie YouTube aprendiendo skill from scratch en público"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "30 day challenge con post diario de progreso"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ"
+  ],
+  "texto": "Livestream estudiando/practicando en vivo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Freelance diario para construir portfolio + ingresos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Crear 1 producto digital/mes durante 6 meses"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Estudiar 2h + prospecting 1h diariamente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Bootcamp pago que te fuerza a entregar + aprender"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Certificación + búsqueda de empleo simultánea"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Side hustle estructurado con skill en desarrollo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Curso pago que tomas + inmediatamente aplicas con clientes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "100 días de código + aplicar a trabajos semanalmente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Estudiar técnica de ventas + hacer llamadas diarias"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL"
+  ],
+  "texto": "Construir SaaS mientras aprendes a programar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Retiro de aprendizaje intensivo con introspección"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Journaling diario sobre resistencias al aprender"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Terapia + estudiar psicología del aprendizaje"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Meditar antes de cada sesión de estudio (30+30)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Ayuno de información + deep learning periods alternados"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Estudiar skill que confronta tu identidad limitante"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Challenge que mezcla hábito físico + mental + emocional"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Curso difícil + terapia paralela procesando frustración"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Despertar 4am para estudiar + journaling al final"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "EVO"
+  ],
+  "texto": "Práctica deliberada con análisis profundo de bloqueos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Enseñar gratis mientras aprendes (solidificar conocimiento)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Estudiar para después dar charla gratuita comunitaria"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Aprender skill para ayudar ONG específica"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Documentar aprendizaje para crear recursos gratuitos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Mentoría recíproca (enseñas mientras aprendes)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Challenge grupal donde todos aprenden juntos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Estudiar con compromiso de liberar conocimiento gratis"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Crear herramienta open source mientras aprendes a codear"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Bootcamp con proyecto final de impacto social"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "TRA"
+  ],
+  "texto": "Aprender idioma para voluntariado internacional"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Contenido diario + monetización (ads/sponsors/productos)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Newsletter diaria gratis + upsell a membresía paga"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Podcast semanal con episodios bonus pagos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Challenge 30 días público con curso pago al final"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Vlog diario + Patreon para contenido extra"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Livestream schedule fijo + tips/super chats"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Blogging diario + afiliados estratégicos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "YouTube consistente + productos digitales propios"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Presencia diaria Twitter + consultoría DM"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Stories diarias Instagram + mini-cursos pagos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Diario público de transformación (blog/vlog 90 días)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Podcast sobre tu journey de sanación semanal"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Challenge vulnerabilidad: compartir miedo diario"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Vlog terapia journey (con permiso terapeuta)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Newsletter semanal sobre aprendizajes internos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Journaling diario público en Medium"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Serie video sobre superar adicción/patrón negativo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Instagram daily sobre crecimiento personal sin filtros"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Memoir que escribes en público (capítulo/semana)"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Twitter thread diario sobre auto-descubrimiento"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Contenido diario de impacto social por año completo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Documentar proyecto comunitario weekly en YouTube"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Newsletter semanal destacando causas + cómo ayudar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Podcast entrevistando changemakers semanalmente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Challenge público: ayudar 1 persona/día por 90 días"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Vlog voluntariado consistente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Blog semanal sobre justicia social sin parar"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Stories diarias amplificando voces marginadas"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Serie video sobre organización que apoyas"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Threads diarios educando sobre causa importante"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Ahorrar % agresivo + journaling sobre relación con dinero"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Invertir mensualmente + estudiar finanzas personales"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Terapia financiera + plan de ahorro estricto"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Eliminar deuda con reflexión sobre patrones de gasto"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Side hustle disciplinado + procesar miedo a vender"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Budget estricto + journaling de creencias sobre abundancia"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Inversión en desarrollo personal con dinero ahorrado"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Trabajo extra + terapia sobre identidad y dinero"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Frugalidad intencional + reflexión sobre valores"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Monetizar skill + superar síndrome impostor con coach"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Ahorro disciplinado para donar % grande anualmente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Side hustle cuyos ingresos van 50% a causa"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Trabajo voluntario consistente + donar dinero"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Austeridad personal para máxima contribución social"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Negocio de impacto social con disciplina férrea"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Freelance + donar 1 proyecto/mes gratis a ONG"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Inversiones éticas con retorno para caridad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Budget apretado para liberar fondos para causas"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Trabajo extra específicamente para financiar proyecto social"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Construir asset que genera ingresos para fundación"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Terapia semanal + ayudar otros con tu sanación"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Meditar diariamente + liderar círculo meditación gratuito"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Journaling constante + compartir aprendizajes públicamente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Retiros regulares + facilitar retiros para otros"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Sanar patrones + mentorar a quien enfrenta lo mismo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Trabajo interior disciplinado + ser ejemplo para comunidad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Superar adicción + sponsor otros en recuperación"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Terapia familiar constante + sanar linaje completo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Práctica espiritual diaria + servicio a comunidad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Crecimiento personal riguroso + inspirar transformación en otros"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Expertise técnica + contenido educativo + monetización"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Dominar skill + enseñarla + vender curso"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Certificación + presencia LinkedIn + consultoría"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Construir portfolio + blog técnico + freelance"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Desarrollar producto + marketing contenido + ventas"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Maestría en código + YouTube tutorials + GitHub Sponsors"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Expertise diseño + Behance activo + clientes high-ticket"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Dominar escritura + Medium + ebooks pagos"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Habilidad técnica + conferencias + workshop pagos"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Skill rara + nicho contenido + premium pricing"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Aprender en público + documentar resistencias + journaling"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Dominar skill difícil + blog sobre proceso + terapia paralela"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Certificación + compartir fracasos + crecimiento visible"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Expertise + vulnerabilidad sobre journey + transformación"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Skill técnica + contenido auténtico sin ego + humildad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Maestría + enseñar incluyendo tus errores + auto-reflexión"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Aprender + videos honestos de frustración + breakthrough"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Portfolio + behind-the-scenes con dudas reales + sanación"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Dominio técnico + humanizar expertise + trabajo interior"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Skill + contenido desde aprendiz perpetuo + mente principiante"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Expertise + educar gratis masivamente + impacto social"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Dominar skill + enseñar a marginados + open source"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Certificación + recursos gratuitos + empoderar comunidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Maestría + mentoría gratuita + democratizar conocimiento"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Skill técnica + tutorials gratuitos + acceso universal"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Portfolio + compartir proceso gratis + inspirar otros"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Expertise + charlas gratuitas + elevar industria"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Dominio + crear herramientas gratis + bien común"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Habilidad + documentación pública + legado educativo"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Maestría + enseñanza sin gatekeeping + abundancia"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Skill cara + monetizar + superar miedo a cobrar bien"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Certificación + ingresos + sanar síndrome impostor"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Expertise + ventas + terapia sobre merecer abundancia"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Dominio técnico + pricing premium + trabajo identidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Portfolio + clientes high-ticket + autovaloración"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Maestría + negociar salario + empoderamiento personal"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Skill + emprendimiento + confrontar creencias sobre dinero"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Expertise + consultoría cara + sanación deserving"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Habilidad + vender sin culpa + crecimiento autoestima"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Dominio + monetización + journaling sobre valor propio"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Skill + negocio de impacto + generar valor social"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Expertise + mentoría paga + becas para quien no puede pagar"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Certificación + consultoría + donar % a causas"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Maestría + producto digital + versión gratis para ONGs"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Habilidad + freelance + proyecto pro-bono mensual"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Portfolio + clientes pagos + trabajo gratuito comunitario"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Dominio + workshop pago + versión gratuita para escuelas"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Skill + ingresos + reinvertir en acceso universal"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Expertise + negocio + modelo Robin Hood pricing"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Maestría + monetización + usar ingresos para cambio social"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Aprender + sanar + enseñar desde vulnerabilidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Skill + crecimiento interior + mentoría transformacional"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Expertise + trabajo sombra + guiar a otros en journey"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Dominio + terapia + ser terapeuta informal comunidad"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Maestría + evolución personal + inspirar transformación"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Habilidad + sanación + compartir proceso completo"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Certificación + desarrollo personal + elevar conciencia colectiva"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Skill difícil + superar resistencias + modelar crecimiento"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Expertise + humildad + servir desde maestría integrada"
+ },
+ {
+  "ejes": [
+   "MAE",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Dominio + enlightenment + legacy de sabiduría"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Contenido + monetización + vulnerabilidad radical"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Audiencia + productos + compartir journey de sanación"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Plataforma + ingresos + autenticidad sin filtros"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Comunidad + membresía + contenido profundamente personal"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Presencia + ventas + superar miedo a ser visto"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Newsletter + suscripciones + trabajo de identidad público"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Podcast + sponsors + episodios sobre crecimiento interior"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Vlog + Patreon + documentar transformación real"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Blog + afiliados + escribir desde vulnerabilidad"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "YouTube + productos + mostrar humanidad completa"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Plataforma + donaciones + amplificar causas"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Audiencia + productos social impact + dar back"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Contenido + ingresos + % a organizaciones"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Comunidad + membresía + parte va a caridad"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Newsletter + sponsors + spotlight causas importantes"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Podcast + monetización + entrevistas changemakers"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "YouTube + ads revenue + campaña social mensual"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Blog + afiliados + contenido que educa sobre injusticias"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Presencia + consultoría + trabajo pro-bono paralelo"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "VAL",
+   "TRA"
+  ],
+  "texto": "Influencia + ingresos + responsabilidad social radical"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Plataforma + vulnerabilidad + inspirar sanación colectiva"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Contenido + crecimiento personal + empoderar audiencia"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Audiencia + autenticidad + crear movimiento transformación"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Comunidad + proceso público + catalizar cambio en otros"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Presencia + trabajo interior + ser ejemplo viviente"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Blog + journaling público + normalizando terapia"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Podcast + guests vulnerables + conversaciones que sanan"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "YouTube + documentar sanación + dar esperanza"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Newsletter + reflexiones profundas + comunidad de apoyo"
+ },
+ {
+  "ejes": [
+   "VOZ",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Voz + evolución + legado de humanidad compartida"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Dinero + sanación + filantropía consciente"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Ingresos + terapia financiera + impact investing"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Abundancia + trabajo sombra dinero + generosidad radical"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Riqueza + desarrollo personal + redistribución consciente"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Monetización + sanar creencias + modelo Robin Hood"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Negocio + crecimiento + empleados + comunidad primero"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Inversiones + valores + empresas de impacto social"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Freelance + autovaloración + donar desde abundancia"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Consultoría cara + merecer + becas para marginados"
+ },
+ {
+  "ejes": [
+   "VAL",
+   "EVO",
+   "TRA"
+  ],
+  "texto": "Ingresos + identidad + usar dinero para bien común"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Crear contenido educativo diario que monetizas directamente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Bootcamp intensivo público con lanzamiento producto al final"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Newsletter expertise diaria con membresía premium paga"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "YouTube consistente enseñando skill + curso como producto"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Blog técnico diario + consultoría como backend"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Podcast semanal sobre industria + sponsors relevantes"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Livestream regular aprendiendo/construyendo + tips/Patreon"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Documentar 100 días de código + freelance simultáneo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Presencia LinkedIn constante + oportunidades laborales"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "VAL"
+  ],
+  "texto": "Challenge público skill building + producto digital como salida"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Aprender en público con vulnerabilidad radical consistente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Journaling diario compartido sobre proceso de maestría"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Documentar breakthrough y breakdowns en journey técnico"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Newsletter semanal sobre aprendizaje + resistencias internas"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Vlog proceso de certificación incluyendo crisis de confianza"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Podcast sobre desarrollar expertise + síndrome impostor"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Blog técnico humanizado con fracasos y miedos incluidos"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Challenge skill + terapia paralela documentada"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Portfolio building + reflexiones profundas sobre identidad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "EVO"
+  ],
+  "texto": "Estudiar consistentemente + compartir todo sin ego"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Aprender skill gratis para enseñarla gratis consistentemente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Documentar journey de maestría para inspirar acceso universal"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Certificación + crear recursos abiertos para comunidad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Challenge público aprender + mentoría gratuita a otros"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Desarrollar expertise + compartir todo el proceso libremente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Estudiar disciplinadamente para elevar industria entera"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Portfolio building con compromiso open source"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Newsletter educativa gratuita de alta calidad semanal"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Bootcamp personal + llevar a otros gratis contigo"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VOZ",
+   "TRA"
+  ],
+  "texto": "Maestría + democratizar acceso sin gatekeeping"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Skill building intensivo + monetización + terapia sobre dinero"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Certificación cara + trabajar creencias sobre merecer"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Freelance disciplinado + sanar síndrome impostor activamente"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Estudiar + vender + journaling relación expertise-valor"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Bootcamp + productos + superar miedo a cobrar bien"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Portfolio + clientes premium + autovaloración paralela"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Aprender + emprender + coaching sobre identidad emprendedora"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Skill técnica + consultoría + trabajo interior sobre autoridad"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Certificación + negociar salario + empoderamiento económico"
+ },
+ {
+  "ejes": [
+   "VOL",
+   "MAE",
+   "VAL",
+   "EVO"
+  ],
+  "texto": "Expertise + pricing sin culpa + terapia financiera"
+ }
+]

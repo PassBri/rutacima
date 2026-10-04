@@ -117,6 +117,12 @@ data class MetaAnualEntity(
     val fechaRevision: Long? = null,
     val fechaInicio: Long? = null,
     val fechaFin: Long? = null,
+    /** Código del eje que activa (VOL, MAE…). */
+    val eje: String? = null,
+    /** Indicador de éxito (puede venir del Banco de Indicadores). */
+    val indicador: String = "",
+    /** Evidencia observable: cómo sabrás que la lograste (Banco de Metas: "Observable"). */
+    val observable: String = "",
 )
 
 /** Balance anual: "¿Cómo me sentí?", reflexión positiva/negativa, lo mejor y objetivos. */
@@ -182,6 +188,59 @@ data class MetaMensualEntity(
     val texto: String,
     val dias: String = "",
     val cumplida: Boolean = false,
+    /** Meta anual a la que aporta (cascada año → mes). */
+    val metaAnualId: Long? = null,
+    val eje: String? = null,
+    val indicador: String = "",
+    /** Días del mes en que se propone cumplirla (para calcular el avance). */
+    val objetivoDias: Int = 20,
 )
 
 fun MetaMensualEntity.diasMarcados(): Set<Int> = dias.split(',').mapNotNull { it.trim().toIntOrNull() }.toSet()
+
+/** Avance 0..1 de una meta mensual: cumplida = 100 %; si no, días marcados / días objetivo. */
+fun MetaMensualEntity.avance(): Float =
+    if (cumplida) 1f else (diasMarcados().size.toFloat() / objetivoDias.coerceAtLeast(1)).coerceIn(0f, 1f)
+
+/**
+ * Publicación propia: el diario de vida y lo que se comparte en la Comunidad.
+ * Siempre se guarda en el teléfono; si hay cuenta, también se sube (remoteId).
+ */
+@Entity(tableName = "publicaciones", indices = [Index("anio")])
+data class PublicacionEntity(
+    @PrimaryKey val id: String,
+    /** LOGRO, EVIDENCIA, VISION, META, REFLEXION */
+    val tipo: String,
+    val texto: String,
+    /** Ruta local de la foto (filesDir/media/…) o vacío. */
+    val foto: String = "",
+    val eje: String? = null,
+    val anio: Int,
+    /** PUBLICA, SEGUIDORES, PRIVADA */
+    val visibilidad: String = "PUBLICA",
+    /** Meta relacionada (texto) para mostrarla en la tarjeta. */
+    val metaTitulo: String = "",
+    val creadaEn: Long = System.currentTimeMillis(),
+    val remoteId: String? = null,
+    val fotoUrl: String = "",
+    val impulsos: Int = 0,
+)
+
+/** Comentario local (modo demo o caché). */
+@Entity(tableName = "comentarios_locales", indices = [Index("publicacionId")])
+data class ComentarioLocalEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val publicacionId: String,
+    val autor: String,
+    val texto: String,
+    val creadoEn: Long = System.currentTimeMillis(),
+)
+
+/** Conversación con el coach de IA. rol = "user" | "assistant". */
+@Entity(tableName = "coach_mensajes")
+data class CoachMensajeEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val rol: String,
+    val texto: String,
+    val creadoEn: Long = System.currentTimeMillis(),
+)

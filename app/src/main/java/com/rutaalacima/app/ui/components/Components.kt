@@ -43,6 +43,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.RutaApp
 import com.rutaalacima.app.domain.model.Eje
@@ -199,7 +200,7 @@ fun RadarEjes(
                 val dy = (sin(ang) * 0.43f).toFloat()
                 Box(Modifier.fillMaxWidth().aspectRatio(1f), contentAlignment = bias(dx * 2, dy * 2)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(eje.nombre, style = MaterialTheme.typography.labelMedium, color = eje.color.asColor(),
+                        Text(eje.texto(), style = MaterialTheme.typography.labelMedium, color = eje.color.asColor(),
                             fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
                         valores.getOrNull(i)?.let {
                             Text("$it/10", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -225,7 +226,7 @@ fun EjeChip(eje: Eje, modifier: Modifier = Modifier) {
     ) {
         Box(Modifier.size(8.dp).clip(CircleShape).background(eje.color.asColor()))
         Spacer(Modifier.width(6.dp))
-        Text(eje.nombre, style = MaterialTheme.typography.labelMedium, color = eje.color.asColor(), fontWeight = FontWeight.SemiBold)
+        Text(eje.texto(), style = MaterialTheme.typography.labelMedium, color = eje.color.asColor(), fontWeight = FontWeight.SemiBold)
     }
 }
 

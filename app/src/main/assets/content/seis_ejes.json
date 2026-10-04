@@ -4,7 +4,6 @@
  "subtitle": "Workbook didáctico",
  "category": "ruta",
  "order": 2,
- "cover": "seis_ejes_1.jpg",
  "sections": [
   {
    "id": "seis_ejes.sec0",
@@ -449,7 +448,7 @@
     {
      "type": "heading",
      "level": 3,
-     "text": "Autoevaluación de tu MAESTRÍA"
+     "text": "Autoevaluación de tu VOZ"
     },
     {
      "type": "scale",
@@ -1003,11 +1002,6 @@
      "type": "prompt",
      "id": "seis_ejes.q95",
      "label": "(Sintetiza tu cumbre en una declaración poderosa de máximo 20 palabras)"
-    },
-    {
-     "type": "image",
-     "src": "seis_ejes_2.jpg",
-     "ratio": 0.8
     },
     {
      "type": "paragraph",

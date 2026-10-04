@@ -4,6 +4,7 @@ import com.rutaalacima.app.data.local.AccionEntity
 import com.rutaalacima.app.data.local.AgendaDiaEntity
 import com.rutaalacima.app.data.local.MesEntity
 import com.rutaalacima.app.data.local.MetaMensualEntity
+import com.rutaalacima.app.data.local.diasMarcados
 import com.rutaalacima.app.data.local.BalanceAnualEntity
 import com.rutaalacima.app.data.local.ChecklistDiarioEntity
 import com.rutaalacima.app.data.local.EvaluacionEjesEntity
@@ -121,8 +122,22 @@ class PlanAnualRepository(private val db: RutaDatabase) {
     fun metasMes(anio: Int, mes: Int): Flow<List<MetaMensualEntity>> = dao.observeMetasMes(anio, mes)
     suspend fun guardarMetaMes(m: MetaMensualEntity) = dao.upsertMetaMes(m)
     suspend fun eliminarMetaMes(m: MetaMensualEntity) = dao.deleteMetaMes(m)
+    val todasMetasMes: Flow<List<MetaMensualEntity>> = dao.observeTodasMetasMes()
+
+    /** Marca o desmarca el día de hoy en una meta mensual (check diario de la cascada). */
+    suspend fun alternarDia(m: MetaMensualEntity, dia: Int) {
+        val dias = m.diasMarcados().let { if (dia in it) it - dia else it + dia }
+        dao.upsertMetaMes(m.copy(dias = dias.sorted().joinToString(",")))
+    }
 
     companion object {
         fun clave(anio: Int, mes: Int) = "%04d-%02d".format(anio, mes)
     }
+}
+
+/** Cascada completa (5 años → año → mes) con avance calculado. */
+class CascadaRepository(planificador: PlanificadorRepository, planAnual: PlanAnualRepository) {
+    val cascada: Flow<Cascada> = kotlinx.coroutines.flow.combine(
+        planificador.propositos, planificador.todasLasMetas, planAnual.todasMetasMes,
+    ) { p, a, m -> Cascada.construir(p, a, m) }
 }

@@ -382,6 +382,13 @@ def sectionize(blocks, wid):
                 continue
             cur['blocks'].append(b)
         final.append(cur)
+    # Corrección del original: en "Eje 3: La Voz" la autoevaluación dice "de tu MAESTRÍA".
+    for s in final:
+        m = re.match(r'^Eje \d+: (?:La|El) (.+)$', s['title'])
+        if m:
+            for b in s['blocks']:
+                if b['type'] == 'heading' and b['text'].startswith('Autoevaluación de tu '):
+                    b['text'] = 'Autoevaluación de tu ' + m.group(1).upper()
     for i, s in enumerate(final):
         s['id'] = f'{wid}.sec{i}'
     return [{'id': s['id'], 'title': s['title'], 'blocks': s['blocks']} for s in final]
@@ -433,10 +440,14 @@ CATALOG = [
 if __name__ == '__main__':
     src, out = sys.argv[1], sys.argv[2]
     os.makedirs(out, exist_ok=True)
-    img_dir = os.path.join(out, 'img')
-    os.makedirs(img_dir, exist_ok=True)
-    for f in glob.glob(os.path.join(img_dir, '*.jpg')):
-        os.remove(f)
+    # Por defecto NO se extraen imágenes de los libros: la app usa arte vectorial propio.
+    # Usa --imagenes para volver a extraerlas a assets/content/img.
+    img_dir = None
+    if '--imagenes' in sys.argv:
+        img_dir = os.path.join(out, 'img')
+        os.makedirs(img_dir, exist_ok=True)
+        for f in glob.glob(os.path.join(img_dir, '*.jpg')):
+            os.remove(f)
     index = []
     for pat, wid, title, sub, cat, order in CATALOG:
         files = [f for f in glob.glob(os.path.join(src, '*.docx')) if pat in os.path.basename(f)]

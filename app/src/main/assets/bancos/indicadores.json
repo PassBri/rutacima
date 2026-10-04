@@ -1,0 +1,602 @@
+[
+ {
+  "eje": "VOL",
+  "texto": "Días consecutivos cumpliendo hábito matutino"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Horas de trabajo profundo/semana"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin faltar al gimnasio/mes"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Racha de meditación diaria"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Porcentaje de prioridades completadas/semana"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin romper ayuno intermitente"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Horas de sueño promedio (7-8h)"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Veces que dijiste NO a distracciones/semana"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días cumpliendo horario de despertar"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Sesiones de escritura completadas/semana"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin consumir azúcar refinado"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Horas sin revisar redes sociales"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días cumpliendo rutina nocturna"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Veces que resististe procrastinación/día"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin alcohol/mes"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Minutos de ejercicio diario acumulados"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Porcentaje de comidas saludables/semana"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin compras impulsivas"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Horas de pantalla reducidas vs semana anterior"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Veces que completaste tareas difíciles primero"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días siguiendo presupuesto establecido"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Minutos de lectura antes de dormir"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días sin posponer alarma"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Veces que mantuviste calma en conflicto"
+ },
+ {
+  "eje": "VOL",
+  "texto": "Días practicando gratitud matutina"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Horas de práctica deliberada/semana"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Libros completados/mes"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Cursos finalizados/trimestre"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Proyectos completados de inicio a fin"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Certificaciones obtenidas"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Horas de estudio técnico/semana"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Palabras escritas/día (si escribes)"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Líneas de código escritas/semana (si programas)"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Ejercicios resueltos de tu disciplina"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Horas de mentoría recibida/mes"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Nuevas habilidades técnicas adquiridas/trimestre"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Nivel de dominio en herramienta clave (1-10)"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Proyectos de portafolio publicados"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Artículos técnicos leídos/semana"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Conferencias o webinars atendidos/mes"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Horas practicando idioma extranjero"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Nivel en plataforma de aprendizaje (ej: Duolingo)"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Papers académicos leídos/mes"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Experimentos o pruebas realizadas"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Feedback recibido e implementado"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Mentorías ofrecidas a otros (enseñar refuerza)"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Proyectos open source a los que contribuiste"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Competencias o concursos participados"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Portfolio de trabajos actualizado"
+ },
+ {
+  "eje": "MAE",
+  "texto": "Nuevas técnicas dominadas/mes"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Posts publicados en blog/mes"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Videos creados y subidos/semana"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Seguidores ganados (orgánicos)/mes"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Engagement rate en redes (%)"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Charlas o presentaciones dadas/trimestre"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Artículos publicados en medios"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Podcast episodes grabados/mes"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Comentarios significativos dejados en comunidad"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Conversaciones profundas con personas/semana"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Veces que compartiste tu trabajo públicamente"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Menciones o tags recibidos por tu contenido"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Newsletter enviados/mes"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Alcance de publicaciones (personas)"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Testimonios recibidos por tu trabajo"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Colaboraciones con otros creadores"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Veces que expresaste opinión auténtica"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Historias personales compartidas"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Piezas de contenido original creadas"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Debates constructivos en los que participaste"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Feedback recibido sobre tu voz/estilo"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Comunidad construida (miembros activos)"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Mensajes directos respondidos auténticamente"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Veces que defendiste tus valores públicamente"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Entrevistas dadas o recibidas"
+ },
+ {
+  "eje": "VOZ",
+  "texto": "Reseñas o reviews escritos con tu perspectiva"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Ingresos mensuales generados"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Clientes activos/mes"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Ventas realizadas/semana"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Valor promedio por transacción"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Tasa de conversión (%)"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Proyectos facturados y cobrados"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Propuestas enviadas/mes"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Contratos firmados/trimestre"
+ },
+ {
+  "eje": "VAL",
+  "texto": "MRR (Monthly Recurring Revenue)"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Productos vendidos/día"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Servicios prestados/semana"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Horas facturables trabajadas"
+ },
+ {
+  "eje": "VAL",
+  "texto": "ROI de inversiones realizadas"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Nuevos leads generados/semana"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Testimonios de clientes satisfechos"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Tasa de retención de clientes (%)"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Upsells o ventas adicionales"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Ingresos pasivos generados/mes"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Valor del pipeline de ventas"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Reuniones comerciales realizadas"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Follow-ups completados con prospectos"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Referidos recibidos de clientes"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Ticket promedio incrementado (%)"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Margen de ganancia mejorado"
+ },
+ {
+  "eje": "VAL",
+  "texto": "Impacto económico en clientes (valor entregado)"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Horas en terapia o coaching/mes"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Sesiones de journaling completadas/semana"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Libros de desarrollo personal leídos/mes"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Hábitos negativos identificados y trabajados"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Creencias limitantes confrontadas"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Veces que saliste de zona de comfort/semana"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Conversaciones difíciles tenidas"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Errores reconocidos y corregidos"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Feedback difícil recibido y procesado"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Experimentos personales realizados"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Días escribiendo en diario de auto-reflexión"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Meditaciones o mindfulness/semana"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Nivel de auto-conocimiento (1-10, autoevaluado)"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Patrones negativos interrumpidos"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Nuevas perspectivas adoptadas"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Conflictos internos resueltos"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Miedos enfrentados directamente"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Decisiones tomadas basadas en valores vs miedo"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Veces que pediste ayuda cuando la necesitabas"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Retiros o inmersiones de crecimiento/año"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Horas de introspección intencional/semana"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Nivel de claridad sobre propósito de vida"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Relaciones tóxicas cortadas/transformadas"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Autenticidad en comunicación (1-10)"
+ },
+ {
+  "eje": "EVO",
+  "texto": "Consistencia entre valores y acciones"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Horas de voluntariado/mes"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Personas directamente ayudadas/semana"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Donaciones realizadas (dinero o tiempo)"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Mentorías ofrecidas gratuitamente"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Proyectos de impacto social iniciados"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Personas inspiradas por tu ejemplo (testimonios)"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Contenido educativo compartido gratuitamente"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Conexiones facilitadas entre personas"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Causas sociales apoyadas activamente"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Comunidades positivas creadas o lideradas"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Legado construido (proyecto duradero)"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Veces que priorizaste bien común vs beneficio propio"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Impacto ambiental reducido (huella carbono)"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Árboles plantados o acciones ecológicas"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Familias o personas transformadas por tu trabajo"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Generaciones futuras beneficiadas (educación, herencia)"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Conocimiento documentado para otros"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Tradiciones positivas iniciadas en familia/comunidad"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Veces que fuiste ejemplo de valores"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Estudiantes o aprendices formados"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Recursos compartidos con quien lo necesita"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Injusticias confrontadas o denunciadas"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Puentes construidos entre grupos diferentes"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Herencia cultural preservada o transmitida"
+ },
+ {
+  "eje": "TRA",
+  "texto": "Vidas tocadas indirectamente por tu trabajo"
+ }
+]

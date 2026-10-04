@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.planner
 
+import com.rutaalacima.app.ui.i18n.texto
+import com.rutaalacima.app.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,11 +67,11 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (vm.id == 0L) "Nuevo propósito" else "Propósito") },
+                title = { Text(stringResource(if (vm.id == 0L) R.string.nuevo_proposito else R.string.proposito)) },
                 navigationIcon = { IconButton(onClick = { if (p.titulo.isNotBlank() && !vm.guardado) vm.guardar(onBack) else onBack() }) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Guardar y volver") } },
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.guardar_y_volver)) } },
                 actions = {
-                    if (vm.id != 0L) IconButton(onClick = { confirmarBorrado = true }) { Icon(Icons.Outlined.Delete, "Eliminar") }
+                    if (vm.id != 0L) IconButton(onClick = { confirmarBorrado = true }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar)) }
                 },
             )
         },
@@ -83,34 +86,34 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item {
-                OutlinedTextField(p.titulo, { v -> vm.editar { it.copy(titulo = v) } }, label = { Text("Propósito (meta a 5 años)") },
+                OutlinedTextField(p.titulo, { v -> vm.editar { it.copy(titulo = v) } }, label = { Text(stringResource(R.string.proposito_5_anios)) },
                     modifier = Modifier.fillMaxWidth(), textStyle = MaterialTheme.typography.titleMedium)
             }
             item {
-                ChipSelector("Prioridad (ABCD)", Prioridad.entries, Prioridad.from(p.prioridad), { "${it.clave} · ${it.nivel}" },
+                ChipSelector(stringResource(R.string.prioridad_abcd), Prioridad.entries, Prioridad.from(p.prioridad), { "${it.clave} · " + it.texto() },
                     { sel -> vm.editar { it.copy(prioridad = sel.name) } }, color = { it.color.asColor() })
             }
             item {
-                ChipSelector("Eje que activa principalmente", listOf<Eje?>(null) + Eje.entries, Eje.fromCodigo(p.eje), { it?.nombre ?: "—" },
+                ChipSelector(stringResource(R.string.eje_principal), listOf<Eje?>(null) + Eje.entries, Eje.fromCodigo(p.eje), { it?.texto() ?: "—" },
                     { sel -> vm.editar { it.copy(eje = sel?.codigo) } }, color = { it?.color?.asColor() ?: Color.Gray })
             }
-            item { Campo("Descripción", p.descripcion) { v -> vm.editar { it.copy(descripcion = v) } } }
-            item { Campo("Indicador de éxito: \"Habré alcanzado esta meta si…\"", p.indicadorExito) { v -> vm.editar { it.copy(indicadorExito = v) } } }
-            item { Campo("Visualización: \"Me visualizo…\"", p.visualizacion) { v -> vm.editar { it.copy(visualizacion = v) } } }
-            item { Campo("¿Por qué es importante esta meta para mí?", p.porQueImporta) { v -> vm.editar { it.copy(porQueImporta = v) } } }
-            item { Campo("Metas específicas dentro de este eje (una por línea)", p.metasEspecificas) { v -> vm.editar { it.copy(metasEspecificas = v) } } }
-            item { Campo("Impacto", p.impacto) { v -> vm.editar { it.copy(impacto = v) } } }
-            item { Campo("Reflexión final", p.reflexionFinal) { v -> vm.editar { it.copy(reflexionFinal = v) } } }
+            item { Campo(stringResource(R.string.descripcion), p.descripcion) { v -> vm.editar { it.copy(descripcion = v) } } }
+            item { Campo(stringResource(R.string.indicador_exito), p.indicadorExito) { v -> vm.editar { it.copy(indicadorExito = v) } } }
+            item { Campo(stringResource(R.string.visualizacion), p.visualizacion) { v -> vm.editar { it.copy(visualizacion = v) } } }
+            item { Campo(stringResource(R.string.por_que_importa), p.porQueImporta) { v -> vm.editar { it.copy(porQueImporta = v) } } }
+            item { Campo(stringResource(R.string.metas_especificas), p.metasEspecificas) { v -> vm.editar { it.copy(metasEspecificas = v) } } }
+            item { Campo(stringResource(R.string.impacto), p.impacto) { v -> vm.editar { it.copy(impacto = v) } } }
+            item { Campo(stringResource(R.string.reflexion_final), p.reflexionFinal) { v -> vm.editar { it.copy(reflexionFinal = v) } } }
             item {
-                Text("Progreso: ${p.progreso}%", style = MaterialTheme.typography.labelLarge)
+                Text(stringResource(R.string.progreso_pct, p.progreso), style = MaterialTheme.typography.labelLarge)
                 Slider(value = p.progreso.toFloat(), onValueChange = { v -> vm.editar { it.copy(progreso = (v / 5).toInt() * 5) } }, valueRange = 0f..100f)
                 Button(onClick = { vm.guardar() }, enabled = p.titulo.isNotBlank() && !vm.guardado, modifier = Modifier.fillMaxWidth()) {
-                    Text(if (vm.guardado) "Guardado" else "Guardar propósito")
+                    Text(stringResource(if (vm.guardado) R.string.guardado else R.string.guardar_proposito))
                 }
             }
-            item { SectionTitle("Plan de acción (${acciones.size}/10)") }
+            item { SectionTitle(stringResource(R.string.plan_accion_n, acciones.size)) }
             if (vm.id == 0L) {
-                item { Text("Guarda el propósito para empezar su plan de acción.", style = MaterialTheme.typography.bodyMedium) }
+                item { Text(stringResource(R.string.guarda_para_plan), style = MaterialTheme.typography.bodyMedium) }
             } else {
                 items(acciones, key = { it.id }) { a ->
                     RutaCard {
@@ -120,16 +123,16 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
                                 a.texto, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge,
                                 textDecoration = if (a.hecha) TextDecoration.LineThrough else null,
                             )
-                            IconButton(onClick = { vm.eliminarAccion(a) }) { Icon(Icons.Outlined.Delete, "Eliminar paso") }
+                            IconButton(onClick = { vm.eliminarAccion(a) }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar_paso)) }
                         }
-                        FechaField("Fecha límite", a.fechaFin, { vm.fechaAccion(a, it) })
+                        FechaField(stringResource(R.string.fecha_limite), a.fechaFin, { vm.fechaAccion(a, it) })
                     }
                 }
                 item {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        OutlinedTextField(nuevaAccion, { nuevaAccion = it }, label = { Text("Nuevo paso") }, modifier = Modifier.weight(1f))
+                        OutlinedTextField(nuevaAccion, { nuevaAccion = it }, label = { Text(stringResource(R.string.nuevo_paso)) }, modifier = Modifier.weight(1f))
                         IconButton(onClick = { vm.agregarAccion(nuevaAccion); nuevaAccion = "" }, enabled = nuevaAccion.isNotBlank()) {
-                            Icon(Icons.Filled.Add, "Agregar paso")
+                            Icon(Icons.Filled.Add, stringResource(R.string.agregar_paso))
                         }
                     }
                     Spacer(Modifier.height(24.dp))
@@ -141,10 +144,10 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
     if (confirmarBorrado) {
         AlertDialog(
             onDismissRequest = { confirmarBorrado = false },
-            title = { Text("¿Eliminar este propósito?") },
-            text = { Text("Se borrará también su plan de acción.") },
-            confirmButton = { TextButton(onClick = { confirmarBorrado = false; vm.eliminar(onBack) }) { Text("Eliminar") } },
-            dismissButton = { TextButton(onClick = { confirmarBorrado = false }) { Text("Cancelar") } },
+            title = { Text(stringResource(R.string.eliminar_proposito_q)) },
+            text = { Text(stringResource(R.string.eliminar_proposito_texto)) },
+            confirmButton = { TextButton(onClick = { confirmarBorrado = false; vm.eliminar(onBack) }) { Text(stringResource(R.string.eliminar)) } },
+            dismissButton = { TextButton(onClick = { confirmarBorrado = false }) { Text(stringResource(R.string.cancelar)) } },
         )
     }
 }

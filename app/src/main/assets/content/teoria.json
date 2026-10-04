@@ -4,7 +4,6 @@
  "subtitle": "Fundamentos, modelo, metodología e instrumento de evaluación",
  "category": "lecturas",
  "order": 24,
- "cover": "teoria_1.jpg",
  "sections": [
   {
    "id": "teoria.sec0",
@@ -184,11 +183,6 @@
    "id": "teoria.sec3",
    "title": "Fundamentación teórica",
    "blocks": [
-    {
-     "type": "image",
-     "src": "teoria_2.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "heading",
      "level": 2,
@@ -519,11 +513,6 @@
    "title": "Metodología del viaje Transformativo (TVT)",
    "blocks": [
     {
-     "type": "image",
-     "src": "teoria_3.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "heading",
      "level": 2,
      "text": "Fases, técnicas y herramientas"
@@ -758,11 +747,6 @@
    "id": "teoria.sec5",
    "title": "Fundamentos epistemológicos del viaje transformativo",
    "blocks": [
-    {
-     "type": "image",
-     "src": "teoria_4.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "heading",
      "level": 2,
@@ -1196,11 +1180,6 @@
    "id": "teoria.sec6",
    "title": "Modelo teórico del viaje transformativo",
    "blocks": [
-    {
-     "type": "image",
-     "src": "teoria_5.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "El modelo del \"viaje transformativo\" representa el viaje hacia el autodescubrimiento y la realización personal. Basado en la metáfora del senderismo, cada etapa del viaje simboliza un aspecto crucial del crecimiento personal y profesional. Este modelo se fundamenta en teorías existentes de desarrollo personal, como la teoría de la autodeterminación de Deci y Ryan (2000) y el concepto de flujo de Csikszentmihalyi (1990)."
@@ -1720,11 +1699,6 @@
    "id": "teoria.sec7",
    "title": "Teoría del viaje transformativo (TVT)",
    "blocks": [
-    {
-     "type": "image",
-     "src": "teoria_6.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "La teoría del viaje t ransformativo (TVT) es un marco conceptual que aborda el proceso de crecimiento y realización personal como un viaje intencional y estructurado a lo largo de la vida. Basada en la idea de que el desarrollo personal es un proceso continuo y dinámico, la TVT integra múltiples componentes y principios que trabajan en sinergia para guiar a los individuos hacia su máximo potencial. Esta teoría no solo proporciona una guía clara para la autorreflexión y la mejora continua, sino que también ofrece herramientas prácticas y estrategias efectivas para superar obstáculos y alcanzar metas significativas. La TVT se destaca por su enfoque holístico, adaptabilidad y aplicabilidad en diversos contextos, haciendo que sea relevante tanto para el desarrollo personal como profesional."
@@ -2248,11 +2222,6 @@
    "title": "Paradigma del viaje transformativo (TVT)",
    "blocks": [
     {
-     "type": "image",
-     "src": "teoria_7.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "paragraph",
      "text": "La teoría del Viaje Transformativo (TVT) conceptualiza la vida como un viaje continuo de crecimiento personal, donde cada individuo tiene el potencial de dirigir su propia transformación. Este paradigma sostiene que los seres humanos son capaces de cambio constante, buscando alcanzar una \"Cumbre Transformativa\" única. El conocimiento se adquiere a través de la experiencia y la reflexión, utilizando herramientas específicas para mapear y evaluar el progreso. Valora la autenticidad, la resiliencia y el crecimiento continuo, viendo el cambio como algo positivo y natural. La transformación es un proceso holístico que abarca todos los aspectos de la vida y se desarrolla a lo largo del tiempo, influenciado por, pero no limitado a, el contexto social. Los facilitadores, como coaches o terapeutas, actúan como guías en este viaje, empoderando a las personas para dirigir su propia transformación, la cual, a su vez, puede tener un impacto positivo en la sociedad."
     },
@@ -2322,11 +2291,6 @@
    "id": "teoria.sec9",
    "title": "Instrumento para evaluar el viaje transformativo (TVT)",
    "blocks": [
-    {
-     "type": "image",
-     "src": "teoria_8.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "Instrucciones"
@@ -2610,11 +2574,6 @@
     {
      "type": "paragraph",
      "text": "Prochaska, J. O., & DiClemente, C. C. (1983). Stages and processes of self-change of smoking: Toward an integrative model of change. Journal of consulting and clinical psychology."
-    },
-    {
-     "type": "image",
-     "src": "teoria_9.jpg",
-     "ratio": 0.8
     }
    ]
   }

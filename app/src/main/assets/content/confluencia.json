@@ -4,7 +4,6 @@
  "subtitle": "Cómo integrar los 6 ejes",
  "category": "ruta",
  "order": 5,
- "cover": "confluencia_1.jpg",
  "sections": [
   {
    "id": "confluencia.sec0",
@@ -1084,11 +1083,6 @@
     {
      "type": "paragraph",
      "text": "Ahora ve y créala."
-    },
-    {
-     "type": "image",
-     "src": "confluencia_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

@@ -4,7 +4,6 @@
  "subtitle": "Talleres, dinámicas y certificación",
  "category": "facilitador",
  "order": 14,
- "cover": "facilitadores_1.jpg",
  "sections": [
   {
    "id": "facilitadores.sec0",
@@ -3649,11 +3648,6 @@
     {
      "type": "paragraph",
      "text": "The Way of Council - Jack Zimmerman"
-    },
-    {
-     "type": "image",
-     "src": "facilitadores_2.jpg",
-     "ratio": 0.8
     }
    ]
   }

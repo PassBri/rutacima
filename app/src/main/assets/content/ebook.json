@@ -4,7 +4,6 @@
  "subtitle": "Ebook · Un mapa para encontrar tu propósito y diseñar una vida con sentido",
  "category": "lecturas",
  "order": 23,
- "cover": "ebook_1.jpg",
  "sections": [
   {
    "id": "ebook.sec0",
@@ -610,11 +609,6 @@
    "title": "Capítulo 1. El senderista",
    "blocks": [
     {
-     "type": "image",
-     "src": "ebook_2.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "heading",
      "level": 2,
      "text": "La filosofía del senderista"
@@ -1204,11 +1198,6 @@
    "title": "Capítulo 2. Cumbre personal",
    "blocks": [
     {
-     "type": "image",
-     "src": "ebook_3.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "paragraph",
      "text": "Cuando los seis ejes se unen, no subes la montaña: te conviertes en ella."
     },
@@ -1657,11 +1646,6 @@
    "title": "Capítulo 3. Convocando al explorador interior",
    "blocks": [
     {
-     "type": "image",
-     "src": "ebook_4.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "paragraph",
      "text": "Has comprendido la estructura de la Cumbre Personal: las siete fases que te llevan hacia ella y los seis ejes que la componen. Ahora es momento de despertar a tu explorador interior, ese aspecto de ti que anhela ascender, que está listo para el viaje, que siente el llamado de la aventura."
     },
@@ -1874,11 +1858,6 @@
    "id": "ebook.sec6",
    "title": "Capítulo 4. Prepárate para tu ascenso",
    "blocks": [
-    {
-     "type": "image",
-     "src": "ebook_5.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "Has convocado a tu explorador interior. Has visualizado tu cumbre, elegido tu camino y anclado tu visión en la mente. Ahora llega el momento de la preparación consciente: equiparte con las herramientas esenciales que te sostendrán en el camino hacia tu cumbre personal."
@@ -2175,11 +2154,6 @@
    "id": "ebook.sec7",
    "title": "Capítulo 5. Planificando tu ascenso",
    "blocks": [
-    {
-     "type": "image",
-     "src": "ebook_6.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "Has preparado tu mochila. Has fortalecido tu bienestar mental, emocional y físico. Has construido tu refugio interior y encendido tu fogata. Ahora llega el momento crucial: planificar estratégicamente tu ascenso hacia la cumbre personal."
@@ -2687,11 +2661,6 @@
    "id": "ebook.sec8",
    "title": "Capítulo 6. El viaje",
    "blocks": [
-    {
-     "type": "image",
-     "src": "ebook_7.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "Has planificado tu ascenso. Has trazado tu ruta. Has preparado tu mochila y fortalecido tu espíritu. Ahora llega el momento que define todo: el viaje mismo."
@@ -3279,11 +3248,6 @@
    "id": "ebook.sec9",
    "title": "Capítulo 7. Reflexión y ajustes en el camino",
    "blocks": [
-    {
-     "type": "image",
-     "src": "ebook_8.jpg",
-     "ratio": 0.8
-    },
     {
      "type": "paragraph",
      "text": "Has vivido el viaje. Has enfrentado desafíos, celebrado victorias, descubierto significado profundo y aprendido a mantener el balance. Ahora llega un momento igualmente crucial: detenerte para reflexionar."
@@ -3888,11 +3852,6 @@
    "title": "Capítulo 8. La cima y más montañas por escalar",
    "blocks": [
     {
-     "type": "image",
-     "src": "ebook_9.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "paragraph",
      "text": "Has reflexionado. Has ajustado. Has evaluado tu camino con honestidad brutal. Has aprendido a levantarte de las caídas, a vivir sobre decisiones, a equilibrar pasión con racionalidad y a encontrar felicidad en el camino mismo."
     },
@@ -4183,11 +4142,6 @@
    "title": "Capítulo 9. Tu próxima gran aventura.",
    "blocks": [
     {
-     "type": "image",
-     "src": "ebook_10.jpg",
-     "ratio": 0.8
-    },
-    {
      "type": "paragraph",
      "text": "A medida que cierras este libro, no estás poniendo fin a tu viaje, sino abriendo la puerta a nuevas aventuras en el vasto terreno de tu crecimiento personal y profesional. Cada palabra leída, cada reflexión interna, cada desafío que has decidido enfrentar, te ha acercado un paso más a la cumbre de tus sueños. Sin embargo, recuerda: en el viaje del senderista, cada cima alcanzada revela horizontes aún más amplios por explorar."
     },
@@ -4222,16 +4176,6 @@
     {
      "type": "paragraph",
      "text": "En cada paso, cada respiración profunda y cada cima conquistada en “El viaje del senderista”, yace la esencia inmutable de nuestra travesía humana hacia la realización personal y el logro de nuestras cumbres. Este libro es una invitación a caminar por senderos desconocidos con valentía, a enfrentar cada ascenso con determinación y a abrazar cada desafío como una oportunidad para crecer. Es un recordatorio de que nuestras metas y propósitos no son solo destinos, sino antorchas que guían nuestro camino hacia el descubrimiento de nuestro potencial ilimitado. En cada página, te animamos a levantar la vista hacia tus propias cumbres personales, equipado con sabiduría, resiliencia y pasión necesarias para alcanzarlas. “El Viaje del Senderista” no solo te acompaña en el logro de tus objetivos, sino que celebra el espíritu indomable de perseguir siempre, y con entereza, la versión más elevada de ti mismo. Porque, al final, el viaje importa tanto como la cumbre misma."
-    },
-    {
-     "type": "image",
-     "src": "ebook_11.jpg",
-     "ratio": 0.7725
-    },
-    {
-     "type": "image",
-     "src": "ebook_12.jpg",
-     "ratio": 0.8
     }
    ]
   }

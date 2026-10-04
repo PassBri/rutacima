@@ -25,13 +25,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.rutaalacima.app.R
 import androidx.compose.ui.unit.dp
 import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-private val FMT_UTC = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale("es", "CO"))
+private val FMT_UTC get() = DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM).withLocale(Locale.getDefault())
 
 /** Las fechas del DatePicker se guardan como medianoche UTC; se formatean en UTC para no correr el día. */
 fun formatoFechaUtc(millis: Long): String =
@@ -49,17 +51,17 @@ fun FechaField(
     var abierto by remember { mutableStateOf(false) }
     OutlinedButton(onClick = { abierto = true }, modifier = modifier) {
         Icon(Icons.Outlined.CalendarMonth, contentDescription = null)
-        Text("  $etiqueta: " + (millis?.let { formatoFechaUtc(it) } ?: "sin fecha"))
+        Text("  $etiqueta: " + (millis?.let { formatoFechaUtc(it) } ?: stringResource(R.string.sin_fecha)))
     }
     if (abierto) {
         val state = rememberDatePickerState(initialSelectedDateMillis = millis)
         DatePickerDialog(
             onDismissRequest = { abierto = false },
             confirmButton = {
-                TextButton(onClick = { onChange(state.selectedDateMillis); abierto = false }) { Text("Aceptar") }
+                TextButton(onClick = { onChange(state.selectedDateMillis); abierto = false }) { Text(stringResource(R.string.aceptar)) }
             },
             dismissButton = {
-                TextButton(onClick = { onChange(null); abierto = false }) { Text("Quitar fecha") }
+                TextButton(onClick = { onChange(null); abierto = false }) { Text(stringResource(R.string.quitar_fecha)) }
             },
         ) {
             DatePicker(state = state)
@@ -74,7 +76,7 @@ fun <T> ChipSelector(
     titulo: String?,
     opciones: List<T>,
     seleccionado: T?,
-    etiqueta: (T) -> String,
+    etiqueta: @Composable (T) -> String,
     onSelect: (T) -> Unit,
     modifier: Modifier = Modifier,
     color: ((T) -> Color)? = null,

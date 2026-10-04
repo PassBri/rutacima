@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.planner
 
+import com.rutaalacima.app.ui.components.MontanaArte
+import com.rutaalacima.app.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -55,7 +58,6 @@ import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.data.local.MesEntity
 import com.rutaalacima.app.data.local.MetaMensualEntity
 import com.rutaalacima.app.data.local.diasMarcados
-import com.rutaalacima.app.ui.components.AssetImage
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.SectionTitle
 import com.rutaalacima.app.util.hoy
@@ -73,13 +75,11 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 
-private val LOCALE_CO = Locale("es", "CO")
 
 fun nombreMes(mes: Int): String =
-    java.time.Month.of(mes).getDisplayName(TextStyle.FULL_STANDALONE, LOCALE_CO).replaceFirstChar { it.uppercase() }
+    java.time.Month.of(mes).getDisplayName(TextStyle.FULL_STANDALONE, Locale.getDefault()).replaceFirstChar { it.titlecase(Locale.getDefault()) }
 
 /** Portada de montaña del mes (11 ilustraciones del Planificador Anual, en ciclo). */
-fun portadaMes(mes: Int): String = "plan/mes_%02d.jpg".format(((mes - 1) % 11) + 1)
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class MesViewModel(private val c: AppContainer) : ViewModel() {
@@ -168,43 +168,43 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
     ) {
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { vm.ir(ym.minusMonths(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, "Mes anterior") }
+                IconButton(onClick = { vm.ir(ym.minusMonths(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.mes_anterior)) }
                 Text("${nombreMes(ym.monthValue)} ${ym.year}", style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(1f), textAlign = TextAlign.Center)
-                IconButton(onClick = { vm.ir(ym.plusMonths(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, "Mes siguiente") }
+                IconButton(onClick = { vm.ir(ym.plusMonths(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.mes_siguiente)) }
             }
         }
-        item { AssetImage(portadaMes(ym.monthValue), 900f / 630f, contentDescription = "Portada de ${nombreMes(ym.monthValue)}") }
+        item { MontanaArte("mes-${ym.monthValue}", Modifier.fillMaxWidth().height(140.dp).clip(RoundedCornerShape(20.dp)), paleta = ym.monthValue) }
         item { Calendario(ym, diasAgenda, onAbrirDia) }
 
         // Metas mensuales con registro de cumplimiento
-        item { SectionTitle("Metas mensuales (${metas.size}/10)") }
+        item { SectionTitle(stringResource(R.string.metas_mensuales_n, metas.size)) }
         item {
-            Text("Registra el cumplimiento de cada meta tocando los días.", style = MaterialTheme.typography.bodyMedium,
+            Text(stringResource(R.string.metas_mes_ayuda), style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         items(metas, key = { it.id }) { meta -> MetaMensualCard(meta, ym, vm) }
         item {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                OutlinedTextField(nuevaMeta, { nuevaMeta = it }, label = { Text("Nueva meta del mes") },
+                OutlinedTextField(nuevaMeta, { nuevaMeta = it }, label = { Text(stringResource(R.string.nueva_meta_mes)) },
                     modifier = Modifier.weight(1f), singleLine = true)
                 IconButton(onClick = { vm.agregarMeta(nuevaMeta); nuevaMeta = "" }, enabled = nuevaMeta.isNotBlank()) {
-                    Icon(Icons.Filled.Add, "Agregar meta")
+                    Icon(Icons.Filled.Add, stringResource(R.string.agregar_meta))
                 }
             }
         }
 
         if (m != null) {
-            item { SectionTitle("Actividades y notas") }
-            item { CampoMes("Actividades", m.actividades) { v -> vm.editar { it.copy(actividades = v) } } }
-            item { CampoMes("Notas importantes", m.notas) { v -> vm.editar { it.copy(notas = v) } } }
-            item { SectionTitle("Balance mensual") }
-            item { CampoMes("¿Cómo estuvo mi mes?", m.comoEstuvo) { v -> vm.editar { it.copy(comoEstuvo = v) } } }
-            item { CampoMes("Me siento agradecido por", m.agradecido) { v -> vm.editar { it.copy(agradecido = v) } } }
-            item { CampoMes("Lo que necesito mejorar", m.mejorar) { v -> vm.editar { it.copy(mejorar = v) } } }
-            item { CampoMes("Logros", m.logros) { v -> vm.editar { it.copy(logros = v) } } }
-            item { CampoMes("Desafíos y lecciones", m.desafios) { v -> vm.editar { it.copy(desafios = v) } } }
-            item { CampoMes("Objetivos para el próximo mes", m.objetivosProximo) { v -> vm.editar { it.copy(objetivosProximo = v) } } }
+            item { SectionTitle(stringResource(R.string.actividades_notas)) }
+            item { CampoMes(stringResource(R.string.actividades), m.actividades) { v -> vm.editar { it.copy(actividades = v) } } }
+            item { CampoMes(stringResource(R.string.notas_importantes), m.notas) { v -> vm.editar { it.copy(notas = v) } } }
+            item { SectionTitle(stringResource(R.string.balance_mensual)) }
+            item { CampoMes(stringResource(R.string.bal_como_mes), m.comoEstuvo) { v -> vm.editar { it.copy(comoEstuvo = v) } } }
+            item { CampoMes(stringResource(R.string.bal_agradecido), m.agradecido) { v -> vm.editar { it.copy(agradecido = v) } } }
+            item { CampoMes(stringResource(R.string.bal_mejorar), m.mejorar) { v -> vm.editar { it.copy(mejorar = v) } } }
+            item { CampoMes(stringResource(R.string.logros), m.logros) { v -> vm.editar { it.copy(logros = v) } } }
+            item { CampoMes(stringResource(R.string.bal_desafios), m.desafios) { v -> vm.editar { it.copy(desafios = v) } } }
+            item { CampoMes(stringResource(R.string.bal_objetivos_mes), m.objetivosProximo) { v -> vm.editar { it.copy(objetivosProximo = v) } } }
         }
     }
 }
@@ -223,7 +223,7 @@ private fun Calendario(ym: YearMonth, diasAgenda: Set<Int>, onAbrirDia: (LocalDa
     val hoyFecha = hoy()
     RutaCard {
         Row(Modifier.fillMaxWidth()) {
-            listOf("D", "L", "M", "M", "J", "V", "S").forEach {
+            (0..6).map { java.time.DayOfWeek.SUNDAY.plus(it.toLong()).getDisplayName(TextStyle.NARROW_STANDALONE, Locale.getDefault()) }.forEach {
                 Text(it, modifier = Modifier.weight(1f), textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
             }
@@ -257,7 +257,7 @@ private fun Calendario(ym: YearMonth, diasAgenda: Set<Int>, onAbrirDia: (LocalDa
                 }
             }
         }
-        Text("Toca un día para abrir su planificador diario.", style = MaterialTheme.typography.labelSmall,
+        Text(stringResource(R.string.toca_dia), style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
@@ -272,10 +272,10 @@ private fun MetaMensualCard(meta: MetaMensualEntity, ym: YearMonth, vm: MesViewM
             Column(Modifier.weight(1f)) {
                 Text(meta.texto, style = MaterialTheme.typography.titleSmall,
                     textDecoration = if (meta.cumplida) TextDecoration.LineThrough else null)
-                Text("${marcados.size}/$dias días", style = MaterialTheme.typography.labelSmall,
+                Text(stringResource(R.string.n_de_dias, marcados.size, dias), style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            IconButton(onClick = { vm.eliminarMeta(meta) }) { Icon(Icons.Outlined.Delete, "Eliminar meta") }
+            IconButton(onClick = { vm.eliminarMeta(meta) }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar_meta)) }
         }
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             for (d in 1..dias) {

@@ -46,7 +46,6 @@ class ContentParsingTest {
                 assertTrue("Falta imagen ${it.src}", existe("content/img/${it.src}"))
             }
         }
-        (1..11).forEach { assertTrue(existe("plan/mes_%02d.jpg".format(it))) }
     }
 
     @Test

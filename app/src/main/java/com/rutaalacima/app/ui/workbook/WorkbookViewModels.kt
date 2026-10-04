@@ -84,6 +84,23 @@ class WorkbookEditorViewModel(private val c: AppContainer, val workbookId: Strin
         c.appScope.launch { c.respuestas.guardar(workbookId, clave, valor) }
     }
 
+    var ejesGuardados by mutableStateOf(false)
+        private set
+
+    /** Guarda el resultado de una evaluación de los 6 ejes en "Mis Ejes" (radar e historial). */
+    fun guardarEnEjes(v: List<Int>) {
+        if (v.size != 6) return
+        c.appScope.launch {
+            c.ejes.guardar(
+                com.rutaalacima.app.data.local.EvaluacionEjesEntity(
+                    voluntad = v[0], maestria = v[1], voz = v[2], valor = v[3], evolucion = v[4], trascendencia = v[5],
+                    origen = workbookId,
+                ),
+            )
+        }
+        ejesGuardados = true
+    }
+
     private fun actualizarLocal(clave: String, valor: String) {
         if (valor.isEmpty()) respuestas.remove(clave) else respuestas[clave] = valor
     }
