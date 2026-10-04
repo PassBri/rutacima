@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.perfil
 
+import kotlinx.coroutines.launch
 import com.rutaalacima.app.util.hoy
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.foundation.layout.Box
@@ -66,7 +67,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 
-class PerfilViewModel(c: AppContainer) : ViewModel() {
+class PerfilViewModel(private val c: AppContainer) : ViewModel() {
+    fun cambiarMeta(anios: Int) = viewModelScope.launch { c.perfil.actualizar { it.copy(esperanzaVida = anios) } }
     private fun <T> estado(f: kotlinx.coroutines.flow.Flow<T>, i: T) = f.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), i)
     val perfil: StateFlow<PerfilEntity> = estado(c.perfil.perfil, PerfilEntity())
     val posts: StateFlow<List<Post>> = estado(c.social.misPublicaciones, emptyList())
@@ -137,6 +139,7 @@ fun PerfilScreen(
                 perfil, posts, anioSel, mesSel,
                 onSeleccion = { a, m -> if (a == anioSel && m == null && mesSel == null) anioSel = null else { anioSel = a; mesSel = m } },
                 onAbrir = onAbrirPost, onPublicar = onPublicar, onAjustes = onAjustes,
+                onMeta = { vm.cambiarMeta(it) },
             )
             2 -> {
                 item {

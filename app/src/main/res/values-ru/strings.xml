@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">Помечтать об этом годе</string>
     <string name="vida_registrar">Записать воспоминание</string>
     <string name="fecha_nacimiento">Дата рождения</string>
-    <string name="esperanza_vida">Ожидаемая продолжительность жизни: %1$d лет</string>
-    <string name="esperanza_ayuda">Оценка для твоей страны: %1$d лет. Можно изменить; используется только для календаря жизни.</string>
+    <string name="esperanza_vida">Цель жизни: %1$d лет</string>
+    <string name="esperanza_ayuda">Ожидаемая продолжительность жизни в твоей стране: около %1$d лет. Выбери, до какого возраста идёт твой путь (до 120).</string>
     <string name="vida_anios_de">%1$d / %2$d ЛЕТ</string>
     <string name="vida_punto_ayuda">Каждая точка — год твоей жизни. Нажми, чтобы увидеть его по месяцам.</string>
+    <string name="vida_camino">Путь к %1$d годам</string>
+    <string name="reto_titulo">Наполни год воспоминаниями</string>
+    <string name="reto_progreso">%1$d из 12 месяцев %2$d года с воспоминанием</string>
+    <string name="reto_completo">Год заполнен! У всех 12 месяцев %2$d есть воспоминание (%1$d/12).</string>
+    <string name="reto_accion">Добавить воспоминание месяца</string>
 </resources>

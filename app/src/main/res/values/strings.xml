@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">Soñar este año</string>
     <string name="vida_registrar">Registrar un recuerdo</string>
     <string name="fecha_nacimiento">Fecha de nacimiento</string>
-    <string name="esperanza_vida">Esperanza de vida: %1$d años</string>
-    <string name="esperanza_ayuda">Estimada para tu país: %1$d años. Ajústala si quieres; solo se usa para tu calendario de vida.</string>
+    <string name="esperanza_vida">Meta de vida: %1$d años</string>
+    <string name="esperanza_ayuda">Esperanza de vida estimada en tu país: %1$d años. Elige hasta qué edad trazas tu camino (máximo 120).</string>
     <string name="vida_anios_de">%1$d / %2$d AÑOS</string>
     <string name="vida_punto_ayuda">Cada punto es un año de tu vida. Toca uno para verlo mes a mes.</string>
+    <string name="vida_camino">Camino hacia los %1$d años</string>
+    <string name="reto_titulo">Llena tu año de recuerdos</string>
+    <string name="reto_progreso">%1$d de 12 meses de %2$d con un recuerdo</string>
+    <string name="reto_completo">¡Año lleno! Los 12 meses de %2$d tienen un recuerdo (%1$d/12).</string>
+    <string name="reto_accion">Agregar el recuerdo de este mes</string>
 </resources>

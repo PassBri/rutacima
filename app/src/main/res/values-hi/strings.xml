@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">इस वर्ष का सपना देखें</string>
     <string name="vida_registrar">एक याद दर्ज करें</string>
     <string name="fecha_nacimiento">जन्मतिथि</string>
-    <string name="esperanza_vida">जीवन प्रत्याशा: %1$d वर्ष</string>
-    <string name="esperanza_ayuda">आपके देश का अनुमान: %1$d वर्ष। चाहें तो बदलें; यह केवल आपके जीवन कैलेंडर के लिए है।</string>
+    <string name="esperanza_vida">जीवन लक्ष्य: %1$d वर्ष</string>
+    <string name="esperanza_ayuda">आपके देश में अनुमानित जीवन प्रत्याशा: %1$d वर्ष। चुनें कि आपकी राह किस आयु तक जाए (अधिकतम 120)।</string>
     <string name="vida_anios_de">%1$d / %2$d वर्ष</string>
     <string name="vida_punto_ayuda">हर बिंदु आपके जीवन का एक वर्ष है। उसे महीने-दर-महीने देखने के लिए टैप करें।</string>
+    <string name="vida_camino">%1$d वर्षों की ओर</string>
+    <string name="reto_titulo">अपने साल को यादों से भर दें</string>
+    <string name="reto_progreso">%2$d के 12 में से %1$d महीनों में एक याद</string>
+    <string name="reto_completo">साल पूरा! %2$d के सभी 12 महीनों में एक याद है (%1$d/12)।</string>
+    <string name="reto_accion">इस महीने की याद जोड़ें</string>
 </resources>

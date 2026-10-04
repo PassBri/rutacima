@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">Rêver cette année</string>
     <string name="vida_registrar">Ajouter un souvenir</string>
     <string name="fecha_nacimiento">Date de naissance</string>
-    <string name="esperanza_vida">Espérance de vie : %1$d ans</string>
-    <string name="esperanza_ayuda">Estimation pour ton pays : %1$d ans. Ajuste-la si tu veux ; elle sert seulement à ton calendrier de vie.</string>
+    <string name="esperanza_vida">Objectif de vie : %1$d ans</string>
+    <string name="esperanza_ayuda">Espérance de vie estimée dans ton pays : %1$d ans. Choisis jusqu’à quel âge tracer ton chemin (120 max).</string>
     <string name="vida_anios_de">%1$d / %2$d ANS</string>
     <string name="vida_punto_ayuda">Chaque point est une année de ta vie. Touches-en un pour la voir mois par mois.</string>
+    <string name="vida_camino">En route vers %1$d ans</string>
+    <string name="reto_titulo">Remplis ton année de souvenirs</string>
+    <string name="reto_progreso">%1$d mois sur 12 en %2$d avec un souvenir</string>
+    <string name="reto_completo">Année complète ! Les 12 mois de %2$d ont un souvenir (%1$d/12).</string>
+    <string name="reto_accion">Ajouter le souvenir de ce mois</string>
 </resources>

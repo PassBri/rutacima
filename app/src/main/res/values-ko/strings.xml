@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">이 해를 꿈꾸기</string>
     <string name="vida_registrar">추억 기록하기</string>
     <string name="fecha_nacimiento">생년월일</string>
-    <string name="esperanza_vida">기대 수명: %1$d세</string>
-    <string name="esperanza_ayuda">우리나라 추정치: %1$d세. 원하면 조정하세요. 인생 달력에만 사용돼요.</string>
+    <string name="esperanza_vida">인생 목표: %1$d세</string>
+    <string name="esperanza_ayuda">우리나라 기대 수명은 약 %1$d세예요. 몇 살까지의 길을 그릴지 고르세요 (최대 120).</string>
     <string name="vida_anios_de">%1$d / %2$d세</string>
     <string name="vida_punto_ayuda">점 하나가 인생의 1년이에요. 눌러서 달마다 살펴보세요.</string>
+    <string name="vida_camino">%1$d세를 향한 길</string>
+    <string name="reto_titulo">한 해를 추억으로 채우세요</string>
+    <string name="reto_progreso">%2$d년 12개월 중 %1$d개월에 추억이 있어요</string>
+    <string name="reto_completo">한 해 완성! %2$d년 12개월 모두 추억이 있어요 (%1$d/12).</string>
+    <string name="reto_accion">이번 달 추억 추가</string>
 </resources>

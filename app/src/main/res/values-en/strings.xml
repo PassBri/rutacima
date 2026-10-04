@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">Dream this year</string>
     <string name="vida_registrar">Record a memory</string>
     <string name="fecha_nacimiento">Date of birth</string>
-    <string name="esperanza_vida">Life expectancy: %1$d years</string>
-    <string name="esperanza_ayuda">Estimate for your country: %1$d years. Adjust it if you like; it’s only used for your life calendar.</string>
+    <string name="esperanza_vida">Life goal: %1$d years</string>
+    <string name="esperanza_ayuda">Estimated life expectancy in your country: %1$d years. Choose how far your road goes (up to 120).</string>
     <string name="vida_anios_de">%1$d / %2$d YEARS</string>
     <string name="vida_punto_ayuda">Each dot is one year of your life. Tap one to see it month by month.</string>
+    <string name="vida_camino">Road to %1$d years</string>
+    <string name="reto_titulo">Fill your year with memories</string>
+    <string name="reto_progreso">%1$d of 12 months in %2$d with a memory</string>
+    <string name="reto_completo">Year complete! All 12 months of %2$d have a memory (%1$d/12).</string>
+    <string name="reto_accion">Add this month’s memory</string>
 </resources>

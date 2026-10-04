@@ -159,9 +159,9 @@ fun AjustesScreen(onBack: () -> Unit) {
                 FechaField(stringResource(R.string.fecha_nacimiento), vm.nacimiento, { vm.nacimiento = it }, Modifier.fillMaxWidth())
                 Spacer(Modifier.height(8.dp))
                 val estimada = Vida.esperanzaPais(java.util.Locale.getDefault().country)
-                val valor = vm.esperanza ?: estimada
+                val valor = vm.esperanza ?: Vida.META_DEFECTO
                 Text(stringResource(R.string.esperanza_vida, valor), style = MaterialTheme.typography.labelLarge)
-                Slider(value = valor.toFloat(), onValueChange = { vm.esperanza = kotlin.math.round(it).toInt() }, valueRange = 50f..110f, steps = 59)
+                Slider(value = valor.toFloat(), onValueChange = { vm.esperanza = kotlin.math.round(it).toInt() }, valueRange = 60f..120f, steps = 59)
                 Text(stringResource(R.string.esperanza_ayuda, estimada), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Spacer(Modifier.height(8.dp))

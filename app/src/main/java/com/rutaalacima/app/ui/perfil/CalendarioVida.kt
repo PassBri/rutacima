@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.perfil
 
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.background
@@ -51,8 +52,8 @@ import java.time.ZoneId
 import java.time.format.TextStyle
 import java.util.Locale
 
-/** Esperanza de vida efectiva: la elegida por la persona o la estimada para su país. */
-fun PerfilEntity.esperanza(): Int = esperanzaVida ?: Vida.esperanzaPais(Locale.getDefault().country)
+/** Meta de vida del "camino hacia los N años": la elegida por la persona (hasta 120) o 100. */
+fun PerfilEntity.esperanza(): Int = (esperanzaVida ?: Vida.META_DEFECTO).coerceIn(1, Vida.META_MAXIMA)
 
 private fun Post.mes(): Int = Instant.ofEpochMilli(creadoEn).atZone(ZoneId.systemDefault()).monthValue
 
@@ -70,6 +71,7 @@ fun LazyListScope.calendarioVida(
     onAbrir: (String) -> Unit,
     onPublicar: (String) -> Unit,
     onAjustes: () -> Unit,
+    onMeta: (Int) -> Unit,
 ) {
     val anioNac = perfil.anioNacimiento
     val mesNac = perfil.mesNacimiento ?: 1
@@ -97,12 +99,35 @@ fun LazyListScope.calendarioVida(
     // Años de edad 0..esperanza-1: un punto por cada uno
     val puntos = (0 until esperanza).toList()
 
+    // Reto propio: llena tu año de recuerdos (un recuerdo en cada mes del año en curso)
+    item {
+        val mesesConRecuerdo = porAnio[h.year].orEmpty().map { it.mes() }.toSet()
+        RetoAnio(h.year, h.monthValue, mesesConRecuerdo) { onPublicar("LOGRO") }
+    }
+
     item {
         Column(
             Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp))
                 .background(MaterialTheme.colorScheme.surfaceContainerLow).padding(horizontal = 14.dp, vertical = 18.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Text(stringResource(R.string.vida_camino, esperanza), style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+            Spacer(Modifier.height(6.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Vida.METAS.forEach { m ->
+                    val sel = m == esperanza
+                    Text(
+                        "$m", style = MaterialTheme.typography.labelLarge,
+                        color = if (sel) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.clip(RoundedCornerShape(50))
+                            .background(if (sel) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh)
+                            .clickable { onMeta(m) }.padding(horizontal = 12.dp, vertical = 8.dp),
+                    )
+                }
+            }
+            Spacer(Modifier.height(12.dp))
             Text(
                 stringResource(R.string.vida_anios_de, edad, esperanza), style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Black,
@@ -166,6 +191,56 @@ fun LazyListScope.calendarioVida(
     if (anio != null && anio in anioNac until anioNac + esperanza) {
         item(key = "vida-detalle-$anio") {
             DetalleAnio(anio, anio - anioNac, mesSel, porAnio[anio].orEmpty(), onSeleccion, onAbrir, onPublicar, esFuturo = anio > h.year)
+        }
+    }
+}
+
+/** "Llena tu año de recuerdos": 12 meses que se encienden cuando registras algo en ellos. */
+@Composable
+private fun RetoAnio(anio: Int, mesActual: Int, conRecuerdo: Set<Int>, onAgregar: () -> Unit) {
+    val n = conRecuerdo.size
+    val primary = MaterialTheme.colorScheme.primary
+    Column(
+        Modifier.padding(horizontal = 16.dp).fillMaxWidth().clip(RoundedCornerShape(24.dp))
+            .background(Brush.linearGradient(listOf(primary, primary.copy(alpha = 0.82f))))
+            .padding(16.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Filled.EmojiEvents, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(32.dp))
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.reto_titulo), style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.Bold)
+                Text(
+                    stringResource(if (n == 12) R.string.reto_completo else R.string.reto_progreso, n, anio),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.9f),
+                )
+            }
+        }
+        Spacer(Modifier.height(12.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            (1..12).forEach { m ->
+                val lleno = m in conRecuerdo
+                Box(
+                    Modifier.weight(1f).height(10.dp).clip(RoundedCornerShape(5.dp))
+                        .background(
+                            when {
+                                lleno -> MaterialTheme.colorScheme.secondary
+                                m <= mesActual -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.35f)
+                                else -> MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.15f)
+                            },
+                        ),
+                )
+            }
+        }
+        if (mesActual !in conRecuerdo) {
+            Spacer(Modifier.height(10.dp))
+            Text(
+                stringResource(R.string.reto_accion), style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.18f))
+                    .clickable(onClick = onAgregar).padding(horizontal = 14.dp, vertical = 10.dp),
+            )
         }
     }
 }

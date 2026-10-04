@@ -10,6 +10,11 @@ object Vida {
 
     const val ESPERANZA_MUNDIAL = 73
 
+    /** "Camino hacia los 100 años": meta de vida por defecto y máxima. */
+    const val META_DEFECTO = 100
+    const val META_MAXIMA = 120
+    val METAS = listOf(80, 90, 100, 110, 120)
+
     /**
      * Esperanza de vida al nacer aproximada por país (años, estimaciones recientes de la ONU/OMS,
      * redondeadas). Es solo un punto de partida: la persona la puede ajustar.

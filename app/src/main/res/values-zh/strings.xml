@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">畅想这一年</string>
     <string name="vida_registrar">记录一段回忆</string>
     <string name="fecha_nacimiento">出生日期</string>
-    <string name="esperanza_vida">预期寿命：%1$d 岁</string>
-    <string name="esperanza_ayuda">你所在国家的估计值：%1$d 岁。可自行调整，仅用于你的人生日历。</string>
+    <string name="esperanza_vida">人生目标：%1$d 岁</string>
+    <string name="esperanza_ayuda">你所在国家的预期寿命约 %1$d 岁。选择你的道路规划到几岁（最多 120）。</string>
     <string name="vida_anios_de">%1$d / %2$d 岁</string>
     <string name="vida_punto_ayuda">每个点代表你人生中的一年。点一下即可按月查看。</string>
+    <string name="vida_camino">迈向 %1$d 岁之路</string>
+    <string name="reto_titulo">用回忆填满你的一年</string>
+    <string name="reto_progreso">%2$d 年已有 %1$d/12 个月留下回忆</string>
+    <string name="reto_completo">圆满的一年！%2$d 年的 12 个月都有回忆（%1$d/12）。</string>
+    <string name="reto_accion">添加本月的回忆</string>
 </resources>

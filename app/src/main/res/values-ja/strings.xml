@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">この年を描く</string>
     <string name="vida_registrar">思い出を記録</string>
     <string name="fecha_nacimiento">生年月日</string>
-    <string name="esperanza_vida">平均寿命：%1$d歳</string>
-    <string name="esperanza_ayuda">あなたの国の推定値：%1$d歳。自由に調整できます。人生カレンダーにのみ使われます。</string>
+    <string name="esperanza_vida">人生の目標：%1$d歳</string>
+    <string name="esperanza_ayuda">あなたの国の平均寿命はおよそ%1$d歳。何歳までの道を描くか選びましょう（最大120）。</string>
     <string name="vida_anios_de">%1$d / %2$d 歳</string>
     <string name="vida_punto_ayuda">1つの点が人生の1年です。タップすると月ごとに見られます。</string>
+    <string name="vida_camino">%1$d歳への道</string>
+    <string name="reto_titulo">1年を思い出で満たそう</string>
+    <string name="reto_progreso">%2$d年は12か月中%1$dか月に思い出あり</string>
+    <string name="reto_completo">1年達成！%2$d年の12か月すべてに思い出があります（%1$d/12）。</string>
+    <string name="reto_accion">今月の思い出を追加</string>
 </resources>

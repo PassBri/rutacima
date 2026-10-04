@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">Dieses Jahr erträumen</string>
     <string name="vida_registrar">Erinnerung festhalten</string>
     <string name="fecha_nacimiento">Geburtsdatum</string>
-    <string name="esperanza_vida">Lebenserwartung: %1$d Jahre</string>
-    <string name="esperanza_ayuda">Schätzung für dein Land: %1$d Jahre. Passe sie an, wenn du willst; sie dient nur deinem Lebenskalender.</string>
+    <string name="esperanza_vida">Lebensziel: %1$d Jahre</string>
+    <string name="esperanza_ayuda">Geschätzte Lebenserwartung in deinem Land: %1$d Jahre. Wähle, bis zu welchem Alter dein Weg reicht (max. 120).</string>
     <string name="vida_anios_de">%1$d / %2$d JAHRE</string>
     <string name="vida_punto_ayuda">Jeder Punkt ist ein Jahr deines Lebens. Tippe auf einen, um ihn Monat für Monat zu sehen.</string>
+    <string name="vida_camino">Der Weg zu %1$d Jahren</string>
+    <string name="reto_titulo">Füll dein Jahr mit Erinnerungen</string>
+    <string name="reto_progreso">%1$d von 12 Monaten %2$d mit einer Erinnerung</string>
+    <string name="reto_completo">Jahr voll! Alle 12 Monate %2$d haben eine Erinnerung (%1$d/12).</string>
+    <string name="reto_accion">Erinnerung dieses Monats hinzufügen</string>
 </resources>

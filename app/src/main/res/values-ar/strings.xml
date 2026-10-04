@@ -548,8 +548,13 @@
     <string name="vida_sonar_anio">احلم بهذا العام</string>
     <string name="vida_registrar">سجّل ذكرى</string>
     <string name="fecha_nacimiento">تاريخ الميلاد</string>
-    <string name="esperanza_vida">متوسط العمر المتوقع: %1$d سنة</string>
-    <string name="esperanza_ayuda">التقدير لبلدك: %1$d سنة. عدّله إن شئت؛ يُستخدم فقط في تقويم حياتك.</string>
+    <string name="esperanza_vida">هدف العمر: %1$d عامًا</string>
+    <string name="esperanza_ayuda">متوسط العمر المتوقع في بلدك نحو %1$d عامًا. اختر إلى أي عمر يمتد طريقك (حتى 120).</string>
     <string name="vida_anios_de">%1$d / %2$d سنة</string>
     <string name="vida_punto_ayuda">كل نقطة سنة من حياتك. المسها لتراها شهرًا بشهر.</string>
+    <string name="vida_camino">الطريق نحو %1$d عامًا</string>
+    <string name="reto_titulo">املأ عامك بالذكريات</string>
+    <string name="reto_progreso">%1$d من 12 شهرًا في %2$d فيها ذكرى</string>
+    <string name="reto_completo">عام مكتمل! كل أشهر %2$d الاثني عشر فيها ذكرى (%1$d/12).</string>
+    <string name="reto_accion">أضف ذكرى هذا الشهر</string>
 </resources>
