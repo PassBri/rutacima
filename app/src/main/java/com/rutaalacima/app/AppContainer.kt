@@ -37,5 +37,6 @@ class AppContainer(context: Context) {
     val planAnual = PlanAnualRepository(db)
     val cascada = com.rutaalacima.app.data.CascadaRepository(planificador, planAnual)
     val social = SocialRepository(context, db, supabase)
+    val frases = com.rutaalacima.app.data.frases.FrasesRepository(context)
     val coach = CoachRepository(context, db, supabase, bancos)
 }

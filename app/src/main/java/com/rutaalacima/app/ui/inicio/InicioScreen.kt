@@ -1,5 +1,25 @@
 package com.rutaalacima.app.ui.inicio
 
+import androidx.compose.foundation.layout.offset
+import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.TextButton
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
+import java.time.LocalDate
+import kotlinx.coroutines.flow.StateFlow
+import com.rutaalacima.app.ui.components.rutaViewModel
+import com.rutaalacima.app.seguridad.ModoBloqueo
+import com.rutaalacima.app.seguridad.Bloqueo
+import com.rutaalacima.app.domain.model.FrasesDelDia
+import com.rutaalacima.app.domain.model.FraseLibro
+import com.rutaalacima.app.AppContainer
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.ViewModel
 import com.rutaalacima.app.ui.theme.EstiloCita
 import com.rutaalacima.app.ui.theme.hojaPapel
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -68,129 +88,237 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 
-/**
- * Frases del senderista tomadas de los libros de Ruta a la Cima, con el libro de origen.
- * Cada vez que se abre la app aparece una distinta y llama a dar el paso de hoy.
- */
-private val FRASES = listOf(
-    R.string.inicio_frase_1 to "Descubre tu Cumbre Personal",
-    R.string.inicio_frase_2 to "El Viaje Transformativo",
-    R.string.inicio_frase_3 to "Guía de Caídas",
-    R.string.inicio_frase_4 to "Descubre tu Cumbre Personal",
-    R.string.inicio_frase_5 to "Cuando te pierdes en la niebla",
-    R.string.inicio_frase_6 to "Desde la Cima",
-    R.string.inicio_frase_7 to "Diagnóstico Personal",
-    R.string.inicio_frase_8 to "Los 6 Ejes de tu Cumbre",
-    R.string.inicio_frase_9 to "El Viaje Transformativo",
-    R.string.inicio_frase_10 to "Portales y Transiciones",
-    R.string.inicio_frase_11 to "Campamento Base",
-    R.string.inicio_frase_12 to "Guía de Caídas",
-)
+class InicioViewModel(private val c: AppContainer) : ViewModel() {
+    var frase by mutableStateOf<FraseLibro?>(null)
+        private set
+    val indice = FrasesDelDia.indice(LocalDate.now())
+    val desbloqueadas: StateFlow<Set<Int>> = c.frases.desbloqueadas
+
+    init { viewModelScope.launch { frase = runCatching { c.frases.delDia() }.getOrNull() } }
+
+    fun abrir() = c.frases.desbloquear()
+}
+
+/** Estado del sello de la frase del día. */
+private enum class Sello { CERRADO, CLAVE, ABIERTO }
 
 /**
- * Ventana de inicio: el sello de cera cae sobre la hoja de papel con su anillo dorado girando,
- * aparece el nombre y luego un mensaje de viaje del senderista, tomado de los libros, con un
- * botón que invita a dar el paso de hoy. Continúa sola a los 7 s o al tocar la pantalla.
+ * Ventana de inicio: el sello de cera cae sobre la hoja de papel con su anillo dorado, aparece
+ * el nombre y la frase del día (una de 365, tomadas de los libros) cerrada con el sello. La
+ * persona rompe el sello con su rostro o su huella (lo verifica el teléfono), con su clave
+ * propia o con un toque, según lo que haya elegido en Ajustes. Entonces la frase se revela y
+ * aparece el botón para dar el paso de hoy.
  */
 @Composable
 fun InicioScreen(onTerminar: () -> Unit) {
-    val sello = remember { Animatable(0f) }
+    val vm = rutaViewModel { InicioViewModel(it) }
+    val ctx = LocalContext.current
+    val modo = remember { Bloqueo.modo(ctx) }
+    val desbloqueadas by vm.desbloqueadas.collectAsStateWithLifecycle()
+    var sello by rememberSaveable { mutableStateOf(Sello.CERRADO) }
+    var clave by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
+
+    val entrada = remember { Animatable(0f) }
     val titulo = remember { Animatable(0f) }
-    val frase = remember { Animatable(0f) }
-    val accion = remember { Animatable(0f) }
+    val tarjeta = remember { Animatable(0f) }
+    val rotura = remember { Animatable(if (sello == Sello.ABIERTO) 1f else 0f) }
     val salida = remember { Animatable(1f) }
-    // Una frase distinta en cada arranque
-    val (fraseRes, libro) = remember { FRASES.random() }
-    var saliendo by remember { mutableStateOf(false) }
     val alcance = rememberCoroutineScope()
+    var saliendo by remember { mutableStateOf(false) }
     val salir: () -> Unit = {
-        if (!saliendo) {
-            saliendo = true
-            alcance.launch { salida.animateTo(0f, tween(350)); onTerminar() }
+        if (!saliendo) { saliendo = true; alcance.launch { salida.animateTo(0f, tween(350)); onTerminar() } }
+    }
+    val abrir: () -> Unit = {
+        vm.abrir(); error = null; sello = Sello.ABIERTO
+        alcance.launch { rotura.animateTo(1f, tween(900, easing = FastOutSlowInEasing)) }
+    }
+    val msgError = stringResource(R.string.biometria_error, "%s")
+    val tituloBio = stringResource(R.string.biometria_titulo)
+    val subBio = stringResource(R.string.biometria_sub)
+    val romper: () -> Unit = {
+        when (modo) {
+            ModoBloqueo.TOQUE -> abrir()
+            ModoBloqueo.CLAVE -> sello = Sello.CLAVE
+            ModoBloqueo.BIOMETRIA -> {
+                val act = Bloqueo.actividad(ctx)
+                if (act == null) abrir()
+                else Bloqueo.pedirBiometria(act, tituloBio, subBio, onExito = abrir, onError = { error = if (it.isBlank()) null else msgError.replace("%s", it) })
+            }
         }
     }
 
     LaunchedEffect(Unit) {
         coroutineScope {
             listOf(
-                async { sello.animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)) },
-                async { delay(450); titulo.animateTo(1f, tween(500, easing = FastOutSlowInEasing)) },
-                async { delay(1000); frase.animateTo(1f, tween(900, easing = FastOutSlowInEasing)) },
-                async { delay(1900); accion.animateTo(1f, tween(500)) },
+                async { entrada.animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow)) },
+                async { delay(400); titulo.animateTo(1f, tween(500, easing = FastOutSlowInEasing)) },
+                async { delay(800); tarjeta.animateTo(1f, tween(700, easing = FastOutSlowInEasing)) },
             ).awaitAll()
         }
-        delay(5000)
-        salir()
+        // Rostro/huella: el diálogo del sistema aparece solo, sin tener que buscar el botón
+        if (sello == Sello.CERRADO && modo == ModoBloqueo.BIOMETRIA) romper()
     }
+    LaunchedEffect(sello) { if (sello == Sello.ABIERTO) { delay(9000); salir() } }
+
     val giro = rememberInfiniteTransition(label = "giro")
     val angulo by giro.animateFloat(0f, 360f, infiniteRepeatable(tween(14_000, easing = LinearEasing), RepeatMode.Restart), label = "angulo")
     val oro = MaterialTheme.colorScheme.secondary
 
-    Box(
-        Modifier.fillMaxSize().fondoPapel().graphicsLayer { alpha = salida.value }
-            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { salir() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.padding(horizontal = 28.dp)) {
+    Box(Modifier.fillMaxSize().fondoPapel().graphicsLayer { alpha = salida.value }, contentAlignment = Alignment.Center) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 24.dp).verticalScroll(rememberScrollState()),
+        ) {
+            Spacer(Modifier.height(48.dp))
+            // Sello con el anillo dorado (más pequeño cuando el teclado está abierto)
+            val tam = if (sello == Sello.CLAVE) 96.dp else 150.dp
             Box(
-                Modifier.size(196.dp).graphicsLayer {
-                    val e = 0.6f + 0.4f * sello.value
-                    scaleX = e; scaleY = e; alpha = sello.value.coerceIn(0f, 1f)
+                Modifier.size(tam + 30.dp).graphicsLayer {
+                    val e = 0.6f + 0.4f * entrada.value
+                    scaleX = e; scaleY = e; alpha = entrada.value.coerceIn(0f, 1f)
                 },
                 contentAlignment = Alignment.Center,
             ) {
-                // Anillo dorado punteado que gira alrededor del sello
                 Canvas(Modifier.fillMaxSize().rotate(angulo)) {
                     drawCircle(oro, radius = size.minDimension / 2 - 4f,
                         style = Stroke(width = 5f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 22f)), cap = androidx.compose.ui.graphics.StrokeCap.Round))
                 }
-                // Sello de cera de Ruta a la Cima (con su propia sombra y relieve)
-                Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(162.dp))
+                Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(tam))
+            }
+            Spacer(Modifier.height(12.dp))
+            Text(
+                stringResource(R.string.app_name), fontSize = 36.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.graphicsLayer { alpha = titulo.value; translationY = (1 - titulo.value) * 30f },
+            )
+            Spacer(Modifier.height(18.dp))
+
+            // La frase del día, sellada con cera
+            Box(
+                Modifier.fillMaxWidth().graphicsLayer { alpha = tarjeta.value; translationY = (1 - tarjeta.value) * 28f },
+                contentAlignment = Alignment.Center,
+            ) {
+                Column(
+                    Modifier.fillMaxWidth().hojaPapel(elevacion = 4.dp).padding(horizontal = 22.dp, vertical = 18.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(stringResource(R.string.frase_dia_n, vm.indice + 1), style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(8.dp))
+                    val f = vm.frase
+                    Box(contentAlignment = Alignment.Center) {
+                        // Texto real (se revela al romper el sello)
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.graphicsLayer { alpha = rotura.value }) {
+                            Text(
+                                if (f != null) "“${f.t}”" else "", style = EstiloCita.copy(fontSize = 21.sp, lineHeight = 29.sp),
+                                color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center,
+                            )
+                            Spacer(Modifier.height(8.dp))
+                            if (f != null) Text("— ${f.libro}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        // Renglones ocultos mientras está sellada
+                        if (rotura.value < 1f) {
+                            Column(
+                                Modifier.graphicsLayer { alpha = 1f - rotura.value },
+                                verticalArrangement = Arrangement.spacedBy(10.dp), horizontalAlignment = Alignment.CenterHorizontally,
+                            ) {
+                                listOf(0.9f, 1f, 0.75f).forEach { w ->
+                                    Box(Modifier.fillMaxWidth(w).height(12.dp).clip(RoundedCornerShape(6.dp))
+                                        .background(MaterialTheme.colorScheme.surfaceVariant))
+                                }
+                            }
+                        }
+                    }
+                }
+                // Sello de cera sobre la frase: se rompe (crece, gira y se desvanece) al abrirla
+                if (rotura.value < 1f) {
+                    Image(
+                        painterResource(R.drawable.logo_sello), stringResource(R.string.romper_sello),
+                        Modifier.offset(y = 14.dp).size(84.dp).graphicsLayer {
+                            val r = rotura.value
+                            scaleX = 1f + 0.8f * r; scaleY = 1f + 0.8f * r; rotationZ = 28f * r; alpha = 1f - r
+                        }.shadow(10.dp, CircleShape, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+                            .clip(CircleShape)
+                            .clickable(enabled = sello == Sello.CERRADO) { romper() },
+                    )
+                }
             }
             Spacer(Modifier.height(18.dp))
-            Text(
-                stringResource(R.string.app_name), fontSize = 40.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.graphicsLayer { alpha = titulo.value; translationY = (1 - titulo.value) * 40f },
-            )
-            Spacer(Modifier.height(22.dp))
-            // Mensaje de viaje del senderista, en una hoja de papel
-            Column(
-                Modifier.fillMaxWidth()
-                    .graphicsLayer { alpha = frase.value; translationY = (1 - frase.value) * 28f }
-                    .hojaPapel(elevacion = 4.dp)
-                    .padding(horizontal = 22.dp, vertical = 20.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                Text("“", fontSize = 48.sp, lineHeight = 30.sp, fontWeight = FontWeight.Black, color = oro, modifier = Modifier.height(30.dp))
-                Text(
-                    stringResource(fraseRes), style = EstiloCita.copy(fontSize = 22.sp, lineHeight = 30.sp),
-                    color = MaterialTheme.colorScheme.onSurface, textAlign = TextAlign.Center,
-                )
-                Spacer(Modifier.height(10.dp))
-                Text("— $libro", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+
+            when (sello) {
+                Sello.CERRADO -> {
+                    Text(
+                        stringResource(
+                            when (modo) {
+                                ModoBloqueo.BIOMETRIA -> R.string.frase_sellada_rostro
+                                ModoBloqueo.CLAVE -> R.string.frase_sellada_clave
+                                ModoBloqueo.TOQUE -> R.string.frase_sellada_toque
+                            },
+                        ),
+                        style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center,
+                    )
+                    error?.let { Text(it, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center) }
+                    Spacer(Modifier.height(14.dp))
+                    Button(
+                        onClick = romper,
+                        modifier = Modifier.shadow(6.dp, RoundedCornerShape(50), ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
+                        contentPadding = PaddingValues(horizontal = 26.dp, vertical = 14.dp),
+                    ) {
+                        Icon(
+                            when (modo) {
+                                ModoBloqueo.BIOMETRIA -> Icons.Filled.Face
+                                ModoBloqueo.CLAVE -> Icons.Filled.Lock
+                                ModoBloqueo.TOQUE -> Icons.Filled.TouchApp
+                            },
+                            null,
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        Text(stringResource(R.string.romper_sello), style = MaterialTheme.typography.titleMedium)
+                    }
+                    if (modo == ModoBloqueo.BIOMETRIA && Bloqueo.tieneClave(ctx)) {
+                        TextButton(onClick = { sello = Sello.CLAVE }) { Text(stringResource(R.string.usar_clave)) }
+                    }
+                }
+                Sello.CLAVE -> {
+                    val incorrecta = stringResource(R.string.clave_incorrecta)
+                    val espera = stringResource(R.string.clave_espera, (Bloqueo.ESPERA_MS / 1000).toInt())
+                    PinPad(
+                        titulo = stringResource(R.string.clave_titulo), valor = clave, onCambio = { clave = it; error = null },
+                        onConfirmar = {
+                            when {
+                                Bloqueo.esperaRestante(ctx) > 0 -> error = espera
+                                Bloqueo.verificarClave(ctx, clave) -> { clave = ""; abrir() }
+                                else -> { clave = ""; error = if (Bloqueo.esperaRestante(ctx) > 0) espera else incorrecta }
+                            }
+                        },
+                        error = error,
+                    )
+                }
+                Sello.ABIERTO -> {
+                    Text(stringResource(R.string.frase_contador, desbloqueadas.size), style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.graphicsLayer { alpha = rotura.value })
+                    Spacer(Modifier.height(14.dp))
+                    Button(
+                        onClick = salir,
+                        modifier = Modifier.graphicsLayer { alpha = rotura.value }
+                            .shadow(6.dp, RoundedCornerShape(50), ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
+                        contentPadding = PaddingValues(horizontal = 28.dp, vertical = 14.dp),
+                    ) {
+                        Icon(Icons.Filled.Hiking, null)
+                        Spacer(Modifier.width(10.dp))
+                        Text(stringResource(R.string.inicio_accion), style = MaterialTheme.typography.titleMedium)
+                    }
+                }
             }
-            Spacer(Modifier.height(24.dp))
-            // Llamado a la acción
-            Button(
-                onClick = salir,
-                modifier = Modifier.graphicsLayer { alpha = accion.value; scaleX = 0.9f + 0.1f * accion.value; scaleY = 0.9f + 0.1f * accion.value }
-                    .shadow(6.dp, RoundedCornerShape(50), ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
-                contentPadding = PaddingValues(horizontal = 28.dp, vertical = 14.dp),
-            ) {
-                Icon(Icons.Filled.Hiking, null)
-                Spacer(Modifier.width(10.dp))
-                Text(stringResource(R.string.inicio_accion), style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(28.dp))
+            // Firma de la serie
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.navigationBarsPadding().graphicsLayer { alpha = titulo.value }) {
+                Image(painterResource(R.drawable.logo_sello), null, Modifier.size(26.dp))
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.inicio_serie), style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.5.sp)
             }
-        }
-        // Firma de la serie
-        Row(
-            Modifier.align(Alignment.BottomCenter).navigationBarsPadding().padding(bottom = 24.dp).graphicsLayer { alpha = titulo.value },
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(26.dp))
-            Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.inicio_serie), style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.5.sp)
+            Spacer(Modifier.height(16.dp))
         }
     }
 }

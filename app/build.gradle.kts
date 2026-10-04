@@ -85,6 +85,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.biometric)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

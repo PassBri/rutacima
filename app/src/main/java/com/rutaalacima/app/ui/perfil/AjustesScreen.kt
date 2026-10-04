@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.perfil
 
+import com.rutaalacima.app.seguridad.ModoBloqueo
+import com.rutaalacima.app.seguridad.Bloqueo
 import com.rutaalacima.app.ui.theme.EstiloActual
 import com.rutaalacima.app.ui.theme.EstiloPapel
 import com.rutaalacima.app.ui.theme.fondoPapel
@@ -134,7 +136,7 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AjustesScreen(onBack: () -> Unit) {
+fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}) {
     val vm = rutaViewModel { AjustesViewModel(it) }
     val sesion by vm.sesion.collectAsStateWithLifecycle()
     val idiomaActual = AppCompatDelegate.getApplicationLocales().toLanguageTags().substringBefore('-').ifBlank {
@@ -173,6 +175,46 @@ fun AjustesScreen(onBack: () -> Unit) {
                     { stringResource(if (it == EstiloPapel.ANTIGUO) R.string.estilo_antiguo else R.string.estilo_pastel) },
                     { EstiloActual.cambiar(ctx, it) },
                 )
+            }
+
+            item { SectionTitle(stringResource(R.string.bloqueo_titulo)) }
+            item {
+                val ctx = LocalContext.current
+                val hayBiometria = remember { Bloqueo.biometriaDisponible(ctx) }
+                var modo by remember { mutableStateOf(Bloqueo.modo(ctx)) }
+                var creando by remember { mutableStateOf(false) }
+                RutaCard {
+                    Text(stringResource(R.string.bloqueo_ayuda), style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    ChipSelector(
+                        null, ModoBloqueo.entries.filter { it != ModoBloqueo.BIOMETRIA || hayBiometria }, modo,
+                        {
+                            stringResource(
+                                when (it) {
+                                    ModoBloqueo.BIOMETRIA -> R.string.bloqueo_rostro
+                                    ModoBloqueo.CLAVE -> R.string.bloqueo_clave
+                                    ModoBloqueo.TOQUE -> R.string.bloqueo_toque
+                                },
+                            )
+                        },
+                        { nuevo ->
+                            if (nuevo == ModoBloqueo.CLAVE && !Bloqueo.tieneClave(ctx)) creando = true
+                            else { modo = nuevo; Bloqueo.elegir(ctx, nuevo) }
+                        },
+                    )
+                    if (!hayBiometria) Text(stringResource(R.string.bloqueo_sin_biometria), style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Row {
+                        if (Bloqueo.tieneClave(ctx)) TextButton(onClick = { creando = true }) { Text(stringResource(R.string.cambiar_clave)) }
+                        TextButton(onClick = onFrases) { Text(stringResource(R.string.mis_frases)) }
+                    }
+                }
+                if (creando) {
+                    CrearClaveDialog(
+                        onListo = { c -> Bloqueo.guardarClave(ctx, c); Bloqueo.elegir(ctx, ModoBloqueo.CLAVE); modo = ModoBloqueo.CLAVE; creando = false },
+                        onCancelar = { creando = false },
+                    )
+                }
             }
 
             item { SectionTitle(stringResource(R.string.recordatorio_titulo)) }
@@ -267,4 +309,32 @@ fun AjustesScreen(onBack: () -> Unit) {
             }
         }
     }
+}
+
+/** Crear o cambiar la clave propia: se escribe dos veces y se guarda solo su hash. */
+@Composable
+private fun CrearClaveDialog(onListo: (String) -> Unit, onCancelar: () -> Unit) {
+    var primera by remember { mutableStateOf<String?>(null) }
+    var valor by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
+    val noCoincide = stringResource(R.string.clave_no_coincide)
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onCancelar,
+        confirmButton = {},
+        dismissButton = { TextButton(onClick = onCancelar) { Text(stringResource(R.string.cancelar)) } },
+        text = {
+            com.rutaalacima.app.ui.inicio.PinPad(
+                titulo = stringResource(if (primera == null) R.string.clave_nueva else R.string.clave_repite),
+                valor = valor, onCambio = { valor = it; error = null }, error = error,
+                onConfirmar = {
+                    val p = primera
+                    when {
+                        p == null -> { primera = valor; valor = "" }
+                        p == valor -> onListo(valor)
+                        else -> { primera = null; valor = ""; error = noCoincide }
+                    }
+                },
+            )
+        },
+    )
 }

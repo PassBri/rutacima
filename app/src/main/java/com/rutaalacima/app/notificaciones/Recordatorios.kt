@@ -87,7 +87,7 @@ object Recordatorios {
             val meta = (perfil.esperanzaVida ?: Vida.META_DEFECTO).coerceIn(1, Vida.META_MAXIMA)
             val r = RecordatorioVida.calcular(anio, perfil.mesNacimiento ?: 1, meta, hoy)
             c.getString(R.string.recordatorio_dia_n, nf.format(r.diaDeVida)) to
-                c.getString(fraseRecordatorio(r.frase)) + "\n" + c.getString(R.string.recordatorio_quedan, nf.format(r.diasRestantes), r.meta)
+                c.getString(R.string.recordatorio_frase_sellada) + "\n" + c.getString(R.string.recordatorio_quedan, nf.format(r.diasRestantes), r.meta)
         } ?: (c.getString(R.string.recordatorio_titulo) to c.getString(fraseRecordatorio((hoy.toEpochDay() % RecordatorioVida.TOTAL_FRASES).toInt())))
         val abrir = PendingIntent.getActivity(
             c, 0, Intent(c, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),

@@ -95,6 +95,7 @@ object Rutas {
     const val PUBLICAR = "publicar/{tipo}"
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
+    const val FRASES = "frases"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -252,6 +253,7 @@ private fun AppPrincipal() {
                     onPublicar = { nav.navigate(Rutas.publicar(it)) },
                     onEvaluarEjes = { nav.navigate(Rutas.EJES) },
                     onAjustes = { nav.navigate(Rutas.AJUSTES) },
+                    onFrases = { nav.navigate(Rutas.FRASES) },
                 )
             }
             composable(Rutas.WORKBOOK, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
@@ -290,7 +292,8 @@ private fun AppPrincipal() {
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 PostDetalleScreen(postId = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
             }
-            composable(Rutas.AJUSTES) { AjustesScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.AJUSTES) { AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }) }
+            composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
     }
 }

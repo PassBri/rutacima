@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.perfil
 
+import androidx.compose.material.icons.filled.FormatQuote
 import kotlinx.coroutines.launch
 import com.rutaalacima.app.util.hoy
 import androidx.compose.runtime.mutableStateOf
@@ -75,6 +76,7 @@ class PerfilViewModel(private val c: AppContainer) : ViewModel() {
     val evaluacion: StateFlow<EvaluacionEjesEntity?> = estado(c.ejes.ultima, null)
     val cascada: StateFlow<Cascada?> = estado(c.cascada.cascada, null)
     val usuario: String = c.social.usuarioPropio()
+    val frasesAbiertas: StateFlow<Set<Int>> = c.frases.desbloqueadas
 }
 
 /** Perfil: quién soy, mi cumbre, mis publicaciones, mi vida por años, mi vision board y mis ejes. */
@@ -85,6 +87,7 @@ fun PerfilScreen(
     onPublicar: (String) -> Unit,
     onEvaluarEjes: () -> Unit,
     onAjustes: () -> Unit,
+    onFrases: () -> Unit = {},
 ) {
     val vm = rutaViewModel { PerfilViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -118,7 +121,13 @@ fun PerfilScreen(
                 }
             }
             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                val abiertas by vm.frasesAbiertas.collectAsStateWithLifecycle()
                 Text(perfil.nombre.ifBlank { stringResource(R.string.senderista) }, style = MaterialTheme.typography.titleLarge)
+                androidx.compose.material3.TextButton(onClick = onFrases, contentPadding = PaddingValues(0.dp)) {
+                    Icon(Icons.Filled.FormatQuote, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
+                    Spacer(Modifier.width(6.dp))
+                    Text(stringResource(R.string.mis_frases_n, abiertas.size), style = MaterialTheme.typography.labelLarge)
+                }
                 if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 if (perfil.cumbreFrase.isNotBlank()) Row(Modifier.padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Filled.Terrain, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
