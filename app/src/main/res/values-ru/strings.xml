@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">Твой календарь жизни</string>
     <string name="vida_sin_nacimiento_texto">Добавь дату рождения и увидишь жизнь по месяцам: прожитое, записанное и всё, что ещё предстоит покорить.</string>
     <string name="configurar_nacimiento">Добавить дату рождения</string>
-    <string name="vida_edad">лет · ожидаемая продолжительность жизни: %1$d</string>
     <string name="vida_resumen">Ты прожил %1$d месяцев. Впереди примерно %2$d.</string>
-    <string name="vida_frase">Каждый месяц важен: сделай его незабываемым.</string>
-    <string name="vida_decada">%1$d–%2$d лет</string>
     <string name="vida_vivido">Прожито</string>
     <string name="vida_con_registro">С записями</string>
     <string name="vida_por_vivir">Впереди</string>
-    <string name="vida_anios_edad">%1$d лет</string>
     <string name="vida_anio_titulo">%1$d · в %2$d лет</string>
     <string name="vida_anio_futuro">Этот год ещё не наступил. Представь, каким он должен быть, и добавь его в свою визию.</string>
     <string name="vida_anio_vacio">Здесь пока пусто. Добавь фото и достижения, чтобы помнить, что ты сделал.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">Дата рождения</string>
     <string name="esperanza_vida">Ожидаемая продолжительность жизни: %1$d лет</string>
     <string name="esperanza_ayuda">Оценка для твоей страны: %1$d лет. Можно изменить; используется только для календаря жизни.</string>
+    <string name="vida_anios_de">%1$d / %2$d ЛЕТ</string>
+    <string name="vida_punto_ayuda">Каждая точка — год твоей жизни. Нажми, чтобы увидеть его по месяцам.</string>
 </resources>

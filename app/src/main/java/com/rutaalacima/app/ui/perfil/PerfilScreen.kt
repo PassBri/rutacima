@@ -91,7 +91,6 @@ fun PerfilScreen(
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
     // Calendario de vida: década, año y mes seleccionados
-    var decadaSel by rememberSaveable { mutableStateOf<Int?>(null) }
     var anioSel by rememberSaveable { mutableStateOf<Int?>(hoy().year) }
     var mesSel by rememberSaveable { mutableStateOf<Int?>(null) }
     val logros = posts.count { it.tipo == TipoPost.LOGRO }
@@ -135,8 +134,7 @@ fun PerfilScreen(
         when (tab) {
             0 -> cuadricula(posts, onAbrirPost, vacio = R.string.sin_publicaciones) { onPublicar("LOGRO") }
             1 -> calendarioVida(
-                perfil, posts, decadaSel, anioSel, mesSel,
-                onDecada = { decadaSel = it },
+                perfil, posts, anioSel, mesSel,
                 onSeleccion = { a, m -> if (a == anioSel && m == null && mesSel == null) anioSel = null else { anioSel = a; mesSel = m } },
                 onAbrir = onAbrirPost, onPublicar = onPublicar, onAjustes = onAjustes,
             )

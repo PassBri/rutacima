@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">Dein Lebenskalender</string>
     <string name="vida_sin_nacimiento_texto">Gib dein Geburtsdatum ein und sieh dein Leben Monat für Monat: was du gelebt und festgehalten hast und was noch vor dir liegt.</string>
     <string name="configurar_nacimiento">Geburtsdatum hinzufügen</string>
-    <string name="vida_edad">Jahre · Lebenserwartung: %1$d</string>
     <string name="vida_resumen">Du hast %1$d Monate gelebt. Etwa %2$d liegen noch vor dir.</string>
-    <string name="vida_frase">Jeder Monat zählt: Mach ihn unvergesslich.</string>
-    <string name="vida_decada">%1$d–%2$d Jahre</string>
     <string name="vida_vivido">Gelebt</string>
     <string name="vida_con_registro">Festgehalten</string>
     <string name="vida_por_vivir">Kommt noch</string>
-    <string name="vida_anios_edad">%1$d J.</string>
     <string name="vida_anio_titulo">%1$d · mit %2$d Jahren</string>
     <string name="vida_anio_futuro">Dieses Jahr ist noch nicht da. Stell dir vor, wie es sein soll, und füge es deiner Vision hinzu.</string>
     <string name="vida_anio_vacio">Hier ist noch nichts festgehalten. Füge Fotos und Erfolge hinzu, um dich zu erinnern.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">Geburtsdatum</string>
     <string name="esperanza_vida">Lebenserwartung: %1$d Jahre</string>
     <string name="esperanza_ayuda">Schätzung für dein Land: %1$d Jahre. Passe sie an, wenn du willst; sie dient nur deinem Lebenskalender.</string>
+    <string name="vida_anios_de">%1$d / %2$d JAHRE</string>
+    <string name="vida_punto_ayuda">Jeder Punkt ist ein Jahr deines Lebens. Tippe auf einen, um ihn Monat für Monat zu sehen.</string>
 </resources>

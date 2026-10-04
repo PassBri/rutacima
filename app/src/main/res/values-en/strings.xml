@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">Your life calendar</string>
     <string name="vida_sin_nacimiento_texto">Add your date of birth to see your life month by month: what you’ve lived, what you’ve recorded and everything left to climb.</string>
     <string name="configurar_nacimiento">Add my date of birth</string>
-    <string name="vida_edad">years old · life expectancy: %1$d</string>
     <string name="vida_resumen">You’ve lived %1$d months. About %2$d are still ahead of you.</string>
-    <string name="vida_frase">Every month counts: make it memorable.</string>
-    <string name="vida_decada">Ages %1$d–%2$d</string>
     <string name="vida_vivido">Lived</string>
     <string name="vida_con_registro">Recorded</string>
     <string name="vida_por_vivir">Ahead</string>
-    <string name="vida_anios_edad">age %1$d</string>
     <string name="vida_anio_titulo">%1$d · age %2$d</string>
     <string name="vida_anio_futuro">This year hasn’t arrived yet. Imagine how you want it to be and add it to your vision.</string>
     <string name="vida_anio_vacio">Nothing recorded here yet. Add photos and achievements to remember what you did.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">Date of birth</string>
     <string name="esperanza_vida">Life expectancy: %1$d years</string>
     <string name="esperanza_ayuda">Estimate for your country: %1$d years. Adjust it if you like; it’s only used for your life calendar.</string>
+    <string name="vida_anios_de">%1$d / %2$d YEARS</string>
+    <string name="vida_punto_ayuda">Each dot is one year of your life. Tap one to see it month by month.</string>
 </resources>

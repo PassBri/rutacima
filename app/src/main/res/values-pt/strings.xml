@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">Seu calendário de vida</string>
     <string name="vida_sin_nacimiento_texto">Adicione sua data de nascimento e veja sua vida mês a mês: o que viveu, o que registrou e tudo o que ainda falta escalar.</string>
     <string name="configurar_nacimiento">Adicionar data de nascimento</string>
-    <string name="vida_edad">anos · expectativa de vida: %1$d</string>
     <string name="vida_resumen">Você viveu %1$d meses. Restam cerca de %2$d pela frente.</string>
-    <string name="vida_frase">Cada mês conta: torne-o memorável.</string>
-    <string name="vida_decada">%1$d–%2$d anos</string>
     <string name="vida_vivido">Vivido</string>
     <string name="vida_con_registro">Com registro</string>
     <string name="vida_por_vivir">Por viver</string>
-    <string name="vida_anios_edad">%1$d anos</string>
     <string name="vida_anio_titulo">%1$d · aos %2$d anos</string>
     <string name="vida_anio_futuro">Este ano ainda não chegou. Imagine como você quer que ele seja e adicione à sua visão.</string>
     <string name="vida_anio_vacio">Ainda não há registros aqui. Adicione fotos e conquistas para lembrar o que você fez.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">Data de nascimento</string>
     <string name="esperanza_vida">Expectativa de vida: %1$d anos</string>
     <string name="esperanza_ayuda">Estimativa para seu país: %1$d anos. Ajuste se quiser; é usada apenas no seu calendário de vida.</string>
+    <string name="vida_anios_de">%1$d / %2$d ANOS</string>
+    <string name="vida_punto_ayuda">Cada ponto é um ano da sua vida. Toque em um para vê-lo mês a mês.</string>
 </resources>

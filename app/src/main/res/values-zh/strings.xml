@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">你的人生日历</string>
     <string name="vida_sin_nacimiento_texto">添加你的出生日期，按月查看你的人生：已经走过的、记录下的，以及还要攀登的一切。</string>
     <string name="configurar_nacimiento">添加出生日期</string>
-    <string name="vida_edad">岁 · 预期寿命：%1$d</string>
     <string name="vida_resumen">你已经走过 %1$d 个月，前方还有大约 %2$d 个月。</string>
-    <string name="vida_frase">每个月都重要：让它值得铭记。</string>
-    <string name="vida_decada">%1$d–%2$d 岁</string>
     <string name="vida_vivido">已度过</string>
     <string name="vida_con_registro">有记录</string>
     <string name="vida_por_vivir">未来</string>
-    <string name="vida_anios_edad">%1$d 岁</string>
     <string name="vida_anio_titulo">%1$d · %2$d 岁</string>
     <string name="vida_anio_futuro">这一年还没到来。想象你希望它的样子，把它加入你的愿景。</string>
     <string name="vida_anio_vacio">这里还没有记录。添加照片和成就，记住你做过的事。</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">出生日期</string>
     <string name="esperanza_vida">预期寿命：%1$d 岁</string>
     <string name="esperanza_ayuda">你所在国家的估计值：%1$d 岁。可自行调整，仅用于你的人生日历。</string>
+    <string name="vida_anios_de">%1$d / %2$d 岁</string>
+    <string name="vida_punto_ayuda">每个点代表你人生中的一年。点一下即可按月查看。</string>
 </resources>

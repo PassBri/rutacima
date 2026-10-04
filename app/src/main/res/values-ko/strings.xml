@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">나의 인생 달력</string>
     <string name="vida_sin_nacimiento_texto">생년월일을 입력하면 인생을 달마다 볼 수 있어요. 살아온 날, 기록한 순간, 앞으로 오를 모든 것.</string>
     <string name="configurar_nacimiento">생년월일 추가</string>
-    <string name="vida_edad">세 · 기대 수명: %1$d</string>
     <string name="vida_resumen">%1$d개월을 살아왔어요. 앞으로 약 %2$d개월이 남아 있어요.</string>
-    <string name="vida_frase">매달이 소중해요. 기억에 남게 만드세요.</string>
-    <string name="vida_decada">%1$d~%2$d세</string>
     <string name="vida_vivido">지나온 달</string>
     <string name="vida_con_registro">기록 있음</string>
     <string name="vida_por_vivir">앞으로</string>
-    <string name="vida_anios_edad">%1$d세</string>
     <string name="vida_anio_titulo">%1$d년 · %2$d세</string>
     <string name="vida_anio_futuro">아직 오지 않은 해예요. 어떤 해가 되길 바라는지 그려 보고 비전에 추가하세요.</string>
     <string name="vida_anio_vacio">아직 기록이 없어요. 사진과 성취를 추가해 한 일을 기억하세요.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">생년월일</string>
     <string name="esperanza_vida">기대 수명: %1$d세</string>
     <string name="esperanza_ayuda">우리나라 추정치: %1$d세. 원하면 조정하세요. 인생 달력에만 사용돼요.</string>
+    <string name="vida_anios_de">%1$d / %2$d세</string>
+    <string name="vida_punto_ayuda">점 하나가 인생의 1년이에요. 눌러서 달마다 살펴보세요.</string>
 </resources>

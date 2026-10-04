@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">आपका जीवन कैलेंडर</string>
     <string name="vida_sin_nacimiento_texto">अपनी जन्मतिथि जोड़ें और अपना जीवन महीने-दर-महीने देखें: जो जिया, जो दर्ज किया और जो अभी चढ़ना बाकी है।</string>
     <string name="configurar_nacimiento">मेरी जन्मतिथि जोड़ें</string>
-    <string name="vida_edad">वर्ष · जीवन प्रत्याशा: %1$d</string>
     <string name="vida_resumen">आपने %1$d महीने जिए हैं। लगभग %2$d महीने अभी बाकी हैं।</string>
-    <string name="vida_frase">हर महीना मायने रखता है: उसे यादगार बनाइए।</string>
-    <string name="vida_decada">%1$d–%2$d वर्ष</string>
     <string name="vida_vivido">जिया</string>
     <string name="vida_con_registro">दर्ज</string>
     <string name="vida_por_vivir">आगे</string>
-    <string name="vida_anios_edad">%1$d वर्ष</string>
     <string name="vida_anio_titulo">%1$d · %2$d वर्ष की आयु</string>
     <string name="vida_anio_futuro">यह वर्ष अभी आया नहीं है। कल्पना कीजिए कि आप इसे कैसा चाहते हैं और इसे अपनी दृष्टि में जोड़िए।</string>
     <string name="vida_anio_vacio">यहाँ अभी कुछ दर्ज नहीं है। जो किया उसे याद रखने के लिए फ़ोटो और उपलब्धियाँ जोड़ें।</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">जन्मतिथि</string>
     <string name="esperanza_vida">जीवन प्रत्याशा: %1$d वर्ष</string>
     <string name="esperanza_ayuda">आपके देश का अनुमान: %1$d वर्ष। चाहें तो बदलें; यह केवल आपके जीवन कैलेंडर के लिए है।</string>
+    <string name="vida_anios_de">%1$d / %2$d वर्ष</string>
+    <string name="vida_punto_ayuda">हर बिंदु आपके जीवन का एक वर्ष है। उसे महीने-दर-महीने देखने के लिए टैप करें।</string>
 </resources>

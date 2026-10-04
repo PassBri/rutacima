@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">تقويم حياتك</string>
     <string name="vida_sin_nacimiento_texto">أضف تاريخ ميلادك لترى حياتك شهرًا بشهر: ما عشته وما سجلته وكل ما تبقى لتصعده.</string>
     <string name="configurar_nacimiento">إضافة تاريخ ميلادي</string>
-    <string name="vida_edad">سنة · متوسط العمر المتوقع: %1$d</string>
     <string name="vida_resumen">عشت %1$d شهرًا. يتبقى أمامك نحو %2$d شهرًا.</string>
-    <string name="vida_frase">كل شهر مهم: اجعله لا يُنسى.</string>
-    <string name="vida_decada">%1$d–%2$d سنة</string>
     <string name="vida_vivido">عشته</string>
     <string name="vida_con_registro">مسجّل</string>
     <string name="vida_por_vivir">قادم</string>
-    <string name="vida_anios_edad">%1$d سنة</string>
     <string name="vida_anio_titulo">%1$d · بعمر %2$d</string>
     <string name="vida_anio_futuro">هذا العام لم يأتِ بعد. تخيّل كيف تريده وأضفه إلى رؤيتك.</string>
     <string name="vida_anio_vacio">لا توجد سجلات هنا بعد. أضف صورًا وإنجازات لتتذكر ما فعلته.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">تاريخ الميلاد</string>
     <string name="esperanza_vida">متوسط العمر المتوقع: %1$d سنة</string>
     <string name="esperanza_ayuda">التقدير لبلدك: %1$d سنة. عدّله إن شئت؛ يُستخدم فقط في تقويم حياتك.</string>
+    <string name="vida_anios_de">%1$d / %2$d سنة</string>
+    <string name="vida_punto_ayuda">كل نقطة سنة من حياتك. المسها لتراها شهرًا بشهر.</string>
 </resources>

@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">Ton calendrier de vie</string>
     <string name="vida_sin_nacimiento_texto">Ajoute ta date de naissance pour voir ta vie mois par mois : ce que tu as vécu, ce que tu as noté et tout ce qu’il te reste à gravir.</string>
     <string name="configurar_nacimiento">Ajouter ma date de naissance</string>
-    <string name="vida_edad">ans · espérance de vie : %1$d</string>
     <string name="vida_resumen">Tu as vécu %1$d mois. Il t’en reste environ %2$d à vivre.</string>
-    <string name="vida_frase">Chaque mois compte : rends-le mémorable.</string>
-    <string name="vida_decada">%1$d–%2$d ans</string>
     <string name="vida_vivido">Vécu</string>
     <string name="vida_con_registro">Avec souvenir</string>
     <string name="vida_por_vivir">À vivre</string>
-    <string name="vida_anios_edad">%1$d ans</string>
     <string name="vida_anio_titulo">%1$d · à %2$d ans</string>
     <string name="vida_anio_futuro">Cette année n’est pas encore arrivée. Imagine-la et ajoute-la à ta vision.</string>
     <string name="vida_anio_vacio">Rien n’est encore noté ici. Ajoute des photos et des réussites pour t’en souvenir.</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">Date de naissance</string>
     <string name="esperanza_vida">Espérance de vie : %1$d ans</string>
     <string name="esperanza_ayuda">Estimation pour ton pays : %1$d ans. Ajuste-la si tu veux ; elle sert seulement à ton calendrier de vie.</string>
+    <string name="vida_anios_de">%1$d / %2$d ANS</string>
+    <string name="vida_punto_ayuda">Chaque point est une année de ta vie. Touches-en un pour la voir mois par mois.</string>
 </resources>

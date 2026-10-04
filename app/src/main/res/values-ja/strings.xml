@@ -538,14 +538,10 @@
     <string name="vida_sin_nacimiento_titulo">人生カレンダー</string>
     <string name="vida_sin_nacimiento_texto">生年月日を入れると、人生を月ごとに見られます。生きてきた月、記録した月、これから登るすべて。</string>
     <string name="configurar_nacimiento">生年月日を追加</string>
-    <string name="vida_edad">歳 · 平均寿命：%1$d</string>
     <string name="vida_resumen">これまで%1$dか月を生きてきました。残りはおよそ%2$dか月です。</string>
-    <string name="vida_frase">毎月が大切。忘れられない月にしよう。</string>
-    <string name="vida_decada">%1$d〜%2$d歳</string>
     <string name="vida_vivido">生きた月</string>
     <string name="vida_con_registro">記録あり</string>
     <string name="vida_por_vivir">これから</string>
-    <string name="vida_anios_edad">%1$d歳</string>
     <string name="vida_anio_titulo">%1$d年 · %2$d歳</string>
     <string name="vida_anio_futuro">この年はまだ来ていません。どんな年にしたいか思い描き、ビジョンに加えましょう。</string>
     <string name="vida_anio_vacio">ここにはまだ記録がありません。写真や達成を追加して思い出を残しましょう。</string>
@@ -554,4 +550,6 @@
     <string name="fecha_nacimiento">生年月日</string>
     <string name="esperanza_vida">平均寿命：%1$d歳</string>
     <string name="esperanza_ayuda">あなたの国の推定値：%1$d歳。自由に調整できます。人生カレンダーにのみ使われます。</string>
+    <string name="vida_anios_de">%1$d / %2$d 歳</string>
+    <string name="vida_punto_ayuda">1つの点が人生の1年です。タップすると月ごとに見られます。</string>
 </resources>
