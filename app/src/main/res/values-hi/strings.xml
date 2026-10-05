@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">कुछ जो आप सीख रहे हैं या कोई जगह जहाँ पहुँचना चाहते हैं।</string>
     <string name="vision_eje_tra_af">मेरा शिखर दूसरों को चढ़ने में मदद करता है।</string>
     <string name="vision_eje_tra_foto">जिन लोगों पर आप असर डालते हैं: परिवार, विद्यार्थी, समुदाय।</string>
+    <string name="comunidad_vista_lista">सूची</string>
+    <string name="comunidad_vista_cimas">शिखर</string>
+    <string name="cimas_ayuda">अगला शिखर देखने के लिए ऊपर स्वाइप करें</string>
 </resources>

@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">То, чему ты учишься, или место, куда хочешь прийти.</string>
     <string name="vision_eje_tra_af">Моя вершина помогает подниматься другим.</string>
     <string name="vision_eje_tra_foto">Люди, на которых ты влияешь: семья, ученики, сообщество.</string>
+    <string name="comunidad_vista_lista">Список</string>
+    <string name="comunidad_vista_cimas">Вершины</string>
+    <string name="cimas_ayuda">Проведи вверх, чтобы увидеть следующую вершину</string>
 </resources>

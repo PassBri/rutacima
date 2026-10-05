@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">배우고 있는 것이나 가고 싶은 곳.</string>
     <string name="vision_eje_tra_af">나의 정상은 다른 이들이 오르도록 돕는다.</string>
     <string name="vision_eje_tra_foto">당신이 영향을 주는 사람들: 가족, 학생, 공동체.</string>
+    <string name="comunidad_vista_lista">목록</string>
+    <string name="comunidad_vista_cimas">정상</string>
+    <string name="cimas_ayuda">위로 밀어 다음 정상 보기</string>
 </resources>

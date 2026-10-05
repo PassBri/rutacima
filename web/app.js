@@ -67,6 +67,7 @@ const P = {
   pin: "M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z",
   mas: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",
   borrar: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
+  comentario: "M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z",
   foto: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
 };
 const ic = (n, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${P[n]}"/></svg>`;
@@ -263,7 +264,7 @@ const SECCIONES = [
   ["ruta", "Mi ruta"], ["hoy", "Hoy"], ["metas", "Metas"], ["comunidad", "Comunidad"],
   ["aprende", "Aprende"], ["coach", "Coach"], ["frases", "Mis frases"], ["perfil", "Perfil"],
 ];
-const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {} };
+const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: (() => { try { return localStorage.getItem("rutacima-vista") || "lista"; } catch { return "lista"; } })() };
 
 function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
@@ -391,7 +392,8 @@ const LISTAS = {
   },
   comunidad() {
     let h = cabLista("Comunidad", { buscar: false, nuevo: ["publicar", "Publicar"] });
-    h += `<div class="lista-cab" style="padding-top:0"><div class="chips">${[["PARA_TI", "Para ti"], ["VISION", "Visión"], ["SIGUIENDO", "Siguiendo"]].map(([k, n]) => `<button class="chip" data-feed="${k}" aria-pressed="${estado.feedFiltro === k}">${n}</button>`).join("")}</div></div><div class="items">`;
+    h += `<div class="lista-cab" style="padding-top:0"><div class="segmentos" role="group" aria-label="Cómo ver la comunidad">${[["lista", "Lista"], ["cimas", "Cimas"]].map(([k, n]) => `<button data-vista="${k}" aria-pressed="${estado.vistaCom === k && estado.sel === "feed"}">${k === "cimas" ? ic("ruta") : ic("comunidad")} ${n}</button>`).join("")}</div>
+      <div class="chips">${[["PARA_TI", "Para ti"], ["VISION", "Visión"], ["SIGUIENDO", "Siguiendo"]].map(([k, n]) => `<button class="chip" data-feed="${k}" aria-pressed="${estado.feedFiltro === k}">${n}</button>`).join("")}</div></div><div class="items">`;
     if (!estado.feed) { cargarFeed(); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
     if (!estado.feed.length) h += `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     estado.feed.forEach(p => {
@@ -483,7 +485,11 @@ function pintarDetalle() {
     const f = DET[`${s}.${t}`] || DET[t];
     h = f ? f(arg) : vacio();
   }
+  const mismo = pintarDetalle.ultimo === `${s}|${v}|${estado.vistaCom}`;
+  const antes = mismo ? [...$("detalle").querySelectorAll(".det-cuerpo, .cimas")].map(x => x.scrollTop) : [];
   $("detalle").innerHTML = h;
+  pintarDetalle.ultimo = `${s}|${v}|${estado.vistaCom}`;
+  $("detalle").querySelectorAll(".det-cuerpo, .cimas").forEach((x, i) => { if (antes[i] !== undefined) x.scrollTop = antes[i]; });
   const abajo = $("detalle").querySelector(".det-cuerpo.abajo"); if (abajo) abajo.scrollTop = abajo.scrollHeight;
 }
 
@@ -742,6 +748,31 @@ Object.assign(DET, {
         <div class="chat" style="max-width:none">${(p.comentariosLista || []).map(c => `<div class="burbuja el"><b style="color:var(--oro);font-size:13px">${esc(c.autor)}</b><br>${esc(c.texto)}</div>`).join("")}</div>
       </div></div>
       <form class="escribir" data-form="comentar"><input name="texto" placeholder="Escribe un comentario" aria-label="Comentario" autocomplete="off"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
+  },
+  "comunidad.feed"() {
+    if (!estado.feed) { cargarFeed(); return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Cargando…") + cuerpo(""); }
+    const ps = estado.feed;
+    const autor = p => { const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase(); return av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"); };
+    const vacioFeed = `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
+    if (estado.vistaCom === "cimas") {
+      return cab(av(ic("ruta"), "var(--burdeos)"), "Cimas", "Desliza o usa las flechas para ver la siguiente cima") +
+        `<div class="cimas" tabindex="0" aria-label="Cimas">${ps.length ? ps.map(p => `<article class="cima" data-cima="${esc(p.id)}">
+          <div class="cima-fondo" style="--c:${COLOR_EJE[p.eje] || "#6B2A1A"}">${p.foto ? `<img src="${esc(p.foto)}" alt="">` : `<p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
+          <span class="cima-tipo">${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</span>
+          <div class="cima-acciones">${autor(p)}
+            <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar">${ic("impulso")}<b>${p.impulsos}</b></button>
+            <button data-ir="comunidad" data-arg="post:${esc(p.id)}" aria-label="Comentarios">${ic("comentario")}<b>${p.comentarios}</b></button></div>
+          <div class="cima-pie"><span><b>${esc(p.autorNombre)}</b> · ${hace(p.creadoEn)}</span>${p.foto && p.texto ? `<p>${esc(p.texto)}</p>` : ""}
+            ${p.metaTitulo ? `<span class="cima-meta">⛰ ${esc(p.metaTitulo)}${p.eje ? " · " + NOMBRE_EJE[p.eje] : ""}</span>` : ""}</div></article>`).join("") : vacioFeed}</div>`;
+    }
+    return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
+      ps.length ? ps.map(p => `<article class="hoja post-muro">
+        <div class="autor">${autor(p)}<div style="flex:1;min-width:0"><b>${esc(p.autorNombre)}</b><div class="suave" style="font-size:13px">${hace(p.creadoEn)} · ${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</div></div></div>
+        <button data-ir="comunidad" data-arg="post:${esc(p.id)}" style="display:block;width:100%;text-align:left">${postal(p)}</button>
+        ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
+        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
+          <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed,
+      "max-width:600px");
   },
   "comunidad.publicar"() {
     return cab(av(ic("mas"), "var(--burdeos)"), "Publicar", "Comparte un paso de tu ascenso") + cuerpo(
@@ -1161,6 +1192,7 @@ const ACC = {
     await new Promise(ok => setTimeout(ok, 350));
     Store.guardar("frases", { dias: [...abiertas(anio), fraseIndice(d)].sort((x, y) => x - y) }, String(anio));
   },
+  impulsarId(el, id) { const p = (estado.feed || []).find(x => String(x.id) === id); if (p) { estado.post = p; ACC.impulsar(); } },
   async impulsar() {
     const p = estado.post; if (!p) return;
     p.yoImpulse = !p.yoImpulse; p.impulsos += p.yoImpulse ? 1 : -1; refrescar();
@@ -1205,7 +1237,11 @@ function clic(e) {
   if (t.dataset.pregunta) { preguntar(t.dataset.pregunta); return; }
   if (t.dataset.filtro) { estado.filtro = t.dataset.filtro; pintarLista(); return; }
   if (t.dataset.feed) { estado.feedFiltro = t.dataset.feed; estado.feed = null; pintarLista(); return; }
-  if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && t.dataset.sec === "coach" ? "coach" : null); return; }
+  if (t.dataset.vista) {
+    estado.vistaCom = t.dataset.vista; try { localStorage.setItem("rutacima-vista", t.dataset.vista); } catch {}
+    elegir("feed"); return;
+  }
+  if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && (t.dataset.sec === "coach" || t.dataset.sec === "comunidad") ? (t.dataset.sec === "coach" ? "coach" : "feed") : null); return; }
   if (t.dataset.sel !== undefined) elegir(t.dataset.sel);
 }
 function cambio(e) {
@@ -1370,6 +1406,13 @@ function sembrarDemo() {
     .forEach(([tipo, eje, t], i) => misPostsDemo.push({ id: "mio-" + i, autorNombre: "Laura", tipo, eje, texto: t, metaTitulo: "", impulsos: 12 - i * 3, comentarios: 1, yoImpulse: false, creadoEn: Date.now() - (i + 2) * 86400000, propio: true, demo: false }));
 }
 
+document.addEventListener("dblclick", e => {
+  const c = e.target.closest("[data-cima]"); if (!c || c.closest("button")) return;
+  const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima);
+  if (p && !p.yoImpulse) { estado.post = p; ACC.impulsar(); }
+  const destello = document.createElement("span"); destello.className = "destello"; destello.innerHTML = ic("impulso");
+  const nueva = $("detalle").querySelector(`[data-cima="${CSS.escape(c.dataset.cima)}"]`) || c; nueva.appendChild(destello); setTimeout(() => destello.remove(), 700);
+});
 async function iniciar() {
   try { const t = localStorage.getItem("rutacima-tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
   ["lista", "detalle", "riel"].forEach(id => { $(id).onclick = clic; });

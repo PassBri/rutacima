@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">Etwas, das du lernst, oder ein Ort, den du erreichen willst.</string>
     <string name="vision_eje_tra_af">Mein Gipfel hilft anderen beim Aufstieg.</string>
     <string name="vision_eje_tra_foto">Die Menschen, die du bewegst: deine Familie, deine Schüler, deine Gemeinschaft.</string>
+    <string name="comunidad_vista_lista">Liste</string>
+    <string name="comunidad_vista_cimas">Gipfel</string>
+    <string name="cimas_ayuda">Nach oben wischen für den nächsten Gipfel</string>
 </resources>

@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">学んでいること、たどり着きたい場所。</string>
     <string name="vision_eje_tra_af">私の頂上は他の人の登りを助ける。</string>
     <string name="vision_eje_tra_foto">あなたが影響を与える人：家族、生徒、地域。</string>
+    <string name="comunidad_vista_lista">リスト</string>
+    <string name="comunidad_vista_cimas">頂</string>
+    <string name="cimas_ayuda">上にスワイプして次の頂へ</string>
 </resources>

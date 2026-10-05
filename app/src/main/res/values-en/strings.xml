@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">Something you\'re learning or a place you want to reach.</string>
     <string name="vision_eje_tra_af">My summit helps others climb.</string>
     <string name="vision_eje_tra_foto">The people you impact: your family, your students, your community.</string>
+    <string name="comunidad_vista_lista">List</string>
+    <string name="comunidad_vista_cimas">Summits</string>
+    <string name="cimas_ayuda">Swipe up to see the next summit</string>
 </resources>

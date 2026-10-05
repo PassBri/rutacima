@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">Algo que você está aprendendo ou um lugar aonde quer chegar.</string>
     <string name="vision_eje_tra_af">Meu cume ajuda outros a subir.</string>
     <string name="vision_eje_tra_foto">As pessoas que você impacta: sua família, seus alunos, sua comunidade.</string>
+    <string name="comunidad_vista_lista">Lista</string>
+    <string name="comunidad_vista_cimas">Cumes</string>
+    <string name="cimas_ayuda">Deslize para cima para ver o próximo cume</string>
 </resources>

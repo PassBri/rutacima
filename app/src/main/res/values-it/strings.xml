@@ -698,4 +698,7 @@
     <string name="vision_eje_evo_foto">Qualcosa che stai imparando o un luogo che vuoi raggiungere.</string>
     <string name="vision_eje_tra_af">La mia vetta aiuta gli altri a salire.</string>
     <string name="vision_eje_tra_foto">Le persone su cui hai impatto: la tua famiglia, i tuoi studenti, la tua comunità.</string>
+    <string name="comunidad_vista_lista">Elenco</string>
+    <string name="comunidad_vista_cimas">Vette</string>
+    <string name="cimas_ayuda">Scorri verso l’alto per la prossima vetta</string>
 </resources>

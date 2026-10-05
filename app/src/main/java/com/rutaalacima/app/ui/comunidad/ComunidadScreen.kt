@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -23,6 +24,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -91,6 +94,34 @@ fun ComunidadScreen(
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
+    // Vista elegida (se recuerda): lista hacia abajo o Cimas a pantalla completa
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    val prefs = androidx.compose.runtime.remember { ctx.getSharedPreferences("comunidad", android.content.Context.MODE_PRIVATE) }
+    var cimas by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(prefs.getBoolean("cimas", false)) }
+    val cambiarVista: (Boolean) -> Unit = { cimas = it; prefs.edit().putBoolean("cimas", it).apply() }
+
+    if (cimas) {
+        val pager = androidx.compose.foundation.pager.rememberPagerState { vm.posts.size }
+        Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
+            Column(Modifier.padding(horizontal = 12.dp, vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                SelectorVista(cimas, cambiarVista)
+                Filtros(vm)
+            }
+            when {
+                vm.cargando && vm.posts.isEmpty() ->
+                    Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                vm.posts.isEmpty() ->
+                    Text(stringResource(R.string.feed_vacio), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(24.dp))
+                else -> CimasFeed(
+                    posts = vm.posts, estado = pager,
+                    onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
+                    modifier = Modifier.fillMaxWidth().weight(1f),
+                    padding = PaddingValues(top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 8.dp),
+                )
+            }
+        }
+        return
+    }
 
     LazyColumn(
         contentPadding = PaddingValues(
@@ -115,6 +146,7 @@ fun ComunidadScreen(
                 }
             }
         }
+        item { SelectorVista(cimas, cambiarVista) }
         // Historias: atajos para publicar cada tipo
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -134,22 +166,7 @@ fun ComunidadScreen(
                 }
             }
         }
-        item {
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FiltroFeed.entries.forEach { f ->
-                    FilterChip(
-                        selected = vm.filtro == f, onClick = { vm.cargar(f) },
-                        label = {
-                            Text(stringResource(when (f) {
-                                FiltroFeed.PARA_TI -> R.string.filtro_para_ti
-                                FiltroFeed.SIGUIENDO -> R.string.filtro_siguiendo
-                                FiltroFeed.VISION -> R.string.filtro_vision
-                            }))
-                        },
-                    )
-                }
-            }
-        }
+        item { Filtros(vm) }
         if (vm.cargando && vm.posts.isEmpty()) {
             item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
         }
@@ -166,6 +183,42 @@ fun ComunidadScreen(
         }
         items(vm.posts, key = { it.id }) { p ->
             PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { onAbrirPost(p.id) })
+        }
+    }
+}
+
+@Composable
+private fun Filtros(vm: ComunidadViewModel) {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FiltroFeed.entries.forEach { f ->
+            FilterChip(
+                selected = vm.filtro == f, onClick = { vm.cargar(f) },
+                label = {
+                    Text(stringResource(when (f) {
+                        FiltroFeed.PARA_TI -> R.string.filtro_para_ti
+                        FiltroFeed.SIGUIENDO -> R.string.filtro_siguiendo
+                        FiltroFeed.VISION -> R.string.filtro_vision
+                    }))
+                },
+            )
+        }
+    }
+}
+
+/** Lista (hacia abajo, como un muro) o Cimas (a pantalla completa, deslizando hacia arriba). */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+private fun SelectorVista(cimas: Boolean, onCambiar: (Boolean) -> Unit) {
+    androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+        listOf(false to R.string.comunidad_vista_lista, true to R.string.comunidad_vista_cimas).forEachIndexed { i, (valor, texto) ->
+            androidx.compose.material3.SegmentedButton(
+                selected = cimas == valor, onClick = { onCambiar(valor) },
+                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(index = i, count = 2),
+                icon = {
+                    Icon(if (valor) Icons.Filled.Landscape else Icons.AutoMirrored.Filled.ViewList,
+                        null, Modifier.size(18.dp))
+                },
+            ) { Text(stringResource(texto)) }
         }
     }
 }
