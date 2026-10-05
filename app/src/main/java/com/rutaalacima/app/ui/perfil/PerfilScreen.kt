@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -88,6 +89,7 @@ fun PerfilScreen(
     onEvaluarEjes: () -> Unit,
     onAjustes: () -> Unit,
     onFrases: () -> Unit = {},
+    onVision: () -> Unit = {},
 ) {
     val vm = rutaViewModel { PerfilViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -154,6 +156,11 @@ fun PerfilScreen(
                 item {
                     Text(stringResource(R.string.vision_board_texto), style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(horizontal = 16.dp))
+                }
+                item {
+                    androidx.compose.material3.Button(onClick = onVision, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+                        Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.vision_abrir))
+                    }
                 }
                 cuadricula(posts.filter { it.tipo == TipoPost.VISION }, onAbrirPost, vacio = R.string.vision_vacia) { onPublicar("VISION") }
                 item {

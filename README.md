@@ -237,7 +237,10 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
 
 - **Publicaciones:** tu diario de vida en fichas 4:5, a dos columnas.
 - **Mi vida:** cada año, mes a mes, con lo que registraste. Puedes registrar un recuerdo o soñar un año futuro.
-- **Vision board:** las imágenes de la vida que estás construyendo.
+- **Vision board armado con IA:** con tu cumbre, tus propósitos, tus metas y tus ejes más débiles, la IA propone
+  hasta 9 casillas. Cada una trae una frase en primera persona y qué foto tuya buscar o tomar. Tú las llenas con
+  tus propias fotos (o buscas ideas en un banco de imágenes libres). Sin conexión, la app arma el tablero con las
+  mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
 
@@ -266,7 +269,7 @@ hindi y ruso. El contenido de las guías está en español.
 - Aprende (las 24 guías, con tus respuestas);
 - Coach;
 - Mis frases;
-- Perfil.
+- Perfil (con el vision board).
 
 Lo que cambias en un lado aparece en el otro.
 
@@ -431,6 +434,7 @@ python3 tools/bancos.py
 - el cálculo de resultados de las evaluaciones;
 - el calendario de vida;
 - las 365 frases;
+- el vision board;
 - la sincronización con la web;
 - las reglas del método.
 

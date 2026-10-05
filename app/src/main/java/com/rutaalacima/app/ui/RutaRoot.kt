@@ -121,6 +121,7 @@ object Rutas {
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
     const val WEB = "web"
+    const val VISION = "vision"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -272,6 +273,7 @@ private fun AppPrincipal() {
                     onEvaluarEjes = { nav.navigate(Rutas.EJES) },
                     onAjustes = { nav.navigate(Rutas.AJUSTES) },
                     onFrases = { nav.navigate(Rutas.FRASES) },
+                    onVision = { nav.navigate(Rutas.VISION) },
                 )
             }
             composable(Rutas.WORKBOOK, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
@@ -313,6 +315,7 @@ private fun AppPrincipal() {
             composable(Rutas.AJUSTES) {
                 AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
             }
+            composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.WEB) {
                 com.rutaalacima.app.ui.web.WebScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) })
             }

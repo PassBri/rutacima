@@ -224,6 +224,7 @@ interface SincroniaDao {
     @Query("SELECT * FROM evaluaciones_ejes") suspend fun evaluaciones(): List<EvaluacionEjesEntity>
     @Query("SELECT * FROM respuestas") suspend fun respuestas(): List<RespuestaEntity>
     @Query("SELECT * FROM coach_mensajes") suspend fun coach(): List<CoachMensajeEntity>
+    @Query("SELECT * FROM vision_casillas") suspend fun vision(): List<VisionCasillaEntity>
 
     @Upsert suspend fun guardar(e: PerfilEntity)
     @Upsert suspend fun guardar(e: PropositoEntity)
@@ -237,6 +238,7 @@ interface SincroniaDao {
     @Upsert suspend fun guardar(e: EvaluacionEjesEntity)
     @Upsert suspend fun guardar(e: RespuestaEntity)
     @Upsert suspend fun guardar(e: CoachMensajeEntity)
+    @Upsert suspend fun guardar(e: VisionCasillaEntity)
 
     @Query("DELETE FROM propositos WHERE id = :id") suspend fun borrarProposito(id: Long)
     @Query("DELETE FROM acciones WHERE id = :id") suspend fun borrarAccion(id: Long)
@@ -249,4 +251,20 @@ interface SincroniaDao {
     @Query("DELETE FROM evaluaciones_ejes WHERE id = :id") suspend fun borrarEvaluacion(id: Long)
     @Query("DELETE FROM respuestas WHERE clave = :clave") suspend fun borrarRespuesta(clave: String)
     @Query("DELETE FROM coach_mensajes WHERE id = :id") suspend fun borrarCoach(id: Long)
+    @Query("DELETE FROM vision_casillas WHERE id = :id") suspend fun borrarVision(id: Long)
+}
+
+@Dao
+interface VisionDao {
+    @Query("SELECT * FROM vision_casillas ORDER BY orden, id")
+    fun observe(): Flow<List<VisionCasillaEntity>>
+
+    @Query("SELECT * FROM vision_casillas ORDER BY orden, id")
+    suspend fun todas(): List<VisionCasillaEntity>
+
+    @Upsert
+    suspend fun guardar(c: VisionCasillaEntity): Long
+
+    @Query("DELETE FROM vision_casillas WHERE id = :id")
+    suspend fun borrar(id: Long)
 }

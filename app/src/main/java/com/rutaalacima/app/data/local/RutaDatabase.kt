@@ -23,8 +23,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         PublicacionEntity::class,
         ComentarioLocalEntity::class,
         CoachMensajeEntity::class,
+        VisionCasillaEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = false,
 )
 abstract class RutaDatabase : RoomDatabase() {
@@ -38,6 +39,7 @@ abstract class RutaDatabase : RoomDatabase() {
     abstract fun socialDao(): SocialDao
     abstract fun coachDao(): CoachDao
     abstract fun sincroniaDao(): SincroniaDao
+    abstract fun visionDao(): VisionDao
 
     companion object {
         /** v4: calendario de vida (nacimiento y esperanza de vida) y propósitos a 5, 10, 15 o 20 años. */
@@ -50,10 +52,21 @@ abstract class RutaDatabase : RoomDatabase() {
             }
         }
 
+        /** v5: vision board armado con IA (casillas que se llenan con fotos propias). */
+        val MIGRACION_4_5 = object : Migration(4, 5) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `vision_casillas` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`orden` INTEGER NOT NULL, `titulo` TEXT NOT NULL, `afirmacion` TEXT NOT NULL, `eje` TEXT, " +
+                        "`sugerencia` TEXT NOT NULL, `busqueda` TEXT NOT NULL, `origen` TEXT NOT NULL, `publicacionId` TEXT)"
+                )
+            }
+        }
+
         fun build(context: Context): RutaDatabase =
             Room.databaseBuilder(context, RutaDatabase::class.java, "rutacima.db")
                 // Desde la v4 los datos se conservan al actualizar la app.
-                .addMigrations(MIGRACION_3_4)
+                .addMigrations(MIGRACION_3_4, MIGRACION_4_5)
                 // Solo para instalaciones de prueba muy antiguas (v1-v2).
                 .fallbackToDestructiveMigrationFrom(1, 2)
                 .build()

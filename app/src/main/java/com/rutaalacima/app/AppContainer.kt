@@ -39,6 +39,8 @@ class AppContainer(context: Context) {
     val social = SocialRepository(context, db, supabase)
     val frases = com.rutaalacima.app.data.frases.FrasesRepository(context)
     val coach = CoachRepository(context, db, supabase, bancos)
+    /** Vision board armado con IA y llenado con fotos propias. */
+    val vision = com.rutaalacima.app.data.vision.VisionRepository(context, db, coach, social)
     /** RutaCima Web: vincular un computador y compartir la ruta con la cuenta. */
     val web = com.rutaalacima.app.data.web.RutaWebRepository(context, db, supabase, frases, social)
 

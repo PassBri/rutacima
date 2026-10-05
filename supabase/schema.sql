@@ -164,13 +164,18 @@ create policy "borrar mis fotos" on storage.objects for delete
 -- lee, crea, edita y borra lo mismo que el teléfono.
 create table if not exists public.ruta_datos (
   user_id     uuid not null references auth.users(id) on delete cascade,
-  tipo        text not null check (tipo in ('perfil','proposito','accion','meta_anio','meta_mes','balance',
-                'agenda','mes','checklist','ejes','respuesta','coach','frases')),
+  tipo        text not null,
   clave       text not null check (char_length(clave) between 1 and 120),
   datos       jsonb not null default '{}'::jsonb,
   actualizado timestamptz not null default now(),
   primary key (user_id, tipo, clave)
 );
+
+-- Tipos de documento que se sincronizan (se redefine al volver a ejecutar este archivo).
+alter table public.ruta_datos drop constraint if exists ruta_datos_tipo_check;
+alter table public.ruta_datos add constraint ruta_datos_tipo_check check (tipo in (
+  'perfil','proposito','accion','meta_anio','meta_mes','balance','agenda','mes','checklist','ejes','respuesta',
+  'coach','vision','frases'));
 
 -- Computadores vinculados a una cuenta (web_uid = usuario anónimo de la web).
 create table if not exists public.dispositivos (

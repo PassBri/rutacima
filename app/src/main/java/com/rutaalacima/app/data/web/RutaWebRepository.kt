@@ -17,6 +17,7 @@ import com.rutaalacima.app.data.local.PropositoEntity
 import com.rutaalacima.app.data.local.PublicacionEntity
 import com.rutaalacima.app.data.local.RespuestaEntity
 import com.rutaalacima.app.data.local.RutaDatabase
+import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.data.social.SocialRepository
 import com.rutaalacima.app.data.remote.SupabaseClient
 import com.rutaalacima.app.domain.model.Sincronia
@@ -163,6 +164,7 @@ class RutaWebRepository(
                 db.respuestaDao().observeUltima().map { },
                 db.coachDao().observe().map { },
                 db.socialDao().observePublicaciones().map { },
+                db.visionDao().observe().map { },
                 frases.desbloqueadas.map { },
                 _estado.map { it.activo },
             ).debounce(3_000).collect { sincronizarSiActivo() }
@@ -250,6 +252,7 @@ class RutaWebRepository(
         d.evaluaciones().forEach { m["ejes/${it.id}"] = doc(it) }
         d.respuestas().forEach { m["respuesta/${it.clave}"] = doc(it) }
         d.coach().forEach { m["coach/${it.id}"] = doc(it) }
+        d.vision().forEach { m["vision/${it.id}"] = doc(it) }
         for (anio in LocalDate.parse(desde).year..LocalDate.now().year) {
             val dias = frases.abiertasDe(anio)
             if (dias.isNotEmpty()) m["frases/$anio"] = Sincronia.canonico(buildJsonObject {
@@ -298,6 +301,7 @@ class RutaWebRepository(
             "ejes" -> d.guardar(de<EvaluacionEjesEntity>(v))
             "respuesta" -> d.guardar(de<RespuestaEntity>(v))
             "coach" -> d.guardar(de<CoachMensajeEntity>(v))
+            "vision" -> d.guardar(de<VisionCasillaEntity>(v))
             "frases" -> {
                 val anio = k.substringAfter('/').toIntOrNull() ?: return
                 val dias = (json.parseToJsonElement(v).jsonObject["dias"] as? JsonArray).orEmpty()
@@ -322,6 +326,7 @@ class RutaWebRepository(
             "ejes" -> c.toLongOrNull()?.let { d.borrarEvaluacion(it) }
             "respuesta" -> d.borrarRespuesta(c)
             "coach" -> c.toLongOrNull()?.let { d.borrarCoach(it) }
+            "vision" -> c.toLongOrNull()?.let { d.borrarVision(it) }
             "frases" -> c.toIntOrNull()?.let { frases.guardarAbiertas(it, emptySet()) }
             else -> {}   // el perfil no se borra
         }
@@ -364,7 +369,7 @@ class RutaWebRepository(
         val DIARIOS = setOf("checklist", "agenda")
         /** Orden para aplicar: primero los padres (propósito antes que sus acciones). */
         val ORDEN = listOf("perfil", "proposito", "accion", "meta_anio", "meta_mes", "balance", "mes",
-            "agenda", "checklist", "ejes", "respuesta", "coach", "frases")
+            "agenda", "checklist", "ejes", "respuesta", "coach", "vision", "frases")
     }
 
     // ---------- Huellas de la última sincronización

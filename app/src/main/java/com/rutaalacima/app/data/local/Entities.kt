@@ -264,3 +264,23 @@ data class CoachMensajeEntity(
     val texto: String,
     val creadoEn: Long = System.currentTimeMillis(),
 )
+
+/**
+ * Casilla del vision board: la propuso la IA (o las reglas de VisionBoard) con los datos de la
+ * persona y se llena con una foto propia, que se guarda como publicación de tipo VISION.
+ */
+@Serializable
+@Entity(tableName = "vision_casillas")
+data class VisionCasillaEntity(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val orden: Int = 0,
+    val titulo: String,
+    val afirmacion: String,
+    val eje: String? = null,
+    val sugerencia: String = "",
+    val busqueda: String = "",
+    /** cumbre, proposito:ID, meta:ID, eje:COD, ia o manual. */
+    val origen: String = "manual",
+    /** Publicación (tipo VISION) con la foto de esta casilla. */
+    val publicacionId: String? = null,
+)

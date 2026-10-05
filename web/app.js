@@ -118,7 +118,7 @@ const FRASES_VIDA = [
 const CLAVE = {
   perfil: o => String(o.id ?? 1), proposito: o => String(o.id), accion: o => String(o.id), meta_anio: o => String(o.id),
   meta_mes: o => String(o.id), balance: o => String(o.anio), agenda: o => o.fecha, mes: o => o.clave, checklist: o => o.fecha,
-  ejes: o => String(o.id), respuesta: o => o.clave, coach: o => String(o.id),
+  ejes: o => String(o.id), respuesta: o => o.clave, coach: o => String(o.id), vision: o => String(o.id),
 };
 
 /* ======================================================================
@@ -444,6 +444,8 @@ const LISTAS = {
     let h = cabLista("Perfil", { buscar: false }) + `<div class="items">`;
     h += item("perfil", av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += item("ejes", av(ic("comunidad"), "var(--oro)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
+    const vs = Store.lista("vision");
+    h += item("vision", av(ic("coach"), "var(--oro)"), "Mi vision board", vs.length ? `${vs.filter(v => v.publicacionId).length}/${vs.length}` : "", vs.length ? "Llénalo con tus fotos" : "Ármalo con IA y tus datos");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", "", Store.nube ? nombreNavegador() : "Ruta de ejemplo");
     return h + `</div>`;
@@ -954,8 +956,134 @@ async function cargarMisPosts() {
       const { data } = await Store.nube.sb.from("posts").select("*").eq("user_id", Store.nube.dueno).order("created_at", { ascending: false }).limit(200);
       estado.misPosts = (data || []).map(p => ({ id: p.id, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
     }
-  } finally { cargarMisPosts.activo = false; if (estado.sel === "publicaciones" && !enEdicion()) pintarDetalle(); }
+  } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision") && !enEdicion()) pintarDetalle(); }
 }
+
+
+/* ---------- Vision board: la IA lo arma con tus datos, tú lo llenas con tus fotos ---------- */
+const VISION_MAX = 9;
+const VISION_EJES = {
+  VOL: ["Sé lo que me mueve y voy por ello cada día.", "Algo que te encienda: un lugar, una persona o un símbolo de tu propósito."],
+  MAE: ["Practico cada día hasta dominar mi oficio.", "Tú en tu práctica: tus herramientas, tu espacio de trabajo o de estudio."],
+  VOZ: ["Comparto mi mensaje con mi voz auténtica.", "Tú hablando, enseñando o mostrando tu obra a otros."],
+  VAL: ["Vivo con coherencia de lo que sé hacer.", "Lo que tu trabajo hace posible: tu casa, tu negocio, tu libertad."],
+  EVO: ["Cada mes soy mejor que el anterior.", "Algo que estás aprendiendo o un lugar al que quieres llegar."],
+  TRA: ["Mi cumbre ayuda a otros a subir.", "Las personas que impactas: tu familia, tus alumnos, tu comunidad."],
+};
+const VACIAS = new Set("el la los las un una unos unas de del al a en y o con por para mi mis tu tus su sus que se lo es son como más the and of to my sin sobre hasta desde cada todo toda".split(" "));
+const palabrasClave = t => [...new Set(String(t).toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(w => w.length > 2 && !VACIAS.has(w) && isNaN(Number(w))))].slice(0, 4).join(" ");
+const urlIdeas = b => "https://www.pexels.com/search/" + encodeURIComponent(b || "mountain summit") + "/";
+const INSTRUCCION_VISION = `Arma mi vision board con lo que sabes de mí (mi cumbre, mis propósitos, mis metas y mis ejes).
+Responde SOLO con un arreglo JSON de 6 a ${VISION_MAX} casillas, sin texto antes ni después. Cada casilla:
+{"titulo": "rótulo corto, máx. 4 palabras",
+ "afirmacion": "frase en presente y primera persona, máx. 14 palabras, sobre algo concreto de mi vida",
+ "eje": "VOL|MAE|VOZ|VAL|EVO|TRA o null",
+ "sugerencia": "qué foto MÍA buscar o tomar para esta casilla (no imágenes genéricas)",
+ "busqueda": "2 a 4 palabras para buscar ideas de imágenes"}
+Cubre mi cumbre, cada propósito y los ejes más débiles. Escribe en mi idioma.`;
+/** Igual que VisionBoard.proponer en la app. */
+function proponerVision() {
+  const p = perfil(), anio = new Date().getFullYear(), r = [], inicio = p.anioInicioPlan || anio;
+  const sug = (eje, t) => `${VISION_EJES[eje]?.[1] || "Una foto tuya en un lugar o momento que represente tu cumbre."} Relacionada con: ${t}`;
+  if ((p.cumbreFrase || "").trim()) r.push({ titulo: "Mi cumbre", afirmacion: p.cumbreFrase.trim(), eje: null, sugerencia: "Una foto tuya en un lugar o momento que represente tu cumbre.", busqueda: palabrasClave(p.cumbreFrase), origen: "cumbre" });
+  Store.lista("proposito").slice(0, 3).forEach(x => r.push({ titulo: `Propósito · ${inicio + (x.horizonte || 5) - 1}`, afirmacion: x.titulo.trim(), eje: x.eje || null, sugerencia: sug(x.eje, x.titulo), busqueda: palabrasClave(x.titulo), origen: "proposito:" + x.id }));
+  Store.lista("meta_anio").filter(x => x.anio === anio).slice(0, 3).forEach(x => r.push({ titulo: `Meta ${x.anio}`, afirmacion: x.titulo.trim(), eje: x.eje || null, sugerencia: sug(x.eje, x.titulo), busqueda: palabrasClave(x.titulo), origen: "meta:" + x.id }));
+  const e = ultimaEvaluacion(), debil = e ? EJES.reduce((m, x) => (e[x[2]] < e[m[2]] ? x : m))[0] : null;
+  const presentes = new Set(r.map(x => x.eje).filter(Boolean));
+  EJES.map(x => x[0]).filter(c => !presentes.has(c)).sort((a, b) => (a === debil ? -1 : b === debil ? 1 : 0)).forEach(c => {
+    if (r.length < VISION_MAX) r.push({ titulo: NOMBRE_EJE[c], afirmacion: VISION_EJES[c][0], eje: c, sugerencia: VISION_EJES[c][1], busqueda: palabrasClave(VISION_EJES[c][1]), origen: "eje:" + c });
+  });
+  return r.slice(0, VISION_MAX);
+}
+/** Igual que VisionBoard.desdeIa en la app. */
+function visionDesdeIa(texto) {
+  const i = texto.indexOf("["), f = texto.lastIndexOf("]");
+  if (i < 0 || f <= i) return null;
+  let arr; try { arr = JSON.parse(texto.slice(i, f + 1)); } catch { return null; }
+  if (!Array.isArray(arr)) return null;
+  const s = v => (typeof v === "string" && v.trim() && v.trim() !== "null") ? v.trim() : null;
+  const r = arr.map(o => {
+    if (!o || !s(o.afirmacion)) return null;
+    const eje = s(o.eje)?.toUpperCase();
+    return { titulo: (s(o.titulo) || s(o.afirmacion)).slice(0, 40), afirmacion: s(o.afirmacion).slice(0, 160), eje: NOMBRE_EJE[eje] ? eje : null,
+      sugerencia: (s(o.sugerencia) || "").slice(0, 200), busqueda: (s(o.busqueda) || palabrasClave(o.afirmacion)).slice(0, 60), origen: "ia" };
+  }).filter(Boolean).slice(0, VISION_MAX);
+  return r.length >= 3 ? r : null;
+}
+const casillasVision = () => Store.lista("vision").sort((a, b) => (a.orden || 0) - (b.orden || 0) || a.id - b.id);
+function fotoDePublicacion(id) {
+  if (!id) return null;
+  const p = (estado.misPosts || []).find(x => String(x.id) === String(id));
+  return p?.foto || null;
+}
+let armandoVision = false, visionConIa = null;
+async function armarVision() {
+  armandoVision = true; pintarDetalle();
+  let propuestas = null;
+  if (Store.nube) {
+    try {
+      const { data } = await Store.nube.sb.functions.invoke("coach", { body: { contexto: contextoCoach(), idioma: "es", mensajes: [{ role: "user", content: INSTRUCCION_VISION }] } });
+      propuestas = data?.texto ? visionDesdeIa(data.texto) : null;
+    } catch (e) { console.warn(e); }
+  }
+  visionConIa = !!propuestas;
+  propuestas ||= proponerVision();
+  const actuales = casillasVision(), conFoto = actuales.filter(c => c.publicacionId);
+  actuales.filter(c => !c.publicacionId).forEach(c => Store.borrar("vision", c.id));
+  const cubiertas = new Set(conFoto.map(c => c.origen));
+  let orden = Math.max(-1, ...conFoto.map(c => c.orden || 0)) + 1;
+  propuestas.filter(p => p.origen === "ia" || !cubiertas.has(p.origen)).slice(0, Math.max(0, VISION_MAX - conFoto.length))
+    .forEach(p => Store.guardar("vision", { id: nuevoId(), orden: orden++, publicacionId: null, ...p }));
+  armandoVision = false; pintarDetalle();
+}
+async function ponerFotoVision(id, archivo) {
+  const c = Store.get("vision", id); if (!c || !archivo) return;
+  toast("Subiendo tu foto…");
+  try {
+    let postId;
+    if (Store.nube) {
+      const sb = Store.nube.sb; postId = crypto.randomUUID();
+      const ruta = `${Store.nube.dueno}/${postId}.jpg`;
+      const up = await sb.storage.from("media").upload(ruta, archivo, { upsert: true, contentType: archivo.type || "image/jpeg" });
+      if (up.error) throw up.error;
+      const url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
+      const r = await sb.from("posts").insert({ id: postId, user_id: Store.nube.dueno, tipo: "VISION", texto: c.afirmacion, image_url: url, eje: c.eje || null, anio: new Date().getFullYear(), visibilidad: "PRIVADA", meta_titulo: c.titulo });
+      if (r.error) throw r.error;
+      (estado.misPosts ||= []).unshift({ id: postId, tipo: "VISION", eje: c.eje, texto: c.afirmacion, foto: url, metaTitulo: c.titulo, creadoEn: Date.now(), propio: true });
+    } else {
+      postId = "mio-" + nuevoId();
+      misPostsDemo.unshift({ id: postId, autorNombre: perfil().nombre || "Yo", tipo: "VISION", eje: c.eje, texto: c.afirmacion, foto: URL.createObjectURL(archivo), metaTitulo: c.titulo, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true });
+      estado.misPosts = misPostsDemo;
+    }
+    await Store.cambiar("vision", id, { publicacionId: postId });
+    toast("Foto agregada");
+  } catch (e) { errorNube(e); }
+}
+DET["perfil.vision"] = () => {
+  if (!estado.misPosts) cargarMisPosts();
+  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  const color = e => COLOR_EJE[e] || "#6B2A1A";
+  const tarjeta = c => {
+    const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
+    return `<div class="hoja casilla-v" style="padding:0">
+      <label class="casilla-foto" style="--c:${color(c.eje)}">
+        <input type="file" accept="image/*" hidden data-foto-vision="${k}">
+        ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-txt">${esc(c.afirmacion)}</span>`
+          : `<span class="casilla-af">${esc(c.afirmacion)}</span><span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
+      </label>
+      <details class="casilla-pie"><summary><span>${esc(c.titulo)}</span>${foto ? "" : `<a href="${urlIdeas(c.busqueda)}" target="_blank" rel="noopener" class="btn mini">${ic("buscar")} Ideas</a>`}</summary>
+        <div class="form" style="padding:12px">${campo("Frase", area("vision", k, "afirmacion", c.afirmacion))}${campo("Rótulo", txt("vision", k, "titulo", c.titulo))}
+        ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}<button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></div></details></div>`;
+  };
+  return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
+    cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
+    hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
+      ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
+      <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
+        : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
+      ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
+    (cs.length ? `<div class="tablero">${cs.map(tarjeta).join("")}</div><p class="suave">Tus fotos se guardan como publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>` : ""));
+};
 
 /* ======================================================================
  * Acciones
@@ -1056,6 +1184,11 @@ const ACC = {
     mensajesCoach().forEach(m => Store.borrar("coach", m.id));
   },
   evalEje(el, k) { estado.evalNueva[k] = Number(el.value); el.nextElementSibling.textContent = el.value; },
+  armarVision() { armarVision(); },
+  casillaNueva() {
+    const orden = Math.max(-1, ...casillasVision().map(c => c.orden || 0)) + 1;
+    Store.guardar("vision", { id: nuevoId(), orden, titulo: "Nueva casilla", afirmacion: "Escribe aquí tu frase", eje: null, sugerencia: "", busqueda: "", origen: "manual", publicacionId: null });
+  },
   guardarEval() {
     const v = estado.evalNueva;
     Store.guardar("ejes", { id: nuevoId(), fecha: Date.now(), ...v, origen: "web", nota: "" });
@@ -1078,6 +1211,7 @@ function clic(e) {
 function cambio(e) {
   const el = e.target;
   if (el.dataset.accChange) { ACC[el.dataset.accChange]?.(el, el.dataset.arg || ""); return; }
+  if (el.dataset.fotoVision) { ponerFotoVision(el.dataset.fotoVision, el.files?.[0]); return; }
   if (el.dataset.resp) { const [wb, clave] = el.dataset.resp.split("|"); responder(wb, clave, el.value.trim() ? el.value : ""); return; }
   if (!el.dataset.bind) return;
   const [tipo, clave, nombre, conv] = el.dataset.bind.split("|");
@@ -1086,7 +1220,8 @@ function cambio(e) {
   else if (conv === "numNulo") v = v === "" ? null : Number(v);
   else if (conv === "nulo") v = v === "" ? null : v;
   else if (conv === "bool") v = !!el.checked;
-  Store.cambiar(tipo, clave, { [nombre]: v }, BASES[tipo]?.(clave) || {});
+  const extra = tipo === "vision" && nombre === "afirmacion" ? { busqueda: palabrasClave(v) } : {};
+  Store.cambiar(tipo, clave, { [nombre]: v, ...extra }, BASES[tipo]?.(clave) || {});
 }
 function entrada(e) {
   const el = e.target;

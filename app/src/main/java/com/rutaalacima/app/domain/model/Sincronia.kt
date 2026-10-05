@@ -40,7 +40,7 @@ object Sincronia {
     /** Todo lo que se sincroniza (igual que la lista de supabase/schema.sql). */
     val TIPOS = setOf(
         "perfil", "proposito", "accion", "meta_anio", "meta_mes", "balance", "agenda", "mes",
-        "checklist", "ejes", "respuesta", "coach", "frases",
+        "checklist", "ejes", "respuesta", "coach", "vision", "frases",
     )
 
     fun tipoDe(k: String) = k.substringBefore('/')
