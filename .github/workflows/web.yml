@@ -1,7 +1,8 @@
-# Publica RutaCima Web en GitHub Pages cada vez que cambia la web (o a mano desde Actions).
-# Una sola vez: Settings › Pages › Source: "GitHub Actions".
+# Publica RutaCima Web en GitHub Pages (rama gh-pages) cada vez que cambia la web, o a mano desde Actions.
+# La web queda en https://passbri.github.io/rutacima/
 # Para conectarla a tu servidor: Settings › Secrets and variables › Actions › Variables:
 #   RUTACIMA_SUPABASE_URL y RUTACIMA_SUPABASE_ANON_KEY (la clave anon es pública por diseño).
+# Sin ellas, la web abre en modo demostración.
 name: Publicar RutaCima Web
 
 on:
@@ -16,16 +17,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  construir:
+  publicar:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,17 +33,12 @@ jobs:
           SUPABASE_URL: ${{ vars.RUTACIMA_SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ vars.RUTACIMA_SUPABASE_ANON_KEY }}
         run: bash tools/armar_web.sh _site
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  publicar:
-    needs: construir
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
-    steps:
-      - id: despliegue
-        uses: actions/deploy-pages@v4
+      - name: Subir a la rama gh-pages
+        run: |
+          cd _site
+          git init -q -b gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Publica RutaCima Web (${GITHUB_SHA::7})"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages

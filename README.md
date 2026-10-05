@@ -17,6 +17,11 @@
   <img alt="Versión 0.4.0" src="https://img.shields.io/badge/versi%C3%B3n-0.4.0-6B2A1A">
 </p>
 
+<p align="center">
+  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir RutaCima Web</b></a>
+  &nbsp;·&nbsp; la misma app en tu computador
+</p>
+
 > Serie Ruta a la Cima · © 2026 Brian Gonzalo Suárez Acevedo. Todos los derechos reservados.
 
 ---
@@ -374,7 +379,7 @@ RutaCima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el
 5. **Web.** Pon la misma URL y la misma clave en [`web/config.js`](web/config.js). La clave *anon* es pública por
    diseño; la seguridad la ponen las reglas del paso 1.
 6. **Publicar la web.** Ya está todo listo para GitHub Pages ([`.github/workflows/web.yml`](.github/workflows/web.yml)):
-   - Una sola vez: **Settings › Pages › Source: GitHub Actions**.
+   - Se publica en la rama `gh-pages`. Si la página no abre, revisa **Settings › Pages**: *Deploy from a branch*, rama `gh-pages`, carpeta `/ (root)`.
    - Para conectarla a tu servidor: **Settings › Secrets and variables › Actions › Variables** y crea
      `RUTACIMA_SUPABASE_URL` y `RUTACIMA_SUPABASE_ANON_KEY`. Sin ellas abre en modo demostración.
    - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
