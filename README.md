@@ -109,7 +109,8 @@ textualmente de los libros, una para cada día del año.
 
 ### Navegación
 
-- **Barra inferior:** cinco secciones, **Mi ruta, Hoy, Comunidad, Aprende y Perfil**. Para ocupar poco espacio
+- **Barra inferior:** cinco secciones, **Mi ruta, Hoy, Comunidad, Aprende y Perfil**, y en el centro el botón para
+  **publicar**: una montaña con una bandera en la cima y un «+», porque compartir un logro es plantar tu bandera. Para ocupar poco espacio
   muestra solo íconos; al apoyar el dedo aparece el nombre, y si lo deslizas por la barra el nombre lo sigue.
   Al soltar se abre esa sección.
 - **Barra superior:** el sello y el nombre de la pantalla donde estás.

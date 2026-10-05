@@ -39,7 +39,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
@@ -197,11 +196,6 @@ private fun AppPrincipal() {
                         }
                     },
                     actions = {
-                        if (pestana.ruta == Rutas.COMUNIDAD || pestana.ruta == Rutas.PERFIL) {
-                            IconButton(onClick = { nav.navigate(Rutas.publicar()) }) {
-                                Icon(Icons.Filled.AddAPhoto, stringResource(R.string.publicar))
-                            }
-                        }
                         if (pestana.ruta == Rutas.PERFIL) {
                             IconButton(onClick = { nav.navigate(Rutas.WEB) }) { Icon(Icons.Filled.Computer, stringResource(R.string.web_titulo)) }
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
@@ -216,7 +210,7 @@ private fun AppPrincipal() {
         },
         bottomBar = {
             if (pestana != null) {
-                BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) })
+                BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
             }
         },
     ) { padding ->
@@ -339,12 +333,16 @@ private fun NavHostController.irAPestana(ruta: String) {
  * Con TalkBack cada ícono se anuncia con su nombre y se activa con doble toque.
  */
 @Composable
-private fun BarraIconos(actual: String?, onIr: (String) -> Unit) {
+private fun BarraIconos(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit) {
     var sobre by remember { mutableStateOf<Int?>(null) }
     val ir by androidx.compose.runtime.rememberUpdatedState(onIr)
+    val publicar by androidx.compose.runtime.rememberUpdatedState(onPublicar)
     val haptic = LocalHapticFeedback.current
-    val n = PESTANAS.size
+    // Las 5 pestañas y, en el centro, el botón para publicar ("plantar tu bandera")
+    val n = PESTANAS.size + 1
+    fun pestanaEn(k: Int): Pestana? = if (k == CENTRO) null else PESTANAS[if (k < CENTRO) k else k - 1]
     val colores = MaterialTheme.colorScheme
+    val nombrePublicar = stringResource(R.string.publicar)
     Box(
         Modifier
             .fillMaxWidth()
@@ -376,37 +374,59 @@ private fun BarraIconos(actual: String?, onIr: (String) -> Unit) {
                     } finally {
                         sobre = null
                     }
-                    if (soltado) ir(PESTANAS[i].ruta)
+                    if (soltado) pestanaEn(i)?.let { ir(it.ruta) } ?: publicar()
                 }
             },
     ) {
         Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-            PESTANAS.forEachIndexed { k, p ->
-                val elegida = actual == p.ruta
-                val nombre = stringResource(p.titulo)
+            for (k in 0 until n) {
+                val p = pestanaEn(k)
+                val elegida = p != null && actual == p.ruta
+                val nombre = p?.let { stringResource(it.titulo) } ?: nombrePublicar
                 Box(
                     Modifier
                         .weight(1f)
                         .fillMaxHeight()
                         .semantics {
-                            role = Role.Tab
-                            selected = elegida
+                            role = if (p == null) Role.Button else Role.Tab
+                            if (p != null) selected = elegida
                             contentDescription = nombre
-                            onClick { onIr(p.ruta); true }
+                            onClick { if (p != null) onIr(p.ruta) else onPublicar(); true }
                         },
                     contentAlignment = Alignment.Center,
                 ) {
-                    val resaltada = elegida || sobre == k
-                    Box(
-                        Modifier
-                            .size(width = 56.dp, height = 32.dp)
-                            .background(if (resaltada) colores.secondaryContainer else Color.Transparent, CircleShape),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Icon(
-                            p.icono, contentDescription = null,
-                            tint = if (elegida) colores.primary else colores.onSurfaceVariant,
-                        )
+                    if (p == null) {
+                        // Botón central elevado: montaña con bandera y un "+"
+                        val presionado = sobre == k
+                        Box(
+                            Modifier
+                                .offset(y = (-8).dp)
+                                .size(if (presionado) 50.dp else 54.dp)
+                                .shadow(8.dp, CircleShape, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+                                .background(
+                                    androidx.compose.ui.graphics.Brush.linearGradient(listOf(colores.primary, colores.secondary)),
+                                    CircleShape,
+                                ),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                androidx.compose.ui.res.painterResource(R.drawable.ic_plantar_bandera), contentDescription = null,
+                                tint = colores.onPrimary, modifier = Modifier.size(30.dp),
+                            )
+                        }
+                    } else {
+                        val resaltada = elegida || sobre == k
+                        Box(
+                            Modifier
+                                .size(width = 56.dp, height = 32.dp)
+                                .background(if (resaltada) colores.secondaryContainer else Color.Transparent, CircleShape),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                p.icono, contentDescription = null,
+                                tint = if (elegida) colores.primary else colores.onSurfaceVariant,
+                            )
+                        }
                     }
                     // Etiqueta flotante con el nombre, encima del ícono que toca el dedo
                     if (sobre == k) {
@@ -418,7 +438,7 @@ private fun BarraIconos(actual: String?, onIr: (String) -> Unit) {
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .wrapContentSize(unbounded = true)
-                                .offset(y = (-44).dp)
+                                .offset(y = if (p == null) (-56).dp else (-44).dp)
                                 .zIndex(1f)
                                 .shadow(6.dp, RoundedCornerShape(10.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
                                 .background(colores.primary, RoundedCornerShape(10.dp))
@@ -430,3 +450,6 @@ private fun BarraIconos(actual: String?, onIr: (String) -> Unit) {
         }
     }
 }
+
+/** Posición del botón para publicar en la barra inferior (en medio, como en otras redes). */
+private const val CENTRO = 2

@@ -67,6 +67,7 @@ const P = {
   pin: "M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z",
   mas: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z",
   borrar: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z",
+  publicar: "M1,21L8.5,10L11.5,14.2L14.6,9.6L23,21ZM14,2.4h1.25v7.4h-1.25zM15.25,2.4L20.4,4.2L15.25,6ZM4.2,2.4h1.6v2.4h2.4v1.6H5.8v2.4H4.2V6.4H1.8V4.8h2.4z",
   comentario: "M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18z",
   foto: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
 };
@@ -270,7 +271,8 @@ function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
     `<img class="sello" src="${LOGO}" alt="RutaCima">` +
-    SECCIONES.map(([k, n]) => `<button class="rb" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${k === "frases" && sellada ? '<span class="punto"></span>' : ""}</button>`).join("") +
+    SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar">${ic("publicar")}<span class="tip">Publicar · planta tu bandera</span></button>` : "") +
+      `<button class="rb" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${k === "frases" && sellada ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Tema claro u oscuro">${ic("tema")}<span class="tip">Tema claro u oscuro</span></button>
      <button class="rb solo-pc" data-acc="salir" aria-label="${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}">${ic("salir")}<span class="tip">${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}</span></button>`;
@@ -775,7 +777,7 @@ Object.assign(DET, {
       "max-width:600px");
   },
   "comunidad.publicar"() {
-    return cab(av(ic("mas"), "var(--burdeos)"), "Publicar", "Comparte un paso de tu ascenso") + cuerpo(
+    return cab(av(ic("publicar"), "var(--burdeos)"), "Publicar", "Planta tu bandera: comparte un paso de tu ascenso") + cuerpo(
       hoja(`<form class="form" data-form="publicar">
         ${campo("¿Qué quieres compartir?", `<textarea name="texto" required maxlength="2200" placeholder="Hoy logré…"></textarea>`)}
         <div class="form-2">${campo("Tipo", `<select name="tipo">${TIPOS_POST.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}

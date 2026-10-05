@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Publicar = plantar tu bandera en la cima: montaña con bandera en el pico y un "+". -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Montaña con dos picos -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M1,21L8.5,10L11.5,14.2L14.6,9.6L23,21Z" />
+    <!-- Mástil y bandera en el pico más alto -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M14,2.4h1.25v7.4h-1.25z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M15.25,2.4L20.4,4.2L15.25,6Z" />
+    <!-- Más -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M4.2,2.4h1.6v2.4h2.4v1.6H5.8v2.4H4.2V6.4H1.8V4.8h2.4z" />
+</vector>

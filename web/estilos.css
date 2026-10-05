@@ -369,3 +369,15 @@ a.btn { text-decoration: none; color: inherit; }
 .destello svg { width: 120px; height: 120px; fill: var(--oro); }
 @keyframes destello { from { opacity: 0; transform: scale(.6); } 30% { opacity: 1; transform: scale(1.1); } to { opacity: 0; transform: scale(1); } }
 .detalle:has(.cimas) { overflow: hidden; }
+
+/* Botón para publicar: montaña con bandera y "+" (plantar tu bandera) */
+.rb-publicar { background: linear-gradient(135deg, var(--burdeos), var(--oro)); color: #fff; box-shadow: 0 4px 12px rgb(var(--sombra) / .3); margin-block: 6px; }
+.rb-publicar:hover { background: linear-gradient(135deg, var(--burdeos), var(--oro)); filter: brightness(1.08); }
+.rb-publicar svg { width: 26px; height: 26px; }
+:root[data-theme="dark"] .rb-publicar { color: #2B1209; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rb-publicar { color: #2B1209; } }
+@media (max-width: 900px) {
+  .rb-publicar { width: 52px; height: 52px; transform: translateY(-10px); margin-block: 0; }
+  .rb-publicar svg { width: 30px; height: 30px; }
+}
+.riel { position: relative; z-index: 3; }
