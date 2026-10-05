@@ -111,3 +111,18 @@ class SincroniaTest {
         assertEquals("""{"cumplida":true,"dias":[1,2,3,10],"texto":"Correr"}""", Sincronia.fusionar("meta_mes/1", l, r))
     }
 }
+
+class RespaldoTest {
+    @org.junit.Test fun elRespaldoVaYVuelveIgualYDescartaLoDesconocido() {
+        val docs = mapOf("perfil/1" to """{"nombre":"Brian","id":1}""", "checklist/2026-10-05" to """{"fecha":"2026-10-05","marcados":"VOL1"}""")
+        val texto = com.rutaalacima.app.domain.model.Sincronia.respaldo(docs, "0.6.0", "2026-10-05")
+        val leido = com.rutaalacima.app.domain.model.Sincronia.leerRespaldo(texto)
+        org.junit.Assert.assertEquals(docs.mapValues { com.rutaalacima.app.domain.model.Sincronia.canonico(it.value) }, leido)
+        val conBasura = texto.replace("\"documentos\": {", "\"documentos\": {\"virus/1\": {\"x\":1}, ")
+        org.junit.Assert.assertEquals(2, com.rutaalacima.app.domain.model.Sincronia.leerRespaldo(conBasura).size)
+    }
+
+    @org.junit.Test(expected = IllegalArgumentException::class) fun noAceptaOtroArchivo() {
+        com.rutaalacima.app.domain.model.Sincronia.leerRespaldo("""{"hola":1}""")
+    }
+}

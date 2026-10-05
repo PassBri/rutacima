@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bedtime
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FastForward
 import androidx.compose.material.icons.filled.FastRewind
@@ -150,11 +151,6 @@ fun BarraAudiolibro(workbookId: String, seccion: Int, minutos: Int) {
                     Spacer(Modifier.height(4.dp))
                     LinearProgressIndicator(progress = { e.avance }, modifier = Modifier.fillMaxWidth())
                 }
-                TextButton(onClick = {
-                    val i = VELOCIDADES.indexOfFirst { it >= e.velocidad - 0.01f }.coerceAtLeast(0)
-                    vm.reproductor.velocidad(VELOCIDADES[(i + 1) % VELOCIDADES.size])
-                }) { Text(e.velocidad.comoVelocidad(), style = MaterialTheme.typography.labelLarge) }
-                IconButton(onClick = { vm.reproductor.detener() }) { Icon(Icons.Filled.Close, stringResource(R.string.audio_cerrar)) }
             }
             if (soyAutor) {
                 var menu by remember { mutableStateOf(false) }
@@ -179,6 +175,24 @@ fun BarraAudiolibro(workbookId: String, seccion: Int, minutos: Int) {
                         )
                     }
                 }
+            }
+        }
+        // Segunda fila mientras suena: velocidad, temporizador para dormir y cerrar
+        if (aqui) Row(verticalAlignment = Alignment.CenterVertically) {
+            TextButton(onClick = {
+                val i = VELOCIDADES.indexOfFirst { it >= e.velocidad - 0.01f }.coerceAtLeast(0)
+                vm.reproductor.velocidad(VELOCIDADES[(i + 1) % VELOCIDADES.size])
+            }) { Text(stringResource(R.string.audio_velocidad_n, e.velocidad.comoVelocidad()), style = MaterialTheme.typography.labelLarge) }
+            Temporizador(e.apagadoEn != null || e.alTerminarCapitulo, onElegir = { vm.reproductor.temporizador(it) },
+                onFinCapitulo = { vm.reproductor.dormirAlTerminarCapitulo() })
+            if (e.apagadoEn != null || e.alTerminarCapitulo) {
+                val faltan = e.apagadoEn?.let { ((it - System.currentTimeMillis()) / 60_000L + 1).toInt().coerceAtLeast(1) }
+                Text(if (faltan != null) stringResource(R.string.audio_se_apaga_en, faltan) else stringResource(R.string.audio_se_apaga_fin),
+                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+            }
+            Spacer(Modifier.weight(1f))
+            TextButton(onClick = { vm.reproductor.detener() }) {
+                Icon(Icons.Filled.Close, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.audio_cerrar_corto))
             }
         }
         if (vm.subiendo) Text(stringResource(R.string.audio_subiendo), style = MaterialTheme.typography.labelSmall,
@@ -225,6 +239,26 @@ fun MiniReproductor(onAbrir: (String, Int) -> Unit) {
                 IconButton(onClick = { vm.reproductor.detener() }) { Icon(Icons.Filled.Close, stringResource(R.string.audio_cerrar)) }
             }
             HorizontalDivider()
+        }
+    }
+}
+
+
+/** Temporizador para dormir: 15, 30, 45 o 60 minutos, al terminar el capítulo, o apagado. */
+@Composable
+private fun Temporizador(activo: Boolean, onElegir: (Int?) -> Unit, onFinCapitulo: () -> Unit) {
+    var menu by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { menu = true }) {
+            Icon(Icons.Filled.Bedtime, stringResource(R.string.audio_temporizador),
+                tint = if (activo) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+            listOf(15, 30, 45, 60).forEach { m ->
+                DropdownMenuItem(text = { Text(stringResource(R.string.audio_en_minutos, m)) }, onClick = { menu = false; onElegir(m) })
+            }
+            DropdownMenuItem(text = { Text(stringResource(R.string.audio_al_terminar_capitulo)) }, onClick = { menu = false; onFinCapitulo() })
+            if (activo) DropdownMenuItem(text = { Text(stringResource(R.string.audio_temporizador_apagar)) }, onClick = { menu = false; onElegir(null) })
         }
     }
 }

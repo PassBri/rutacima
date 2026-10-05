@@ -135,6 +135,9 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
 
     fun salir() = c.supabase.cerrarSesion()
 
+    suspend fun respaldo(): String = c.web.respaldo()
+    suspend fun restaurar(texto: String): Int = c.web.restaurar(texto)
+
     /** Elimina la cuenta y todo lo que está en el servidor; lo del teléfono se queda. */
     fun eliminarCuenta(textoOk: String, textoError: String) {
         cargando = true
@@ -374,6 +377,45 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                 RutaCard {
                     Text(stringResource(R.string.web_intro), style = MaterialTheme.typography.bodyMedium)
                     Button(onClick = onWeb, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.web_abrir_o_vincular)) }
+                }
+            }
+
+            item { SectionTitle(stringResource(R.string.respaldo_titulo)) }
+            item {
+                val ctx = LocalContext.current
+                val alcance = rememberCoroutineScope()
+                val txtGuardado = stringResource(R.string.respaldo_guardado)
+                val txtError = stringResource(R.string.respaldo_error)
+                var aviso by remember { mutableStateOf<String?>(null) }
+                val guardar = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
+                    if (uri != null) alcance.launch {
+                        aviso = runCatching {
+                            val texto = vm.respaldo()
+                            kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                ctx.contentResolver.openOutputStream(uri)?.use { it.write(texto.toByteArray()) } ?: error("sin archivo")
+                            }
+                        }.fold({ txtGuardado }, { txtError })
+                    }
+                }
+                val abrir = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+                    if (uri != null) alcance.launch {
+                        aviso = runCatching {
+                            val texto = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                                ctx.contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() } ?: error("sin archivo")
+                            }
+                            vm.restaurar(texto)
+                        }.fold({ n -> ctx.getString(R.string.respaldo_restaurado, n) }, { txtError })
+                    }
+                }
+                RutaCard {
+                    Text(stringResource(R.string.respaldo_texto), style = MaterialTheme.typography.bodyMedium)
+                    Button(onClick = { guardar.launch("rutaalacima-respaldo-${java.time.LocalDate.now()}.json") }, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.respaldo_guardar))
+                    }
+                    OutlinedButton(onClick = { abrir.launch(arrayOf("application/json", "text/plain", "application/octet-stream")) }, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.respaldo_restaurar))
+                    }
+                    aviso?.let { Text(it, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary) }
                 }
             }
 

@@ -406,3 +406,7 @@ button.audio-txt { display: block; }
 
 /* Sello que se rompe: la animación va en una capa fija sobre la página */
 .capa-sello { position: fixed; pointer-events: none; z-index: 50; }
+
+/* Meta propuesta por el coach */
+.accion-coach { align-self: flex-start; max-width: min(420px, 85%); background: var(--hoja); border: 1px solid color-mix(in srgb, var(--oro) 45%, var(--linea)); border-radius: 12px; padding: 10px 12px; margin: -2px 0 6px; }
+.accion-coach p { margin: 4px 0 8px; }

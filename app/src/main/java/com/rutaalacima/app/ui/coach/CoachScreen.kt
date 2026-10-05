@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.remember
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -76,6 +77,27 @@ class CoachViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     fun borrar() = viewModelScope.launch { c.coach.borrar() }
+
+    // ---------- Metas que propone el coach y se crean con un toque
+    private val prefs = c.contexto.getSharedPreferences("coach_acciones", android.content.Context.MODE_PRIVATE)
+    var creadas by mutableStateOf(prefs.getStringSet("creadas", emptySet()).orEmpty())
+        private set
+
+    fun crear(mensajeId: Long, a: com.rutaalacima.app.domain.model.AccionCoach) {
+        if (mensajeId.toString() in creadas) return
+        creadas = creadas + mensajeId.toString()
+        prefs.edit().putStringSet("creadas", creadas).apply()
+        val hoy = java.time.LocalDate.now()
+        c.appScope.launch {
+            when (a.tipo) {
+                com.rutaalacima.app.domain.model.AccionCoach.Tipo.META_MES -> c.planAnual.guardarMetaMes(
+                    com.rutaalacima.app.data.local.MetaMensualEntity(anio = hoy.year, mes = hoy.monthValue, orden = 99, texto = a.texto, eje = a.eje,
+                        objetivoDias = a.dias.coerceAtMost(hoy.lengthOfMonth())))
+                com.rutaalacima.app.domain.model.AccionCoach.Tipo.META_ANIO -> c.planificador.guardarMeta(
+                    com.rutaalacima.app.data.local.MetaAnualEntity(anio = hoy.year, titulo = a.texto, eje = a.eje))
+            }
+        }
+    }
 }
 
 /** Coach de IA: orienta a la persona con el método Ruta a la Cima y su información real. */
@@ -147,7 +169,13 @@ fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}) {
                     Text(stringResource(R.string.coach_ia_persona))
                 }
             }
-            items(mensajes, key = { it.id }) { m -> Burbuja(m.texto, deCoach = m.rol == "assistant") }
+            items(mensajes, key = { it.id }) { m ->
+                if (m.rol == "assistant") {
+                    val (texto, accion) = remember(m.texto) { com.rutaalacima.app.domain.model.AccionCoach.separar(m.texto) }
+                    Burbuja(texto, deCoach = true)
+                    if (accion != null) AccionPropuesta(accion, creada = m.id.toString() in vm.creadas, onCrear = { vm.crear(m.id, accion) })
+                } else Burbuja(m.texto, deCoach = false)
+            }
             if (vm.pensando) item { Box(Modifier.padding(8.dp)) { CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.dp) } }
         }
     }
@@ -168,5 +196,24 @@ private fun Burbuja(texto: String, deCoach: Boolean) {
                 )
                 .padding(horizontal = 14.dp, vertical = 10.dp),
         )
+    }
+}
+
+
+/** Botón bajo la respuesta del coach para crear la meta que propuso. */
+@Composable
+private fun AccionPropuesta(a: com.rutaalacima.app.domain.model.AccionCoach, creada: Boolean, onCrear: () -> Unit) {
+    val etiqueta = stringResource(
+        if (a.tipo == com.rutaalacima.app.domain.model.AccionCoach.Tipo.META_MES) R.string.coach_crear_meta_mes else R.string.coach_crear_meta_anio,
+    )
+    androidx.compose.material3.OutlinedCard(
+        modifier = Modifier.padding(start = 8.dp, top = 2.dp).widthIn(max = 320.dp),
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Text(etiqueta.uppercase(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+            Text(a.texto, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 4.dp))
+            if (creada) Text("✓ " + stringResource(R.string.coach_meta_creada), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+            else androidx.compose.material3.FilledTonalButton(onClick = onCrear) { Text(stringResource(R.string.coach_crear)) }
+        }
     }
 }

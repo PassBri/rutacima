@@ -46,6 +46,19 @@
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode_ui" />
 
+        <!-- Widget de la pantalla de inicio: frase del día, hábitos de hoy y racha -->
+        <receiver
+            android:name=".widget.WidgetRutaReceiver"
+            android:exported="true"
+            android:label="@string/widget_nombre">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_ruta_info" />
+        </receiver>
+
         <!-- Audiolibro sonando en segundo plano, con su notificación para pausar o cerrar -->
         <service
             android:name=".data.audio.AudiolibroService"

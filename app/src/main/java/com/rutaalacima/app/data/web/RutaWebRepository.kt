@@ -241,6 +241,21 @@ class RutaWebRepository(
 
     // ---------- Documentos del teléfono (cada fila de Room como JSON, con los mismos nombres)
 
+    // ---------- Respaldo en un archivo (funciona sin cuenta)
+
+    /** Toda la ruta del teléfono como respaldo JSON. */
+    suspend fun respaldo(): String = candado.withLock {
+        Sincronia.respaldo(locales("2015-01-01"), com.rutaalacima.app.BuildConfig.VERSION_NAME, java.time.LocalDateTime.now().toString())
+    }
+
+    /** Restaura un respaldo sumándolo a lo que hay (no borra nada). Devuelve cuántas cosas se restauraron. */
+    suspend fun restaurar(texto: String): Int = candado.withLock {
+        val docs = Sincronia.leerRespaldo(texto)
+        var n = 0
+        docs.forEach { (k, v) -> if (runCatching { aplicar(k, v) }.isSuccess) n++ }
+        n
+    }
+
     private inline fun <reified T> doc(e: T): String = Sincronia.canonico(json.encodeToJsonElement(serializer<T>(), e))
     private inline fun <reified T> de(v: String): T = json.decodeFromString(serializer<T>(), v)
 

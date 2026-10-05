@@ -46,6 +46,10 @@ data class EstadoAudiolibro(
     val velocidad: Float = 1f,
     /** Aviso para mostrar una vez (sin voz en español, grabación que no cargó…). */
     val aviso: AvisoAudio? = null,
+    /** Temporizador para dormir: hora (epoch ms) en que se pausa, o null. */
+    val apagadoEn: Long? = null,
+    /** Pausar al terminar el capítulo que suena. */
+    val alTerminarCapitulo: Boolean = false,
 )
 
 enum class AvisoAudio { SIN_VOZ, ERROR_GRABACION }
@@ -80,6 +84,49 @@ class ReproductorAudiolibro(
     /** El motor de voz no arrancó: en el próximo intento se crea de nuevo. */
     private var ttsFallo = false
     private var ticker: Job? = null
+    private var apagado: Job? = null
+    /** Dónde retomar la grabación al prepararse (ms). */
+    private var inicioMs = 0
+    private var ticks = 0
+    /** El temporizador detuvo al final de un capítulo: el próximo play sigue con el siguiente. */
+    private var pendienteSiguiente = false
+
+    /** Dónde quedaste en cada guía: "capítulo:frase:ms" (sigue ahí aunque cierres la app). */
+    private val posiciones = context.getSharedPreferences("audiolibro_posiciones", Context.MODE_PRIVATE)
+
+    data class Posicion(val seccion: Int, val fragmento: Int, val ms: Int)
+
+    fun posicion(workbookId: String): Posicion? = posiciones.getString(workbookId, null)?.split(':')?.let { p ->
+        if (p.size == 3) Posicion(p[0].toIntOrNull() ?: 0, p[1].toIntOrNull() ?: 0, p[2].toIntOrNull() ?: 0) else null
+    }
+
+    private fun guardarPosicion() {
+        val e = _estado.value
+        if (!e.activo) return
+        val ms = player?.takeIf { playerListo }?.let { runCatching { it.currentPosition }.getOrDefault(0) } ?: 0
+        posiciones.edit().putString(e.workbookId, "${e.seccion}:$fragmento:$ms").apply()
+    }
+
+    /** Sigue la guía donde quedaste (o desde el principio). */
+    fun continuar(workbookId: String, seccionPorDefecto: Int = 0) {
+        val p = posicion(workbookId)
+        if (p == null) reproducir(workbookId, seccionPorDefecto) else reproducir(workbookId, p.seccion, p.fragmento, p.ms)
+    }
+
+    /** Temporizador para dormir: pausa en [minutos] (null lo apaga). */
+    fun temporizador(minutos: Int?) {
+        apagado?.cancel(); apagado = null
+        if (minutos == null) { _estado.update { it.copy(apagadoEn = null, alTerminarCapitulo = false) }; return }
+        val fin = System.currentTimeMillis() + minutos * 60_000L
+        _estado.update { it.copy(apagadoEn = fin, alTerminarCapitulo = false) }
+        apagado = scope.launch { delay(minutos * 60_000L); pausar(); _estado.update { it.copy(apagadoEn = null) } }
+    }
+
+    /** Pausa cuando termine el capítulo que suena. */
+    fun dormirAlTerminarCapitulo() {
+        apagado?.cancel(); apagado = null
+        _estado.update { it.copy(apagadoEn = null, alTerminarCapitulo = true) }
+    }
 
     private val audioManager = context.getSystemService(AudioManager::class.java)
     private val atributos = AudioAttributes.Builder()
@@ -101,13 +148,14 @@ class ReproductorAudiolibro(
 
     // ------------------------------------------------------------------ Controles
 
-    /** Empieza (o retoma) la guía en el capítulo [seccion]. */
-    fun reproducir(workbookId: String, seccion: Int) {
+    /** Empieza (o retoma) la guía en el capítulo [seccion], desde una frase o un segundo dados. */
+    fun reproducir(workbookId: String, seccion: Int, desdeFragmento: Int = 0, desdeMs: Int = 0) {
         scope.launch {
             val wb = runCatching { contenido.workbook(workbookId) }.getOrNull() ?: return@launch
             val s = wb.sections.getOrNull(seccion) ?: return@launch
-            liberarPlayer(); tts?.stop(); generacion++; alEstarListo = null
-            fragmentos = Locucion.fragmentos(s); fragmento = 0
+            liberarPlayer(); tts?.stop(); generacion++; alEstarListo = null; pendienteSiguiente = false
+            fragmentos = Locucion.fragmentos(s); fragmento = desdeFragmento.coerceIn(0, (fragmentos.size - 1).coerceAtLeast(0))
+            inicioMs = desdeMs
             val fuente = audios.fuente(workbookId, seccion)
             _estado.update {
                 it.copy(
@@ -118,7 +166,7 @@ class ReproductorAudiolibro(
             }
             pedirFoco()
             AudiolibroService.iniciar(context)
-            if (fuente != null) sonarGrabacion(fuente) else hablar(0)
+            if (fuente != null) sonarGrabacion(fuente) else hablar(fragmento)
         }
     }
 
@@ -127,6 +175,7 @@ class ReproductorAudiolibro(
     fun pausar() {
         val e = _estado.value
         if (!e.activo || !e.reproduciendo) return
+        guardarPosicion()
         if (e.fuente == FuenteAudio.AUTOR) player?.takeIf { playerListo && it.isPlaying }?.pause() else { generacion++; alEstarListo = null; tts?.stop() }
         _estado.update { it.copy(reproduciendo = false, cargando = false) }
         soltarRuidoso()
@@ -135,6 +184,7 @@ class ReproductorAudiolibro(
     fun reanudar() {
         val e = _estado.value
         if (!e.activo || e.reproduciendo) return
+        if (pendienteSiguiente) { pendienteSiguiente = false; continuar(e.workbookId); return }
         pedirFoco()
         _estado.update { it.copy(reproduciendo = true) }
         if (e.fuente == FuenteAudio.AUTOR) {
@@ -147,6 +197,8 @@ class ReproductorAudiolibro(
 
     /** Detiene y cierra el audiolibro (quita la notificación). */
     fun detener() {
+        guardarPosicion()
+        apagado?.cancel(); apagado = null
         generacion++; alEstarListo = null
         tts?.stop(); liberarPlayer(); soltarRuidoso()
         audioManager.abandonAudioFocusRequest(foco)
@@ -211,6 +263,7 @@ class ReproductorAudiolibro(
         motor.speak(fragmentos[fragmento], TextToSpeech.QUEUE_FLUSH, Bundle(), "f-$gen-$fragmento")
         registrarRuidoso()
         _estado.update { it.copy(cargando = false, reproduciendo = true, avance = avanceVoz()) }
+        guardarPosicion()
     }
 
     private fun crearVoz() {
@@ -262,12 +315,15 @@ class ReproductorAudiolibro(
         playerListo = false
         runCatching {
             p.setAudioAttributes(atributos)
-            if (fuente.startsWith("asset:")) {
+            if (fuente.startsWith("file:")) {
+                java.io.FileInputStream(fuente.removePrefix("file:")).use { f -> p.setDataSource(f.fd) }
+            } else if (fuente.startsWith("asset:")) {
                 context.assets.openFd(fuente.removePrefix("asset:")).use { fd -> p.setDataSource(fd.fileDescriptor, fd.startOffset, fd.length) }
             } else p.setDataSource(fuente)
             p.setOnPreparedListener {
                 if (player !== it) return@setOnPreparedListener
                 playerListo = true
+                if (inicioMs > 0) { runCatching { it.seekTo(inicioMs) }; inicioMs = 0 }
                 // pause() no es válido en estado Prepared: si está en pausa, solo queda preparado
                 if (_estado.value.reproduciendo) { it.start(); aplicarVelocidad(it); empezarTicker(); registrarRuidoso() }
                 _estado.update { e -> e.copy(cargando = false) }
@@ -291,7 +347,13 @@ class ReproductorAudiolibro(
 
     private fun empezarTicker() {
         ticker?.cancel()
-        ticker = scope.launch { while (isActive) { actualizarAvanceGrabacion(); delay(500) } }
+        ticker = scope.launch {
+            while (isActive) {
+                actualizarAvanceGrabacion()
+                if (++ticks % 10 == 0) guardarPosicion()   // cada 5 s
+                delay(500)
+            }
+        }
     }
 
     private fun actualizarAvanceGrabacion() {
@@ -311,8 +373,19 @@ class ReproductorAudiolibro(
 
     private fun terminarCapitulo() {
         val e = _estado.value
-        if (e.seccion + 1 < e.totalSecciones) reproducir(e.workbookId, e.seccion + 1)
-        else { liberarPlayer(); soltarRuidoso(); _estado.update { it.copy(reproduciendo = false, avance = 1f) } }
+        val haySiguiente = e.seccion + 1 < e.totalSecciones
+        if (haySiguiente) posiciones.edit().putString(e.workbookId, "${e.seccion + 1}:0:0").apply()
+        else posiciones.edit().remove(e.workbookId).apply()   // guía terminada: la próxima vez empieza de nuevo
+        when {
+            e.alTerminarCapitulo -> {
+                // Temporizador "al terminar el capítulo": se detiene aquí; al darle play sigue con el siguiente
+                liberarPlayer(); soltarRuidoso()
+                pendienteSiguiente = haySiguiente
+                _estado.update { it.copy(reproduciendo = false, alTerminarCapitulo = false, avance = 1f) }
+            }
+            haySiguiente -> reproducir(e.workbookId, e.seccion + 1)
+            else -> { liberarPlayer(); soltarRuidoso(); _estado.update { it.copy(reproduciendo = false, avance = 1f) } }
+        }
     }
 
     private fun pedirFoco() { audioManager.requestAudioFocus(foco) }

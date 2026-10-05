@@ -950,12 +950,29 @@ DET.coach = () => {
     `<div class="det-cuerpo abajo"><div class="chat">
       <div class="burbuja el">¡Hola! Soy tu coach de Rutaalacima. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</div>
       ${ms.map(m => { const d = new Date(m.creadoEn).toLocaleDateString("es", { day: "numeric", month: "long" }); const sep = d !== ultimoDia ? `<span class="fecha-sep">${d}</span>` : ""; ultimoDia = d;
-        return sep + `<div class="burbuja ${m.rol === "user" ? "yo" : "el"}">${esc(m.texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>`; }).join("")}
+        if (m.rol === "user") return sep + `<div class="burbuja yo">${esc(m.texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>`;
+        const [texto, accion] = separarAccion(m.texto), creada = listaLocal("coach-creadas").has(String(m.id));
+        return sep + `<div class="burbuja el">${esc(texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>` + (accion ? `<div class="accion-coach">
+          <div class="etiqueta">${accion.tipo === "meta_mes" ? "Meta del mes propuesta" : "Meta del año propuesta"}</div><p>${esc(accion.texto)}</p>
+          ${creada ? `<span class="suave">✓ Meta creada</span>` : `<button class="btn mini lleno" data-acc="crearMetaCoach" data-arg="${esc(String(m.id))}">Crear esta meta</button>`}</div>` : ""); }).join("")}
       ${coachEscribiendo ? `<div class="burbuja el escribiendo">escribiendo…</div>` : ""}</div>
       ${ms.length < 2 ? `<div class="sugerencias">${sugs.map(s => `<button data-pregunta="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}</div>
     <form class="escribir" data-form="coach"><input name="texto" placeholder="Escribe un mensaje" aria-label="Mensaje" autocomplete="off"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
 };
 
+/** La meta que propone el coach al final de su respuesta (igual que AccionCoach.kt). */
+function separarAccion(t) {
+  const m = /\[\[ACCION([\s\S]*?)]]/.exec(t || "");
+  if (!m) return [String(t || "").trim(), null];
+  const limpio = t.replace(/\[\[ACCION[\s\S]*?]]/g, "").trim();
+  try {
+    const o = JSON.parse(m[1].slice(m[1].indexOf("{"), m[1].lastIndexOf("}") + 1));
+    if (o.tipo !== "meta_mes" && o.tipo !== "meta_anio") return [limpio, null];
+    const texto = String(o.texto || o.titulo || "").trim().slice(0, 300); if (!texto) return [limpio, null];
+    const eje = String(o.eje || "").toUpperCase();
+    return [limpio, { tipo: o.tipo, texto, eje: COLOR_EJE[eje] ? eje : null, dias: Math.min(31, Math.max(1, Number(o.dias) || 20)) }];
+  } catch { return [limpio, null]; }
+}
 /* ---------- Mis frases ---------- */
 DET["frases.f"] = fecha => {
   if (!Contenido.frases) { Contenido.cargarFrases(); return vacio(); }
@@ -1192,6 +1209,14 @@ const ACC = {
     const [anio, prop] = arg.split("|"), id = nuevoId();
     Store.guardar("meta_anio", { id, anio: Number(anio), propositoId: prop ? Number(prop) : null, titulo: "Nueva meta", subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: null, indicador: "", observable: "" });
     ir("metas", "a:" + id); enfocarPrimero();
+  },
+  crearMetaCoach(el, id) {
+    const msg = Store.get("coach", id); if (!msg) return;
+    const [, a] = separarAccion(msg.texto); if (!a) return;
+    const hoy = hoyFecha(), anio = hoy.getFullYear(), mes = hoy.getMonth() + 1;
+    if (a.tipo === "meta_mes") Store.guardar("meta_mes", { id: nuevoId(), anio, mes, orden: metasDelMes(anio, mes).length, texto: a.texto, dias: "", cumplida: false, metaAnualId: null, eje: a.eje, indicador: "", objetivoDias: Math.min(a.dias, diasEnMes(anio, mes)) });
+    else Store.guardar("meta_anio", { id: nuevoId(), anio, propositoId: null, titulo: a.texto, subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: a.eje, indicador: "", observable: "" });
+    ocultarLocal("coach-creadas", id); toast("Meta creada"); pintarDetalle();
   },
   nuevaMetaMes(el, arg) {
     const [ym, anual] = arg.split("|"), [a, m] = ym.split("-").map(Number), id = nuevoId();

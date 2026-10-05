@@ -53,11 +53,60 @@ class AudiosRepository(private val context: Context, private val supa: SupabaseC
 
     private fun clave(guia: String, seccion: Int) = "$guia/$seccion"
 
-    /** Fuente de la grabación del capítulo: URL remota, "asset:ruta" o null (se usa la voz del teléfono). */
-    fun fuente(guia: String, seccion: Int): String? =
-        _remotos.value[clave(guia, seccion)] ?: incluidos[clave(guia, seccion)]?.let { "asset:$it" }
+    /**
+     * Fuente de la grabación del capítulo: "file:…" si la descargaste (y sigue vigente), la URL
+     * remota, "asset:ruta" si viene en la app, o null (se usa la voz del teléfono).
+     */
+    fun fuente(guia: String, seccion: Int): String? {
+        val k = clave(guia, seccion)
+        val remota = _remotos.value[k]
+        val local = archivoDescargado(guia, seccion)
+        if (local != null && (remota == null || descargas.getString(k, null) == remota)) return "file:${local.absolutePath}"
+        return remota ?: incluidos[k]?.let { "asset:$it" }
+    }
 
-    fun tieneGrabacion(guia: String, seccion: Int) = fuente(guia, seccion) != null
+    // ------------------------------------------------------------------ Descargas (escuchar sin internet)
+
+    private val descargas = context.getSharedPreferences("audiolibros_descargas", Context.MODE_PRIVATE)
+    private fun carpeta(guia: String) = java.io.File(context.filesDir, "audios/$guia")
+    private fun archivoDescargado(guia: String, seccion: Int): java.io.File? =
+        carpeta(guia).listFiles()?.firstOrNull { it.nameWithoutExtension == seccion.toString() && it.length() > 0 }
+
+    /** Capítulos de la guía con grabación en el servidor. */
+    fun grabacionesRemotas(guia: String): Map<Int, String> =
+        _remotos.value.filterKeys { it.substringBefore('/') == guia }.mapKeys { it.key.substringAfter('/').toInt() }
+
+    /** Todas las grabaciones de la guía están descargadas y al día. */
+    fun descargada(guia: String): Boolean {
+        val r = grabacionesRemotas(guia)
+        return r.isNotEmpty() && r.all { (sec, url) -> archivoDescargado(guia, sec) != null && descargas.getString(clave(guia, sec), null) == url }
+    }
+
+    /** Descarga las grabaciones de la guía para escucharlas sin internet. */
+    suspend fun descargar(guia: String, alAvanzar: (hechas: Int, total: Int) -> Unit = { _, _ -> }) = withContext(Dispatchers.IO) {
+        val r = grabacionesRemotas(guia)
+        carpeta(guia).mkdirs()
+        r.entries.forEachIndexed { i, (sec, url) ->
+            if (descargas.getString(clave(guia, sec), null) != url || archivoDescargado(guia, sec) == null) {
+                val ext = url.substringAfterLast('.', "mp3").substringBefore('?').take(5)
+                val destino = java.io.File(carpeta(guia), "$sec.$ext")
+                val temporal = java.io.File(carpeta(guia), "$sec.descargando")
+                java.net.URL(url).openStream().use { entrada -> temporal.outputStream().use { entrada.copyTo(it) } }
+                carpeta(guia).listFiles()?.filter { it.nameWithoutExtension == sec.toString() }?.forEach { it.delete() }
+                temporal.renameTo(destino)
+                descargas.edit().putString(clave(guia, sec), url).apply()
+            }
+            alAvanzar(i + 1, r.size)
+        }
+    }
+
+    /** Borra las grabaciones descargadas de la guía (vuelven a sonar por internet). */
+    fun borrarDescargas(guia: String) {
+        carpeta(guia).deleteRecursively()
+        descargas.edit().apply { descargas.all.keys.filter { it.startsWith("$guia/") }.forEach { remove(it) } }.apply()
+    }
+
+    fun tieneGrabacion(guia: String, seccion: Int) = _remotos.value.containsKey(clave(guia, seccion)) || incluidos.containsKey(clave(guia, seccion))
 
     /** Trae del servidor la lista de grabaciones (como mucho cada 10 minutos, salvo [forzar]). */
     suspend fun actualizar(forzar: Boolean = false) {

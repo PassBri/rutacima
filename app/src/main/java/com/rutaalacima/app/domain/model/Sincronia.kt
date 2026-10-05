@@ -58,6 +58,25 @@ object Sincronia {
 
     fun canonico(texto: String): String = canonico(Json.parseToJsonElement(texto))
 
+    // ------------------------------------------------------------------ Respaldo en un archivo
+
+    const val FORMATO_RESPALDO = "rutaalacima-respaldo"
+
+    /** Toda la ruta en un archivo JSON legible ({formato, version, fecha, documentos: {"tipo/clave": {...}}}). */
+    fun respaldo(documentos: Map<String, String>, version: String, fecha: String): String {
+        val docs = documentos.toSortedMap().entries.joinToString(",\n    ", "{\n    ", "\n  }") { (k, v) -> "${JsonPrimitive(k)}: ${canonico(v)}" }
+        return "{\n  \"formato\": \"$FORMATO_RESPALDO\",\n  \"version\": ${JsonPrimitive(version)},\n  \"fecha\": ${JsonPrimitive(fecha)},\n  \"documentos\": $docs\n}\n"
+    }
+
+    /** Lee un respaldo; solo devuelve los tipos conocidos. Lanza IllegalArgumentException si no es un respaldo. */
+    fun leerRespaldo(texto: String): Map<String, String> {
+        val raiz = runCatching { Json.parseToJsonElement(texto) as JsonObject }.getOrNull()
+            ?: throw IllegalArgumentException("no es JSON")
+        require((raiz["formato"] as? JsonPrimitive)?.content == FORMATO_RESPALDO) { "no es un respaldo de Rutaalacima" }
+        val docs = raiz["documentos"] as? JsonObject ?: throw IllegalArgumentException("sin documentos")
+        return docs.filter { (k, v) -> tipoDe(k) in TIPOS && k.contains('/') && v is JsonObject }.mapValues { canonico(it.value) }
+    }
+
     fun huella(texto: String): String =
         MessageDigest.getInstance("SHA-256").digest(canonico(texto).toByteArray())
             .take(12).joinToString("") { "%02x".format(it) }

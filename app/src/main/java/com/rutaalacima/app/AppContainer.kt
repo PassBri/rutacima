@@ -1,3 +1,5 @@
+@file:OptIn(kotlinx.coroutines.FlowPreview::class)
+
 package com.rutaalacima.app
 
 import android.content.Context
@@ -17,6 +19,8 @@ import com.rutaalacima.app.data.social.SocialRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 
 /** Inyección de dependencias manual (suficiente para el tamaño actual del proyecto). */
 class AppContainer(context: Context) {
@@ -58,5 +62,11 @@ class AppContainer(context: Context) {
 
     init {
         web.iniciarAutomatica(appScope)
+        // El widget se actualiza cuando marcas un hábito o abres la frase del día
+        appScope.launch {
+            kotlinx.coroutines.flow.combine(checklist.desde(java.time.LocalDate.now().minusDays(1)), frases.desbloqueadas) { a, b -> a to b }
+                .debounce(1_500)
+                .collect { com.rutaalacima.app.widget.WidgetRuta.actualizar(context.applicationContext) }
+        }
     }
 }

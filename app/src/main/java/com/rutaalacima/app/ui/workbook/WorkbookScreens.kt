@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import kotlinx.coroutines.launch
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,6 +24,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Headphones
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.DownloadDone
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
@@ -128,10 +131,47 @@ fun WorkbookIndexScreen(
                         Button(onClick = { onOpenSection(siguiente) }) {
                             Text(stringResource(if (p > 0f || ultima != null) R.string.continuar else R.string.comenzar))
                         }
-                        OutlinedButton(onClick = { audiolibro.reproducir(wb.id, siguiente); onOpenSection(siguiente) }) {
+                        val pos = remember(wb.id) { audiolibro.posicion(wb.id) }
+                        OutlinedButton(onClick = {
+                            audiolibro.continuar(wb.id, siguiente)
+                            onOpenSection(pos?.seccion ?: siguiente)
+                        }) {
                             Icon(Icons.Filled.Headphones, null, Modifier.size(18.dp))
                             Spacer(Modifier.width(6.dp))
-                            Text(stringResource(R.string.audio_escuchar))
+                            Text(stringResource(if (pos != null) R.string.audio_seguir_escuchando else R.string.audio_escuchar))
+                        }
+                    }
+                    // Grabaciones del autor: descargarlas para escuchar sin internet
+                    val remotas = remember(grabaciones, wb.id) { contenedor.audios.grabacionesRemotas(wb.id) }
+                    if (remotas.isNotEmpty()) {
+                        val alcance = androidx.compose.runtime.rememberCoroutineScope()
+                        var progreso by androidx.compose.runtime.remember(wb.id) { androidx.compose.runtime.mutableStateOf<Pair<Int, Int>?>(null) }
+                        var lista by androidx.compose.runtime.remember(wb.id, grabaciones) { androidx.compose.runtime.mutableStateOf(contenedor.audios.descargada(wb.id)) }
+                        val txtError = stringResource(R.string.audio_descarga_error)
+                        val ctx = androidx.compose.ui.platform.LocalContext.current
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 6.dp)) {
+                            Icon(if (lista) Icons.Filled.DownloadDone else Icons.Filled.Download, null, Modifier.size(18.dp),
+                                tint = MaterialTheme.colorScheme.secondary)
+                            Spacer(Modifier.width(6.dp))
+                            val p = progreso
+                            Text(
+                                when {
+                                    p != null -> stringResource(R.string.audio_descargando, p.first, p.second)
+                                    lista -> stringResource(R.string.audio_descargados)
+                                    else -> stringResource(R.string.audio_n_grabaciones, remotas.size)
+                                },
+                                style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f),
+                            )
+                            if (p == null) androidx.compose.material3.TextButton(onClick = {
+                                if (lista) { contenedor.audios.borrarDescargas(wb.id); lista = false }
+                                else alcance.launch {
+                                    progreso = 0 to remotas.size
+                                    runCatching { contenedor.audios.descargar(wb.id) { h, t -> progreso = h to t } }
+                                        .onFailure { android.widget.Toast.makeText(ctx, txtError, android.widget.Toast.LENGTH_LONG).show() }
+                                    progreso = null
+                                    lista = contenedor.audios.descargada(wb.id)
+                                }
+                            }) { Text(stringResource(if (lista) R.string.audio_borrar_descargas else R.string.audio_descargar)) }
                         }
                     }
                 }

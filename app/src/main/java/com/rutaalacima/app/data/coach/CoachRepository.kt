@@ -59,7 +59,7 @@ class CoachRepository(
     }.getOrNull()
 
     private suspend fun remoto(): String? {
-        val historial = db.coachDao().ultimos(16).reversed()
+        val historial = db.coachDao().ultimos(24).reversed()
         val r = supa.funcion("coach", buildJsonObject {
             put("contexto", contexto())
             put("idioma", Locale.getDefault().language)
@@ -91,6 +91,16 @@ class CoachRepository(
             if (props.isNotEmpty()) appendLine("Propósitos a 5 años: " + props.joinToString("; ") { "${it.titulo} (${it.progreso}%)" })
             if (anuales.isNotEmpty()) appendLine("Metas $anio: " + anuales.joinToString("; ") { "${it.titulo} (${it.avance}%)" })
             if (mensuales.isNotEmpty()) appendLine("Metas de este mes: " + mensuales.joinToString("; ") { "${it.texto} (${(it.avance() * 100).toInt()}%)" })
+            // Constancia y lo último que escribió en sus revisiones (para que el coach recuerde)
+            val dias = db.checklistDao().observeDesde(hoy.minusDays(60).toString()).first()
+                .filter { it.marcados.isNotBlank() }.mapNotNull { runCatching { LocalDate.parse(it.fecha) }.getOrNull() }.toSet()
+            appendLine("Racha de días con hábitos: ${com.rutaalacima.app.domain.model.Constancia.racha(dias, hoy)}; días con hábitos en las últimas 4 semanas: ${dias.count { !it.isBefore(hoy.minusDays(28)) }}")
+            val revision = db.respuestaDao().getWorkbook("revision").filter { it.clave.contains("#q") }
+                .sortedByDescending { it.clave }.take(3)
+            if (revision.isNotEmpty()) appendLine("Su última revisión: " + revision.joinToString(" | ") { r ->
+                val q = when (r.clave.substringAfterLast("#q")) { "1" -> "Funcionó"; "2" -> "Lo frenó"; else -> "Paso clave" }
+                "$q: ${r.valor.take(200)}"
+            })
         }
     }
 

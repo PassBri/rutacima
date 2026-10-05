@@ -86,11 +86,19 @@ class AprendeViewModel(c: AppContainer) : ViewModel() {
 fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit) {
     val vm = rutaViewModel { AprendeViewModel(it) }
     val guias by vm.guias.collectAsStateWithLifecycle()
+    val enOtroIdioma = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language != "es"
 
     LazyColumn(
         contentPadding = PaddingValues(top = contentPadding.calculateTopPadding() + 4.dp, bottom = contentPadding.calculateBottomPadding() + 24.dp),
         verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
+        // Las guías están escritas en español: si la app está en otro idioma, se dice claramente
+        if (enOtroIdioma) item {
+            com.rutaalacima.app.ui.components.RutaCard(Modifier.padding(horizontal = 16.dp)) {
+                androidx.compose.material3.Text(androidx.compose.ui.res.stringResource(com.rutaalacima.app.R.string.guias_en_espanol),
+                    style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+            }
+        }
         item {
             Text(stringResource(R.string.aprende_intro), style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(horizontal = 16.dp))
