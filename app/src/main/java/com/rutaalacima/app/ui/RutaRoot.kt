@@ -43,6 +43,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
@@ -131,6 +132,8 @@ object Rutas {
     const val ACOMPANADO = "acompanado/{id}/{nombre}"
     const val REVISION = "revision/{tipo}/{dia}"
     const val CONSTANCIA = "constancia"
+    const val CORDADAS = "cordadas"
+    const val CORDADA = "cordada/{id}"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -140,6 +143,7 @@ object Rutas {
     fun publicar(tipo: String = "LOGRO") = "publicar/$tipo"
     fun post(id: String) = "post/$id"
     fun chat(id: String) = "chat/$id"
+    fun cordada(id: String) = "cordada/$id"
     fun revision(tipo: com.rutaalacima.app.domain.model.Revision.Tipo, dia: java.time.LocalDate) = "revision/${tipo.name}/$dia"
     fun acompanado(id: String, nombre: String) = "acompanado/$id/${android.net.Uri.encode(nombre.ifBlank { "-" })}"
 }
@@ -218,6 +222,9 @@ private fun AppPrincipal() {
                     },
                     actions = {
                         if (pestana.ruta == Rutas.COMUNIDAD) {
+                            IconButton(onClick = { nav.navigate(Rutas.CORDADAS) }) {
+                                Icon(Icons.Filled.Diversity3, stringResource(R.string.cordadas))
+                            }
                             IconButton(onClick = { nav.navigate(Rutas.MENSAJES) }) {
                                 Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes))
                             }
@@ -386,6 +393,14 @@ private fun AppPrincipal() {
                     .getOrDefault(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA)
                 val dia = runCatching { java.time.LocalDate.parse(e.arguments?.getString("dia")) }.getOrDefault(java.time.LocalDate.now())
                 com.rutaalacima.app.ui.hoy.RevisionScreen(tipo, dia, onBack = { nav.popBackStack() })
+            }
+            composable(Rutas.CORDADAS) {
+                com.rutaalacima.app.ui.cordadas.CordadasScreen(
+                    onBack = { nav.popBackStack() }, onAbrir = { nav.navigate(Rutas.cordada(it)) }, onCuenta = { nav.navigate(Rutas.AJUSTES) },
+                )
+            }
+            composable(Rutas.CORDADA, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
+                com.rutaalacima.app.ui.cordadas.CordadaScreen(id = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
             }
             composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }

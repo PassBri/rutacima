@@ -849,3 +849,209 @@ do $$ begin
     perform cron.schedule('limpiar-sesiones-web', '17 4 * * *', 'select public.limpiar_sesiones_web()');
   end if;
 end $$;
+
+-- =====================================================================
+-- Cordadas: grupos de 3 a 6 personas con un reto compartido
+-- =====================================================================
+-- En montaña, una cordada es el grupo que sube atado a la misma cuerda. Aquí: un reto de N días
+-- (por ejemplo "30 días madrugando"), cada quien marca su día, y un muro para darse ánimo.
+-- Se entra con un código de invitación; nadie ve una cordada de la que no es parte.
+
+create table if not exists public.cordadas (
+  id         uuid primary key default gen_random_uuid(),
+  nombre     text not null check (char_length(nombre) between 2 and 60),
+  reto       text not null check (char_length(reto) between 3 and 200),
+  eje        text check (eje in ('VOL','MAE','VOZ','VAL','EVO','TRA')),
+  inicio     date not null default current_date,
+  dias       int  not null default 30 check (dias between 7 and 100),
+  codigo     text not null unique,
+  creada_por uuid not null references public.profiles(id) on delete cascade,
+  creada     timestamptz not null default now()
+);
+create table if not exists public.cordada_miembros (
+  cordada_id uuid not null references public.cordadas(id) on delete cascade,
+  user_id    uuid not null references public.profiles(id) on delete cascade,
+  unido      timestamptz not null default now(),
+  primary key (cordada_id, user_id)
+);
+create table if not exists public.cordada_checkins (
+  cordada_id uuid not null references public.cordadas(id) on delete cascade,
+  user_id    uuid not null references public.profiles(id) on delete cascade,
+  dia        date not null,
+  primary key (cordada_id, user_id, dia)
+);
+create table if not exists public.cordada_notas (
+  id         uuid primary key default gen_random_uuid(),
+  cordada_id uuid not null references public.cordadas(id) on delete cascade,
+  user_id    uuid not null references public.profiles(id) on delete cascade,
+  texto      text not null check (char_length(texto) between 1 and 500),
+  creada     timestamptz not null default now()
+);
+create index if not exists cordada_notas_orden on public.cordada_notas (cordada_id, creada desc);
+
+alter table public.cordadas         enable row level security;
+alter table public.cordada_miembros enable row level security;
+alter table public.cordada_checkins enable row level security;
+alter table public.cordada_notas    enable row level security;
+
+create or replace function public.en_cordada(c uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.cordada_miembros where cordada_id = c and user_id = public.yo())
+$$;
+
+drop policy if exists "ver mi cordada" on public.cordadas;
+create policy "ver mi cordada" on public.cordadas for select using (public.en_cordada(id));
+drop policy if exists "ver compañeros de cordada" on public.cordada_miembros;
+create policy "ver compañeros de cordada" on public.cordada_miembros for select using (public.en_cordada(cordada_id));
+drop policy if exists "ver días de la cordada" on public.cordada_checkins;
+create policy "ver días de la cordada" on public.cordada_checkins for select using (public.en_cordada(cordada_id));
+drop policy if exists "marcar mi día" on public.cordada_checkins;
+create policy "marcar mi día" on public.cordada_checkins for insert with check (
+  user_id = public.yo() and public.en_cordada(cordada_id) and dia <= current_date + 1
+  and exists (select 1 from public.cordadas c where c.id = cordada_id and dia between c.inicio and c.inicio + c.dias - 1));
+drop policy if exists "desmarcar mi día" on public.cordada_checkins;
+create policy "desmarcar mi día" on public.cordada_checkins for delete using (user_id = public.yo());
+drop policy if exists "leer el muro" on public.cordada_notas;
+create policy "leer el muro" on public.cordada_notas for select using (public.en_cordada(cordada_id));
+drop policy if exists "escribir en el muro" on public.cordada_notas;
+create policy "escribir en el muro" on public.cordada_notas for insert with check (user_id = public.yo() and public.en_cordada(cordada_id));
+drop policy if exists "borrar mi nota" on public.cordada_notas;
+create policy "borrar mi nota" on public.cordada_notas for delete using (user_id = public.yo());
+grant select on public.cordadas, public.cordada_miembros to authenticated;
+grant select, insert, delete on public.cordada_checkins, public.cordada_notas to authenticated;
+
+create or replace function public.crear_cordada(nombre text, reto text, eje text default null, dias int default 30, inicio date default current_date)
+returns table (id uuid, codigo text)
+language plpgsql security definer set search_path = public as $$
+declare
+  yo uuid := public.yo();
+  c text;
+  nueva uuid;
+begin
+  if yo is null then raise exception 'Inicia sesión para crear una cordada'; end if;
+  if (select count(*) from public.cordada_miembros m join public.cordadas x on x.id = m.cordada_id
+       where m.user_id = yo and x.inicio + x.dias > current_date) >= 5 then
+    raise exception 'Ya estás en 5 cordadas activas';
+  end if;
+  loop
+    c := (select string_agg(substr('ABCDEFGHJKLMNPQRSTUVWXYZ23456789', 1 + floor(random() * 32)::int, 1), '') from generate_series(1, 6));
+    exit when not exists (select 1 from public.cordadas where cordadas.codigo = c);
+  end loop;
+  insert into public.cordadas (nombre, reto, eje, dias, inicio, codigo, creada_por)
+  values (left(trim(crear_cordada.nombre), 60), left(trim(crear_cordada.reto), 200), crear_cordada.eje, crear_cordada.dias, crear_cordada.inicio, c, yo)
+  returning cordadas.id into nueva;
+  insert into public.cordada_miembros (cordada_id, user_id) values (nueva, yo);
+  return query select nueva, c;
+end $$;
+
+create or replace function public.unirse_cordada(codigo text) returns uuid
+language plpgsql security definer set search_path = public as $$
+declare
+  yo uuid := public.yo();
+  x public.cordadas;
+begin
+  if yo is null then raise exception 'Inicia sesión para unirte'; end if;
+  select * into x from public.cordadas c where c.codigo = upper(regexp_replace(unirse_cordada.codigo, '[^A-Za-z0-9]', '', 'g'));
+  if not found then raise exception 'Ese código no es de ninguna cordada'; end if;
+  if exists (select 1 from public.cordada_miembros where cordada_id = x.id and user_id = yo) then return x.id; end if;
+  if (select count(*) from public.cordada_miembros where cordada_id = x.id) >= 6 then raise exception 'Esta cordada ya tiene 6 personas'; end if;
+  if x.inicio + x.dias <= current_date then raise exception 'Este reto ya terminó'; end if;
+  if exists (select 1 from public.cordada_miembros m where m.cordada_id = x.id and public.bloqueados(yo, m.user_id)) then
+    raise exception 'No puedes unirte a esta cordada';
+  end if;
+  insert into public.cordada_miembros (cordada_id, user_id) values (x.id, yo);
+  return x.id;
+end $$;
+
+create or replace function public.salir_cordada(c uuid) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  delete from public.cordada_miembros where cordada_id = c and user_id = public.yo();
+  delete from public.cordada_checkins where cordada_id = c and user_id = public.yo();
+  -- La cordada sin nadie desaparece
+  delete from public.cordadas x where x.id = c and not exists (select 1 from public.cordada_miembros where cordada_id = c);
+end $$;
+
+-- Mis cordadas con su avance: días cumplidos por mí y por el grupo, y si ya marqué hoy
+create or replace function public.mis_cordadas()
+returns table (id uuid, nombre text, reto text, eje text, inicio date, dias int, codigo text,
+               miembros int, mis_dias int, dias_grupo int, marque_hoy boolean)
+language sql stable security definer set search_path = public as $$
+  select x.id, x.nombre, x.reto, x.eje, x.inicio, x.dias, x.codigo,
+         (select count(*)::int from public.cordada_miembros where cordada_id = x.id),
+         (select count(*)::int from public.cordada_checkins where cordada_id = x.id and user_id = public.yo()),
+         (select count(*)::int from public.cordada_checkins where cordada_id = x.id),
+         exists (select 1 from public.cordada_checkins where cordada_id = x.id and user_id = public.yo() and dia = current_date)
+    from public.cordadas x
+    join public.cordada_miembros m on m.cordada_id = x.id and m.user_id = public.yo()
+   order by (x.inicio + x.dias > current_date) desc, x.inicio desc
+$$;
+
+-- Compañeros de una cordada con los días que marcó cada uno
+create or replace function public.cordada_detalle(c uuid)
+returns table (user_id uuid, nombre text, usuario text, avatar text, dias date[], soy_yo boolean)
+language sql stable security definer set search_path = public as $$
+  select p.id, coalesce(nullif(p.nombre, ''), p.username), p.username, p.avatar_url,
+         coalesce((select array_agg(k.dia order by k.dia) from public.cordada_checkins k where k.cordada_id = c and k.user_id = p.id), '{}'),
+         p.id = public.yo()
+    from public.cordada_miembros m join public.profiles p on p.id = m.user_id
+   where m.cordada_id = c and public.en_cordada(c)
+   order by m.unido
+$$;
+
+revoke all on function public.crear_cordada(text, text, text, int, date), public.unirse_cordada(text), public.salir_cordada(uuid),
+  public.mis_cordadas(), public.cordada_detalle(uuid) from public, anon;
+grant execute on function public.crear_cordada(text, text, text, int, date), public.unirse_cordada(text), public.salir_cordada(uuid),
+  public.mis_cordadas(), public.cordada_detalle(uuid) to authenticated;
+
+create or replace function public.limitar_notas_cordada() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.limite((select count(*) from public.cordada_notas where user_id = new.user_id and creada > now() - interval '1 minute'), 10, 'escribir en el muro');
+  return new;
+end $$;
+drop trigger if exists limitar_notas_cordada on public.cordada_notas;
+create trigger limitar_notas_cordada before insert on public.cordada_notas for each row execute function public.limitar_notas_cordada();
+
+-- =====================================================================
+-- Coach de vida: sesiones agendadas y notas privadas del coach
+-- =====================================================================
+create table if not exists public.sesiones_coach (
+  id          uuid primary key default gen_random_uuid(),
+  acomp_id    uuid not null references public.acompanamientos(id) on delete cascade,
+  inicio      timestamptz not null,
+  minutos     int not null default 45 check (minutos between 10 and 180),
+  enlace      text not null default '' check (enlace = '' or enlace ~ '^https://'),
+  tema        text not null default '' check (char_length(tema) <= 200),
+  creada_por  uuid not null default public.yo(),
+  creada      timestamptz not null default now()
+);
+create index if not exists sesiones_coach_orden on public.sesiones_coach (acomp_id, inicio);
+create table if not exists public.notas_coach (
+  acomp_id    uuid primary key references public.acompanamientos(id) on delete cascade,
+  texto       text not null default '' check (char_length(texto) <= 8000),
+  actualizada timestamptz not null default now()
+);
+alter table public.sesiones_coach enable row level security;
+alter table public.notas_coach    enable row level security;
+
+create or replace function public.en_acompanamiento(a uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.acompanamientos x where x.id = a and x.estado = 'activo' and public.yo() in (x.coach_id, x.usuario_id))
+$$;
+create or replace function public.soy_coach_de(a uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.acompanamientos x where x.id = a and x.coach_id = public.yo())
+$$;
+
+drop policy if exists "ver sesiones" on public.sesiones_coach;
+create policy "ver sesiones" on public.sesiones_coach for select using (public.en_acompanamiento(acomp_id));
+drop policy if exists "agendar sesión" on public.sesiones_coach;
+create policy "agendar sesión" on public.sesiones_coach for insert with check (public.en_acompanamiento(acomp_id) and creada_por = public.yo());
+drop policy if exists "cancelar sesión" on public.sesiones_coach;
+create policy "cancelar sesión" on public.sesiones_coach for delete using (public.en_acompanamiento(acomp_id));
+-- Las notas del coach son solo suyas: la persona acompañada no las ve
+drop policy if exists "notas del coach" on public.notas_coach;
+create policy "notas del coach" on public.notas_coach for all using (public.soy_coach_de(acomp_id)) with check (public.soy_coach_de(acomp_id));
+grant select, insert, delete on public.sesiones_coach to authenticated;
+grant select, insert, update, delete on public.notas_coach to authenticated;

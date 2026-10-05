@@ -410,3 +410,62 @@ button.audio-txt { display: block; }
 /* Meta propuesta por el coach */
 .accion-coach { align-self: flex-start; max-width: min(420px, 85%); background: var(--hoja); border: 1px solid color-mix(in srgb, var(--oro) 45%, var(--linea)); border-radius: 12px; padding: 10px 12px; margin: -2px 0 6px; }
 .accion-coach p { margin: 4px 0 8px; }
+
+/* ---------- Cordadas: retos de varios días en grupo ---------- */
+.cord-card { display: grid; gap: 10px; cursor: pointer; }
+.cord-top { display: flex; gap: 12px; align-items: flex-start; }
+.cord-top > div { flex: 1; min-width: 0; }
+.cord-top h3 { margin: 0; }
+.cord-top p { margin: 2px 0 0; overflow-wrap: anywhere; }
+.marcar { flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--linea); background: var(--hoja); color: var(--tinta-suave); transition: transform .12s, background .12s; }
+.marcar:hover { border-color: var(--oro); color: var(--oro); }
+.marcar:active { transform: scale(.92); }
+.marcar[aria-pressed="true"] { background: var(--oro); border-color: transparent; color: #fff; }
+.cord-reto { font: 500 19px/1.4 var(--font-titulo); margin: 6px 0 10px; overflow-wrap: anywhere; text-wrap: balance; }
+.cord-miembros { display: grid; gap: 16px; margin-top: 12px; }
+.cord-miembro { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; align-items: center; }
+.cord-miembro > .avatar { grid-row: span 2; align-self: start; object-fit: cover; }
+.cord-miembro .nom { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; min-width: 0; font-size: 14px; }
+.cord-miembro .nom b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+.cord-miembro .nom .suave { flex: none; font-size: 13px; font-variant-numeric: tabular-nums; }
+/* Un cuadrito por día; el más reciente a la derecha (row-reverse: el desplazamiento arranca ahí) */
+.cord-dias { display: flex; flex-direction: row-reverse; gap: 3px; overflow-x: auto; padding: 2px 2px 6px; min-width: 0; scrollbar-width: thin; }
+.cord-dias i { flex: none; width: 14px; height: 14px; border-radius: 3px; background: var(--hoja-2); border: 1px solid var(--linea); }
+.cord-dias i:first-child { margin-right: auto; } /* pocos días: quedan a la izquierda */
+.cord-dias i.si { background: var(--oro); border-color: transparent; }
+.cord-dias i.hoy { outline: 1.5px solid var(--burdeos); outline-offset: 1px; }
+.cord-codigo { font: 700 38px/1.1 var(--font-titulo); letter-spacing: .2em; color: var(--burdeos); margin: 10px 0 6px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.form-codigo { display: flex; gap: 8px; align-items: center; }
+.form-codigo .entrada { flex: 1; min-width: 0; }
+.form-codigo input[name="codigo"] { text-transform: uppercase; letter-spacing: .15em; font-weight: 500; }
+.form-codigo input[name="codigo"]::placeholder { text-transform: none; letter-spacing: normal; font-weight: 400; }
+.chip-radio { position: relative; cursor: pointer; }
+.chip-radio input { position: absolute; opacity: 0; pointer-events: none; }
+.chip-radio span { display: inline-block; padding: 6px 14px; border-radius: 99px; background: var(--hoja-2); border: 1px solid var(--linea); color: var(--tinta-suave); font-size: 14px; }
+.chip-radio input:checked + span { background: var(--oro-suave); border-color: transparent; color: var(--burdeos); font-weight: 500; }
+.chip-radio input:focus-visible + span { outline: 2px solid var(--oro); outline-offset: 2px; }
+.cord-muro { margin-top: 6px; }
+.nota-cord { border-top: 1px solid var(--linea); padding: 10px 0 2px; }
+.nota-cord:first-child { border-top: 0; }
+.nota-cab { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.nota-cab .suave { font-size: 12px; flex: 1; }
+.nota-cab .btn.mini { padding: 2px 8px; }
+.nota-cab .btn.mini svg { width: 16px; height: 16px; fill: currentColor; }
+.nota-cord p { margin: 2px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+
+/* ---------- Sesiones con el coach y notas privadas ---------- */
+.ses-bloque { border-top: 1px solid var(--linea); margin-top: 14px; padding-top: 14px; }
+.sesion { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--linea); }
+.sesion > .avatar svg { width: 20px; height: 20px; }
+.ses-txt { flex: 1; min-width: 180px; display: grid; }
+.ses-txt b { font-weight: 500; }
+.ses-txt .suave { font-size: 13px; overflow-wrap: anywhere; }
+a.btn { text-decoration: none; }
+.ses-form { margin-top: 14px; }
+.ses-form .form-2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 120px), 1fr)); }
+.ses-form > b { font-size: 14px; color: var(--burdeos); }
+.notas-estado { margin: 4px 0 0; font-size: 12px; min-height: 18px; }
+@media (max-width: 900px) {
+  .cord-codigo { font-size: 32px; letter-spacing: .14em; }
+  .sesion .botones { width: 100%; justify-content: flex-end; }
+}

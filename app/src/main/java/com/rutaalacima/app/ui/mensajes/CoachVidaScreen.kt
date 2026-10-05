@@ -166,6 +166,9 @@ fun CoachVidaScreen(onBack: () -> Unit, onChat: (String) -> Unit, onAcompanado: 
                                 }
                                 Switch(checked = mio.comparteAvance, onCheckedChange = { vm.compartir(mio.id, it, error) }, enabled = !vm.trabajando)
                             }
+                            // Sesiones con tu coach (próxima, con enlace, y agendar)
+                            androidx.compose.material3.HorizontalDivider(Modifier.padding(vertical = 8.dp))
+                            SesionesCoach(mio.id, esCoach = false)
                         }
                         TextButton(onClick = { vm.terminar(mio.id, error) }) {
                             Text(stringResource(if (mio.estado == "solicitado") R.string.coach_vida_cancelar else R.string.coach_vida_terminar),
@@ -266,7 +269,10 @@ class AcompanadoViewModel(c: AppContainer) : ViewModel() {
     val repo = c.mensajes
     var resumen by mutableStateOf<ResumenCoach?>(null)
     var error by mutableStateOf(false)
+    /** Id del acompañamiento (para las sesiones y las notas privadas). */
+    var acompId by mutableStateOf<String?>(null)
     fun cargar(id: String) = viewModelScope.launch {
+        acompId = runCatching { repo.acompanamientos().firstOrNull { it.rol == "coach" && it.otroId == id && it.estado == "activo" }?.id }.getOrNull()
         runCatching { repo.avanceDe(id) }.onSuccess { resumen = it }.onFailure { error = true }
     }
     fun abrirChat(otro: String, onAbrir: (String) -> Unit) = viewModelScope.launch { runCatching { repo.abrirCon(otro) }.onSuccess(onAbrir) }
@@ -300,6 +306,10 @@ fun AcompanadoScreen(id: String, nombre: String, onBack: () -> Unit, onChat: (St
                 return@LazyColumn
             }
             item { Text(stringResource(R.string.coach_vida_privacidad), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            vm.acompId?.let { a ->
+                item { RutaCard { SesionesCoach(a, esCoach = true) } }
+                item { NotasPrivadasCoach(a) }
+            }
             if (r.cumbre.isNotBlank()) item {
                 RutaCard {
                     Text(stringResource(R.string.mi_cumbre), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.secondary)
