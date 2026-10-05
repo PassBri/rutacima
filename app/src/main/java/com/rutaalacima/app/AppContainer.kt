@@ -47,6 +47,10 @@ class AppContainer(context: Context) {
     /** Mensajes 1 a 1 y coaches de vida. */
     val mensajes = com.rutaalacima.app.data.social.MensajesRepository(supabase)
 
+    /** Audiolibros: grabaciones propias por capítulo y reproductor (voz del teléfono si no hay grabación). */
+    val audios = com.rutaalacima.app.data.audio.AudiosRepository(context, supabase)
+    val audiolibro = com.rutaalacima.app.data.audio.ReproductorAudiolibro(context, contenido, audios)
+
     init {
         web.iniciarAutomatica(appScope)
     }

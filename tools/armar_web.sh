@@ -15,6 +15,12 @@ cp web/index.html web/app.js web/estilos.css web/sello.png "$DESTINO/"
 # Las 24 guías y las 365 frases (las mismas de la app)
 cp -r app/src/main/assets/content "$DESTINO/assets/content"
 cp -r app/src/main/assets/frases "$DESTINO/assets/frases"
+# Grabaciones del autor incluidas en la app (assets/audios/{guía}/{capítulo}.mp3), si las hay
+if [ -d app/src/main/assets/audios ]; then
+  cp -r app/src/main/assets/audios "$DESTINO/assets/audios"
+  ( cd "$DESTINO/assets/audios" && find . -mindepth 2 -maxdepth 2 -type f \( -name '*.mp3' -o -name '*.m4a' -o -name '*.aac' -o -name '*.ogg' -o -name '*.opus' -o -name '*.wav' \) \
+      | sed 's|^\./||' | python3 -c 'import sys,json; print(json.dumps([{"guia":l.split("/")[0],"seccion":int(l.split("/")[1].rsplit(".",1)[0]),"archivo":l} for l in sys.stdin.read().split() if l.split("/")[1].rsplit(".",1)[0].isdigit()]))' > indice.json )
+fi
 
 # Configuración del sitio publicado
 cat > "$DESTINO/config.js" <<CONFIG
@@ -23,6 +29,7 @@ window.RUTACIMA = {
   supabaseUrl: "${SUPABASE_URL:-}",
   supabaseAnonKey: "${SUPABASE_ANON_KEY:-}",
   contenido: "assets/",
+  audiosIncluidos: $( [ -f "$DESTINO/assets/audios/indice.json" ] && echo true || echo false ),
 };
 CONFIG
 

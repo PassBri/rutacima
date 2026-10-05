@@ -3,6 +3,16 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Audiolibros: siguen sonando con la pantalla apagada -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <!-- Audiolibros con la voz del teléfono: Android 11+ exige declarar el motor de texto a voz -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
 
     <application
         android:name=".RutaApp"
@@ -35,6 +45,12 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode_ui" />
+
+        <!-- Audiolibro sonando en segundo plano, con su notificación para pausar o cerrar -->
+        <service
+            android:name=".data.audio.AudiolibroService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
         <!-- Guarda el idioma elegido en la app en Android 12 o inferior (AppCompat). -->
         <service

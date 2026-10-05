@@ -214,6 +214,24 @@ guardadas. Las evaluaciones **generan resultados**:
 | **Lecturas** | Ruta a la Cima (ebook) · Teoría del Viaje Transformativo |
 | **Facilitadores** | Manual para Facilitadores |
 
+#### Audiolibros 🎧
+
+Todas las guías se pueden **escuchar** (unas 13 horas en total): botón **Escuchar** en la portada de cada guía o
+**Escuchar este capítulo** abajo en cada capítulo.
+
+- **Dos voces.** Si el autor subió su grabación de un capítulo, suena esa grabación (🎙 *Grabación del autor*).
+  Si no, la app lee el capítulo con la voz del teléfono, en español.
+- **Como un audiolibro de verdad:** pausa, retrocede o avanza (una frase con la voz del teléfono, 15 segundos en
+  una grabación), velocidad de 0,75× a 2×, y al terminar un capítulo sigue con el siguiente. La página avanza con el audio.
+- **Sigue sonando** al cambiar de pantalla (mini reproductor sobre la barra), con la pantalla apagada (notificación
+  para pausar, pasar de capítulo o cerrar) y se pausa si desconectas los audífonos.
+- **Subir tus grabaciones.** Si tu cuenta es de autor, en cada capítulo aparece el botón para **subir**, **reemplazar**
+  o **quitar** tu grabación (mp3, m4a, ogg o wav de hasta 50 MB), desde la app o desde la web. En cuanto la subes,
+  todos la escuchan en ese capítulo.
+- **Grabaciones dentro de la app (sin servidor).** También puedes incluirlas en el proyecto:
+  `app/src/main/assets/audios/{guía}/{capítulo}.mp3`, por ejemplo `assets/audios/companero/0.mp3` para el primer
+  capítulo de *Compañero de Ascenso* (los capítulos se cuentan desde 0). La web las publica también.
+
 ### Coach IA
 
 Un coach que responde con tu realidad, porque conoce:
@@ -332,7 +350,8 @@ o cierres la sesión en la web.
   - las publicaciones "solo yo" las ve solo su autor;
   - los mensajes solo los ven las dos personas de la conversación;
   - un coach ve el avance de alguien solo mientras lo acompaña y esa persona lo comparte;
-  - nadie puede verificarse como coach a sí mismo.
+  - nadie puede verificarse como coach a sí mismo;
+  - solo las cuentas de autor pueden subir, cambiar o quitar grabaciones de los audiolibros.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
 
 ## Diseño
@@ -381,6 +400,7 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
    - el uso del coach;
    - la ruta compartida y los computadores vinculados;
    - las conversaciones, mensajes, reportes, coaches y acompañamientos;
+   - los audiolibros: autores, grabaciones y el bucket `audios`;
    - las reglas de seguridad y el bucket `media` para las fotos.
 2. **Web.** En **Authentication › Sign In / Providers**, activa **Allow anonymous sign-ins**. La web entra como
    invitada hasta que la vinculas.
@@ -410,7 +430,9 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
 7. **Verificar coaches.** Las postulaciones llegan a **Table Editor › coaches** con `verificado = false`. Revisa la
    ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes de conversaciones llegan a
    **Table Editor › reportes**.
-8. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
+8. **Cuenta de autor (audiolibros).** Para subir tus grabaciones, agrega tu usuario en **Table Editor › autores**
+   (`user_id` = tu id de **Authentication › Users**). Las grabaciones quedan en el bucket público `audios`.
+9. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
    puedes vincular la web.
 
 ## Cómo está hecha

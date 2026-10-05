@@ -630,3 +630,56 @@ do $$ begin
     end;
   end if;
 end $$;
+
+-- =====================================================================
+-- Audiolibros: tus propias grabaciones por capítulo
+-- =====================================================================
+-- Las guías se escuchan con la voz del teléfono. Si el autor sube su grabación de un capítulo,
+-- esa grabación reemplaza a la voz para todos. Solo quienes estén en la tabla "autores" pueden
+-- subir, cambiar o quitar grabaciones (agrega tu usuario en Table Editor › autores).
+
+create table if not exists public.autores (
+  user_id uuid primary key references auth.users (id) on delete cascade,
+  creado  timestamptz not null default now()
+);
+alter table public.autores enable row level security;
+drop policy if exists "saber si soy autor" on public.autores;
+create policy "saber si soy autor" on public.autores for select using (user_id = public.yo());
+
+create or replace function public.es_autor() returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.autores where user_id = public.yo())
+$$;
+grant execute on function public.es_autor() to anon, authenticated;
+
+create table if not exists public.audios (
+  workbook_id text not null,
+  seccion     int  not null check (seccion >= 0),
+  url         text not null check (url ~ '^https://'),
+  ruta        text not null,                       -- ruta del archivo en el bucket "audios"
+  duracion    int,                                 -- segundos (opcional)
+  subido_por  uuid default public.yo(),
+  actualizado timestamptz not null default now(),
+  primary key (workbook_id, seccion)
+);
+alter table public.audios enable row level security;
+drop policy if exists "escuchar audios" on public.audios;
+create policy "escuchar audios" on public.audios for select using (true);
+drop policy if exists "autor sube audios" on public.audios;
+create policy "autor sube audios" on public.audios for insert with check (public.es_autor());
+drop policy if exists "autor cambia audios" on public.audios;
+create policy "autor cambia audios" on public.audios for update using (public.es_autor()) with check (public.es_autor());
+drop policy if exists "autor quita audios" on public.audios;
+create policy "autor quita audios" on public.audios for delete using (public.es_autor());
+grant select on public.audios to anon, authenticated;
+grant insert, update, delete on public.audios to authenticated;
+
+insert into storage.buckets (id, name, public) values ('audios', 'audios', true) on conflict (id) do nothing;
+drop policy if exists "audios públicos" on storage.objects;
+create policy "audios públicos" on storage.objects for select using (bucket_id = 'audios');
+drop policy if exists "autor sube archivos de audio" on storage.objects;
+create policy "autor sube archivos de audio" on storage.objects for insert with check (bucket_id = 'audios' and public.es_autor());
+drop policy if exists "autor reemplaza archivos de audio" on storage.objects;
+create policy "autor reemplaza archivos de audio" on storage.objects for update using (bucket_id = 'audios' and public.es_autor());
+drop policy if exists "autor borra archivos de audio" on storage.objects;
+create policy "autor borra archivos de audio" on storage.objects for delete using (bucket_id = 'audios' and public.es_autor());

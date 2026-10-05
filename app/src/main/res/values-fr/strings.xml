@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">Objectifs de l’année</string>
     <string name="coach_vida_metas_mes">Objectifs du mois</string>
     <string name="coach_ia_persona">Tu préfères une personne ? Trouve un coach de vie</string>
+    <string name="audio_escuchar">Écouter</string>
+    <string name="audio_escuchar_capitulo">Écouter ce chapitre · %1$d min</string>
+    <string name="audio_voz_app">Voix de l’app</string>
+    <string name="audio_voz_autor">Enregistrement de l’auteur</string>
+    <string name="audio_pausar">Pause</string>
+    <string name="audio_reanudar">Reprendre</string>
+    <string name="audio_atras">Reculer</string>
+    <string name="audio_adelante">Avancer</string>
+    <string name="audio_cerrar">Fermer le livre audio</string>
+    <string name="audio_siguiente_capitulo">Chapitre suivant</string>
+    <string name="audio_subir">Téléverser mon enregistrement de ce chapitre</string>
+    <string name="audio_reemplazar">Remplacer mon enregistrement</string>
+    <string name="audio_quitar">Retirer mon enregistrement (la voix de l’app revient)</string>
+    <string name="audio_subiendo">Téléversement en cours…</string>
+    <string name="audio_subido">C’est fait : ce chapitre s’écoute maintenant avec ta voix.</string>
+    <string name="audio_quitado">Enregistrement retiré : ce chapitre reprend la voix de l’app.</string>
+    <string name="audio_error_subir">Impossible. Vérifie ta connexion et qu’il s’agit d’un fichier audio de 50 Mo maximum.</string>
+    <string name="audio_error_reproducir">Impossible de lire l’enregistrement ; la voix de l’app prend le relais.</string>
+    <string name="audio_sin_voz">Ton téléphone n’a pas de voix en espagnol. Installe-la dans Paramètres › Système › Langues › Synthèse vocale.</string>
+    <string name="audio_canal">Livres audio</string>
 </resources>

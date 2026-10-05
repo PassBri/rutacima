@@ -183,6 +183,13 @@ class SupabaseClient(context: Context) {
         "$url/storage/v1/object/public/$bucket/$rutaEnBucket"
     }
 
+    /** Sube cualquier archivo (por ejemplo, una grabación) al bucket público y devuelve su URL. */
+    suspend fun subirArchivo(bucket: String, rutaEnBucket: String, bytes: ByteArray, tipo: String): String = withContext(Dispatchers.IO) {
+        asegurarSesion()
+        peticion("POST", "/storage/v1/object/$bucket/$rutaEnBucket", bytes, tipo = tipo, headers = mapOf("x-upsert" to "true"))
+        "$url/storage/v1/object/public/$bucket/$rutaEnBucket"
+    }
+
     // ------------------------------------------------------------------ Edge Functions
 
     suspend fun funcion(nombre: String, cuerpo: JsonElement): JsonElement = withContext(Dispatchers.IO) {

@@ -378,3 +378,28 @@ a.btn { text-decoration: none; color: inherit; }
 .atajos .rb { width: 36px; height: 36px; }
 .atajos .rb svg { width: 22px; height: 22px; }
 @media (max-width: 900px) { .solo-movil { display: inline-flex; gap: 2px; } }
+
+/* ---------- Audiolibros ---------- */
+.audio-barra { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--hoja); border: 1px solid var(--linea); border-radius: 16px; padding: 8px 12px; }
+.audio-barra.sonando { border-color: color-mix(in srgb, var(--oro) 55%, var(--linea)); }
+.audio-play { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--oro-suave); color: var(--burdeos); flex: none; font-weight: 700; }
+.audio-play.lleno { background: var(--burdeos); color: var(--sobre-burdeos); }
+.audio-txt { flex: 1; min-width: 160px; text-align: left; line-height: 1.35; display: grid; gap: 6px; }
+button.audio-txt { display: block; }
+.audio-fuente { font-size: 12px; color: var(--tinta-suave); display: inline-flex; align-items: center; gap: 4px; }
+.audio-fuente .i { width: 14px; height: 14px; }
+.audio-fuente.autor { color: var(--oro); font-weight: 600; }
+.audio-barra label.btn { cursor: pointer; }
+.mini-audio { position: fixed; right: 20px; bottom: 20px; z-index: 20; display: flex; align-items: center; gap: 4px; max-width: min(420px, calc(100vw - 32px));
+  background: var(--hoja); border: 1px solid var(--linea); border-radius: 18px; padding: 6px 6px 10px 12px; box-shadow: 0 6px 24px rgb(var(--sombra) / .22); }
+.mini-audio .mini-txt { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; text-align: left; font-size: 13px; color: var(--oro); }
+.mini-audio .mini-txt > span { min-width: 0; color: var(--tinta); }
+.mini-audio .mini-txt b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mini-audio .barra { position: absolute; left: 12px; right: 12px; bottom: 4px; height: 3px; }
+@media (max-width: 900px) { .mini-audio { left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); max-width: none; } }
+@media (max-width: 600px) {
+  .audio-barra { gap: 4px; padding: 8px; }
+  .audio-barra .rb { width: 34px; height: 34px; }
+  .audio-barra.sonando .audio-txt { min-width: 70px; }
+  .audio-barra .btn.mini { padding: 4px 8px; }
+}

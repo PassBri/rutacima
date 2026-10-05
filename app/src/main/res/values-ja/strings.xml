@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">今年の目標</string>
     <string name="coach_vida_metas_mes">今月の目標</string>
     <string name="coach_ia_persona">人がいい？ライフコーチを探す</string>
+    <string name="audio_escuchar">聴く</string>
+    <string name="audio_escuchar_capitulo">この章を聴く · %1$d分</string>
+    <string name="audio_voz_app">アプリの音声</string>
+    <string name="audio_voz_autor">著者の録音</string>
+    <string name="audio_pausar">一時停止</string>
+    <string name="audio_reanudar">再開</string>
+    <string name="audio_atras">戻る</string>
+    <string name="audio_adelante">進む</string>
+    <string name="audio_cerrar">オーディオブックを閉じる</string>
+    <string name="audio_siguiente_capitulo">次の章</string>
+    <string name="audio_subir">この章の録音をアップロード</string>
+    <string name="audio_reemplazar">録音を差し替える</string>
+    <string name="audio_quitar">録音を削除（アプリの音声に戻す）</string>
+    <string name="audio_subiendo">録音をアップロード中…</string>
+    <string name="audio_subido">完了：この章はあなたの声で再生されます。</string>
+    <string name="audio_quitado">録音を削除しました：この章はアプリの音声に戻ります。</string>
+    <string name="audio_error_subir">できませんでした。接続と、50MB以下の音声ファイルか確認してください。</string>
+    <string name="audio_error_reproducir">録音を再生できません。アプリの音声で続けます。</string>
+    <string name="audio_sin_voz">スペイン語の音声がありません。設定 › システム › 言語 › テキスト読み上げ でインストールしてください。</string>
+    <string name="audio_canal">オーディオブック</string>
 </resources>

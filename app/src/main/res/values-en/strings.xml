@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">Goals for the year</string>
     <string name="coach_vida_metas_mes">Goals for the month</string>
     <string name="coach_ia_persona">Prefer a person? Find a life coach</string>
+    <string name="audio_escuchar">Listen</string>
+    <string name="audio_escuchar_capitulo">Listen to this chapter · %1$d min</string>
+    <string name="audio_voz_app">App voice</string>
+    <string name="audio_voz_autor">Author’s recording</string>
+    <string name="audio_pausar">Pause</string>
+    <string name="audio_reanudar">Resume</string>
+    <string name="audio_atras">Back</string>
+    <string name="audio_adelante">Forward</string>
+    <string name="audio_cerrar">Close audiobook</string>
+    <string name="audio_siguiente_capitulo">Next chapter</string>
+    <string name="audio_subir">Upload my recording of this chapter</string>
+    <string name="audio_reemplazar">Replace my recording</string>
+    <string name="audio_quitar">Remove my recording (app voice returns)</string>
+    <string name="audio_subiendo">Uploading your recording…</string>
+    <string name="audio_subido">Done: this chapter now plays in your voice.</string>
+    <string name="audio_quitado">Recording removed: this chapter uses the app voice again.</string>
+    <string name="audio_error_subir">Couldn’t do it. Check your connection and that it’s an audio file up to 50 MB.</string>
+    <string name="audio_error_reproducir">Couldn’t play the recording; continuing with the app voice.</string>
+    <string name="audio_sin_voz">Your phone has no Spanish voice. Install it in Settings › System › Languages › Text-to-speech output.</string>
+    <string name="audio_canal">Audiobooks</string>
 </resources>

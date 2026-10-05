@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">올해 목표</string>
     <string name="coach_vida_metas_mes">이번 달 목표</string>
     <string name="coach_ia_persona">사람이 더 좋나요? 라이프 코치 찾기</string>
+    <string name="audio_escuchar">듣기</string>
+    <string name="audio_escuchar_capitulo">이 장 듣기 · %1$d분</string>
+    <string name="audio_voz_app">앱 음성</string>
+    <string name="audio_voz_autor">저자 녹음</string>
+    <string name="audio_pausar">일시정지</string>
+    <string name="audio_reanudar">재개</string>
+    <string name="audio_atras">뒤로</string>
+    <string name="audio_adelante">앞으로</string>
+    <string name="audio_cerrar">오디오북 닫기</string>
+    <string name="audio_siguiente_capitulo">다음 장</string>
+    <string name="audio_subir">이 장의 내 녹음 올리기</string>
+    <string name="audio_reemplazar">내 녹음 바꾸기</string>
+    <string name="audio_quitar">내 녹음 삭제 (앱 음성으로 돌아감)</string>
+    <string name="audio_subiendo">녹음 올리는 중…</string>
+    <string name="audio_subido">완료: 이 장은 이제 당신의 목소리로 재생됩니다.</string>
+    <string name="audio_quitado">녹음을 삭제했습니다: 이 장은 다시 앱 음성으로 재생됩니다.</string>
+    <string name="audio_error_subir">실패했습니다. 연결과 50MB 이하 오디오 파일인지 확인하세요.</string>
+    <string name="audio_error_reproducir">녹음을 재생할 수 없어 앱 음성으로 계속합니다.</string>
+    <string name="audio_sin_voz">스페인어 음성이 없습니다. 설정 › 시스템 › 언어 › TTS 출력에서 설치하세요.</string>
+    <string name="audio_canal">오디오북</string>
 </resources>

@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">年度目标</string>
     <string name="coach_vida_metas_mes">本月目标</string>
     <string name="coach_ia_persona">更想找真人？寻找人生教练</string>
+    <string name="audio_escuchar">收听</string>
+    <string name="audio_escuchar_capitulo">收听本章 · %1$d 分钟</string>
+    <string name="audio_voz_app">应用语音</string>
+    <string name="audio_voz_autor">作者录音</string>
+    <string name="audio_pausar">暂停</string>
+    <string name="audio_reanudar">继续</string>
+    <string name="audio_atras">后退</string>
+    <string name="audio_adelante">前进</string>
+    <string name="audio_cerrar">关闭有声书</string>
+    <string name="audio_siguiente_capitulo">下一章</string>
+    <string name="audio_subir">上传我对本章的录音</string>
+    <string name="audio_reemplazar">替换我的录音</string>
+    <string name="audio_quitar">删除我的录音（恢复应用语音）</string>
+    <string name="audio_subiendo">正在上传录音…</string>
+    <string name="audio_subido">完成：本章现在使用你的声音播放。</string>
+    <string name="audio_quitado">已删除录音：本章恢复使用应用语音。</string>
+    <string name="audio_error_subir">操作失败。请检查网络，并确认是 50 MB 以内的音频文件。</string>
+    <string name="audio_error_reproducir">无法播放录音，改用应用语音继续。</string>
+    <string name="audio_sin_voz">手机没有西班牙语语音。请在 设置 › 系统 › 语言 › 文字转语音 中安装。</string>
+    <string name="audio_canal">有声书</string>
 </resources>

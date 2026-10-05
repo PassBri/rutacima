@@ -22,6 +22,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Headphones
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material3.Button
@@ -39,6 +41,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -73,6 +76,10 @@ fun WorkbookIndexScreen(
     val vm = rutaViewModel(key = "index-$workbookId") { WorkbookIndexViewModel(it, workbookId) }
     val respuestas by vm.respuestas.collectAsStateWithLifecycle()
     val wb = vm.workbook
+    val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container
+    val audiolibro = contenedor.audiolibro
+    val grabaciones by contenedor.audios.remotos.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) { contenedor.audios.actualizar() }
 
     Scaffold(
         modifier = Modifier.fondoPapel(),
@@ -116,10 +123,17 @@ fun WorkbookIndexScreen(
                     )
                     Spacer(Modifier.height(12.dp))
                     val ultima = respuestas["${wb.id}#ultima"]?.toIntOrNull()
-                    Button(onClick = {
-                        val siguiente = ultima ?: wb.sections.indexOfFirst { it.progreso(respuestas) in 0f..0.999f }
-                        onOpenSection(siguiente.coerceIn(0, wb.sections.lastIndex))
-                    }) { Text(stringResource(if (p > 0f || ultima != null) R.string.continuar else R.string.comenzar)) }
+                    val siguiente = (ultima ?: wb.sections.indexOfFirst { it.progreso(respuestas) in 0f..0.999f }).coerceIn(0, wb.sections.lastIndex)
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        Button(onClick = { onOpenSection(siguiente) }) {
+                            Text(stringResource(if (p > 0f || ultima != null) R.string.continuar else R.string.comenzar))
+                        }
+                        OutlinedButton(onClick = { audiolibro.reproducir(wb.id, siguiente); onOpenSection(siguiente) }) {
+                            Icon(Icons.Filled.Headphones, null, Modifier.size(18.dp))
+                            Spacer(Modifier.width(6.dp))
+                            Text(stringResource(R.string.audio_escuchar))
+                        }
+                    }
                 }
             }
             // Resultados de todas las evaluaciones del workbook
@@ -158,7 +172,13 @@ fun WorkbookIndexScreen(
                         )
                         Spacer(Modifier.width(12.dp))
                         Column(Modifier.weight(1f)) {
-                            Text(s.title, style = MaterialTheme.typography.titleMedium)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(s.title, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f, fill = false))
+                                if (grabaciones.containsKey("${wb.id}/$i") || contenedor.audios.tieneGrabacion(wb.id, i)) {
+                                    Spacer(Modifier.width(6.dp))
+                                    Icon(Icons.Filled.Mic, stringResource(R.string.audio_voz_autor), Modifier.size(16.dp), tint = MaterialTheme.colorScheme.secondary)
+                                }
+                            }
                             if (p >= 0f) {
                                 Spacer(Modifier.height(6.dp))
                                 ProgressLine(p)
@@ -191,6 +211,11 @@ fun SectionScreen(
         if (vm.cargado) vm.fijar("$workbookId#ultima", index.toString())
     }
     val respuestas = vm.comoRespuestas()
+    val audio by (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp)
+        .container.audiolibro.estado.collectAsStateWithLifecycle()
+    LaunchedEffect(audio.seccion, audio.workbookId, audio.activo) {
+        if (audio.activo && audio.workbookId == workbookId && audio.seccion != index) index = audio.seccion
+    }
 
     Scaffold(
         modifier = Modifier.fondoPapel(),
@@ -212,6 +237,12 @@ fun SectionScreen(
         bottomBar = {
             if (wb != null) {
                 Surface(tonalElevation = 3.dp) {
+                  Column {
+                    val minutos = remember(wb.id, index) {
+                        wb.sections.getOrNull(index)?.let { com.rutaalacima.app.data.content.Locucion.minutos(com.rutaalacima.app.data.content.Locucion.fragmentos(it)) } ?: 1
+                    }
+                    BarraAudiolibro(wb.id, index, minutos)
+                    androidx.compose.material3.HorizontalDivider()
                     Row(
                         Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 16.dp, vertical = 10.dp),
                         verticalAlignment = Alignment.CenterVertically,
@@ -235,6 +266,7 @@ fun SectionScreen(
                             Button(onClick = onBack) { Text(stringResource(R.string.terminar)) }
                         }
                     }
+                  }
                 }
             }
         },

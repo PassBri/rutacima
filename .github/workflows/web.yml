@@ -12,6 +12,7 @@ on:
       - "web/**"
       - "app/src/main/assets/content/**"
       - "app/src/main/assets/frases/**"
+      - "app/src/main/assets/audios/**"
       - "tools/armar_web.sh"
       - ".github/workflows/web.yml"
   workflow_dispatch:

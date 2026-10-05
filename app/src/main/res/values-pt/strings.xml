@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">Metas do ano</string>
     <string name="coach_vida_metas_mes">Metas do mês</string>
     <string name="coach_ia_persona">Prefere uma pessoa? Encontre um coach de vida</string>
+    <string name="audio_escuchar">Ouvir</string>
+    <string name="audio_escuchar_capitulo">Ouvir este capítulo · %1$d min</string>
+    <string name="audio_voz_app">Voz do app</string>
+    <string name="audio_voz_autor">Gravação do autor</string>
+    <string name="audio_pausar">Pausar</string>
+    <string name="audio_reanudar">Retomar</string>
+    <string name="audio_atras">Voltar</string>
+    <string name="audio_adelante">Avançar</string>
+    <string name="audio_cerrar">Fechar audiolivro</string>
+    <string name="audio_siguiente_capitulo">Próximo capítulo</string>
+    <string name="audio_subir">Enviar minha gravação deste capítulo</string>
+    <string name="audio_reemplazar">Substituir minha gravação</string>
+    <string name="audio_quitar">Remover minha gravação (volta a voz do app)</string>
+    <string name="audio_subiendo">Enviando sua gravação…</string>
+    <string name="audio_subido">Pronto: este capítulo já toca com sua voz.</string>
+    <string name="audio_quitado">Gravação removida: este capítulo volta à voz do app.</string>
+    <string name="audio_error_subir">Não foi possível. Verifique a conexão e se é um arquivo de áudio de até 50 MB.</string>
+    <string name="audio_error_reproducir">Não foi possível tocar a gravação; segue com a voz do app.</string>
+    <string name="audio_sin_voz">Seu telefone não tem voz em espanhol. Instale em Configurações › Sistema › Idiomas › Saída de conversão de texto em voz.</string>
+    <string name="audio_canal">Audiolivros</string>
 </resources>

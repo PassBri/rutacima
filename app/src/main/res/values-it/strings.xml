@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">Obiettivi dell’anno</string>
     <string name="coach_vida_metas_mes">Obiettivi del mese</string>
     <string name="coach_ia_persona">Preferisci una persona? Trova un life coach</string>
+    <string name="audio_escuchar">Ascolta</string>
+    <string name="audio_escuchar_capitulo">Ascolta questo capitolo · %1$d min</string>
+    <string name="audio_voz_app">Voce dell’app</string>
+    <string name="audio_voz_autor">Registrazione dell’autore</string>
+    <string name="audio_pausar">Pausa</string>
+    <string name="audio_reanudar">Riprendi</string>
+    <string name="audio_atras">Indietro</string>
+    <string name="audio_adelante">Avanti</string>
+    <string name="audio_cerrar">Chiudi audiolibro</string>
+    <string name="audio_siguiente_capitulo">Capitolo successivo</string>
+    <string name="audio_subir">Carica la mia registrazione di questo capitolo</string>
+    <string name="audio_reemplazar">Sostituisci la mia registrazione</string>
+    <string name="audio_quitar">Rimuovi la registrazione (torna la voce dell’app)</string>
+    <string name="audio_subiendo">Caricamento della registrazione…</string>
+    <string name="audio_subido">Fatto: ora questo capitolo si ascolta con la tua voce.</string>
+    <string name="audio_quitado">Registrazione rimossa: il capitolo torna alla voce dell’app.</string>
+    <string name="audio_error_subir">Non riuscito. Controlla la connessione e che sia un file audio fino a 50 MB.</string>
+    <string name="audio_error_reproducir">Impossibile riprodurre la registrazione; continua la voce dell’app.</string>
+    <string name="audio_sin_voz">Il telefono non ha una voce in spagnolo. Installala in Impostazioni › Sistema › Lingue › Sintesi vocale.</string>
+    <string name="audio_canal">Audiolibri</string>
 </resources>

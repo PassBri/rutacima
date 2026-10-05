@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">वर्ष के लक्ष्य</string>
     <string name="coach_vida_metas_mes">महीने के लक्ष्य</string>
     <string name="coach_ia_persona">किसी इंसान से बात करनी है? लाइफ़ कोच खोजें</string>
+    <string name="audio_escuchar">सुनें</string>
+    <string name="audio_escuchar_capitulo">यह अध्याय सुनें · %1$d मिनट</string>
+    <string name="audio_voz_app">ऐप की आवाज़</string>
+    <string name="audio_voz_autor">लेखक की रिकॉर्डिंग</string>
+    <string name="audio_pausar">रोकें</string>
+    <string name="audio_reanudar">फिर से चलाएँ</string>
+    <string name="audio_atras">पीछे</string>
+    <string name="audio_adelante">आगे</string>
+    <string name="audio_cerrar">ऑडियोबुक बंद करें</string>
+    <string name="audio_siguiente_capitulo">अगला अध्याय</string>
+    <string name="audio_subir">इस अध्याय की मेरी रिकॉर्डिंग अपलोड करें</string>
+    <string name="audio_reemplazar">मेरी रिकॉर्डिंग बदलें</string>
+    <string name="audio_quitar">मेरी रिकॉर्डिंग हटाएँ (ऐप की आवाज़ लौटेगी)</string>
+    <string name="audio_subiendo">आपकी रिकॉर्डिंग अपलोड हो रही है…</string>
+    <string name="audio_subido">हो गया: यह अध्याय अब आपकी आवाज़ में चलेगा।</string>
+    <string name="audio_quitado">रिकॉर्डिंग हटाई गई: यह अध्याय फिर ऐप की आवाज़ में चलेगा।</string>
+    <string name="audio_error_subir">नहीं हो सका। कनेक्शन जाँचें और कि फ़ाइल 50 MB तक की ऑडियो फ़ाइल हो।</string>
+    <string name="audio_error_reproducir">रिकॉर्डिंग नहीं चल सकी; ऐप की आवाज़ में जारी है।</string>
+    <string name="audio_sin_voz">आपके फ़ोन में स्पेनिश आवाज़ नहीं है। सेटिंग › सिस्टम › भाषाएँ › टेक्स्ट-टू-स्पीच में इंस्टॉल करें।</string>
+    <string name="audio_canal">ऑडियोबुक</string>
 </resources>

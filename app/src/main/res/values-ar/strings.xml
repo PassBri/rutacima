@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">أهداف السنة</string>
     <string name="coach_vida_metas_mes">أهداف الشهر</string>
     <string name="coach_ia_persona">تفضّل شخصًا؟ ابحث عن مدرّب حياة</string>
+    <string name="audio_escuchar">استمع</string>
+    <string name="audio_escuchar_capitulo">استمع إلى هذا الفصل · %1$d د</string>
+    <string name="audio_voz_app">صوت التطبيق</string>
+    <string name="audio_voz_autor">تسجيل المؤلف</string>
+    <string name="audio_pausar">إيقاف مؤقت</string>
+    <string name="audio_reanudar">استئناف</string>
+    <string name="audio_atras">رجوع</string>
+    <string name="audio_adelante">تقديم</string>
+    <string name="audio_cerrar">إغلاق الكتاب الصوتي</string>
+    <string name="audio_siguiente_capitulo">الفصل التالي</string>
+    <string name="audio_subir">رفع تسجيلي لهذا الفصل</string>
+    <string name="audio_reemplazar">استبدال تسجيلي</string>
+    <string name="audio_quitar">إزالة تسجيلي (يعود صوت التطبيق)</string>
+    <string name="audio_subiendo">جارٍ رفع تسجيلك…</string>
+    <string name="audio_subido">تم: يُسمع هذا الفصل الآن بصوتك.</string>
+    <string name="audio_quitado">أُزيل التسجيل: يعود هذا الفصل إلى صوت التطبيق.</string>
+    <string name="audio_error_subir">تعذّر ذلك. تحقق من الاتصال ومن أنه ملف صوتي حتى 50 م.ب.</string>
+    <string name="audio_error_reproducir">تعذّر تشغيل التسجيل؛ يستمر بصوت التطبيق.</string>
+    <string name="audio_sin_voz">لا يوجد صوت إسباني في هاتفك. ثبّته من الإعدادات › النظام › اللغات › تحويل النص إلى كلام.</string>
+    <string name="audio_canal">الكتب الصوتية</string>
 </resources>

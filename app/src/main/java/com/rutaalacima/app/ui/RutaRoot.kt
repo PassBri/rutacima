@@ -33,6 +33,7 @@ import com.rutaalacima.app.ui.theme.Papel
 import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -225,7 +226,11 @@ private fun AppPrincipal() {
         },
         bottomBar = {
             if (pestana != null) {
-                BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                Column {
+                    // Mientras suena un audiolibro: pausa o vuelve al capítulo desde cualquier pestaña
+                    com.rutaalacima.app.ui.workbook.MiniReproductor(onAbrir = { wb, sec -> nav.navigate(Rutas.seccion(wb, sec)) })
+                    BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                }
             }
         },
     ) { padding ->

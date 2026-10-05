@@ -758,4 +758,24 @@
     <string name="coach_vida_metas_anio">Цели года</string>
     <string name="coach_vida_metas_mes">Цели месяца</string>
     <string name="coach_ia_persona">Нужен человек? Найди лайф-коуча</string>
+    <string name="audio_escuchar">Слушать</string>
+    <string name="audio_escuchar_capitulo">Слушать главу · %1$d мин</string>
+    <string name="audio_voz_app">Голос приложения</string>
+    <string name="audio_voz_autor">Запись автора</string>
+    <string name="audio_pausar">Пауза</string>
+    <string name="audio_reanudar">Продолжить</string>
+    <string name="audio_atras">Назад</string>
+    <string name="audio_adelante">Вперёд</string>
+    <string name="audio_cerrar">Закрыть аудиокнигу</string>
+    <string name="audio_siguiente_capitulo">Следующая глава</string>
+    <string name="audio_subir">Загрузить мою запись главы</string>
+    <string name="audio_reemplazar">Заменить запись</string>
+    <string name="audio_quitar">Удалить запись (вернётся голос приложения)</string>
+    <string name="audio_subiendo">Загружаем запись…</string>
+    <string name="audio_subido">Готово: глава теперь звучит вашим голосом.</string>
+    <string name="audio_quitado">Запись удалена: глава снова звучит голосом приложения.</string>
+    <string name="audio_error_subir">Не получилось. Проверь подключение и что это аудиофайл до 50 МБ.</string>
+    <string name="audio_error_reproducir">Не удалось воспроизвести запись; продолжаем голосом приложения.</string>
+    <string name="audio_sin_voz">В телефоне нет испанского голоса. Установи его: Настройки › Система › Языки › Синтез речи.</string>
+    <string name="audio_canal">Аудиокниги</string>
 </resources>
