@@ -32,6 +32,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -209,11 +212,11 @@ private fun Filtros(vm: ComunidadViewModel) {
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun SelectorVista(cimas: Boolean, onCambiar: (Boolean) -> Unit) {
-    androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
         listOf(false to R.string.comunidad_vista_lista, true to R.string.comunidad_vista_cimas).forEachIndexed { i, (valor, texto) ->
-            androidx.compose.material3.SegmentedButton(
+            SegmentedButton(
                 selected = cimas == valor, onClick = { onCambiar(valor) },
-                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(index = i, count = 2),
+                shape = SegmentedButtonDefaults.itemShape(index = i, count = 2),
                 icon = {
                     Icon(if (valor) Icons.Filled.Landscape else Icons.AutoMirrored.Filled.ViewList,
                         null, Modifier.size(18.dp))
