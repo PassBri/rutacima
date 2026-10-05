@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         pedirPermisoNotificaciones()
         recibirEnlace(intent)
+        // Regreso sin culpa: recuerda el último día que se abrió la app
+        com.rutaalacima.app.ui.hoy.CaminoViewModel.registrarApertura(this)
         // Rutaalacima Web: mientras la app está abierta, trae lo que se marcó en el computador cada minuto
         val web = (application as RutaApp).container.web
         lifecycleScope.launch {
@@ -49,6 +51,11 @@ class MainActivity : AppCompatActivity() {
 
     /** Código QR de Rutaalacima Web escaneado con la cámara del teléfono: rutacima://vincular?codigo=… */
     private fun recibirEnlace(intent: Intent?) {
+        // Notificación de un mensaje, una solicitud o el coach de vida: abre esa pantalla
+        intent?.getStringExtra(com.rutaalacima.app.notificaciones.AvisosMensajes.EXTRA_IR_A)?.let {
+            (application as RutaApp).container.navegacionPendiente.value = it
+            intent.removeExtra(com.rutaalacima.app.notificaciones.AvisosMensajes.EXTRA_IR_A)
+        }
         val datos = intent?.data ?: return
         if (datos.scheme != "rutacima" || datos.host != "vincular") return
         Sincronia.codigoDeVinculo(datos.toString())?.let { (application as RutaApp).container.web.codigoPendiente.value = it }

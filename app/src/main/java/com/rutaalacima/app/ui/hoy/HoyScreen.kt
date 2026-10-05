@@ -147,6 +147,10 @@ fun HoyScreen(
         ),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
+        // Bienvenida de regreso, el paso del comienzo y la revisión que toca (cada una solo si aplica)
+        item { RegresoCard(onIrA = onIrA, onSeccion = onAbrirSeccion) }
+        item { PrimerPasoCard(onIrA = onIrA) }
+        item { RevisionCard(onIrA = onIrA) }
         // Recordatorio del día del camino hacia los 120 años
         item { RecordatorioDiaCard(perfil, onAjustes = { onIrA(Rutas.AJUSTES) }) }
         item {
@@ -222,6 +226,8 @@ fun HoyScreen(
         }
 
         // Metas del mes: check de hoy
+        // Racha y mapa de constancia (toca para ver el año)
+        item { ConstanciaCard(onIrA = onIrA) }
         item { SectionTitle(stringResource(R.string.metas_mes_hoy)) }
         if (metasMes.isEmpty()) {
             item {

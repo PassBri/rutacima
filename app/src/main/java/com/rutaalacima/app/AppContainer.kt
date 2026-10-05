@@ -20,6 +20,8 @@ import kotlinx.coroutines.SupervisorJob
 
 /** Inyección de dependencias manual (suficiente para el tamaño actual del proyecto). */
 class AppContainer(context: Context) {
+    /** Contexto de la aplicación (para preferencias de las pantallas). */
+    val contexto: Context = context.applicationContext
     val db = RutaDatabase.build(context)
 
     /** Scope de la aplicación: para guardados que deben terminar aunque se cierre la pantalla. */
@@ -50,6 +52,9 @@ class AppContainer(context: Context) {
     /** Audiolibros: grabaciones propias por capítulo y reproductor (voz del teléfono si no hay grabación). */
     val audios = com.rutaalacima.app.data.audio.AudiosRepository(context, supabase)
     val audiolibro = com.rutaalacima.app.data.audio.ReproductorAudiolibro(context, contenido, audios)
+
+    /** Pantalla a abrir al tocar una notificación (por ejemplo "chat/…"). */
+    val navegacionPendiente = kotlinx.coroutines.flow.MutableStateFlow<String?>(null)
 
     init {
         web.iniciarAutomatica(appScope)

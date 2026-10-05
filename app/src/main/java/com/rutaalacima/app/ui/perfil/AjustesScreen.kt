@@ -266,6 +266,24 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                         }) { Text(stringResource(R.string.recordatorio_probar)) }
                     }
                 }
+                // Avisos de mensajes, solicitudes y coach de vida
+                var avisos by remember { mutableStateOf(com.rutaalacima.app.notificaciones.AvisosMensajes.activos(ctx)) }
+                RutaCard(Modifier.padding(top = 10.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(stringResource(R.string.avisos_mensajes_ajuste), style = MaterialTheme.typography.bodyLarge)
+                            Text(stringResource(R.string.avisos_mensajes_ayuda), style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        Switch(checked = avisos, onCheckedChange = {
+                            avisos = it
+                            com.rutaalacima.app.notificaciones.AvisosMensajes.configurar(ctx, it)
+                            if (it && android.os.Build.VERSION.SDK_INT >= 33 && !Recordatorios.puedeNotificar(ctx)) {
+                                permiso.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                            }
+                        })
+                    }
+                }
             }
 
             item { SectionTitle(stringResource(R.string.mi_perfil)) }

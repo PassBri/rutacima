@@ -63,6 +63,8 @@ data class MiFichaCoach(val bio: String, val especialidad: String, val verificad
  */
 class MensajesRepository(private val supa: SupabaseClient) {
     val disponible: Boolean get() = supa.configurado && supa.sesion.value != null
+    /** Conversación que la persona tiene abierta ahora (no se avisa de ella). */
+    @Volatile var conversacionAbierta: String? = null
     private val yo: String get() = supa.sesion.value?.userId.orEmpty()
 
     private fun JsonObject.s(k: String) = (this[k] as? JsonPrimitive)?.contentOrNull.orEmpty()

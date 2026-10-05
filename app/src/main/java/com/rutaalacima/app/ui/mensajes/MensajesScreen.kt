@@ -222,6 +222,10 @@ class ChatViewModel(c: AppContainer) : ViewModel() {
 fun ChatScreen(id: String, onBack: () -> Unit) {
     val vm = rutaViewModel { ChatViewModel(it) }
     LaunchedEffect(id) { while (true) { vm.cargar(id); delay(4_000) } }
+    androidx.compose.runtime.DisposableEffect(id) {
+        vm.repo.conversacionAbierta = id
+        onDispose { if (vm.repo.conversacionAbierta == id) vm.repo.conversacionAbierta = null }
+    }
     val c = vm.conversacion
     var menu by remember { mutableStateOf(false) }
     var reportando by remember { mutableStateOf(false) }

@@ -129,6 +129,8 @@ object Rutas {
     const val CHAT = "chat/{id}"
     const val COACH_VIDA = "coach_vida"
     const val ACOMPANADO = "acompanado/{id}/{nombre}"
+    const val REVISION = "revision/{tipo}/{dia}"
+    const val CONSTANCIA = "constancia"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -138,6 +140,7 @@ object Rutas {
     fun publicar(tipo: String = "LOGRO") = "publicar/$tipo"
     fun post(id: String) = "post/$id"
     fun chat(id: String) = "chat/$id"
+    fun revision(tipo: com.rutaalacima.app.domain.model.Revision.Tipo, dia: java.time.LocalDate) = "revision/${tipo.name}/$dia"
     fun acompanado(id: String, nombre: String) = "acompanado/$id/${android.net.Uri.encode(nombre.ifBlank { "-" })}"
 }
 
@@ -187,6 +190,14 @@ private fun AppPrincipal() {
     // Código QR de Rutaalacima Web escaneado con la cámara: abrir la pantalla para confirmarlo
     val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container
     val codigoWeb by contenedor.web.codigoPendiente.collectAsStateWithLifecycle()
+    // Al tocar una notificación de mensajes: ir directo a esa conversación
+    val irA by contenedor.navegacionPendiente.collectAsStateWithLifecycle()
+    androidx.compose.runtime.LaunchedEffect(irA) {
+        irA?.let { destino ->
+            contenedor.navegacionPendiente.value = null
+            runCatching { nav.navigate(destino) { launchSingleTop = true } }
+        }
+    }
     androidx.compose.runtime.LaunchedEffect(codigoWeb) {
         if (codigoWeb != null && rutaActual != Rutas.WEB) nav.navigate(Rutas.WEB) { launchSingleTop = true }
     }
@@ -367,6 +378,16 @@ private fun AppPrincipal() {
                     onChat = { nav.navigate(Rutas.chat(it)) },
                 )
             }
+            composable(
+                Rutas.REVISION,
+                arguments = listOf(navArgument("tipo") { type = NavType.StringType }, navArgument("dia") { type = NavType.StringType }),
+            ) { e ->
+                val tipo = runCatching { com.rutaalacima.app.domain.model.Revision.Tipo.valueOf(e.arguments?.getString("tipo").orEmpty()) }
+                    .getOrDefault(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA)
+                val dia = runCatching { java.time.LocalDate.parse(e.arguments?.getString("dia")) }.getOrDefault(java.time.LocalDate.now())
+                com.rutaalacima.app.ui.hoy.RevisionScreen(tipo, dia, onBack = { nav.popBackStack() })
+            }
+            composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
     }
