@@ -83,6 +83,14 @@ import androidx.compose.ui.unit.sp
 import com.rutaalacima.app.R
 import com.rutaalacima.app.ui.theme.Papel
 import com.rutaalacima.app.ui.theme.fondoPapel
+import com.rutaalacima.app.ui.components.SelloDeCera
+import com.rutaalacima.app.ui.components.SonidoSello
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -123,6 +131,9 @@ fun InicioScreen(onTerminar: () -> Unit) {
     val titulo = remember { Animatable(0f) }
     val tarjeta = remember { Animatable(0f) }
     val rotura = remember { Animatable(if (sello == Sello.ABIERTO) 1f else 0f) }
+    /** El sello partiéndose: grietas, trozos que saltan y caen (0 = entero, 1 = ya no está). */
+    val quiebre = remember { Animatable(if (sello == Sello.ABIERTO) 1f else 0f) }
+    val haptico = LocalHapticFeedback.current
     val salida = remember { Animatable(1f) }
     val alcance = rememberCoroutineScope()
     var saliendo by remember { mutableStateOf(false) }
@@ -131,7 +142,11 @@ fun InicioScreen(onTerminar: () -> Unit) {
     }
     val abrir: () -> Unit = {
         vm.abrir(); error = null; sello = Sello.ABIERTO
-        alcance.launch { rotura.animateTo(1f, tween(900, easing = FastOutSlowInEasing)) }
+        haptico.performHapticFeedback(HapticFeedbackType.LongPress)
+        SonidoSello.reproducir(ctx)
+        alcance.launch { quiebre.animateTo(1f, tween(1500, easing = LinearEasing)) }
+        // La frase aparece cuando los trozos ya van saliendo
+        alcance.launch { delay(480); rotura.animateTo(1f, tween(800, easing = FastOutSlowInEasing)) }
     }
     val msgError = stringResource(R.string.biometria_error, "%s")
     val tituloBio = stringResource(R.string.biometria_titulo)
@@ -230,16 +245,20 @@ fun InicioScreen(onTerminar: () -> Unit) {
                         }
                     }
                 }
-                // Sello de cera sobre la frase: se rompe (crece, gira y se desvanece) al abrirla
-                if (rotura.value < 1f) {
-                    Image(
-                        painterResource(R.drawable.logo_sello), stringResource(R.string.romper_sello),
-                        Modifier.offset(y = 14.dp).size(84.dp).graphicsLayer {
-                            val r = rotura.value
-                            scaleX = 1f + 0.8f * r; scaleY = 1f + 0.8f * r; rotationZ = 28f * r; alpha = 1f - r
-                        }.shadow(10.dp, CircleShape, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-                            .clip(CircleShape)
-                            .clickable(enabled = sello == Sello.CERRADO) { romper() },
+                // Sello de cera sobre la frase: se agrieta y se parte en trozos al abrirla
+                // (cada día se rompe distinto: la semilla es el día del año)
+                if (quiebre.value < 1f) {
+                    val descripcion = stringResource(R.string.romper_sello)
+                    SelloDeCera(
+                        progreso = quiebre.value,
+                        semilla = LocalDate.now().year * 1000L + vm.indice,
+                        modifier = Modifier.offset(y = 14.dp).size(84.dp)
+                            .semantics { contentDescription = descripcion; role = Role.Button }
+                            .clickable(
+                                enabled = sello == Sello.CERRADO,
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null,
+                            ) { romper() },
                     )
                 }
             }

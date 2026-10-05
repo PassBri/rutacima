@@ -403,3 +403,6 @@ button.audio-txt { display: block; }
   .audio-barra.sonando .audio-txt { min-width: 70px; }
   .audio-barra .btn.mini { padding: 4px 8px; }
 }
+
+/* Sello que se rompe: la animación va en una capa fija sobre la página */
+.capa-sello { position: fixed; pointer-events: none; z-index: 50; }
