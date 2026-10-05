@@ -11,7 +11,8 @@ VERSION="${GITHUB_SHA:-$(git rev-parse --short HEAD 2>/dev/null || date +%s)}"
 
 rm -rf "$DESTINO"
 mkdir -p "$DESTINO/assets"
-cp web/index.html web/privacidad.html web/app.js web/estilos.css web/sello.png "$DESTINO/"
+cp web/index.html web/privacidad.html web/estilos.css web/sello.png "$DESTINO/"
+cp -r web/js "$DESTINO/js"
 # Las 24 guías y las 365 frases (las mismas de la app)
 cp -r app/src/main/assets/content "$DESTINO/assets/content"
 cp -r app/src/main/assets/frases "$DESTINO/assets/frases"
@@ -34,7 +35,7 @@ window.RUTACIMA = {
 CONFIG
 
 # Evita que el navegador use una versión vieja después de publicar
-sed -i "s|src=\"app.js\"|src=\"app.js?v=$VERSION\"|; s|href=\"estilos.css\"|href=\"estilos.css?v=$VERSION\"|; s|src=\"config.js\"|src=\"config.js?v=$VERSION\"|" "$DESTINO/index.html"
+sed -i "s|src=\"js/\([0-9a-z-]*\)\.js\"|src=\"js/\1.js?v=$VERSION\"|g; s|href=\"estilos.css\"|href=\"estilos.css?v=$VERSION\"|; s|src=\"config.js\"|src=\"config.js?v=$VERSION\"|" "$DESTINO/index.html"
 
 # GitHub Pages: servir los archivos tal cual (sin Jekyll)
 touch "$DESTINO/.nojekyll"

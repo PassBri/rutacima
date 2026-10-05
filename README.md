@@ -14,12 +14,13 @@
   <img alt="Kotlin 2.0" src="https://img.shields.io/badge/Kotlin-2.0-B8862F">
   <img alt="Jetpack Compose y Material 3" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-6B2A1A">
   <img alt="12 idiomas" src="https://img.shields.io/badge/idiomas-12-B8862F">
-  <img alt="Versión 0.4.0" src="https://img.shields.io/badge/versi%C3%B3n-0.4.0-6B2A1A">
+  <img alt="Versión 0.5.0" src="https://img.shields.io/badge/versi%C3%B3n-0.5.0-6B2A1A">
 </p>
 
 <p align="center">
   <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir Rutaalacima Web</b></a>
-  &nbsp;·&nbsp; la misma app en tu computador
+  &nbsp;·&nbsp; la misma app en tu computador<br>
+  <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
 </p>
 
 > Serie Ruta a la Cima · © 2026 Brian Gonzalo Suárez Acevedo. Todos los derechos reservados.
@@ -151,6 +152,14 @@ El centro de la app: **"Camino hacia los 100 años"**. La meta de vida la eliges
 
 Tu tablero del día:
 
+- **Tu paso de hoy** (la primera semana): nueve pasos cortos, uno por día, que llevan de definir la cumbre a la
+  primera revisión. Si te saltas un día, el paso te espera; no se acumulan.
+- **Bienvenida sin culpa:** si vuelves después de varios días, la app no te reprocha nada; te propone un regreso de
+  5 días, empezando por lo mínimo.
+- **Revisión semanal y mensual:** tres preguntas (qué funcionó, qué no, qué cambio) cuando toca. Quedan guardadas y
+  el coach las tiene en cuenta.
+- **Constancia:** racha de días, mejor racha y el **mapa del año**, un cuadro por día con su intensidad.
+
 - **Tu cumbre en una frase**, siempre a la vista.
 - **Anillos de avance** de la cascada: propósito, año, mes y hoy.
 - **Prioridad #1** del día.
@@ -189,6 +198,11 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
 - **Cinco tipos:** logro, evidencia, visión (vision board), meta y reflexión.
 - **Quién la ve:** pública, solo seguidores o solo yo.
 - **Interacción:** **impulsos** (el voto de Rutaalacima), comentarios y seguir a otras personas.
+- **Comunidad segura:** cada publicación se puede **reportar** (con motivo) y cada persona se puede **bloquear**.
+  Con 3 reportes de personas distintas, la publicación se oculta hasta que el equipo la revise. Hay límites contra
+  el spam (mensajes por minuto, publicaciones y solicitudes por día).
+- **Cordadas:** grupos de 3 a 6 personas con un reto en común (por ejemplo, 30 días de un eje). Se crean con un
+  código de invitación; cada uno marca su día y todos ven el avance del grupo, con notas para animarse.
 - **Filtros del inicio:** *Para ti*, *Vision boards* y *Siguiendo*.
 - **Dos formas de verla:** **Lista**, el muro hacia abajo, y **Cimas**, una publicación a pantalla completa que
   se pasa deslizando hacia arriba, con doble toque para impulsar y los botones al costado. La app recuerda cuál
@@ -219,6 +233,10 @@ guardadas. Las evaluaciones **generan resultados**:
 Todas las guías se pueden **escuchar** (unas 13 horas en total): botón **Escuchar** en la portada de cada guía o
 **Escuchar este capítulo** abajo en cada capítulo.
 
+- **Seguir escuchando:** la app recuerda dónde quedaste en cada guía.
+- **Sin conexión:** las grabaciones del autor se pueden **descargar** para escucharlas sin internet.
+- **Temporizador de sueño:** 15, 30 o 60 minutos, o al terminar el capítulo.
+
 - **Dos voces.** Si el autor subió su grabación de un capítulo, suena esa grabación (🎙 *Grabación del autor*).
   Si no, la app lee el capítulo con la voz del teléfono, en español.
 - **Como un audiolibro de verdad:** pausa, retrocede o avanza (una frase con la voz del teléfono, 15 segundos en
@@ -246,6 +264,8 @@ Sugerencias rápidas: *ayúdame a definir mi cumbre*, *divide mi meta anual en p
 
 - **Con servidor**, usa inteligencia artificial con un límite diario por cuenta.
 - **Sin conexión**, funciona en **modo guía**: responde con los protocolos y los bancos del método.
+- **Crea metas por ti:** cuando la conversación llega a una meta concreta, el coach la propone con un botón
+  **Crear esta meta** y queda en tu cascada. Conoce además tu racha y tu última revisión.
 
 ### Mensajes y coach de vida
 
@@ -264,6 +284,11 @@ Sugerencias rápidas: *ayúdame a definir mi cumbre*, *divide mi meta anual en p
   los últimos 7 días, ejes y vision board. Nunca tus respuestas de los libros ni tus notas. Lo apagas y deja de verlo.
 - **Ser coach.** Cualquiera puede postularse con su especialidad y cómo acompaña; queda en revisión hasta que se verifica.
   Si eres coach, ves a las personas que acompañas y su avance (solo si lo comparten).
+- **Sesiones:** se agendan desde la conversación, con día, hora, duración, tema y enlace de videollamada.
+- **Notas privadas del coach** sobre cada persona que acompaña; esa persona no las ve.
+
+**Avisos:** la app te avisa de mensajes nuevos, solicitudes y pedidos de coaching (se revisa cada 15 minutos; se
+apaga en Ajustes). Tocar el aviso abre la conversación.
 
 ### Kit de emergencia
 
@@ -288,6 +313,7 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
+- Los accesos están agrupados en **Mi ascenso**, **Personas** y **Más**.
 
 ### Ajustes
 
@@ -299,9 +325,20 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   referencia la esperanza de vida estimada de tu país.
 - **Cuenta** para la comunidad, el coach y la web.
 - **Rutaalacima Web.**
+- **Avisos de mensajes**, encendidos o apagados.
+- **Copia de seguridad:** exporta toda tu ruta a un archivo y restáurala en otro teléfono, sin cuenta.
+- **Eliminar mi cuenta:** borra la cuenta y todo lo que subiste (publicaciones, mensajes, fotos). Hay que escribir
+  ELIMINAR para confirmar. También se explica en la [política de privacidad](https://passbri.github.io/rutacima/privacidad.html#eliminar-cuenta).
+
+**Widget:** en la pantalla de inicio del teléfono, tu cumbre, la prioridad del día y tu racha.
+
+**Celebración:** al cumplir una meta del mes o del año, una bandera se clava en la cumbre.
+
+**Tablets y accesibilidad:** en pantallas anchas la navegación pasa a un riel lateral; tema oscuro, textos para
+lectores de pantalla y movimiento reducido en la web si el sistema lo pide.
 
 **Idiomas de la interfaz:** español, inglés, portugués, francés, alemán, italiano, chino, japonés, coreano, árabe,
-hindi y ruso. El contenido de las guías está en español.
+hindi y ruso. El contenido de las guías está en español (la app lo avisa en Aprende).
 
 ## Rutaalacima Web
 
@@ -314,7 +351,9 @@ hindi y ruso. El contenido de las guías está en español.
 - Aprende (las 24 guías, con tus respuestas);
 - Coach;
 - Mis frases;
-- Perfil (con el vision board).
+- Perfil (con el vision board);
+- Mensajes, coach de vida y cordadas;
+- Audiolibros, con las grabaciones del autor.
 
 Lo que cambias en un lado aparece en el otro.
 
@@ -353,6 +392,9 @@ o cierres la sesión en la web.
   - nadie puede verificarse como coach a sí mismo;
   - solo las cuentas de autor pueden subir, cambiar o quitar grabaciones de los audiolibros.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
+- **Puedes borrarlo todo:** *Eliminar mi cuenta* borra tus datos del servidor.
+- **Política de privacidad:** [`web/privacidad.html`](web/privacidad.html), publicada en
+  [passbri.github.io/rutacima/privacidad.html](https://passbri.github.io/rutacima/privacidad.html).
 
 ## Diseño
 
@@ -390,6 +432,17 @@ Para actualizar después: **Git › Pull** y **Run ▶**.
 Sin configurar nada, la app funciona completa en el teléfono. La comunidad se muestra en modo demostración y el
 coach en modo guía.
 
+**Sin Android Studio:** cada cambio en `main` se compila en GitHub Actions
+([`.github/workflows/android.yml`](.github/workflows/android.yml)). El APK queda en
+[Releases › APK más reciente](https://github.com/PassBri/rutacima/releases/tag/apk-reciente) y como artefacto de
+cada ejecución.
+
+**Versión para Google Play.** Para firmar el AAB de lanzamiento, crea en **Settings › Secrets and variables ›
+Actions › Secrets**: `RUTACIMA_KEYSTORE_BASE64` (el `.jks` en base64), `RUTACIMA_KEYSTORE_PASSWORD`,
+`RUTACIMA_KEY_ALIAS` y `RUTACIMA_KEY_PASSWORD`. En tu computador, lo mismo va en `keystore.properties`
+(`storeFile`, `storePassword`, `keyAlias`, `keyPassword`), que no se sube. La versión de lanzamiento se reduce y
+ofusca con R8.
+
 ## Servidor, coach IA y web
 
 Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el coach y la web.
@@ -401,6 +454,8 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
    - la ruta compartida y los computadores vinculados;
    - las conversaciones, mensajes, reportes, coaches y acompañamientos;
    - los audiolibros: autores, grabaciones y el bucket `audios`;
+   - reportes, bloqueos, límites contra el spam y `eliminar_mi_cuenta`;
+   - las cordadas, las sesiones y las notas privadas de los coaches;
    - las reglas de seguridad y el bucket `media` para las fotos.
 2. **Web.** En **Authentication › Sign In / Providers**, activa **Allow anonymous sign-ins**. La web entra como
    invitada hasta que la vinculas.
@@ -428,11 +483,14 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
      `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar Rutaalacima Web › Run workflow**.
    - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
 7. **Verificar coaches.** Las postulaciones llegan a **Table Editor › coaches** con `verificado = false`. Revisa la
-   ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes de conversaciones llegan a
-   **Table Editor › reportes**.
+   ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes (de conversaciones y de
+   publicaciones) llegan a **Table Editor › reportes**. Una publicación con 3 reportes queda con `oculto = true`;
+   si la revisas y está bien, vuelve a ponerlo en `false`.
 8. **Cuenta de autor (audiolibros).** Para subir tus grabaciones, agrega tu usuario en **Table Editor › autores**
    (`user_id` = tu id de **Authentication › Users**). Las grabaciones quedan en el bucket público `audios`.
-9. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
+9. **Limpieza (opcional).** Si activas la extensión **pg_cron** antes de ejecutar el esquema, las sesiones web
+   invitadas que nunca se vincularon se borran solas cada noche.
+10. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
    puedes vincular la web.
 
 ## Cómo está hecha
@@ -441,7 +499,9 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
 |---|---|
 | App Android | Kotlin 2.0 · Jetpack Compose · Material 3 · Navigation |
 | Datos en el teléfono | Room (SQLite), con migraciones para no perder datos al actualizar |
-| Recordatorios | WorkManager |
+| Recordatorios y avisos | WorkManager |
+| Audiolibros | TextToSpeech · MediaPlayer · servicio en primer plano |
+| Widget | Jetpack Glance |
 | Seguridad | BiometricPrompt (rostro, huella o bloqueo del teléfono) · PBKDF2 |
 | Código QR | Escáner de Google Play Services (sin permiso de cámara para la app) |
 | Servidor | Supabase: Auth, PostgreSQL con RLS, Storage, Realtime y Edge Functions (Deno) |
@@ -464,11 +524,14 @@ app/src/main/
 │   ├── data/frases/         ← frase del día y frases abiertas
 │   ├── data/web/            ← Rutaalacima Web: vincular un computador y sincronizar
 │   ├── seguridad/           ← sello: rostro, huella o clave
-│   ├── notificaciones/      ← recordatorio diario
+│   ├── data/audio/          ← audiolibros: grabaciones, voz del teléfono y reproductor
+│   ├── notificaciones/      ← recordatorio diario y avisos de mensajes
+│   ├── widget/              ← widget de la pantalla de inicio
 │   └── ui/                  ← pantallas en Compose (ruta, hoy, metas, comunidad, aprende, perfil, web…)
 └── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y la función "coach"
-web/                         ← Rutaalacima Web: index.html, app.js, estilos.css y config.js
+web/                         ← Rutaalacima Web: index.html, estilos.css, config.js y privacidad.html
+web/js/                      ← la web por partes: 01-base … 09-arranque (se cargan en orden)
 diseno/                      ← logo, vistas previas y las 365 frases
 tools/                       ← conversores de los Word a JSON
 ```
@@ -489,7 +552,7 @@ python3 tools/bancos.py
 - Toma los `/10` y `(1-10)` como escalas, que dan resultados.
 - Toma los `☐ Sí ☐ No` como opciones.
 
-**Pruebas:** `./gradlew test` comprueba:
+**Pruebas:** `./gradlew test` (también en cada push) comprueba:
 
 - las 24 guías y sus IDs;
 - el cálculo de resultados de las evaluaciones;
@@ -497,13 +560,18 @@ python3 tools/bancos.py
 - las 365 frases;
 - el vision board;
 - la sincronización con la web;
-- las reglas del método.
+- las reglas del método;
+- la locución de los audiolibros y la rotura del sello;
+- los avisos, la primera semana, el regreso, las revisiones y la racha;
+- las metas que propone el coach y la copia de seguridad;
+- las pantallas principales con Robolectric (que abren sin errores).
 
 **Próximos pasos:**
 
 - Rutaalacima Web en los 12 idiomas (hoy está en español).
 - Traducción del contenido de las guías.
-- Exportar a PDF y copia de seguridad.
+- Exportar a PDF.
+- Avisos al instante con notificaciones push (hoy se revisan cada 15 minutos).
 - Modo facilitador para grupos.
 - Dominio propio: rutacima.app.
 

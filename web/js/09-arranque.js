@@ -1,0 +1,125 @@
+"use strict";
+/* ======================================================================
+ * Pantallas: vincular, cargando, app
+ * ====================================================================== */
+function mostrar(cual) {
+  $("pantallaVincular").hidden = cual !== "vincular";
+  $("pantallaCarga").hidden = cual !== "carga";
+  $("pantallaApp").hidden = cual !== "app";
+}
+function mostrarCarga(t) { $("pantallaCarga").innerHTML = `<div><img src="${LOGO}" alt=""><p>${esc(t)}</p></div>`; mostrar("carga"); }
+
+let sondeo = null, renovar = null;
+async function mostrarVincular() {
+  clearInterval(sondeo); clearInterval(renovar);
+  const real = !!Store.nube;
+  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">Rutaalacima Web</div>
+    <div class="tarjeta-v"><div><h1>Usa Rutaalacima en tu computador</h1>
+      <ol class="pasos"><li>Abre <b>Rutaalacima</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>Rutaalacima Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
+      <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
+    <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""></div><div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
+      <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
+    <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
+      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
+      <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div></div>`;
+  mostrar("vincular");
+  if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }
+  const nuevo = async () => {
+    try {
+      const c = await Store.nube.crearCodigo();
+      pintarQR(`rutacima://vincular?codigo=${c}`);
+      $("codigoTxt").textContent = `${c.slice(0, 4)}-${c.slice(4)}`;
+    } catch (e) { console.error(e); $("qrNota").textContent = "No se pudo crear el código. Revisa tu conexión y recarga la página."; }
+  };
+  await nuevo();
+  renovar = setInterval(nuevo, 4.5 * 60000);
+  sondeo = setInterval(async () => {
+    try { if (await Store.nube.vinculo()) { clearInterval(sondeo); clearInterval(renovar); entrarReal(); } } catch {}
+  }, 2500);
+}
+function pintarQR(texto) {
+  const box = $("qr"); box.querySelector(".codigo")?.remove();
+  try {
+    const q = qrcode(0, "H"); q.addData(texto); q.make();
+    const img = document.createElement("img"); img.className = "codigo"; img.alt = "Código QR para vincular"; img.src = q.createDataURL(8, 0); box.prepend(img);
+  } catch { box.insertAdjacentHTML("afterbegin", `<p class="suave codigo">Código QR no disponible</p>`); }
+}
+
+async function entrarReal() {
+  mostrarCarga("Cargando tu ruta…");
+  try {
+    const filas = await Store.nube.cargarTodo();
+    Store.datos = {};
+    filas.forEach(f => Store.poner(f.tipo, f.clave, f.datos));
+    let t = null;
+    Store.nube.escuchar(ev => {
+      if (ev.eventType === "DELETE") Store.quitar(ev.old.tipo, ev.old.clave);
+      else Store.poner(ev.new.tipo, ev.new.clave, ev.new.datos);
+      clearTimeout(t); t = setTimeout(refrescar, 250);
+    });
+    // Respaldo por si se pierde algún aviso en vivo
+    setInterval(async () => {
+      try { const fs = await Store.nube.cargarTodo(); Store.datos = {}; fs.forEach(f => Store.poner(f.tipo, f.clave, f.datos)); refrescar(); } catch {}
+    }, 120000);
+    abrirApp();
+    if (!filas.length) toast("Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");
+  } catch (e) { console.error(e); mostrarCarga("No se pudo cargar tu ruta. Revisa tu conexión y recarga la página."); }
+}
+function entrarDemo() { Store.nube = null; Store.datos = {}; sembrarDemo(); abrirApp(); }
+function abrirApp() {
+  Store.oyentes.clear(); Store.oyentes.add(refrescar);
+  mostrar("app");
+  ir("ruta", innerWidth > 900 && recordatorio() ? "vida" : null);
+}
+document.addEventListener("click", e => { if (e.target.closest("[data-acc-v='demo']")) { clearInterval(sondeo); clearInterval(renovar); entrarDemo(); } });
+
+/* Ruta de ejemplo para la demostración (con la misma forma de los datos reales) */
+function sembrarDemo() {
+  const hoy = hoyFecha(), A = hoy.getFullYear(), M = hoy.getMonth() + 1;
+  const azar = (a, m, d) => { const x = Math.sin(a * 372 + m * 31 + d) * 10000; return x - Math.floor(x); };
+  Store.poner("perfil", 1, { id: 1, nombre: "Laura", cumbreFrase: "Abrir mi escuela de montaña y vivir de enseñar a otros a subir.", faseActual: "PREPARACION", anioInicioPlan: A, onboardingCompleto: true, anioNacimiento: 1990, mesNacimiento: 3, esperanzaVida: 100 });
+  Store.poner("proposito", 1, { id: 1, orden: 0, titulo: "Escuela de montaña propia", prioridad: "A", eje: "TRA", descripcion: "Una escuela donde aprender a subir sea aprender a vivir.", indicadorExito: "La escuela se sostiene sola con 3 grupos al año.", porQueImporta: "", metasEspecificas: "", visualizacion: "", impacto: "", reflexionFinal: "", progreso: 0, horizonte: 10, creadoEn: Date.now() });
+  [["Certificarme como guía de montaña", "MAE", A, 1], ["Ahorrar el capital semilla de la escuela", "VAL", A, 1], ["Correr una media maratón", "VOL", A, null], ["Primer grupo de 12 estudiantes", "VOZ", A + 2, 1], ["Sede propia con equipo de alquiler", "VAL", A + 4, 1]]
+    .forEach(([t, eje, anio, prop], i) => Store.poner("meta_anio", 10 + i, { id: 10 + i, anio, propositoId: prop, titulo: t, subMetas: "", decision: "CONTINUAR", prioridad: "A", avance: anio > A ? 0 : 20, estado: anio > A ? "NO_INICIADA" : "EN_CURSO", obstaculo: "", proximaAccion: "", eje, indicador: "", observable: "" }));
+  [["Terminar el módulo 4 del curso de guía", "MAE", 10], ["Ahorrar 10 % del ingreso del mes", "VAL", 11], ["3 trotes por semana", "VOL", 12], ["Publicar una ruta guiada en la comunidad", "VOZ", null]].forEach(([t, eje, anual], i) => {
+    const dias = []; for (let d = 1; d < hoy.getDate(); d++) if (azar(A, M + i, d) < 0.55) dias.push(d);
+    Store.poner("meta_mes", 20 + i, { id: 20 + i, anio: A, mes: M, orden: i, texto: t, dias: dias.join(","), cumplida: false, metaAnualId: anual, eje, indicador: "", objetivoDias: 20 });
+  });
+  for (let k = 1; k < 420; k++) {
+    const d = new Date(hoy); d.setDate(d.getDate() - k);
+    if (azar(d.getFullYear(), d.getMonth(), d.getDate()) < 0.62) Store.poner("checklist", iso(d), { fecha: iso(d), marcados: HABITOS.filter((h, j) => azar(d.getDate(), j, d.getMonth()) < 0.5).map(h => h[0]).join(",") });
+  }
+  Store.poner("agenda", iso(hoy), { fecha: iso(hoy), intencion: "Subir con calma y constancia", prioridad: "Estudiar el módulo 4 (1 hora)" });
+  Store.poner("ejes", 30, { id: 30, fecha: Date.now() - 20 * DIA_MS, voluntad: 8, maestria: 7, voz: 5, valor: 6, evolucion: 7, trascendencia: 6, origen: "rapida", nota: "" });
+  const dias = []; for (let k = 1; k < 30; k++) { const d = new Date(hoy); d.setDate(d.getDate() - k); if (d.getFullYear() === A && azar(k, 3, 7) < 0.7) dias.push(fraseIndice(d)); }
+  Store.poner("frases", A, { dias: dias.sort((x, y) => x - y) });
+  misPostsDemo.length = 0;
+  [["LOGRO", "VOL", "Primer mes completo trotando 3 veces por semana."], ["VISION", "TRA", "Una escuela donde aprender a subir sea aprender a vivir."], ["EVIDENCIA", "MAE", "Módulo 3 del curso de guía: aprobado."]]
+    .forEach(([tipo, eje, t], i) => misPostsDemo.push({ id: "mio-" + i, autorNombre: "Laura", tipo, eje, texto: t, metaTitulo: "", impulsos: 12 - i * 3, comentarios: 1, yoImpulse: false, creadoEn: Date.now() - (i + 2) * 86400000, propio: true, demo: false }));
+}
+
+document.addEventListener("dblclick", e => {
+  const c = e.target.closest("[data-cima]"); if (!c || c.closest("button")) return;
+  const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima);
+  if (p && !p.yoImpulse) { estado.post = p; ACC.impulsar(); }
+  const destello = document.createElement("span"); destello.className = "destello"; destello.innerHTML = ic("impulso");
+  const nueva = $("detalle").querySelector(`[data-cima="${CSS.escape(c.dataset.cima)}"]`) || c; nueva.appendChild(destello); setTimeout(() => destello.remove(), 700);
+});
+async function iniciar() {
+  try { const t = localStorage.getItem("rutacima-tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  ["lista", "detalle", "riel"].forEach(id => { $(id).onclick = clic; });
+  $("detalle").onchange = cambio; $("detalle").oninput = entrada; $("lista").oninput = entrada; $("detalle").onsubmit = enviar;
+  Contenido.cargarFrases(); Contenido.cargarIndice();
+  if (!MODO_REAL) { if (location.hash === "#demo") entrarDemo(); else mostrarVincular(); return; }
+  mostrarCarga("Conectando…");
+  try {
+    Store.nube = new Nube();
+    await Store.nube.sesion();
+    if (await Store.nube.vinculo()) entrarReal(); else mostrarVincular();
+  } catch (e) {
+    console.error(e);
+    Store.nube = null;
+    mostrarCarga("No se pudo conectar con el servidor de Rutaalacima. Revisa que los inicios de sesión anónimos estén activados (ver README) y recarga.");
+  }
+}
+iniciar();

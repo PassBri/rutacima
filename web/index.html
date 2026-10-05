@@ -32,6 +32,15 @@
 </div>
 <div id="toast" class="toast" role="status" hidden></div>
 <div id="miniAudio" class="mini-audio" hidden></div>
-<script src="app.js"></script>
+<!-- La app en módulos, en orden (comparten el ámbito global; sin herramientas de compilación) -->
+<script src="js/01-base.js"></script>
+<script src="js/02-navegacion.js"></script>
+<script src="js/03-detalle.js"></script>
+<script src="js/04-acciones.js"></script>
+<script src="js/05-sello.js"></script>
+<script src="js/06-audiolibros.js"></script>
+<script src="js/07-mensajes.js"></script>
+<script src="js/08-cordadas.js"></script>
+<script src="js/09-arranque.js"></script>
 </body>
 </html>
