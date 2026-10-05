@@ -1,0 +1,86 @@
+# Compila la app y corre las pruebas en cada cambio. El APK queda listo para descargar:
+# - en la pestaña Actions (artefacto "rutaalacima-apk"), y
+# - en Releases › "APK más reciente" (para instalarlo directo desde el teléfono).
+name: App Android
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "app/**"
+      - "gradle/**"
+      - "*.gradle.kts"
+      - "gradle.properties"
+      - ".github/workflows/android.yml"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compilar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Configuración del servidor (opcional)
+        # Si en Settings › Secrets and variables › Actions existen estas variables, el APK queda conectado
+        # a tu Supabase; si no, abre en modo demostración.
+        env:
+          SUPABASE_URL: ${{ vars.RUTACIMA_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.RUTACIMA_SUPABASE_ANON_KEY }}
+        run: |
+          {
+            echo "supabase.url=${SUPABASE_URL}"
+            echo "supabase.anonKey=${SUPABASE_ANON_KEY}"
+          } > local.properties
+
+      - name: Pruebas
+        run: ./gradlew --no-daemon testDebugUnitTest
+
+      - name: Compilar APK
+        run: ./gradlew --no-daemon assembleDebug
+
+      - name: Lint (errores graves)
+        run: ./gradlew --no-daemon lintDebug
+        continue-on-error: true
+
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: rutaalacima-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Guardar informes de pruebas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informes
+          path: |
+            app/build/reports/tests/
+            app/build/reports/lint-results-debug.html
+          if-no-files-found: ignore
+
+      - name: Publicar "APK más reciente"
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk Rutaalacima.apk
+          gh release delete apk-reciente --yes --cleanup-tag 2>/dev/null || true
+          gh release create apk-reciente Rutaalacima.apk \
+            --title "APK más reciente" --prerelease \
+            --notes "Compilado automáticamente desde ${GITHUB_SHA::7}. Para instalarlo, ábrelo en el teléfono y permite instalar apps de esta fuente."
