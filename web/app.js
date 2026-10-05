@@ -91,8 +91,10 @@ const HABITOS = [
 const FASES = [["ORIENTACION", "Orientación"], ["PREPARACION", "Preparación"], ["TRAVESIA", "Travesía"], ["ASCENSO", "Ascenso"], ["CULMINACION", "Culminación"], ["CONTEMPLACION", "Contemplación"], ["DESCENSO", "Descenso"]];
 const HORIZONTES = [5, 10, 15, 20];
 const META_DEFECTO = 100, META_MAXIMA = 120;
-const ESTADOS = [["NO_INICIADA", "No iniciada"], ["EN_CURSO", "En curso"], ["EN_RIESGO", "En riesgo"], ["LOGRADA", "Lograda"]];
-const PRIORIDADES = ["A", "B", "C"];
+const ESTADOS = [["NO_INICIADA", "No iniciada"], ["INICIADA", "Iniciada"], ["EN_PAUSA", "En pausa"], ["EN_CURSO", "En curso"], ["AVANZADA", "Avanzada"], ["CUMPLIDA", "Cumplida"]];
+const PRIORIDADES = ["A", "B", "C", "D"];
+const PRIORIDAD_NOMBRE = { A: "A · Máxima prioridad", B: "B · Importante", C: "C · Reactiva", D: "D · Observación" };
+const DECISIONES = [["CONTINUAR", "Continuar"], ["ACELERAR", "Acelerar"], ["PAUSAR", "Pausar"], ["ELIMINAR", "Eliminar"]];
 const TIPOS_POST = [["LOGRO", "Logro"], ["EVIDENCIA", "Evidencia"], ["VISION", "Visión"], ["META", "Meta"], ["REFLEXION", "Reflexión"]];
 const VISIBILIDAD = [["PUBLICA", "Pública"], ["SEGUIDORES", "Seguidores"], ["PRIVADA", "Solo yo"]];
 const FRASES_VIDA = [
@@ -557,7 +559,7 @@ const DET = {
       hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
         <div class="form-2">${campo("Horizonte", sel("proposito", k, "horizonte", p.horizonte || 5, HORIZONTES.map(h => [h, `${h} años`]), "num"))}
           ${campo("Eje principal", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
-          ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, x])))}</div>
+          ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}</div>
         ${auto ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoProp(p))}, el promedio de sus metas anuales.</p>`
           : campo(`Avance manual`, `<div class="rango"><input type="range" min="0" max="100" step="5" value="${p.progreso || 0}" ${bind("proposito", k, "progreso", "num")}><b>${p.progreso || 0}%</b></div>`)}
         ${campo("Descripción", area("proposito", k, "descripcion", p.descripcion))}
@@ -582,8 +584,9 @@ const DET = {
         <div class="form-2">${campo("Año", `<input type="number" min="1900" max="2200" ${bind("meta_anio", k, "anio", "num")} value="${m.anio}">`)}
           ${campo("Propósito", sel("meta_anio", k, "propositoId", m.propositoId ?? "", [["", "Sin propósito"], ...c.props.map(p => [p.id, p.titulo])], "numNulo"))}
           ${campo("Eje", sel("meta_anio", k, "eje", m.eje || "", opcionesEje, "nulo"))}
-          ${campo("Prioridad", sel("meta_anio", k, "prioridad", m.prioridad || "B", PRIORIDADES.map(x => [x, x])))}
-          ${campo("Estado", sel("meta_anio", k, "estado", m.estado || "NO_INICIADA", ESTADOS))}</div>
+          ${campo("Prioridad", sel("meta_anio", k, "prioridad", m.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}
+          ${campo("Estado", sel("meta_anio", k, "estado", m.estado || "NO_INICIADA", ESTADOS))}
+          ${campo("Decisión", sel("meta_anio", k, "decision", m.decision || "CONTINUAR", DECISIONES))}</div>
         ${hijos.length ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoAnio(m))}, el promedio de sus metas del mes.</p>`
           : campo("Avance manual", `<div class="rango"><input type="range" min="0" max="100" step="5" value="${m.avance || 0}" ${bind("meta_anio", k, "avance", "num")}><b>${m.avance || 0}%</b></div>`)}
         ${campo("Sub-metas (una por línea)", area("meta_anio", k, "subMetas", m.subMetas))}
