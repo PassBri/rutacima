@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Video call link (optional)</string>
     <string name="notas_coach_titulo">My private notes</string>
     <string name="notas_coach_ayuda">Only you can see them: agreements, progress and what to review next session.</string>
+    <string name="celebra_mes">Monthly goal reached!</string>
+    <string name="celebra_anio">Summit of the year reached!</string>
+    <string name="perfil_grupo_ascenso">My climb</string>
+    <string name="perfil_grupo_personas">People</string>
+    <string name="perfil_grupo_mas">More</string>
+    <string name="vacio_mensajes_titulo">Your inbox is quiet</string>
+    <string name="vacio_cordadas_titulo">Climb as a rope team</string>
+    <string name="vacio_comunidad_titulo">Plant the first flag</string>
 </resources>

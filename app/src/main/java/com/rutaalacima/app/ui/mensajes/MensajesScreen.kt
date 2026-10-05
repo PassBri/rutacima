@@ -124,8 +124,10 @@ fun MensajesScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -
             }
             if (!vm.cargando && resto.isEmpty() && solicitudes.isEmpty()) {
                 item {
-                    Text(stringResource(R.string.mensajes_vacio), style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(8.dp))
+                    com.rutaalacima.app.ui.components.EstadoVacio(
+                        semilla = "mensajes", titulo = stringResource(R.string.vacio_mensajes_titulo), texto = stringResource(R.string.mensajes_vacio),
+                        accion = stringResource(R.string.coach_vida), onAccion = onCoachVida, modifier = Modifier.padding(top = 8.dp),
+                    )
                 }
             }
             items(resto, key = { it.id }) { c -> FilaConversacion(c) { onAbrir(c.id) } }
@@ -255,7 +257,7 @@ fun ChatScreen(id: String, onBack: () -> Unit) {
                     }
                 },
                 actions = {
-                    IconButton(onClick = { menu = true }) { Icon(Icons.Filled.MoreVert, null) }
+                    IconButton(onClick = { menu = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.mas_opciones)) }
                     DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                         if (c != null && c.estado == "bloqueada" && c.laBloqueeYo) {
                             DropdownMenuItem(text = { Text(stringResource(R.string.mensajes_desbloquear)) }, onClick = { menu = false; vm.bloquear(id, false) })

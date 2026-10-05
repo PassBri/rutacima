@@ -80,6 +80,9 @@ android {
         // Idiomas de la interfaz (selector por app en Android 13+ y en Ajustes de la app).
         generateLocaleConfig = true
     }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
     sourceSets {
         // Los tests JVM leen el contenido real de assets para validar el JSON.
         getByName("test").resources.srcDir("src/main/assets")
@@ -118,6 +121,11 @@ dependencies {
     implementation(libs.androidx.glance.material3)
 
     testImplementation(libs.junit)
+    // Pruebas de pantallas en la JVM (sin emulador)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.junit)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

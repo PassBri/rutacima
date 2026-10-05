@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Videocall-Link (optional)</string>
     <string name="notas_coach_titulo">Meine privaten Notizen</string>
     <string name="notas_coach_ayuda">Nur du siehst sie: Vereinbarungen, Fortschritte und was du in der nächsten Sitzung ansprechen willst.</string>
+    <string name="celebra_mes">Monatsziel erreicht!</string>
+    <string name="celebra_anio">Jahresgipfel erreicht!</string>
+    <string name="perfil_grupo_ascenso">Mein Aufstieg</string>
+    <string name="perfil_grupo_personas">Menschen</string>
+    <string name="perfil_grupo_mas">Mehr</string>
+    <string name="vacio_mensajes_titulo">Dein Posteingang ist ruhig</string>
+    <string name="vacio_cordadas_titulo">Steig in Seilschaft</string>
+    <string name="vacio_comunidad_titulo">Setz die erste Flagge</string>
 </resources>

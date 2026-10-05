@@ -143,10 +143,9 @@ fun CordadasScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -
                     item(key = c.id) { TarjetaCordada(c, onAbrir = { onAbrir(c.id) }, onMarcar = { vm.marcarHoy(c) }) }
                 }
                 if (lista.isEmpty()) item {
-                    RutaCard {
-                        Icon(Icons.Filled.Diversity3, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(36.dp))
-                        Text(stringResource(R.string.cordadas_vacio), style = MaterialTheme.typography.bodyMedium)
-                    }
+                    com.rutaalacima.app.ui.components.EstadoVacio(
+                        semilla = "cordada", titulo = stringResource(R.string.vacio_cordadas_titulo), texto = stringResource(R.string.cordadas_vacio),
+                    )
                 }
             }
             item { SectionTitle(stringResource(R.string.cordadas_nueva)) }

@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">رابط مكالمة الفيديو (اختياري)</string>
     <string name="notas_coach_titulo">ملاحظاتي الخاصة</string>
     <string name="notas_coach_ayuda">تراها أنت فقط: ما اتفقتما عليه والتقدم وما تراجعه في الجلسة القادمة.</string>
+    <string name="celebra_mes">تحقق هدف الشهر!</string>
+    <string name="celebra_anio">بلغت قمة العام!</string>
+    <string name="perfil_grupo_ascenso">صعودي</string>
+    <string name="perfil_grupo_personas">الأشخاص</string>
+    <string name="perfil_grupo_mas">المزيد</string>
+    <string name="vacio_mensajes_titulo">صندوقك هادئ</string>
+    <string name="vacio_cordadas_titulo">اصعد مع فريق</string>
+    <string name="vacio_comunidad_titulo">اغرس العلم الأول</string>
 </resources>

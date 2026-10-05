@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">视频通话链接（可选）</string>
     <string name="notas_coach_titulo">我的私密笔记</string>
     <string name="notas_coach_ayuda">只有你能看到：约定、进展以及下次要回顾的事项。</string>
+    <string name="celebra_mes">月度目标达成！</string>
+    <string name="celebra_anio">年度巅峰达成！</string>
+    <string name="perfil_grupo_ascenso">我的攀登</string>
+    <string name="perfil_grupo_personas">伙伴</string>
+    <string name="perfil_grupo_mas">更多</string>
+    <string name="vacio_mensajes_titulo">收件箱很安静</string>
+    <string name="vacio_cordadas_titulo">结组攀登</string>
+    <string name="vacio_comunidad_titulo">插下第一面旗</string>
 </resources>

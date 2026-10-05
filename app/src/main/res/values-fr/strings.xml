@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Lien de visio (facultatif)</string>
     <string name="notas_coach_titulo">Mes notes privées</string>
     <string name="notas_coach_ayuda">Toi seul les vois : vos accords, les progrès et ce qu’il faut revoir à la prochaine séance.</string>
+    <string name="celebra_mes">Objectif du mois atteint !</string>
+    <string name="celebra_anio">Sommet de l’année atteint !</string>
+    <string name="perfil_grupo_ascenso">Mon ascension</string>
+    <string name="perfil_grupo_personas">Personnes</string>
+    <string name="perfil_grupo_mas">Plus</string>
+    <string name="vacio_mensajes_titulo">Ta boîte est calme</string>
+    <string name="vacio_cordadas_titulo">Grimpe en cordée</string>
+    <string name="vacio_comunidad_titulo">Plante le premier drapeau</string>
 </resources>

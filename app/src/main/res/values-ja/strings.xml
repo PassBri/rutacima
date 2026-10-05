@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">ビデオ通話のリンク（任意）</string>
     <string name="notas_coach_titulo">非公開メモ</string>
     <string name="notas_coach_ayuda">あなただけが見られます。約束、進捗、次回確認すること。</string>
+    <string name="celebra_mes">今月の目標達成！</string>
+    <string name="celebra_anio">今年の頂に到達！</string>
+    <string name="perfil_grupo_ascenso">私の登頂</string>
+    <string name="perfil_grupo_personas">人とのつながり</string>
+    <string name="perfil_grupo_mas">その他</string>
+    <string name="vacio_mensajes_titulo">受信箱は静かです</string>
+    <string name="vacio_cordadas_titulo">ザイルで登ろう</string>
+    <string name="vacio_comunidad_titulo">最初の旗を立てよう</string>
 </resources>

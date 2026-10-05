@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+import com.rutaalacima.app.data.local.avance
 
 /** Inyección de dependencias manual (suficiente para el tamaño actual del proyecto). */
 class AppContainer(context: Context) {
@@ -59,11 +60,26 @@ class AppContainer(context: Context) {
     val audios = com.rutaalacima.app.data.audio.AudiosRepository(context, supabase)
     val audiolibro = com.rutaalacima.app.data.audio.ReproductorAudiolibro(context, contenido, audios)
 
+    /** Meta recién cumplida: la app muestra la bandera clavándose en la cumbre. */
+    val celebracion = kotlinx.coroutines.flow.MutableStateFlow<com.rutaalacima.app.ui.components.Celebracion?>(null)
+
     /** Pantalla a abrir al tocar una notificación (por ejemplo "chat/…"). */
     val navegacionPendiente = kotlinx.coroutines.flow.MutableStateFlow<String?>(null)
 
     init {
         web.iniciarAutomatica(appScope)
+        // Celebrar cuando una meta del mes o del año pasa a cumplida (no al abrir la app)
+        appScope.launch {
+            var antes: Set<String>? = null
+            kotlinx.coroutines.flow.combine(planAnual.todasMetasMes, planificador.todasLasMetas) { meses, anios ->
+                meses.filter { it.cumplida || it.avance() >= 1f }.associate { "m${it.id}" to com.rutaalacima.app.ui.components.Celebracion(it.texto, anual = false) } +
+                    anios.filter { it.estado == "CUMPLIDA" || it.avance >= 100 }.associate { "a${it.id}" to com.rutaalacima.app.ui.components.Celebracion(it.titulo, anual = true) }
+            }.collect { cumplidas ->
+                val previas = antes
+                antes = cumplidas.keys
+                if (previas != null) (cumplidas.keys - previas).firstOrNull()?.let { celebracion.value = cumplidas.getValue(it) }
+            }
+        }
         // El widget se actualiza cuando marcas un hábito o abres la frase del día
         appScope.launch {
             kotlinx.coroutines.flow.combine(checklist.desde(java.time.LocalDate.now().minusDays(1)), frases.desbloqueadas) { a, b -> a to b }

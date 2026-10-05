@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Link da videochamada (opcional)</string>
     <string name="notas_coach_titulo">Minhas notas privadas</string>
     <string name="notas_coach_ayuda">Só você as vê: o que combinaram, avanços e o que revisar na próxima sessão.</string>
+    <string name="celebra_mes">Meta do mês cumprida!</string>
+    <string name="celebra_anio">Cume do ano alcançado!</string>
+    <string name="perfil_grupo_ascenso">Minha subida</string>
+    <string name="perfil_grupo_personas">Pessoas</string>
+    <string name="perfil_grupo_mas">Mais</string>
+    <string name="vacio_mensajes_titulo">Sua caixa está tranquila</string>
+    <string name="vacio_cordadas_titulo">Suba em cordada</string>
+    <string name="vacio_comunidad_titulo">Finque a primeira bandeira</string>
 </resources>

@@ -114,7 +114,10 @@ fun ComunidadScreen(
                 vm.cargando && vm.posts.isEmpty() ->
                     Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
                 vm.posts.isEmpty() ->
-                    Text(stringResource(R.string.feed_vacio), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(24.dp))
+                    com.rutaalacima.app.ui.components.EstadoVacio(
+                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(R.string.feed_vacio),
+                        accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
+                    )
                 else -> CimasFeed(
                     posts = vm.posts, estado = pager,
                     onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
@@ -181,7 +184,10 @@ fun ComunidadScreen(
         }
         if (!vm.cargando && vm.posts.isEmpty() && vm.error == null) {
             item {
-                Text(stringResource(R.string.feed_vacio), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(24.dp))
+                com.rutaalacima.app.ui.components.EstadoVacio(
+                    semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(R.string.feed_vacio),
+                    accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
+                )
             }
         }
         items(vm.posts, key = { it.id }) { p ->

@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Link videochiamata (facoltativo)</string>
     <string name="notas_coach_titulo">Le mie note private</string>
     <string name="notas_coach_ayuda">Le vedi solo tu: accordi, progressi e cosa rivedere alla prossima sessione.</string>
+    <string name="celebra_mes">Obiettivo del mese raggiunto!</string>
+    <string name="celebra_anio">Vetta dell’anno raggiunta!</string>
+    <string name="perfil_grupo_ascenso">La mia salita</string>
+    <string name="perfil_grupo_personas">Persone</string>
+    <string name="perfil_grupo_mas">Altro</string>
+    <string name="vacio_mensajes_titulo">La tua casella è tranquilla</string>
+    <string name="vacio_cordadas_titulo">Sali in cordata</string>
+    <string name="vacio_comunidad_titulo">Pianta la prima bandiera</string>
 </resources>

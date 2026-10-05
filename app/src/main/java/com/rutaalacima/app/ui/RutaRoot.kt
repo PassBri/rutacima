@@ -206,8 +206,16 @@ private fun AppPrincipal() {
         if (codigoWeb != null && rutaActual != Rutas.WEB) nav.navigate(Rutas.WEB) { launchSingleTop = true }
     }
 
+    // Tableta o teléfono en horizontal: las pestañas van en un riel a la izquierda
+    val ancho = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 600
+    val celebracion by contenedor.celebracion.collectAsStateWithLifecycle()
+  Box(Modifier.fillMaxSize().fondoPapel()) {
+   Row(Modifier.fillMaxSize()) {
+    if (ancho && pestana != null) {
+        RielLateral(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+    }
     Scaffold(
-        modifier = Modifier.fondoPapel(),
+        modifier = Modifier.weight(1f),
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
             if (pestana != null) {
@@ -230,8 +238,6 @@ private fun AppPrincipal() {
                             }
                         }
                         if (pestana.ruta == Rutas.PERFIL) {
-                            IconButton(onClick = { nav.navigate(Rutas.COACH_VIDA) }) { Icon(Icons.Filled.Hiking, stringResource(R.string.coach_vida)) }
-                            IconButton(onClick = { nav.navigate(Rutas.WEB) }) { Icon(Icons.Filled.Computer, stringResource(R.string.web_titulo)) }
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
                         IconButton(onClick = { nav.navigate(Rutas.COACH) }) {
@@ -247,7 +253,7 @@ private fun AppPrincipal() {
                 Column {
                     // Mientras suena un audiolibro: pausa o vuelve al capítulo desde cualquier pestaña
                     com.rutaalacima.app.ui.workbook.MiniReproductor(onAbrir = { wb, sec -> nav.navigate(Rutas.seccion(wb, sec)) })
-                    BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                    if (!ancho) BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
                 }
             }
         },
@@ -306,6 +312,7 @@ private fun AppPrincipal() {
                     onAjustes = { nav.navigate(Rutas.AJUSTES) },
                     onFrases = { nav.navigate(Rutas.FRASES) },
                     onVision = { nav.navigate(Rutas.VISION) },
+                    onIrA = { ruta -> runCatching { nav.navigate(ruta) } },
                 )
             }
             composable(Rutas.WORKBOOK, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
@@ -405,6 +412,33 @@ private fun AppPrincipal() {
             composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
+    }
+   }
+    // Meta cumplida: la bandera se clava en la cumbre
+    celebracion?.let { com.rutaalacima.app.ui.components.CelebracionCumbre(it) { contenedor.celebracion.value = null } }
+  }
+}
+
+/** Riel de pestañas para pantallas anchas, con el botón de publicar arriba. */
+@Composable
+private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit) {
+    androidx.compose.material3.NavigationRail(
+        containerColor = androidx.compose.ui.graphics.Color.Transparent,
+        header = {
+            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(40.dp).padding(top = 4.dp))
+            androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
+                Icon(painterResource(R.drawable.ic_plantar_bandera), stringResource(R.string.publicar))
+            }
+        },
+    ) {
+        Spacer(Modifier.weight(1f))
+        PESTANAS.forEach { p ->
+            androidx.compose.material3.NavigationRailItem(
+                selected = actual == p.ruta, onClick = { onIr(p.ruta) },
+                icon = { Icon(p.icono, null) }, label = { Text(stringResource(p.titulo)) },
+            )
+        }
+        Spacer(Modifier.weight(1f))
     }
 }
 

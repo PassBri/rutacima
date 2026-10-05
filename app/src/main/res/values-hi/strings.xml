@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">वीडियो कॉल लिंक (वैकल्पिक)</string>
     <string name="notas_coach_titulo">मेरे निजी नोट्स</string>
     <string name="notas_coach_ayuda">केवल आप देख सकते हैं: तय बातें, प्रगति और अगले सत्र में क्या देखना है।</string>
+    <string name="celebra_mes">महीने का लक्ष्य पूरा!</string>
+    <string name="celebra_anio">साल का शिखर हासिल!</string>
+    <string name="perfil_grupo_ascenso">मेरी चढ़ाई</string>
+    <string name="perfil_grupo_personas">लोग</string>
+    <string name="perfil_grupo_mas">और</string>
+    <string name="vacio_mensajes_titulo">आपका इनबॉक्स शांत है</string>
+    <string name="vacio_cordadas_titulo">रोप टीम में चढ़ें</string>
+    <string name="vacio_comunidad_titulo">पहला झंडा गाड़ें</string>
 </resources>

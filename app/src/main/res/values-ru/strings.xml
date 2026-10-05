@@ -929,4 +929,12 @@
     <string name="sesiones_enlace">Ссылка на видеозвонок (необязательно)</string>
     <string name="notas_coach_titulo">Мои личные заметки</string>
     <string name="notas_coach_ayuda">Видишь только ты: договорённости, прогресс и что обсудить на следующей сессии.</string>
+    <string name="celebra_mes">Цель месяца достигнута!</string>
+    <string name="celebra_anio">Вершина года покорена!</string>
+    <string name="perfil_grupo_ascenso">Мой подъём</string>
+    <string name="perfil_grupo_personas">Люди</string>
+    <string name="perfil_grupo_mas">Ещё</string>
+    <string name="vacio_mensajes_titulo">Входящие пусты</string>
+    <string name="vacio_cordadas_titulo">Поднимайся в связке</string>
+    <string name="vacio_comunidad_titulo">Установи первый флаг</string>
 </resources>

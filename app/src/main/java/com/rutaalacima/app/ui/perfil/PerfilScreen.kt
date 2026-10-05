@@ -23,6 +23,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material.icons.filled.Diversity3
+import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.EventRepeat
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material3.Button
@@ -90,6 +98,7 @@ fun PerfilScreen(
     onAjustes: () -> Unit,
     onFrases: () -> Unit = {},
     onVision: () -> Unit = {},
+    onIrA: (String) -> Unit = {},
 ) {
     val vm = rutaViewModel { PerfilViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -138,6 +147,8 @@ fun PerfilScreen(
                 }
             }
         }
+        // Accesos agrupados: tu ascenso, las personas que te acompañan y lo demás
+        item { AccesosPerfil(onIrA) }
         item {
             TabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {
                 listOf(R.string.perfil_tab_publicaciones, R.string.perfil_tab_vida, R.string.perfil_tab_vision, R.string.perfil_tab_ejes)
@@ -220,6 +231,43 @@ private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
                 }
             }
             repeat(columnas - fila.size) { Spacer(Modifier.weight(1f)) }
+        }
+    }
+}
+
+
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+@Composable
+private fun AccesosPerfil(onIrA: (String) -> Unit) {
+    data class Acceso(val texto: Int, val icono: androidx.compose.ui.graphics.vector.ImageVector, val ruta: String)
+    val grupos = listOf(
+        R.string.perfil_grupo_ascenso to listOf(
+            Acceso(R.string.metas, Icons.Filled.Flag, com.rutaalacima.app.ui.Rutas.planificador(0)),
+            Acceso(R.string.constancia_titulo, Icons.Filled.LocalFireDepartment, com.rutaalacima.app.ui.Rutas.CONSTANCIA),
+            Acceso(R.string.revision_semana, Icons.Filled.EventRepeat,
+                com.rutaalacima.app.ui.Rutas.revision(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA, java.time.LocalDate.now())),
+        ),
+        R.string.perfil_grupo_personas to listOf(
+            Acceso(R.string.mensajes, Icons.AutoMirrored.Filled.Chat, com.rutaalacima.app.ui.Rutas.MENSAJES),
+            Acceso(R.string.coach_vida, Icons.Filled.Hiking, com.rutaalacima.app.ui.Rutas.COACH_VIDA),
+            Acceso(R.string.cordadas, Icons.Filled.Diversity3, com.rutaalacima.app.ui.Rutas.CORDADAS),
+        ),
+        R.string.perfil_grupo_mas to listOf(
+            Acceso(R.string.web_titulo, Icons.Filled.Computer, com.rutaalacima.app.ui.Rutas.WEB),
+            Acceso(R.string.ajustes, Icons.Filled.Settings, com.rutaalacima.app.ui.Rutas.AJUSTES),
+        ),
+    )
+    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        grupos.forEach { (titulo, accesos) ->
+            Text(stringResource(titulo).uppercase(), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.secondary)
+            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                accesos.forEach { a ->
+                    androidx.compose.material3.AssistChip(
+                        onClick = { onIrA(a.ruta) }, label = { Text(stringResource(a.texto)) },
+                        leadingIcon = { Icon(a.icono, null, Modifier.size(18.dp)) },
+                    )
+                }
+            }
         }
     }
 }

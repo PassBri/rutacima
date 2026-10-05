@@ -31,6 +31,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -160,7 +162,10 @@ fun RadarEjes(
     val line = MaterialTheme.colorScheme.primary
     val prev = MaterialTheme.colorScheme.onSurfaceVariant
     val ejes = Eje.entries
-    Box(modifier.fillMaxWidth().aspectRatio(1f), contentAlignment = Alignment.Center) {
+    // TalkBack lee el radar como una lista de ejes con su puntaje
+    val nombres = ejes.map { androidx.compose.ui.res.stringResource(com.rutaalacima.app.ui.i18n.Textos.nombre(it)) }
+    val descripcion = nombres.zip(valores).joinToString(", ") { (n, v) -> "$n $v/10" }
+    Box(modifier.fillMaxWidth().aspectRatio(1f).semantics(mergeDescendants = true) { contentDescription = descripcion }, contentAlignment = Alignment.Center) {
         Canvas(Modifier.fillMaxWidth(if (mostrarEtiquetas) 0.72f else 0.95f).aspectRatio(1f)) {
             val c = Offset(size.width / 2, size.height / 2)
             val r = size.minDimension / 2
