@@ -19,3 +19,4 @@ google-services.json
 # Python (herramienta de conversión)
 __pycache__/
 *.pyc
+_site/

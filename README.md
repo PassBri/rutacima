@@ -369,12 +369,17 @@ RutaCima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el
    supabase.url=https://TU-PROYECTO.supabase.co
    supabase.anonKey=TU_ANON_KEY
    # opcional: dónde está publicada la web
-   rutacima.webUrl=https://passbri.github.io/rutacima/web/
+   rutacima.webUrl=https://passbri.github.io/rutacima/
    ```
 5. **Web.** Pon la misma URL y la misma clave en [`web/config.js`](web/config.js). La clave *anon* es pública por
    diseño; la seguridad la ponen las reglas del paso 1.
-6. **Publicar la web.** Activa **GitHub Pages** (Settings › Pages › rama `main`); la web queda en
-   `https://passbri.github.io/rutacima/web/`.
+6. **Publicar la web.** Ya está todo listo para GitHub Pages ([`.github/workflows/web.yml`](.github/workflows/web.yml)):
+   - Una sola vez: **Settings › Pages › Source: GitHub Actions**.
+   - Para conectarla a tu servidor: **Settings › Secrets and variables › Actions › Variables** y crea
+     `RUTACIMA_SUPABASE_URL` y `RUTACIMA_SUPABASE_ANON_KEY`. Sin ellas abre en modo demostración.
+   - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
+     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar RutaCima Web › Run workflow**.
+   - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
 7. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
    puedes vincular la web.
 
