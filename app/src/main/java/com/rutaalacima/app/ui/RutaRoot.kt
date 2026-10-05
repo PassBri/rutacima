@@ -2,6 +2,7 @@ package com.rutaalacima.app.ui
 
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -396,22 +397,21 @@ private fun BarraIconos(actual: String?, onIr: (String) -> Unit, onPublicar: () 
                     contentAlignment = Alignment.Center,
                 ) {
                     if (p == null) {
-                        // Botón central elevado: montaña con bandera y un "+"
+                        // Botón para publicar: igual a las pestañas, con un acento leve (borde dorado y fondo apenas teñido)
                         val presionado = sobre == k
                         Box(
                             Modifier
-                                .offset(y = (-8).dp)
-                                .size(if (presionado) 50.dp else 54.dp)
-                                .shadow(8.dp, CircleShape, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+                                .size(width = 56.dp, height = 32.dp)
                                 .background(
-                                    androidx.compose.ui.graphics.Brush.linearGradient(listOf(colores.primary, colores.secondary)),
+                                    if (presionado) colores.secondaryContainer else colores.primary.copy(alpha = 0.08f),
                                     CircleShape,
-                                ),
+                                )
+                                .border(1.dp, colores.secondary.copy(alpha = 0.55f), CircleShape),
                             contentAlignment = Alignment.Center,
                         ) {
                             Icon(
                                 androidx.compose.ui.res.painterResource(R.drawable.ic_plantar_bandera), contentDescription = null,
-                                tint = colores.onPrimary, modifier = Modifier.size(30.dp),
+                                tint = colores.primary, modifier = Modifier.size(24.dp),
                             )
                         }
                     } else {
@@ -438,7 +438,7 @@ private fun BarraIconos(actual: String?, onIr: (String) -> Unit, onPublicar: () 
                             modifier = Modifier
                                 .align(Alignment.TopCenter)
                                 .wrapContentSize(unbounded = true)
-                                .offset(y = if (p == null) (-56).dp else (-44).dp)
+                                .offset(y = (-44).dp)
                                 .zIndex(1f)
                                 .shadow(6.dp, RoundedCornerShape(10.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
                                 .background(colores.primary, RoundedCornerShape(10.dp))

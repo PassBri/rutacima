@@ -370,16 +370,9 @@ a.btn { text-decoration: none; color: inherit; }
 @keyframes destello { from { opacity: 0; transform: scale(.6); } 30% { opacity: 1; transform: scale(1.1); } to { opacity: 0; transform: scale(1); } }
 .detalle:has(.cimas) { overflow: hidden; }
 
-/* Botón para publicar: montaña con bandera y "+" (plantar tu bandera) */
-.rb-publicar { background: linear-gradient(135deg, var(--burdeos), var(--oro)); color: #fff; box-shadow: 0 4px 12px rgb(var(--sombra) / .3); margin-block: 6px; }
-.rb-publicar:hover { background: linear-gradient(135deg, var(--burdeos), var(--oro)); filter: brightness(1.08); }
-.rb-publicar svg { width: 26px; height: 26px; }
-:root[data-theme="dark"] .rb-publicar { color: #2B1209; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .rb-publicar { color: #2B1209; } }
-@media (max-width: 900px) {
-  .rb-publicar { width: 52px; height: 52px; transform: translateY(-10px); margin-block: 0; }
-  .rb-publicar svg { width: 30px; height: 30px; }
-}
+/* Botón para publicar: igual a los demás, con un acento leve (borde dorado y fondo apenas teñido) */
+.rb-publicar { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 8%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--oro) 60%, transparent); }
+.rb-publicar:hover { background: var(--oro-suave); }
 .riel { position: relative; z-index: 3; }
 .solo-movil { display: none; }
 .atajos .rb { width: 36px; height: 36px; }
