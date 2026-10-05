@@ -135,6 +135,13 @@ class RutaWebRepository(
         _estado.value = _estado.value.copy(ultima = null)
     }
 
+    /** Al eliminar la cuenta: olvida el vínculo con la web en este teléfono (el servidor ya lo borró). */
+    fun olvidarVinculo() {
+        prefs.edit().remove("huellas").remove("huellas_uid").remove("ultima").apply()
+        activar(false)
+        _estado.value = _estado.value.copy(ultima = null)
+    }
+
     private fun activar(si: Boolean) {
         prefs.edit().putBoolean("activo", si).apply()
         _estado.value = _estado.value.copy(activo = si)

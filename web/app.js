@@ -715,6 +715,9 @@ const DEMO_POSTS = [
 const demoComentarios = {};
 const misPostsDemo = [];
 
+/** Lo que reportaste o a quien bloqueaste deja de verse aquí al instante (el servidor también lo filtra). */
+const listaLocal = k => { try { return new Set(JSON.parse(localStorage.getItem("rutacima-" + k) || "[]")); } catch { return new Set(); } };
+function ocultarLocal(k, v) { const s = listaLocal(k); s.add(String(v)); try { localStorage.setItem("rutacima-" + k, JSON.stringify([...s])); } catch {} }
 async function cargarFeed() {
   if (cargarFeed.activo) return; cargarFeed.activo = true;
   await null; // siempre después de dibujar la lista
@@ -744,7 +747,10 @@ async function cargarFeed() {
       }));
     }
   } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad."); }
-  finally { cargarFeed.activo = false; if (estado.sec === "comunidad" || estado.sec === "perfil") { pintarLista(); if (!enEdicion()) pintarDetalle(); } }
+  finally {
+    const ocultos = listaLocal("ocultos"), bloqueados = listaLocal("bloqueados");
+    if (estado.feed) estado.feed = estado.feed.filter(p => !ocultos.has(String(p.id)) && !bloqueados.has(String(p.autorId)));
+    cargarFeed.activo = false; if (estado.sec === "comunidad" || estado.sec === "perfil") { pintarLista(); if (!enEdicion()) pintarDetalle(); } }
 }
 function postal(p, mini = false) {
   const c = COLOR_EJE[p.eje] || "#6B2A1A", tipo = TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || "";
@@ -761,7 +767,7 @@ Object.assign(DET, {
     const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
     return cab(av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), `${p.autorUsuario ? "@" + esc(p.autorUsuario) + " · " : ""}${hace(p.creadoEn)}`,
       p.propio ? `<button class="btn mini peligro" data-acc="borrarPost" data-arg="${esc(p.id)}">${ic("borrar")} Borrar</button>`
-        : `<span style="display:flex;gap:6px">${!p.demo || !Store.nube ? `<button class="btn mini" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}">${ic("mensajes")} Mensaje</button>` : ""}${!p.demo && Store.nube ? `<button class="btn mini" data-acc="seguir" data-arg="${esc(p.autorId)}">Seguir</button>` : ""}</span>`) +
+        : `<span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${!p.demo || !Store.nube ? `<button class="btn mini" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}">${ic("mensajes")} Mensaje</button>` : ""}${!p.demo && Store.nube ? `<button class="btn mini" data-acc="seguir" data-arg="${esc(p.autorId)}">Seguir</button>` : ""}<button class="btn mini" data-acc="reportarPost" data-arg="${esc(p.id)}" title="Reportar publicación">Reportar</button><button class="btn mini peligro" data-acc="bloquearAutor" data-arg="${esc(p.id)}" title="Bloquear a esta persona">Bloquear</button></span>`) +
       `<div class="det-cuerpo"><div class="ancho" style="gap:16px;max-width:640px">
         ${p.demo ? `<div class="aviso">Comunidad de ejemplo. ${Store.nube ? "" : "Vincula la web con tu cuenta para ver la comunidad real."}</div>` : ""}
         ${postal(p)}${p.foto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
@@ -998,8 +1004,11 @@ Object.assign(DET, {
       hoja(Store.nube
         ? `<h3>Conectado a tu cuenta</h3><p>Rutaalacima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
            <p class="suave">Para desvincular este computador desde el teléfono: Perfil › Rutaalacima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`
+          + `<h3 style="margin-top:28px">Eliminar mi cuenta</h3><p class="suave">Se borran para siempre tu perfil, publicaciones, comentarios, mensajes, tu ruta en la nube y los computadores vinculados. Lo guardado en tu teléfono se queda ahí.</p>
+           <div class="botones"><button class="btn peligro" data-acc="eliminarCuenta">Eliminar mi cuenta</button></div>`
         : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>
-           <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`), "max-width:640px");
+           <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`) +
+        `<p class="suave" style="text-align:center"><a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a></p>`, "max-width:640px");
   },
 });
 async function cargarMisPosts() {
@@ -1231,6 +1240,34 @@ const ACC = {
   async seguir(el, autor) {
     const r = await Store.nube.sb.from("follows").upsert({ follower_id: Store.nube.dueno, followed_id: autor });
     if (r.error) errorNube(r.error); else { el.textContent = "Siguiendo"; el.disabled = true; }
+  },
+  async reportarPost(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
+    const motivo = prompt("¿Por qué reportas esta publicación? (spam, ofensiva, acoso, engaño…)\nDejarás de verla. Si varias personas la reportan, se oculta para todos hasta revisarla.");
+    if (motivo === null) return;
+    if (Store.nube && !p.demo) {
+      const r = await Store.nube.sb.from("reportes").insert({ quien: Store.nube.dueno, a_quien: p.autorId, post_id: p.id, motivo: (motivo || "Sin detalle").slice(0, 1000) });
+      if (r.error && r.error.code !== "23505") { errorNube(r.error); return; }
+    }
+    ocultarLocal("ocultos", p.id); toast("Gracias. Revisaremos tu reporte."); estado.feed = null; ir("comunidad", null);
+  },
+  async bloquearAutor(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
+    if (!confirm(`¿Bloquear a ${p.autorNombre}? No verán sus publicaciones ni comentarios, no podrán escribirse y dejarán de seguirse. Esta persona no recibe ningún aviso.`)) return;
+    if (Store.nube && !p.demo) {
+      const r = await Store.nube.sb.from("bloqueos").upsert({ quien: Store.nube.dueno, a_quien: p.autorId });
+      if (r.error) { errorNube(r.error); return; }
+    }
+    ocultarLocal("bloqueados", p.autorId); toast(`Bloqueaste a ${p.autorNombre}.`); estado.feed = null; ir("comunidad", null);
+  },
+  async eliminarCuenta() {
+    const palabra = prompt("Esto borra para siempre tu cuenta y todo lo que está en el servidor. Lo guardado en tu teléfono se queda ahí.\n\nEscribe ELIMINAR para confirmar:");
+    if (!palabra || palabra.trim().toUpperCase() !== "ELIMINAR") return;
+    mostrarCarga("Eliminando tu cuenta…");
+    const { error } = await Store.nube.sb.rpc("eliminar_mi_cuenta");
+    if (error) { console.error(error); abrirApp(); toast("No se pudo eliminar la cuenta. Revisa tu conexión."); return; }
+    try { await Store.nube.sb.auth.signOut(); } catch {}
+    mostrarCarga("Tu cuenta fue eliminada."); setTimeout(() => location.reload(), 2500);
   },
   async borrarPost(el, id) {
     if (!el.dataset.seguro) return ACC.borrar(el, ""), undefined;

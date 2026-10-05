@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">녹음을 재생할 수 없어 앱 음성으로 계속합니다.</string>
     <string name="audio_sin_voz">스페인어 음성이 없습니다. 설정 › 시스템 › 언어 › TTS 출력에서 설치하세요.</string>
     <string name="audio_canal">오디오북</string>
+    <string name="mas_opciones">더보기</string>
+    <string name="reportar_publicacion">게시물 신고</string>
+    <string name="reportar_ayuda">더 이상 보이지 않아요. 여러 사람이 신고하면 검토 전까지 모두에게 숨겨집니다.</string>
+    <string name="bloquear_a">%1$s 차단</string>
+    <string name="bloquear_texto">서로의 게시물과 댓글이 보이지 않고, 메시지를 주고받을 수 없으며 팔로우도 해제됩니다. 상대에게 알림이 가지 않아요.</string>
+    <string name="motivo_spam">스팸 또는 광고</string>
+    <string name="motivo_ofensivo">불쾌하거나 부적절함</string>
+    <string name="motivo_acoso">괴롭힘 또는 위협</string>
+    <string name="motivo_falso">사기 또는 허위 정보</string>
+    <string name="motivo_otro">기타</string>
+    <string name="cuenta_eliminar">내 계정 삭제</string>
+    <string name="cuenta_eliminar_palabra">삭제</string>
+    <string name="cuenta_eliminar_texto">프로필, 게시물, 댓글, 메시지, 클라우드의 경로와 연결된 컴퓨터가 영구 삭제됩니다. 이 휴대폰에 저장된 내용은 남아요. 확인하려면 %1$s 를 입력하세요.</string>
+    <string name="cuenta_eliminada">계정이 삭제되었습니다.</string>
+    <string name="cuenta_eliminar_error">계정을 삭제하지 못했습니다. 연결을 확인하고 다시 시도하세요.</string>
+    <string name="privacidad_politica">개인정보 처리방침</string>
 </resources>

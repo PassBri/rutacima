@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Não foi possível tocar a gravação; segue com a voz do app.</string>
     <string name="audio_sin_voz">Seu telefone não tem voz em espanhol. Instale em Configurações › Sistema › Idiomas › Saída de conversão de texto em voz.</string>
     <string name="audio_canal">Audiolivros</string>
+    <string name="mas_opciones">Mais opções</string>
+    <string name="reportar_publicacion">Denunciar publicação</string>
+    <string name="reportar_ayuda">Você deixará de vê-la. Se várias pessoas denunciarem, ela fica oculta para todos até ser revisada.</string>
+    <string name="bloquear_a">Bloquear %1$s</string>
+    <string name="bloquear_texto">Vocês não verão publicações nem comentários um do outro, não poderão se escrever e deixarão de se seguir. A pessoa não é avisada.</string>
+    <string name="motivo_spam">Spam ou publicidade</string>
+    <string name="motivo_ofensivo">Ofensivo ou impróprio</string>
+    <string name="motivo_acoso">Assédio ou ameaças</string>
+    <string name="motivo_falso">Golpe ou informação falsa</string>
+    <string name="motivo_otro">Outro motivo</string>
+    <string name="cuenta_eliminar">Excluir minha conta</string>
+    <string name="cuenta_eliminar_palabra">EXCLUIR</string>
+    <string name="cuenta_eliminar_texto">Seu perfil, publicações, comentários, mensagens, sua rota na nuvem e computadores vinculados serão apagados para sempre. O que está neste telefone continua aqui. Digite %1$s para confirmar.</string>
+    <string name="cuenta_eliminada">Sua conta foi excluída.</string>
+    <string name="cuenta_eliminar_error">Não foi possível excluir a conta. Verifique a conexão e tente de novo.</string>
+    <string name="privacidad_politica">Política de privacidade</string>
 </resources>

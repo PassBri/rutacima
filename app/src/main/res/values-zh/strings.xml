@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">无法播放录音，改用应用语音继续。</string>
     <string name="audio_sin_voz">手机没有西班牙语语音。请在 设置 › 系统 › 语言 › 文字转语音 中安装。</string>
     <string name="audio_canal">有声书</string>
+    <string name="mas_opciones">更多选项</string>
+    <string name="reportar_publicacion">举报帖子</string>
+    <string name="reportar_ayuda">你将不再看到它。若多人举报，它将对所有人隐藏直至审核。</string>
+    <string name="bloquear_a">屏蔽 %1$s</string>
+    <string name="bloquear_texto">你们将看不到彼此的帖子和评论，无法互发消息，并会互相取消关注。对方不会收到通知。</string>
+    <string name="motivo_spam">垃圾信息或广告</string>
+    <string name="motivo_ofensivo">冒犯或不当内容</string>
+    <string name="motivo_acoso">骚扰或威胁</string>
+    <string name="motivo_falso">诈骗或虚假信息</string>
+    <string name="motivo_otro">其他原因</string>
+    <string name="cuenta_eliminar">删除我的账号</string>
+    <string name="cuenta_eliminar_palabra">删除</string>
+    <string name="cuenta_eliminar_texto">你的个人资料、帖子、评论、消息、云端路线和已关联的电脑将被永久删除。本手机上保存的内容会保留。输入 %1$s 以确认。</string>
+    <string name="cuenta_eliminada">你的账号已删除。</string>
+    <string name="cuenta_eliminar_error">无法删除账号，请检查网络后重试。</string>
+    <string name="privacidad_politica">隐私政策</string>
 </resources>

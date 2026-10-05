@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Aufnahme konnte nicht abgespielt werden; weiter mit der App-Stimme.</string>
     <string name="audio_sin_voz">Dein Telefon hat keine spanische Stimme. Installiere sie unter Einstellungen › System › Sprachen › Sprachausgabe.</string>
     <string name="audio_canal">Hörbücher</string>
+    <string name="mas_opciones">Weitere Optionen</string>
+    <string name="reportar_publicacion">Beitrag melden</string>
+    <string name="reportar_ayuda">Du siehst ihn nicht mehr. Melden ihn mehrere Personen, wird er bis zur Prüfung für alle ausgeblendet.</string>
+    <string name="bloquear_a">%1$s blockieren</string>
+    <string name="bloquear_texto">Ihr seht gegenseitig keine Beiträge oder Kommentare mehr, könnt euch nicht schreiben und folgt euch nicht mehr. Die Person wird nicht benachrichtigt.</string>
+    <string name="motivo_spam">Spam oder Werbung</string>
+    <string name="motivo_ofensivo">Beleidigend oder unangemessen</string>
+    <string name="motivo_acoso">Belästigung oder Drohungen</string>
+    <string name="motivo_falso">Betrug oder Falschinformation</string>
+    <string name="motivo_otro">Anderer Grund</string>
+    <string name="cuenta_eliminar">Mein Konto löschen</string>
+    <string name="cuenta_eliminar_palabra">LÖSCHEN</string>
+    <string name="cuenta_eliminar_texto">Profil, Beiträge, Kommentare, Nachrichten, deine Route in der Cloud und verknüpfte Computer werden endgültig gelöscht. Was auf diesem Telefon gespeichert ist, bleibt hier. Gib %1$s ein, um zu bestätigen.</string>
+    <string name="cuenta_eliminada">Dein Konto wurde gelöscht.</string>
+    <string name="cuenta_eliminar_error">Konto konnte nicht gelöscht werden. Prüfe die Verbindung und versuch es erneut.</string>
+    <string name="privacidad_politica">Datenschutzerklärung</string>
 </resources>

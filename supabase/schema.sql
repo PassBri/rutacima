@@ -683,3 +683,169 @@ drop policy if exists "autor reemplaza archivos de audio" on storage.objects;
 create policy "autor reemplaza archivos de audio" on storage.objects for update using (bucket_id = 'audios' and public.es_autor());
 drop policy if exists "autor borra archivos de audio" on storage.objects;
 create policy "autor borra archivos de audio" on storage.objects for delete using (bucket_id = 'audios' and public.es_autor());
+
+-- =====================================================================
+-- Comunidad segura y tu cuenta (requisitos de Google Play)
+-- =====================================================================
+-- Reportar publicaciones y comentarios, bloquear personas, ocultar lo reportado por varios,
+-- límites contra el spam y eliminar la cuenta con todos sus datos.
+
+-- Los reportes también pueden ser de una publicación o de un comentario
+alter table public.reportes add column if not exists post_id uuid references public.posts(id) on delete cascade;
+alter table public.reportes add column if not exists comment_id uuid references public.comments(id) on delete cascade;
+alter table public.reportes add column if not exists revisado boolean not null default false;
+create unique index if not exists reportes_un_post on public.reportes (quien, post_id) where post_id is not null;
+
+-- Lo que reportan 3 personas distintas se oculta solo hasta que lo revises (Table Editor › posts › oculto)
+alter table public.posts add column if not exists oculto boolean not null default false;
+alter table public.comments add column if not exists oculto boolean not null default false;
+
+create or replace function public.al_reportar() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.post_id is not null and (select count(distinct quien) from public.reportes where post_id = new.post_id) >= 3 then
+    update public.posts set oculto = true where id = new.post_id;
+  end if;
+  if new.comment_id is not null and (select count(distinct quien) from public.reportes where comment_id = new.comment_id) >= 3 then
+    update public.comments set oculto = true where id = new.comment_id;
+  end if;
+  return new;
+end $$;
+drop trigger if exists al_reportar on public.reportes;
+create trigger al_reportar after insert on public.reportes for each row execute function public.al_reportar();
+
+-- Bloquear: ninguno ve las publicaciones ni los comentarios del otro, ni pueden escribirse
+create table if not exists public.bloqueos (
+  quien   uuid not null references public.profiles(id) on delete cascade,
+  a_quien uuid not null references public.profiles(id) on delete cascade,
+  creado  timestamptz not null default now(),
+  primary key (quien, a_quien),
+  check (quien <> a_quien)
+);
+alter table public.bloqueos enable row level security;
+drop policy if exists "ver mis bloqueos" on public.bloqueos;
+create policy "ver mis bloqueos" on public.bloqueos for select using (quien = public.yo());
+drop policy if exists "bloquear" on public.bloqueos;
+create policy "bloquear" on public.bloqueos for insert with check (quien = public.yo());
+drop policy if exists "desbloquear" on public.bloqueos;
+create policy "desbloquear" on public.bloqueos for delete using (quien = public.yo());
+grant select, insert, delete on public.bloqueos to authenticated;
+
+create or replace function public.bloqueados(x uuid, y uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.bloqueos where (quien = x and a_quien = y) or (quien = y and a_quien = x))
+$$;
+
+create or replace function public.puede_ver(p public.posts) returns boolean
+language sql stable as $$
+  select (p.user_id = public.yo())
+      or (not p.oculto
+          and not public.bloqueados(public.yo(), p.user_id)
+          and (p.visibilidad = 'PUBLICA'
+               or (p.visibilidad = 'SEGUIDORES' and exists (
+                     select 1 from public.follows f where f.follower_id = public.yo() and f.followed_id = p.user_id))))
+$$;
+drop policy if exists "ver comentarios" on public.comments;
+create policy "ver comentarios" on public.comments for select using (
+  (user_id = public.yo() or (not oculto and not public.bloqueados(public.yo(), user_id)))
+  and exists (select 1 from public.posts p where p.id = post_id and public.puede_ver(p)));
+
+-- Con alguien bloqueado no se abre conversación (y la que había queda bloqueada)
+create or replace function public.al_bloquear() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  update public.conversaciones set estado = 'bloqueada', bloqueada_por = new.quien
+   where a = least(new.quien, new.a_quien) and b = greatest(new.quien, new.a_quien) and estado <> 'bloqueada';
+  delete from public.follows where (follower_id = new.quien and followed_id = new.a_quien) or (follower_id = new.a_quien and followed_id = new.quien);
+  return new;
+end $$;
+drop trigger if exists al_bloquear on public.bloqueos;
+create trigger al_bloquear after insert on public.bloqueos for each row execute function public.al_bloquear();
+
+create or replace function public.no_si_bloqueado() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.bloqueados(new.a, new.b) then raise exception 'No puedes escribirle a esta persona'; end if;
+  return new;
+end $$;
+drop trigger if exists no_si_bloqueado on public.conversaciones;
+create trigger no_si_bloqueado before insert on public.conversaciones for each row execute function public.no_si_bloqueado();
+
+-- Límites contra el spam (por persona)
+create or replace function public.limite(cuantos bigint, maximo int, que text) returns void
+language plpgsql as $$
+begin
+  if cuantos >= maximo then raise exception 'Vas muy rápido: espera un momento antes de % de nuevo', que; end if;
+end $$;
+
+create or replace function public.limitar_mensajes() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.limite((select count(*) from public.mensajes where autor = new.autor and creado > now() - interval '1 minute'), 20, 'enviar mensajes');
+  return new;
+end $$;
+drop trigger if exists limitar_mensajes on public.mensajes;
+create trigger limitar_mensajes before insert on public.mensajes for each row execute function public.limitar_mensajes();
+
+create or replace function public.limitar_solicitudes() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.estado = 'pendiente' then
+    perform public.limite((select count(*) from public.conversaciones where iniciada_por = new.iniciada_por
+                            and estado = 'pendiente' and creada > now() - interval '1 day'), 15, 'escribir a personas nuevas');
+  end if;
+  return new;
+end $$;
+drop trigger if exists limitar_solicitudes on public.conversaciones;
+create trigger limitar_solicitudes before insert on public.conversaciones for each row execute function public.limitar_solicitudes();
+
+create or replace function public.limitar_publicaciones() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.limite((select count(*) from public.posts where user_id = new.user_id and created_at > now() - interval '1 day'), 20, 'publicar');
+  return new;
+end $$;
+drop trigger if exists limitar_publicaciones on public.posts;
+create trigger limitar_publicaciones before insert on public.posts for each row execute function public.limitar_publicaciones();
+
+create or replace function public.limitar_comentarios() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  perform public.limite((select count(*) from public.comments where user_id = new.user_id and created_at > now() - interval '1 hour'), 60, 'comentar');
+  return new;
+end $$;
+drop trigger if exists limitar_comentarios on public.comments;
+create trigger limitar_comentarios before insert on public.comments for each row execute function public.limitar_comentarios();
+
+-- Eliminar la cuenta: borra el usuario y, en cascada, su perfil, ruta, publicaciones, comentarios,
+-- impulsos, mensajes, coaches, acompañamientos y computadores vinculados; y sus archivos.
+create or replace function public.eliminar_mi_cuenta() returns void
+language plpgsql security definer set search_path = public as $$
+declare
+  yo uuid := public.yo();
+begin
+  if yo is null then raise exception 'Inicia sesión para eliminar tu cuenta'; end if;
+  delete from storage.objects where bucket_id = 'media' and (storage.foldername(name))[1] = yo::text;
+  delete from auth.users where id in (select web_uid from public.dispositivos where user_id = yo);
+  delete from auth.users where id = yo;
+end $$;
+revoke all on function public.eliminar_mi_cuenta() from public, anon;
+grant execute on function public.eliminar_mi_cuenta() to authenticated;
+
+-- Limpieza: computadores sin usar en 90 días y sesiones anónimas que nunca se vincularon
+create or replace function public.limpiar_sesiones_web() returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  delete from auth.users u where u.id in (select web_uid from public.dispositivos where ultimo_uso < now() - interval '90 days');
+  delete from auth.users u where coalesce(u.is_anonymous, false)
+    and u.created_at < now() - interval '1 day'
+    and not exists (select 1 from public.dispositivos d where d.web_uid = u.id)
+    and not exists (select 1 from public.vinculos v where v.web_uid = u.id and v.expira > now());
+end $$;
+revoke all on function public.limpiar_sesiones_web() from public, anon, authenticated;
+-- Si tu proyecto tiene la extensión pg_cron (Database › Extensions), se programa sola cada noche:
+do $$ begin
+  if exists (select 1 from pg_extension where extname = 'pg_cron') then
+    perform cron.schedule('limpiar-sesiones-web', '17 4 * * *', 'select public.limpiar_sesiones_web()');
+  end if;
+end $$;

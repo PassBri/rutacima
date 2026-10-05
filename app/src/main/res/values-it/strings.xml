@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Impossibile riprodurre la registrazione; continua la voce dell’app.</string>
     <string name="audio_sin_voz">Il telefono non ha una voce in spagnolo. Installala in Impostazioni › Sistema › Lingue › Sintesi vocale.</string>
     <string name="audio_canal">Audiolibri</string>
+    <string name="mas_opciones">Altre opzioni</string>
+    <string name="reportar_publicacion">Segnala post</string>
+    <string name="reportar_ayuda">Non la vedrai più. Se più persone la segnalano, viene nascosta a tutti fino alla revisione.</string>
+    <string name="bloquear_a">Blocca %1$s</string>
+    <string name="bloquear_texto">Non vedrete più post e commenti dell’altro, non potrete scrivervi e smetterete di seguirvi. La persona non viene avvisata.</string>
+    <string name="motivo_spam">Spam o pubblicità</string>
+    <string name="motivo_ofensivo">Offensivo o inappropriato</string>
+    <string name="motivo_acoso">Molestie o minacce</string>
+    <string name="motivo_falso">Truffa o informazioni false</string>
+    <string name="motivo_otro">Altro motivo</string>
+    <string name="cuenta_eliminar">Elimina il mio account</string>
+    <string name="cuenta_eliminar_palabra">ELIMINA</string>
+    <string name="cuenta_eliminar_texto">Profilo, post, commenti, messaggi, la tua rotta nel cloud e i computer collegati verranno eliminati per sempre. Ciò che è su questo telefono resta qui. Scrivi %1$s per confermare.</string>
+    <string name="cuenta_eliminada">Il tuo account è stato eliminato.</string>
+    <string name="cuenta_eliminar_error">Impossibile eliminare l’account. Controlla la connessione e riprova.</string>
+    <string name="privacidad_politica">Informativa sulla privacy</string>
 </resources>

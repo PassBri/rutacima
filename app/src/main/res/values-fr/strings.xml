@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Impossible de lire l’enregistrement ; la voix de l’app prend le relais.</string>
     <string name="audio_sin_voz">Ton téléphone n’a pas de voix en espagnol. Installe-la dans Paramètres › Système › Langues › Synthèse vocale.</string>
     <string name="audio_canal">Livres audio</string>
+    <string name="mas_opciones">Plus d’options</string>
+    <string name="reportar_publicacion">Signaler la publication</string>
+    <string name="reportar_ayuda">Tu ne la verras plus. Si plusieurs personnes la signalent, elle est masquée pour tous jusqu’à examen.</string>
+    <string name="bloquear_a">Bloquer %1$s</string>
+    <string name="bloquear_texto">Vous ne verrez plus vos publications ni commentaires, ne pourrez plus vous écrire et ne vous suivrez plus. La personne n’est pas avertie.</string>
+    <string name="motivo_spam">Spam ou publicité</string>
+    <string name="motivo_ofensivo">Offensant ou inapproprié</string>
+    <string name="motivo_acoso">Harcèlement ou menaces</string>
+    <string name="motivo_falso">Arnaque ou fausse information</string>
+    <string name="motivo_otro">Autre raison</string>
+    <string name="cuenta_eliminar">Supprimer mon compte</string>
+    <string name="cuenta_eliminar_palabra">SUPPRIMER</string>
+    <string name="cuenta_eliminar_texto">Ton profil, tes publications, commentaires, messages, ta route dans le cloud et les ordinateurs liés seront supprimés définitivement. Ce qui est sur ce téléphone y reste. Écris %1$s pour confirmer.</string>
+    <string name="cuenta_eliminada">Ton compte a été supprimé.</string>
+    <string name="cuenta_eliminar_error">Impossible de supprimer le compte. Vérifie ta connexion et réessaie.</string>
+    <string name="privacidad_politica">Politique de confidentialité</string>
 </resources>

@@ -20,6 +20,17 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Block
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.TextButton
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.Role
+import androidx.compose.runtime.remember
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -86,6 +97,18 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
         viewModelScope.launch { runCatching { c.social.impulsar(p) } }
     }
 
+    /** Reporta la publicación (deja de verse para ti) y vuelve atrás. */
+    fun reportar(motivo: String, alTerminar: () -> Unit) {
+        val p = post ?: return
+        viewModelScope.launch { runCatching { c.social.reportar(p, motivo) }; alTerminar() }
+    }
+
+    /** Bloquea al autor (no ves nada suyo ni pueden escribirse) y vuelve atrás. */
+    fun bloquear(alTerminar: () -> Unit) {
+        val p = post ?: return
+        viewModelScope.launch { runCatching { c.social.bloquear(p) }; alTerminar() }
+    }
+
     fun eliminar(alTerminar: () -> Unit) {
         val p = post ?: return
         viewModelScope.launch { c.social.eliminar(p); alTerminar() }
@@ -116,6 +139,11 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
                             Text(stringResource(R.string.mensajes_enviar_mensaje))
                         }
                     }
+                    if (post != null && !post.propio) MenuModeracion(
+                        autor = post.autorNombre,
+                        onReportar = { motivo -> vm.reportar(motivo, onBack) },
+                        onBloquear = { vm.bloquear(onBack) },
+                    )
                     if (post?.propio == true) IconButton(onClick = { vm.eliminar(onBack) }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar)) }
                 },
             )
@@ -155,5 +183,60 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
                 }
             }
         }
+    }
+}
+
+
+/** Menú ⋮ de una publicación ajena: reportarla (con el motivo) o bloquear a quien la publicó. */
+@Composable
+private fun MenuModeracion(autor: String, onReportar: (String) -> Unit, onBloquear: () -> Unit) {
+    var abierto by remember { mutableStateOf(false) }
+    var reportando by remember { mutableStateOf(false) }
+    var bloqueando by remember { mutableStateOf(false) }
+    androidx.compose.foundation.layout.Box {
+        IconButton(onClick = { abierto = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.mas_opciones)) }
+        DropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {
+            DropdownMenuItem(text = { Text(stringResource(R.string.reportar_publicacion)) }, leadingIcon = { Icon(Icons.Outlined.Flag, null) },
+                onClick = { abierto = false; reportando = true })
+            DropdownMenuItem(text = { Text(stringResource(R.string.bloquear_a, autor)) }, leadingIcon = { Icon(Icons.Outlined.Block, null) },
+                onClick = { abierto = false; bloqueando = true })
+        }
+    }
+    if (reportando) {
+        val motivos = listOf(R.string.motivo_spam, R.string.motivo_ofensivo, R.string.motivo_acoso, R.string.motivo_falso, R.string.motivo_otro)
+            .map { stringResource(it) }
+        var elegido by remember { mutableStateOf(motivos.first()) }
+        var detalle by remember { mutableStateOf("") }
+        AlertDialog(
+            onDismissRequest = { reportando = false },
+            title = { Text(stringResource(R.string.reportar_publicacion)) },
+            text = {
+                Column {
+                    Text(stringResource(R.string.reportar_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    motivos.forEach { m ->
+                        Row(Modifier.fillMaxWidth().selectable(selected = m == elegido, onClick = { elegido = m }, role = Role.RadioButton),
+                            verticalAlignment = Alignment.CenterVertically) {
+                            RadioButton(selected = m == elegido, onClick = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(m, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 10.dp))
+                        }
+                    }
+                    OutlinedTextField(detalle, { detalle = it.take(800) }, label = { Text(stringResource(R.string.mensajes_reportar_motivo)) },
+                        modifier = Modifier.fillMaxWidth(), minLines = 2)
+                }
+            },
+            confirmButton = { TextButton(onClick = { reportando = false; onReportar(listOf(elegido, detalle.trim()).filter { it.isNotEmpty() }.joinToString(": ")) }) {
+                Text(stringResource(R.string.mensajes_reportar)) } },
+            dismissButton = { TextButton(onClick = { reportando = false }) { Text(stringResource(R.string.cancelar)) } },
+        )
+    }
+    if (bloqueando) {
+        AlertDialog(
+            onDismissRequest = { bloqueando = false },
+            title = { Text(stringResource(R.string.bloquear_a, autor)) },
+            text = { Text(stringResource(R.string.bloquear_texto)) },
+            confirmButton = { TextButton(onClick = { bloqueando = false; onBloquear() }) { Text(stringResource(R.string.mensajes_bloquear), color = MaterialTheme.colorScheme.error) } },
+            dismissButton = { TextButton(onClick = { bloqueando = false }) { Text(stringResource(R.string.cancelar)) } },
+        )
     }
 }

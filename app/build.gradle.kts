@@ -35,10 +35,34 @@ android {
         buildConfigField("String", "WEB_URL", "\"${props.getProperty("rutacima.webUrl", "https://passbri.github.io/rutacima/")}\"")
     }
 
+    // Firma de publicación (Google Play): keystore.properties en la raíz del proyecto, nunca en el repositorio.
+    //   storeFile=/ruta/a/rutaalacima.jks
+    //   storePassword=…
+    //   keyAlias=rutaalacima
+    //   keyPassword=…
+    // En GitHub Actions se arma desde los secretos RUTACIMA_KEYSTORE_BASE64, RUTACIMA_KEYSTORE_PASSWORD, RUTACIMA_KEY_ALIAS y RUTACIMA_KEY_PASSWORD.
+    val firma = Properties().apply {
+        val f = rootProject.file("keystore.properties")
+        if (f.exists()) f.inputStream().use { load(it) }
+    }
+    signingConfigs {
+        if (firma.getProperty("storeFile") != null) {
+            create("publicacion") {
+                storeFile = file(firma.getProperty("storeFile"))
+                storePassword = firma.getProperty("storePassword")
+                keyAlias = firma.getProperty("keyAlias")
+                keyPassword = firma.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            // Código y recursos reducidos: app más liviana y más difícil de copiar
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfigs.findByName("publicacion")?.let { signingConfig = it }
         }
     }
     compileOptions {

@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Couldn’t play the recording; continuing with the app voice.</string>
     <string name="audio_sin_voz">Your phone has no Spanish voice. Install it in Settings › System › Languages › Text-to-speech output.</string>
     <string name="audio_canal">Audiobooks</string>
+    <string name="mas_opciones">More options</string>
+    <string name="reportar_publicacion">Report post</string>
+    <string name="reportar_ayuda">You won’t see it anymore. If several people report it, it’s hidden for everyone until reviewed.</string>
+    <string name="bloquear_a">Block %1$s</string>
+    <string name="bloquear_texto">You won’t see each other’s posts or comments, can’t message each other and will unfollow each other. They aren’t notified.</string>
+    <string name="motivo_spam">Spam or advertising</string>
+    <string name="motivo_ofensivo">Offensive or inappropriate</string>
+    <string name="motivo_acoso">Harassment or threats</string>
+    <string name="motivo_falso">Scam or false information</string>
+    <string name="motivo_otro">Something else</string>
+    <string name="cuenta_eliminar">Delete my account</string>
+    <string name="cuenta_eliminar_palabra">DELETE</string>
+    <string name="cuenta_eliminar_texto">This permanently deletes your profile, posts, comments, messages, your cloud route and linked computers. What’s saved on this phone stays here. Type %1$s to confirm.</string>
+    <string name="cuenta_eliminada">Your account was deleted.</string>
+    <string name="cuenta_eliminar_error">Couldn’t delete the account. Check your connection and try again.</string>
+    <string name="privacidad_politica">Privacy policy</string>
 </resources>

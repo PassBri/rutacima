@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">تعذّر تشغيل التسجيل؛ يستمر بصوت التطبيق.</string>
     <string name="audio_sin_voz">لا يوجد صوت إسباني في هاتفك. ثبّته من الإعدادات › النظام › اللغات › تحويل النص إلى كلام.</string>
     <string name="audio_canal">الكتب الصوتية</string>
+    <string name="mas_opciones">خيارات أخرى</string>
+    <string name="reportar_publicacion">الإبلاغ عن المنشور</string>
+    <string name="reportar_ayuda">لن تراه بعد الآن. إذا أبلغ عنه عدة أشخاص يُخفى عن الجميع حتى مراجعته.</string>
+    <string name="bloquear_a">حظر %1$s</string>
+    <string name="bloquear_texto">لن يرى أحدكما منشورات الآخر أو تعليقاته، ولن تتمكنا من المراسلة، وستُلغى المتابعة. لا يصله أي إشعار.</string>
+    <string name="motivo_spam">رسائل مزعجة أو إعلانات</string>
+    <string name="motivo_ofensivo">مسيء أو غير لائق</string>
+    <string name="motivo_acoso">تحرّش أو تهديد</string>
+    <string name="motivo_falso">احتيال أو معلومات كاذبة</string>
+    <string name="motivo_otro">سبب آخر</string>
+    <string name="cuenta_eliminar">حذف حسابي</string>
+    <string name="cuenta_eliminar_palabra">حذف</string>
+    <string name="cuenta_eliminar_texto">سيُحذف نهائيًا ملفك ومنشوراتك وتعليقاتك ورسائلك ومسارك في السحابة والحواسيب المرتبطة. ما هو محفوظ في هذا الهاتف يبقى. اكتب %1$s للتأكيد.</string>
+    <string name="cuenta_eliminada">تم حذف حسابك.</string>
+    <string name="cuenta_eliminar_error">تعذّر حذف الحساب. تحقق من الاتصال وحاول مجددًا.</string>
+    <string name="privacidad_politica">سياسة الخصوصية</string>
 </resources>

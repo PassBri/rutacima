@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">No se pudo reproducir la grabación; sigue con la voz de la app.</string>
     <string name="audio_sin_voz">Tu teléfono no tiene voz en español. Instálala en Ajustes › Sistema › Idiomas › Salida de texto a voz.</string>
     <string name="audio_canal">Audiolibros</string>
+    <string name="mas_opciones">Más opciones</string>
+    <string name="reportar_publicacion">Reportar publicación</string>
+    <string name="reportar_ayuda">Dejarás de verla. Si varias personas la reportan, se oculta para todos hasta revisarla.</string>
+    <string name="bloquear_a">Bloquear a %1$s</string>
+    <string name="bloquear_texto">No verán sus publicaciones ni comentarios, no podrán escribirse y dejarán de seguirse. Esta persona no recibe ningún aviso.</string>
+    <string name="motivo_spam">Spam o publicidad</string>
+    <string name="motivo_ofensivo">Ofensivo o inapropiado</string>
+    <string name="motivo_acoso">Acoso o amenazas</string>
+    <string name="motivo_falso">Engaño o información falsa</string>
+    <string name="motivo_otro">Otro motivo</string>
+    <string name="cuenta_eliminar">Eliminar mi cuenta</string>
+    <string name="cuenta_eliminar_palabra">ELIMINAR</string>
+    <string name="cuenta_eliminar_texto">Se borran para siempre tu perfil, tus publicaciones, comentarios, mensajes, tu ruta en la nube y los computadores vinculados. Lo que está guardado en este teléfono se queda aquí. Escribe %1$s para confirmar.</string>
+    <string name="cuenta_eliminada">Tu cuenta fue eliminada.</string>
+    <string name="cuenta_eliminar_error">No se pudo eliminar la cuenta. Revisa tu conexión e inténtalo de nuevo.</string>
+    <string name="privacidad_politica">Política de privacidad</string>
 </resources>

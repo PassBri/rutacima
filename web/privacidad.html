@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacidad · Rutaalacima</title>
+<meta name="description" content="Qué datos usa Rutaalacima, para qué, con quién se comparten y cómo eliminar tu cuenta.">
+<link rel="icon" href="sello.png">
+<style>
+  :root { --fondo: #F7F2EA; --hoja: #FFFFFF; --tinta: #2B1D16; --suave: #6B5B52; --linea: #E8DED4; --burdeos: #6B2A1A; --oro: #B8862F; color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root { --fondo: #17110D; --hoja: #241B16; --tinta: #F1E8DF; --suave: #BBA99C; --linea: #3A2D25; --burdeos: #F0B3A1; --oro: #E0B566; color-scheme: dark; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--tinta); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  .hoja { background: var(--hoja); border: 1px solid var(--linea); border-radius: 18px; padding: clamp(20px, 5vw, 40px); }
+  header { display: flex; gap: 14px; align-items: center; margin-bottom: 18px; }
+  header img { width: 56px; height: 56px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; color: var(--burdeos); margin: 0; font-size: clamp(26px, 5vw, 34px); line-height: 1.2; }
+  h2 { color: var(--burdeos); font-size: 19px; margin: 32px 0 6px; }
+  p, li { margin: 6px 0; }
+  ul { padding-left: 22px; }
+  .suave { color: var(--suave); font-size: 14px; }
+  .caja { border-left: 3px solid var(--oro); background: color-mix(in srgb, var(--oro) 10%, transparent); padding: 10px 14px; border-radius: 8px; }
+  a { color: var(--burdeos); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+  th { color: var(--suave); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  @media (max-width: 560px) { table, thead, tbody, tr, th, td { display: block; } thead { display: none; } td { border: 0; padding: 2px 0; } tr { border-bottom: 1px solid var(--linea); padding: 8px 0; } td:first-child { font-weight: 600; } }
+</style>
+</head>
+<body>
+<main>
+<div class="hoja">
+  <header><img src="sello.png" alt="Sello de Rutaalacima"><div><h1>Política de privacidad</h1><div class="suave">Rutaalacima (app y web) · actualizada el 5 de octubre de 2026</div></div></header>
+
+  <p class="caja">En corto: <b>sin cuenta, todo se queda en tu teléfono</b>. Si creas una cuenta, guardamos solo lo necesario para la comunidad, los mensajes, el coach y la web. No vendemos tus datos ni mostramos publicidad. Puedes eliminar tu cuenta cuando quieras.</p>
+
+  <h2>1. Sin cuenta</h2>
+  <p>La app funciona completa sin cuenta. Tu perfil, tus metas, hábitos, respuestas de las guías, ejes, vision board y frases abiertas se guardan <b>solo en tu teléfono</b>. Android puede incluirlos en la copia de seguridad de tu cuenta de Google si la tienes activada.</p>
+
+  <h2>2. Con cuenta</h2>
+  <table>
+    <thead><tr><th>Dato</th><th>Para qué</th><th>Quién lo ve</th></tr></thead>
+    <tbody>
+      <tr><td>Correo y contraseña</td><td>Iniciar sesión (la contraseña la guarda cifrada el servicio de cuentas)</td><td>Nadie más</td></tr>
+      <tr><td>Usuario, nombre, foto y cumbre</td><td>Tu perfil en la comunidad</td><td>Las personas de la comunidad</td></tr>
+      <tr><td>Publicaciones, fotos, impulsos y comentarios</td><td>La comunidad</td><td>Según lo que elijas al publicar: todos, tus seguidores o solo tú</td></tr>
+      <tr><td>Mensajes</td><td>Conversaciones 1 a 1</td><td>Solo las dos personas de la conversación</td></tr>
+      <tr><td>Tu ruta (metas, hábitos, ejes, vision board…)</td><td>Rutaalacima Web, solo mientras tengas un computador vinculado</td><td>Tú. Tu coach de vida ve un resumen solo si activas “Compartir mi avance”</td></tr>
+      <tr><td>Conversación con el coach de IA</td><td>Responderte con tus metas y tu avance</td><td>Se envía al proveedor de inteligencia artificial para generar la respuesta (ver punto 4)</td></tr>
+      <tr><td>Reportes y bloqueos</td><td>Mantener la comunidad segura</td><td>Quien administra Rutaalacima</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3. Lo que nunca guardamos</h2>
+  <ul>
+    <li><b>Tu rostro y tu huella:</b> los verifica el sistema del teléfono; la app solo recibe “sí” o “no”.</li>
+    <li><b>Tu clave del sello:</b> se guarda en el teléfono como un hash cifrado, nunca en texto ni en el servidor.</li>
+    <li><b>Tus respuestas de las guías y tus notas</b> no se comparten con tu coach de vida ni con la comunidad.</li>
+    <li>No usamos tu información para publicidad ni la vendemos.</li>
+  </ul>
+
+  <h2>4. Con quién trabajamos</h2>
+  <ul>
+    <li><b>Supabase</b>: aloja las cuentas, la base de datos y los archivos (fotos y audios) con reglas de seguridad por fila.</li>
+    <li><b>Anthropic (Claude)</b>: genera las respuestas del coach de IA. Recibe tu mensaje y un resumen de tus metas y ejes; no lo usa para entrenar sus modelos según sus condiciones comerciales.</li>
+    <li><b>GitHub Pages</b>: publica Rutaalacima Web.</li>
+    <li><b>Google Play Services</b>: escáner de códigos QR para vincular la web (no recibe tus datos de la app).</li>
+  </ul>
+
+  <h2>5. Seguridad y moderación</h2>
+  <p>Puedes reportar publicaciones y conversaciones y bloquear a cualquier persona. Lo que reportan varias personas se oculta hasta que se revisa. Hay límites automáticos contra el spam.</p>
+
+  <h2 id="eliminar-cuenta">6. Eliminar tu cuenta</h2>
+  <p>Elimina tu cuenta y todo lo que está en el servidor (perfil, publicaciones, fotos, comentarios, mensajes, ruta en la nube y computadores vinculados) de cualquiera de estas formas:</p>
+  <ul>
+    <li><b>En la app:</b> Perfil › Ajustes › Cuenta › <i>Eliminar mi cuenta</i>.</li>
+    <li><b>En Rutaalacima Web</b> (vinculada a tu cuenta): Perfil › Este computador › <i>Eliminar mi cuenta</i>.</li>
+    <li><b>Si ya no tienes la app</b>, pídelo en <a href="https://github.com/PassBri/rutacima/issues/new?title=Eliminar%20mi%20cuenta">github.com/PassBri/rutacima/issues</a> indicando tu usuario (sin escribir tu contraseña). Se elimina en un máximo de 30 días.</li>
+  </ul>
+  <p>Se borra al instante y no se puede recuperar. Lo guardado en tu teléfono se queda ahí hasta que desinstales la app.</p>
+
+  <h2>7. Menores de edad</h2>
+  <p>La comunidad y los mensajes son para mayores de 13 años (o la edad mínima de tu país).</p>
+
+  <h2>8. Contacto</h2>
+  <p>Preguntas o solicitudes sobre tus datos: <a href="https://github.com/PassBri/rutacima/issues">github.com/PassBri/rutacima/issues</a>.</p>
+  <p class="suave">Si esta política cambia, lo verás aquí con su nueva fecha.</p>
+</div>
+</main>
+</body>
+</html>

@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">録音を再生できません。アプリの音声で続けます。</string>
     <string name="audio_sin_voz">スペイン語の音声がありません。設定 › システム › 言語 › テキスト読み上げ でインストールしてください。</string>
     <string name="audio_canal">オーディオブック</string>
+    <string name="mas_opciones">その他のオプション</string>
+    <string name="reportar_publicacion">投稿を報告</string>
+    <string name="reportar_ayuda">今後表示されません。複数の人が報告すると、確認まで全員に非表示になります。</string>
+    <string name="bloquear_a">%1$s をブロック</string>
+    <string name="bloquear_texto">お互いの投稿やコメントが見えなくなり、メッセージもできず、フォローも解除されます。相手には通知されません。</string>
+    <string name="motivo_spam">スパム・広告</string>
+    <string name="motivo_ofensivo">不快・不適切</string>
+    <string name="motivo_acoso">嫌がらせ・脅迫</string>
+    <string name="motivo_falso">詐欺・虚偽の情報</string>
+    <string name="motivo_otro">その他</string>
+    <string name="cuenta_eliminar">アカウントを削除</string>
+    <string name="cuenta_eliminar_palabra">削除</string>
+    <string name="cuenta_eliminar_texto">プロフィール、投稿、コメント、メッセージ、クラウドのルート、連携したパソコンが完全に削除されます。この端末に保存されたものは残ります。確認のため %1$s と入力してください。</string>
+    <string name="cuenta_eliminada">アカウントを削除しました。</string>
+    <string name="cuenta_eliminar_error">アカウントを削除できませんでした。接続を確認して再試行してください。</string>
+    <string name="privacidad_politica">プライバシーポリシー</string>
 </resources>

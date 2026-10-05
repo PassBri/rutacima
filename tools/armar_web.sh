@@ -11,7 +11,7 @@ VERSION="${GITHUB_SHA:-$(git rev-parse --short HEAD 2>/dev/null || date +%s)}"
 
 rm -rf "$DESTINO"
 mkdir -p "$DESTINO/assets"
-cp web/index.html web/app.js web/estilos.css web/sello.png "$DESTINO/"
+cp web/index.html web/privacidad.html web/app.js web/estilos.css web/sello.png "$DESTINO/"
 # Las 24 guías y las 365 frases (las mismas de la app)
 cp -r app/src/main/assets/content "$DESTINO/assets/content"
 cp -r app/src/main/assets/frases "$DESTINO/assets/frases"

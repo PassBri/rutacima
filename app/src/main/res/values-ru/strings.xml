@@ -778,4 +778,20 @@
     <string name="audio_error_reproducir">Не удалось воспроизвести запись; продолжаем голосом приложения.</string>
     <string name="audio_sin_voz">В телефоне нет испанского голоса. Установи его: Настройки › Система › Языки › Синтез речи.</string>
     <string name="audio_canal">Аудиокниги</string>
+    <string name="mas_opciones">Ещё</string>
+    <string name="reportar_publicacion">Пожаловаться на публикацию</string>
+    <string name="reportar_ayuda">Вы больше её не увидите. Если пожалуются несколько человек, она скроется для всех до проверки.</string>
+    <string name="bloquear_a">Заблокировать: %1$s</string>
+    <string name="bloquear_texto">Вы не будете видеть публикации и комментарии друг друга, не сможете переписываться, подписки отменятся. Человек не получит уведомления.</string>
+    <string name="motivo_spam">Спам или реклама</string>
+    <string name="motivo_ofensivo">Оскорбительно или неуместно</string>
+    <string name="motivo_acoso">Травля или угрозы</string>
+    <string name="motivo_falso">Обман или ложная информация</string>
+    <string name="motivo_otro">Другое</string>
+    <string name="cuenta_eliminar">Удалить аккаунт</string>
+    <string name="cuenta_eliminar_palabra">УДАЛИТЬ</string>
+    <string name="cuenta_eliminar_texto">Профиль, публикации, комментарии, сообщения, маршрут в облаке и привязанные компьютеры будут удалены навсегда. Сохранённое на этом телефоне останется. Введите %1$s для подтверждения.</string>
+    <string name="cuenta_eliminada">Аккаунт удалён.</string>
+    <string name="cuenta_eliminar_error">Не удалось удалить аккаунт. Проверь подключение и попробуй снова.</string>
+    <string name="privacidad_politica">Политика конфиденциальности</string>
 </resources>

@@ -19,6 +19,8 @@ import com.rutaalacima.app.ui.components.FechaField
 import androidx.compose.material3.Slider
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -132,6 +134,17 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     fun salir() = c.supabase.cerrarSesion()
+
+    /** Elimina la cuenta y todo lo que está en el servidor; lo del teléfono se queda. */
+    fun eliminarCuenta(textoOk: String, textoError: String) {
+        cargando = true
+        viewModelScope.launch {
+            runCatching { c.supabase.rpc("eliminar_mi_cuenta") }
+                .onSuccess { c.web.olvidarVinculo(); c.supabase.cerrarSesion(); mensaje = textoOk }
+                .onFailure { mensaje = textoError }
+            cargando = false
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -282,6 +295,33 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                         s != null -> {
                             Text(stringResource(R.string.sesion_iniciada, s.email), style = MaterialTheme.typography.bodyLarge)
                             TextButton(onClick = vm::salir) { Text(stringResource(R.string.cerrar_sesion)) }
+                            var confirmar by remember { mutableStateOf(false) }
+                            TextButton(onClick = { confirmar = true }, enabled = !vm.cargando) {
+                                Text(stringResource(R.string.cuenta_eliminar), color = MaterialTheme.colorScheme.error)
+                            }
+                            if (confirmar) {
+                                var escrito by remember { mutableStateOf("") }
+                                val palabra = stringResource(R.string.cuenta_eliminar_palabra)
+                                val ok = stringResource(R.string.cuenta_eliminada)
+                                val error = stringResource(R.string.cuenta_eliminar_error)
+                                androidx.compose.material3.AlertDialog(
+                                    onDismissRequest = { confirmar = false },
+                                    title = { Text(stringResource(R.string.cuenta_eliminar)) },
+                                    text = {
+                                        Column {
+                                            Text(stringResource(R.string.cuenta_eliminar_texto, palabra), style = MaterialTheme.typography.bodyMedium)
+                                            OutlinedTextField(escrito, { escrito = it }, singleLine = true, modifier = Modifier.fillMaxWidth().padding(top = 8.dp))
+                                        }
+                                    },
+                                    confirmButton = {
+                                        TextButton(
+                                            onClick = { confirmar = false; vm.eliminarCuenta(ok, error) },
+                                            enabled = escrito.trim().equals(palabra, ignoreCase = true),
+                                        ) { Text(stringResource(R.string.cuenta_eliminar), color = MaterialTheme.colorScheme.error) }
+                                    },
+                                    dismissButton = { TextButton(onClick = { confirmar = false }) { Text(stringResource(R.string.cancelar)) } },
+                                )
+                            }
                         }
                         else -> {
                             Text(stringResource(if (vm.registrando) R.string.crear_cuenta else R.string.iniciar_sesion), style = MaterialTheme.typography.titleMedium)
@@ -322,6 +362,10 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
             item { SectionTitle(stringResource(R.string.acerca_de)) }
             item {
                 Text(stringResource(R.string.acerca_texto, BuildConfig.VERSION_NAME), style = MaterialTheme.typography.bodyMedium)
+                val abrirEnlace = androidx.compose.ui.platform.LocalUriHandler.current
+                TextButton(onClick = { runCatching { abrirEnlace.openUri(BuildConfig.WEB_URL.trimEnd('/') + "/privacidad.html") } }) {
+                    Text(stringResource(R.string.privacidad_politica))
+                }
             }
         }
     }

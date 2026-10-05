@@ -54,15 +54,42 @@ jobs:
       - name: Compilar APK
         run: ./gradlew --no-daemon assembleDebug
 
-      - name: Lint (errores graves)
-        run: ./gradlew --no-daemon lintDebug
-        continue-on-error: true
-
       - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
           name: rutaalacima-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Firma de publicación (si hay secretos)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RUTACIMA_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.RUTACIMA_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.RUTACIMA_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.RUTACIMA_KEY_PASSWORD }}
+        if: env.KEYSTORE_BASE64 != ''
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/rutaalacima.jks"
+          {
+            echo "storeFile=$RUNNER_TEMP/rutaalacima.jks"
+            echo "storePassword=$KEYSTORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: Compilar versión de publicación (R8)
+        run: ./gradlew --no-daemon bundleRelease assembleRelease
+
+      - name: Guardar versión de publicación
+        uses: actions/upload-artifact@v4
+        with:
+          name: rutaalacima-publicacion
+          path: |
+            app/build/outputs/bundle/release/*.aab
+            app/build/outputs/apk/release/*.apk
+
+      - name: Lint (errores graves)
+        run: ./gradlew --no-daemon lintDebug
+        continue-on-error: true
 
       - name: Guardar informes de pruebas
         if: always()

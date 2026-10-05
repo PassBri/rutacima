@@ -171,7 +171,7 @@ class SocialRepository(
                 FiltroFeed.SIGUIENDO -> mias
                 FiltroFeed.PARA_TI -> todo
             }
-            return@withContext r.also(::recordar)
+            return@withContext r.filter { it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
         val base = "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40"
@@ -252,6 +252,34 @@ class SocialRepository(
         } else {
             dao.comentar(ComentarioLocalEntity(publicacionId = post.id, autor = nombrePropio(), texto = texto.trim()))
         }
+    }
+
+    // ------------------------------------------------------------------ Reportar y bloquear
+
+    private fun ocultosLocales(): Set<String> = prefs.getStringSet("ocultos", emptySet()).orEmpty()
+    private fun bloqueadosLocales(): Set<String> = prefs.getStringSet("bloqueados", emptySet()).orEmpty()
+
+    /** Reporta una publicación: deja de verse para ti y, con 3 reportes, se oculta para todos hasta revisarla. */
+    suspend fun reportar(post: Post, motivo: String) = withContext(Dispatchers.IO) {
+        if (enLinea && !post.demo) {
+            runCatching {
+                supa.insert("reportes", buildJsonObject {
+                    put("quien", supa.sesion.value!!.userId); put("a_quien", post.autorId); put("post_id", post.id); put("motivo", motivo.take(1000))
+                }, devolver = false)
+            }.onFailure { if (it !is com.rutaalacima.app.data.remote.SupabaseException || it.codigo != 409) throw it }   // ya lo habías reportado
+        }
+        prefs.edit().putStringSet("ocultos", ocultosLocales() + post.id).apply()
+        cache.remove(post.id)
+    }
+
+    /** Bloquea a una persona: no ves sus publicaciones ni comentarios, ni pueden escribirse. */
+    suspend fun bloquear(post: Post) = withContext(Dispatchers.IO) {
+        val autorId = post.autorId
+        if (enLinea && !post.demo) {
+            supa.upsert("bloqueos", buildJsonObject { put("quien", supa.sesion.value!!.userId); put("a_quien", autorId) })
+        }
+        prefs.edit().putStringSet("bloqueados", bloqueadosLocales() + autorId).apply()
+        cache.values.removeAll { it.autorId == autorId }
     }
 
     suspend fun seguir(autorId: String, seguir: Boolean) = withContext(Dispatchers.IO) {
