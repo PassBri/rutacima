@@ -1,4 +1,4 @@
-# RutaCima · 365 frases del día
+# Rutaalacima · 365 frases del día
 
 Una frase por día, tomada textualmente de los libros de Ruta a la Cima. Traducciones en `app/src/main/assets/frases/`.
 

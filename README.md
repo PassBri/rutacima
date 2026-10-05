@@ -2,7 +2,7 @@
   <img src="diseno/logo_rutacima.png" alt="Sello de cera de Ruta a la Cima" width="200">
 </p>
 
-<h1 align="center">RutaCima</h1>
+<h1 align="center">Rutaalacima</h1>
 
 <p align="center">
   <b>Tu vida hasta los 120 años, vista año por año y día por día.</b><br>
@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir RutaCima Web</b></a>
+  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir Rutaalacima Web</b></a>
   &nbsp;·&nbsp; la misma app en tu computador
 </p>
 
@@ -28,10 +28,10 @@
 
 ## Contenido
 
-1. [Qué es RutaCima](#qué-es-rutacima)
+1. [Qué es Rutaalacima](#qué-es-rutacima)
 2. [El método en la app](#el-método-en-la-app)
 3. [Recorrido por la app](#recorrido-por-la-app)
-4. [RutaCima Web](#rutacima-web)
+4. [Rutaalacima Web](#rutacima-web)
 5. [Privacidad y seguridad](#privacidad-y-seguridad)
 6. [Diseño](#diseño)
 7. [Instalar y ejecutar](#instalar-y-ejecutar)
@@ -41,9 +41,9 @@
 
 ---
 
-## Qué es RutaCima
+## Qué es Rutaalacima
 
-RutaCima convierte el método **Ruta a la Cima** en una app para el día a día. Muestra tu vida como un camino
+Rutaalacima convierte el método **Ruta a la Cima** en una app para el día a día. Muestra tu vida como un camino
 de puntos, **un punto por año hasta los 100 o 120**, y la baja en cascada a meses, semanas y días. Así ves
 cómo lo que haces hoy suma a tu propósito de 5, 10, 15 o 20 años.
 
@@ -55,10 +55,10 @@ Incluye:
 - un **coach con inteligencia artificial** que conoce tus metas y tu avance;
 - **365 frases** de los libros, una por día, **selladas con cera** y que abres con tu rostro, tu huella o tu clave;
 - una **comunidad** para compartir logros, evidencias y tu vision board;
-- **RutaCima Web**, la misma app en el computador, con tu misma cuenta.
+- **Rutaalacima Web**, la misma app en el computador, con tu misma cuenta.
 
 <p align="center">
-  <img src="diseno/RutaCima_papel_blanco.png" alt="Vistas previas del diseño de RutaCima en papel blanco" width="860"><br>
+  <img src="diseno/Rutaalacima_papel_blanco.png" alt="Vistas previas del diseño de Rutaalacima en papel blanco" width="860"><br>
   <sub>Vistas previas del diseño (papel antiguo y papel blanco, frase sellada y un mes).</sub>
 </p>
 
@@ -109,7 +109,7 @@ textualmente de los libros, una para cada día del año.
 - Las frases que abriste se guardan en **Mis frases**. Las de días anteriores que no abriste quedan selladas.
 
 <p align="center">
-  <img src="diseno/RutaCima_frase_sellada.png" alt="Frase del día sellada con cera" width="640">
+  <img src="diseno/Rutaalacima_frase_sellada.png" alt="Frase del día sellada con cera" width="640">
 </p>
 
 ### Navegación
@@ -188,7 +188,7 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
   frase como cita destacada.
 - **Cinco tipos:** logro, evidencia, visión (vision board), meta y reflexión.
 - **Quién la ve:** pública, solo seguidores o solo yo.
-- **Interacción:** **impulsos** (el voto de RutaCima), comentarios y seguir a otras personas.
+- **Interacción:** **impulsos** (el voto de Rutaalacima), comentarios y seguir a otras personas.
 - **Filtros del inicio:** *Para ti*, *Vision boards* y *Siguiendo*.
 - **Dos formas de verla:** **Lista**, el muro hacia abajo, y **Cimas**, una publicación a pantalla completa que
   se pasa deslizando hacia arriba, con doble toque para impulsar y los botones al costado. La app recuerda cuál
@@ -262,12 +262,12 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
 - **Mi perfil:** nombre, cumbre, fecha de nacimiento y meta de vida (60 a 120 años). La app muestra como
   referencia la esperanza de vida estimada de tu país.
 - **Cuenta** para la comunidad, el coach y la web.
-- **RutaCima Web.**
+- **Rutaalacima Web.**
 
 **Idiomas de la interfaz:** español, inglés, portugués, francés, alemán, italiano, chino, japonés, coreano, árabe,
 hindi y ruso. El contenido de las guías está en español.
 
-## RutaCima Web
+## Rutaalacima Web
 
 **La misma app en el computador**, al estilo de WhatsApp Web, con tu misma cuenta y los mismos datos:
 
@@ -287,9 +287,9 @@ muestra la web o escribes sus 8 letras. El computador queda vinculado hasta que 
 o cierres la sesión en la web.
 
 <p align="center">
-  <img src="diseno/web_vincular.png" alt="RutaCima Web: pantalla para vincular con código QR" width="720"><br><br>
-  <img src="diseno/web_mi_ruta.png" alt="RutaCima Web: Mi ruta" width="720"><br>
-  <sub>RutaCima Web: vincular con código QR, y Mi ruta con tu vida en puntos.</sub>
+  <img src="diseno/web_vincular.png" alt="Rutaalacima Web: pantalla para vincular con código QR" width="720"><br><br>
+  <img src="diseno/web_mi_ruta.png" alt="Rutaalacima Web: Mi ruta" width="720"><br>
+  <sub>Rutaalacima Web: vincular con código QR, y Mi ruta con tu vida en puntos.</sub>
 </p>
 
 **Cómo se mantiene al día:**
@@ -324,8 +324,8 @@ o cierres la sesión en la web.
 - **Archivos.** Los archivos en alta resolución y las vistas previas están en [`diseno/`](diseno).
 
 <p align="center">
-  <img src="diseno/RutaCima_inicio.png" alt="Ventana de inicio" width="360">
-  <img src="diseno/RutaCima_logos.png" alt="Logos e íconos de RutaCima" width="500">
+  <img src="diseno/Rutaalacima_inicio.png" alt="Ventana de inicio" width="360">
+  <img src="diseno/Rutaalacima_logos.png" alt="Logos e íconos de Rutaalacima" width="500">
 </p>
 
 **Diseño con IA.** El proyecto incluye la skill [impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0) en
@@ -352,7 +352,7 @@ coach en modo guía.
 
 ## Servidor, coach IA y web
 
-RutaCima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el coach y la web.
+Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el coach y la web.
 
 1. **Base de datos.** Crea un proyecto y, en **SQL Editor**, ejecuta completo [`supabase/schema.sql`](supabase/schema.sql).
    Crea:
@@ -383,7 +383,7 @@ RutaCima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el
    - Para conectarla a tu servidor: **Settings › Secrets and variables › Actions › Variables** y crea
      `RUTACIMA_SUPABASE_URL` y `RUTACIMA_SUPABASE_ANON_KEY`. Sin ellas abre en modo demostración.
    - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
-     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar RutaCima Web › Run workflow**.
+     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar Rutaalacima Web › Run workflow**.
    - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
 7. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
    puedes vincular la web.
@@ -415,13 +415,13 @@ app/src/main/
 │   ├── data/social/         ← comunidad (con modo demostración)
 │   ├── data/coach/          ← coach IA y modo guía
 │   ├── data/frases/         ← frase del día y frases abiertas
-│   ├── data/web/            ← RutaCima Web: vincular un computador y sincronizar
+│   ├── data/web/            ← Rutaalacima Web: vincular un computador y sincronizar
 │   ├── seguridad/           ← sello: rostro, huella o clave
 │   ├── notificaciones/      ← recordatorio diario
 │   └── ui/                  ← pantallas en Compose (ruta, hoy, metas, comunidad, aprende, perfil, web…)
 └── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y la función "coach"
-web/                         ← RutaCima Web: index.html, app.js, estilos.css y config.js
+web/                         ← Rutaalacima Web: index.html, app.js, estilos.css y config.js
 diseno/                      ← logo, vistas previas y las 365 frases
 tools/                       ← conversores de los Word a JSON
 ```
@@ -454,7 +454,7 @@ python3 tools/bancos.py
 
 **Próximos pasos:**
 
-- RutaCima Web en los 12 idiomas (hoy está en español).
+- Rutaalacima Web en los 12 idiomas (hoy está en español).
 - Traducción del contenido de las guías.
 - Exportar a PDF y copia de seguridad.
 - Modo facilitador para grupos.

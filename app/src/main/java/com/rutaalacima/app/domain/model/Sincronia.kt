@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import java.security.MessageDigest
 
 /**
- * Reglas para sincronizar la ruta del teléfono con RutaCima Web (sin Android: se prueba con JUnit).
+ * Reglas para sincronizar la ruta del teléfono con Rutaalacima Web (sin Android: se prueba con JUnit).
  *
  * Cada cosa (perfil, una meta, un día del checklist…) es un documento JSON con una clave
  * "tipo/clave". En cada sincronización se comparan tres versiones:

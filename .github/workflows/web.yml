@@ -1,9 +1,9 @@
-# Publica RutaCima Web en GitHub Pages (rama gh-pages) cada vez que cambia la web, o a mano desde Actions.
+# Publica Rutaalacima Web en GitHub Pages (rama gh-pages) cada vez que cambia la web, o a mano desde Actions.
 # La web queda en https://passbri.github.io/rutacima/
 # Para conectarla a tu servidor: Settings › Secrets and variables › Actions › Variables:
 #   RUTACIMA_SUPABASE_URL y RUTACIMA_SUPABASE_ANON_KEY (la clave anon es pública por diseño).
 # Sin ellas, la web abre en modo demostración.
-name: Publicar RutaCima Web
+name: Publicar Rutaalacima Web
 
 on:
   push:
@@ -40,5 +40,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -qm "Publica RutaCima Web (${GITHUB_SHA::7})"
+          git commit -qm "Publica Rutaalacima Web (${GITHUB_SHA::7})"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" gh-pages

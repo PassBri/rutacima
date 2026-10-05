@@ -1,4 +1,4 @@
-// RutaCima · Coach de IA (Supabase Edge Function)
+// Rutaalacima · Coach de IA (Supabase Edge Function)
 //
 // La clave de la IA vive aquí, en el servidor (nunca en el teléfono).
 // Secretos necesarios (Supabase › Edge Functions › Secrets):
@@ -21,7 +21,7 @@ const IDIOMAS: Record<string, string> = {
 };
 
 function sistema(contexto: string, idioma: string): string {
-  return `Eres el coach de RutaCima, una app para lograr metas personales con el método "Ruta a la Cima".
+  return `Eres el coach de Rutaalacima, una app para lograr metas personales con el método "Ruta a la Cima".
 
 EL MÉTODO
 - La Cumbre Personal es el punto donde lo que la persona es, hace y aporta se alinean.
@@ -70,7 +70,7 @@ Deno.serve(async (req) => {
     const { data: { user } } = await admin.auth.getUser(token);
     if (!user) return json({ error: "Inicia sesión para usar el coach." }, 401);
 
-    // RutaCima Web entra como usuario anónimo: el coach responde a nombre de la cuenta que lo vinculó.
+    // Rutaalacima Web entra como usuario anónimo: el coach responde a nombre de la cuenta que lo vinculó.
     let duenoId = user.id;
     if (user.is_anonymous) {
       const { data: d } = await admin.from("dispositivos").select("user_id").eq("web_uid", user.id).maybeSingle();

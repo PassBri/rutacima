@@ -22,7 +22,7 @@ import java.time.LocalDate
 import java.util.Locale
 
 /**
- * Coach de IA de RutaCima.
+ * Coach de IA de Rutaalacima.
  *  - Con servidor: llama a la Edge Function "coach" de Supabase (supabase/functions/coach),
  *    que guarda la clave de la IA en el servidor y responde con el método Ruta a la Cima.
  *  - Sin servidor: un coach basado en reglas del método (ejes débiles, protocolos, bancos).

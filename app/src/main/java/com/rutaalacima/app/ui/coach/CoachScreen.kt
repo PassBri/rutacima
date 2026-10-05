@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -80,7 +81,7 @@ class CoachViewModel(private val c: AppContainer) : ViewModel() {
 /** Coach de IA: orienta a la persona con el método Ruta a la Cima y su información real. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoachScreen(onBack: () -> Unit) {
+fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}) {
     val vm = rutaViewModel { CoachViewModel(it) }
     val mensajes by vm.mensajes.collectAsStateWithLifecycle()
     val lista = rememberLazyListState()
@@ -139,6 +140,13 @@ fun CoachScreen(onBack: () -> Unit) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             item { Burbuja(stringResource(R.string.coach_bienvenida), deCoach = true) }
+            if (mensajes.isEmpty()) item {
+                androidx.compose.material3.TextButton(onClick = onCoachVida) {
+                    Icon(Icons.Filled.Hiking, null, Modifier.size(18.dp))
+                    Spacer(Modifier.size(6.dp))
+                    Text(stringResource(R.string.coach_ia_persona))
+                }
+            }
             items(mensajes, key = { it.id }) { m -> Burbuja(m.texto, deCoach = m.rol == "assistant") }
             if (vm.pensando) item { Box(Modifier.padding(8.dp)) { CircularProgressIndicator(Modifier.size(22.dp), strokeWidth = 2.dp) } }
         }

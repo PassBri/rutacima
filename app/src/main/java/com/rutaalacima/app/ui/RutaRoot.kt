@@ -39,7 +39,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
@@ -122,6 +124,10 @@ object Rutas {
     const val FRASES = "frases"
     const val WEB = "web"
     const val VISION = "vision"
+    const val MENSAJES = "mensajes"
+    const val CHAT = "chat/{id}"
+    const val COACH_VIDA = "coach_vida"
+    const val ACOMPANADO = "acompanado/{id}/{nombre}"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -130,6 +136,8 @@ object Rutas {
     fun nuevaMeta(nivel: NivelMeta) = "nueva_meta/${nivel.name}"
     fun publicar(tipo: String = "LOGRO") = "publicar/$tipo"
     fun post(id: String) = "post/$id"
+    fun chat(id: String) = "chat/$id"
+    fun acompanado(id: String, nombre: String) = "acompanado/$id/${android.net.Uri.encode(nombre.ifBlank { "-" })}"
 }
 
 private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVector)
@@ -175,7 +183,7 @@ private fun AppPrincipal() {
     val rutaActual = entrada?.destination?.route
     val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
 
-    // Código QR de RutaCima Web escaneado con la cámara: abrir la pantalla para confirmarlo
+    // Código QR de Rutaalacima Web escaneado con la cámara: abrir la pantalla para confirmarlo
     val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container
     val codigoWeb by contenedor.web.codigoPendiente.collectAsStateWithLifecycle()
     androidx.compose.runtime.LaunchedEffect(codigoWeb) {
@@ -197,7 +205,13 @@ private fun AppPrincipal() {
                         }
                     },
                     actions = {
+                        if (pestana.ruta == Rutas.COMUNIDAD) {
+                            IconButton(onClick = { nav.navigate(Rutas.MENSAJES) }) {
+                                Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes))
+                            }
+                        }
                         if (pestana.ruta == Rutas.PERFIL) {
+                            IconButton(onClick = { nav.navigate(Rutas.COACH_VIDA) }) { Icon(Icons.Filled.Hiking, stringResource(R.string.coach_vida)) }
                             IconButton(onClick = { nav.navigate(Rutas.WEB) }) { Icon(Icons.Filled.Computer, stringResource(R.string.web_titulo)) }
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
@@ -292,7 +306,7 @@ private fun AppPrincipal() {
                 KitScreen(onBack = { nav.popBackStack() }, onOpenSection = abrirSeccion, onOpenWorkbook = abrirWorkbook)
             }
             composable(Rutas.EJES) { AxesScreen(onBack = { nav.popBackStack() }) }
-            composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }) }
             composable(Rutas.NUEVA_META, arguments = listOf(navArgument("nivel") { type = NavType.StringType })) { e ->
                 val nivel = runCatching { NivelMeta.valueOf(e.arguments?.getString("nivel").orEmpty()) }.getOrDefault(NivelMeta.MES)
                 NuevaMetaScreen(
@@ -305,7 +319,11 @@ private fun AppPrincipal() {
                 PublicarScreen(tipoInicial = e.arguments?.getString("tipo").orEmpty(), onBack = { nav.popBackStack() })
             }
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
-                PostDetalleScreen(postId = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
+                PostDetalleScreen(
+                    postId = e.arguments?.getString("id").orEmpty(),
+                    onBack = { nav.popBackStack() },
+                    onChat = { nav.navigate(Rutas.chat(it)) },
+                )
             }
             composable(Rutas.AJUSTES) {
                 AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
@@ -313,6 +331,36 @@ private fun AppPrincipal() {
             composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.WEB) {
                 com.rutaalacima.app.ui.web.WebScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) })
+            }
+            composable(Rutas.MENSAJES) {
+                com.rutaalacima.app.ui.mensajes.MensajesScreen(
+                    onBack = { nav.popBackStack() },
+                    onAbrir = { nav.navigate(Rutas.chat(it)) },
+                    onCuenta = { nav.navigate(Rutas.AJUSTES) },
+                    onCoachVida = { nav.navigate(Rutas.COACH_VIDA) },
+                )
+            }
+            composable(Rutas.CHAT, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
+                com.rutaalacima.app.ui.mensajes.ChatScreen(id = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
+            }
+            composable(Rutas.COACH_VIDA) {
+                com.rutaalacima.app.ui.mensajes.CoachVidaScreen(
+                    onBack = { nav.popBackStack() },
+                    onChat = { nav.navigate(Rutas.chat(it)) },
+                    onAcompanado = { id, nombre -> nav.navigate(Rutas.acompanado(id, nombre)) },
+                    onCuenta = { nav.navigate(Rutas.AJUSTES) },
+                )
+            }
+            composable(
+                Rutas.ACOMPANADO,
+                arguments = listOf(navArgument("id") { type = NavType.StringType }, navArgument("nombre") { type = NavType.StringType }),
+            ) { e ->
+                com.rutaalacima.app.ui.mensajes.AcompanadoScreen(
+                    id = e.arguments?.getString("id").orEmpty(),
+                    nombre = e.arguments?.getString("nombre").orEmpty().let { if (it == "-") "" else it },
+                    onBack = { nav.popBackStack() },
+                    onChat = { nav.navigate(Rutas.chat(it)) },
+                )
             }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }

@@ -1,4 +1,4 @@
-/* RutaCima Web: la misma app del teléfono en el computador.
+/* Rutaalacima Web: la misma app del teléfono en el computador.
  *
  * Los datos son los mismos que guarda la app (cada fila de su base Room como un documento
  * JSON con los mismos campos) y viven en la tabla ruta_datos de Supabase. El teléfono y la web
@@ -273,7 +273,7 @@ const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0,
 function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
-    `<img class="sello" src="${LOGO}" alt="RutaCima">` +
+    `<img class="sello" src="${LOGO}" alt="Rutaalacima">` +
     SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar">${ic("publicar")}<span class="tip">Publicar · planta tu bandera</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${k === "frases" && sellada ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
@@ -425,7 +425,7 @@ const LISTAS = {
   coach() {
     const ms = mensajesCoach(), u = ms[ms.length - 1];
     let h = cabLista("Coach", { buscar: false }) + `<div class="items">`;
-    h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach RutaCima", u ? horaDe(u.creadoEn) : "", esc(u ? u.texto : "Pregúntame por tu ruta"));
+    h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", u ? horaDe(u.creadoEn) : "", esc(u ? u.texto : "Pregúntame por tu ruta"));
     h += grupo("Atajos");
     [["Perdí la motivación", "Perdí la motivación"], ["Planea mi semana", "Planea mi semana"], ["¿Qué eje debo trabajar?", "¿Qué eje debo trabajar?"], ["Divide mi meta anual en pasos", "Divide mi meta anual en pasos"]].forEach(([t, q]) => {
       h += `<button class="item" data-pregunta="${esc(q)}">${av(ic("coach"), "var(--oro)")}<span class="txt"><span class="t1"><span>${t}</span></span><span class="t2"><span>Preguntar al coach</span></span></span></button>`;
@@ -481,7 +481,7 @@ const sel = (tipo, clave, campoN, valor, opciones, conv = "") =>
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 function vacio() {
-  return `<div class="vacio"><div><img src="${LOGO}" alt="Sello de RutaCima"><h2>RutaCima Web</h2>
+  return `<div class="vacio"><div><img src="${LOGO}" alt="Sello de Rutaalacima"><h2>Rutaalacima Web</h2>
     <p>La misma app de tu teléfono, en pantalla grande. Elige un año de tu ruta, tu día de hoy o una de tus metas.</p>
     <p class="pie suave">${ic("candado")} ${Store.nube ? "Conectada a tu cuenta: lo que cambies aquí aparece en tu teléfono." : "Demostración: los cambios se quedan en esta pestaña."}</p></div></div>`;
 }
@@ -925,10 +925,10 @@ DET.coach = () => {
   const ms = mensajesCoach();
   const sugs = ["Ayúdame a definir mi cumbre", "Divide mi meta anual en pasos", "Perdí la motivación", "Planea mi semana", "¿Qué eje debo trabajar?"];
   let ultimoDia = "";
-  return cab(av(ic("coach"), "var(--burdeos)"), "Coach RutaCima", coachEscribiendo ? "escribiendo…" : "Conoce tus metas, tus ejes y tu avance",
+  return cab(av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", coachEscribiendo ? "escribiendo…" : "Conoce tus metas, tus ejes y tu avance",
     ms.length ? `<button class="btn mini" data-acc="borrarCoach">Nueva conversación</button>` : "") +
     `<div class="det-cuerpo abajo"><div class="chat">
-      <div class="burbuja el">¡Hola! Soy tu coach de RutaCima. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</div>
+      <div class="burbuja el">¡Hola! Soy tu coach de Rutaalacima. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</div>
       ${ms.map(m => { const d = new Date(m.creadoEn).toLocaleDateString("es", { day: "numeric", month: "long" }); const sep = d !== ultimoDia ? `<span class="fecha-sep">${d}</span>` : ""; ultimoDia = d;
         return sep + `<div class="burbuja ${m.rol === "user" ? "yo" : "el"}">${esc(m.texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>`; }).join("")}
       ${coachEscribiendo ? `<div class="burbuja el escribiendo">escribiendo…</div>` : ""}</div>
@@ -982,9 +982,9 @@ Object.assign(DET, {
   "perfil.cuenta"() {
     return cab(av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", Store.nube ? nombreNavegador() : "Ruta de ejemplo") + cuerpo(
       hoja(Store.nube
-        ? `<h3>Conectado a tu cuenta</h3><p>RutaCima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
-           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › RutaCima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`
-        : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre RutaCima Web con el servidor configurado y vincúlala desde la app: Perfil › RutaCima Web › Escanear código.</p>
+        ? `<h3>Conectado a tu cuenta</h3><p>Rutaalacima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
+           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › Rutaalacima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`
+        : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>
            <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`), "max-width:640px");
   },
 });
@@ -1332,14 +1332,14 @@ let sondeo = null, renovar = null;
 async function mostrarVincular() {
   clearInterval(sondeo); clearInterval(renovar);
   const real = !!Store.nube;
-  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">RutaCima Web</div>
-    <div class="tarjeta-v"><div><h1>Usa RutaCima en tu computador</h1>
-      <ol class="pasos"><li>Abre <b>RutaCima</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>RutaCima Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
+  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">Rutaalacima Web</div>
+    <div class="tarjeta-v"><div><h1>Usa Rutaalacima en tu computador</h1>
+      <ol class="pasos"><li>Abre <b>Rutaalacima</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>Rutaalacima Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
       <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
     <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""></div><div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
       <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
-      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de RutaCima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
+      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
       <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div></div>`;
   mostrar("vincular");
   if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }
@@ -1438,7 +1438,7 @@ async function iniciar() {
   } catch (e) {
     console.error(e);
     Store.nube = null;
-    mostrarCarga("No se pudo conectar con el servidor de RutaCima. Revisa que los inicios de sesión anónimos estén activados (ver README) y recarga.");
+    mostrarCarga("No se pudo conectar con el servidor de Rutaalacima. Revisa que los inicios de sesión anónimos estén activados (ver README) y recarga.");
   }
 }
 iniciar();

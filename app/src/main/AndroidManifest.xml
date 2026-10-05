@@ -22,7 +22,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- Código QR de RutaCima Web: rutacima://vincular?codigo=XXXXXXXX -->
+            <!-- Código QR de Rutaalacima Web: rutacima://vincular?codigo=XXXXXXXX -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Escáner de códigos QR de RutaCima Web: se descarga al instalar, no en el primer uso -->
+        <!-- Escáner de códigos QR de Rutaalacima Web: se descarga al instalar, no en el primer uso -->
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode_ui" />

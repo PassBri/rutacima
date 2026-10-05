@@ -164,7 +164,7 @@ private fun CimaPagina(post: Post, primera: Boolean, onImpulsar: () -> Unit, onA
                 stringResource(R.string.impulsar), if (post.yoImpulse) MaterialTheme.colorScheme.secondary else Color.White, onImpulsar)
             Accion(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), Color.White, onAbrir)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
-                val texto = listOf(post.metaTitulo, post.texto, "— RutaCima").filter { it.isNotBlank() }.joinToString("\n\n")
+                val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
         }

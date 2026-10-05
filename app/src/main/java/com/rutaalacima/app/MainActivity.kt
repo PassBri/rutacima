@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         pedirPermisoNotificaciones()
         recibirEnlace(intent)
-        // RutaCima Web: mientras la app está abierta, trae lo que se marcó en el computador cada minuto
+        // Rutaalacima Web: mientras la app está abierta, trae lo que se marcó en el computador cada minuto
         val web = (application as RutaApp).container.web
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         recibirEnlace(intent)
     }
 
-    /** Código QR de RutaCima Web escaneado con la cámara del teléfono: rutacima://vincular?codigo=… */
+    /** Código QR de Rutaalacima Web escaneado con la cámara del teléfono: rutacima://vincular?codigo=… */
     private fun recibirEnlace(intent: Intent?) {
         val datos = intent?.data ?: return
         if (datos.scheme != "rutacima" || datos.host != "vincular") return

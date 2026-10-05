@@ -1,5 +1,5 @@
 -- =====================================================================
--- RutaCima · Esquema de Supabase (comunidad + coach de IA)
+-- Rutaalacima · Esquema de Supabase (comunidad + coach de IA)
 -- Ejecuta este archivo completo en: Supabase › SQL Editor › New query › Run
 -- =====================================================================
 
@@ -18,7 +18,7 @@ create table if not exists public.profiles (
 create or replace function public.crear_perfil() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  -- Los computadores de RutaCima Web entran como usuarios anónimos: no tienen perfil propio.
+  -- Los computadores de Rutaalacima Web entran como usuarios anónimos: no tienen perfil propio.
   if coalesce(new.is_anonymous, false) then return new; end if;
   insert into public.profiles (id, username, nombre)
   values (
@@ -153,7 +153,7 @@ create policy "borrar mis fotos" on storage.objects for delete
   using (bucket_id = 'media' and (storage.foldername(name))[1] = auth.uid()::text);
 
 -- =====================================================================
--- RutaCima Web: vincular un computador y compartir tu ruta
+-- Rutaalacima Web: vincular un computador y compartir tu ruta
 -- Requisito: Authentication › Sign In / Providers › "Allow anonymous sign-ins" activado.
 -- La web entra como usuario anónimo, muestra un código y el teléfono (con tu cuenta)
 -- lo aprueba. Desde ese momento la web lee y escribe tu ruta como un dispositivo vinculado.
@@ -324,6 +324,308 @@ do $$ begin
   if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
     begin
       alter publication supabase_realtime add table public.ruta_datos;
+    exception when duplicate_object then null;
+    end;
+  end if;
+end $$;
+
+-- =====================================================================
+-- Mensajes 1 a 1 y coaches de vida
+-- Mensajes: si dos personas se siguen mutuamente (o una es coach de la otra) chatean directo;
+-- si no, la primera envía una solicitud con UN mensaje y la otra decide si la acepta.
+-- Coaches: cualquiera puede postularse; solo aparecen en el directorio cuando el administrador
+-- marca verificado = true (Table Editor › coaches). Con permiso del usuario, su coach puede ver
+-- sus propósitos, metas, hábitos, ejes y vision board (nunca notas, guías ni chats con la IA).
+-- =====================================================================
+
+create table if not exists public.conversaciones (
+  id             uuid primary key default gen_random_uuid(),
+  a              uuid not null references public.profiles(id) on delete cascade,
+  b              uuid not null references public.profiles(id) on delete cascade,
+  estado         text not null default 'pendiente' check (estado in ('pendiente','aceptada','bloqueada')),
+  iniciada_por   uuid not null references public.profiles(id) on delete cascade,
+  bloqueada_por  uuid references public.profiles(id) on delete set null,
+  creada         timestamptz not null default now(),
+  ultimo_en      timestamptz not null default now(),
+  check (a < b),
+  unique (a, b)
+);
+
+create table if not exists public.mensajes (
+  id              uuid primary key default gen_random_uuid(),
+  conversacion_id uuid not null references public.conversaciones(id) on delete cascade,
+  autor           uuid not null references public.profiles(id) on delete cascade,
+  texto           text not null check (char_length(texto) between 1 and 2000),
+  leido           boolean not null default false,
+  creado          timestamptz not null default now()
+);
+create index if not exists mensajes_conversacion on public.mensajes (conversacion_id, creado);
+
+create table if not exists public.reportes (
+  id              uuid primary key default gen_random_uuid(),
+  quien           uuid not null references public.profiles(id) on delete cascade,
+  a_quien         uuid not null references public.profiles(id) on delete cascade,
+  conversacion_id uuid references public.conversaciones(id) on delete set null,
+  motivo          text not null default '' check (char_length(motivo) <= 1000),
+  creado          timestamptz not null default now()
+);
+
+create table if not exists public.coaches (
+  user_id      uuid primary key references public.profiles(id) on delete cascade,
+  bio          text not null default '' check (char_length(bio) <= 1200),
+  especialidad text not null default '' check (char_length(especialidad) <= 120),
+  activo       boolean not null default true,
+  verificado   boolean not null default false,
+  creado       timestamptz not null default now()
+);
+
+create table if not exists public.acompanamientos (
+  id              uuid primary key default gen_random_uuid(),
+  coach_id        uuid not null references public.coaches(user_id) on delete cascade,
+  usuario_id      uuid not null references public.profiles(id) on delete cascade,
+  estado          text not null default 'solicitado' check (estado in ('solicitado','activo','terminado')),
+  comparte_avance boolean not null default true,
+  creado          timestamptz not null default now(),
+  unique (coach_id, usuario_id),
+  check (coach_id <> usuario_id)
+);
+
+alter table public.conversaciones  enable row level security;
+alter table public.mensajes        enable row level security;
+alter table public.reportes        enable row level security;
+alter table public.coaches         enable row level security;
+alter table public.acompanamientos enable row level security;
+
+-- ¿Es coach (activo) de esta persona?
+create or replace function public.es_mi_coach(coach uuid, usuario uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.acompanamientos x
+                 where x.coach_id = coach and x.usuario_id = usuario and x.estado = 'activo')
+$$;
+
+-- ¿Pueden chatear directo? (se siguen mutuamente o hay acompañamiento activo)
+create or replace function public.chat_directo(p uuid, q uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select (exists (select 1 from public.follows where follower_id = p and followed_id = q)
+      and exists (select 1 from public.follows where follower_id = q and followed_id = p))
+      or public.es_mi_coach(p, q) or public.es_mi_coach(q, p)
+$$;
+
+-- ¿Puedo escribir en esta conversación?
+create or replace function public.puedo_escribir(conv uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.conversaciones c
+    where c.id = conv and public.yo() in (c.a, c.b)
+      and (c.estado = 'aceptada'
+           or (c.estado = 'pendiente' and c.iniciada_por = public.yo()
+               and not exists (select 1 from public.mensajes m where m.conversacion_id = c.id)))
+  )
+$$;
+
+drop policy if exists "ver mis conversaciones" on public.conversaciones;
+create policy "ver mis conversaciones" on public.conversaciones for select using (public.yo() in (a, b));
+drop policy if exists "ver mensajes" on public.mensajes;
+create policy "ver mensajes" on public.mensajes for select using (
+  exists (select 1 from public.conversaciones c where c.id = conversacion_id and public.yo() in (c.a, c.b)));
+drop policy if exists "escribir mensajes" on public.mensajes;
+create policy "escribir mensajes" on public.mensajes for insert with check (autor = public.yo() and public.puedo_escribir(conversacion_id));
+drop policy if exists "reportar" on public.reportes;
+create policy "reportar" on public.reportes for insert with check (quien = public.yo());
+drop policy if exists "ver coaches" on public.coaches;
+create policy "ver coaches" on public.coaches for select using ((verificado and activo) or user_id = public.yo());
+drop policy if exists "editar mi ficha de coach" on public.coaches;
+create policy "editar mi ficha de coach" on public.coaches for update using (user_id = public.yo())
+  with check (user_id = public.yo() and verificado = (select c.verificado from public.coaches c where c.user_id = public.yo()));
+drop policy if exists "ver acompanamientos" on public.acompanamientos;
+create policy "ver acompanamientos" on public.acompanamientos for select using (public.yo() in (coach_id, usuario_id));
+
+-- El coach ve la ruta de quien acompaña (solo lo que sirve para guiar, y solo si la persona lo permite)
+create or replace function public.puede_ver_como_coach(usuario uuid, tipo text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select tipo in ('perfil','proposito','accion','meta_anio','meta_mes','checklist','ejes','vision')
+     and exists (select 1 from public.acompanamientos x
+                 where x.coach_id = public.yo() and x.usuario_id = usuario and x.estado = 'activo' and x.comparte_avance)
+$$;
+drop policy if exists "leer mi ruta" on public.ruta_datos;
+create policy "leer mi ruta" on public.ruta_datos for select
+  using (public.es_mi_ruta(user_id) or public.puede_ver_como_coach(user_id, tipo));
+
+-- ---------- Funciones de mensajes ----------
+create or replace function public.abrir_conversacion(otro uuid) returns uuid
+language plpgsql security definer set search_path = public as $$
+declare
+  yo uuid := public.yo();
+  p uuid; q uuid; c public.conversaciones;
+begin
+  if yo is null then raise exception 'Inicia sesión para enviar mensajes'; end if;
+  if otro = yo then raise exception 'No puedes escribirte a ti mismo'; end if;
+  if not exists (select 1 from public.profiles where id = otro) then raise exception 'Esa persona no existe'; end if;
+  p := least(yo, otro); q := greatest(yo, otro);
+  select * into c from public.conversaciones where a = p and b = q;
+  if found then
+    if c.estado = 'pendiente' and public.chat_directo(yo, otro) then
+      update public.conversaciones set estado = 'aceptada' where id = c.id;
+    end if;
+    return c.id;
+  end if;
+  insert into public.conversaciones (a, b, iniciada_por, estado)
+  values (p, q, yo, case when public.chat_directo(yo, otro) then 'aceptada' else 'pendiente' end)
+  returning * into c;
+  return c.id;
+end $$;
+
+create or replace function public.responder_solicitud(conv uuid, aceptar boolean) returns void
+language plpgsql security definer set search_path = public as $$
+declare c public.conversaciones;
+begin
+  select * into c from public.conversaciones where id = conv and public.yo() in (a, b);
+  if not found then raise exception 'Conversación no encontrada'; end if;
+  if c.iniciada_por = public.yo() then raise exception 'La otra persona es quien acepta la solicitud'; end if;
+  update public.conversaciones
+     set estado = case when aceptar then 'aceptada' else 'bloqueada' end,
+         bloqueada_por = case when aceptar then null else public.yo() end
+   where id = conv;
+end $$;
+
+create or replace function public.bloquear_conversacion(conv uuid, bloquear boolean default true) returns void
+language plpgsql security definer set search_path = public as $$
+declare c public.conversaciones;
+begin
+  select * into c from public.conversaciones where id = conv and public.yo() in (a, b);
+  if not found then raise exception 'Conversación no encontrada'; end if;
+  if bloquear then
+    update public.conversaciones set estado = 'bloqueada', bloqueada_por = public.yo() where id = conv;
+  elsif c.bloqueada_por = public.yo() then
+    update public.conversaciones set estado = 'aceptada', bloqueada_por = null where id = conv;
+  end if;
+end $$;
+
+create or replace function public.marcar_leidos(conv uuid) returns void
+language sql security definer set search_path = public as $$
+  update public.mensajes m set leido = true
+   from public.conversaciones c
+  where m.conversacion_id = conv and c.id = conv and public.yo() in (c.a, c.b)
+    and m.autor <> public.yo() and not m.leido
+$$;
+
+-- Al llegar un mensaje se actualiza la fecha de la conversación (para ordenar la lista)
+create or replace function public.al_enviar_mensaje() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  update public.conversaciones set ultimo_en = new.creado where id = new.conversacion_id;
+  return new;
+end $$;
+drop trigger if exists al_enviar_mensaje on public.mensajes;
+create trigger al_enviar_mensaje after insert on public.mensajes for each row execute function public.al_enviar_mensaje();
+
+-- Lista de mis conversaciones con la otra persona, el último mensaje y los no leídos
+create or replace function public.mis_conversaciones()
+returns table (id uuid, otro uuid, otro_nombre text, otro_usuario text, otro_avatar text, estado text,
+               iniciada_por uuid, bloqueada_por uuid, ultimo_texto text, ultimo_autor uuid, ultimo_en timestamptz,
+               no_leidos int, es_coach boolean, es_acompanado boolean)
+language sql stable security definer set search_path = public as $$
+  select c.id, o.id, o.nombre, o.username, o.avatar_url, c.estado, c.iniciada_por, c.bloqueada_por,
+         u.texto, u.autor, c.ultimo_en,
+         (select count(*)::int from public.mensajes m where m.conversacion_id = c.id and m.autor <> public.yo() and not m.leido),
+         public.es_mi_coach(o.id, public.yo()), public.es_mi_coach(public.yo(), o.id)
+    from public.conversaciones c
+    join public.profiles o on o.id = case when c.a = public.yo() then c.b else c.a end
+    left join lateral (select m.texto, m.autor from public.mensajes m where m.conversacion_id = c.id order by m.creado desc limit 1) u on true
+   where public.yo() in (c.a, c.b)
+     and not (c.estado = 'bloqueada' and c.bloqueada_por <> public.yo())
+   order by c.ultimo_en desc
+$$;
+
+-- ---------- Funciones de coaches ----------
+create or replace function public.postularme_coach(bio text, especialidad text) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.yo() is null then raise exception 'Inicia sesión'; end if;
+  insert into public.coaches (user_id, bio, especialidad) values (public.yo(), left(bio, 1200), left(especialidad, 120))
+  on conflict (user_id) do update set bio = excluded.bio, especialidad = excluded.especialidad, activo = true;
+end $$;
+
+create or replace function public.directorio_coaches()
+returns table (user_id uuid, nombre text, usuario text, avatar text, bio text, especialidad text, acompanados int)
+language sql stable security definer set search_path = public as $$
+  select c.user_id, p.nombre, p.username, p.avatar_url, c.bio, c.especialidad,
+         (select count(*)::int from public.acompanamientos x where x.coach_id = c.user_id and x.estado = 'activo')
+    from public.coaches c join public.profiles p on p.id = c.user_id
+   where c.verificado and c.activo and c.user_id <> coalesce(public.yo(), '00000000-0000-0000-0000-000000000000')
+   order by 7 desc, p.nombre
+$$;
+
+create or replace function public.solicitar_coach(coach uuid) returns uuid
+language plpgsql security definer set search_path = public as $$
+declare r uuid;
+begin
+  if public.yo() is null then raise exception 'Inicia sesión'; end if;
+  if not exists (select 1 from public.coaches where user_id = coach and verificado and activo) then
+    raise exception 'Ese coach no está disponible';
+  end if;
+  if exists (select 1 from public.acompanamientos where usuario_id = public.yo() and estado in ('solicitado','activo') and coach_id <> coach) then
+    raise exception 'Ya tienes un coach o una solicitud en curso';
+  end if;
+  insert into public.acompanamientos (coach_id, usuario_id) values (coach, public.yo())
+  on conflict (coach_id, usuario_id) do update set estado = 'solicitado'
+    where public.acompanamientos.estado = 'terminado'
+  returning id into r;
+  if r is null then select id into r from public.acompanamientos where coach_id = coach and usuario_id = public.yo(); end if;
+  return r;
+end $$;
+
+create or replace function public.responder_acompanamiento(acomp uuid, aceptar boolean) returns void
+language plpgsql security definer set search_path = public as $$
+declare x public.acompanamientos;
+begin
+  select * into x from public.acompanamientos where id = acomp and coach_id = public.yo() and estado = 'solicitado';
+  if not found then raise exception 'Solicitud no encontrada'; end if;
+  update public.acompanamientos set estado = case when aceptar then 'activo' else 'terminado' end where id = acomp;
+  if aceptar then perform public.abrir_conversacion(x.usuario_id); end if;
+end $$;
+
+create or replace function public.terminar_acompanamiento(acomp uuid) returns void
+language sql security definer set search_path = public as $$
+  update public.acompanamientos set estado = 'terminado'
+   where id = acomp and public.yo() in (coach_id, usuario_id)
+$$;
+
+create or replace function public.compartir_avance(acomp uuid, si boolean) returns void
+language sql security definer set search_path = public as $$
+  update public.acompanamientos set comparte_avance = si where id = acomp and usuario_id = public.yo()
+$$;
+
+-- Mi coach (o mi solicitud) y, si soy coach, las personas que acompaño
+create or replace function public.mis_acompanamientos()
+returns table (id uuid, rol text, otro uuid, otro_nombre text, otro_usuario text, otro_avatar text,
+               estado text, comparte_avance boolean, especialidad text, creado timestamptz)
+language sql stable security definer set search_path = public as $$
+  select x.id, case when x.coach_id = public.yo() then 'coach' else 'usuario' end,
+         o.id, o.nombre, o.username, o.avatar_url, x.estado, x.comparte_avance, c.especialidad, x.creado
+    from public.acompanamientos x
+    join public.coaches c on c.user_id = x.coach_id
+    join public.profiles o on o.id = case when x.coach_id = public.yo() then x.usuario_id else x.coach_id end
+   where public.yo() in (x.coach_id, x.usuario_id) and x.estado <> 'terminado'
+   order by x.creado desc
+$$;
+
+revoke all on function public.abrir_conversacion(uuid), public.responder_solicitud(uuid, boolean),
+  public.bloquear_conversacion(uuid, boolean), public.marcar_leidos(uuid), public.mis_conversaciones(),
+  public.postularme_coach(text, text), public.directorio_coaches(), public.solicitar_coach(uuid),
+  public.responder_acompanamiento(uuid, boolean), public.terminar_acompanamiento(uuid),
+  public.compartir_avance(uuid, boolean), public.mis_acompanamientos() from public, anon;
+grant execute on function public.abrir_conversacion(uuid), public.responder_solicitud(uuid, boolean),
+  public.bloquear_conversacion(uuid, boolean), public.marcar_leidos(uuid), public.mis_conversaciones(),
+  public.postularme_coach(text, text), public.directorio_coaches(), public.solicitar_coach(uuid),
+  public.responder_acompanamiento(uuid, boolean), public.terminar_acompanamiento(uuid),
+  public.compartir_avance(uuid, boolean), public.mis_acompanamientos() to authenticated;
+
+-- Mensajes en vivo
+do $$ begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    begin
+      alter publication supabase_realtime add table public.mensajes;
     exception when duplicate_object then null;
     end;
   end if;

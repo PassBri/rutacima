@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Arma RutaCima Web listo para publicar (GitHub Pages o cualquier hosting estático).
+# Arma Rutaalacima Web listo para publicar (GitHub Pages o cualquier hosting estático).
 #   bash tools/armar_web.sh _site
 # Opcional: SUPABASE_URL y SUPABASE_ANON_KEY en el entorno para conectarla a tu servidor.
 # Sin ellas, la web abre en modo demostración.
@@ -31,5 +31,5 @@ sed -i "s|src=\"app.js\"|src=\"app.js?v=$VERSION\"|; s|href=\"estilos.css\"|href
 
 # GitHub Pages: servir los archivos tal cual (sin Jekyll)
 touch "$DESTINO/.nojekyll"
-echo "RutaCima Web lista en $DESTINO ($(du -sh "$DESTINO" | cut -f1))"
+echo "Rutaalacima Web lista en $DESTINO ($(du -sh "$DESTINO" | cut -f1))"
 if [ -n "${SUPABASE_URL:-}" ]; then echo "Conectada a $SUPABASE_URL"; else echo "Sin servidor configurado: abrirá en modo demostración"; fi

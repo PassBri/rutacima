@@ -79,7 +79,7 @@ fun Avatar(nombre: String, url: String = "", tamano: Int = 40) {
 }
 
 /**
- * Imagen de la publicación. Formato propio de RutaCima: horizontal 4:3 (la "postal de cumbre"),
+ * Imagen de la publicación. Formato propio de Rutaalacima: horizontal 4:3 (la "postal de cumbre"),
  * distinto del cuadrado/vertical de otras redes. Sin foto, se dibuja un paisaje vectorial.
  */
 @Composable
@@ -187,7 +187,7 @@ fun PostCard(
             Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
             Spacer(Modifier.weight(1f))
             IconButton(onClick = {
-                val texto = listOf(post.metaTitulo, post.texto, "— RutaCima").filter { it.isNotBlank() }.joinToString("\n\n")
+                val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }) { Icon(Icons.Outlined.Share, stringResource(R.string.compartir)) }
         }

@@ -6,7 +6,7 @@ import java.time.LocalDate
 
 /**
  * Comunidad de ejemplo para el modo demo (sin servidor configurado o sin sesión):
- * muestra cómo se ve RutaCima con gente compartiendo su ascenso. Los textos están en
+ * muestra cómo se ve Rutaalacima con gente compartiendo su ascenso. Los textos están en
  * strings.xml para que salgan en el idioma de la app.
  */
 object DemoComunidad {

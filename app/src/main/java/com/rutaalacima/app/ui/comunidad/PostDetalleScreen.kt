@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +55,14 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
         private set
     var nuevo by mutableStateOf("")
 
+    /** Se puede escribirle al autor (no es mío, no es de ejemplo y hay cuenta). */
+    val puedoEscribir: Boolean get() = post.let { it != null && !it.propio && !it.demo && it.autorId.isNotBlank() } && c.mensajes.disponible
+
+    fun escribir(onChat: (String) -> Unit) {
+        val p = post ?: return
+        viewModelScope.launch { runCatching { c.mensajes.abrirCon(p.autorId) }.onSuccess(onChat) }
+    }
+
     fun cargar() {
         val p = post ?: return
         viewModelScope.launch { comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(emptyList()) }
@@ -85,7 +95,7 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
 /** Detalle de una publicación con sus comentarios. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PostDetalleScreen(postId: String, onBack: () -> Unit) {
+fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Unit = {}) {
     val vm = rutaViewModel(key = "post-$postId") { PostDetalleViewModel(it, postId) }
     LaunchedEffect(postId) { vm.cargar() }
     val post: Post? = vm.post
@@ -99,6 +109,13 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit) {
                 title = { Text(stringResource(R.string.publicacion)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
+                    if (vm.puedoEscribir) {
+                        androidx.compose.material3.TextButton(onClick = { vm.escribir(onChat) }) {
+                            Icon(Icons.AutoMirrored.Filled.Chat, null, Modifier.size(18.dp))
+                            Spacer(Modifier.width(6.dp))
+                            Text(stringResource(R.string.mensajes_enviar_mensaje))
+                        }
+                    }
                     if (post?.propio == true) IconButton(onClick = { vm.eliminar(onBack) }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar)) }
                 },
             )

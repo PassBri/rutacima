@@ -61,7 +61,7 @@ data class Comentario(val id: String, val autor: String, val texto: String, val 
 enum class FiltroFeed { PARA_TI, SIGUIENDO, VISION }
 
 /**
- * Comunidad de RutaCima.
+ * Comunidad de Rutaalacima.
  *  - Mis publicaciones SIEMPRE se guardan en el teléfono: son el registro de cada año de la vida.
  *  - Con cuenta (Supabase configurado + sesión) se suben y se ven, votan y comentan en la comunidad.
  *  - Sin cuenta, la comunidad muestra publicaciones de ejemplo (modo demo).
@@ -211,7 +211,7 @@ class SocialRepository(
 
     // ------------------------------------------------------------------ Interacción
 
-    /** Da o quita un "impulso" (el voto de RutaCima). */
+    /** Da o quita un "impulso" (el voto de Rutaalacima). */
     suspend fun impulsar(post: Post) = withContext(Dispatchers.IO) {
         if (enLinea && !post.demo) {
             val uid = supa.sesion.value!!.userId
