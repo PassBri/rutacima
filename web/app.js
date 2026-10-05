@@ -265,6 +265,9 @@ const SECCIONES = [
   ["ruta", "Mi ruta"], ["hoy", "Hoy"], ["metas", "Metas"], ["comunidad", "Comunidad"],
   ["aprende", "Aprende"], ["coach", "Coach"], ["frases", "Mis frases"], ["perfil", "Perfil"],
 ];
+/** En el teléfono la barra es igual a la de la app: 5 secciones y el botón de publicar en medio.
+ *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
+const SOLO_PC = new Set(["metas", "coach", "frases"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: (() => { try { return localStorage.getItem("rutacima-vista") || "lista"; } catch { return "lista"; } })() };
 
 function pintarRiel() {
@@ -272,7 +275,7 @@ function pintarRiel() {
   $("riel").innerHTML =
     `<img class="sello" src="${LOGO}" alt="RutaCima">` +
     SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar">${ic("publicar")}<span class="tip">Publicar · planta tu bandera</span></button>` : "") +
-      `<button class="rb" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${k === "frases" && sellada ? '<span class="punto"></span>' : ""}</button>`).join("") +
+      `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${k === "frases" && sellada ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Tema claro u oscuro">${ic("tema")}<span class="tip">Tema claro u oscuro</span></button>
      <button class="rb solo-pc" data-acc="salir" aria-label="${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}">${ic("salir")}<span class="tip">${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}</span></button>`;
@@ -300,7 +303,8 @@ document.addEventListener("focusout", () => setTimeout(() => { if (detallePendie
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {
-  return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1>${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</div>
+  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
+  return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1><span style="display:flex;gap:4px;align-items:center">${atajos}${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</span></div>
     ${buscar ? `<label class="buscar">${ic("buscar")}<input id="busq" type="search" placeholder="Buscar" value="${esc(estado.busqueda)}" aria-label="Buscar"></label>` : ""}
     ${chips.length ? `<div class="chips">${chips.map(([k, n]) => `<button class="chip" data-filtro="${k}" aria-pressed="${estado.filtro === k}">${n}</button>`).join("")}</div>` : ""}</div>`;
 }
@@ -451,6 +455,10 @@ const LISTAS = {
     const vs = Store.lista("vision");
     h += item("vision", av(ic("coach"), "var(--oro)"), "Mi vision board", vs.length ? `${vs.filter(v => v.publicacionId).length}/${vs.length}` : "", vs.length ? "Llénalo con tus fotos" : "Ármalo con IA y tus datos");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
+    h += grupo("Más");
+    h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
+    h += item("ir-frases", av(ic("frases"), "var(--oro)"), "Mis frases", "", "Las frases que ya abriste");
+    h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach", "", "Pregúntale por tu ruta");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", "", Store.nube ? nombreNavegador() : "Ruta de ejemplo");
     return h + `</div>`;
   },
@@ -1244,6 +1252,7 @@ function clic(e) {
     elegir("feed"); return;
   }
   if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && (t.dataset.sec === "coach" || t.dataset.sec === "comunidad") ? (t.dataset.sec === "coach" ? "coach" : "feed") : null); return; }
+  if (t.dataset.sel?.startsWith("ir-")) { const d = t.dataset.sel.slice(3); ir(d, d === "coach" ? "coach" : null); return; }
   if (t.dataset.sel !== undefined) elegir(t.dataset.sel);
 }
 function cambio(e) {

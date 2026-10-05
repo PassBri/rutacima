@@ -381,3 +381,7 @@ a.btn { text-decoration: none; color: inherit; }
   .rb-publicar svg { width: 30px; height: 30px; }
 }
 .riel { position: relative; z-index: 3; }
+.solo-movil { display: none; }
+.atajos .rb { width: 36px; height: 36px; }
+.atajos .rb svg { width: 22px; height: 22px; }
+@media (max-width: 900px) { .solo-movil { display: inline-flex; gap: 2px; } }
