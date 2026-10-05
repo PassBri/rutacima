@@ -28,10 +28,10 @@
 
 ## Contenido
 
-1. [Qué es Rutaalacima](#qué-es-rutacima)
+1. [Qué es Rutaalacima](#qué-es-rutaalacima)
 2. [El método en la app](#el-método-en-la-app)
 3. [Recorrido por la app](#recorrido-por-la-app)
-4. [Rutaalacima Web](#rutacima-web)
+4. [Rutaalacima Web](#rutaalacima-web)
 5. [Privacidad y seguridad](#privacidad-y-seguridad)
 6. [Diseño](#diseño)
 7. [Instalar y ejecutar](#instalar-y-ejecutar)
@@ -229,6 +229,24 @@ Sugerencias rápidas: *ayúdame a definir mi cumbre*, *divide mi meta anual en p
 - **Con servidor**, usa inteligencia artificial con un límite diario por cuenta.
 - **Sin conexión**, funciona en **modo guía**: responde con los protocolos y los bancos del método.
 
+### Mensajes y coach de vida
+
+**Mensajes 1 a 1** (ícono de mensajes arriba en Comunidad, o el botón **Mensaje** en cualquier publicación):
+
+- Si dos personas se siguen mutuamente, conversan directo.
+- Si no, el primer mensaje llega como **solicitud**: la otra persona lo lee y decide si acepta. Mientras no acepte,
+  no se puede enviar un segundo mensaje.
+- Cualquier conversación se puede **bloquear** o **reportar**.
+
+**Coach de vida** (ícono del senderista arriba en Perfil, o desde el coach IA): una persona real que te acompaña.
+
+- **Directorio de coaches verificados.** Solo aparecen los que el equipo de Rutaalacima revisó.
+- **Pides que sea tu coach** y él o ella acepta. Desde ese momento chatean sin solicitudes.
+- **Compartir mi avance** es un interruptor tuyo: tu coach ve tu cumbre, propósitos, metas con su avance, hábitos de
+  los últimos 7 días, ejes y vision board. Nunca tus respuestas de los libros ni tus notas. Lo apagas y deja de verlo.
+- **Ser coach.** Cualquiera puede postularse con su especialidad y cómo acompaña; queda en revisión hasta que se verifica.
+  Si eres coach, ves a las personas que acompañas y su avance (solo si lo comparten).
+
 ### Kit de emergencia
 
 Herramientas que funcionan cuando las usas, no cuando las guardas:
@@ -311,7 +329,10 @@ o cierres la sesión en la web.
 - **En el servidor**, cada tabla tiene reglas de seguridad (RLS):
   - nadie ve la ruta de otra persona;
   - un navegador sin vincular no ve ni escribe nada;
-  - las publicaciones "solo yo" las ve solo su autor.
+  - las publicaciones "solo yo" las ve solo su autor;
+  - los mensajes solo los ven las dos personas de la conversación;
+  - un coach ve el avance de alguien solo mientras lo acompaña y esa persona lo comparte;
+  - nadie puede verificarse como coach a sí mismo.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
 
 ## Diseño
@@ -359,6 +380,7 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
    - perfiles, publicaciones, impulsos, comentarios y seguidores;
    - el uso del coach;
    - la ruta compartida y los computadores vinculados;
+   - las conversaciones, mensajes, reportes, coaches y acompañamientos;
    - las reglas de seguridad y el bucket `media` para las fotos.
 2. **Web.** En **Authentication › Sign In / Providers**, activa **Allow anonymous sign-ins**. La web entra como
    invitada hasta que la vinculas.
@@ -385,7 +407,10 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
    - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
      `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar Rutaalacima Web › Run workflow**.
    - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
-7. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
+7. **Verificar coaches.** Las postulaciones llegan a **Table Editor › coaches** con `verificado = false`. Revisa la
+   ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes de conversaciones llegan a
+   **Table Editor › reportes**.
+8. **Probar.** Vuelve a compilar la app y crea tu cuenta en **Perfil › Ajustes**. La comunidad pasa a ser real y ya
    puedes vincular la web.
 
 ## Cómo está hecha
