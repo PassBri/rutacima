@@ -252,7 +252,7 @@
     <string name="toca_dia">اضغط على يوم لفتح مخطّطه اليومي.</string>
     <string name="n_de_dias">%1$d/%2$d يومًا</string>
     <string name="eliminar_meta">حذف الهدف</string>
-    <string name="propositos_intro">اكتب حتى 10 أهداف طويلة المدى: بعد 5 أو 10 أو 15 أو 20 سنة (%1$d/10).</string>
+    <string name="propositos_intro">اكتب حتى 10 أهداف طويلة المدى، بعدد السنوات الذي تختاره (%1$d/10).</string>
     <string name="prioridad_abcd">الأولوية: نظام ABCD</string>
     <string name="propositos_vacio_titulo">قممك طويلة المدى</string>
     <string name="propositos_vacio_texto">تخيّل حياتك المثالية بعد 5 أو 10 أو 20 سنة. ما الإنجازات التي ستجعلك فخورًا؟ اكتب هنا الأهداف التي ستغيّر حياتك.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">شلّال أهدافك</string>
     <string name="cascada_texto">كل يوم يضيف إلى الشهر، وكل شهر إلى العام، وكل عام إلى قمتك طويلة المدى. يُحسب التقدم تلقائيًا.</string>
     <string name="cascada_vacia_titulo">ابدأ من قمّتك</string>
-    <string name="cascada_vacia_texto">أنشئ هدفًا لمدة 5 أو 10 أو 15 أو 20 سنة وقسّمه إلى أهداف سنوية وشهرية وأفعال اليوم.</string>
+    <string name="cascada_vacia_texto">أنشئ هدفًا لعدد السنوات الذي تريده وقسّمه إلى أهداف سنوية وشهرية وأفعال اليوم.</string>
     <string name="cascada_sin_anuales">لا أهداف سنوية بعد. اضغط + لإنشاء هدف.</string>
     <string name="cascada_anuales_sueltas">أهداف سنوية بلا غاية</string>
     <string name="cascada_mensuales_sueltas">أهداف شهرية بلا هدف سنوي</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">صندوقك هادئ</string>
     <string name="vacio_cordadas_titulo">اصعد مع فريق</string>
     <string name="vacio_comunidad_titulo">اغرس العلم الأول</string>
+    <string name="horizonte_menos">سنة أقل</string>
+    <string name="horizonte_mas">سنة أخرى</string>
+    <string name="horizonte_elige">اختر عدد السنوات: من %1$d إلى %2$d.</string>
 </resources>

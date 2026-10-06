@@ -86,7 +86,7 @@ data class PropositoEntity(
     val impacto: String = "",
     val reflexionFinal: String = "",
     val progreso: Int = 0,
-    /** Horizonte del propósito en años: 5, 10, 15 o 20. */
+    /** Horizonte del propósito en años, el que elija la persona (de Vida.HORIZONTE_MIN a Vida.HORIZONTE_MAX). */
     val horizonte: Int = 5,
     val creadoEn: Long = System.currentTimeMillis(),
 )

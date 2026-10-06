@@ -11,6 +11,12 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  horizonte(_, arg) {
+    const [tipo, clave, d] = arg.split("|");
+    const actual = Number(Store.get(tipo, clave)?.horizonte ?? 5);
+    const nuevo = acotarHorizonte(d.startsWith("=") ? Number(d.slice(1)) : actual + Number(d));
+    Store.cambiar(tipo, clave, { horizonte: nuevo }, BASES[tipo]?.(clave) || {});
+  },
   volver() { estado.sel = null; $("app").classList.remove("con-detalle"); pintarLista(); if (innerWidth > 900) pintarDetalle(); },
   tema() {
     const r = document.documentElement, oscuro = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -176,6 +182,7 @@ function cambio(e) {
   const [tipo, clave, nombre, conv] = el.dataset.bind.split("|");
   let v = el.type === "checkbox" ? el.checked : el.value;
   if (conv === "num") v = Number(v);
+  else if (conv === "horiz") { v = acotarHorizonte(v); el.value = v; }
   else if (conv === "numNulo") v = v === "" ? null : Number(v);
   else if (conv === "nulo") v = v === "" ? null : v;
   else if (conv === "bool") v = !!el.checked;

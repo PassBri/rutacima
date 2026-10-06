@@ -252,7 +252,7 @@
     <string name="toca_dia">Touche un jour pour ouvrir son planificateur quotidien.</string>
     <string name="n_de_dias">%1$d/%2$d jours</string>
     <string name="eliminar_meta">Supprimer l\'objectif</string>
-    <string name="propositos_intro">Écris jusqu’à 10 objectifs à long terme : à 5, 10, 15 ou 20 ans (%1$d/10).</string>
+    <string name="propositos_intro">Écris jusqu’à 10 objectifs à long terme, à l’horizon que tu choisis (%1$d/10).</string>
     <string name="prioridad_abcd">Priorité : système ABCD</string>
     <string name="propositos_vacio_titulo">Tes sommets à long terme</string>
     <string name="propositos_vacio_texto">Imagine ta vie idéale dans 5, 10 ou 20 ans. Quelles réussites te rendraient fier ? Écris ici les objectifs qui transformeront ta vie.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Ta cascade d\'objectifs</string>
     <string name="cascada_texto">Chaque jour compte pour le mois, chaque mois pour l’année et chaque année pour ton sommet à long terme. La progression se calcule seule.</string>
     <string name="cascada_vacia_titulo">Commence par ton sommet</string>
-    <string name="cascada_vacia_texto">Crée un objectif à 5, 10, 15 ou 20 ans et décline-le en objectifs annuels, mensuels et actions du jour.</string>
+    <string name="cascada_vacia_texto">Crée un objectif sur le nombre d’années que tu veux et décline-le en objectifs annuels, mensuels et actions du jour.</string>
     <string name="cascada_sin_anuales">Pas encore d\'objectifs annuels. Touche + pour en créer un.</string>
     <string name="cascada_anuales_sueltas">Objectifs annuels sans but</string>
     <string name="cascada_mensuales_sueltas">Objectifs du mois sans objectif annuel</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Ta boîte est calme</string>
     <string name="vacio_cordadas_titulo">Grimpe en cordée</string>
     <string name="vacio_comunidad_titulo">Plante le premier drapeau</string>
+    <string name="horizonte_menos">Un an de moins</string>
+    <string name="horizonte_mas">Un an de plus</string>
+    <string name="horizonte_elige">Choisis combien d’années : de %1$d à %2$d.</string>
 </resources>

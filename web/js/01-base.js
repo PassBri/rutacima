@@ -103,7 +103,10 @@ const HABITOS = [
   ["TRA1", "TRA", "Ayudé a alguien sin esperar nada a cambio"], ["TRA2", "TRA", "Conecté con algo mayor que yo (naturaleza, arte, espiritualidad)"], ["TRA3", "TRA", "Trabajé en mi legado o contribución al mundo"],
 ];
 const FASES = [["ORIENTACION", "Orientación"], ["PREPARACION", "Preparación"], ["TRAVESIA", "Travesía"], ["ASCENSO", "Ascenso"], ["CULMINACION", "Culminación"], ["CONTEMPLACION", "Contemplación"], ["DESCENSO", "Descenso"]];
-const HORIZONTES = [5, 10, 15, 20];
+/** Horizonte de un propósito: la persona elige cualquier número de años en este rango; los atajos solo ayudan. */
+const HORIZONTE_MIN = 2, HORIZONTE_MAX = 50;
+const HORIZONTES = [3, 5, 10, 15, 20, 30];
+const acotarHorizonte = n => Math.min(HORIZONTE_MAX, Math.max(HORIZONTE_MIN, Math.round(Number(n) || 5)));
 const META_DEFECTO = 100, META_MAXIMA = 120;
 const ESTADOS = [["NO_INICIADA", "No iniciada"], ["INICIADA", "Iniciada"], ["EN_PAUSA", "En pausa"], ["EN_CURSO", "En curso"], ["AVANZADA", "Avanzada"], ["CUMPLIDA", "Cumplida"]];
 const PRIORIDADES = ["A", "B", "C", "D"];

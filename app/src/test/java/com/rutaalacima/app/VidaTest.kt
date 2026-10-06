@@ -32,6 +32,15 @@ class VidaTest {
         assertEquals(20, aniosDelPlan(2026, 20).size)
         assertEquals(2045, aniosDelPlan(2026, 20).last())
         assertEquals(5, aniosDelPlan(2026, 2).size)
+        assertEquals(7, aniosDelPlan(2026, 7).size)
+        assertEquals(50, aniosDelPlan(2026, 80).size)
+    }
+
+    @Test fun horizonteLibreDentroDelRango() {
+        assertEquals(7, Vida.horizonte(7))
+        assertEquals(13, Vida.horizonte(13))
+        assertEquals(Vida.HORIZONTE_MIN, Vida.horizonte(0))
+        assertEquals(Vida.HORIZONTE_MAX, Vida.horizonte(99))
     }
 
     @Test fun recordatorioDelDia() {

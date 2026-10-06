@@ -6,13 +6,17 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -23,7 +27,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
+import com.rutaalacima.app.domain.model.Vida
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.rutaalacima.app.R
@@ -97,5 +108,46 @@ fun <T> ChipSelector(
                 )
             }
         }
+    }
+}
+
+/**
+ * Horizonte de un propósito: cualquier número de años entre [Vida.HORIZONTE_MIN] y [Vida.HORIZONTE_MAX].
+ * Se escribe el número, se ajusta con − y +, o se toca un atajo.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SelectorHorizonte(anios: Int, onCambio: (Int) -> Unit, modifier: Modifier = Modifier) {
+    // El texto se edita libre (puede quedar vacío mientras escribes); el valor se guarda ya acotado.
+    var texto by remember(anios) { mutableStateOf(anios.toString()) }
+    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        Text(stringResource(R.string.horizonte), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilledTonalIconButton(onClick = { onCambio(Vida.horizonte(anios - 1)) }, enabled = anios > Vida.HORIZONTE_MIN) {
+                Icon(Icons.Filled.Remove, contentDescription = stringResource(R.string.horizonte_menos))
+            }
+            OutlinedTextField(
+                value = texto,
+                onValueChange = { v ->
+                    val limpio = v.filter { it.isDigit() }.take(2)
+                    texto = limpio
+                    limpio.toIntOrNull()?.let { n -> if (n >= Vida.HORIZONTE_MIN) onCambio(Vida.horizonte(n)) }
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                textStyle = MaterialTheme.typography.titleMedium.copy(textAlign = TextAlign.Center),
+                modifier = Modifier.width(80.dp),
+            )
+            FilledTonalIconButton(onClick = { onCambio(Vida.horizonte(anios + 1)) }, enabled = anios < Vida.HORIZONTE_MAX) {
+                Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.horizonte_mas))
+            }
+        }
+        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Vida.HORIZONTES.forEach { h ->
+                FilterChip(selected = h == anios, onClick = { onCambio(h) }, label = { Text(stringResource(R.string.n_anios, h)) })
+            }
+        }
+        Text(stringResource(R.string.horizonte_elige, Vida.HORIZONTE_MIN, Vida.HORIZONTE_MAX), style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

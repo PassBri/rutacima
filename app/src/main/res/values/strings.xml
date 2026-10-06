@@ -252,7 +252,7 @@
     <string name="toca_dia">Toca un día para abrir su planificador diario.</string>
     <string name="n_de_dias">%1$d/%2$d días</string>
     <string name="eliminar_meta">Eliminar meta</string>
-    <string name="propositos_intro">Escribe hasta 10 propósitos a largo plazo: a 5, 10, 15 o 20 años (%1$d/10).</string>
+    <string name="propositos_intro">Escribe hasta 10 propósitos a largo plazo, a los años que tú elijas (%1$d/10).</string>
     <string name="prioridad_abcd">Prioridad: sistema ABCD</string>
     <string name="propositos_vacio_titulo">Tus cumbres a largo plazo</string>
     <string name="propositos_vacio_texto">Imagina tu vida ideal dentro de 5, 10 o 20 años. ¿Qué logros te harían sentir orgulloso? Escribe aquí las metas que transformarán tu vida.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Tu cascada de metas</string>
     <string name="cascada_texto">Cada día suma al mes, cada mes al año y cada año a tu cumbre de largo plazo. El avance se calcula solo.</string>
     <string name="cascada_vacia_titulo">Empieza por tu cumbre</string>
-    <string name="cascada_vacia_texto">Crea un propósito a 5, 10, 15 o 20 años y bájalo a metas anuales, mensuales y acciones de hoy.</string>
+    <string name="cascada_vacia_texto">Crea un propósito a los años que quieras y bájalo a metas anuales, mensuales y acciones de hoy.</string>
     <string name="cascada_sin_anuales">Sin metas anuales todavía. Toca + para crear una.</string>
     <string name="cascada_anuales_sueltas">Metas anuales sin propósito</string>
     <string name="cascada_mensuales_sueltas">Metas del mes sin meta anual</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Tu bandeja está en calma</string>
     <string name="vacio_cordadas_titulo">Sube en cordada</string>
     <string name="vacio_comunidad_titulo">Planta la primera bandera</string>
+    <string name="horizonte_menos">Un año menos</string>
+    <string name="horizonte_mas">Un año más</string>
+    <string name="horizonte_elige">Elige cuántos años: de %1$d a %2$d.</string>
 </resources>

@@ -46,7 +46,7 @@
 
 Rutaalacima convierte el método **Ruta a la Cima** en una app para el día a día. Muestra tu vida como un camino
 de puntos, **un punto por año hasta los 100 o 120**, y la baja en cascada a meses, semanas y días. Así ves
-cómo lo que haces hoy suma a tu propósito de 5, 10, 15 o 20 años.
+cómo lo que haces hoy suma a tu propósito a los años que tú elijas.
 
 Incluye:
 
@@ -145,7 +145,7 @@ El centro de la app: **"Camino hacia los 100 años"**. La meta de vida la eliges
     gratitud, energía, agua y finanzas del día;
   - **Mes:** calendario del mes y balance mensual;
   - **Año:** metas anuales;
-  - **Largo plazo:** propósitos a 5, 10, 15 o 20 años con su plan de acción;
+  - **Largo plazo:** propósitos al número de años que elijas (de 2 a 50) con su plan de acción;
   - **Balance:** balance anual.
 
 ### Hoy

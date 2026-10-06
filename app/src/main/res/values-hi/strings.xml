@@ -252,7 +252,7 @@
     <string name="toca_dia">किसी दिन का दैनिक प्लानर खोलने के लिए उस पर टैप करें।</string>
     <string name="n_de_dias">%1$d/%2$d दिन</string>
     <string name="eliminar_meta">लक्ष्य हटाएँ</string>
-    <string name="propositos_intro">10 तक दीर्घकालिक उद्देश्य लिखें: 5, 10, 15 या 20 वर्ष (%1$d/10)।</string>
+    <string name="propositos_intro">10 तक दीर्घकालिक उद्देश्य लिखें, जितने साल आप चुनें (%1$d/10)।</string>
     <string name="prioridad_abcd">प्राथमिकता: ABCD प्रणाली</string>
     <string name="propositos_vacio_titulo">आपके दीर्घकालिक शिखर</string>
     <string name="propositos_vacio_texto">5, 10 या 20 वर्षों बाद के अपने आदर्श जीवन की कल्पना करें। कौन-सी उपलब्धियाँ आपको गर्व देंगी? यहाँ वे लक्ष्य लिखें जो आपका जीवन बदल देंगे।</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">आपके लक्ष्यों का झरना</string>
     <string name="cascada_texto">हर दिन महीने में, हर महीना साल में और हर साल आपके दीर्घकालिक शिखर में जुड़ता है। प्रगति अपने आप गिनी जाती है।</string>
     <string name="cascada_vacia_titulo">अपनी चोटी से शुरू करें</string>
-    <string name="cascada_vacia_texto">5, 10, 15 या 20 वर्ष का उद्देश्य बनाएँ और उसे वार्षिक, मासिक लक्ष्यों व आज के कार्यों में बाँटें।</string>
+    <string name="cascada_vacia_texto">जितने साल चाहें उतने का उद्देश्य बनाएँ और उसे वार्षिक, मासिक लक्ष्यों व आज के कार्यों में बाँटें।</string>
     <string name="cascada_sin_anuales">अभी कोई सालाना लक्ष्य नहीं है। बनाने के लिए + पर टैप करें।</string>
     <string name="cascada_anuales_sueltas">बिना उद्देश्य वाले सालाना लक्ष्य</string>
     <string name="cascada_mensuales_sueltas">बिना सालाना लक्ष्य वाले महीने के लक्ष्य</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">आपका इनबॉक्स शांत है</string>
     <string name="vacio_cordadas_titulo">रोप टीम में चढ़ें</string>
     <string name="vacio_comunidad_titulo">पहला झंडा गाड़ें</string>
+    <string name="horizonte_menos">एक साल कम</string>
+    <string name="horizonte_mas">एक साल और</string>
+    <string name="horizonte_elige">कितने साल, चुनें: %1$d से %2$d।</string>
 </resources>

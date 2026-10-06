@@ -252,7 +252,7 @@
     <string name="toca_dia">Нажми на день, чтобы открыть его планировщик.</string>
     <string name="n_de_dias">%1$d/%2$d дн.</string>
     <string name="eliminar_meta">Удалить цель</string>
-    <string name="propositos_intro">Запиши до 10 долгосрочных целей: на 5, 10, 15 или 20 лет (%1$d/10).</string>
+    <string name="propositos_intro">Запиши до 10 долгосрочных целей на любое число лет (%1$d/10).</string>
     <string name="prioridad_abcd">Приоритет: система ABCD</string>
     <string name="propositos_vacio_titulo">Твои долгосрочные вершины</string>
     <string name="propositos_vacio_texto">Представь свою идеальную жизнь через 5, 10 или 20 лет. Какие достижения сделают тебя гордым? Запиши цели, которые изменят твою жизнь.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Твой каскад целей</string>
     <string name="cascada_texto">Каждый день складывается в месяц, месяц — в год, год — в долгосрочную вершину. Прогресс считается сам.</string>
     <string name="cascada_vacia_titulo">Начни со своей вершины</string>
-    <string name="cascada_vacia_texto">Создай цель на 5, 10, 15 или 20 лет и разбей её на годовые и месячные цели и дела на сегодня.</string>
+    <string name="cascada_vacia_texto">Создай цель на любое число лет и разбей её на годовые и месячные цели и дела на сегодня.</string>
     <string name="cascada_sin_anuales">Годовых целей пока нет. Нажми +, чтобы создать.</string>
     <string name="cascada_anuales_sueltas">Годовые цели без 5-летней цели</string>
     <string name="cascada_mensuales_sueltas">Цели месяца без годовой цели</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Входящие пусты</string>
     <string name="vacio_cordadas_titulo">Поднимайся в связке</string>
     <string name="vacio_comunidad_titulo">Установи первый флаг</string>
+    <string name="horizonte_menos">На год меньше</string>
+    <string name="horizonte_mas">На год больше</string>
+    <string name="horizonte_elige">Выбери, сколько лет: от %1$d до %2$d.</string>
 </resources>

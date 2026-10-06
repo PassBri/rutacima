@@ -252,7 +252,7 @@
     <string name="toca_dia">日付をタップすると、その日のプランナーが開きます。</string>
     <string name="n_de_dias">%1$d/%2$d日</string>
     <string name="eliminar_meta">目標を削除</string>
-    <string name="propositos_intro">長期的な目的を最大10個書きましょう：5年、10年、15年、20年（%1$d/10）。</string>
+    <string name="propositos_intro">長期的な目的を最大10個書きましょう。年数は自由に選べます（%1$d/10）。</string>
     <string name="prioridad_abcd">優先度: ABCDシステム</string>
     <string name="propositos_vacio_titulo">あなたの長期的な頂上</string>
     <string name="propositos_vacio_texto">5年後、10年後、20年後の理想の人生を想像しよう。どんな達成が誇りになる？人生を変える目標をここに書こう。</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">あなたの目標カスケード</string>
     <string name="cascada_texto">毎日が月に、毎月が年に、毎年が長期の頂上につながります。進捗は自動で計算されます。</string>
     <string name="cascada_vacia_titulo">山頂から始めよう</string>
-    <string name="cascada_vacia_texto">5年・10年・15年・20年の目的を作り、年間・月間目標と今日の行動に分けましょう。</string>
+    <string name="cascada_vacia_texto">好きな年数の目的を作り、年間・月間目標と今日の行動に分けましょう。</string>
     <string name="cascada_sin_anuales">年間目標はまだありません。+をタップして作成しましょう。</string>
     <string name="cascada_anuales_sueltas">目的につながっていない年間目標</string>
     <string name="cascada_mensuales_sueltas">年間目標につながっていない月間目標</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">受信箱は静かです</string>
     <string name="vacio_cordadas_titulo">ザイルで登ろう</string>
     <string name="vacio_comunidad_titulo">最初の旗を立てよう</string>
+    <string name="horizonte_menos">1年減らす</string>
+    <string name="horizonte_mas">1年増やす</string>
+    <string name="horizonte_elige">年数を選んでください：%1$d〜%2$d年。</string>
 </resources>

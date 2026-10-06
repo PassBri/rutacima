@@ -52,6 +52,7 @@ import com.rutaalacima.app.domain.model.Prioridad
 import com.rutaalacima.app.ui.components.ChipSelector
 import com.rutaalacima.app.ui.components.FechaField
 import com.rutaalacima.app.ui.components.RutaCard
+import com.rutaalacima.app.ui.components.SelectorHorizonte
 import com.rutaalacima.app.ui.components.SectionTitle
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.theme.asColor
@@ -95,8 +96,7 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
                     modifier = Modifier.fillMaxWidth(), textStyle = MaterialTheme.typography.titleMedium)
             }
             item {
-                ChipSelector(stringResource(R.string.horizonte), Vida.HORIZONTES, p.horizonte,
-                    { stringResource(R.string.n_anios, it) }, { sel -> vm.editar { it.copy(horizonte = sel) } })
+                SelectorHorizonte(p.horizonte, { sel -> vm.editar { it.copy(horizonte = sel) } })
             }
             item {
                 ChipSelector(stringResource(R.string.prioridad_abcd), Prioridad.entries, Prioridad.from(p.prioridad), { "${it.clave} · " + it.texto() },

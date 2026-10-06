@@ -13,6 +13,19 @@ const txt = (tipo, clave, campoN, valor, ph = "") => `<input type="text" ${bind(
 const area = (tipo, clave, campoN, valor, ph = "") => `<textarea ${bind(tipo, clave, campoN)} placeholder="${esc(ph)}">${esc(valor)}</textarea>`;
 const sel = (tipo, clave, campoN, valor, opciones, conv = "") =>
   `<select ${bind(tipo, clave, campoN, conv)}>${opciones.map(([v, n]) => `<option value="${esc(v)}" ${String(v) === String(valor ?? "") ? "selected" : ""}>${esc(n)}</option>`).join("")}</select>`;
+/** Horizonte en años: se escribe el número, se ajusta con − y + o se toca un atajo. */
+function selectorHorizonte(tipo, clave, anios) {
+  const arg = `${tipo}|${esc(clave)}`;
+  return `<div class="campo horizonte" role="group" aria-labelledby="horiz-${esc(clave)}"><span id="horiz-${esc(clave)}">Horizonte</span>
+    <div class="pasos-num">
+      <button type="button" class="btn mini" data-acc="horizonte" data-arg="${arg}|-1" aria-label="Un año menos" ${anios <= HORIZONTE_MIN ? "disabled" : ""}>−</button>
+      <input type="number" inputmode="numeric" min="${HORIZONTE_MIN}" max="${HORIZONTE_MAX}" step="1" value="${anios}" aria-label="Años del propósito" ${bind(tipo, clave, "horizonte", "horiz")}>
+      <button type="button" class="btn mini" data-acc="horizonte" data-arg="${arg}|1" aria-label="Un año más" ${anios >= HORIZONTE_MAX ? "disabled" : ""}>+</button>
+      <b>años</b>
+    </div>
+    <div class="atajos">${HORIZONTES.map(h => `<button type="button" class="chip" aria-pressed="${h === anios}" data-acc="horizonte" data-arg="${arg}|=${h}">${h}</button>`).join("")}</div>
+  </div>`;
+}
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 function vacio() {
@@ -98,7 +111,7 @@ const DET = {
   "metas.nuevo"() {
     const anioHoy = new Date().getFullYear();
     return cab(av(ic("mas"), "var(--burdeos)"), "Nueva meta", "Elige el nivel de la cascada") + cuerpo(
-      hoja(`<h3>Propósito a largo plazo</h3><p class="suave">Tu cumbre a 5, 10, 15 o 20 años. De aquí salen las metas de cada año.</p><button class="btn lleno" data-acc="nuevoProposito">Crear propósito</button>`) +
+      hoja(`<h3>Propósito a largo plazo</h3><p class="suave">Tu cumbre a los años que tú elijas. De aquí salen las metas de cada año.</p><button class="btn lleno" data-acc="nuevoProposito">Crear propósito</button>`) +
       hoja(`<h3>Meta del año</h3><p class="suave">Tu campamento base: lo que lograrás este año para acercarte al propósito.</p><button class="btn lleno" data-acc="nuevaMetaAnio" data-arg="${anioHoy}">Crear meta de ${anioHoy}</button>`) +
       hoja(`<h3>Meta del mes</h3><p class="suave">Lo que harás este mes. Cada día que la cumplas, el avance sube solo hasta tu propósito.</p><button class="btn lleno" data-acc="nuevaMetaMes" data-arg="${iso(hoyFecha()).slice(0, 7)}">Crear meta de ${MESES[hoyFecha().getMonth()]}</button>`), "max-width:640px");
   },
@@ -111,8 +124,8 @@ const DET = {
     return cab(av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `Propósito a ${p.horizonte || 5} años`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="proposito|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
       hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
-        <div class="form-2">${campo("Horizonte", sel("proposito", k, "horizonte", p.horizonte || 5, HORIZONTES.map(h => [h, `${h} años`]), "num"))}
-          ${campo("Eje principal", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
+        ${selectorHorizonte("proposito", k, p.horizonte || 5)}
+        <div class="form-2">          ${campo("Eje principal", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}</div>
         ${auto ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoProp(p))}, el promedio de sus metas anuales.</p>`
           : campo(`Avance manual`, `<div class="rango"><input type="range" min="0" max="100" step="5" value="${p.progreso || 0}" ${bind("proposito", k, "progreso", "num")}><b>${p.progreso || 0}%</b></div>`)}

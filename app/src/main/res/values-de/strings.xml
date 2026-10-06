@@ -252,7 +252,7 @@
     <string name="toca_dia">Tippe auf einen Tag, um seinen Tagesplaner zu öffnen.</string>
     <string name="n_de_dias">%1$d/%2$d Tage</string>
     <string name="eliminar_meta">Ziel löschen</string>
-    <string name="propositos_intro">Schreib bis zu 10 langfristige Ziele: in 5, 10, 15 oder 20 Jahren (%1$d/10).</string>
+    <string name="propositos_intro">Schreib bis zu 10 langfristige Ziele, so viele Jahre voraus, wie du willst (%1$d/10).</string>
     <string name="prioridad_abcd">Priorität: ABCD-System</string>
     <string name="propositos_vacio_titulo">Deine langfristigen Gipfel</string>
     <string name="propositos_vacio_texto">Stell dir dein ideales Leben in 5, 10 oder 20 Jahren vor. Welche Erfolge würden dich stolz machen? Schreib hier die Ziele auf, die dein Leben verändern.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Deine Zielkaskade</string>
     <string name="cascada_texto">Jeder Tag zählt für den Monat, jeder Monat für das Jahr und jedes Jahr für deinen langfristigen Gipfel. Der Fortschritt wird automatisch berechnet.</string>
     <string name="cascada_vacia_titulo">Beginne bei deinem Gipfel</string>
-    <string name="cascada_vacia_texto">Leg ein Ziel für 5, 10, 15 oder 20 Jahre an und brich es in Jahres- und Monatsziele und heutige Schritte herunter.</string>
+    <string name="cascada_vacia_texto">Leg ein Ziel für so viele Jahre an, wie du willst, und brich es in Jahres- und Monatsziele und heutige Schritte herunter.</string>
     <string name="cascada_sin_anuales">Noch keine Jahresziele. Tippe auf +, um eines anzulegen.</string>
     <string name="cascada_anuales_sueltas">Jahresziele ohne Sinn</string>
     <string name="cascada_mensuales_sueltas">Monatsziele ohne Jahresziel</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Dein Posteingang ist ruhig</string>
     <string name="vacio_cordadas_titulo">Steig in Seilschaft</string>
     <string name="vacio_comunidad_titulo">Setz die erste Flagge</string>
+    <string name="horizonte_menos">Ein Jahr weniger</string>
+    <string name="horizonte_mas">Ein Jahr mehr</string>
+    <string name="horizonte_elige">Wähle, wie viele Jahre: %1$d bis %2$d.</string>
 </resources>

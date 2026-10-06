@@ -252,7 +252,7 @@
     <string name="toca_dia">Tocca un giorno per aprire il suo planner giornaliero.</string>
     <string name="n_de_dias">%1$d/%2$d giorni</string>
     <string name="eliminar_meta">Elimina obiettivo</string>
-    <string name="propositos_intro">Scrivi fino a 10 propositi a lungo termine: a 5, 10, 15 o 20 anni (%1$d/10).</string>
+    <string name="propositos_intro">Scrivi fino a 10 propositi a lungo termine, con gli anni che scegli tu (%1$d/10).</string>
     <string name="prioridad_abcd">Priorità: sistema ABCD</string>
     <string name="propositos_vacio_titulo">Le tue vette a lungo termine</string>
     <string name="propositos_vacio_texto">Immagina la tua vita ideale tra 5, 10 o 20 anni. Quali traguardi ti renderebbero orgoglioso? Scrivi qui gli obiettivi che trasformeranno la tua vita.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">La tua cascata di obiettivi</string>
     <string name="cascada_texto">Ogni giorno conta per il mese, ogni mese per l’anno e ogni anno per la tua vetta a lungo termine. L’avanzamento si calcola da solo.</string>
     <string name="cascada_vacia_titulo">Parti dalla tua vetta</string>
-    <string name="cascada_vacia_texto">Crea un proposito a 5, 10, 15 o 20 anni e scomponilo in obiettivi annuali, mensili e azioni di oggi.</string>
+    <string name="cascada_vacia_texto">Crea un proposito per gli anni che vuoi e scomponilo in obiettivi annuali, mensili e azioni di oggi.</string>
     <string name="cascada_sin_anuales">Ancora nessun obiettivo annuale. Tocca + per crearne uno.</string>
     <string name="cascada_anuales_sueltas">Obiettivi annuali senza scopo</string>
     <string name="cascada_mensuales_sueltas">Obiettivi del mese senza obiettivo annuale</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">La tua casella è tranquilla</string>
     <string name="vacio_cordadas_titulo">Sali in cordata</string>
     <string name="vacio_comunidad_titulo">Pianta la prima bandiera</string>
+    <string name="horizonte_menos">Un anno in meno</string>
+    <string name="horizonte_mas">Un anno in più</string>
+    <string name="horizonte_elige">Scegli quanti anni: da %1$d a %2$d.</string>
 </resources>

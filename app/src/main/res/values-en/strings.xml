@@ -252,7 +252,7 @@
     <string name="toca_dia">Tap a day to open its daily planner.</string>
     <string name="n_de_dias">%1$d/%2$d days</string>
     <string name="eliminar_meta">Delete goal</string>
-    <string name="propositos_intro">Write up to 10 long-term purposes: 5, 10, 15 or 20 years ahead (%1$d/10).</string>
+    <string name="propositos_intro">Write up to 10 long-term purposes, as many years ahead as you choose (%1$d/10).</string>
     <string name="prioridad_abcd">Priority: ABCD system</string>
     <string name="propositos_vacio_titulo">Your long-term summits</string>
     <string name="propositos_vacio_texto">Imagine your ideal life in 5, 10 or 20 years. What achievements would make you proud? Write the goals that will transform your life.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Your goal cascade</string>
     <string name="cascada_texto">Each day adds to the month, each month to the year and each year to your long-term summit. Progress is calculated for you.</string>
     <string name="cascada_vacia_titulo">Start with your summit</string>
-    <string name="cascada_vacia_texto">Create a 5, 10, 15 or 20-year purpose and break it down into yearly goals, monthly goals and today’s actions.</string>
+    <string name="cascada_vacia_texto">Create a purpose for as many years as you want and break it down into yearly goals, monthly goals and today’s actions.</string>
     <string name="cascada_sin_anuales">No yearly goals yet. Tap + to create one.</string>
     <string name="cascada_anuales_sueltas">Yearly goals without a purpose</string>
     <string name="cascada_mensuales_sueltas">Monthly goals without a yearly goal</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Your inbox is quiet</string>
     <string name="vacio_cordadas_titulo">Climb as a rope team</string>
     <string name="vacio_comunidad_titulo">Plant the first flag</string>
+    <string name="horizonte_menos">One year less</string>
+    <string name="horizonte_mas">One year more</string>
+    <string name="horizonte_elige">Choose how many years: %1$d to %2$d.</string>
 </resources>

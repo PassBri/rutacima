@@ -252,7 +252,7 @@
     <string name="toca_dia">날짜를 누르면 그날의 일일 계획이 열려요.</string>
     <string name="n_de_dias">%1$d/%2$d일</string>
     <string name="eliminar_meta">목표 삭제</string>
-    <string name="propositos_intro">장기 목표를 최대 10개까지 적어 보세요: 5, 10, 15, 20년 (%1$d/10).</string>
+    <string name="propositos_intro">장기 목표를 최대 10개까지 적어 보세요. 기간은 원하는 만큼 정할 수 있어요 (%1$d/10).</string>
     <string name="prioridad_abcd">우선순위: ABCD 방식</string>
     <string name="propositos_vacio_titulo">나의 장기 정상</string>
     <string name="propositos_vacio_texto">5년, 10년, 20년 후의 이상적인 삶을 상상해 보세요. 어떤 성취가 자랑스러울까요? 삶을 바꿀 목표를 여기에 적으세요.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">나의 목표 폭포</string>
     <string name="cascada_texto">하루하루가 한 달을, 한 달이 한 해를, 한 해가 장기 정상을 채웁니다. 진행률은 자동으로 계산돼요.</string>
     <string name="cascada_vacia_titulo">정상에서 시작하세요</string>
-    <string name="cascada_vacia_texto">5, 10, 15, 20년 목표를 만들고 연간·월간 목표와 오늘의 행동으로 나눠 보세요.</string>
+    <string name="cascada_vacia_texto">원하는 기간의 목표를 만들고 연간·월간 목표와 오늘의 행동으로 나눠 보세요.</string>
     <string name="cascada_sin_anuales">아직 연간 목표가 없어요. +를 눌러 만들어 보세요.</string>
     <string name="cascada_anuales_sueltas">목적에 연결되지 않은 연간 목표</string>
     <string name="cascada_mensuales_sueltas">연간 목표에 연결되지 않은 월간 목표</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">받은편지함이 조용해요</string>
     <string name="vacio_cordadas_titulo">로프 팀으로 오르기</string>
     <string name="vacio_comunidad_titulo">첫 깃발을 꽂아요</string>
+    <string name="horizonte_menos">1년 줄이기</string>
+    <string name="horizonte_mas">1년 늘리기</string>
+    <string name="horizonte_elige">몇 년인지 고르세요: %1$d~%2$d년.</string>
 </resources>

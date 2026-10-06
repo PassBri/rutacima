@@ -5,8 +5,14 @@ package com.rutaalacima.app.domain.model
  * hasta la esperanza de vida. Sirve para ver lo vivido, lo que queda y registrar cada año.
  */
 object Vida {
-    /** Horizontes posibles de un propósito a largo plazo (años). */
-    val HORIZONTES = listOf(5, 10, 15, 20)
+    /** Horizonte de un propósito a largo plazo: la persona elige cualquier número de años en este rango. */
+    const val HORIZONTE_MIN = 2
+    const val HORIZONTE_MAX = 50
+    const val HORIZONTE_DEFECTO = 5
+    /** Atajos que se ofrecen junto al selector (no limitan la elección). */
+    val HORIZONTES = listOf(3, 5, 10, 15, 20, 30)
+
+    fun horizonte(anios: Int): Int = anios.coerceIn(HORIZONTE_MIN, HORIZONTE_MAX)
 
     const val ESPERANZA_MUNDIAL = 73
 
@@ -53,7 +59,7 @@ object Vida {
 
 /** Años que cubre el plan: tantos como el horizonte más largo de los propósitos (mínimo 5). */
 fun aniosDelPlan(anioInicio: Int, horizonte: Int): List<Int> =
-    (0 until horizonte.coerceIn(5, 20)).map { anioInicio + it }
+    (0 until horizonte.coerceIn(5, Vida.HORIZONTE_MAX)).map { anioInicio + it }
 
 /**
  * Recordatorio del día del "camino hacia los N años": qué día de la vida es hoy, cuántos

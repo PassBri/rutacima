@@ -252,7 +252,7 @@
     <string name="toca_dia">点按某一天，打开它的每日计划。</string>
     <string name="n_de_dias">%1$d/%2$d 天</string>
     <string name="eliminar_meta">删除目标</string>
-    <string name="propositos_intro">写下最多 10 个长期目标：5、10、15 或 20 年（%1$d/10）。</string>
+    <string name="propositos_intro">写下最多 10 个长期目标，年数由你决定（%1$d/10）。</string>
     <string name="prioridad_abcd">优先级：ABCD 体系</string>
     <string name="propositos_vacio_titulo">你的长期巅峰</string>
     <string name="propositos_vacio_texto">想象 5、10 或 20 年后的理想生活。哪些成就会让你自豪？在这里写下将改变你人生的目标。</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">你的目标瀑布</string>
     <string name="cascada_texto">每一天累积成月，每月累积成年，每年累积成你的长期巅峰。进度自动计算。</string>
     <string name="cascada_vacia_titulo">从你的山巅开始</string>
-    <string name="cascada_vacia_texto">创建一个 5、10、15 或 20 年的目标，并拆解为年度、月度目标和今天的行动。</string>
+    <string name="cascada_vacia_texto">创建一个你想要年数的目标，并拆解为年度、月度目标和今天的行动。</string>
     <string name="cascada_sin_anuales">还没有年度目标。点按 + 创建一个。</string>
     <string name="cascada_anuales_sueltas">未关联初心的年度目标</string>
     <string name="cascada_mensuales_sueltas">未关联年度目标的月度目标</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">收件箱很安静</string>
     <string name="vacio_cordadas_titulo">结组攀登</string>
     <string name="vacio_comunidad_titulo">插下第一面旗</string>
+    <string name="horizonte_menos">减少一年</string>
+    <string name="horizonte_mas">增加一年</string>
+    <string name="horizonte_elige">选择年数：%1$d 到 %2$d 年。</string>
 </resources>

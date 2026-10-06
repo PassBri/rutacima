@@ -252,7 +252,7 @@
     <string name="toca_dia">Toque em um dia para abrir o planejador diário.</string>
     <string name="n_de_dias">%1$d/%2$d dias</string>
     <string name="eliminar_meta">Excluir meta</string>
-    <string name="propositos_intro">Escreva até 10 propósitos de longo prazo: 5, 10, 15 ou 20 anos (%1$d/10).</string>
+    <string name="propositos_intro">Escreva até 10 propósitos de longo prazo, com os anos que você escolher (%1$d/10).</string>
     <string name="prioridad_abcd">Prioridade: sistema ABCD</string>
     <string name="propositos_vacio_titulo">Seus cumes de longo prazo</string>
     <string name="propositos_vacio_texto">Imagine sua vida ideal daqui a 5, 10 ou 20 anos. Que conquistas te deixariam orgulhoso? Escreva aqui as metas que vão transformar sua vida.</string>
@@ -346,7 +346,7 @@
     <string name="cascada_titulo">Sua cascata de metas</string>
     <string name="cascada_texto">Cada dia soma ao mês, cada mês ao ano e cada ano ao seu cume de longo prazo. O avanço é calculado sozinho.</string>
     <string name="cascada_vacia_titulo">Comece pelo seu cume</string>
-    <string name="cascada_vacia_texto">Crie um propósito de 5, 10, 15 ou 20 anos e divida-o em metas anuais, mensais e ações de hoje.</string>
+    <string name="cascada_vacia_texto">Crie um propósito para os anos que quiser e divida-o em metas anuais, mensais e ações de hoje.</string>
     <string name="cascada_sin_anuales">Ainda sem metas anuais. Toque em + para criar uma.</string>
     <string name="cascada_anuales_sueltas">Metas anuais sem propósito</string>
     <string name="cascada_mensuales_sueltas">Metas do mês sem meta anual</string>
@@ -937,4 +937,7 @@
     <string name="vacio_mensajes_titulo">Sua caixa está tranquila</string>
     <string name="vacio_cordadas_titulo">Suba em cordada</string>
     <string name="vacio_comunidad_titulo">Finque a primeira bandeira</string>
+    <string name="horizonte_menos">Um ano a menos</string>
+    <string name="horizonte_mas">Um ano a mais</string>
+    <string name="horizonte_elige">Escolha quantos anos: de %1$d a %2$d.</string>
 </resources>

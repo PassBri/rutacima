@@ -75,6 +75,7 @@ import com.rutaalacima.app.domain.model.Prioridad
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.components.ChipSelector
 import com.rutaalacima.app.ui.components.RutaCard
+import com.rutaalacima.app.ui.components.SelectorHorizonte
 import com.rutaalacima.app.ui.components.SectionTitle
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.i18n.texto
@@ -100,7 +101,7 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : View
     var observable by mutableStateOf("")
     var padreId by mutableStateOf<Long?>(null)
     var objetivoDias by mutableStateOf(20)
-    /** Horizonte del propósito a largo plazo: 5, 10, 15 o 20 años. */
+    /** Horizonte del propósito a largo plazo: los años que elija la persona (Vida.HORIZONTE_MIN a HORIZONTE_MAX). */
     var horizonte by mutableStateOf(5)
     val acciones = mutableStateListOf<String>()
 
@@ -370,8 +371,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.pasoDetalles(vm: Nuev
     }
     when (vm.nivel) {
         NivelMeta.CINCO_ANIOS -> item {
-            ChipSelector(stringResource(R.string.horizonte), Vida.HORIZONTES, vm.horizonte,
-                { stringResource(R.string.n_anios, it) }, { vm.horizonte = it })
+            SelectorHorizonte(vm.horizonte, { vm.horizonte = it })
             Text(stringResource(R.string.horizonte_ayuda, hoy().year + vm.horizonte), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
