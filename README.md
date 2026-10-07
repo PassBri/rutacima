@@ -23,6 +23,14 @@
   <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
 </p>
 
+<p align="center">
+  <a href="https://passbri.github.io/rutacima/video.html">
+    <img src="diseno/video/vista_previa.gif" alt="Video de presentación de Rutaalacima: el sello, tu vida en puntos, el método, la app y la web" width="720">
+  </a><br>
+  <a href="https://passbri.github.io/rutacima/video.html"><b>▶ Ver el video de presentación</b></a> (55 s, con sonido)
+  &nbsp;·&nbsp; <a href="diseno/video/rutaalacima_presentacion.mp4">descargar MP4</a>
+</p>
+
 > Serie Ruta a la Cima · © 2026 Brian Gonzalo Suárez Acevedo. Todos los derechos reservados.
 
 ---
@@ -410,6 +418,9 @@ o cierres la sesión en la web.
   <img src="diseno/Rutaalacima_logos.png" alt="Logos e íconos de Rutaalacima" width="500">
 </p>
 
+**Video de presentación.** Hecho con código en [Remotion](https://www.remotion.dev): el proyecto está en
+[`video/`](video) y el resultado en [`diseno/video/`](diseno/video). Cambias un texto o una pantalla y lo vuelves a generar.
+
 **Diseño con IA.** El proyecto incluye la skill [impeccable](https://github.com/pbakaus/impeccable) (Apache 2.0) en
 `.claude/skills/impeccable`. Con Claude Code puedes usar, por ejemplo, `/impeccable critique perfil`.
 
@@ -532,7 +543,8 @@ app/src/main/
 supabase/                    ← schema.sql y la función "coach"
 web/                         ← Rutaalacima Web: index.html, estilos.css, config.js y privacidad.html
 web/js/                      ← la web por partes: 01-base … 09-arranque (se cargan en orden)
-diseno/                      ← logo, vistas previas y las 365 frases
+diseno/                      ← logo, vistas previas, las 365 frases y el video de presentación
+video/                       ← el video de presentación hecho con Remotion (código de las escenas)
 tools/                       ← conversores de los Word a JSON
 ```
 

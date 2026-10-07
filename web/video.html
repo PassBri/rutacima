@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rutaalacima · Video de presentación</title>
+<meta name="description" content="Rutaalacima, la app del método Ruta a la Cima, en 55 segundos.">
+<link rel="icon" href="sello.png">
+<style>
+  :root { --fondo: #F7F3EE; --tinta: #2B1E18; --suave: #6B5B52; --burdeos: #6B2A1A; --oro: #B8862F; --oro-suave: #F6EAD3; }
+  @media (prefers-color-scheme: dark) { :root { --fondo: #17110D; --tinta: #F1E8DF; --suave: #BBA99C; --burdeos: #F0B3A1; --oro: #E0B566; --oro-suave: #3D3020; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: var(--fondo); color: var(--tinta); font: 17px/1.5 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: grid; place-items: center; padding: 32px 16px; }
+  main { width: min(1100px, 100%); }
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  header img { width: 52px; height: 52px; }
+  h1 { font: 700 clamp(26px, 4vw, 38px)/1.1 "Roboto Serif", Georgia, serif; color: var(--burdeos); margin: 0; }
+  p { color: var(--suave); margin: 4px 0 0; }
+  video { width: 100%; aspect-ratio: 16 / 9; border-radius: 16px; background: #1B1310; box-shadow: 0 30px 60px rgb(122 36 24 / .22); }
+  nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+  a { color: var(--burdeos); font-weight: 500; text-decoration: none; padding: 10px 20px; border-radius: 99px; background: var(--oro-suave); }
+  a:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <img src="sello.png" alt="Sello de Ruta a la Cima">
+    <div><h1>Rutaalacima en 55 segundos</h1><p>La app del método Ruta a la Cima: 7 fases × 6 ejes para llegar a tu Cumbre Personal.</p></div>
+  </header>
+  <video controls playsinline preload="metadata" poster="video/portada.jpg">
+    <source src="video/rutaalacima_presentacion.mp4" type="video/mp4">
+    Tu navegador no puede reproducir el video. <a href="video/rutaalacima_presentacion.mp4">Descárgalo aquí</a>.
+  </video>
+  <nav>
+    <a href="./">Abrir Rutaalacima Web</a>
+    <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente">Descargar la app Android</a>
+    <a href="video/rutaalacima_presentacion.mp4" download>Descargar el video (MP4)</a>
+  </nav>
+</main>
+</body>
+</html>

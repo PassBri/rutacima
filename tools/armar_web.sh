@@ -13,6 +13,12 @@ rm -rf "$DESTINO"
 mkdir -p "$DESTINO/assets"
 cp web/index.html web/privacidad.html web/estilos.css web/sello.png "$DESTINO/"
 cp -r web/js "$DESTINO/js"
+# Video de presentación (página web/video.html)
+cp web/video.html "$DESTINO/"
+if [ -d diseno/video ]; then
+  mkdir -p "$DESTINO/video"
+  cp diseno/video/rutaalacima_presentacion.mp4 diseno/video/portada.jpg "$DESTINO/video/"
+fi
 # Las 24 guías y las 365 frases (las mismas de la app)
 cp -r app/src/main/assets/content "$DESTINO/assets/content"
 cp -r app/src/main/assets/frases "$DESTINO/assets/frases"
