@@ -129,7 +129,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .pv.actual { background: var(--oro); color: #fff; outline: 3px solid var(--oro-suave); }
 .pv.futuro { background: var(--hoja); color: var(--tinta-suave); border: 1px solid var(--linea); }
 /* El año dentro del punto: crece con el punto (≈ 27 % de su ancho) y usa cifras tabulares */
-.pv-anio { font-size: clamp(8px, 2.5cqw, 13px); font-weight: 500; letter-spacing: -.02em; line-height: 1; }
+.pv-anio { font-size: clamp(8px, 2.2cqw, 12px); font-weight: 500; letter-spacing: -.02em; line-height: 1; }
 @container (max-width: 300px) { .pv-anio { font-size: 0; } .pv-anio::after { content: attr(data-corto); font-size: clamp(8px, 3cqw, 11px); } }
 .pv .bandera { fill: currentColor; position: absolute; top: -7px; right: -5px; width: 14px; height: 14px; color: var(--oro); }
 .leyenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--tinta-suave); }

@@ -41,6 +41,15 @@ class PantallasTest {
         assertTrue(tocado)
     }
 
+    @Test fun laCelebracionOfreceCompartirElLogro() {
+        var compartido = false
+        compose.mainClock.autoAdvance = false
+        compose.setContent { MaterialTheme { CelebracionCumbre(Celebracion("Leer 12 libros", anual = true), onCompartir = { compartido = true }) {} } }
+        compose.mainClock.advanceTimeBy(600)
+        compose.onNodeWithText("Compartir este logro").performClick()
+        assertTrue(compartido)
+    }
+
     @Test fun elSelloSeDibujaEnTodaLaRotura() {
         var progreso by mutableFloatStateOf(0f)
         compose.setContent { SelloDeCera(progreso, semilla = 2026_277L, modifier = Modifier.size(120.dp)) }
