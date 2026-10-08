@@ -252,7 +252,8 @@ class RutaWebRepository(
     suspend fun restaurar(texto: String): Int = candado.withLock {
         val docs = Sincronia.leerRespaldo(texto)
         var n = 0
-        docs.forEach { (k, v) -> if (runCatching { aplicar(k, v) }.isSuccess) n++ }
+        // Padres antes que hijos: un paso del plan de acción necesita que su propósito ya exista.
+        docs.entries.sortedBy { ORDEN.indexOf(Sincronia.tipoDe(it.key)) }.forEach { (k, v) -> if (runCatching { aplicar(k, v) }.isSuccess) n++ }
         n
     }
 
