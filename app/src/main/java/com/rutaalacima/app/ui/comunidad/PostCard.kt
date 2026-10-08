@@ -30,6 +30,9 @@ import androidx.compose.material.icons.filled.Bolt
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -112,6 +115,8 @@ fun PostCard(
     onImpulsar: () -> Unit,
     onComentar: () -> Unit,
     onAbrir: () -> Unit,
+    guardado: Boolean = false,
+    onGuardar: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -186,6 +191,11 @@ fun PostCard(
             )
             Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
             Spacer(Modifier.weight(1f))
+            if (onGuardar != null) IconButton(onClick = onGuardar) {
+                Icon(if (guardado) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                    stringResource(if (guardado) R.string.quitar_guardado else R.string.guardar_publicacion),
+                    tint = if (guardado) MaterialTheme.colorScheme.secondary else LocalContentColor.current)
+            }
             IconButton(onClick = {
                 val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))

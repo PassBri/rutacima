@@ -940,4 +940,11 @@
     <string name="horizonte_menos">1年減らす</string>
     <string name="horizonte_mas">1年増やす</string>
     <string name="horizonte_elige">年数を選んでください：%1$d〜%2$d年。</string>
+    <string name="filtro_guardados">保存済み</string>
+    <string name="guardar_publicacion">保存</string>
+    <string name="quitar_guardado">保存を解除</string>
+    <string name="vacio_guardados">心に響いた投稿のブックマークをタップすると、ここにまとまります。</string>
+    <string name="todos_los_ejes">すべての軸</string>
+    <string name="celebra_compartir">この達成をシェア</string>
+    <string name="logro_texto_inicial">やり遂げた！%1$s</string>
 </resources>

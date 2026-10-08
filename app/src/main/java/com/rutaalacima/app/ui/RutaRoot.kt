@@ -120,7 +120,7 @@ object Rutas {
     const val EJES = "ejes"
     const val COACH = "coach"
     const val NUEVA_META = "nueva_meta/{nivel}"
-    const val PUBLICAR = "publicar/{tipo}"
+    const val PUBLICAR = "publicar/{tipo}?meta={meta}"
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
@@ -140,7 +140,7 @@ object Rutas {
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
     fun nuevaMeta(nivel: NivelMeta) = "nueva_meta/${nivel.name}"
-    fun publicar(tipo: String = "LOGRO") = "publicar/$tipo"
+    fun publicar(tipo: String = "LOGRO", meta: String? = null) = "publicar/$tipo" + (meta?.let { "?meta=" + android.net.Uri.encode(it) } ?: "")
     fun post(id: String) = "post/$id"
     fun chat(id: String) = "chat/$id"
     fun cordada(id: String) = "cordada/$id"
@@ -345,8 +345,15 @@ private fun AppPrincipal() {
                     onCompartir = { nav.popBackStack(); nav.navigate(Rutas.publicar("META")) },
                 )
             }
-            composable(Rutas.PUBLICAR, arguments = listOf(navArgument("tipo") { type = NavType.StringType })) { e ->
-                PublicarScreen(tipoInicial = e.arguments?.getString("tipo").orEmpty(), onBack = { nav.popBackStack() })
+            composable(Rutas.PUBLICAR, arguments = listOf(
+                navArgument("tipo") { type = NavType.StringType },
+                navArgument("meta") { type = NavType.StringType; nullable = true; defaultValue = null },
+            )) { e ->
+                val meta = e.arguments?.getString("meta")
+                PublicarScreen(
+                    tipoInicial = e.arguments?.getString("tipo").orEmpty(), onBack = { nav.popBackStack() },
+                    metaInicial = meta, textoInicial = meta?.let { stringResource(R.string.logro_texto_inicial, it) },
+                )
             }
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 PostDetalleScreen(
@@ -415,7 +422,13 @@ private fun AppPrincipal() {
     }
    }
     // Meta cumplida: la bandera se clava en la cumbre
-    celebracion?.let { com.rutaalacima.app.ui.components.CelebracionCumbre(it) { contenedor.celebracion.value = null } }
+    celebracion?.let { c ->
+        com.rutaalacima.app.ui.components.CelebracionCumbre(c, onFin = { contenedor.celebracion.value = null }, onCompartir = {
+            // Como en Strava: el logro se puede compartir al instante, ya con la meta vinculada
+            contenedor.celebracion.value = null
+            nav.navigate(Rutas.publicar("LOGRO", c.titulo))
+        })
+    }
   }
 }
 

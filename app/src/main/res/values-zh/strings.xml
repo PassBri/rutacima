@@ -940,4 +940,11 @@
     <string name="horizonte_menos">减少一年</string>
     <string name="horizonte_mas">增加一年</string>
     <string name="horizonte_elige">选择年数：%1$d 到 %2$d 年。</string>
+    <string name="filtro_guardados">收藏</string>
+    <string name="guardar_publicacion">收藏</string>
+    <string name="quitar_guardado">取消收藏</string>
+    <string name="vacio_guardados">点击启发你的帖子上的书签，就能在这里找到它。</string>
+    <string name="todos_los_ejes">全部轴</string>
+    <string name="celebra_compartir">分享这个成就</string>
+    <string name="logro_texto_inicial">我做到了！%1$s</string>
 </resources>

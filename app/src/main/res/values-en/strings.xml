@@ -940,4 +940,11 @@
     <string name="horizonte_menos">One year less</string>
     <string name="horizonte_mas">One year more</string>
     <string name="horizonte_elige">Choose how many years: %1$d to %2$d.</string>
+    <string name="filtro_guardados">Saved</string>
+    <string name="guardar_publicacion">Save</string>
+    <string name="quitar_guardado">Remove from saved</string>
+    <string name="vacio_guardados">Tap the bookmark on a post that inspires you and you\'ll find it here.</string>
+    <string name="todos_los_ejes">All axes</string>
+    <string name="celebra_compartir">Share this achievement</string>
+    <string name="logro_texto_inicial">I did it! %1$s</string>
 </resources>

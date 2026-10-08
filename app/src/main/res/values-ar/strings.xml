@@ -940,4 +940,11 @@
     <string name="horizonte_menos">سنة أقل</string>
     <string name="horizonte_mas">سنة أخرى</string>
     <string name="horizonte_elige">اختر عدد السنوات: من %1$d إلى %2$d.</string>
+    <string name="filtro_guardados">المحفوظات</string>
+    <string name="guardar_publicacion">حفظ</string>
+    <string name="quitar_guardado">إزالة من المحفوظات</string>
+    <string name="vacio_guardados">اضغط على علامة الحفظ في منشور يلهمك وستجده هنا.</string>
+    <string name="todos_los_ejes">كل المحاور</string>
+    <string name="celebra_compartir">شارك هذا الإنجاز</string>
+    <string name="logro_texto_inicial">لقد نجحت! %1$s</string>
 </resources>

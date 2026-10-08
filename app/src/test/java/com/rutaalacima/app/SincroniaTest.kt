@@ -122,6 +122,19 @@ class RespaldoTest {
         org.junit.Assert.assertEquals(2, com.rutaalacima.app.domain.model.Sincronia.leerRespaldo(conBasura).size)
     }
 
+    @org.junit.Test fun elRespaldoLlevaElDiarioDeVida() {
+        val texto = com.rutaalacima.app.domain.model.Sincronia.respaldo(mapOf("publicacion/abc" to """{"id":"abc","tipo":"LOGRO","texto":"x","anio":2004}"""), "0.6.0", "2026-10-08")
+        org.junit.Assert.assertEquals(setOf("publicacion/abc"), com.rutaalacima.app.domain.model.Sincronia.leerRespaldo(texto).keys)
+    }
+
+    @org.junit.Test fun unPerfilParcialNoBorraLoQueYaHabia() {
+        val local = """{"id":1,"nombre":"Brian","cumbreFrase":"Mi cumbre","anioNacimiento":1990,"onboardingCompleto":true,"esperanzaVida":110}"""
+        val parcial = """{"id":1,"nombre":"","anioNacimiento":1984,"mesNacimiento":9,"onboardingCompleto":false,"esperanzaVida":null}"""
+        val r = kotlinx.serialization.json.Json.parseToJsonElement(com.rutaalacima.app.domain.model.Sincronia.combinar(local, parcial)).toString()
+        org.junit.Assert.assertTrue(r, r.contains("\"nombre\":\"Brian\"") && r.contains("\"anioNacimiento\":1984") && r.contains("\"mesNacimiento\":9")
+            && r.contains("\"onboardingCompleto\":true") && r.contains("\"esperanzaVida\":110") && r.contains("Mi cumbre"))
+    }
+
     @org.junit.Test(expected = IllegalArgumentException::class) fun noAceptaOtroArchivo() {
         com.rutaalacima.app.domain.model.Sincronia.leerRespaldo("""{"hola":1}""")
     }

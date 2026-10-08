@@ -226,6 +226,7 @@ fun MetaMensualEntity.avance(): Float =
  * Siempre se guarda en el teléfono; si hay cuenta, también se sube (remoteId).
  */
 @Entity(tableName = "publicaciones", indices = [Index("anio")])
+@Serializable
 data class PublicacionEntity(
     @PrimaryKey val id: String,
     /** LOGRO, EVIDENCIA, VISION, META, REFLEXION */

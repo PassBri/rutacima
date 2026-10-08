@@ -14,7 +14,7 @@
   <img alt="Kotlin 2.0" src="https://img.shields.io/badge/Kotlin-2.0-B8862F">
   <img alt="Jetpack Compose y Material 3" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-6B2A1A">
   <img alt="12 idiomas" src="https://img.shields.io/badge/idiomas-12-B8862F">
-  <img alt="Versión 0.5.0" src="https://img.shields.io/badge/versi%C3%B3n-0.5.0-6B2A1A">
+  <img alt="Versión 0.6.0" src="https://img.shields.io/badge/versi%C3%B3n-0.6.0-6B2A1A">
 </p>
 
 <p align="center">
@@ -135,7 +135,7 @@ textualmente de los libros, una para cada día del año.
 El centro de la app: **"Camino hacia los 100 años"**. La meta de vida la eliges entre 60 y 120 años.
 
 - **Tu vida en puntos:**
-  - un punto por año, diez por fila;
+  - un punto por año, diez por fila, con el año escrito dentro de cada punto;
   - en burdeos lo vivido, en dorado el año actual y en blanco lo que falta;
   - una **bandera** marca los años con metas.
 - **Cascada año → mes → semana → día:** tocas un año y bajas a sus meses; de ahí a las semanas y a cada día.
@@ -206,6 +206,11 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
 - **Cinco tipos:** logro, evidencia, visión (vision board), meta y reflexión.
 - **Quién la ve:** pública, solo seguidores o solo yo.
 - **Interacción:** **impulsos** (el voto de Rutaalacima), comentarios y seguir a otras personas.
+- **Explorar por eje:** debajo de los filtros, una fila con los 6 ejes para ver solo las publicaciones de Voluntad,
+  Maestría, Voz, Valor, Evolución o Trascendencia.
+- **Guardados:** el marcador de cada publicación la guarda en el filtro *Guardados*, para volver a lo que te inspira.
+- **Compartir un logro al cumplirlo:** cuando la bandera se clava en la cumbre, el botón *Compartir este logro* abre la
+  publicación ya escrita y con la meta vinculada.
 - **Comunidad segura:** cada publicación se puede **reportar** (con motivo) y cada persona se puede **bloquear**.
   Con 3 reportes de personas distintas, la publicación se oculta hasta que el equipo la revise. Hay límites contra
   el spam (mensajes por minuto, publicaciones y solicitudes por día).
@@ -334,7 +339,9 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
 - **Cuenta** para la comunidad, el coach y la web.
 - **Rutaalacima Web.**
 - **Avisos de mensajes**, encendidos o apagados.
-- **Copia de seguridad:** exporta toda tu ruta a un archivo y restáurala en otro teléfono, sin cuenta.
+- **Copia de seguridad:** exporta toda tu ruta, también tu diario de vida, a un archivo y restáurala en otro
+  teléfono, sin cuenta. Restaurar suma lo del archivo a lo que ya tienes; un archivo parcial (por ejemplo, solo la
+  fecha de nacimiento) no borra tu nombre ni tu cumbre.
 - **Eliminar mi cuenta:** borra la cuenta y todo lo que subiste (publicaciones, mensajes, fotos). Hay que escribir
   ELIMINAR para confirmar. También se explica en la [política de privacidad](https://passbri.github.io/rutacima/privacidad.html#eliminar-cuenta).
 

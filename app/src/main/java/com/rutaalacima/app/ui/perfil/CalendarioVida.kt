@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.rutaalacima.app.R
+import com.rutaalacima.app.ui.components.AnioEnPunto
 import com.rutaalacima.app.data.local.PerfilEntity
 import com.rutaalacima.app.data.social.Post
 import com.rutaalacima.app.domain.model.Vida
@@ -169,7 +170,14 @@ fun LazyListScope.calendarioVida(
                                             else -> Modifier
                                         },
                                     ),
-                            )
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                AnioEnPunto(anio, when {
+                                    conRecuerdos -> MaterialTheme.colorScheme.onSecondary
+                                    pasado -> MaterialTheme.colorScheme.onPrimary
+                                    else -> MaterialTheme.colorScheme.onSurfaceVariant
+                                }, Modifier.fillMaxSize())
+                            }
                         }
                     }
                     repeat(10 - fila.size) { Spacer(Modifier.weight(1f)) }

@@ -58,7 +58,7 @@ data class Post(
 
 data class Comentario(val id: String, val autor: String, val texto: String, val creadoEn: Long)
 
-enum class FiltroFeed { PARA_TI, SIGUIENDO, VISION }
+enum class FiltroFeed { PARA_TI, SIGUIENDO, VISION, GUARDADOS }
 
 /**
  * Comunidad de Rutaalacima.
@@ -162,7 +162,21 @@ class SocialRepository(
 
     // ------------------------------------------------------------------ Feed
 
-    suspend fun feed(filtro: FiltroFeed): List<Post> = withContext(Dispatchers.IO) {
+    // ------------------------------------------------------------------ Guardados (como en Instagram)
+
+    fun guardados(): Set<String> = prefs.getStringSet("guardados", emptySet()).orEmpty()
+
+    /** Guarda o quita una publicación de "Guardados". Devuelve si quedó guardada. */
+    fun alternarGuardado(id: String): Boolean {
+        val g = guardados()
+        val queda = id !in g
+        prefs.edit().putStringSet("guardados", if (queda) g + id else g - id).apply()
+        return queda
+    }
+
+    /** El muro: [filtro] elige qué publicaciones y [eje] (VOL, MAE…) deja solo las de ese eje. */
+    suspend fun feed(filtro: FiltroFeed, eje: String? = null): List<Post> = withContext(Dispatchers.IO) {
+        val guardados = guardados()
         if (!enLinea) {
             val mias = dao.todas().filter { it.visibilidad != Visibilidad.PRIVADA.name }.map { it.aPost() }
             val todo = (mias + DemoComunidad.posts(context, impulsados())).sortedByDescending { it.creadoEn }
@@ -170,14 +184,22 @@ class SocialRepository(
                 FiltroFeed.VISION -> todo.filter { it.tipo == TipoPost.VISION }
                 FiltroFeed.SIGUIENDO -> mias
                 FiltroFeed.PARA_TI -> todo
+                FiltroFeed.GUARDADOS -> todo.filter { it.id in guardados }
             }
-            return@withContext r.filter { it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
+            return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
-        val base = "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40"
+        val base = "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40" +
+            (eje?.let { "&eje=eq.$it" } ?: "")
         val consulta = when (filtro) {
             FiltroFeed.PARA_TI -> base
             FiltroFeed.VISION -> "$base&tipo=eq.VISION"
+            FiltroFeed.GUARDADOS -> {
+                // Solo ids con forma de UUID (los de ejemplo no existen en el servidor)
+                val ids = guardados.filter { it.matches(Regex("[0-9a-fA-F-]{36}")) }
+                if (ids.isEmpty()) return@withContext emptyList()
+                "$base&id=in.(${ids.joinToString(",")})"
+            }
             FiltroFeed.SIGUIENDO -> {
                 val seguidos = supa.select("follows", "select=followed_id&follower_id=eq.$uid").jsonArray
                     .mapNotNull { it.jsonObject["followed_id"]?.jsonPrimitive?.contentOrNull }

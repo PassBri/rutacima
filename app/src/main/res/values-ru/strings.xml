@@ -940,4 +940,11 @@
     <string name="horizonte_menos">На год меньше</string>
     <string name="horizonte_mas">На год больше</string>
     <string name="horizonte_elige">Выбери, сколько лет: от %1$d до %2$d.</string>
+    <string name="filtro_guardados">Сохранённое</string>
+    <string name="guardar_publicacion">Сохранить</string>
+    <string name="quitar_guardado">Убрать из сохранённого</string>
+    <string name="vacio_guardados">Нажми на закладку у вдохновляющей публикации — и она будет здесь.</string>
+    <string name="todos_los_ejes">Все оси</string>
+    <string name="celebra_compartir">Поделиться достижением</string>
+    <string name="logro_texto_inicial">Я смог! %1$s</string>
 </resources>

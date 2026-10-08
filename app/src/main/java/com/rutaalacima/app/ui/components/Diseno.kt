@@ -78,7 +78,7 @@ data class Celebracion(val titulo: String, val anual: Boolean)
  * doradas. Dura unos segundos; tocar la cierra antes.
  */
 @Composable
-fun CelebracionCumbre(c: Celebracion, onFin: () -> Unit) {
+fun CelebracionCumbre(c: Celebracion, onFin: () -> Unit, onCompartir: (() -> Unit)? = null) {
     val haptico = LocalHapticFeedback.current
     val entrada = remember { Animatable(0f) }
     val asta = remember { Animatable(0f) }
@@ -92,7 +92,7 @@ fun CelebracionCumbre(c: Celebracion, onFin: () -> Unit) {
                 async { delay(700); ondear.animateTo(1f, tween(2200, easing = LinearEasing)) },
             ).awaitAll()
         }
-        delay(600)
+        delay(if (onCompartir != null) 4000 else 600)
         onFin()
     }
     val oro = Color(0xFFE0B566)
@@ -147,6 +147,10 @@ fun CelebracionCumbre(c: Celebracion, onFin: () -> Unit) {
             Text(stringResource(if (c.anual) R.string.celebra_anio else R.string.celebra_mes), style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, textAlign = TextAlign.Center)
             Text(c.titulo, style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+            if (onCompartir != null) {
+                Spacer(Modifier.height(6.dp))
+                Button(onClick = onCompartir) { Text(stringResource(R.string.celebra_compartir)) }
+            }
         }
     }
 }

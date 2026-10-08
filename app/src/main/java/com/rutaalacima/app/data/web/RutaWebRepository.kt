@@ -245,7 +245,8 @@ class RutaWebRepository(
 
     /** Toda la ruta del teléfono como respaldo JSON. */
     suspend fun respaldo(): String = candado.withLock {
-        Sincronia.respaldo(locales("2015-01-01"), com.rutaalacima.app.BuildConfig.VERSION_NAME, java.time.LocalDateTime.now().toString())
+        val docs = locales("2015-01-01") + db.socialDao().todas().associate { "publicacion/${it.id}" to doc(it) }
+        Sincronia.respaldo(docs, com.rutaalacima.app.BuildConfig.VERSION_NAME, java.time.LocalDateTime.now().toString())
     }
 
     /** Restaura un respaldo sumándolo a lo que hay (no borra nada). Devuelve cuántas cosas se restauraron. */
@@ -253,7 +254,22 @@ class RutaWebRepository(
         val docs = Sincronia.leerRespaldo(texto)
         var n = 0
         // Padres antes que hijos: un paso del plan de acción necesita que su propósito ya exista.
-        docs.entries.sortedBy { ORDEN.indexOf(Sincronia.tipoDe(it.key)) }.forEach { (k, v) -> if (runCatching { aplicar(k, v) }.isSuccess) n++ }
+        docs.entries.sortedBy { ORDEN.indexOf(Sincronia.tipoDe(it.key)) }.forEach { (k, v) ->
+            val ok = runCatching {
+                when (Sincronia.tipoDe(k)) {
+                    // El perfil se combina: solo se toma lo que el respaldo trae lleno (así un archivo
+                    // parcial, por ejemplo con solo la fecha de nacimiento, no borra tu nombre ni tu cumbre).
+                    "perfil" -> {
+                        val l = db.sincroniaDao().perfiles().firstOrNull { "perfil/${it.id}" == k }
+                        db.sincroniaDao().guardar(de<PerfilEntity>(if (l == null) v else Sincronia.combinar(doc(l), v)))
+                    }
+                    // El diario de vida (recuerdos y logros) solo viaja en las copias, no en la sincronización.
+                    "publicacion" -> db.socialDao().upsert(de<PublicacionEntity>(v))
+                    else -> aplicar(k, v)
+                }
+            }
+            if (ok.isSuccess) n++
+        }
         n
     }
 
@@ -392,7 +408,7 @@ class RutaWebRepository(
         val DIARIOS = setOf("checklist", "agenda")
         /** Orden para aplicar: primero los padres (propósito antes que sus acciones). */
         val ORDEN = listOf("perfil", "proposito", "accion", "meta_anio", "meta_mes", "balance", "mes",
-            "agenda", "checklist", "ejes", "respuesta", "coach", "vision", "frases")
+            "agenda", "checklist", "ejes", "respuesta", "coach", "vision", "frases", "publicacion")
     }
 
     // ---------- Huellas de la última sincronización

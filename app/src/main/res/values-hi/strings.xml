@@ -940,4 +940,11 @@
     <string name="horizonte_menos">एक साल कम</string>
     <string name="horizonte_mas">एक साल और</string>
     <string name="horizonte_elige">कितने साल, चुनें: %1$d से %2$d।</string>
+    <string name="filtro_guardados">सहेजे गए</string>
+    <string name="guardar_publicacion">सहेजें</string>
+    <string name="quitar_guardado">सहेजे गए से हटाएँ</string>
+    <string name="vacio_guardados">जो पोस्ट आपको प्रेरित करे उस पर बुकमार्क दबाएँ, वह यहाँ मिलेगी।</string>
+    <string name="todos_los_ejes">सभी अक्ष</string>
+    <string name="celebra_compartir">यह उपलब्धि साझा करें</string>
+    <string name="logro_texto_inicial">मैंने कर दिखाया! %1$s</string>
 </resources>

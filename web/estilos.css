@@ -120,7 +120,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .barra { height: 8px; border-radius: 99px; background: var(--burdeos-suave); overflow: hidden; }
 .barra > i { display: block; height: 100%; background: linear-gradient(90deg, var(--burdeos), var(--oro)); border-radius: inherit; }
 .frase-vida { font: 500 17px/1.45 var(--font-titulo); margin: 12px 0 0; text-wrap: balance; }
-.puntos { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; max-width: 520px; }
+.puntos { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; max-width: 520px; container-type: inline-size; }
 .pv { aspect-ratio: 1; border-radius: 50%; position: relative; display: grid; place-items: center; font-size: 11px; font-variant-numeric: tabular-nums;
   box-shadow: 0 2px 4px rgb(var(--sombra) / .18); transition: transform .12s; }
 .pv:hover { transform: translateY(-2px) scale(1.06); }
@@ -128,6 +128,9 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .pv.vivido { background: var(--burdeos); color: var(--sobre-burdeos); }
 .pv.actual { background: var(--oro); color: #fff; outline: 3px solid var(--oro-suave); }
 .pv.futuro { background: var(--hoja); color: var(--tinta-suave); border: 1px solid var(--linea); }
+/* El año dentro del punto: crece con el punto (≈ 27 % de su ancho) y usa cifras tabulares */
+.pv-anio { font-size: clamp(8px, 2.5cqw, 13px); font-weight: 500; letter-spacing: -.02em; line-height: 1; }
+@container (max-width: 300px) { .pv-anio { font-size: 0; } .pv-anio::after { content: attr(data-corto); font-size: clamp(8px, 3cqw, 11px); } }
 .pv .bandera { fill: currentColor; position: absolute; top: -7px; right: -5px; width: 14px; height: 14px; color: var(--oro); }
 .leyenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--tinta-suave); }
 .leyenda span { display: inline-flex; align-items: center; gap: 6px; }

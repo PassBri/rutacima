@@ -100,8 +100,11 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
 /** Publicar: foto + texto + tipo (logro, evidencia, vision board, meta, reflexión) + eje + meta vinculada. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PublicarScreen(tipoInicial: String, onBack: () -> Unit) {
-    val vm = rutaViewModel(key = "publicar-$tipoInicial") { PublicarViewModel(it, tipoInicial) }
+fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String? = null, textoInicial: String? = null) {
+    val vm = rutaViewModel(key = "publicar-$tipoInicial-${metaInicial.orEmpty()}") { PublicarViewModel(it, tipoInicial) }
+    androidx.compose.runtime.LaunchedEffect(metaInicial) {
+        if (metaInicial != null && vm.meta.isBlank()) { vm.meta = metaInicial; if (vm.texto.isBlank()) vm.texto = textoInicial.orEmpty() }
+    }
     val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.foto = uri }
 
     Scaffold(
@@ -164,9 +167,11 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit) {
                 OutlinedTextField(vm.texto, { vm.texto = it }, label = { Text(stringResource(R.string.que_quieres_compartir)) },
                     modifier = Modifier.fillMaxWidth(), minLines = 3)
             }
-            if (vm.metas.isNotEmpty()) {
+            // La meta recién cumplida ya no está entre las activas: se agrega para que se vea elegida
+            val opciones = (listOfNotNull(vm.meta.ifBlank { null }) + vm.metas).distinct()
+            if (opciones.isNotEmpty()) {
                 item {
-                    ChipSelector(stringResource(R.string.vincular_meta), listOf("") + vm.metas, vm.meta,
+                    ChipSelector(stringResource(R.string.vincular_meta), listOf("") + opciones, vm.meta,
                         { it.ifBlank { stringResource(R.string.ninguna) }.take(28) }, { vm.meta = it })
                 }
             }

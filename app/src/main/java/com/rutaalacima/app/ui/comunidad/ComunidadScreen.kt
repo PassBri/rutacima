@@ -24,6 +24,11 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import com.rutaalacima.app.domain.model.Eje
+import com.rutaalacima.app.ui.theme.asColor
 import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material3.Card
@@ -60,6 +65,11 @@ import kotlinx.coroutines.launch
 class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     var filtro by mutableStateOf(FiltroFeed.PARA_TI)
         private set
+    /** Eje elegido para explorar (null = todos). */
+    var eje by mutableStateOf<String?>(null)
+        private set
+    var guardados by mutableStateOf(c.social.guardados())
+        private set
     var posts by mutableStateOf<List<Post>>(emptyList())
         private set
     var cargando by mutableStateOf(false)
@@ -68,11 +78,19 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         private set
     val enLinea: Boolean get() = c.social.enLinea
 
+    fun elegirEje(e: String?) { eje = e; cargar() }
+
+    fun alternarGuardado(p: Post) {
+        c.social.alternarGuardado(p.id)
+        guardados = c.social.guardados()
+        if (filtro == FiltroFeed.GUARDADOS) posts = posts.filter { it.id in guardados }
+    }
+
     fun cargar(f: FiltroFeed = filtro) {
         filtro = f
         cargando = true
         viewModelScope.launch {
-            runCatching { c.social.feed(f) }
+            runCatching { c.social.feed(f, eje) }
                 .onSuccess { posts = it; error = null }
                 .onFailure { error = it.message }
             cargando = false
@@ -115,7 +133,7 @@ fun ComunidadScreen(
                     Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
                 vm.posts.isEmpty() ->
                     com.rutaalacima.app.ui.components.EstadoVacio(
-                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(R.string.feed_vacio),
+                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
                         accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
                     )
                 else -> CimasFeed(
@@ -185,31 +203,47 @@ fun ComunidadScreen(
         if (!vm.cargando && vm.posts.isEmpty() && vm.error == null) {
             item {
                 com.rutaalacima.app.ui.components.EstadoVacio(
-                    semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(R.string.feed_vacio),
+                    semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
                     accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
                 )
             }
         }
         items(vm.posts, key = { it.id }) { p ->
-            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { onAbrirPost(p.id) })
+            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { onAbrirPost(p.id) },
+                guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) })
         }
     }
 }
 
 @Composable
 private fun Filtros(vm: ComunidadViewModel) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        FiltroFeed.entries.forEach { f ->
-            FilterChip(
-                selected = vm.filtro == f, onClick = { vm.cargar(f) },
-                label = {
-                    Text(stringResource(when (f) {
-                        FiltroFeed.PARA_TI -> R.string.filtro_para_ti
-                        FiltroFeed.SIGUIENDO -> R.string.filtro_siguiendo
-                        FiltroFeed.VISION -> R.string.filtro_vision
-                    }))
-                },
-            )
+    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FiltroFeed.entries.forEach { f ->
+                FilterChip(
+                    selected = vm.filtro == f, onClick = { vm.cargar(f) },
+                    label = {
+                        Text(stringResource(when (f) {
+                            FiltroFeed.PARA_TI -> R.string.filtro_para_ti
+                            FiltroFeed.SIGUIENDO -> R.string.filtro_siguiendo
+                            FiltroFeed.VISION -> R.string.filtro_vision
+                            FiltroFeed.GUARDADOS -> R.string.filtro_guardados
+                        }))
+                    },
+                    leadingIcon = if (f == FiltroFeed.GUARDADOS) { { Icon(Icons.Filled.Bookmark, null, Modifier.size(16.dp)) } } else null,
+                )
+            }
+        }
+        // Explorar por eje: como los temas de Instagram o Pinterest, pero con los 6 ejes del método
+        Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            FilterChip(selected = vm.eje == null, onClick = { vm.elegirEje(null) }, label = { Text(stringResource(R.string.todos_los_ejes)) })
+            Eje.entries.forEach { e ->
+                FilterChip(
+                    selected = vm.eje == e.codigo, onClick = { vm.elegirEje(if (vm.eje == e.codigo) null else e.codigo) },
+                    label = { Text(e.texto()) },
+                    leadingIcon = { Box(Modifier.size(10.dp).clip(CircleShape).background(e.color.asColor())) },
+                )
+            }
         }
     }
 }

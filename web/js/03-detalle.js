@@ -62,7 +62,8 @@ const DET = {
     let puntos = "";
     for (let i = 0; i < metaVida(); i++) {
       const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
-      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años">${i % 10 === 0 ? i : ""}${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
+      // Cada punto lleva su año (las dos últimas cifras en pantallas muy angostas)
+      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años"><span class="pv-anio" aria-hidden="true" data-corto="'${String(a % 100).padStart(2, "0")}">${a}</span>${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
     return cab(avSello(), `Camino hacia los ${metaVida()} años`, `${esc(perfil().nombre || "Tú")} · ${r.edad} años`) + cuerpo(
       hoja(`<div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>

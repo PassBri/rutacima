@@ -94,6 +94,9 @@ import com.rutaalacima.app.domain.model.RecordatorioVida
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.components.ProgressLine
 import com.rutaalacima.app.ui.components.RutaCard
+import com.rutaalacima.app.ui.components.AnioEnPunto
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.rutaalacima.app.ui.components.SectionTitle
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.metas.NivelMeta
@@ -497,7 +500,8 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                             // Años vividos y con recuerdos flotan sobre el papel; los futuros quedan casi al ras
                             .flotante(toque, CircleShape, if (pasado || actual || anio in aniosConRecuerdos) 3.dp else 0.5.dp)
                             .clip(CircleShape)
-                            .clickable(interactionSource = toque, indication = ripple()) { onAnio(anio) }
+                            .clickable(interactionSource = toque, indication = ripple(), onClickLabel = "$anio") { onAnio(anio) }
+                            .semantics { contentDescription = "$anio · $e" }
                             .background(
                                 when {
                                     anio in aniosConRecuerdos -> recuerdo
@@ -514,8 +518,14 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                             ),
                         contentAlignment = Alignment.Center,
                     ) {
-                        if (anio in aniosMeta) Icon(Icons.Filled.Flag, null, Modifier.fillMaxSize(0.6f), tint = recuerdo)
+                        AnioEnPunto(anio, when {
+                            anio in aniosConRecuerdos -> MaterialTheme.colorScheme.onSecondary
+                            pasado -> MaterialTheme.colorScheme.onPrimary
+                            else -> MaterialTheme.colorScheme.onSurfaceVariant
+                        }, Modifier.fillMaxSize())
                     }
+                    // La bandera de una meta va en la esquina para no tapar el año
+                    if (anio in aniosMeta) Icon(Icons.Filled.Flag, null, Modifier.align(Alignment.TopEnd).fillMaxSize(0.38f), tint = recuerdo)
                 }
             }
             repeat(10 - fila.size) { Spacer(Modifier.weight(1f)) }

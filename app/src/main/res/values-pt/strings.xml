@@ -940,4 +940,11 @@
     <string name="horizonte_menos">Um ano a menos</string>
     <string name="horizonte_mas">Um ano a mais</string>
     <string name="horizonte_elige">Escolha quantos anos: de %1$d a %2$d.</string>
+    <string name="filtro_guardados">Salvos</string>
+    <string name="guardar_publicacion">Salvar</string>
+    <string name="quitar_guardado">Remover dos salvos</string>
+    <string name="vacio_guardados">Toque no marcador de uma publicação que inspire você e ela ficará aqui.</string>
+    <string name="todos_los_ejes">Todos os eixos</string>
+    <string name="celebra_compartir">Compartilhar esta conquista</string>
+    <string name="logro_texto_inicial">Consegui! %1$s</string>
 </resources>

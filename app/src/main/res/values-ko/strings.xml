@@ -940,4 +940,11 @@
     <string name="horizonte_menos">1년 줄이기</string>
     <string name="horizonte_mas">1년 늘리기</string>
     <string name="horizonte_elige">몇 년인지 고르세요: %1$d~%2$d년.</string>
+    <string name="filtro_guardados">저장됨</string>
+    <string name="guardar_publicacion">저장</string>
+    <string name="quitar_guardado">저장 취소</string>
+    <string name="vacio_guardados">영감을 주는 게시물의 북마크를 누르면 여기에서 볼 수 있어요.</string>
+    <string name="todos_los_ejes">모든 축</string>
+    <string name="celebra_compartir">이 성취 공유하기</string>
+    <string name="logro_texto_inicial">해냈어요! %1$s</string>
 </resources>

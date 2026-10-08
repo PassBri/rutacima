@@ -46,6 +46,9 @@ object Sincronia {
     fun tipoDe(k: String) = k.substringBefore('/')
 
     /** Lo que se puede cambiar desde la web (hoy, todo lo que se sincroniza). */
+    /** Lo que guarda una copia de seguridad: lo que se sincroniza más el diario de vida (publicaciones propias). */
+    val TIPOS_RESPALDO = TIPOS + "publicacion"
+
     fun bidireccional(k: String) = tipoDe(k) in TIPOS
 
     /** JSON en forma canónica: llaves ordenadas y sin espacios (Postgres reordena los jsonb). */
@@ -74,7 +77,20 @@ object Sincronia {
             ?: throw IllegalArgumentException("no es JSON")
         require((raiz["formato"] as? JsonPrimitive)?.content == FORMATO_RESPALDO) { "no es un respaldo de Rutaalacima" }
         val docs = raiz["documentos"] as? JsonObject ?: throw IllegalArgumentException("sin documentos")
-        return docs.filter { (k, v) -> tipoDe(k) in TIPOS && k.contains('/') && v is JsonObject }.mapValues { canonico(it.value) }
+        return docs.filter { (k, v) -> tipoDe(k) in TIPOS_RESPALDO && k.contains('/') && v is JsonObject }.mapValues { canonico(it.value) }
+    }
+
+    /**
+     * Combina dos documentos: toma del respaldo solo los campos con contenido (ni vacíos, ni nulos, ni falsos)
+     * y deja el resto como está. Sirve para restaurar un archivo parcial sin borrar lo que ya había.
+     */
+    fun combinar(local: String, respaldo: String): String {
+        val l = Json.parseToJsonElement(local) as JsonObject
+        val r = Json.parseToJsonElement(respaldo) as JsonObject
+        val util = r.filterValues { v ->
+            v !is JsonNull && !(v is JsonPrimitive && v.isString && v.content.isBlank()) && !(v is JsonPrimitive && !v.isString && v.content == "false")
+        }
+        return canonico(JsonObject(l + util))
     }
 
     fun huella(texto: String): String =
