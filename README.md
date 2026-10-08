@@ -167,6 +167,15 @@ Tu tablero del día:
 - **Revisión semanal y mensual:** tres preguntas (qué funcionó, qué no, qué cambio) cuando toca. Quedan guardadas y
   el coach las tiene en cuenta.
 - **Constancia:** racha de días, mejor racha y el **mapa del año**, un cuadro por día con su intensidad.
+- **Comodines de racha** (como en Duolingo): ganas uno por cada 7 días seguidos con hábitos, hasta 2. Si un día no
+  marcas nada, un comodín lo cubre y la racha sigue; ese día se ve en azul hielo en el mapa.
+- **La frase del día te pregunta algo:** cada día una pregunta distinta sobre la frase (qué hiciste que se le
+  parezca, a quién se la dedicarías, una foto de tu día…). *Responder y compartir* abre una reflexión ya vinculada a
+  la frase, sin prisa ni cuenta regresiva.
+- **Tu año en la ruta** (como el resumen anual de Strava): del 1 de diciembre al 15 de enero aparece en Hoy, y
+  siempre desde Constancia. Son historias a pantalla completa con tus días con hábitos, el mapa del año, tu mejor
+  racha, tu eje más fuerte, tu mejor mes, las metas cumplidas, los recuerdos y las frases abiertas; al final lo
+  compartes o lo publicas en la comunidad.
 
 - **Tu cumbre en una frase**, siempre a la vista.
 - **Anillos de avance** de la cascada: propósito, año, mes y hoy.
