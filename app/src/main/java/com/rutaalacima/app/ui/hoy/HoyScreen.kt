@@ -151,6 +151,8 @@ fun HoyScreen(
         item { RegresoCard(onIrA = onIrA, onSeccion = onAbrirSeccion) }
         item { PrimerPasoCard(onIrA = onIrA) }
         item { RevisionCard(onIrA = onIrA) }
+        // Diciembre y principios de enero: el resumen del año ya está listo
+        item { ResumenCard(onIrA = onIrA) }
         // Recordatorio del día del camino hacia los 120 años
         item { RecordatorioDiaCard(perfil, onAjustes = { onIrA(Rutas.AJUSTES) }) }
         item {
@@ -227,6 +229,8 @@ fun HoyScreen(
 
         // Metas del mes: check de hoy
         // Racha y mapa de constancia (toca para ver el año)
+        // La frase del día pregunta algo distinto cada día para responder en la comunidad
+        item { InvitacionFraseCard(onIrA = onIrA) }
         item { ConstanciaCard(onIrA = onIrA) }
         item { SectionTitle(stringResource(R.string.metas_mes_hoy)) }
         if (metasMes.isEmpty()) {

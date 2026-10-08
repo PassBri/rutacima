@@ -50,6 +50,13 @@ class PantallasTest {
         assertTrue(compartido)
     }
 
+    @Test fun losComodinesSeMuestranConSuAyuda() {
+        val e = com.rutaalacima.app.domain.model.Comodines.Estado(racha = 9, mejorRacha = 9, disponibles = 1, usados = emptySet(), proximoEn = 5)
+        compose.setContent { MaterialTheme { com.rutaalacima.app.ui.hoy.FilaComodines(e, conAyuda = true) } }
+        compose.onNodeWithText("Comodines: 1 de 2").assertExists()
+        compose.onNodeWithText("Próximo comodín en 5 días con hábitos", substring = true).assertExists()
+    }
+
     @Test fun elSelloSeDibujaEnTodaLaRotura() {
         var progreso by mutableFloatStateOf(0f)
         compose.setContent { SelloDeCera(progreso, semilla = 2026_277L, modifier = Modifier.size(120.dp)) }

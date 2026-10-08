@@ -60,6 +60,7 @@ import androidx.lifecycle.viewModelScope
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
 import com.rutaalacima.app.domain.model.ChecklistDiario
+import com.rutaalacima.app.domain.model.Comodines
 import com.rutaalacima.app.domain.model.Constancia
 import com.rutaalacima.app.domain.model.PrimerosPasos
 import com.rutaalacima.app.domain.model.PrimerosPasos.Paso
@@ -236,9 +237,11 @@ fun ConstanciaCard(onIrA: (String) -> Unit) {
     val checks by vm.checks.collectAsStateWithLifecycle()
     val hoy = LocalDate.now()
     val dias = checks.filterValues { it.isNotEmpty() }.keys
-    val racha = Constancia.racha(dias, hoy)
-    val mejor = Constancia.mejorRacha(dias)
-    val semanas = Constancia.mapaDelAnio(hoy.year, checks.mapValues { it.value.size }, hoy)
+    // Racha con comodines: un día sin hábitos no la corta si tienes un comodín guardado
+    val comodines = Comodines.calcular(dias, hoy)
+    val racha = comodines.racha
+    val mejor = comodines.mejorRacha
+    val semanas = Constancia.mapaDelAnio(hoy.year, conteosConComodines(checks, comodines.usados), hoy)
     val hastaHoy = semanas.indexOfLast { s -> s.any { it != null } }
     val ultimas = semanas.subList((hastaHoy - 17).coerceAtLeast(0), hastaHoy + 1)
     RutaCard(onClick = { onIrA(Rutas.CONSTANCIA) }) {
@@ -250,6 +253,8 @@ fun ConstanciaCard(onIrA: (String) -> Unit) {
                 if (mejor > 0) Text(stringResource(R.string.racha_mejor, mejor), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
+        Spacer(Modifier.height(8.dp))
+        FilaComodines(comodines, conAyuda = false)
         Spacer(Modifier.height(10.dp))
         MapaConstancia(ultimas, Modifier.fillMaxWidth().aspectRatio(ultimas.size.coerceAtLeast(1) / 7f))
     }
@@ -269,7 +274,8 @@ fun MapaConstancia(semanas: List<List<Int?>>, modifier: Modifier = Modifier) {
             semana.forEachIndexed { y, v ->
                 if (v == null) return@forEachIndexed
                 val nivel = Constancia.nivel(v)
-                val color = if (nivel == 0) base else oro.copy(alpha = 0.25f + 0.1875f * nivel)
+                // -1 = día protegido por un comodín (hielo)
+                val color = if (v < 0) ColorHielo.copy(alpha = 0.75f) else if (nivel == 0) base else oro.copy(alpha = 0.25f + 0.1875f * nivel)
                 drawRoundRect(color, Offset(x * celda + hueco / 2, y * celda + hueco / 2), Size(celda - hueco, celda - hueco), CornerRadius(celda * 0.22f))
             }
         }
@@ -281,12 +287,13 @@ fun MapaConstancia(semanas: List<List<Int?>>, modifier: Modifier = Modifier) {
 /** El año entero: racha, mejor racha y el mapa de días con hábitos. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ConstanciaScreen(onBack: () -> Unit) {
+fun ConstanciaScreen(onBack: () -> Unit, onResumen: (Int) -> Unit = {}) {
     val vm = rutaViewModel { CaminoViewModel(it) }
     val checks by vm.checks.collectAsStateWithLifecycle()
     val hoy = LocalDate.now()
     val dias = checks.filterValues { it.isNotEmpty() }.keys
     val anio = checks.filterKeys { it.year == hoy.year }
+    val comodines = Comodines.calcular(dias, hoy)
     Scaffold(
         modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
         topBar = {
@@ -304,8 +311,8 @@ fun ConstanciaScreen(onBack: () -> Unit) {
         ) {
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Dato(stringResource(R.string.constancia_racha), "${Constancia.racha(dias, hoy)}", Modifier.weight(1f))
-                    Dato(stringResource(R.string.constancia_mejor), "${Constancia.mejorRacha(dias)}", Modifier.weight(1f))
+                    Dato(stringResource(R.string.constancia_racha), "${comodines.racha}", Modifier.weight(1f))
+                    Dato(stringResource(R.string.constancia_mejor), "${comodines.mejorRacha}", Modifier.weight(1f))
                     Dato(stringResource(R.string.constancia_dias_anio), "${anio.count { it.value.isNotEmpty() }}", Modifier.weight(1f))
                 }
             }
@@ -314,13 +321,29 @@ fun ConstanciaScreen(onBack: () -> Unit) {
                     Text("${hoy.year}", style = MaterialTheme.typography.titleMedium)
                     Spacer(Modifier.height(8.dp))
                     // El año partido en dos filas de medio año para que se lea bien en el teléfono
-                    val semanas = Constancia.mapaDelAnio(hoy.year, checks.mapValues { it.value.size }, hoy)
+                    val semanas = Constancia.mapaDelAnio(hoy.year, conteosConComodines(checks, comodines.usados), hoy)
                     val mitad = (semanas.size + 1) / 2
                     MapaConstancia(semanas.take(mitad), Modifier.fillMaxWidth().aspectRatio(mitad / 7f))
                     Spacer(Modifier.height(8.dp))
                     MapaConstancia(semanas.drop(mitad), Modifier.fillMaxWidth().aspectRatio(mitad / 7f))
                     Text(stringResource(R.string.constancia_leyenda), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+                    if (comodines.usados.isNotEmpty()) Text(stringResource(R.string.comodines_leyenda), style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+            item {
+                RutaCard {
+                    FilaComodines(comodines, conAyuda = true)
+                    val protegidos = comodines.usados.count { it.year == hoy.year }
+                    if (protegidos > 0) Text(stringResource(R.string.comodines_usados, protegidos), style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 6.dp))
+                }
+            }
+            item {
+                // El resumen del año (como el de Strava) siempre a mano desde aquí
+                androidx.compose.material3.OutlinedButton(onClick = { onResumen(hoy.year) }, modifier = Modifier.fillMaxWidth()) {
+                    Text(stringResource(R.string.resumen_ver))
                 }
             }
             // Los hábitos más constantes del año

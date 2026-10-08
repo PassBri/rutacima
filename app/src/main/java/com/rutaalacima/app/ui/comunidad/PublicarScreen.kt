@@ -101,9 +101,10 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String? = null, textoInicial: String? = null) {
-    val vm = rutaViewModel(key = "publicar-$tipoInicial-${metaInicial.orEmpty()}") { PublicarViewModel(it, tipoInicial) }
-    androidx.compose.runtime.LaunchedEffect(metaInicial) {
-        if (metaInicial != null && vm.meta.isBlank()) { vm.meta = metaInicial; if (vm.texto.isBlank()) vm.texto = textoInicial.orEmpty() }
+    val vm = rutaViewModel(key = "publicar-$tipoInicial-${metaInicial.orEmpty()}-${textoInicial.orEmpty().hashCode()}") { PublicarViewModel(it, tipoInicial) }
+    androidx.compose.runtime.LaunchedEffect(metaInicial, textoInicial) {
+        if (metaInicial != null && vm.meta.isBlank()) vm.meta = metaInicial
+        if (textoInicial != null && vm.texto.isBlank()) vm.texto = textoInicial
     }
     val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.foto = uri }
 

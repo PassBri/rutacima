@@ -120,7 +120,7 @@ object Rutas {
     const val EJES = "ejes"
     const val COACH = "coach"
     const val NUEVA_META = "nueva_meta/{nivel}"
-    const val PUBLICAR = "publicar/{tipo}?meta={meta}"
+    const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}"
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
@@ -134,13 +134,20 @@ object Rutas {
     const val CONSTANCIA = "constancia"
     const val CORDADAS = "cordadas"
     const val CORDADA = "cordada/{id}"
+    const val RESUMEN = "resumen/{anio}"
+    /** Abrir la frase del día sellada desde dentro de la app. */
+    const val SELLO = "sello"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
     fun nuevaMeta(nivel: NivelMeta) = "nueva_meta/${nivel.name}"
-    fun publicar(tipo: String = "LOGRO", meta: String? = null) = "publicar/$tipo" + (meta?.let { "?meta=" + android.net.Uri.encode(it) } ?: "")
+    fun publicar(tipo: String = "LOGRO", meta: String? = null, texto: String? = null): String {
+        val q = listOfNotNull(meta?.let { "meta=" + android.net.Uri.encode(it) }, texto?.let { "texto=" + android.net.Uri.encode(it) })
+        return "publicar/$tipo" + if (q.isEmpty()) "" else q.joinToString("&", "?")
+    }
+    fun resumen(anio: Int) = "resumen/$anio"
     fun post(id: String) = "post/$id"
     fun chat(id: String) = "chat/$id"
     fun cordada(id: String) = "cordada/$id"
@@ -348,13 +355,22 @@ private fun AppPrincipal() {
             composable(Rutas.PUBLICAR, arguments = listOf(
                 navArgument("tipo") { type = NavType.StringType },
                 navArgument("meta") { type = NavType.StringType; nullable = true; defaultValue = null },
+                navArgument("texto") { type = NavType.StringType; nullable = true; defaultValue = null },
             )) { e ->
+                val tipo = e.arguments?.getString("tipo").orEmpty()
                 val meta = e.arguments?.getString("meta")
-                PublicarScreen(
-                    tipoInicial = e.arguments?.getString("tipo").orEmpty(), onBack = { nav.popBackStack() },
-                    metaInicial = meta, textoInicial = meta?.let { stringResource(R.string.logro_texto_inicial, it) },
+                // Texto que llega escrito (frase del día, resumen del año) o el de un logro recién cumplido
+                val texto = e.arguments?.getString("texto") ?: if (tipo == "LOGRO") meta?.let { stringResource(R.string.logro_texto_inicial, it) } else null
+                PublicarScreen(tipoInicial = tipo, onBack = { nav.popBackStack() }, metaInicial = meta, textoInicial = texto)
+            }
+            composable(Rutas.RESUMEN, arguments = listOf(navArgument("anio") { type = NavType.IntType })) { e ->
+                com.rutaalacima.app.ui.hoy.ResumenAnioScreen(
+                    anio = e.arguments?.getInt("anio") ?: java.time.LocalDate.now().year,
+                    onBack = { nav.popBackStack() },
+                    onPublicar = { titulo, texto -> nav.navigate(Rutas.publicar("REFLEXION", titulo, texto)) },
                 )
             }
+            composable(Rutas.SELLO) { com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 PostDetalleScreen(
                     postId = e.arguments?.getString("id").orEmpty(),
@@ -416,7 +432,7 @@ private fun AppPrincipal() {
             composable(Rutas.CORDADA, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 com.rutaalacima.app.ui.cordadas.CordadaScreen(id = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() })
             }
-            composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }, onResumen = { nav.navigate(Rutas.resumen(it)) }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
     }

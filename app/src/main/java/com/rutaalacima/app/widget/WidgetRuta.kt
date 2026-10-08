@@ -53,7 +53,7 @@ class WidgetRuta : GlanceAppWidget() {
         val frase = if (abierta) runCatching { c.frases.delDia(hoy) }.getOrNull() else null
         val habitos = c.checklist.dia(hoy).first().size
         val dias = c.checklist.desde(hoy.minusDays(400)).first().filterValues { it.isNotEmpty() }.keys
-        val racha = Constancia.racha(dias, hoy)
+        val racha = com.rutaalacima.app.domain.model.Comodines.calcular(dias, hoy).racha
 
         val titulo = context.getString(R.string.frase_dia_n, indice + 1)
         val cuerpo = frase?.let { "“${it.t}”" } ?: context.getString(R.string.widget_sellada)

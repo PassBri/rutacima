@@ -94,7 +94,7 @@ class CoachRepository(
             // Constancia y lo último que escribió en sus revisiones (para que el coach recuerde)
             val dias = db.checklistDao().observeDesde(hoy.minusDays(60).toString()).first()
                 .filter { it.marcados.isNotBlank() }.mapNotNull { runCatching { LocalDate.parse(it.fecha) }.getOrNull() }.toSet()
-            appendLine("Racha de días con hábitos: ${com.rutaalacima.app.domain.model.Constancia.racha(dias, hoy)}; días con hábitos en las últimas 4 semanas: ${dias.count { !it.isBefore(hoy.minusDays(28)) }}")
+            appendLine("Racha de días con hábitos: ${com.rutaalacima.app.domain.model.Comodines.calcular(dias, hoy).let { "${it.racha} (comodines guardados: ${it.disponibles})" }}; días con hábitos en las últimas 4 semanas: ${dias.count { !it.isBefore(hoy.minusDays(28)) }}")
             val revision = db.respuestaDao().getWorkbook("revision").filter { it.clave.contains("#q") }
                 .sortedByDescending { it.clave }.take(3)
             if (revision.isNotEmpty()) appendLine("Su última revisión: " + revision.joinToString(" | ") { r ->
