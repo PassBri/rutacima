@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.AutoAwesome
@@ -65,6 +66,8 @@ class CoachViewModel(private val c: AppContainer) : ViewModel() {
     var pensando by mutableStateOf(false)
         private set
     val conIA: Boolean get() = c.coach.conIA
+    /** Llegó al límite diario del plan gratuito: se ofrece conocer el Plan Cumbre. */
+    val limite = c.coach.limiteAlcanzado
 
     fun enviar(t: String = texto) {
         if (t.isBlank() || pensando) return
@@ -103,7 +106,7 @@ class CoachViewModel(private val c: AppContainer) : ViewModel() {
 /** Coach de IA: orienta a la persona con el método Ruta a la Cima y su información real. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}) {
+fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}, onPlan: () -> Unit = {}) {
     val vm = rutaViewModel { CoachViewModel(it) }
     val mensajes by vm.mensajes.collectAsStateWithLifecycle()
     val lista = rememberLazyListState()
@@ -139,6 +142,12 @@ fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}) {
         bottomBar = {
             Surface(tonalElevation = 3.dp) {
                 Column(Modifier.fillMaxWidth().navigationBarsPadding().imePadding()) {
+                    val enLimite by vm.limite.collectAsStateWithLifecycle()
+                    if (enLimite) androidx.compose.material3.TextButton(onClick = onPlan, modifier = Modifier.padding(horizontal = 8.dp)) {
+                        Icon(Icons.Filled.Terrain, null, Modifier.size(18.dp))
+                        Spacer(Modifier.size(6.dp))
+                        Text(stringResource(R.string.coach_limite_plan))
+                    }
                     LazyRow(contentPadding = PaddingValues(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         items(sugerencias) { s -> AssistChip(onClick = { vm.enviar(s) }, label = { Text(s, maxLines = 1) }) }
                     }

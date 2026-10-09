@@ -144,6 +144,8 @@ object Rutas {
     const val CARTA = "carta"
     /** Revisar reportes y sancionar (solo moderadores). */
     const val MODERACION = "moderacion"
+    /** Plan Cumbre: qué incluye, precio y "Avísame". */
+    const val PLAN = "plan"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -366,7 +368,7 @@ private fun AppPrincipal() {
                 KitScreen(onBack = { nav.popBackStack() }, onOpenSection = abrirSeccion, onOpenWorkbook = abrirWorkbook)
             }
             composable(Rutas.EJES) { AxesScreen(onBack = { nav.popBackStack() }) }
-            composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }) }
+            composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }, onPlan = { nav.navigate(Rutas.PLAN) }) }
             composable(Rutas.NUEVA_META, arguments = listOf(navArgument("nivel") { type = NavType.StringType })) { e ->
                 val nivel = runCatching { NivelMeta.valueOf(e.arguments?.getString("nivel").orEmpty()) }.getOrDefault(NivelMeta.MES)
                 NuevaMetaScreen(
@@ -396,6 +398,7 @@ private fun AppPrincipal() {
                     onPublicar = { titulo, texto -> nav.navigate(Rutas.publicar("REFLEXION", titulo, texto)) },
                 )
             }
+            composable(Rutas.PLAN) { com.rutaalacima.app.ui.plan.PlanScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) }) }
             composable(Rutas.MODERACION) { com.rutaalacima.app.ui.moderacion.ModeracionScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.CARTA) { com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.SELLO) { com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { nav.popBackStack() }) }

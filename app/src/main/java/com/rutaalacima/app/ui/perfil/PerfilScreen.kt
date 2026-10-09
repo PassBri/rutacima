@@ -268,6 +268,7 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
         ),
         R.string.perfil_grupo_mas to listOfNotNull(
             Acceso(R.string.web_titulo, Icons.Filled.Computer, com.rutaalacima.app.ui.Rutas.WEB),
+            Acceso(R.string.plan_titulo, Icons.Filled.Terrain, com.rutaalacima.app.ui.Rutas.PLAN),
             Acceso(R.string.ajustes, Icons.Filled.Settings, com.rutaalacima.app.ui.Rutas.AJUSTES),
             // Solo para cuentas nombradas como moderadoras en el servidor
             if (modero) Acceso(R.string.moderacion_titulo, Icons.Filled.Gavel, com.rutaalacima.app.ui.Rutas.MODERACION) else null,

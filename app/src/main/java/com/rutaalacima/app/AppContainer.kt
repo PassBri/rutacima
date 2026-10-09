@@ -55,6 +55,8 @@ class AppContainer(context: Context) {
     val mensajes = com.rutaalacima.app.data.social.MensajesRepository(supabase)
     /** Moderación de la comunidad: reportes, decisiones y suspensiones (solo moderadores). */
     val moderacion = com.rutaalacima.app.data.social.ModeracionRepository(supabase)
+    /** Plan Cumbre: plan de la cuenta y lista de interesados. */
+    val plan = com.rutaalacima.app.data.social.PlanRepository(supabase)
     /** Cordadas (grupos con reto compartido) y agenda del coach de vida. */
     val cordadas = com.rutaalacima.app.data.social.CordadasRepository(supabase)
 

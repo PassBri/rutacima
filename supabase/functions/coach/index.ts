@@ -13,7 +13,10 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const MODELO = Deno.env.get("COACH_MODEL") ?? "claude-sonnet-5-5";
+// Mensajes por día. COACH_DAILY_LIMIT es el del plan gratuito (hoy 30 para todos); al activar el
+// Plan Cumbre se baja (por ejemplo a 5) y COACH_LIMITE_CUMBRE queda para quien tiene el plan.
 const LIMITE = Number(Deno.env.get("COACH_DAILY_LIMIT") ?? "30");
+const LIMITE_CUMBRE = Number(Deno.env.get("COACH_LIMITE_CUMBRE") ?? "60");
 
 const IDIOMAS: Record<string, string> = {
   es: "español", en: "English", pt: "português", fr: "français", de: "Deutsch", it: "italiano",
@@ -86,9 +89,11 @@ Deno.serve(async (req) => {
 
     // Límite diario por cuenta (teléfono y web suman juntos).
     // usar_ia suma el uso y revisa el límite en una sola operación: dos mensajes al tiempo no lo pasan.
-    const { data: puede, error: errUso } = await admin.rpc("usar_ia", { p_usuario: duenoId, p_limite: LIMITE });
+    const { data: cumbre } = await admin.rpc("tiene_cumbre", { p_usuario: duenoId });
+    const { data: puede, error: errUso } = await admin.rpc("usar_ia", { p_usuario: duenoId, p_limite: cumbre ? LIMITE_CUMBRE : LIMITE });
     if (errUso) return json({ error: "No se pudo revisar tu límite diario. Inténtalo de nuevo." }, 500);
-    if (!puede) return json({ texto: "Llegaste al límite de mensajes de hoy. Mañana seguimos: mientras tanto, da un paso pequeño hacia tu cumbre." });
+    // limite: la app muestra el Plan Cumbre a quien no lo tiene
+    if (!puede) return json({ texto: "Llegaste al límite de mensajes de hoy. Mañana seguimos: mientras tanto, da un paso pequeño hacia tu cumbre.", limite: true, cumbre: !!cumbre });
 
     const { mensajes = [], contexto = "", idioma = "es" } = await req.json();
     const limpios = (mensajes as { role: string; content: string }[])

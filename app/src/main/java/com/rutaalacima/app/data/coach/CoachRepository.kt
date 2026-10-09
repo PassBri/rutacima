@@ -67,8 +67,14 @@ class CoachRepository(
                 historial.forEach { m -> add(buildJsonObject { put("role", m.rol); put("content", m.texto) }) }
             })
         })
+        // El servidor avisa si se llegó al límite del día: la pantalla ofrece el Plan Cumbre a quien no lo tiene
+        limiteAlcanzado.value = r.jsonObject["limite"]?.jsonPrimitive?.contentOrNull == "true" &&
+            r.jsonObject["cumbre"]?.jsonPrimitive?.contentOrNull != "true"
         return r.jsonObject["texto"]?.jsonPrimitive?.contentOrNull
     }
+
+    /** true si el último mensaje llegó al límite diario del plan gratuito. */
+    val limiteAlcanzado = kotlinx.coroutines.flow.MutableStateFlow(false)
 
     /** Resumen del usuario para que el coach responda con su realidad. */
     suspend fun contexto(): String {

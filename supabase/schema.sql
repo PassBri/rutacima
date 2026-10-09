@@ -1540,3 +1540,112 @@ begin
 end $$;
 drop trigger if exists validar_reporte on public.reportes;
 create trigger validar_reporte before insert on public.reportes for each row execute function public.validar_reporte();
+
+-- =====================================================================
+-- Plan Cumbre (estructura lista; los cobros se activan más adelante)
+-- =====================================================================
+-- planes: quién tiene el Plan Cumbre y hasta cuándo. Hoy solo lo dan los moderadores (pilotos,
+-- instituciones, regalos); cuando se activen los cobros, lo escribirá la verificación de compras con
+-- la clave de servicio. Nadie puede darse el plan a sí mismo.
+-- interes_plan: quién tocó "Avísame cuando esté disponible" (para medir la demanda antes de cobrar).
+create table if not exists public.planes (
+  user_id uuid primary key references public.profiles(id) on delete cascade,
+  plan    text not null default 'cumbre' check (plan in ('cumbre')),
+  hasta   timestamptz not null,
+  origen  text not null default 'regalo' check (origen in ('regalo','institucion','piloto','play','web')),
+  nota    text not null default '' check (char_length(nota) <= 300),
+  por     uuid references auth.users(id) on delete set null,
+  creado  timestamptz not null default now()
+);
+alter table public.planes enable row level security;
+drop policy if exists "ver mi plan" on public.planes;
+create policy "ver mi plan" on public.planes for select using (user_id = public.yo() or public.es_moderador());
+grant select on public.planes to authenticated;
+
+create table if not exists public.interes_plan (
+  user_id uuid primary key references public.profiles(id) on delete cascade,
+  creado  timestamptz not null default now()
+);
+alter table public.interes_plan enable row level security;
+drop policy if exists "ver mi interés" on public.interes_plan;
+create policy "ver mi interés" on public.interes_plan for select using (user_id = public.yo());
+grant select on public.interes_plan to authenticated;
+
+-- Plan de quien usa la app: 'cumbre' (con fecha y origen) o 'gratis'; y si ya pidió que le avisen.
+create or replace function public.mi_plan() returns json
+language sql stable security definer set search_path = public as $$
+  select json_build_object(
+    'plan', case when p.hasta > now() then 'cumbre' else 'gratis' end,
+    'hasta', case when p.hasta > now() then p.hasta end,
+    'origen', case when p.hasta > now() then p.origen end,
+    'avisame', exists (select 1 from public.interes_plan i where i.user_id = public.yo()))
+  from (select 1) x left join public.planes p on p.user_id = public.yo()
+$$;
+grant execute on function public.mi_plan() to authenticated;
+
+create or replace function public.avisame_plan() returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.yo() is null then raise exception 'sin sesión'; end if;
+  insert into public.interes_plan (user_id) values (public.yo()) on conflict do nothing;
+end $$;
+revoke all on function public.avisame_plan() from public, anon;
+grant execute on function public.avisame_plan() to authenticated;
+
+-- Moderadores: dar o quitar el Plan Cumbre a una cuenta por su usuario (días > 0; 0 lo quita).
+create or replace function public.dar_plan(p_usuario text, p_dias int, p_origen text default 'regalo', p_nota text default '') returns json
+language plpgsql security definer set search_path = public as $$
+declare uid uuid;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  select id into uid from public.profiles where username = lower(trim(both '@ ' from p_usuario));
+  if uid is null then raise exception 'no existe la cuenta @%', p_usuario; end if;
+  if p_dias <= 0 then
+    delete from public.planes where user_id = uid;
+  else
+    insert into public.planes (user_id, hasta, origen, nota, por)
+    values (uid, now() + make_interval(days => least(p_dias, 3650)),
+            case when p_origen in ('regalo','institucion','piloto') then p_origen else 'regalo' end, left(coalesce(p_nota, ''), 300), public.yo())
+    on conflict (user_id) do update set hasta = excluded.hasta, origen = excluded.origen, nota = excluded.nota, por = excluded.por, creado = now();
+  end if;
+  insert into public.moderacion_log (moderador, accion, tipo, objetivo, usuario, nota)
+  values (public.yo(), case when p_dias <= 0 then 'quitar_plan' else 'dar_plan' end, 'persona', uid, uid,
+          left(case when p_dias > 0 then p_dias || ' días (' || p_origen || '). ' else '' end || coalesce(p_nota, ''), 500));
+  return json_build_object('usuario', uid, 'hasta', (select hasta from public.planes where user_id = uid));
+end $$;
+revoke all on function public.dar_plan(text, int, text, text) from public, anon;
+grant execute on function public.dar_plan(text, int, text, text) to authenticated;
+
+-- Planes vigentes (para el panel de moderación)
+create or replace function public.planes_vigentes() returns json
+language plpgsql stable security definer set search_path = public as $$
+declare r json;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  select coalesce(json_agg(json_build_object('usuario', pr.username, 'hasta', p.hasta, 'origen', p.origen, 'nota', p.nota) order by p.hasta), '[]')
+  into r from public.planes p join public.profiles pr on pr.id = p.user_id where p.hasta > now();
+  return r;
+end $$;
+revoke all on function public.planes_vigentes() from public, anon;
+grant execute on function public.planes_vigentes() to authenticated;
+
+-- Para la función del coach (clave de servicio): ¿esta cuenta tiene el Plan Cumbre vigente?
+create or replace function public.tiene_cumbre(p_usuario uuid) returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.planes where user_id = p_usuario and hasta > now())
+$$;
+revoke all on function public.tiene_cumbre(uuid) from public, anon, authenticated;
+grant execute on function public.tiene_cumbre(uuid) to service_role;
+
+-- Métricas: demanda del plan
+create or replace function public.metricas_plan() returns json
+language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  return json_build_object(
+    'interesados', (select count(*) from public.interes_plan),
+    'interesados_30d', (select count(*) from public.interes_plan where creado > now() - interval '30 days'),
+    'cumbre_vigentes', (select count(*) from public.planes where hasta > now()));
+end $$;
+revoke all on function public.metricas_plan() from public, anon;
+grant execute on function public.metricas_plan() to authenticated;
