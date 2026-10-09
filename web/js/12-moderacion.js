@@ -24,9 +24,10 @@ async function comprobarModeracion() {
 async function cargarModeracion() {
   if (cargarModeracion.activo) return; cargarModeracion.activo = true;
   try {
-    const [p, h, e, m] = await Promise.all(["moderacion_pendientes", "moderacion_historial", "errores_recientes", "metricas_comunidad"].map(f => Store.nube.sb.rpc(f)));
+    const [p, h, e, m, pl, mp] = await Promise.all(["moderacion_pendientes", "moderacion_historial", "errores_recientes", "metricas_comunidad", "planes_vigentes", "metricas_plan"].map(f => Store.nube.sb.rpc(f)));
     if (p.error) throw p.error;
-    MOD.casos = p.data || []; MOD.hist = h.data || []; MOD.errores = e.data || []; MOD.metricas = m.data || null; MOD.error = false;
+    MOD.casos = p.data || []; MOD.hist = h.data || []; MOD.errores = e.data || []; MOD.metricas = m.data || null;
+    MOD.planes = pl.data || []; MOD.metricasPlan = mp.data || null; MOD.error = false;
   } catch (e) { console.error(e); MOD.error = true; MOD.casos = MOD.casos || []; MOD.hist = MOD.hist || []; }
   finally { cargarModeracion.activo = false; if (estado.sel === "moderacion" && !enEdicion()) pintarTodo(); }
 }
@@ -71,6 +72,29 @@ function formSuspender(c) {
     <label class="campo"><span>Motivo (lo verá la persona)</span><textarea name="motivo" rows="2" maxlength="500" required></textarea></label>`}
     <input type="hidden" name="levantar" value="${levantar ? 1 : 0}">
     <div class="botones"><button class="btn lleno" type="submit">Confirmar</button><button class="btn" type="button" data-acc="abrirSuspender" data-arg="">Cancelar</button></div></form>`;
+}
+
+/** Planes: dar el Plan Cumbre a pilotos, instituciones o como regalo, y ver quiénes lo tienen. */
+function vistaPlanes() {
+  const mp = MOD.metricasPlan || {}, ps = MOD.planes || [];
+  const ORIGEN = { regalo: "Regalo", institucion: "Institución", piloto: "Piloto" };
+  return hoja(`<div class="met-cifras">
+      <div class="met-cifra"><b>${Number(mp.interesados || 0).toLocaleString("es")}</b><span>Pidieron que les avisen</span><small>${Number(mp.interesados_30d || 0).toLocaleString("es")} en 30 días</small></div>
+      <div class="met-cifra"><b>${Number(mp.cumbre_vigentes || 0).toLocaleString("es")}</b><span>Con el Plan Cumbre</span><small>regalos, pilotos e instituciones</small></div>
+    </div><p class="suave" style="font-size:12px;margin-bottom:0">Quienes tocan "Avísame" muestran cuánta demanda hay antes de cobrar.</p>`) +
+    hoja(`<h3 style="margin-top:0">Dar el Plan Cumbre</h3>
+      <form class="form" data-form="darPlan">
+        <label class="campo"><span>Usuario</span><div class="con-prefijo"><b>@</b><input name="usuario" required maxlength="30" autocomplete="off"></div></label>
+        <div class="mod-dias" role="radiogroup" aria-label="Duración">${[[30, "1 mes"], [90, "3 meses"], [180, "6 meses"], [365, "1 año"]].map(([d, t], i) =>
+          `<label class="pill-radio"><input type="radio" name="dias" value="${d}"${i === 3 ? " checked" : ""}> ${t}</label>`).join("")}</div>
+        <div class="mod-dias" role="radiogroup" aria-label="Por qué">${Object.entries(ORIGEN).map(([k, t], i) =>
+          `<label class="pill-radio"><input type="radio" name="origen" value="${k}"${i === 2 ? " checked" : ""}> ${t}</label>`).join("")}</div>
+        <label class="campo"><span>Nota interna (opcional)</span><input name="nota" maxlength="300" placeholder="Ej.: Colegio piloto, grado 11"></label>
+        <div class="botones"><button class="btn lleno" type="submit">Dar el plan</button></div>
+      </form>`) +
+    hoja(`<h3 style="margin-top:0">Planes vigentes</h3>${ps.length ? ps.map(p => `<div class="mod-hist"><div>@${esc(p.usuario)} · ${ORIGEN[p.origen] || p.origen} · hasta ${fechaMod(p.hasta)}</div>
+      ${p.nota ? `<div class="suave">${esc(p.nota)}</div>` : ""}<button class="btn mini peligro" data-acc="quitarPlan" data-arg="${esc(p.usuario)}" style="margin-top:6px">Quitar</button></div>`).join("")
+      : `<p class="vacio-mini">Nadie tiene el plan todavía.</p>`}`);
 }
 
 /** Métricas: cifras grandes y la participación semanal (12 semanas) en barras con su tabla. */
@@ -121,13 +145,14 @@ DET["perfil.moderacion"] = () => {
   if (MOD.casos === null) cargarModeracion();
   const n = MOD.casos?.length || 0, pest = MOD.pestana;
   const tab = (k, t) => `<button role="tab" aria-selected="${pest === k}" data-acc="pestanaMod" data-arg="${k}">${t}</button>`;
-  const tabs = `<div class="mod-tabs" role="tablist">${tab("pendientes", `Pendientes (${n})`)}${tab("historial", "Historial")}${tab("metricas", "Métricas")}${tab("errores", `Errores${MOD.errores?.length ? ` (${MOD.errores.length})` : ""}`)}
+  const tabs = `<div class="mod-tabs" role="tablist">${tab("pendientes", `Pendientes (${n})`)}${tab("historial", "Historial")}${tab("metricas", "Métricas")}${tab("errores", `Errores${MOD.errores?.length ? ` (${MOD.errores.length})` : ""}`)}${tab("planes", "Planes")}
     <button class="btn mini" data-acc="recargarMod" style="margin-left:auto">Actualizar</button></div>`;
   let h;
   if (MOD.casos === null) h = `<p class="vacio-mini">Cargando…</p>`;
   else if (pest === "pendientes") h = n ? MOD.casos.map(tarjetaCaso).join("") : hoja(`<p class="vacio-mini">${ic("mazo")} No hay reportes por revisar. La comunidad está en calma.</p>`);
   else if (pest === "metricas") h = vistaMetricas();
   else if (pest === "errores") h = vistaErrores();
+  else if (pest === "planes") h = vistaPlanes();
   else h = (MOD.hist || []).length ? hoja(MOD.hist.map(d => `<div class="mod-hist"><div>@${esc(d.moderador || "—")} · ${ACCION_MOD[d.accion] || d.accion}${!["suspender", "levantar"].includes(d.accion) && TIPO_MOD[d.tipo] ? ` · ${TIPO_MOD[d.tipo].toLowerCase()}` : ""}${d.usuario ? ` · @${esc(d.usuario)}` : ""}</div>
       ${d.nota ? `<div class="suave">${esc(d.nota)}</div>` : ""}<div class="suave" style="font-size:12px">${fechaMod(d.creado)}</div></div>`).join(""))
     : hoja(`<p class="vacio-mini">Todavía no hay decisiones.</p>`);
@@ -138,6 +163,11 @@ DET["perfil.moderacion"] = () => {
 Object.assign(ACC, {
   pestanaMod(el, p) { MOD.pestana = p; pintarDetalle(); },
   recargarMod() { cargarModeracion(); },
+  async quitarPlan(el, usuario) {
+    if (!el.dataset.seguro) { el.dataset.seguro = "1"; el.textContent = "¿Quitar el plan?"; return; }
+    const { error } = await Store.nube.sb.rpc("dar_plan", { p_usuario: usuario, p_dias: 0, p_origen: "regalo", p_nota: "" });
+    toast(error ? "No se pudo quitar. Revisa tu conexión." : `Plan quitado a @${usuario}`); await cargarModeracion();
+  },
   abrirSuspender(el, id) { MOD.suspender = id || null; pintarDetalle(); },
   async moderar(el, arg) {
     const [tipo, objetivo, accion] = arg.split("|");
@@ -164,4 +194,14 @@ async function enviarSuspension(f) {
     if (error) throw error;
     toast(levantar ? "Suspensión levantada" : "Cuenta suspendida"); MOD.suspender = null; await cargarModeracion();
   } catch (e) { console.error(e); toast(e?.message || "No se pudo completar."); if (boton) boton.disabled = false; }
+}
+
+/** Formulario "Dar el plan" (lo llama el manejador general de formularios). */
+async function enviarDarPlan(f) {
+  const d = new FormData(f), usuario = String(d.get("usuario") || "").trim().replace(/^@/, "").toLowerCase();
+  if (!usuario) { toast("Escribe el usuario."); return; }
+  const boton = f.querySelector("button[type=submit]"); if (boton) boton.disabled = true;
+  const { error } = await Store.nube.sb.rpc("dar_plan", { p_usuario: usuario, p_dias: Number(d.get("dias")), p_origen: String(d.get("origen")), p_nota: String(d.get("nota") || "") });
+  if (error) { console.error(error); toast(/no existe/.test(error.message || "") ? `No existe la cuenta @${usuario}` : "No se pudo dar el plan. Revisa tu conexión."); if (boton) boton.disabled = false; return; }
+  toast(`Plan Cumbre dado a @${usuario}`); await cargarModeracion();
 }

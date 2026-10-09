@@ -38,6 +38,8 @@ window.RUTACIMA = {
   supabaseUrl: "${SUPABASE_URL:-}",
   supabaseAnonKey: "${SUPABASE_ANON_KEY:-}",
   contenido: "assets/",
+  planPrecioMes: "${PLAN_PRECIO_MES:-\$14.900}",
+  planPrecioAnio: "${PLAN_PRECIO_ANIO:-\$119.000}",
   audiosIncluidos: $( [ -f "$DESTINO/assets/audios/indice.json" ] && echo true || echo false ),
 };
 CONFIG

@@ -476,6 +476,33 @@ confirmación y de recuperación vuelvan a la web, en Supabase › Authenticatio
 
 **Sin servidor configurado**, la web abre en **modo demostración** con una ruta de ejemplo.
 
+## Plan Cumbre
+
+**El método completo es gratis y lo esencial nunca se cobra**: guías, ejes, metas, Brújula, comunidad, mensajes,
+cordadas, Rutaalacima Web (la única opción en iPhone) y respaldar, exportar o eliminar tus datos. El Plan Cumbre
+suma lo que cuesta sostener o es un extra: muchos más mensajes con el coach IA, audiolibros completos y el cierre
+de año guiado.
+
+**Hoy los cobros no están activos.** Lo que ya funciona:
+
+- **Pantalla del plan** (Perfil › Plan Cumbre, en la app y en la web): qué incluye cada plan, el precio de
+  referencia y **Avísame cuando esté disponible**, que guarda el interés para medir la demanda antes de cobrar.
+- **Dar el plan** sin cobrar: en el panel de Moderación › Planes, por usuario, por 1, 3, 6 o 12 meses, como
+  regalo, piloto o institución. Sirve para colegios o empresas piloto.
+- **Coach IA según el plan:** `COACH_DAILY_LIMIT` es el límite del plan gratuito (hoy 30, igual que antes) y
+  `COACH_LIMITE_CUMBRE` el del plan (60). Al llegar al límite, la app y la web ofrecen conocer el plan.
+- **Precios que se muestran:** `plan.precioMes` y `plan.precioAnio` en `local.properties` (app) y las variables
+  `RUTACIMA_PLAN_PRECIO_MES` y `RUTACIMA_PLAN_PRECIO_ANIO` del repositorio (web). Por defecto $14.900 y $119.000.
+- **Métricas:** cuántas personas pidieron que les avisen y cuántas tienen el plan.
+
+**Para activar los cobros más adelante:**
+
+1. Crear la suscripción en Play Console (mensual y anual) e integrar Google Play Billing en la app.
+2. Verificar cada compra en el servidor (una función con la clave de servicio) y escribir en `planes` con
+   origen `play`. La tabla ya acepta ese origen.
+3. Bajar `COACH_DAILY_LIMIT` (por ejemplo a 5) y avisar a quienes pidieron que les avisen.
+4. Actualizar los Términos (sección Precio) y `docs/google-play.md`.
+
 ## Privacidad y seguridad
 
 - **Primero en tu teléfono.** Sin cuenta, todo se guarda solo en el teléfono y la app funciona completa.

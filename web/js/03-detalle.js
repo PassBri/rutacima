@@ -560,6 +560,7 @@ function respuestaGuia(t) {
   const [cod, nom, k] = EJES.reduce((m, x) => (e[x[2]] < e[m[2]] ? x : m));
   return `Tu eje más débil hoy es ${nom} (${e[k]}/10). Elige una acción pequeña para fortalecerlo esta semana y conviértela en una meta del mes en Metas → Nueva meta.`;
 }
+let coachLimite = false;
 async function preguntar(texto) {
   if (estado.sec !== "coach") { estado.sec = "coach"; pintarRiel(); }
   estado.sel = "coach"; $("app").classList.add("con-detalle");
@@ -572,6 +573,8 @@ async function preguntar(texto) {
       const { data, error } = await Store.nube.sb.functions.invoke("coach", { body: { contexto: contextoCoach(), idioma: "es", mensajes: hist } });
       if (error) throw error;
       r = data?.texto || null;
+      // Límite diario del plan gratuito: se ofrece conocer el Plan Cumbre
+      coachLimite = !!data?.limite && !data?.cumbre;
     } catch (e) { console.warn("coach sin servidor", e); }
   } else await new Promise(ok => setTimeout(ok, 700));
   coachEscribiendo = false;
@@ -591,7 +594,8 @@ DET.coach = () => {
         return sep + `<div class="burbuja el">${esc(texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>` + (accion ? `<div class="accion-coach">
           <div class="etiqueta">${accion.tipo === "meta_mes" ? "Meta del mes propuesta" : "Meta del año propuesta"}</div><p>${esc(accion.texto)}</p>
           ${creada ? `<span class="suave">✓ Meta creada</span>` : `<button class="btn mini lleno" data-acc="crearMetaCoach" data-arg="${esc(String(m.id))}">Crear esta meta</button>`}</div>` : ""); }).join("")}
-      ${coachEscribiendo ? `<div class="burbuja el escribiendo">escribiendo…</div>` : ""}</div>
+      ${coachEscribiendo ? `<div class="burbuja el escribiendo">escribiendo…</div>` : ""}
+      ${coachLimite ? `<button class="btn mini oro coach-plan" data-ir="perfil" data-arg="plan">${ic("cumbre")} ¿Quieres conversar más? Conoce el Plan Cumbre</button>` : ""}</div>
       ${ms.length < 2 ? `<div class="sugerencias">${sugs.map(s => `<button data-pregunta="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}</div>
     <form class="escribir" data-form="coach"><input name="texto" placeholder="Escribe un mensaje" aria-label="Mensaje" autocomplete="off"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
 };

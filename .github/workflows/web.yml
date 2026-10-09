@@ -34,6 +34,8 @@ jobs:
         env:
           SUPABASE_URL: ${{ vars.RUTACIMA_SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ vars.RUTACIMA_SUPABASE_ANON_KEY }}
+          PLAN_PRECIO_MES: ${{ vars.RUTACIMA_PLAN_PRECIO_MES }}
+          PLAN_PRECIO_ANIO: ${{ vars.RUTACIMA_PLAN_PRECIO_ANIO }}
         run: bash tools/armar_web.sh _site
       - name: Subir a la rama gh-pages
         run: |
