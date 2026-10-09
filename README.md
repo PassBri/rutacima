@@ -456,8 +456,8 @@ muestra el tiempo) y, si nadie lo escanea en 5 minutos, se detiene hasta que toc
 o cierres la sesión en la web.
 
 **Instalable como app (PWA).** Rutaalacima Web se instala desde el navegador: en Android y en el computador con
-el botón *Instalar*; en iPhone y iPad desde Safari, con *Compartir › Agregar a pantalla de inicio* (la web muestra
-los pasos). Queda con el sello entre las apps y se abre a pantalla completa. El service worker (`web/sw.js`)
+el botón *Instalar*; en iPhone y iPad desde Safari, con *Compartir › Agregar a pantalla de inicio*, y en Mac con Safari, con
+*Archivo › Agregar al Dock* (la web muestra los pasos en los dos casos). En Windows, con Chrome o Edge. Queda con el sello entre las apps y se abre a pantalla completa. El service worker (`web/sw.js`)
 guarda la página, los estilos, los scripts, las guías y las frases para abrir rápido incluso sin conexión; nunca
 toca la cuenta, los datos ni los audios. Cada publicación cambia su versión y limpia lo anterior.
 

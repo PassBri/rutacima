@@ -10,7 +10,10 @@ var INSTALAR = {
   ios: () => /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1),
   /** Solo en el sitio publicado (no en vistas previas incrustadas ni archivos locales). */
   sitio: (location.protocol === "https:" || location.hostname === "localhost") && window.top === window,
-  disponible() { return this.sitio && !this.instalada() && (!!this.aviso || this.ios()); },
+  /** Safari en Mac (macOS Sonoma o posterior): se instala con Archivo › Agregar al Dock. */
+  macSafari: () => navigator.platform === "MacIntel" && navigator.maxTouchPoints <= 1 &&
+    /Safari\//.test(navigator.userAgent) && !/Chrome|Chromium|Edg|OPR|Firefox/.test(navigator.userAgent),
+  disponible() { return this.sitio && !this.instalada() && (!!this.aviso || this.ios() || this.macSafari()); },
 };
 
 // El service worker hace que se pueda instalar y que abra rápido (no en vistas previas ni archivos locales)
@@ -28,6 +31,18 @@ async function instalarApp() {
     INSTALAR.aviso.prompt();
     try { await INSTALAR.aviso.userChoice; } catch {}
     INSTALAR.aviso = null;
+    return;
+  }
+  if (INSTALAR.macSafari()) {
+    ventanaCuenta(`<h3 style="margin-top:0">Instala Rutaalacima en tu Mac</h3>
+      <ol class="pasos-instalar">
+        <li><span class="paso-ic">${ic("agregarInicio")}</span><span>En la barra de menús de Safari, abre <b>Archivo</b> y elige <b>Agregar al Dock</b>.</span></li>
+        <li><span class="paso-ic"><img src="iconos/apple-touch-icon.png" alt=""></span><span>Toca <b>Agregar</b>. Rutaalacima quedará en el Dock y en Aplicaciones, y se abrirá en su propia ventana.</span></li>
+      </ol>
+      <p class="suave" style="font-size:13px">Necesitas macOS Sonoma o posterior. Con Chrome o Edge también puedes instalarla desde el ícono de la barra de direcciones.</p>
+      <div class="botones"><button class="btn lleno" type="button" id="instalarListo">Entendido</button></div>`, v => {
+      v.querySelector("#instalarListo").onclick = () => v.remove();
+    });
     return;
   }
   ventanaCuenta(`<h3 style="margin-top:0">Instala Rutaalacima en tu ${/iPad/.test(navigator.userAgent) ? "iPad" : "iPhone"}</h3>

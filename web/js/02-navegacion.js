@@ -206,7 +206,7 @@ const LISTAS = {
     h += item("ir-coachvida", av(ic("cumbre"), "var(--oro)"), "Coach de vida", "", "Una persona que te acompaña");
     h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach con IA", "", "Pregúntale por tu ruta");
     h += grupo("Más");
-    if (globalThis.INSTALAR?.disponible()) h += `<button class="item" data-acc="instalarApp">${av(`<img src="iconos/apple-touch-icon.png" alt="" style="width:100%;height:100%;border-radius:50%">`, "var(--hoja-2)")}<span class="txt"><span class="t1"><span>Instalar la app</span></span><span class="t2"><span>En tu pantalla de inicio, también en iPhone</span></span></span></button>`;
+    if (globalThis.INSTALAR?.disponible()) h += `<button class="item" data-acc="instalarApp">${av(`<img src="iconos/apple-touch-icon.png" alt="" style="width:100%;height:100%;border-radius:50%">`, "var(--hoja-2)")}<span class="txt"><span class="t1"><span>Instalar la app</span></span><span class="t2"><span>En tu teléfono o tu computador, como una app</span></span></span></button>`;
     h += item("plan", av(ic("cumbre"), "var(--oro)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", "", Store.nube ? (Store.nube.directa ? Store.nube.correo || nombreNavegador() : nombreNavegador()) + (globalThis.MOD?.suspension ? " · cuenta suspendida" : "") : "Ruta de ejemplo");
     // Moderación: solo para cuentas moderadoras (se comprueba una vez por sesión)
