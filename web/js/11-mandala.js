@@ -17,15 +17,15 @@ const Mandala = {
     return { f, c, tipo: "PASO", camp: this.ANILLO.indexOf(bloque), paso: this.ANILLO.indexOf(dentro) };
   },
   anillo: (f, c) => Math.max(Math.abs(f - 4), Math.abs(c - 4)),
-  altura(cel, est = "VACIO") {
+  altura(cel, est = "VACIO", avance = 0) {
     const base = 5 - this.anillo(cel.f, cel.c);
     if (cel.tipo === "CUMBRE") return base + 0.8;
     if (cel.tipo === "CAMPAMENTO") return base + 0.3;
-    return base * ({ VACIO: 0.6, ESCRITO: 0.8, HECHO: 1 })[est];
+    return base * ({ VACIO: 0.6, ESCRITO: 0.7 + 0.25 * Math.min(1, Math.max(0, avance)), HECHO: 1 })[est];
   },
   estado(id, p) {
     if (id == null || !respuesta(this.clave(id, p)).trim()) return "VACIO";
-    return respuesta(this.claveHecho(id, p)) === "1" ? "HECHO" : "ESCRITO";
+    return respuesta(this.claveHecho(id, p)).trim() ? "HECHO" : "ESCRITO";
   },
   /** La casilla "cumbre" va al centro; las demás (por su orden) son los campamentos. */
   datos() {
@@ -35,10 +35,72 @@ const Mandala = {
     const color = i => COLOR_EJE[camps[i]?.eje] || this.PALETA[i];
     let escritos = 0, hechos = 0;
     camps.forEach(c => { for (let p = 0; p < 8; p++) { const e = this.estado(c.id, p); if (e !== "VACIO") escritos++; if (e === "HECHO") hechos++; } });
-    return { cumbre, camps, titulo, color, escritos, hechos };
+    const pasos = MetodoCima.pasosDe(camps.map(c => c.id)), ritmo = MetodoCima.calcular(pasos, new Date());
+    const pasoCima = (i, p) => pasos[i * 8 + p];
+    return { cumbre, camps, titulo, color, escritos, hechos, pasos, ritmo, pasoCima, avance: (i, p) => MetodoCima.avance(pasoCima(i, p), ritmo.dificultad) };
   },
 };
 window.Mandala = Mandala;
+
+/* Método Cima 9×52 (igual que MetodoCima.kt): cada paso se gana con jornadas (días distintos en que
+ * avanzaste); la montaña personal mide 8.848.000 mm; cada 4 tramos la dificultad (jornadas por paso)
+ * se ajusta como Bitcoin según el ritmo que lleva a la cumbre el 31 de diciembre (tope 4×, mínimo 1,
+ * máximo 30) y queda fija para cada paso desde su primera jornada. */
+const MetodoCima = {
+  TOTAL: 64, MM_POR_PASO: Math.floor(8848000 / 64), INICIAL: 3, MIN: 1, MAX: 30, AJUSTE: 4, CICLO: 4,
+  claveJornadas: (id, p) => Mandala.clave(id, p) + "#jornadas",
+  claveReq: (id, p) => Mandala.clave(id, p) + "#req",
+  leer(id, p) {
+    if (id == null) return { escrito: false, jornadas: [], req: null, cumplido: false, cumplidoEn: null };
+    const hecho = respuesta(Mandala.claveHecho(id, p)).trim();
+    return {
+      escrito: !!respuesta(Mandala.clave(id, p)).trim(),
+      jornadas: [...new Set(respuesta(this.claveJornadas(id, p)).split(",").map(x => x.trim()).filter(x => /^\d{4}-\d\d-\d\d$/.test(x)))],
+      req: Number(respuesta(this.claveReq(id, p))) || null,
+      cumplido: !!hecho, cumplidoEn: /^\d{4}-\d\d-\d\d$/.test(hecho) ? hecho : null,
+    };
+  },
+  pasosDe(ids) { const r = []; for (let c = 0; c < 8; c++) for (let p = 0; p < 8; p++) r.push(this.leer(ids[c], p)); return r; },
+  avance(p, d) { return p.cumplido ? 1 : !p.jornadas.length ? 0 : Math.min(0.99, p.jornadas.length / (p.req || d)); },
+  dificultades(ganados, pendientes, t) {
+    const r = []; let d = this.INICIAL, rest = pendientes, gc = 0, ec = 0;
+    for (let n = 0; n <= t; n++) {
+      if (n > 0) {
+        const prev = ganados[n - 1] || 0;
+        gc += prev; ec += rest / (52 - (n - 1)); rest = Math.max(0, rest - prev);
+        if (n % this.CICLO === 0) {
+          if (ec > 0) d = Math.min(this.MAX, Math.max(this.MIN, Math.min(d * this.AJUSTE, Math.max(Math.max(1, Math.floor(d / this.AJUSTE)), Math.round(d * gc / ec)))));
+          gc = 0; ec = 0;
+        }
+      }
+      r.push(d);
+    }
+    return r;
+  },
+  proximoAjuste(hoy) {
+    const sig = (Math.floor(Expedicion.tramoDe(hoy) / this.CICLO) + 1) * this.CICLO;
+    return sig >= 52 ? new Date(hoy.getFullYear() + 1, 0, 1) : new Date(hoy.getFullYear(), 0, sig * 7 + 1);
+  },
+  calcular(pasos, hoy) {
+    const anio = hoy.getFullYear(), t = Expedicion.tramoDe(hoy);
+    const antes = pasos.filter(p => p.cumplido && (!p.cumplidoEn || Number(p.cumplidoEn.slice(0, 4)) < anio)).length;
+    const pend = this.TOTAL - antes, ganados = new Array(52).fill(0);
+    pasos.forEach(p => { if (p.cumplido && p.cumplidoEn && Number(p.cumplidoEn.slice(0, 4)) === anio) { const [y, m, dd] = p.cumplidoEn.split("-").map(Number); ganados[Expedicion.tramoDe(new Date(y, m - 1, dd))]++; } });
+    const d = this.dificultades(ganados, pend, t);
+    let antesTramo = 0; for (let i = 0; i < t; i++) antesTramo += ganados[i];
+    const ganAnio = antesTramo + ganados[t];
+    const dia = (x) => Date.UTC(x.getFullYear(), x.getMonth(), x.getDate()) / 864e5;
+    const largo = (anio % 4 === 0 && anio % 100 !== 0) || anio % 400 === 0 ? 366 : 365;
+    const transcurrido = (dia(hoy) - dia(new Date(anio, 0, 1)) + 1) / largo;
+    return {
+      tramo: t, dificultad: d[t], diasAjuste: Math.round(dia(this.proximoAjuste(hoy)) - dia(hoy)),
+      esperado: (pend - antesTramo) / (52 - t), ganadosTramo: ganados[t], ganadosAnio: ganAnio,
+      restantes: Math.max(0, pend - ganAnio), adelanto: ganAnio - pend * transcurrido,
+      mm: Math.min(8848000, pasos.reduce((s, p) => s + Math.floor(this.avance(p, d[t]) * this.MM_POR_PASO), 0)),
+    };
+  },
+};
+window.MetodoCima = MetodoCima;
 
 /** Pasos de respaldo por eje, por si no se puede leer el banco de acciones. */
 const PASOS_BASE = {
@@ -66,16 +128,37 @@ function mdCelda(d, cel, grande) {
   }
   const est = Mandala.estado(camp?.id, cel.paso), texto = camp ? respuesta(Mandala.clave(camp.id, cel.paso)) : "";
   if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}" style="--c:${color}">
-      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
-      <label class="md-check"><input type="checkbox" data-acc-change="mandalaHecho" data-arg="${camp.id}|${cel.paso}" ${est === "HECHO" ? "checked" : ""} ${texto.trim() ? "" : "disabled"}> Cumplido</label></span>`;
+      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" ${est === "HECHO" ? "readonly" : ""} placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
+      ${mdJornadas(d, cel, camp, texto)}</span>`;
   return `<span class="md-c md-paso md-${est.toLowerCase()}" style="--c:${color}">${esc(texto)}${est === "HECHO" ? "<i>✓</i>" : ""}</span>`;
+}
+
+/** Jornadas de un paso y el botón para registrar la de hoy. */
+function mdJornadas(d, cel, camp, texto) {
+  const p = d.pasoCima(cel.camp, cel.paso);
+  if (p.cumplido) return `<span class="md-ganado">✓ Paso ganado</span>`;
+  const req = p.req || d.ritmo.dificultad, hoyListo = p.jornadas.includes(iso(new Date()));
+  return `<span class="md-jornadas"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i>
+    <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button></span>`;
+}
+
+/** El ritmo del año del Método Cima 9×52. */
+function ritmoHtml(r) {
+  const nf = n => n.toLocaleString("es", { maximumFractionDigits: 1 });
+  return `<div class="md-ritmo"><b class="md-ritmo-t">Método Cima 9×52</b>
+    <b>Tu montaña: ${r.mm.toLocaleString("es")} de 8.848.000 mm</b>
+    <span>Ahora un paso nuevo pide <b>${r.dificultad} ${r.dificultad === 1 ? "jornada" : "jornadas"}</b></span>
+    <span class="suave">Tramo ${r.tramo + 1} de 52 · esta semana ${r.ganadosTramo} de ${nf(r.esperado)} pasos esperados · ajuste en ${r.diasAjuste} días</span>
+    <b class="${r.adelanto >= 0 ? "md-adelante" : ""}">${r.adelanto >= 0 ? `Vas ${nf(r.adelanto)} pasos adelante del ritmo` : `Te faltan ${nf(-r.adelanto)} pasos para ir al ritmo`}</b>
+    <small>Un paso no se marca: se gana con jornadas, días distintos en que avanzaste en él. Cada 4 tramos la dificultad se ajusta como en Bitcoin: si vas muy rápido, un paso nuevo pide más jornadas; si te frenas, pide menos para que vuelvas. Así llegas a la cumbre el 31 de diciembre.</small></div>`;
 }
 
 function mandalaHtml() {
   const d = Mandala.datos(), b = estado.mandalaBloque ?? 4, en3d = !!estado.mandala3d;
   const intro = `<p style="margin-top:0">La cuadrícula 9×9 (Mandala Chart), el método con el que Shohei Ohtani planeó su carrera: tu cumbre al centro, tus 8 campamentos alrededor (las casillas de tu vision board) y 8 pasos para cada uno. 64 pasos hacia tu cima.</p>
-    <b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} cumplidos</b>
+    <b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} ganados</b>
     <div class="barra" style="margin:8px 0 12px"><i style="width:${d.hechos / 64 * 100}%"></i></div>
+    ${ritmoHtml(d.ritmo)}
     <div class="segmentos" role="group" aria-label="Vista de la mandala">
       <button class="chip" data-acc="mandala3d" data-arg="0" aria-pressed="${!en3d}">Cuadrícula</button>
       <button class="chip" data-acc="mandala3d" data-arg="1" aria-pressed="${en3d}">Montaña 3D</button></div>`;
@@ -145,7 +228,7 @@ const Montana = {
       const col = d.color(cel.camp);
       const color = cel.tipo === "CUMBRE" ? "#FFF8EC" : cel.tipo === "CAMPAMENTO" ? (camp ? col : hex(vacio))
         : est === "VACIO" ? hex(vacio) : est === "ESCRITO" ? mezcla(hex(vacio), col, 0.35) : mezcla(col, "#C9973B", 0.25);
-      cols.push({ cel, alto: Mandala.altura(cel, est), rgb: color });
+      cols.push({ cel, alto: Mandala.altura(cel, est, cel.tipo === "PASO" ? d.avance(cel.camp, cel.paso) : 0), rgb: color });
     }
     cols.sort((a, b) => ((a.cel.c - 4) * sa + (a.cel.f - 4) * ca) - ((b.cel.c - 4) * sa + (b.cel.f - 4) * ca));
     const oscuro = color => color.startsWith("rgb") ? color.replace("rgb(", "").replace(")", "").split(",").map(Number) : [1, 3, 5].map(i => parseInt(color.slice(i, i + 2), 16));
@@ -168,9 +251,16 @@ Object.assign(ACC, {
   visionVista(_, v) { estado.visionVista = v; pintarDetalle(); },
   mandala3d(_, v) { estado.mandala3d = v === "1"; pintarDetalle(); },
   mandalaBloque(_, v) { estado.mandalaBloque = Number(v); pintarDetalle(); },
-  async mandalaHecho(el, arg) {
-    const [id, p] = arg.split("|");
-    await responder("mandala", Mandala.claveHecho(id, p), el.checked ? "1" : "");
+  /** Registra la jornada de hoy (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */
+  async mandalaAvanzar(_, arg) {
+    const [id, p] = arg.split("|"), d = Mandala.datos(), paso = MetodoCima.leer(id, Number(p));
+    if (paso.cumplido) return;
+    const hoy = iso(new Date()), req = paso.req || d.ritmo.dificultad;
+    const jornadas = [...new Set([...paso.jornadas, hoy])].sort();
+    await responder("mandala", MetodoCima.claveJornadas(id, p), jornadas.join(","));
+    await responder("mandala", MetodoCima.claveReq(id, p), String(req));
+    if (jornadas.length >= req) { await responder("mandala", Mandala.claveHecho(id, p), hoy); toast("¡Paso ganado! Tu montaña subió " + MetodoCima.MM_POR_PASO.toLocaleString("es") + " mm."); }
+    else toast(`Jornada registrada: ${jornadas.length} de ${req}.`);
     pintarDetalle();
   },
   /** Llena los pasos vacíos: primero las acciones del propósito de la casilla, luego el banco de acciones de su eje. */

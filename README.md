@@ -350,6 +350,15 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   propósito y con el banco de acciones del eje. En **2D** ves la cuadrícula completa y abres un bloque para escribir y
   marcar sus pasos; en **3D** la cuadrícula se vuelve una montaña escalonada que giras con el dedo y que crece
   cuando escribes y cumples pasos. Los pasos viajan a la web y a las copias de seguridad.
+- **Método Cima 9×52 (modelo propio):** la mandala se sube durante el año con las mismas reglas de la expedición.
+  Tu montaña personal mide 8.848.000 mm y cada uno de los 64 pasos vale 138.250 mm. Un paso no se marca: se gana
+  con **jornadas**, días distintos en que avanzaste en él (una prueba de constancia en lugar de la prueba de trabajo
+  de Bitcoin). Cada 4 tramos —un ciclo, como los 2.016 bloques de Bitcoin— la dificultad (jornadas que pide un paso
+  nuevo) se recalcula comparando los pasos ganados en el ciclo con el ritmo que lleva a la cumbre el 31 de diciembre:
+  si vas muy rápido sube, si te frenas baja para que vuelvas. Nunca cambia más de 4 veces de un ciclo al siguiente
+  (entre 1 y 30 jornadas) y queda fija para cada paso desde su primera jornada. La tarjeta del método muestra tu
+  altura en milímetros, la dificultad actual, los pasos esperados esta semana, los días para el próximo ajuste y si
+  vas adelante o atrás del ritmo. Las reglas están en `domain/model/MetodoCima.kt` (con pruebas) y en la web.
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
 - **Diario de vida:** un álbum por cada año de tu vida, con las fotos en mosaico, los recuerdos y las metas cumplidas.

@@ -584,3 +584,11 @@ a.btn { text-decoration: none; }
 .md-montana:active { cursor: grabbing; }
 @media (max-width: 600px) { .md-grande .md-c { font-size: 12px; } .md-grande textarea { font-size: 12px; } }
 .md-grande { max-width: 560px; }
+.md-ritmo { display: grid; gap: 4px; padding: 14px; border-radius: 18px; background: var(--oro-suave); margin-bottom: 14px; font-size: 14px; }
+.md-ritmo-t { font: 700 17px/1.2 var(--font-titulo); color: var(--burdeos); }
+.md-ritmo small { color: var(--tinta-suave); line-height: 1.4; }
+.md-adelante { color: var(--ok); }
+.md-jornadas { display: grid; gap: 4px; font-size: 12px; color: var(--tinta-suave); }
+.md-jornadas > i { display: block; height: 4px; border-radius: 9px; background: linear-gradient(90deg, var(--c) calc(var(--f) * 100%), var(--linea) 0); }
+.md-jornadas .btn { justify-content: center; }
+.md-ganado { font-size: 12px; font-weight: 700; color: var(--c); }
