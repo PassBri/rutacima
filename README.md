@@ -351,10 +351,12 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
     Bono 3) y **Campamento Base** (mentor, cordada y red de apoyo). Cada casilla se edita y lleva su foto de visión.
     Al armar el tablero, cada eje toma tu propósito o tu meta del año de ese eje, y las casillas se actualizan en su
     lugar sin perder sus pasos.
-  - **Zoom de 3 niveles (Material, container transform):** la Brújula se abre en **1** (solo tu cumbre, grande y con
-    su foto); al tocar o hacer doble toque en el centro pasa a **9** (el vision board: la cumbre y los 8 campamentos
-    con sus rumbos) y de ahí a **81** (el 9×9 completo). Lo que tocas se vuelve el centro del nivel siguiente, con un
-    resorte; un selector 1 · 9 · 81 salta entre niveles y tocar un campamento abre directamente sus pasos.
+  - **Zoom de 3 niveles en papel (Material, container transform):** la Brújula vive en una hoja de papel con su
+    pliegue y se abre en **1** (tu cumbre, con su foto enmarcada como una impresión), **9** (el vision board en fichas
+    de papel con la cinta del color de su eje, el rumbo y 8 puntos de avance) y **81** (el 9×9 completo). Lo que tocas
+    se vuelve el centro del nivel siguiente, con un resorte. **Volver es fácil** desde cualquier nivel: el botón o
+    gesto atrás del teléfono, la flecha *Alejar*, las migas *Cumbre › Vision board › 9×9* (se pueden tocar) y, en
+    la web, la tecla Esc.
   - **Cada bloque es un viaje:** sus 8 pasos van en sentido del reloj por las 7 fases del Viaje Transformativo
     (Orientación, Preparación, Travesía, Ascenso, Cima, Contemplación, Descenso) y terminan en el Legado (Desde la
     Cima). Al armar el tablero los pasos se llenan solos con las acciones de tus propósitos y el banco de acciones.

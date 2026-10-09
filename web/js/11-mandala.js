@@ -302,22 +302,31 @@ function mandalaHtml() {
   const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
   estado.mdAnim = null;
   const fotoC = mdFoto(d.cumbre);
+  const puntos = i => { const g = [0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(d.camps[i]?.id, q) === "HECHO").length;
+    return `<span class="md-puntos">${[0, 1, 2, 3, 4, 5, 6, 7].map(q => `<i class="${q < g ? "si" : ""}"></i>`).join("")}</span>`; };
   const vista = nivel === 0
-    ? `<button class="md-nivel1${fotoC ? " con-foto" : ""}${anim}" data-acc="mdNivel" data-arg="1" aria-label="Abrir tu vision board">
-        ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<span><small>MI CUMBRE</small><b>${esc(d.titulo)}</b><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em></span></button>`
+    ? `<button class="md-nivel1${anim}" data-acc="mdNivel" data-arg="1" aria-label="Abrir tu vision board">
+        ${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
+        <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em></button>`
     : nivel === 1
       ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
           const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
-          return cel.tipo === "CUMBRE" ? `<button data-acc="mdNivel" data-arg="2" aria-label="Ver el 9×9 completo">${mdCelda(d, cel, false)}</button>`
-            : `<button data-acc="mdCampamento" data-arg="${cel.camp}" aria-label="Abrir ${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp]))}">${mdCelda(d, cel, false)}<small class="md-rumbo-mini">${Mandala.RUMBOS[cel.camp]}</small></button>`;
+          if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdNivel" data-arg="2" aria-label="Ver el 9×9 completo">
+            ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b></button>`;
+          const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
+          return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Abrir ${esc(Mandala.nombre(cod))}">
+            ${foto ? `<img src="${esc(foto)}" alt="">` : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
         }).join("")}</div>`
       : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div>${svg}</div>`;
   const ayuda = ["Tu cumbre personal. Toca o haz doble clic para abrir tu vision board.",
-    "Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.",
-    "Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo; haz doble clic en el centro para volver a tu cumbre."][nivel];
-  const selector = `<div class="segmentos md-niveles" role="group" aria-label="Nivel de la Brújula">${["1", "9", "81"].map((t, i) =>
-    `<button data-acc="mdNivel" data-arg="${i}" aria-pressed="${nivel === i}">${t}</button>`).join("")}</div>`;
-  return hoja(intro + selector + `<div class="md-zoom">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
+    "Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos. Para volver: la flecha, las migas o la tecla Esc.",
+    "Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo. Para volver: la flecha, las migas o la tecla Esc."][nivel];
+  const migas = ["Cumbre", "Vision board", "9×9"].map((t, i) => (i ? `<span class="md-sep" aria-hidden="true">›</span>` : "") +
+    (i === nivel ? `<b aria-current="step">${t}</b>` : `<button data-acc="mdNivel" data-arg="${i}" class="${i > nivel ? "adelante" : ""}">${t}</button>`)).join("");
+  const selector = `<nav class="md-barra" aria-label="Niveles de la Brújula">
+    <button class="md-atras" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar (Esc)">${ic("volver")}</button>
+    <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>`;
+  return hoja(intro + selector + `<div class="md-zoom md-papel">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
     hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin:0">${esc(titulo)}</h3>${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
@@ -561,3 +570,9 @@ async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo =
   estado.feed = null;
   return id;
 }
+
+// Esc aleja un nivel de la Brújula (cuando está abierta y no se está escribiendo)
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape" || !document.querySelector(".md-zoom") || e.target.closest("input, textarea")) return;
+  if ((estado.mdNivel ?? 0) > 0) { e.preventDefault(); ACC.mdNivel(null, String(estado.mdNivel - 1)); }
+});
