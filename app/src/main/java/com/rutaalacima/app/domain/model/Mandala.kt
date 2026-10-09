@@ -71,9 +71,9 @@ object Mandala {
     fun altura(c: Celda, estado: EstadoPaso = EstadoPaso.VACIO): Float {
         val base = (5 - anillo(c.fila, c.col)).toFloat()
         return when (c.tipo) {
-            Tipo.CUMBRE -> base + 1.2f
-            Tipo.CAMPAMENTO -> base + 0.6f
-            Tipo.PASO -> base * when (estado) { EstadoPaso.VACIO -> 0.35f; EstadoPaso.ESCRITO -> 0.7f; EstadoPaso.HECHO -> 1f }
+            Tipo.CUMBRE -> base + 0.8f
+            Tipo.CAMPAMENTO -> base + 0.3f
+            Tipo.PASO -> base * when (estado) { EstadoPaso.VACIO -> 0.6f; EstadoPaso.ESCRITO -> 0.8f; EstadoPaso.HECHO -> 1f }
         }
     }
 

@@ -343,6 +343,13 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   hasta 9 casillas. Cada una trae una frase en primera persona y qué foto tuya buscar o tomar. Tú las llenas con
   tus propias fotos (o buscas ideas en un banco de imágenes libres). Sin conexión, la app arma el tablero con las
   mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
+- **Mandala 9×9 dentro del vision board:** adaptación del Mandala Chart (Mandal-Art, de Hiroaki Matsumura; el
+  método Harada con el que Shohei Ohtani planeó su carrera). Tu cumbre va al centro; las otras 8 casillas del vision
+  board, con su foto, son tus 8 campamentos, repetidos alrededor del centro y en el centro de su propio bloque; y
+  cada campamento tiene 8 pasos: 64 pasos hacia tu cima. *Sugerir pasos* llena los vacíos con las acciones del
+  propósito y con el banco de acciones del eje. En **2D** ves la cuadrícula completa y abres un bloque para escribir y
+  marcar sus pasos; en **3D** la cuadrícula se vuelve una montaña escalonada que giras con el dedo y que crece
+  cuando escribes y cumples pasos. Los pasos viajan a la web y a las copias de seguridad.
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
 - **Diario de vida:** un álbum por cada año de tu vida, con las fotos en mosaico, los recuerdos y las metas cumplidas.

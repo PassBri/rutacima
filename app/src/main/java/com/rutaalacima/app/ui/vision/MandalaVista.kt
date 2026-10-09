@@ -305,7 +305,7 @@ private fun EditarPaso(numero: Int, campamento: String, texto: String, hecho: Bo
 @Composable
 private fun Montana3D(datos: DatosMandala) {
     var angulo by remember { mutableFloatStateOf((PI / 5).toFloat()) }
-    var inclinacion by remember { mutableFloatStateOf(0.62f) }
+    var inclinacion by remember { mutableFloatStateOf(0.75f) }
     var girarSola by remember { mutableStateOf(true) }
     LaunchedEffect(girarSola) {
         var antes = 0L
@@ -348,7 +348,7 @@ private fun Montana3D(datos: DatosMandala) {
         val cx = size.width / 2; val cy = size.height * 0.60f
         val ca = cos(angulo); val sa = sin(angulo)
         val st = sin(inclinacion); val ct = cos(inclinacion)
-        val zEsc = 0.62f
+        val zEsc = 1.0f
         fun p(x: Float, y: Float, z: Float): Offset {
             val rx = x * ca - y * sa; val ry = x * sa + y * ca
             return Offset(cx + rx * s, cy + ry * s * st - z * zEsc * s * ct)

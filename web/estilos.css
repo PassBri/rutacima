@@ -554,3 +554,33 @@ a.btn { text-decoration: none; }
 .album-cab .segmentos { display: flex; flex: 1 1 260px; max-width: 420px; }
 .album-cab .segmentos button { flex: 1; }
 @media (max-width: 900px) { .solo-movil.exp-movil { display: block; padding: 4px 12px 8px; } }
+
+/* ---------- Mandala 9×9 del vision board ---------- */
+.md-progreso { color: var(--burdeos); font-size: 14px; }
+.md-grilla { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; aspect-ratio: 1; margin-top: 14px; background: var(--linea); padding: 4px; border-radius: 14px; }
+.md-bloque { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--linea); border-radius: 8px; overflow: hidden; outline: 3px solid transparent; outline-offset: -1px; padding: 0; }
+.md-bloque.elegido { outline-color: var(--oro); }
+.md-c { position: relative; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden;
+  background: var(--hoja); color: var(--tinta); font-size: clamp(6px, 1.05vw, 10px); line-height: 1.15; padding: 2px; min-width: 0; aspect-ratio: 1; word-break: break-word; }
+.md-c img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.md-c b { position: relative; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.md-cumbre { background: linear-gradient(#FFF8EC, #C9973B); color: #3A1A10; font-weight: 900; }
+.md-cumbre.con-foto b { color: #fff; text-shadow: 0 1px 3px #000; }
+.md-cumbre.con-foto::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+.md-cumbre.con-foto b { z-index: 1; }
+.md-camp { background: var(--c); color: #fff; font-weight: 700; }
+.md-camp img + b { z-index: 1; text-shadow: 0 1px 3px #000; }
+.md-camp.libre { background: var(--hoja-2); color: var(--tinta-suave); }
+.md-paso.md-escrito { background: color-mix(in srgb, var(--c) 14%, var(--hoja)); }
+.md-paso.md-hecho { background: color-mix(in srgb, var(--c) 42%, var(--hoja)); }
+.md-paso i { position: absolute; top: 1px; right: 3px; font-style: normal; color: var(--c); font-weight: 900; }
+.md-grande { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.md-grande > * { padding: 0; border-radius: 12px; overflow: hidden; min-width: 0; }
+.md-grande .md-c { font-size: 14px; border-radius: 12px; border: 1px solid var(--linea); }
+.md-grande .md-paso { flex-direction: column; align-items: stretch; padding: 6px; gap: 4px; }
+.md-grande textarea { flex: 1; resize: none; border: 0; background: transparent; font: inherit; font-size: 13px; color: var(--tinta); min-height: 0; padding: 2px; }
+.md-check { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--tinta-suave); }
+.md-montana { width: 100%; aspect-ratio: 1; border-radius: 18px; margin-top: 14px; touch-action: none; cursor: grab; display: block; }
+.md-montana:active { cursor: grabbing; }
+@media (max-width: 600px) { .md-grande .md-c { font-size: 12px; } .md-grande textarea { font-size: 12px; } }
+.md-grande { max-width: 560px; }
