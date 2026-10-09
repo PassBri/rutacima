@@ -298,7 +298,26 @@ function mandalaHtml() {
     });
   }
   const svg = lineas ? `<svg class="md-lineas" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lineas}</svg>` : "";
-  return hoja(intro + `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
+  // Zoom de 3 niveles (Material: container transform): cumbre (1) → vision board (9) → Brújula completa (81)
+  const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
+  estado.mdAnim = null;
+  const fotoC = mdFoto(d.cumbre);
+  const vista = nivel === 0
+    ? `<button class="md-nivel1${fotoC ? " con-foto" : ""}${anim}" data-acc="mdNivel" data-arg="1" aria-label="Abrir tu vision board">
+        ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<span><small>MI CUMBRE</small><b>${esc(d.titulo)}</b><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em></span></button>`
+    : nivel === 1
+      ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
+          const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
+          return cel.tipo === "CUMBRE" ? `<button data-acc="mdNivel" data-arg="2" aria-label="Ver el 9×9 completo">${mdCelda(d, cel, false)}</button>`
+            : `<button data-acc="mdCampamento" data-arg="${cel.camp}" aria-label="Abrir ${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp]))}">${mdCelda(d, cel, false)}<small class="md-rumbo-mini">${Mandala.RUMBOS[cel.camp]}</small></button>`;
+        }).join("")}</div>`
+      : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div>${svg}</div>`;
+  const ayuda = ["Tu cumbre personal. Toca o haz doble clic para abrir tu vision board.",
+    "Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.",
+    "Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo; haz doble clic en el centro para volver a tu cumbre."][nivel];
+  const selector = `<div class="segmentos md-niveles" role="group" aria-label="Nivel de la Brújula">${["1", "9", "81"].map((t, i) =>
+    `<button data-acc="mdNivel" data-arg="${i}" aria-pressed="${nivel === i}">${t}</button>`).join("")}</div>`;
+  return hoja(intro + selector + `<div class="md-zoom">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
     hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin:0">${esc(titulo)}</h3>${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
@@ -319,7 +338,24 @@ Object.assign(ACC, {
     } catch (e) { console.error(e); toast("No se pudo compartir. Inténtalo de nuevo."); }
     mdPublicando = false; pintarDetalle();
   },
-  mandalaBloque(_, v) { estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle(); },
+  mandalaBloque(el, v) {
+    // En el 81, el segundo toque sobre el centro (ya elegido) vuelve a la cumbre
+    if (Number(v) === 4 && (estado.mandalaBloque ?? 4) === 4 && el?.classList?.contains("md-bloque") && Date.now() - (estado.mdNivelEn || 0) > 400) {
+      estado.mdAnim = "alejar"; estado.mdNivel = 0; estado.mdNivelEn = Date.now(); pintarDetalle(); return;
+    }
+    estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
+  },
+  /** Cambia de nivel de zoom; ignora el segundo clic de un doble clic para no saltarse un nivel. */
+  mdNivel(_, v) {
+    const n = Math.max(0, Math.min(2, Number(v))), ahora = Date.now(), actual = estado.mdNivel ?? 0;
+    if (n === actual || ahora - (estado.mdNivelEn || 0) < 400) return;
+    estado.mdAnim = n > actual ? "acercar" : "alejar"; estado.mdNivel = n; estado.mdNivelEn = ahora; pintarDetalle();
+  },
+  mdCampamento(_, i) {
+    if (Date.now() - (estado.mdNivelEn || 0) < 400) return;
+    estado.mandalaBloque = Mandala.ANILLO[Number(i)]; estado.mdPaso = null;
+    estado.mdAnim = "acercar"; estado.mdNivel = 2; estado.mdNivelEn = Date.now(); pintarDetalle();
+  },
   mdPaso(_, v) { estado.mdPaso = v || null; estado.mdCaidaVer = false; pintarDetalle(); },
   mdCaidaVer() { estado.mdCaidaVer = !estado.mdCaidaVer; pintarDetalle(); },
   /** Reconoce una caída: el paso conserva sus jornadas y pide como máximo la dificultad actual. */
