@@ -16,6 +16,8 @@ import java.time.LocalDate
  */
 object Travesia {
     const val NIEBLA_DIAS = 14
+    /** Pasos de confluencia que se enlazan solos por campamento al sugerir (acciones de 3 ejes o más). */
+    const val ENLACES_AUTO = 2
     val CAIDAS = listOf("FIN", "EMO", "DEC", "CAR", "IDE", "CIR")
     const val LECCIONES = 7
 

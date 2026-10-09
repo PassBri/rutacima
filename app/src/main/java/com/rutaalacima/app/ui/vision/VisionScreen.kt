@@ -189,11 +189,16 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
             }
             addAll(delBanco.sortedByDescending { it.ejes.size }.map { it.texto }.shuffled())
         }
+        var enlazados = (0 until Mandala.PASOS).count { !r[Travesia.claveEnlaces(casilla.id, it)].isNullOrBlank() }
         Mandala.completar(actuales, sugerencias).forEachIndexed { i, t ->
             if (t != actuales[i]) {
                 c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, i), t)
-                val enlaces = ejesDe[t.trim().lowercase()]?.let { Travesia.enlacesDeAccion(it, codigo.orEmpty()) }.orEmpty()
-                if (enlaces.isNotEmpty()) c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveEnlaces(casilla.id, i), enlaces)
+                // Solo las acciones que activan 3 ejes o más quedan como pasos de confluencia (hasta 2 por campamento)
+                val ejes = ejesDe[t.trim().lowercase()].orEmpty()
+                if (ejes.size >= 3 && enlazados < Travesia.ENLACES_AUTO) {
+                    c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveEnlaces(casilla.id, i), Travesia.enlacesDeAccion(ejes, codigo.orEmpty()))
+                    enlazados++
+                }
             }
         }
     }
@@ -236,7 +241,10 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     fun nuevaMontana(campamentos: List<Long?>) = viewModelScope.launch {
         val r = c.respuestas.cargar(Mandala.WORKBOOK)
         Travesia.clavesALiberar(campamentos, r).forEach { c.respuestas.guardar(Mandala.WORKBOOK, it, "") }
-        llenarCampamentosVacios()
+        // Los pasos liberados se llenan con pasos nuevos
+        val todas = c.vision.casillas.first()
+        val r2 = c.respuestas.cargar(Mandala.WORKBOOK)
+        campamentos.filterNotNull().mapNotNull { id -> todas.firstOrNull { it.id == id } }.forEach { llenarPasos(it, r2) }
     }
 
     fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }

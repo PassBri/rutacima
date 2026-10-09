@@ -50,10 +50,46 @@ const Mandala = {
     camps.filter(Boolean).forEach(c => { for (let p = 0; p < 8; p++) { const e = this.estado(c.id, p); if (e !== "VACIO") escritos++; if (e === "HECHO") hechos++; } });
     const pasos = MetodoCima.pasosDe(camps.map(c => c?.id)), ritmo = MetodoCima.calcular(pasos, new Date());
     const pasoCima = (i, p) => pasos[i * 8 + p];
-    return { cumbre, camps, titulo, color, escritos, hechos, evidencias, pasos, ritmo, pasoCima, avance: (i, p) => MetodoCima.avance(pasoCima(i, p), ritmo.dificultad) };
+    const cod = i => this.CAMPAMENTOS_FIJOS[i];
+    const enlaces = (i, p) => camps[i] ? Travesia.enlaces(respuesta(Travesia.claveEnlaces(camps[i].id, p)), cod(i)) : [];
+    const niebla = (i, p) => Travesia.enNiebla(pasos[i * 8 + p]);
+    let confluencias = 0, enNiebla = 0;
+    for (let i = 0; i < 8; i++) for (let p = 0; p < 8; p++) {
+      if (pasos[i * 8 + p].cumplido && enlaces(i, p).length) confluencias++;
+      if (niebla(i, p)) enNiebla++;
+    }
+    return { cumbre, camps, titulo, color, escritos, hechos, evidencias, confluencias, enNiebla, enlaces, niebla, cod, pasos, ritmo, pasoCima, avance: (i, p) => MetodoCima.avance(pasoCima(i, p), ritmo.dificultad) };
   },
 };
 window.Mandala = Mandala;
+
+/* Travesía (igual que Travesia.kt): niebla, caídas, confluencia y cierre del año. */
+const Travesia = {
+  NIEBLA_DIAS: 14,
+  ENLACES_AUTO: 2,
+  CAIDAS: { FIN: "financiera", EMO: "emocional", DEC: "de decisión", CAR: "de carácter", IDE: "de identidad", CIR: "circunstancial" },
+  claveCaida: (id, p) => `mandala#${id}#${p}#caida`,
+  claveEnlaces: (id, p) => `mandala#${id}#${p}#enlaces`,
+  claveLeccion: (a, n) => `brujula-${a}#leccion${n}`,
+  claveCierre: a => `brujula-${a}#cierre`,
+  dias: f => { const [y, m, d] = f.split("-").map(Number); return Date.UTC(y, m - 1, d) / 864e5; },
+  diasQuieto(p, hoy = new Date()) {
+    if (p.cumplido || !p.jornadas.length) return null;
+    return Math.round(Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) / 864e5 - Math.max(...p.jornadas.map(this.dias)));
+  },
+  enNiebla(p, hoy) { const q = this.diasQuieto(p, hoy); return q != null && q >= this.NIEBLA_DIAS; },
+  caida(v) { if (!v) return null; const [t, f] = v.split("|"); return this.CAIDAS[t] ? { tipo: t, fecha: f || null } : null; },
+  enlaces(v, propio) { return [...new Set(String(v || "").split(",").map(x => x.trim().toUpperCase()).filter(x => Mandala.CAMPAMENTOS_FIJOS.includes(x) && x !== propio))]; },
+  enlacesDeAccion(ejes, propio) { return [...new Set((ejes || []).map(x => x.toUpperCase()).filter(x => Mandala.CAMPAMENTOS_FIJOS.includes(x) && x !== propio))].join(","); },
+  clavesALiberar(camps) {
+    const r = [];
+    camps.forEach(c => { if (c) for (let p = 0; p < 8; p++) if (respuesta(Mandala.claveHecho(c.id, p)).trim())
+      [Mandala.clave(c.id, p), Mandala.claveHecho(c.id, p), MetodoCima.claveJornadas(c.id, p), MetodoCima.claveReq(c.id, p), Mandala.claveFoto(c.id, p),
+        Mandala.claveSoltar(c.id, p), Mandala.claveLlevar(c.id, p), this.claveCaida(c.id, p), this.claveEnlaces(c.id, p)].forEach(k => { if (respuesta(k)) r.push(k); }); });
+    return r;
+  },
+};
+window.Travesia = Travesia;
 
 /* Método Cima 9×52 (igual que MetodoCima.kt): cada paso se gana con jornadas (días distintos en que
  * avanzaste); la montaña personal mide 8.848.000 mm; cada 4 tramos la dificultad (jornadas por paso)
@@ -117,6 +153,8 @@ window.MetodoCima = MetodoCima;
 
 /** Pasos de respaldo por eje, por si no se puede leer el banco de acciones. */
 const PASOS_BASE = {
+  CON: ["Diseñar un proyecto que una tres de mis ejes", "Grabar un podcast sobre lo que aprendo", "Crear un curso con mi habilidad clave", "Escribir una guía que ayude a otros", "Lanzar una comunidad pequeña", "Unir mi trabajo y mi propósito en un servicio", "Presentar mi proyecto a alguien que pueda apoyarlo", "Medir cómo el proyecto mueve cada eje"],
+  CAM: ["Elegir a mi mentor y pedirle una conversación", "Formar mi grupo de rendición de cuentas", "Reunirme con mi cordada cada semana", "Pedir retroalimentación honesta", "Ser mentor de alguien que empieza", "Agradecer a quien me sostiene", "Compartir mi avance sin victimizarme", "Cuidar mis tres círculos de apoyo"],
   VOL: ["Levantarme a la misma hora 5 días", "Terminar lo que empiezo antes de abrir algo nuevo", "Una tarea difícil antes del mediodía", "Revisar mi semana cada domingo", "Decir no a una distracción al día", "Cumplir mi racha de hábitos", "Anotar una victoria diaria", "Cerrar el día con el plan de mañana"],
   MAE: ["Leer 20 minutos al día", "Practicar mi habilidad clave 30 minutos", "Pedir retroalimentación a un experto", "Terminar un curso del área", "Enseñar lo que aprendí a alguien", "Estudiar un caso de éxito al mes", "Crear un proyecto de práctica", "Medir mi avance cada mes"],
   VOZ: ["Escribir lo que pienso antes de reuniones", "Hablar en público una vez al mes", "Pedir lo que necesito con claridad", "Publicar una reflexión por semana", "Practicar escucha activa", "Dar una opinión honesta con respeto", "Grabarme y mejorar mi forma de hablar", "Compartir mi historia con alguien"],
@@ -148,8 +186,10 @@ function mdCelda(d, cel, grande) {
   if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
       ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}${fase}
       <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" ${est === "HECHO" ? "readonly" : ""} placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
-      ${mdJornadas(d, cel, camp, texto)}</span>`;
-  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${est === "HECHO" ? "<i>✓</i>" : ""}</span>`;
+      ${mdJornadas(d, cel, camp, texto)}${d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla grande">☁</span>` : ""}${d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace">⇄ ${d.enlaces(cel.camp, cel.paso).map(x => Mandala.nombre(x)).join(", ")}</span>` : ""}</span>`;
+  const extra = (d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla" title="Niebla: más de ${Travesia.NIEBLA_DIAS} días sin avanzar">☁</span>` : "") +
+    (d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace" title="Paso de confluencia">⇄</span>` : "");
+  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${est === "HECHO" ? "<i>✓</i>" : ""}${extra}</span>`;
 }
 
 /** Jornadas de un paso y el botón para registrar la de hoy. */
@@ -159,22 +199,51 @@ function mdJornadas(d, cel, camp, texto) {
     <button class="btn mini" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">${mdFotoPaso(camp, cel.paso) ? "Evidencia y portal" : "📷 Evidencia y portal"}</button>`;
   const req = p.req || d.ritmo.dificultad, hoyListo = p.jornadas.includes(iso(new Date()));
   return `<span class="md-jornadas"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i>
-    <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button></span>`;
+    <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button>
+    <button class="md-mas" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">Detalles</button></span>`;
 }
 
 /** Panel del paso ganado: foto de evidencia (Kit de Evidencias) y portal (qué suelto, qué llevo). */
 function mdPanelPaso(d) {
   if (!estado.mdPaso) return "";
-  const [id, p] = estado.mdPaso.split("|"), c = d.camps.find(x => x && String(x.id) === id);
+  const [id, p] = estado.mdPaso.split("|"), i = d.camps.findIndex(x => x && String(x.id) === id), c = d.camps[i];
   if (!c) return "";
-  const n = Number(p), evid = mdFotoPaso(c, n);
+  const n = Number(p), paso = d.pasoCima(i, n), evid = mdFotoPaso(c, n), cod = d.cod(i), en = d.enlaces(i, n);
+  const caida = Travesia.caida(respuesta(Travesia.claveCaida(c.id, n))), quieto = Travesia.diasQuieto(paso);
+  const req = paso.req || d.ritmo.dificultad;
+  const niebla = paso.cumplido ? "" : caida
+    ? `<div class="md-aviso">Reconociste una caída ${Travesia.CAIDAS[caida.tipo]}. No pierdes tus jornadas: este paso ahora pide ${req} para que vuelvas.
+        <button class="btn mini" data-ir="aprende" data-arg="wb:bono_anti_abandono">Sistema Anti-Abandono</button></div>`
+    : d.niebla(i, n) ? `<div class="md-aviso">Llevas ${quieto} días sin avanzar en este paso: entraste en la niebla. Perderse es parte del viaje; elige un protocolo para reorientarte o reconoce si te caíste.
+        <div class="botones"><button class="btn mini" data-ir="aprende" data-arg="wb:niebla">Protocolos de la niebla</button>
+        <button class="btn mini" data-acc="mdCaidaVer" data-arg="">Me caí</button></div>
+        ${estado.mdCaidaVer ? `<div class="botones">${Object.entries(Travesia.CAIDAS).map(([k, v]) => `<button class="btn mini" data-acc="mdCaida" data-arg="${c.id}|${n}|${k}">${v}</button>`).join("")}
+          <button class="btn mini" data-ir="aprende" data-arg="wb:caidas">Guía de Caídas</button></div>` : ""}</div>` : "";
+  const chips = Mandala.CAMPAMENTOS_FIJOS.filter(x => x !== cod).map(x => `<button class="chip" data-acc="mdEnlace" data-arg="${c.id}|${n}|${x}" aria-pressed="${en.includes(x)}">${Mandala.nombre(x)}</button>`).join("");
   return `<div class="md-panel"><b>Paso ${n + 1} · ${Mandala.FASES[n]}</b><p style="margin:4px 0 8px">${esc(respuesta(Mandala.clave(c.id, n)))}</p>
-    ${evid ? `<img class="md-evid" src="${esc(evid)}" alt="Foto de evidencia">` : ""}
+    ${niebla}
+    <h4>Este paso también activa:</h4><div class="chips">${chips}</div>
+    ${paso.cumplido ? `${evid ? `<img class="md-evid" src="${esc(evid)}" alt="Foto de evidencia">` : ""}
     <label class="btn">${ic("foto")} ${evid ? "Cambiar foto de evidencia" : "Agregar foto de evidencia"}<input type="file" accept="image/*" hidden data-acc-change="mdEvidencia" data-arg="${c.id}|${n}"></label>
     <h4>Portal: antes del siguiente paso</h4>
     ${campo("Qué suelto", `<textarea data-resp="mandala|${Mandala.claveSoltar(c.id, n)}">${esc(respuesta(Mandala.claveSoltar(c.id, n)))}</textarea>`)}
-    ${campo("Qué llevo", `<textarea data-resp="mandala|${Mandala.claveLlevar(c.id, n)}">${esc(respuesta(Mandala.claveLlevar(c.id, n)))}</textarea>`)}
+    ${campo("Qué llevo", `<textarea data-resp="mandala|${Mandala.claveLlevar(c.id, n)}">${esc(respuesta(Mandala.claveLlevar(c.id, n)))}</textarea>`)}` : ""}
     <button class="btn mini" data-acc="mdPaso" data-arg="">Cerrar</button></div>`;
+}
+
+/** Cierre del año (Desde la Cima): 7 lecciones, la Brújula al diario de vida y una nueva montaña. */
+function cierreHtml(d) {
+  const a = new Date().getFullYear(), hecho = respuesta(Travesia.claveCierre(a));
+  const lecciones = [0, 1, 2, 3, 4, 5, 6].map(n => campo(`Lección ${n + 1}`, `<textarea data-resp="mandala|${Travesia.claveLeccion(a, n)}">${esc(respuesta(Travesia.claveLeccion(a, n)))}</textarea>`)).join("");
+  return `<div class="md-cierre"><h3 style="margin:0">Cierre del año ${a} · Desde la Cima</h3>
+    <p>${hecho ? `Tu Brújula de ${a} ya está en tu diario de vida.` : "Celebra, integra y desciende con conciencia: escribe las 7 lecciones de tu año, guarda tu Brújula en el diario de vida y empieza una nueva montaña."}</p>
+    ${estado.mdCierre ? `<div class="form">${lecciones}</div>
+      <div class="botones"><button class="btn mini" data-ir="aprende" data-arg="wb:desde_cima">Abrir Desde la Cima</button>
+      <button class="btn lleno" data-acc="mdCerrarAnio" ${mdPublicando ? "disabled" : ""}>${mdPublicando ? "Preparando la imagen…" : "Guardar mi año en el diario de vida"}</button>
+      ${estado.mdNueva ? `<span class="md-aviso">Los pasos ganados se liberan (siguen en tu diario de vida con sus evidencias) y se llenan con pasos nuevos. Los que van a medio camino se quedan con sus jornadas.
+        <button class="btn mini" data-acc="mdNuevaMontana" data-arg="si">Empezar</button><button class="btn mini" data-acc="mdNuevaMontana" data-arg="no">Cancelar</button></span>`
+        : `<button class="btn" data-acc="mdNuevaMontana" data-arg="?">Empezar una nueva montaña</button>`}</div>`
+      : `<button class="btn" data-acc="mdCierreVer">Escribir mis 7 lecciones</button>`}</div>`;
 }
 
 /** El ritmo del año del Método Cima 9×52. */
@@ -199,7 +268,10 @@ function mandalaHtml() {
     <p>Tu vision board es el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</p>`;
   const pie = `<b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} ${d.hechos === 1 ? "ganado" : "ganados"}</b>
     <div class="barra" style="margin:8px 0 6px"><i style="width:${d.hechos / 64 * 100}%"></i></div>
-    <p class="suave" style="margin:0 0 12px">${d.evidencias} ${d.evidencias === 1 ? "foto" : "fotos"} de evidencia: lo vivido que ya reemplazó a lo soñado</p>${compartir}`;
+    <p class="suave" style="margin:0">${d.evidencias} ${d.evidencias === 1 ? "foto" : "fotos"} de evidencia: lo vivido que ya reemplazó a lo soñado</p>
+    ${d.confluencias ? `<p class="md-conf">${d.confluencias} ${d.confluencias === 1 ? "paso" : "pasos"} de confluencia: una acción que movió varios ejes</p>` : ""}
+    ${d.enNiebla ? `<p class="md-nieblas">${d.enNiebla} ${d.enNiebla === 1 ? "paso" : "pasos"} en la niebla (más de ${Travesia.NIEBLA_DIAS} días sin avanzar)</p>` : ""}
+    <div style="height:12px"></div>${compartir}`;
   const grilla = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-bloque${bl === b ? " elegido" : ""}" data-acc="mandalaBloque" data-arg="${bl}" aria-label="Abrir bloque ${bl + 1}">${
     [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => mdCelda(d, Mandala.celda(Math.floor(bl / 3) * 3 + Math.floor(k / 3), (bl % 3) * 3 + k % 3), false)).join("")}</button>`).join("");
   const camp = Mandala.ANILLO.indexOf(b), cs = camp >= 0 ? d.camps[camp] : null;
@@ -213,11 +285,24 @@ function mandalaHtml() {
   const cod = camp >= 0 ? Mandala.CAMPAMENTOS_FIJOS[camp] : null;
   const titulo = camp < 0 ? d.titulo : cs ? mdNombre(cs) : "Campamento libre";
   const rumbo = cod ? `<p class="md-rumbo" style="--c:${d.color(camp)}">Campamento ${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</p>` : "";
-  return hoja(intro + `<div class="md-grilla">${grilla}</div>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
+  // Líneas de confluencia: del paso al centro de cada campamento que también activa
+  const pos = (f, c) => [(c + 0.5) / 9 * 100, (f + 0.5) / 9 * 100];
+  let lineas = "";
+  for (let f = 0; f < 9; f++) for (let c = 0; c < 9; c++) {
+    const cel = Mandala.celda(f, c); if (cel.tipo !== "PASO") continue;
+    const ganado = Mandala.estado(d.camps[cel.camp]?.id, cel.paso) === "HECHO";
+    if (!ganado && !(estado.mdPaso === `${d.camps[cel.camp]?.id}|${cel.paso}`)) continue;   // solo las ganadas (y la del paso abierto)
+    d.enlaces(cel.camp, cel.paso).forEach(x => {
+      const bl = Mandala.ANILLO[Mandala.CAMPAMENTOS_FIJOS.indexOf(x)], [x1, y1] = pos(f, c), [x2, y2] = pos(Math.floor(bl / 3) * 3 + 1, (bl % 3) * 3 + 1);
+      lineas += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${ganado ? "ganada" : ""}"/>`;
+    });
+  }
+  const svg = lineas ? `<svg class="md-lineas" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lineas}</svg>` : "";
+  return hoja(intro + `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
     hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin:0">${esc(titulo)}</h3>${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
-      ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
+      ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`) + hoja(cierreHtml(d));
 }
 
 
@@ -235,7 +320,46 @@ Object.assign(ACC, {
     mdPublicando = false; pintarDetalle();
   },
   mandalaBloque(_, v) { estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle(); },
-  mdPaso(_, v) { estado.mdPaso = v || null; pintarDetalle(); },
+  mdPaso(_, v) { estado.mdPaso = v || null; estado.mdCaidaVer = false; pintarDetalle(); },
+  mdCaidaVer() { estado.mdCaidaVer = !estado.mdCaidaVer; pintarDetalle(); },
+  /** Reconoce una caída: el paso conserva sus jornadas y pide como máximo la dificultad actual. */
+  async mdCaida(_, arg) {
+    const [id, p, tipo] = arg.split("|"), d = Mandala.datos(), paso = MetodoCima.leer(id, Number(p));
+    const req = Math.min(paso.req || d.ritmo.dificultad, d.ritmo.dificultad);
+    await responder("mandala", Travesia.claveCaida(id, p), `${tipo}|${iso(new Date())}`);
+    await responder("mandala", MetodoCima.claveReq(id, p), String(req));
+    estado.mdCaidaVer = false; toast("Caerse es parte del camino. Este paso ahora te pide menos para que vuelvas."); pintarDetalle();
+  },
+  async mdEnlace(_, arg) {
+    const [id, p, cod] = arg.split("|"), c = casillasVision().find(x => String(x.id) === id); if (!c) return;
+    const propio = String(c.origen || "").replace("campamento:", "");
+    const actual = Travesia.enlaces(respuesta(Travesia.claveEnlaces(id, p)), propio);
+    const nuevo = actual.includes(cod) ? actual.filter(x => x !== cod) : [...actual, cod];
+    await responder("mandala", Travesia.claveEnlaces(id, p), nuevo.join(",")); pintarDetalle();
+  },
+  mdCierreVer() { estado.mdCierre = true; pintarDetalle(); },
+  /** Guarda la Brújula del año en el diario de vida (reflexión privada con las 7 lecciones) y el resumen. */
+  async mdCerrarAnio() {
+    const a = new Date().getFullYear(), d = Mandala.datos();
+    mdPublicando = true; pintarDetalle();
+    try {
+      const blob = await imagenMandala();
+      const lecciones = [0, 1, 2, 3, 4, 5, 6].map(n => respuesta(Travesia.claveLeccion(a, n)).trim()).map((l, n) => l ? `${n + 1}. ${l}` : "").filter(Boolean);
+      await publicarImagenVision(blob, "PRIVADA", [`Mi Brújula de la Cima ${a} · Las 7 lecciones de mi año`, ...lecciones].join("\n"), `Mi Brújula de la Cima ${a}`, "REFLEXION", null);
+      await responder("mandala", Travesia.claveCierre(a), [d.hechos, d.escritos, d.ritmo.mm, d.evidencias, d.confluencias].join("|"));
+      toast(`Tu Brújula de ${a} ya está en tu diario de vida.`);
+    } catch (e) { console.error(e); toast("No se pudo guardar. Inténtalo de nuevo."); }
+    mdPublicando = false; pintarDetalle();
+  },
+  /** Nueva montaña: libera los pasos ganados y llena los vacíos con pasos nuevos. */
+  async mdNuevaMontana(_, v) {
+    if (v === "?" || v === "no") { estado.mdNueva = v === "?"; pintarDetalle(); return; }
+    const { camps } = Mandala.datos();
+    for (const k of Travesia.clavesALiberar(camps)) await responder("mandala", k, "");
+    estado.mdNueva = false;
+    for (const c of camps) if (c) await llenarPasos(c);
+    toast("Nueva montaña: tus pasos ganados siguen en tu diario de vida."); pintarDetalle();
+  },
   /** Crea la casilla de un campamento fijo que falta y le sugiere sus 8 pasos. */
   async crearCampamento(_, cod) {
     const origen = "campamento:" + cod;
@@ -282,21 +406,33 @@ let mdPublicando = false;
 
 /** Llena los pasos vacíos: primero las acciones del propósito de la casilla, luego el banco de acciones de su eje. */
 async function llenarPasos(c) {
+  const cod = String(c.origen || "").startsWith("campamento:") ? c.origen.slice(11) : c.eje;
   const actuales = [0, 1, 2, 3, 4, 5, 6, 7].map(p => respuesta(Mandala.clave(c.id, p)));
-  const sug = [];
-  if (String(c.origen || "").startsWith("proposito:")) {
-    const pid = String(c.origen).slice(10);
-    Store.lista("accion").filter(a => String(a.propositoId) === pid).sort((a, b) => (a.orden || 0) - (b.orden || 0)).forEach(a => sug.push(a.texto));
-  }
+  const sug = [], ejesDe = new Map();
+  // Acciones de los propósitos del eje (en Confluencia, los propósitos sin eje)
+  const props = Store.lista("proposito").filter(x => cod === "CON" ? !x.eje : cod === "CAM" ? false : x.eje === cod);
+  if (String(c.origen || "").startsWith("proposito:")) props.push(...Store.lista("proposito").filter(x => String(x.id) === c.origen.slice(10)));
+  props.forEach(pr => Store.lista("accion").filter(a => a.propositoId === pr.id && !a.hecha).sort((a, b) => (a.orden || 0) - (b.orden || 0)).forEach(a => sug.push(a.texto)));
   try {
     const banco = await Contenido.json("bancos/acciones.json");
-    banco.filter(a => !c.eje || (a.ejes || []).includes(c.eje)).map(a => a.texto).sort(() => Math.random() - 0.5).forEach(t => sug.push(t));
+    banco.forEach(a => ejesDe.set(String(a.texto).trim().toLowerCase(), a.ejes || []));
+    const filtro = cod === "CON" ? a => (a.ejes || []).length >= 3
+      : cod === "CAM" ? a => /mentor|grupo|cordada|comunidad|red |amig|familia|acompa|equipo/i.test(a.texto)
+      : a => (a.ejes || []).includes(cod);
+    banco.filter(filtro).sort(() => Math.random() - 0.5).forEach(a => sug.push(a.texto));
   } catch { /* sin banco (por ejemplo en la vista previa): pasos base del eje */ }
-  (PASOS_BASE[c.eje] || PASOS_BASE.TODOS).forEach(t => sug.push(t));
+  (PASOS_BASE[cod] || PASOS_BASE.TODOS).forEach(t => sug.push(t));
   const usados = new Set(actuales.filter(t => t.trim()).map(t => t.trim().toLowerCase()));
   const cola = sug.map(t => String(t).trim()).filter(t => t && !usados.has(t.toLowerCase()) && usados.add(t.toLowerCase()));
-  let n = 0;
-  for (let p = 0; p < 8; p++) if (!actuales[p].trim() && cola.length) { await responder("mandala", Mandala.clave(c.id, p), cola.shift()); n++; }
+  let n = 0, enlazados = [0, 1, 2, 3, 4, 5, 6, 7].filter(p => respuesta(Travesia.claveEnlaces(c.id, p))).length;
+  for (let p = 0; p < 8; p++) if (!actuales[p].trim() && cola.length) {
+    const t = cola.shift();
+    await responder("mandala", Mandala.clave(c.id, p), t);
+    // Solo las acciones que activan 3 ejes o más quedan como pasos de confluencia (hasta 2 por campamento)
+    const ejes = ejesDe.get(t.toLowerCase()) || [];
+    if (ejes.length >= 3 && enlazados < Travesia.ENLACES_AUTO) { await responder("mandala", Travesia.claveEnlaces(c.id, p), Travesia.enlacesDeAccion(ejes, cod)); enlazados++; }
+    n++;
+  }
   return n;
 }
 

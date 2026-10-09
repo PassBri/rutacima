@@ -360,6 +360,17 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   - **Portales:** al ganar un paso se registra qué sueltas y qué llevas (Portales y Transiciones).
   - **Compartir:** una imagen vertical de 1080 × 1350 con la cumbre, las fotos, los pasos, las evidencias y tu
     altura en milímetros, para tus seguidores o para todos.
+  - **Niebla y caídas:** un paso empezado que lleva 14 días sin jornadas se cubre de niebla y ofrece los protocolos
+    de *Cuando te pierdes en la niebla*. Si reconoces que te caíste, eliges el tipo de caída (financiera, emocional,
+    de decisión, de carácter, de identidad o circunstancial, de la Guía de Caídas): el paso conserva sus jornadas y
+    pide como máximo la dificultad actual para que vuelvas (Sistema Anti-Abandono).
+  - **Pasos de confluencia:** un paso puede activar otros campamentos (Bono 5, acciones multi-eje). Al sugerir pasos,
+    las acciones que activan 3 ejes o más quedan enlazadas (hasta 2 por campamento); al ganarlas, una línea une el
+    paso con esos campamentos en el 9×9.
+  - **Cierre del año (Desde la Cima):** escribes las 7 lecciones de tu año, la Brújula del año se guarda en tu
+    diario de vida como reflexión privada con sus lecciones, y empiezas una nueva montaña: los pasos ganados se
+    liberan (siguen en el diario con sus evidencias) y se llenan con pasos nuevos; los que van a medio camino
+    conservan sus jornadas. Las reglas están en `domain/model/Travesia.kt` (con pruebas) y en la web.
 - **Método Cima 9×52 (modelo propio):** la mandala se sube durante el año con las mismas reglas de la expedición.
   Tu montaña personal mide 8.848.000 mm y cada uno de los 64 pasos vale 138.250 mm. Un paso no se marca: se gana
   con **jornadas**, días distintos en que avanzaste en él (una prueba de constancia en lugar de la prueba de trabajo

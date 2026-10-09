@@ -278,7 +278,8 @@ private fun Cuadricula(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Uni
             // Líneas de confluencia: del paso al centro de cada campamento que también activa
             val c = size.width / Mandala.LADO
             val con = colorCampamento("CON")
-            Mandala.CELDAS.filter { it.tipo == Mandala.Tipo.PASO }.forEach { cel ->
+            // Solo las de los pasos ganados: así el mapa no se llena de líneas
+            Mandala.CELDAS.filter { it.tipo == Mandala.Tipo.PASO && datos.estado(it.campamento, it.paso) == Mandala.EstadoPaso.HECHO }.forEach { cel ->
                 datos.enlaces(cel.campamento, cel.paso).forEach { cod ->
                     val b = Mandala.bloqueDe(Mandala.CAMPAMENTOS_FIJOS.indexOf(cod))
                     val desde = Offset((cel.col + 0.5f) * c, (cel.fila + 0.5f) * c)
