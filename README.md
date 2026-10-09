@@ -493,6 +493,9 @@ confirmación y de recuperación vuelvan a la web, en Supabase › Authenticatio
   - nadie puede verificarse como coach a sí mismo;
   - solo las cuentas de autor pueden subir, cambiar o quitar grabaciones de los audiolibros.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
+- **Límite diario del coach IA** contado en una sola operación (`usar_ia`): dos mensajes al mismo tiempo no lo pasan.
+- **Migraciones de la base del teléfono probadas** (`MigracionesTest`): se reconstruyen las versiones 3, 4 y 5, se
+  llenan de datos y se comprueba que una actualización no pierde nada.
 - **Copia de seguridad de Android filtrada** (`res/xml/backup_rules.xml` y `data_extraction_rules.xml`): la copia de
   Google se lleva la ruta y los ajustes, pero nunca la sesión de la cuenta, la clave del sello, la vinculación con la
   web, el estado de los avisos ni los audiolibros descargados. Las fotos pasan a un teléfono nuevo en el traspaso
@@ -514,6 +517,14 @@ confirmación y de recuperación vuelvan a la web, en Supabase › Authenticatio
   ni notas de cordada. En su perfil ve hasta cuándo, el motivo y cómo pedir revisión.
 - **Historial:** cada decisión queda en `moderacion_log` (quién, qué, a quién y cuándo).
 - Lo reportado por 3 personas se sigue ocultando solo; si un moderador lo restaura, hacen falta 3 reportes nuevos.
+- **Reglas que no se pueden saltar desde la app:** lo que oculta un moderador no lo des-oculta el autor; una cuenta
+  suspendida tampoco edita su perfil, impulsa, reporta, entra a cordadas ni sube fotos; los reportes toman al autor
+  real desde el servidor y solo se reportan conversaciones propias.
+- **Métricas** (pestaña en la web): cuentas, personas activas por semana, cuántas vuelven después de la primera
+  semana, uso del coach IA y cordadas activas. Solo totales, calculados con lo que ya hay en el servidor.
+- **Errores** (pestaña en la web): los cierres inesperados de la app y los errores de la web, agrupados, con
+  versión, equipo y rastro técnico. Son anónimos (sin cuenta ni mensajes), se pueden apagar en Ajustes y se borran
+  a los 90 días.
 
 ### Documentos legales y protección de datos
 
