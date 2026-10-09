@@ -1187,4 +1187,6 @@
     <string name="suspension_apelar_boton">再確認を依頼</string>
     <string name="diag_enviar">匿名のエラーレポートを送信</string>
     <string name="diag_ayuda">アプリがエラーで閉じた場合、何が起きたか（バージョン、端末の機種、コードの行）を送信します。アカウントや内容は含みません。修正に役立ちます。</string>
+    <string name="foto_de">%1$sの写真</string>
+    <string name="foto_reportada">報告された画像</string>
 </resources>

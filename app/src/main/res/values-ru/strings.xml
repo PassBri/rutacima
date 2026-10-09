@@ -1187,4 +1187,6 @@
     <string name="suspension_apelar_boton">Запросить пересмотр</string>
     <string name="diag_enviar">Отправлять анонимные отчёты об ошибках</string>
     <string name="diag_ayuda">Если приложение закроется из‑за ошибки, оно отправит, что сломалось (версию, модель телефона и строку кода), без вашего аккаунта и содержимого. Это помогает нам исправлять ошибки.</string>
+    <string name="foto_de">Фото: %1$s</string>
+    <string name="foto_reportada">Изображение с жалобой</string>
 </resources>

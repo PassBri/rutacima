@@ -90,7 +90,10 @@ fun Avatar(nombre: String, url: String = "", tamano: Int = 40, forma: androidx.c
 fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true, ratio: Float = 4f / 3f) {
     if (post.foto.isNotBlank()) {
         val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
-        AsyncImage(modelo, null, modifier.aspectRatio(ratio), contentScale = ContentScale.Crop)
+        // Para lectores de pantalla: de quién es la foto y, si hay, lo que dice la publicación
+        val descripcion = androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
+            post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" }
+        AsyncImage(modelo, descripcion, modifier.aspectRatio(ratio), contentScale = ContentScale.Crop)
     } else {
         MontanaArte(post.id, modifier.aspectRatio(ratio), paleta = Eje.fromCodigo(post.eje)?.ordinal ?: 0) {
             if (conTexto) {

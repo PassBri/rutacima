@@ -1187,4 +1187,6 @@
     <string name="suspension_apelar_boton">재검토 요청</string>
     <string name="diag_enviar">익명 오류 보고서 보내기</string>
     <string name="diag_ayuda">앱이 오류로 닫히면 무엇이 실패했는지(버전, 휴대폰 모델, 코드 줄)를 보내요. 계정이나 내용은 포함되지 않아요. 문제 해결에 도움이 돼요.</string>
+    <string name="foto_de">%1$s의 사진</string>
+    <string name="foto_reportada">신고된 이미지</string>
 </resources>

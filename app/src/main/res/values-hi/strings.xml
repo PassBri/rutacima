@@ -1187,4 +1187,6 @@
     <string name="suspension_apelar_boton">समीक्षा माँगें</string>
     <string name="diag_enviar">गुमनाम त्रुटि रिपोर्ट भेजें</string>
     <string name="diag_ayuda">अगर ऐप किसी त्रुटि से बंद हो जाए, तो यह भेजता है कि क्या गड़बड़ हुई (संस्करण, फ़ोन मॉडल और कोड की पंक्ति), तुम्हारे खाते या सामग्री के बिना। इससे हमें ठीक करने में मदद मिलती है।</string>
+    <string name="foto_de">%1$s की फ़ोटो</string>
+    <string name="foto_reportada">रिपोर्ट की गई छवि</string>
 </resources>

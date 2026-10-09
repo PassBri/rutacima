@@ -200,7 +200,7 @@ private fun TarjetaCaso(caso: Caso, vm: ModeracionViewModel) {
         }
         // Lo reportado
         if (caso.imagen.isNotBlank()) {
-            AsyncImage(caso.imagen, null, contentScale = ContentScale.Crop,
+            AsyncImage(caso.imagen, stringResource(R.string.foto_reportada), contentScale = ContentScale.Crop,
                 modifier = Modifier.padding(top = 10.dp).fillMaxWidth().heightIn(max = 220.dp).clip(RoundedCornerShape(10.dp)))
         }
         if (caso.texto.isNotBlank()) Text(caso.texto, style = MaterialTheme.typography.bodyMedium, maxLines = 8, overflow = TextOverflow.Ellipsis,

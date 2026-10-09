@@ -1187,4 +1187,6 @@
     <string name="suspension_apelar_boton">申请复核</string>
     <string name="diag_enviar">发送匿名错误报告</string>
     <string name="diag_ayuda">如果应用因错误关闭，会发送出错信息（版本、手机型号和代码行），不含你的账户和内容。这能帮助我们修复问题。</string>
+    <string name="foto_de">%1$s 的照片</string>
+    <string name="foto_reportada">被举报的图片</string>
 </resources>

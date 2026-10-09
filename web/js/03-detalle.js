@@ -5,6 +5,8 @@
 const cab = (avatar, titulo, sub, acciones = "") =>
   `<header class="det-cab"><button class="rb volver" data-acc="volver" aria-label="Volver">${ic("volver")}</button>${avatar}<div class="txt"><h2>${titulo}</h2><p>${sub}</p></div>${acciones}</header>`;
 const cuerpo = (html, ancho = "") => `<div class="det-cuerpo"><div class="ancho" style="gap:18px;${ancho}">${html}</div></div>`;
+/** Texto alternativo de una foto de publicación (lectores de pantalla). */
+const altFoto = p => esc(`Foto de ${p.autorNombre || "la comunidad"}${(p.metaTitulo || p.texto) ? ": " + String(p.metaTitulo || p.texto).slice(0, 120) : ""}`);
 const hoja = (html, clase = "") => `<div class="hoja ${clase}">${html}</div>`;
 const campo = (etq, control) => `<label class="campo"><span>${etq}</span>${control}</label>`;
 /** Control enlazado a un campo de un documento: se guarda al salir del campo. */
@@ -379,7 +381,7 @@ async function cargarFeed() {
 }
 function postal(p, mini = false) {
   const c = COLOR_EJE[p.eje] || "#6B2A1A", tipo = TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || "";
-  if (p.foto && !mini) return `<img class="foto" src="${esc(p.foto)}" alt="">`;
+  if (p.foto && !mini) return `<img class="foto" src="${esc(p.foto)}" alt="${altFoto(p)}">`;
   return `<div class="postal" style="background:linear-gradient(160deg, ${c}, color-mix(in srgb, ${c} 55%, #1d120d))"><span class="tipo">${tipo}</span>
     <div class="q">${mini ? esc(p.texto) : "“" + esc(p.texto) + "”"}</div>${!mini && p.metaTitulo ? `<div class="m">${ic("bandera", "i fijado")} ${esc(p.metaTitulo)}${p.eje ? " · " + NOMBRE_EJE[p.eje] : ""}</div>` : ""}</div>`;
 }
@@ -418,7 +420,7 @@ Object.assign(DET, {
       return cab(av(ic("ruta"), "var(--burdeos)"), "Cimas", "Desliza para ver la siguiente",
         `<button class="btn mini" data-vista="lista">${ic("comunidad")} Volver al muro</button>`) +
         `<div class="cimas" tabindex="0" aria-label="Cimas">${ps.length ? ps.map(p => `<article class="cima" data-cima="${esc(p.id)}">
-          <div class="cima-fondo" style="--c:${COLOR_EJE[p.eje] || "#6B2A1A"}">${p.foto ? `<img src="${esc(p.foto)}" alt="">` : `<p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
+          <div class="cima-fondo" style="--c:${COLOR_EJE[p.eje] || "#6B2A1A"}">${p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}">` : `<p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
           <span class="cima-tipo">${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</span>
           <div class="cima-acciones">${autor(p)}
             <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar">${ic("impulso")}<b>${p.impulsos}</b></button>
@@ -647,7 +649,7 @@ Object.assign(DET, {
     if (!estado.misPosts) cargarMisPosts();
     const ps = estado.misPosts || [];
     return cab(av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "Tu diario de vida", `<button class="btn mini oro" data-ir="comunidad" data-arg="publicar">${ic("mas")} Publicar</button>`) + cuerpo(
-      ps.length ? `<div class="posts">${ps.map(p => `<button data-ir="comunidad" data-arg="post:${esc(p.id)}" style="text-align:left">${p.foto ? `<img class="foto" style="aspect-ratio:4/5" src="${esc(p.foto)}" alt="">` : postal(p, true)}</button>`).join("")}</div>`
+      ps.length ? `<div class="posts">${ps.map(p => `<button data-ir="comunidad" data-arg="post:${esc(p.id)}" style="text-align:left">${p.foto ? `<img class="foto" style="aspect-ratio:4/5" src="${esc(p.foto)}" alt="${altFoto(p)}">` : postal(p, true)}</button>`).join("")}</div>`
         : `<p class="vacio-mini">${estado.misPosts ? "Todavía no has publicado." : "Cargando…"}</p>`);
   },
   "perfil.cuenta"() {

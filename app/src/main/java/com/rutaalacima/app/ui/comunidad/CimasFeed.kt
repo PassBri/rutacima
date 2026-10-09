@@ -125,7 +125,9 @@ private fun CimaPagina(post: Post, primera: Boolean, onImpulsar: () -> Unit, onA
         // Fondo: la foto a pantalla completa, o el paisaje del eje con la frase grande
         if (post.foto.isNotBlank()) {
             val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
-            AsyncImage(modelo, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            AsyncImage(modelo, androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
+                post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" },
+                Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         } else {
             MontanaArte(post.id, Modifier.fillMaxSize(), paleta = eje?.ordinal ?: 0) {
                 Box(Modifier.fillMaxSize().background(Color(0x66000000)).padding(horizontal = 36.dp), contentAlignment = Alignment.Center) {
