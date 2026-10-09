@@ -8,6 +8,11 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// Room exporta el esquema de cada versión de la base local (para probar migraciones)
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 android {
     namespace = "com.rutaalacima.app"
     compileSdk = 35

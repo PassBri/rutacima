@@ -115,6 +115,14 @@ jobs:
         run: ./gradlew --no-daemon lintDebug
         continue-on-error: true
 
+      - name: Guardar esquemas de la base local
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: esquemas
+          path: app/schemas/
+          if-no-files-found: ignore
+
       - name: Guardar informes de pruebas
         if: always()
         uses: actions/upload-artifact@v4

@@ -26,7 +26,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         VisionCasillaEntity::class,
     ],
     version = 6,
-    exportSchema = false,
+    // El esquema de cada versión queda en app/schemas (lo sube el CI como artefacto "esquemas").
+    exportSchema = true,
 )
 abstract class RutaDatabase : RoomDatabase() {
     abstract fun perfilDao(): PerfilDao
@@ -70,10 +71,13 @@ abstract class RutaDatabase : RoomDatabase() {
             }
         }
 
-        fun build(context: Context): RutaDatabase =
-            Room.databaseBuilder(context, RutaDatabase::class.java, "rutacima.db")
+        /** Todas las migraciones. Al subir la versión: agrega aquí la nueva y su caso en MigracionesTest. */
+        val MIGRACIONES: Array<Migration> get() = arrayOf(MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6)
+
+        fun build(context: Context, nombre: String = "rutacima.db"): RutaDatabase =
+            Room.databaseBuilder(context, RutaDatabase::class.java, nombre)
                 // Desde la v4 los datos se conservan al actualizar la app.
-                .addMigrations(MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6)
+                .addMigrations(*MIGRACIONES)
                 // Solo para instalaciones de prueba muy antiguas (v1-v2).
                 .fallbackToDestructiveMigrationFrom(1, 2)
                 .build()
