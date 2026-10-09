@@ -688,26 +688,37 @@ const VACIAS = new Set("el la los las un una unos unas de del al a en y o con po
 const palabrasClave = t => [...new Set(String(t).toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(w => w.length > 2 && !VACIAS.has(w) && isNaN(Number(w))))].slice(0, 4).join(" ");
 const urlIdeas = b => "https://www.pexels.com/search/" + encodeURIComponent(b || "mountain summit") + "/";
 const INSTRUCCION_VISION = `Arma mi vision board con lo que sabes de mí (mi cumbre, mis propósitos, mis metas y mis ejes).
-Responde SOLO con un arreglo JSON de 6 a ${VISION_MAX} casillas, sin texto antes ni después. Cada casilla:
-{"titulo": "rótulo corto, máx. 4 palabras",
+Son exactamente ${VISION_MAX} casillas, una por cada campamento de mi Brújula de la Cima: CUMBRE (mi cumbre
+personal), VOL, MAE, VOZ, VAL, EVO, TRA (mis 6 ejes), CON (Confluencia: un proyecto que activa varios
+ejes) y CAM (Campamento Base: mentor, cordada y red de apoyo).
+Responde SOLO con un arreglo JSON, sin texto antes ni después. Cada casilla:
+{"campamento": "CUMBRE|VOL|MAE|VOZ|VAL|EVO|TRA|CON|CAM",
+ "titulo": "rótulo corto, máx. 4 palabras",
  "afirmacion": "frase en presente y primera persona, máx. 14 palabras, sobre algo concreto de mi vida",
  "eje": "VOL|MAE|VOZ|VAL|EVO|TRA o null",
  "sugerencia": "qué foto MÍA buscar o tomar para esta casilla (no imágenes genéricas)",
  "busqueda": "2 a 4 palabras para buscar ideas de imágenes"}
-Cubre mi cumbre, cada propósito y los ejes más débiles. Escribe en mi idioma.`;
-/** Igual que VisionBoard.proponer en la app. */
+Usa mis propósitos y metas en el campamento de su eje. Escribe en mi idioma.`;
+/** Confluencia y Campamento Base (los dos campamentos que no son ejes). */
+const VISION_CAMP = {
+  CON: ["Confluencia", "Tengo un proyecto que une mis seis ejes en una sola montaña.", "Una foto tuya trabajando en el proyecto que mezcla lo que sabes, lo que dices y lo que aportas."],
+  CAM: ["Campamento Base", "No subo solo: mi mentor, mi cordada y mi red me sostienen.", "Una foto con tu mentor, tu grupo o las personas que te acompañan a subir."],
+};
+const ORIGENES_VISION = () => ["cumbre", ...Mandala.CAMPAMENTOS_FIJOS.map(c => "campamento:" + c)];
+/** Igual que VisionBoard.proponer en la app: la cumbre y los 8 campamentos fijos de la Brújula de la Cima. */
 function proponerVision() {
-  const p = perfil(), anio = new Date().getFullYear(), r = [], inicio = p.anioInicioPlan || anio;
-  const sug = (eje, t) => `${VISION_EJES[eje]?.[1] || "Una foto tuya en un lugar o momento que represente tu cumbre."} Relacionada con: ${t}`;
-  if ((p.cumbreFrase || "").trim()) r.push({ titulo: "Mi cumbre", afirmacion: p.cumbreFrase.trim(), eje: null, sugerencia: "Una foto tuya en un lugar o momento que represente tu cumbre.", busqueda: palabrasClave(p.cumbreFrase), origen: "cumbre" });
-  Store.lista("proposito").slice(0, 3).forEach(x => r.push({ titulo: `Propósito · ${inicio + (x.horizonte || 5) - 1}`, afirmacion: x.titulo.trim(), eje: x.eje || null, sugerencia: sug(x.eje, x.titulo), busqueda: palabrasClave(x.titulo), origen: "proposito:" + x.id }));
-  Store.lista("meta_anio").filter(x => x.anio === anio).slice(0, 3).forEach(x => r.push({ titulo: `Meta ${x.anio}`, afirmacion: x.titulo.trim(), eje: x.eje || null, sugerencia: sug(x.eje, x.titulo), busqueda: palabrasClave(x.titulo), origen: "meta:" + x.id }));
-  const e = ultimaEvaluacion(), debil = e ? EJES.reduce((m, x) => (e[x[2]] < e[m[2]] ? x : m))[0] : null;
-  const presentes = new Set(r.map(x => x.eje).filter(Boolean));
-  EJES.map(x => x[0]).filter(c => !presentes.has(c)).sort((a, b) => (a === debil ? -1 : b === debil ? 1 : 0)).forEach(c => {
-    if (r.length < VISION_MAX) r.push({ titulo: NOMBRE_EJE[c], afirmacion: VISION_EJES[c][0], eje: c, sugerencia: VISION_EJES[c][1], busqueda: palabrasClave(VISION_EJES[c][1]), origen: "eje:" + c });
+  const p = perfil(), anio = new Date().getFullYear(), r = [];
+  const cumbre = (p.cumbreFrase || "").trim();
+  r.push({ titulo: "Mi cumbre", afirmacion: cumbre || "Escribe aquí tu cumbre personal", eje: null, sugerencia: "Una foto tuya en un lugar o momento que represente tu cumbre.", busqueda: palabrasClave(cumbre || "cumbre montaña"), origen: "cumbre" });
+  const props = Store.lista("proposito"), metas = Store.lista("meta_anio").filter(x => x.anio === anio);
+  Mandala.CAMPAMENTOS_FIJOS.forEach(cod => {
+    const [nombre, af, foto] = VISION_CAMP[cod] || [NOMBRE_EJE[cod], VISION_EJES[cod][0], VISION_EJES[cod][1]];
+    const propio = (cod === "CON" ? props.find(x => !x.eje)?.titulo : cod === "CAM" ? null
+      : (props.find(x => x.eje === cod)?.titulo || metas.find(x => x.eje === cod)?.titulo))?.trim() || null;
+    r.push({ titulo: nombre, afirmacion: propio || af, eje: VISION_CAMP[cod] ? null : cod, sugerencia: propio ? `${foto} Relacionada con: ${propio}` : foto,
+      busqueda: palabrasClave(propio || foto), origen: "campamento:" + cod });
   });
-  return r.slice(0, VISION_MAX);
+  return r;
 }
 /** Igual que VisionBoard.desdeIa en la app. */
 function visionDesdeIa(texto) {
@@ -718,9 +729,10 @@ function visionDesdeIa(texto) {
   const s = v => (typeof v === "string" && v.trim() && v.trim() !== "null") ? v.trim() : null;
   const r = arr.map(o => {
     if (!o || !s(o.afirmacion)) return null;
-    const eje = s(o.eje)?.toUpperCase();
-    return { titulo: (s(o.titulo) || s(o.afirmacion)).slice(0, 40), afirmacion: s(o.afirmacion).slice(0, 160), eje: NOMBRE_EJE[eje] ? eje : null,
-      sugerencia: (s(o.sugerencia) || "").slice(0, 200), busqueda: (s(o.busqueda) || palabrasClave(o.afirmacion)).slice(0, 60), origen: "ia" };
+    const eje0 = s(o.eje)?.toUpperCase(), eje = NOMBRE_EJE[eje0] ? eje0 : null, camp = s(o.campamento)?.toUpperCase();
+    const origen = camp === "CUMBRE" ? "cumbre" : Mandala.CAMPAMENTOS_FIJOS.includes(camp) ? "campamento:" + camp : eje ? "campamento:" + eje : "ia";
+    return { titulo: (s(o.titulo) || s(o.afirmacion)).slice(0, 40), afirmacion: s(o.afirmacion).slice(0, 160), eje: eje || (NOMBRE_EJE[camp] ? camp : null),
+      sugerencia: (s(o.sugerencia) || "").slice(0, 200), busqueda: (s(o.busqueda) || palabrasClave(o.afirmacion)).slice(0, 60), origen };
   }).filter(Boolean).slice(0, VISION_MAX);
   return r.length >= 3 ? r : null;
 }
@@ -741,13 +753,18 @@ async function armarVision() {
     } catch (e) { console.warn(e); }
   }
   visionConIa = !!propuestas;
-  propuestas ||= proponerVision();
-  const actuales = casillasVision(), conFoto = actuales.filter(c => c.publicacionId);
-  actuales.filter(c => !c.publicacionId).forEach(c => Store.borrar("vision", c.id));
-  const cubiertas = new Set(conFoto.map(c => c.origen));
-  let orden = Math.max(-1, ...conFoto.map(c => c.orden || 0)) + 1;
-  propuestas.filter(p => p.origen === "ia" || !cubiertas.has(p.origen)).slice(0, Math.max(0, VISION_MAX - conFoto.length))
-    .forEach(p => Store.guardar("vision", { id: nuevoId(), orden: orden++, publicacionId: null, ...p }));
+  const local = proponerVision(), actuales = casillasVision();
+  const { cumbre, camps } = Mandala.repartir(actuales), ubicadas = [cumbre, ...camps];
+  // Las 9 casillas se actualizan en su lugar (conservan su id y sus pasos); las que tienen foto no cambian
+  ORIGENES_VISION().forEach((origen, orden) => {
+    const p = propuestas?.find(x => x.origen === origen) || local.find(x => x.origen === origen); if (!p) return;
+    const ex = ubicadas[orden];
+    if (!ex) Store.guardar("vision", { id: nuevoId(), orden, publicacionId: null, ...p });
+    else if (ex.publicacionId) Store.cambiar("vision", ex.id, { orden, origen });
+    else Store.cambiar("vision", ex.id, { orden, titulo: p.titulo, afirmacion: p.afirmacion, eje: p.eje, sugerencia: p.sugerencia, busqueda: p.busqueda, origen });
+  });
+  const usadas = new Set(ubicadas.filter(Boolean).map(c => c.id));
+  actuales.filter(c => !usadas.has(c.id) && !c.publicacionId).forEach(c => Store.borrar("vision", c.id));
   await window.llenarCampamentosVacios?.();
   armandoVision = false; pintarDetalle();
 }

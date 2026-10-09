@@ -343,14 +343,23 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   hasta 9 casillas. Cada una trae una frase en primera persona y qué foto tuya buscar o tomar. Tú las llenas con
   tus propias fotos (o buscas ideas en un banco de imágenes libres). Sin conexión, la app arma el tablero con las
   mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
-- **Tu 9×9: el vision board es su centro.** Adaptación del Mandala Chart (Mandal-Art, de Hiroaki Matsumura; el
-  método Harada con el que Shohei Ohtani planeó su carrera). Las 9 casillas del vision board son el bloque central:
-  tu cumbre en medio y 8 campamentos alrededor, con sus fotos y sus frases. Cada campamento abre su propio bloque con
-  8 pasos: 64 pasos hacia tu cima. Al armar el vision board (o agregar una casilla) los campamentos vacíos reciben
-  8 pasos sugeridos —las acciones de su propósito y el banco de acciones de su eje— y tú los ajustas. El 9×9 se ve
-  como mapa (en el celular, solo colores y avance) y se trabaja bloque por bloque. **Compartir mi 9×9** genera una
-  imagen vertical de 1080 × 1350 con tu cumbre, las fotos, los pasos y tu avance, y la publica en la comunidad como
-  visión, para tus seguidores o para todos. Los pasos viajan a la web y a las copias de seguridad.
+- **Brújula de la Cima 9×9 (modelo propio, a partir del Mandala Chart).** El Mandala Chart (Mandal-Art, de Hiroaki
+  Matsumura; el método Harada con el que Shohei Ohtani planeó su carrera) es una cuadrícula fija de 8 áreas y 64
+  tareas sin orden. La Brújula lo rehace con los libros de Ruta a la Cima:
+  - **El centro es el vision board:** la cumbre en medio y 8 campamentos fijos como una rosa de los vientos: los
+    6 ejes (Trascendencia al norte, Voluntad al sur como base), **Confluencia** (un proyecto que activa varios ejes,
+    Bono 3) y **Campamento Base** (mentor, cordada y red de apoyo). Cada casilla se edita y lleva su foto de visión.
+    Al armar el tablero, cada eje toma tu propósito o tu meta del año de ese eje, y las casillas se actualizan en su
+    lugar sin perder sus pasos.
+  - **Cada bloque es un viaje:** sus 8 pasos van en sentido del reloj por las 7 fases del Viaje Transformativo
+    (Orientación, Preparación, Travesía, Ascenso, Cima, Contemplación, Descenso) y terminan en el Legado (Desde la
+    Cima). Al armar el tablero los pasos se llenan solos con las acciones de tus propósitos y el banco de acciones.
+  - **De la visión a la evidencia:** un paso ganado recibe su foto real (Kit de Evidencias), que reemplaza a la
+    visión en el borde del 9×9, se guarda como evidencia privada y aparece en el diario de vida. Con el año, el
+    9×9 pasa de soñado a vivido.
+  - **Portales:** al ganar un paso se registra qué sueltas y qué llevas (Portales y Transiciones).
+  - **Compartir:** una imagen vertical de 1080 × 1350 con la cumbre, las fotos, los pasos, las evidencias y tu
+    altura en milímetros, para tus seguidores o para todos.
 - **Método Cima 9×52 (modelo propio):** la mandala se sube durante el año con las mismas reglas de la expedición.
   Tu montaña personal mide 8.848.000 mm y cada uno de los 64 pasos vale 138.250 mm. Un paso no se marca: se gana
   con **jornadas**, días distintos en que avanzaste en él (una prueba de constancia en lugar de la prueba de trabajo

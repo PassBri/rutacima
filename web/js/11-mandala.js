@@ -7,31 +7,50 @@
  * puede compartir como imagen en la comunidad. */
 const Mandala = {
   ANILLO: [0, 1, 2, 3, 5, 6, 7, 8],
-  PALETA: ["#8E3B26", "#5C4A8A", "#2F6F7A", "#8A6A1F", "#3F7A4A", "#6B2A1A", "#7A4A6B", "#4A5E7A"],
+  /** Brújula de la Cima: 8 campamentos fijos como rosa de los vientos (6 ejes, Confluencia y Campamento Base). */
+  CAMPAMENTOS_FIJOS: ["CON", "TRA", "VAL", "EVO", "VOZ", "CAM", "VOL", "MAE"],
+  RUMBOS: ["NO", "N", "NE", "O", "E", "SO", "S", "SE"],
+  /** Los pasos van en sentido del reloj desde arriba a la izquierda. */
+  RELOJ: [0, 1, 2, 5, 8, 7, 6, 3],
+  /** Las 7 fases del Viaje Transformativo más el Legado (Desde la Cima). */
+  FASES: ["Orientación", "Preparación", "Travesía", "Ascenso", "Cima", "Contemplación", "Descenso", "Legado"],
+  COLORES: { CON: "#7A4A6B", CAM: "#4A5E7A" },
+  NOMBRES: { CON: "Confluencia", CAM: "Campamento Base" },
+  nombre(cod) { return this.NOMBRES[cod] || NOMBRE_EJE[cod] || cod; },
   clave: (id, p) => `mandala#${id}#${p}`,
   claveHecho: (id, p) => `mandala#${id}#${p}#hecho`,
+  claveFoto: (id, p) => `mandala#${id}#${p}#foto`,
+  claveSoltar: (id, p) => `mandala#${id}#${p}#soltar`,
+  claveLlevar: (id, p) => `mandala#${id}#${p}#llevar`,
+  /** Igual que Mandala.repartir en la app: cumbre al centro y cada campamento fijo en su rumbo. */
+  repartir(cs) {
+    const cumbre = cs.find(c => c.origen === "cumbre") || null, libres = cs.filter(c => c !== cumbre);
+    const tomar = f => { const c = libres.find(f); if (c) libres.splice(libres.indexOf(c), 1); return c || null; };
+    const camps = this.CAMPAMENTOS_FIJOS.map(cod => tomar(c => c.origen === "campamento:" + cod));
+    this.CAMPAMENTOS_FIJOS.forEach((cod, i) => { if (!camps[i]) camps[i] = tomar(c => c.origen === "eje:" + cod) || tomar(c => c.eje === cod); });
+    return { cumbre, camps };
+  },
   celda(f, c) {
     const bloque = Math.floor(f / 3) * 3 + Math.floor(c / 3), dentro = (f % 3) * 3 + c % 3;
     if (bloque === 4 && dentro === 4) return { f, c, tipo: "CUMBRE", camp: -1, paso: -1 };
     if (bloque === 4) return { f, c, tipo: "CAMPAMENTO", camp: this.ANILLO.indexOf(dentro), paso: -1, copia: true };
     if (dentro === 4) return { f, c, tipo: "CAMPAMENTO", camp: this.ANILLO.indexOf(bloque), paso: -1 };
-    return { f, c, tipo: "PASO", camp: this.ANILLO.indexOf(bloque), paso: this.ANILLO.indexOf(dentro) };
+    return { f, c, tipo: "PASO", camp: this.ANILLO.indexOf(bloque), paso: this.RELOJ.indexOf(dentro) };
   },
   estado(id, p) {
     if (id == null || !respuesta(this.clave(id, p)).trim()) return "VACIO";
     return respuesta(this.claveHecho(id, p)).trim() ? "HECHO" : "ESCRITO";
   },
-  /** La casilla "cumbre" va al centro; las demás (por su orden) son los campamentos. */
   datos() {
-    const cs = casillasVision(), cumbre = cs.find(c => c.origen === "cumbre") || null;
-    const camps = cs.filter(c => c !== cumbre).slice(0, 8);
+    const { cumbre, camps } = this.repartir(casillasVision());
     const titulo = (cumbre?.afirmacion || perfil().cumbreFrase || "Mi cumbre").trim();
-    const color = i => COLOR_EJE[camps[i]?.eje] || this.PALETA[i];
-    let escritos = 0, hechos = 0;
-    camps.forEach(c => { for (let p = 0; p < 8; p++) { const e = this.estado(c.id, p); if (e !== "VACIO") escritos++; if (e === "HECHO") hechos++; } });
-    const pasos = MetodoCima.pasosDe(camps.map(c => c.id)), ritmo = MetodoCima.calcular(pasos, new Date());
+    const color = i => this.COLORES[this.CAMPAMENTOS_FIJOS[i]] || COLOR_EJE[this.CAMPAMENTOS_FIJOS[i]];
+    let escritos = 0, hechos = 0, evidencias = 0;
+    camps.forEach(c => { if (c) for (let p = 0; p < 8; p++) if (mdFotoPaso(c, p)) evidencias++; });
+    camps.filter(Boolean).forEach(c => { for (let p = 0; p < 8; p++) { const e = this.estado(c.id, p); if (e !== "VACIO") escritos++; if (e === "HECHO") hechos++; } });
+    const pasos = MetodoCima.pasosDe(camps.map(c => c?.id)), ritmo = MetodoCima.calcular(pasos, new Date());
     const pasoCima = (i, p) => pasos[i * 8 + p];
-    return { cumbre, camps, titulo, color, escritos, hechos, pasos, ritmo, pasoCima, avance: (i, p) => MetodoCima.avance(pasoCima(i, p), ritmo.dificultad) };
+    return { cumbre, camps, titulo, color, escritos, hechos, evidencias, pasos, ritmo, pasoCima, avance: (i, p) => MetodoCima.avance(pasoCima(i, p), ritmo.dificultad) };
   },
 };
 window.Mandala = Mandala;
@@ -108,6 +127,8 @@ const PASOS_BASE = {
 };
 
 const mdFoto = c => c ? fotoDePublicacion(c.publicacionId) : null;
+/** Foto de evidencia de un paso ganado (Kit de Evidencias). */
+const mdFotoPaso = (c, p) => { const id = c && respuesta(Mandala.claveFoto(c.id, p)); return id ? fotoDePublicacion(id) : null; };
 /** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
 const mdNombre = c => (c.afirmacion || c.titulo || "").trim();
 
@@ -120,22 +141,40 @@ function mdCelda(d, cel, grande) {
   const camp = d.camps[cel.camp], color = d.color(cel.camp);
   if (cel.tipo === "CAMPAMENTO") {
     const foto = mdFoto(camp);
-    return `<span class="md-c md-camp${camp ? "" : " libre"}" style="--c:${color}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${camp ? esc(mdNombre(camp)) : "+"}</b></span>`;
+    return `<span class="md-c md-camp${camp ? "" : " libre"}" style="--c:${color}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${camp ? esc(mdNombre(camp)) : "+ " + Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp])}</b></span>`;
   }
   const est = Mandala.estado(camp?.id, cel.paso), texto = camp ? respuesta(Mandala.clave(camp.id, cel.paso)) : "";
-  if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}" style="--c:${color}">
+  const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1} · ${Mandala.FASES[cel.paso]}</small>`;
+  if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
+      ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}${fase}
       <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" ${est === "HECHO" ? "readonly" : ""} placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
       ${mdJornadas(d, cel, camp, texto)}</span>`;
-  return `<span class="md-c md-paso md-${est.toLowerCase()}" style="--c:${color}"><span class="t">${esc(texto)}</span>${est === "HECHO" ? "<i>✓</i>" : ""}</span>`;
+  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${est === "HECHO" ? "<i>✓</i>" : ""}</span>`;
 }
 
 /** Jornadas de un paso y el botón para registrar la de hoy. */
 function mdJornadas(d, cel, camp, texto) {
   const p = d.pasoCima(cel.camp, cel.paso);
-  if (p.cumplido) return `<span class="md-ganado">✓ Paso ganado</span>`;
+  if (p.cumplido) return `<span class="md-ganado">✓ Paso ganado</span>
+    <button class="btn mini" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">${mdFotoPaso(camp, cel.paso) ? "Evidencia y portal" : "📷 Evidencia y portal"}</button>`;
   const req = p.req || d.ritmo.dificultad, hoyListo = p.jornadas.includes(iso(new Date()));
   return `<span class="md-jornadas"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i>
     <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button></span>`;
+}
+
+/** Panel del paso ganado: foto de evidencia (Kit de Evidencias) y portal (qué suelto, qué llevo). */
+function mdPanelPaso(d) {
+  if (!estado.mdPaso) return "";
+  const [id, p] = estado.mdPaso.split("|"), c = d.camps.find(x => x && String(x.id) === id);
+  if (!c) return "";
+  const n = Number(p), evid = mdFotoPaso(c, n);
+  return `<div class="md-panel"><b>Paso ${n + 1} · ${Mandala.FASES[n]}</b><p style="margin:4px 0 8px">${esc(respuesta(Mandala.clave(c.id, n)))}</p>
+    ${evid ? `<img class="md-evid" src="${esc(evid)}" alt="Foto de evidencia">` : ""}
+    <label class="btn">${ic("foto")} ${evid ? "Cambiar foto de evidencia" : "Agregar foto de evidencia"}<input type="file" accept="image/*" hidden data-acc-change="mdEvidencia" data-arg="${c.id}|${n}"></label>
+    <h4>Portal: antes del siguiente paso</h4>
+    ${campo("Qué suelto", `<textarea data-resp="mandala|${Mandala.claveSoltar(c.id, n)}">${esc(respuesta(Mandala.claveSoltar(c.id, n)))}</textarea>`)}
+    ${campo("Qué llevo", `<textarea data-resp="mandala|${Mandala.claveLlevar(c.id, n)}">${esc(respuesta(Mandala.claveLlevar(c.id, n)))}</textarea>`)}
+    <button class="btn mini" data-acc="mdPaso" data-arg="">Cerrar</button></div>`;
 }
 
 /** El ritmo del año del Método Cima 9×52. */
@@ -156,25 +195,28 @@ function mandalaHtml() {
         <div class="botones"><button class="btn" data-acc="compartirMandala" data-arg="SEGUIDORES">Mis seguidores</button>
         <button class="btn lleno" data-acc="compartirMandala" data-arg="PUBLICA">Todos</button><button class="btn mini" data-acc="compartirMandala" data-arg="">Cancelar</button></div></div>`
     : `<button class="btn lleno md-btn-compartir" data-acc="compartirMandala" data-arg="?" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando la imagen…" : "Compartir mi 9×9 en la comunidad"}</button>`;
-  const intro = `<h3 style="margin-top:0">Tu 9×9</h3>
-    <p>Tu vision board es el centro de tu 9×9: tu cumbre en medio y tus 8 casillas alrededor. Cada casilla es un campamento con 8 pasos; al armar el tablero, los pasos se llenan solos y tú los ajustas.</p>`;
-  const pie = `<b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} ganados</b>
-    <div class="barra" style="margin:8px 0 12px"><i style="width:${d.hechos / 64 * 100}%"></i></div>${compartir}`;
+  const intro = `<h3 style="margin-top:0">Brújula de la Cima 9×9</h3>
+    <p>Tu vision board es el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</p>`;
+  const pie = `<b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} ${d.hechos === 1 ? "ganado" : "ganados"}</b>
+    <div class="barra" style="margin:8px 0 6px"><i style="width:${d.hechos / 64 * 100}%"></i></div>
+    <p class="suave" style="margin:0 0 12px">${d.evidencias} ${d.evidencias === 1 ? "foto" : "fotos"} de evidencia: lo vivido que ya reemplazó a lo soñado</p>${compartir}`;
   const grilla = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-bloque${bl === b ? " elegido" : ""}" data-acc="mandalaBloque" data-arg="${bl}" aria-label="Abrir bloque ${bl + 1}">${
     [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => mdCelda(d, Mandala.celda(Math.floor(bl / 3) * 3 + Math.floor(k / 3), (bl % 3) * 3 + k % 3), false)).join("")}</button>`).join("");
   const camp = Mandala.ANILLO.indexOf(b), cs = camp >= 0 ? d.camps[camp] : null;
   const grande = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
     const cel = Mandala.celda(Math.floor(b / 3) * 3 + Math.floor(k / 3), (b % 3) * 3 + k % 3);
     const html = mdCelda(d, cel, true);
-    if (cel.tipo === "CAMPAMENTO" && cel.copia) return d.camps[cel.camp] ? `<button data-acc="mandalaBloque" data-arg="${Mandala.ANILLO[cel.camp]}">${html}</button>` : `<button data-acc="casillaNueva">${html}</button>`;
+    if (cel.tipo === "CAMPAMENTO" && cel.copia) return d.camps[cel.camp] ? `<button data-acc="mandalaBloque" data-arg="${Mandala.ANILLO[cel.camp]}">${html}</button>` : `<button data-acc="crearCampamento" data-arg="${Mandala.CAMPAMENTOS_FIJOS[cel.camp]}">${html}</button>`;
     if (cel.tipo === "CAMPAMENTO") return `<button data-acc="mandalaBloque" data-arg="4">${html}</button>`;
     return `<div>${html}</div>`;
   }).join("");
+  const cod = camp >= 0 ? Mandala.CAMPAMENTOS_FIJOS[camp] : null;
   const titulo = camp < 0 ? d.titulo : cs ? mdNombre(cs) : "Campamento libre";
+  const rumbo = cod ? `<p class="md-rumbo" style="--c:${d.color(camp)}">Campamento ${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</p>` : "";
   return hoja(intro + `<div class="md-grilla">${grilla}</div>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
-    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin-top:0">${esc(titulo)}</h3><div class="md-grande">${grande}</div>
+    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin:0">${esc(titulo)}</h3>${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
-      ${camp >= 0 && !cs ? `<button class="btn" data-acc="casillaNueva">${ic("mas")} Agregar campamento</button>` : ""}
+      ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
 }
 
@@ -187,12 +229,34 @@ Object.assign(ACC, {
     estado.mdCompartir = false; mdPublicando = true; pintarDetalle();
     try {
       const blob = await imagenMandala();
-      await publicarImagenVision(blob, vis, Mandala.datos().titulo + "\n#MetodoCima9x52", "Mi 9×9 · Método Cima");
+      await publicarImagenVision(blob, vis, Mandala.datos().titulo + "\n#MetodoCima9x52", "Mi Brújula de la Cima 9×9");
       toast("Tu 9×9 ya está en la comunidad");
     } catch (e) { console.error(e); toast("No se pudo compartir. Inténtalo de nuevo."); }
     mdPublicando = false; pintarDetalle();
   },
-  mandalaBloque(_, v) { estado.mandalaBloque = Number(v); pintarDetalle(); },
+  mandalaBloque(_, v) { estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle(); },
+  mdPaso(_, v) { estado.mdPaso = v || null; pintarDetalle(); },
+  /** Crea la casilla de un campamento fijo que falta y le sugiere sus 8 pasos. */
+  async crearCampamento(_, cod) {
+    const origen = "campamento:" + cod;
+    if (!casillasVision().some(c => c.origen === origen)) {
+      const p = proponerVision().find(x => x.origen === origen); if (!p) return;
+      await Store.guardar("vision", { id: nuevoId(), orden: ORIGENES_VISION().indexOf(origen), publicacionId: null, ...p });
+    }
+    await llenarCampamentosVacios(); pintarDetalle();
+  },
+  /** Kit de Evidencias: la foto real del paso ganado (publicación privada que también llega al diario de vida). */
+  async mdEvidencia(el, arg) {
+    const archivo = el.files?.[0]; if (!archivo) return;
+    const [id, p] = arg.split("|"), c = casillasVision().find(x => String(x.id) === id); if (!c) return;
+    toast("Guardando tu evidencia…");
+    try {
+      const postId = await publicarImagenVision(archivo, "PRIVADA", respuesta(Mandala.clave(c.id, p)), (c.afirmacion || "").slice(0, 80), "EVIDENCIA", c.eje || null);
+      await responder("mandala", Mandala.claveFoto(c.id, p), postId);
+      toast("Evidencia guardada: lo vivido ya reemplaza a lo soñado.");
+    } catch (e) { console.error(e); toast("No se pudo guardar la foto."); }
+    pintarDetalle();
+  },
   /** Registra la jornada de hoy (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */
   async mandalaAvanzar(_, arg) {
     const [id, p] = arg.split("|"), d = Mandala.datos(), paso = MetodoCima.leer(id, Number(p));
@@ -239,7 +303,7 @@ async function llenarPasos(c) {
 /** Al llenar el vision board se llena el 9×9: cada campamento sin ningún paso recibe 8 sugeridos. */
 async function llenarCampamentosVacios() {
   const { camps } = Mandala.datos();
-  for (const c of camps) if ([0, 1, 2, 3, 4, 5, 6, 7].every(p => !respuesta(Mandala.clave(c.id, p)).trim())) await llenarPasos(c);
+  for (const c of camps) if (c && [0, 1, 2, 3, 4, 5, 6, 7].every(p => !respuesta(Mandala.clave(c.id, p)).trim())) await llenarPasos(c);
 }
 window.llenarCampamentosVacios = llenarCampamentosVacios;
 
@@ -251,6 +315,8 @@ async function imagenMandala() {
   const cargar = url => new Promise(res => { if (!url) return res(null); const im = new Image(); im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
   const fotos = new Map();
   for (const c of [d.cumbre, ...d.camps]) if (c) fotos.set(c.id, await cargar(mdFoto(c)));
+  const evidencias = new Map();
+  for (const c of d.camps) if (c) for (let p = 0; p < 8; p++) { const u = mdFotoPaso(c, p); if (u) evidencias.set(c.id + "|" + p, await cargar(u)); }
   const SERIF = '"Roboto Serif", Georgia, serif', SANS = 'Roboto, system-ui, sans-serif';
   const texto = (s, x, y, ancho, tam, color, peso, lineas, centro = false, alto = null) => {
     if (!s) return;
@@ -270,7 +336,7 @@ async function imagenMandala() {
   const mezcla = (a, b, t) => { const h = x => [1, 3, 5].map(i => parseInt(x.slice(i, i + 2), 16)); const A = h(a), B = h(b); return `rgb(${A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(",")})`; };
   const foto = (im, x, y, s, velo) => { if (!im) return; const l = Math.min(im.width, im.height); g.save(); redondo(x, y, s, s, 14); g.clip(); g.drawImage(im, (im.width - l) / 2, (im.height - l) / 2, l, l, x, y, s, s); g.fillStyle = velo; g.fillRect(x, y, s, s); g.restore(); };
   g.fillStyle = "#F7F3EE"; g.fillRect(0, 0, W, H);
-  texto("MI 9×9 · MÉTODO CIMA", 40, 40, 1000, 26, "#6B2A1A", 700, 1);
+  texto("MI BRÚJULA DE LA CIMA 9×9", 40, 40, 1000, 26, "#6B2A1A", 700, 1);
   g.font = `700 44px ${SERIF}`;
   texto(d.titulo, 40, 78, 1000, 44, "#2B1E18", "700s", 2);
   const x0 = 40, y0 = 190, lado = 1000, sb = 10, sc = 3, bl = (lado - 2 * sb) / 3, ce = (bl - 2 * sc) / 3;
@@ -289,12 +355,13 @@ async function imagenMandala() {
     } else {
       const cp = d.camps[cel.camp], col = d.color(cel.camp), est = Mandala.estado(cp?.id, cel.paso);
       g.fillStyle = est === "VACIO" ? "#EDE4D9" : mezcla("#FFFFFF", col, est === "HECHO" ? 0.45 : 0.16); redondo(x, y, ce, ce, 10); g.fill();
-      texto(cp ? respuesta(Mandala.clave(cp.id, cel.paso)) : "", x + 5, y, ce - 10, 14, "#2B1E18", 400, 5, true, ce);
+      const ev = cp && evidencias.get(cp.id + "|" + cel.paso); foto(ev, x, y, ce, "rgba(0,0,0,.45)");
+      texto(cp ? respuesta(Mandala.clave(cp.id, cel.paso)) : "", x + 5, y, ce - 10, 14, ev ? "#fff" : "#2B1E18", ev ? 700 : 400, 5, true, ce);
       if (est === "HECHO") { g.fillStyle = col; g.beginPath(); g.arc(x + ce - 14, y + 14, 10, 0, Math.PI * 2); g.fill(); texto("✓", x + ce - 24, y + 6, 20, 15, "#fff", 700, 1, true); }
     }
   }
   const pie = y0 + lado + 14;
-  texto(`${d.escritos} de 64 pasos escritos · ${d.hechos} ganados`, 40, pie, 1000, 30, "#2B1E18", 700, 1);
+  texto(`${d.escritos} de 64 pasos escritos · ${d.hechos} ${d.hechos === 1 ? "ganado" : "ganados"}`, 40, pie, 1000, 30, "#2B1E18", 700, 1);
   texto(`Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm`, 40, pie + 44, 1000, 26, "#6B2A1A", 400, 1);
   g.fillStyle = "#6B2A1A"; g.fillRect(0, H - 64, W, 64);
   texto("Ruta a la Cima · Método Cima 9×52", 40, H - 50, 1000, 26, "#fff", "700s", 1, true);
@@ -303,19 +370,22 @@ async function imagenMandala() {
 window.imagenMandala = imagenMandala;
 
 /** Publica una imagen como publicación de visión (en la nube o en el ejemplo). */
-async function publicarImagenVision(blob, visibilidad, texto, metaTitulo) {
+async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo = "VISION", eje = null) {
+  let id;
   if (Store.nube) {
-    const sb = Store.nube.sb, postId = crypto.randomUUID(), ruta = `${Store.nube.dueno}/${postId}.jpg`;
+    const sb = Store.nube.sb, postId = crypto.randomUUID(), ruta = `${Store.nube.dueno}/${postId}.jpg`; id = postId;
     const up = await sb.storage.from("media").upload(ruta, blob, { upsert: true, contentType: "image/jpeg" });
     if (up.error) throw up.error;
     const url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
-    const r = await sb.from("posts").insert({ id: postId, user_id: Store.nube.dueno, tipo: "VISION", texto, image_url: url, eje: null, anio: new Date().getFullYear(), visibilidad, meta_titulo: metaTitulo });
+    const r = await sb.from("posts").insert({ id: postId, user_id: Store.nube.dueno, tipo, texto, image_url: url, eje, anio: new Date().getFullYear(), visibilidad, meta_titulo: metaTitulo });
     if (r.error) throw r.error;
-    (estado.misPosts ||= []).unshift({ id: postId, tipo: "VISION", texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad });
+    (estado.misPosts ||= []).unshift({ id: postId, tipo, eje, texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad });
   } else {
-    misPostsDemo.unshift({ id: "mio-" + nuevoId(), autorNombre: perfil().nombre || "Yo", tipo: "VISION", eje: null, texto, foto: URL.createObjectURL(blob), metaTitulo,
+    id = "mio-" + nuevoId();
+    misPostsDemo.unshift({ id, autorNombre: perfil().nombre || "Yo", tipo, eje, texto, foto: URL.createObjectURL(blob), metaTitulo,
       impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, visibilidad });
     estado.misPosts = misPostsDemo;
   }
   estado.feed = null;
+  return id;
 }
