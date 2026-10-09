@@ -244,6 +244,8 @@ data class PublicacionEntity(
     val remoteId: String? = null,
     val fotoUrl: String = "",
     val impulsos: Int = 0,
+    /** Brújula de la Cima compartida (instantánea JSON, ver BrujulaCompartida); vacío si no es una. */
+    val brujula: String = "",
 )
 
 /** Comentario local (modo demo o caché). */

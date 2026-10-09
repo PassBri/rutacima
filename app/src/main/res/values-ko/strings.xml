@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">비전 보드</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">축소</string>
+    <string name="carta_titulo">환영 편지</string>
+    <string name="carta_para">오르기로 결심한 당신에게</string>
+    <string name="carta_romper">봉인을 깨고 편지를 읽어 보세요.</string>
+    <string name="carta_saludo">사랑하는 길벗에게</string>
+    <string name="carta_p1">이 편지를 읽고 있다면, 가장 어려운 걸음은 이미 내디뎠어요. 오르기로 결심했으니까요.</string>
+    <string name="carta_p2">Ruta a la Cima는 할 일 목록이 아니에요. 당신의 정상—삶에 의미를 주는 것—을 찾는 지도이자, 안개가 와도 잃지 않게 해 주는 나침반이에요.</string>
+    <string name="carta_p3">여기선 달리지 않아요. 올라가요. 매일 한 걸음, 하루씩, 당신의 의지와 숙련, 목소리, 가치, 성장, 그리고 다른 이에게 남길 흔적과 함께.</string>
+    <string name="carta_p4">넘어질 때도 있을 거예요. 그건 길의 일부지 끝이 아니에요. 그리고 혼자 오르지 않아요. 자일 파티 모두가 함께 걸어요.</string>
+    <string name="carta_p5">이 편지를 간직하세요. 정상에 오르는 날, 다시 읽어 보세요.</string>
+    <string name="carta_cierre">정상에서 만나요.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Ruta a la Cima 창립자</string>
+    <string name="carta_empezar">나의 등반 시작하기</string>
+    <string name="brujula_compartir_ayuda2">나침반이 게시되어 커뮤니티가 탐색할 수 있어요(1 · 9 · 81). 내려받을 이미지도 함께요. 보여 줄 내용을 고르세요:</string>
+    <string name="brujula_compartir_pasos">나의 64단계</string>
+    <string name="brujula_compartir_evidencias">나의 증거 사진</string>
+    <string name="brujula_muro_avance">%1$d단계 획득 · %2$s mm</string>
+    <string name="brujula_explorar">나침반 둘러보기</string>
+    <string name="cerrar_brujula">닫기</string>
+    <string name="brujula_de">%1$s의 나침반</string>
+    <string name="brujula_fecha">%1$s 기준</string>
+    <string name="brujula_sin_pasos">이 사람은 정상과 캠프를 공유했지만 단계 내용은 공개하지 않았어요.</string>
 </resources>

@@ -141,6 +141,7 @@ object Rutas {
     const val DIARIO_DE = "diario_de/{id}/{nombre}"
     /** Abrir la frase del día sellada desde dentro de la app. */
     const val SELLO = "sello"
+    const val CARTA = "carta"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -186,6 +187,15 @@ fun RutaRoot() {
     val estado by vm.estado.collectAsStateWithLifecycle()
     // Ventana de inicio animada una vez por arranque
     var inicioVisto by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
+    // La primera vez: la carta de bienvenida sellada (después se relee desde el perfil)
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    var cartaLeida by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(com.rutaalacima.app.ui.inicio.CartaBienvenida.leida(ctx)) }
+    if (!cartaLeida) {
+        com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = {
+            com.rutaalacima.app.ui.inicio.CartaBienvenida.marcar(ctx); cartaLeida = true; inicioVisto = true
+        })
+        return
+    }
     if (!inicioVisto) {
         com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { inicioVisto = true })
         return
@@ -382,6 +392,7 @@ private fun AppPrincipal() {
                     onPublicar = { titulo, texto -> nav.navigate(Rutas.publicar("REFLEXION", titulo, texto)) },
                 )
             }
+            composable(Rutas.CARTA) { com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.SELLO) { com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
                 PostDetalleScreen(

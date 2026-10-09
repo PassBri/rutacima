@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Dézoomer</string>
+    <string name="carta_titulo">Lettre de bienvenue</string>
+    <string name="carta_para">Pour toi, qui as décidé de monter</string>
+    <string name="carta_romper">Brise le sceau pour lire ta lettre.</string>
+    <string name="carta_saludo">Cher voyageur,</string>
+    <string name="carta_p1">Si tu lis ceci, tu as déjà fait le pas le plus difficile : tu as décidé de monter.</string>
+    <string name="carta_p2">Ruta a la Cima n\'est pas une liste de tâches. C\'est une carte pour trouver ton sommet —ce qui donne un sens à ta vie— et une boussole pour ne pas le perdre quand viendra le brouillard.</string>
+    <string name="carta_p3">Ici, on ne court pas : on s\'élève. Un pas chaque jour, une journée à la fois, avec ta volonté, ta maîtrise, ta voix, ta valeur, ton évolution et l\'empreinte que tu laisseras chez les autres.</string>
+    <string name="carta_p4">Il y aura des chutes. Elles font partie du chemin, pas sa fin. Et tu ne monteras pas seul : toute une cordée marche avec toi.</string>
+    <string name="carta_p5">Garde cette lettre. Le jour où tu arriveras en haut, relis-la.</string>
+    <string name="carta_cierre">On se retrouve au sommet.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Fondateur de Ruta a la Cima</string>
+    <string name="carta_empezar">Commencer mon ascension</string>
+    <string name="brujula_compartir_ayuda2">Ta Boussole est publiée pour que la communauté l\'explore (1 · 9 · 81), avec une image à télécharger. Choisis ce qui apparaît :</string>
+    <string name="brujula_compartir_pasos">Mes 64 pas</string>
+    <string name="brujula_compartir_evidencias">Mes photos de preuve</string>
+    <string name="brujula_muro_avance">%1$d pas gagnés · %2$s mm</string>
+    <string name="brujula_explorar">Explorer la Boussole</string>
+    <string name="cerrar_brujula">Fermer</string>
+    <string name="brujula_de">Boussole de %1$s</string>
+    <string name="brujula_fecha">Telle qu\'elle était le %1$s</string>
+    <string name="brujula_sin_pasos">Cette personne a partagé son sommet et ses camps, sans le texte de ses pas.</string>
 </resources>

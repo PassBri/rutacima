@@ -74,6 +74,7 @@ import coil.compose.AsyncImage
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
+import com.rutaalacima.app.domain.model.BrujulaCompartida
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.MetodoCima
 import com.rutaalacima.app.domain.model.Travesia
@@ -133,12 +134,38 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     /** null = nada; true = publicado; false = no se pudo. */
     var compartido by mutableStateOf<Boolean?>(null)
 
-    /** Publica la imagen del 9×9 en la comunidad como publicación de visión. */
-    fun compartirMandala(ctx: android.content.Context, datos: DatosMandala, textos: MandalaImagen.Textos, vis: Visibilidad) = viewModelScope.launch {
+    /**
+     * Publica la Brújula en la comunidad: la imagen (para descargarla o verla en versiones viejas) y la
+     * instantánea para explorarla con el zoom. Con cuenta, las fotos que salen se suben a la comunidad.
+     */
+    fun compartirMandala(ctx: android.content.Context, datos: DatosMandala, textos: MandalaImagen.Textos, vis: Visibilidad,
+                         conPasos: Boolean = true, conEvidencias: Boolean = false) = viewModelScope.launch {
         compartiendo = true
         compartido = runCatching {
             val f = withContext(Dispatchers.Default) { MandalaImagen.generar(ctx.applicationContext, datos, textos) }
-            c.social.publicar(TipoPost.VISION, datos.tituloCumbre + "\n#MetodoCima9x52", Uri.fromFile(f), null, vis, metaTitulo = textos.etiqueta)
+            val marca = System.currentTimeMillis()
+            suspend fun foto(ruta: String?, nombre: String): String = ruta?.let { c.social.fotoParaCompartir(it, "$marca-$nombre") }.orEmpty()
+            val camps = (0 until Mandala.CAMPAMENTOS).mapNotNull { i ->
+                datos.casilla(i)?.let { cv ->
+                    BrujulaCompartida.Campamento(
+                        c = datos.codigo(i), t = nombreCampamento(cv), f = foto(cv.foto, "c$i"),
+                        p = (0 until Mandala.PASOS).map { p ->
+                            BrujulaCompartida.Paso(
+                                t = if (conPasos) datos.paso(i, p) else "", e = BrujulaCompartida.letra(datos.estado(i, p)),
+                                f = if (conEvidencias) foto(datos.fotoPaso(i, p), "e$i-$p") else "",
+                            )
+                        },
+                    )
+                }
+            }
+            val pr = datos.progreso
+            val inst = BrujulaCompartida.Instantanea(
+                cumbre = datos.tituloCumbre, fotoCumbre = foto(datos.cumbre?.foto, "cumbre"), camps = camps, mm = datos.ritmo.mm,
+                ganados = pr.hechos, escritos = pr.escritos, evidencias = if (conEvidencias) datos.evidencias else 0,
+                fecha = java.time.LocalDate.now().toString(), conPasos = conPasos,
+            )
+            c.social.publicar(TipoPost.VISION, datos.tituloCumbre + "\n#MetodoCima9x52", Uri.fromFile(f), null, vis,
+                metaTitulo = textos.etiqueta, brujula = BrujulaCompartida.codificar(inst))
             f.delete()
         }.isSuccess
         compartiendo = false
@@ -390,7 +417,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
                         onGuia = onGuia,
                         onCierre = { lecciones, _ -> vm.cerrarAnio(ctx, datos, textos, lecciones, cierreTitulo) },
                         onNuevaMontana = { vm.nuevaMontana(campamentos.map { it?.casilla?.id }) },
-                        onCompartir = { vis -> vm.compartirMandala(ctx, datos, textos, vis) },
+                        onCompartir = { vis, pasos, evid -> vm.compartirMandala(ctx, datos, textos, vis, pasos, evid) },
                         compartiendo = vm.compartiendo,
                     )
                 }

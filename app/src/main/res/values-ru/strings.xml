@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Отдалить</string>
+    <string name="carta_titulo">Приветственное письмо</string>
+    <string name="carta_para">Тебе, решившему подняться</string>
+    <string name="carta_romper">Сломай печать, чтобы прочитать письмо.</string>
+    <string name="carta_saludo">Дорогой путник!</string>
+    <string name="carta_p1">Если ты читаешь это, самый трудный шаг уже сделан: ты решил подняться.</string>
+    <string name="carta_p2">Ruta a la Cima — не список дел. Это карта, чтобы найти свою вершину — то, что придаёт жизни смысл, — и компас, чтобы не потерять её, когда придёт туман.</string>
+    <string name="carta_p3">Здесь не бегут — здесь поднимаются. Шаг каждый день, по одному дню за раз: с твоей волей, мастерством, голосом, ценностью, развитием и следом, который ты оставишь в других.</string>
+    <string name="carta_p4">Будут падения. Они — часть пути, а не его конец. И ты поднимешься не один: с тобой идёт целая связка.</string>
+    <string name="carta_p5">Сохрани это письмо. В тот день, когда доберёшься до вершины, перечитай его.</string>
+    <string name="carta_cierre">Увидимся на вершине.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Основатель Ruta a la Cima</string>
+    <string name="carta_empezar">Начать подъём</string>
+    <string name="brujula_compartir_ayuda2">Компас публикуется, чтобы сообщество могло его изучить (1 · 9 · 81), с картинкой для скачивания. Выбери, что показать:</string>
+    <string name="brujula_compartir_pasos">Мои 64 шага</string>
+    <string name="brujula_compartir_evidencias">Мои фото-доказательства</string>
+    <string name="brujula_muro_avance">Заработано шагов: %1$d · %2$s мм</string>
+    <string name="brujula_explorar">Изучить компас</string>
+    <string name="cerrar_brujula">Закрыть</string>
+    <string name="brujula_de">Компас: %1$s</string>
+    <string name="brujula_fecha">Каким он был %1$s</string>
+    <string name="brujula_sin_pasos">Человек поделился вершиной и лагерями, без текста шагов.</string>
 </resources>

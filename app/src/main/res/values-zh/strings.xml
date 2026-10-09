@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">愿景板</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">缩小</string>
+    <string name="carta_titulo">欢迎信</string>
+    <string name="carta_para">致决定攀登的你</string>
+    <string name="carta_romper">打破封印，阅读你的信。</string>
+    <string name="carta_saludo">亲爱的行者：</string>
+    <string name="carta_p1">如果你正在读这封信，你已经迈出了最难的一步：你决定攀登。</string>
+    <string name="carta_p2">Ruta a la Cima 不是待办清单。它是一张找到你顶峰的地图——那赋予你人生意义的东西——也是一枚罗盘，让你在迷雾来临时不会迷失。</string>
+    <string name="carta_p3">这里不赛跑，而是攀登。每天一步，一次一个行动日，带着你的意志、精通、声音、价值、成长，以及你将留给他人的印记。</string>
+    <string name="carta_p4">会有跌倒。它们是道路的一部分，而不是终点。你也不会独自攀登：一整支绳队与你同行。</string>
+    <string name="carta_p5">留好这封信。当你登顶的那一天，再读一遍。</string>
+    <string name="carta_cierre">顶峰见。</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Ruta a la Cima 创始人</string>
+    <string name="carta_empezar">开始我的攀登</string>
+    <string name="brujula_compartir_ayuda2">你的罗盘会被发布，让社区可以探索（1 · 9 · 81），并附一张可下载的图片。选择要显示的内容：</string>
+    <string name="brujula_compartir_pasos">我的 64 步</string>
+    <string name="brujula_compartir_evidencias">我的证据照片</string>
+    <string name="brujula_muro_avance">已赢得 %1$d 步 · %2$s 毫米</string>
+    <string name="brujula_explorar">探索罗盘</string>
+    <string name="cerrar_brujula">关闭</string>
+    <string name="brujula_de">%1$s 的罗盘</string>
+    <string name="brujula_fecha">%1$s 时的样子</string>
+    <string name="brujula_sin_pasos">此人分享了顶峰和营地，但没有分享步骤内容。</string>
 </resources>

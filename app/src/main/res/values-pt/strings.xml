@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Afastar</string>
+    <string name="carta_titulo">Carta de boas-vindas</string>
+    <string name="carta_para">Para você, que decidiu subir</string>
+    <string name="carta_romper">Rompa o selo para ler sua carta.</string>
+    <string name="carta_saludo">Querido caminhante,</string>
+    <string name="carta_p1">Se você está lendo isto, já deu o passo mais difícil: decidiu subir.</string>
+    <string name="carta_p2">Ruta a la Cima não é uma lista de tarefas. É um mapa para encontrar seu cume —o que dá sentido à sua vida— e uma bússola para não perdê-lo quando chegar a neblina.</string>
+    <string name="carta_p3">Aqui não se corre: se ascende. Um passo por dia, uma jornada de cada vez, com sua vontade, sua maestria, sua voz, seu valor, sua evolução e a marca que deixará nos outros.</string>
+    <string name="carta_p4">Haverá quedas. Fazem parte do caminho, não são o seu fim. E você não subirá sozinho: uma cordada inteira caminha com você.</string>
+    <string name="carta_p5">Guarde esta carta. No dia em que chegar lá em cima, leia-a de novo.</string>
+    <string name="carta_cierre">Nos vemos no cume.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Fundador do Ruta a la Cima</string>
+    <string name="carta_empezar">Começar minha subida</string>
+    <string name="brujula_compartir_ayuda2">Sua Bússola é publicada para que a comunidade a explore (1 · 9 · 81), com uma imagem para baixar. Escolha o que sai:</string>
+    <string name="brujula_compartir_pasos">Meus 64 passos</string>
+    <string name="brujula_compartir_evidencias">Minhas fotos de evidência</string>
+    <string name="brujula_muro_avance">%1$d passos conquistados · %2$s mm</string>
+    <string name="brujula_explorar">Explorar a Bússola</string>
+    <string name="cerrar_brujula">Fechar</string>
+    <string name="brujula_de">Bússola de %1$s</string>
+    <string name="brujula_fecha">Assim estava em %1$s</string>
+    <string name="brujula_sin_pasos">Esta pessoa compartilhou seu cume e acampamentos, sem o texto dos passos.</string>
 </resources>

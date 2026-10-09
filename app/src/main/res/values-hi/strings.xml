@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">विज़न बोर्ड</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">छोटा करें</string>
+    <string name="carta_titulo">स्वागत पत्र</string>
+    <string name="carta_para">तुम्हारे लिए, जिसने चढ़ने का फ़ैसला किया</string>
+    <string name="carta_romper">अपना पत्र पढ़ने के लिए मुहर तोड़ें।</string>
+    <string name="carta_saludo">प्रिय यात्री,</string>
+    <string name="carta_p1">अगर तुम यह पढ़ रहे हो, तो सबसे कठिन कदम उठा चुके हो: तुमने चढ़ने का फ़ैसला किया।</string>
+    <string name="carta_p2">Ruta a la Cima कामों की सूची नहीं है। यह तुम्हारा शिखर खोजने का नक्शा है —जो तुम्हारी ज़िंदगी को अर्थ देता है— और धुंध आने पर उसे न खोने के लिए एक कम्पास।</string>
+    <string name="carta_p3">यहाँ दौड़ना नहीं, चढ़ना है। हर दिन एक कदम, एक दिन में एक मेहनत, अपनी इच्छाशक्ति, महारत, आवाज़, मूल्य, विकास और दूसरों पर छोड़ी जाने वाली छाप के साथ।</string>
+    <string name="carta_p4">गिरना भी होगा। वह रास्ते का हिस्सा है, अंत नहीं। और तुम अकेले नहीं चढ़ोगे: पूरी टोली तुम्हारे साथ चलती है।</string>
+    <string name="carta_p5">यह पत्र संभाल कर रखो। जिस दिन ऊपर पहुँचो, इसे फिर से पढ़ना।</string>
+    <string name="carta_cierre">शिखर पर मिलते हैं।</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Ruta a la Cima के संस्थापक</string>
+    <string name="carta_empezar">मेरी चढ़ाई शुरू करें</string>
+    <string name="brujula_compartir_ayuda2">तुम्हारा कम्पास पोस्ट होगा ताकि समुदाय उसे देख सके (1 · 9 · 81), साथ में डाउनलोड के लिए छवि। चुनो क्या दिखेगा:</string>
+    <string name="brujula_compartir_pasos">मेरे 64 कदम</string>
+    <string name="brujula_compartir_evidencias">मेरी सबूत वाली तस्वीरें</string>
+    <string name="brujula_muro_avance">%1$d कदम कमाए · %2$s मिमी</string>
+    <string name="brujula_explorar">कम्पास देखें</string>
+    <string name="cerrar_brujula">बंद करें</string>
+    <string name="brujula_de">%1$s का कम्पास</string>
+    <string name="brujula_fecha">%1$s को ऐसा था</string>
+    <string name="brujula_sin_pasos">इस व्यक्ति ने अपना शिखर और पड़ाव साझा किए, कदमों का पाठ नहीं।</string>
 </resources>

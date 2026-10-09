@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">ビジョンボード</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">縮小</string>
+    <string name="carta_titulo">ようこその手紙</string>
+    <string name="carta_para">登ると決めたあなたへ</string>
+    <string name="carta_romper">封を切って手紙を読みましょう。</string>
+    <string name="carta_saludo">親愛なる旅人へ</string>
+    <string name="carta_p1">これを読んでいるなら、いちばん難しい一歩はもう踏み出しています。登ると決めたのです。</string>
+    <string name="carta_p2">Ruta a la Cima はやることリストではありません。あなたの頂——人生に意味を与えるもの——を見つける地図であり、霧が来ても見失わないためのコンパスです。</string>
+    <string name="carta_p3">ここでは走りません。登るのです。毎日一歩、一日ずつ。意志、熟達、声、価値、成長、そして人に残す足跡とともに。</string>
+    <string name="carta_p4">転ぶこともあります。それは道の一部であって、終わりではありません。そして一人では登りません。ザイルパーティみんなが一緒に歩いています。</string>
+    <string name="carta_p5">この手紙を取っておいてください。頂上に着いた日に、もう一度読んでください。</string>
+    <string name="carta_cierre">頂上で会いましょう。</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Ruta a la Cima 創設者</string>
+    <string name="carta_empezar">登り始める</string>
+    <string name="brujula_compartir_ayuda2">コンパスを公開し、コミュニティが探索できるようにします（1 · 9 · 81）。ダウンロード用の画像付き。含める内容を選んでください：</string>
+    <string name="brujula_compartir_pasos">64のステップ</string>
+    <string name="brujula_compartir_evidencias">証拠写真</string>
+    <string name="brujula_muro_avance">獲得 %1$d ステップ · %2$s mm</string>
+    <string name="brujula_explorar">コンパスを見る</string>
+    <string name="cerrar_brujula">閉じる</string>
+    <string name="brujula_de">%1$sのコンパス</string>
+    <string name="brujula_fecha">%1$s時点</string>
+    <string name="brujula_sin_pasos">この人は頂とキャンプを共有しましたが、ステップの内容は非公開です。</string>
 </resources>

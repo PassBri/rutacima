@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">لوحة الرؤية</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">تصغير</string>
+    <string name="carta_titulo">رسالة ترحيب</string>
+    <string name="carta_para">إليك، يا من قررت الصعود</string>
+    <string name="carta_romper">اكسر الختم لتقرأ رسالتك.</string>
+    <string name="carta_saludo">عزيزي السائر،</string>
+    <string name="carta_p1">إن كنت تقرأ هذا، فقد خطوت الخطوة الأصعب: قررت أن تصعد.</string>
+    <string name="carta_p2">Ruta a la Cima ليست قائمة مهام. إنها خريطة لتجد قمتك —ما يمنح حياتك معنى— وبوصلة كي لا تضيعها حين يحل الضباب.</string>
+    <string name="carta_p3">هنا لا نركض: نصعد. خطوة كل يوم، ويوم عمل في كل مرة، بإرادتك وإتقانك وصوتك وقيمتك وتطورك والأثر الذي ستتركه في الآخرين.</string>
+    <string name="carta_p4">ستكون هناك سقطات. إنها جزء من الطريق لا نهايته. ولن تصعد وحدك: فريق كامل يسير معك.</string>
+    <string name="carta_p5">احتفظ بهذه الرسالة. وفي اليوم الذي تصل فيه إلى القمة، اقرأها من جديد.</string>
+    <string name="carta_cierre">نلتقي في القمة.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">مؤسس Ruta a la Cima</string>
+    <string name="carta_empezar">ابدأ صعودي</string>
+    <string name="brujula_compartir_ayuda2">تُنشر بوصلتك ليستكشفها المجتمع (1 · 9 · 81) مع صورة للتنزيل. اختر ما يظهر:</string>
+    <string name="brujula_compartir_pasos">خطواتي الـ64</string>
+    <string name="brujula_compartir_evidencias">صور أدلتي</string>
+    <string name="brujula_muro_avance">%1$d خطوات مكتسبة · %2$s مم</string>
+    <string name="brujula_explorar">استكشف البوصلة</string>
+    <string name="cerrar_brujula">إغلاق</string>
+    <string name="brujula_de">بوصلة %1$s</string>
+    <string name="brujula_fecha">كما كانت في %1$s</string>
+    <string name="brujula_sin_pasos">شارك هذا الشخص قمته ومعسكراته دون نص خطواته.</string>
 </resources>

@@ -25,7 +25,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         CoachMensajeEntity::class,
         VisionCasillaEntity::class,
     ],
-    version = 5,
+    version = 6,
     exportSchema = false,
 )
 abstract class RutaDatabase : RoomDatabase() {
@@ -63,10 +63,17 @@ abstract class RutaDatabase : RoomDatabase() {
             }
         }
 
+        /** v6: la Brújula de la Cima compartida viaja con la publicación. */
+        val MIGRACION_5_6 = object : Migration(5, 6) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE publicaciones ADD COLUMN brujula TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         fun build(context: Context): RutaDatabase =
             Room.databaseBuilder(context, RutaDatabase::class.java, "rutacima.db")
                 // Desde la v4 los datos se conservan al actualizar la app.
-                .addMigrations(MIGRACION_3_4, MIGRACION_4_5)
+                .addMigrations(MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6)
                 // Solo para instalaciones de prueba muy antiguas (v1-v2).
                 .fallbackToDestructiveMigrationFrom(1, 2)
                 .build()

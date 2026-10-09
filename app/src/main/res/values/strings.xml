@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Alejar</string>
+    <string name="carta_titulo">Carta de bienvenida</string>
+    <string name="carta_para">Para ti, que decidiste subir</string>
+    <string name="carta_romper">Rompe el sello para leer tu carta.</string>
+    <string name="carta_saludo">Querido caminante:</string>
+    <string name="carta_p1">Si estás leyendo esto, ya diste el paso más difícil: decidiste subir.</string>
+    <string name="carta_p2">Ruta a la Cima no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.</string>
+    <string name="carta_p3">Aquí no se corre: se asciende. Un paso cada día, una jornada a la vez, con tu voluntad, tu maestría, tu voz, tu valor, tu evolución y la huella que dejarás en otros.</string>
+    <string name="carta_p4">Habrá caídas. Son parte del camino, no su final. Y no subirás solo: una cordada entera camina contigo.</string>
+    <string name="carta_p5">Guarda esta carta. El día que llegues arriba, vuelve a leerla.</string>
+    <string name="carta_cierre">Nos vemos en la cima.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Fundador de Ruta a la Cima</string>
+    <string name="carta_empezar">Empezar mi ascenso</string>
+    <string name="brujula_compartir_ayuda2">Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale:</string>
+    <string name="brujula_compartir_pasos">Mis 64 pasos</string>
+    <string name="brujula_compartir_evidencias">Mis fotos de evidencia</string>
+    <string name="brujula_muro_avance">%1$d pasos ganados · %2$s mm</string>
+    <string name="brujula_explorar">Explorar su Brújula</string>
+    <string name="cerrar_brujula">Cerrar</string>
+    <string name="brujula_de">Brújula de %1$s</string>
+    <string name="brujula_fecha">Así iba el %1$s</string>
+    <string name="brujula_sin_pasos">Esta persona compartió su cumbre y sus campamentos, sin el texto de sus pasos.</string>
 </resources>

@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision Board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Herauszoomen</string>
+    <string name="carta_titulo">Willkommensbrief</string>
+    <string name="carta_para">Für dich, der du dich entschieden hast aufzusteigen</string>
+    <string name="carta_romper">Brich das Siegel, um deinen Brief zu lesen.</string>
+    <string name="carta_saludo">Liebe Wanderin, lieber Wanderer,</string>
+    <string name="carta_p1">Wenn du das liest, hast du den schwersten Schritt schon getan: Du hast dich entschieden aufzusteigen.</string>
+    <string name="carta_p2">Ruta a la Cima ist keine To-do-Liste. Es ist eine Karte, um deinen Gipfel zu finden – das, was deinem Leben Sinn gibt – und ein Kompass, um ihn im Nebel nicht zu verlieren.</string>
+    <string name="carta_p3">Hier wird nicht gerannt, hier wird aufgestiegen. Ein Schritt jeden Tag, ein Tag nach dem anderen – mit deinem Willen, deiner Meisterschaft, deiner Stimme, deinem Wert, deiner Entwicklung und der Spur, die du bei anderen hinterlässt.</string>
+    <string name="carta_p4">Es wird Stürze geben. Sie gehören zum Weg, sie sind nicht sein Ende. Und du steigst nicht allein: Eine ganze Seilschaft geht mit dir.</string>
+    <string name="carta_p5">Bewahre diesen Brief auf. An dem Tag, an dem du oben ankommst, lies ihn noch einmal.</string>
+    <string name="carta_cierre">Wir sehen uns auf dem Gipfel.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Gründer von Ruta a la Cima</string>
+    <string name="carta_empezar">Meinen Aufstieg beginnen</string>
+    <string name="brujula_compartir_ayuda2">Dein Kompass wird veröffentlicht, damit die Community ihn erkunden kann (1 · 9 · 81), mit einem Bild zum Herunterladen. Wähle, was dabei ist:</string>
+    <string name="brujula_compartir_pasos">Meine 64 Schritte</string>
+    <string name="brujula_compartir_evidencias">Meine Beweisfotos</string>
+    <string name="brujula_muro_avance">%1$d Schritte verdient · %2$s mm</string>
+    <string name="brujula_explorar">Kompass erkunden</string>
+    <string name="cerrar_brujula">Schließen</string>
+    <string name="brujula_de">Kompass von %1$s</string>
+    <string name="brujula_fecha">So stand es am %1$s</string>
+    <string name="brujula_sin_pasos">Diese Person hat Gipfel und Lager geteilt, ohne den Text der Schritte.</string>
 </resources>

@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Diversity3
@@ -248,6 +249,7 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
             Acceso(R.string.metas, Icons.Filled.Flag, com.rutaalacima.app.ui.Rutas.planificador(0)),
             Acceso(R.string.constancia_titulo, Icons.Filled.LocalFireDepartment, com.rutaalacima.app.ui.Rutas.CONSTANCIA),
             Acceso(R.string.diario_titulo, Icons.Filled.PhotoLibrary, com.rutaalacima.app.ui.Rutas.DIARIO),
+            Acceso(R.string.carta_titulo, Icons.Filled.Drafts, com.rutaalacima.app.ui.Rutas.CARTA),
             Acceso(R.string.revision_semana, Icons.Filled.EventRepeat,
                 com.rutaalacima.app.ui.Rutas.revision(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA, java.time.LocalDate.now())),
         ),

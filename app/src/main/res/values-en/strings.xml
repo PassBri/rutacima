@@ -1107,4 +1107,26 @@
     <string name="brujula_nivel_vision">Vision board</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Zoom out</string>
+    <string name="carta_titulo">Welcome letter</string>
+    <string name="carta_para">For you, who decided to climb</string>
+    <string name="carta_romper">Break the seal to read your letter.</string>
+    <string name="carta_saludo">Dear traveler,</string>
+    <string name="carta_p1">If you are reading this, you have already taken the hardest step: you decided to climb.</string>
+    <string name="carta_p2">Ruta a la Cima is not a to-do list. It is a map to find your summit —what gives your life meaning— and a compass so you don\'t lose it when the fog rolls in.</string>
+    <string name="carta_p3">Here we don\'t race: we ascend. One step each day, one work day at a time, with your will, your mastery, your voice, your value, your growth and the mark you will leave on others.</string>
+    <string name="carta_p4">There will be falls. They are part of the path, not its end. And you will not climb alone: a whole rope team walks with you.</string>
+    <string name="carta_p5">Keep this letter. The day you reach the top, read it again.</string>
+    <string name="carta_cierre">See you at the summit.</string>
+    <string name="carta_firma">Brian Suárez</string>
+    <string name="carta_firma_rol">Founder of Ruta a la Cima</string>
+    <string name="carta_empezar">Start my ascent</string>
+    <string name="brujula_compartir_ayuda2">Your Compass is posted so the community can explore it (1 · 9 · 81), with an image to download. Choose what\'s included:</string>
+    <string name="brujula_compartir_pasos">My 64 steps</string>
+    <string name="brujula_compartir_evidencias">My evidence photos</string>
+    <string name="brujula_muro_avance">%1$d steps earned · %2$s mm</string>
+    <string name="brujula_explorar">Explore the Compass</string>
+    <string name="cerrar_brujula">Close</string>
+    <string name="brujula_de">%1$s\'s Compass</string>
+    <string name="brujula_fecha">As it was on %1$s</string>
+    <string name="brujula_sin_pasos">This person shared their summit and camps, without the text of their steps.</string>
 </resources>

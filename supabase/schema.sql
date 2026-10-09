@@ -1104,3 +1104,14 @@ language sql stable security definer set search_path = public as $$
   from aportes group by 1 order by 1
 $$;
 grant execute on function public.expedicion(int) to anon, authenticated;
+
+-- =====================================================================
+-- Brújula de la Cima compartida
+-- =====================================================================
+-- La publicación lleva la instantánea de la Brújula (cumbre, 8 campamentos y, si la persona quiere,
+-- sus 64 pasos) para explorarla en la comunidad con el zoom 1 · 9 · 81. Se ve con las mismas reglas
+-- de la publicación (puede_ver). Máximo 200 KB.
+alter table public.posts add column if not exists brujula jsonb;
+do $$ begin
+  alter table public.posts add constraint posts_brujula_tamano check (brujula is null or pg_column_size(brujula) < 200000);
+exception when duplicate_object then null; end $$;

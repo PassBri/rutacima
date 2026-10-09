@@ -54,6 +54,8 @@ data class Post(
     val propio: Boolean = false,
     val demo: Boolean = false,
     val visibilidad: Visibilidad = Visibilidad.PUBLICA,
+    /** Brújula de la Cima compartida (JSON); vacío si la publicación no es una. */
+    val brujula: String = "",
 )
 
 data class Comentario(val id: String, val autor: String, val texto: String, val creadoEn: Long)
@@ -85,6 +87,7 @@ class SocialRepository(
         texto = texto, foto = fotoUrl.ifBlank { foto }, eje = eje, anio = anio, metaTitulo = metaTitulo,
         impulsos = impulsos + if (id in impulsados()) 1 else 0, yoImpulse = id in impulsados(),
         creadoEn = creadaEn, propio = true, visibilidad = runCatching { Visibilidad.valueOf(visibilidad) }.getOrDefault(Visibilidad.PUBLICA),
+        brujula = brujula,
     )
 
     fun nombrePropio(): String = prefs.getString("nombre", "").orEmpty().ifBlank { context.getString(R.string.yo) }
@@ -110,6 +113,8 @@ class SocialRepository(
         /** Año del recuerdo (por defecto, este año) y mes, para registrar recuerdos de años pasados. */
         anio: Int = LocalDate.now().year,
         mes: Int? = null,
+        /** Instantánea de la Brújula de la Cima (JSON) para explorarla en la comunidad. */
+        brujula: String = "",
     ): PublicacionEntity = withContext(Dispatchers.IO) {
         val id = UUID.randomUUID().toString()
         val ruta = foto?.let { guardarFoto(it, id) }.orEmpty()
@@ -119,13 +124,25 @@ class SocialRepository(
             else LocalDate.of(anio, mes ?: 6, 15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
         var p = PublicacionEntity(
             id = id, tipo = tipo.name, texto = texto.trim(), foto = ruta, eje = eje,
-            anio = anio, visibilidad = visibilidad.name, metaTitulo = metaTitulo,
+            anio = anio, visibilidad = visibilidad.name, metaTitulo = metaTitulo, brujula = brujula,
         ).let { if (fecha != null) it.copy(creadaEn = fecha) else it }
         dao.upsert(p)
         if (enLinea && visibilidad != Visibilidad.PRIVADA) {
             runCatching { p = subir(p) }
         }
         p
+    }
+
+    /**
+     * Foto para una Brújula compartida: con cuenta, la sube a la comunidad y devuelve su dirección
+     * pública; sin cuenta, devuelve la ruta local (se ve en este teléfono).
+     */
+    suspend fun fotoParaCompartir(ruta: String, nombre: String): String = withContext(Dispatchers.IO) {
+        if (ruta.isBlank() || ruta.startsWith("http")) return@withContext ruta
+        val uid = supa.sesion.value?.userId
+        val f = File(ruta)
+        if (!enLinea || uid == null || !f.exists()) return@withContext ruta
+        runCatching { supa.subirFoto("$uid/brujula/$nombre.jpg", f.readBytes()) }.getOrDefault(ruta)
     }
 
     /** Sube una publicación local (y su foto) a la comunidad. */
@@ -136,6 +153,8 @@ class SocialRepository(
             put("id", p.id); put("user_id", uid); put("tipo", p.tipo); put("texto", p.texto)
             put("image_url", url); p.eje?.let { put("eje", it) }; put("anio", p.anio)
             put("visibilidad", p.visibilidad); put("meta_titulo", p.metaTitulo)
+            // Solo las Brújulas llevan la columna nueva (así lo demás funciona aunque no se haya actualizado la base)
+            if (p.brujula.isNotBlank()) runCatching { kotlinx.serialization.json.Json.parseToJsonElement(p.brujula) }.getOrNull()?.let { put("brujula", it) }
         }, devolver = false)
         val subida = p.copy(remoteId = p.id, fotoUrl = url)
         dao.upsert(subida)
@@ -306,6 +325,7 @@ class SocialRepository(
             metaTitulo = s("meta_titulo"), impulsos = conteo(o, "impulsos"), comentarios = conteo(o, "comentarios"),
             yoImpulse = s("id") in mios, creadoEn = runCatching { Instant.parse(s("created_at")).toEpochMilli() }.getOrDefault(0L),
             propio = s("user_id") == uid, visibilidad = runCatching { Visibilidad.valueOf(s("visibilidad")) }.getOrDefault(Visibilidad.PUBLICA),
+            brujula = when (val b = o["brujula"]) { is JsonObject -> b.toString(); is kotlinx.serialization.json.JsonPrimitive -> b.contentOrNull.orEmpty(); else -> "" },
         )
     }
 

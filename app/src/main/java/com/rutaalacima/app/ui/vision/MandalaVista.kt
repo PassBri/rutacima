@@ -2,6 +2,15 @@ package com.rutaalacima.app.ui.vision
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import com.rutaalacima.app.ui.theme.fondoPapel
+import com.rutaalacima.app.domain.model.VisionBoard
+import com.rutaalacima.app.domain.model.BrujulaCompartida
+import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.Dialog
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Switch
 import androidx.compose.material.icons.filled.Landscape
 import com.rutaalacima.app.ui.theme.hojaPapel
 import androidx.compose.material3.Surface
@@ -202,7 +211,7 @@ fun MandalaSeccion(
     onGuia: (String) -> Unit,
     onCierre: (lecciones: List<String>, alDiario: Boolean) -> Unit,
     onNuevaMontana: () -> Unit,
-    onCompartir: (Visibilidad) -> Unit,
+    onCompartir: (Visibilidad, conPasos: Boolean, conEvidencias: Boolean) -> Unit,
     compartiendo: Boolean,
 ) {
     var bloque by rememberSaveable { mutableStateOf(4) }
@@ -253,20 +262,36 @@ fun MandalaSeccion(
             onCancelar = { editando = null },
         ) }
     }
-    if (preguntarCompartir) AlertDialog(
-        onDismissRequest = { preguntarCompartir = false },
-        title = { Text(stringResource(R.string.mandala_compartir)) },
-        text = { Text(stringResource(R.string.mandala_compartir_ayuda)) },
-        confirmButton = {
-            TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.PUBLICA) }) { Text(stringResource(R.string.mandala_compartir_publico)) }
-        },
-        dismissButton = {
-            Row {
-                TextButton(onClick = { preguntarCompartir = false }) { Text(stringResource(R.string.cancelar)) }
-                TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.SEGUIDORES) }) { Text(stringResource(R.string.mandala_compartir_seguidores)) }
-            }
-        },
-    )
+    if (preguntarCompartir) {
+        var conPasos by remember { mutableStateOf(true) }
+        var conEvidencias by remember { mutableStateOf(false) }
+        AlertDialog(
+            onDismissRequest = { preguntarCompartir = false },
+            title = { Text(stringResource(R.string.mandala_compartir)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(stringResource(R.string.brujula_compartir_ayuda2))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.brujula_compartir_pasos), Modifier.weight(1f))
+                        Switch(checked = conPasos, onCheckedChange = { conPasos = it })
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.brujula_compartir_evidencias), Modifier.weight(1f))
+                        Switch(checked = conEvidencias, onCheckedChange = { conEvidencias = it })
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.PUBLICA, conPasos, conEvidencias) }) { Text(stringResource(R.string.mandala_compartir_publico)) }
+            },
+            dismissButton = {
+                Row {
+                    TextButton(onClick = { preguntarCompartir = false }) { Text(stringResource(R.string.cancelar)) }
+                    TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.SEGUIDORES, conPasos, conEvidencias) }) { Text(stringResource(R.string.mandala_compartir_seguidores)) }
+                }
+            },
+        )
+    }
 }
 
 private fun modeloFoto(f: String): Any = if (f.startsWith("http")) f else File(f)
@@ -389,6 +414,7 @@ private fun Bloque(
     datos: DatosMandala, bloque: Int,
     onElegirBloque: (Int) -> Unit, onPaso: (Int, Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit, onAgregarCampamento: (String) -> Unit,
+    soloLectura: Boolean = false,
 ) {
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     val campamento = Mandala.ANILLO.indexOf(bloque)          // −1 en el bloque central
@@ -411,6 +437,7 @@ private fun Bloque(
                         // Celda equivalente dentro de la cuadrícula completa
                         val cel = Mandala.celda((bloque / 3) * 3 + f, (bloque % 3) * 3 + col)
                         val accion: () -> Unit = when {
+                            soloLectura && cel.tipo == Mandala.Tipo.PASO -> { {} }
                             cel.tipo == Mandala.Tipo.PASO && cv != null -> { { onPaso(campamento, cel.paso) } }
                             cel.tipo == Mandala.Tipo.CAMPAMENTO && cel.copia -> {
                                 { if (datos.casilla(cel.campamento) != null) onElegirBloque(Mandala.bloqueDe(cel.campamento)) else onAgregarCampamento(datos.codigo(cel.campamento)) }
@@ -426,10 +453,10 @@ private fun Bloque(
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (cv != null) OutlinedButton(onClick = { onSugerir(cv.casilla) }) {
+            if (cv != null && !soloLectura) OutlinedButton(onClick = { onSugerir(cv.casilla) }) {
                 Icon(Icons.Filled.AutoAwesome, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.mandala_sugerir))
             }
-            if (campamento >= 0 && cv == null) OutlinedButton(onClick = { onAgregarCampamento(datos.codigo(campamento)) }) {
+            if (campamento >= 0 && cv == null && !soloLectura) OutlinedButton(onClick = { onAgregarCampamento(datos.codigo(campamento)) }) {
                 Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.mandala_agregar_campamento))
             }
             if (campamento >= 0) TextButton(onClick = { onElegirBloque(4) }) { Text(stringResource(R.string.mandala_ver_centro)) }
@@ -769,6 +796,81 @@ private fun TarjetaCampamento(datos: DatosMandala, i: Int, onClick: () -> Unit) 
                             .background(if (k < ganados) (if (foto != null) Color.White else color) else (if (foto != null) Color.White.copy(alpha = 0.35f) else color.copy(alpha = 0.2f))))
                     }
                 }
+            }
+        }
+    }
+}
+
+/** La instantánea es legible (para decidir si la publicación se muestra como Brújula). */
+fun brujulaValida(json: String): Boolean = BrujulaCompartida.leer(json) != null
+
+/** Datos de la Brújula a partir de una instantánea compartida (solo lectura). */
+private fun datosDe(i: BrujulaCompartida.Instantanea): DatosMandala {
+    val (r, fotos) = BrujulaCompartida.comoRespuestas(i)
+    val camps = Mandala.CAMPAMENTOS_FIJOS.mapIndexed { k, cod ->
+        i.camps.firstOrNull { it.c == cod }?.let { c ->
+            CasillaVista(
+                VisionCasillaEntity(id = k + 1L, orden = k + 1, titulo = c.t, afirmacion = c.t, eje = cod.takeIf { it in VisionBoard.CODIGOS },
+                    origen = Mandala.origenCampamento(cod)),
+                c.f.ifBlank { null },
+            )
+        }
+    }
+    val cumbre = CasillaVista(VisionCasillaEntity(id = 100L, titulo = i.cumbre, afirmacion = i.cumbre, origen = "cumbre"), i.fotoCumbre.ifBlank { null })
+    return DatosMandala(cumbre, i.cumbre, camps, r, fotos)
+}
+
+/**
+ * La Brújula de la Cima en el muro de la comunidad: la cumbre en papel con su avance; al tocarla se
+ * abre a pantalla completa con el mismo zoom 1 · 9 · 81, en solo lectura.
+ */
+@Composable
+fun BrujulaEnMuro(json: String, autor: String, modifier: Modifier = Modifier) {
+    val inst = remember(json) { BrujulaCompartida.leer(json) } ?: return
+    val datos = remember(inst) { datosDe(inst) }
+    var abierta by rememberSaveable { mutableStateOf(false) }
+    val nf = NumberFormat.getIntegerInstance()
+    Column(
+        modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 2.dp, doblez = 18.dp)
+            .clickable { abierta = true }.padding(18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        if (inst.fotoCumbre.isNotBlank()) {
+            Box(Modifier.fillMaxWidth(0.7f).aspectRatio(4f / 3f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(6.dp)) {
+                AsyncImage(modeloFoto(inst.fotoCumbre), null, Modifier.fillMaxSize().clip(RoundedCornerShape(3.dp)), contentScale = ContentScale.Crop)
+            }
+        } else Icon(Icons.Filled.Landscape, null, tint = ORO, modifier = Modifier.size(36.dp))
+        Text(stringResource(R.string.brujula_titulo).uppercase(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold,
+            letterSpacing = 1.5.sp, color = BURDEOS)
+        Text(inst.cumbre, fontFamily = FontFamily.Serif, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center, color = TINTA_PAPEL, maxLines = 4, overflow = TextOverflow.Ellipsis)
+        // Los 8 campamentos como una fila de cintas con su avance
+        Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            Mandala.CAMPAMENTOS_FIJOS.forEachIndexed { k, _ ->
+                val g = (0 until Mandala.PASOS).count { datos.estado(k, it) == Mandala.EstadoPaso.HECHO }
+                Box(Modifier.width(22.dp).height(6.dp).clip(RoundedCornerShape(3.dp)).background(colorCampamento(Mandala.CAMPAMENTOS_FIJOS[k]).copy(alpha = 0.25f + 0.75f * g / 8f)))
+            }
+        }
+        Text(stringResource(R.string.brujula_muro_avance, inst.ganados, nf.format(inst.mm)), style = MaterialTheme.typography.labelMedium, color = BURDEOS)
+        FilledTonalButton(onClick = { abierta = true }) {
+            Icon(Icons.Filled.GridView, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.brujula_explorar))
+        }
+    }
+    if (abierta) Dialog(onDismissRequest = { abierta = false }, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+        var bloque by rememberSaveable { mutableStateOf(4) }
+        Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+            Column(Modifier.fondoPapel().verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = { abierta = false }) { Icon(Icons.Filled.Close, stringResource(R.string.cerrar_brujula)) }
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.brujula_de, autor), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        if (inst.fecha.isNotBlank()) Text(stringResource(R.string.brujula_fecha, inst.fecha), style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                BrujulaZoom(datos, bloque) { bloque = it }
+                if (inst.conPasos) Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { _, _ -> }, onSugerir = {}, onAgregarCampamento = {}, soloLectura = true)
+                else Text(stringResource(R.string.brujula_sin_pasos), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }
