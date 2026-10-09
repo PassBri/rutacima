@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">획득한 단계는 비워지고(증거와 함께 인생 일기에 남아요) 새 단계로 채워져요. 진행 중인 단계는 실행한 날을 유지해요.</string>
     <string name="brujula_nueva_montana_si">시작</string>
     <string name="brujula_cierre_post">나의 정상 나침반 %1$d · 한 해의 7가지 교훈</string>
+    <string name="brujula_zoom_1">나의 정상. 탭하거나 두 번 탭해 비전 보드를 열어요.</string>
+    <string name="brujula_zoom_9">비전 보드: 정상과 8개의 캠프. 정상을 누르면 9×9, 캠프를 누르면 그 단계가 열려요.</string>
+    <string name="brujula_zoom_81">전체 나침반: 81칸. 블록을 누르면 아래에 열려요. 가운데를 두 번 누르면 정상으로 돌아가요.</string>
 </resources>

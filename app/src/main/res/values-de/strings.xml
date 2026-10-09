@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">Verdiente Schritte werden frei (sie bleiben mit ihren Beweisen im Lebenstagebuch) und neu gefüllt. Halbfertige behalten ihre Tage.</string>
     <string name="brujula_nueva_montana_si">Beginnen</string>
     <string name="brujula_cierre_post">Mein Gipfelkompass %1$d · Die 7 Lektionen meines Jahres</string>
+    <string name="brujula_zoom_1">Dein persönlicher Gipfel. Tippe oder doppeltippe, um dein Vision Board zu öffnen.</string>
+    <string name="brujula_zoom_9">Dein Vision Board: der Gipfel und seine 8 Lager. Tippe auf den Gipfel für das 9×9 oder auf ein Lager für seine Schritte.</string>
+    <string name="brujula_zoom_81">Dein ganzer Kompass: 81 Felder. Tippe auf einen Block, um ihn unten zu öffnen; tippe zweimal auf die Mitte, um zum Gipfel zurückzukehren.</string>
 </resources>

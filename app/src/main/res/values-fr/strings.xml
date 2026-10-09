@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">Les pas gagnés sont libérés (ils restent dans ton journal de vie avec leurs preuves) et remplacés par de nouveaux. Ceux à mi-chemin gardent leurs journées.</string>
     <string name="brujula_nueva_montana_si">Commencer</string>
     <string name="brujula_cierre_post">Ma Boussole du Sommet %1$d · Les 7 leçons de mon année</string>
+    <string name="brujula_zoom_1">Ton sommet personnel. Touche ou touche deux fois pour ouvrir ton vision board.</string>
+    <string name="brujula_zoom_9">Ton vision board : le sommet et ses 8 camps. Touche le sommet pour voir le 9×9 ou un camp pour ouvrir ses pas.</string>
+    <string name="brujula_zoom_81">Ta Boussole complète : 81 cases. Touche un bloc pour l\'ouvrir en dessous ; touche deux fois le centre pour revenir au sommet.</string>
 </resources>

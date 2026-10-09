@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">कमाए गए कदम खाली हो जाते हैं (सबूतों के साथ जीवन-डायरी में रहते हैं) और नए कदम आते हैं। आधे रास्ते वाले अपने दिन रखते हैं।</string>
     <string name="brujula_nueva_montana_si">शुरू करें</string>
     <string name="brujula_cierre_post">मेरा शिखर कम्पास %1$d · मेरे साल के 7 सबक</string>
+    <string name="brujula_zoom_1">आपका निजी शिखर। विज़न बोर्ड खोलने के लिए टैप या डबल टैप करें।</string>
+    <string name="brujula_zoom_9">आपका विज़न बोर्ड: शिखर और उसके 8 पड़ाव। 9×9 देखने के लिए शिखर, कदम खोलने के लिए पड़ाव टैप करें।</string>
+    <string name="brujula_zoom_81">आपका पूरा कम्पास: 81 खाने। किसी ब्लॉक को नीचे खोलने के लिए टैप करें; शिखर पर लौटने के लिए केंद्र को दो बार टैप करें।</string>
 </resources>

@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">Earned steps are cleared (they stay in your life diary with their evidence) and refilled with new steps. The ones halfway keep their work days.</string>
     <string name="brujula_nueva_montana_si">Start</string>
     <string name="brujula_cierre_post">My Summit Compass %1$d · The 7 lessons of my year</string>
+    <string name="brujula_zoom_1">Your personal summit. Tap or double-tap to open your vision board.</string>
+    <string name="brujula_zoom_9">Your vision board: the summit and its 8 camps. Tap the summit to see the 9×9 or a camp to open its steps.</string>
+    <string name="brujula_zoom_81">Your full Compass: 81 tiles. Tap a block to open it below; tap the center twice to return to your summit.</string>
 </resources>

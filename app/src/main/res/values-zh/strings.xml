@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">已赢得的步骤会被清空（连同证据保留在人生日记中）并填入新步骤。进行中的步骤保留其行动日。</string>
     <string name="brujula_nueva_montana_si">开始</string>
     <string name="brujula_cierre_post">我的顶峰罗盘 %1$d · 我这一年的 7 个教训</string>
+    <string name="brujula_zoom_1">你的个人顶峰。轻点或双击打开你的愿景板。</string>
+    <string name="brujula_zoom_9">你的愿景板：顶峰和 8 个营地。点顶峰查看 9×9，点营地打开它的步骤。</string>
+    <string name="brujula_zoom_81">完整的罗盘：81 格。点一个区块在下方打开；点两次中心回到顶峰。</string>
 </resources>

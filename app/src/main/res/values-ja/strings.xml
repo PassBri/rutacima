@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">獲得したステップは空になり（証拠とともに人生日記に残ります）、新しいステップが入ります。途中のステップは日数を保ちます。</string>
     <string name="brujula_nueva_montana_si">始める</string>
     <string name="brujula_cierre_post">私の頂のコンパス %1$d · 1年の7つの教訓</string>
+    <string name="brujula_zoom_1">あなたの頂。タップまたはダブルタップでビジョンボードを開きます。</string>
+    <string name="brujula_zoom_9">ビジョンボード：頂と8つのキャンプ。頂をタップで9×9、キャンプをタップでステップを開きます。</string>
+    <string name="brujula_zoom_81">コンパス全体：81マス。ブロックをタップすると下に開きます。中心を2回タップで頂に戻ります。</string>
 </resources>

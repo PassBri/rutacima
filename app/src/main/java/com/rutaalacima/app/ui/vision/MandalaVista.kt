@@ -2,6 +2,19 @@ package com.rutaalacima.app.ui.vision
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.AnimatedContent
 import com.rutaalacima.app.domain.model.Travesia
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.foundation.layout.FlowRow
@@ -188,7 +201,7 @@ fun MandalaSeccion(
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(stringResource(R.string.brujula_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
-        Cuadricula(datos, bloque) { bloque = it }
+        BrujulaZoom(datos, bloque) { bloque = it }
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
@@ -575,4 +588,101 @@ private fun CierreAnio(datos: DatosMandala, onCierre: (List<String>, Boolean) ->
         confirmButton = { TextButton(onClick = { confirmar = false; onNuevaMontana() }) { Text(stringResource(R.string.brujula_nueva_montana_si)) } },
         dismissButton = { TextButton(onClick = { confirmar = false }) { Text(stringResource(R.string.cancelar)) } },
     )
+}
+
+/**
+ * La Brújula se abre como una montaña vista desde cerca: primero solo la cumbre (1), al tocar el
+ * centro se abre el vision board (3×3 = 9 casillas) y después el 9×9 completo (81). Cada nivel entra
+ * con el movimiento de "container transform" de Material: lo que tocaste se vuelve el centro del
+ * nivel siguiente. Un toque o doble toque en el centro acerca; el selector 1 · 9 · 81 salta de nivel.
+ */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Unit) {
+    var nivel by rememberSaveable { mutableStateOf(0) }
+    val haptico = LocalHapticFeedback.current
+    fun ir(n: Int) { if (n != nivel) haptico.performHapticFeedback(HapticFeedbackType.TextHandleMove); nivel = n.coerceIn(0, 2) }
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+            listOf("1", "9", "81").forEachIndexed { i, etiqueta ->
+                SegmentedButton(selected = nivel == i, onClick = { ir(i) }, shape = SegmentedButtonDefaults.itemShape(i, 3)) {
+                    Text(etiqueta, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+        AnimatedContent(
+            targetState = nivel,
+            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
+            transitionSpec = {
+                val acercar = targetState > initialState
+                val resorte = spring<Float>(Spring.DampingRatioLowBouncy, Spring.StiffnessMediumLow)
+                // Al abrir, el nivel nuevo entra grande (su centro ocupa la pantalla) y se acomoda; al cerrar, al revés
+                (scaleIn(resorte, initialScale = if (acercar) 3f else 0.34f) + fadeIn(tween(220))) togetherWith
+                    (scaleOut(tween(260), targetScale = if (acercar) 0.34f else 3f) + fadeOut(tween(180)))
+            },
+            label = "brujula",
+        ) { n ->
+            when (n) {
+                0 -> NivelCumbre(datos, Modifier.combinedClickable(onClick = { ir(1) }, onDoubleClick = { ir(1) }))
+                1 -> NivelVision(datos, onCentro = { ir(2) }, onCampamento = { i -> onBloque(Mandala.bloqueDe(i)); ir(2) })
+                else -> Box {
+                    Cuadricula(datos, bloque) { b -> if (b == 4 && bloque == 4) ir(0) else onBloque(b) }
+                }
+            }
+        }
+        Text(
+            stringResource(when (nivel) { 0 -> R.string.brujula_zoom_1; 1 -> R.string.brujula_zoom_9; else -> R.string.brujula_zoom_81 }),
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+/** Nivel 1: solo la cumbre personal, grande, con su foto. */
+@Composable
+private fun NivelCumbre(datos: DatosMandala, modifier: Modifier) {
+    val foto = datos.cumbre?.foto
+    Box(
+        modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(32.dp))
+            .background(Brush.verticalGradient(listOf(NIEVE, ORO))),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (foto != null) {
+            AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x33000000), Color(0xB31D120D)))))
+        }
+        Column(Modifier.padding(28.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(stringResource(R.string.mandala_cumbre).uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold,
+                color = if (foto != null) Color.White.copy(alpha = 0.85f) else Color(0xFF6B2A1A))
+            Text(datos.tituloCumbre.ifBlank { stringResource(R.string.brujula_cumbre_vacia) }, style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Black, textAlign = TextAlign.Center, color = if (foto != null) Color.White else Color(0xFF3A1A10))
+            Text(stringResource(R.string.metodo_altura, NumberFormat.getIntegerInstance().format(datos.ritmo.mm)), style = MaterialTheme.typography.labelLarge,
+                color = if (foto != null) Color.White else Color(0xFF6B2A1A))
+        }
+    }
+}
+
+/** Nivel 9: el vision board (la cumbre y los 8 campamentos) con sus fotos y rumbos. */
+@Composable
+private fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento: (Int) -> Unit) {
+    val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
+    BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f)) {
+        val lado = maxWidth / 3
+        Column {
+            for (f in 0 until 3) Row {
+                for (col in 0 until 3) {
+                    val cel = Mandala.celda(3 + f, 3 + col)
+                    Box(
+                        Modifier.size(lado).padding(3.dp).clip(RoundedCornerShape(if (cel.tipo == Mandala.Tipo.CUMBRE) 28.dp else 18.dp))
+                            .clickable { if (cel.tipo == Mandala.Tipo.CUMBRE) onCentro() else onCampamento(cel.campamento) },
+                    ) {
+                        CeldaPlana(datos, cel, vacio, chica = false)
+                        if (cel.tipo == Mandala.Tipo.CAMPAMENTO) Text(
+                            Mandala.RUMBOS[cel.campamento], style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black,
+                            color = Color.White.copy(alpha = 0.85f), modifier = Modifier.align(Alignment.TopStart).padding(6.dp),
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

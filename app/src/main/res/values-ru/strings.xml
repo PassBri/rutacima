@@ -1101,4 +1101,7 @@
     <string name="brujula_nueva_montana_ayuda">Заработанные шаги освобождаются (остаются в дневнике жизни с доказательствами) и заполняются новыми. Начатые сохраняют свои дни.</string>
     <string name="brujula_nueva_montana_si">Начать</string>
     <string name="brujula_cierre_post">Мой компас вершины %1$d · 7 уроков моего года</string>
+    <string name="brujula_zoom_1">Твоя личная вершина. Нажми или нажми дважды, чтобы открыть vision board.</string>
+    <string name="brujula_zoom_9">Твой vision board: вершина и 8 лагерей. Нажми на вершину, чтобы увидеть 9×9, или на лагерь, чтобы открыть его шаги.</string>
+    <string name="brujula_zoom_81">Весь компас: 81 клетка. Нажми на блок, чтобы открыть его ниже; дважды нажми на центр, чтобы вернуться к вершине.</string>
 </resources>
