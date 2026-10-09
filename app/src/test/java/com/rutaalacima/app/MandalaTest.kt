@@ -25,7 +25,9 @@ class MandalaTest {
         assertEquals(7, Mandala.celda(5, 5).campamento); assertEquals(7, Mandala.celda(7, 7).campamento)
         // Un paso del bloque 7 (abajo a la derecha)
         val p = Mandala.celda(8, 8)
-        assertEquals(Mandala.Tipo.PASO, p.tipo); assertEquals(7, p.campamento); assertEquals(7, p.paso)
+        assertEquals(Mandala.Tipo.PASO, p.tipo); assertEquals(7, p.campamento); assertEquals(4, p.paso)  // 5.º paso: la Cima
+        // Los pasos van en sentido del reloj: arriba a la izquierda es el 1.º y a la izquierda en medio el 8.º
+        assertEquals(0, Mandala.celda(0, 0).paso); assertEquals(3, Mandala.celda(1, 2).paso); assertEquals(7, Mandala.celda(1, 0).paso)
         // Cada campamento tiene exactamente 8 pasos
         (0 until 8).forEach { c -> assertEquals(8, Mandala.CELDAS.count { it.tipo == Mandala.Tipo.PASO && it.campamento == c }) }
     }
@@ -44,11 +46,20 @@ class MandalaTest {
         assertEquals(Mandala.EstadoPaso.VACIO, Mandala.estado(null, 1, r))
     }
 
-    @Test fun repartirPoneLaCumbreAlCentro() {
-        val cs = listOf("eje:VOL", "cumbre", "proposito:1", "meta:2")
-        val (c, camp) = Mandala.repartir(cs) { it }
-        assertEquals("cumbre", c); assertEquals(listOf("eje:VOL", "proposito:1", "meta:2"), camp)
-        assertNull(Mandala.repartir(listOf("a")) { it }.first)
+    @Test fun repartirUbicaLosCampamentosFijos() {
+        data class C(val origen: String, val eje: String?)
+        val cs = listOf(C("campamento:VOL", "VOL"), C("cumbre", null), C("eje:MAE", "MAE"), C("proposito:1", "VOZ"), C("campamento:CAM", null), C("meta:2", null))
+        val (cumbre, camp) = Mandala.repartir(cs, { it.origen }, { it.eje })
+        assertEquals("cumbre", cumbre?.origen)
+        assertEquals(8, camp.size)
+        assertEquals("campamento:VOL", camp[Mandala.CAMPAMENTOS_FIJOS.indexOf("VOL")]?.origen)
+        assertEquals("eje:MAE", camp[Mandala.CAMPAMENTOS_FIJOS.indexOf("MAE")]?.origen)   // compatibilidad
+        assertEquals("proposito:1", camp[Mandala.CAMPAMENTOS_FIJOS.indexOf("VOZ")]?.origen)
+        assertEquals("campamento:CAM", camp[Mandala.CAMPAMENTOS_FIJOS.indexOf("CAM")]?.origen)
+        assertNull(camp[Mandala.CAMPAMENTOS_FIJOS.indexOf("TRA")])
+        // Voluntad al sur (abajo en medio) y Trascendencia al norte
+        assertEquals("S", Mandala.RUMBOS[Mandala.CAMPAMENTOS_FIJOS.indexOf("VOL")])
+        assertEquals("N", Mandala.RUMBOS[Mandala.CAMPAMENTOS_FIJOS.indexOf("TRA")])
     }
 
     @Test fun completarSoloLlenaLoVacioSinRepetir() {

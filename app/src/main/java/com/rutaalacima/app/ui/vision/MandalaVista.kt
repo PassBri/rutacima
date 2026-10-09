@@ -2,6 +2,9 @@ package com.rutaalacima.app.ui.vision
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.filled.AddAPhoto
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -83,31 +86,61 @@ import kotlin.math.sin
 /** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
 internal fun nombreCampamento(cv: CasillaVista): String = cv.casilla.afirmacion.trim().ifBlank { cv.casilla.titulo }
 
-/** Colores para los campamentos sin eje. */
-private val PALETA = listOf(
-    Color(0xFF8E3B26), Color(0xFF5C4A8A), Color(0xFF2F6F7A), Color(0xFF8A6A1F),
-    Color(0xFF3F7A4A), Color(0xFF6B2A1A), Color(0xFF7A4A6B), Color(0xFF4A5E7A),
-)
 private val ORO = Color(0xFFC9973B)
 private val NIEVE = Color(0xFFFFF8EC)
 
-/** Lo que la mandala necesita saber: la cumbre, los 8 campamentos (casillas del vision board) y los pasos. */
+/** Color de cada campamento fijo: el de su eje, y uno propio para Confluencia y Campamento Base. */
+internal fun colorCampamento(codigo: String): Color = when (codigo) {
+    "CON" -> Color(0xFF7A4A6B)
+    "CAM" -> Color(0xFF4A5E7A)
+    else -> colorEje(codigo)
+}
+
+/** Nombre de un campamento fijo en el idioma de la app. */
+@Composable
+internal fun nombreCodigo(codigo: String): String = stringResource(
+    when (codigo) {
+        "VOL" -> R.string.eje_vol; "MAE" -> R.string.eje_mae; "VOZ" -> R.string.eje_voz
+        "VAL" -> R.string.eje_val; "EVO" -> R.string.eje_evo; "TRA" -> R.string.eje_tra
+        "CON" -> R.string.brujula_con; else -> R.string.brujula_cam
+    }
+)
+
+/** Nombre de la fase del Viaje Transformativo que corresponde al paso [p] (0..7). */
+@Composable
+internal fun nombreFase(p: Int): String = stringResource(
+    listOf(R.string.fase_ori, R.string.fase_pre, R.string.fase_trv, R.string.fase_asc,
+        R.string.fase_cim, R.string.fase_cnt, R.string.fase_des, R.string.fase_leg)[p.coerceIn(0, 7)]
+)
+
+/**
+ * Lo que la Brújula de la Cima necesita saber: la cumbre, los 8 campamentos fijos (casillas del
+ * vision board, null si falta alguno), los pasos y las fotos de evidencia (id de publicación → foto).
+ */
 class DatosMandala(
     val cumbre: CasillaVista?,
     val cumbreTexto: String,
-    val campamentos: List<CasillaVista>,
+    val campamentos: List<CasillaVista?>,
     val respuestas: Map<String, String>,
+    val fotos: Map<String, String> = emptyMap(),
 ) {
     fun casilla(i: Int): CasillaVista? = campamentos.getOrNull(i)
-    fun color(i: Int): Color = casilla(i)?.casilla?.eje?.let(::colorEje) ?: PALETA[i % PALETA.size]
+    fun codigo(i: Int): String = Mandala.CAMPAMENTOS_FIJOS[i]
+    fun color(i: Int): Color = colorCampamento(codigo(i))
     fun paso(i: Int, p: Int): String = casilla(i)?.let { respuestas[Mandala.clave(it.casilla.id, p)] }.orEmpty()
     fun estado(i: Int, p: Int) = Mandala.estado(casilla(i)?.casilla?.id, p, respuestas)
-    val progreso get() = Mandala.progreso(campamentos.map { it.casilla.id }, respuestas)
+    /** Foto de evidencia del paso, si ya la tiene. */
+    fun fotoPaso(i: Int, p: Int): String? = casilla(i)?.let { respuestas[Mandala.claveFoto(it.casilla.id, p)] }?.let { fotos[it] }?.takeIf { it.isNotBlank() }
+    fun soltar(i: Int, p: Int): String = casilla(i)?.let { respuestas[Mandala.claveSoltar(it.casilla.id, p)] }.orEmpty()
+    fun llevar(i: Int, p: Int): String = casilla(i)?.let { respuestas[Mandala.claveLlevar(it.casilla.id, p)] }.orEmpty()
+    private val ids = campamentos.map { it?.casilla?.id }
+    val progreso get() = Mandala.progreso(ids, respuestas)
     /** Los 64 pasos con sus jornadas y el ritmo del año (Método Cima 9×52). */
-    val pasos: List<MetodoCima.Paso> = MetodoCima.pasosDe(campamentos.map { it.casilla.id }, respuestas)
+    val pasos: List<MetodoCima.Paso> = MetodoCima.pasosDe(ids, respuestas)
     val ritmo: MetodoCima.Estado = MetodoCima.calcular(pasos, LocalDate.now())
     fun pasoCima(i: Int, p: Int): MetodoCima.Paso = pasos[i * Mandala.PASOS + p]
     val tituloCumbre: String get() = cumbre?.casilla?.afirmacion?.ifBlank { null } ?: cumbreTexto
+    val evidencias: Int get() = (0 until Mandala.CAMPAMENTOS).sumOf { i -> (0 until Mandala.PASOS).count { fotoPaso(i, it) != null } }
 }
 
 /**
@@ -120,7 +153,9 @@ fun MandalaSeccion(
     onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String) -> Unit,
     onAvanzar: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit,
-    onAgregarCampamento: () -> Unit,
+    onAgregarCampamento: (codigo: String) -> Unit,
+    onEvidencia: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
+    onPortal: (casilla: VisionCasillaEntity, paso: Int, soltar: String, llevar: String) -> Unit,
     onCompartir: (Visibilidad) -> Unit,
     compartiendo: Boolean,
 ) {
@@ -129,12 +164,14 @@ fun MandalaSeccion(
     var preguntarCompartir by remember { mutableStateOf(false) }
     val pr = datos.progreso
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(stringResource(R.string.mandala_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+        Text(stringResource(R.string.brujula_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
         Cuadricula(datos, bloque) { bloque = it }
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
+        Text(stringResource(R.string.brujula_evidencias, datos.evidencias), style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant)
         Button(onClick = { preguntarCompartir = true }, enabled = !compartiendo && datos.campamentos.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.Share, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
             Text(stringResource(if (compartiendo) R.string.mandala_compartiendo else R.string.mandala_compartir))
@@ -147,9 +184,15 @@ fun MandalaSeccion(
     }
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
-            numero = p + 1, campamento = nombreCampamento(cv), texto = datos.paso(i, p),
+            numero = p + 1, fase = nombreFase(p), campamento = nombreCampamento(cv), texto = datos.paso(i, p),
             paso = datos.pasoCima(i, p), dificultad = datos.ritmo.dificultad,
-            onGuardar = { t -> onPaso(cv.casilla, p, t); editando = null },
+            foto = datos.fotoPaso(i, p), soltar = datos.soltar(i, p), llevar = datos.llevar(i, p),
+            onEvidencia = { onEvidencia(cv.casilla, p) },
+            onGuardar = { t, so, ll ->
+                if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t)
+                if (so != datos.soltar(i, p) || ll != datos.llevar(i, p)) onPortal(cv.casilla, p, so, ll)
+                editando = null
+            },
             onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
             onCancelar = { editando = null },
         ) }
@@ -227,7 +270,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                     AsyncImage(modeloFoto(it), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     Box(Modifier.fillMaxSize().background(color.copy(alpha = 0.55f)))
                 }
-                Text(cv?.let { nombreCampamento(it) } ?: "+", fontSize = tam, lineHeight = tam, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
+                Text(cv?.let { nombreCampamento(it) } ?: ("+ " + nombreCodigo(datos.codigo(cel.campamento))), fontSize = tam, lineHeight = tam, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
                     color = if (cv != null) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = alto, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(2.dp))
             }
@@ -240,9 +283,21 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                 Mandala.EstadoPaso.ESCRITO -> color.copy(alpha = 0.14f)
                 Mandala.EstadoPaso.HECHO -> color.copy(alpha = 0.42f)
             }
-            Box(Modifier.fillMaxSize().background(fondo).padding(2.dp), contentAlignment = Alignment.Center) {
-                if (!chica) Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam, textAlign = TextAlign.Center,
-                    maxLines = alto, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colorScheme.onSurface)
+            val evidencia = datos.fotoPaso(cel.campamento, cel.paso)
+            Box(Modifier.fillMaxSize().background(fondo), contentAlignment = Alignment.Center) {
+                // Paso ganado con foto: la evidencia ocupa la casilla (de la visión a la evidencia)
+                if (evidencia != null) {
+                    AsyncImage(modeloFoto(evidencia), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    if (!chica) Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xCC1D120D)))))
+                }
+                if (!chica) Column(Modifier.fillMaxSize().padding(4.dp), verticalArrangement = Arrangement.SpaceBetween) {
+                    Text("${cel.paso + 1} · ${nombreFase(cel.paso)}", fontSize = 9.sp, lineHeight = 10.sp, fontWeight = FontWeight.Bold,
+                        color = if (evidencia != null) Color.White else color, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam, textAlign = TextAlign.Center,
+                        maxLines = 4, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(),
+                        color = if (evidencia != null) Color.White else MaterialTheme.colorScheme.onSurface)
+                    Spacer(Modifier.height(1.dp))
+                }
                 if (estado == Mandala.EstadoPaso.HECHO) Icon(Icons.Filled.Check, null, tint = color,
                     modifier = Modifier.align(Alignment.TopEnd).size(if (chica) 8.dp else 16.dp))
             }
@@ -255,7 +310,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
 private fun Bloque(
     datos: DatosMandala, bloque: Int,
     onElegirBloque: (Int) -> Unit, onPaso: (Int, Int) -> Unit,
-    onSugerir: (VisionCasillaEntity) -> Unit, onAgregarCampamento: () -> Unit,
+    onSugerir: (VisionCasillaEntity) -> Unit, onAgregarCampamento: (String) -> Unit,
 ) {
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     val campamento = Mandala.ANILLO.indexOf(bloque)          // −1 en el bloque central
@@ -265,6 +320,10 @@ private fun Bloque(
             if (campamento < 0) datos.tituloCumbre.ifBlank { stringResource(R.string.mandala_cumbre) }
             else cv?.let { nombreCampamento(it) } ?: stringResource(R.string.mandala_campamento_vacio),
             style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold,
+        )
+        if (campamento >= 0) Text(
+            stringResource(R.string.brujula_campamento_de, nombreCodigo(datos.codigo(campamento)), Mandala.RUMBOS[campamento]),
+            style = MaterialTheme.typography.labelLarge, color = datos.color(campamento),
         )
         BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {
             val lado = maxWidth / 3
@@ -276,7 +335,7 @@ private fun Bloque(
                         val accion: () -> Unit = when {
                             cel.tipo == Mandala.Tipo.PASO && cv != null -> { { onPaso(campamento, cel.paso) } }
                             cel.tipo == Mandala.Tipo.CAMPAMENTO && cel.copia -> {
-                                { if (datos.casilla(cel.campamento) != null) onElegirBloque(Mandala.bloqueDe(cel.campamento)) else onAgregarCampamento() }
+                                { if (datos.casilla(cel.campamento) != null) onElegirBloque(Mandala.bloqueDe(cel.campamento)) else onAgregarCampamento(datos.codigo(cel.campamento)) }
                             }
                             cel.tipo == Mandala.Tipo.CAMPAMENTO -> { { onElegirBloque(4) } }
                             else -> { {} }
@@ -292,7 +351,7 @@ private fun Bloque(
             if (cv != null) OutlinedButton(onClick = { onSugerir(cv.casilla) }) {
                 Icon(Icons.Filled.AutoAwesome, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.mandala_sugerir))
             }
-            if (campamento >= 0 && cv == null) OutlinedButton(onClick = onAgregarCampamento) {
+            if (campamento >= 0 && cv == null) OutlinedButton(onClick = { onAgregarCampamento(datos.codigo(campamento)) }) {
                 Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.mandala_agregar_campamento))
             }
             if (campamento >= 0) TextButton(onClick = { onElegirBloque(4) }) { Text(stringResource(R.string.mandala_ver_centro)) }
@@ -329,17 +388,20 @@ private fun RitmoCima(r: MetodoCima.Estado) {
 
 @Composable
 private fun EditarPaso(
-    numero: Int, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
-    onGuardar: (String) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
+    numero: Int, fase: String, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
+    foto: String?, soltar: String, llevar: String,
+    onEvidencia: () -> Unit, onGuardar: (String, String, String) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
 ) {
     var t by remember { mutableStateOf(texto) }
+    var so by remember { mutableStateOf(soltar) }
+    var ll by remember { mutableStateOf(llevar) }
     val requeridas = paso.requeridas ?: dificultad
     val hoyListo = LocalDate.now() in paso.jornadas
     AlertDialog(
         onDismissRequest = onCancelar,
-        title = { Text(stringResource(R.string.mandala_paso, numero)) },
+        title = { Text(stringResource(R.string.brujula_paso_fase, numero, fase)) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(campamento, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                 OutlinedTextField(t, { t = it }, minLines = 2, modifier = Modifier.fillMaxWidth(), enabled = !paso.cumplido)
                 if (paso.cumplido) {
@@ -348,6 +410,17 @@ private fun EditarPaso(
                         Spacer(Modifier.width(6.dp))
                         Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                     }
+                    // Kit de Evidencias: la foto real reemplaza a la visión en el borde del 9×9
+                    if (foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(4f / 3f).clip(RoundedCornerShape(12.dp)),
+                        contentScale = ContentScale.Crop)
+                    OutlinedButton(onClick = onEvidencia, modifier = Modifier.fillMaxWidth()) {
+                        Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
+                        Text(stringResource(if (foto == null) R.string.brujula_evidencia_agregar else R.string.brujula_evidencia_cambiar))
+                    }
+                    // Portal (Portales y Transiciones): qué suelto y qué llevo antes del siguiente paso
+                    Text(stringResource(R.string.brujula_portal), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    OutlinedTextField(so, { so = it }, label = { Text(stringResource(R.string.brujula_soltar)) }, modifier = Modifier.fillMaxWidth())
+                    OutlinedTextField(ll, { ll = it }, label = { Text(stringResource(R.string.brujula_llevar)) }, modifier = Modifier.fillMaxWidth())
                 } else {
                     Text(stringResource(R.string.metodo_jornadas, paso.jornadas.size, requeridas), style = MaterialTheme.typography.labelLarge)
                     LinearProgressIndicator(progress = { paso.jornadas.size.toFloat() / requeridas }, modifier = Modifier.fillMaxWidth())
@@ -358,7 +431,7 @@ private fun EditarPaso(
                 }
             }
         },
-        confirmButton = { TextButton(onClick = { onGuardar(t) }) { Text(stringResource(R.string.guardar)) } },
+        confirmButton = { TextButton(onClick = { onGuardar(t, so.trim(), ll.trim()) }) { Text(stringResource(R.string.guardar)) } },
         dismissButton = { TextButton(onClick = onCancelar) { Text(stringResource(R.string.cancelar)) } },
     )
 }

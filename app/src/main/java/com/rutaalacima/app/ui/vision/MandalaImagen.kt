@@ -84,8 +84,12 @@ object MandalaImagen {
                         Mandala.EstadoPaso.HECHO -> mezclar(0xFFFFFFFF.toInt(), color, 0.45f)
                     }
                     c.drawRoundRect(r, 10f, 10f, fondo)
-                    texto(c, datos.paso(cel.campamento, cel.paso), x + 5, y, (celda - 10).toInt(), 14f, TINTA,
-                        Typeface.DEFAULT, 5, Layout.Alignment.ALIGN_CENTER, alto = celda)
+                    // De la visión a la evidencia: el paso ganado muestra su foto real
+                    val evidencia = datos.fotoPaso(cel.campamento, cel.paso)?.let { foto(it) }
+                    if (evidencia != null) dibujarFoto(c, evidencia, r, 0x73000000)
+                    texto(c, datos.paso(cel.campamento, cel.paso), x + 5, y, (celda - 10).toInt(), 14f,
+                        if (evidencia != null) 0xFFFFFFFF.toInt() else TINTA, if (evidencia != null) Typeface.DEFAULT_BOLD else Typeface.DEFAULT,
+                        5, Layout.Alignment.ALIGN_CENTER, alto = celda)
                     if (estado == Mandala.EstadoPaso.HECHO) {
                         fondo.color = color; c.drawCircle(x + celda - 14, y + 14, 10f, fondo)
                         texto(c, "✓", x + celda - 24, y + 3, 20, 15f, 0xFFFFFFFF.toInt(), Typeface.DEFAULT_BOLD, 1, Layout.Alignment.ALIGN_CENTER)

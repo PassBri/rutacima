@@ -30,8 +30,31 @@ object Mandala {
     /** Posiciones (0..8, fila por fila) del anillo alrededor del centro de un bloque de 3×3. */
     val ANILLO = listOf(0, 1, 2, 3, 5, 6, 7, 8)
 
+    /**
+     * Los 8 campamentos fijos de la Brújula de la Cima, en el orden de [ANILLO]: los 6 ejes más
+     * Confluencia (un proyecto que activa varios ejes) y Campamento Base (mentor, cordada y red de apoyo).
+     * Como en una rosa de los vientos: Trascendencia al norte, Voluntad al sur (la base).
+     */
+    val CAMPAMENTOS_FIJOS = listOf("CON", "TRA", "VAL", "EVO", "VOZ", "CAM", "VOL", "MAE")
+    val RUMBOS = listOf("NO", "N", "NE", "O", "E", "SO", "S", "SE")
+    fun origenCampamento(codigo: String) = "campamento:$codigo"
+
+    /** Orden de los pasos alrededor de su campamento: en sentido del reloj, desde arriba a la izquierda. */
+    val RELOJ = listOf(0, 1, 2, 5, 8, 7, 6, 3)
+
+    /**
+     * Cada bloque es un viaje: sus 8 pasos siguen las 7 fases del Viaje Transformativo y terminan en el
+     * legado (Desde la Cima). Orientación, Preparación, Travesía, Ascenso, Cima, Contemplación, Descenso, Legado.
+     */
+    val FASES = listOf("ORI", "PRE", "TRV", "ASC", "CIM", "CNT", "DES", "LEG")
+
     fun clave(casillaId: Long, paso: Int) = "mandala#$casillaId#$paso"
     fun claveHecho(casillaId: Long, paso: Int) = clave(casillaId, paso) + "#hecho"
+    /** Publicación con la foto de evidencia del paso ganado (Kit de Evidencias). */
+    fun claveFoto(casillaId: Long, paso: Int) = clave(casillaId, paso) + "#foto"
+    /** El portal (libro Portales y Transiciones): qué suelto y qué llevo al ganar el paso. */
+    fun claveSoltar(casillaId: Long, paso: Int) = clave(casillaId, paso) + "#soltar"
+    fun claveLlevar(casillaId: Long, paso: Int) = clave(casillaId, paso) + "#llevar"
 
     enum class Tipo { CUMBRE, CAMPAMENTO, PASO }
 
@@ -50,7 +73,7 @@ object Mandala {
             bloque == 4 && dentro == 4 -> Celda(fila, col, Tipo.CUMBRE, -1)
             bloque == 4 -> Celda(fila, col, Tipo.CAMPAMENTO, ANILLO.indexOf(dentro), copia = true)
             dentro == 4 -> Celda(fila, col, Tipo.CAMPAMENTO, ANILLO.indexOf(bloque))
-            else -> Celda(fila, col, Tipo.PASO, ANILLO.indexOf(bloque), ANILLO.indexOf(dentro))
+            else -> Celda(fila, col, Tipo.PASO, ANILLO.indexOf(bloque), RELOJ.indexOf(dentro))
         }
     }
 
@@ -71,9 +94,9 @@ object Mandala {
     }
 
     /** Pasos escritos y cumplidos de los campamentos [casillas] (ids del vision board, hasta 8). */
-    fun progreso(casillas: List<Long>, respuestas: Map<String, String>): Progreso {
+    fun progreso(casillas: List<Long?>, respuestas: Map<String, String>): Progreso {
         var escritos = 0; var hechos = 0
-        casillas.take(CAMPAMENTOS).forEach { id ->
+        casillas.take(CAMPAMENTOS).filterNotNull().forEach { id ->
             repeat(PASOS) { p ->
                 if (!respuestas[clave(id, p)].isNullOrBlank()) {
                     escritos++
@@ -91,12 +114,18 @@ object Mandala {
     }
 
     /**
-     * Ordena las casillas del vision board para la mandala: la de origen "cumbre" va al centro y las
-     * demás (por su orden) son los campamentos. Devuelve (cumbre o null, campamentos hasta 8).
+     * Ubica las casillas del vision board en la brújula: la de origen "cumbre" va al centro y cada
+     * campamento fijo toma su casilla ("campamento:VOL"…). Por compatibilidad, una casilla de antes
+     * con el mismo eje ocupa el campamento si está libre. Devuelve (cumbre, 8 posiciones o null).
      */
-    fun <T> repartir(casillas: List<T>, origen: (T) -> String): Pair<T?, List<T>> {
+    fun <T> repartir(casillas: List<T>, origen: (T) -> String, eje: (T) -> String? = { null }): Pair<T?, List<T?>> {
         val cumbre = casillas.firstOrNull { origen(it) == "cumbre" }
-        return cumbre to casillas.filter { it !== cumbre }.take(CAMPAMENTOS)
+        val libres = casillas.filter { it !== cumbre }.toMutableList()
+        val r = CAMPAMENTOS_FIJOS.map { cod -> libres.firstOrNull { origen(it) == origenCampamento(cod) }?.also { libres.remove(it) } }.toMutableList()
+        CAMPAMENTOS_FIJOS.forEachIndexed { i, cod ->
+            if (r[i] == null) r[i] = (libres.firstOrNull { origen(it) == "eje:$cod" } ?: libres.firstOrNull { eje(it) == cod })?.also { libres.remove(it) }
+        }
+        return cumbre to r
     }
 
     /** Llena solo los pasos vacíos con las sugerencias, sin repetir lo que ya está escrito. */

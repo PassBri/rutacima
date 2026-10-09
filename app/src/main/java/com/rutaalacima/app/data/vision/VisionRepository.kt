@@ -10,6 +10,7 @@ import com.rutaalacima.app.data.local.puntajes
 import com.rutaalacima.app.data.social.SocialRepository
 import com.rutaalacima.app.data.social.TipoPost
 import com.rutaalacima.app.data.social.Visibilidad
+import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.VisionBoard
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -28,26 +29,44 @@ class VisionRepository(
     val casillas: Flow<List<VisionCasillaEntity>> = db.visionDao().observe()
 
     /** Resultado de armar el tablero: true si lo propuso la IA, false si se usaron las reglas sin conexión. */
+    /**
+     * Arma las 9 casillas de la Brújula de la Cima: la cumbre y los 8 campamentos fijos. Las casillas
+     * se actualizan en su lugar (conservan su id y, con él, los pasos del 9×9); las que ya tienen foto
+     * no cambian. Las de antes sin foto que no tienen lugar se quitan.
+     */
     suspend fun armar(): Boolean {
         val ia = coach.consultar(VisionBoard.instruccionIa())?.let(VisionBoard::desdeIa)
-        val propuestas = ia ?: propuestaLocal()
-        val actuales = db.visionDao().todas()
-        // Se conservan las casillas que ya tienen foto; las demás se reemplazan.
-        actuales.filter { it.publicacionId == null }.forEach { db.visionDao().borrar(it.id) }
-        val conFoto = actuales.filter { it.publicacionId != null }
-        val yaCubiertas = conFoto.map { it.origen }.toSet()
-        var orden = (conFoto.maxOfOrNull { it.orden } ?: -1) + 1
-        propuestas.filter { it.origen == "ia" || it.origen !in yaCubiertas }
-            .take((VisionBoard.MAXIMO - conFoto.size).coerceAtLeast(0))
-            .forEach { p ->
-                db.visionDao().guardar(
-                    VisionCasillaEntity(
-                        orden = orden++, titulo = p.titulo, afirmacion = p.afirmacion, eje = p.eje,
-                        sugerencia = p.sugerencia, busqueda = p.busqueda, origen = p.origen,
-                    )
+        val local = propuestaLocal()
+        val actuales = db.visionDao().todas().sortedWith(compareBy({ it.orden }, { it.id })).toMutableList()
+        val (cumbre, campamentos) = Mandala.repartir(actuales, { it.origen }, { it.eje })
+        val ubicadas = listOf(cumbre) + campamentos
+        VisionBoard.ORIGENES.forEachIndexed { orden, origen ->
+            val p = ia?.firstOrNull { it.origen == origen } ?: local.firstOrNull { it.origen == origen } ?: return@forEachIndexed
+            val existente = ubicadas[orden]
+            when {
+                existente == null -> db.visionDao().guardar(
+                    VisionCasillaEntity(orden = orden, titulo = p.titulo, afirmacion = p.afirmacion, eje = p.eje,
+                        sugerencia = p.sugerencia, busqueda = p.busqueda, origen = origen)
                 )
+                existente.publicacionId != null -> db.visionDao().guardar(existente.copy(orden = orden, origen = origen))
+                else -> db.visionDao().guardar(existente.copy(orden = orden, titulo = p.titulo, afirmacion = p.afirmacion,
+                    eje = p.eje, sugerencia = p.sugerencia, busqueda = p.busqueda, origen = origen))
             }
+        }
+        val usadas = ubicadas.filterNotNull().map { it.id }.toSet()
+        actuales.filter { it.id !in usadas && it.publicacionId == null }.forEach { db.visionDao().borrar(it.id) }
         return ia != null
+    }
+
+    /** Crea la casilla de un campamento fijo que falta (con la frase propuesta por el método). */
+    suspend fun crearCampamento(codigo: String) {
+        val origen = Mandala.origenCampamento(codigo)
+        if (db.visionDao().todas().any { it.origen == origen }) return
+        val p = propuestaLocal().firstOrNull { it.origen == origen } ?: return
+        db.visionDao().guardar(
+            VisionCasillaEntity(orden = VisionBoard.ORIGENES.indexOf(origen), titulo = p.titulo, afirmacion = p.afirmacion, eje = p.eje,
+                sugerencia = p.sugerencia, busqueda = p.busqueda, origen = origen)
+        )
     }
 
     private suspend fun propuestaLocal(): List<VisionBoard.Propuesta> {
@@ -79,6 +98,11 @@ class VisionRepository(
                 "EVO" to Triple(s(R.string.eje_evo), s(R.string.vision_eje_evo_af), s(R.string.vision_eje_evo_foto)),
                 "TRA" to Triple(s(R.string.eje_tra), s(R.string.vision_eje_tra_af), s(R.string.vision_eje_tra_foto)),
             ),
+            campamentos = mapOf(
+                "CON" to Triple(s(R.string.brujula_con), s(R.string.brujula_con_af), s(R.string.brujula_con_foto)),
+                "CAM" to Triple(s(R.string.brujula_cam), s(R.string.brujula_cam_af), s(R.string.brujula_cam_foto)),
+            ),
+            cumbreVacia = s(R.string.brujula_cumbre_vacia),
         )
     }
 

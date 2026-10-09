@@ -121,9 +121,9 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
      */
     private suspend fun llenarCampamentosVacios() {
         val todas = c.vision.casillas.first().sortedWith(compareBy({ it.orden }, { it.id }))
-        val (_, campamentos) = Mandala.repartir(todas) { it.origen }
+        val (_, campamentos) = Mandala.repartir(todas, { it.origen }, { it.eje })
         val r = c.respuestas.cargar(Mandala.WORKBOOK)
-        campamentos.filter { cs -> (0 until Mandala.PASOS).all { r[Mandala.clave(cs.id, it)].isNullOrBlank() } }
+        campamentos.filterNotNull().filter { cs -> (0 until Mandala.PASOS).all { r[Mandala.clave(cs.id, it)].isNullOrBlank() } }
             .forEach { llenarPasos(it, r) }
     }
 
@@ -152,7 +152,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     /** Registra la jornada de hoy en un paso (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */
-    fun avanzarPaso(casilla: VisionCasillaEntity, paso: Int, campamentos: List<Long>) = viewModelScope.launch {
+    fun avanzarPaso(casilla: VisionCasillaEntity, paso: Int, campamentos: List<Long?>) = viewModelScope.launch {
         val r = c.respuestas.cargar(Mandala.WORKBOOK)
         val hoy = java.time.LocalDate.now()
         val ritmo = MetodoCima.calcular(MetodoCima.pasosDe(campamentos, r), hoy)
@@ -181,6 +181,24 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }
     fun guardar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.guardar(cv) }
     fun nueva(t: String, a: String, s: String) = viewModelScope.launch { c.vision.nueva(t, a, s); llenarCampamentosVacios() }
+    fun crearCampamento(codigo: String) = viewModelScope.launch { c.vision.crearCampamento(codigo); llenarCampamentosVacios() }
+
+    /** Fotos de mis publicaciones (para las evidencias de los pasos). */
+    val fotos = c.social.misPublicaciones.map { ps -> ps.associate { it.id to it.foto } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+
+    /** Kit de Evidencias: la foto real del paso ganado se guarda como publicación privada (y aparece en el diario de vida). */
+    fun ponerEvidencia(casilla: VisionCasillaEntity, paso: Int, uri: Uri) = c.appScope.launch {
+        val texto = c.respuestas.cargar(Mandala.WORKBOOK)[Mandala.clave(casilla.id, paso)].orEmpty()
+        val p = c.social.publicar(TipoPost.EVIDENCIA, texto, uri, casilla.eje, Visibilidad.PRIVADA, metaTitulo = casilla.afirmacion.take(80))
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveFoto(casilla.id, paso), p.id)
+    }
+
+    /** El portal al ganar un paso: qué suelto y qué llevo. */
+    fun guardarPortal(casilla: VisionCasillaEntity, paso: Int, soltar: String, llevar: String) = viewModelScope.launch {
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveSoltar(casilla.id, paso), soltar)
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveLlevar(casilla.id, paso), llevar)
+    }
     fun borrar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.borrar(cv) }
 }
 
@@ -212,6 +230,13 @@ fun VisionScreen(onBack: () -> Unit) {
     val conFoto = casillas.count { it.foto != null }
     val pasos by vm.mandala.collectAsStateWithLifecycle()
     val cumbreFrase by vm.cumbreFrase.collectAsStateWithLifecycle()
+    val fotos by vm.fotos.collectAsStateWithLifecycle()
+    var paraEvidencia by remember { mutableStateOf<Pair<VisionCasillaEntity, Int>?>(null) }
+    val elegirEvidencia = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        val e = paraEvidencia
+        if (uri != null && e != null) vm.ponerEvidencia(e.first, e.second, uri)
+        paraEvidencia = null
+    }
 
     Scaffold(
         modifier = Modifier.fondoPapel(),
@@ -269,8 +294,8 @@ fun VisionScreen(onBack: () -> Unit) {
                 }
             }
             if (casillas.isNotEmpty()) item(span = { GridItemSpan(2) }) {
-                val (cumbre, campamentos) = Mandala.repartir(casillas) { it.casilla.origen }
-                val datos = DatosMandala(cumbre, cumbreFrase, campamentos, pasos)
+                val (cumbre, campamentos) = Mandala.repartir(casillas, { it.casilla.origen }, { it.casilla.eje })
+                val datos = DatosMandala(cumbre, cumbreFrase, campamentos, pasos, fotos)
                 val nf = java.text.NumberFormat.getIntegerInstance()
                 val textos = MandalaImagen.Textos(
                     etiqueta = stringResource(R.string.mandala_imagen_etiqueta),
@@ -282,9 +307,14 @@ fun VisionScreen(onBack: () -> Unit) {
                     MandalaSeccion(
                         datos,
                         onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
-                        onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it.casilla.id }) },
+                        onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it?.casilla?.id }) },
                         onSugerir = { vm.sugerirPasos(it) },
-                        onAgregarCampamento = { creando = true },
+                        onAgregarCampamento = { vm.crearCampamento(it) },
+                        onEvidencia = { cs, p ->
+                            paraEvidencia = cs to p
+                            elegirEvidencia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                        },
+                        onPortal = { cs, p, so, ll -> vm.guardarPortal(cs, p, so, ll) },
                         onCompartir = { vis -> vm.compartirMandala(ctx, datos, textos, vis) },
                         compartiendo = vm.compartiendo,
                     )

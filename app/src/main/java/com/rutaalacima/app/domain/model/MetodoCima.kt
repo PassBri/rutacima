@@ -152,6 +152,6 @@ object MetodoCima {
     }
 
     /** Todos los pasos de la mandala (8 campamentos × 8), en orden; sin campamento = paso vacío. */
-    fun pasosDe(campamentos: List<Long>, r: Map<String, String>): List<Paso> =
+    fun pasosDe(campamentos: List<Long?>, r: Map<String, String>): List<Paso> =
         (0 until Mandala.CAMPAMENTOS).flatMap { c -> (0 until Mandala.PASOS).map { p -> leer(campamentos.getOrNull(c), p, r) } }
 }

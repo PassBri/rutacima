@@ -45,14 +45,23 @@ object VisionBoard {
         val sugerenciaRelacionada: String,
         /** Nombre, afirmación y sugerencia de foto de cada eje (VOL, MAE, VOZ, VAL, EVO, TRA). */
         val ejes: Map<String, Triple<String, String, String>>,
+        /** Lo mismo para Confluencia (CON) y Campamento Base (CAM). */
+        val campamentos: Map<String, Triple<String, String, String>> = emptyMap(),
+        /** Afirmación de la cumbre cuando todavía no la ha escrito. */
+        val cumbreVacia: String = "",
     )
+
+    /** Las 9 casillas del vision board: la cumbre y los 8 campamentos de la Brújula de la Cima. */
+    val ORIGENES: List<String> = listOf("cumbre") + Mandala.CAMPAMENTOS_FIJOS.map { Mandala.origenCampamento(it) }
 
     val CODIGOS = listOf("VOL", "MAE", "VOZ", "VAL", "EVO", "TRA")
 
     /**
-     * Propuesta sin IA: la cumbre, hasta 3 propósitos, hasta 3 metas del año y, para completar,
-     * los ejes que todavía no aparecen (primero el más débil).
+     * Propuesta sin IA: la cumbre y los 8 campamentos fijos. Cada eje toma, si existe, el propósito o
+     * la meta del año de ese eje (así la frase es de la persona); Confluencia toma un propósito sin eje
+     * (los que tocan varios); lo demás usa la afirmación del método.
      */
+    @Suppress("UNUSED_PARAMETER")
     fun proponer(
         cumbre: String,
         propositos: List<Proposito>,
@@ -61,39 +70,39 @@ object VisionBoard {
         t: Textos,
     ): List<Propuesta> {
         val r = mutableListOf<Propuesta>()
-        fun sugerencia(eje: String?, titulo: String) =
-            t.sugerenciaRelacionada.format(t.ejes[eje]?.third ?: t.sugerenciaCumbre, titulo)
-        if (cumbre.isNotBlank()) {
-            r += Propuesta(t.tituloCumbre, cumbre.trim(), null, t.sugerenciaCumbre, palabras(cumbre), "cumbre")
+        val c = cumbre.trim()
+        r += Propuesta(t.tituloCumbre, c.ifBlank { t.cumbreVacia.ifBlank { t.tituloCumbre } }, null, t.sugerenciaCumbre,
+            palabras(c.ifBlank { t.sugerenciaCumbre }), "cumbre")
+        for (cod in Mandala.CAMPAMENTOS_FIJOS) {
+            val (nombre, afirmacion, foto) = t.ejes[cod] ?: t.campamentos[cod] ?: continue
+            val propio = when (cod) {
+                "CON" -> propositos.firstOrNull { it.eje == null }?.titulo
+                "CAM" -> null
+                else -> propositos.firstOrNull { it.eje == cod }?.titulo ?: metasDelAnio.firstOrNull { it.eje == cod }?.titulo
+            }?.trim()?.takeIf { it.isNotEmpty() }
+            r += Propuesta(
+                titulo = nombre, afirmacion = propio ?: afirmacion, eje = cod.takeIf { it in CODIGOS },
+                sugerencia = if (propio != null) t.sugerenciaRelacionada.format(foto, propio) else foto,
+                busqueda = palabras(propio ?: foto), origen = Mandala.origenCampamento(cod),
+            )
         }
-        propositos.take(3).forEach { p ->
-            r += Propuesta(t.tituloProposito.format(p.anioFin), p.titulo.trim(), p.eje, sugerencia(p.eje, p.titulo),
-                palabras(p.titulo), "proposito:${p.id}")
-        }
-        metasDelAnio.take(3).forEach { m ->
-            r += Propuesta(t.tituloMeta.format(m.anio), m.titulo.trim(), m.eje, sugerencia(m.eje, m.titulo),
-                palabras(m.titulo), "meta:${m.id}")
-        }
-        val presentes = r.mapNotNull { it.eje }.toSet()
-        val faltan = CODIGOS.filter { it !in presentes }.sortedBy { if (it == ejeMasDebil) 0 else 1 }
-        for (eje in faltan) {
-            if (r.size >= MAXIMO) break
-            val (nombre, afirmacion, foto) = t.ejes[eje] ?: continue
-            r += Propuesta(nombre, afirmacion, eje, foto, palabras(foto), "eje:$eje")
-        }
-        return r.take(MAXIMO)
+        return r
     }
 
     /** Lo que se le pide a la IA (el coach ya conoce la cumbre, los propósitos, las metas y los ejes). */
     fun instruccionIa(): String = """
         Arma mi vision board con lo que sabes de mí (mi cumbre, mis propósitos, mis metas y mis ejes).
-        Responde SOLO con un arreglo JSON de 6 a $MAXIMO casillas, sin texto antes ni después. Cada casilla:
-        {"titulo": "rótulo corto, máx. 4 palabras",
+        Son exactamente $MAXIMO casillas, una por cada campamento de mi Brújula de la Cima: CUMBRE (mi cumbre
+        personal), VOL, MAE, VOZ, VAL, EVO, TRA (mis 6 ejes), CON (Confluencia: un proyecto que activa varios
+        ejes) y CAM (Campamento Base: mentor, cordada y red de apoyo).
+        Responde SOLO con un arreglo JSON, sin texto antes ni después. Cada casilla:
+        {"campamento": "CUMBRE|VOL|MAE|VOZ|VAL|EVO|TRA|CON|CAM",
+         "titulo": "rótulo corto, máx. 4 palabras",
          "afirmacion": "frase en presente y primera persona, máx. 14 palabras, sobre algo concreto de mi vida",
          "eje": "VOL|MAE|VOZ|VAL|EVO|TRA o null",
          "sugerencia": "qué foto MÍA buscar o tomar para esta casilla (no imágenes genéricas)",
          "busqueda": "2 a 4 palabras para buscar ideas de imágenes"}
-        Cubre mi cumbre, cada propósito y los ejes más débiles. Escribe en mi idioma.
+        Usa mis propósitos y metas en el campamento de su eje. Escribe en mi idioma.
     """.trimIndent()
 
     /** Lee la respuesta de la IA; null si no trae un arreglo válido. */
@@ -107,13 +116,20 @@ object VisionBoard {
             fun s(k: String) = (o[k] as? JsonPrimitive)?.contentOrNull?.trim()?.takeIf { it.isNotEmpty() && it != "null" }
             val afirmacion = s("afirmacion") ?: return@mapNotNull null
             val eje = s("eje")?.uppercase()?.takeIf { it in CODIGOS }
+            val camp = s("campamento")?.uppercase()
+            val origen = when {
+                camp == "CUMBRE" -> "cumbre"
+                camp != null && camp in Mandala.CAMPAMENTOS_FIJOS -> Mandala.origenCampamento(camp)
+                eje != null -> Mandala.origenCampamento(eje)
+                else -> "ia"
+            }
             Propuesta(
                 titulo = (s("titulo") ?: afirmacion).take(40),
                 afirmacion = afirmacion.take(160),
-                eje = eje,
+                eje = eje ?: camp?.takeIf { it in CODIGOS },
                 sugerencia = (s("sugerencia") ?: "").take(200),
                 busqueda = (s("busqueda") ?: palabras(afirmacion)).take(60),
-                origen = "ia",
+                origen = origen,
             )
         }.take(MAXIMO)
         return r.takeIf { it.size >= 3 }
