@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s todavía no comparte años de su diario.</string>
     <string name="diario_ver_autor">Ver su diario de vida</string>
     <string name="cumbre_comunidad_valor">Hoy una publicación vale %1$s mm y un impulso %2$s mm</string>
+    <string name="mandala_tablero">Tablero</string>
+    <string name="mandala_titulo">Mandala 9×9</string>
+    <string name="mandala_intro">La cuadrícula 9×9 (Mandala Chart), el método con el que Shohei Ohtani planeó su carrera: tu cumbre al centro, tus 8 campamentos alrededor (las casillas de tu vision board) y 8 pasos para cada uno. 64 pasos hacia tu cima.</string>
+    <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d cumplidos</string>
+    <string name="mandala_2d">Cuadrícula</string>
+    <string name="mandala_3d">Montaña 3D</string>
+    <string name="mandala_3d_ayuda">Arrastra para girar la montaña. Cada paso que escribes y cumples la hace crecer.</string>
+    <string name="mandala_toca_bloque">Toca un bloque para abrirlo y escribir sus pasos.</string>
+    <string name="mandala_paso">Paso %1$d</string>
+    <string name="mandala_paso_hecho">Cumplido</string>
+    <string name="mandala_sugerir">Sugerir pasos</string>
+    <string name="mandala_campamento_vacio">Campamento libre</string>
+    <string name="mandala_agregar_campamento">Agregar campamento</string>
+    <string name="mandala_ver_centro">Ver el centro</string>
+    <string name="mandala_cumbre">Mi cumbre</string>
 </resources>

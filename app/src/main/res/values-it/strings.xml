@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s non condivide ancora anni del suo diario.</string>
     <string name="diario_ver_autor">Vedi il suo diario di vita</string>
     <string name="cumbre_comunidad_valor">Oggi un post vale %1$s mm e uno slancio %2$s mm</string>
+    <string name="mandala_tablero">Bacheca</string>
+    <string name="mandala_titulo">Mandala 9×9</string>
+    <string name="mandala_intro">La griglia 9×9 (Mandala Chart), il metodo con cui Shohei Ohtani ha pianificato la sua carriera: la tua vetta al centro, i tuoi 8 campi intorno (le caselle del tuo vision board) e 8 passi per ciascuno. 64 passi verso la cima.</string>
+    <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d compiuti</string>
+    <string name="mandala_2d">Griglia</string>
+    <string name="mandala_3d">Montagna 3D</string>
+    <string name="mandala_3d_ayuda">Trascina per ruotare la montagna. Ogni passo che scrivi e compi la fa crescere.</string>
+    <string name="mandala_toca_bloque">Tocca un blocco per aprirlo e scrivere i suoi passi.</string>
+    <string name="mandala_paso">Passo %1$d</string>
+    <string name="mandala_paso_hecho">Compiuto</string>
+    <string name="mandala_sugerir">Suggerisci passi</string>
+    <string name="mandala_campamento_vacio">Campo libero</string>
+    <string name="mandala_agregar_campamento">Aggiungi campo</string>
+    <string name="mandala_ver_centro">Vedi il centro</string>
+    <string name="mandala_cumbre">La mia vetta</string>
 </resources>

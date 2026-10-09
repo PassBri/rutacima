@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$sはまだ日記の年を共有していません。</string>
     <string name="diario_ver_autor">人生日記を見る</string>
     <string name="cumbre_comunidad_valor">今日は投稿1つで%1$s mm、応援1回で%2$s mm</string>
+    <string name="mandala_tablero">ボード</string>
+    <string name="mandala_titulo">9×9 マンダラ</string>
+    <string name="mandala_intro">9×9のマス（マンダラチャート）。大谷翔平がキャリアを計画した方法です。中心にあなたの頂、周りに8つのキャンプ（ビジョンボードのマス）、それぞれに8つのステップ。頂上まで64ステップ。</string>
+    <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d達成</string>
+    <string name="mandala_2d">マス</string>
+    <string name="mandala_3d">3Dの山</string>
+    <string name="mandala_3d_ayuda">ドラッグで山を回せます。書いて達成したステップごとに山が育ちます。</string>
+    <string name="mandala_toca_bloque">ブロックをタップして開き、ステップを書きましょう。</string>
+    <string name="mandala_paso">ステップ %1$d</string>
+    <string name="mandala_paso_hecho">達成</string>
+    <string name="mandala_sugerir">ステップを提案</string>
+    <string name="mandala_campamento_vacio">空きキャンプ</string>
+    <string name="mandala_agregar_campamento">キャンプを追加</string>
+    <string name="mandala_ver_centro">中心を見る</string>
+    <string name="mandala_cumbre">私の頂</string>
 </resources>

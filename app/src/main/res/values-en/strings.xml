@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s hasn’t shared any years of their journal yet.</string>
     <string name="diario_ver_autor">See their life journal</string>
     <string name="cumbre_comunidad_valor">Today a post is worth %1$s mm and a boost %2$s mm</string>
+    <string name="mandala_tablero">Board</string>
+    <string name="mandala_titulo">9×9 Mandala</string>
+    <string name="mandala_intro">The 9×9 grid (Mandala Chart), the method Shohei Ohtani used to plan his career: your summit in the center, your 8 camps around it (your vision board tiles) and 8 steps for each. 64 steps to your peak.</string>
+    <string name="mandala_progreso">%1$d of 64 steps written · %2$d done</string>
+    <string name="mandala_2d">Grid</string>
+    <string name="mandala_3d">3D mountain</string>
+    <string name="mandala_3d_ayuda">Drag to turn the mountain. Every step you write and complete makes it grow.</string>
+    <string name="mandala_toca_bloque">Tap a block to open it and write its steps.</string>
+    <string name="mandala_paso">Step %1$d</string>
+    <string name="mandala_paso_hecho">Done</string>
+    <string name="mandala_sugerir">Suggest steps</string>
+    <string name="mandala_campamento_vacio">Free camp</string>
+    <string name="mandala_agregar_campamento">Add camp</string>
+    <string name="mandala_ver_centro">See the center</string>
+    <string name="mandala_cumbre">My summit</string>
 </resources>

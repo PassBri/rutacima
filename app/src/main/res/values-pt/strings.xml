@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s ainda não compartilha anos do diário.</string>
     <string name="diario_ver_autor">Ver o diário de vida</string>
     <string name="cumbre_comunidad_valor">Hoje uma publicação vale %1$s mm e um impulso %2$s mm</string>
+    <string name="mandala_tablero">Quadro</string>
+    <string name="mandala_titulo">Mandala 9×9</string>
+    <string name="mandala_intro">A grade 9×9 (Mandala Chart), o método com que Shohei Ohtani planejou sua carreira: seu cume no centro, seus 8 acampamentos ao redor (as casas do seu vision board) e 8 passos para cada um. 64 passos até o seu cume.</string>
+    <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d cumpridos</string>
+    <string name="mandala_2d">Grade</string>
+    <string name="mandala_3d">Montanha 3D</string>
+    <string name="mandala_3d_ayuda">Arraste para girar a montanha. Cada passo que você escreve e cumpre a faz crescer.</string>
+    <string name="mandala_toca_bloque">Toque um bloco para abri-lo e escrever seus passos.</string>
+    <string name="mandala_paso">Passo %1$d</string>
+    <string name="mandala_paso_hecho">Cumprido</string>
+    <string name="mandala_sugerir">Sugerir passos</string>
+    <string name="mandala_campamento_vacio">Acampamento livre</string>
+    <string name="mandala_agregar_campamento">Adicionar acampamento</string>
+    <string name="mandala_ver_centro">Ver o centro</string>
+    <string name="mandala_cumbre">Meu cume</string>
 </resources>

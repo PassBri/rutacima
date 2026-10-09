@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s ने अभी अपनी डायरी का कोई साल साझा नहीं किया।</string>
     <string name="diario_ver_autor">उनकी जीवन डायरी देखें</string>
     <string name="cumbre_comunidad_valor">आज एक पोस्ट %1$s मिमी और एक बढ़ावा %2$s मिमी के बराबर है</string>
+    <string name="mandala_tablero">बोर्ड</string>
+    <string name="mandala_titulo">9×9 मंडला</string>
+    <string name="mandala_intro">9×9 ग्रिड (मंडला चार्ट), वह तरीका जिससे शोहेई ओहतानी ने अपना करियर बनाया: बीच में आपका शिखर, चारों ओर आपके 8 पड़ाव (विज़न बोर्ड के खाने) और हर एक के लिए 8 कदम। शिखर तक 64 कदम।</string>
+    <string name="mandala_progreso">64 में से %1$d कदम लिखे · %2$d पूरे</string>
+    <string name="mandala_2d">ग्रिड</string>
+    <string name="mandala_3d">3D पहाड़</string>
+    <string name="mandala_3d_ayuda">पहाड़ घुमाने के लिए खींचें। हर लिखा और पूरा किया कदम उसे बड़ा करता है।</string>
+    <string name="mandala_toca_bloque">किसी ब्लॉक को खोलकर उसके कदम लिखने के लिए टैप करें।</string>
+    <string name="mandala_paso">कदम %1$d</string>
+    <string name="mandala_paso_hecho">पूरा</string>
+    <string name="mandala_sugerir">कदम सुझाएँ</string>
+    <string name="mandala_campamento_vacio">खाली पड़ाव</string>
+    <string name="mandala_agregar_campamento">पड़ाव जोड़ें</string>
+    <string name="mandala_ver_centro">केंद्र देखें</string>
+    <string name="mandala_cumbre">मेरा शिखर</string>
 </resources>

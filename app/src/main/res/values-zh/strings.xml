@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s 还没有分享日记中的年份。</string>
     <string name="diario_ver_autor">查看TA的生活日记</string>
     <string name="cumbre_comunidad_valor">今天一条帖子值 %1$s 毫米，一次助力 %2$s 毫米</string>
+    <string name="mandala_tablero">看板</string>
+    <string name="mandala_titulo">9×9 曼陀罗</string>
+    <string name="mandala_intro">9×9 方格（曼陀罗图），大谷翔平规划职业生涯的方法：中心是你的顶峰，周围是你的 8 个营地（愿景板的格子），每个营地 8 步。共 64 步通往顶峰。</string>
+    <string name="mandala_progreso">已写 %1$d / 64 步 · 完成 %2$d</string>
+    <string name="mandala_2d">方格</string>
+    <string name="mandala_3d">3D 山峰</string>
+    <string name="mandala_3d_ayuda">拖动可旋转山峰。你写下并完成的每一步都会让它长高。</string>
+    <string name="mandala_toca_bloque">点按一个区块即可打开并写下它的步骤。</string>
+    <string name="mandala_paso">第 %1$d 步</string>
+    <string name="mandala_paso_hecho">已完成</string>
+    <string name="mandala_sugerir">建议步骤</string>
+    <string name="mandala_campamento_vacio">空营地</string>
+    <string name="mandala_agregar_campamento">添加营地</string>
+    <string name="mandala_ver_centro">查看中心</string>
+    <string name="mandala_cumbre">我的顶峰</string>
 </resources>

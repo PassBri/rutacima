@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s님은 아직 일기의 해를 공유하지 않았어요.</string>
     <string name="diario_ver_autor">인생 일기 보기</string>
     <string name="cumbre_comunidad_valor">오늘 게시물 하나는 %1$s mm, 응원 하나는 %2$s mm</string>
+    <string name="mandala_tablero">보드</string>
+    <string name="mandala_titulo">9×9 만다라트</string>
+    <string name="mandala_intro">9×9 칸(만다라트), 오타니 쇼헤이가 커리어를 계획한 방법이에요. 가운데에 나의 정상, 주변에 8개의 캠프(비전 보드 칸), 각 캠프마다 8단계. 정상까지 64단계.</string>
+    <string name="mandala_progreso">64단계 중 %1$d 작성 · %2$d 완료</string>
+    <string name="mandala_2d">격자</string>
+    <string name="mandala_3d">3D 산</string>
+    <string name="mandala_3d_ayuda">드래그해서 산을 돌려 보세요. 단계를 쓰고 완료할 때마다 산이 자라요.</string>
+    <string name="mandala_toca_bloque">블록을 눌러 열고 단계를 적어 보세요.</string>
+    <string name="mandala_paso">%1$d단계</string>
+    <string name="mandala_paso_hecho">완료</string>
+    <string name="mandala_sugerir">단계 추천</string>
+    <string name="mandala_campamento_vacio">빈 캠프</string>
+    <string name="mandala_agregar_campamento">캠프 추가</string>
+    <string name="mandala_ver_centro">가운데 보기</string>
+    <string name="mandala_cumbre">나의 정상</string>
 </resources>

@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s teilt noch keine Jahre des Tagebuchs.</string>
     <string name="diario_ver_autor">Lebenstagebuch ansehen</string>
     <string name="cumbre_comunidad_valor">Heute ist ein Beitrag %1$s mm wert und ein Schub %2$s mm</string>
+    <string name="mandala_tablero">Board</string>
+    <string name="mandala_titulo">Mandala 9×9</string>
+    <string name="mandala_intro">Das 9×9-Raster (Mandala Chart), mit dem Shohei Ohtani seine Karriere plante: dein Gipfel in der Mitte, deine 8 Lager drumherum (die Felder deines Vision Boards) und 8 Schritte für jedes. 64 Schritte zu deinem Gipfel.</string>
+    <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d erledigt</string>
+    <string name="mandala_2d">Raster</string>
+    <string name="mandala_3d">3D-Berg</string>
+    <string name="mandala_3d_ayuda">Ziehen, um den Berg zu drehen. Jeder notierte und erledigte Schritt lässt ihn wachsen.</string>
+    <string name="mandala_toca_bloque">Tippe auf einen Block, um ihn zu öffnen und seine Schritte zu notieren.</string>
+    <string name="mandala_paso">Schritt %1$d</string>
+    <string name="mandala_paso_hecho">Erledigt</string>
+    <string name="mandala_sugerir">Schritte vorschlagen</string>
+    <string name="mandala_campamento_vacio">Freies Lager</string>
+    <string name="mandala_agregar_campamento">Lager hinzufügen</string>
+    <string name="mandala_ver_centro">Zur Mitte</string>
+    <string name="mandala_cumbre">Mein Gipfel</string>
 </resources>

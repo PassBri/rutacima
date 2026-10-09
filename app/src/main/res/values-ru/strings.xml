@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">%1$s пока не открыл(а) ни одного года дневника.</string>
     <string name="diario_ver_autor">Открыть дневник жизни</string>
     <string name="cumbre_comunidad_valor">Сегодня публикация стоит %1$s мм, импульс — %2$s мм</string>
+    <string name="mandala_tablero">Доска</string>
+    <string name="mandala_titulo">Мандала 9×9</string>
+    <string name="mandala_intro">Сетка 9×9 (Mandala Chart) — метод, которым Сёхэй Отани спланировал карьеру: твоя вершина в центре, 8 лагерей вокруг (клетки твоего vision board) и 8 шагов для каждого. 64 шага к вершине.</string>
+    <string name="mandala_progreso">Записано %1$d из 64 шагов · выполнено %2$d</string>
+    <string name="mandala_2d">Сетка</string>
+    <string name="mandala_3d">Гора 3D</string>
+    <string name="mandala_3d_ayuda">Потяни, чтобы повернуть гору. Каждый записанный и выполненный шаг делает её выше.</string>
+    <string name="mandala_toca_bloque">Нажми на блок, чтобы открыть его и записать шаги.</string>
+    <string name="mandala_paso">Шаг %1$d</string>
+    <string name="mandala_paso_hecho">Выполнено</string>
+    <string name="mandala_sugerir">Предложить шаги</string>
+    <string name="mandala_campamento_vacio">Свободный лагерь</string>
+    <string name="mandala_agregar_campamento">Добавить лагерь</string>
+    <string name="mandala_ver_centro">К центру</string>
+    <string name="mandala_cumbre">Моя вершина</string>
 </resources>

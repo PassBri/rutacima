@@ -1013,4 +1013,19 @@
     <string name="diario_ajeno_vacio">لم يشارك %1$s أي سنة من يومياته بعد.</string>
     <string name="diario_ver_autor">اعرض يومياته</string>
     <string name="cumbre_comunidad_valor">اليوم يساوي المنشور %1$s مم والدفعة %2$s مم</string>
+    <string name="mandala_tablero">اللوحة</string>
+    <string name="mandala_titulo">ماندالا 9×9</string>
+    <string name="mandala_intro">شبكة 9×9 (مخطط الماندالا)، الطريقة التي خطط بها شوهي أوتاني لمسيرته: قمتك في المركز، ومعسكراتك الثمانية حولها (خانات لوحة رؤيتك)، و8 خطوات لكل معسكر. 64 خطوة إلى قمتك.</string>
+    <string name="mandala_progreso">%1$d من 64 خطوة مكتوبة · %2$d منجزة</string>
+    <string name="mandala_2d">الشبكة</string>
+    <string name="mandala_3d">جبل ثلاثي الأبعاد</string>
+    <string name="mandala_3d_ayuda">اسحب لتدوير الجبل. كل خطوة تكتبها وتنجزها تجعله ينمو.</string>
+    <string name="mandala_toca_bloque">المس كتلة لفتحها وكتابة خطواتها.</string>
+    <string name="mandala_paso">الخطوة %1$d</string>
+    <string name="mandala_paso_hecho">منجز</string>
+    <string name="mandala_sugerir">اقترح خطوات</string>
+    <string name="mandala_campamento_vacio">معسكر فارغ</string>
+    <string name="mandala_agregar_campamento">أضف معسكرًا</string>
+    <string name="mandala_ver_centro">عرض المركز</string>
+    <string name="mandala_cumbre">قمتي</string>
 </resources>

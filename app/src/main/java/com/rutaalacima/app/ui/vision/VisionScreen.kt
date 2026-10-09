@@ -60,6 +60,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -70,6 +74,7 @@ import coil.compose.AsyncImage
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
+import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.VisionBoard
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
@@ -78,6 +83,8 @@ import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.ui.theme.hojaPapel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.File
@@ -99,6 +106,30 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         armando = true
         conIa = runCatching { c.vision.armar() }.getOrDefault(false)
         armando = false
+    }
+
+    /** Pasos de la mandala 9×9 (respuestas del workbook "mandala"). */
+    val mandala = c.respuestas.observar(Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    val cumbreFrase = c.perfil.perfil.map { it.cumbreFrase }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "")
+
+    fun guardarPaso(casilla: VisionCasillaEntity, paso: Int, texto: String, hecho: Boolean) = viewModelScope.launch {
+        val t = texto.trim()
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, paso), t)
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), if (hecho && t.isNotEmpty()) "1" else "")
+    }
+
+    /** Llena los pasos vacíos de un campamento: primero las acciones de su propósito, luego el banco de acciones de su eje. */
+    fun sugerirPasos(casilla: VisionCasillaEntity) = viewModelScope.launch {
+        val actuales = List(Mandala.PASOS) { mandala.value[Mandala.clave(casilla.id, it)].orEmpty() }
+        val sugerencias = buildList {
+            if (casilla.origen.startsWith("proposito:")) casilla.origen.removePrefix("proposito:").toLongOrNull()?.let { id ->
+                addAll(c.planificador.acciones(id).first().map { it.texto })
+            }
+            addAll(runCatching { c.bancos.bancos().accionesDe(casilla.eje).map { it.texto }.shuffled() }.getOrDefault(emptyList()))
+        }
+        Mandala.completar(actuales, sugerencias).forEachIndexed { i, t ->
+            if (t != actuales[i]) c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, i), t)
+        }
     }
 
     fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }
@@ -133,6 +164,9 @@ fun VisionScreen(onBack: () -> Unit) {
         runCatching { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(VisionBoard.urlIdeas(c.busqueda)))) }
     }
     val conFoto = casillas.count { it.foto != null }
+    var verMandala by rememberSaveable { mutableStateOf(false) }
+    val pasos by vm.mandala.collectAsStateWithLifecycle()
+    val cumbreFrase by vm.cumbreFrase.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = Modifier.fondoPapel(),
@@ -157,7 +191,26 @@ fun VisionScreen(onBack: () -> Unit) {
         ) {
             item(span = { GridItemSpan(2) }) {
                 RutaCard {
-                    Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
+                    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                        SegmentedButton(selected = !verMandala, onClick = { verMandala = false }, shape = SegmentedButtonDefaults.itemShape(0, 2)) {
+                            Text(stringResource(R.string.mandala_tablero))
+                        }
+                        SegmentedButton(selected = verMandala, onClick = { verMandala = true }, shape = SegmentedButtonDefaults.itemShape(1, 2)) {
+                            Text(stringResource(R.string.mandala_titulo))
+                        }
+                    }
+                    Spacer(Modifier.height(10.dp))
+                    if (verMandala) {
+                        val (cumbre, campamentos) = Mandala.repartir(casillas) { it.casilla.origen }
+                        MandalaSeccion(
+                            DatosMandala(cumbre, cumbreFrase, campamentos, pasos),
+                            onPaso = { cs, p, t, h -> vm.guardarPaso(cs, p, t, h) },
+                            onSugerir = { vm.sugerirPasos(it) },
+                            onAgregarCampamento = { creando = true },
+                        )
+                        Spacer(Modifier.height(10.dp))
+                    }
+                    if (!verMandala || casillas.isEmpty()) Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
                     Spacer(Modifier.height(10.dp))
                     if (casillas.isNotEmpty()) {
                         Text(stringResource(R.string.vision_progreso, conFoto, casillas.size), style = MaterialTheme.typography.labelLarge,
@@ -189,7 +242,7 @@ fun VisionScreen(onBack: () -> Unit) {
                     }
                 }
             }
-            items(casillas, key = { it.casilla.id }) { cv ->
+            if (!verMandala) items(casillas, key = { it.casilla.id }) { cv ->
                 Casilla(cv, onFoto = { pedirFoto(cv.casilla) }, onIdeas = { ideas(cv.casilla) }, onEditar = { editando = cv.casilla })
             }
             if (casillas.isNotEmpty()) {
@@ -263,7 +316,7 @@ private fun Casilla(cv: CasillaVista, onFoto: () -> Unit, onIdeas: () -> Unit, o
     }
 }
 
-private fun colorEje(codigo: String): Color = when (codigo) {
+internal fun colorEje(codigo: String): Color = when (codigo) {
     "VOL" -> Color(0xFF8E3B26); "MAE" -> Color(0xFF5C4A8A); "VOZ" -> Color(0xFF2F6F7A)
     "VAL" -> Color(0xFF8A6A1F); "EVO" -> Color(0xFF3F7A4A); else -> Color(0xFF6B2A1A)
 }
