@@ -1473,3 +1473,70 @@ begin
 end $$;
 revoke all on function public.metricas_comunidad() from public, anon;
 grant execute on function public.metricas_comunidad() to authenticated;
+
+-- =====================================================================
+-- Endurecimiento de la moderación (revisión de seguridad)
+-- =====================================================================
+-- ¿La cuenta que actúa está suspendida?
+create or replace function public.estoy_suspendido() returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.suspensiones s where s.user_id = public.yo() and s.hasta > now())
+$$;
+grant execute on function public.estoy_suspendido() to anon, authenticated;
+
+-- 1. Lo que un moderador ocultó solo lo puede mostrar otro moderador: el autor no puede des-ocultarlo
+--    editando la publicación (sí puede ocultarla él mismo, y el ocultamiento por reportes sigue igual).
+create or replace function public.proteger_oculto() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if old.oculto and not new.oculto and not public.es_moderador() then new.oculto := true; end if;
+  return new;
+end $$;
+drop trigger if exists proteger_oculto on public.posts;
+create trigger proteger_oculto before update on public.posts for each row execute function public.proteger_oculto();
+drop trigger if exists proteger_oculto on public.comments;
+create trigger proteger_oculto before update on public.comments for each row execute function public.proteger_oculto();
+
+-- 2. Una cuenta suspendida tampoco puede editar lo que otros ven, impulsar, reportar, crear o unirse
+--    a cordadas, postularse como coach ni subir fotos. Su ruta personal (ruta_datos) sigue funcionando.
+do $$ declare par text[]; begin
+  foreach par slice 1 in array array[
+    ['posts','update'], ['comments','update'], ['profiles','update'], ['votes','insert'], ['reportes','insert'],
+    ['cordadas','insert'], ['cordadas','update'], ['cordada_miembros','insert'], ['cordada_checkins','insert'],
+    ['coaches','insert'], ['coaches','update'], ['acompanamientos','insert']] loop
+    if to_regclass('public.' || par[1]) is not null then
+      execute format('drop trigger if exists sin_suspension_%s on public.%I', par[2], par[1]);
+      execute format('create trigger sin_suspension_%s before %s on public.%I for each row execute function public.no_suspendido()', par[2], par[2], par[1]);
+    end if;
+  end loop;
+end $$;
+drop policy if exists "subir mis fotos" on storage.objects;
+create policy "subir mis fotos" on storage.objects for insert
+  with check (bucket_id = 'media' and (storage.foldername(name))[1] = public.yo()::text and not public.estoy_suspendido());
+drop policy if exists "reemplazar mis fotos" on storage.objects;
+create policy "reemplazar mis fotos" on storage.objects for update
+  using (bucket_id = 'media' and (storage.foldername(name))[1] = public.yo()::text and not public.estoy_suspendido());
+
+-- 3 y 4. Un reporte siempre señala al verdadero autor: el servidor lo toma de la publicación, del
+--    comentario o de la conversación (de la que quien reporta debe ser parte), nunca del cliente.
+create or replace function public.validar_reporte() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare a uuid; b uuid;
+begin
+  new.quien := public.yo();
+  if new.quien is null then raise exception 'sin sesión'; end if;
+  if new.post_id is not null then
+    select user_id into new.a_quien from public.posts where id = new.post_id;
+  elsif new.comment_id is not null then
+    select user_id into new.a_quien from public.comments where id = new.comment_id;
+  elsif new.conversacion_id is not null then
+    select c.a, c.b into a, b from public.conversaciones c where c.id = new.conversacion_id;
+    if new.quien not in (a, b) then raise exception 'solo puedes reportar tus propias conversaciones'; end if;
+    new.a_quien := case when new.quien = a then b else a end;
+  end if;
+  if new.a_quien is null then raise exception 'no se encontró lo reportado'; end if;
+  if new.a_quien = new.quien then raise exception 'no puedes reportarte a ti mismo'; end if;
+  return new;
+end $$;
+drop trigger if exists validar_reporte on public.reportes;
+create trigger validar_reporte before insert on public.reportes for each row execute function public.validar_reporte();
