@@ -486,6 +486,11 @@ o cierres la sesión en la web.
   - nadie puede verificarse como coach a sí mismo;
   - solo las cuentas de autor pueden subir, cambiar o quitar grabaciones de los audiolibros.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
+- **Copia de seguridad de Android filtrada** (`res/xml/backup_rules.xml` y `data_extraction_rules.xml`): la copia de
+  Google se lleva la ruta y los ajustes, pero nunca la sesión de la cuenta, la clave del sello, la vinculación con la
+  web, el estado de los avisos ni los audiolibros descargados. Las fotos pasan a un teléfono nuevo en el traspaso
+  directo, pero no van a la nube (el límite de 25 MB haría fallar toda la copia). `CopiaSeguridadTest` vigila que
+  las reglas y los nombres de las preferencias sigan coincidiendo.
 - **Puedes borrarlo todo:** *Eliminar mi cuenta* borra tus datos del servidor.
 
 ### Moderación de la comunidad

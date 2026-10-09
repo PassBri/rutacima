@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copia de seguridad de Google (Android 11 o anterior). Viaja tu ruta (la base de datos) y tus ajustes;
+  NO viajan: la sesión de la cuenta, la clave del sello, el estado de la vinculación con la web, el
+  estado de los avisos ni los audiolibros descargados (se vuelven a descargar). Las fotos tampoco,
+  porque la copia de Google tiene un límite de 25 MB y si se pasa no se guarda nada.
+  Mantener igual a data_extraction_rules.xml (lo revisa CopiaSeguridadTest).
+-->
+<full-backup-content>
+    <exclude domain="sharedpref" path="rutacima_sesion.xml" />
+    <exclude domain="sharedpref" path="seguridad.xml" />
+    <exclude domain="sharedpref" path="ruta_web.xml" />
+    <exclude domain="sharedpref" path="avisos_mensajes.xml" />
+    <exclude domain="sharedpref" path="audiolibros_descargas.xml" />
+    <exclude domain="file" path="audios/" />
+    <exclude domain="file" path="media/" />
+</full-backup-content>

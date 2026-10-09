@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Android 12 o posterior. Copia en la nube: tu ruta y tus ajustes, sin la sesión, la clave del sello,
+  la vinculación con la web, los avisos, los audiolibros descargados ni las fotos (límite de 25 MB).
+  Paso directo a un teléfono nuevo (cable o Wi-Fi, sin límite): también viajan las fotos.
+  La sesión y la clave del sello nunca salen del teléfono: en el nuevo se inicia sesión otra vez.
+  Mantener igual a backup_rules.xml (lo revisa CopiaSeguridadTest).
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="rutacima_sesion.xml" />
+        <exclude domain="sharedpref" path="seguridad.xml" />
+        <exclude domain="sharedpref" path="ruta_web.xml" />
+        <exclude domain="sharedpref" path="avisos_mensajes.xml" />
+        <exclude domain="sharedpref" path="audiolibros_descargas.xml" />
+        <exclude domain="file" path="audios/" />
+        <exclude domain="file" path="media/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="sharedpref" path="rutacima_sesion.xml" />
+        <exclude domain="sharedpref" path="seguridad.xml" />
+        <exclude domain="sharedpref" path="ruta_web.xml" />
+        <exclude domain="sharedpref" path="avisos_mensajes.xml" />
+        <exclude domain="sharedpref" path="audiolibros_descargas.xml" />
+        <exclude domain="file" path="audios/" />
+    </device-transfer>
+</data-extraction-rules>
