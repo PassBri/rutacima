@@ -366,6 +366,11 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   - **Portales:** al ganar un paso se registra qué sueltas y qué llevas (Portales y Transiciones).
   - **Compartir:** una imagen vertical de 1080 × 1350 con la cumbre, las fotos, los pasos, las evidencias y tu
     altura en milímetros, para tus seguidores o para todos.
+  - **Explorable en la comunidad:** al compartir, la publicación lleva una instantánea de tu Brújula (columna
+    `brujula` en Supabase) y eliges si van tus 64 pasos y tus fotos de evidencia. En el muro aparece tu cumbre en papel
+    con las cintas de avance de cada campamento; al tocarla, cualquiera la explora con el mismo zoom 1 · 9 · 81 en
+    solo lectura. Cada publicación es una foto del momento: compartir de nuevo meses después muestra el avance. La
+    imagen 1080 × 1350 sigue saliendo para descargarla.
   - **Niebla y caídas:** un paso empezado que lleva 14 días sin jornadas se cubre de niebla y ofrece los protocolos
     de *Cuando te pierdes en la niebla*. Si reconoces que te caíste, eliges el tipo de caída (financiera, emocional,
     de decisión, de carácter, de identidad o circunstancial, de la Guía de Caídas): el paso conserva sus jornadas y
@@ -386,6 +391,10 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   (entre 1 y 30 jornadas) y queda fija para cada paso desde su primera jornada. La tarjeta del método muestra tu
   altura en milímetros, la dificultad actual, los pasos esperados esta semana, los días para el próximo ajuste y si
   vas adelante o atrás del ritmo. Las reglas están en `domain/model/MetodoCima.kt` (con pruebas) y en la web.
+- **Carta de bienvenida:** la primera vez, la app (y la página de inicio de la web) muestra una carta antigua en
+  pergamino, doblada y cerrada con el sello de cera de Rutaalacima. Al romper el sello —con el mismo quiebre de la
+  frase del día— la carta se despliega con un mensaje del fundador. Se relee desde el perfil (y en la web, desde la
+  pantalla de vincular).
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
 - **Diario de vida:** un álbum por cada año de tu vida, con las fotos en mosaico, los recuerdos y las metas cumplidas.

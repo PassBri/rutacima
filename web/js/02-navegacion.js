@@ -147,7 +147,7 @@ const LISTAS = {
     if (estado.feedFiltro === "PARA_TI" && estado.feed.length) h += `<div class="solo-movil exp-movil">${cumbreComunidad(estado.feed)}</div>`;
     estado.feed.forEach(p => {
       const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
-      h += item("cima:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
+      h += item((p.brujula && window.leerBrujula?.(p.brujula) ? "brujula:" : "cima:") + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
     });
     return h + `</div>`;
   },

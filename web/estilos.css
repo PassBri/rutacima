@@ -676,3 +676,56 @@ a.btn { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .md-anim-acercar, .md-anim-alejar { animation: none; } }
 @media (max-width: 600px) { .md-nivel9 { gap: 7px; } .md-tk, .md-tc { padding: 10px 7px 7px; border-radius: 12px; } .md-tk small { font-size: 8px; letter-spacing: .04em; }
   .md-tk b { font-size: 11px; -webkit-line-clamp: 3; } .md-tc b { font-size: 11px; -webkit-line-clamp: 4; } .md-puntos i { width: 4px; height: 4px; } .md-papel { padding: 10px; } }
+/* Brújula compartida en el muro */
+.bm-carta { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; padding: 22px 18px; text-align: center;
+  background: linear-gradient(#FFFCF6, #F5EBDC); color: #2B1E18; border-radius: 6px;
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .10), 0 6px 18px rgb(var(--sombra) / .10);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%); }
+.bm-carta::before { content: ""; position: absolute; top: 0; right: 0; width: 18px; height: 18px; background: linear-gradient(225deg, transparent 50%, #EFE3D2 50%, #FFF8EE 75%); }
+.bm-carta small { font-weight: 800; letter-spacing: .14em; color: #6B2A1A; font-size: 11px; }
+.bm-carta b { font: 700 22px/1.25 var(--font-titulo); max-width: 30ch; }
+.bm-carta em { font-style: normal; font-weight: 700; color: #6B2A1A; font-size: 13px; }
+.bm-carta .md-impresion { width: 70%; }
+.bm-cintas { display: flex; gap: 4px; }
+.bm-cintas i { width: 22px; height: 6px; border-radius: 3px; background: var(--c); }
+.bm-explorar { margin-top: 4px; pointer-events: none; }
+.md-op { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 14px; }
+.md-grande .md-leer { flex-direction: column; justify-content: center; padding: 8px; font-size: 13px; }
+.md-grande .md-leer .t { position: relative; z-index: 1; }
+/* Carta de bienvenida: carta antigua sellada */
+.carta-pantalla { position: fixed; inset: 0; z-index: 50; overflow-y: auto; background: var(--fondo);
+  background-image: radial-gradient(rgb(var(--sombra) / .05) 1px, transparent 1px); background-size: 4px 4px; }
+.carta-escena { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 18px 40px; gap: 16px; }
+.carta-etiqueta { margin: 0; font-weight: 800; letter-spacing: .2em; font-size: 12px; color: var(--burdeos); }
+.carta { position: relative; width: min(560px, 100%); padding: 34px 32px 30px; color: #3A2A20; border-radius: 4px;
+  background: radial-gradient(ellipse at center, #F7EDD8 55%, #EAD9B8 100%);
+  box-shadow: 0 2px 4px rgb(var(--sombra) / .14), 0 14px 34px rgb(var(--sombra) / .18), 0 40px 60px -30px rgb(var(--sombra) / .35);
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%); animation: carta-llega 700ms cubic-bezier(.2, 1.1, .3, 1) both; }
+.carta::before { content: ""; position: absolute; top: 0; right: 0; width: 30px; height: 30px; background: linear-gradient(225deg, transparent 50%, #E2CFA8 50%, #F5E9D2 75%); box-shadow: -2px 2px 5px rgb(var(--sombra) / .15); }
+.carta::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 4px;
+  background: linear-gradient(transparent 49.6%, rgb(var(--sombra) / .08) 50%, rgba(255,255,255,.4) 50.4%, transparent 51.5%),
+              linear-gradient(135deg, transparent 47%, rgb(var(--sombra) / .04) 49.5%, rgba(255,255,255,.25) 50.5%, transparent 54%); }
+.carta > * { position: relative; z-index: 1; }
+.carta-para { margin: 0; text-align: center; font: italic 500 18px/1.4 var(--font-titulo); }
+.carta-doblez { position: relative; display: grid; place-items: center; height: 120px; }
+.carta-doblez::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgb(var(--sombra) / .35), transparent); }
+.carta-lacre { position: relative; width: 104px; height: 104px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(60, 10, 5, .35)); transition: transform .2s; }
+.carta-lacre:hover, .carta-lacre:focus-visible { transform: scale(1.05) rotate(-3deg); outline: none; }
+.carta.abierta .carta-doblez { height: 28px; transition: height .6s; }
+.carta-sellada { text-align: center; }
+.carta-sellada p { margin: 0 0 14px; color: rgba(58,42,32,.75); }
+.carta-cuerpo { animation: carta-despliega 900ms cubic-bezier(.2, .9, .3, 1) both; transform-origin: top center; }
+.carta-cuerpo h2 { font: 700 24px/1.3 var(--font-titulo); margin: 6px 0 14px; }
+.carta-cuerpo p { font: 400 17px/1.65 var(--font-titulo); margin: 0 0 14px; }
+.carta-cierre { font-style: italic; color: #6B2A1A; }
+.carta-firma { display: grid; justify-items: end; gap: 2px; margin-top: 10px; }
+.carta-firma::before { content: ""; width: 120px; height: 1px; background: #B8862F; margin-bottom: 6px; }
+.carta-firma span { font: italic 400 30px/1 "Brush Script MT", "Segoe Script", cursive; color: #3A2A20; }
+.carta-firma small { color: rgba(58,42,32,.7); font-size: 13px; }
+.carta-seguir { animation: carta-llega 600ms both; }
+.carta-releer { margin-top: 18px; display: inline-flex; gap: 6px; align-items: center; color: var(--tinta-suave); font-size: 14px; }
+.carta-releer:hover { color: var(--burdeos); }
+@keyframes carta-llega { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes carta-despliega { from { transform: scaleY(.15); opacity: 0; } 60% { opacity: 1; } to { transform: scaleY(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .carta, .carta-cuerpo, .carta-seguir { animation: none; } }
+@media (max-width: 600px) { .carta { padding: 28px 20px 24px; } .carta-cuerpo p { font-size: 16px; } }

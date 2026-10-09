@@ -368,7 +368,7 @@ async function cargarFeed() {
         id: p.id, autorId: p.user_id, autorNombre: p.autor?.nombre || p.autor?.username || "Senderista", autorUsuario: p.autor?.username || "",
         tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad,
         impulsos: p.impulsos?.[0]?.count || 0, comentarios: p.comentarios?.[0]?.count || 0, yoImpulse: mios.has(p.id),
-        creadoEn: Date.parse(p.created_at), propio: p.user_id === yo,
+        brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo,
       }));
     }
   } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad."); }
@@ -429,8 +429,9 @@ Object.assign(DET, {
     return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
       (ps.length && estado.feedFiltro === "PARA_TI" ? cumbreComunidad(ps) : "") + (ps.length ? ps.map(p => `<article class="hoja post-muro">
         <div class="autor">${autor(p)}<div style="flex:1;min-width:0"><b>${esc(p.autorNombre)}</b><div class="suave" style="font-size:13px">${hace(p.creadoEn)} · ${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</div></div></div>
-        <button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>
-        ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
+        ${p.brujula && window.leerBrujula?.(p.brujula) ? brujulaMuro(p)
+          : `<button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>
+        ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}`}
         <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
           <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed),
       "max-width:600px");

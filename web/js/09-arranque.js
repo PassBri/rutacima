@@ -3,6 +3,7 @@
  * Pantallas: vincular, cargando, app
  * ====================================================================== */
 function mostrar(cual) {
+  if ($("pantallaCarta")) $("pantallaCarta").hidden = cual !== "carta";
   $("pantallaVincular").hidden = cual !== "vincular";
   $("pantallaCarga").hidden = cual !== "carga";
   $("pantallaApp").hidden = cual !== "app";
@@ -22,8 +23,10 @@ async function mostrarVincular() {
       <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
       : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
-      <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div></div>`;
+      <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div>
+    <button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button></div>`;
   mostrar("vincular");
+  $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
   if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }
   const nuevo = async () => {
     try {
@@ -131,11 +134,58 @@ document.addEventListener("dblclick", e => {
   const destello = document.createElement("span"); destello.className = "destello"; destello.innerHTML = ic("impulso");
   const nueva = $("detalle").querySelector(`[data-cima="${CSS.escape(c.dataset.cima)}"]`) || c; nueva.appendChild(destello); setTimeout(() => destello.remove(), 700);
 });
+/* ======================================================================
+ * Carta de bienvenida: una carta antigua en papel, doblada y cerrada con el sello de cera. Se rompe
+ * el sello (con el mismo quiebre de la frase del día) y la carta se despliega. Sale la primera vez.
+ * ====================================================================== */
+const CARTA = {
+  para: "Para ti, que decidiste subir",
+  saludo: "Querido caminante:",
+  parrafos: [
+    "Si estás leyendo esto, ya diste el paso más difícil: decidiste subir.",
+    "Ruta a la Cima no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.",
+    "Aquí no se corre: se asciende. Un paso cada día, una jornada a la vez, con tu voluntad, tu maestría, tu voz, tu valor, tu evolución y la huella que dejarás en otros.",
+    "Habrá caídas. Son parte del camino, no su final. Y no subirás solo: una cordada entera camina contigo.",
+    "Guarda esta carta. El día que llegues arriba, vuelve a leerla.",
+  ],
+  cierre: "Nos vemos en la cima.", firma: "Brian Suárez", rol: "Fundador de Ruta a la Cima",
+};
+const cartaLeida = () => { try { return localStorage.getItem("rutacima-carta") === "1"; } catch { return false; } };
+function mostrarCarta(alSeguir) {
+  const el = $("pantallaCarta"); if (!el) return alSeguir();
+  el.innerHTML = `<div class="carta-escena"><p class="carta-etiqueta">CARTA DE BIENVENIDA</p>
+    <article class="carta" id="carta" aria-label="Carta de bienvenida a Ruta a la Cima">
+      <p class="carta-para">${CARTA.para}</p>
+      <div class="carta-doblez"><img class="carta-lacre" id="cartaSello" src="${LOGO}" alt="Sello de cera: tócalo para romperlo" role="button" tabindex="0"></div>
+      <div class="carta-sellada" id="cartaSellada"><p>Rompe el sello para leer tu carta.</p><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
+      <div class="carta-cuerpo" id="cartaCuerpo" hidden><h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
+        <p class="carta-cierre">${CARTA.cierre}</p><div class="carta-firma"><span>${CARTA.firma}</span><small>${CARTA.rol}</small></div></div>
+    </article>
+    <button class="btn lleno carta-seguir" id="cartaSeguir" hidden>${ic("ruta")} Empezar mi ascenso</button></div>`;
+  mostrar("carta");
+  let rota = false;
+  const romper = () => {
+    if (rota) return; rota = true;
+    const img = $("cartaSello");
+    const abrir = () => {
+      $("cartaSellada").hidden = true; $("cartaCuerpo").hidden = false; $("carta").classList.add("abierta");
+      setTimeout(() => { $("cartaSeguir").hidden = false; $("cartaSeguir").focus(); }, 900);
+    };
+    if (img?.complete && img.naturalWidth && typeof romperSello === "function") romperSello(img, 1984, () => setTimeout(abrir, 200)); else abrir();
+  };
+  $("cartaRomper").onclick = romper; $("cartaSello").onclick = romper;
+  $("cartaSello").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); romper(); } };
+  $("cartaSeguir").onclick = () => { try { localStorage.setItem("rutacima-carta", "1"); } catch {} alSeguir(); };
+}
+window.mostrarCarta = mostrarCarta;
+
 async function iniciar() {
   try { const t = localStorage.getItem("rutacima-tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
   ["lista", "detalle", "riel"].forEach(id => { $(id).onclick = clic; });
   $("detalle").onchange = cambio; $("detalle").oninput = entrada; $("lista").oninput = entrada; $("detalle").onsubmit = enviar;
   Contenido.cargarFrases(); Contenido.cargarIndice();
+  // La primera visita empieza con la carta sellada (no en la demostración directa ni si ya se leyó)
+  if (!cartaLeida() && location.hash !== "#demo" && !iniciar.carta) { iniciar.carta = true; mostrarCarta(() => iniciar()); return; }
   if (!MODO_REAL) { if (location.hash === "#demo") entrarDemo(); else mostrarVincular(); return; }
   mostrarCarga("Conectando…");
   try {

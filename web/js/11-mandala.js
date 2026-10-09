@@ -260,7 +260,9 @@ function ritmoHtml(r) {
 function mandalaHtml() {
   const d = Mandala.datos(), b = estado.mandalaBloque ?? 4;
   const compartir = estado.mdCompartir
-    ? `<div class="md-compartir"><p>Se publica una imagen de tu 9×9 con tu cumbre, las fotos de tu vision board y tus pasos. ¿Quién la puede ver?</p>
+    ? `<div class="md-compartir"><p>Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale y quién la ve:</p>
+        <label class="md-op"><input type="checkbox" id="mdConPasos" checked> Mis 64 pasos</label>
+        <label class="md-op"><input type="checkbox" id="mdConEvid"> Mis fotos de evidencia</label>
         <div class="botones"><button class="btn" data-acc="compartirMandala" data-arg="SEGUIDORES">Mis seguidores</button>
         <button class="btn lleno" data-acc="compartirMandala" data-arg="PUBLICA">Todos</button><button class="btn mini" data-acc="compartirMandala" data-arg="">Cancelar</button></div></div>`
     : `<button class="btn lleno md-btn-compartir" data-acc="compartirMandala" data-arg="?" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando la imagen…" : "Compartir mi 9×9 en la comunidad"}</button>`;
@@ -339,11 +341,13 @@ Object.assign(ACC, {
   /** "?" pregunta quién la puede ver; "" cancela; SEGUIDORES o PUBLICA publica la imagen. */
   async compartirMandala(_, vis) {
     if (vis === "?" || vis === "") { estado.mdCompartir = vis === "?"; pintarDetalle(); return; }
+    const conPasos = $("mdConPasos")?.checked ?? true, conEvid = $("mdConEvid")?.checked ?? false;
     estado.mdCompartir = false; mdPublicando = true; pintarDetalle();
     try {
       const blob = await imagenMandala();
-      await publicarImagenVision(blob, vis, Mandala.datos().titulo + "\n#MetodoCima9x52", "Mi Brújula de la Cima 9×9");
-      toast("Tu 9×9 ya está en la comunidad");
+      const inst = await instantaneaBrujula(conPasos, conEvid);
+      await publicarImagenVision(blob, vis, Mandala.datos().titulo + "\n#MetodoCima9x52", "Mi Brújula de la Cima 9×9", "VISION", null, inst);
+      toast("Tu Brújula ya está en la comunidad: la pueden explorar.");
     } catch (e) { console.error(e); toast("No se pudo compartir. Inténtalo de nuevo."); }
     mdPublicando = false; pintarDetalle();
   },
@@ -551,20 +555,22 @@ async function imagenMandala() {
 window.imagenMandala = imagenMandala;
 
 /** Publica una imagen como publicación de visión (en la nube o en el ejemplo). */
-async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo = "VISION", eje = null) {
+async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo = "VISION", eje = null, brujula = null) {
   let id;
   if (Store.nube) {
     const sb = Store.nube.sb, postId = crypto.randomUUID(), ruta = `${Store.nube.dueno}/${postId}.jpg`; id = postId;
     const up = await sb.storage.from("media").upload(ruta, blob, { upsert: true, contentType: "image/jpeg" });
     if (up.error) throw up.error;
     const url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
-    const r = await sb.from("posts").insert({ id: postId, user_id: Store.nube.dueno, tipo, texto, image_url: url, eje, anio: new Date().getFullYear(), visibilidad, meta_titulo: metaTitulo });
+    const fila = { id: postId, user_id: Store.nube.dueno, tipo, texto, image_url: url, eje, anio: new Date().getFullYear(), visibilidad, meta_titulo: metaTitulo };
+    if (brujula) fila.brujula = brujula;
+    const r = await sb.from("posts").insert(fila);
     if (r.error) throw r.error;
-    (estado.misPosts ||= []).unshift({ id: postId, tipo, eje, texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad });
+    (estado.misPosts ||= []).unshift({ id: postId, tipo, eje, texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad, brujula });
   } else {
     id = "mio-" + nuevoId();
     misPostsDemo.unshift({ id, autorNombre: perfil().nombre || "Yo", tipo, eje, texto, foto: URL.createObjectURL(blob), metaTitulo,
-      impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, visibilidad });
+      impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, visibilidad, brujula });
     estado.misPosts = misPostsDemo;
   }
   estado.feed = null;
@@ -574,5 +580,118 @@ async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo =
 // Esc aleja un nivel de la Brújula (cuando está abierta y no se está escribiendo)
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape" || !document.querySelector(".md-zoom") || e.target.closest("input, textarea")) return;
+  if (String(estado.sel || "").startsWith("brujula:")) { if ((estado.vbNivel ?? 0) > 0) { e.preventDefault(); ACC.vbNivel(null, String(estado.vbNivel - 1)); } return; }
   if ((estado.mdNivel ?? 0) > 0) { e.preventDefault(); ACC.mdNivel(null, String(estado.mdNivel - 1)); }
 });
+
+/* ======================================================================
+ * Brújula compartida (igual que BrujulaCompartida.kt): la instantánea viaja con la publicación y la
+ * comunidad la explora con el zoom 1 · 9 · 81 en solo lectura.
+ * ====================================================================== */
+/** Foto para la comunidad: con cuenta, la sube y devuelve su dirección pública. */
+async function fotoParaCompartir(url, nombre) {
+  if (!url) return "";
+  if (!Store.nube || /^https?:/.test(url) && !url.startsWith("blob:")) return url;
+  try {
+    const b = await (await fetch(url)).blob(), ruta = `${Store.nube.dueno}/brujula/${Date.now()}-${nombre}.jpg`;
+    const up = await Store.nube.sb.storage.from("media").upload(ruta, b, { upsert: true, contentType: b.type || "image/jpeg" });
+    if (up.error) throw up.error;
+    return Store.nube.sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
+  } catch (e) { console.warn(e); return ""; }
+}
+async function instantaneaBrujula(conPasos, conEvid) {
+  const d = Mandala.datos(), camps = [];
+  for (let i = 0; i < 8; i++) {
+    const c = d.camps[i]; if (!c) continue;
+    const pasos = [];
+    for (let p = 0; p < 8; p++) {
+      const e = Mandala.estado(c.id, p);
+      pasos.push({ t: conPasos ? respuesta(Mandala.clave(c.id, p)) : "", e: e === "HECHO" ? "H" : e === "ESCRITO" ? "E" : "V",
+        f: conEvid ? await fotoParaCompartir(mdFotoPaso(c, p), `e${i}-${p}`) : "" });
+    }
+    camps.push({ c: Mandala.CAMPAMENTOS_FIJOS[i], t: mdNombre(c), f: await fotoParaCompartir(mdFoto(c), "c" + i), p: pasos });
+  }
+  return { v: 1, cumbre: d.titulo, fotoCumbre: await fotoParaCompartir(mdFoto(d.cumbre), "cumbre"), camps, mm: d.ritmo.mm,
+    ganados: d.hechos, escritos: d.escritos, evidencias: conEvid ? d.evidencias : 0, fecha: iso(new Date()), conPasos };
+}
+const leerBrujula = b => { try { const o = typeof b === "string" ? JSON.parse(b) : b; return o && o.v >= 1 && Array.isArray(o.camps) ? o : null; } catch { return null; } };
+window.leerBrujula = leerBrujula;
+
+/** En el muro: la cumbre en papel con las cintas de avance de cada campamento. */
+function brujulaMuro(p) {
+  const b = leerBrujula(p.brujula); if (!b) return "";
+  const cintas = Mandala.CAMPAMENTOS_FIJOS.map((cod, i) => { const c = b.camps.find(x => x.c === cod), g = c ? c.p.filter(x => x.e === "H").length : 0;
+    return `<i style="--c:${Mandala.COLORES[cod] || COLOR_EJE[cod]};opacity:${.25 + .75 * g / 8}"></i>`; }).join("");
+  return `<button class="bm-carta" data-ir="comunidad" data-arg="brujula:${esc(p.id)}" aria-label="Explorar la Brújula de ${esc(p.autorNombre || "")}">
+    ${b.fotoCumbre ? `<span class="md-impresion"><img src="${esc(b.fotoCumbre)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
+    <small>BRÚJULA DE LA CIMA 9×9</small><b>${esc(b.cumbre)}</b><span class="bm-cintas">${cintas}</span>
+    <em>${b.ganados} ${b.ganados === 1 ? "paso ganado" : "pasos ganados"} · ${(b.mm || 0).toLocaleString("es")} mm</em><span class="btn lleno bm-explorar">Explorar su Brújula</span></button>`;
+}
+
+/** Vista de solo lectura de una Brújula compartida, con el mismo zoom 1 · 9 · 81. */
+DET["comunidad.brujula"] = id => {
+  const p = (estado.feed || []).concat(estado.misPosts || [], misPostsDemo || []).find(x => String(x.id) === String(id));
+  const b = p && leerBrujula(p.brujula);
+  if (estado.vbId !== id) { estado.vbId = id; estado.vbNivel = 0; estado.vbBloque = 4; }
+  if (!b) return cab(avSello(), "Brújula", "No se encontró") + cuerpo(hoja(`<p>Esta Brújula ya no está disponible.</p>`));
+  const nivel = estado.vbNivel ?? 0, bloque = estado.vbBloque ?? 4, anim = estado.vbAnim ? ` md-anim-${estado.vbAnim}` : ""; estado.vbAnim = null;
+  const camp = cod => b.camps.find(x => x.c === cod);
+  const color = i => Mandala.COLORES[Mandala.CAMPAMENTOS_FIJOS[i]] || COLOR_EJE[Mandala.CAMPAMENTOS_FIJOS[i]];
+  const celda = (f, c) => {
+    const cel = Mandala.celda(f, c);
+    if (cel.tipo === "CUMBRE") return `<span class="md-c md-cumbre${b.fotoCumbre ? " con-foto" : ""}">${b.fotoCumbre ? `<img src="${esc(b.fotoCumbre)}" alt="">` : ""}<b>${esc(b.cumbre)}</b></span>`;
+    const cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], k = camp(cod);
+    if (cel.tipo === "CAMPAMENTO") return `<span class="md-c md-camp${k ? "" : " libre"}" style="--c:${color(cel.camp)}">${k?.f ? `<img src="${esc(k.f)}" alt="">` : ""}<b>${k ? esc(k.t) : ""}</b></span>`;
+    const ps = k?.p?.[cel.paso] || { t: "", e: "V" }, est = ps.e === "H" ? "hecho" : ps.e === "E" ? "escrito" : "vacio";
+    return `<span class="md-c md-paso md-${est}${ps.f ? " con-evid" : ""}" style="--c:${color(cel.camp)}">${ps.f ? `<img src="${esc(ps.f)}" alt="">` : ""}<span class="t">${esc(ps.t)}</span>${ps.e === "H" ? "<i>✓</i>" : ""}</span>`;
+  };
+  const vista = nivel === 0
+    ? `<button class="md-nivel1${anim}" data-acc="vbNivel" data-arg="1">${b.fotoCumbre ? `<span class="md-impresion"><img src="${esc(b.fotoCumbre)}" alt=""></span>` : `<span class="md-pico">▲</span>`}
+        <small>SU CUMBRE</small><b>${esc(b.cumbre)}</b><hr><em>${(b.mm || 0).toLocaleString("es")} de 8.848.000 mm</em></button>`
+    : nivel === 1
+      ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(q => {
+          const cel = Mandala.celda(3 + Math.floor(q / 3), 3 + q % 3);
+          if (cel.tipo === "CUMBRE") return `<button class="md-tc${b.fotoCumbre ? " con-foto" : ""}" data-acc="vbNivel" data-arg="2">${b.fotoCumbre ? `<img src="${esc(b.fotoCumbre)}" alt="">` : ""}<b>${esc(b.cumbre)}</b></button>`;
+          const cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], k = camp(cod), g = k ? k.p.filter(x => x.e === "H").length : 0;
+          return `<button class="md-tk${k?.f ? " con-foto" : ""}" style="--c:${color(cel.camp)}" data-acc="vbCampamento" data-arg="${cel.camp}">${k?.f ? `<img src="${esc(k.f)}" alt="">` : ""}
+            <small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${k ? esc(k.t) : "—"}</b><span class="md-puntos">${[0, 1, 2, 3, 4, 5, 6, 7].map(x => `<i class="${x < g ? "si" : ""}"></i>`).join("")}</span></button>`;
+        }).join("")}</div>`
+      : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-bloque${bl === bloque ? " elegido" : ""}" data-acc="vbBloque" data-arg="${bl}">${
+          [0, 1, 2, 3, 4, 5, 6, 7, 8].map(q => celda(Math.floor(bl / 3) * 3 + Math.floor(q / 3), (bl % 3) * 3 + q % 3)).join("")}</button>`).join("")}</div></div>`;
+  const migas = ["Cumbre", "Vision board", "9×9"].map((t, i) => (i ? `<span class="md-sep">›</span>` : "") +
+    (i === nivel ? `<b aria-current="step">${t}</b>` : `<button data-acc="vbNivel" data-arg="${i}" class="${i > nivel ? "adelante" : ""}">${t}</button>`)).join("");
+  const grande = nivel === 2 && b.conPasos !== false ? hoja(`<h3 style="margin-top:0">${bloque === 4 ? esc(b.cumbre) : esc(camp(Mandala.CAMPAMENTOS_FIJOS[Mandala.ANILLO.indexOf(bloque)])?.t || "")}</h3>
+      <div class="md-grande">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(q => `<div>${celda(Math.floor(bloque / 3) * 3 + Math.floor(q / 3), (bloque % 3) * 3 + q % 3).replace('class="md-c', 'class="md-c md-leer')}</div>`).join("")}</div>`)
+    : nivel === 2 ? hoja(`<p class="suave" style="margin:0">Esta persona compartió su cumbre y sus campamentos, sin el texto de sus pasos.</p>`) : "";
+  return cab(av(ic("ruta"), "var(--burdeos)"), `Brújula de ${esc(p.autorNombre || "la comunidad")}`, b.fecha ? `Así iba el ${esc(b.fecha)}` : "Brújula de la Cima") + cuerpo(
+    hoja(`<nav class="md-barra"><button class="md-atras" data-acc="vbNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar">${ic("volver")}</button>
+      <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>
+      <div class="md-zoom md-papel">${vista}</div>`) + grande, "max-width:720px");
+};
+Object.assign(ACC, {
+  vbNivel(_, v) { const n = Math.max(0, Math.min(2, Number(v))), a = estado.vbNivel ?? 0; if (n === a || Date.now() - (estado.vbEn || 0) < 400) return;
+    estado.vbAnim = n > a ? "acercar" : "alejar"; estado.vbNivel = n; estado.vbEn = Date.now(); pintarDetalle(); },
+  vbCampamento(_, i) { if (Date.now() - (estado.vbEn || 0) < 400) return; estado.vbBloque = Mandala.ANILLO[Number(i)]; estado.vbAnim = "acercar"; estado.vbNivel = 2; estado.vbEn = Date.now(); pintarDetalle(); },
+  vbBloque(_, v) { estado.vbBloque = Number(v); pintarDetalle(); },
+});
+
+// Ejemplo en el muro de la demostración: una Brújula compartida para explorar
+(() => {
+  const P = (ts, ganados) => ts.map((t, i) => ({ t, e: i < ganados ? "H" : "E" }));
+  const camps = [
+    ["CON", "Mi podcast une lo que sé, lo que digo y lo que doy", ["Elegir el nombre", "Grabar el piloto", "Invitar a 3 mentores", "Publicar 4 episodios", "Medir quién escucha", "Escuchar sin juzgar", "Abrir temporada 2", "Enseñar a otros a grabar"], 3],
+    ["TRA", "Formo a 20 jóvenes como guías de montaña", ["Hablar con el colegio", "Diseñar el taller", "Primera salida", "Diez salidas seguras", "Graduación", "Escribir lo aprendido", "Dejar el taller a otro guía", "Becas para el siguiente grupo"], 2],
+    ["VAL", "Vivo de enseñar lo que amo", ["Precio justo", "Primer cliente", "Diez clientes", "Ahorro de 3 meses", "Renunciar con plan", "Revisar el año", "Bajar el ritmo en diciembre", "Fondo para becas"], 1],
+    ["EVO", "Cada mes soy mejor que el anterior", ["Evaluar mis ejes", "Un libro al mes", "Curso de primeros auxilios", "Inglés técnico", "Mentoría mensual", "Diario de aprendizajes", "Descanso real", "Enseñar lo aprendido"], 4],
+    ["VOZ", "Comparto mi mensaje con mi voz auténtica", ["Escribir mi historia", "Primera charla", "Video corto semanal", "Charla en un colegio", "Entrevista en radio", "Escuchar la crítica", "Libro de bolsillo", "Taller de oratoria"], 2],
+    ["CAM", "No subo solo: mi cordada me sostiene", ["Elegir mentor", "Formar mi cordada", "Reunión semanal", "Pedir ayuda a tiempo", "Celebrar con ellos", "Agradecer", "Ser mentor de alguien", "Cuidar mis círculos"], 5],
+    ["VOL", "Corro mi primera media maratón", ["Correr 5 km", "Plan de 12 semanas", "Madrugar 4 días", "Correr 10 km", "Carrera de prueba", "Recuperarme bien", "Media maratón", "Acompañar a un novato"], 4],
+    ["MAE", "Me certifico como guía de alta montaña", ["Curso básico", "Rescate en roca", "Tres nevados", "Práctica con un guía", "Examen", "Revisar errores", "Licencia", "Formar a otros"], 3],
+  ];
+  const b = { v: 1, cumbre: "Abrir una escuela de montaña en mi pueblo", fotoCumbre: "", fecha: iso(new Date()), conPasos: true,
+    camps: camps.map(([c, t, ps, g]) => ({ c, t, f: "", p: P(ps, g) })) };
+  b.ganados = camps.reduce((s, x) => s + x[3], 0); b.escritos = 64; b.mm = b.ganados * MetodoCima.MM_POR_PASO;
+  DEMO_POSTS.unshift({ id: "demo-brujula", autorId: "demo-brujula", autorNombre: "Mateo G.", autorUsuario: "", tipo: "VISION", eje: null,
+    texto: "Mi Brújula de la Cima a mitad de año.", metaTitulo: "Mi Brújula de la Cima 9×9", impulsos: 64, comentarios: 5, yoImpulse: false,
+    creadoEn: Date.now() - 2 * 3600000, foto: "", propio: false, demo: true, brujula: b });
+})();
