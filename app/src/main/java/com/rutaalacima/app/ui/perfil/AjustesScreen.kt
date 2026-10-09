@@ -435,6 +435,22 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                 }
             }
 
+            item {
+                // Reporte de errores anónimo (ver diagnostico/Errores.kt)
+                val ctx = LocalContext.current
+                var enviar by remember { mutableStateOf(com.rutaalacima.app.diagnostico.Errores.activo(ctx)) }
+                RutaCard {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(stringResource(R.string.diag_enviar), style = MaterialTheme.typography.bodyLarge)
+                            Text(stringResource(R.string.diag_ayuda), style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        Switch(checked = enviar, onCheckedChange = { enviar = it; com.rutaalacima.app.diagnostico.Errores.configurar(ctx, it) })
+                    }
+                }
+            }
+
             item { SectionTitle(stringResource(R.string.legal_titulo)) }
             item { RutaCard { com.rutaalacima.app.ui.legal.LegalEnlaces() } }
         }

@@ -1362,3 +1362,114 @@ begin
   end if;
   return new;
 end $$;
+
+-- =====================================================================
+-- Límite diario del coach IA en una sola operación (sin carreras entre dos mensajes simultáneos)
+-- =====================================================================
+-- Suma un uso solo si no se ha llegado al límite; devuelve true si se puede responder.
+-- La llama únicamente la función del coach con la clave de servicio.
+create or replace function public.usar_ia(p_usuario uuid, p_limite int) returns boolean
+language sql volatile security definer set search_path = public as $$
+  with r as (
+    insert into public.ai_usage as u (user_id, dia, usos) values (p_usuario, current_date, 1)
+    on conflict (user_id, dia) do update set usos = u.usos + 1 where u.usos < p_limite
+    returning 1
+  )
+  select p_limite > 0 and exists (select 1 from r)
+$$;
+revoke all on function public.usar_ia(uuid, int) from public, anon, authenticated;
+grant execute on function public.usar_ia(uuid, int) to service_role;
+
+-- =====================================================================
+-- Reportes de errores anónimos (app y web)
+-- =====================================================================
+-- Cuando la app se cierra por un error, guarda en el teléfono qué falló y lo envía al abrirla otra vez.
+-- No lleva cuenta, nombre, correo ni contenido de la ruta: solo la versión, el sistema, el modelo del
+-- teléfono y el rastro técnico del error. Cualquiera puede enviar (también sin cuenta); solo los
+-- moderadores los leen, agrupados por firma. Se borran solos a los 90 días.
+create table if not exists public.errores (
+  id       bigint generated always as identity primary key,
+  origen   text not null check (origen in ('app','web')),
+  version  text not null default '' check (char_length(version) <= 40),
+  sistema  text not null default '' check (char_length(sistema) <= 80),
+  equipo   text not null default '' check (char_length(equipo) <= 80),
+  firma    text not null check (char_length(firma) between 1 and 300),
+  rastro   text not null default '' check (char_length(rastro) <= 6000),
+  cuando   timestamptz not null default now(),
+  recibido timestamptz not null default now()
+);
+create index if not exists errores_firma on public.errores (firma, recibido desc);
+alter table public.errores enable row level security;
+drop policy if exists "enviar error" on public.errores;
+create policy "enviar error" on public.errores for insert to anon, authenticated with check (true);
+grant insert on public.errores to anon, authenticated;
+
+create or replace function public.errores_recientes() returns json
+language plpgsql security definer set search_path = public as $$
+declare r json;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  delete from public.errores where recibido < now() - interval '90 days';
+  select coalesce(json_agg(x order by x.ultimo desc), '[]') into r from (
+    select firma, origen, count(*) as veces, max(recibido) as ultimo,
+           array_agg(distinct version) filter (where version <> '') as versiones,
+           (array_agg(rastro order by recibido desc))[1] as rastro,
+           (array_agg(sistema || ' · ' || equipo order by recibido desc))[1] as equipo
+    from public.errores where recibido > now() - interval '30 days'
+    group by firma, origen order by max(recibido) desc limit 50
+  ) x;
+  return r;
+end $$;
+revoke all on function public.errores_recientes() from public, anon;
+grant execute on function public.errores_recientes() to authenticated;
+
+-- =====================================================================
+-- Métricas de la comunidad (solo cifras agregadas, para moderadores)
+-- =====================================================================
+-- Se calculan con lo que ya existe en el servidor (cuentas, publicaciones, impulsos, comentarios,
+-- mensajes, cordadas y uso del coach IA). No hay rastreo nuevo ni datos por persona: solo totales.
+-- La ruta personal (tramos, milímetros, Brújula) vive en cada teléfono y no se mide aquí.
+create or replace function public.metricas_comunidad() returns json
+language plpgsql stable security definer set search_path = public as $$
+declare r json;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  with actividad as (
+    select user_id as u, created_at as t from public.posts
+    union all select user_id, created_at from public.votes
+    union all select user_id, created_at from public.comments
+    union all select autor, creado from public.mensajes
+    union all select user_id, dia::timestamptz from public.cordada_checkins
+  ), semanas as (
+    select generate_series(date_trunc('week', now()) - interval '11 weeks', date_trunc('week', now()), interval '1 week') as s
+  ), cuentas as (
+    select p.id, p.created_at from public.profiles p
+  )
+  select json_build_object(
+    'cuentas', (select count(*) from cuentas),
+    'nuevas_30d', (select count(*) from cuentas where created_at > now() - interval '30 days'),
+    'activas_7d', (select count(distinct u) from actividad where t > now() - interval '7 days'),
+    'activas_30d', (select count(distinct u) from actividad where t > now() - interval '30 days'),
+    -- De las cuentas con más de 2 semanas, cuántas volvieron a participar después de su primera semana
+    'retencion', (select json_build_object('base', count(*), 'volvieron', count(*) filter (where exists (
+        select 1 from actividad a where a.u = c.id and a.t > c.created_at + interval '7 days')))
+      from cuentas c where c.created_at < now() - interval '14 days'),
+    'semanas', (select coalesce(json_agg(json_build_object(
+        'semana', to_char(s.s, 'YYYY-MM-DD'),
+        'nuevas', (select count(*) from cuentas c where c.created_at >= s.s and c.created_at < s.s + interval '1 week'),
+        'activas', (select count(distinct a.u) from actividad a where a.t >= s.s and a.t < s.s + interval '1 week'),
+        'publicaciones', (select count(*) from public.posts p where p.created_at >= s.s and p.created_at < s.s + interval '1 week')
+      ) order by s.s), '[]') from semanas s),
+    'publicaciones_30d', (select coalesce(json_object_agg(tipo, n), '{}') from (
+        select tipo, count(*) as n from public.posts where created_at > now() - interval '30 days' group by tipo) x),
+    'cordadas_activas', (select count(distinct cordada_id) from public.cordada_checkins where dia > current_date - 14),
+    'coach_ia_30d', (select json_build_object('mensajes', coalesce(sum(usos), 0), 'personas', count(distinct user_id))
+      from public.ai_usage where dia > current_date - 30),
+    'web_vinculada', (select count(distinct user_id) from public.dispositivos),
+    'reportes_pendientes', (select count(*) from public.reportes where not revisado),
+    'errores_7d', (select count(*) from public.errores where recibido > now() - interval '7 days')
+  ) into r;
+  return r;
+end $$;
+revoke all on function public.metricas_comunidad() from public, anon;
+grant execute on function public.metricas_comunidad() to authenticated;

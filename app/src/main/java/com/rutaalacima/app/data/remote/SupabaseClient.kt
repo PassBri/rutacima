@@ -152,6 +152,15 @@ class SupabaseClient(context: Context) {
         if (devolver && r.isNotBlank()) json.parseToJsonElement(r) else null
     }
 
+    /** Inserta sin la sesión de la cuenta (con la clave pública): para los reportes de errores anónimos. */
+    suspend fun insertAnonimo(tabla: String, fila: JsonElement) = withContext(Dispatchers.IO) {
+        peticion(
+            "POST", "/rest/v1/$tabla", json.encodeToString(JsonElement.serializer(), fila).toByteArray(),
+            headers = mapOf("Prefer" to "return=minimal"), token = null,
+        )
+        Unit
+    }
+
     suspend fun delete(tabla: String, filtro: String) = withContext(Dispatchers.IO) {
         asegurarSesion()
         peticion("DELETE", "/rest/v1/$tabla?$filtro")

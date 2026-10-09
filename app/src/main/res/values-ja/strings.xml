@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">理由：%1$s</string>
     <string name="suspension_apelar">誤りだと思う場合はご連絡ください。確認します。</string>
     <string name="suspension_apelar_boton">再確認を依頼</string>
+    <string name="diag_enviar">匿名のエラーレポートを送信</string>
+    <string name="diag_ayuda">アプリがエラーで閉じた場合、何が起きたか（バージョン、端末の機種、コードの行）を送信します。アカウントや内容は含みません。修正に役立ちます。</string>
 </resources>

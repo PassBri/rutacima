@@ -11,6 +11,28 @@
 
 const CONFIG = Object.assign({ supabaseUrl: "", supabaseAnonKey: "", contenido: "../app/src/main/assets/" }, window.RUTACIMA || {});
 const MODO_REAL = /^https:\/\//.test(CONFIG.supabaseUrl) && !!CONFIG.supabaseAnonKey && !!window.supabase;
+
+/* Reporte de errores anónimo: si algo falla en la web, se envía qué tipo de error fue y en qué línea,
+   sin el mensaje (podría tener texto de la persona), sin cuenta y como máximo 5 por visita. */
+(() => {
+  if (!/^https:\/\//.test(CONFIG.supabaseUrl) || !CONFIG.supabaseAnonKey) return;
+  const version = (document.currentScript?.src.match(/[?&]v=([^&]+)/) || [])[1] || "local";
+  const vistos = new Set();
+  const limpiar = pila => String(pila || "").split("\n").filter(l => /^\s*at |@/.test(l)).slice(0, 25)
+    .map(l => l.trim().replace(/https?:\/\/[^/]+\//, "")).join("\n").slice(0, 6000);
+  const enviar = (tipo, archivo, linea, pila) => {
+    const firma = `${tipo || "Error"} en ${String(archivo || "?").split("/").pop().split("?")[0]}:${linea || 0}`.slice(0, 300);
+    if (vistos.size >= 5 || vistos.has(firma)) return;
+    vistos.add(firma);
+    fetch(CONFIG.supabaseUrl.replace(/\/$/, "") + "/rest/v1/errores", {
+      method: "POST", keepalive: true,
+      headers: { apikey: CONFIG.supabaseAnonKey, Authorization: "Bearer " + CONFIG.supabaseAnonKey, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ origen: "web", version: version.slice(0, 40), sistema: navigator.userAgent.slice(0, 80), equipo: `${screen.width}×${screen.height}`, firma, rastro: limpiar(pila), cuando: new Date().toISOString() }),
+    }).catch(() => {});
+  };
+  addEventListener("error", e => { if (e.error || e.message) enviar(e.error?.name || "Error", e.filename, e.lineno, e.error?.stack); });
+  addEventListener("unhandledrejection", e => { const r = e.reason; if (r instanceof Error) enviar(r.name, (String(r.stack).match(/\/js\/[^:)\s]+/) || [""])[0], (String(r.stack).match(/:(\d+):\d+/) || [])[1], r.stack); });
+})();
 const LOGO = CONFIG.logo || "sello.png";
 
 /* ======================================================================

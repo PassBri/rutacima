@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">原因：%1$s</string>
     <string name="suspension_apelar">如果你认为有误，请联系我们，我们会复核。</string>
     <string name="suspension_apelar_boton">申请复核</string>
+    <string name="diag_enviar">发送匿名错误报告</string>
+    <string name="diag_ayuda">如果应用因错误关闭，会发送出错信息（版本、手机型号和代码行），不含你的账户和内容。这能帮助我们修复问题。</string>
 </resources>

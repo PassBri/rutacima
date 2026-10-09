@@ -85,11 +85,10 @@ Deno.serve(async (req) => {
     }
 
     // Límite diario por cuenta (teléfono y web suman juntos).
-    const hoy = new Date().toISOString().slice(0, 10);
-    const { data: uso } = await admin.from("ai_usage").select("usos").eq("user_id", duenoId).eq("dia", hoy).maybeSingle();
-    const usos = uso?.usos ?? 0;
-    if (usos >= LIMITE) return json({ texto: "Llegaste al límite de mensajes de hoy. Mañana seguimos: mientras tanto, da un paso pequeño hacia tu cumbre." });
-    await admin.from("ai_usage").upsert({ user_id: duenoId, dia: hoy, usos: usos + 1 });
+    // usar_ia suma el uso y revisa el límite en una sola operación: dos mensajes al tiempo no lo pasan.
+    const { data: puede, error: errUso } = await admin.rpc("usar_ia", { p_usuario: duenoId, p_limite: LIMITE });
+    if (errUso) return json({ error: "No se pudo revisar tu límite diario. Inténtalo de nuevo." }, 500);
+    if (!puede) return json({ texto: "Llegaste al límite de mensajes de hoy. Mañana seguimos: mientras tanto, da un paso pequeño hacia tu cumbre." });
 
     const { mensajes = [], contexto = "", idioma = "es" } = await req.json();
     const limpios = (mensajes as { role: string; content: string }[])

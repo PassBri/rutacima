@@ -24,9 +24,9 @@ async function comprobarModeracion() {
 async function cargarModeracion() {
   if (cargarModeracion.activo) return; cargarModeracion.activo = true;
   try {
-    const [p, h] = await Promise.all([Store.nube.sb.rpc("moderacion_pendientes"), Store.nube.sb.rpc("moderacion_historial")]);
+    const [p, h, e, m] = await Promise.all(["moderacion_pendientes", "moderacion_historial", "errores_recientes", "metricas_comunidad"].map(f => Store.nube.sb.rpc(f)));
     if (p.error) throw p.error;
-    MOD.casos = p.data || []; MOD.hist = h.data || []; MOD.error = false;
+    MOD.casos = p.data || []; MOD.hist = h.data || []; MOD.errores = e.data || []; MOD.metricas = m.data || null; MOD.error = false;
   } catch (e) { console.error(e); MOD.error = true; MOD.casos = MOD.casos || []; MOD.hist = MOD.hist || []; }
   finally { cargarModeracion.activo = false; if (estado.sel === "moderacion" && !enEdicion()) pintarTodo(); }
 }
@@ -73,20 +73,65 @@ function formSuspender(c) {
     <div class="botones"><button class="btn lleno" type="submit">Confirmar</button><button class="btn" type="button" data-acc="abrirSuspender" data-arg="">Cancelar</button></div></form>`;
 }
 
+/** Métricas: cifras grandes y la participación semanal (12 semanas) en barras con su tabla. */
+function vistaMetricas() {
+  const m = MOD.metricas; if (!m) return hoja(`<p class="vacio-mini">Sin métricas todavía.</p>`);
+  const n = v => Number(v || 0).toLocaleString("es");
+  const ret = m.retencion?.base ? Math.round(100 * m.retencion.volvieron / m.retencion.base) + " %" : "—";
+  const cifra = (valor, titulo, nota = "") => `<div class="met-cifra"><b>${valor}</b><span>${titulo}</span>${nota ? `<small>${nota}</small>` : ""}</div>`;
+  const sem = m.semanas || [], max = Math.max(1, ...sem.map(x => x.activas)), W = 600, H = 160, paso = W / Math.max(1, sem.length), ancho = Math.max(4, paso - 2);
+  const barras = sem.map((x, i) => {
+    const alto = x.activas ? Math.max(4, Math.round((H - 20) * x.activas / max)) : 0, xx = i * paso + 1, y = H - alto;
+    const etiqueta = `Semana del ${new Date(x.semana + "T12:00").toLocaleDateString("es", { day: "numeric", month: "short" })}: ${x.activas} activas, ${x.nuevas} nuevas, ${x.publicaciones} publicaciones`;
+    return `<g class="met-barra" tabindex="0" aria-label="${etiqueta}"><title>${etiqueta}</title><rect class="met-hit" x="${i * paso}" y="0" width="${paso}" height="${H}"/>${alto ? `<path d="M${xx},${H} V${y + 4} q0,-4 4,-4 h${ancho - 8} q4,0 4,4 V${H} Z"/>` : ""}</g>`;
+  }).join("");
+  const tipos = Object.entries(m.publicaciones_30d || {}).sort((a, b) => b[1] - a[1]);
+  const NOMBRE_TIPO = { LOGRO: "Logros", EVIDENCIA: "Evidencias", VISION: "Visión", META: "Metas", REFLEXION: "Reflexiones" };
+  return hoja(`<div class="met-cifras">
+      ${cifra(n(m.cuentas), "Cuentas", `${n(m.nuevas_30d)} nuevas en 30 días`)}
+      ${cifra(n(m.activas_7d), "Activas esta semana", `${n(m.activas_30d)} en 30 días`)}
+      ${cifra(ret, "Volvieron tras la 1.ª semana", m.retencion?.base ? `${n(m.retencion.volvieron)} de ${n(m.retencion.base)}` : "Aún sin cuentas de 2 semanas")}
+      ${cifra(n(m.coach_ia_30d?.mensajes), "Mensajes al coach IA", `${n(m.coach_ia_30d?.personas)} personas · 30 días`)}
+    </div>`) +
+    hoja(`<h3 style="margin-top:0">Personas activas por semana</h3><p class="suave" style="margin-top:0">Publicaron, impulsaron, comentaron, escribieron o marcaron su día en una cordada.</p>
+      <svg class="met-grafica" viewBox="0 0 ${W} ${H}" role="img" aria-label="Personas activas por semana, últimas 12 semanas"><line class="met-base" x1="0" x2="${W}" y1="${H}" y2="${H}"/>${barras}</svg>
+      <div class="met-ejes"><span>hace 12 semanas</span><span>máx. ${n(max)}</span><span>esta semana</span></div>
+      <details class="met-tabla"><summary>Ver como tabla</summary><table><thead><tr><th>Semana</th><th>Activas</th><th>Nuevas</th><th>Publicaciones</th></tr></thead><tbody>
+        ${sem.map(x => `<tr><td>${new Date(x.semana + "T12:00").toLocaleDateString("es", { day: "numeric", month: "short" })}</td><td>${x.activas}</td><td>${x.nuevas}</td><td>${x.publicaciones}</td></tr>`).join("")}</tbody></table></details>`) +
+    hoja(`<div class="met-cifras">
+      ${cifra(n(m.cordadas_activas), "Cordadas activas", "con días marcados en 14 días")}
+      ${cifra(n(m.web_vinculada), "Cuentas con la web")}
+      ${cifra(n(m.reportes_pendientes), "Reportes sin revisar")}
+      ${cifra(n(m.errores_7d), "Errores en 7 días")}
+    </div>${tipos.length ? `<p class="suave" style="margin-bottom:0">Publicaciones en 30 días: ${tipos.map(([t, v]) => `${NOMBRE_TIPO[t] || t} ${v}`).join(" · ")}</p>` : ""}
+    <p class="suave" style="font-size:12px;margin-bottom:0">Solo totales, calculados con lo que ya está en el servidor. La ruta de cada persona (tramos, milímetros, Brújula) vive en su teléfono y no se mide.</p>`);
+}
+
+function vistaErrores() {
+  const es = MOD.errores || [];
+  if (!es.length) return hoja(`<p class="vacio-mini">Sin errores en los últimos 30 días.</p>`);
+  return es.map(e => hoja(`<div class="mod-cab"><span class="etiqueta">${e.origen === "web" ? "Web" : "App"}</span><span class="mod-n${e.veces >= 5 ? " alto" : ""}">${e.veces} ${e.veces === 1 ? "vez" : "veces"}</span></div>
+    <div class="mod-autor" style="overflow-wrap:anywhere">${esc(e.firma)}</div>
+    <p class="suave" style="font-size:13px;margin:4px 0">${(e.versiones || []).map(esc).join(", ") || "—"} · ${esc(e.equipo || "")} · último: ${fechaMod(e.ultimo)}</p>
+    ${e.rastro ? `<details><summary>Rastro</summary><pre class="mod-rastro">${esc(e.rastro)}</pre></details>` : ""}`, "mod-caso")).join("");
+}
+
 DET["perfil.moderacion"] = () => {
   if (!MOD.soy) return cab(av(ic("mazo"), "#8A7B70"), "Moderación", "") + cuerpo(hoja(`<p>Esta sección es solo para moderadores.</p>`), "max-width:640px");
   if (MOD.casos === null) cargarModeracion();
-  const n = MOD.casos?.length || 0, pend = MOD.pestana === "pendientes";
-  const tabs = `<div class="mod-tabs" role="tablist"><button role="tab" aria-selected="${pend}" data-acc="pestanaMod" data-arg="pendientes">Pendientes (${n})</button>
-    <button role="tab" aria-selected="${!pend}" data-acc="pestanaMod" data-arg="historial">Historial</button>
+  const n = MOD.casos?.length || 0, pest = MOD.pestana;
+  const tab = (k, t) => `<button role="tab" aria-selected="${pest === k}" data-acc="pestanaMod" data-arg="${k}">${t}</button>`;
+  const tabs = `<div class="mod-tabs" role="tablist">${tab("pendientes", `Pendientes (${n})`)}${tab("historial", "Historial")}${tab("metricas", "Métricas")}${tab("errores", `Errores${MOD.errores?.length ? ` (${MOD.errores.length})` : ""}`)}
     <button class="btn mini" data-acc="recargarMod" style="margin-left:auto">Actualizar</button></div>`;
   let h;
   if (MOD.casos === null) h = `<p class="vacio-mini">Cargando…</p>`;
-  else if (pend) h = n ? MOD.casos.map(tarjetaCaso).join("") : hoja(`<p class="vacio-mini">${ic("mazo")} No hay reportes por revisar. La comunidad está en calma.</p>`);
+  else if (pest === "pendientes") h = n ? MOD.casos.map(tarjetaCaso).join("") : hoja(`<p class="vacio-mini">${ic("mazo")} No hay reportes por revisar. La comunidad está en calma.</p>`);
+  else if (pest === "metricas") h = vistaMetricas();
+  else if (pest === "errores") h = vistaErrores();
   else h = (MOD.hist || []).length ? hoja(MOD.hist.map(d => `<div class="mod-hist"><div>@${esc(d.moderador || "—")} · ${ACCION_MOD[d.accion] || d.accion}${!["suspender", "levantar"].includes(d.accion) && TIPO_MOD[d.tipo] ? ` · ${TIPO_MOD[d.tipo].toLowerCase()}` : ""}${d.usuario ? ` · @${esc(d.usuario)}` : ""}</div>
       ${d.nota ? `<div class="suave">${esc(d.nota)}</div>` : ""}<div class="suave" style="font-size:12px">${fechaMod(d.creado)}</div></div>`).join(""))
     : hoja(`<p class="vacio-mini">Todavía no hay decisiones.</p>`);
-  return cab(av(ic("mazo"), "var(--burdeos)"), "Moderación", "Reportes de la comunidad") +
+  return cab(av(ic("mazo"), "var(--burdeos)"), "Moderación", "Reportes, métricas y errores") +
     cuerpo(tabs + (MOD.error ? `<p class="suave" style="color:#B3261E">No se pudo completar. Revisa tu conexión e inténtalo de nuevo.</p>` : "") + h, "max-width:760px");
 };
 

@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">Grund: %1$s</string>
     <string name="suspension_apelar">Wenn du glaubst, dass das ein Fehler ist, schreib uns: Wir prüfen es.</string>
     <string name="suspension_apelar_boton">Überprüfung anfordern</string>
+    <string name="diag_enviar">Anonyme Fehlerberichte senden</string>
+    <string name="diag_ayuda">Wenn die App wegen eines Fehlers schließt, sendet sie, was fehlschlug (Version, Handymodell und Codezeile), ohne dein Konto oder deine Inhalte. Das hilft uns beim Beheben.</string>
 </resources>

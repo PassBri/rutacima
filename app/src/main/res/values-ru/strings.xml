@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">Причина: %1$s</string>
     <string name="suspension_apelar">Если считаете это ошибкой, напишите нам — мы пересмотрим.</string>
     <string name="suspension_apelar_boton">Запросить пересмотр</string>
+    <string name="diag_enviar">Отправлять анонимные отчёты об ошибках</string>
+    <string name="diag_ayuda">Если приложение закроется из‑за ошибки, оно отправит, что сломалось (версию, модель телефона и строку кода), без вашего аккаунта и содержимого. Это помогает нам исправлять ошибки.</string>
 </resources>

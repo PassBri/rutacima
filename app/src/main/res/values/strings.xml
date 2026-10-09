@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">Motivo: %1$s</string>
     <string name="suspension_apelar">Si crees que es un error, escríbenos: lo revisamos.</string>
     <string name="suspension_apelar_boton">Pedir revisión</string>
+    <string name="diag_enviar">Enviar reportes de errores anónimos</string>
+    <string name="diag_ayuda">Si la app se cierra por un error, envía qué falló (versión, modelo del teléfono y la línea del código), sin tu cuenta ni tu contenido. Nos ayuda a arreglarlo.</string>
 </resources>

@@ -758,3 +758,21 @@ a.btn { text-decoration: none; }
 .mod-hist:last-child { border-bottom: 0; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mod-n.alto, :root:not([data-theme="light"]) .mod-alerta { color: #F0B3A1; } }
 :root[data-theme="dark"] .mod-n.alto, :root[data-theme="dark"] .mod-alerta { color: #F0B3A1; }
+/* Métricas y errores (panel de moderación) */
+.met-cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+.met-cifra { display: flex; flex-direction: column; gap: 2px; }
+.met-cifra b { font: 600 30px/1.1 var(--font-titulo); color: var(--tinta); font-variant-numeric: tabular-nums; }
+.met-cifra span { font-size: 14px; color: var(--tinta); }
+.met-cifra small { font-size: 12px; color: var(--tinta-suave); }
+.met-grafica { width: 100%; height: auto; display: block; margin-top: 8px; }
+.met-grafica path { fill: var(--burdeos); }
+.met-hit { fill: transparent; }
+.met-barra:hover path, .met-barra:focus path { fill: var(--oro); }
+.met-barra:focus { outline: none; }
+.met-barra:focus .met-hit { stroke: var(--oro); stroke-width: 2; }
+.met-base { stroke: var(--linea); stroke-width: 1; }
+.met-ejes { display: flex; justify-content: space-between; font-size: 12px; color: var(--tinta-suave); margin-top: 4px; }
+.met-tabla { margin-top: 10px; font-size: 14px; }
+.met-tabla table { border-collapse: collapse; width: 100%; margin-top: 6px; font-variant-numeric: tabular-nums; }
+.met-tabla th, .met-tabla td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--linea); }
+.mod-rastro { font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--hoja-2); padding: 8px; border-radius: 8px; max-height: 240px; overflow: auto; }

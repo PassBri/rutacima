@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">السبب: %1$s</string>
     <string name="suspension_apelar">إن كنت تعتقد أنه خطأ، راسلنا: سنراجعه.</string>
     <string name="suspension_apelar_boton">اطلب المراجعة</string>
+    <string name="diag_enviar">إرسال تقارير أخطاء مجهولة</string>
+    <string name="diag_ayuda">إذا أُغلق التطبيق بسبب خطأ، يرسل ما الذي فشل (الإصدار وطراز الهاتف وسطر الشيفرة) دون حسابك أو محتواك. يساعدنا ذلك على الإصلاح.</string>
 </resources>

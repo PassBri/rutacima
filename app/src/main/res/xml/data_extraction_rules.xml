@@ -14,6 +14,7 @@
         <exclude domain="sharedpref" path="avisos_mensajes.xml" />
         <exclude domain="sharedpref" path="audiolibros_descargas.xml" />
         <exclude domain="file" path="audios/" />
+        <exclude domain="file" path="errores/" />
         <exclude domain="file" path="media/" />
     </cloud-backup>
     <device-transfer>
@@ -23,5 +24,6 @@
         <exclude domain="sharedpref" path="avisos_mensajes.xml" />
         <exclude domain="sharedpref" path="audiolibros_descargas.xml" />
         <exclude domain="file" path="audios/" />
+        <exclude domain="file" path="errores/" />
     </device-transfer>
 </data-extraction-rules>

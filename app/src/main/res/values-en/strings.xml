@@ -1185,4 +1185,6 @@
     <string name="suspension_motivo">Reason: %1$s</string>
     <string name="suspension_apelar">If you think this is a mistake, write to us: we\'ll review it.</string>
     <string name="suspension_apelar_boton">Ask for a review</string>
+    <string name="diag_enviar">Send anonymous error reports</string>
+    <string name="diag_ayuda">If the app closes because of an error, it sends what failed (version, phone model and the line of code), without your account or your content. It helps us fix it.</string>
 </resources>
