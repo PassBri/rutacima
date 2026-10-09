@@ -194,6 +194,30 @@ class Nube {
   constructor() {
     this.sb = window.supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey, { auth: { persistSession: true, storageKey: "rutacima-web" } });
     this.dueno = null; this.perfil = null; this.canal = null;
+    /** true si se entró con correo y contraseña (sin teléfono): la cuenta es la sesión misma. */
+    this.directa = false;
+    // Enlace de "olvidé mi contraseña": al volver, pedir la nueva (ver 13-cuenta.js)
+    this.sb.auth.onAuthStateChange(ev => { if (ev === "PASSWORD_RECOVERY") setTimeout(() => globalThis.pedirNuevaClave?.(), 300); });
+  }
+  async entrarConCorreo(email, clave) {
+    const { data, error } = await this.sb.auth.signInWithPassword({ email, password: clave });
+    if (error) throw error;
+    return data.session;
+  }
+  /** Crea la cuenta; devuelve la sesión, o null si hay que confirmar el correo primero. */
+  async registrarConCorreo(email, clave, usuario, nombre, versionLegal) {
+    const { data, error } = await this.sb.auth.signUp({ email, password: clave,
+      options: { data: { username: usuario, nombre, legal_version: versionLegal }, emailRedirectTo: location.origin + location.pathname } });
+    if (error) throw error;
+    return data.session;
+  }
+  async recuperarClave(email) {
+    const { error } = await this.sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    if (error) throw error;
+  }
+  async cambiarClave(clave) {
+    const { error } = await this.sb.auth.updateUser({ password: clave });
+    if (error) throw error;
   }
   async sesion() {
     const { data } = await this.sb.auth.getSession();
@@ -203,6 +227,11 @@ class Nube {
     return r.data.session;
   }
   async vinculo() {
+    // Con correo y contraseña la cuenta es la sesión; si es anónima, la cuenta es la que la vinculó por QR
+    const { data: s } = await this.sb.auth.getSession();
+    const u = s.session?.user;
+    if (u && !u.is_anonymous) { this.directa = true; this.dueno = u.id; this.correo = u.email || ""; return this.dueno; }
+    this.directa = false;
     const { data, error } = await this.sb.rpc("mi_vinculo");
     if (error) throw error;
     this.dueno = data || null;
@@ -243,7 +272,7 @@ class Nube {
   async desvincular() {
     const s = await this.sb.auth.getSession();
     const uid = s.data.session?.user?.id;
-    if (uid) await this.sb.from("dispositivos").delete().eq("web_uid", uid);
+    if (uid && !this.directa) await this.sb.from("dispositivos").delete().eq("web_uid", uid);
     if (this.canal) this.sb.removeChannel(this.canal);
     await this.sb.auth.signOut();
   }

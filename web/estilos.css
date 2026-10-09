@@ -776,3 +776,21 @@ a.btn { text-decoration: none; }
 .met-tabla table { border-collapse: collapse; width: 100%; margin-top: 6px; font-variant-numeric: tabular-nums; }
 .met-tabla th, .met-tabla td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--linea); }
 .mod-rastro { font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; background: var(--hoja-2); padding: 8px; border-radius: 8px; max-height: 240px; overflow: auto; }
+/* Cuenta con correo (sin teléfono Android) */
+.v-correo { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-top: -16px; }
+.tarjeta-correo { grid-template-columns: minmax(0, 520px); justify-content: center; }
+.form-correo { margin-top: 18px; }
+.con-prefijo { display: flex; align-items: center; gap: 6px; }
+.con-prefijo b { color: var(--tinta-suave); font-weight: 500; }
+.con-prefijo input { flex: 1; min-width: 0; }
+.casilla { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: start; font-size: 14px; line-height: 1.45; cursor: pointer; }
+.casilla input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--burdeos); }
+.form-error { color: #A3321F; font-size: 14px; margin: 0; min-height: 0; }
+.form-error:empty { display: none; }
+.enlace { background: none; border: 0; padding: 0; color: var(--burdeos); text-decoration: underline; font: inherit; cursor: pointer; }
+.v-cambio { margin-top: 18px; }
+.ventana-cuenta { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 16px; background: rgb(23 17 13 / .45); }
+.ventana-hoja { width: min(520px, 100%); max-height: calc(100vh - 32px); overflow: auto; }
+:root[data-theme="dark"] .form-error { color: #F0B3A1; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .form-error { color: #F0B3A1; } }
+.casilla a { color: var(--burdeos); }

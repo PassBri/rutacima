@@ -24,10 +24,12 @@ async function mostrarVincular() {
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
       : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
       <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div>
+    ${real ? `<div class="v-correo"><span class="suave">¿No tienes un teléfono Android?</span><button class="btn lleno" id="vCorreo">Entrar con mi correo</button><button class="btn" id="vCrear">Crear cuenta</button></div>` : ""}
     <div class="v-extra"><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
     ${enlacesLegales()}</div></div>`;
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
+  if ($("vCorreo")) { $("vCorreo").onclick = () => mostrarCorreo("entrar"); $("vCrear").onclick = () => mostrarCorreo("crear"); }
   if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }
   const nuevo = async () => {
     try {
@@ -86,7 +88,8 @@ async function entrarReal() {
       try { const fs = await Store.nube.cargarTodo(); Store.datos = {}; fs.forEach(f => Store.poner(f.tipo, f.clave, f.datos)); refrescar(); } catch {}
     }, 120000);
     abrirApp();
-    if (!filas.length) toast("Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");
+    if (!filas.length) toast(Store.nube.directa ? "¡Bienvenido! Empieza por tu perfil y tu cumbre." : "Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");
+    globalThis.revisarAutorizacion?.();
   } catch (e) { console.error(e); mostrarCarga("No se pudo cargar tu ruta. Revisa tu conexión y recarga la página."); }
 }
 function entrarDemo() { Store.nube = null; Store.datos = {}; sembrarDemo(); abrirApp(); }

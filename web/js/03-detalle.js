@@ -651,10 +651,13 @@ Object.assign(DET, {
         : `<p class="vacio-mini">${estado.misPosts ? "Todavía no has publicado." : "Cargando…"}</p>`);
   },
   "perfil.cuenta"() {
-    return cab(av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", Store.nube ? nombreNavegador() : "Ruta de ejemplo") + cuerpo(
+    return cab(av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", Store.nube ? (Store.nube.directa ? Store.nube.correo || "" : nombreNavegador()) : "Ruta de ejemplo") + cuerpo(
       hoja(Store.nube
-        ? `<h3>Conectado a tu cuenta</h3><p>Rutaalacima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
-           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › Rutaalacima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`
+        ? (Store.nube.directa
+          ? `<h3>Conectado con tu correo</h3><p>Entraste como ${esc(Store.nube.correo || "")}${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Tu ruta se guarda en tu cuenta: ábrela desde cualquier navegador, en el computador o en el teléfono, entrando con tu correo.</p>
+             <div class="botones"><button class="btn" data-acc="cambiarClaveWeb">Cambiar contraseña</button><button class="btn peligro" data-acc="salir">Cerrar sesión</button></div>`
+          : `<h3>Conectado a tu cuenta</h3><p>Rutaalacima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
+           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › Rutaalacima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`)
           + `<h3 style="margin-top:28px">Eliminar mi cuenta</h3><p class="suave">Se borran para siempre tu perfil, publicaciones, comentarios, mensajes, tu ruta en la nube y los computadores vinculados. Lo guardado en tu teléfono se queda ahí.</p>
            <div class="botones"><button class="btn peligro" data-acc="eliminarCuenta">Eliminar mi cuenta</button></div>`
         : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>

@@ -455,6 +455,13 @@ muestra la web o escribes sus 8 letras. Como en WhatsApp Web, el código se renu
 muestra el tiempo) y, si nadie lo escanea en 5 minutos, se detiene hasta que tocas para pedir uno nuevo. El computador queda vinculado hasta que lo desvincules desde el teléfono
 o cierres la sesión en la web.
 
+**Sin teléfono Android (por ejemplo, en iPhone).** En la pantalla de inicio de la web: **Entrar con mi correo** o
+**Crear cuenta**. Al crearla se aceptan los documentos legales con las mismas dos casillas de la app, y la cuenta
+funciona igual que una creada en el teléfono: la ruta se guarda en la nube y se abre desde cualquier navegador.
+También hay *¿Olvidaste tu contraseña?* y *Cambiar contraseña* (Perfil › Mi cuenta). Para que los enlaces de
+confirmación y de recuperación vuelvan a la web, en Supabase › Authentication › URL Configuration pon como
+*Site URL* `https://passbri.github.io/rutacima/` (y agrégala en *Redirect URLs*).
+
 <p align="center">
   <img src="diseno/web_vincular.png" alt="Rutaalacima Web: pantalla para vincular con código QR" width="720"><br><br>
   <img src="diseno/web_mi_ruta.png" alt="Rutaalacima Web: Mi ruta" width="720"><br>
