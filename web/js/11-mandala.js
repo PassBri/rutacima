@@ -40,6 +40,17 @@ const Mandala = {
 };
 window.Mandala = Mandala;
 
+/** Pasos de respaldo por eje, por si no se puede leer el banco de acciones. */
+const PASOS_BASE = {
+  VOL: ["Levantarme a la misma hora 5 días", "Terminar lo que empiezo antes de abrir algo nuevo", "Una tarea difícil antes del mediodía", "Revisar mi semana cada domingo", "Decir no a una distracción al día", "Cumplir mi racha de hábitos", "Anotar una victoria diaria", "Cerrar el día con el plan de mañana"],
+  MAE: ["Leer 20 minutos al día", "Practicar mi habilidad clave 30 minutos", "Pedir retroalimentación a un experto", "Terminar un curso del área", "Enseñar lo que aprendí a alguien", "Estudiar un caso de éxito al mes", "Crear un proyecto de práctica", "Medir mi avance cada mes"],
+  VOZ: ["Escribir lo que pienso antes de reuniones", "Hablar en público una vez al mes", "Pedir lo que necesito con claridad", "Publicar una reflexión por semana", "Practicar escucha activa", "Dar una opinión honesta con respeto", "Grabarme y mejorar mi forma de hablar", "Compartir mi historia con alguien"],
+  VAL: ["Escribir mis 5 valores", "Revisar si mis decisiones los respetan", "Un acto de servicio por semana", "Agradecer a una persona cada día", "Cumplir mi palabra en lo pequeño", "Pasar tiempo sin pantallas con mi familia", "Donar tiempo o recursos al mes", "Reflexionar 10 minutos en silencio"],
+  EVO: ["Dormir 7 horas", "Moverme 30 minutos al día", "Tomar 8 vasos de agua", "Comer verduras en cada comida", "Chequeo médico al año", "Aprender algo fuera de mi zona de confort", "Revisar mis finanzas cada mes", "Evaluar mis ejes cada trimestre"],
+  TRA: ["Ayudar a una persona a subir su montaña", "Acompañar a alguien como mentor", "Crear algo útil para mi comunidad", "Sumarme a una causa", "Compartir mis recursos gratis", "Celebrar los logros de otros", "Dejar por escrito lo que aprendí", "Invitar a alguien a planear su ruta"],
+  TODOS: ["Definir el primer paso concreto", "Ponerle fecha a este campamento", "Buscar a alguien que ya lo logró", "Dedicarle una hora a la semana", "Medir mi avance cada mes", "Quitar un obstáculo", "Pedir ayuda a tiempo", "Celebrar cada paso cumplido"],
+};
+
 const mdFoto = c => c ? fotoDePublicacion(c.publicacionId) : null;
 
 /** Una celda: la cumbre, un campamento (con su foto) o un paso. */
@@ -174,7 +185,8 @@ Object.assign(ACC, {
     try {
       const banco = await Contenido.json("bancos/acciones.json");
       banco.filter(a => !c.eje || (a.ejes || []).includes(c.eje)).map(a => a.texto).sort(() => Math.random() - 0.5).forEach(t => sug.push(t));
-    } catch { /* sin banco (por ejemplo en la vista previa): solo las acciones del propósito */ }
+    } catch { /* sin banco (por ejemplo en la vista previa): pasos base del eje */ }
+    (PASOS_BASE[c.eje] || PASOS_BASE.TODOS).forEach(t => sug.push(t));
     const usados = new Set(actuales.filter(t => t.trim()).map(t => t.trim().toLowerCase()));
     const cola = sug.map(t => String(t).trim()).filter(t => t && !usados.has(t.toLowerCase()) && usados.add(t.toLowerCase()));
     let n = 0;
