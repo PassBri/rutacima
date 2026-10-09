@@ -11,6 +11,10 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  agua(_, arg) {
+    const [fecha, n] = arg.split("|");
+    Store.cambiar("agenda", fecha, { agua: Math.max(0, Math.min(8, Number(n))) }, BASES.agenda(fecha));
+  },
   /** Tocar una publicación del muro la abre en Cimas, a pantalla completa, desde esa misma publicación. */
   verCima(_, id) {
     estado.vistaCom = "cimas"; elegir("feed");

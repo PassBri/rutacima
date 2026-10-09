@@ -982,4 +982,16 @@
     <string name="resumen_publicar">Publicar en la comunidad</string>
     <string name="resumen_vacio">Todavía no hay suficiente para tu resumen: marca tus hábitos unos días y vuelve.</string>
     <string name="resumen_texto">Mi %1$d en Ruta a la Cima: %2$d días con hábitos, %3$d hábitos cumplidos, mejor racha de %4$d días y %5$d metas cumplidas.</string>
+    <string name="agua_resumen">%1$d de 8 vasos · %2$s L</string>
+    <string name="agua_cumplida">¡Meta de agua cumplida!</string>
+    <string name="agua_sumar">Un vaso más</string>
+    <string name="agua_quitar">Un vaso menos</string>
+    <string name="vida_fila_ayuda">Cada fila es una década: a la izquierda, el año en que empieza. El punto dorado es este año.</string>
+    <string name="vida_este_anio">%1$d · %2$d años</string>
+    <string name="cumbre_comunidad_titulo">La cumbre de la comunidad</string>
+    <string name="cumbre_comunidad_texto">Cada publicación sube 120 m y cada impulso 10 m. ¿Llegamos juntos a los 8.848 m esta semana?</string>
+    <string name="cumbre_comunidad_metros">%1$s m de %2$s</string>
+    <string name="cumbre_comunidad_logro">¡Cumbre! Esta semana la comunidad ya pasó los 8.848 m.</string>
+    <string name="cumbre_comunidad_aporte">Tu aporte: %1$s m</string>
+    <string name="cumbre_comunidad_datos">%1$d publicaciones · %2$d impulsos esta semana</string>
 </resources>

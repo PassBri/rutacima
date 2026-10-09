@@ -982,4 +982,16 @@
     <string name="resumen_publicar">In der Community posten</string>
     <string name="resumen_vacio">Für deinen Rückblick reicht es noch nicht: hake ein paar Tage deine Gewohnheiten ab und komm wieder.</string>
     <string name="resumen_texto">Mein %1$d auf Ruta a la Cima: %2$d Tage mit Gewohnheiten, %3$d erledigte Gewohnheiten, beste Serie %4$d Tage und %5$d erreichte Ziele.</string>
+    <string name="agua_resumen">%1$d von 8 Gläsern · %2$s L</string>
+    <string name="agua_cumplida">Wasserziel erreicht!</string>
+    <string name="agua_sumar">Noch ein Glas</string>
+    <string name="agua_quitar">Ein Glas weniger</string>
+    <string name="vida_fila_ayuda">Jede Zeile ist ein Jahrzehnt: links das Jahr, in dem es beginnt. Der goldene Punkt ist dieses Jahr.</string>
+    <string name="vida_este_anio">%1$d · %2$d Jahre</string>
+    <string name="cumbre_comunidad_titulo">Der Gipfel der Community</string>
+    <string name="cumbre_comunidad_texto">Jeder Beitrag bringt 120 m, jeder Schub 10 m. Schaffen wir diese Woche gemeinsam 8.848 m?</string>
+    <string name="cumbre_comunidad_metros">%1$s m von %2$s</string>
+    <string name="cumbre_comunidad_logro">Gipfel! Diese Woche hat die Community 8.848 m überschritten.</string>
+    <string name="cumbre_comunidad_aporte">Dein Beitrag: %1$s m</string>
+    <string name="cumbre_comunidad_datos">%1$d Beiträge · %2$d Schübe diese Woche</string>
 </resources>

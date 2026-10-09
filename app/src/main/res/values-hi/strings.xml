@@ -982,4 +982,16 @@
     <string name="resumen_publicar">समुदाय में पोस्ट करें</string>
     <string name="resumen_vacio">सारांश के लिए अभी पर्याप्त नहीं है: कुछ दिन अपनी आदतें दर्ज करें और लौटें।</string>
     <string name="resumen_texto">Ruta a la Cima पर मेरा %1$d: आदतों वाले %2$d दिन, %3$d पूरी आदतें, %4$d दिनों की सबसे लंबी गिनती और %5$d पूरे लक्ष्य।</string>
+    <string name="agua_resumen">8 में से %1$d गिलास · %2$s लीटर</string>
+    <string name="agua_cumplida">पानी का लक्ष्य पूरा!</string>
+    <string name="agua_sumar">एक गिलास और</string>
+    <string name="agua_quitar">एक गिलास कम</string>
+    <string name="vida_fila_ayuda">हर पंक्ति एक दशक है: बाईं ओर वह साल जिससे वह शुरू होता है। सुनहरा बिंदु यह साल है।</string>
+    <string name="vida_este_anio">%1$d · %2$d वर्ष</string>
+    <string name="cumbre_comunidad_titulo">समुदाय का शिखर</string>
+    <string name="cumbre_comunidad_texto">हर पोस्ट 120 मी. और हर बढ़ावा 10 मी. चढ़ाता है। क्या इस हफ़्ते हम साथ में 8,848 मी. पहुँचेंगे?</string>
+    <string name="cumbre_comunidad_metros">%2$s में से %1$s मी.</string>
+    <string name="cumbre_comunidad_logro">शिखर! इस हफ़्ते समुदाय 8,848 मी. पार कर गया।</string>
+    <string name="cumbre_comunidad_aporte">आपका योगदान: %1$s मी.</string>
+    <string name="cumbre_comunidad_datos">इस हफ़्ते %1$d पोस्ट · %2$d बढ़ावे</string>
 </resources>

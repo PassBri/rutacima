@@ -26,6 +26,18 @@ function selectorHorizonte(tipo, clave, anios) {
     <div class="atajos">${HORIZONTES.map(h => `<button type="button" class="chip" aria-pressed="${h === anios}" data-acc="horizonte" data-arg="${arg}|=${h}">${h}</button>`).join("")}</div>
   </div>`;
 }
+/** Ocho vasos que se llenan con una ola al tocarlos (250 ml cada uno); más y menos para no apuntar al vaso. */
+function vasosDeAgua(fecha, n) {
+  const vaso = i => `<button class="vaso${i <= n ? " lleno" : ""}" data-acc="agua" data-arg="${fecha}|${i === n ? i - 1 : i}" aria-label="Vaso ${i}" aria-pressed="${i <= n}">
+    <svg viewBox="0 0 36 50" aria-hidden="true"><defs><clipPath id="v-${fecha}-${i}"><path d="M2 3h32l-4 44H6z"/></clipPath></defs>
+      <path d="M2 3h32l-4 44H6z" class="vaso-fondo"/><g clip-path="url(#v-${fecha}-${i})"><g class="vaso-agua"><path class="ola" d="M-36 8 q9 -5 18 0 t18 0 t18 0 t18 0 t18 0 V60 H-36z"/></g></g>
+      <path d="M2 3h32l-4 44H6z" class="vaso-borde"/></svg></button>`;
+  const litros = (n * 0.25).toLocaleString("es", { maximumFractionDigits: 2 });
+  return `<div class="vasos" role="group" aria-label="Vasos de agua">${[1, 2, 3, 4, 5, 6, 7, 8].map(vaso).join("")}</div>
+    <div class="vasos-pie"><b>${n} de 8 vasos · ${litros} L</b>${n >= 8 ? `<span>¡Meta de agua cumplida!</span>` : ""}
+      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n - 1}" ${n <= 0 ? "disabled" : ""} aria-label="Un vaso menos">−</button>
+      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n + 1}" ${n >= 8 ? "disabled" : ""} aria-label="Un vaso más">+</button></div>`;
+}
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 function vacio() {
@@ -59,11 +71,12 @@ const DET = {
     if (!r) return vacio();
     const nac = r.nac.getFullYear(), anioHoy = new Date().getFullYear();
     const conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
+    // Cada fila es una década: a la izquierda, el año en que empieza; el punto dorado es este año
     let puntos = "";
     for (let i = 0; i < metaVida(); i++) {
       const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
-      // Cada punto lleva su año (las dos últimas cifras en pantallas muy angostas)
-      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años"><span class="pv-anio" aria-hidden="true" data-corto="'${String(a % 100).padStart(2, "0")}">${a}</span>${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
+      if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
+      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
     return cab(avSello(), `Camino hacia los ${metaVida()} años`, `${esc(perfil().nombre || "Tú")} · ${r.edad} años`) + cuerpo(
       hoja(`<div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
@@ -75,6 +88,8 @@ const DET = {
         <p class="frase-vida">${r.frase}</p>`) +
       hoja(`<h3>Tu vida en puntos</h3><p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. Las banderas marcan años con metas.</p>
         <div class="puntos">${puntos}</div>
+        <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>
+        <p class="suave" style="font-size:13px;margin:4px 0 0">Cada fila es una década: a la izquierda, el año en que empieza.</p>
         <div class="leyenda" style="margin-top:16px"><span><i style="background:var(--burdeos)"></i>Vivido</span><span><i style="background:var(--oro)"></i>Este año</span><span><i style="background:var(--hoja);border:1px solid var(--linea)"></i>Por vivir</span><span>${ic("bandera", "i fijado")}Año con metas</span></div>`));
   },
   "ruta.a"(arg) {
@@ -237,7 +252,7 @@ function detDia(fecha) {
     `<div class="etiqueta">Checklist de hábitos · ${marc.size} de 18</div><div class="habitos">${habitos}</div>` +
     hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
       <div class="form-2">${campo("Energía", `<div class="energia">${[1, 2, 3, 4, 5].map(n => `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n}"></button>`).join("")}</div>`)}
-        ${campo("Vasos de agua", `<div class="rango"><input type="range" min="0" max="8" value="${ag.agua || 0}" ${bind("agenda", fecha, "agua", "num", "agenda")}><b>${ag.agua || 0}</b></div>`)}</div>
+        <div class="campo"><span>Vasos de agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
       ${campoAg("pendientes", "Pendientes")}${campoAg("notas", "Notas")}</div>`));
 }
 

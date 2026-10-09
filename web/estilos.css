@@ -120,7 +120,11 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .barra { height: 8px; border-radius: 99px; background: var(--burdeos-suave); overflow: hidden; }
 .barra > i { display: block; height: 100%; background: linear-gradient(90deg, var(--burdeos), var(--oro)); border-radius: inherit; }
 .frase-vida { font: 500 17px/1.45 var(--font-titulo); margin: 12px 0 0; text-wrap: balance; }
-.puntos { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 10px; max-width: 520px; container-type: inline-size; }
+.puntos { display: grid; grid-template-columns: 40px repeat(10, minmax(0, 1fr)); gap: 10px; align-items: center; max-width: 560px; }
+.pv-fila { font-size: 12px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.pv-fila.esta { color: var(--oro); font-weight: 700; }
+.pv-hoy { display: flex; align-items: center; gap: 8px; margin: 14px 0 0; color: var(--oro); font-weight: 600; font-size: 14px; }
+.pv-hoy i { width: 12px; height: 12px; border-radius: 50%; background: var(--oro); box-shadow: 0 0 0 3px var(--oro-suave); }
 .pv { aspect-ratio: 1; border-radius: 50%; position: relative; display: grid; place-items: center; font-size: 11px; font-variant-numeric: tabular-nums;
   box-shadow: 0 2px 4px rgb(var(--sombra) / .18); transition: transform .12s; }
 .pv:hover { transform: translateY(-2px) scale(1.06); }
@@ -128,9 +132,6 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .pv.vivido { background: var(--burdeos); color: var(--sobre-burdeos); }
 .pv.actual { background: var(--oro); color: #fff; outline: 3px solid var(--oro-suave); }
 .pv.futuro { background: var(--hoja); color: var(--tinta-suave); border: 1px solid var(--linea); }
-/* El año dentro del punto: crece con el punto (≈ 27 % de su ancho) y usa cifras tabulares */
-.pv-anio { font-size: clamp(8px, 2.2cqw, 12px); font-weight: 500; letter-spacing: -.02em; line-height: 1; }
-@container (max-width: 300px) { .pv-anio { font-size: 0; } .pv-anio::after { content: attr(data-corto); font-size: clamp(8px, 3cqw, 11px); } }
 .pv .bandera { fill: currentColor; position: absolute; top: -7px; right: -5px; width: 14px; height: 14px; color: var(--oro); }
 .leyenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--tinta-suave); }
 .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
@@ -483,3 +484,19 @@ a.btn { text-decoration: none; }
 /* Teclado: foco siempre visible (accesibilidad) */
 :where(button, a, input, select, textarea, [tabindex]):focus-visible { outline: 3px solid var(--oro); outline-offset: 2px; border-radius: 8px; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Vasos de agua: el agua sube con un pequeño rebote y su superficie ondea */
+.vasos { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; max-width: 360px; }
+.vaso { padding: 0; aspect-ratio: 36 / 50; border-radius: 6px; }
+.vaso svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.vaso-fondo { fill: var(--hoja-2); }
+.vaso-borde { fill: none; stroke: var(--tinta-suave); stroke-width: 1.4; stroke-linejoin: round; }
+.vaso-agua { transform: translateY(46px); transition: transform .6s cubic-bezier(.34, 1.56, .64, 1); }
+.vaso.lleno .vaso-agua { transform: translateY(0); }
+.ola { fill: #2E7D9A; opacity: .85; animation: ola 2.4s linear infinite; }
+@keyframes ola { to { transform: translateX(36px); } }
+.vaso:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+.vasos-pie { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.vasos-pie b { color: #2E7D9A; font-weight: 600; flex: 1; min-width: 140px; }
+.vasos-pie span { color: var(--oro); font-size: 13px; width: 100%; order: 3; }
+.vasos-pie .btn { width: 36px; height: 36px; padding: 0; justify-content: center; font-size: 18px; }

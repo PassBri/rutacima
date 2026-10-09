@@ -982,4 +982,16 @@
     <string name="resumen_publicar">انشر في المجتمع</string>
     <string name="resumen_vacio">لا يوجد ما يكفي لملخصك بعد: سجّل عاداتك بضعة أيام ثم عد.</string>
     <string name="resumen_texto">عامي %1$d في Ruta a la Cima: %2$d يومًا مع عادات، %3$d عادة منجزة، أفضل سلسلة %4$d يومًا و%5$d أهداف منجزة.</string>
+    <string name="agua_resumen">%1$d من 8 أكواب · %2$s لتر</string>
+    <string name="agua_cumplida">تحقق هدف شرب الماء!</string>
+    <string name="agua_sumar">كوب آخر</string>
+    <string name="agua_quitar">كوب أقل</string>
+    <string name="vida_fila_ayuda">كل صف عقد: على اليسار السنة التي يبدأ فيها. النقطة الذهبية هي هذا العام.</string>
+    <string name="vida_este_anio">%1$d · %2$d سنة</string>
+    <string name="cumbre_comunidad_titulo">قمة المجتمع</string>
+    <string name="cumbre_comunidad_texto">كل منشور يرفعنا 120 م وكل دفعة 10 م. هل نصل معًا إلى 8848 م هذا الأسبوع؟</string>
+    <string name="cumbre_comunidad_metros">%1$s م من %2$s</string>
+    <string name="cumbre_comunidad_logro">القمة! تجاوز المجتمع هذا الأسبوع 8848 م.</string>
+    <string name="cumbre_comunidad_aporte">مساهمتك: %1$s م</string>
+    <string name="cumbre_comunidad_datos">%1$d منشورات · %2$d دفعات هذا الأسبوع</string>
 </resources>

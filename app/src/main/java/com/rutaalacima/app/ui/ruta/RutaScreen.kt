@@ -94,7 +94,6 @@ import com.rutaalacima.app.domain.model.RecordatorioVida
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.components.ProgressLine
 import com.rutaalacima.app.ui.components.RutaCard
-import com.rutaalacima.app.ui.components.AnioEnPunto
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import com.rutaalacima.app.ui.components.SectionTitle
@@ -445,6 +444,16 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelVida(
                 Spacer(Modifier.height(12.dp))
                 PuntosVida(anioNac, edad, meta, aniosConRecuerdos, aniosMeta) { ir(Nivel.Anio(it)) }
                 Spacer(Modifier.height(8.dp))
+                // El año de hoy, escrito, junto al punto dorado
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(12.dp).clip(CircleShape).border(2.dp, MaterialTheme.colorScheme.secondary, CircleShape))
+                    Spacer(Modifier.width(6.dp))
+                    Text(stringResource(R.string.vida_este_anio, h.year, edad), style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.secondary)
+                }
+                Spacer(Modifier.height(4.dp))
+                Text(stringResource(R.string.vida_fila_ayuda), style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 Text(stringResource(R.string.ruta_puntos_ayuda), style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
             }
@@ -487,8 +496,16 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
     val recuerdo = MaterialTheme.colorScheme.secondary
     val futuro = MaterialTheme.colorScheme.surfaceVariant
     val borde = MaterialTheme.colorScheme.outlineVariant
+    // Cada fila es una década: a la izquierda, el año en que empieza (más claro que un número en cada punto)
     (0 until meta).chunked(10).forEach { fila ->
-        Row(Modifier.fillMaxWidth()) {
+        val esta = edad in fila
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                "${anioNac + fila.first()}", Modifier.width(38.dp),
+                style = MaterialTheme.typography.labelSmall.copy(fontFeatureSettings = "tnum"),
+                fontWeight = if (esta) FontWeight.Bold else FontWeight.Normal,
+                color = if (esta) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant,
+            )
             fila.forEach { e ->
                 val anio = anioNac + e
                 val pasado = e < edad
@@ -518,11 +535,6 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                             ),
                         contentAlignment = Alignment.Center,
                     ) {
-                        AnioEnPunto(anio, when {
-                            anio in aniosConRecuerdos -> MaterialTheme.colorScheme.onSecondary
-                            pasado -> MaterialTheme.colorScheme.onPrimary
-                            else -> MaterialTheme.colorScheme.onSurfaceVariant
-                        }, Modifier.fillMaxSize())
                     }
                     // La bandera de una meta va en la esquina para no tapar el año
                     if (anio in aniosMeta) Icon(Icons.Filled.Flag, null, Modifier.align(Alignment.TopEnd).fillMaxSize(0.38f), tint = recuerdo)

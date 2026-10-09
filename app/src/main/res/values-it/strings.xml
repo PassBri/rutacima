@@ -982,4 +982,16 @@
     <string name="resumen_publicar">Pubblica nella comunità</string>
     <string name="resumen_vacio">Non c’è ancora abbastanza per il tuo riepilogo: segna le abitudini per qualche giorno e torna.</string>
     <string name="resumen_texto">Il mio %1$d su Ruta a la Cima: %2$d giorni con abitudini, %3$d abitudini compiute, serie migliore di %4$d giorni e %5$d obiettivi raggiunti.</string>
+    <string name="agua_resumen">%1$d di 8 bicchieri · %2$s L</string>
+    <string name="agua_cumplida">Obiettivo acqua raggiunto!</string>
+    <string name="agua_sumar">Un bicchiere in più</string>
+    <string name="agua_quitar">Un bicchiere in meno</string>
+    <string name="vida_fila_ayuda">Ogni riga è un decennio: a sinistra, l’anno in cui inizia. Il punto dorato è quest’anno.</string>
+    <string name="vida_este_anio">%1$d · %2$d anni</string>
+    <string name="cumbre_comunidad_titulo">La vetta della comunità</string>
+    <string name="cumbre_comunidad_texto">Ogni post sale di 120 m e ogni slancio di 10 m. Arriviamo insieme a 8.848 m questa settimana?</string>
+    <string name="cumbre_comunidad_metros">%1$s m di %2$s</string>
+    <string name="cumbre_comunidad_logro">Vetta! Questa settimana la comunità ha superato 8.848 m.</string>
+    <string name="cumbre_comunidad_aporte">Il tuo contributo: %1$s m</string>
+    <string name="cumbre_comunidad_datos">%1$d post · %2$d slanci questa settimana</string>
 </resources>

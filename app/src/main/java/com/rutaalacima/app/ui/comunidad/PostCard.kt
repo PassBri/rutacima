@@ -66,9 +66,9 @@ import java.io.File
 
 /** Avatar circular con la inicial (o la foto si existe). */
 @Composable
-fun Avatar(nombre: String, url: String = "", tamano: Int = 40) {
+fun Avatar(nombre: String, url: String = "", tamano: Int = 40, forma: androidx.compose.ui.graphics.Shape = CircleShape) {
     Box(
-        Modifier.size(tamano.dp).clip(CircleShape)
+        Modifier.size(tamano.dp).clip(forma)
             .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
         contentAlignment = Alignment.Center,
     ) {
@@ -130,7 +130,11 @@ fun PostCard(
         // Franja superior del color del eje
         Box(Modifier.fillMaxWidth().height(5.dp).background(Brush.horizontalGradient(listOf(acento, acento.copy(alpha = 0.25f)))))
         Row(Modifier.padding(start = 14.dp, end = 14.dp, top = 12.dp, bottom = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Avatar(post.autorNombre, post.avatarUrl, tamano = 36)
+            // Avatar en forma de "galleta" (Material 3 Expressive) con un aro del color del eje
+            val galleta = androidx.compose.runtime.remember { com.rutaalacima.app.ui.components.FormaPoligono(com.rutaalacima.app.ui.components.FormasRuta.galleta) }
+            Box(Modifier.size(42.dp).background(acento, galleta), contentAlignment = Alignment.Center) {
+                Avatar(post.autorNombre, post.avatarUrl, tamano = 36, forma = galleta)
+            }
             Spacer(Modifier.width(10.dp))
             Column(Modifier.weight(1f)) {
                 Text(post.autorNombre, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -185,9 +189,10 @@ fun PostCard(
 
         // Acciones en píldoras
         Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Pildora(
+            com.rutaalacima.app.ui.components.BotonImpulso(
+                activo = post.yoImpulse, cantidad = post.impulsos,
                 icono = if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt,
-                texto = "${post.impulsos}", descripcion = stringResource(R.string.impulsar), activa = post.yoImpulse, onClick = onImpulsar,
+                descripcion = stringResource(R.string.impulsar), onClick = onImpulsar,
             )
             Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
             Spacer(Modifier.weight(1f))

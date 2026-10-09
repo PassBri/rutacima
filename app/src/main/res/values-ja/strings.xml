@@ -982,4 +982,16 @@
     <string name="resumen_publicar">コミュニティに投稿</string>
     <string name="resumen_vacio">まだ振り返るには足りません。数日習慣を記録してから戻ってきてください。</string>
     <string name="resumen_texto">Ruta a la Cimaでの%1$d年：習慣を記録した日%2$d日、達成した習慣%3$d、最長ストリーク%4$d日、達成した目標%5$d。</string>
+    <string name="agua_resumen">8杯中%1$d杯 · %2$s L</string>
+    <string name="agua_cumplida">水分補給の目標達成！</string>
+    <string name="agua_sumar">もう1杯</string>
+    <string name="agua_quitar">1杯減らす</string>
+    <string name="vida_fila_ayuda">1行が10年。左はその始まりの年。金色の点が今年です。</string>
+    <string name="vida_este_anio">%1$d · %2$d歳</string>
+    <string name="cumbre_comunidad_titulo">コミュニティの頂</string>
+    <string name="cumbre_comunidad_texto">投稿1つで120m、応援1回で10m。今週みんなで8,848mに届くでしょうか？</string>
+    <string name="cumbre_comunidad_metros">%1$s m / %2$s</string>
+    <string name="cumbre_comunidad_logro">登頂！今週コミュニティは8,848mを超えました。</string>
+    <string name="cumbre_comunidad_aporte">あなたの貢献：%1$s m</string>
+    <string name="cumbre_comunidad_datos">今週の投稿%1$d · 応援%2$d</string>
 </resources>

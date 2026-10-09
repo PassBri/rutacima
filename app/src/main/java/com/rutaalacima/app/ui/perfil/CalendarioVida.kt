@@ -40,7 +40,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.rutaalacima.app.R
-import com.rutaalacima.app.ui.components.AnioEnPunto
 import com.rutaalacima.app.data.local.PerfilEntity
 import com.rutaalacima.app.data.social.Post
 import com.rutaalacima.app.domain.model.Vida
@@ -140,8 +139,16 @@ fun LazyListScope.calendarioVida(
             val recuerdo = MaterialTheme.colorScheme.secondary
             val futuro = MaterialTheme.colorScheme.surfaceVariant
             val borde = MaterialTheme.colorScheme.outlineVariant
+            // Cada fila es una década: a la izquierda, el año en que empieza
             puntos.chunked(10).forEach { fila ->
-                Row(Modifier.fillMaxWidth()) {
+                val esta = edad in fila
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "${anioNac + fila.first()}", Modifier.width(38.dp),
+                        style = MaterialTheme.typography.labelSmall.copy(fontFeatureSettings = "tnum"),
+                        fontWeight = if (esta) androidx.compose.ui.text.font.FontWeight.Bold else androidx.compose.ui.text.font.FontWeight.Normal,
+                        color = if (esta) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                     fila.forEach { e ->
                         val anio = anioNac + e
                         val conRecuerdos = porAnio[anio].orEmpty().isNotEmpty()
@@ -170,14 +177,7 @@ fun LazyListScope.calendarioVida(
                                             else -> Modifier
                                         },
                                     ),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                AnioEnPunto(anio, when {
-                                    conRecuerdos -> MaterialTheme.colorScheme.onSecondary
-                                    pasado -> MaterialTheme.colorScheme.onPrimary
-                                    else -> MaterialTheme.colorScheme.onSurfaceVariant
-                                }, Modifier.fillMaxSize())
-                            }
+                            )
                         }
                     }
                     repeat(10 - fila.size) { Spacer(Modifier.weight(1f)) }

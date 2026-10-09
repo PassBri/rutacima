@@ -982,4 +982,16 @@
     <string name="resumen_publicar">Опубликовать в сообществе</string>
     <string name="resumen_vacio">Пока данных мало: отмечай привычки несколько дней и возвращайся.</string>
     <string name="resumen_texto">Мой %1$d в Ruta a la Cima: %2$d дней с привычками, %3$d выполненных привычек, лучшая серия %4$d дней и %5$d достигнутых целей.</string>
+    <string name="agua_resumen">%1$d из 8 стаканов · %2$s л</string>
+    <string name="agua_cumplida">Цель по воде выполнена!</string>
+    <string name="agua_sumar">Ещё стакан</string>
+    <string name="agua_quitar">На стакан меньше</string>
+    <string name="vida_fila_ayuda">Каждая строка — десятилетие: слева год его начала. Золотая точка — этот год.</string>
+    <string name="vida_este_anio">%1$d · %2$d лет</string>
+    <string name="cumbre_comunidad_titulo">Вершина сообщества</string>
+    <string name="cumbre_comunidad_texto">Каждая публикация — 120 м, каждый импульс — 10 м. Дойдём вместе до 8 848 м на этой неделе?</string>
+    <string name="cumbre_comunidad_metros">%1$s м из %2$s</string>
+    <string name="cumbre_comunidad_logro">Вершина! На этой неделе сообщество прошло 8 848 м.</string>
+    <string name="cumbre_comunidad_aporte">Твой вклад: %1$s м</string>
+    <string name="cumbre_comunidad_datos">%1$d публикаций · %2$d импульсов за неделю</string>
 </resources>

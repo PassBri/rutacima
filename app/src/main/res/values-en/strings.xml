@@ -982,4 +982,16 @@
     <string name="resumen_publicar">Post to the community</string>
     <string name="resumen_vacio">There isn’t enough for your summary yet: check your habits for a few days and come back.</string>
     <string name="resumen_texto">My %1$d on Ruta a la Cima: %2$d days with habits, %3$d habits completed, a best streak of %4$d days and %5$d goals completed.</string>
+    <string name="agua_resumen">%1$d of 8 glasses · %2$s L</string>
+    <string name="agua_cumplida">Water goal reached!</string>
+    <string name="agua_sumar">One more glass</string>
+    <string name="agua_quitar">One glass less</string>
+    <string name="vida_fila_ayuda">Each row is a decade: on the left, the year it starts. The gold dot is this year.</string>
+    <string name="vida_este_anio">%1$d · age %2$d</string>
+    <string name="cumbre_comunidad_titulo">The community summit</string>
+    <string name="cumbre_comunidad_texto">Each post climbs 120 m and each boost 10 m. Can we reach 8,848 m together this week?</string>
+    <string name="cumbre_comunidad_metros">%1$s m of %2$s</string>
+    <string name="cumbre_comunidad_logro">Summit! This week the community passed 8,848 m.</string>
+    <string name="cumbre_comunidad_aporte">Your share: %1$s m</string>
+    <string name="cumbre_comunidad_datos">%1$d posts · %2$d boosts this week</string>
 </resources>

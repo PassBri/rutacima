@@ -982,4 +982,16 @@
     <string name="resumen_publicar">发布到社区</string>
     <string name="resumen_vacio">总结的数据还不够：先打卡几天习惯再回来吧。</string>
     <string name="resumen_texto">我在 Ruta a la Cima 的 %1$d：%2$d 天打卡，完成 %3$d 个习惯，最长连续 %4$d 天，达成 %5$d 个目标。</string>
+    <string name="agua_resumen">8 杯中的 %1$d 杯 · %2$s 升</string>
+    <string name="agua_cumplida">饮水目标完成！</string>
+    <string name="agua_sumar">再来一杯</string>
+    <string name="agua_quitar">少一杯</string>
+    <string name="vida_fila_ayuda">每一行代表十年：左边是开始的年份。金色圆点是今年。</string>
+    <string name="vida_este_anio">%1$d · %2$d 岁</string>
+    <string name="cumbre_comunidad_titulo">社区之巅</string>
+    <string name="cumbre_comunidad_texto">每条帖子上升 120 米，每次助力 10 米。这周我们能一起登上 8848 米吗？</string>
+    <string name="cumbre_comunidad_metros">%1$s 米 / %2$s</string>
+    <string name="cumbre_comunidad_logro">登顶！本周社区已超过 8848 米。</string>
+    <string name="cumbre_comunidad_aporte">你的贡献：%1$s 米</string>
+    <string name="cumbre_comunidad_datos">本周 %1$d 条帖子 · %2$d 次助力</string>
 </resources>

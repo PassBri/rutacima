@@ -49,10 +49,26 @@ jobs:
           } > local.properties
 
       - name: Pruebas
-        run: ./gradlew --no-daemon testDebugUnitTest
+        shell: bash
+        run: |
+          set -o pipefail
+          # Si falla, los errores del compilador y de las pruebas quedan como anotaciones del run
+          if ! ./gradlew --no-daemon testDebugUnitTest 2>&1 | tee gradle.log; then
+            msg=$( { grep -E "^e: " gradle.log; grep -E "FAILED|Exception|expected:|What went wrong" -A2 gradle.log; } | head -50 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')
+            echo "::error title=Gradle::$msg"
+            exit 1
+          fi
 
       - name: Compilar APK
-        run: ./gradlew --no-daemon assembleDebug
+        shell: bash
+        run: |
+          set -o pipefail
+          # Si falla, los errores del compilador y de las pruebas quedan como anotaciones del run
+          if ! ./gradlew --no-daemon assembleDebug 2>&1 | tee gradle.log; then
+            msg=$( { grep -E "^e: " gradle.log; grep -E "FAILED|Exception|expected:|What went wrong" -A2 gradle.log; } | head -50 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')
+            echo "::error title=Gradle::$msg"
+            exit 1
+          fi
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
@@ -77,7 +93,15 @@ jobs:
           } > keystore.properties
 
       - name: Compilar versión de publicación (R8)
-        run: ./gradlew --no-daemon bundleRelease assembleRelease
+        shell: bash
+        run: |
+          set -o pipefail
+          # Si falla, los errores del compilador y de las pruebas quedan como anotaciones del run
+          if ! ./gradlew --no-daemon bundleRelease assembleRelease 2>&1 | tee gradle.log; then
+            msg=$( { grep -E "^e: " gradle.log; grep -E "FAILED|Exception|expected:|What went wrong" -A2 gradle.log; } | head -50 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')
+            echo "::error title=Gradle::$msg"
+            exit 1
+          fi
 
       - name: Guardar versión de publicación
         uses: actions/upload-artifact@v4

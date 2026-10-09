@@ -165,18 +165,8 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 Circulos(total = 5, valor = d.energia, color = MaterialTheme.colorScheme.secondary) { n -> vm.editar { it.copy(energia = n) } }
                 Spacer(Modifier.height(8.dp))
                 Text(stringResource(R.string.agua_vasos), style = MaterialTheme.typography.labelLarge)
-                Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    for (i in 1..8) {
-                        val lleno = i <= d.agua
-                        Icon(
-                            Icons.Filled.WaterDrop,
-                            contentDescription = stringResource(R.string.vaso_n, i),
-                            tint = if (lleno) Color(0xFF2E7D9A) else MaterialTheme.colorScheme.outlineVariant,
-                            modifier = Modifier.size(30.dp).clip(CircleShape)
-                                .clickable { vm.editar { it.copy(agua = if (it.agua == i) i - 1 else i) } },
-                        )
-                    }
-                }
+                Spacer(Modifier.height(6.dp))
+                com.rutaalacima.app.ui.components.VasosDeAgua(d.agua, { n -> vm.editar { it.copy(agua = n) } }, Modifier.fillMaxWidth())
             }
         }
         item { SectionTitle(stringResource(R.string.planifique_dia)) }

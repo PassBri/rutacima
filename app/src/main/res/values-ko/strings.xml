@@ -982,4 +982,16 @@
     <string name="resumen_publicar">커뮤니티에 게시</string>
     <string name="resumen_vacio">아직 요약할 내용이 부족해요. 며칠 습관을 기록하고 다시 오세요.</string>
     <string name="resumen_texto">Ruta a la Cima에서의 %1$d년: 습관 기록 %2$d일, 완료한 습관 %3$d개, 최장 연속 %4$d일, 달성한 목표 %5$d개.</string>
+    <string name="agua_resumen">8잔 중 %1$d잔 · %2$s L</string>
+    <string name="agua_cumplida">물 마시기 목표 달성!</string>
+    <string name="agua_sumar">한 잔 더</string>
+    <string name="agua_quitar">한 잔 빼기</string>
+    <string name="vida_fila_ayuda">한 줄은 10년이에요. 왼쪽은 시작하는 해, 금색 점은 올해예요.</string>
+    <string name="vida_este_anio">%1$d · %2$d세</string>
+    <string name="cumbre_comunidad_titulo">커뮤니티의 정상</string>
+    <string name="cumbre_comunidad_texto">게시물 하나에 120m, 응원 하나에 10m. 이번 주에 함께 8,848m에 오를까요?</string>
+    <string name="cumbre_comunidad_metros">%1$s m / %2$s</string>
+    <string name="cumbre_comunidad_logro">정상! 이번 주 커뮤니티가 8,848m를 넘었어요.</string>
+    <string name="cumbre_comunidad_aporte">나의 기여: %1$s m</string>
+    <string name="cumbre_comunidad_datos">이번 주 게시물 %1$d · 응원 %2$d</string>
 </resources>

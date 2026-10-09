@@ -147,7 +147,8 @@ fun ComunidadScreen(
     // Al volver de Cimas, el muro se ubica en la publicación que estabas viendo
     LaunchedEffect(volverA) {
         val i = volverA ?: return@LaunchedEffect
-        val cabecera = (if (!vm.enLinea) 1 else 0) + 2 + (if (vm.error != null) 1 else 0)
+        val cabecera = (if (!vm.enLinea) 1 else 0) + 2 + (if (vm.error != null) 1 else 0) +
+            (if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null) 1 else 0)
         lista.scrollToItem(cabecera + i)
         volverA = null
     }
@@ -195,6 +196,10 @@ fun ComunidadScreen(
             }
         }
         item { Filtros(vm) }
+        // La cumbre de la semana: toda la comunidad sube la misma montaña
+        if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
+            item(key = "cumbre") { CumbreComunidadCard(vm.posts) }
+        }
         if (vm.cargando && vm.posts.isEmpty()) {
             item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
         }
