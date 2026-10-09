@@ -142,6 +142,8 @@ object Rutas {
     /** Abrir la frase del día sellada desde dentro de la app. */
     const val SELLO = "sello"
     const val CARTA = "carta"
+    /** Revisar reportes y sancionar (solo moderadores). */
+    const val MODERACION = "moderacion"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -394,6 +396,7 @@ private fun AppPrincipal() {
                     onPublicar = { titulo, texto -> nav.navigate(Rutas.publicar("REFLEXION", titulo, texto)) },
                 )
             }
+            composable(Rutas.MODERACION) { com.rutaalacima.app.ui.moderacion.ModeracionScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.CARTA) { com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.SELLO) { com.rutaalacima.app.ui.inicio.InicioScreen(onTerminar = { nav.popBackStack() }) }
             composable(Rutas.POST, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->

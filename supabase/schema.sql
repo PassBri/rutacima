@@ -1161,3 +1161,204 @@ end $$;
 drop trigger if exists al_crear_usuario_consentimiento on auth.users;
 create trigger al_crear_usuario_consentimiento after insert on auth.users
   for each row execute function public.consentimiento_registro();
+
+-- =====================================================================
+-- Moderación: revisar reportes, restaurar u ocultar contenido y suspender cuentas
+-- =====================================================================
+-- Los moderadores se nombran a mano (Table Editor › moderadores › Insert: user_id). Todo lo que
+-- hacen queda en moderacion_log. Una cuenta suspendida puede leer y usar su ruta, pero no publicar,
+-- comentar, escribir mensajes ni notas de cordada hasta que termine la suspensión.
+create table if not exists public.moderadores (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  creado  timestamptz not null default now()
+);
+alter table public.moderadores enable row level security;
+drop policy if exists "saber si modero" on public.moderadores;
+create policy "saber si modero" on public.moderadores for select using (user_id = public.yo());
+
+create or replace function public.es_moderador() returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.moderadores where user_id = public.yo())
+$$;
+grant execute on function public.es_moderador() to authenticated;
+
+create table if not exists public.suspensiones (
+  user_id uuid primary key references public.profiles(id) on delete cascade,
+  hasta   timestamptz not null,
+  motivo  text not null default '' check (char_length(motivo) <= 500),
+  por     uuid references auth.users(id) on delete set null,
+  creado  timestamptz not null default now()
+);
+alter table public.suspensiones enable row level security;
+drop policy if exists "ver mi suspensión" on public.suspensiones;
+create policy "ver mi suspensión" on public.suspensiones for select using (user_id = public.yo() or public.es_moderador());
+grant select on public.suspensiones to authenticated;
+
+create table if not exists public.moderacion_log (
+  id        bigint generated always as identity primary key,
+  moderador uuid references auth.users(id) on delete set null,
+  accion    text not null,
+  tipo      text not null,
+  objetivo  uuid,
+  usuario   uuid references public.profiles(id) on delete set null,
+  nota      text not null default '' check (char_length(nota) <= 500),
+  creado    timestamptz not null default now()
+);
+alter table public.moderacion_log enable row level security;
+drop policy if exists "moderadores ven el historial" on public.moderacion_log;
+create policy "moderadores ven el historial" on public.moderacion_log for select using (public.es_moderador());
+grant select on public.moderacion_log to authenticated;
+
+-- Una cuenta suspendida no puede crear contenido para otros
+create or replace function public.no_suspendido() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if exists (select 1 from public.suspensiones s where s.user_id = public.yo() and s.hasta > now()) then
+    raise exception 'cuenta suspendida' using errcode = 'P0001', hint = 'suspendida';
+  end if;
+  return new;
+end $$;
+do $$ declare t text; begin
+  foreach t in array array['posts','comments','mensajes','conversaciones','cordada_notas'] loop
+    if to_regclass('public.' || t) is not null then
+      execute format('drop trigger if exists sin_suspension on public.%I', t);
+      execute format('create trigger sin_suspension before insert on public.%I for each row execute function public.no_suspendido()', t);
+    end if;
+  end loop;
+end $$;
+
+-- La suspensión vigente de la persona (o null), para avisarle en la app
+create or replace function public.mi_suspension() returns json
+language sql stable security definer set search_path = public as $$
+  select json_build_object('hasta', s.hasta, 'motivo', s.motivo, 'permanente', s.hasta = 'infinity')
+  from public.suspensiones s where s.user_id = public.yo() and s.hasta > now()
+$$;
+grant execute on function public.mi_suspension() to authenticated;
+
+-- Reportes sin revisar, agrupados por lo reportado, con el contenido para decidir
+create or replace function public.moderacion_pendientes() returns json
+language plpgsql stable security definer set search_path = public as $$
+declare r json;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  with x as (
+    select case when post_id is not null then 'post' when comment_id is not null then 'comentario'
+                when conversacion_id is not null then 'conversacion' else 'persona' end as tipo,
+           coalesce(post_id, comment_id, conversacion_id, a_quien) as objetivo, a_quien, quien, motivo, creado
+    from public.reportes where not revisado
+  ), g as (
+    select tipo, objetivo, a_quien, count(distinct quien) as n,
+           coalesce(array_agg(distinct motivo) filter (where motivo <> ''), '{}') as motivos,
+           min(creado) as primero, max(creado) as ultimo
+    from x group by tipo, objetivo, a_quien
+  )
+  select coalesce(json_agg(json_build_object(
+      'tipo', g.tipo, 'objetivo', g.objetivo, 'reportes', g.n, 'motivos', g.motivos,
+      'primero', g.primero, 'ultimo', g.ultimo,
+      'autor', json_build_object('id', pr.id, 'usuario', pr.username, 'nombre', pr.nombre, 'avatar', pr.avatar_url,
+                                 'suspendido_hasta', s.hasta,
+                                 'sanciones', (select count(*) from public.moderacion_log l where l.usuario = pr.id and l.accion in ('ocultar','eliminar','suspender'))),
+      'texto', coalesce(p.texto, c.texto, ''),
+      'imagen', coalesce(p.image_url, ''),
+      'oculto', coalesce(p.oculto, c.oculto, false),
+      'mensajes', case when g.tipo = 'conversacion' then (
+          select coalesce(json_agg(json_build_object('texto', m.texto, 'creado', m.creado) order by m.creado), '[]')
+          from (select * from public.mensajes m where m.conversacion_id = g.objetivo and m.autor = g.a_quien order by m.creado desc limit 20) m)
+        end
+    ) order by g.n desc, g.ultimo desc), '[]')
+  into r
+  from g
+  left join public.profiles pr on pr.id = g.a_quien
+  left join public.suspensiones s on s.user_id = g.a_quien and s.hasta > now()
+  left join public.posts p on g.tipo = 'post' and p.id = g.objetivo
+  left join public.comments c on g.tipo = 'comentario' and c.id = g.objetivo;
+  return r;
+end $$;
+revoke all on function public.moderacion_pendientes() from public, anon;
+grant execute on function public.moderacion_pendientes() to authenticated;
+
+-- Decidir sobre lo reportado: restaurar (o descartar el reporte), ocultar o eliminar
+create or replace function public.moderar(p_tipo text, p_objetivo uuid, p_accion text, p_nota text default '') returns void
+language plpgsql security definer set search_path = public as $$
+declare autor uuid;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  if p_tipo not in ('post','comentario','conversacion','persona') or p_accion not in ('restaurar','ocultar','eliminar') then
+    raise exception 'acción no válida';
+  end if;
+  if p_tipo in ('conversacion','persona') and p_accion <> 'restaurar' then
+    raise exception 'en conversaciones y personas se descarta el reporte o se suspende la cuenta';
+  end if;
+  select a_quien into autor from public.reportes
+   where coalesce(post_id, comment_id, conversacion_id, a_quien) = p_objetivo limit 1;
+  if p_tipo = 'post' then
+    select user_id into autor from public.posts where id = p_objetivo;
+    if p_accion = 'eliminar' then delete from public.posts where id = p_objetivo;
+    else update public.posts set oculto = (p_accion = 'ocultar') where id = p_objetivo; end if;
+  elsif p_tipo = 'comentario' then
+    select user_id into autor from public.comments where id = p_objetivo;
+    if p_accion = 'eliminar' then delete from public.comments where id = p_objetivo;
+    else update public.comments set oculto = (p_accion = 'ocultar') where id = p_objetivo; end if;
+  end if;
+  update public.reportes set revisado = true
+   where (p_tipo = 'post' and post_id = p_objetivo) or (p_tipo = 'comentario' and comment_id = p_objetivo)
+      or (p_tipo = 'conversacion' and conversacion_id = p_objetivo)
+      or (p_tipo = 'persona' and a_quien = p_objetivo and post_id is null and comment_id is null and conversacion_id is null);
+  insert into public.moderacion_log (moderador, accion, tipo, objetivo, usuario, nota)
+  values (public.yo(), case when p_accion = 'restaurar' and p_tipo in ('conversacion','persona') then 'descartar' else p_accion end,
+          p_tipo, p_objetivo, autor, left(coalesce(p_nota, ''), 500));
+end $$;
+revoke all on function public.moderar(text, uuid, text, text) from public, anon;
+grant execute on function public.moderar(text, uuid, text, text) to authenticated;
+
+-- Suspender una cuenta: días > 0 temporal, días < 0 permanente, 0 levanta la suspensión
+create or replace function public.suspender(p_usuario uuid, p_dias int, p_motivo text default '') returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  if p_usuario = public.yo() then raise exception 'no puedes suspenderte'; end if;
+  if exists (select 1 from public.moderadores where user_id = p_usuario) then raise exception 'no se suspende a un moderador'; end if;
+  if p_dias = 0 then
+    delete from public.suspensiones where user_id = p_usuario;
+  else
+    insert into public.suspensiones (user_id, hasta, motivo, por)
+    values (p_usuario, case when p_dias < 0 then 'infinity'::timestamptz else now() + make_interval(days => least(p_dias, 3650)) end,
+            left(coalesce(p_motivo, ''), 500), public.yo())
+    on conflict (user_id) do update set hasta = excluded.hasta, motivo = excluded.motivo, por = excluded.por, creado = now();
+  end if;
+  insert into public.moderacion_log (moderador, accion, tipo, objetivo, usuario, nota)
+  values (public.yo(), case when p_dias = 0 then 'levantar' else 'suspender' end, 'persona', p_usuario, p_usuario,
+          left(case when p_dias < 0 then 'Permanente. ' when p_dias > 0 then p_dias || ' días. ' else '' end || coalesce(p_motivo, ''), 500));
+end $$;
+revoke all on function public.suspender(uuid, int, text) from public, anon;
+grant execute on function public.suspender(uuid, int, text) to authenticated;
+
+-- Historial de decisiones (las últimas 100), con quién moderó y a quién
+create or replace function public.moderacion_historial() returns json
+language plpgsql stable security definer set search_path = public as $$
+declare r json;
+begin
+  if not public.es_moderador() then raise exception 'solo moderadores'; end if;
+  select coalesce(json_agg(json_build_object('accion', l.accion, 'tipo', l.tipo, 'nota', l.nota, 'creado', l.creado,
+           'moderador', m.username, 'usuario', u.username) order by l.creado desc), '[]')
+  into r
+  from (select * from public.moderacion_log order by creado desc limit 100) l
+  left join public.profiles m on m.id = l.moderador
+  left join public.profiles u on u.id = l.usuario;
+  return r;
+end $$;
+revoke all on function public.moderacion_historial() from public, anon;
+grant execute on function public.moderacion_historial() to authenticated;
+
+-- Ocultar solo cuenta reportes sin revisar: si un moderador restauró algo, hacen falta 3 reportes nuevos
+create or replace function public.al_reportar() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if new.post_id is not null and (select count(distinct quien) from public.reportes where post_id = new.post_id and not revisado) >= 3 then
+    update public.posts set oculto = true where id = new.post_id;
+  end if;
+  if new.comment_id is not null and (select count(distinct quien) from public.reportes where comment_id = new.comment_id and not revisado) >= 3 then
+    update public.comments set oculto = true where id = new.comment_id;
+  end if;
+  return new;
+end $$;

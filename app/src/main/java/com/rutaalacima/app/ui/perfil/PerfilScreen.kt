@@ -25,6 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Drafts
+import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Diversity3
@@ -150,6 +151,8 @@ fun PerfilScreen(
             }
         }
         // Accesos agrupados: tu ascenso, las personas que te acompañan y lo demás
+        // Si la cuenta está suspendida, la persona lo ve aquí con el motivo y cómo pedir revisión
+        item { com.rutaalacima.app.ui.moderacion.AvisoSuspension(Modifier.padding(horizontal = 16.dp)) }
         item { AccesosPerfil(onIrA) }
         item {
             TabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {
@@ -243,6 +246,11 @@ private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
 @OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun AccesosPerfil(onIrA: (String) -> Unit) {
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    val contenedor = androidx.compose.runtime.remember { (ctx.applicationContext as com.rutaalacima.app.RutaApp).container }
+    val sesion by contenedor.supabase.sesion.collectAsStateWithLifecycle()
+    var modero by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+    androidx.compose.runtime.LaunchedEffect(sesion?.userId) { modero = contenedor.moderacion.esModerador() }
     data class Acceso(val texto: Int, val icono: androidx.compose.ui.graphics.vector.ImageVector, val ruta: String)
     val grupos = listOf(
         R.string.perfil_grupo_ascenso to listOf(
@@ -258,9 +266,11 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
             Acceso(R.string.coach_vida, Icons.Filled.Hiking, com.rutaalacima.app.ui.Rutas.COACH_VIDA),
             Acceso(R.string.cordadas, Icons.Filled.Diversity3, com.rutaalacima.app.ui.Rutas.CORDADAS),
         ),
-        R.string.perfil_grupo_mas to listOf(
+        R.string.perfil_grupo_mas to listOfNotNull(
             Acceso(R.string.web_titulo, Icons.Filled.Computer, com.rutaalacima.app.ui.Rutas.WEB),
             Acceso(R.string.ajustes, Icons.Filled.Settings, com.rutaalacima.app.ui.Rutas.AJUSTES),
+            // Solo para cuentas nombradas como moderadoras en el servidor
+            if (modero) Acceso(R.string.moderacion_titulo, Icons.Filled.Gavel, com.rutaalacima.app.ui.Rutas.MODERACION) else null,
         ),
     )
     Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
