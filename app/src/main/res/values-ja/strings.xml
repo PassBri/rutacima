@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">登頂！今週コミュニティは8,848mを超えました。</string>
     <string name="cumbre_comunidad_aporte">あなたの貢献：%1$s m</string>
     <string name="cumbre_comunidad_datos">今週の投稿%1$d · 応援%2$d</string>
+    <string name="diario_titulo">人生日記</string>
+    <string name="diario_sub">1年ごとのアルバムで見る人生</string>
+    <string name="diario_vacio">まだ思い出がありません。人生のどの年にでも最初の思い出を記録しましょう。</string>
+    <string name="album_recuerdos">思い出%1$d件</string>
+    <string name="album_quien">この年を見られるのは？</string>
+    <string name="album_nota_privada">この年はあなただけが見られます。</string>
+    <string name="album_nota_seguidores">フォロワーは日記でこの年を見られます。</string>
+    <string name="album_nota_publica">コミュニティの誰でも日記でこの年を見られます。</string>
+    <string name="album_incluir_titulo">非公開の思い出も表示しますか？</string>
+    <string name="album_incluir_texto">%2$d年の思い出のうち%1$d件が「自分のみ」です。含めると、選んだ公開範囲で日記に表示されます。</string>
+    <string name="album_incluir_si">含める</string>
+    <string name="album_incluir_no">共有済みのものだけ</string>
+    <string name="album_agregar">%1$d年の思い出を追加</string>
+    <string name="album_metas">達成した目標</string>
+    <string name="album_ver">%1$d年のアルバムを見る</string>
+    <string name="diario_de">%1$sの日記</string>
+    <string name="diario_ajeno_vacio">%1$sはまだ日記の年を共有していません。</string>
+    <string name="diario_ver_autor">人生日記を見る</string>
 </resources>

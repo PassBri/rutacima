@@ -193,6 +193,8 @@ fun RutaScreen(
     onAbrirPost: (String) -> Unit,
     onKit: () -> Unit,
     onAjustes: () -> Unit,
+    /** Abre el álbum de un año del diario de vida. */
+    onAlbum: (Int) -> Unit = {},
 ) {
     val vm = rutaViewModel { RutaViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -227,7 +229,7 @@ fun RutaScreen(
             ) {
                 when (n) {
                     Nivel.Vida -> nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
-                    is Nivel.Anio -> nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador)
+                    is Nivel.Anio -> nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, checks, vm, onPlanificador, onKit, onPublicar)
@@ -556,6 +558,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
     ir: (Nivel) -> Unit,
     onNuevaMeta: (NivelMeta) -> Unit,
     onPlanificador: (Int, LocalDate?) -> Unit,
+    onAlbum: (Int) -> Unit,
 ) {
     val delAnio = anuales.filter { it.anio == anio }
     val mesesDelAnio = mensuales.filter { it.anio == anio }
@@ -573,6 +576,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
             }
             Text(stringResource(R.string.ruta_anio_resumen, delAnio.size, mesesDelAnio.size, recuerdos.size),
                 style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // El álbum de este año en el diario de vida (fotos, recuerdos y metas cumplidas)
+            if (anio <= hoy().year) com.rutaalacima.app.ui.perfil.BotonAlbum(anio, { onAlbum(anio) }, Modifier.padding(top = 10.dp))
             avance?.let { ProgressLine(it, Modifier.padding(top = 8.dp)) }
         }
     }

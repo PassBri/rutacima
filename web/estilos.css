@@ -515,3 +515,28 @@ a.btn { text-decoration: none; }
 .cc-cifra b { font: 900 32px/1 var(--font-titulo); color: var(--burdeos); }
 .cc-datos { font-size: 13px; color: var(--tinta-suave); margin-top: 2px; }
 .cc-datos b { color: var(--oro); }
+
+/* Código QR que se renueva (como WhatsApp Web) */
+.qr-tiempo { width: 264px; max-width: 100%; height: 4px; margin: 10px auto 0; border-radius: 99px; background: var(--linea); overflow: hidden; }
+.qr-tiempo i { display: block; height: 100%; background: var(--oro); transform-origin: left; transition: transform 1s linear; }
+.qr.vencido .codigo { filter: blur(6px); opacity: .35; }
+.qr-recargar { position: absolute; inset: 0; margin: auto; width: 150px; height: 150px; border-radius: 50%; background: var(--burdeos); color: var(--sobre-burdeos);
+  display: grid; place-items: center; align-content: center; gap: 6px; padding: 18px; font-size: 13px; line-height: 1.25; text-align: center; z-index: 2; box-shadow: 0 8px 24px rgb(var(--sombra) / .3); }
+.qr-recargar svg { width: 26px; height: 26px; fill: currentColor; }
+
+/* La franja es un cielo vivo: sol y luna en su posición real, estrellas de noche y la cordillera abajo */
+.franja.cielo { background: var(--franja); overflow: hidden; }
+.cielo > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cielo-estrellas circle { fill: #fff; animation: titila 3.2s ease-in-out infinite alternate; }
+@keyframes titila { from { opacity: .35; } to { opacity: 1; } }
+.cielo .astro { position: absolute; transform: translate(-50%, -50%); transition: left 60s linear, top 60s linear; }
+.astro.sol { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle, #FFF6D8 0 40%, #F7C76A 62%, rgba(247, 199, 106, 0) 72%);
+  box-shadow: 0 0 40px 14px rgba(255, 214, 120, .45); }
+.astro.luna { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(240, 232, 210, .55)); }
+.luna-sombra { fill: rgba(30, 30, 46, .55); }
+.luna-luz { fill: #F1E9D2; }
+.cielo .cielo-montes { top: auto; height: 46px; }
+.cielo-montes path { fill: var(--franja); opacity: .95; }
+.cielo-mini { position: relative; height: 92px; margin: -18px -20px 16px; border-radius: 4px 4px 0 0; overflow: hidden; background: var(--franja); }
+.cielo-mini .astro.sol { width: 26px; height: 26px; }
+.cielo-mini .astro.luna { width: 20px; height: 20px; }

@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">Summit! This week the community passed 8,848 m.</string>
     <string name="cumbre_comunidad_aporte">Your share: %1$s m</string>
     <string name="cumbre_comunidad_datos">%1$d posts · %2$d boosts this week</string>
+    <string name="diario_titulo">Life journal</string>
+    <string name="diario_sub">Your life in albums, year by year</string>
+    <string name="diario_vacio">No memories yet. Add the first one to any year of your life.</string>
+    <string name="album_recuerdos">%1$d memories</string>
+    <string name="album_quien">Who can see this year?</string>
+    <string name="album_nota_privada">Only you can see this year.</string>
+    <string name="album_nota_seguidores">Your followers can see this year in your journal.</string>
+    <string name="album_nota_publica">Anyone in the community can see this year in your journal.</string>
+    <string name="album_incluir_titulo">Show your private memories too?</string>
+    <string name="album_incluir_texto">You have %1$d memories from %2$d set to “Only me”. If you include them, they’ll show in your journal with the visibility you chose.</string>
+    <string name="album_incluir_si">Include them</string>
+    <string name="album_incluir_no">Only what’s already shared</string>
+    <string name="album_agregar">Add a memory from %1$d</string>
+    <string name="album_metas">Goals achieved</string>
+    <string name="album_ver">See the %1$d album</string>
+    <string name="diario_de">%1$s’s journal</string>
+    <string name="diario_ajeno_vacio">%1$s hasn’t shared any years of their journal yet.</string>
+    <string name="diario_ver_autor">See their life journal</string>
 </resources>

@@ -64,3 +64,17 @@ class AscensoTest {
         assertEquals("Frase del día 281", InvitacionFrase.etiqueta(280, "Frase del día %d"))
     }
 }
+
+class DiarioVidaTest {
+    @org.junit.Test fun leeLaVisibilidadDeCadaAnio() {
+        val r = mapOf("diario-2004#visibilidad" to "PUBLICA", "diario-2008#visibilidad" to "SEGUIDORES", "diario-x#visibilidad" to "PUBLICA", "otra" to "1",
+            "diario-2010#visibilidad" to "CUALQUIERA")
+        org.junit.Assert.assertEquals(mapOf(2004 to "PUBLICA", 2008 to "SEGUIDORES"), com.rutaalacima.app.domain.model.DiarioVida.visibilidades(r))
+        org.junit.Assert.assertEquals("diario-2004#visibilidad", com.rutaalacima.app.domain.model.DiarioVida.clave(2004))
+    }
+
+    @org.junit.Test fun losAniosVanDelMasRecienteAlMasAntiguo() {
+        org.junit.Assert.assertEquals(listOf(2026, 2008, 2004, 1997),
+            com.rutaalacima.app.domain.model.DiarioVida.anios(setOf(2004, 2026, 2030), setOf(1997, 2008), 2026))
+    }
+}

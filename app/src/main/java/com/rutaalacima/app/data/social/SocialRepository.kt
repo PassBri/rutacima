@@ -107,13 +107,20 @@ class SocialRepository(
         eje: String?,
         visibilidad: Visibilidad,
         metaTitulo: String = "",
+        /** Año del recuerdo (por defecto, este año) y mes, para registrar recuerdos de años pasados. */
+        anio: Int = LocalDate.now().year,
+        mes: Int? = null,
     ): PublicacionEntity = withContext(Dispatchers.IO) {
         val id = UUID.randomUUID().toString()
         val ruta = foto?.let { guardarFoto(it, id) }.orEmpty()
+        val hoy = LocalDate.now()
+        // Un recuerdo de otro año (u otro mes) queda fechado a mitad de ese mes para verse en su lugar
+        val fecha = if (anio == hoy.year && (mes == null || mes == hoy.monthValue)) null
+            else LocalDate.of(anio, mes ?: 6, 15).atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli()
         var p = PublicacionEntity(
             id = id, tipo = tipo.name, texto = texto.trim(), foto = ruta, eje = eje,
-            anio = LocalDate.now().year, visibilidad = visibilidad.name, metaTitulo = metaTitulo,
-        )
+            anio = anio, visibilidad = visibilidad.name, metaTitulo = metaTitulo,
+        ).let { if (fecha != null) it.copy(creadaEn = fecha) else it }
         dao.upsert(p)
         if (enLinea && visibilidad != Visibilidad.PRIVADA) {
             runCatching { p = subir(p) }
@@ -133,6 +140,63 @@ class SocialRepository(
         val subida = p.copy(remoteId = p.id, fotoUrl = url)
         dao.upsert(subida)
         return subida
+    }
+
+    // ------------------------------------------------------------------ Diario de vida
+
+    /**
+     * Comparte (o deja de compartir) un año del diario. Con [incluirPrivados], los recuerdos de ese año
+     * marcados "Solo yo" pasan a la visibilidad elegida (y se suben si hay cuenta).
+     */
+    suspend fun compartirAnio(anio: Int, visibilidad: Visibilidad, incluirPrivados: Boolean) = withContext(Dispatchers.IO) {
+        if (incluirPrivados && visibilidad != Visibilidad.PRIVADA) {
+            dao.todas().filter { it.anio == anio && it.visibilidad == Visibilidad.PRIVADA.name }.forEach { p ->
+                val n = p.copy(visibilidad = visibilidad.name)
+                dao.upsert(n)
+                if (enLinea) runCatching { if (n.remoteId == null) subir(n) else actualizarRemota(n) }
+            }
+        }
+        val uid = supa.sesion.value?.userId
+        if (enLinea && uid != null) runCatching {
+            supa.upsert("diario_anios", buildJsonObject { put("user_id", uid); put("anio", anio); put("visibilidad", visibilidad.name) })
+        }
+    }
+
+    /** Cuántos recuerdos "Solo yo" tengo en un año. */
+    suspend fun privadosDe(anio: Int): Int = withContext(Dispatchers.IO) {
+        dao.todas().count { it.anio == anio && it.visibilidad == Visibilidad.PRIVADA.name }
+    }
+
+    private suspend fun actualizarRemota(p: PublicacionEntity) {
+        val uid = supa.sesion.value?.userId ?: return
+        supa.upsert("posts", buildJsonObject {
+            put("id", p.remoteId ?: p.id); put("user_id", uid); put("tipo", p.tipo); put("texto", p.texto)
+            put("image_url", p.fotoUrl); p.eje?.let { put("eje", it) }; put("anio", p.anio)
+            put("visibilidad", p.visibilidad); put("meta_titulo", p.metaTitulo)
+        })
+    }
+
+    /** Años que otra persona comparte en su diario (los que puedo ver), del más reciente al más antiguo. */
+    suspend fun aniosCompartidos(autorId: String): List<Pair<Int, Visibilidad>> = withContext(Dispatchers.IO) {
+        if (!enLinea) {
+            // Demostración: las personas de ejemplo comparten este año
+            return@withContext if (DemoComunidad.posts(context, emptySet()).any { it.autorId == autorId })
+                listOf(LocalDate.now().year to Visibilidad.PUBLICA) else emptyList()
+        }
+        supa.select("diario_anios", "select=anio,visibilidad&user_id=eq.$autorId&visibilidad=neq.PRIVADA&order=anio.desc").jsonArray.mapNotNull {
+            val o = it.jsonObject
+            val a = o["anio"]?.jsonPrimitive?.intOrNull ?: return@mapNotNull null
+            a to (runCatching { Visibilidad.valueOf(o["visibilidad"]!!.jsonPrimitive.content) }.getOrDefault(Visibilidad.PUBLICA))
+        }
+    }
+
+    /** El álbum de un año de otra persona: sus publicaciones de ese año que puedo ver. */
+    suspend fun albumDe(autorId: String, anio: Int): List<Post> = withContext(Dispatchers.IO) {
+        if (!enLinea) return@withContext DemoComunidad.posts(context, impulsados()).filter { it.autorId == autorId && it.anio == anio }
+        val uid = supa.sesion.value!!.userId
+        val filas = supa.select("posts", "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)" +
+            "&user_id=eq.$autorId&anio=eq.$anio&order=created_at.desc&limit=200").jsonArray
+        filas.map { filaAPost(it.jsonObject, uid, emptySet()) }.also(::recordar)
     }
 
     suspend fun eliminar(post: Post) {

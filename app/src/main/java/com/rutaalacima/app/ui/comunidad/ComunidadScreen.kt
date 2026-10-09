@@ -113,6 +113,8 @@ fun ComunidadScreen(
     onAbrirPost: (String) -> Unit,
     onPublicar: (String) -> Unit,
     onCuenta: () -> Unit,
+    /** Tocar el nombre de una persona abre su diario de vida (los años que comparte). */
+    onAutor: (String, String) -> Unit = { _, _ -> },
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
@@ -219,7 +221,7 @@ fun ComunidadScreen(
         }
         itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
             PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { cimasDesde = i },
-                guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) })
+                guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) })
         }
     }
 }

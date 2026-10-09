@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">Вершина! На этой неделе сообщество прошло 8 848 м.</string>
     <string name="cumbre_comunidad_aporte">Твой вклад: %1$s м</string>
     <string name="cumbre_comunidad_datos">%1$d публикаций · %2$d импульсов за неделю</string>
+    <string name="diario_titulo">Дневник жизни</string>
+    <string name="diario_sub">Твоя жизнь в альбомах, год за годом</string>
+    <string name="diario_vacio">Пока нет воспоминаний. Добавь первое в любой год своей жизни.</string>
+    <string name="album_recuerdos">Воспоминаний: %1$d</string>
+    <string name="album_quien">Кто может видеть этот год?</string>
+    <string name="album_nota_privada">Этот год видишь только ты.</string>
+    <string name="album_nota_seguidores">Твои подписчики видят этот год в дневнике.</string>
+    <string name="album_nota_publica">Любой участник сообщества видит этот год в твоём дневнике.</string>
+    <string name="album_incluir_titulo">Показать и личные воспоминания?</string>
+    <string name="album_incluir_texto">У тебя %1$d воспоминаний за %2$d с пометкой «Только я». Если включить их, они появятся в дневнике с выбранной видимостью.</string>
+    <string name="album_incluir_si">Включить</string>
+    <string name="album_incluir_no">Только уже открытое</string>
+    <string name="album_agregar">Добавить воспоминание за %1$d</string>
+    <string name="album_metas">Достигнутые цели</string>
+    <string name="album_ver">Открыть альбом %1$d</string>
+    <string name="diario_de">Дневник: %1$s</string>
+    <string name="diario_ajeno_vacio">%1$s пока не открыл(а) ни одного года дневника.</string>
+    <string name="diario_ver_autor">Открыть дневник жизни</string>
 </resources>

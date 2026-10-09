@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">¡Cumbre! Esta semana la comunidad ya pasó los 8.848 m.</string>
     <string name="cumbre_comunidad_aporte">Tu aporte: %1$s m</string>
     <string name="cumbre_comunidad_datos">%1$d publicaciones · %2$d impulsos esta semana</string>
+    <string name="diario_titulo">Diario de vida</string>
+    <string name="diario_sub">Tu vida en álbumes, año por año</string>
+    <string name="diario_vacio">Todavía no hay recuerdos. Registra el primero en cualquier año de tu vida.</string>
+    <string name="album_recuerdos">%1$d recuerdos</string>
+    <string name="album_quien">¿Quién puede ver este año?</string>
+    <string name="album_nota_privada">Solo tú ves este año.</string>
+    <string name="album_nota_seguidores">Tus seguidores pueden ver este año en tu diario.</string>
+    <string name="album_nota_publica">Cualquier persona de la comunidad puede ver este año en tu diario.</string>
+    <string name="album_incluir_titulo">¿Mostrar también tus recuerdos privados?</string>
+    <string name="album_incluir_texto">Tienes %1$d recuerdos de %2$d marcados como «Solo yo». Si los incluyes, se verán en tu diario con la visibilidad que elegiste.</string>
+    <string name="album_incluir_si">Incluirlos</string>
+    <string name="album_incluir_no">Solo lo ya compartido</string>
+    <string name="album_agregar">Agregar un recuerdo de %1$d</string>
+    <string name="album_metas">Metas cumplidas</string>
+    <string name="album_ver">Ver el álbum de %1$d</string>
+    <string name="diario_de">Diario de %1$s</string>
+    <string name="diario_ajeno_vacio">%1$s todavía no comparte años de su diario.</string>
+    <string name="diario_ver_autor">Ver su diario de vida</string>
 </resources>

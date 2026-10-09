@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">शिखर! इस हफ़्ते समुदाय 8,848 मी. पार कर गया।</string>
     <string name="cumbre_comunidad_aporte">आपका योगदान: %1$s मी.</string>
     <string name="cumbre_comunidad_datos">इस हफ़्ते %1$d पोस्ट · %2$d बढ़ावे</string>
+    <string name="diario_titulo">जीवन डायरी</string>
+    <string name="diario_sub">साल-दर-साल एल्बम में आपका जीवन</string>
+    <string name="diario_vacio">अभी कोई याद नहीं है। अपने जीवन के किसी भी साल में पहली याद दर्ज करें।</string>
+    <string name="album_recuerdos">%1$d यादें</string>
+    <string name="album_quien">यह साल कौन देख सकता है?</string>
+    <string name="album_nota_privada">यह साल सिर्फ़ आप देख सकते हैं।</string>
+    <string name="album_nota_seguidores">आपके फ़ॉलोअर आपकी डायरी में यह साल देख सकते हैं।</string>
+    <string name="album_nota_publica">समुदाय का कोई भी आपकी डायरी में यह साल देख सकता है।</string>
+    <string name="album_incluir_titulo">क्या अपनी निजी यादें भी दिखाएँ?</string>
+    <string name="album_incluir_texto">आपकी %2$d की %1$d यादें «सिर्फ़ मैं» पर हैं। शामिल करने पर वे चुनी गई दृश्यता के साथ डायरी में दिखेंगी।</string>
+    <string name="album_incluir_si">शामिल करें</string>
+    <string name="album_incluir_no">सिर्फ़ जो पहले से साझा है</string>
+    <string name="album_agregar">%1$d की एक याद जोड़ें</string>
+    <string name="album_metas">पूरे किए गए लक्ष्य</string>
+    <string name="album_ver">%1$d का एल्बम देखें</string>
+    <string name="diario_de">%1$s की डायरी</string>
+    <string name="diario_ajeno_vacio">%1$s ने अभी अपनी डायरी का कोई साल साझा नहीं किया।</string>
+    <string name="diario_ver_autor">उनकी जीवन डायरी देखें</string>
 </resources>

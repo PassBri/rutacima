@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">Gipfel! Diese Woche hat die Community 8.848 m überschritten.</string>
     <string name="cumbre_comunidad_aporte">Dein Beitrag: %1$s m</string>
     <string name="cumbre_comunidad_datos">%1$d Beiträge · %2$d Schübe diese Woche</string>
+    <string name="diario_titulo">Lebenstagebuch</string>
+    <string name="diario_sub">Dein Leben in Alben, Jahr für Jahr</string>
+    <string name="diario_vacio">Noch keine Erinnerungen. Halte die erste in einem beliebigen Jahr deines Lebens fest.</string>
+    <string name="album_recuerdos">%1$d Erinnerungen</string>
+    <string name="album_quien">Wer darf dieses Jahr sehen?</string>
+    <string name="album_nota_privada">Nur du siehst dieses Jahr.</string>
+    <string name="album_nota_seguidores">Deine Follower sehen dieses Jahr in deinem Tagebuch.</string>
+    <string name="album_nota_publica">Alle in der Community sehen dieses Jahr in deinem Tagebuch.</string>
+    <string name="album_incluir_titulo">Auch deine privaten Erinnerungen zeigen?</string>
+    <string name="album_incluir_texto">Du hast %1$d Erinnerungen aus %2$d auf „Nur ich“. Wenn du sie einbeziehst, erscheinen sie mit der gewählten Sichtbarkeit in deinem Tagebuch.</string>
+    <string name="album_incluir_si">Einbeziehen</string>
+    <string name="album_incluir_no">Nur bereits Geteiltes</string>
+    <string name="album_agregar">Erinnerung aus %1$d hinzufügen</string>
+    <string name="album_metas">Erreichte Ziele</string>
+    <string name="album_ver">Album %1$d ansehen</string>
+    <string name="diario_de">Tagebuch von %1$s</string>
+    <string name="diario_ajeno_vacio">%1$s teilt noch keine Jahre des Tagebuchs.</string>
+    <string name="diario_ver_autor">Lebenstagebuch ansehen</string>
 </resources>

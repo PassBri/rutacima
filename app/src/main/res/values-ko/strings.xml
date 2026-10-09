@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">정상! 이번 주 커뮤니티가 8,848m를 넘었어요.</string>
     <string name="cumbre_comunidad_aporte">나의 기여: %1$s m</string>
     <string name="cumbre_comunidad_datos">이번 주 게시물 %1$d · 응원 %2$d</string>
+    <string name="diario_titulo">인생 일기</string>
+    <string name="diario_sub">한 해 한 해 앨범으로 보는 인생</string>
+    <string name="diario_vacio">아직 추억이 없어요. 인생의 어느 해에든 첫 추억을 남겨 보세요.</string>
+    <string name="album_recuerdos">추억 %1$d개</string>
+    <string name="album_quien">이 해를 누가 볼 수 있나요?</string>
+    <string name="album_nota_privada">이 해는 나만 볼 수 있어요.</string>
+    <string name="album_nota_seguidores">팔로워가 내 일기에서 이 해를 볼 수 있어요.</string>
+    <string name="album_nota_publica">커뮤니티의 누구나 내 일기에서 이 해를 볼 수 있어요.</string>
+    <string name="album_incluir_titulo">비공개 추억도 보여 줄까요?</string>
+    <string name="album_incluir_texto">%2$d년 추억 %1$d개가 ‘나만 보기’예요. 포함하면 선택한 공개 범위로 일기에 보여요.</string>
+    <string name="album_incluir_si">포함하기</string>
+    <string name="album_incluir_no">이미 공유한 것만</string>
+    <string name="album_agregar">%1$d년 추억 추가</string>
+    <string name="album_metas">달성한 목표</string>
+    <string name="album_ver">%1$d년 앨범 보기</string>
+    <string name="diario_de">%1$s의 일기</string>
+    <string name="diario_ajeno_vacio">%1$s님은 아직 일기의 해를 공유하지 않았어요.</string>
+    <string name="diario_ver_autor">인생 일기 보기</string>
 </resources>

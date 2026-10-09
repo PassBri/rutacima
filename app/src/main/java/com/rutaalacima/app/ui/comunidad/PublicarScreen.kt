@@ -70,6 +70,9 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
     var eje by mutableStateOf<Eje?>(null)
     var visibilidad by mutableStateOf(Visibilidad.PUBLICA)
     var meta by mutableStateOf("")
+    /** Año y mes del recuerdo (null = hoy). */
+    var anio by mutableStateOf<Int?>(null)
+    var mes by mutableStateOf<Int?>(null)
     var metas by mutableStateOf<List<String>>(emptyList())
         private set
     var publicando by mutableStateOf(false)
@@ -90,7 +93,7 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
         if (texto.isBlank() && foto == null) return
         publicando = true
         viewModelScope.launch {
-            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta) }
+            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta, anio ?: hoy().year, mes) }
             publicando = false
             alTerminar()
         }
@@ -100,11 +103,12 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
 /** Publicar: foto + texto + tipo (logro, evidencia, vision board, meta, reflexión) + eje + meta vinculada. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String? = null, textoInicial: String? = null) {
-    val vm = rutaViewModel(key = "publicar-$tipoInicial-${metaInicial.orEmpty()}-${textoInicial.orEmpty().hashCode()}") { PublicarViewModel(it, tipoInicial) }
+fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String? = null, textoInicial: String? = null, anioInicial: Int? = null, mesInicial: Int? = null) {
+    val vm = rutaViewModel(key = "publicar-$tipoInicial-${metaInicial.orEmpty()}-${textoInicial.orEmpty().hashCode()}-${anioInicial}-${mesInicial}") { PublicarViewModel(it, tipoInicial) }
     androidx.compose.runtime.LaunchedEffect(metaInicial, textoInicial) {
         if (metaInicial != null && vm.meta.isBlank()) vm.meta = metaInicial
         if (textoInicial != null && vm.texto.isBlank()) vm.texto = textoInicial
+        if (anioInicial != null) { vm.anio = anioInicial; vm.mes = mesInicial }
     }
     val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.foto = uri }
 
@@ -114,7 +118,13 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
         topBar = {
             TopAppBar(
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
-                title = { Text(stringResource(R.string.nueva_publicacion)) },
+                title = {
+                    Column {
+                        Text(stringResource(R.string.nueva_publicacion))
+                        // Recuerdo de otro año: se guarda en ese año del diario de vida
+                        vm.anio?.takeIf { it != hoy().year }?.let { Text(stringResource(R.string.album_agregar, it), style = MaterialTheme.typography.labelMedium) }
+                    }
+                },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
                     if (vm.publicando) CircularProgressIndicator(Modifier.size(22.dp).padding(end = 4.dp), strokeWidth = 2.dp)

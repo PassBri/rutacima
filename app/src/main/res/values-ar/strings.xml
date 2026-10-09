@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">القمة! تجاوز المجتمع هذا الأسبوع 8848 م.</string>
     <string name="cumbre_comunidad_aporte">مساهمتك: %1$s م</string>
     <string name="cumbre_comunidad_datos">%1$d منشورات · %2$d دفعات هذا الأسبوع</string>
+    <string name="diario_titulo">يوميات الحياة</string>
+    <string name="diario_sub">حياتك في ألبومات، سنة بعد سنة</string>
+    <string name="diario_vacio">لا توجد ذكريات بعد. سجّل أولها في أي عام من حياتك.</string>
+    <string name="album_recuerdos">%1$d ذكريات</string>
+    <string name="album_quien">من يمكنه رؤية هذا العام؟</string>
+    <string name="album_nota_privada">أنت وحدك ترى هذا العام.</string>
+    <string name="album_nota_seguidores">يمكن لمتابعيك رؤية هذا العام في يومياتك.</string>
+    <string name="album_nota_publica">يمكن لأي شخص في المجتمع رؤية هذا العام في يومياتك.</string>
+    <string name="album_incluir_titulo">هل تعرض ذكرياتك الخاصة أيضًا؟</string>
+    <string name="album_incluir_texto">لديك %1$d ذكريات من %2$d مضبوطة على «أنا فقط». إذا أدرجتها فستظهر في يومياتك بالظهور الذي اخترته.</string>
+    <string name="album_incluir_si">أدرجها</string>
+    <string name="album_incluir_no">المشارك فقط</string>
+    <string name="album_agregar">أضف ذكرى من %1$d</string>
+    <string name="album_metas">أهداف منجزة</string>
+    <string name="album_ver">اعرض ألبوم %1$d</string>
+    <string name="diario_de">يوميات %1$s</string>
+    <string name="diario_ajeno_vacio">لم يشارك %1$s أي سنة من يومياته بعد.</string>
+    <string name="diario_ver_autor">اعرض يومياته</string>
 </resources>

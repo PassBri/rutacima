@@ -43,6 +43,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -117,6 +118,7 @@ fun PostCard(
     onAbrir: () -> Unit,
     guardado: Boolean = false,
     onGuardar: (() -> Unit)? = null,
+    onAutor: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -136,7 +138,8 @@ fun PostCard(
                 Avatar(post.autorNombre, post.avatarUrl, tamano = 36, forma = galleta)
             }
             Spacer(Modifier.width(10.dp))
-            Column(Modifier.weight(1f)) {
+            val clicAutor = if (onAutor != null && !post.propio) Modifier.clip(RoundedCornerShape(8.dp)).clickable(onClickLabel = stringResource(R.string.diario_ver_autor), onClick = onAutor) else Modifier
+            Column(Modifier.weight(1f).then(clicAutor)) {
                 Text(post.autorNombre, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(
                     listOfNotNull(post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" }, haceCuanto(post.creadoEn)).joinToString(" · "),

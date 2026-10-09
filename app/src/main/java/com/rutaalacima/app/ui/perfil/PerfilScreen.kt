@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PhotoLibrary
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Diversity3
@@ -162,6 +163,8 @@ fun PerfilScreen(
                 onSeleccion = { a, m -> if (a == anioSel && m == null && mesSel == null) anioSel = null else { anioSel = a; mesSel = m } },
                 onAbrir = onAbrirPost, onPublicar = onPublicar, onAjustes = onAjustes,
                 onMeta = { vm.cambiarMeta(it) },
+                onRecuerdo = { a, m -> onIrA(com.rutaalacima.app.ui.Rutas.publicar("LOGRO", anio = a, mes = m)) },
+                onAlbum = { onIrA(com.rutaalacima.app.ui.Rutas.album(it)) },
             )
             2 -> {
                 item {
@@ -244,6 +247,7 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
         R.string.perfil_grupo_ascenso to listOf(
             Acceso(R.string.metas, Icons.Filled.Flag, com.rutaalacima.app.ui.Rutas.planificador(0)),
             Acceso(R.string.constancia_titulo, Icons.Filled.LocalFireDepartment, com.rutaalacima.app.ui.Rutas.CONSTANCIA),
+            Acceso(R.string.diario_titulo, Icons.Filled.PhotoLibrary, com.rutaalacima.app.ui.Rutas.DIARIO),
             Acceso(R.string.revision_semana, Icons.Filled.EventRepeat,
                 com.rutaalacima.app.ui.Rutas.revision(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA, java.time.LocalDate.now())),
         ),

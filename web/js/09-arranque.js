@@ -17,7 +17,8 @@ async function mostrarVincular() {
     <div class="tarjeta-v"><div><h1>Usa Rutaalacima en tu computador</h1>
       <ol class="pasos"><li>Abre <b>Rutaalacima</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>Rutaalacima Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
       <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
-    <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""></div><div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
+    <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""><button class="qr-recargar" id="qrRecargar" hidden>${ic("ruta")}<span>Toca para generar un código nuevo</span></button></div>
+      ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
       <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
       : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
@@ -31,8 +32,27 @@ async function mostrarVincular() {
       $("codigoTxt").textContent = `${c.slice(0, 4)}-${c.slice(4)}`;
     } catch (e) { console.error(e); $("qrNota").textContent = "No se pudo crear el código. Revisa tu conexión y recarga la página."; }
   };
+  // Como en WhatsApp: el código cambia solo cada minuto (con una barra que se vacía) y, si nadie lo
+  // escanea en 5 minutos, se detiene hasta que toques para pedir uno nuevo.
+  const VIDA = 60, VUELTAS = 5;
+  let quedan = VIDA, vueltas = 0;
+  const pausar = () => {
+    clearInterval(renovar); $("qr").classList.add("vencido"); $("qrRecargar").hidden = false;
+    const barra = $("qrBarra"); if (barra) barra.style.transform = "scaleX(0)";
+    $("codigoTxt").textContent = "· · · ·"; $("qrNota").textContent = "El código se detuvo para ahorrar datos.";
+  };
+  const reloj = () => {
+    quedan--;
+    const barra = $("qrBarra"); if (barra) barra.style.transform = `scaleX(${Math.max(0, quedan / VIDA)})`;
+    if (quedan <= 0) { if (++vueltas >= VUELTAS) return pausar(); quedan = VIDA; nuevo(); }
+  };
+  $("qrRecargar").onclick = async () => {
+    $("qr").classList.remove("vencido"); $("qrRecargar").hidden = true; $("qrNota").textContent = "¿Sin cámara? Escribe este código en la app.";
+    vueltas = 0; quedan = VIDA; const barra = $("qrBarra"); if (barra) barra.style.transform = "scaleX(1)";
+    await nuevo(); clearInterval(renovar); renovar = setInterval(reloj, 1000);
+  };
   await nuevo();
-  renovar = setInterval(nuevo, 4.5 * 60000);
+  renovar = setInterval(reloj, 1000);
   sondeo = setInterval(async () => {
     try { if (await Store.nube.vinculo()) { clearInterval(sondeo); clearInterval(renovar); entrarReal(); } } catch {}
   }, 2500);

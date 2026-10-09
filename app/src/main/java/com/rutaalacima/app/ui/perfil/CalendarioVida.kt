@@ -72,6 +72,9 @@ fun LazyListScope.calendarioVida(
     onPublicar: (String) -> Unit,
     onAjustes: () -> Unit,
     onMeta: (Int) -> Unit,
+    /** Registrar un recuerdo en un año (y mes) concreto, y abrir el álbum de ese año. */
+    onRecuerdo: (anio: Int, mes: Int?) -> Unit = { _, _ -> onPublicar("LOGRO") },
+    onAlbum: (Int) -> Unit = {},
 ) {
     val anioNac = perfil.anioNacimiento
     val mesNac = perfil.mesNacimiento ?: 1
@@ -198,7 +201,8 @@ fun LazyListScope.calendarioVida(
     val anio = anioSel
     if (anio != null && anio in anioNac until anioNac + esperanza) {
         item(key = "vida-detalle-$anio") {
-            DetalleAnio(anio, anio - anioNac, mesSel, porAnio[anio].orEmpty(), onSeleccion, onAbrir, onPublicar, esFuturo = anio > h.year)
+            DetalleAnio(anio, anio - anioNac, mesSel, porAnio[anio].orEmpty(), onSeleccion, onAbrir, onPublicar, esFuturo = anio > h.year,
+                onRecuerdo = onRecuerdo, onAlbum = onAlbum)
         }
     }
 }
@@ -273,6 +277,8 @@ private fun DetalleAnio(
     onAbrir: (String) -> Unit,
     onPublicar: (String) -> Unit,
     esFuturo: Boolean,
+    onRecuerdo: (Int, Int?) -> Unit,
+    onAlbum: (Int) -> Unit,
 ) {
     val porMes = posts.groupBy { it.mes() }
     RutaCard(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
@@ -335,9 +341,11 @@ private fun DetalleAnio(
         if (esFuturo) {
             OutlinedButton(onClick = { onPublicar("VISION") }) { Text(stringResource(R.string.vida_sonar_anio)) }
         } else {
-            OutlinedButton(onClick = { onPublicar("LOGRO") }) {
+            OutlinedButton(onClick = { onRecuerdo(anio, mesSel) }) {
                 Icon(Icons.Filled.AddAPhoto, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.vida_registrar))
             }
+            Spacer(Modifier.height(8.dp))
+            BotonAlbum(anio, { onAlbum(anio) })
         }
     }
 }

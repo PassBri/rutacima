@@ -81,6 +81,7 @@ function pintarDetalle() {
   $("detalle").querySelectorAll(".det-cuerpo, .cimas").forEach((x, i) => { if (antes[i] !== undefined) x.scrollTop = antes[i]; });
   const abajo = $("detalle").querySelector(".det-cuerpo.abajo"); if (abajo) abajo.scrollTop = abajo.scrollHeight;
   pintarAudio();
+  window.Cielo?.pintarTodos();
 }
 
 const DET = {
@@ -98,7 +99,7 @@ const DET = {
       puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
     return cab(avSello(), `Camino hacia los ${metaVida()} años`, `${esc(perfil().nombre || "Tú")} · ${r.edad} años`) + cuerpo(
-      hoja(`<div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
+      hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
           <div><div class="cifra">${r.quedan.toLocaleString("es")}</div><div class="suave">días hasta los ${metaVida()}</div></div></div></div>

@@ -994,4 +994,22 @@
     <string name="cumbre_comunidad_logro">登顶！本周社区已超过 8848 米。</string>
     <string name="cumbre_comunidad_aporte">你的贡献：%1$s 米</string>
     <string name="cumbre_comunidad_datos">本周 %1$d 条帖子 · %2$d 次助力</string>
+    <string name="diario_titulo">生活日记</string>
+    <string name="diario_sub">按年份整理的人生相册</string>
+    <string name="diario_vacio">还没有回忆。在人生的任意一年记录第一条吧。</string>
+    <string name="album_recuerdos">%1$d 条回忆</string>
+    <string name="album_quien">谁可以看到这一年？</string>
+    <string name="album_nota_privada">只有你能看到这一年。</string>
+    <string name="album_nota_seguidores">你的关注者可以在日记中看到这一年。</string>
+    <string name="album_nota_publica">社区里的任何人都能在你的日记中看到这一年。</string>
+    <string name="album_incluir_titulo">也显示你的私密回忆吗？</string>
+    <string name="album_incluir_texto">你有 %1$d 条 %2$d 年的回忆设为“仅自己”。如果包含它们，它们会以你选择的可见范围显示在日记中。</string>
+    <string name="album_incluir_si">包含它们</string>
+    <string name="album_incluir_no">仅已分享的内容</string>
+    <string name="album_agregar">添加 %1$d 年的回忆</string>
+    <string name="album_metas">完成的目标</string>
+    <string name="album_ver">查看 %1$d 年相册</string>
+    <string name="diario_de">%1$s 的日记</string>
+    <string name="diario_ajeno_vacio">%1$s 还没有分享日记中的年份。</string>
+    <string name="diario_ver_autor">查看TA的生活日记</string>
 </resources>

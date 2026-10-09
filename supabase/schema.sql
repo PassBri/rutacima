@@ -1055,3 +1055,30 @@ drop policy if exists "notas del coach" on public.notas_coach;
 create policy "notas del coach" on public.notas_coach for all using (public.soy_coach_de(acomp_id)) with check (public.soy_coach_de(acomp_id));
 grant select, insert, delete on public.sesiones_coach to authenticated;
 grant select, insert, update, delete on public.notas_coach to authenticated;
+
+-- =====================================================================================
+-- Diario de vida: cada persona decide qué años de su vida (su álbum de ese año) comparte.
+-- Las publicaciones de ese año se siguen viendo según su propia visibilidad; esta tabla solo dice
+-- qué años aparecen en su diario y para quién (solo yo, seguidores o todos).
+-- =====================================================================================
+create table if not exists public.diario_anios (
+  user_id     uuid not null references public.profiles(id) on delete cascade,
+  anio        int  not null check (anio between 1900 and 2200),
+  visibilidad text not null default 'PRIVADA' check (visibilidad in ('PUBLICA','SEGUIDORES','PRIVADA')),
+  actualizado timestamptz not null default now(),
+  primary key (user_id, anio)
+);
+alter table public.diario_anios enable row level security;
+
+drop policy if exists "ver diarios" on public.diario_anios;
+create policy "ver diarios" on public.diario_anios for select using (
+  user_id = public.yo()
+  or (not public.bloqueados(public.yo(), user_id)
+      and (visibilidad = 'PUBLICA'
+           or (visibilidad = 'SEGUIDORES' and exists (
+                 select 1 from public.follows f where f.follower_id = public.yo() and f.followed_id = diario_anios.user_id)))));
+drop policy if exists "mi diario" on public.diario_anios;
+create policy "mi diario" on public.diario_anios for all
+  using (user_id = public.yo()) with check (user_id = public.yo());
+grant select, insert, update, delete on public.diario_anios to authenticated;
+grant select on public.diario_anios to anon;
