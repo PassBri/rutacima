@@ -14,8 +14,8 @@ import kotlin.math.max
  *    el bloque central y en el centro de su propio bloque, igual que en el método original.
  *  - 64 pasos: 8 por campamento, cada uno se escribe y se marca cuando se cumple.
  *
- * En 3D la cuadrícula se vuelve montaña: cuanto más cerca del centro, más alto; los pasos crecen
- * cuando se escriben y cuando se cumplen, así la montaña sube con el avance.
+ * El bloque central del 9×9 ES el vision board (sus 9 casillas): al armar el tablero se arma la
+ * mandala, y se puede compartir como imagen en la comunidad.
  *
  * Los pasos se guardan como respuestas ("mandala#<casilla>#<n>", "...#hecho" con la fecha en que se
  * ganó, "...#jornadas" y "...#req"), así viajan a la web y a las copias de seguridad sin tablas nuevas.
@@ -62,21 +62,8 @@ object Mandala {
     /** Distancia al centro en anillos (0 en la cumbre, 4 en el borde). */
     fun anillo(fila: Int, col: Int) = max(abs(fila - 4), abs(col - 4))
 
-    /** Estado de un paso para dibujar la montaña. */
+    /** Estado de un paso en la cuadrícula. */
     enum class EstadoPaso { VACIO, ESCRITO, HECHO }
-
-    /**
-     * Altura de la celda en la montaña 3D (en "pisos"). La base escalonada va de 1 (borde) a 5
-     * (cumbre); los campamentos sobresalen un poco y los pasos crecen al escribirse y al cumplirse.
-     */
-    fun altura(c: Celda, estado: EstadoPaso = EstadoPaso.VACIO, avance: Float = 0f): Float {
-        val base = (5 - anillo(c.fila, c.col)).toFloat()
-        return when (c.tipo) {
-            Tipo.CUMBRE -> base + 0.8f
-            Tipo.CAMPAMENTO -> base + 0.3f
-            Tipo.PASO -> base * when (estado) { EstadoPaso.VACIO -> 0.6f; EstadoPaso.ESCRITO -> 0.7f + 0.25f * avance.coerceIn(0f, 1f); EstadoPaso.HECHO -> 1f }
-        }
-    }
 
     data class Progreso(val escritos: Int, val hechos: Int) {
         val total get() = CAMPAMENTOS * PASOS

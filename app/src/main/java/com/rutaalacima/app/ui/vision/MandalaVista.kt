@@ -24,7 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
@@ -70,6 +70,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
+import com.rutaalacima.app.data.social.Visibilidad
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.MetodoCima
 import java.io.File
@@ -103,13 +104,12 @@ class DatosMandala(
     val pasos: List<MetodoCima.Paso> = MetodoCima.pasosDe(campamentos.map { it.casilla.id }, respuestas)
     val ritmo: MetodoCima.Estado = MetodoCima.calcular(pasos, LocalDate.now())
     fun pasoCima(i: Int, p: Int): MetodoCima.Paso = pasos[i * Mandala.PASOS + p]
-    fun avance(i: Int, p: Int): Float = MetodoCima.avance(pasoCima(i, p), ritmo.dificultad)
     val tituloCumbre: String get() = cumbre?.casilla?.afirmacion?.ifBlank { null } ?: cumbreTexto
 }
 
 /**
- * La mandala 9×9 dentro del vision board: vista plana para escribir y marcar los pasos, y vista
- * 3D en la que la cuadrícula es una montaña escalonada que crece con el avance.
+ * El 9×9 del vision board: el bloque central son las 9 casillas del tablero (la cumbre y los 8
+ * campamentos) y cada campamento abre su bloque con 8 pasos. Se puede compartir como imagen.
  */
 @Composable
 fun MandalaSeccion(
@@ -118,34 +118,29 @@ fun MandalaSeccion(
     onAvanzar: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit,
     onAgregarCampamento: () -> Unit,
+    onCompartir: (Visibilidad) -> Unit,
+    compartiendo: Boolean,
 ) {
-    var en3d by rememberSaveable { mutableStateOf(false) }
     var bloque by rememberSaveable { mutableStateOf(4) }
     var editando by remember { mutableStateOf<Pair<Int, Int>?>(null) }
+    var preguntarCompartir by remember { mutableStateOf(false) }
     val pr = datos.progreso
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text(stringResource(R.string.mandala_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
+        Cuadricula(datos, bloque) { bloque = it }
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
+        Button(onClick = { preguntarCompartir = true }, enabled = !compartiendo && datos.campamentos.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
+            Icon(Icons.Filled.Share, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
+            Text(stringResource(if (compartiendo) R.string.mandala_compartiendo else R.string.mandala_compartir))
+        }
         RitmoCima(datos.ritmo)
-        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            SegmentedButton(selected = !en3d, onClick = { en3d = false }, shape = SegmentedButtonDefaults.itemShape(0, 2),
-                icon = { Icon(Icons.Filled.GridView, null, Modifier.size(18.dp)) }) { Text(stringResource(R.string.mandala_2d)) }
-            SegmentedButton(selected = en3d, onClick = { en3d = true }, shape = SegmentedButtonDefaults.itemShape(1, 2),
-                icon = { Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)) }) { Text(stringResource(R.string.mandala_3d)) }
-        }
-        if (en3d) {
-            Montana3D(datos)
-            Text(stringResource(R.string.mandala_3d_ayuda), style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-        } else {
-            Cuadricula(datos, bloque) { bloque = it }
-            Text(stringResource(R.string.mandala_toca_bloque), style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { i, p -> editando = i to p },
-                onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento)
-        }
+        Text(stringResource(R.string.mandala_toca_bloque), style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { i, p -> editando = i to p },
+            onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento)
     }
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
@@ -156,6 +151,20 @@ fun MandalaSeccion(
             onCancelar = { editando = null },
         ) }
     }
+    if (preguntarCompartir) AlertDialog(
+        onDismissRequest = { preguntarCompartir = false },
+        title = { Text(stringResource(R.string.mandala_compartir)) },
+        text = { Text(stringResource(R.string.mandala_compartir_ayuda)) },
+        confirmButton = {
+            TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.PUBLICA) }) { Text(stringResource(R.string.mandala_compartir_publico)) }
+        },
+        dismissButton = {
+            Row {
+                TextButton(onClick = { preguntarCompartir = false }) { Text(stringResource(R.string.cancelar)) }
+                TextButton(onClick = { preguntarCompartir = false; onCompartir(Visibilidad.SEGUIDORES) }) { Text(stringResource(R.string.mandala_compartir_seguidores)) }
+            }
+        },
+    )
 }
 
 private fun modeloFoto(f: String): Any = if (f.startsWith("http")) f else File(f)
@@ -349,92 +358,4 @@ private fun EditarPaso(
         confirmButton = { TextButton(onClick = { onGuardar(t) }) { Text(stringResource(R.string.guardar)) } },
         dismissButton = { TextButton(onClick = onCancelar) { Text(stringResource(R.string.cancelar)) } },
     )
-}
-
-/**
- * La mandala como montaña: 81 columnas en perspectiva, más altas hacia la cumbre. Se dibuja de
- * atrás hacia adelante (algoritmo del pintor) y gira sola hasta que la persona la arrastra.
- */
-@Composable
-private fun Montana3D(datos: DatosMandala) {
-    var angulo by remember { mutableFloatStateOf((PI / 5).toFloat()) }
-    var inclinacion by remember { mutableFloatStateOf(0.75f) }
-    var girarSola by remember { mutableStateOf(true) }
-    LaunchedEffect(girarSola) {
-        var antes = 0L
-        while (girarSola) withFrameNanos { t ->
-            if (antes != 0L) angulo += (t - antes) / 1e9f * 0.25f
-            antes = t
-        }
-    }
-    val vacio = MaterialTheme.colorScheme.surfaceVariant
-    val pr = datos.progreso
-    val descripcion = stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos)
-    // Cada columna: celda, altura y color de la cara de arriba
-    val columnas = Mandala.CELDAS.map { cel ->
-        val estado = if (cel.tipo == Mandala.Tipo.PASO) datos.estado(cel.campamento, cel.paso) else Mandala.EstadoPaso.HECHO
-        val color = when (cel.tipo) {
-            Mandala.Tipo.CUMBRE -> NIEVE
-            Mandala.Tipo.CAMPAMENTO -> if (datos.casilla(cel.campamento) != null) datos.color(cel.campamento) else vacio
-            Mandala.Tipo.PASO -> when (estado) {
-                Mandala.EstadoPaso.VACIO -> vacio
-                Mandala.EstadoPaso.ESCRITO -> lerp(vacio, datos.color(cel.campamento), 0.35f)
-                Mandala.EstadoPaso.HECHO -> lerp(datos.color(cel.campamento), ORO, 0.25f)
-            }
-        }
-        val avance = if (cel.tipo == Mandala.Tipo.PASO) datos.avance(cel.campamento, cel.paso) else 0f
-        Triple(cel, Mandala.altura(cel, estado, avance), color)
-    }
-    Canvas(
-        Modifier.fillMaxWidth().aspectRatio(1f)
-            .clip(RoundedCornerShape(20.dp))
-            .background(Brush.verticalGradient(listOf(Color(0xFFDDE7F0), Color(0xFFF6EBDD))))
-            .semantics { contentDescription = descripcion }
-            .pointerInput(Unit) {
-                detectDragGestures(onDragStart = { girarSola = false }) { cambio, d ->
-                    cambio.consume()
-                    angulo += d.x * 0.01f
-                    inclinacion = (inclinacion - d.y * 0.004f).coerceIn(0.25f, 1.25f)
-                }
-            },
-    ) {
-        val s = size.width / 13.5f
-        val cx = size.width / 2; val cy = size.height * 0.60f
-        val ca = cos(angulo); val sa = sin(angulo)
-        val st = sin(inclinacion); val ct = cos(inclinacion)
-        val zEsc = 1.0f
-        fun p(x: Float, y: Float, z: Float): Offset {
-            val rx = x * ca - y * sa; val ry = x * sa + y * ca
-            return Offset(cx + rx * s, cy + ry * s * st - z * zEsc * s * ct)
-        }
-        fun cara(pts: List<Offset>, color: Color) {
-            val path = Path().apply { moveTo(pts[0].x, pts[0].y); pts.drop(1).forEach { lineTo(it.x, it.y) }; close() }
-            drawPath(path, color)
-            drawPath(path, Color(0x22000000), style = Stroke(width = 0.6f))
-        }
-        val m = 0.47f
-        columnas.sortedBy { (cel, _, _) -> val x = cel.col - 4f; val y = cel.fila - 4f; x * sa + y * ca }.forEach { (cel, alto, color) ->
-            val x = cel.col - 4f; val y = cel.fila - 4f
-            // Caras laterales que miran hacia quien observa (normal con componente hacia adelante)
-            listOf(
-                Triple(0f, 1f, listOf(x - m to y + m, x + m to y + m)),
-                Triple(0f, -1f, listOf(x + m to y - m, x - m to y - m)),
-                Triple(1f, 0f, listOf(x + m to y + m, x + m to y - m)),
-                Triple(-1f, 0f, listOf(x - m to y - m, x - m to y + m)),
-            ).forEach { (nx, ny, borde) ->
-                val haciaAdelante = nx * sa + ny * ca
-                if (haciaAdelante > 0f) {
-                    val luz = 0.55f + 0.25f * (nx * ca - ny * sa).coerceIn(-1f, 1f)
-                    val (a, b) = borde
-                    cara(listOf(p(a.first, a.second, 0f), p(b.first, b.second, 0f), p(b.first, b.second, alto), p(a.first, a.second, alto)),
-                        lerp(Color.Black, color, luz))
-                }
-            }
-            cara(listOf(p(x - m, y - m, alto), p(x + m, y - m, alto), p(x + m, y + m, alto), p(x - m, y + m, alto)), color)
-            if (cel.tipo == Mandala.Tipo.CUMBRE) {
-                val c = p(x, y, alto)
-                drawCircle(ORO, radius = s * 0.18f, center = c)
-            }
-        }
-    }
 }

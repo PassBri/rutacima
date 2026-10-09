@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">उनकी जीवन डायरी देखें</string>
     <string name="cumbre_comunidad_valor">आज एक पोस्ट %1$s मिमी और एक बढ़ावा %2$s मिमी के बराबर है</string>
     <string name="mandala_tablero">बोर्ड</string>
-    <string name="mandala_titulo">9×9 मंडला</string>
-    <string name="mandala_intro">9×9 ग्रिड (मंडला चार्ट), वह तरीका जिससे शोहेई ओहतानी ने अपना करियर बनाया: बीच में आपका शिखर, चारों ओर आपके 8 पड़ाव (विज़न बोर्ड के खाने) और हर एक के लिए 8 कदम। शिखर तक 64 कदम।</string>
+    <string name="mandala_titulo">आपका 9×9</string>
+    <string name="mandala_intro">आपका विज़न बोर्ड आपके 9×9 का केंद्र है: बीच में शिखर और चारों ओर 8 खाने। हर खाना 8 कदमों का पड़ाव है; बोर्ड बनाते ही कदम भर जाते हैं और आप उन्हें बदल सकते हैं।</string>
     <string name="mandala_progreso">64 में से %1$d कदम लिखे · %2$d कमाए</string>
     <string name="mandala_2d">ग्रिड</string>
     <string name="mandala_3d">3D पहाड़</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">आज आगे बढ़ा</string>
     <string name="metodo_ya_hoy">आज गिना जा चुका है</string>
     <string name="metodo_ganado">कदम कमाया</string>
+    <string name="mandala_compartir">अपना 9×9 समुदाय में साझा करें</string>
+    <string name="mandala_compartiendo">छवि तैयार हो रही है…</string>
+    <string name="mandala_compartir_ayuda">आपके शिखर, विज़न बोर्ड की तस्वीरों और कदमों के साथ आपके 9×9 की छवि पोस्ट होगी। इसे कौन देख सकता है?</string>
+    <string name="mandala_compartir_publico">सभी</string>
+    <string name="mandala_compartir_seguidores">मेरे फ़ॉलोअर</string>
+    <string name="mandala_compartido">आपका 9×9 अब समुदाय में है</string>
+    <string name="mandala_no_compartido">साझा नहीं हो सका। फिर कोशिश करें।</string>
+    <string name="mandala_imagen_etiqueta">मेरा 9×9 · सिमा पद्धति</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · सिमा 9×52</string>
+    <string name="mandala_casillas_titulo">बीच के 9 खाने</string>
 </resources>

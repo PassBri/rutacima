@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Voir son journal de vie</string>
     <string name="cumbre_comunidad_valor">Aujourd\'hui une publication vaut %1$s mm et un élan %2$s mm</string>
     <string name="mandala_tablero">Tableau</string>
-    <string name="mandala_titulo">Mandala 9×9</string>
-    <string name="mandala_intro">La grille 9×9 (Mandala Chart), la méthode avec laquelle Shohei Ohtani a planifié sa carrière : ton sommet au centre, tes 8 camps autour (les cases de ton vision board) et 8 pas pour chacun. 64 pas vers ton sommet.</string>
+    <string name="mandala_titulo">Ton 9×9</string>
+    <string name="mandala_intro">Ton vision board est le centre de ton 9×9 : ton sommet au milieu et tes 8 cases autour. Chaque case est un camp de 8 pas ; quand tu montes le tableau, les pas se remplissent et tu les ajustes.</string>
     <string name="mandala_progreso">%1$d pas sur 64 écrits · %2$d gagnés</string>
     <string name="mandala_2d">Grille</string>
     <string name="mandala_3d">Montagne 3D</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">J\'ai avancé aujourd\'hui</string>
     <string name="metodo_ya_hoy">Aujourd\'hui compte déjà</string>
     <string name="metodo_ganado">Pas gagné</string>
+    <string name="mandala_compartir">Partager mon 9×9 avec la communauté</string>
+    <string name="mandala_compartiendo">Préparation de l\'image…</string>
+    <string name="mandala_compartir_ayuda">Une image de ton 9×9 est publiée avec ton sommet, les photos de ton vision board et tes pas. Qui peut la voir ?</string>
+    <string name="mandala_compartir_publico">Tout le monde</string>
+    <string name="mandala_compartir_seguidores">Mes abonnés</string>
+    <string name="mandala_compartido">Ton 9×9 est dans la communauté</string>
+    <string name="mandala_no_compartido">Impossible de partager. Réessaie.</string>
+    <string name="mandala_imagen_etiqueta">Mon 9×9 · Méthode Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Méthode Cima 9×52</string>
+    <string name="mandala_casillas_titulo">Les 9 cases du centre</string>
 </resources>

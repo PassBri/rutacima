@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">인생 일기 보기</string>
     <string name="cumbre_comunidad_valor">오늘 게시물 하나는 %1$s mm, 응원 하나는 %2$s mm</string>
     <string name="mandala_tablero">보드</string>
-    <string name="mandala_titulo">9×9 만다라트</string>
-    <string name="mandala_intro">9×9 칸(만다라트), 오타니 쇼헤이가 커리어를 계획한 방법이에요. 가운데에 나의 정상, 주변에 8개의 캠프(비전 보드 칸), 각 캠프마다 8단계. 정상까지 64단계.</string>
+    <string name="mandala_titulo">나의 9×9</string>
+    <string name="mandala_intro">비전 보드가 9×9의 중심이에요. 가운데 정상, 주변에 8개의 칸. 각 칸은 8단계짜리 캠프이고, 보드를 만들면 단계가 자동으로 채워져요.</string>
     <string name="mandala_progreso">64단계 중 %1$d 작성 · %2$d 획득</string>
     <string name="mandala_2d">격자</string>
     <string name="mandala_3d">3D 산</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">오늘 나아갔어요</string>
     <string name="metodo_ya_hoy">오늘은 이미 기록됨</string>
     <string name="metodo_ganado">단계 획득</string>
+    <string name="mandala_compartir">9×9를 커뮤니티에 공유</string>
+    <string name="mandala_compartiendo">이미지 준비 중…</string>
+    <string name="mandala_compartir_ayuda">정상, 비전 보드 사진, 단계가 담긴 9×9 이미지가 게시돼요. 누가 볼 수 있나요?</string>
+    <string name="mandala_compartir_publico">모두</string>
+    <string name="mandala_compartir_seguidores">팔로워</string>
+    <string name="mandala_compartido">9×9가 커뮤니티에 올라갔어요</string>
+    <string name="mandala_no_compartido">공유하지 못했어요. 다시 시도해 주세요.</string>
+    <string name="mandala_imagen_etiqueta">나의 9×9 · Cima 방법</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima 9×52</string>
+    <string name="mandala_casillas_titulo">가운데 9칸</string>
 </resources>

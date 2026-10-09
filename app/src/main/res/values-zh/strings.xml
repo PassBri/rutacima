@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">查看TA的生活日记</string>
     <string name="cumbre_comunidad_valor">今天一条帖子值 %1$s 毫米，一次助力 %2$s 毫米</string>
     <string name="mandala_tablero">看板</string>
-    <string name="mandala_titulo">9×9 曼陀罗</string>
-    <string name="mandala_intro">9×9 方格（曼陀罗图），大谷翔平规划职业生涯的方法：中心是你的顶峰，周围是你的 8 个营地（愿景板的格子），每个营地 8 步。共 64 步通往顶峰。</string>
+    <string name="mandala_titulo">你的 9×9</string>
+    <string name="mandala_intro">你的愿景板就是 9×9 的中心：顶峰在中间，8 个格子围绕。每个格子是一个有 8 步的营地；搭建看板时，步骤会自动填好，你再调整。</string>
     <string name="mandala_progreso">已写 %1$d / 64 步 · 赢得 %2$d</string>
     <string name="mandala_2d">方格</string>
     <string name="mandala_3d">3D 山峰</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">今天推进了</string>
     <string name="metodo_ya_hoy">今天已计入</string>
     <string name="metodo_ganado">步骤已赢得</string>
+    <string name="mandala_compartir">把我的 9×9 分享到社区</string>
+    <string name="mandala_compartiendo">正在生成图片…</string>
+    <string name="mandala_compartir_ayuda">将发布一张包含你的顶峰、愿景板照片和步骤的 9×9 图片。谁可以看到？</string>
+    <string name="mandala_compartir_publico">所有人</string>
+    <string name="mandala_compartir_seguidores">我的关注者</string>
+    <string name="mandala_compartido">你的 9×9 已发布到社区</string>
+    <string name="mandala_no_compartido">分享失败，请重试。</string>
+    <string name="mandala_imagen_etiqueta">我的 9×9 · Cima 方法</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima 9×52 方法</string>
+    <string name="mandala_casillas_titulo">中心的 9 个格子</string>
 </resources>

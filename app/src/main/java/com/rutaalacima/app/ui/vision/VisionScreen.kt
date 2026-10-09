@@ -88,6 +88,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+import com.rutaalacima.app.data.social.Visibilidad
+import com.rutaalacima.app.data.social.TipoPost
+import androidx.compose.runtime.LaunchedEffect
 import java.io.File
 
 /** Una casilla con la foto que la llena (ruta local o URL), si ya la tiene. */
@@ -106,7 +111,36 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     fun armar() = viewModelScope.launch {
         armando = true
         conIa = runCatching { c.vision.armar() }.getOrDefault(false)
+        llenarCampamentosVacios()
         armando = false
+    }
+
+    /**
+     * Al llenar el vision board se llena el 9×9: cada campamento que todavía no tiene ningún paso
+     * recibe 8 pasos sugeridos (las acciones de su propósito y el banco de acciones de su eje).
+     */
+    private suspend fun llenarCampamentosVacios() {
+        val todas = c.vision.casillas.first().sortedWith(compareBy({ it.orden }, { it.id }))
+        val (_, campamentos) = Mandala.repartir(todas) { it.origen }
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        campamentos.filter { cs -> (0 until Mandala.PASOS).all { r[Mandala.clave(cs.id, it)].isNullOrBlank() } }
+            .forEach { llenarPasos(it, r) }
+    }
+
+    var compartiendo by mutableStateOf(false)
+        private set
+    /** null = nada; true = publicado; false = no se pudo. */
+    var compartido by mutableStateOf<Boolean?>(null)
+
+    /** Publica la imagen del 9×9 en la comunidad como publicación de visión. */
+    fun compartirMandala(ctx: android.content.Context, datos: DatosMandala, textos: MandalaImagen.Textos, vis: Visibilidad) = viewModelScope.launch {
+        compartiendo = true
+        compartido = runCatching {
+            val f = withContext(Dispatchers.Default) { MandalaImagen.generar(ctx.applicationContext, datos, textos) }
+            c.social.publicar(TipoPost.VISION, datos.tituloCumbre + "\n#MetodoCima9x52", Uri.fromFile(f), null, vis, metaTitulo = textos.etiqueta)
+            f.delete()
+        }.isSuccess
+        compartiendo = false
     }
 
     /** Pasos de la mandala 9×9 (respuestas del workbook "mandala"). */
@@ -129,8 +163,10 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     /** Llena los pasos vacíos de un campamento: primero las acciones de su propósito, luego el banco de acciones de su eje. */
-    fun sugerirPasos(casilla: VisionCasillaEntity) = viewModelScope.launch {
-        val actuales = List(Mandala.PASOS) { mandala.value[Mandala.clave(casilla.id, it)].orEmpty() }
+    fun sugerirPasos(casilla: VisionCasillaEntity) = viewModelScope.launch { llenarPasos(casilla, c.respuestas.cargar(Mandala.WORKBOOK)) }
+
+    private suspend fun llenarPasos(casilla: VisionCasillaEntity, r: Map<String, String>) {
+        val actuales = List(Mandala.PASOS) { r[Mandala.clave(casilla.id, it)].orEmpty() }
         val sugerencias = buildList {
             if (casilla.origen.startsWith("proposito:")) casilla.origen.removePrefix("proposito:").toLongOrNull()?.let { id ->
                 addAll(c.planificador.acciones(id).first().map { it.texto })
@@ -144,7 +180,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
 
     fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }
     fun guardar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.guardar(cv) }
-    fun nueva(t: String, a: String, s: String) = viewModelScope.launch { c.vision.nueva(t, a, s) }
+    fun nueva(t: String, a: String, s: String) = viewModelScope.launch { c.vision.nueva(t, a, s); llenarCampamentosVacios() }
     fun borrar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.borrar(cv) }
 }
 
@@ -174,7 +210,6 @@ fun VisionScreen(onBack: () -> Unit) {
         runCatching { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(VisionBoard.urlIdeas(c.busqueda)))) }
     }
     val conFoto = casillas.count { it.foto != null }
-    var verMandala by rememberSaveable { mutableStateOf(false) }
     val pasos by vm.mandala.collectAsStateWithLifecycle()
     val cumbreFrase by vm.cumbreFrase.collectAsStateWithLifecycle()
 
@@ -201,27 +236,7 @@ fun VisionScreen(onBack: () -> Unit) {
         ) {
             item(span = { GridItemSpan(2) }) {
                 RutaCard {
-                    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                        SegmentedButton(selected = !verMandala, onClick = { verMandala = false }, shape = SegmentedButtonDefaults.itemShape(0, 2)) {
-                            Text(stringResource(R.string.mandala_tablero))
-                        }
-                        SegmentedButton(selected = verMandala, onClick = { verMandala = true }, shape = SegmentedButtonDefaults.itemShape(1, 2)) {
-                            Text(stringResource(R.string.mandala_titulo))
-                        }
-                    }
-                    Spacer(Modifier.height(10.dp))
-                    if (verMandala) {
-                        val (cumbre, campamentos) = Mandala.repartir(casillas) { it.casilla.origen }
-                        MandalaSeccion(
-                            DatosMandala(cumbre, cumbreFrase, campamentos, pasos),
-                            onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
-                            onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it.casilla.id }) },
-                            onSugerir = { vm.sugerirPasos(it) },
-                            onAgregarCampamento = { creando = true },
-                        )
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    if (!verMandala || casillas.isEmpty()) Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
                     Spacer(Modifier.height(10.dp))
                     if (casillas.isNotEmpty()) {
                         Text(stringResource(R.string.vision_progreso, conFoto, casillas.size), style = MaterialTheme.typography.labelLarge,
@@ -253,7 +268,32 @@ fun VisionScreen(onBack: () -> Unit) {
                     }
                 }
             }
-            if (!verMandala) items(casillas, key = { it.casilla.id }) { cv ->
+            if (casillas.isNotEmpty()) item(span = { GridItemSpan(2) }) {
+                val (cumbre, campamentos) = Mandala.repartir(casillas) { it.casilla.origen }
+                val datos = DatosMandala(cumbre, cumbreFrase, campamentos, pasos)
+                val nf = java.text.NumberFormat.getIntegerInstance()
+                val textos = MandalaImagen.Textos(
+                    etiqueta = stringResource(R.string.mandala_imagen_etiqueta),
+                    avance = stringResource(R.string.mandala_progreso, datos.progreso.escritos, datos.progreso.hechos),
+                    montana = stringResource(R.string.metodo_altura, nf.format(datos.ritmo.mm)),
+                    marca = stringResource(R.string.mandala_imagen_marca),
+                )
+                RutaCard {
+                    MandalaSeccion(
+                        datos,
+                        onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
+                        onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it.casilla.id }) },
+                        onSugerir = { vm.sugerirPasos(it) },
+                        onAgregarCampamento = { creando = true },
+                        onCompartir = { vis -> vm.compartirMandala(ctx, datos, textos, vis) },
+                        compartiendo = vm.compartiendo,
+                    )
+                }
+            }
+            if (casillas.isNotEmpty()) item(span = { GridItemSpan(2) }) {
+                Text(stringResource(R.string.mandala_casillas_titulo), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            }
+            items(casillas, key = { it.casilla.id }) { cv ->
                 Casilla(cv, onFoto = { pedirFoto(cv.casilla) }, onIdeas = { ideas(cv.casilla) }, onEditar = { editando = cv.casilla })
             }
             if (casillas.isNotEmpty()) {
@@ -262,6 +302,13 @@ fun VisionScreen(onBack: () -> Unit) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
+        }
+    }
+
+    vm.compartido?.let { ok ->
+        LaunchedEffect(ok) {
+            android.widget.Toast.makeText(ctx, ctx.getString(if (ok) R.string.mandala_compartido else R.string.mandala_no_compartido), android.widget.Toast.LENGTH_LONG).show()
+            vm.compartido = null
         }
     }
 

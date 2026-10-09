@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Vedi il suo diario di vita</string>
     <string name="cumbre_comunidad_valor">Oggi un post vale %1$s mm e uno slancio %2$s mm</string>
     <string name="mandala_tablero">Bacheca</string>
-    <string name="mandala_titulo">Mandala 9×9</string>
-    <string name="mandala_intro">La griglia 9×9 (Mandala Chart), il metodo con cui Shohei Ohtani ha pianificato la sua carriera: la tua vetta al centro, i tuoi 8 campi intorno (le caselle del tuo vision board) e 8 passi per ciascuno. 64 passi verso la cima.</string>
+    <string name="mandala_titulo">Il tuo 9×9</string>
+    <string name="mandala_intro">Il tuo vision board è il centro del tuo 9×9: la tua vetta in mezzo e le tue 8 caselle intorno. Ogni casella è un campo con 8 passi; quando crei la bacheca, i passi si riempiono e tu li adatti.</string>
     <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d conquistati</string>
     <string name="mandala_2d">Griglia</string>
     <string name="mandala_3d">Montagna 3D</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">Oggi sono andato avanti</string>
     <string name="metodo_ya_hoy">Oggi conta già</string>
     <string name="metodo_ganado">Passo conquistato</string>
+    <string name="mandala_compartir">Condividi il mio 9×9 nella comunità</string>
+    <string name="mandala_compartiendo">Preparo l\'immagine…</string>
+    <string name="mandala_compartir_ayuda">Viene pubblicata un\'immagine del tuo 9×9 con la vetta, le foto del vision board e i passi. Chi può vederla?</string>
+    <string name="mandala_compartir_publico">Tutti</string>
+    <string name="mandala_compartir_seguidores">I miei follower</string>
+    <string name="mandala_compartido">Il tuo 9×9 è nella comunità</string>
+    <string name="mandala_no_compartido">Impossibile condividere. Riprova.</string>
+    <string name="mandala_imagen_etiqueta">Il mio 9×9 · Metodo Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Metodo Cima 9×52</string>
+    <string name="mandala_casillas_titulo">Le 9 caselle del centro</string>
 </resources>

@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">اعرض يومياته</string>
     <string name="cumbre_comunidad_valor">اليوم يساوي المنشور %1$s مم والدفعة %2$s مم</string>
     <string name="mandala_tablero">اللوحة</string>
-    <string name="mandala_titulo">ماندالا 9×9</string>
-    <string name="mandala_intro">شبكة 9×9 (مخطط الماندالا)، الطريقة التي خطط بها شوهي أوتاني لمسيرته: قمتك في المركز، ومعسكراتك الثمانية حولها (خانات لوحة رؤيتك)، و8 خطوات لكل معسكر. 64 خطوة إلى قمتك.</string>
+    <string name="mandala_titulo">شبكتك 9×9</string>
+    <string name="mandala_intro">لوحة رؤيتك هي مركز شبكتك 9×9: قمتك في الوسط وخاناتك الثماني حولها. كل خانة معسكر من 8 خطوات؛ عند إنشاء اللوحة تمتلئ الخطوات وتعدّلها أنت.</string>
     <string name="mandala_progreso">%1$d من 64 خطوة مكتوبة · %2$d مكتسبة</string>
     <string name="mandala_2d">الشبكة</string>
     <string name="mandala_3d">جبل ثلاثي الأبعاد</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">تقدّمت اليوم</string>
     <string name="metodo_ya_hoy">اليوم محسوب بالفعل</string>
     <string name="metodo_ganado">خطوة مكتسبة</string>
+    <string name="mandala_compartir">شارك شبكتي 9×9 مع المجتمع</string>
+    <string name="mandala_compartiendo">جارٍ تجهيز الصورة…</string>
+    <string name="mandala_compartir_ayuda">ستُنشر صورة لشبكتك 9×9 فيها قمتك وصور لوحة رؤيتك وخطواتك. من يمكنه رؤيتها؟</string>
+    <string name="mandala_compartir_publico">الجميع</string>
+    <string name="mandala_compartir_seguidores">متابعيّ</string>
+    <string name="mandala_compartido">شبكتك 9×9 الآن في المجتمع</string>
+    <string name="mandala_no_compartido">تعذّرت المشاركة. حاول مرة أخرى.</string>
+    <string name="mandala_imagen_etiqueta">شبكتي 9×9 · طريقة Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima 9×52</string>
+    <string name="mandala_casillas_titulo">الخانات التسع في المركز</string>
 </resources>

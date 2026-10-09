@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Ver su diario de vida</string>
     <string name="cumbre_comunidad_valor">Hoy una publicación vale %1$s mm y un impulso %2$s mm</string>
     <string name="mandala_tablero">Tablero</string>
-    <string name="mandala_titulo">Mandala 9×9</string>
-    <string name="mandala_intro">La cuadrícula 9×9 (Mandala Chart), el método con el que Shohei Ohtani planeó su carrera: tu cumbre al centro, tus 8 campamentos alrededor (las casillas de tu vision board) y 8 pasos para cada uno. 64 pasos hacia tu cima.</string>
+    <string name="mandala_titulo">Tu 9×9</string>
+    <string name="mandala_intro">Tu vision board es el centro de tu 9×9: tu cumbre en medio y tus 8 casillas alrededor. Cada casilla es un campamento con 8 pasos; al armar el tablero, los pasos se llenan solos y tú los ajustas.</string>
     <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d ganados</string>
     <string name="mandala_2d">Cuadrícula</string>
     <string name="mandala_3d">Montaña 3D</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">Avancé hoy</string>
     <string name="metodo_ya_hoy">Hoy ya cuenta</string>
     <string name="metodo_ganado">Paso ganado</string>
+    <string name="mandala_compartir">Compartir mi 9×9 en la comunidad</string>
+    <string name="mandala_compartiendo">Preparando la imagen…</string>
+    <string name="mandala_compartir_ayuda">Se publica una imagen de tu 9×9 con tu cumbre, las fotos de tu vision board y tus pasos. ¿Quién la puede ver?</string>
+    <string name="mandala_compartir_publico">Todos</string>
+    <string name="mandala_compartir_seguidores">Mis seguidores</string>
+    <string name="mandala_compartido">Tu 9×9 ya está en la comunidad</string>
+    <string name="mandala_no_compartido">No se pudo compartir. Inténtalo de nuevo.</string>
+    <string name="mandala_imagen_etiqueta">Mi 9×9 · Método Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Método Cima 9×52</string>
+    <string name="mandala_casillas_titulo">Las 9 casillas del centro</string>
 </resources>

@@ -67,9 +67,4 @@ class MetodoCimaTest {
         assertEquals(27, e.diasParaAjuste)   // el ciclo siguiente empieza en el tramo 44 (5 de noviembre)
     }
 
-    @Test fun lasPasosAMediasHacenCrecerLaColumna() {
-        val c = Mandala.celda(0, 0)
-        assertTrue(Mandala.altura(c, Mandala.EstadoPaso.ESCRITO, 0.5f) > Mandala.altura(c, Mandala.EstadoPaso.ESCRITO, 0f))
-        assertTrue(Mandala.altura(c, Mandala.EstadoPaso.ESCRITO, 0.99f) < Mandala.altura(c, Mandala.EstadoPaso.HECHO))
-    }
 }

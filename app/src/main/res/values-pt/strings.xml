@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Ver o diário de vida</string>
     <string name="cumbre_comunidad_valor">Hoje uma publicação vale %1$s mm e um impulso %2$s mm</string>
     <string name="mandala_tablero">Quadro</string>
-    <string name="mandala_titulo">Mandala 9×9</string>
-    <string name="mandala_intro">A grade 9×9 (Mandala Chart), o método com que Shohei Ohtani planejou sua carreira: seu cume no centro, seus 8 acampamentos ao redor (as casas do seu vision board) e 8 passos para cada um. 64 passos até o seu cume.</string>
+    <string name="mandala_titulo">Seu 9×9</string>
+    <string name="mandala_intro">Seu vision board é o centro do seu 9×9: seu cume no meio e suas 8 casas ao redor. Cada casa é um acampamento com 8 passos; ao montar o quadro, os passos se preenchem e você os ajusta.</string>
     <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d conquistados</string>
     <string name="mandala_2d">Grade</string>
     <string name="mandala_3d">Montanha 3D</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">Avancei hoje</string>
     <string name="metodo_ya_hoy">Hoje já conta</string>
     <string name="metodo_ganado">Passo conquistado</string>
+    <string name="mandala_compartir">Compartilhar meu 9×9 na comunidade</string>
+    <string name="mandala_compartiendo">Preparando a imagem…</string>
+    <string name="mandala_compartir_ayuda">Será publicada uma imagem do seu 9×9 com seu cume, as fotos do seu vision board e seus passos. Quem pode ver?</string>
+    <string name="mandala_compartir_publico">Todos</string>
+    <string name="mandala_compartir_seguidores">Meus seguidores</string>
+    <string name="mandala_compartido">Seu 9×9 já está na comunidade</string>
+    <string name="mandala_no_compartido">Não foi possível compartilhar. Tente de novo.</string>
+    <string name="mandala_imagen_etiqueta">Meu 9×9 · Método Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Método Cima 9×52</string>
+    <string name="mandala_casillas_titulo">As 9 casas do centro</string>
 </resources>

@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Открыть дневник жизни</string>
     <string name="cumbre_comunidad_valor">Сегодня публикация стоит %1$s мм, импульс — %2$s мм</string>
     <string name="mandala_tablero">Доска</string>
-    <string name="mandala_titulo">Мандала 9×9</string>
-    <string name="mandala_intro">Сетка 9×9 (Mandala Chart) — метод, которым Сёхэй Отани спланировал карьеру: твоя вершина в центре, 8 лагерей вокруг (клетки твоего vision board) и 8 шагов для каждого. 64 шага к вершине.</string>
+    <string name="mandala_titulo">Твоя 9×9</string>
+    <string name="mandala_intro">Твой vision board — центр твоей 9×9: вершина посередине и 8 клеток вокруг. Каждая клетка — лагерь из 8 шагов; когда собираешь доску, шаги заполняются сами, а ты их правишь.</string>
     <string name="mandala_progreso">Записано %1$d из 64 шагов · заработано %2$d</string>
     <string name="mandala_2d">Сетка</string>
     <string name="mandala_3d">Гора 3D</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">Сегодня продвинулся</string>
     <string name="metodo_ya_hoy">Сегодня уже засчитано</string>
     <string name="metodo_ganado">Шаг заработан</string>
+    <string name="mandala_compartir">Поделиться 9×9 с сообществом</string>
+    <string name="mandala_compartiendo">Готовлю изображение…</string>
+    <string name="mandala_compartir_ayuda">Будет опубликовано изображение твоей 9×9 с вершиной, фото vision board и шагами. Кто может его видеть?</string>
+    <string name="mandala_compartir_publico">Все</string>
+    <string name="mandala_compartir_seguidores">Мои подписчики</string>
+    <string name="mandala_compartido">Твоя 9×9 уже в сообществе</string>
+    <string name="mandala_no_compartido">Не удалось поделиться. Попробуй ещё раз.</string>
+    <string name="mandala_imagen_etiqueta">Моя 9×9 · Метод Cima</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Метод Cima 9×52</string>
+    <string name="mandala_casillas_titulo">9 клеток центра</string>
 </resources>

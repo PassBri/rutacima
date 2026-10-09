@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">人生日記を見る</string>
     <string name="cumbre_comunidad_valor">今日は投稿1つで%1$s mm、応援1回で%2$s mm</string>
     <string name="mandala_tablero">ボード</string>
-    <string name="mandala_titulo">9×9 マンダラ</string>
-    <string name="mandala_intro">9×9のマス（マンダラチャート）。大谷翔平がキャリアを計画した方法です。中心にあなたの頂、周りに8つのキャンプ（ビジョンボードのマス）、それぞれに8つのステップ。頂上まで64ステップ。</string>
+    <string name="mandala_titulo">あなたの9×9</string>
+    <string name="mandala_intro">ビジョンボードがあなたの9×9の中心です。真ん中に頂、周りに8つのマス。各マスは8ステップのキャンプで、ボードを作るとステップが自動で入り、あなたが調整します。</string>
     <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d獲得</string>
     <string name="mandala_2d">マス</string>
     <string name="mandala_3d">3Dの山</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">今日進めた</string>
     <string name="metodo_ya_hoy">今日は記録済み</string>
     <string name="metodo_ganado">ステップ獲得</string>
+    <string name="mandala_compartir">9×9をコミュニティに共有</string>
+    <string name="mandala_compartiendo">画像を準備中…</string>
+    <string name="mandala_compartir_ayuda">頂、ビジョンボードの写真、ステップが入った9×9の画像を投稿します。誰が見られますか？</string>
+    <string name="mandala_compartir_publico">全員</string>
+    <string name="mandala_compartir_seguidores">フォロワー</string>
+    <string name="mandala_compartido">9×9をコミュニティに投稿しました</string>
+    <string name="mandala_no_compartido">共有できませんでした。もう一度お試しください。</string>
+    <string name="mandala_imagen_etiqueta">私の9×9 · Cimaメソッド</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima 9×52</string>
+    <string name="mandala_casillas_titulo">中心の9マス</string>
 </resources>

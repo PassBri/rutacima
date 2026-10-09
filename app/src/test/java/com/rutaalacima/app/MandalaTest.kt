@@ -30,14 +30,6 @@ class MandalaTest {
         (0 until 8).forEach { c -> assertEquals(8, Mandala.CELDAS.count { it.tipo == Mandala.Tipo.PASO && it.campamento == c }) }
     }
 
-    @Test fun laMontanaSubeHaciaElCentroYCreceConElAvance() {
-        val borde = Mandala.celda(0, 0)
-        val cumbre = Mandala.celda(4, 4)
-        assertTrue(Mandala.altura(cumbre) > Mandala.altura(Mandala.celda(3, 3)))
-        assertTrue(Mandala.altura(Mandala.celda(3, 3)) > Mandala.altura(borde, Mandala.EstadoPaso.HECHO))
-        assertTrue(Mandala.altura(borde, Mandala.EstadoPaso.VACIO) < Mandala.altura(borde, Mandala.EstadoPaso.ESCRITO))
-        assertTrue(Mandala.altura(borde, Mandala.EstadoPaso.ESCRITO) < Mandala.altura(borde, Mandala.EstadoPaso.HECHO))
-    }
 
     @Test fun progresoYEstados() {
         val r = mapOf(

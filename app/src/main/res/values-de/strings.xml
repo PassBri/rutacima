@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">Lebenstagebuch ansehen</string>
     <string name="cumbre_comunidad_valor">Heute ist ein Beitrag %1$s mm wert und ein Schub %2$s mm</string>
     <string name="mandala_tablero">Board</string>
-    <string name="mandala_titulo">Mandala 9×9</string>
-    <string name="mandala_intro">Das 9×9-Raster (Mandala Chart), mit dem Shohei Ohtani seine Karriere plante: dein Gipfel in der Mitte, deine 8 Lager drumherum (die Felder deines Vision Boards) und 8 Schritte für jedes. 64 Schritte zu deinem Gipfel.</string>
+    <string name="mandala_titulo">Dein 9×9</string>
+    <string name="mandala_intro">Dein Vision Board ist die Mitte deines 9×9: dein Gipfel in der Mitte, deine 8 Felder drumherum. Jedes Feld ist ein Lager mit 8 Schritten; beim Erstellen füllen sich die Schritte und du passt sie an.</string>
     <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d verdient</string>
     <string name="mandala_2d">Raster</string>
     <string name="mandala_3d">3D-Berg</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">Heute vorangekommen</string>
     <string name="metodo_ya_hoy">Heute zählt schon</string>
     <string name="metodo_ganado">Schritt verdient</string>
+    <string name="mandala_compartir">Mein 9×9 mit der Community teilen</string>
+    <string name="mandala_compartiendo">Bild wird erstellt…</string>
+    <string name="mandala_compartir_ayuda">Ein Bild deines 9×9 mit Gipfel, Vision-Board-Fotos und Schritten wird gepostet. Wer darf es sehen?</string>
+    <string name="mandala_compartir_publico">Alle</string>
+    <string name="mandala_compartir_seguidores">Meine Follower</string>
+    <string name="mandala_compartido">Dein 9×9 ist jetzt in der Community</string>
+    <string name="mandala_no_compartido">Teilen fehlgeschlagen. Versuch es nochmal.</string>
+    <string name="mandala_imagen_etiqueta">Mein 9×9 · Cima-Methode</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima-Methode 9×52</string>
+    <string name="mandala_casillas_titulo">Die 9 Felder der Mitte</string>
 </resources>

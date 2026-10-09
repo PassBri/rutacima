@@ -1014,8 +1014,8 @@
     <string name="diario_ver_autor">See their life journal</string>
     <string name="cumbre_comunidad_valor">Today a post is worth %1$s mm and a boost %2$s mm</string>
     <string name="mandala_tablero">Board</string>
-    <string name="mandala_titulo">9×9 Mandala</string>
-    <string name="mandala_intro">The 9×9 grid (Mandala Chart), the method Shohei Ohtani used to plan his career: your summit in the center, your 8 camps around it (your vision board tiles) and 8 steps for each. 64 steps to your peak.</string>
+    <string name="mandala_titulo">Your 9×9</string>
+    <string name="mandala_intro">Your vision board is the center of your 9×9: your summit in the middle and your 8 tiles around it. Each tile is a camp with 8 steps; when you build the board, the steps fill in and you adjust them.</string>
     <string name="mandala_progreso">%1$d of 64 steps written · %2$d earned</string>
     <string name="mandala_2d">Grid</string>
     <string name="mandala_3d">3D mountain</string>
@@ -1039,4 +1039,14 @@
     <string name="metodo_avance_hoy">I moved forward today</string>
     <string name="metodo_ya_hoy">Today already counts</string>
     <string name="metodo_ganado">Step earned</string>
+    <string name="mandala_compartir">Share my 9×9 with the community</string>
+    <string name="mandala_compartiendo">Preparing the image…</string>
+    <string name="mandala_compartir_ayuda">An image of your 9×9 is posted with your summit, your vision board photos and your steps. Who can see it?</string>
+    <string name="mandala_compartir_publico">Everyone</string>
+    <string name="mandala_compartir_seguidores">My followers</string>
+    <string name="mandala_compartido">Your 9×9 is now in the community</string>
+    <string name="mandala_no_compartido">Couldn\'t share. Try again.</string>
+    <string name="mandala_imagen_etiqueta">My 9×9 · Cima Method</string>
+    <string name="mandala_imagen_marca">Ruta a la Cima · Cima Method 9×52</string>
+    <string name="mandala_casillas_titulo">The 9 center tiles</string>
 </resources>
