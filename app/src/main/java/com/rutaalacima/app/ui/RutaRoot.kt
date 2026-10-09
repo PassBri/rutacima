@@ -45,10 +45,15 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Terrain
 import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.indication
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.ui.zIndex
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -282,24 +287,8 @@ private fun AppPrincipal() {
                 Column {
                     // Mientras suena un audiolibro: pausa o vuelve al capítulo desde cualquier pestaña
                     com.rutaalacima.app.ui.workbook.MiniReproductor(onAbrir = { wb, sec -> nav.navigate(Rutas.seccion(wb, sec)) })
-                    if (!ancho) BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) })
+                    if (!ancho) BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
                 }
-            }
-        },
-        // Publicar ("plantar tu bandera"): la acción principal de Comunidad, como botón flotante de Material 3.
-        // En Mi ruta y Perfil se publica desde la propia pantalla; en tableta, desde el riel lateral.
-        floatingActionButton = {
-            if (!ancho && rutaActual == Rutas.COMUNIDAD) {
-                androidx.compose.material3.ExtendedFloatingActionButton(
-                    onClick = { nav.navigate(Rutas.publicar()) },
-                    icon = { Icon(painterResource(R.drawable.ic_plantar_bandera), null, Modifier.size(22.dp)) },
-                    text = { Text(stringResource(R.string.publicar)) },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    elevation = androidx.compose.material3.FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 2.dp, pressedElevation = 4.dp, focusedElevation = 2.dp, hoveredElevation = 3.dp,
-                    ),
-                )
             }
         },
     ) { padding ->
@@ -518,7 +507,7 @@ private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () 
         header = {
             Image(painterResource(R.drawable.logo_sello), null, Modifier.size(40.dp).padding(top = 4.dp))
             androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(painterResource(R.drawable.ic_plantar_bandera), stringResource(R.string.publicar))
+                Icon(Icons.Outlined.Explore, stringResource(R.string.publicar))
             }
         },
     ) {
@@ -542,69 +531,136 @@ private fun NavHostController.irAPestana(ruta: String) {
 }
 
 /**
- * Barra de navegación inferior (Material 3), sobria y limpia: cinco destinos con su nombre siempre
- * visible. El destino activo lleva el ícono relleno dentro de una píldora dorada suave; los demás, el
- * ícono de contorno en tinta tenue. Sin sombra: una línea de papel la separa del contenido.
- * Altura compacta de 64 dp (la "barra corta" de Material 3) más el espacio de los gestos del sistema.
+ * Barra de navegación inferior (Material 3), sobria y limpia: solo íconos, sin sombra, separada del
+ * contenido por una línea fina de papel. El destino activo lleva el ícono relleno dentro de una píldora
+ * dorada suave; los demás, el ícono de contorno en tinta tenue. En el centro, "Publicar" con una brújula.
+ *
+ * Al apoyar el dedo aparece el nombre en una etiqueta discreta; si se desliza por la barra, la etiqueta
+ * sigue al dedo (con un toque háptico leve en cada ícono) y al soltar se abre ese destino. Con TalkBack
+ * cada ícono se anuncia con su nombre y se activa con doble toque.
  */
 @Composable
-private fun BarraNavegacion(actual: String?, onIr: (String) -> Unit) {
+private fun BarraNavegacion(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit) {
     val colores = MaterialTheme.colorScheme
+    var sobre by remember { mutableStateOf<Int?>(null) }
+    val ir by androidx.compose.runtime.rememberUpdatedState(onIr)
+    val publicar by androidx.compose.runtime.rememberUpdatedState(onPublicar)
+    val haptico = androidx.compose.ui.platform.LocalHapticFeedback.current
+    val n = PESTANAS.size + 1
+    fun pestanaEn(k: Int): Pestana? = if (k == CENTRO) null else PESTANAS[if (k < CENTRO) k else k - 1]
+    val nombrePublicar = stringResource(R.string.publicar)
     Column(Modifier.fillMaxWidth().background(colores.surface)) {
         androidx.compose.material3.HorizontalDivider(thickness = 0.5.dp, color = colores.outlineVariant.copy(alpha = 0.7f))
         Row(
-            Modifier.fillMaxWidth().navigationBarsPadding().height(64.dp).semantics { isTraversalGroup = true },
+            Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .height(56.dp)
+                .pointerInput(Unit) {
+                    awaitEachGesture {
+                        val abajo = awaitFirstDown()
+                        fun indice(x: Float) = (x / size.width * n).toInt().coerceIn(0, n - 1)
+                        var i = indice(abajo.position.x)
+                        sobre = i
+                        haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                        var soltado = false
+                        try {
+                            while (true) {
+                                val evento = awaitPointerEvent()
+                                val c = evento.changes.firstOrNull { it.id == abajo.id } ?: break
+                                if (!c.pressed) { soltado = true; break }
+                                val j = indice(c.position.x)
+                                if (j != i) {
+                                    i = j; sobre = j
+                                    haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                                }
+                                c.consume()
+                            }
+                        } finally { sobre = null }
+                        if (soltado) pestanaEn(i)?.let { ir(it.ruta) } ?: publicar()
+                    }
+                }
+                .semantics { isTraversalGroup = true },
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            PESTANAS.forEach { p -> DestinoBarra(p, elegida = actual == p.ruta, onClick = { onIr(p.ruta) }) }
+            for (k in 0 until n) {
+                val p = pestanaEn(k)
+                val nombre = p?.let { stringResource(it.titulo) } ?: nombrePublicar
+                IconoBarra(
+                    icono = p?.let { if (actual == it.ruta) it.icono else it.iconoInactivo } ?: Icons.Outlined.Explore,
+                    nombre = nombre,
+                    elegida = p != null && actual == p.ruta,
+                    esPublicar = p == null,
+                    tocando = sobre == k,
+                    onClick = { if (p != null) onIr(p.ruta) else onPublicar() },
+                )
+            }
         }
     }
 }
 
 @Composable
-private fun androidx.compose.foundation.layout.RowScope.DestinoBarra(p: Pestana, elegida: Boolean, onClick: () -> Unit) {
+private fun androidx.compose.foundation.layout.RowScope.IconoBarra(
+    icono: ImageVector, nombre: String, elegida: Boolean, esPublicar: Boolean, tocando: Boolean, onClick: () -> Unit,
+) {
     val colores = MaterialTheme.colorScheme
-    val nombre = stringResource(p.titulo)
-    val toque = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-    // La píldora crece desde el centro al elegir (salida suave, sin rebote)
-    val ancho by androidx.compose.animation.core.animateDpAsState(
-        if (elegida) 56.dp else 32.dp,
-        androidx.compose.animation.core.tween(220, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "pildora",
+    // La píldora se abre desde el centro (salida suave, sin rebote); al tocar se ve tenue
+    val escala by androidx.compose.animation.core.animateFloatAsState(
+        if (elegida || tocando) 1f else 0.55f,
+        androidx.compose.animation.core.tween(200, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "pildora",
     )
-    val fondo by androidx.compose.animation.animateColorAsState(
-        if (elegida) colores.secondaryContainer else Color.Transparent, androidx.compose.animation.core.tween(220), label = "fondo",
+    val alfa by androidx.compose.animation.core.animateFloatAsState(
+        when { elegida -> 1f; tocando -> 0.6f; else -> 0f },
+        androidx.compose.animation.core.tween(200, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "alfa",
     )
-    Column(
+    Box(
         Modifier
             .weight(1f)
             .fillMaxHeight()
-            .selectable(
-                selected = elegida, onClick = onClick, role = Role.Tab,
-                interactionSource = toque, indication = null,
-            ),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+            .semantics {
+                role = if (esPublicar) Role.Button else Role.Tab
+                if (!esPublicar) selected = elegida
+                contentDescription = nombre
+                onClick { onClick(); true }
+            },
+        contentAlignment = Alignment.Center,
     ) {
         Box(
             Modifier
                 .size(width = 56.dp, height = 32.dp)
-                .clip(CircleShape)
-                .indication(toque, androidx.compose.material3.ripple(bounded = true, color = colores.primary)),
-            contentAlignment = Alignment.Center,
+                .graphicsLayer { scaleX = escala; alpha = alfa }
+                .background(colores.secondaryContainer, CircleShape),
+        )
+        Icon(
+            icono, contentDescription = null, modifier = Modifier.size(24.dp),
+            tint = when {
+                elegida -> colores.onSecondaryContainer
+                esPublicar -> colores.primary          // la brújula: el único acento de la barra, sin borde ni fondo
+                else -> colores.onSurfaceVariant
+            },
+        )
+        // Nombre del destino mientras el dedo está encima (etiqueta sobria, como la de Material 3)
+        androidx.compose.animation.AnimatedVisibility(
+            visible = tocando,
+            enter = androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(120)),
+            exit = androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(90)),
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .wrapContentSize(unbounded = true)
+                .offset(y = (-40).dp)
+                .zIndex(1f),
         ) {
-            Box(Modifier.size(width = ancho, height = 32.dp).background(fondo, CircleShape))
-            Icon(
-                if (elegida) p.icono else p.iconoInactivo, contentDescription = null,
-                tint = if (elegida) colores.onSecondaryContainer else colores.onSurfaceVariant,
-                modifier = Modifier.size(24.dp),
+            Text(
+                nombre, maxLines = 1,
+                style = MaterialTheme.typography.labelLarge,
+                color = colores.inverseOnSurface,
+                modifier = Modifier
+                    .background(colores.inverseSurface, RoundedCornerShape(8.dp))
+                    .padding(horizontal = 12.dp, vertical = 6.dp),
             )
         }
-        Spacer(Modifier.height(4.dp))
-        Text(
-            nombre, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.labelMedium.copy(letterSpacing = androidx.compose.ui.unit.TextUnit.Unspecified),
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium, // mismo peso: el activo se distingue por color y píldora, y nada se corta
-            color = if (elegida) colores.onSurface else colores.onSurfaceVariant,
-        )
     }
 }
+
+/** Posición de Publicar en la barra: en medio, como en otras redes. */
+private const val CENTRO = 2
