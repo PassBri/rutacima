@@ -223,6 +223,7 @@ async function enviar(e) {
   switch (f.dataset.form) {
     case "coach": if (texto) { f.reset(); preguntar(texto); } break;
     case "mensaje": await enviarMensaje(f, texto); break;
+    case "suspender": await enviarSuspension(f); break;
     case "crearCordada": case "unirseCordada": case "notaCordada": case "agendarSesion": await enviarCordadas(f, datos, texto); break;
     case "postular": {
       const esp = String(datos.get("especialidad") || "").trim(); if (!texto || !esp) break;

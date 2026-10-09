@@ -206,7 +206,11 @@ const LISTAS = {
     h += item("ir-coachvida", av(ic("cumbre"), "var(--oro)"), "Coach de vida", "", "Una persona que te acompaña");
     h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach con IA", "", "Pregúntale por tu ruta");
     h += grupo("Más");
-    h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", "", Store.nube ? nombreNavegador() : "Ruta de ejemplo");
+    h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? "Este computador" : "Demostración", "", Store.nube ? nombreNavegador() + (globalThis.MOD?.suspension ? " · cuenta suspendida" : "") : "Ruta de ejemplo");
+    // Moderación: solo para cuentas moderadoras (se comprueba una vez por sesión)
+    const mod = globalThis.MOD;
+    if (Store.nube && mod && mod.soy === null) comprobarModeracion();
+    if (mod?.soy) h += item("moderacion", av(ic("mazo"), "var(--burdeos)"), "Moderación", mod.casos?.length ? String(mod.casos.length) : "", "Reportes de la comunidad");
     return h + `</div>`;
   },
 };

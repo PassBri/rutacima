@@ -488,6 +488,21 @@ o cierres la sesión en la web.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
 - **Puedes borrarlo todo:** *Eliminar mi cuenta* borra tus datos del servidor.
 
+### Moderación de la comunidad
+
+- **Quién modera:** las cuentas que estén en la tabla `moderadores` (Supabase › Table Editor › moderadores › Insert,
+  con el `user_id` de la cuenta). Para ellas aparece **Moderación** en el perfil de la app y de la web.
+- **Pendientes:** lo reportado se agrupa por publicación, comentario, conversación o persona, con cuántas personas lo
+  reportaron, los motivos, el contenido (en conversaciones, los últimos mensajes de quien fue reportado) y si el autor
+  ya tuvo sanciones.
+- **Decisiones:** *Mantener visible* (o *Descartar reporte*), *Ocultar*, *Eliminar* (pide confirmación) y
+  *Suspender cuenta* por 1, 7 o 30 días o de forma permanente, con un motivo que la persona ve. También se puede
+  levantar una suspensión.
+- **Suspensión:** la cuenta sigue usando su ruta, pero el servidor no le deja publicar, comentar, escribir mensajes
+  ni notas de cordada. En su perfil ve hasta cuándo, el motivo y cómo pedir revisión.
+- **Historial:** cada decisión queda en `moderacion_log` (quién, qué, a quién y cuándo).
+- Lo reportado por 3 personas se sigue ocultando solo; si un moderador lo restaura, hacen falta 3 reportes nuevos.
+
 ### Documentos legales y protección de datos
 
 Rutaalacima cumple la **Ley 1581 de 2012** de Colombia (habeas data), el **Decreto 1377 de 2013** (compilado en

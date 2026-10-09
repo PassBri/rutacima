@@ -659,7 +659,7 @@ Object.assign(DET, {
            <div class="botones"><button class="btn peligro" data-acc="eliminarCuenta">Eliminar mi cuenta</button></div>`
         : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>
            <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`) +
-        enlacesLegales(), "max-width:640px");
+        (globalThis.avisoSuspension?.() || "") + enlacesLegales(), "max-width:640px");
   },
 });
 /** Documentos legales (Ley 1581 de 2012): se abren en otra pestaña. */

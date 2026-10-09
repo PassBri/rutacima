@@ -736,3 +736,25 @@ a.btn { text-decoration: none; }
 .legales a:hover { color: var(--burdeos); text-decoration: underline; }
 .v-extra { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -24px; }
 .v-extra .carta-releer { margin-top: 0; }
+/* Moderación */
+.mod-tabs { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.mod-tabs [role=tab] { padding: 6px 14px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta-suave); font-size: 14px; cursor: pointer; }
+.mod-tabs [role=tab][aria-selected=true] { background: var(--burdeos); border-color: var(--burdeos); color: var(--hoja); }
+.mod-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.mod-n { font-size: 13px; color: var(--tinta-suave); }
+.mod-n.alto { color: #A3321F; font-weight: 600; }
+.mod-autor { font-weight: 600; margin-top: 4px; }
+.mod-alerta { font-size: 12px; color: #A3321F; }
+.mod-img { width: 100%; max-height: 260px; object-fit: cover; border-radius: 10px; margin-top: 10px; }
+.mod-texto { white-space: pre-wrap; overflow-wrap: anywhere; }
+.mod-msj { margin: 2px 0; font-style: italic; font-size: 14px; overflow-wrap: anywhere; }
+.mod-motivos { margin: 8px 0 4px; padding-left: 18px; color: var(--tinta-suave); font-size: 14px; }
+.mod-acciones { flex-wrap: wrap; margin-top: 10px; }
+.mod-form { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--linea); }
+.mod-dias { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill-radio { display: inline-flex; gap: 6px; align-items: center; padding: 5px 12px; border: 1px solid var(--linea); border-radius: 999px; font-size: 14px; cursor: pointer; }
+.pill-radio:has(input:checked) { border-color: var(--burdeos); color: var(--burdeos); font-weight: 600; }
+.mod-hist { padding: 10px 0; border-bottom: 1px solid var(--linea); }
+.mod-hist:last-child { border-bottom: 0; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mod-n.alto, :root:not([data-theme="light"]) .mod-alerta { color: #F0B3A1; } }
+:root[data-theme="dark"] .mod-n.alto, :root[data-theme="dark"] .mod-alerta { color: #F0B3A1; }
