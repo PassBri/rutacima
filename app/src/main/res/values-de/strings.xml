@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">Mandala 9×9</string>
     <string name="mandala_intro">Das 9×9-Raster (Mandala Chart), mit dem Shohei Ohtani seine Karriere plante: dein Gipfel in der Mitte, deine 8 Lager drumherum (die Felder deines Vision Boards) und 8 Schritte für jedes. 64 Schritte zu deinem Gipfel.</string>
-    <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d erledigt</string>
+    <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d verdient</string>
     <string name="mandala_2d">Raster</string>
     <string name="mandala_3d">3D-Berg</string>
     <string name="mandala_3d_ayuda">Ziehen, um den Berg zu drehen. Jeder notierte und erledigte Schritt lässt ihn wachsen.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Lager hinzufügen</string>
     <string name="mandala_ver_centro">Zur Mitte</string>
     <string name="mandala_cumbre">Mein Gipfel</string>
+    <string name="metodo_titulo">Cima-Methode 9×52</string>
+    <string name="metodo_explica">Ein Schritt wird nicht abgehakt: Er wird mit Arbeitstagen verdient, an verschiedenen Tagen, an denen du vorangekommen bist. Alle 4 Etappen passt sich die Schwierigkeit wie bei Bitcoin an: Bist du zu schnell, verlangt ein neuer Schritt mehr Tage; wirst du langsamer, weniger, damit du zurückkommst. So erreichst du am 31. Dezember den Gipfel.</string>
+    <string name="metodo_altura">Dein Berg: %1$s von 8.848.000 mm</string>
+    <string name="metodo_dificultad">Ein neuer Schritt verlangt jetzt %1$d Tage</string>
+    <string name="metodo_tramo">Etappe %1$d von 52 · diese Woche %2$d von %3$s erwarteten Schritten · Anpassung in %4$d Tagen</string>
+    <string name="metodo_ritmo_adelante">Du bist %1$s Schritte vor dem Plan</string>
+    <string name="metodo_ritmo_atras">Dir fehlen %1$s Schritte zum Plan</string>
+    <string name="metodo_jornadas">%1$d von %2$d Tagen</string>
+    <string name="metodo_avance_hoy">Heute vorangekommen</string>
+    <string name="metodo_ya_hoy">Heute zählt schon</string>
+    <string name="metodo_ganado">Schritt verdient</string>
 </resources>

@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">看板</string>
     <string name="mandala_titulo">9×9 曼陀罗</string>
     <string name="mandala_intro">9×9 方格（曼陀罗图），大谷翔平规划职业生涯的方法：中心是你的顶峰，周围是你的 8 个营地（愿景板的格子），每个营地 8 步。共 64 步通往顶峰。</string>
-    <string name="mandala_progreso">已写 %1$d / 64 步 · 完成 %2$d</string>
+    <string name="mandala_progreso">已写 %1$d / 64 步 · 赢得 %2$d</string>
     <string name="mandala_2d">方格</string>
     <string name="mandala_3d">3D 山峰</string>
     <string name="mandala_3d_ayuda">拖动可旋转山峰。你写下并完成的每一步都会让它长高。</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">添加营地</string>
     <string name="mandala_ver_centro">查看中心</string>
     <string name="mandala_cumbre">我的顶峰</string>
+    <string name="metodo_titulo">Cima 9×52 方法</string>
+    <string name="metodo_explica">步骤不是勾选的，而是用“行动日”赢得的：在不同的日子里推进它。每 4 段，难度会像比特币一样调整：走得太快，新步骤需要更多行动日；放慢了，就需要更少，让你重新出发。这样你会在 12 月 31 日登顶。</string>
+    <string name="metodo_altura">你的山：%1$s / 8,848,000 毫米</string>
+    <string name="metodo_dificultad">现在一个新步骤需要 %1$d 个行动日</string>
+    <string name="metodo_tramo">第 %1$d / 52 段 · 本周 %2$d / 预期 %3$s 步 · %4$d 天后调整</string>
+    <string name="metodo_ritmo_adelante">你比节奏领先 %1$s 步</string>
+    <string name="metodo_ritmo_atras">你还差 %1$s 步才跟上节奏</string>
+    <string name="metodo_jornadas">%1$d / %2$d 个行动日</string>
+    <string name="metodo_avance_hoy">今天推进了</string>
+    <string name="metodo_ya_hoy">今天已计入</string>
+    <string name="metodo_ganado">步骤已赢得</string>
 </resources>

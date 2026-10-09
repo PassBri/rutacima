@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Bacheca</string>
     <string name="mandala_titulo">Mandala 9×9</string>
     <string name="mandala_intro">La griglia 9×9 (Mandala Chart), il metodo con cui Shohei Ohtani ha pianificato la sua carriera: la tua vetta al centro, i tuoi 8 campi intorno (le caselle del tuo vision board) e 8 passi per ciascuno. 64 passi verso la cima.</string>
-    <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d compiuti</string>
+    <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d conquistati</string>
     <string name="mandala_2d">Griglia</string>
     <string name="mandala_3d">Montagna 3D</string>
     <string name="mandala_3d_ayuda">Trascina per ruotare la montagna. Ogni passo che scrivi e compi la fa crescere.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Aggiungi campo</string>
     <string name="mandala_ver_centro">Vedi il centro</string>
     <string name="mandala_cumbre">La mia vetta</string>
+    <string name="metodo_titulo">Metodo Cima 9×52</string>
+    <string name="metodo_explica">Un passo non si spunta: si guadagna con giornate, giorni diversi in cui sei andato avanti. Ogni 4 tappe la difficoltà si regola come in Bitcoin: se vai troppo veloce, un nuovo passo chiede più giornate; se rallenti, ne chiede meno perché tu riparta. Così arrivi in vetta il 31 dicembre.</string>
+    <string name="metodo_altura">La tua montagna: %1$s di 8.848.000 mm</string>
+    <string name="metodo_dificultad">Ora un nuovo passo chiede %1$d giornate</string>
+    <string name="metodo_tramo">Tappa %1$d di 52 · questa settimana %2$d di %3$s passi attesi · regolazione tra %4$d giorni</string>
+    <string name="metodo_ritmo_adelante">Sei %1$s passi avanti rispetto al ritmo</string>
+    <string name="metodo_ritmo_atras">Ti mancano %1$s passi per stare al ritmo</string>
+    <string name="metodo_jornadas">%1$d di %2$d giornate</string>
+    <string name="metodo_avance_hoy">Oggi sono andato avanti</string>
+    <string name="metodo_ya_hoy">Oggi conta già</string>
+    <string name="metodo_ganado">Passo conquistato</string>
 </resources>

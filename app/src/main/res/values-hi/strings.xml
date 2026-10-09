@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">बोर्ड</string>
     <string name="mandala_titulo">9×9 मंडला</string>
     <string name="mandala_intro">9×9 ग्रिड (मंडला चार्ट), वह तरीका जिससे शोहेई ओहतानी ने अपना करियर बनाया: बीच में आपका शिखर, चारों ओर आपके 8 पड़ाव (विज़न बोर्ड के खाने) और हर एक के लिए 8 कदम। शिखर तक 64 कदम।</string>
-    <string name="mandala_progreso">64 में से %1$d कदम लिखे · %2$d पूरे</string>
+    <string name="mandala_progreso">64 में से %1$d कदम लिखे · %2$d कमाए</string>
     <string name="mandala_2d">ग्रिड</string>
     <string name="mandala_3d">3D पहाड़</string>
     <string name="mandala_3d_ayuda">पहाड़ घुमाने के लिए खींचें। हर लिखा और पूरा किया कदम उसे बड़ा करता है।</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">पड़ाव जोड़ें</string>
     <string name="mandala_ver_centro">केंद्र देखें</string>
     <string name="mandala_cumbre">मेरा शिखर</string>
+    <string name="metodo_titulo">सिमा 9×52 पद्धति</string>
+    <string name="metodo_explica">कदम पर टिक नहीं लगता: वह मेहनत के दिनों से कमाया जाता है, यानी अलग-अलग दिन जब आप उसमें आगे बढ़े। हर 4 चरणों में कठिनाई बिटकॉइन की तरह बदलती है: बहुत तेज़ चलें तो नया कदम ज़्यादा दिन माँगता है; धीमे पड़ें तो कम, ताकि आप लौट सकें। ऐसे आप 31 दिसंबर को शिखर पर पहुँचते हैं।</string>
+    <string name="metodo_altura">आपका पहाड़: 8,848,000 मिमी में से %1$s</string>
+    <string name="metodo_dificultad">अब एक नया कदम %1$d दिन माँगता है</string>
+    <string name="metodo_tramo">चरण %1$d / 52 · इस हफ़्ते %3$s अपेक्षित में से %2$d कदम · %4$d दिन में बदलाव</string>
+    <string name="metodo_ritmo_adelante">आप लय से %1$s कदम आगे हैं</string>
+    <string name="metodo_ritmo_atras">लय तक पहुँचने में %1$s कदम बाकी</string>
+    <string name="metodo_jornadas">%2$d में से %1$d दिन</string>
+    <string name="metodo_avance_hoy">आज आगे बढ़ा</string>
+    <string name="metodo_ya_hoy">आज गिना जा चुका है</string>
+    <string name="metodo_ganado">कदम कमाया</string>
 </resources>

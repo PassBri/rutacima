@@ -17,8 +17,9 @@ import kotlin.math.max
  * En 3D la cuadrícula se vuelve montaña: cuanto más cerca del centro, más alto; los pasos crecen
  * cuando se escriben y cuando se cumplen, así la montaña sube con el avance.
  *
- * Los pasos se guardan como respuestas ("mandala#<casilla>#<n>" y "...#hecho"), así viajan a la
- * web y a las copias de seguridad sin tablas nuevas.
+ * Los pasos se guardan como respuestas ("mandala#<casilla>#<n>", "...#hecho" con la fecha en que se
+ * ganó, "...#jornadas" y "...#req"), así viajan a la web y a las copias de seguridad sin tablas nuevas.
+ * Cómo se ganan los pasos a lo largo de los 52 tramos del año está en [MetodoCima].
  */
 object Mandala {
     const val WORKBOOK = "mandala"
@@ -68,12 +69,12 @@ object Mandala {
      * Altura de la celda en la montaña 3D (en "pisos"). La base escalonada va de 1 (borde) a 5
      * (cumbre); los campamentos sobresalen un poco y los pasos crecen al escribirse y al cumplirse.
      */
-    fun altura(c: Celda, estado: EstadoPaso = EstadoPaso.VACIO): Float {
+    fun altura(c: Celda, estado: EstadoPaso = EstadoPaso.VACIO, avance: Float = 0f): Float {
         val base = (5 - anillo(c.fila, c.col)).toFloat()
         return when (c.tipo) {
             Tipo.CUMBRE -> base + 0.8f
             Tipo.CAMPAMENTO -> base + 0.3f
-            Tipo.PASO -> base * when (estado) { EstadoPaso.VACIO -> 0.6f; EstadoPaso.ESCRITO -> 0.8f; EstadoPaso.HECHO -> 1f }
+            Tipo.PASO -> base * when (estado) { EstadoPaso.VACIO -> 0.6f; EstadoPaso.ESCRITO -> 0.7f + 0.25f * avance.coerceIn(0f, 1f); EstadoPaso.HECHO -> 1f }
         }
     }
 
@@ -89,7 +90,7 @@ object Mandala {
             repeat(PASOS) { p ->
                 if (!respuestas[clave(id, p)].isNullOrBlank()) {
                     escritos++
-                    if (respuestas[claveHecho(id, p)] == "1") hechos++
+                    if (!respuestas[claveHecho(id, p)].isNullOrBlank()) hechos++
                 }
             }
         }
@@ -98,7 +99,7 @@ object Mandala {
 
     fun estado(casillaId: Long?, paso: Int, respuestas: Map<String, String>): EstadoPaso = when {
         casillaId == null || respuestas[clave(casillaId, paso)].isNullOrBlank() -> EstadoPaso.VACIO
-        respuestas[claveHecho(casillaId, paso)] == "1" -> EstadoPaso.HECHO
+        !respuestas[claveHecho(casillaId, paso)].isNullOrBlank() -> EstadoPaso.HECHO
         else -> EstadoPaso.ESCRITO
     }
 

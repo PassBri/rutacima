@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -70,7 +71,10 @@ import coil.compose.AsyncImage
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.domain.model.Mandala
+import com.rutaalacima.app.domain.model.MetodoCima
 import java.io.File
+import java.text.NumberFormat
+import java.time.LocalDate
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -95,6 +99,11 @@ class DatosMandala(
     fun paso(i: Int, p: Int): String = casilla(i)?.let { respuestas[Mandala.clave(it.casilla.id, p)] }.orEmpty()
     fun estado(i: Int, p: Int) = Mandala.estado(casilla(i)?.casilla?.id, p, respuestas)
     val progreso get() = Mandala.progreso(campamentos.map { it.casilla.id }, respuestas)
+    /** Los 64 pasos con sus jornadas y el ritmo del año (Método Cima 9×52). */
+    val pasos: List<MetodoCima.Paso> = MetodoCima.pasosDe(campamentos.map { it.casilla.id }, respuestas)
+    val ritmo: MetodoCima.Estado = MetodoCima.calcular(pasos, LocalDate.now())
+    fun pasoCima(i: Int, p: Int): MetodoCima.Paso = pasos[i * Mandala.PASOS + p]
+    fun avance(i: Int, p: Int): Float = MetodoCima.avance(pasoCima(i, p), ritmo.dificultad)
     val tituloCumbre: String get() = cumbre?.casilla?.afirmacion?.ifBlank { null } ?: cumbreTexto
 }
 
@@ -105,7 +114,8 @@ class DatosMandala(
 @Composable
 fun MandalaSeccion(
     datos: DatosMandala,
-    onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String, hecho: Boolean) -> Unit,
+    onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String) -> Unit,
+    onAvanzar: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit,
     onAgregarCampamento: () -> Unit,
 ) {
@@ -118,6 +128,7 @@ fun MandalaSeccion(
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
+        RitmoCima(datos.ritmo)
         SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
             SegmentedButton(selected = !en3d, onClick = { en3d = false }, shape = SegmentedButtonDefaults.itemShape(0, 2),
                 icon = { Icon(Icons.Filled.GridView, null, Modifier.size(18.dp)) }) { Text(stringResource(R.string.mandala_2d)) }
@@ -139,8 +150,9 @@ fun MandalaSeccion(
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
             numero = p + 1, campamento = cv.casilla.titulo, texto = datos.paso(i, p),
-            hecho = datos.estado(i, p) == Mandala.EstadoPaso.HECHO,
-            onGuardar = { t, h -> onPaso(cv.casilla, p, t, h); editando = null },
+            paso = datos.pasoCima(i, p), dificultad = datos.ritmo.dificultad,
+            onGuardar = { t -> onPaso(cv.casilla, p, t); editando = null },
+            onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
             onCancelar = { editando = null },
         ) }
     }
@@ -276,24 +288,65 @@ private fun Bloque(
     }
 }
 
+/** El ritmo del año: tramo, dificultad que pide un paso nuevo, ajuste y altura en milímetros. */
 @Composable
-private fun EditarPaso(numero: Int, campamento: String, texto: String, hecho: Boolean, onGuardar: (String, Boolean) -> Unit, onCancelar: () -> Unit) {
+private fun RitmoCima(r: MetodoCima.Estado) {
+    val nf = NumberFormat.getNumberInstance().apply { maximumFractionDigits = 1 }
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.secondaryContainer).padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(stringResource(R.string.metodo_titulo), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSecondaryContainer)
+        Text(stringResource(R.string.metodo_altura, NumberFormat.getIntegerInstance().format(r.mm)), style = MaterialTheme.typography.titleSmall,
+            fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSecondaryContainer)
+        Text(stringResource(R.string.metodo_dificultad, r.dificultad), style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSecondaryContainer)
+        Text(stringResource(R.string.metodo_tramo, r.tramo + 1, r.ganadosTramo, nf.format(r.esperadoTramo), r.diasParaAjuste),
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSecondaryContainer)
+        Text(
+            if (r.adelanto >= 0) stringResource(R.string.metodo_ritmo_adelante, nf.format(r.adelanto))
+            else stringResource(R.string.metodo_ritmo_atras, nf.format(-r.adelanto)),
+            style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold,
+            color = if (r.adelanto >= 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSecondaryContainer,
+        )
+        Text(stringResource(R.string.metodo_explica), style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.8f))
+    }
+}
+
+@Composable
+private fun EditarPaso(
+    numero: Int, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
+    onGuardar: (String) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
+) {
     var t by remember { mutableStateOf(texto) }
-    var h by remember { mutableStateOf(hecho) }
+    val requeridas = paso.requeridas ?: dificultad
+    val hoyListo = LocalDate.now() in paso.jornadas
     AlertDialog(
         onDismissRequest = onCancelar,
         title = { Text(stringResource(R.string.mandala_paso, numero)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(campamento, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-                OutlinedTextField(t, { t = it }, minLines = 2, modifier = Modifier.fillMaxWidth())
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable(enabled = t.isNotBlank()) { h = !h }) {
-                    Checkbox(checked = h && t.isNotBlank(), onCheckedChange = { h = it }, enabled = t.isNotBlank())
-                    Text(stringResource(R.string.mandala_paso_hecho))
+                OutlinedTextField(t, { t = it }, minLines = 2, modifier = Modifier.fillMaxWidth(), enabled = !paso.cumplido)
+                if (paso.cumplido) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(6.dp))
+                        Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    }
+                } else {
+                    Text(stringResource(R.string.metodo_jornadas, paso.jornadas.size, requeridas), style = MaterialTheme.typography.labelLarge)
+                    LinearProgressIndicator(progress = { paso.jornadas.size.toFloat() / requeridas }, modifier = Modifier.fillMaxWidth())
+                    Button(onClick = { onAvanzar(t) }, enabled = t.isNotBlank() && !hoyListo, modifier = Modifier.fillMaxWidth()) {
+                        Icon(Icons.Filled.Check, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
+                        Text(stringResource(if (hoyListo) R.string.metodo_ya_hoy else R.string.metodo_avance_hoy))
+                    }
                 }
             }
         },
-        confirmButton = { TextButton(onClick = { onGuardar(t, h) }) { Text(stringResource(R.string.guardar)) } },
+        confirmButton = { TextButton(onClick = { onGuardar(t) }) { Text(stringResource(R.string.guardar)) } },
         dismissButton = { TextButton(onClick = onCancelar) { Text(stringResource(R.string.cancelar)) } },
     )
 }
@@ -329,7 +382,8 @@ private fun Montana3D(datos: DatosMandala) {
                 Mandala.EstadoPaso.HECHO -> lerp(datos.color(cel.campamento), ORO, 0.25f)
             }
         }
-        Triple(cel, Mandala.altura(cel, estado), color)
+        val avance = if (cel.tipo == Mandala.Tipo.PASO) datos.avance(cel.campamento, cel.paso) else 0f
+        Triple(cel, Mandala.altura(cel, estado, avance), color)
     }
     Canvas(
         Modifier.fillMaxWidth().aspectRatio(1f)

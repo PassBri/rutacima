@@ -75,6 +75,7 @@ import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.domain.model.Mandala
+import com.rutaalacima.app.domain.model.MetodoCima
 import com.rutaalacima.app.domain.model.VisionBoard
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
@@ -112,10 +113,19 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     val mandala = c.respuestas.observar(Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
     val cumbreFrase = c.perfil.perfil.map { it.cumbreFrase }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "")
 
-    fun guardarPaso(casilla: VisionCasillaEntity, paso: Int, texto: String, hecho: Boolean) = viewModelScope.launch {
-        val t = texto.trim()
-        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, paso), t)
-        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), if (hecho && t.isNotEmpty()) "1" else "")
+    fun guardarPaso(casilla: VisionCasillaEntity, paso: Int, texto: String) = viewModelScope.launch {
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, paso), texto.trim())
+    }
+
+    /** Registra la jornada de hoy en un paso (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */
+    fun avanzarPaso(casilla: VisionCasillaEntity, paso: Int, campamentos: List<Long>) = viewModelScope.launch {
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        val hoy = java.time.LocalDate.now()
+        val ritmo = MetodoCima.calcular(MetodoCima.pasosDe(campamentos, r), hoy)
+        val a = MetodoCima.avanzar(MetodoCima.leer(casilla.id, paso, r), hoy, ritmo.dificultad)
+        c.respuestas.guardar(Mandala.WORKBOOK, MetodoCima.claveJornadas(casilla.id, paso), a.jornadas.sorted().joinToString(","))
+        c.respuestas.guardar(Mandala.WORKBOOK, MetodoCima.claveRequeridas(casilla.id, paso), a.requeridas.toString())
+        a.cumplidoEn?.let { c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), it.toString()) }
     }
 
     /** Llena los pasos vacíos de un campamento: primero las acciones de su propósito, luego el banco de acciones de su eje. */
@@ -204,7 +214,8 @@ fun VisionScreen(onBack: () -> Unit) {
                         val (cumbre, campamentos) = Mandala.repartir(casillas) { it.casilla.origen }
                         MandalaSeccion(
                             DatosMandala(cumbre, cumbreFrase, campamentos, pasos),
-                            onPaso = { cs, p, t, h -> vm.guardarPaso(cs, p, t, h) },
+                            onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
+                            onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it.casilla.id }) },
                             onSugerir = { vm.sugerirPasos(it) },
                             onAgregarCampamento = { creando = true },
                         )

@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Tablero</string>
     <string name="mandala_titulo">Mandala 9×9</string>
     <string name="mandala_intro">La cuadrícula 9×9 (Mandala Chart), el método con el que Shohei Ohtani planeó su carrera: tu cumbre al centro, tus 8 campamentos alrededor (las casillas de tu vision board) y 8 pasos para cada uno. 64 pasos hacia tu cima.</string>
-    <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d cumplidos</string>
+    <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d ganados</string>
     <string name="mandala_2d">Cuadrícula</string>
     <string name="mandala_3d">Montaña 3D</string>
     <string name="mandala_3d_ayuda">Arrastra para girar la montaña. Cada paso que escribes y cumples la hace crecer.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Agregar campamento</string>
     <string name="mandala_ver_centro">Ver el centro</string>
     <string name="mandala_cumbre">Mi cumbre</string>
+    <string name="metodo_titulo">Método Cima 9×52</string>
+    <string name="metodo_explica">Un paso no se marca: se gana con jornadas, días distintos en que avanzaste en él. Cada 4 tramos la dificultad se ajusta como en Bitcoin: si vas muy rápido, un paso nuevo pide más jornadas; si te frenas, pide menos para que vuelvas. Así llegas a la cumbre el 31 de diciembre.</string>
+    <string name="metodo_altura">Tu montaña: %1$s de 8.848.000 mm</string>
+    <string name="metodo_dificultad">Ahora un paso nuevo pide %1$d jornadas</string>
+    <string name="metodo_tramo">Tramo %1$d de 52 · esta semana %2$d de %3$s pasos esperados · ajuste en %4$d días</string>
+    <string name="metodo_ritmo_adelante">Vas %1$s pasos adelante del ritmo</string>
+    <string name="metodo_ritmo_atras">Te faltan %1$s pasos para ir al ritmo</string>
+    <string name="metodo_jornadas">%1$d de %2$d jornadas</string>
+    <string name="metodo_avance_hoy">Avancé hoy</string>
+    <string name="metodo_ya_hoy">Hoy ya cuenta</string>
+    <string name="metodo_ganado">Paso ganado</string>
 </resources>

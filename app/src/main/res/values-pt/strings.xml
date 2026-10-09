@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Quadro</string>
     <string name="mandala_titulo">Mandala 9×9</string>
     <string name="mandala_intro">A grade 9×9 (Mandala Chart), o método com que Shohei Ohtani planejou sua carreira: seu cume no centro, seus 8 acampamentos ao redor (as casas do seu vision board) e 8 passos para cada um. 64 passos até o seu cume.</string>
-    <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d cumpridos</string>
+    <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d conquistados</string>
     <string name="mandala_2d">Grade</string>
     <string name="mandala_3d">Montanha 3D</string>
     <string name="mandala_3d_ayuda">Arraste para girar a montanha. Cada passo que você escreve e cumpre a faz crescer.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Adicionar acampamento</string>
     <string name="mandala_ver_centro">Ver o centro</string>
     <string name="mandala_cumbre">Meu cume</string>
+    <string name="metodo_titulo">Método Cima 9×52</string>
+    <string name="metodo_explica">Um passo não se marca: ganha-se com jornadas, dias diferentes em que você avançou nele. A cada 4 trechos a dificuldade se ajusta como no Bitcoin: se você vai rápido demais, um passo novo pede mais jornadas; se desacelera, pede menos para você voltar. Assim chega ao cume em 31 de dezembro.</string>
+    <string name="metodo_altura">Sua montanha: %1$s de 8.848.000 mm</string>
+    <string name="metodo_dificultad">Agora um passo novo pede %1$d jornadas</string>
+    <string name="metodo_tramo">Trecho %1$d de 52 · esta semana %2$d de %3$s passos esperados · ajuste em %4$d dias</string>
+    <string name="metodo_ritmo_adelante">Você está %1$s passos à frente do ritmo</string>
+    <string name="metodo_ritmo_atras">Faltam %1$s passos para você estar no ritmo</string>
+    <string name="metodo_jornadas">%1$d de %2$d jornadas</string>
+    <string name="metodo_avance_hoy">Avancei hoje</string>
+    <string name="metodo_ya_hoy">Hoje já conta</string>
+    <string name="metodo_ganado">Passo conquistado</string>
 </resources>

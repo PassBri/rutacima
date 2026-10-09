@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">اللوحة</string>
     <string name="mandala_titulo">ماندالا 9×9</string>
     <string name="mandala_intro">شبكة 9×9 (مخطط الماندالا)، الطريقة التي خطط بها شوهي أوتاني لمسيرته: قمتك في المركز، ومعسكراتك الثمانية حولها (خانات لوحة رؤيتك)، و8 خطوات لكل معسكر. 64 خطوة إلى قمتك.</string>
-    <string name="mandala_progreso">%1$d من 64 خطوة مكتوبة · %2$d منجزة</string>
+    <string name="mandala_progreso">%1$d من 64 خطوة مكتوبة · %2$d مكتسبة</string>
     <string name="mandala_2d">الشبكة</string>
     <string name="mandala_3d">جبل ثلاثي الأبعاد</string>
     <string name="mandala_3d_ayuda">اسحب لتدوير الجبل. كل خطوة تكتبها وتنجزها تجعله ينمو.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">أضف معسكرًا</string>
     <string name="mandala_ver_centro">عرض المركز</string>
     <string name="mandala_cumbre">قمتي</string>
+    <string name="metodo_titulo">طريقة Cima ‏9×52</string>
+    <string name="metodo_explica">الخطوة لا تُعلَّم، بل تُكتسب بأيام عمل: أيام مختلفة تقدّمت فيها. كل 4 مراحل تُعدَّل الصعوبة كما في بيتكوين: إن أسرعت كثيرًا تطلب الخطوة الجديدة أيامًا أكثر، وإن تباطأت تطلب أقل لتعود. هكذا تصل إلى القمة في 31 ديسمبر.</string>
+    <string name="metodo_altura">جبلك: %1$s من 8,848,000 مم</string>
+    <string name="metodo_dificultad">الخطوة الجديدة تطلب الآن %1$d أيام عمل</string>
+    <string name="metodo_tramo">المرحلة %1$d من 52 · هذا الأسبوع %2$d من %3$s خطوات متوقعة · تعديل بعد %4$d أيام</string>
+    <string name="metodo_ritmo_adelante">أنت متقدم بـ%1$s خطوات على الإيقاع</string>
+    <string name="metodo_ritmo_atras">ينقصك %1$s خطوات لتلحق بالإيقاع</string>
+    <string name="metodo_jornadas">%1$d من %2$d أيام عمل</string>
+    <string name="metodo_avance_hoy">تقدّمت اليوم</string>
+    <string name="metodo_ya_hoy">اليوم محسوب بالفعل</string>
+    <string name="metodo_ganado">خطوة مكتسبة</string>
 </resources>

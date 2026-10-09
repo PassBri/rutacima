@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Доска</string>
     <string name="mandala_titulo">Мандала 9×9</string>
     <string name="mandala_intro">Сетка 9×9 (Mandala Chart) — метод, которым Сёхэй Отани спланировал карьеру: твоя вершина в центре, 8 лагерей вокруг (клетки твоего vision board) и 8 шагов для каждого. 64 шага к вершине.</string>
-    <string name="mandala_progreso">Записано %1$d из 64 шагов · выполнено %2$d</string>
+    <string name="mandala_progreso">Записано %1$d из 64 шагов · заработано %2$d</string>
     <string name="mandala_2d">Сетка</string>
     <string name="mandala_3d">Гора 3D</string>
     <string name="mandala_3d_ayuda">Потяни, чтобы повернуть гору. Каждый записанный и выполненный шаг делает её выше.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Добавить лагерь</string>
     <string name="mandala_ver_centro">К центру</string>
     <string name="mandala_cumbre">Моя вершина</string>
+    <string name="metodo_titulo">Метод Cima 9×52</string>
+    <string name="metodo_explica">Шаг не отмечают — его зарабатывают днями работы: разными днями, когда ты продвинулся. Каждые 4 участка сложность меняется, как в биткоине: слишком быстро — новый шаг требует больше дней; замедлился — меньше, чтобы ты вернулся. Так ты дойдёшь до вершины 31 декабря.</string>
+    <string name="metodo_altura">Твоя гора: %1$s из 8 848 000 мм</string>
+    <string name="metodo_dificultad">Сейчас новый шаг требует %1$d дн.</string>
+    <string name="metodo_tramo">Участок %1$d из 52 · на этой неделе %2$d из %3$s ожидаемых шагов · пересчёт через %4$d дн.</string>
+    <string name="metodo_ritmo_adelante">Ты на %1$s шагов впереди темпа</string>
+    <string name="metodo_ritmo_atras">До темпа не хватает %1$s шагов</string>
+    <string name="metodo_jornadas">%1$d из %2$d дн.</string>
+    <string name="metodo_avance_hoy">Сегодня продвинулся</string>
+    <string name="metodo_ya_hoy">Сегодня уже засчитано</string>
+    <string name="metodo_ganado">Шаг заработан</string>
 </resources>

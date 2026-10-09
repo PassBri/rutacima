@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">9×9 Mandala</string>
     <string name="mandala_intro">The 9×9 grid (Mandala Chart), the method Shohei Ohtani used to plan his career: your summit in the center, your 8 camps around it (your vision board tiles) and 8 steps for each. 64 steps to your peak.</string>
-    <string name="mandala_progreso">%1$d of 64 steps written · %2$d done</string>
+    <string name="mandala_progreso">%1$d of 64 steps written · %2$d earned</string>
     <string name="mandala_2d">Grid</string>
     <string name="mandala_3d">3D mountain</string>
     <string name="mandala_3d_ayuda">Drag to turn the mountain. Every step you write and complete makes it grow.</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">Add camp</string>
     <string name="mandala_ver_centro">See the center</string>
     <string name="mandala_cumbre">My summit</string>
+    <string name="metodo_titulo">Cima Method 9×52</string>
+    <string name="metodo_explica">A step isn\'t ticked: it\'s earned with work days, different days you moved it forward. Every 4 stages the difficulty adjusts like Bitcoin: go too fast and a new step asks for more days; slow down and it asks for fewer so you come back. That\'s how you reach the summit on December 31.</string>
+    <string name="metodo_altura">Your mountain: %1$s of 8,848,000 mm</string>
+    <string name="metodo_dificultad">A new step now asks for %1$d work days</string>
+    <string name="metodo_tramo">Stage %1$d of 52 · this week %2$d of %3$s expected steps · adjusts in %4$d days</string>
+    <string name="metodo_ritmo_adelante">You\'re %1$s steps ahead of pace</string>
+    <string name="metodo_ritmo_atras">You\'re %1$s steps behind pace</string>
+    <string name="metodo_jornadas">%1$d of %2$d work days</string>
+    <string name="metodo_avance_hoy">I moved forward today</string>
+    <string name="metodo_ya_hoy">Today already counts</string>
+    <string name="metodo_ganado">Step earned</string>
 </resources>

@@ -1016,7 +1016,7 @@
     <string name="mandala_tablero">ボード</string>
     <string name="mandala_titulo">9×9 マンダラ</string>
     <string name="mandala_intro">9×9のマス（マンダラチャート）。大谷翔平がキャリアを計画した方法です。中心にあなたの頂、周りに8つのキャンプ（ビジョンボードのマス）、それぞれに8つのステップ。頂上まで64ステップ。</string>
-    <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d達成</string>
+    <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d獲得</string>
     <string name="mandala_2d">マス</string>
     <string name="mandala_3d">3Dの山</string>
     <string name="mandala_3d_ayuda">ドラッグで山を回せます。書いて達成したステップごとに山が育ちます。</string>
@@ -1028,4 +1028,15 @@
     <string name="mandala_agregar_campamento">キャンプを追加</string>
     <string name="mandala_ver_centro">中心を見る</string>
     <string name="mandala_cumbre">私の頂</string>
+    <string name="metodo_titulo">Cima 9×52 メソッド</string>
+    <string name="metodo_explica">ステップはチェックするのではなく、「取り組んだ日」で獲得します（別々の日に進めた日数）。4区間ごとにビットコインのように難易度が調整されます。速すぎると新しいステップに必要な日数が増え、ペースが落ちると減って戻りやすくなります。こうして12月31日に頂上へ。</string>
+    <string name="metodo_altura">あなたの山：%1$s / 8,848,000 mm</string>
+    <string name="metodo_dificultad">今、新しいステップには%1$d日必要です</string>
+    <string name="metodo_tramo">区間 %1$d / 52 · 今週 %2$d / 予定 %3$s ステップ · 調整まで%4$d日</string>
+    <string name="metodo_ritmo_adelante">ペースより%1$sステップ先行</string>
+    <string name="metodo_ritmo_atras">ペースまであと%1$sステップ</string>
+    <string name="metodo_jornadas">%2$d日中%1$d日</string>
+    <string name="metodo_avance_hoy">今日進めた</string>
+    <string name="metodo_ya_hoy">今日は記録済み</string>
+    <string name="metodo_ganado">ステップ獲得</string>
 </resources>
