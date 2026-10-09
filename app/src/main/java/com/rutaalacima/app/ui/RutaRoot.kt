@@ -2,33 +2,22 @@ package com.rutaalacima.app.ui
 
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.zIndex
-import androidx.compose.ui.draw.shadow
 import com.rutaalacima.app.ui.theme.Papel
 import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.Image
@@ -51,6 +40,15 @@ import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Today
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Terrain
+import androidx.compose.material.icons.outlined.Today
+import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.indication
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -167,14 +165,15 @@ object Rutas {
     fun acompanado(id: String, nombre: String) = "acompanado/$id/${android.net.Uri.encode(nombre.ifBlank { "-" })}"
 }
 
-private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVector)
+/** Pestaña de la barra: ícono relleno cuando está activa y de contorno cuando no (Material 3). */
+private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVector, val iconoInactivo: ImageVector = icono)
 
 private val PESTANAS = listOf(
-    Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain),
-    Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today),
-    Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, Icons.Filled.Groups),
-    Pestana(Rutas.APRENDE, R.string.tab_aprende, Icons.AutoMirrored.Filled.MenuBook),
-    Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person),
+    Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain, Icons.Outlined.Terrain),
+    Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today, Icons.Outlined.Today),
+    Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, Icons.Filled.Groups, Icons.Outlined.Groups),
+    Pestana(Rutas.APRENDE, R.string.tab_aprende, Icons.AutoMirrored.Filled.MenuBook, Icons.AutoMirrored.Outlined.MenuBook),
+    Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person, Icons.Outlined.Person),
 )
 
 enum class EstadoApp { CARGANDO, ONBOARDING, LISTO }
@@ -283,8 +282,24 @@ private fun AppPrincipal() {
                 Column {
                     // Mientras suena un audiolibro: pausa o vuelve al capítulo desde cualquier pestaña
                     com.rutaalacima.app.ui.workbook.MiniReproductor(onAbrir = { wb, sec -> nav.navigate(Rutas.seccion(wb, sec)) })
-                    if (!ancho) BarraIconos(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                    if (!ancho) BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) })
                 }
+            }
+        },
+        // Publicar ("plantar tu bandera"): la acción principal de Comunidad, como botón flotante de Material 3.
+        // En Mi ruta y Perfil se publica desde la propia pantalla; en tableta, desde el riel lateral.
+        floatingActionButton = {
+            if (!ancho && rutaActual == Rutas.COMUNIDAD) {
+                androidx.compose.material3.ExtendedFloatingActionButton(
+                    onClick = { nav.navigate(Rutas.publicar()) },
+                    icon = { Icon(painterResource(R.drawable.ic_plantar_bandera), null, Modifier.size(22.dp)) },
+                    text = { Text(stringResource(R.string.publicar)) },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary,
+                    elevation = androidx.compose.material3.FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 2.dp, pressedElevation = 4.dp, focusedElevation = 2.dp, hoveredElevation = 3.dp,
+                    ),
+                )
             }
         },
     ) { padding ->
@@ -527,128 +542,69 @@ private fun NavHostController.irAPestana(ruta: String) {
 }
 
 /**
- * Barra inferior compacta: solo íconos (56 dp en vez de 80). Al apoyar el dedo aparece el
- * nombre de la pestaña en una etiqueta de papel; si deslizas el dedo por la barra, la etiqueta
- * sigue al dedo (con una vibración suave en cada ícono) y al soltar abre esa pestaña.
- * Con TalkBack cada ícono se anuncia con su nombre y se activa con doble toque.
+ * Barra de navegación inferior (Material 3), sobria y limpia: cinco destinos con su nombre siempre
+ * visible. El destino activo lleva el ícono relleno dentro de una píldora dorada suave; los demás, el
+ * ícono de contorno en tinta tenue. Sin sombra: una línea de papel la separa del contenido.
+ * Altura compacta de 64 dp (la "barra corta" de Material 3) más el espacio de los gestos del sistema.
  */
 @Composable
-private fun BarraIconos(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit) {
-    var sobre by remember { mutableStateOf<Int?>(null) }
-    val ir by androidx.compose.runtime.rememberUpdatedState(onIr)
-    val publicar by androidx.compose.runtime.rememberUpdatedState(onPublicar)
-    val haptic = LocalHapticFeedback.current
-    // Las 5 pestañas y, en el centro, el botón para publicar ("plantar tu bandera")
-    val n = PESTANAS.size + 1
-    fun pestanaEn(k: Int): Pestana? = if (k == CENTRO) null else PESTANAS[if (k < CENTRO) k else k - 1]
+private fun BarraNavegacion(actual: String?, onIr: (String) -> Unit) {
     val colores = MaterialTheme.colorScheme
-    val nombrePublicar = stringResource(R.string.publicar)
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .shadow(10.dp, RectangleShape, clip = false, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-            .background(colores.surfaceContainerLow)
-            .navigationBarsPadding()
-            .height(56.dp)
-            .pointerInput(Unit) {
-                awaitEachGesture {
-                    val abajo = awaitFirstDown()
-                    fun indice(x: Float) = (x / size.width * n).toInt().coerceIn(0, n - 1)
-                    var i = indice(abajo.position.x)
-                    sobre = i
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    var soltado = false
-                    try {
-                        while (true) {
-                            val evento = awaitPointerEvent()
-                            val c = evento.changes.firstOrNull { it.id == abajo.id } ?: break
-                            if (!c.pressed) { soltado = true; break }
-                            val j = indice(c.position.x)
-                            if (j != i) {
-                                i = j
-                                sobre = j
-                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            }
-                            c.consume()
-                        }
-                    } finally {
-                        sobre = null
-                    }
-                    if (soltado) pestanaEn(i)?.let { ir(it.ruta) } ?: publicar()
-                }
-            },
-    ) {
-        Row(Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically) {
-            for (k in 0 until n) {
-                val p = pestanaEn(k)
-                val elegida = p != null && actual == p.ruta
-                val nombre = p?.let { stringResource(it.titulo) } ?: nombrePublicar
-                Box(
-                    Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .semantics {
-                            role = if (p == null) Role.Button else Role.Tab
-                            if (p != null) selected = elegida
-                            contentDescription = nombre
-                            onClick { if (p != null) onIr(p.ruta) else onPublicar(); true }
-                        },
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (p == null) {
-                        // Botón para publicar: igual a las pestañas, con un acento leve (borde dorado y fondo apenas teñido)
-                        val presionado = sobre == k
-                        Box(
-                            Modifier
-                                .size(width = 56.dp, height = 32.dp)
-                                .background(
-                                    if (presionado) colores.secondaryContainer else colores.primary.copy(alpha = 0.08f),
-                                    CircleShape,
-                                )
-                                .border(1.dp, colores.secondary.copy(alpha = 0.55f), CircleShape),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(
-                                androidx.compose.ui.res.painterResource(R.drawable.ic_plantar_bandera), contentDescription = null,
-                                tint = colores.primary, modifier = Modifier.size(24.dp),
-                            )
-                        }
-                    } else {
-                        val resaltada = elegida || sobre == k
-                        Box(
-                            Modifier
-                                .size(width = 56.dp, height = 32.dp)
-                                .background(if (resaltada) colores.secondaryContainer else Color.Transparent, CircleShape),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            Icon(
-                                p.icono, contentDescription = null,
-                                tint = if (elegida) colores.primary else colores.onSurfaceVariant,
-                            )
-                        }
-                    }
-                    // Etiqueta flotante con el nombre, encima del ícono que toca el dedo
-                    if (sobre == k) {
-                        Text(
-                            nombre,
-                            style = MaterialTheme.typography.labelLarge,
-                            color = colores.onPrimary,
-                            maxLines = 1,
-                            modifier = Modifier
-                                .align(Alignment.TopCenter)
-                                .wrapContentSize(unbounded = true)
-                                .offset(y = (-44).dp)
-                                .zIndex(1f)
-                                .shadow(6.dp, RoundedCornerShape(10.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-                                .background(colores.primary, RoundedCornerShape(10.dp))
-                                .padding(horizontal = 12.dp, vertical = 6.dp),
-                        )
-                    }
-                }
-            }
+    Column(Modifier.fillMaxWidth().background(colores.surface)) {
+        androidx.compose.material3.HorizontalDivider(thickness = 0.5.dp, color = colores.outlineVariant.copy(alpha = 0.7f))
+        Row(
+            Modifier.fillMaxWidth().navigationBarsPadding().height(64.dp).semantics { isTraversalGroup = true },
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            PESTANAS.forEach { p -> DestinoBarra(p, elegida = actual == p.ruta, onClick = { onIr(p.ruta) }) }
         }
     }
 }
 
-/** Posición del botón para publicar en la barra inferior (en medio, como en otras redes). */
-private const val CENTRO = 2
+@Composable
+private fun androidx.compose.foundation.layout.RowScope.DestinoBarra(p: Pestana, elegida: Boolean, onClick: () -> Unit) {
+    val colores = MaterialTheme.colorScheme
+    val nombre = stringResource(p.titulo)
+    val toque = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    // La píldora crece desde el centro al elegir (salida suave, sin rebote)
+    val ancho by androidx.compose.animation.core.animateDpAsState(
+        if (elegida) 56.dp else 32.dp,
+        androidx.compose.animation.core.tween(220, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "pildora",
+    )
+    val fondo by androidx.compose.animation.animateColorAsState(
+        if (elegida) colores.secondaryContainer else Color.Transparent, androidx.compose.animation.core.tween(220), label = "fondo",
+    )
+    Column(
+        Modifier
+            .weight(1f)
+            .fillMaxHeight()
+            .selectable(
+                selected = elegida, onClick = onClick, role = Role.Tab,
+                interactionSource = toque, indication = null,
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+    ) {
+        Box(
+            Modifier
+                .size(width = 56.dp, height = 32.dp)
+                .clip(CircleShape)
+                .indication(toque, androidx.compose.material3.ripple(bounded = true, color = colores.primary)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Box(Modifier.size(width = ancho, height = 32.dp).background(fondo, CircleShape))
+            Icon(
+                if (elegida) p.icono else p.iconoInactivo, contentDescription = null,
+                tint = if (elegida) colores.onSecondaryContainer else colores.onSurfaceVariant,
+                modifier = Modifier.size(24.dp),
+            )
+        }
+        Spacer(Modifier.height(4.dp))
+        Text(
+            nombre, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.labelMedium.copy(letterSpacing = androidx.compose.ui.unit.TextUnit.Unspecified),
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Medium, // mismo peso: el activo se distingue por color y píldora, y nada se corta
+            color = if (elegida) colores.onSurface else colores.onSurfaceVariant,
+        )
+    }
+}

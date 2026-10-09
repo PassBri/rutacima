@@ -226,10 +226,42 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
   .franja { display: none; }
   .ventana { padding: 0; }
   .app { border-radius: 0; flex-direction: column-reverse; box-shadow: none; }
-  .riel { width: 100%; flex-direction: row; justify-content: space-around; padding: 4px 6px calc(4px + env(safe-area-inset-bottom, 0px)); border-right: 0; border-top: 1px solid var(--linea); gap: 0; }
-  .riel .sello, .riel .esp, .riel .solo-pc { display: none; }
-  .rb .tip { left: 50%; top: auto; bottom: 50px; transform: translateX(-50%); }
-  .rb:hover .tip, .rb:focus-visible .tip { transform: translateX(-50%); }
+  /* Barra de navegación (Material 3, "barra corta"): 5 destinos con nombre, píldora en el activo, sin sombra */
+  .riel { width: 100%; flex-direction: row; align-items: stretch; justify-content: space-between; gap: 0;
+    padding: 0 4px env(safe-area-inset-bottom, 0px); border-right: 0; border-top: 0.5px solid var(--linea); background: var(--hoja); }
+  .riel .sello, .riel .esp, .riel .rb.solo-pc, .riel .rb.rb-publicar, .riel .tip { display: none; }
+  .riel .rb { flex: 1 1 0; min-width: 0; width: auto; height: 64px; border-radius: 0; background: none; color: var(--tinta-suave);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0 2px; -webkit-tap-highlight-color: transparent; }
+  .riel .rb:hover { background: none; }
+  .riel .rb.solo-pc, .riel .rb.rb-publicar { display: none; }
+  .riel .rb-ic { position: relative; width: 56px; height: 32px; display: grid; place-items: center; border-radius: 16px; }
+  .riel .rb-ic::before { content: ""; position: absolute; inset: 0; border-radius: 16px; background: var(--oro-suave); opacity: 0; transform: scaleX(.55);
+    transition: transform .22s cubic-bezier(.2, 0, 0, 1), opacity .22s cubic-bezier(.2, 0, 0, 1); }
+  .riel .rb-ic svg { position: relative; }
+  .riel .rb[aria-current="page"] { color: var(--burdeos); background: none; }
+  .riel .rb[aria-current="page"] .rb-ic::before { opacity: 1; transform: none; }
+  .riel .rb:active .rb-ic::before { opacity: .6; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .riel .rb-ic::before { transition: opacity .1s; } }
+  .riel .rb:focus-visible { outline: none; }
+  .riel .rb:focus-visible .rb-ic { box-shadow: 0 0 0 2px var(--burdeos); }
+  .riel .etq { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0; color: var(--tinta-suave); }
+  .riel .rb[aria-current="page"] .etq { color: var(--tinta); }
+  /* En el teléfono, publicar está en el botón flotante: el "+" de la cabecera sobra */
+  .lista-cab .nuevo[data-sel="publicar"] { display: none; }
+  .riel .rb .punto { top: 2px; right: 10px; border-color: var(--oro-suave); }
+  /* Publicar: botón flotante extendido en Comunidad */
+  .fab-publicar { position: fixed; right: 16px; bottom: calc(64px + 16px + env(safe-area-inset-bottom, 0px)); z-index: 4;
+    display: inline-flex; align-items: center; gap: 10px; height: 56px; padding: 0 20px 0 16px; border-radius: 16px;
+    background: var(--burdeos); color: var(--sobre-burdeos); font-size: 15px; font-weight: 500; letter-spacing: .01em;
+    box-shadow: 0 1px 2px rgb(var(--sombra) / .18), 0 4px 10px rgb(var(--sombra) / .14); transition: box-shadow .2s, transform .2s; }
+  .fab-publicar:active { transform: scale(.98); box-shadow: 0 1px 2px rgb(var(--sombra) / .2); }
+  .fab-publicar svg { width: 22px; height: 22px; }
+  .app.con-detalle .fab-publicar { display: none; }
+}
+@media (max-width: 359px) {
+  .riel .etq { font-size: 11px; }
+  .riel .rb-ic { width: 48px; }
   .cuerpo { flex: 1; min-height: 0; display: flex; position: relative; }
   .lista { width: 100%; border-right: 0; }
   .detalle { position: absolute; inset: 0; transform: translateX(100%); transition: transform .2s; }
@@ -384,6 +416,7 @@ a.btn { text-decoration: none; color: inherit; }
 /* Botón para publicar: igual a los demás, con un acento leve (borde dorado y fondo apenas teñido) */
 .rb-publicar { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 8%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--oro) 60%, transparent); }
 .rb-publicar:hover { background: var(--oro-suave); }
+@media (min-width: 901px) { .fab-publicar, .riel .etq { display: none; } .rb-ic { display: contents; } }
 .riel { position: relative; z-index: 3; }
 .solo-movil { display: none; }
 .atajos .rb { width: 36px; height: 36px; }

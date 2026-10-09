@@ -6,7 +6,8 @@ const SECCIONES = [
   ["ruta", "Mi ruta"], ["hoy", "Hoy"], ["metas", "Metas"], ["comunidad", "Comunidad"],
   ["aprende", "Aprende"], ["coach", "Coach"], ["mensajes", "Mensajes"], ["frases", "Mis frases"], ["perfil", "Perfil"],
 ];
-/** En el teléfono la barra es igual a la de la app: 5 secciones y el botón de publicar en medio.
+/** En el teléfono la barra es igual a la de la app: 5 secciones con su nombre (Material 3) y, en
+ *  Comunidad, el botón flotante "Publicar".
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
 const SOLO_PC = new Set(["metas", "coach", "mensajes", "frases"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "lista" };
@@ -16,9 +17,10 @@ function pintarRiel() {
   $("riel").innerHTML =
     `<img class="sello" src="${LOGO}" alt="Rutaalacima">` +
     SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar">${ic("publicar")}<span class="tip">Publicar · planta tu bandera</span></button>` : "") +
-      `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}>${ic(k)}<span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
+      `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="etq" aria-hidden="true">${n}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Tema claro u oscuro">${ic("tema")}<span class="tip">Tema claro u oscuro</span></button>
+     ${estado.sec === "comunidad" ? `<button class="fab-publicar" data-ir="comunidad" data-arg="publicar">${ic("publicar")}<span>Publicar</span></button>` : ""}
      <button class="rb solo-pc" data-acc="salir" aria-label="${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}">${ic("salir")}<span class="tip">${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}</span></button>`;
 }
 function ir(sec, sel = null) {
