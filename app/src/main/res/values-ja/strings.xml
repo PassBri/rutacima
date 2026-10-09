@@ -1129,4 +1129,19 @@
     <string name="brujula_de">%1$sのコンパス</string>
     <string name="brujula_fecha">%1$s時点</string>
     <string name="brujula_sin_pasos">この人は頂とキャンプを共有しましたが、ステップの内容は非公開です。</string>
+    <string name="legal_titulo">法的情報</string>
+    <string name="legal_centro">法務センター</string>
+    <string name="legal_terminos">利用規約</string>
+    <string name="legal_aviso">プライバシー通知</string>
+    <string name="legal_autorizacion">データ処理の同意</string>
+    <string name="legal_normas">コミュニティガイドライン</string>
+    <string name="legal_ayuda">コロンビア法 1581 号（2012 年）に基づく、データの扱いとサービスのルールです。文書はスペイン語です。</string>
+    <string name="registro_acepto">利用規約とプライバシーポリシーに同意し、私が提供を選んだ機微なデータを含め、私のデータの処理を許可します。</string>
+    <string name="registro_edad">18 歳以上です。または 14〜17 歳で、法定代理人の許可を得ています。</string>
+    <string name="registro_leer">文書を読む</string>
+    <string name="legal_pendiente_titulo">あなたのデータは、あなたの許可のもとで</string>
+    <string name="legal_pendiente_texto">Rutaalacima の法的文書（プライバシーポリシー、利用規約、プライバシー通知、データ処理の同意、コミュニティガイドライン）を公開しました。アカウントを引き続き使うには、内容を読んで同意してください。</string>
+    <string name="legal_aceptar">同意して許可する</string>
+    <string name="legal_ahora_no">今はしない</string>
+    <string name="legal_error">保存できませんでした。接続を確認してもう一度お試しください。</string>
 </resources>

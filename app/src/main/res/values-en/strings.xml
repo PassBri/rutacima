@@ -1129,4 +1129,19 @@
     <string name="brujula_de">%1$s\'s Compass</string>
     <string name="brujula_fecha">As it was on %1$s</string>
     <string name="brujula_sin_pasos">This person shared their summit and camps, without the text of their steps.</string>
+    <string name="legal_titulo">Legal</string>
+    <string name="legal_centro">Legal center</string>
+    <string name="legal_terminos">Terms and conditions</string>
+    <string name="legal_aviso">Privacy notice</string>
+    <string name="legal_autorizacion">Data processing authorization</string>
+    <string name="legal_normas">Community guidelines</string>
+    <string name="legal_ayuda">How we look after your data and the rules of the service, under Colombia\'s Law 1581 of 2012. The documents are in Spanish.</string>
+    <string name="registro_acepto">I accept the Terms and conditions and the Privacy policy, and I authorize the processing of my data, including any sensitive data I choose to provide.</string>
+    <string name="registro_edad">I am 18 or older, or I am between 14 and 17 and have my legal guardian\'s permission.</string>
+    <string name="registro_leer">Read the documents</string>
+    <string name="legal_pendiente_titulo">Your data, with your permission</string>
+    <string name="legal_pendiente_texto">We have published Rutaalacima\'s legal documents: privacy policy, terms, privacy notice, data processing authorization and community guidelines. To keep using your account, please read them and accept the authorization.</string>
+    <string name="legal_aceptar">I accept and authorize</string>
+    <string name="legal_ahora_no">Not now</string>
+    <string name="legal_error">Couldn\'t save. Check your connection and try again.</string>
 </resources>

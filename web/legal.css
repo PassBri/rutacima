@@ -1,0 +1,41 @@
+/* Documentos legales de Rutaalacima: hoja de papel, legible en teléfono y con modo oscuro. */
+:root { --fondo: #F7F2EA; --hoja: #FFFFFF; --tinta: #2B1D16; --suave: #6B5B52; --linea: #E8DED4; --burdeos: #6B2A1A; --oro: #B8862F; color-scheme: light; }
+@media (prefers-color-scheme: dark) { :root { --fondo: #17110D; --hoja: #241B16; --tinta: #F1E8DF; --suave: #BBA99C; --linea: #3A2D25; --burdeos: #F0B3A1; --oro: #E0B566; color-scheme: dark; } }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 780px; margin: 0 auto; padding: 24px 16px 64px; }
+nav.docs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+nav.docs a { text-decoration: none; font-size: 13px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--linea); color: var(--suave); background: var(--hoja); }
+nav.docs a[aria-current="page"] { background: var(--burdeos); border-color: var(--burdeos); color: var(--hoja); }
+.hoja { background: var(--hoja); border: 1px solid var(--linea); border-radius: 18px; padding: clamp(20px, 5vw, 40px); box-shadow: 0 1px 2px rgba(60, 40, 20, .06), 0 8px 24px rgba(60, 40, 20, .06); }
+header { display: flex; gap: 14px; align-items: center; margin-bottom: 18px; }
+header img { width: 56px; height: 56px; flex: none; }
+h1 { font-family: Georgia, "Times New Roman", serif; color: var(--burdeos); margin: 0; font-size: clamp(24px, 5vw, 32px); line-height: 1.2; }
+h2 { color: var(--burdeos); font-size: 19px; margin: 30px 0 6px; scroll-margin-top: 12px; }
+h3 { font-size: 16px; margin: 18px 0 4px; }
+p, li { margin: 6px 0; }
+ul, ol { padding-left: 22px; }
+.suave { color: var(--suave); font-size: 14px; }
+.caja { border-left: 3px solid var(--oro); background: color-mix(in srgb, var(--oro) 10%, transparent); padding: 10px 14px; border-radius: 8px; }
+.pendiente { background: color-mix(in srgb, var(--oro) 25%, transparent); border-radius: 4px; padding: 0 4px; }
+a { color: var(--burdeos); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 8px 0; }
+th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--linea); }
+th { color: var(--suave); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+.indice { columns: 2 220px; font-size: 15px; }
+.indice li { break-inside: avoid; }
+.tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 16px 0; }
+.tarjetas a { display: block; text-decoration: none; color: var(--tinta); border: 1px solid var(--linea); border-radius: 14px; padding: 14px 16px; background: var(--hoja); }
+.tarjetas a:hover { border-color: var(--oro); }
+.tarjetas b { color: var(--burdeos); display: block; margin-bottom: 4px; font-family: Georgia, serif; font-size: 17px; }
+.tarjetas span { color: var(--suave); font-size: 14px; }
+footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--linea); }
+@media (max-width: 560px) {
+  table.resp, table.resp thead, table.resp tbody, table.resp tr, table.resp th, table.resp td { display: block; }
+  table.resp thead { display: none; }
+  table.resp td { border: 0; padding: 2px 0; }
+  table.resp tr { border-bottom: 1px solid var(--linea); padding: 8px 0; }
+  table.resp td:first-child { font-weight: 600; }
+}
+@media print { body { background: #fff; } nav.docs { display: none; } .hoja { border: 0; box-shadow: none; } }

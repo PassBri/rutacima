@@ -1129,4 +1129,19 @@
     <string name="brujula_de">%1$s का कम्पास</string>
     <string name="brujula_fecha">%1$s को ऐसा था</string>
     <string name="brujula_sin_pasos">इस व्यक्ति ने अपना शिखर और पड़ाव साझा किए, कदमों का पाठ नहीं।</string>
+    <string name="legal_titulo">कानूनी</string>
+    <string name="legal_centro">कानूनी केंद्र</string>
+    <string name="legal_terminos">नियम और शर्तें</string>
+    <string name="legal_aviso">गोपनीयता सूचना</string>
+    <string name="legal_autorizacion">डेटा प्रसंस्करण की अनुमति</string>
+    <string name="legal_normas">समुदाय के नियम</string>
+    <string name="legal_ayuda">कोलंबिया के 2012 के कानून 1581 के अनुसार हम तुम्हारे डेटा की देखभाल कैसे करते हैं और सेवा के नियम। दस्तावेज़ स्पेनिश में हैं।</string>
+    <string name="registro_acepto">मैं नियम और शर्तें तथा गोपनीयता नीति स्वीकार करता/करती हूँ, और अपने डेटा के प्रसंस्करण की अनुमति देता/देती हूँ, जिसमें वह संवेदनशील डेटा भी शामिल है जो मैं देना चुनूँ।</string>
+    <string name="registro_edad">मेरी उम्र 18 वर्ष या उससे अधिक है, या 14 से 17 के बीच है और मेरे पास अपने कानूनी अभिभावक की अनुमति है।</string>
+    <string name="registro_leer">दस्तावेज़ पढ़ें</string>
+    <string name="legal_pendiente_titulo">तुम्हारा डेटा, तुम्हारी अनुमति से</string>
+    <string name="legal_pendiente_texto">हमने Rutaalacima के कानूनी दस्तावेज़ प्रकाशित किए हैं: गोपनीयता नीति, शर्तें, गोपनीयता सूचना, डेटा प्रसंस्करण की अनुमति और समुदाय के नियम। अपना खाता इस्तेमाल करते रहने के लिए इन्हें पढ़ें और अनुमति स्वीकार करें।</string>
+    <string name="legal_aceptar">मैं स्वीकार करता/करती हूँ</string>
+    <string name="legal_ahora_no">अभी नहीं</string>
+    <string name="legal_error">सहेजा नहीं जा सका। अपना कनेक्शन जाँचें और फिर कोशिश करें।</string>
 </resources>

@@ -659,9 +659,17 @@ Object.assign(DET, {
            <div class="botones"><button class="btn peligro" data-acc="eliminarCuenta">Eliminar mi cuenta</button></div>`
         : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>
            <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`) +
-        `<p class="suave" style="text-align:center"><a href="privacidad.html" target="_blank" rel="noopener">Política de privacidad</a></p>`, "max-width:640px");
+        enlacesLegales(), "max-width:640px");
   },
 });
+/** Documentos legales (Ley 1581 de 2012): se abren en otra pestaña. */
+const DOCS_LEGALES = [["privacidad.html", "Privacidad"], ["terminos.html", "Términos"], ["aviso-privacidad.html", "Aviso de privacidad"],
+  ["autorizacion.html", "Autorización de datos"], ["normas.html", "Normas de la comunidad"]];
+function enlacesLegales() {
+  // Fuera del sitio publicado (por ejemplo, en una vista previa) los documentos se abren desde GitHub Pages
+  const base = /github\.io$|^localhost|^127\./.test(location.hostname) ? "" : "https://passbri.github.io/rutacima/";
+  return `<nav class="legales" aria-label="Documentos legales">${DOCS_LEGALES.map(([a, t]) => `<a href="${base}${a}" target="_blank" rel="noopener">${t}</a>`).join("")}</nav>`;
+}
 async function cargarMisPosts() {
   if (cargarMisPosts.activo) return; cargarMisPosts.activo = true;
   await null;

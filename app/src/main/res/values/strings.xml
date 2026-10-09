@@ -1129,4 +1129,19 @@
     <string name="brujula_de">Brújula de %1$s</string>
     <string name="brujula_fecha">Así iba el %1$s</string>
     <string name="brujula_sin_pasos">Esta persona compartió su cumbre y sus campamentos, sin el texto de sus pasos.</string>
+    <string name="legal_titulo">Legal</string>
+    <string name="legal_centro">Centro legal</string>
+    <string name="legal_terminos">Términos y condiciones</string>
+    <string name="legal_aviso">Aviso de privacidad</string>
+    <string name="legal_autorizacion">Autorización de tratamiento de datos</string>
+    <string name="legal_normas">Normas de la comunidad</string>
+    <string name="legal_ayuda">Cómo cuidamos tus datos y las reglas del servicio, según la Ley 1581 de 2012 de Colombia. Los documentos están en español.</string>
+    <string name="registro_acepto">Acepto los Términos y condiciones y la Política de privacidad, y autorizo el tratamiento de mis datos, incluidos los sensibles que decida dar.</string>
+    <string name="registro_edad">Tengo 18 años o más, o tengo entre 14 y 17 y cuento con la autorización de mi representante legal.</string>
+    <string name="registro_leer">Leer los documentos</string>
+    <string name="legal_pendiente_titulo">Tus datos, con tu permiso</string>
+    <string name="legal_pendiente_texto">Publicamos los documentos legales de Rutaalacima: política de privacidad, términos, aviso de privacidad, autorización de tratamiento y normas de la comunidad. Para seguir usando tu cuenta, léelos y acepta la autorización.</string>
+    <string name="legal_aceptar">Acepto y autorizo</string>
+    <string name="legal_ahora_no">Ahora no</string>
+    <string name="legal_error">No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.</string>
 </resources>

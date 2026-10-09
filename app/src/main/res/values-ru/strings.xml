@@ -1129,4 +1129,19 @@
     <string name="brujula_de">Компас: %1$s</string>
     <string name="brujula_fecha">Каким он был %1$s</string>
     <string name="brujula_sin_pasos">Человек поделился вершиной и лагерями, без текста шагов.</string>
+    <string name="legal_titulo">Правовая информация</string>
+    <string name="legal_centro">Правовой центр</string>
+    <string name="legal_terminos">Условия использования</string>
+    <string name="legal_aviso">Уведомление о конфиденциальности</string>
+    <string name="legal_autorizacion">Согласие на обработку данных</string>
+    <string name="legal_normas">Правила сообщества</string>
+    <string name="legal_ayuda">Как мы бережём ваши данные и правила сервиса — по закону Колумбии 1581 от 2012 года. Документы на испанском.</string>
+    <string name="registro_acepto">Я принимаю Условия использования и Политику конфиденциальности и даю согласие на обработку моих данных, включая чувствительные, которые решу указать.</string>
+    <string name="registro_edad">Мне 18 лет или больше, либо мне от 14 до 17 лет и у меня есть разрешение законного представителя.</string>
+    <string name="registro_leer">Прочитать документы</string>
+    <string name="legal_pendiente_titulo">Ваши данные — с вашего разрешения</string>
+    <string name="legal_pendiente_texto">Мы опубликовали правовые документы Rutaalacima: политику конфиденциальности, условия, уведомление о конфиденциальности, согласие на обработку данных и правила сообщества. Чтобы продолжать пользоваться аккаунтом, прочитайте их и дайте согласие.</string>
+    <string name="legal_aceptar">Принимаю и даю согласие</string>
+    <string name="legal_ahora_no">Не сейчас</string>
+    <string name="legal_error">Не удалось сохранить. Проверьте подключение и попробуйте снова.</string>
 </resources>

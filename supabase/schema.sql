@@ -1115,3 +1115,49 @@ alter table public.posts add column if not exists brujula jsonb;
 do $$ begin
   alter table public.posts add constraint posts_brujula_tamano check (brujula is null or pg_column_size(brujula) < 200000);
 exception when duplicate_object then null; end $$;
+
+-- =====================================================================
+-- Autorización de tratamiento de datos (Ley 1581 de 2012, Decreto 1377 de 2013)
+-- =====================================================================
+-- Prueba de la autorización: qué versión de los documentos legales aceptó cada persona, cuándo y
+-- desde dónde (app o web). Solo la ve la propia persona. Al registrarse, la app envía la versión en
+-- los metadatos ("legal_version") y el trigger la guarda; las cuentas anteriores la aceptan con
+-- aceptar_legal() la primera vez que abren la app actualizada.
+create table if not exists public.consentimientos (
+  id        bigint generated always as identity primary key,
+  user_id   uuid not null references auth.users(id) on delete cascade,
+  version   text not null check (char_length(version) between 1 and 20),
+  origen    text not null default 'app' check (origen in ('app','web','registro')),
+  aceptado  timestamptz not null default now(),
+  unique (user_id, version)
+);
+alter table public.consentimientos enable row level security;
+drop policy if exists "ver mi autorización" on public.consentimientos;
+create policy "ver mi autorización" on public.consentimientos for select using (user_id = public.yo());
+grant select on public.consentimientos to authenticated;
+
+create or replace function public.aceptar_legal(p_version text, p_origen text default 'app') returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if public.yo() is null then raise exception 'sin sesión'; end if;
+  insert into public.consentimientos (user_id, version, origen)
+  values (public.yo(), left(p_version, 20), case when p_origen in ('app','web') then p_origen else 'app' end)
+  on conflict (user_id, version) do nothing;
+end $$;
+revoke all on function public.aceptar_legal(text, text) from public, anon;
+grant execute on function public.aceptar_legal(text, text) to authenticated;
+
+create or replace function public.consentimiento_registro() returns trigger
+language plpgsql security definer set search_path = public as $$
+begin
+  if coalesce(new.is_anonymous, false) then return new; end if;
+  if nullif(new.raw_user_meta_data->>'legal_version', '') is not null then
+    insert into public.consentimientos (user_id, version, origen)
+    values (new.id, left(new.raw_user_meta_data->>'legal_version', 20), 'registro')
+    on conflict (user_id, version) do nothing;
+  end if;
+  return new;
+end $$;
+drop trigger if exists al_crear_usuario_consentimiento on auth.users;
+create trigger al_crear_usuario_consentimiento after insert on auth.users
+  for each row execute function public.consentimiento_registro();

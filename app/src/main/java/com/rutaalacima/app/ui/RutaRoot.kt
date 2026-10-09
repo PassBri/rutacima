@@ -214,6 +214,8 @@ private fun AppPrincipal() {
     val entrada by nav.currentBackStackEntryAsState()
     val rutaActual = entrada?.destination?.route
     val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
+    // Cuentas que aún no aceptan la autorización de tratamiento de datos vigente (Ley 1581)
+    com.rutaalacima.app.ui.legal.AutorizacionPendiente()
 
     // Código QR de Rutaalacima Web escaneado con la cámara: abrir la pantalla para confirmarlo
     val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container

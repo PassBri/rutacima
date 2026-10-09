@@ -1129,4 +1129,19 @@
     <string name="brujula_de">%1$s 的罗盘</string>
     <string name="brujula_fecha">%1$s 时的样子</string>
     <string name="brujula_sin_pasos">此人分享了顶峰和营地，但没有分享步骤内容。</string>
+    <string name="legal_titulo">法律信息</string>
+    <string name="legal_centro">法律中心</string>
+    <string name="legal_terminos">条款与条件</string>
+    <string name="legal_aviso">隐私告知</string>
+    <string name="legal_autorizacion">数据处理授权</string>
+    <string name="legal_normas">社区准则</string>
+    <string name="legal_ayuda">我们如何保护你的数据以及服务规则，依据哥伦比亚 2012 年第 1581 号法律。文件为西班牙语。</string>
+    <string name="registro_acepto">我接受条款与条件和隐私政策，并授权处理我的数据，包括我选择提供的敏感数据。</string>
+    <string name="registro_edad">我已年满 18 岁，或年龄在 14 至 17 岁之间并已获得法定监护人的同意。</string>
+    <string name="registro_leer">阅读文件</string>
+    <string name="legal_pendiente_titulo">你的数据，经你许可</string>
+    <string name="legal_pendiente_texto">我们发布了 Rutaalacima 的法律文件：隐私政策、条款、隐私告知、数据处理授权和社区准则。要继续使用你的账户，请阅读并接受授权。</string>
+    <string name="legal_aceptar">我接受并授权</string>
+    <string name="legal_ahora_no">暂不</string>
+    <string name="legal_error">无法保存。请检查网络后重试。</string>
 </resources>

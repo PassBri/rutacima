@@ -1129,4 +1129,19 @@
     <string name="brujula_de">Bússola de %1$s</string>
     <string name="brujula_fecha">Assim estava em %1$s</string>
     <string name="brujula_sin_pasos">Esta pessoa compartilhou seu cume e acampamentos, sem o texto dos passos.</string>
+    <string name="legal_titulo">Legal</string>
+    <string name="legal_centro">Central jurídica</string>
+    <string name="legal_terminos">Termos e condições</string>
+    <string name="legal_aviso">Aviso de privacidade</string>
+    <string name="legal_autorizacion">Autorização de tratamento de dados</string>
+    <string name="legal_normas">Diretrizes da comunidade</string>
+    <string name="legal_ayuda">Como cuidamos dos seus dados e as regras do serviço, segundo a Lei 1581 de 2012 da Colômbia. Os documentos estão em espanhol.</string>
+    <string name="registro_acepto">Aceito os Termos e condições e a Política de privacidade, e autorizo o tratamento dos meus dados, incluindo os sensíveis que eu decidir fornecer.</string>
+    <string name="registro_edad">Tenho 18 anos ou mais, ou tenho entre 14 e 17 e conto com a autorização do meu responsável legal.</string>
+    <string name="registro_leer">Ler os documentos</string>
+    <string name="legal_pendiente_titulo">Seus dados, com sua permissão</string>
+    <string name="legal_pendiente_texto">Publicamos os documentos legais do Rutaalacima: política de privacidade, termos, aviso de privacidade, autorização de tratamento e diretrizes da comunidade. Para continuar usando sua conta, leia-os e aceite a autorização.</string>
+    <string name="legal_aceptar">Aceito e autorizo</string>
+    <string name="legal_ahora_no">Agora não</string>
+    <string name="legal_error">Não foi possível salvar. Verifique sua conexão e tente de novo.</string>
 </resources>

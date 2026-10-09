@@ -487,8 +487,30 @@ o cierres la sesión en la web.
   - solo las cuentas de autor pueden subir, cambiar o quitar grabaciones de los audiolibros.
 - **La clave de la inteligencia artificial** vive en el servidor, nunca en la app.
 - **Puedes borrarlo todo:** *Eliminar mi cuenta* borra tus datos del servidor.
-- **Política de privacidad:** [`web/privacidad.html`](web/privacidad.html), publicada en
-  [passbri.github.io/rutacima/privacidad.html](https://passbri.github.io/rutacima/privacidad.html).
+
+### Documentos legales y protección de datos
+
+Rutaalacima cumple la **Ley 1581 de 2012** de Colombia (habeas data), el **Decreto 1377 de 2013** (compilado en
+el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están en `web/` y se publican con la web:
+
+| Documento | Archivo | Para qué |
+|---|---|---|
+| Centro legal | [`legal.html`](web/legal.html) | Índice de todo, con accesos rápidos |
+| Política de privacidad y tratamiento de datos | [`privacidad.html`](web/privacidad.html) | Datos, finalidades, datos sensibles, menores, encargados y transferencias, derechos, consultas (10 días hábiles) y reclamos (15), eliminación de cuenta, conservación, seguridad, cookies |
+| Términos y condiciones | [`terminos.html`](web/terminos.html) | El servicio, la cuenta, el contenido del usuario, coaches, coach IA, propiedad intelectual, responsabilidad y ley aplicable |
+| Aviso de privacidad | [`aviso-privacidad.html`](web/aviso-privacidad.html) | El resumen corto del artículo 15 del Decreto 1377 |
+| Autorización de tratamiento | [`autorizacion.html`](web/autorizacion.html) | El texto que se acepta al crear la cuenta: datos sensibles, transferencias internacionales y edad |
+| Normas de la comunidad | [`normas.html`](web/normas.html) | Contenido permitido y prohibido, cómo reportar y bloquear, sanciones |
+
+- **Autorización al crear la cuenta:** dos casillas obligatorias (acepto + edad). La versión aceptada viaja en los
+  metadatos del registro y un trigger guarda la prueba en `consentimientos` (versión, fecha, origen), que solo ve
+  la propia persona.
+- **Cuentas anteriores:** la app pide la autorización una vez (`aceptar_legal()`); si cambian los documentos,
+  se sube `Legal.VERSION` y se vuelve a pedir.
+- **Edad:** cuenta para 18 años o más, o de 14 a 17 con autorización del representante legal.
+- **Dónde se ven:** en la app, Perfil › Ajustes › Legal; en la web, al pie de la pantalla de inicio y en
+  Perfil › Este computador.
+- Los documentos se generan con una misma cabecera, menú y estilo (`web/legal.css`).
 
 ## Diseño
 
@@ -627,7 +649,7 @@ app/src/main/
 │   └── ui/                  ← pantallas en Compose (ruta, hoy, metas, comunidad, aprende, perfil, web…)
 └── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y la función "coach"
-web/                         ← Rutaalacima Web: index.html, estilos.css, config.js y privacidad.html
+web/                         ← Rutaalacima Web: index.html, estilos.css, config.js y los documentos legales
 web/js/                      ← la web por partes: 01-base … 09-arranque (se cargan en orden)
 diseno/                      ← logo, vistas previas, las 365 frases y el video de presentación
 video/                       ← el video de presentación hecho con Remotion (código de las escenas)

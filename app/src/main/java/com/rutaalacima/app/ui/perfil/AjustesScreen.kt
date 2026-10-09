@@ -87,6 +87,8 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
     var clave by mutableStateOf("")
     var usuario by mutableStateOf(c.social.usuarioPropio())
     var registrando by mutableStateOf(false)
+    var aceptoLegal by mutableStateOf(false)
+    var edadLegal by mutableStateOf(false)
     var cargando by mutableStateOf(false)
         private set
     var mensaje by mutableStateOf<String?>(null)
@@ -121,7 +123,8 @@ class AjustesViewModel(private val c: AppContainer) : ViewModel() {
         viewModelScope.launch {
             runCatching {
                 if (registrando) {
-                    val s = c.supabase.registrarse(email.trim(), clave, usuario.trim().lowercase(), nombre.trim())
+                    val s = c.supabase.registrarse(email.trim(), clave, usuario.trim().lowercase(), nombre.trim(), com.rutaalacima.app.ui.legal.Legal.VERSION)
+                    s?.let { com.rutaalacima.app.ui.legal.Legal.marcar(c.contexto, it.userId) }
                     c.social.guardarIdentidad(nombre.trim(), usuario.trim().lowercase())
                     if (s == null) textoConfirmar else textoOk
                 } else {
@@ -356,12 +359,16 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                                 singleLine = true, visualTransformation = PasswordVisualTransformation(),
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
                             Spacer(Modifier.height(8.dp))
+                            // Autorización de tratamiento de datos (Ley 1581): obligatoria para crear la cuenta
+                            if (vm.registrando) com.rutaalacima.app.ui.legal.ConsentimientoRegistro(
+                                vm.aceptoLegal, { vm.aceptoLegal = it }, vm.edadLegal, { vm.edadLegal = it },
+                            )
                             val ok = stringResource(R.string.bienvenido_comunidad)
                             val confirmar = stringResource(R.string.confirma_correo)
                             if (vm.cargando) CircularProgressIndicator()
                             else Button(
                                 onClick = { vm.entrar(ok, confirmar) }, modifier = Modifier.fillMaxWidth(),
-                                enabled = vm.email.contains('@') && vm.clave.length >= 6 && (!vm.registrando || vm.usuario.length >= 3),
+                                enabled = vm.email.contains('@') && vm.clave.length >= 6 && (!vm.registrando || (vm.usuario.length >= 3 && vm.aceptoLegal && vm.edadLegal)),
                             ) { Text(stringResource(if (vm.registrando) R.string.crear_cuenta else R.string.iniciar_sesion)) }
                             OutlinedButton(onClick = { vm.registrando = !vm.registrando }, modifier = Modifier.fillMaxWidth()) {
                                 Text(stringResource(if (vm.registrando) R.string.ya_tengo_cuenta else R.string.no_tengo_cuenta))
@@ -427,6 +434,9 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                     Text(stringResource(R.string.privacidad_politica))
                 }
             }
+
+            item { SectionTitle(stringResource(R.string.legal_titulo)) }
+            item { RutaCard { com.rutaalacima.app.ui.legal.LegalEnlaces() } }
         }
     }
 }

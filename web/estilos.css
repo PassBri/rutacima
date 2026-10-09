@@ -729,3 +729,10 @@ a.btn { text-decoration: none; }
 @keyframes carta-despliega { from { transform: scaleY(.15); opacity: 0; } 60% { opacity: 1; } to { transform: scaleY(1); opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .carta, .carta-cuerpo, .carta-seguir { animation: none; } }
 @media (max-width: 600px) { .carta { padding: 28px 20px 24px; } .carta-cuerpo p { font-size: 16px; } }
+
+/* Documentos legales */
+.legales { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 14px; font-size: 13px; }
+.legales a { color: var(--tinta-suave); text-decoration: none; }
+.legales a:hover { color: var(--burdeos); text-decoration: underline; }
+.v-extra { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: -24px; }
+.v-extra .carta-releer { margin-top: 0; }

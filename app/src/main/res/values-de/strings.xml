@@ -1129,4 +1129,19 @@
     <string name="brujula_de">Kompass von %1$s</string>
     <string name="brujula_fecha">So stand es am %1$s</string>
     <string name="brujula_sin_pasos">Diese Person hat Gipfel und Lager geteilt, ohne den Text der Schritte.</string>
+    <string name="legal_titulo">Rechtliches</string>
+    <string name="legal_centro">Rechtszentrum</string>
+    <string name="legal_terminos">Allgemeine Geschäftsbedingungen</string>
+    <string name="legal_aviso">Datenschutzhinweis</string>
+    <string name="legal_autorizacion">Einwilligung zur Datenverarbeitung</string>
+    <string name="legal_normas">Community-Richtlinien</string>
+    <string name="legal_ayuda">Wie wir deine Daten schützen und die Regeln des Dienstes, nach dem kolumbianischen Gesetz 1581 von 2012. Die Dokumente sind auf Spanisch.</string>
+    <string name="registro_acepto">Ich akzeptiere die AGB und die Datenschutzerklärung und willige in die Verarbeitung meiner Daten ein, einschließlich sensibler Daten, die ich angeben möchte.</string>
+    <string name="registro_edad">Ich bin 18 oder älter, oder ich bin zwischen 14 und 17 und habe die Erlaubnis meines gesetzlichen Vertreters.</string>
+    <string name="registro_leer">Dokumente lesen</string>
+    <string name="legal_pendiente_titulo">Deine Daten, mit deiner Erlaubnis</string>
+    <string name="legal_pendiente_texto">Wir haben die rechtlichen Dokumente von Rutaalacima veröffentlicht: Datenschutzerklärung, AGB, Datenschutzhinweis, Einwilligung zur Datenverarbeitung und Community-Richtlinien. Um dein Konto weiter zu nutzen, lies sie und erteile die Einwilligung.</string>
+    <string name="legal_aceptar">Ich akzeptiere und willige ein</string>
+    <string name="legal_ahora_no">Nicht jetzt</string>
+    <string name="legal_error">Speichern fehlgeschlagen. Prüfe deine Verbindung und versuche es erneut.</string>
 </resources>

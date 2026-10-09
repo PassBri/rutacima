@@ -124,8 +124,9 @@ class SupabaseClient(context: Context) {
         autenticar("password", """{"email":${q(email)},"password":${q(clave)}}""", email)
 
     /** Crea la cuenta. El perfil (username, nombre) lo crea un trigger en la base (ver supabase/schema.sql). */
-    suspend fun registrarse(email: String, clave: String, usuario: String, nombre: String): Sesion? = withContext(Dispatchers.IO) {
-        val cuerpo = """{"email":${q(email)},"password":${q(clave)},"data":{"username":${q(usuario)},"nombre":${q(nombre)}}}"""
+    suspend fun registrarse(email: String, clave: String, usuario: String, nombre: String, versionLegal: String): Sesion? = withContext(Dispatchers.IO) {
+        // versionLegal: documentos legales aceptados; un trigger guarda la prueba de la autorización (Ley 1581)
+        val cuerpo = """{"email":${q(email)},"password":${q(clave)},"data":{"username":${q(usuario)},"nombre":${q(nombre)},"legal_version":${q(versionLegal)}}}"""
         val r = json.parseToJsonElement(peticion("POST", "/auth/v1/signup", cuerpo.toByteArray(), token = null)).jsonObject
         if (r["access_token"] != null) iniciarSesion(email, clave) else null // null = debe confirmar el correo
     }

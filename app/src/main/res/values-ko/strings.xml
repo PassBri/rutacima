@@ -1129,4 +1129,19 @@
     <string name="brujula_de">%1$s의 나침반</string>
     <string name="brujula_fecha">%1$s 기준</string>
     <string name="brujula_sin_pasos">이 사람은 정상과 캠프를 공유했지만 단계 내용은 공개하지 않았어요.</string>
+    <string name="legal_titulo">법적 고지</string>
+    <string name="legal_centro">법률 센터</string>
+    <string name="legal_terminos">이용 약관</string>
+    <string name="legal_aviso">개인정보 고지</string>
+    <string name="legal_autorizacion">데이터 처리 동의</string>
+    <string name="legal_normas">커뮤니티 가이드라인</string>
+    <string name="legal_ayuda">콜롬비아 2012년 법률 제1581호에 따라 데이터를 보호하는 방법과 서비스 규칙이에요. 문서는 스페인어로 되어 있어요.</string>
+    <string name="registro_acepto">이용 약관과 개인정보 처리방침에 동의하며, 제공하기로 선택한 민감 정보를 포함해 내 데이터 처리를 허락합니다.</string>
+    <string name="registro_edad">만 18세 이상이거나, 14~17세이며 법정 대리인의 허락을 받았습니다.</string>
+    <string name="registro_leer">문서 읽기</string>
+    <string name="legal_pendiente_titulo">당신의 데이터는 당신의 허락으로</string>
+    <string name="legal_pendiente_texto">Rutaalacima의 법률 문서(개인정보 처리방침, 약관, 개인정보 고지, 데이터 처리 동의, 커뮤니티 가이드라인)를 게시했어요. 계정을 계속 사용하려면 읽고 동의해 주세요.</string>
+    <string name="legal_aceptar">동의하고 허락합니다</string>
+    <string name="legal_ahora_no">나중에</string>
+    <string name="legal_error">저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요.</string>
 </resources>

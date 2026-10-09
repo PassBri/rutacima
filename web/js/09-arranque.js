@@ -24,7 +24,8 @@ async function mostrarVincular() {
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
       : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
       <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div>
-    <button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button></div>`;
+    <div class="v-extra"><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
+    ${enlacesLegales()}</div></div>`;
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
   if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }

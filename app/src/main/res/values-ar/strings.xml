@@ -1129,4 +1129,19 @@
     <string name="brujula_de">بوصلة %1$s</string>
     <string name="brujula_fecha">كما كانت في %1$s</string>
     <string name="brujula_sin_pasos">شارك هذا الشخص قمته ومعسكراته دون نص خطواته.</string>
+    <string name="legal_titulo">قانوني</string>
+    <string name="legal_centro">المركز القانوني</string>
+    <string name="legal_terminos">الشروط والأحكام</string>
+    <string name="legal_aviso">إشعار الخصوصية</string>
+    <string name="legal_autorizacion">تفويض معالجة البيانات</string>
+    <string name="legal_normas">إرشادات المجتمع</string>
+    <string name="legal_ayuda">كيف نحمي بياناتك وقواعد الخدمة، وفق القانون الكولومبي 1581 لسنة 2012. الوثائق باللغة الإسبانية.</string>
+    <string name="registro_acepto">أوافق على الشروط والأحكام وسياسة الخصوصية، وأأذن بمعالجة بياناتي، بما فيها البيانات الحساسة التي أختار تقديمها.</string>
+    <string name="registro_edad">عمري 18 عامًا أو أكثر، أو بين 14 و17 عامًا ولدي إذن من وليّ أمري.</string>
+    <string name="registro_leer">اقرأ الوثائق</string>
+    <string name="legal_pendiente_titulo">بياناتك، بإذنك</string>
+    <string name="legal_pendiente_texto">نشرنا الوثائق القانونية لـ Rutaalacima: سياسة الخصوصية والشروط وإشعار الخصوصية وتفويض المعالجة وإرشادات المجتمع. لمواصلة استخدام حسابك، اقرأها ووافق على التفويض.</string>
+    <string name="legal_aceptar">أوافق وأأذن</string>
+    <string name="legal_ahora_no">ليس الآن</string>
+    <string name="legal_error">تعذّر الحفظ. تحقق من اتصالك وحاول مرة أخرى.</string>
 </resources>
