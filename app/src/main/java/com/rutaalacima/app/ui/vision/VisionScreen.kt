@@ -76,6 +76,7 @@ import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.MetodoCima
+import com.rutaalacima.app.domain.model.Travesia
 import com.rutaalacima.app.domain.model.VisionBoard
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
@@ -165,17 +166,77 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     /** Llena los pasos vacíos de un campamento: primero las acciones de su propósito, luego el banco de acciones de su eje. */
     fun sugerirPasos(casilla: VisionCasillaEntity) = viewModelScope.launch { llenarPasos(casilla, c.respuestas.cargar(Mandala.WORKBOOK)) }
 
+    /**
+     * Llena los pasos vacíos de un campamento: primero las acciones de los propósitos de ese eje (o, en
+     * Confluencia, de los propósitos sin eje); luego el banco de acciones multi-eje (Bono 5). Las acciones
+     * del banco que activan otros ejes quedan enlazadas: son pasos de confluencia.
+     */
     private suspend fun llenarPasos(casilla: VisionCasillaEntity, r: Map<String, String>) {
+        val codigo = casilla.origen.removePrefix("campamento:").takeIf { it in Mandala.CAMPAMENTOS_FIJOS } ?: casilla.eje
         val actuales = List(Mandala.PASOS) { r[Mandala.clave(casilla.id, it)].orEmpty() }
+        val banco = runCatching { c.bancos.bancos().acciones }.getOrDefault(emptyList())
+        val ejesDe = banco.associate { it.texto.trim().lowercase() to it.ejes }
         val sugerencias = buildList {
-            if (casilla.origen.startsWith("proposito:")) casilla.origen.removePrefix("proposito:").toLongOrNull()?.let { id ->
-                addAll(c.planificador.acciones(id).first().map { it.texto })
+            val propios = c.planificador.propositos.first().filter { p ->
+                when (codigo) { "CON" -> p.eje == null; "CAM" -> false; else -> p.eje == codigo }
+            } + listOfNotNull(casilla.origen.removePrefix("proposito:").toLongOrNull()?.let { id -> c.planificador.propositos.first().firstOrNull { it.id == id } })
+            propios.distinctBy { it.id }.forEach { p -> addAll(c.planificador.acciones(p.id).first().filter { !it.hecha }.map { it.texto }) }
+            val delBanco = when (codigo) {
+                "CON" -> banco.filter { it.ejes.size >= 3 }
+                "CAM" -> banco.filter { a -> Regex("mentor|grupo|cordada|comunidad|red |amig|familia|acompa|equipo", RegexOption.IGNORE_CASE).containsMatchIn(a.texto) }
+                    .ifEmpty { banco }
+                else -> banco.filter { codigo in it.ejes }
             }
-            addAll(runCatching { c.bancos.bancos().accionesDe(casilla.eje).map { it.texto }.shuffled() }.getOrDefault(emptyList()))
+            addAll(delBanco.sortedByDescending { it.ejes.size }.map { it.texto }.shuffled())
         }
         Mandala.completar(actuales, sugerencias).forEachIndexed { i, t ->
-            if (t != actuales[i]) c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, i), t)
+            if (t != actuales[i]) {
+                c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, i), t)
+                val enlaces = ejesDe[t.trim().lowercase()]?.let { Travesia.enlacesDeAccion(it, codigo.orEmpty()) }.orEmpty()
+                if (enlaces.isNotEmpty()) c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveEnlaces(casilla.id, i), enlaces)
+            }
         }
+    }
+
+    /** Reconoce una caída (Guía de Caídas): el paso conserva sus jornadas y pide menos para volver. */
+    fun registrarCaida(casilla: VisionCasillaEntity, paso: Int, tipo: String, campamentos: List<Long?>) = viewModelScope.launch {
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        val hoy = java.time.LocalDate.now()
+        val ritmo = MetodoCima.calcular(MetodoCima.pasosDe(campamentos, r), hoy)
+        val req = Travesia.requeridasTrasCaida(MetodoCima.leer(casilla.id, paso, r), ritmo.dificultad)
+        c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveCaida(casilla.id, paso), "$tipo|$hoy")
+        c.respuestas.guardar(Mandala.WORKBOOK, MetodoCima.claveRequeridas(casilla.id, paso), req.toString())
+    }
+
+    fun guardarEnlaces(casilla: VisionCasillaEntity, paso: Int, enlaces: String) = viewModelScope.launch {
+        c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveEnlaces(casilla.id, paso), enlaces)
+    }
+
+    /**
+     * Cierre del año (Desde la Cima): guarda las 7 lecciones y el resumen, y lleva la imagen de la
+     * Brújula del año al diario de vida como reflexión privada con las lecciones.
+     */
+    fun cerrarAnio(ctx: android.content.Context, datos: DatosMandala, textos: MandalaImagen.Textos, lecciones: List<String>, titulo: String) = viewModelScope.launch {
+        val anio = java.time.LocalDate.now().year
+        lecciones.forEachIndexed { n, l -> c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveLeccion(anio, n), l.trim()) }
+        compartiendo = true
+        compartido = runCatching {
+            val f = withContext(Dispatchers.Default) { MandalaImagen.generar(ctx.applicationContext, datos, textos) }
+            val texto = (listOf(titulo) + lecciones.mapIndexedNotNull { n, l -> l.trim().takeIf { it.isNotEmpty() }?.let { "${n + 1}. $it" } }).joinToString("\n")
+            c.social.publicar(TipoPost.REFLEXION, texto, Uri.fromFile(f), null, Visibilidad.PRIVADA, metaTitulo = textos.etiqueta, anio = anio)
+            f.delete()
+            val pr = datos.progreso
+            c.respuestas.guardar(Mandala.WORKBOOK, Travesia.claveCierre(anio),
+                Travesia.resumen(pr.hechos, pr.escritos, datos.ritmo.mm, datos.evidencias, datos.confluencias))
+        }.isSuccess
+        compartiendo = false
+    }
+
+    /** Nueva montaña: libera los pasos ganados (quedan en el diario) y deja los que van a medio camino. */
+    fun nuevaMontana(campamentos: List<Long?>) = viewModelScope.launch {
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        Travesia.clavesALiberar(campamentos, r).forEach { c.respuestas.guardar(Mandala.WORKBOOK, it, "") }
+        llenarCampamentosVacios()
     }
 
     fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }
@@ -208,7 +269,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisionScreen(onBack: () -> Unit) {
+fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
     val vm = rutaViewModel { VisionViewModel(it) }
     val ctx = LocalContext.current
     val casillas by vm.casillas.collectAsStateWithLifecycle()
@@ -297,6 +358,7 @@ fun VisionScreen(onBack: () -> Unit) {
                 val (cumbre, campamentos) = Mandala.repartir(casillas, { it.casilla.origen }, { it.casilla.eje })
                 val datos = DatosMandala(cumbre, cumbreFrase, campamentos, pasos, fotos)
                 val nf = java.text.NumberFormat.getIntegerInstance()
+                val cierreTitulo = stringResource(R.string.brujula_cierre_post, java.time.LocalDate.now().year)
                 val textos = MandalaImagen.Textos(
                     etiqueta = stringResource(R.string.mandala_imagen_etiqueta),
                     avance = stringResource(R.string.mandala_progreso, datos.progreso.escritos, datos.progreso.hechos),
@@ -315,6 +377,11 @@ fun VisionScreen(onBack: () -> Unit) {
                             elegirEvidencia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                         },
                         onPortal = { cs, p, so, ll -> vm.guardarPortal(cs, p, so, ll) },
+                        onCaida = { cs, p, tipo -> vm.registrarCaida(cs, p, tipo, campamentos.map { it?.casilla?.id }) },
+                        onEnlaces = { cs, p, en -> vm.guardarEnlaces(cs, p, en) },
+                        onGuia = onGuia,
+                        onCierre = { lecciones, _ -> vm.cerrarAnio(ctx, datos, textos, lecciones, cierreTitulo) },
+                        onNuevaMontana = { vm.nuevaMontana(campamentos.map { it?.casilla?.id }) },
                         onCompartir = { vis -> vm.compartirMandala(ctx, datos, textos, vis) },
                         compartiendo = vm.compartiendo,
                     )

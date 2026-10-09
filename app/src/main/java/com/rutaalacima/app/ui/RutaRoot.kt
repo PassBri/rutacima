@@ -393,7 +393,7 @@ private fun AppPrincipal() {
             composable(Rutas.AJUSTES) {
                 AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
             }
-            composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }) }
             composable(Rutas.WEB) {
                 com.rutaalacima.app.ui.web.WebScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) })
             }

@@ -2,6 +2,13 @@ package com.rutaalacima.app.ui.vision
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import com.rutaalacima.app.domain.model.Travesia
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.material3.FilterChip
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
@@ -140,6 +147,16 @@ class DatosMandala(
     val ritmo: MetodoCima.Estado = MetodoCima.calcular(pasos, LocalDate.now())
     fun pasoCima(i: Int, p: Int): MetodoCima.Paso = pasos[i * Mandala.PASOS + p]
     val tituloCumbre: String get() = cumbre?.casilla?.afirmacion?.ifBlank { null } ?: cumbreTexto
+    /** Niebla, caída y confluencia de cada paso (Travesia). */
+    fun niebla(i: Int, p: Int): Boolean = Travesia.enNiebla(pasoCima(i, p), LocalDate.now())
+    fun diasQuieto(i: Int, p: Int): Int? = Travesia.diasQuieto(pasoCima(i, p), LocalDate.now())
+    fun caida(i: Int, p: Int) = casilla(i)?.let { Travesia.caida(respuestas[Travesia.claveCaida(it.casilla.id, p)]) }
+    fun enlaces(i: Int, p: Int): List<String> = casilla(i)?.let { Travesia.enlaces(respuestas[Travesia.claveEnlaces(it.casilla.id, p)], codigo(i)) }.orEmpty()
+    val confluencias: Int get() = Travesia.confluencias(ids, respuestas)
+    val idsCampamentos: List<Long?> get() = ids
+    val enNiebla: Int get() = (0 until Mandala.CAMPAMENTOS).sumOf { i -> (0 until Mandala.PASOS).count { niebla(i, it) } }
+    fun leccion(anio: Int, n: Int): String = respuestas[Travesia.claveLeccion(anio, n)].orEmpty()
+    fun cierre(anio: Int): String? = respuestas[Travesia.claveCierre(anio)]?.takeIf { it.isNotBlank() }
     val evidencias: Int get() = (0 until Mandala.CAMPAMENTOS).sumOf { i -> (0 until Mandala.PASOS).count { fotoPaso(i, it) != null } }
 }
 
@@ -156,6 +173,11 @@ fun MandalaSeccion(
     onAgregarCampamento: (codigo: String) -> Unit,
     onEvidencia: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
     onPortal: (casilla: VisionCasillaEntity, paso: Int, soltar: String, llevar: String) -> Unit,
+    onCaida: (casilla: VisionCasillaEntity, paso: Int, tipo: String) -> Unit,
+    onEnlaces: (casilla: VisionCasillaEntity, paso: Int, enlaces: String) -> Unit,
+    onGuia: (String) -> Unit,
+    onCierre: (lecciones: List<String>, alDiario: Boolean) -> Unit,
+    onNuevaMontana: () -> Unit,
     onCompartir: (Visibilidad) -> Unit,
     compartiendo: Boolean,
 ) {
@@ -172,6 +194,10 @@ fun MandalaSeccion(
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
         Text(stringResource(R.string.brujula_evidencias, datos.evidencias), style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (datos.confluencias > 0) Text(stringResource(R.string.brujula_confluencias, datos.confluencias), style = MaterialTheme.typography.labelMedium,
+            color = colorCampamento("CON"))
+        if (datos.enNiebla > 0) Text(stringResource(R.string.brujula_en_niebla, datos.enNiebla, Travesia.NIEBLA_DIAS), style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.error)
         Button(onClick = { preguntarCompartir = true }, enabled = !compartiendo && datos.campamentos.isNotEmpty(), modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.Share, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
             Text(stringResource(if (compartiendo) R.string.mandala_compartiendo else R.string.mandala_compartir))
@@ -181,16 +207,22 @@ fun MandalaSeccion(
             color = MaterialTheme.colorScheme.onSurfaceVariant)
         Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { i, p -> editando = i to p },
             onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento)
+        CierreAnio(datos, onCierre = onCierre, onNuevaMontana = onNuevaMontana, onGuia = onGuia, ocupado = compartiendo)
     }
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
             numero = p + 1, fase = nombreFase(p), campamento = nombreCampamento(cv), texto = datos.paso(i, p),
             paso = datos.pasoCima(i, p), dificultad = datos.ritmo.dificultad,
             foto = datos.fotoPaso(i, p), soltar = datos.soltar(i, p), llevar = datos.llevar(i, p),
+            codigo = datos.codigo(i), enlaces = datos.enlaces(i, p), diasQuieto = datos.diasQuieto(i, p),
+            niebla = datos.niebla(i, p), caida = datos.caida(i, p)?.first,
             onEvidencia = { onEvidencia(cv.casilla, p) },
-            onGuardar = { t, so, ll ->
+            onCaida = { tipo -> onCaida(cv.casilla, p, tipo) },
+            onGuia = onGuia,
+            onGuardar = { t, so, ll, en ->
                 if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t)
                 if (so != datos.soltar(i, p) || ll != datos.llevar(i, p)) onPortal(cv.casilla, p, so, ll)
+                if (en != datos.enlaces(i, p)) onEnlaces(cv.casilla, p, en.joinToString(","))
                 editando = null
             },
             onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
@@ -243,6 +275,19 @@ private fun Cuadricula(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Uni
             }
             drawRect(ORO, topLeft = Offset((elegido % 3) * t, (elegido / 3) * t), size = androidx.compose.ui.geometry.Size(t, t),
                 style = Stroke(width = 3.dp.toPx()))
+            // Líneas de confluencia: del paso al centro de cada campamento que también activa
+            val c = size.width / Mandala.LADO
+            val con = colorCampamento("CON")
+            Mandala.CELDAS.filter { it.tipo == Mandala.Tipo.PASO }.forEach { cel ->
+                datos.enlaces(cel.campamento, cel.paso).forEach { cod ->
+                    val b = Mandala.bloqueDe(Mandala.CAMPAMENTOS_FIJOS.indexOf(cod))
+                    val desde = Offset((cel.col + 0.5f) * c, (cel.fila + 0.5f) * c)
+                    val hasta = Offset(((b % 3) * 3 + 1.5f) * c, ((b / 3) * 3 + 1.5f) * c)
+                    val ganado = datos.estado(cel.campamento, cel.paso) == Mandala.EstadoPaso.HECHO
+                    drawLine(con.copy(alpha = if (ganado) 0.85f else 0.35f), desde, hasta, strokeWidth = (if (ganado) 2.5f else 1.5f).dp.toPx(),
+                        pathEffect = if (ganado) null else androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(6f, 6f)))
+                }
+            }
         }
     }
 }
@@ -298,6 +343,14 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                         color = if (evidencia != null) Color.White else MaterialTheme.colorScheme.onSurface)
                     Spacer(Modifier.height(1.dp))
                 }
+                // Niebla: un paso empezado que lleva dos semanas quieto
+                if (datos.niebla(cel.campamento, cel.paso)) Box(
+                    Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0xE6F2F0EC), Color(0x99E8E6E1)))),
+                    contentAlignment = Alignment.Center,
+                ) { Icon(Icons.Filled.Cloud, stringResource(R.string.brujula_niebla), tint = Color(0xFF8A8580), modifier = Modifier.size(if (chica) 12.dp else 28.dp)) }
+                // Confluencia: el paso también activa otros campamentos
+                if (datos.enlaces(cel.campamento, cel.paso).isNotEmpty()) Icon(Icons.Filled.Hub, null, tint = colorCampamento("CON"),
+                    modifier = Modifier.align(Alignment.BottomEnd).padding(1.dp).size(if (chica) 7.dp else 14.dp))
                 if (estado == Mandala.EstadoPaso.HECHO) Icon(Icons.Filled.Check, null, tint = color,
                     modifier = Modifier.align(Alignment.TopEnd).size(if (chica) 8.dp else 16.dp))
             }
@@ -386,13 +439,18 @@ private fun RitmoCima(r: MetodoCima.Estado) {
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun EditarPaso(
     numero: Int, fase: String, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
     foto: String?, soltar: String, llevar: String,
-    onEvidencia: () -> Unit, onGuardar: (String, String, String) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
+    codigo: String, enlaces: List<String>, diasQuieto: Int?, niebla: Boolean, caida: String?,
+    onEvidencia: () -> Unit, onCaida: (String) -> Unit, onGuia: (String) -> Unit,
+    onGuardar: (String, String, String, List<String>) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
 ) {
     var t by remember { mutableStateOf(texto) }
+    var en by remember { mutableStateOf(enlaces) }
+    var eligiendoCaida by remember { mutableStateOf(false) }
     var so by remember { mutableStateOf(soltar) }
     var ll by remember { mutableStateOf(llevar) }
     val requeridas = paso.requeridas ?: dificultad
@@ -404,6 +462,14 @@ private fun EditarPaso(
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(campamento, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
                 OutlinedTextField(t, { t = it }, minLines = 2, modifier = Modifier.fillMaxWidth(), enabled = !paso.cumplido)
+                // Confluencia: los otros campamentos que también mueve este paso
+                Text(stringResource(R.string.brujula_tambien_activa), style = MaterialTheme.typography.labelLarge)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Mandala.CAMPAMENTOS_FIJOS.filter { it != codigo }.forEach { cod ->
+                        FilterChip(selected = cod in en, onClick = { en = if (cod in en) en - cod else en + cod },
+                            label = { Text(nombreCodigo(cod)) })
+                    }
+                }
                 if (paso.cumplido) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.primary)
@@ -422,6 +488,29 @@ private fun EditarPaso(
                     OutlinedTextField(so, { so = it }, label = { Text(stringResource(R.string.brujula_soltar)) }, modifier = Modifier.fillMaxWidth())
                     OutlinedTextField(ll, { ll = it }, label = { Text(stringResource(R.string.brujula_llevar)) }, modifier = Modifier.fillMaxWidth())
                 } else {
+                    // Niebla y caídas: protocolos de los libros, sin culpas
+                    if (niebla || caida != null) Column(
+                        Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(Color(0x1F8A8580)).padding(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        if (caida != null) {
+                            Text(stringResource(R.string.brujula_caida_registrada, nombreCaida(caida), requeridas), style = MaterialTheme.typography.bodySmall)
+                            TextButton(onClick = { onGuia("bono_anti_abandono") }) { Text(stringResource(R.string.brujula_anti_abandono)) }
+                        } else {
+                            Text(stringResource(R.string.brujula_niebla_texto, diasQuieto ?: Travesia.NIEBLA_DIAS), style = MaterialTheme.typography.bodySmall)
+                            Row {
+                                TextButton(onClick = { onGuia("niebla") }) { Text(stringResource(R.string.brujula_protocolos)) }
+                                TextButton(onClick = { eligiendoCaida = !eligiendoCaida }) { Text(stringResource(R.string.brujula_me_cai)) }
+                            }
+                            if (eligiendoCaida) {
+                                Text(stringResource(R.string.brujula_que_caida), style = MaterialTheme.typography.labelLarge)
+                                Travesia.CAIDAS.forEach { tipo ->
+                                    OutlinedButton(onClick = { onCaida(tipo); eligiendoCaida = false }, modifier = Modifier.fillMaxWidth()) { Text(nombreCaida(tipo)) }
+                                }
+                                TextButton(onClick = { onGuia("caidas") }) { Text(stringResource(R.string.brujula_guia_caidas)) }
+                            }
+                        }
+                    }
                     Text(stringResource(R.string.metodo_jornadas, paso.jornadas.size, requeridas), style = MaterialTheme.typography.labelLarge)
                     LinearProgressIndicator(progress = { paso.jornadas.size.toFloat() / requeridas }, modifier = Modifier.fillMaxWidth())
                     Button(onClick = { onAvanzar(t) }, enabled = t.isNotBlank() && !hoyListo, modifier = Modifier.fillMaxWidth()) {
@@ -431,7 +520,58 @@ private fun EditarPaso(
                 }
             }
         },
-        confirmButton = { TextButton(onClick = { onGuardar(t, so.trim(), ll.trim()) }) { Text(stringResource(R.string.guardar)) } },
+        confirmButton = { TextButton(onClick = { onGuardar(t, so.trim(), ll.trim(), en) }) { Text(stringResource(R.string.guardar)) } },
         dismissButton = { TextButton(onClick = onCancelar) { Text(stringResource(R.string.cancelar)) } },
+    )
+}
+
+/** Nombre de un tipo de caída (Guía de Caídas). */
+@Composable
+private fun nombreCaida(tipo: String): String = stringResource(
+    when (tipo) {
+        "FIN" -> R.string.caida_fin; "EMO" -> R.string.caida_emo; "DEC" -> R.string.caida_dec
+        "CAR" -> R.string.caida_car; "IDE" -> R.string.caida_ide; else -> R.string.caida_cir
+    }
+)
+
+/**
+ * Cierre del año (Desde la Cima): las 7 lecciones, guardar la Brújula del año en el diario de vida y
+ * empezar una nueva montaña con los pasos que quedaron a medio camino.
+ */
+@Composable
+private fun CierreAnio(datos: DatosMandala, onCierre: (List<String>, Boolean) -> Unit, onNuevaMontana: () -> Unit, onGuia: (String) -> Unit, ocupado: Boolean) {
+    val anio = LocalDate.now().year
+    var abierto by rememberSaveable { mutableStateOf(false) }
+    var confirmar by remember { mutableStateOf(false) }
+    val lecciones = remember(abierto) { mutableStateListOf<String>().apply { addAll(List(Travesia.LECCIONES) { datos.leccion(anio, it) }) } }
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.tertiaryContainer).padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(stringResource(R.string.brujula_cierre_titulo, anio), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onTertiaryContainer)
+        Text(
+            if (datos.cierre(anio) != null) stringResource(R.string.brujula_cierre_hecho, anio) else stringResource(R.string.brujula_cierre_texto),
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onTertiaryContainer,
+        )
+        if (!abierto) OutlinedButton(onClick = { abierto = true }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.brujula_cierre_abrir)) }
+        else {
+            lecciones.indices.forEach { n ->
+                OutlinedTextField(lecciones[n], { lecciones[n] = it }, label = { Text(stringResource(R.string.brujula_leccion, n + 1)) },
+                    modifier = Modifier.fillMaxWidth())
+            }
+            TextButton(onClick = { onGuia("desde_cima") }) { Text(stringResource(R.string.brujula_guia_desde_cima)) }
+            Button(onClick = { onCierre(lecciones.toList(), true) }, enabled = !ocupado, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(if (ocupado) R.string.mandala_compartiendo else R.string.brujula_cierre_diario))
+            }
+            OutlinedButton(onClick = { confirmar = true }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.brujula_nueva_montana)) }
+        }
+    }
+    if (confirmar) AlertDialog(
+        onDismissRequest = { confirmar = false },
+        title = { Text(stringResource(R.string.brujula_nueva_montana)) },
+        text = { Text(stringResource(R.string.brujula_nueva_montana_ayuda)) },
+        confirmButton = { TextButton(onClick = { confirmar = false; onNuevaMontana() }) { Text(stringResource(R.string.brujula_nueva_montana_si)) } },
+        dismissButton = { TextButton(onClick = { confirmar = false }) { Text(stringResource(R.string.cancelar)) } },
     )
 }
