@@ -80,6 +80,9 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
+/** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
+internal fun nombreCampamento(cv: CasillaVista): String = cv.casilla.afirmacion.trim().ifBlank { cv.casilla.titulo }
+
 /** Colores para los campamentos sin eje. */
 private val PALETA = listOf(
     Color(0xFF8E3B26), Color(0xFF5C4A8A), Color(0xFF2F6F7A), Color(0xFF8A6A1F),
@@ -144,7 +147,7 @@ fun MandalaSeccion(
     }
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
-            numero = p + 1, campamento = cv.casilla.titulo, texto = datos.paso(i, p),
+            numero = p + 1, campamento = nombreCampamento(cv), texto = datos.paso(i, p),
             paso = datos.pasoCima(i, p), dificultad = datos.ritmo.dificultad,
             onGuardar = { t -> onPaso(cv.casilla, p, t); editando = null },
             onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
@@ -224,7 +227,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                     AsyncImage(modeloFoto(it), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     Box(Modifier.fillMaxSize().background(color.copy(alpha = 0.55f)))
                 }
-                Text(cv?.casilla?.titulo ?: "+", fontSize = tam, lineHeight = tam, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
+                Text(cv?.let { nombreCampamento(it) } ?: "+", fontSize = tam, lineHeight = tam, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
                     color = if (cv != null) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = alto, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(2.dp))
             }
@@ -238,7 +241,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                 Mandala.EstadoPaso.HECHO -> color.copy(alpha = 0.42f)
             }
             Box(Modifier.fillMaxSize().background(fondo).padding(2.dp), contentAlignment = Alignment.Center) {
-                Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam, textAlign = TextAlign.Center,
+                if (!chica) Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam, textAlign = TextAlign.Center,
                     maxLines = alto, overflow = TextOverflow.Ellipsis, color = MaterialTheme.colorScheme.onSurface)
                 if (estado == Mandala.EstadoPaso.HECHO) Icon(Icons.Filled.Check, null, tint = color,
                     modifier = Modifier.align(Alignment.TopEnd).size(if (chica) 8.dp else 16.dp))
@@ -260,7 +263,7 @@ private fun Bloque(
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(
             if (campamento < 0) datos.tituloCumbre.ifBlank { stringResource(R.string.mandala_cumbre) }
-            else cv?.casilla?.titulo ?: stringResource(R.string.mandala_campamento_vacio),
+            else cv?.let { nombreCampamento(it) } ?: stringResource(R.string.mandala_campamento_vacio),
             style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold,
         )
         BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {

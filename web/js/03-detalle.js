@@ -130,7 +130,6 @@ function pintarDetalle() {
   const abajo = $("detalle").querySelector(".det-cuerpo.abajo"); if (abajo) abajo.scrollTop = abajo.scrollHeight;
   pintarAudio();
   window.Cielo?.pintarTodos();
-  window.Montana?.montar();
 }
 
 const DET = {
@@ -749,6 +748,7 @@ async function armarVision() {
   let orden = Math.max(-1, ...conFoto.map(c => c.orden || 0)) + 1;
   propuestas.filter(p => p.origen === "ia" || !cubiertas.has(p.origen)).slice(0, Math.max(0, VISION_MAX - conFoto.length))
     .forEach(p => Store.guardar("vision", { id: nuevoId(), orden: orden++, publicacionId: null, ...p }));
+  await window.llenarCampamentosVacios?.();
   armandoVision = false; pintarDetalle();
 }
 async function ponerFotoVision(id, archivo) {
@@ -792,14 +792,11 @@ DET["perfil.vision"] = () => {
   };
   return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
-    hoja(`<div class="segmentos" role="group" aria-label="Vista del vision board">
-      <button class="chip" data-acc="visionVista" data-arg="tablero" aria-pressed="${estado.visionVista !== "mandala"}">Tablero</button>
-      <button class="chip" data-acc="visionVista" data-arg="mandala" aria-pressed="${estado.visionVista === "mandala"}">Mandala 9×9</button></div>
-      <p>La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
+    hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
       ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
-    (estado.visionVista === "mandala" ? mandalaHtml() : "") +
-    (cs.length && estado.visionVista !== "mandala" ? `<div class="tablero">${cs.map(tarjeta).join("")}</div><p class="suave">Tus fotos se guardan como publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>` : ""));
+    (cs.length ? mandalaHtml() : "") +
+    (cs.length ? `<h3 style="margin:6px 0 0">Las 9 casillas del centro</h3><div class="tablero">${cs.map(tarjeta).join("")}</div><p class="suave">Tus fotos se guardan como publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>` : ""));
 };

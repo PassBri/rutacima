@@ -343,13 +343,14 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   hasta 9 casillas. Cada una trae una frase en primera persona y qué foto tuya buscar o tomar. Tú las llenas con
   tus propias fotos (o buscas ideas en un banco de imágenes libres). Sin conexión, la app arma el tablero con las
   mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
-- **Mandala 9×9 dentro del vision board:** adaptación del Mandala Chart (Mandal-Art, de Hiroaki Matsumura; el
-  método Harada con el que Shohei Ohtani planeó su carrera). Tu cumbre va al centro; las otras 8 casillas del vision
-  board, con su foto, son tus 8 campamentos, repetidos alrededor del centro y en el centro de su propio bloque; y
-  cada campamento tiene 8 pasos: 64 pasos hacia tu cima. *Sugerir pasos* llena los vacíos con las acciones del
-  propósito y con el banco de acciones del eje. En **2D** ves la cuadrícula completa y abres un bloque para escribir y
-  marcar sus pasos; en **3D** la cuadrícula se vuelve una montaña escalonada que giras con el dedo y que crece
-  cuando escribes y cumples pasos. Los pasos viajan a la web y a las copias de seguridad.
+- **Tu 9×9: el vision board es su centro.** Adaptación del Mandala Chart (Mandal-Art, de Hiroaki Matsumura; el
+  método Harada con el que Shohei Ohtani planeó su carrera). Las 9 casillas del vision board son el bloque central:
+  tu cumbre en medio y 8 campamentos alrededor, con sus fotos y sus frases. Cada campamento abre su propio bloque con
+  8 pasos: 64 pasos hacia tu cima. Al armar el vision board (o agregar una casilla) los campamentos vacíos reciben
+  8 pasos sugeridos —las acciones de su propósito y el banco de acciones de su eje— y tú los ajustas. El 9×9 se ve
+  como mapa (en el celular, solo colores y avance) y se trabaja bloque por bloque. **Compartir mi 9×9** genera una
+  imagen vertical de 1080 × 1350 con tu cumbre, las fotos, los pasos y tu avance, y la publica en la comunidad como
+  visión, para tus seguidores o para todos. Los pasos viajan a la web y a las copias de seguridad.
 - **Método Cima 9×52 (modelo propio):** la mandala se sube durante el año con las mismas reglas de la expedición.
   Tu montaña personal mide 8.848.000 mm y cada uno de los 64 pasos vale 138.250 mm. Un paso no se marca: se gana
   con **jornadas**, días distintos en que avanzaste en él (una prueba de constancia en lugar de la prueba de trabajo

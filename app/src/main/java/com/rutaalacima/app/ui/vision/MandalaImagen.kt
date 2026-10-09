@@ -47,7 +47,7 @@ object MandalaImagen {
         texto(c, datos.tituloCumbre, 40f, 78f, 1000, 44f, TINTA, serif, 2, Layout.Alignment.ALIGN_NORMAL)
 
         // Cuadrícula
-        val x0 = 40f; val y0 = 200f; val lado = 1000f
+        val x0 = 40f; val y0 = 190f; val lado = 1000f
         val sepBloque = 10f; val sepCelda = 3f
         val bloque = (lado - 2 * sepBloque) / 3
         val celda = (bloque - 2 * sepCelda) / 3
@@ -72,8 +72,8 @@ object MandalaImagen {
                     fondo.color = color; c.drawRoundRect(r, 14f, 14f, fondo)
                     val foto = cv?.foto?.let { foto(it) }
                     if (foto != null) dibujarFoto(c, foto, r, (color and 0x00FFFFFF) or 0x8C000000.toInt())
-                    texto(c, cv?.casilla?.titulo ?: "", x + 6, y, (celda - 12).toInt(), 17f, 0xFFFFFFFF.toInt(),
-                        Typeface.DEFAULT_BOLD, 4, Layout.Alignment.ALIGN_CENTER, alto = celda)
+                    texto(c, cv?.let { nombreCampamento(it) }.orEmpty(), x + 6, y, (celda - 12).toInt(), 15f, 0xFFFFFFFF.toInt(),
+                        Typeface.DEFAULT_BOLD, 5, Layout.Alignment.ALIGN_CENTER, alto = celda)
                 }
                 Mandala.Tipo.PASO -> {
                     val color = datos.color(cel.campamento).toArgb()
@@ -95,7 +95,7 @@ object MandalaImagen {
         }
 
         // Pie: avance, montaña en milímetros y la marca
-        val pie = y0 + lado + 34
+        val pie = y0 + lado + 14
         texto(c, t.avance, 40f, pie, 1000, 30f, TINTA, Typeface.DEFAULT_BOLD, 1, Layout.Alignment.ALIGN_NORMAL)
         texto(c, t.montana, 40f, pie + 44, 1000, 26f, BURDEOS, Typeface.DEFAULT, 1, Layout.Alignment.ALIGN_NORMAL)
         fondo.color = BURDEOS; c.drawRect(0f, ALTO - 64f, ANCHO.toFloat(), ALTO.toFloat(), fondo)

@@ -164,6 +164,8 @@ const ACC = {
   casillaNueva() {
     const orden = Math.max(-1, ...casillasVision().map(c => c.orden || 0)) + 1;
     Store.guardar("vision", { id: nuevoId(), orden, titulo: "Nueva casilla", afirmacion: "Escribe aquí tu frase", eje: null, sugerencia: "", busqueda: "", origen: "manual", publicacionId: null });
+    // El nuevo campamento llega al 9×9 con sus 8 pasos sugeridos
+    Promise.resolve(window.llenarCampamentosVacios?.()).then(() => pintarDetalle());
   },
   guardarEval() {
     const v = estado.evalNueva;

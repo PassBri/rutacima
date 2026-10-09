@@ -580,8 +580,6 @@ a.btn { text-decoration: none; }
 .md-grande .md-paso { flex-direction: column; align-items: stretch; padding: 6px; gap: 4px; }
 .md-grande textarea { flex: 1; resize: none; border: 0; background: transparent; font: inherit; font-size: 13px; color: var(--tinta); min-height: 0; padding: 2px; }
 .md-check { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--tinta-suave); }
-.md-montana { width: 100%; aspect-ratio: 1; border-radius: 18px; margin-top: 14px; touch-action: none; cursor: grab; display: block; }
-.md-montana:active { cursor: grabbing; }
 @media (max-width: 600px) { .md-grande .md-c { font-size: 12px; } .md-grande textarea { font-size: 12px; } }
 .md-grande { max-width: 560px; }
 .md-ritmo { display: grid; gap: 4px; padding: 14px; border-radius: 18px; background: var(--oro-suave); margin-bottom: 14px; font-size: 14px; }
@@ -592,3 +590,7 @@ a.btn { text-decoration: none; }
 .md-jornadas > i { display: block; height: 4px; border-radius: 9px; background: linear-gradient(90deg, var(--c) calc(var(--f) * 100%), var(--linea) 0); }
 .md-jornadas .btn { justify-content: center; }
 .md-ganado { font-size: 12px; font-weight: 700; color: var(--c); }
+.md-btn-compartir { width: 100%; justify-content: center; }
+.md-compartir { padding: 12px; border-radius: 14px; background: var(--burdeos-suave); }
+.md-compartir p { margin: 0 0 8px; }
+@media (max-width: 700px) { .md-grilla .md-paso .t { display: none; } .md-grilla .md-c b { -webkit-line-clamp: 3; } }
