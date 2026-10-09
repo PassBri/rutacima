@@ -226,6 +226,10 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
 - **Cordadas:** grupos de 3 a 6 personas con un reto en común (por ejemplo, 30 días de un eje). Se crean con un
   código de invitación; cada uno marca su día y todos ven el avance del grupo, con notas para animarse.
 - **Filtros del inicio:** *Para ti*, *Vision boards* y *Siguiendo*.
+- **La cumbre de la comunidad:** cada semana toda la comunidad sube la misma montaña. Cada publicación suma 120 m y
+  cada impulso 10 m; la meta son 8.848 m. La bandera avanza con un resorte y el sendero recorrido ondea. Al impulsar,
+  el botón se transforma de círculo en sol y sube un "+10 m"; los avatares van en forma de galleta. Son las formas y
+  el movimiento de Material 3 Expressive, hechos con `androidx.graphics:graphics-shapes`.
 - **Un solo muro con vista inmersiva:** la Comunidad es un muro que se recorre hacia abajo. Al tocar una
   publicación se abre **Cimas**, a pantalla completa desde esa misma publicación, para pasar a la siguiente
   deslizando hacia arriba (doble toque para impulsar). Al volver, el muro queda donde ibas. Igual en la web.

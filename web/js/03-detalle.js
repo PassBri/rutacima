@@ -38,6 +38,25 @@ function vasosDeAgua(fecha, n) {
       <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n - 1}" ${n <= 0 ? "disabled" : ""} aria-label="Un vaso menos">−</button>
       <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n + 1}" ${n >= 8 ? "disabled" : ""} aria-label="Un vaso más">+</button></div>`;
 }
+/** La cumbre de la comunidad: todos suben la misma montaña cada semana (publicación 120 m, impulso 10 m). */
+function cumbreComunidad(ps) {
+  const semana = ps.filter(p => Date.now() - p.creadoEn <= 7 * 864e5);
+  const impulsos = semana.reduce((s, p) => s + (p.impulsos || 0), 0);
+  const metros = semana.length * 120 + impulsos * 10, meta = 8848, f = Math.min(1, metros / meta);
+  const mios = semana.filter(p => p.propio).length * 120 + semana.filter(p => p.yoImpulse).length * 10;
+  const cresta = [[0, 92], [12, 78], [22, 82], [34, 58], [44, 64], [56, 40], [64, 46], [76, 18], [82, 8]].map(([x, y]) => [x * 2.4, y]);
+  const d = cresta.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join(" ");
+  const nf = n => n.toLocaleString("es");
+  return `<section class="cumbre-com" aria-label="La cumbre de la comunidad: ${nf(metros)} metros de ${nf(meta)}">
+    <h3>La cumbre de la comunidad</h3>
+    <p>${metros >= meta ? "¡Cumbre! Esta semana la comunidad ya pasó los 8.848 m." : "Cada publicación sube 120 m y cada impulso 10 m. ¿Llegamos juntos a los 8.848 m esta semana?"}</p>
+    <svg viewBox="0 0 240 100" aria-hidden="true"><rect width="240" height="100" rx="14" class="cc-cielo"/>
+      <path d="M0 100 ${d.slice(1)} L240 50 L240 100Z" class="cc-roca"/>
+      <path d="${d}" class="cc-sendero"/><path d="${d}" class="cc-hecho" pathLength="1" style="stroke-dasharray:${f} 1"/>
+    </svg>
+    <div class="cc-cifra"><b>${nf(metros)}</b> / ${nf(meta)} m</div>
+    <div class="cc-datos">${semana.length} publicaciones · ${impulsos} impulsos esta semana${mios ? ` · <b>Tu aporte: ${nf(mios)} m</b>` : ""}</div></section>`;
+}
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 function vacio() {
@@ -355,12 +374,12 @@ Object.assign(DET, {
             ${p.metaTitulo ? `<span class="cima-meta">⛰ ${esc(p.metaTitulo)}${p.eje ? " · " + NOMBRE_EJE[p.eje] : ""}</span>` : ""}</div></article>`).join("") : vacioFeed}</div>`;
     }
     return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
-      ps.length ? ps.map(p => `<article class="hoja post-muro">
+      (ps.length && estado.feedFiltro === "PARA_TI" ? cumbreComunidad(ps) : "") + (ps.length ? ps.map(p => `<article class="hoja post-muro">
         <div class="autor">${autor(p)}<div style="flex:1;min-width:0"><b>${esc(p.autorNombre)}</b><div class="suave" style="font-size:13px">${hace(p.creadoEn)} · ${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</div></div></div>
         <button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>
         ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
         <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
-          <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed,
+          <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed),
       "max-width:600px");
   },
   "comunidad.publicar"() {

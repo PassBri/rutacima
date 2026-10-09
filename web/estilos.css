@@ -500,3 +500,18 @@ a.btn { text-decoration: none; }
 .vasos-pie b { color: #2E7D9A; font-weight: 600; flex: 1; min-width: 140px; }
 .vasos-pie span { color: var(--oro); font-size: 13px; width: 100%; order: 3; }
 .vasos-pie .btn { width: 36px; height: 36px; padding: 0; justify-content: center; font-size: 18px; }
+
+/* La cumbre de la comunidad (tarjeta expresiva: esquinas grandes, sendero dorado ondulado) */
+.cumbre-com { background: var(--burdeos-suave); color: var(--tinta); border-radius: 28px; padding: 18px; margin-bottom: 16px; }
+.cumbre-com h3 { margin: 0; font: 700 20px/1.2 var(--font-titulo); color: var(--burdeos); }
+.cumbre-com p { margin: 4px 0 10px; color: var(--tinta-suave); font-size: 14px; }
+.cumbre-com svg { width: 100%; display: block; }
+.cc-cielo { fill: var(--hoja); opacity: .6; }
+.cc-roca { fill: var(--burdeos); }
+.cc-sendero { fill: none; stroke: var(--hoja); stroke-width: 1.4; stroke-dasharray: 1 4; stroke-linecap: round; opacity: .7; }
+.cc-hecho { fill: none; stroke: var(--oro); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; animation: cc-sube 1.4s cubic-bezier(.34, 1.56, .64, 1) both; }
+@keyframes cc-sube { from { stroke-dasharray: 0 1; } }
+.cc-cifra { margin-top: 8px; color: var(--tinta-suave); }
+.cc-cifra b { font: 900 32px/1 var(--font-titulo); color: var(--burdeos); }
+.cc-datos { font-size: 13px; color: var(--tinta-suave); margin-top: 2px; }
+.cc-datos b { color: var(--oro); }
