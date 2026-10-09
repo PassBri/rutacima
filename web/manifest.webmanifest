@@ -1,0 +1,19 @@
+{
+  "name": "Rutaalacima",
+  "short_name": "Rutaalacima",
+  "description": "Encuentra tu cumbre y súbela paso a paso: metas, hábitos, la Brújula de la Cima y una comunidad que sube contigo.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7F2EA",
+  "theme_color": "#6B2A1A",
+  "categories": ["lifestyle", "education", "productivity"],
+  "icons": [
+    { "src": "iconos/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "iconos/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "iconos/icono-adaptable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

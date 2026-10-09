@@ -12,6 +12,10 @@ VERSION="${GITHUB_SHA:-$(git rev-parse --short HEAD 2>/dev/null || date +%s)}"
 rm -rf "$DESTINO"
 mkdir -p "$DESTINO/assets"
 cp web/index.html web/estilos.css web/sello.png "$DESTINO/"
+# Instalable como app: manifiesto, íconos y service worker (con la versión de esta publicación)
+cp web/manifest.webmanifest "$DESTINO/"
+cp -r web/iconos "$DESTINO/iconos"
+sed "s/rutacima-dev/rutacima-${VERSION:0:12}/" web/sw.js > "$DESTINO/sw.js"
 # Documentos legales (Ley 1581 de 2012): centro legal, privacidad, términos, aviso, autorización y normas
 cp web/legal.css web/legal.html web/privacidad.html web/terminos.html web/aviso-privacidad.html web/autorizacion.html web/normas.html "$DESTINO/"
 cp -r web/js "$DESTINO/js"

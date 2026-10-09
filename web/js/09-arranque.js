@@ -96,6 +96,7 @@ function entrarDemo() { Store.nube = null; Store.datos = {}; sembrarDemo(); abri
 function abrirApp() {
   Store.oyentes.clear(); Store.oyentes.add(refrescar);
   mostrar("app");
+  globalThis.programarAvisoInstalar?.();
   ir("ruta", innerWidth > 900 && recordatorio() ? "vida" : null);
 }
 document.addEventListener("click", e => { if (e.target.closest("[data-acc-v='demo']")) { clearInterval(sondeo); clearInterval(renovar); entrarDemo(); } });

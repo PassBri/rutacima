@@ -455,6 +455,12 @@ muestra la web o escribes sus 8 letras. Como en WhatsApp Web, el código se renu
 muestra el tiempo) y, si nadie lo escanea en 5 minutos, se detiene hasta que tocas para pedir uno nuevo. El computador queda vinculado hasta que lo desvincules desde el teléfono
 o cierres la sesión en la web.
 
+**Instalable como app (PWA).** Rutaalacima Web se instala desde el navegador: en Android y en el computador con
+el botón *Instalar*; en iPhone y iPad desde Safari, con *Compartir › Agregar a pantalla de inicio* (la web muestra
+los pasos). Queda con el sello entre las apps y se abre a pantalla completa. El service worker (`web/sw.js`)
+guarda la página, los estilos, los scripts, las guías y las frases para abrir rápido incluso sin conexión; nunca
+toca la cuenta, los datos ni los audios. Cada publicación cambia su versión y limpia lo anterior.
+
 **Sin teléfono Android (por ejemplo, en iPhone).** En la pantalla de inicio de la web: **Entrar con mi correo** o
 **Crear cuenta**. Al crearla se aceptan los documentos legales con las mismas dos casillas de la app, y la cuenta
 funciona igual que una creada en el teléfono: la ruta se guarda en la nube y se abre desde cualquier navegador.

@@ -809,3 +809,19 @@ a.btn { text-decoration: none; }
 .plan-precio { text-align: center; font: 500 20px/1.3 var(--font-titulo); margin: 0 0 4px; }
 .plan-ok { color: var(--burdeos); margin: 0; }
 .coach-plan { align-self: flex-start; margin-top: 6px; }
+/* Instalar como app */
+.aviso-instalar { position: fixed; left: 50%; transform: translateX(-50%); bottom: 20px; z-index: 40; width: min(460px, calc(100% - 32px));
+  display: grid; grid-template-columns: 44px 1fr auto auto; gap: 12px; align-items: center; padding: 12px 12px 12px 14px;
+  background: var(--hoja); border: 1px solid var(--linea); border-radius: 16px; box-shadow: 0 10px 30px rgb(var(--sombra) / .22); }
+.aviso-instalar img { width: 44px; height: 44px; border-radius: 10px; }
+.aviso-instalar b { display: block; font-size: 15px; }
+.aviso-instalar span { font-size: 13px; color: var(--tinta-suave); }
+.aviso-cerrar { background: none; border: 0; font-size: 22px; line-height: 1; color: var(--tinta-suave); cursor: pointer; padding: 4px 6px; }
+@media (max-width: 900px) { .aviso-instalar { bottom: calc(68px + env(safe-area-inset-bottom, 0px)); } }
+.pasos-instalar { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 14px; }
+.pasos-instalar li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center; }
+.paso-ic { width: 40px; height: 40px; border-radius: 10px; background: var(--hoja-2); display: grid; place-items: center; }
+.paso-ic .i { width: 24px; height: 24px; fill: #0A84FF; }
+.paso-ic img { width: 32px; height: 32px; border-radius: 8px; }
+/* Abierta como app instalada: respeta la barra de estado del iPhone */
+@media (display-mode: standalone) { .ventana { padding-top: env(safe-area-inset-top, 0px); } }
