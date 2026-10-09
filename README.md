@@ -226,9 +226,9 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
 - **Cordadas:** grupos de 3 a 6 personas con un reto en común (por ejemplo, 30 días de un eje). Se crean con un
   código de invitación; cada uno marca su día y todos ven el avance del grupo, con notas para animarse.
 - **Filtros del inicio:** *Para ti*, *Vision boards* y *Siguiendo*.
-- **Dos formas de verla:** **Lista**, el muro hacia abajo, y **Cimas**, una publicación a pantalla completa que
-  se pasa deslizando hacia arriba, con doble toque para impulsar y los botones al costado. La app recuerda cuál
-  prefieres. Lo mismo en la web.
+- **Un solo muro con vista inmersiva:** la Comunidad es un muro que se recorre hacia abajo. Al tocar una
+  publicación se abre **Cimas**, a pantalla completa desde esa misma publicación, para pasar a la siguiente
+  deslizando hacia arriba (doble toque para impulsar). Al volver, el muro queda donde ibas. Igual en la web.
 - **Sin cuenta**, la comunidad se muestra en modo demostración con publicaciones de ejemplo.
 
 ### Aprende: las 24 guías

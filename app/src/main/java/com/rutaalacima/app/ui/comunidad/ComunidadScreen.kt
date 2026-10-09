@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Bookmark
@@ -115,39 +116,43 @@ fun ComunidadScreen(
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
-    // Vista elegida (se recuerda): lista hacia abajo o Cimas a pantalla completa
-    val ctx = androidx.compose.ui.platform.LocalContext.current
-    val prefs = androidx.compose.runtime.remember { ctx.getSharedPreferences("comunidad", android.content.Context.MODE_PRIVATE) }
-    var cimas by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(prefs.getBoolean("cimas", false)) }
-    val cambiarVista: (Boolean) -> Unit = { cimas = it; prefs.edit().putBoolean("cimas", it).apply() }
-
-    if (cimas) {
-        val pager = androidx.compose.foundation.pager.rememberPagerState { vm.posts.size }
-        Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
-            Column(Modifier.padding(horizontal = 12.dp, vertical = 4.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                SelectorVista(cimas, cambiarVista)
-                Filtros(vm)
+    // Una sola Comunidad: el muro para recorrer y, al tocar una publicación, Cimas a pantalla
+    // completa desde esa misma publicación (como Instagram: del muro a la vista inmersiva y de vuelta).
+    var cimasDesde by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf<Int?>(null) }
+    val lista = androidx.compose.foundation.lazy.rememberLazyListState()
+    var volverA by androidx.compose.runtime.remember { mutableStateOf<Int?>(null) }
+    val desde = cimasDesde
+    if (desde != null && vm.posts.isNotEmpty()) {
+        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = desde.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size }
+        val cerrar = { volverA = cimasDesde; cimasDesde = null }
+        androidx.activity.compose.BackHandler(onBack = cerrar)
+        Box(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
+            CimasFeed(
+                posts = vm.posts, estado = pager,
+                onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
+                modifier = Modifier.fillMaxSize(),
+                padding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 8.dp),
+            )
+            androidx.compose.material3.FilledTonalIconButton(onClick = cerrar, modifier = Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 20.dp)) {
+                Icon(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.comunidad_vista_lista))
             }
-            when {
-                vm.cargando && vm.posts.isEmpty() ->
-                    Box(Modifier.fillMaxWidth().weight(1f), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-                vm.posts.isEmpty() ->
-                    com.rutaalacima.app.ui.components.EstadoVacio(
-                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
-                        accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
-                    )
-                else -> CimasFeed(
-                    posts = vm.posts, estado = pager,
-                    onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
-                    modifier = Modifier.fillMaxWidth().weight(1f),
-                    padding = PaddingValues(top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 8.dp),
-                )
-            }
+        }
+        // Al volver, el muro queda en la publicación que estabas viendo
+        LaunchedEffect(pager) {
+            androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { cimasDesde = it }
         }
         return
     }
 
+    // Al volver de Cimas, el muro se ubica en la publicación que estabas viendo
+    LaunchedEffect(volverA) {
+        val i = volverA ?: return@LaunchedEffect
+        val cabecera = (if (!vm.enLinea) 1 else 0) + 2 + (if (vm.error != null) 1 else 0)
+        lista.scrollToItem(cabecera + i)
+        volverA = null
+    }
     LazyColumn(
+        state = lista,
         contentPadding = PaddingValues(
             start = 12.dp, end = 12.dp,
             top = contentPadding.calculateTopPadding() + 4.dp,
@@ -170,7 +175,6 @@ fun ComunidadScreen(
                 }
             }
         }
-        item { SelectorVista(cimas, cambiarVista) }
         // Historias: atajos para publicar cada tipo
         item {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -208,8 +212,8 @@ fun ComunidadScreen(
                 )
             }
         }
-        items(vm.posts, key = { it.id }) { p ->
-            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { onAbrirPost(p.id) },
+        itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
+            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { cimasDesde = i },
                 guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) })
         }
     }
@@ -248,20 +252,3 @@ private fun Filtros(vm: ComunidadViewModel) {
     }
 }
 
-/** Lista (hacia abajo, como un muro) o Cimas (a pantalla completa, deslizando hacia arriba). */
-@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
-@Composable
-private fun SelectorVista(cimas: Boolean, onCambiar: (Boolean) -> Unit) {
-    SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-        listOf(false to R.string.comunidad_vista_lista, true to R.string.comunidad_vista_cimas).forEachIndexed { i, (valor, texto) ->
-            SegmentedButton(
-                selected = cimas == valor, onClick = { onCambiar(valor) },
-                shape = SegmentedButtonDefaults.itemShape(index = i, count = 2),
-                icon = {
-                    Icon(if (valor) Icons.Filled.Landscape else Icons.AutoMirrored.Filled.ViewList,
-                        null, Modifier.size(18.dp))
-                },
-            ) { Text(stringResource(texto)) }
-        }
-    }
-}

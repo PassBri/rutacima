@@ -315,13 +315,21 @@ Object.assign(DET, {
       </div></div>
       <form class="escribir" data-form="comentar"><input name="texto" placeholder="Escribe un comentario" aria-label="Comentario" autocomplete="off"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
   },
+  /** Una publicación de la lista abre Cimas desde ella (en el teléfono y en el computador). */
+  "comunidad.cima"(id) {
+    estado.vistaCom = "cimas";
+    requestAnimationFrame(() => document.querySelector(`.cima[data-cima="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "start" }));
+    return DET["comunidad.feed"]();
+  },
   "comunidad.feed"() {
     if (!estado.feed) { cargarFeed(); return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Cargando…") + cuerpo(""); }
     const ps = estado.feed;
     const autor = p => { const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase(); return av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"); };
     const vacioFeed = `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     if (estado.vistaCom === "cimas") {
-      return cab(av(ic("ruta"), "var(--burdeos)"), "Cimas", "Desliza o usa las flechas para ver la siguiente cima") +
+      // Cimas es la vista inmersiva del mismo muro: se entra tocando una publicación y se vuelve con este botón
+      return cab(av(ic("ruta"), "var(--burdeos)"), "Cimas", "Desliza para ver la siguiente",
+        `<button class="btn mini" data-vista="lista">${ic("comunidad")} Volver al muro</button>`) +
         `<div class="cimas" tabindex="0" aria-label="Cimas">${ps.length ? ps.map(p => `<article class="cima" data-cima="${esc(p.id)}">
           <div class="cima-fondo" style="--c:${COLOR_EJE[p.eje] || "#6B2A1A"}">${p.foto ? `<img src="${esc(p.foto)}" alt="">` : `<p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
           <span class="cima-tipo">${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</span>
@@ -334,7 +342,7 @@ Object.assign(DET, {
     return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
       ps.length ? ps.map(p => `<article class="hoja post-muro">
         <div class="autor">${autor(p)}<div style="flex:1;min-width:0"><b>${esc(p.autorNombre)}</b><div class="suave" style="font-size:13px">${hace(p.creadoEn)} · ${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</div></div></div>
-        <button data-ir="comunidad" data-arg="post:${esc(p.id)}" style="display:block;width:100%;text-align:left">${postal(p)}</button>
+        <button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>
         ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
         <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
           <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed,

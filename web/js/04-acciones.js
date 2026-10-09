@@ -11,6 +11,11 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  /** Tocar una publicación del muro la abre en Cimas, a pantalla completa, desde esa misma publicación. */
+  verCima(_, id) {
+    estado.vistaCom = "cimas"; elegir("feed");
+    requestAnimationFrame(() => document.querySelector(`.cima[data-cima="${CSS.escape(id)}"]`)?.scrollIntoView({ block: "start" }));
+  },
   horizonte(_, arg) {
     const [tipo, clave, d] = arg.split("|");
     const actual = Number(Store.get(tipo, clave)?.horizonte ?? 5);
@@ -166,8 +171,11 @@ function clic(e) {
   if (t.dataset.filtro) { estado.filtro = t.dataset.filtro; pintarLista(); return; }
   if (t.dataset.feed) { estado.feedFiltro = t.dataset.feed; estado.feed = null; pintarLista(); return; }
   if (t.dataset.vista) {
-    estado.vistaCom = t.dataset.vista; try { localStorage.setItem("rutacima-vista", t.dataset.vista); } catch {}
-    elegir("feed"); return;
+    // Volver de Cimas al muro, en la publicación que estabas viendo
+    const actual = [...document.querySelectorAll(".cima")].find(c => { const r = c.getBoundingClientRect(); return r.top >= -r.height / 2 && r.top < innerHeight / 2; })?.dataset.cima;
+    estado.vistaCom = t.dataset.vista; elegir("feed");
+    if (actual) requestAnimationFrame(() => document.querySelector(`[data-acc="verCima"][data-arg="${CSS.escape(actual)}"]`)?.closest("article")?.scrollIntoView({ block: "center" }));
+    return;
   }
   if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && (t.dataset.sec === "coach" || t.dataset.sec === "comunidad") ? (t.dataset.sec === "coach" ? "coach" : "feed") : null); return; }
   if (t.dataset.sel?.startsWith("ir-")) { const d = t.dataset.sel.slice(3); if (d === "coachvida") ir("mensajes", "coachvida"); else ir(d, d === "coach" ? "coach" : null); return; }

@@ -9,7 +9,7 @@ const SECCIONES = [
 /** En el teléfono la barra es igual a la de la app: 5 secciones y el botón de publicar en medio.
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
 const SOLO_PC = new Set(["metas", "coach", "mensajes", "frases"]);
-const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: (() => { try { return localStorage.getItem("rutacima-vista") || "lista"; } catch { return "lista"; } })() };
+const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "lista" };
 
 function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
@@ -139,13 +139,13 @@ const LISTAS = {
   },
   comunidad() {
     let h = cabLista("Comunidad", { buscar: false, nuevo: ["publicar", "Publicar"] });
-    h += `<div class="lista-cab" style="padding-top:0"><div class="segmentos" role="group" aria-label="Cómo ver la comunidad">${[["lista", "Lista"], ["cimas", "Cimas"]].map(([k, n]) => `<button data-vista="${k}" aria-pressed="${estado.vistaCom === k && estado.sel === "feed"}">${k === "cimas" ? ic("ruta") : ic("comunidad")} ${n}</button>`).join("")}</div>
+    h += `<div class="lista-cab" style="padding-top:0">
       <div class="chips">${[["PARA_TI", "Para ti"], ["VISION", "Visión"], ["SIGUIENDO", "Siguiendo"]].map(([k, n]) => `<button class="chip" data-feed="${k}" aria-pressed="${estado.feedFiltro === k}">${n}</button>`).join("")}</div></div><div class="items">`;
     if (!estado.feed) { cargarFeed(); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
     if (!estado.feed.length) h += `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     estado.feed.forEach(p => {
       const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
-      h += item("post:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
+      h += item("cima:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
     });
     return h + `</div>`;
   },
