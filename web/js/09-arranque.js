@@ -95,6 +95,7 @@ document.addEventListener("click", e => { if (e.target.closest("[data-acc-v='dem
 
 /* Ruta de ejemplo para la demostración (con la misma forma de los datos reales) */
 function sembrarDemo() {
+
   const hoy = hoyFecha(), A = hoy.getFullYear(), M = hoy.getMonth() + 1;
   const azar = (a, m, d) => { const x = Math.sin(a * 372 + m * 31 + d) * 10000; return x - Math.floor(x); };
   Store.poner("perfil", 1, { id: 1, nombre: "Laura", cumbreFrase: "Abrir mi escuela de montaña y vivir de enseñar a otros a subir.", faseActual: "PREPARACION", anioInicioPlan: A, onboardingCompleto: true, anioNacimiento: 1990, mesNacimiento: 3, esperanzaVida: 100 });
@@ -114,6 +115,11 @@ function sembrarDemo() {
   const dias = []; for (let k = 1; k < 30; k++) { const d = new Date(hoy); d.setDate(d.getDate() - k); if (d.getFullYear() === A && azar(k, 3, 7) < 0.7) dias.push(fraseIndice(d)); }
   Store.poner("frases", A, { dias: dias.sort((x, y) => x - y) });
   misPostsDemo.length = 0;
+  // Recuerdos de ejemplo para el diario de vida (álbum de cada año)
+  misPostsDemo.push(
+    { id: "rec-1", anio: 2012, tipo: "LOGRO", eje: "MAE", texto: "Me gradué de la universidad con toda mi familia en primera fila.", metaTitulo: "Graduación", impulsos: 0, comentarios: 0, creadoEn: Date.parse("2012-11-20"), propio: true, visibilidad: "PRIVADA" },
+    { id: "rec-2", anio: 2012, tipo: "REFLEXION", eje: "VOL", texto: "Primer trabajo: aprendí que la constancia vale más que el talento.", metaTitulo: "", impulsos: 0, comentarios: 0, creadoEn: Date.parse("2012-03-02"), propio: true, visibilidad: "PRIVADA" },
+    { id: "rec-3", anio: 2020, tipo: "LOGRO", eje: "TRA", texto: "Corrí mis primeros 10 km en la montaña.", metaTitulo: "Primera carrera de montaña", impulsos: 0, comentarios: 0, creadoEn: Date.parse("2020-08-09"), propio: true, visibilidad: "PRIVADA" });
   [["LOGRO", "VOL", "Primer mes completo trotando 3 veces por semana."], ["VISION", "TRA", "Una escuela donde aprender a subir sea aprender a vivir."], ["EVIDENCIA", "MAE", "Módulo 3 del curso de guía: aprobado."]]
     .forEach(([tipo, eje, t], i) => misPostsDemo.push({ id: "mio-" + i, autorNombre: "Laura", tipo, eje, texto: t, metaTitulo: "", impulsos: 12 - i * 3, comentarios: 1, yoImpulse: false, creadoEn: Date.now() - (i + 2) * 86400000, propio: true, demo: false }));
 }

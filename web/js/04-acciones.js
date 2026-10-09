@@ -11,6 +11,13 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  /** Quién ve un año del diario de vida (se guarda como respuesta, igual que en la app). */
+  async diarioVis(_, arg) {
+    const [a, vis] = arg.split("|");
+    await responder("diario", `diario-${a}#visibilidad`, vis);
+    if (Store.nube) try { await Store.nube.sb.from("diario_anios").upsert({ user_id: Store.nube.dueno, anio: Number(a), visibilidad: vis }); } catch (e) { console.error(e); }
+    toast(vis === "PRIVADA" ? "Ahora solo tú ves este año." : "Listo: este año se ve en tu diario de vida.");
+  },
   agua(_, arg) {
     const [fecha, n] = arg.split("|");
     Store.cambiar("agenda", fecha, { agua: Math.max(0, Math.min(8, Number(n))) }, BASES.agenda(fecha));

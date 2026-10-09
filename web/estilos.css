@@ -540,3 +540,15 @@ a.btn { text-decoration: none; }
 .cielo-mini { position: relative; height: 92px; margin: -18px -20px 16px; border-radius: 4px 4px 0 0; overflow: hidden; background: var(--franja); }
 .cielo-mini .astro.sol { width: 26px; height: 26px; }
 .cielo-mini .astro.luna { width: 20px; height: 20px; }
+
+/* Álbum del año (diario de vida): mosaico de recuerdos */
+.album-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.album-cab h3 { margin: 0; font: 700 20px/1.2 var(--font-titulo); color: var(--burdeos); }
+.album { columns: 3 150px; column-gap: 10px; }
+.recuerdo { display: block; width: 100%; margin: 0 0 10px; break-inside: avoid; text-align: left; border-radius: 16px; overflow: hidden; background: var(--hoja-2); border: 1px solid var(--linea); padding: 0; }
+.recuerdo img { display: block; width: 100%; height: auto; }
+.recuerdo span { display: block; padding: 10px 12px; font-size: 13px; line-height: 1.4; color: var(--tinta); }
+.recuerdo b { display: block; margin-bottom: 4px; }
+.recuerdo i { color: var(--tinta-suave); }
+.album-cab .segmentos { display: flex; flex: 1 1 260px; max-width: 420px; }
+.album-cab .segmentos button { flex: 1; }

@@ -339,6 +339,10 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   mismas reglas del método. Las fotos se guardan como publicaciones de visión privadas.
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
 - **Mis frases:** las frases que ya abriste este año.
+- **Diario de vida:** un álbum por cada año de tu vida, con las fotos en mosaico, los recuerdos y las metas cumplidas.
+  Puedes registrar recuerdos en cualquier año y mes (también de antes de usar la app). Cada año tiene su
+  visibilidad: **solo yo**, **seguidores** o **público**; al compartir un año puedes incluir lo que tenías como
+  "Solo yo". En la comunidad, tocar el nombre de alguien abre su diario, con solo los años que esa persona comparte.
 - Los accesos están agrupados en **Mi ascenso**, **Personas** y **Más**.
 
 ### Ajustes
@@ -385,8 +389,12 @@ hindi y ruso. El contenido de las guías está en español (la app lo avisa en A
 
 Lo que cambias en un lado aparece en el otro.
 
+**Cielo vivo.** La franja de arriba y el recordatorio del día son una ventana al cielo: el sol y la luna en su
+posición real según la hora (con la fase de la luna de hoy), el amanecer, el atardecer y las estrellas de noche.
+
 **Cómo se vincula.** En el teléfono: **Perfil › ícono del computador › Escanear código**. Apuntas al código QR que
-muestra la web o escribes sus 8 letras. El computador queda vinculado hasta que lo desvincules desde el teléfono
+muestra la web o escribes sus 8 letras. Como en WhatsApp Web, el código se renueva cada minuto (una barra
+muestra el tiempo) y, si nadie lo escanea en 5 minutos, se detiene hasta que tocas para pedir uno nuevo. El computador queda vinculado hasta que lo desvincules desde el teléfono
 o cierres la sesión en la web.
 
 <p align="center">

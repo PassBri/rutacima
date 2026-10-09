@@ -57,6 +57,22 @@ function cumbreComunidad(ps) {
     <div class="cc-cifra"><b>${nf(metros)}</b> / ${nf(meta)} m</div>
     <div class="cc-datos">${semana.length} publicaciones · ${impulsos} impulsos esta semana${mios ? ` · <b>Tu aporte: ${nf(mios)} m</b>` : ""}</div></section>`;
 }
+/** Álbum del año en el diario de vida: quién lo ve, metas cumplidas y los recuerdos en mosaico. */
+function albumAnio(a, metas) {
+  if (!estado.misPosts) cargarMisPosts();
+  const ps = (estado.misPosts || []).filter(p => (p.anio ?? new Date(p.creadoEn).getFullYear()) === a);
+  const vis = respuesta(`diario-${a}#visibilidad`) || "PRIVADA";
+  const opciones = [["PRIVADA", "Solo yo"], ["SEGUIDORES", "Seguidores"], ["PUBLICA", "Público"]];
+  const nota = { PRIVADA: "Solo tú ves este año.", SEGUIDORES: "Tus seguidores pueden ver este año en tu diario.", PUBLICA: "Cualquier persona de la comunidad puede ver este año en tu diario." }[vis];
+  const cumplidas = metas.filter(m => m.estado === "CUMPLIDA");
+  return hoja(`<div class="album-cab"><h3>Álbum de ${a}</h3>
+      <div class="segmentos" role="group" aria-label="Quién puede ver este año">${opciones.map(([k, n]) => `<button data-acc="diarioVis" data-arg="${a}|${k}" aria-pressed="${vis === k}">${n}</button>`).join("")}</div></div>
+    <p class="suave" style="margin:6px 0 12px">${nota}</p>
+    ${cumplidas.length ? `<div class="chips" style="margin-bottom:12px">${cumplidas.map(m => `<span class="chip" aria-pressed="true">🏆 ${esc(m.titulo)}</span>`).join("")}</div>` : ""}
+    ${ps.length ? `<div class="album">${ps.map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">
+        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span>${p.metaTitulo ? `<b>${esc(p.metaTitulo)}</b>` : ""}${p.texto ? (p.foto ? esc(p.texto) : `<i>“${esc(p.texto)}”</i>`) : ""}</span></button>`).join("")}</div>`
+      : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay recuerdos de este año. Regístralos desde la app." : "Cargando recuerdos…"}</p>`}`);
+}
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 function vacio() {
@@ -132,7 +148,7 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` +
+      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` + (a <= hoy.getFullYear() ? albumAnio(a, metas) : "") +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}">${ic("bandera", "i fijado")} ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
@@ -296,7 +312,7 @@ async function cargarFeed() {
   await null; // siempre después de dibujar la lista
   try {
     if (!Store.nube) {
-      const todos = [...misPostsDemo, ...DEMO_POSTS].sort((a, b) => b.creadoEn - a.creadoEn);
+      const todos = [...misPostsDemo.filter(p => p.visibilidad !== "PRIVADA"), ...DEMO_POSTS].sort((a, b) => b.creadoEn - a.creadoEn);
       estado.feed = estado.feedFiltro === "VISION" ? todos.filter(p => p.tipo === "VISION") : estado.feedFiltro === "SIGUIENDO" ? misPostsDemo : todos;
     } else {
       const sb = Store.nube.sb, yo = Store.nube.dueno;
@@ -616,9 +632,9 @@ async function cargarMisPosts() {
     if (!Store.nube) estado.misPosts = misPostsDemo;
     else {
       const { data } = await Store.nube.sb.from("posts").select("*").eq("user_id", Store.nube.dueno).order("created_at", { ascending: false }).limit(200);
-      estado.misPosts = (data || []).map(p => ({ id: p.id, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
+      estado.misPosts = (data || []).map(p => ({ id: p.id, anio: p.anio, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
     }
-  } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision") && !enEdicion()) pintarDetalle(); }
+  } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision" || String(estado.sel).startsWith("a:")) && !enEdicion()) pintarDetalle(); }
 }
 
 
