@@ -988,12 +988,12 @@
     <string name="agua_quitar">एक गिलास कम</string>
     <string name="vida_fila_ayuda">हर पंक्ति एक दशक है: बाईं ओर वह साल जिससे वह शुरू होता है। सुनहरा बिंदु यह साल है।</string>
     <string name="vida_este_anio">%1$d · %2$d वर्ष</string>
-    <string name="cumbre_comunidad_titulo">समुदाय का शिखर</string>
-    <string name="cumbre_comunidad_texto">हर पोस्ट 120 मी. और हर बढ़ावा 10 मी. चढ़ाता है। क्या इस हफ़्ते हम साथ में 8,848 मी. पहुँचेंगे?</string>
-    <string name="cumbre_comunidad_metros">%2$s में से %1$s मी.</string>
-    <string name="cumbre_comunidad_logro">शिखर! इस हफ़्ते समुदाय 8,848 मी. पार कर गया।</string>
-    <string name="cumbre_comunidad_aporte">आपका योगदान: %1$s मी.</string>
-    <string name="cumbre_comunidad_datos">इस हफ़्ते %1$d पोस्ट · %2$d बढ़ावे</string>
+    <string name="cumbre_comunidad_titulo">समुदाय का अभियान</string>
+    <string name="cumbre_comunidad_texto">इस साल सबके लिए 8,848,000 मिमी का एक ही पहाड़। जितने ज़्यादा लोग चढ़ते हैं, हर मिलीमीटर उतना ही कठिन होता है।</string>
+    <string name="cumbre_comunidad_metros">%2$s में से %1$s मिमी</string>
+    <string name="cumbre_comunidad_logro">शिखर! समुदाय ने इस साल के 8,848,000 मिमी फ़तह किए।</string>
+    <string name="cumbre_comunidad_aporte">इस चरण में आपका योगदान: %1$s मिमी</string>
+    <string name="cumbre_comunidad_datos">चरण %1$d / 52 · कठिनाई %2$d दिन में बदलेगी</string>
     <string name="diario_titulo">जीवन डायरी</string>
     <string name="diario_sub">साल-दर-साल एल्बम में आपका जीवन</string>
     <string name="diario_vacio">अभी कोई याद नहीं है। अपने जीवन के किसी भी साल में पहली याद दर्ज करें।</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">%1$s की डायरी</string>
     <string name="diario_ajeno_vacio">%1$s ने अभी अपनी डायरी का कोई साल साझा नहीं किया।</string>
     <string name="diario_ver_autor">उनकी जीवन डायरी देखें</string>
+    <string name="cumbre_comunidad_valor">आज एक पोस्ट %1$s मिमी और एक बढ़ावा %2$s मिमी के बराबर है</string>
 </resources>

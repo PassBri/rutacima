@@ -988,12 +988,12 @@
     <string name="agua_quitar">كوب أقل</string>
     <string name="vida_fila_ayuda">كل صف عقد: على اليسار السنة التي يبدأ فيها. النقطة الذهبية هي هذا العام.</string>
     <string name="vida_este_anio">%1$d · %2$d سنة</string>
-    <string name="cumbre_comunidad_titulo">قمة المجتمع</string>
-    <string name="cumbre_comunidad_texto">كل منشور يرفعنا 120 م وكل دفعة 10 م. هل نصل معًا إلى 8848 م هذا الأسبوع؟</string>
-    <string name="cumbre_comunidad_metros">%1$s م من %2$s</string>
-    <string name="cumbre_comunidad_logro">القمة! تجاوز المجتمع هذا الأسبوع 8848 م.</string>
-    <string name="cumbre_comunidad_aporte">مساهمتك: %1$s م</string>
-    <string name="cumbre_comunidad_datos">%1$d منشورات · %2$d دفعات هذا الأسبوع</string>
+    <string name="cumbre_comunidad_titulo">رحلة المجتمع</string>
+    <string name="cumbre_comunidad_texto">جبل واحد ارتفاعه 8,848,000 مم للجميع هذا العام. كلما زاد عدد المتسلقين صار كل مليمتر أصعب.</string>
+    <string name="cumbre_comunidad_metros">%1$s مم من %2$s</string>
+    <string name="cumbre_comunidad_logro">القمة! بلغ المجتمع 8,848,000 مم لهذا العام.</string>
+    <string name="cumbre_comunidad_aporte">مساهمتك في هذه المرحلة: %1$s مم</string>
+    <string name="cumbre_comunidad_datos">المرحلة %1$d من 52 · تُعدَّل الصعوبة بعد %2$d أيام</string>
     <string name="diario_titulo">يوميات الحياة</string>
     <string name="diario_sub">حياتك في ألبومات، سنة بعد سنة</string>
     <string name="diario_vacio">لا توجد ذكريات بعد. سجّل أولها في أي عام من حياتك.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">يوميات %1$s</string>
     <string name="diario_ajeno_vacio">لم يشارك %1$s أي سنة من يومياته بعد.</string>
     <string name="diario_ver_autor">اعرض يومياته</string>
+    <string name="cumbre_comunidad_valor">اليوم يساوي المنشور %1$s مم والدفعة %2$s مم</string>
 </resources>

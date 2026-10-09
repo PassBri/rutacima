@@ -988,12 +988,12 @@
     <string name="agua_quitar">1杯減らす</string>
     <string name="vida_fila_ayuda">1行が10年。左はその始まりの年。金色の点が今年です。</string>
     <string name="vida_este_anio">%1$d · %2$d歳</string>
-    <string name="cumbre_comunidad_titulo">コミュニティの頂</string>
-    <string name="cumbre_comunidad_texto">投稿1つで120m、応援1回で10m。今週みんなで8,848mに届くでしょうか？</string>
-    <string name="cumbre_comunidad_metros">%1$s m / %2$s</string>
-    <string name="cumbre_comunidad_logro">登頂！今週コミュニティは8,848mを超えました。</string>
-    <string name="cumbre_comunidad_aporte">あなたの貢献：%1$s m</string>
-    <string name="cumbre_comunidad_datos">今週の投稿%1$d · 応援%2$d</string>
+    <string name="cumbre_comunidad_titulo">コミュニティの遠征</string>
+    <string name="cumbre_comunidad_texto">今年はみんなで8,848,000 mmの山をひとつ登ります。登る人が増えるほど、1 mmが難しくなります。</string>
+    <string name="cumbre_comunidad_metros">%1$s mm / %2$s</string>
+    <string name="cumbre_comunidad_logro">登頂！コミュニティが今年の8,848,000 mmを制覇しました。</string>
+    <string name="cumbre_comunidad_aporte">この区間のあなたの貢献：%1$s mm</string>
+    <string name="cumbre_comunidad_datos">区間 %1$d / 52 · 難易度の調整まであと%2$d日</string>
     <string name="diario_titulo">人生日記</string>
     <string name="diario_sub">1年ごとのアルバムで見る人生</string>
     <string name="diario_vacio">まだ思い出がありません。人生のどの年にでも最初の思い出を記録しましょう。</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">%1$sの日記</string>
     <string name="diario_ajeno_vacio">%1$sはまだ日記の年を共有していません。</string>
     <string name="diario_ver_autor">人生日記を見る</string>
+    <string name="cumbre_comunidad_valor">今日は投稿1つで%1$s mm、応援1回で%2$s mm</string>
 </resources>

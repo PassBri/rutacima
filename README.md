@@ -226,10 +226,16 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
 - **Cordadas:** grupos de 3 a 6 personas con un reto en común (por ejemplo, 30 días de un eje). Se crean con un
   código de invitación; cada uno marca su día y todos ven el avance del grupo, con notas para animarse.
 - **Filtros del inicio:** *Para ti*, *Vision boards* y *Siguiendo*.
-- **La cumbre de la comunidad:** cada semana toda la comunidad sube la misma montaña. Cada publicación suma 120 m y
-  cada impulso 10 m; la meta son 8.848 m. La bandera avanza con un resorte y el sendero recorrido ondea. Al impulsar,
-  el botón se transforma de círculo en sol y sube un "+10 m"; los avatares van en forma de galleta. Son las formas y
-  el movimiento de Material 3 Expressive, hechos con `androidx.graphics:graphics-shapes`.
+- **La expedición de la comunidad (en milímetros):** toda la comunidad sube una sola montaña de 8.848.000 mm por
+  año. Es una idea propia inspirada en el ajuste de dificultad de Bitcoin, sin cadena de bloques: cada semana es un
+  tramo y, al empezar, la dificultad se recalcula con los aportes del tramo anterior para que a ese ritmo la cumbre
+  llegue al final del año. Si llegan millones de personas, cada publicación vale fracciones de milímetro. Como en
+  Bitcoin, la dificultad no cambia más de 4 veces de un tramo al siguiente, y ningún tramo sube más de 4/52 de la
+  montaña (la cumbre nunca llega antes de 13 semanas). Publicación = 10 puntos, impulso = 1 punto; lo privado no
+  cuenta. El servidor solo devuelve totales por semana (`expedicion()` en `supabase/schema.sql`) y la cuenta vive en
+  `domain/model/Expedicion.kt` y en la web. La bandera avanza con un resorte y el sendero recorrido ondea. Al
+  impulsar, el botón se transforma de círculo en sol; los avatares van en forma de galleta. Son las formas y el
+  movimiento de Material 3 Expressive, hechos con `androidx.graphics:graphics-shapes`.
 - **Un solo muro con vista inmersiva:** la Comunidad es un muro que se recorre hacia abajo. Al tocar una
   publicación se abre **Cimas**, a pantalla completa desde esa misma publicación, para pasar a la siguiente
   deslizando hacia arriba (doble toque para impulsar). Al volver, el muro queda donde ibas. Igual en la web.

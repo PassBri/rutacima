@@ -988,12 +988,12 @@
     <string name="agua_quitar">Un bicchiere in meno</string>
     <string name="vida_fila_ayuda">Ogni riga è un decennio: a sinistra, l’anno in cui inizia. Il punto dorato è quest’anno.</string>
     <string name="vida_este_anio">%1$d · %2$d anni</string>
-    <string name="cumbre_comunidad_titulo">La vetta della comunità</string>
-    <string name="cumbre_comunidad_texto">Ogni post sale di 120 m e ogni slancio di 10 m. Arriviamo insieme a 8.848 m questa settimana?</string>
-    <string name="cumbre_comunidad_metros">%1$s m di %2$s</string>
-    <string name="cumbre_comunidad_logro">Vetta! Questa settimana la comunità ha superato 8.848 m.</string>
-    <string name="cumbre_comunidad_aporte">Il tuo contributo: %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d post · %2$d slanci questa settimana</string>
+    <string name="cumbre_comunidad_titulo">La spedizione della comunità</string>
+    <string name="cumbre_comunidad_texto">Un\'unica montagna di 8.848.000 mm per tutti quest\'anno. Più persone salgono, più difficile è ogni millimetro.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm di %2$s</string>
+    <string name="cumbre_comunidad_logro">Vetta! La comunità ha conquistato gli 8.848.000 mm di quest\'anno.</string>
+    <string name="cumbre_comunidad_aporte">Il tuo contributo in questa tappa: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Tappa %1$d di 52 · la difficoltà si regola tra %2$d giorni</string>
     <string name="diario_titulo">Diario di vita</string>
     <string name="diario_sub">La tua vita in album, anno per anno</string>
     <string name="diario_vacio">Ancora nessun ricordo. Registra il primo in qualsiasi anno della tua vita.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Diario di %1$s</string>
     <string name="diario_ajeno_vacio">%1$s non condivide ancora anni del suo diario.</string>
     <string name="diario_ver_autor">Vedi il suo diario di vita</string>
+    <string name="cumbre_comunidad_valor">Oggi un post vale %1$s mm e uno slancio %2$s mm</string>
 </resources>

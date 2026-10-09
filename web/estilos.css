@@ -513,6 +513,7 @@ a.btn { text-decoration: none; }
 @keyframes cc-sube { from { stroke-dasharray: 0 1; } }
 .cc-cifra { margin-top: 8px; color: var(--tinta-suave); }
 .cc-cifra b { font: 900 32px/1 var(--font-titulo); color: var(--burdeos); }
+.cc-pct { margin-left: 6px; font-weight: 700; color: var(--burdeos); }
 .cc-datos { font-size: 13px; color: var(--tinta-suave); margin-top: 2px; }
 .cc-datos b { color: var(--oro); }
 
@@ -552,3 +553,4 @@ a.btn { text-decoration: none; }
 .recuerdo i { color: var(--tinta-suave); }
 .album-cab .segmentos { display: flex; flex: 1 1 260px; max-width: 420px; }
 .album-cab .segmentos button { flex: 1; }
+@media (max-width: 900px) { .solo-movil.exp-movil { display: block; padding: 4px 12px 8px; } }

@@ -988,12 +988,12 @@
     <string name="agua_quitar">One glass less</string>
     <string name="vida_fila_ayuda">Each row is a decade: on the left, the year it starts. The gold dot is this year.</string>
     <string name="vida_este_anio">%1$d · age %2$d</string>
-    <string name="cumbre_comunidad_titulo">The community summit</string>
-    <string name="cumbre_comunidad_texto">Each post climbs 120 m and each boost 10 m. Can we reach 8,848 m together this week?</string>
-    <string name="cumbre_comunidad_metros">%1$s m of %2$s</string>
-    <string name="cumbre_comunidad_logro">Summit! This week the community passed 8,848 m.</string>
-    <string name="cumbre_comunidad_aporte">Your share: %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d posts · %2$d boosts this week</string>
+    <string name="cumbre_comunidad_titulo">The community expedition</string>
+    <string name="cumbre_comunidad_texto">One mountain of 8,848,000 mm for everyone this year. The more people climb, the harder each millimeter gets.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm of %2$s</string>
+    <string name="cumbre_comunidad_logro">Summit! The community conquered this year\'s 8,848,000 mm.</string>
+    <string name="cumbre_comunidad_aporte">Your share this stage: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Stage %1$d of 52 · difficulty adjusts in %2$d days</string>
     <string name="diario_titulo">Life journal</string>
     <string name="diario_sub">Your life in albums, year by year</string>
     <string name="diario_vacio">No memories yet. Add the first one to any year of your life.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">%1$s’s journal</string>
     <string name="diario_ajeno_vacio">%1$s hasn’t shared any years of their journal yet.</string>
     <string name="diario_ver_autor">See their life journal</string>
+    <string name="cumbre_comunidad_valor">Today a post is worth %1$s mm and a boost %2$s mm</string>
 </resources>

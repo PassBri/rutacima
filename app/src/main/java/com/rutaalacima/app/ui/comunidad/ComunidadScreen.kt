@@ -75,6 +75,9 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         private set
     var cargando by mutableStateOf(false)
         private set
+    /** Puntos por tramo de la expedición según el servidor (null = calcular con el muro cargado). */
+    var tramos by mutableStateOf<List<Long>?>(null)
+        private set
     var error by mutableStateOf<String?>(null)
         private set
     val enLinea: Boolean get() = c.social.enLinea
@@ -91,6 +94,7 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         filtro = f
         cargando = true
         viewModelScope.launch {
+            if (f == FiltroFeed.PARA_TI) launch { tramos = c.social.expedicion(java.time.LocalDate.now().year) }
             runCatching { c.social.feed(f, eje) }
                 .onSuccess { posts = it; error = null }
                 .onFailure { error = it.message }
@@ -200,7 +204,7 @@ fun ComunidadScreen(
         item { Filtros(vm) }
         // La cumbre de la semana: toda la comunidad sube la misma montaña
         if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
-            item(key = "cumbre") { CumbreComunidadCard(vm.posts) }
+            item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
         }
         if (vm.cargando && vm.posts.isEmpty()) {
             item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }

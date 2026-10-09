@@ -278,6 +278,20 @@ class SocialRepository(
         filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.also(::recordar)
     }
 
+    /** Puntos de la expedición de la comunidad por tramo del año, sumados en el servidor (null sin cuenta). */
+    suspend fun expedicion(anio: Int): List<Long>? = withContext(Dispatchers.IO) {
+        if (!enLinea) return@withContext null
+        runCatching {
+            val r = LongArray(com.rutaalacima.app.domain.model.Expedicion.TRAMOS)
+            supa.rpc("expedicion", buildJsonObject { put("p_anio", anio) }).jsonArray.forEach { f ->
+                val o = f.jsonObject
+                val t = o["semana"]?.jsonPrimitive?.intOrNull ?: return@forEach
+                r[t.coerceIn(0, r.size - 1)] += o["puntos"]?.jsonPrimitive?.contentOrNull?.toLongOrNull() ?: 0L
+            }
+            r.toList()
+        }.getOrNull()
+    }
+
     private fun conteo(o: JsonObject, campo: String): Int =
         (o[campo] as? JsonArray)?.firstOrNull()?.jsonObject?.get("count")?.jsonPrimitive?.intOrNull ?: 0
 

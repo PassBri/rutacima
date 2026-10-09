@@ -1082,3 +1082,25 @@ create policy "mi diario" on public.diario_anios for all
   using (user_id = public.yo()) with check (user_id = public.yo());
 grant select, insert, update, delete on public.diario_anios to authenticated;
 grant select on public.diario_anios to anon;
+
+-- =====================================================================
+-- La expedición de la comunidad (una montaña de 8.848.000 mm por año)
+-- =====================================================================
+-- Suma los puntos de cada semana del año (publicación 10, impulso 1). La app ajusta la dificultad
+-- de cada semana con los puntos de la anterior, como Bitcoin. Solo devuelve totales: nadie ve qué
+-- publicó otra persona. No cuenta lo privado ni lo oculto por reportes.
+create or replace function public.expedicion(p_anio int default extract(year from now())::int)
+returns table (semana int, puntos bigint)
+language sql stable security definer set search_path = public as $$
+  with aportes as (
+    select p.created_at as cuando, 10 as pts from public.posts p
+      where p.visibilidad <> 'PRIVADA' and not p.oculto
+        and p.created_at >= make_date(p_anio, 1, 1) and p.created_at < make_date(p_anio + 1, 1, 1)
+    union all
+    select v.created_at, 1 from public.votes v
+      where v.created_at >= make_date(p_anio, 1, 1) and v.created_at < make_date(p_anio + 1, 1, 1)
+  )
+  select least((extract(doy from cuando)::int - 1) / 7, 51) as semana, sum(pts)::bigint as puntos
+  from aportes group by 1 order by 1
+$$;
+grant execute on function public.expedicion(int) to anon, authenticated;

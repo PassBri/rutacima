@@ -40,25 +40,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.social.Post
+import com.rutaalacima.app.domain.model.Expedicion
 import java.text.NumberFormat
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import kotlin.math.PI
 import kotlin.math.hypot
 import kotlin.math.sin
 
-/** Metros que suma cada publicación y cada impulso a la cumbre de la semana. */
-object CumbreSemanal {
-    const val META = 8848
-    const val POR_PUBLICACION = 120
-    const val POR_IMPULSO = 10
+/** Milímetros con los decimales que hacen falta: con millones de personas un aporte vale fracciones. */
+internal fun formatoMm(v: Double): String {
+    val nf = NumberFormat.getNumberInstance()
+    nf.maximumFractionDigits = when { v >= 1000 -> 0; v >= 1 -> 2; v >= 0.001 -> 3; else -> 6 }
+    nf.minimumFractionDigits = 0
+    return nf.format(v)
+}
 
-    data class Estado(val metros: Int, val publicaciones: Int, val impulsos: Int, val mios: Int)
-
-    fun calcular(posts: List<Post>, ahora: Long = System.currentTimeMillis()): Estado {
-        val semana = posts.filter { ahora - it.creadoEn <= 7L * 24 * 3600 * 1000 }
-        val impulsos = semana.sumOf { it.impulsos }
-        val mios = semana.count { it.propio } * POR_PUBLICACION + semana.count { it.yoImpulse } * POR_IMPULSO
-        return Estado(semana.size * POR_PUBLICACION + impulsos * POR_IMPULSO, semana.size, impulsos, mios)
-    }
+/** Puntos de la expedición con lo que hay en el muro (sin cuenta o mientras responde el servidor). */
+private fun estadoExpedicion(posts: List<Post>, tramos: List<Long>?, hoy: LocalDate): Expedicion.Estado {
+    val zona = ZoneId.systemDefault()
+    fun fecha(ms: Long) = Instant.ofEpochMilli(ms).atZone(zona).toLocalDate()
+    val puntos = tramos ?: Expedicion.porTramo(posts.map { fecha(it.creadoEn) to Expedicion.puntos(1, it.impulsos) }, hoy.year)
+    val tramo = Expedicion.tramoDe(hoy)
+    val deEsteTramo = posts.filter { fecha(it.creadoEn).let { f -> f.year == hoy.year && Expedicion.tramoDe(f) == tramo } }
+    val mios = Expedicion.puntos(deEsteTramo.count { it.propio }, deEsteTramo.count { it.yoImpulse })
+    return Expedicion.calcular(puntos, mios, hoy)
 }
 
 // Cresta de la montaña (0..1): base a la izquierda, cumbre arriba a la derecha
@@ -68,19 +75,20 @@ private val CRESTA = listOf(
 )
 
 /**
- * "La cumbre de la comunidad": todos suben la misma montaña cada semana. Las publicaciones y los
- * impulsos son metros; la bandera avanza con un resorte y el sendero recorrido ondea como los
+ * "La expedición de la comunidad": todos suben la misma montaña de 8.848.000 mm durante el año.
+ * Cada semana (tramo) la dificultad se ajusta con los aportes de la anterior, como en Bitcoin
+ * (ver [Expedicion]). La bandera avanza con un resorte y el sendero recorrido ondea como los
  * indicadores de progreso ondulados de Material 3 Expressive.
  */
 @Composable
-fun CumbreComunidadCard(posts: List<Post>, modifier: Modifier = Modifier) {
-    val e = CumbreSemanal.calcular(posts)
-    val objetivo = (e.metros.toFloat() / CumbreSemanal.META).coerceIn(0f, 1f)
+fun CumbreComunidadCard(posts: List<Post>, tramos: List<Long>? = null, modifier: Modifier = Modifier) {
+    val e = estadoExpedicion(posts, tramos, LocalDate.now())
+    val objetivo = e.fraccion.toFloat()
     val avance by animateFloatAsState(objetivo, spring(Spring.DampingRatioLowBouncy, Spring.StiffnessVeryLow), label = "avance")
     val fase by rememberInfiniteTransition(label = "ola").animateFloat(0f, 1f, infiniteRepeatable(tween(1600, easing = LinearEasing), RepeatMode.Restart), label = "fase")
     val nf = NumberFormat.getIntegerInstance()
     val esquema = MaterialTheme.colorScheme
-    val descripcion = stringResource(R.string.cumbre_comunidad_metros, nf.format(e.metros), nf.format(CumbreSemanal.META))
+    val descripcion = stringResource(R.string.cumbre_comunidad_metros, formatoMm(e.mm), nf.format(Expedicion.ALTURA_MM))
     Card(
         shape = RoundedCornerShape(28.dp),
         colors = CardDefaults.cardColors(containerColor = esquema.primaryContainer, contentColor = esquema.onPrimaryContainer),
@@ -89,7 +97,7 @@ fun CumbreComunidadCard(posts: List<Post>, modifier: Modifier = Modifier) {
         Column(Modifier.padding(16.dp)) {
             Text(stringResource(R.string.cumbre_comunidad_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
             Text(
-                if (e.metros >= CumbreSemanal.META) stringResource(R.string.cumbre_comunidad_logro) else stringResource(R.string.cumbre_comunidad_texto),
+                if (e.cumbre) stringResource(R.string.cumbre_comunidad_logro) else stringResource(R.string.cumbre_comunidad_texto),
                 style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(Modifier.height(10.dp))
@@ -151,11 +159,14 @@ fun CumbreComunidadCard(posts: List<Post>, modifier: Modifier = Modifier) {
             }
             Spacer(Modifier.height(10.dp))
             Row(verticalAlignment = Alignment.Bottom) {
-                Text(nf.format(e.metros), style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Black)
-                Text(" / " + nf.format(CumbreSemanal.META) + " m", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
+                Text(nf.format(e.mm.toLong()), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black)
+                Text(" / " + nf.format(Expedicion.ALTURA_MM) + " mm", style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 6.dp))
             }
-            Text(stringResource(R.string.cumbre_comunidad_datos, e.publicaciones, e.impulsos), style = MaterialTheme.typography.labelLarge)
-            if (e.mios > 0) Text(stringResource(R.string.cumbre_comunidad_aporte, nf.format(e.mios)), style = MaterialTheme.typography.labelLarge,
+            val pct = NumberFormat.getNumberInstance().apply { maximumFractionDigits = 2 }.format(e.fraccion * 100)
+            Text("$pct %", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+            Text(stringResource(R.string.cumbre_comunidad_valor, formatoMm(e.mmPorPublicacion), formatoMm(e.mmPorImpulso)), style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.cumbre_comunidad_datos, e.tramo + 1, e.diasParaAjuste), style = MaterialTheme.typography.labelMedium)
+            if (e.miAporteMm > 0) Text(stringResource(R.string.cumbre_comunidad_aporte, formatoMm(e.miAporteMm)), style = MaterialTheme.typography.labelLarge,
                 color = esquema.secondary, fontWeight = FontWeight.Bold)
         }
     }

@@ -988,12 +988,12 @@
     <string name="agua_quitar">少一杯</string>
     <string name="vida_fila_ayuda">每一行代表十年：左边是开始的年份。金色圆点是今年。</string>
     <string name="vida_este_anio">%1$d · %2$d 岁</string>
-    <string name="cumbre_comunidad_titulo">社区之巅</string>
-    <string name="cumbre_comunidad_texto">每条帖子上升 120 米，每次助力 10 米。这周我们能一起登上 8848 米吗？</string>
-    <string name="cumbre_comunidad_metros">%1$s 米 / %2$s</string>
-    <string name="cumbre_comunidad_logro">登顶！本周社区已超过 8848 米。</string>
-    <string name="cumbre_comunidad_aporte">你的贡献：%1$s 米</string>
-    <string name="cumbre_comunidad_datos">本周 %1$d 条帖子 · %2$d 次助力</string>
+    <string name="cumbre_comunidad_titulo">社区远征</string>
+    <string name="cumbre_comunidad_texto">今年所有人共攀一座 8,848,000 毫米的山。攀登的人越多，每一毫米就越难。</string>
+    <string name="cumbre_comunidad_metros">%1$s 毫米 / %2$s</string>
+    <string name="cumbre_comunidad_logro">登顶！社区征服了今年的 8,848,000 毫米。</string>
+    <string name="cumbre_comunidad_aporte">你在本段的贡献：%1$s 毫米</string>
+    <string name="cumbre_comunidad_datos">第 %1$d / 52 段 · %2$d 天后调整难度</string>
     <string name="diario_titulo">生活日记</string>
     <string name="diario_sub">按年份整理的人生相册</string>
     <string name="diario_vacio">还没有回忆。在人生的任意一年记录第一条吧。</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">%1$s 的日记</string>
     <string name="diario_ajeno_vacio">%1$s 还没有分享日记中的年份。</string>
     <string name="diario_ver_autor">查看TA的生活日记</string>
+    <string name="cumbre_comunidad_valor">今天一条帖子值 %1$s 毫米，一次助力 %2$s 毫米</string>
 </resources>

@@ -71,7 +71,7 @@ class FormaPoligono(private val poligono: RoundedPolygon) : Shape {
 
 /**
  * Botón de impulso expresivo: al encenderse, el círculo se transforma en un sol con un resorte
- * que rebota (movimiento "expressive" de Material 3) y sube un "+10 m" hacia la cumbre.
+ * que rebota (movimiento "expressive" de Material 3) y sube un "+ mm" hacia la cumbre.
  */
 @Composable
 fun BotonImpulso(activo: Boolean, cantidad: Int, icono: ImageVector, descripcion: String, onClick: () -> Unit) {
@@ -100,9 +100,9 @@ fun BotonImpulso(activo: Boolean, cantidad: Int, icono: ImageVector, descripcion
                     drawPath(camino, if (p > 0.02f) fondoOn else fondoOff)
                 }
                 Icon(icono, descripcion, Modifier.size(18.dp), tint = tinta)
-                // "+10 m" que sube y se desvanece
+                // "+ mm" que sube y se desvanece
                 if (sube.value < 1f) Text(
-                    "+10 m", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.secondary,
+                    "+ mm", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.offset(y = (-18 - 22 * sube.value).dp).graphicsLayer { alpha = 1f - sube.value },
                 )
             }

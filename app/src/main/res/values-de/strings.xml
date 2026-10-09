@@ -988,12 +988,12 @@
     <string name="agua_quitar">Ein Glas weniger</string>
     <string name="vida_fila_ayuda">Jede Zeile ist ein Jahrzehnt: links das Jahr, in dem es beginnt. Der goldene Punkt ist dieses Jahr.</string>
     <string name="vida_este_anio">%1$d · %2$d Jahre</string>
-    <string name="cumbre_comunidad_titulo">Der Gipfel der Community</string>
-    <string name="cumbre_comunidad_texto">Jeder Beitrag bringt 120 m, jeder Schub 10 m. Schaffen wir diese Woche gemeinsam 8.848 m?</string>
-    <string name="cumbre_comunidad_metros">%1$s m von %2$s</string>
-    <string name="cumbre_comunidad_logro">Gipfel! Diese Woche hat die Community 8.848 m überschritten.</string>
-    <string name="cumbre_comunidad_aporte">Dein Beitrag: %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d Beiträge · %2$d Schübe diese Woche</string>
+    <string name="cumbre_comunidad_titulo">Die Expedition der Community</string>
+    <string name="cumbre_comunidad_texto">Ein einziger Berg von 8.848.000 mm für alle in diesem Jahr. Je mehr Menschen steigen, desto schwerer wird jeder Millimeter.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm von %2$s</string>
+    <string name="cumbre_comunidad_logro">Gipfel! Die Community hat die 8.848.000 mm dieses Jahres bezwungen.</string>
+    <string name="cumbre_comunidad_aporte">Dein Beitrag in dieser Etappe: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Etappe %1$d von 52 · Schwierigkeit passt sich in %2$d Tagen an</string>
     <string name="diario_titulo">Lebenstagebuch</string>
     <string name="diario_sub">Dein Leben in Alben, Jahr für Jahr</string>
     <string name="diario_vacio">Noch keine Erinnerungen. Halte die erste in einem beliebigen Jahr deines Lebens fest.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Tagebuch von %1$s</string>
     <string name="diario_ajeno_vacio">%1$s teilt noch keine Jahre des Tagebuchs.</string>
     <string name="diario_ver_autor">Lebenstagebuch ansehen</string>
+    <string name="cumbre_comunidad_valor">Heute ist ein Beitrag %1$s mm wert und ein Schub %2$s mm</string>
 </resources>

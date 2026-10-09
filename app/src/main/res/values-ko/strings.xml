@@ -988,12 +988,12 @@
     <string name="agua_quitar">한 잔 빼기</string>
     <string name="vida_fila_ayuda">한 줄은 10년이에요. 왼쪽은 시작하는 해, 금색 점은 올해예요.</string>
     <string name="vida_este_anio">%1$d · %2$d세</string>
-    <string name="cumbre_comunidad_titulo">커뮤니티의 정상</string>
-    <string name="cumbre_comunidad_texto">게시물 하나에 120m, 응원 하나에 10m. 이번 주에 함께 8,848m에 오를까요?</string>
-    <string name="cumbre_comunidad_metros">%1$s m / %2$s</string>
-    <string name="cumbre_comunidad_logro">정상! 이번 주 커뮤니티가 8,848m를 넘었어요.</string>
-    <string name="cumbre_comunidad_aporte">나의 기여: %1$s m</string>
-    <string name="cumbre_comunidad_datos">이번 주 게시물 %1$d · 응원 %2$d</string>
+    <string name="cumbre_comunidad_titulo">커뮤니티 원정</string>
+    <string name="cumbre_comunidad_texto">올해 모두가 함께 오르는 8,848,000 mm의 산 하나. 오르는 사람이 많을수록 1 mm가 더 어려워져요.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm / %2$s</string>
+    <string name="cumbre_comunidad_logro">정상! 커뮤니티가 올해의 8,848,000 mm를 정복했어요.</string>
+    <string name="cumbre_comunidad_aporte">이번 구간 나의 기여: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">구간 %1$d / 52 · %2$d일 후 난이도 조정</string>
     <string name="diario_titulo">인생 일기</string>
     <string name="diario_sub">한 해 한 해 앨범으로 보는 인생</string>
     <string name="diario_vacio">아직 추억이 없어요. 인생의 어느 해에든 첫 추억을 남겨 보세요.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">%1$s의 일기</string>
     <string name="diario_ajeno_vacio">%1$s님은 아직 일기의 해를 공유하지 않았어요.</string>
     <string name="diario_ver_autor">인생 일기 보기</string>
+    <string name="cumbre_comunidad_valor">오늘 게시물 하나는 %1$s mm, 응원 하나는 %2$s mm</string>
 </resources>

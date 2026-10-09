@@ -38,24 +38,56 @@ function vasosDeAgua(fecha, n) {
       <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n - 1}" ${n <= 0 ? "disabled" : ""} aria-label="Un vaso menos">−</button>
       <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n + 1}" ${n >= 8 ? "disabled" : ""} aria-label="Un vaso más">+</button></div>`;
 }
-/** La cumbre de la comunidad: todos suben la misma montaña cada semana (publicación 120 m, impulso 10 m). */
+/** La expedición de la comunidad (igual que Expedicion.kt en la app): una montaña de 8.848.000 mm por año
+ * para todos. Cada semana es un tramo y su dificultad se ajusta con los puntos del tramo anterior, como
+ * Bitcoin: la dificultad no cambia más de 4 veces por tramo y ningún tramo sube más de 4/52 de la montaña. */
+const Expedicion = {
+  ALTURA: 8848000, TRAMOS: 52, PUB: 10, IMP: 1, MIN: 100000, AJ: 4,
+  tramoDe(f) { const doy = Math.round((Date.UTC(f.getFullYear(), f.getMonth(), f.getDate()) - Date.UTC(f.getFullYear(), 0, 1)) / 864e5) + 1; return Math.min(Math.floor((doy - 1) / 7), this.TRAMOS - 1); },
+  mmPorPunto(d) { return this.ALTURA / (Math.max(d, 1) * this.TRAMOS); },
+  dificultades(p) {
+    const r = []; let d = this.MIN;
+    p.forEach((_, i) => { if (i) d = Math.max(this.MIN, Math.min(Math.max(p[i - 1], Math.floor(d / this.AJ)), d * this.AJ)); r.push(d); });
+    return r;
+  },
+  calcular(puntos, misPuntos, hoy = new Date()) {
+    const t = this.tramoDe(hoy), p = Array.from({ length: t + 1 }, (_, i) => puntos[i] || 0), d = this.dificultades(p);
+    const tope = this.ALTURA * this.AJ / this.TRAMOS;
+    const mm = Math.min(this.ALTURA, p.reduce((s, x, i) => s + Math.min(x * this.mmPorPunto(d[i]), tope), 0));
+    const fin = t === this.TRAMOS - 1 ? new Date(hoy.getFullYear() + 1, 0, 1) : new Date(hoy.getFullYear(), 0, (t + 1) * 7 + 1);
+    const porPunto = this.mmPorPunto(d[t]);
+    return { mm, porPunto, dificultad: d[t], tramo: t, cumbre: mm >= this.ALTURA, fraccion: Math.min(1, mm / this.ALTURA),
+      diasAjuste: Math.round((Date.UTC(fin.getFullYear(), fin.getMonth(), fin.getDate()) - Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())) / 864e5),
+      miAporte: misPuntos * porPunto };
+  },
+  porTramo(ps, anio) {
+    const r = new Array(this.TRAMOS).fill(0);
+    ps.forEach(p => { const f = new Date(p.creadoEn); if (f.getFullYear() === anio) r[this.tramoDe(f)] += this.PUB + (p.impulsos || 0) * this.IMP; });
+    return r;
+  },
+};
+window.Expedicion = Expedicion;
+/** Milímetros con los decimales que hacen falta: con millones de personas un aporte vale fracciones. */
+const formatoMm = v => v.toLocaleString("es", { maximumFractionDigits: v >= 1000 ? 0 : v >= 1 ? 2 : v >= 0.001 ? 3 : 6 });
 function cumbreComunidad(ps) {
-  const semana = ps.filter(p => Date.now() - p.creadoEn <= 7 * 864e5);
-  const impulsos = semana.reduce((s, p) => s + (p.impulsos || 0), 0);
-  const metros = semana.length * 120 + impulsos * 10, meta = 8848, f = Math.min(1, metros / meta);
-  const mios = semana.filter(p => p.propio).length * 120 + semana.filter(p => p.yoImpulse).length * 10;
+  const hoy = new Date(), t = Expedicion.tramoDe(hoy);
+  const puntos = estado.tramos || Expedicion.porTramo(ps, hoy.getFullYear());
+  const deEste = ps.filter(p => { const f = new Date(p.creadoEn); return f.getFullYear() === hoy.getFullYear() && Expedicion.tramoDe(f) === t; });
+  const mios = deEste.filter(p => p.propio).length * Expedicion.PUB + deEste.filter(p => p.yoImpulse).length * Expedicion.IMP;
+  const e = Expedicion.calcular(puntos, mios, hoy), f = e.fraccion;
   const cresta = [[0, 92], [12, 78], [22, 82], [34, 58], [44, 64], [56, 40], [64, 46], [76, 18], [82, 8]].map(([x, y]) => [x * 2.4, y]);
   const d = cresta.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join(" ");
   const nf = n => n.toLocaleString("es");
-  return `<section class="cumbre-com" aria-label="La cumbre de la comunidad: ${nf(metros)} metros de ${nf(meta)}">
-    <h3>La cumbre de la comunidad</h3>
-    <p>${metros >= meta ? "¡Cumbre! Esta semana la comunidad ya pasó los 8.848 m." : "Cada publicación sube 120 m y cada impulso 10 m. ¿Llegamos juntos a los 8.848 m esta semana?"}</p>
+  return `<section class="cumbre-com" aria-label="La expedición de la comunidad: ${nf(Math.floor(e.mm))} milímetros de ${nf(Expedicion.ALTURA)}">
+    <h3>La expedición de la comunidad</h3>
+    <p>${e.cumbre ? "¡Cumbre! La comunidad coronó los 8.848.000 mm de este año." : "Una sola montaña de 8.848.000 mm para todos este año. Cuantas más personas suben, más difícil es cada milímetro."}</p>
     <svg viewBox="0 0 240 100" aria-hidden="true"><rect width="240" height="100" rx="14" class="cc-cielo"/>
       <path d="M0 100 ${d.slice(1)} L240 50 L240 100Z" class="cc-roca"/>
       <path d="${d}" class="cc-sendero"/><path d="${d}" class="cc-hecho" pathLength="1" style="stroke-dasharray:${f} 1"/>
     </svg>
-    <div class="cc-cifra"><b>${nf(metros)}</b> / ${nf(meta)} m</div>
-    <div class="cc-datos">${semana.length} publicaciones · ${impulsos} impulsos esta semana${mios ? ` · <b>Tu aporte: ${nf(mios)} m</b>` : ""}</div></section>`;
+    <div class="cc-cifra"><b>${nf(Math.floor(e.mm))}</b> / ${nf(Expedicion.ALTURA)} mm <span class="cc-pct">${(f * 100).toLocaleString("es", { maximumFractionDigits: 2 })} %</span></div>
+    <div class="cc-datos">Hoy una publicación vale <b>${formatoMm(e.porPunto * Expedicion.PUB)} mm</b> y un impulso <b>${formatoMm(e.porPunto * Expedicion.IMP)} mm</b></div>
+    <div class="cc-datos">Tramo ${e.tramo + 1} de 52 · la dificultad se ajusta en ${e.diasAjuste} ${e.diasAjuste === 1 ? "día" : "días"}${e.miAporte > 0 ? ` · <b>Tu aporte en este tramo: ${formatoMm(e.miAporte)} mm</b>` : ""}</div></section>`;
 }
 /** Álbum del año en el diario de vida: quién lo ve, metas cumplidas y los recuerdos en mosaico. */
 function albumAnio(a, metas) {
@@ -328,6 +360,10 @@ async function cargarFeed() {
       const ids = data.map(p => p.id);
       const { data: v } = ids.length ? await sb.from("votes").select("post_id").eq("user_id", yo).in("post_id", ids) : { data: [] };
       const mios = new Set((v || []).map(x => x.post_id));
+      try {
+        const { data: ex } = await sb.rpc("expedicion", { p_anio: new Date().getFullYear() });
+        estado.tramos = ex ? ex.reduce((r, x) => (r[Math.min(51, Math.max(0, x.semana))] += Number(x.puntos) || 0, r), new Array(52).fill(0)) : null;
+      } catch { estado.tramos = null; }
       estado.feed = data.map(p => ({
         id: p.id, autorId: p.user_id, autorNombre: p.autor?.nombre || p.autor?.username || "Senderista", autorUsuario: p.autor?.username || "",
         tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad,

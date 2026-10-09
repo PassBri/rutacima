@@ -988,12 +988,12 @@
     <string name="agua_quitar">Um copo a menos</string>
     <string name="vida_fila_ayuda">Cada linha é uma década: à esquerda, o ano em que começa. O ponto dourado é este ano.</string>
     <string name="vida_este_anio">%1$d · %2$d anos</string>
-    <string name="cumbre_comunidad_titulo">O cume da comunidade</string>
-    <string name="cumbre_comunidad_texto">Cada publicação sobe 120 m e cada impulso 10 m. Chegamos juntos aos 8.848 m esta semana?</string>
-    <string name="cumbre_comunidad_metros">%1$s m de %2$s</string>
-    <string name="cumbre_comunidad_logro">Cume! Esta semana a comunidade já passou dos 8.848 m.</string>
-    <string name="cumbre_comunidad_aporte">Sua contribuição: %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d publicações · %2$d impulsos esta semana</string>
+    <string name="cumbre_comunidad_titulo">A expedição da comunidade</string>
+    <string name="cumbre_comunidad_texto">Uma única montanha de 8.848.000 mm para todos este ano. Quanto mais gente sobe, mais difícil é cada milímetro.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm de %2$s</string>
+    <string name="cumbre_comunidad_logro">Cume! A comunidade conquistou os 8.848.000 mm deste ano.</string>
+    <string name="cumbre_comunidad_aporte">Sua contribuição neste trecho: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Trecho %1$d de 52 · a dificuldade se ajusta em %2$d dias</string>
     <string name="diario_titulo">Diário de vida</string>
     <string name="diario_sub">Sua vida em álbuns, ano a ano</string>
     <string name="diario_vacio">Ainda não há lembranças. Registre a primeira em qualquer ano da sua vida.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Diário de %1$s</string>
     <string name="diario_ajeno_vacio">%1$s ainda não compartilha anos do diário.</string>
     <string name="diario_ver_autor">Ver o diário de vida</string>
+    <string name="cumbre_comunidad_valor">Hoje uma publicação vale %1$s mm e um impulso %2$s mm</string>
 </resources>

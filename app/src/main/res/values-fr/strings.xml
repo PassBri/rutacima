@@ -988,12 +988,12 @@
     <string name="agua_quitar">Un verre de moins</string>
     <string name="vida_fila_ayuda">Chaque ligne est une décennie : à gauche, l’année où elle commence. Le point doré est cette année.</string>
     <string name="vida_este_anio">%1$d · %2$d ans</string>
-    <string name="cumbre_comunidad_titulo">Le sommet de la communauté</string>
-    <string name="cumbre_comunidad_texto">Chaque publication fait monter de 120 m et chaque élan de 10 m. Atteindrons-nous ensemble 8 848 m cette semaine ?</string>
-    <string name="cumbre_comunidad_metros">%1$s m sur %2$s</string>
-    <string name="cumbre_comunidad_logro">Sommet ! Cette semaine, la communauté a dépassé 8 848 m.</string>
-    <string name="cumbre_comunidad_aporte">Ta contribution : %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d publications · %2$d élans cette semaine</string>
+    <string name="cumbre_comunidad_titulo">L\'expédition de la communauté</string>
+    <string name="cumbre_comunidad_texto">Une seule montagne de 8 848 000 mm pour tous cette année. Plus nous sommes nombreux, plus chaque millimètre est difficile.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm sur %2$s</string>
+    <string name="cumbre_comunidad_logro">Sommet ! La communauté a conquis les 8 848 000 mm de l\'année.</string>
+    <string name="cumbre_comunidad_aporte">Ta contribution sur cette étape : %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Étape %1$d sur 52 · la difficulté s\'ajuste dans %2$d jours</string>
     <string name="diario_titulo">Journal de vie</string>
     <string name="diario_sub">Ta vie en albums, année après année</string>
     <string name="diario_vacio">Pas encore de souvenirs. Ajoute le premier à n’importe quelle année de ta vie.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Journal de %1$s</string>
     <string name="diario_ajeno_vacio">%1$s ne partage encore aucune année de son journal.</string>
     <string name="diario_ver_autor">Voir son journal de vie</string>
+    <string name="cumbre_comunidad_valor">Aujourd\'hui une publication vaut %1$s mm et un élan %2$s mm</string>
 </resources>

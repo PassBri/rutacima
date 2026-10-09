@@ -988,12 +988,12 @@
     <string name="agua_quitar">На стакан меньше</string>
     <string name="vida_fila_ayuda">Каждая строка — десятилетие: слева год его начала. Золотая точка — этот год.</string>
     <string name="vida_este_anio">%1$d · %2$d лет</string>
-    <string name="cumbre_comunidad_titulo">Вершина сообщества</string>
-    <string name="cumbre_comunidad_texto">Каждая публикация — 120 м, каждый импульс — 10 м. Дойдём вместе до 8 848 м на этой неделе?</string>
-    <string name="cumbre_comunidad_metros">%1$s м из %2$s</string>
-    <string name="cumbre_comunidad_logro">Вершина! На этой неделе сообщество прошло 8 848 м.</string>
-    <string name="cumbre_comunidad_aporte">Твой вклад: %1$s м</string>
-    <string name="cumbre_comunidad_datos">%1$d публикаций · %2$d импульсов за неделю</string>
+    <string name="cumbre_comunidad_titulo">Экспедиция сообщества</string>
+    <string name="cumbre_comunidad_texto">Одна гора высотой 8 848 000 мм для всех в этом году. Чем больше людей поднимается, тем труднее каждый миллиметр.</string>
+    <string name="cumbre_comunidad_metros">%1$s мм из %2$s</string>
+    <string name="cumbre_comunidad_logro">Вершина! Сообщество покорило 8 848 000 мм этого года.</string>
+    <string name="cumbre_comunidad_aporte">Твой вклад на этом участке: %1$s мм</string>
+    <string name="cumbre_comunidad_datos">Участок %1$d из 52 · сложность изменится через %2$d дн.</string>
     <string name="diario_titulo">Дневник жизни</string>
     <string name="diario_sub">Твоя жизнь в альбомах, год за годом</string>
     <string name="diario_vacio">Пока нет воспоминаний. Добавь первое в любой год своей жизни.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Дневник: %1$s</string>
     <string name="diario_ajeno_vacio">%1$s пока не открыл(а) ни одного года дневника.</string>
     <string name="diario_ver_autor">Открыть дневник жизни</string>
+    <string name="cumbre_comunidad_valor">Сегодня публикация стоит %1$s мм, импульс — %2$s мм</string>
 </resources>

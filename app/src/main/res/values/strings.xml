@@ -988,12 +988,12 @@
     <string name="agua_quitar">Un vaso menos</string>
     <string name="vida_fila_ayuda">Cada fila es una década: a la izquierda, el año en que empieza. El punto dorado es este año.</string>
     <string name="vida_este_anio">%1$d · %2$d años</string>
-    <string name="cumbre_comunidad_titulo">La cumbre de la comunidad</string>
-    <string name="cumbre_comunidad_texto">Cada publicación sube 120 m y cada impulso 10 m. ¿Llegamos juntos a los 8.848 m esta semana?</string>
-    <string name="cumbre_comunidad_metros">%1$s m de %2$s</string>
-    <string name="cumbre_comunidad_logro">¡Cumbre! Esta semana la comunidad ya pasó los 8.848 m.</string>
-    <string name="cumbre_comunidad_aporte">Tu aporte: %1$s m</string>
-    <string name="cumbre_comunidad_datos">%1$d publicaciones · %2$d impulsos esta semana</string>
+    <string name="cumbre_comunidad_titulo">La expedición de la comunidad</string>
+    <string name="cumbre_comunidad_texto">Una sola montaña de 8.848.000 mm para todos este año. Cuantas más personas suben, más difícil es cada milímetro.</string>
+    <string name="cumbre_comunidad_metros">%1$s mm de %2$s</string>
+    <string name="cumbre_comunidad_logro">¡Cumbre! La comunidad coronó los 8.848.000 mm de este año.</string>
+    <string name="cumbre_comunidad_aporte">Tu aporte en este tramo: %1$s mm</string>
+    <string name="cumbre_comunidad_datos">Tramo %1$d de 52 · la dificultad se ajusta en %2$d días</string>
     <string name="diario_titulo">Diario de vida</string>
     <string name="diario_sub">Tu vida en álbumes, año por año</string>
     <string name="diario_vacio">Todavía no hay recuerdos. Registra el primero en cualquier año de tu vida.</string>
@@ -1012,4 +1012,5 @@
     <string name="diario_de">Diario de %1$s</string>
     <string name="diario_ajeno_vacio">%1$s todavía no comparte años de su diario.</string>
     <string name="diario_ver_autor">Ver su diario de vida</string>
+    <string name="cumbre_comunidad_valor">Hoy una publicación vale %1$s mm y un impulso %2$s mm</string>
 </resources>
