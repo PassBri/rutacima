@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">Minha Bússola do Cume %1$d · As 7 lições do meu ano</string>
     <string name="brujula_zoom_1">Seu cume pessoal. Toque ou toque duas vezes para abrir seu vision board.</string>
     <string name="brujula_zoom_9">Seu vision board: o cume e seus 8 acampamentos. Toque o cume para ver o 9×9 ou um acampamento para abrir seus passos.</string>
-    <string name="brujula_zoom_81">Sua Bússola completa: 81 casas. Toque um bloco para abri-lo abaixo; toque duas vezes o centro para voltar ao cume.</string>
+    <string name="brujula_zoom_81">Sua Bússola completa: 81 casas. Toque um bloco para abri-lo abaixo. Para voltar, use a seta, a trilha ou o botão voltar.</string>
+    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">Afastar</string>
 </resources>

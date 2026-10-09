@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">Mi Brújula de la Cima %1$d · Las 7 lecciones de mi año</string>
     <string name="brujula_zoom_1">Tu cumbre personal. Toca o haz doble toque para abrir tu vision board.</string>
     <string name="brujula_zoom_9">Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.</string>
-    <string name="brujula_zoom_81">Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo; toca dos veces el centro para volver a tu cumbre.</string>
+    <string name="brujula_zoom_81">Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo. Para volver, usa la flecha, las migas o el botón atrás.</string>
+    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">Alejar</string>
 </resources>

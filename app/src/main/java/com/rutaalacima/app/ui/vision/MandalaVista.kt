@@ -2,6 +2,17 @@ package com.rutaalacima.app.ui.vision
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.filled.Landscape
+import com.rutaalacima.app.ui.theme.hojaPapel
+import androidx.compose.material3.Surface
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.animation.AnimatedVisibility
+import androidx.activity.compose.BackHandler
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.foundation.combinedClickable
@@ -591,42 +602,63 @@ private fun CierreAnio(datos: DatosMandala, onCierre: (List<String>, Boolean) ->
 }
 
 /**
- * La Brújula se abre como una montaña vista desde cerca: primero solo la cumbre (1), al tocar el
- * centro se abre el vision board (3×3 = 9 casillas) y después el 9×9 completo (81). Cada nivel entra
- * con el movimiento de "container transform" de Material: lo que tocaste se vuelve el centro del
- * nivel siguiente. Un toque o doble toque en el centro acerca; el selector 1 · 9 · 81 salta de nivel.
+ * La Brújula se abre como una montaña vista desde cerca, en hojas de papel: primero solo la cumbre
+ * (1), al tocar el centro se abre el vision board (9) y después el 9×9 completo (81). Cada nivel entra
+ * con el "container transform" de Material: lo que tocaste se vuelve el centro del nivel siguiente.
+ *
+ * Volver atrás es fácil desde cualquier nivel: el botón atrás del teléfono (o el gesto), la flecha
+ * de la barra y las migas "Cumbre › Vision board › 9×9", que se pueden tocar para saltar.
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Unit) {
     var nivel by rememberSaveable { mutableStateOf(0) }
     val haptico = LocalHapticFeedback.current
-    fun ir(n: Int) { if (n != nivel) haptico.performHapticFeedback(HapticFeedbackType.TextHandleMove); nivel = n.coerceIn(0, 2) }
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-            listOf("1", "9", "81").forEachIndexed { i, etiqueta ->
-                SegmentedButton(selected = nivel == i, onClick = { ir(i) }, shape = SegmentedButtonDefaults.itemShape(i, 3)) {
-                    Text(etiqueta, fontWeight = FontWeight.Bold)
+    fun ir(n: Int) { val m = n.coerceIn(0, 2); if (m != nivel) haptico.performHapticFeedback(HapticFeedbackType.TextHandleMove); nivel = m }
+    BackHandler(enabled = nivel > 0) { ir(nivel - 1) }
+    val nombres = listOf(stringResource(R.string.mandala_cumbre), stringResource(R.string.brujula_nivel_vision), stringResource(R.string.brujula_nivel_completa))
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        // Barra de navegación: flecha para alejar y migas que se pueden tocar
+        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().height(48.dp)) {
+            AnimatedVisibility(visible = nivel > 0, enter = fadeIn() + scaleIn(), exit = fadeOut() + scaleOut()) {
+                FilledTonalIconButton(onClick = { ir(nivel - 1) }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.brujula_alejar))
                 }
             }
+            Spacer(Modifier.width(4.dp))
+            Row(Modifier.weight(1f).horizontalScroll(rememberScrollState()), verticalAlignment = Alignment.CenterVertically) {
+                nombres.forEachIndexed { i, n ->
+                    if (i > 0) Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.outline)
+                    val actual = i == nivel
+                    Text(
+                        n, maxLines = 1,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (actual) FontWeight.Bold else FontWeight.Medium,
+                        color = when { actual -> MaterialTheme.colorScheme.primary; i < nivel -> MaterialTheme.colorScheme.onSurfaceVariant; else -> MaterialTheme.colorScheme.outline }.copy(alpha = 1f),
+                        modifier = Modifier.clip(RoundedCornerShape(50)).clickable(enabled = !actual) { ir(i) }.padding(horizontal = 8.dp, vertical = 6.dp),
+                    )
+                }
+            }
+            Text(listOf("1", "9", "81")[nivel], style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.Serif,
+                fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 6.dp))
         }
-        AnimatedContent(
-            targetState = nivel,
-            modifier = Modifier.clip(RoundedCornerShape(16.dp)),
-            transitionSpec = {
-                val acercar = targetState > initialState
-                val resorte = spring<Float>(Spring.DampingRatioLowBouncy, Spring.StiffnessMediumLow)
-                // Al abrir, el nivel nuevo entra grande (su centro ocupa la pantalla) y se acomoda; al cerrar, al revés
-                (scaleIn(resorte, initialScale = if (acercar) 3f else 0.34f) + fadeIn(tween(220))) togetherWith
-                    (scaleOut(tween(260), targetScale = if (acercar) 0.34f else 3f) + fadeOut(tween(180)))
-            },
-            label = "brujula",
-        ) { n ->
-            when (n) {
-                0 -> NivelCumbre(datos, Modifier.combinedClickable(onClick = { ir(1) }, onDoubleClick = { ir(1) }))
-                1 -> NivelVision(datos, onCentro = { ir(2) }, onCampamento = { i -> onBloque(Mandala.bloqueDe(i)); ir(2) })
-                else -> Box {
-                    Cuadricula(datos, bloque) { b -> if (b == 4 && bloque == 4) ir(0) else onBloque(b) }
+        // La hoja de papel donde vive la Brújula
+        Box(Modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 4.dp, doblez = 26.dp).padding(14.dp)) {
+            AnimatedContent(
+                targetState = nivel,
+                modifier = Modifier.clip(RoundedCornerShape(18.dp)),
+                transitionSpec = {
+                    val acercar = targetState > initialState
+                    val resorte = spring<Float>(Spring.DampingRatioLowBouncy, Spring.StiffnessMediumLow)
+                    (scaleIn(resorte, initialScale = if (acercar) 3f else 0.34f) + fadeIn(tween(220))) togetherWith
+                        (scaleOut(tween(260), targetScale = if (acercar) 0.34f else 3f) + fadeOut(tween(180)))
+                },
+                label = "brujula",
+            ) { n ->
+                when (n) {
+                    0 -> NivelCumbre(datos, Modifier.combinedClickable(onClick = { ir(1) }, onDoubleClick = { ir(1) }))
+                    1 -> NivelVision(datos, onCentro = { ir(2) }, onCampamento = { i -> onBloque(Mandala.bloqueDe(i)); ir(2) })
+                    else -> Cuadricula(datos, bloque) { b -> if (b == 4 && bloque == 4) ir(0) else onBloque(b) }
                 }
             }
         }
@@ -637,49 +669,104 @@ private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Uni
     }
 }
 
-/** Nivel 1: solo la cumbre personal, grande, con su foto. */
+private val TINTA_PAPEL = Color(0xFF2B1E18)
+private val BURDEOS = Color(0xFF6B2A1A)
+
+/** Nivel 1: la cumbre personal en papel. Con foto, la foto va enmarcada como una impresión. */
 @Composable
 private fun NivelCumbre(datos: DatosMandala, modifier: Modifier) {
     val foto = datos.cumbre?.foto
-    Box(
-        modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(32.dp))
-            .background(Brush.verticalGradient(listOf(NIEVE, ORO))),
-        contentAlignment = Alignment.Center,
+    Column(
+        modifier.fillMaxWidth().aspectRatio(1f).background(Brush.verticalGradient(listOf(Color(0xFFFFFCF6), Color(0xFFF5EBDC))))
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
     ) {
         if (foto != null) {
-            AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x33000000), Color(0xB31D120D)))))
+            Box(Modifier.weight(1f, fill = false).aspectRatio(4f / 3f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(8.dp)) {
+                AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize().clip(RoundedCornerShape(3.dp)), contentScale = ContentScale.Crop)
+            }
+            Spacer(Modifier.height(16.dp))
+        } else {
+            Icon(Icons.Filled.Landscape, null, tint = ORO, modifier = Modifier.size(44.dp))
+            Spacer(Modifier.height(12.dp))
         }
-        Column(Modifier.padding(28.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(stringResource(R.string.mandala_cumbre).uppercase(), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold,
-                color = if (foto != null) Color.White.copy(alpha = 0.85f) else Color(0xFF6B2A1A))
-            Text(datos.tituloCumbre.ifBlank { stringResource(R.string.brujula_cumbre_vacia) }, style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Black, textAlign = TextAlign.Center, color = if (foto != null) Color.White else Color(0xFF3A1A10))
-            Text(stringResource(R.string.metodo_altura, NumberFormat.getIntegerInstance().format(datos.ritmo.mm)), style = MaterialTheme.typography.labelLarge,
-                color = if (foto != null) Color.White else Color(0xFF6B2A1A))
-        }
+        Text(stringResource(R.string.mandala_cumbre).uppercase(), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold,
+            letterSpacing = 2.sp, color = BURDEOS)
+        Spacer(Modifier.height(8.dp))
+        Text(datos.tituloCumbre.ifBlank { stringResource(R.string.brujula_cumbre_vacia) }, fontFamily = FontFamily.Serif,
+            style = if (foto != null) MaterialTheme.typography.titleLarge else MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, color = TINTA_PAPEL, maxLines = 4, overflow = TextOverflow.Ellipsis)
+        Spacer(Modifier.height(12.dp))
+        Box(Modifier.width(48.dp).height(2.dp).background(ORO))
+        Spacer(Modifier.height(10.dp))
+        Text(stringResource(R.string.metodo_altura, NumberFormat.getIntegerInstance().format(datos.ritmo.mm)),
+            style = MaterialTheme.typography.labelLarge, color = BURDEOS)
     }
 }
 
-/** Nivel 9: el vision board (la cumbre y los 8 campamentos) con sus fotos y rumbos. */
+/** Nivel 9: el vision board en tarjetas de papel; cada campamento lleva el color de su eje como borde. */
 @Composable
 private fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento: (Int) -> Unit) {
-    val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f)) {
         val lado = maxWidth / 3
         Column {
             for (f in 0 until 3) Row {
                 for (col in 0 until 3) {
                     val cel = Mandala.celda(3 + f, 3 + col)
-                    Box(
-                        Modifier.size(lado).padding(3.dp).clip(RoundedCornerShape(if (cel.tipo == Mandala.Tipo.CUMBRE) 28.dp else 18.dp))
-                            .clickable { if (cel.tipo == Mandala.Tipo.CUMBRE) onCentro() else onCampamento(cel.campamento) },
-                    ) {
-                        CeldaPlana(datos, cel, vacio, chica = false)
-                        if (cel.tipo == Mandala.Tipo.CAMPAMENTO) Text(
-                            Mandala.RUMBOS[cel.campamento], style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black,
-                            color = Color.White.copy(alpha = 0.85f), modifier = Modifier.align(Alignment.TopStart).padding(6.dp),
-                        )
+                    Box(Modifier.size(lado).padding(5.dp)) {
+                        if (cel.tipo == Mandala.Tipo.CUMBRE) TarjetaCumbre(datos, onCentro)
+                        else TarjetaCampamento(datos, cel.campamento) { onCampamento(cel.campamento) }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun TarjetaCumbre(datos: DatosMandala, onClick: () -> Unit) {
+    val foto = datos.cumbre?.foto
+    Surface(onClick = onClick, shape = RoundedCornerShape(20.dp), color = Color(0xFFFFFAF0), shadowElevation = 3.dp,
+        border = androidx.compose.foundation.BorderStroke(2.dp, ORO), modifier = Modifier.fillMaxSize()) {
+        Box(contentAlignment = Alignment.Center) {
+            if (foto != null) {
+                AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xB31D120D)))))
+            }
+            Text(datos.tituloCumbre, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 13.sp, lineHeight = 15.sp,
+                textAlign = TextAlign.Center, maxLines = 5, overflow = TextOverflow.Ellipsis,
+                color = if (foto != null) Color.White else TINTA_PAPEL, modifier = Modifier.padding(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun TarjetaCampamento(datos: DatosMandala, i: Int, onClick: () -> Unit) {
+    val cv = datos.casilla(i)
+    val color = datos.color(i)
+    val foto = cv?.foto
+    val ganados = (0 until Mandala.PASOS).count { datos.estado(i, it) == Mandala.EstadoPaso.HECHO }
+    Surface(onClick = onClick, shape = RoundedCornerShape(16.dp), color = Color.White, shadowElevation = 2.dp, modifier = Modifier.fillMaxSize()) {
+        Box {
+            if (foto != null) {
+                AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x33000000), Color(0xCC1D120D)))))
+            }
+            // Cinta del color del eje, como el borde de una ficha
+            Box(Modifier.fillMaxWidth().height(5.dp).background(color))
+            Column(Modifier.fillMaxSize().padding(start = 8.dp, end = 8.dp, top = 10.dp, bottom = 6.dp)) {
+                Text("${Mandala.RUMBOS[i]} · ${nombreCodigo(datos.codigo(i))}".uppercase(), fontSize = 8.sp, letterSpacing = 0.8.sp,
+                    fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis, color = if (foto != null) Color.White.copy(alpha = 0.9f) else color)
+                Spacer(Modifier.weight(1f))
+                Text(cv?.let { nombreCampamento(it) } ?: "+", fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold,
+                    fontSize = 12.sp, lineHeight = 14.sp, maxLines = 4, overflow = TextOverflow.Ellipsis,
+                    color = if (foto != null) Color.White else TINTA_PAPEL)
+                Spacer(Modifier.weight(1f))
+                // Avance del campamento: 8 puntos, uno por paso ganado
+                Row(horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                    repeat(Mandala.PASOS) { k ->
+                        Box(Modifier.size(4.dp).clip(RoundedCornerShape(50))
+                            .background(if (k < ganados) (if (foto != null) Color.White else color) else (if (foto != null) Color.White.copy(alpha = 0.35f) else color.copy(alpha = 0.2f))))
                     }
                 }
             }

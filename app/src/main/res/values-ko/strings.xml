@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">나의 정상 나침반 %1$d · 한 해의 7가지 교훈</string>
     <string name="brujula_zoom_1">나의 정상. 탭하거나 두 번 탭해 비전 보드를 열어요.</string>
     <string name="brujula_zoom_9">비전 보드: 정상과 8개의 캠프. 정상을 누르면 9×9, 캠프를 누르면 그 단계가 열려요.</string>
-    <string name="brujula_zoom_81">전체 나침반: 81칸. 블록을 누르면 아래에 열려요. 가운데를 두 번 누르면 정상으로 돌아가요.</string>
+    <string name="brujula_zoom_81">전체 나침반: 81칸. 블록을 누르면 아래에 열려요. 돌아가려면 화살표, 경로 표시, 뒤로 버튼을 쓰세요.</string>
+    <string name="brujula_nivel_vision">비전 보드</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">축소</string>
 </resources>

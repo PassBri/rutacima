@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">بوصلة قمتي %1$d · دروس عامي السبعة</string>
     <string name="brujula_zoom_1">قمتك الشخصية. المس أو المس مرتين لفتح لوحة رؤيتك.</string>
     <string name="brujula_zoom_9">لوحة رؤيتك: القمة ومعسكراتها الثمانية. المس القمة لرؤية 9×9 أو معسكرًا لفتح خطواته.</string>
-    <string name="brujula_zoom_81">بوصلتك كاملة: 81 خانة. المس كتلة لفتحها بالأسفل؛ والمس المركز مرتين للعودة إلى قمتك.</string>
+    <string name="brujula_zoom_81">بوصلتك كاملة: 81 خانة. المس كتلة لفتحها بالأسفل. للعودة استخدم السهم أو مسار التنقل أو زر الرجوع.</string>
+    <string name="brujula_nivel_vision">لوحة الرؤية</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">تصغير</string>
 </resources>

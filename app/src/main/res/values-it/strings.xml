@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">La mia Bussola della Vetta %1$d · Le 7 lezioni del mio anno</string>
     <string name="brujula_zoom_1">La tua vetta personale. Tocca o tocca due volte per aprire il tuo vision board.</string>
     <string name="brujula_zoom_9">Il tuo vision board: la vetta e i suoi 8 campi. Tocca la vetta per vedere il 9×9 o un campo per aprirne i passi.</string>
-    <string name="brujula_zoom_81">La tua Bussola completa: 81 caselle. Tocca un blocco per aprirlo sotto; tocca due volte il centro per tornare alla vetta.</string>
+    <string name="brujula_zoom_81">La tua Bussola completa: 81 caselle. Tocca un blocco per aprirlo sotto. Per tornare usa la freccia, il percorso o il tasto indietro.</string>
+    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">Allontana</string>
 </resources>

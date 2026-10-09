@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">私の頂のコンパス %1$d · 1年の7つの教訓</string>
     <string name="brujula_zoom_1">あなたの頂。タップまたはダブルタップでビジョンボードを開きます。</string>
     <string name="brujula_zoom_9">ビジョンボード：頂と8つのキャンプ。頂をタップで9×9、キャンプをタップでステップを開きます。</string>
-    <string name="brujula_zoom_81">コンパス全体：81マス。ブロックをタップすると下に開きます。中心を2回タップで頂に戻ります。</string>
+    <string name="brujula_zoom_81">コンパス全体：81マス。ブロックをタップすると下に開きます。戻るには矢印、パンくず、戻るボタンを使います。</string>
+    <string name="brujula_nivel_vision">ビジョンボード</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">縮小</string>
 </resources>

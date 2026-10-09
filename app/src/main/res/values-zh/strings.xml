@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">我的顶峰罗盘 %1$d · 我这一年的 7 个教训</string>
     <string name="brujula_zoom_1">你的个人顶峰。轻点或双击打开你的愿景板。</string>
     <string name="brujula_zoom_9">你的愿景板：顶峰和 8 个营地。点顶峰查看 9×9，点营地打开它的步骤。</string>
-    <string name="brujula_zoom_81">完整的罗盘：81 格。点一个区块在下方打开；点两次中心回到顶峰。</string>
+    <string name="brujula_zoom_81">完整的罗盘：81 格。点一个区块在下方打开。返回可用箭头、路径导航或返回键。</string>
+    <string name="brujula_nivel_vision">愿景板</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">缩小</string>
 </resources>

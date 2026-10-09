@@ -1103,5 +1103,8 @@
     <string name="brujula_cierre_post">Ma Boussole du Sommet %1$d · Les 7 leçons de mon année</string>
     <string name="brujula_zoom_1">Ton sommet personnel. Touche ou touche deux fois pour ouvrir ton vision board.</string>
     <string name="brujula_zoom_9">Ton vision board : le sommet et ses 8 camps. Touche le sommet pour voir le 9×9 ou un camp pour ouvrir ses pas.</string>
-    <string name="brujula_zoom_81">Ta Boussole complète : 81 cases. Touche un bloc pour l\'ouvrir en dessous ; touche deux fois le centre pour revenir au sommet.</string>
+    <string name="brujula_zoom_81">Ta Boussole complète : 81 cases. Touche un bloc pour l\'ouvrir en dessous. Pour revenir, utilise la flèche, le fil d\'Ariane ou le bouton retour.</string>
+    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_alejar">Dézoomer</string>
 </resources>
