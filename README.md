@@ -538,6 +538,8 @@ el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están 
 - **Dónde se ven:** en la app, Perfil › Ajustes › Legal; en la web, al pie de la pantalla de inicio y en
   Perfil › Este computador.
 - Los documentos se generan con una misma cabecera, menú y estilo (`web/legal.css`).
+- **Para Google Play:** [`docs/google-play.md`](docs/google-play.md) trae las respuestas del formulario de
+  Seguridad de los datos, el contenido de la app y los textos de la ficha, coherentes con la política.
 
 ## Diseño
 
