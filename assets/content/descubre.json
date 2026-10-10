@@ -1,0 +1,683 @@
+{
+ "id": "descubre",
+ "title": "Descubre tu Cumbre Personal",
+ "subtitle": "Secuencia didáctica · 7 pasos",
+ "category": "ruta",
+ "order": 1,
+ "sections": [
+  {
+   "id": "descubre.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "PASO",
+      "CONTENIDO"
+     ],
+     "rows": [
+      [
+       "0",
+       "Bienvenida: Tu montaña te espera"
+      ],
+      [
+       "1",
+       "Comprende el modelo: 7 Fases × 6 Ejes"
+      ],
+      [
+       "2",
+       "Identifica tus 6 ejes actuales"
+      ],
+      [
+       "3",
+       "Visualiza tu cumbre personal"
+      ],
+      [
+       "4",
+       "Traza tu Ruta: Las 7 Fases de tu Viaje"
+      ],
+      [
+       "5",
+       "Crea tu plan de acción (90 días)"
+      ],
+      [
+       "6",
+       "Tu compromiso con la cumbre"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec1",
+   "title": "Bienvenida: Tu Montaña Te Espera",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Hay un momento en la vida en que sientes un llamado silencioso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Bienvenido, senderista."
+    },
+    {
+     "type": "paragraph",
+     "text": "Has llegado a este workbook porque algo dentro de ti sabe que existe una versión más auténtica, más elevada, más plena de quién eres. Ese \"algo\" es el llamado a tu Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu Cumbre Personal no es un punto geográfico ni una simple meta de vida. Es un estado de conciencia donde todas tus dimensiones interiores convergen: tu voluntad, tu maestría, tu voz, tu capacidad de crear valor, tu evolución y tu conexión con lo trascendente."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué encontrarás en este viaje?"
+    },
+    {
+     "type": "bullet",
+     "text": "Las 7 fases del viaje transformativo - El mapa completo de toda transformación personal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Los 6 ejes de tu cumbre personal - Las dimensiones que debes activar y fortalecer",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ejercicios prácticos - Para identificar dónde estás y hacia dónde vas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu plan de acción personalizado - Pasos concretos para los próximos 90 días",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo usar este workbook:"
+    },
+    {
+     "type": "bullet",
+     "text": "Sigue los pasos en orden (están diseñados como una escalera)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sé brutalmente honesto contigo mismo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tómate tu tiempo (esto no es una carrera)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribe a mano si es posible (conecta más profundamente)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Vuelve a este documento cada 3 meses para revisar tu progreso",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Antes de comenzar, responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q1",
+     "label": "¿Por qué estoy haciendo este ejercicio hoy?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q2",
+     "label": "¿Qué espero descubrir sobre mí?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q3",
+     "label": "¿Qué estoy dispuesto a cambiar en mi vida?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora sí, comencemos el ascenso."
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec2",
+   "title": "Comprende El Modelo",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "7 Fases × 6 Ejes = Tu Cumbre Personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu Cumbre Personal surge de la intersección de dos dimensiones:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "LAS 7 FASES DEL VIAJE TRANSFORMATIVO (El camino)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Toda transformación personal sigue este patrón universal:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "FASE",
+      "NOMBRE",
+      "ESENCIA"
+     ],
+     "rows": [
+      [
+       "1",
+       "ORIENTACIÓN",
+       "Claridad sobre tu dirección"
+      ],
+      [
+       "2",
+       "PREPARACIÓN",
+       "Equiparte antes de emprender"
+      ],
+      [
+       "3",
+       "TRAVESÍA",
+       "Aplicar lo aprendido, caminar"
+      ],
+      [
+       "4",
+       "ASCENSO",
+       "Ver resultados, ajustar, crecer"
+      ],
+      [
+       "5",
+       "CULMINACIÓN",
+       "Alcanzar una cumbre concreta"
+      ],
+      [
+       "6",
+       "CONTEMPLACIÓN",
+       "Asimilar, valorar, integrar"
+      ],
+      [
+       "7",
+       "DESCENSO",
+       "Prepararse para nuevas cumbres"
+      ]
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "LOS 6 EJES DE TU CUMBRE PERSONAL (Las dimensiones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estas son las fuerzas internas que debes activar:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "EJE",
+      "NOMBRE",
+      "DEFINICIÓN"
+     ],
+     "rows": [
+      [
+       "1",
+       "VOLUNTAD",
+       "La llama que enciende tu camino"
+      ],
+      [
+       "2",
+       "MAESTRÍA",
+       "La fortaleza que construyes con el tiempo"
+      ],
+      [
+       "3",
+       "VOZ",
+       "Tu expresión auténtica en el mundo"
+      ],
+      [
+       "4",
+       "VALOR",
+       "La capacidad de sostener tu vida con coherencia"
+      ],
+      [
+       "5",
+       "EVOLUCIÓN",
+       "Tu crecimiento constante"
+      ],
+      [
+       "6",
+       "TRASCENDENCIA",
+       "Tu conexión con tu legado"
+      ]
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "LA FÓRMULA DE TU CUMBRE PERSONAL:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Atravesar las 7 FASES"
+      },
+      {
+       "type": "paragraph",
+       "text": "×"
+      },
+      {
+       "type": "paragraph",
+       "text": "Activando los 6 EJES"
+      },
+      {
+       "type": "paragraph",
+       "text": "="
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "TU CUMBRE PERSONAL"
+      },
+      {
+       "type": "paragraph",
+       "text": "El punto donde lo que eres, lo que haces y lo que aportas se alinean"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Comprendes el modelo? Continúa al siguiente paso."
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec3",
+   "title": "Identifica Tus 6 Ejes Actuales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Antes de ascender, debes saber dónde estás parado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa cada eje del 1 al 10 según tu situación ACTUAL (no donde quieres estar, sino donde ESTÁS hoy)."
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s4",
+     "label": "1. VOLUNTAD · ¿Tengo claridad absoluta sobre lo que me mueve profundamente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s5",
+     "label": "2. MAESTRÍA · ¿He desarrollado habilidades sólidas y disciplina consistente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s6",
+     "label": "3. VOZ · ¿Expreso mi autenticidad y mi mensaje al mundo sin miedo?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s7",
+     "label": "4. VALOR · ¿He transformado mi talento en valor económico sostenible?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s8",
+     "label": "5. EVOLUCIÓN · ¿Estoy creciendo y evolucionando constantemente?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s9",
+     "label": "6. TRASCENDENCIA · ¿Mi vida tiene un sentido que trasciende mis necesidades individuales?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "descubre.s10",
+     "label": "TOTAL: · SUMA TODOS TUS PUNTAJES",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Interpretación de tu puntaje total:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "48-60 puntos",
+      "Estás cerca de tu cumbre. Enfócate en perfeccionar los ejes más débiles."
+     ],
+     "rows": [
+      [
+       "30-47 puntos",
+       "Estás en proceso de ascenso. Prioriza 2-3 ejes para trabajar intensamente."
+      ],
+      [
+       "6-29 puntos",
+       "Estás al inicio del viaje. Esto es PERFECTO. Tienes todo el camino por delante."
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexión:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q11",
+     "label": "¿Cuáles son mis 2 ejes más débiles (los que necesitan atención urgente)?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q12",
+     "label": "¿Cuál es mi eje más fuerte (en el que ya tengo ventaja)?"
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec4",
+   "title": "Visualiza Tu Cumbre Personal",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Si no puedes verla, no podrás alcanzarla"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora que sabes dónde estás, es momento de definir con claridad hacia dónde vas."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EJERCICIO DE VISUALIZACIÓN PROFUNDA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cierra los ojos. Respira profundo. Imagina que han pasado 3 años."
+    },
+    {
+     "type": "paragraph",
+     "text": "Has alcanzado tu Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora describe en detalle:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q13",
+     "label": "(Qué haces al despertar, cómo pasas tu día, con quién estás, qué sientes)",
+     "title": "1. ¿Cómo es un día típico en tu vida?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q14",
+     "label": "(Proyectos completados, metas alcanzadas, transformaciones logradas)",
+     "title": "2. ¿Qué has logrado concretamente?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q15",
+     "label": "(Emociones, paz interior, confianza, satisfacción)",
+     "title": "3. ¿Cómo te sientes contigo mismo?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q16",
+     "label": "(A quién ayudas, cómo contribuyes, qué cambio generas)",
+     "title": "4. ¿Qué impacto tienes en otros?"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q17",
+     "label": "(Cómo te describirían las personas que te conocen)",
+     "title": "5. ¿Qué dicen otros de ti?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "TU CUMBRE PERSONAL EN UNA FRASE:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sintetiza todo lo anterior en una declaración poderosa de máximo 25 palabras:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q18",
+     "label": "Mi Cumbre Personal es:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¡Excelente! Ya puedes VER tu cumbre. Ahora trazaremos la ruta."
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec5",
+   "title": "Traza Tu Ruta: Las 7 Fases",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El mapa para tu ascenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora identificarás en qué fase del Viaje Transformativo te encuentras AHORA y qué necesitas hacer en cada una para avanzar."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Primero: ¿En qué fase estás HOY?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Lee cada fase y marca con una X la que mejor describe tu situación actual:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "MARCAR",
+      "FASE",
+      "DESCRIPCIÓN"
+     ],
+     "rows": [
+      [
+       "[ ]",
+       "ORIENTACIÓN",
+       "Estoy confundido sobre mi dirección. No tengo claridad."
+      ],
+      [
+       "[ ]",
+       "PREPARACIÓN",
+       "Ya sé hacia dónde voy, pero necesito desarrollar habilidades."
+      ],
+      [
+       "[ ]",
+       "TRAVESÍA",
+       "Estoy aplicando lo aprendido, enfrentando obstáculos reales."
+      ],
+      [
+       "[ ]",
+       "ASCENSO",
+       "Veo resultados, pero necesito ajustar y fortalecer."
+      ],
+      [
+       "[ ]",
+       "CULMINACIÓN",
+       "He alcanzado una meta importante, estoy en la cima."
+      ],
+      [
+       "[ ]",
+       "CONTEMPLACIÓN",
+       "Estoy asimilando, integrando, valorando lo logrado."
+      ],
+      [
+       "[ ]",
+       "DESCENSO",
+       "Estoy preparándome para la siguiente montaña."
+      ]
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q19",
+     "label": "Mi fase actual es:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q20",
+     "label": "¿Qué necesito hacer para avanzar a la siguiente fase?"
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec6",
+   "title": "Crea Tu Plan De Acción",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Los próximos 90 días"
+    },
+    {
+     "type": "quote",
+     "text": "Un mapa sin acción es solo un sueño"
+    },
+    {
+     "type": "paragraph",
+     "text": "Define acciones CONCRETAS para los próximos 90 días que fortalezcan cada uno de tus ejes:"
+    },
+    {
+     "type": "inputTable",
+     "id": "descubre.t21",
+     "headers": [
+      "EJE",
+      "ACCIONES CONCRETAS (próximos 90 días)"
+     ],
+     "rowLabels": [
+      "VOLUNTAD",
+      "MAESTRÍA",
+      "VOZ",
+      "VALOR",
+      "EVOLUCIÓN",
+      "TRASCENDENCIA"
+     ],
+     "rows": 6
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Tu META principal para los próximos 90 días:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q22",
+     "label": "(Define UNA meta específica, medible y con fecha):",
+     "title": "En 90 días habré logrado:"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q23",
+     "label": "Fecha límite:"
+    }
+   ]
+  },
+  {
+   "id": "descubre.sec7",
+   "title": "Tu Compromiso Con La Cumbre",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El ascenso comienza hoy"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MI COMPROMISO PERSONAL"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q24",
+     "label": "Yo,"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q25",
+     "label": "me comprometo hoy,"
+    },
+    {
+     "type": "paragraph",
+     "text": "a emprender el ascenso hacia mi Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo a:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ser brutalmente honesto conmigo mismo",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tomar acción consistente, no solo soñar",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Levantarme cada vez que caiga",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Celebrar cada pequeño avance",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Revisar este documento cada 30 días",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "No rendirme cuando el camino se ponga difícil",
+     "mark": "✓"
+    },
+    {
+     "type": "prompt",
+     "id": "descubre.q26",
+     "label": "Específicamente me comprometo a:"
+    }
+   ]
+  }
+ ]
+}

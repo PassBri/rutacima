@@ -1,0 +1,1247 @@
+{
+ "id": "campamento",
+ "title": "Campamento Base",
+ "subtitle": "Mentores, accountability y red de apoyo",
+ "category": "ruta",
+ "order": 8,
+ "sections": [
+  {
+   "id": "campamento.sec0",
+   "title": "La Verdad Sobre El Viaje",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El viaje es individual, pero no solitario"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El mito del lobo solitario:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Muchos senderistas creen que deben hacer el viaje completamente solos."
+      },
+      {
+       "type": "quote",
+       "text": "Si pido ayuda, soy débil."
+      },
+      {
+       "type": "quote",
+       "text": "Nadie entenderá mi viaje."
+      },
+      {
+       "type": "quote",
+       "text": "Debo probarlo solo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Resultado:"
+      },
+      {
+       "type": "bullet",
+       "text": "Aislamiento que lleva a la desesperanza",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "Sin perspectiva externa cuando te pierdes",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "Sin celebración cuando ganas",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "Abandonas porque nadie te sostiene",
+       "mark": "→"
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "LA VERDAD:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Ningún senderista llega solo a la cumbre."
+      },
+      {
+       "type": "paragraph",
+       "text": "Necesitas:"
+      },
+      {
+       "type": "bullet",
+       "text": "Mentores que ya recorrieron el camino",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Compañeros que caminan contigo",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Aprendices a quienes guías (te mantienen honesto)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Una comunidad que te sostenga en crisis",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "El viaje es tuyo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Pero el campamento base es compartido."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué construirás en esta guía:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo elegir (y atraer) al mentor correcto",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo mentorar a otros sin agotarte",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Formar tu grupo de accountability (3-5 senderistas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Protocolo de reuniones efectivas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Compartir tu viaje con vulnerabilidad (sin victimizarte)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Recibir y dar feedback que transforma",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Construir una red de apoyo de 3 círculos",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec1",
+   "title": "Parte 1: Cómo Elegir Un Mentor",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No todos los que llegaron a una cumbre pueden guiarte a la tuya"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Qué NO es un mentor:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Un mentor NO es:"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que te dice exactamente qué hacer",
+       "mark": "✗"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que vive tu vida por ti",
+       "mark": "✗"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que te rescata de tus errores",
+       "mark": "✗"
+      },
+      {
+       "type": "bullet",
+       "text": "Un gurú al que idolatrar",
+       "mark": "✗"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que tiene todas las respuestas",
+       "mark": "✗"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Qué SÍ es un mentor:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Un mentor SÍ es:"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que recorrió un camino similar",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que hace mejores preguntas que respuestas",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que te desafía a pensar más profundo",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que te refleja tus puntos ciegos",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que celebra tus victorias genuinamente",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Alguien que te sostiene (no rescata) en crisis",
+       "mark": "✓"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Criterios para elegir tu mentor:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Evalúa potenciales mentores con estos criterios:"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "1. EXPERIENCIA RELEVANTE"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Ha alcanzado una cumbre similar a la mía? (No tiene que ser idéntica, pero sí relevante)"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "2. VALORES ALINEADOS"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Vive de acuerdo a valores que respeto?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "3. TRANSPARENCIA SOBRE SUS FRACASOS"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Habla honestamente de sus errores y lecciones?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "4. INTERÉS GENUINO EN MI CRECIMIENTO"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Hace preguntas profundas? ¿Escucha realmente?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "5. DISPONIBILIDAD REALISTA"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Tiene tiempo para mentorarme? (Aunque sea 1 hora al mes)"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "6. ME DESAFÍA (NO SOLO ME CONSUELA)"
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Me empuja fuera de mi zona de confort?"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Identifica tu mentor ideal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Posible mentor #1:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q1",
+     "label": "Nombre:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q2",
+     "label": "¿Por qué esta persona?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cumple los 6 criterios? (evalúa 1-10 cada uno):"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Experiencia:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Valores:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Transparencia:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Interés:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Disponibilidad:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Desafío:"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Total: ____/60"
+    },
+    {
+     "type": "paragraph",
+     "text": "Posible mentor #2:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q3",
+     "label": "Nombre:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q4",
+     "label": "¿Por qué esta persona?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Total: ____/60"
+    },
+    {
+     "type": "paragraph",
+     "text": "Posible mentor #3:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q5",
+     "label": "Nombre:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q6",
+     "label": "¿Por qué esta persona?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Total: ____/60"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Cómo acercarte a un potencial mentor:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Protocolo de acercamiento:"
+      },
+      {
+       "type": "paragraph",
+       "text": "PASO 1: Aporta valor primero"
+      },
+      {
+       "type": "paragraph",
+       "text": "Antes de pedir mentoría, demuestra que respetas su tiempo. Ayuda en algo, comparte algo útil, implementa algo que enseñó."
+      },
+      {
+       "type": "paragraph",
+       "text": "PASO 2: Solicitud específica y humilde"
+      },
+      {
+       "type": "paragraph",
+       "text": "No: \"¿Puedes ser mi mentor?\""
+      },
+      {
+       "type": "paragraph",
+       "text": "Sí: \"Admiro tu camino en X. ¿Podrías darme 30 minutos de tu perspectiva sobre Y desafío específico?\""
+      },
+      {
+       "type": "paragraph",
+       "text": "PASO 3: Haz el trabajo previo"
+      },
+      {
+       "type": "paragraph",
+       "text": "Llega preparado con preguntas específicas, no genéricas. Muestra que has hecho tu tarea."
+      },
+      {
+       "type": "paragraph",
+       "text": "PASO 4: Agradece y actúa"
+      },
+      {
+       "type": "paragraph",
+       "text": "Implementa lo aprendido y reporta resultados. Los mentores quieren ver acción, no solo palabras."
+      },
+      {
+       "type": "paragraph",
+       "text": "PASO 5: Formaliza si hay química"
+      },
+      {
+       "type": "paragraph",
+       "text": "Después de 2-3 interacciones exitosas, propón una relación de mentoría formal (frecuencia, formato, duración)."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec2",
+   "title": "Parte 2: Cómo Ser Mentor De Otros",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Enseñar es aprender dos veces"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "¿Por qué mentorar a otros cuando todavía estás en tu propio viaje?"
+      },
+      {
+       "type": "paragraph",
+       "text": "1. Te mantiene honesto con tu propio camino"
+      },
+      {
+       "type": "paragraph",
+       "text": "2. Solidificas tu propio aprendizaje al enseñarlo"
+      },
+      {
+       "type": "paragraph",
+       "text": "3. Ganas perspectiva sobre tus propios patrones"
+      },
+      {
+       "type": "paragraph",
+       "text": "4. Devuelves lo que recibiste"
+      },
+      {
+       "type": "paragraph",
+       "text": "5. Amplías tu impacto más allá de ti"
+      },
+      {
+       "type": "paragraph",
+       "text": "No necesitas haber llegado a la cumbre para mentorar."
+      },
+      {
+       "type": "paragraph",
+       "text": "Solo necesitas estar algunos pasos adelante."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Las 7 reglas del mentor efectivo:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #1: Haz preguntas, no des respuestas"
+      },
+      {
+       "type": "paragraph",
+       "text": "Tu trabajo no es resolver sus problemas. Es ayudarles a pensar más profundo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Ejemplo: En vez de \"Deberías hacer X\", pregunta \"¿Qué has intentado? ¿Qué crees que pasaría si...?\""
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #2: Comparte tu proceso, no solo tus logros"
+      },
+      {
+       "type": "paragraph",
+       "text": "Habla de tus fracasos, dudas, y momentos de confusión. Eso humaniza el viaje."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #3: Señala sus fortalezas (que ellos no ven)"
+      },
+      {
+       "type": "paragraph",
+       "text": "A menudo, tus mentoreados están ciegos a sus mayores talentos. Refleja lo que ves."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #4: Desafía con amor"
+      },
+      {
+       "type": "paragraph",
+       "text": "No seas complaciente. Señala las excusas y autosabotajes. Pero hazlo desde el cuidado, no desde el juicio."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #5: Establece límites claros"
+      },
+      {
+       "type": "paragraph",
+       "text": "Define frecuencia, duración, y modo de comunicación. No seas rescatador 24/7 o te quemarás."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #6: Celebra sus victorias genuinamente"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cuando logran algo (por pequeño que sea), celébralo como si fuera tuyo. Tu alegría los impulsa."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "REGLA #7: Sabe cuándo dejarlos ir"
+      },
+      {
+       "type": "paragraph",
+       "text": "La mentoría no es para siempre. Cuando ya no te necesitan, celebra y libéralos. Es señal de éxito."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec3",
+   "title": "Parte 3: Tu Grupo De Accountability",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "3-5 senderistas caminando juntos"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Qué es un grupo de Accountability:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Un grupo pequeño (3-5 personas) que:"
+      },
+      {
+       "type": "bullet",
+       "text": "Se reúne regularmente (semanal o quincenal)",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Comparte progreso y desafíos",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Se mantiene mutuamente responsable de compromisos",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Se da feedback honesto y constructivo",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Celebra victorias juntos",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Se sostiene en crisis",
+       "mark": "✓"
+      },
+      {
+       "type": "paragraph",
+       "text": "No es terapia grupal. Es compañerismo estratégico."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Cómo formar tu grupo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Identifica candidatos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Busca personas que:"
+    },
+    {
+     "type": "bullet",
+     "text": "Están en un viaje similar (aunque sus cumbres sean diferentes)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Son consistentes y confiables",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Están dispuestos a ser vulnerables",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Dan y reciben feedback con madurez",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No compiten contigo (colaboran)",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q7",
+     "label": "Mis candidatos potenciales:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "PASO 2: Propón la idea"
+      },
+      {
+       "type": "paragraph",
+       "text": "Mensaje sugerido:"
+      },
+      {
+       "type": "quote",
+       "text": "Estoy formando un grupo pequeño de accountability para senderistas."
+      },
+      {
+       "type": "paragraph",
+       "text": "Nos reuniríamos [frecuencia] durante [duración] para compartir progreso,"
+      },
+      {
+       "type": "paragraph",
+       "text": "darnos feedback, y mantenernos responsables de nuestras metas."
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Te interesaría ser parte?\""
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Definan reglas del grupo (primera reunión)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acuerden juntos:"
+    },
+    {
+     "type": "choice",
+     "id": "campamento.c8",
+     "label": "Frecuencia:",
+     "options": [
+      "Semanal",
+      "Quincenal",
+      "Mensual"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Duración de cada reunión: ______ minutos"
+    },
+    {
+     "type": "choice",
+     "id": "campamento.c9",
+     "label": "Formato:",
+     "options": [
+      "Presencial",
+      "Virtual",
+      "Híbrido"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q10",
+     "label": "Día/hora fija:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Duración del compromiso: ______ meses (con revisión)"
+    },
+    {
+     "type": "choice",
+     "id": "campamento.c11",
+     "label": "Regla de confidencialidad:",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q12",
+     "label": "Consecuencia por faltar sin avisar:"
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec4",
+   "title": "Parte 4: Protocolo De Reuniones",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Estructura libera, no limita"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Formato de reunión efectiva (60-90 min):"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "TIEMPO",
+      "ACTIVIDAD"
+     ],
+     "rows": [
+      [
+       "0-5 min",
+       "CHECK-IN EMOCIONAL Cada persona comparte en 1 frase: \"¿Cómo llego hoy?\""
+      ],
+      [
+       "5-10 min",
+       "VICTORIAS DE LA SEMANA Cada uno comparte 1 victoria (grande o pequeña)"
+      ],
+      [
+       "10-40 min",
+       "RONDAS DE ACCOUNTABILITY Cada persona tiene 5-7 min para: 1) Reportar compromiso anterior, 2) Compartir desafío actual, 3) Pedir ayuda/feedback"
+      ],
+      [
+       "40-50 min",
+       "DEEP DIVE (OPCIONAL) Si alguien necesita más tiempo/apoyo con un tema específico"
+      ],
+      [
+       "50-55 min",
+       "NUEVOS COMPROMISOS Cada uno declara 1 acción específica para próxima reunión"
+      ],
+      [
+       "55-60 min",
+       "CIERRE Y GRATITUD Agradecer al grupo, confirmar próxima reunión"
+      ]
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Reglas de Oro de las Reuniones:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "1. TIEMPO IGUAL PARA TODOS"
+      },
+      {
+       "type": "paragraph",
+       "text": "Usa un timer. Nadie monopoliza la conversación."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "2. NO INTERRUMPIR"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cuando alguien habla, los demás SOLO escuchan. Sin interrupciones, ni siquiera para \"ayudar\"."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "3. FEEDBACK SOLO SI SE PIDE"
+      },
+      {
+       "type": "paragraph",
+       "text": "A veces la persona solo necesita ser escuchada, no aconsejada. Pregunta: \"¿Quieres feedback o solo desahogarte?\""
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "4. SIN DISPOSITIVOS"
+      },
+      {
+       "type": "paragraph",
+       "text": "Celulares en modo avión. Atención 100% presente."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "5. CONFIDENCIALIDAD TOTAL"
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que se dice en el grupo, se queda en el grupo."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec5",
+   "title": "Parte 5: Compartir Sin Victimizarte",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Vulnerabilidad ≠ Victimización"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VICTIMIZACIÓN (evitar)",
+      "VULNERABILIDAD (cultivar)"
+     ],
+     "rows": [
+      [
+       "\"Todo me sale mal\" \"Nadie me entiende\" \"No es mi culpa, es que...\" \"Siempre me pasa esto\" \"No puedo porque...\"",
+       "\"Esto salió mal y me dolió\" \"Necesito perspectiva sobre esto\" \"Mi parte en esto fue...\" \"Este patrón se repite, ¿lo ven?\" \"Tengo miedo de... ¿cómo lo han manejado?\""
+      ]
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Fórmula para compartir con poder:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SITUACIÓN + EMOCIÓN + RESPONSABILIDAD + PETICIÓN"
+      },
+      {
+       "type": "paragraph",
+       "text": "Ejemplo:"
+      },
+      {
+       "type": "paragraph",
+       "text": "SITUACIÓN: \"Lancé mi oferta y solo vendí 1 de 10 cupos\""
+      },
+      {
+       "type": "paragraph",
+       "text": "EMOCIÓN: \"Me siento desanimado y estoy cuestionando si tengo algo valioso que ofrecer\""
+      },
+      {
+       "type": "paragraph",
+       "text": "RESPONSABILIDAD: \"Sé que probablemente mi precio, mi mensaje o mi audiencia necesitan ajuste\""
+      },
+      {
+       "type": "paragraph",
+       "text": "PETICIÓN: \"¿Pueden ayudarme a ver qué no estoy viendo? ¿Alguno ha pasado por esto?\""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec6",
+   "title": "Parte 6: Dar Y Recibir Feedback",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El feedback es un regalo, aunque duela al recibirlo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Cómo DAR feedback que transforma:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Fórmula SBI (Situación + Comportamiento + Impacto):"
+      },
+      {
+       "type": "paragraph",
+       "text": "SITUACIÓN: \"Cuando compartiste tu proyecto la semana pasada...\""
+      },
+      {
+       "type": "paragraph",
+       "text": "COMPORTAMIENTO: \"...noté que usaste muchas justificaciones antes de explicar la idea...\""
+      },
+      {
+       "type": "paragraph",
+       "text": "IMPACTO: \"...y eso me hizo dudar si tú mismo creías en ella. ¿Es algo que notas en ti?\""
+      },
+      {
+       "type": "paragraph",
+       "text": "Reglas del feedback efectivo:"
+      },
+      {
+       "type": "bullet",
+       "text": "Específico, no general (\"Tu presentación...\" no \"Tú eres...\")",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Sobre comportamiento, no sobre identidad",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Desde el cuidado, no desde el juicio",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Enfocado en futuro, no en pasado",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Termina con pregunta, no con afirmación",
+       "mark": "✓"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Cómo RECIBIR feedback sin defensividad:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El Protocolo de Recepción:"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "1. RESPIRA"
+      },
+      {
+       "type": "paragraph",
+       "text": "El impulso será defenderte. Resiste. Respira."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "2. ESCUCHA COMPLETAMENTE"
+      },
+      {
+       "type": "paragraph",
+       "text": "No planees tu respuesta mientras hablan. Solo escucha."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "3. AGRADECE"
+      },
+      {
+       "type": "quote",
+       "text": "Gracias por compartir esto. Déjame procesarlo."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "4. PREGUNTA PARA CLARIFICAR"
+      },
+      {
+       "type": "quote",
+       "text": "¿Puedes darme un ejemplo específico?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "5. REFLEJA"
+      },
+      {
+       "type": "quote",
+       "text": "Lo que escucho es que... ¿es correcto?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "6. DECIDE QUÉ HACER CON ÉL"
+      },
+      {
+       "type": "paragraph",
+       "text": "No todo feedback es accionable. Toma lo útil, suelta lo demás. Pero al menos considéralo."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec7",
+   "title": "Parte 7: Tu Red De Apoyo Completa",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Los 3 círculos del Campamento Base"
+    },
+    {
+     "type": "paragraph",
+     "text": "CÍRCULO 1: MENTORES (1-2 personas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Están varios pasos adelante. Te guían con sabiduría."
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q13",
+     "label": "Mis mentores actuales o potenciales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "CÍRCULO 2: COMPAÑEROS (3-5 personas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Caminan al mismo ritmo. Se sostienen mutuamente."
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q14",
+     "label": "Mi grupo de accountability:"
+    },
+    {
+     "type": "paragraph",
+     "text": "CÍRCULO 3: MENTOREADOS (1-3 personas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Están algunos pasos atrás. Tú los guías y eso te mantiene honesto."
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q15",
+     "label": "Personas a quienes estoy mentorando o podría mentorar:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LOS 3 CÍRCULOS TRABAJANDO JUNTOS"
+    },
+    {
+     "type": "paragraph",
+     "text": "MENTORES te dan perspectiva desde la experiencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "COMPAÑEROS te dan apoyo en el presente"
+    },
+    {
+     "type": "paragraph",
+     "text": "MENTOREADOS te dan propósito y te mantienen honesto"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta es tu red completa. Este es tu Campamento Base."
+    }
+   ]
+  },
+  {
+   "id": "campamento.sec8",
+   "title": "Compromiso Del Campamento Base",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No caminaré solo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DECLARACIÓN DE COMUNIDAD"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q16",
+     "label": "Yo,"
+    },
+    {
+     "type": "paragraph",
+     "text": "declaro que:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. No haré este viaje completamente solo."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Buscaré activamente mentoría de quienes ya caminaron este sendero."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Formaré o me uniré a un grupo de accountability en los próximos 30 días."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Seré vulnerable con mi grupo sin victimizarme."
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Daré y recibiré feedback con madurez y apertura."
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Mentoraré a otros, sabiendo que enseñar es aprender dos veces."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MI PLAN DE ACCIÓN:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q17",
+     "label": "Contactaré a mi primer mentor potencial antes del:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q18",
+     "label": "Formaré mi grupo de accountability antes del:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q19",
+     "label": "Comenzaré a mentorar a alguien antes del:"
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q20",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "campamento.q21",
+     "label": "Fecha:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El viaje es tuyo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pero el campamento base es compartido."
+    }
+   ]
+  }
+ ]
+}

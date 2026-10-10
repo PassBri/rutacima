@@ -1,0 +1,765 @@
+{
+ "id": "bono_anti_abandono",
+ "title": "Sistema Anti-Abandono",
+ "subtitle": "Bono 6 · Protocolos de recuperación",
+ "category": "bonos",
+ "order": 21,
+ "sections": [
+  {
+   "id": "bono_anti_abandono.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SISTEMA ANTI-ABANDONO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Protocolos de recuperación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Porque los días malos son inevitables. El abandono no."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ruta a la Cima"
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec1",
+   "title": "La verdad sobre el abandono",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Por qué fallan los planificadores (y cómo evitarlo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "El problema NO es la falta de motivación."
+    },
+    {
+     "type": "paragraph",
+     "text": "El problema es que los planificadores tradicionales están diseñados para días perfectos. La vida real tiene:"
+    },
+    {
+     "type": "bullet",
+     "text": "Semanas de mierda donde todo se cae",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días con cero energía física o mental",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Emergencias que destruyen tu plan",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Burnout que aparece de la nada",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Fracasos que sacuden tu confianza",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La mayoría de la gente abandona en estos momentos. No porque sean débiles. Sino porque no tienen un Plan B."
+    },
+    {
+     "type": "paragraph",
+     "text": "Este sistema te da 3 protocolos de rescate para cuando las cosas se ponen difíciles:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Protocolo de Semana Mala - Cuando todo se desmorona"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Protocolo de Día Cero Energía - Cuando no puedes más"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Protocolo de Recuperación 48h - Cuando rompes la racha"
+    },
+    {
+     "type": "paragraph",
+     "text": "Regla fundamental:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No existe \"romper el sistema\". Solo existen activaciones de protocolos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si tienes un mal día, activas Protocolo Día Cero."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si tienes una mala semana, activas Protocolo Semana Mala."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si rompiste tu racha, activas Protocolo Recuperación 48h."
+    },
+    {
+     "type": "paragraph",
+     "text": "No hay fracaso. Solo hay ajuste de protocolo."
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec2",
+   "title": "PROTOCOLO 1: Semana mala",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "ACTIVA CUANDO: Todo se está cayendo, múltiples emergencias, burnout visible"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Qué es una Semana Mala?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales de activación:"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k1",
+     "label": "Falté a 3+ compromisos importantes esta semana"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k2",
+     "label": "Emergencias múltiples (trabajo, familia, salud)"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k3",
+     "label": "Nivel de estrés 8/10 o más"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k4",
+     "label": "No cumplí ninguna de mis 3 prioridades"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k5",
+     "label": "Durmiendo <5 horas por 3+ días"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Plan de Acción: Modo Supervivencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta semana NO es para avanzar. Es para NO retroceder."
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Acepta la realidad (2 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Declara en voz alta: \"Esta es una semana mala. Activo Protocolo Semana Mala. No estoy fracasando, estoy ajustando.\""
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 2: Reduce a lo NO NEGOCIABLE (10 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "De tus 3 prioridades semanales, elige SOLO LA #1. Las otras 2 se posponen."
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q6",
+     "label": "Mi única prioridad esta semana:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Protege 3 hábitos mínimos (5 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q7",
+     "label": "Elige 3 hábitos que MANTENDRÁS pase lo que pase:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q8",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 4: Pide ayuda (crucial)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q10",
+     "label": "A quién pedirás ayuda:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q11",
+     "label": "Qué delegarás o cancelarás:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 5: Plan B diario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada día esta semana haz SOLO esto:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Momento",
+      "Acción Mínima"
+     ],
+     "rows": [
+      [
+       "Mañana",
+       "1 hábito de los 3 mínimos"
+      ],
+      [
+       "Día",
+       "1 hora avanzando prioridad #1"
+      ],
+      [
+       "Noche",
+       "1 hábito de los 3 mínimos + journaling 5 min"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 6: Cierre de semana (10 min el domingo)"
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c12",
+     "label": "¿Mantuve los 3 hábitos mínimos?",
+     "options": [
+      "Sí",
+      "Parcialmente",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c13",
+     "label": "¿Avancé algo en prioridad #1?",
+     "options": [
+      "Sí",
+      "Parcialmente",
+      "No"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si respondiste Sí o Parcialmente a alguna: ÉXITO. Sobreviviste."
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q14",
+     "label": "Victoria de la semana:"
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c15",
+     "label": "Próxima semana:",
+     "options": [
+      "Volver a plan normal",
+      "Extender Protocolo Semana Mala"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec3",
+   "title": "PROTOCOLO 2: Día cero energía",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "ACTIVA CUANDO: Despertaste sin energía, enfermo, mental fog, agotamiento extremo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Qué es un día cero energía?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales de activación:"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k16",
+     "label": "Desperté sin ganas de levantarme (nivel extremo)"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k17",
+     "label": "Mental fog: no puedo concentrarme en nada"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k18",
+     "label": "Dolor físico, enfermedad, o agotamiento extremo"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k19",
+     "label": "Nivel de energía 2/10 o menos"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k20",
+     "label": "La idea de hacer mi plan normal me agobia"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Plan de Acción: Modo reposo activo"
+    },
+    {
+     "type": "paragraph",
+     "text": "HOY NO ES PARA PRODUCIR. Es para recargar sin culpa."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "REGLA 1-3-5"
+    },
+    {
+     "type": "paragraph",
+     "text": "1 victoria mínima (algo que puedas hacer desde la cama)"
+    },
+    {
+     "type": "paragraph",
+     "text": "3 cosas para soltar (no las harás hoy, está bien)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5 min de auto-cuidado (ducha, té, música, lo que sea)"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Acepta sin culpa (1 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Di en voz alta: \"Hoy es un día de cero energía. Activo Protocolo Día Cero. Está bien.\""
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 2: Mi 1 victoria mínima"
+    },
+    {
+     "type": "paragraph",
+     "text": "Elige UNA cosa que puedas hacer sin importar cuán cansado estés:"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k21",
+     "label": "Beber 1 litro de agua"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k22",
+     "label": "Ducha de 5 minutos"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k23",
+     "label": "Journaling 3 min en cama"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k24",
+     "label": "Walk de 10 min afuera"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k25",
+     "label": "Llamar a alguien que me quiere"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k26",
+     "label": "Comer 1 comida nutritiva"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k27",
+     "label": "Otra:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q28",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Mis 3 cosas para soltar hoy"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q29",
+     "label": "NO haré estas 3 cosas hoy. Y está perfectamente bien:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q30",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q32",
+     "label": "¿Qué haré para cuidarme hoy?",
+     "title": "PASO 4: Mis 5 min de auto-cuidado"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 5: Descanso sin culpa"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si hiciste tu 1 victoria, ya ganaste el día. El resto del día:"
+    },
+    {
+     "type": "bullet",
+     "text": "Duerme si necesitas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ve esa serie sin remordimiento",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Lee ficción ligera",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No fuerces productividad",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mañana vuelves. Hoy descansas."
+    },
+    {
+     "type": "paragraph",
+     "text": "CIERRE DEL DÍA (2 min)"
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c33",
+     "label": "¿Logré mi 1 victoria?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si Sí: Celebra. Si No: está bien, mañana es otro día."
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q34",
+     "label": "¿Cómo me siento ahora vs mañana?"
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec4",
+   "title": "PROTOCOLO 3: Recuperación en 48 Horas",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "ACTIVA CUANDO: Rompiste racha, abandonaste temporalmente, perdiste momentum"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "¿Qué es una ruptura de sistema?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales de activación:"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k35",
+     "label": "No usé mi planificador por 3+ días"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k36",
+     "label": "Rompí racha de hábito importante"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k37",
+     "label": "No completé ninguna prioridad semanal"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k38",
+     "label": "Me siento desconectado del sistema"
+    },
+    {
+     "type": "check",
+     "id": "bono_anti_abandono.k39",
+     "label": "Perdí claridad sobre mi cumbre"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Plan de Acción: Reset rápido"
+    },
+    {
+     "type": "paragraph",
+     "text": "NO PIERDAS TIEMPO EN CULPA. Tienes 48 horas para reconectar."
+    },
+    {
+     "type": "paragraph",
+     "text": "DÍA 1: RECONEXIÓN (30 min total)"
+    },
+    {
+     "type": "paragraph",
+     "text": "MAÑANA - Recordar tu POR QUÉ (10 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q40",
+     "label": "Mi cumbre personal es:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q41",
+     "label": "¿Por qué importa?"
+    },
+    {
+     "type": "paragraph",
+     "text": "MEDIODÍA - Una victoria rápida (10 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q42",
+     "label": "Haz UNA cosa de tu plan original, la más fácil:"
+    },
+    {
+     "type": "paragraph",
+     "text": "NOCHE - Planificar mañana (10 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q43",
+     "label": "Top 3 prioridades de mañana:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q44",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "DÍA 2: EJECUCIÓN SIMPLE (cumplir lo planeado)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hoy SOLO haz las 3 prioridades que planeaste anoche. Nada más."
+    },
+    {
+     "type": "paragraph",
+     "text": "REGLA: Si cumples las 3, declara recuperación exitosa."
+    },
+    {
+     "type": "paragraph",
+     "text": "CIERRE DE 48H (5 min)"
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c46",
+     "label": "¿Cumplí las 3 prioridades del Día 2?",
+     "options": [
+      "Sí",
+      "Parcialmente",
+      "No"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si Sí o Parcialmente: ESTÁS DE VUELTA. Continúa mañana."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si No: Considera si necesitas Protocolo Semana Mala o más descanso."
+    },
+    {
+     "type": "paragraph",
+     "text": "Lección de la ruptura:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q47",
+     "label": "¿Qué me hizo desconectar?"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q48",
+     "label": "¿Qué ajustaré para evitarlo?"
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec5",
+   "title": "Protocolo Semana Mala",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Tarjetas de activación rápida"
+    },
+    {
+     "type": "paragraph",
+     "text": "Imprime y ten a mano"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACTIVA SI:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q49",
+     "number": "3",
+     "label": "+ emergencias  ☐ Burnout visible  ☐ Estrés 8/10+"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "HACER:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Reduce a 1 prioridad única"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Protege 3 hábitos mínimos"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Pide ayuda, delega, cancela"
+    },
+    {
+     "type": "paragraph",
+     "text": "RECORDAR: No estás fracasando. Estás sobreviviendo."
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec6",
+   "title": "Protocolo Día Cero",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACTIVA SI:"
+    },
+    {
+     "type": "choice",
+     "id": "bono_anti_abandono.c50",
+     "label": "",
+     "options": [
+      "Energía 2/10",
+      "Mental fog",
+      "Enfermo/agotado"
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "HACER:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Elige 1 victoria mínima (desde la cama)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Suelta 3 cosas hoy (sin culpa)"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Auto-cuidado 5 min"
+    },
+    {
+     "type": "paragraph",
+     "text": "RECORDAR: Descanso sin culpa. Mañana vuelves."
+    }
+   ]
+  },
+  {
+   "id": "bono_anti_abandono.sec7",
+   "title": "Protocolo 48H",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "ACTIVA SI:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_anti_abandono.q51",
+     "number": "3",
+     "label": "+ días sin sistema  ☐ Racha rota  ☐ Desconectado"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "HACER:"
+    },
+    {
+     "type": "paragraph",
+     "text": "DÍA 1: Recordar por qué + 1 victoria + planear 3"
+    },
+    {
+     "type": "paragraph",
+     "text": "DÍA 2: Cumplir las 3 prioridades planeadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "RECORDAR: Sin culpa. 48h y estás de vuelta."
+    },
+    {
+     "type": "paragraph",
+     "text": "El sistema no se rompe. Solo se ajusta."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esto es lo que te hace diferente."
+    }
+   ]
+  }
+ ]
+}

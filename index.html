@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rutaalacima Web</title>
+<meta name="application-name" content="Rutaalacima">
+<meta name="apple-mobile-web-app-title" content="Rutaalacima">
+<meta name="description" content="Rutaalacima en tu computador: la misma app y la misma cuenta que en tu teléfono.">
+<link rel="icon" href="sello.png">
+<!-- Instalable como app (Android, iPhone y computador) -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#6B2A1A">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="iconos/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,500;8..144,700&family=Roboto:wght@400;500;700&display=swap">
+<style>html,body{margin:0}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="estilos.css?v=f8fa816b1c65b859385aa9494194432d8be852e9">
+<script src="config.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+<div class="franja" aria-hidden="true"></div>
+<section id="pantallaCarta" class="carta-pantalla" hidden></section>
+<section id="pantallaVincular" class="vincular" hidden></section>
+<div id="pantallaCarga" class="cargando" hidden></div>
+<div id="pantallaApp" class="ventana" hidden>
+  <div class="app" id="app">
+    <nav class="riel" id="riel" aria-label="Secciones"></nav>
+    <div class="cuerpo">
+      <section class="lista" id="lista" aria-label="Lista"></section>
+      <main class="detalle" id="detalle"></main>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<div id="miniAudio" class="mini-audio" hidden></div>
+<!-- La app en módulos, en orden (comparten el ámbito global; sin herramientas de compilación) -->
+<script src="js/01-base.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/02-navegacion.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/03-detalle.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/04-acciones.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/05-sello.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/06-audiolibros.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/07-mensajes.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/08-cordadas.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/09-arranque.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/10-cielo.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/11-mandala.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/12-moderacion.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/13-cuenta.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/14-plan.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+<script src="js/15-instalar.js?v=f8fa816b1c65b859385aa9494194432d8be852e9"></script>
+</body>
+</html>

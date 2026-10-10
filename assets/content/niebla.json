@@ -1,0 +1,1036 @@
+{
+ "id": "niebla",
+ "title": "Cuando te pierdes en la niebla",
+ "subtitle": "8 protocolos de reorientación",
+ "category": "herramientas",
+ "order": 13,
+ "sections": [
+  {
+   "id": "niebla.sec0",
+   "title": "Lee Esto Primero",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Perderse no es fracasar. Es parte del viaje."
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SI ESTÁS EN CRISIS EMOCIONAL GRAVE"
+      },
+      {
+       "type": "paragraph",
+       "text": "Si estás considerando hacerte daño, o sientes que no puedes continuar viviendo:"
+      },
+      {
+       "type": "paragraph",
+       "text": "1. DETENTE. Cierra este documento."
+      },
+      {
+       "type": "paragraph",
+       "text": "2. Busca ayuda profesional AHORA."
+      },
+      {
+       "type": "paragraph",
+       "text": "3. Llama a una línea de crisis o contacta a un profesional de salud mental."
+      },
+      {
+       "type": "paragraph",
+       "text": "Este documento NO sustituye ayuda profesional. Es una herramienta para momentos de confusión o desánimo en tu camino de crecimiento, no para crisis de salud mental."
+      },
+      {
+       "type": "paragraph",
+       "text": "Tu vida es más importante que cualquier cumbre."
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Bienvenido a esta guía, senderista."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si estás leyendo esto, probablemente estás pasando por uno de estos momentos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Te sientes perdido y no sabes hacia dónde ir",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu plan no está funcionando y estás frustrado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Has perdido la motivación inicial",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estás considerando rendirte",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sientes que nada tiene sentido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Has enfrentado un fracaso o caída importante",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Dudas si tu cumbre es la correcta",
+     "mark": "•"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "RESPIRA HONDO."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "ESTÁS EXACTAMENTE DONDE DEBES ESTAR."
+      },
+      {
+       "type": "paragraph",
+       "text": "Todos los senderistas se pierden en algún momento del viaje. TODOS. No eres la excepción. No estás fallando. Estás viviendo la experiencia real del ascenso."
+      },
+      {
+       "type": "paragraph",
+       "text": "La niebla no significa que la montaña desapareció."
+      },
+      {
+       "type": "paragraph",
+       "text": "Solo significa que necesitas detenerte, respirar y reorientarte."
+      },
+      {
+       "type": "paragraph",
+       "text": "Esta guía te ayudará a hacer exactamente eso."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec1",
+   "title": "Índice De Protocolos",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Elige el protocolo que necesitas ahora"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "PROTOCOLO",
+      "¿CUÁNDO USARLO?"
+     ],
+     "rows": [
+      [
+       "1",
+       "Perdí la claridad - No sé hacia dónde voy"
+      ],
+      [
+       "2",
+       "El plan no funciona - No veo resultados"
+      ],
+      [
+       "3",
+       "Perdí la motivación - Ya no siento el fuego inicial"
+      ],
+      [
+       "4",
+       "Quiero rendirme - Esto es demasiado difícil"
+      ],
+      [
+       "5",
+       "Enfrenté un fracaso - Caí y no sé cómo levantarme"
+      ],
+      [
+       "6",
+       "Dudo de mi cumbre - ¿Será esta la montaña correcta?"
+      ],
+      [
+       "7",
+       "Me autosaboteo - Sigo destruyendo mi propio progreso"
+      ],
+      [
+       "8",
+       "¿Persevero o cambio? - No sé si seguir o pivotar"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Lee el protocolo que corresponde a tu situación actual. No necesitas leerlos todos. Ve directo al que necesitas."
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec2",
+   "title": "Protocolo 1: Perdí La Claridad",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No sé hacia dónde voy"
+    },
+    {
+     "type": "paragraph",
+     "text": "Síntomas:"
+    },
+    {
+     "type": "bullet",
+     "text": "Te sientes confundido sobre tu dirección",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ya no puedes ver tu cumbre con claridad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tienes demasiadas opciones y no sabes cuál elegir",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te sientes atrapado en la niebla",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de Reorientación:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Pausa de 24 horas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Detente completamente. No tomes decisiones importantes hoy. Date permiso de estar perdido por 24 horas."
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q1",
+     "label": "¿Qué haré en estas 24 horas para calmar mi mente?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q2",
+     "label": "¿Por qué empezaste este viaje? ¿Cuál fue el llamado inicial?",
+     "title": "PASO 2: Vuelve a tu VOLUNTAD original"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q3",
+     "label": "¿Ese llamado sigue vivo en ti? (Sí / No / No estoy seguro)"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q4",
+     "label": "1. ¿Qué me hace sentir vivo?",
+     "title": "PASO 3: Las 5 preguntas de claridad"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q5",
+     "label": "2. ¿Qué problema del mundo me duele no resolver?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q6",
+     "label": "3. Si tuviera garantizado el éxito, ¿qué haría?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q7",
+     "label": "4. ¿En qué pienso cuando nadie me está viendo?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q8",
+     "label": "5. ¿Qué quiero que digan de mí cuando ya no esté?"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 4: Simplifica tu cumbre"
+    },
+    {
+     "type": "paragraph",
+     "text": "Basándote en tus respuestas anteriores, redefine tu cumbre en UNA SOLA FRASE:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q9",
+     "label": "Mi cumbre es:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q10",
+     "label": "Acción inmediata: Da UN solo paso pequeño hacia esa cumbre redefinida. Hoy. Ahora. Mi paso de hoy será:"
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec3",
+   "title": "Protocolo 2: El Plan No Funciona",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No veo resultados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Síntomas:"
+    },
+    {
+     "type": "bullet",
+     "text": "Has seguido el plan, pero no ves progreso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sientes que estás trabajando duro sin avanzar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te frustras porque otros parecen progresar más rápido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Dudas si las acciones que tomas son las correctas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Diagnóstico:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Antes de cambiar el plan, diagnostica el problema real:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca con X todas las que aplican:"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k11",
+     "label": "No he sido consistente (he saltado días o semanas)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k12",
+     "label": "No le he dado suficiente tiempo (menos de 30 días)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k13",
+     "label": "Mis acciones no están alineadas con mi cumbre"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k14",
+     "label": "Estoy haciendo demasiadas cosas a la vez"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k15",
+     "label": "No estoy midiendo mi progreso correctamente"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k16",
+     "label": "Mis expectativas son poco realistas"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k17",
+     "label": "Necesito desarrollar habilidades antes de ver resultados"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k18",
+     "label": "Estoy en la fase de Travesía (el esfuerzo sin resultados visibles)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ajuste del Plan:"
+    },
+    {
+     "type": "paragraph",
+     "text": "OPCIÓN A: Ajusta la EJECUCIÓN (si el plan es bueno pero no lo sigues)"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q19",
+     "label": "¿Qué obstáculo me impide ejecutar mi plan?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q20",
+     "label": "¿Cómo puedo remover ese obstáculo?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q21",
+     "label": "¿Qué hábito necesito cambiar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "OPCIÓN B: Ajusta el PLAN (si estás ejecutando, pero las acciones no funcionan)"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q22",
+     "label": "¿Cuál de mis 6 ejes necesita más atención?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q23",
+     "label": "¿Qué acción nueva podría probar?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q24",
+     "label": "¿Qué acción actual debería ELIMINAR?"
+    },
+    {
+     "type": "paragraph",
+     "text": "OPCIÓN C: Ajusta las EXPECTATIVAS (si el progreso existe, pero no lo ves)"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q25",
+     "label": "Lista 5 cosas pequeñas que SÍ han cambiado desde que empezaste:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q26",
+     "label": ""
+    },
+    {
+     "type": "bullet",
+     "text": "Compromiso de ajuste:",
+     "mark": "✓"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q30",
+     "label": "Probaré este ajuste durante los próximos 21 días:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Revisaré resultados el día: _____ / _____ / _____"
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec4",
+   "title": "Protocolo 3: Perdí La Motivación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Ya no siento el fuego inicial"
+    },
+    {
+     "type": "paragraph",
+     "text": "Verdad incómoda:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "LA MOTIVACIÓN NO DURA."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "Y ESO ESTÁ BIEN."
+      },
+      {
+       "type": "paragraph",
+       "text": "La motivación es emoción. Las emociones son temporales. Esperar estar motivado todos los días es como esperar estar feliz todos los días: imposible."
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que necesitas no es motivación. Es SISTEMAS."
+      },
+      {
+       "type": "paragraph",
+       "text": "Los sistemas funcionan incluso cuando no tienes ganas."
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio de Reavivamiento:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q31",
+     "label": "¿Qué pasará si NO alcanzas tu cumbre? ¿Cómo te sentirás dentro de 5 años?",
+     "title": "1. Reconecta con tu PORQUÉ profundo"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q32",
+     "label": "¿Qué pasará si SÍ alcanzas tu cumbre? ¿Cómo cambiará tu vida?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q33",
+     "label": "¿Qué hace DIFÍCIL ejecutar mi plan diario?",
+     "title": "2. Reduce la fricción"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q34",
+     "label": "¿Cómo puedo hacer mi acción diaria MÁS FÁCIL?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Si escribir es difícil, reduce de 1000 a 100 palabras. Si ejercicio es difícil, reduce de 30 a 5 minutos."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Crea un ritual de inicio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Diseña una secuencia de 3-5 pasos que SIEMPRE harás antes de trabajar en tu cumbre:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q35",
+     "label": "Paso 1:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q36",
+     "label": "Paso 2:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q37",
+     "label": "Paso 3:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q38",
+     "label": "Paso 4:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q39",
+     "label": "Paso 5:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Café + música + 5 respiraciones + leer mi cumbre + comenzar."
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q40",
+     "label": "¿Qué libro, video, persona o historia me reconectaría con mi fuego?",
+     "title": "4. Busca inspiración externa"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q41",
+     "label": "¿Cuándo consumiré ese contenido? (Fecha y hora específica):"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "bullet",
+       "text": "Regla de los 5 minutos:",
+       "mark": "✓"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cuando no tengas motivación, comprométete a trabajar SOLO 5 minutos. Si después de 5 minutos sigues sin ganas, tienes permiso de parar."
+      },
+      {
+       "type": "paragraph",
+       "text": "El 90% del tiempo, continuarás después de los 5 minutos."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec5",
+   "title": "Protocolo 4: Quiero Rendirme",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Esto es demasiado difícil"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "DETENTE."
+      },
+      {
+       "type": "paragraph",
+       "text": "No tomes esta decisión hoy."
+      },
+      {
+       "type": "paragraph",
+       "text": "El deseo de rendirte es temporal. Espera 48 horas antes de tomar cualquier decisión definitiva."
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Regla de las 48 horas:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Durante las próximas 48 horas:"
+      },
+      {
+       "type": "paragraph",
+       "text": "1. NO tomes la decisión de rendirte"
+      },
+      {
+       "type": "paragraph",
+       "text": "2. NO hables de rendirte con nadie"
+      },
+      {
+       "type": "paragraph",
+       "text": "3. NO abandones tus acciones diarias"
+      },
+      {
+       "type": "paragraph",
+       "text": "En cambio:"
+      },
+      {
+       "type": "bullet",
+       "text": "Descansa (duerme bien, come bien)",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Habla con alguien que te apoye",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Haz algo que te dé alegría",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Escribe todo lo que sientes (abajo)",
+       "mark": "✓"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Descarga emocional (escribe TODO):"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q42",
+     "label": "¿Por qué quiero rendirme? (sin filtro):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Después de 48 horas, responde:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Sigo queriendo rendirme? (Marca una)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k43",
+     "label": "SÍ, todavía quiero rendirme → Ve al Protocolo 6 (Dudo de mi cumbre)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k44",
+     "label": "NO, ya no quiero rendirme → Continúa con tu plan"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k45",
+     "label": "NO ESTOY SEGURO → Reduce tu plan a la mitad y prueba 14 días más"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "RECUERDA:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Todos los senderistas que llegaron a su cumbre quisieron rendirse en algún momento. La diferencia entre ellos y quienes se rindieron fue: Esperaron 48 horas antes de decidir."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec6",
+   "title": "Protocolo 5: Enfrenté Un Fracaso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Caí y no sé cómo levantarme"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El fracaso no es el enemigo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Es el maestro."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cada caída contiene información crítica para tu ascenso. La pregunta no es \"¿Por qué fracasé?\" sino \"¿Qué me está enseñando este fracaso?\""
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Proceso de Levantamiento:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Siente el dolor (24 horas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "No reprimas la emoción. Llora, grita, escribe. Date permiso de sentir durante 24 horas."
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q46",
+     "label": "Fecha límite de duelo:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q47",
+     "label": "¿Qué fracasó exactamente?",
+     "title": "PASO 2: Extrae la lección"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q48",
+     "label": "¿Por qué fracasó? (causas reales, no excusas)"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q49",
+     "label": "¿Qué lección específica me está enseñando este fracaso?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q50",
+     "label": "¿Qué haría diferente si tuviera otra oportunidad?"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Separa tu identidad del fracaso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completa estas frases:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q51",
+     "label": "Yo NO soy un fracaso. Yo soy"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q52",
+     "label": "Este fracaso NO define mi valor. Mi valor viene de"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q53",
+     "label": "Esto NO significa que deba rendirme. Significa que"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q54",
+     "label": "Basado en la lección aprendida, ¿qué intentaré ahora?",
+     "title": "PASO 4: Diseña el siguiente intento"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q55",
+     "label": "Fecha de mi próximo intento:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "bullet",
+       "text": "Verdad del senderista:",
+       "mark": "✓"
+      },
+      {
+       "type": "quote",
+       "text": "Solo fracaso si no vuelvo a intentar."
+      },
+      {
+       "type": "paragraph",
+       "text": "Thomas Edison falló 10,000 veces antes de inventar la bombilla."
+      },
+      {
+       "type": "paragraph",
+       "text": "Su respuesta: \"No fallé. Descubrí 10,000 formas que no funcionan.\""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "niebla.sec7",
+   "title": "Protocolo 8: ¿Persevero O Cambio?",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No sé si seguir o pivotar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta es una de las decisiones más difíciles del viaje: ¿Cuándo perseverar y cuándo cambiar de ruta?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Test de Perseverancia vs. Pivote:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con total honestidad:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SEÑALES DE PERSEVERAR:"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k56",
+     "label": "Sigo sintiendo el llamado profundo hacia esta cumbre"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k57",
+     "label": "Estoy viendo progreso (aunque sea pequeño)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k58",
+     "label": "Los obstáculos son externos (tiempo, recursos) no internos (desinterés)"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k59",
+     "label": "Cuando imagino rendirme, siento dolor/arrepentimiento"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k60",
+     "label": "Solo necesito ajustar el CÓMO, no el QUÉ"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SEÑALES DE PIVOTAR:"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k61",
+     "label": "Ya no siento conexión emocional con esta cumbre"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k62",
+     "label": "Descubrí algo que me llama más fuerte"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k63",
+     "label": "Estoy forzándome por orgullo, no por deseo real"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k64",
+     "label": "Cuando imagino pivotar, siento alivio/emoción"
+    },
+    {
+     "type": "check",
+     "id": "niebla.k65",
+     "label": "Mi contexto cambió radicalmente (no solo las ganas)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis:"
+    },
+    {
+     "type": "choice",
+     "id": "niebla.c66",
+     "label": "Marqué más señales de:",
+     "options": [
+      "PERSEVERAR",
+      "PIVOTAR"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si marcaste PERSEVERAR:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu problema no es la cumbre. Es el plan o la ejecución. Ve al Protocolo 2."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si marcaste PIVOTAR:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Está bien cambiar de cumbre. No es fracaso, es sabiduría. Continúa abajo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si decides pivotar:"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q67",
+     "label": "1. ¿Qué aprendí de esta cumbre que no alcancé?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q68",
+     "label": "2. ¿Hacia dónde me estoy moviendo ahora?"
+    },
+    {
+     "type": "prompt",
+     "id": "niebla.q69",
+     "label": "3. ¿Cómo sabré que ESTA vez es la cumbre correcta?"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "bullet",
+       "text": "Sabiduría del pivote:",
+       "mark": "✓"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cambiar de cumbre no borra el progreso. Los ejes que fortaleciste (maestría, voz, evolución) se transfieren a tu nueva montaña."
+      },
+      {
+       "type": "paragraph",
+       "text": "No vuelves a empezar de cero. Empiezas desde la experiencia."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PALABRAS FINALES"
+    },
+    {
+     "type": "quote",
+     "text": "La niebla siempre se disipa"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SENDERISTA:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Si estás leyendo esto, significa que estás en la niebla. Y eso está bien."
+      },
+      {
+       "type": "paragraph",
+       "text": "La niebla es parte del ascenso. No eres el primer senderista en perderse, y no serás el último."
+      },
+      {
+       "type": "paragraph",
+       "text": "Pero aquí está la verdad que necesitas escuchar:"
+      },
+      {
+       "type": "paragraph",
+       "text": "La niebla siempre se disipa."
+      },
+      {
+       "type": "paragraph",
+       "text": "Puede tomar horas, días o semanas. Pero SIEMPRE se disipa."
+      },
+      {
+       "type": "paragraph",
+       "text": "Y cuando eso pase, verás que tu cumbre seguía ahí. Nunca se movió."
+      },
+      {
+       "type": "paragraph",
+       "text": "Solo estaba oculta temporalmente."
+      },
+      {
+       "type": "paragraph",
+       "text": "No te rindas en la niebla."
+      },
+      {
+       "type": "paragraph",
+       "text": "Espera a que se despeje."
+      },
+      {
+       "type": "paragraph",
+       "text": "Tu cumbre te espera."
+      },
+      {
+       "type": "paragraph",
+       "text": "Sigue caminando."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

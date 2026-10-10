@@ -1,0 +1,208 @@
+{
+ "id": "planificador_cierre",
+ "title": "Cierre del Planificador 5 años",
+ "subtitle": "Evaluación de propósitos y ¿Quién soy ahora?",
+ "category": "herramientas",
+ "order": 19,
+ "sections": [
+  {
+   "id": "planificador_cierre.sec0",
+   "title": "Evaluación de propósitos (5 años)",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Una mirada honesta a tu viaje de 5 años"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa tus 10 propósitos: qué se cumplió, cuánto lograste, qué te impidió avanzar y qué descubriste."
+    },
+    {
+     "type": "inputTable",
+     "id": "planificador_cierre.t1",
+     "headers": [
+      "Propósito",
+      "Propósito original",
+      "% logrado",
+      "Obstáculos: ¿qué te impidió?",
+      "Aprendizaje clave: ¿qué descubriste?"
+     ],
+     "rowLabels": [
+      "Propósito 01",
+      "Propósito 02",
+      "Propósito 03",
+      "Propósito 04",
+      "Propósito 05",
+      "Propósito 06",
+      "Propósito 07",
+      "Propósito 08",
+      "Propósito 09",
+      "Propósito 10"
+     ],
+     "rows": 10
+    }
+   ]
+  },
+  {
+   "id": "planificador_cierre.sec1",
+   "title": "Resumen de tu viaje",
+   "blocks": [
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q2",
+     "label": "Metas cumplidas (de 10)"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q3",
+     "label": "Progreso promedio (%)"
+    },
+    {
+     "type": "scale",
+     "id": "planificador_cierre.s4",
+     "label": "Tu calificación del viaje",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Reflexiones"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q5",
+     "label": "¿Qué celebro de estos 5 años?"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q6",
+     "label": "¿Qué aprendí que no sabía antes?"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q7",
+     "label": "¿Qué haría diferente si empezara de nuevo?"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q8",
+     "label": "¿Qué nuevas metas surgieron de este viaje?"
+    },
+    {
+     "type": "quote",
+     "text": "El verdadero éxito no se mide solo por lo que lograste, sino por quién te convertiste en el proceso."
+    }
+   ]
+  },
+  {
+   "id": "planificador_cierre.sec2",
+   "title": "¿Quién soy ahora?",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Después de 5 años de trabajo consciente en tu Cumbre Personal, es momento de hacer una autoevaluación profunda. Estas preguntas finales te ayudarán a definir y celebrar en quién te has convertido."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Mi identidad transformada"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q9",
+     "label": "¿QUIÉN SOY AHORA? Descríbete a ti mismo con total honestidad y amor propio.",
+     "number": "01"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q10",
+     "label": "¿En qué aspectos soy completamente diferente a quien era hace 5 años? ¿Qué cambios me llenan de orgullo?",
+     "number": "02"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q11",
+     "label": "¿Cuáles son mis fortalezas más poderosas ahora? ¿Qué hago excepcionalmente bien?",
+     "number": "03"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q12",
+     "label": "¿Qué valores definen mi vida ahora? ¿Por qué principios me rijo sin negociar?",
+     "number": "04"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q13",
+     "label": "¿Cuál es mi propósito de vida? ¿A qué estoy dedicando mi energía y mi tiempo?",
+     "number": "05"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q14",
+     "label": "¿Qué contribución única estoy haciendo al mundo? ¿Cuál es mi legado vivo?",
+     "number": "06"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q15",
+     "label": "¿Cómo me relaciono con los demás ahora? ¿Qué tipo de relaciones cultivo?",
+     "number": "07"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q16",
+     "label": "¿Qué nivel de maestría he alcanzado en mi campo o mi pasión? ¿Cómo sigo evolucionando?",
+     "number": "08"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q17",
+     "label": "¿Qué me hace feliz? ¿Qué me trae paz? ¿Qué me llena de energía vital?",
+     "number": "09"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q18",
+     "label": "Si tuviera que presentarme al mundo en 3 líneas, ¿qué diría? (Mi declaración de identidad)",
+     "number": "10"
+    }
+   ]
+  },
+  {
+   "id": "planificador_cierre.sec3",
+   "title": "Celebración de mi transformación",
+   "blocks": [
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q19",
+     "label": "¿Cuál es el logro del que me siento más orgulloso en estos 5 años?",
+     "title": "Mi mayor logro"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q20",
+     "label": "¿Cuál es la lección más valiosa que me llevo de este viaje?",
+     "title": "Mi mayor aprendizaje"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q21",
+     "label": "¿Por qué estoy profundamente agradecido en este momento de mi vida?",
+     "title": "Mi gratitud profunda"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Notas"
+    },
+    {
+     "type": "prompt",
+     "id": "planificador_cierre.q22",
+     "label": ""
+    }
+   ]
+  }
+ ]
+}

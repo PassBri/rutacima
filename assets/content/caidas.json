@@ -1,0 +1,1903 @@
+{
+ "id": "caidas",
+ "title": "Guía de Caídas",
+ "subtitle": "Aprender a leer la montaña",
+ "category": "ruta",
+ "order": 12,
+ "sections": [
+  {
+   "id": "caidas.sec0",
+   "title": "Introducción: Todos Caemos",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La montaña no perdona la ignorancia. Pero premia la humildad de aprender"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta es la guía que nadie quiere leer, pero todos necesitan."
+    },
+    {
+     "type": "paragraph",
+     "text": "Porque RouteToTop te enseña a ascender, a identificar tu cumbre, a fortalecer tus 6 ejes... pero nadie te prepara para las caídas."
+    },
+    {
+     "type": "paragraph",
+     "text": "Y todos caemos."
+    },
+    {
+     "type": "paragraph",
+     "text": "No porque seamos débiles, tontos o insuficientes. Caemos porque estamos caminando. Porque estamos tomando riesgos. Porque estamos en la montaña, no sentados en el valle viendo TV."
+    },
+    {
+     "type": "paragraph",
+     "text": "Las 6 categorías de caídas"
+    },
+    {
+     "type": "paragraph",
+     "text": "En esta guía exploraremos las caídas más comunes que experimentan los senderistas:"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS FINANCIERAS: Por falta de inteligencia con el dinero",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS EMOCIONALES: Por falta de inteligencia emocional",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS DE DECISIÓN: Por elegir desde el miedo o el ego",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS DE CARÁCTER: Por falta de integridad o disciplina",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS DE IDENTIDAD: Por confundir tu cumbre con tu identidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "CAÍDAS CIRCUNSTANCIALES: Por no leer el entorno correctamente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Por qué esta guía es diferente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía no te dirá:"
+    },
+    {
+     "type": "quote",
+     "text": "Todo pasa por algo"
+    },
+    {
+     "type": "quote",
+     "text": "Las caídas son bendiciones disfrazadas"
+    },
+    {
+     "type": "quote",
+     "text": "Solo piensa positivo y todo mejorará"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía te dirá:"
+    },
+    {
+     "type": "bullet",
+     "text": "Por qué caíste (con honestidad)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo levantarte (con estrategias concretas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Qué aprender (para no caer de la misma forma dos veces)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Cuándo pedir ayuda? (porque no todas las caídas se superan solo)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "INSTRUCCIONES: Esta guía requiere honestidad radical. No minimices tus caídas. No te victimices. Solo documenta, aprende, levántate."
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec1",
+   "title": "Parte 1: Caídas Financieras",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El dinero no compra felicidad, pero la falta de dinero compra un montón de miseria"
+    },
+    {
+     "type": "paragraph",
+     "text": "La ignorancia financiera cuesta caro"
+    },
+    {
+     "type": "paragraph",
+     "text": "La mayoría de las personas no fracasan financieramente por falta de ingresos. Fracasan por falta de educación financiera."
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA FINANCIERA #1: Vivir al límite de tus ingresos"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gastar el 100% (o más) de lo que ganas cada mes. Vivir de quincena en quincena sin colchón de emergencia."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Por qué caes?"
+    },
+    {
+     "type": "bullet",
+     "text": "Estilo de vida inflado (querer aparentar lo que no eres)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Falta de presupuesto consciente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Compras emocionales sin control",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Creencia de 'Me lo merezco' sin responsabilidad",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Consecuencias:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ansiedad financiera constante",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cualquier emergencia te destruye",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No puedes tomar riesgos hacia tu cumbre (estás atrapado)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Deudas de tarjetas de crédito que crecen exponencialmente",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Haz un presupuesto REAL (registra TODO lo que gastas por 30 días)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Aplica regla 50/30/20: 50% necesidades, 30% gustos, 20% ahorro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Construye fondo de emergencia de 3-6 meses de gastos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Automatiza el ahorro (págate a ti primero)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA FINANCIERA #2: Deuda mala vs. deuda buena"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acumular deudas que NO generan valor futuro (tarjetas de crédito, préstamos para consumo)."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diferencia crítica:"
+    },
+    {
+     "type": "paragraph",
+     "text": "DEUDA MALA: Para consumo (ropa, restaurantes, gadgets, vacaciones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "DEUDA BUENA: Para inversión (educación, negocio, vivienda que genera valor)"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Por qué caes?"
+    },
+    {
+     "type": "bullet",
+     "text": "No entiendes el interés compuesto (jugando en tu contra)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Gratificación instantánea sin pensar en consecuencias",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Normalización de la deuda ('todos tienen deudas')",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Lista todas tus deudas (monto, tasa de interés, pago mínimo)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estrategia Avalancha: Paga primero la de mayor interés",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estrategia Bola de Nieve: Paga primero la más pequeña (momentum psicológico)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Corta las tarjetas de crédito hasta que tengas disciplina",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA FINANCIERA #3: No invertir en ti mismo"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gastar en tonterías, pero no invertir en educación, salud, habilidades que aumentan tu valor."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo doloroso:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Gasta $500 mensuales en bares/restaurantes, pero dice 'No tengo dinero' para un curso de $200 que cambiaría su carrera."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Separa 10% de tus ingresos para desarrollo personal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Invierte en: libros, cursos, mentorías, salud, terapia",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Esto aumenta mi valor o solo mi placer temporal?'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA FINANCIERA #4: No tener múltiples fuentes de ingreso"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Depender 100% de un solo empleo. Cuando pierdes ese ingreso, colapsa todo."
+    },
+    {
+     "type": "paragraph",
+     "text": "La regla de los millonarios:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Persona promedio: 1 fuente de ingreso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Millonarios: 7 fuentes de ingreso en promedio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Identifica tus habilidades monetizables",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Crea ingreso pasivo: productos digitales, inversiones, negocios",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Freelance en tus horas libres (valida demanda antes de renunciar)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Construye mientras tienes el trabajo estable, no después",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Tu diagnóstico financiero"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca las caídas financieras que has experimentado:"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k1",
+     "label": "Vivir al límite de mis ingresos"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k2",
+     "label": "Acumular deuda mala"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k3",
+     "label": "No invertir en mi desarrollo"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k4",
+     "label": "Depender de una sola fuente de ingreso"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q5",
+     "label": "La caída financiera que más me ha costado:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q6",
+     "label": "Mi plan de recuperación financiera en 90 días:"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec2",
+   "title": "Parte 2: Caídas Emocionales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No te ahogaste porque había agua. Te ahogaste porque no sabías nadar"
+    },
+    {
+     "type": "paragraph",
+     "text": "El analfabetismo emocional tiene precio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nadie te enseña a gestionar emociones en la escuela. Y luego la vida te cobra esa ignorancia con intereses."
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA EMOCIONAL #1: No reconocer tus emociones"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Vivir desconectado de lo que realmente sientes. Reprimir, negar, minimizar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "bullet",
+     "text": "Respondes 'Bien' cuando te preguntan cómo estás (aunque no sea cierto)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Explotas por cosas pequeñas (acumulaste sin procesar)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Usas trabajo/alcohol/TV para no sentir",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Somatizas: dolores de cabeza, estómago, insomnio (tu cuerpo grita lo que tu boca calla)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Por qué caes?"
+    },
+    {
+     "type": "bullet",
+     "text": "Te enseñaron que las emociones son debilidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No tienes vocabulario emocional (más allá de triste/feliz/enojado)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Miedo a ser vulnerable",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Check-in emocional diario: '¿Qué estoy sintiendo REALMENTE?'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Expande tu vocabulario: descarga rueda de emociones",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Journaling de 5 minutos: 'Hoy sentí... porque...'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Terapia (en serio, no es solo para 'locos')",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA EMOCIONAL #2: Reaccionar en vez de responder"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Actuar impulsivamente desde la emoción sin filtro racional."
+    },
+    {
+     "type": "paragraph",
+     "text": "Diferencia crítica:"
+    },
+    {
+     "type": "paragraph",
+     "text": "REACCIONAR: Estímulo → Emoción → Acción inmediata (sin pensar)"
+    },
+    {
+     "type": "paragraph",
+     "text": "RESPONDER: Estímulo → Emoción → Pausa → Reflexión → Acción consciente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos de reacciones que destruyen:"
+    },
+    {
+     "type": "bullet",
+     "text": "Renunciar enojado sin plan B",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Terminar relaciones en medio de una pelea",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Enviar ese email/mensaje cuando estás furioso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Decisiones financieras desde la euforia o el pánico",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Regla de las 24 horas: No tomes decisiones importantes en caliente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Técnica STOP: Esta técnica es una herramienta de autorregulación emocional que te ayuda a pausar antes de reaccionar impulsivamente. Cuando sientas que estás a punto de perder el control, aplica estos cuatro pasos: Stop (detente físicamente), Take a breath (respira profundamente varias veces para oxigenar tu cerebro y calmar tu sistema nervioso), Observe (observa qué está pasando en tu cuerpo, mente y entorno sin juzgar), y Proceed mindfully (actúa de manera consciente eligiendo la mejor respuesta en lugar de reaccionar automáticamente). Esta pausa de segundos puede marcar la diferencia entre una reacción explosiva y una respuesta constructiva.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Identifica tus triggers: Los triggers o detonantes son situaciones, palabras, personas o circunstancias específicas que activan tus reacciones emocionales intensas. Pueden ser cosas como sentirte ignorado, que te interrumpan, críticas a tu trabajo, ciertos tonos de voz, o recordatorios de experiencias pasadas dolorosas. Identificar tus triggers personales te permite anticiparte y preparar estrategias de manejo: cuando sabes qué te hace \"explotar\", puedes reconocer las señales tempranas (tensión muscular, respiración acelerada, pensamientos negativos) y aplicar técnicas como STOP antes de que la emoción te desborde.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Practica la pausa: cuenta hasta 10 antes de responder",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA EMOCIONAL #3: No procesar el duelo"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evitar el dolor de pérdidas (muerte, ruptura, fracaso) y seguir como si nada."
+    },
+    {
+     "type": "paragraph",
+     "text": "La verdad incómoda:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El duelo no procesado no desaparece. Se enquista. Y reaparece como:"
+    },
+    {
+     "type": "bullet",
+     "text": "Depresión",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ansiedad generalizada",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Relaciones saboteadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Adicciones (para no sentir)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tipos de duelo que minimizamos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Muerte de seres queridos (obvio)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Fin de relaciones importantes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Fracaso de proyecto/negocio al que dedicaste años",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pérdida de identidad (cambio de carrera, rol)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Muerte de versiones pasadas de ti mismo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Reconoce que estás en duelo (nombrarlo es el primer paso)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Permite las 5 etapas: Negación, ira, negociación, depresión, aceptación",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No hay línea de tiempo correcta: tu proceso es tu proceso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Rituales de cierre (carta de despedida, ceremonia simbólica)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Busca apoyo profesional si llevas +6 meses paralizado",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA EMOCIONAL #4: Comparación tóxica"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Medir tu valor comparándote constantemente con otros."
+    },
+    {
+     "type": "paragraph",
+     "text": "La trampa de redes sociales:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comparas tu detrás de cámaras con el de otros."
+    },
+    {
+     "type": "paragraph",
+     "text": "Consecuencias:"
+    },
+    {
+     "type": "bullet",
+     "text": "Nunca te sientes suficiente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Envidia que paraliza",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Abandonas tu cumbre para perseguir la de otros",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Desintoxicación de redes por 30 días",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Journaling: 3 cosas que hice bien HOY (vs. lo que otros hicieron)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Solo compárate con tu yo de ayer",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Celebra logros ajenos genuinamente (cura la envidia)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Tu mapa emocional"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca las caídas emocionales que experimentas:"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k7",
+     "label": "No reconozco mis emociones"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k8",
+     "label": "Reacciono impulsivamente"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k9",
+     "label": "Tengo duelos sin procesar"
+    },
+    {
+     "type": "check",
+     "id": "caidas.k10",
+     "label": "Comparación tóxica constante"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q11",
+     "label": "Mi mayor analfabetismo emocional es:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q12",
+     "label": "Una emoción que he estado evitando:"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec3",
+   "title": "Parte 3: Caídas De Decisión",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La calidad de tu vida es la calidad de tus decisiones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Decidir desde el lugar equivocado"
+    },
+    {
+     "type": "paragraph",
+     "text": "No todas las decisiones malas son por falta de información. Muchas son por decidir desde el lugar equivocado: miedo, ego, necesidad de aprobación."
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE DECISIÓN #1: Decidir desde el miedo"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tomar decisiones para evitar dolor/pérdida en vez de para ganar algo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Quedarte en trabajo que odias por miedo a no encontrar otro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Permanecer en relación tóxica por miedo a estar solo/a",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No empezar tu proyecto por miedo al fracaso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Elegir carrera segura vs. la que realmente quieres",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo identificarlo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pregúntate: '¿Estoy eligiendo ESTO o estoy evitando AQUELLO?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Identifica el miedo específico (nombrarlo lo reduce)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Qué es lo PEOR que puede pasar?' (rara vez es tan terrible)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Costo de NO decidir > Costo de decidir mal",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Regla 10/10/10: ¿Importará en 10 días? ¿10 meses? ¿10 años?",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE DECISIÓN #2: Decidir desde el ego"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Elegir para validar tu identidad/estatus en vez de alinearte con tu cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Comprar auto caro que no necesitas para impresionar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Aceptar proyecto que no te interesa solo porque 'suena bien'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No pedir ayuda porque 'deberías poder solo'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Elegir carrera por prestigio vs. por vocación",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Pregunta clave:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Lo haría si nadie se enterara?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si la respuesta es NO, es decisión de ego."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Diferencia entre auto-estima (interna) y ego (validación externa)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: ¿Esto me acerca a mi cumbre o solo luce bien?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Practica decisiones 'invisibles' que nadie aplaudirá",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE DECISIÓN #3: Parálisis por análisis"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Investigar infinitamente, buscar la decisión perfecta, nunca actuar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "bullet",
+     "text": "Llevas meses 'investigando' pero no has dado un paso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Necesitas 100% certeza antes de moverte",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Esperas 'el momento perfecto' (que nunca llega)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La verdad:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No decidir ES decidir. Estás eligiendo el status quo por default."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Regla 70/30: Si tienes 70% de información, decide",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Lineas muertas autoimpuestas: Decido antes del viernes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Acción imperfecta Vs Planificación perfecta",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "La mayoría de decisiones son reversibles (no permanentes)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE DECISIÓN #4: Costos hundidos"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Continuar algo malo porque ya invertiste mucho (tiempo, dinero, esfuerzo)."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Terminar carrera que odias porque 'ya invertiste 3 años'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Permanecer en relación mala porque 'ya llevan 5 años'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Seguir en negocio que no funciona porque 'ya invertí tanto'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La falacia:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El tiempo/dinero ya gastado NO VUELVE, hayas continuado o no."
+    },
+    {
+     "type": "paragraph",
+     "text": "La pregunta correcta es: '¿Si empezara HOY de cero, elegiría esto?'"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ignora el pasado, evalúa solo el futuro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿A dónde me lleva seguir este camino?'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "El costo de continuar Vs Costo de soltar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Cortar pérdidas' no es fracaso, es sabiduría",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Auditoría de decisiones"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q13",
+     "label": "Una decisión importante que tomé desde el MIEDO:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q14",
+     "label": "Una decisión que tomé desde el EGO:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q15",
+     "label": "Algo que sigo haciendo por COSTOS HUNDIDOS:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q16",
+     "label": "Una decisión que he estado posponiendo por PARÁLISIS:"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec4",
+   "title": "Parte 4: Caídas De Carácter",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El carácter es lo que haces cuando nadie te está viendo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando la falta de integridad te destruye"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puedes tener talento, recursos, oportunidades... pero si tu carácter es débil, todo se derrumba."
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE CARÁCTER #1: Falta de integridad"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Decir una cosa y hacer otra. Tus palabras y acciones no coinciden."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Prometes y no cumples (constantemente)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Hablas de valores que no vives",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Atajos morales cuando nadie ve",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Mentiras 'pequeñas' que normalizas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Por qué destruye:"
+    },
+    {
+     "type": "bullet",
+     "text": "Pierdes confianza de otros (reputación se destruye lentamente)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pierdes confianza en ti mismo (sabotaje interno)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Atraes oportunidades/personas desde la desconfianza",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Solo promete lo que SABES que cumplirás",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Si fallas, reconócelo inmediatamente (no excusas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Alinea tus acciones con tus valores declarados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Test: '¿Estaría orgulloso si esto saliera en portada?'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE CARÁCTER #2: Falta de disciplina"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Incapacidad de hacer lo que sabes que debes hacer, cuando debes hacerlo."
+    },
+    {
+     "type": "paragraph",
+     "text": "La verdad dura:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Motivación es pasajera. Disciplina es permanente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esperando motivación = nunca avanzar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "bullet",
+     "text": "Empiezas 1000 cosas, terminas 0",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Procrastinación crónica",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Gratificación instantánea Vs Beneficio futuro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Solo trabajas cuando 'sientes ganas'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Sistemas Vs Metas (crea hábitos automáticos)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Regla de 2 minutos: Si toma 2min, hazlo YA",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Accountability partner (alguien que te revise)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No rompas la cadena: Mínimo viable diario",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE CARÁCTER #3: Victimización constante"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Culpar a externos de todos tus problemas. Nunca asumir responsabilidad."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "'No logro nada por culpa de mi familia/sociedad/gobierno'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Es que tuve mala suerte'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Si tuviera X recurso, entonces sí...'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Por qué te mantiene caído:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si no es tu culpa, tampoco es tu poder cambiar."
+    },
+    {
+     "type": "paragraph",
+     "text": "Victimización = Entregar tu poder a factores externos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Responsabilidad ≠ Culpa. Puedes no tener culpa pero SÍ responsabilidad de responder",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Qué está bajo MI control aquí?'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cambia 'me pasó' por 'permití/elegí/acepté'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Busca el 1% que SÍ puedes cambiar HOY",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE CARÁCTER #4: Arrogancia y falta de humildad"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Creer que ya lo sabes todo. Dejar de aprender, escuchar, crecer."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "bullet",
+     "text": "No aceptas feedback",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Ya sé' es tu respuesta automática",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No admites errores públicamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Desprecias a quienes saben menos",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La caída más dura:"
+    },
+    {
+     "type": "paragraph",
+     "text": "La arrogancia precede a las mayores caídas. Cuando crees que no necesitas aprender más, la vida te humilla."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "'Mente de principiante' siempre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Busca feedback activamente cada semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Admite cuando no sabes: 'No sé, enséñame'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Rodéate de gente más sabia que tú",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Espejo de carácter"
+    },
+    {
+     "type": "paragraph",
+     "text": "Del 1 al 10, ¿qué tan fuerte es mi:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Integridad:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Disciplina:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responsabilidad (vs. victimización):"
+    },
+    {
+     "type": "paragraph",
+     "text": "Humildad:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q17",
+     "label": "Mi debilidad de carácter más grande:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q18",
+     "label": "Una acción concreta para fortalecerla:"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec5",
+   "title": "Parte 5: Caídas De Identidad",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No eres tu cumbre. Eres el senderista que la alcanzó"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando confundes quién eres con lo que haces"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE IDENTIDAD #1: Identidad atada a logros"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Creer que vales por lo que logras, no por quién eres."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "'Soy CEO' (vs. 'Tengo un rol de CEO')",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te presentas por tus títulos/logros, no por tu esencia",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando pierdes el logro, pierdes tu sentido de valor",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La caída:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando alcanzas la cumbre y te sientes vacío. O cuando la pierdes y colapsa tu identidad completa."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Separa SER de HACER: Yo SOY valioso. Yo HAGO esto.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Quién soy sin mis logros/títulos/posesiones?'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cultiva identidad en valores (soy honesto, compasivo, curioso)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE IDENTIDAD #2: Síndrome del impostor"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sentir que no mereces tus logros. Vivir con miedo a que 'descubran' que eres un fraude."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales:"
+    },
+    {
+     "type": "bullet",
+     "text": "Atribuyes éxito a suerte, no a tu capacidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Miedo constante a ser 'descubierto'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Trabajas excesivamente para 'compensar' tu 'falta de talento'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "70% de personas exitosas experimentan esto - NO estás solo/a",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Documenta tus logros objetivamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comparte tu síndrome del impostor (pierde poder cuando se nombra)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Todavía no soy experto' ≠ 'Soy fraude'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA DE IDENTIDAD #3: Resistencia al cambio de identidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Aferrarte a versiones pasadas de ti porque cambiar da miedo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "'Yo siempre he sido así' (como justificación)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Saboteas tu crecimiento porque 'no eres ese tipo de persona'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Amigos/familia no reconocen la nueva versión y tú retrocedes",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La verdad:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crecer requiere matar versiones viejas de ti. Y eso duele."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Permite el duelo de tu viejo yo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ritual de despedida simbólico",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "'Yo SOLÍA ser X. Ahora SOY Y.'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Rodéate de quienes celebran tu evolución",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: ¿Quién soy realmente?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completa:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q19",
+     "label": "Sin mis logros, títulos o posesiones, yo soy:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q20",
+     "label": "Una versión vieja de mí que necesito soltar:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q21",
+     "label": "¿En qué área experimento síndrome del impostor?"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec6",
+   "title": "Parte 6: Caídas Circunstanciales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No puedes controlar la montaña. Pero puedes aprender a leerla"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando no lees el entorno correctamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA CIRCUNSTANCIAL #1: Ignorar señales de alerta"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Continuar en un camino peligroso ignorando todas las banderas rojas."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ignorar problemas de salud hasta que colapsan",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Seguir en relación/trabajo tóxico con señales claras",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No leer el mercado antes de invertir/emprender",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Desarrolla 'antenas' para red flags",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Consulta perspectivas externas (no estés en tu burbuja)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Actúa en señales tempranas, no esperes crisis",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA CIRCUNSTANCIAL #2: Mal timing"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hacer lo correcto en el momento equivocado."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Emprender en recesión sin colchón financiero",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Lanzar producto sin validar demanda",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cambiar de carrera en peor momento personal",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Lee el entorno macro (economía, industria, ciclos)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Lee tu entorno micro (tu fase personal, recursos)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "A veces esperar es la acción correcta",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "CAÍDA CIRCUNSTANCIAL #3: Mala gestión de riesgos"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es?"
+    },
+    {
+     "type": "paragraph",
+     "text": "No calcular probabilidades. Apostar todo a un solo resultado."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Renunciar sin ahorros ni plan B",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Invertir todo en una sola acción/negocio",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No tener seguro de salud/vida cuando tienes dependientes",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo levantarte:"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Qué pasa si esto sale mal?'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Diversifica (nunca todo en un solo canasto)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Construye plan B ANTES de necesitarlo",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Lectura de circunstancias"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q22",
+     "label": "Una señal de alerta que ignoré:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q23",
+     "label": "Un riesgo que tomé sin calcular:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q24",
+     "label": "¿Qué señales estoy ignorando AHORA?"
+    }
+   ]
+  },
+  {
+   "id": "caidas.sec7",
+   "title": "Cierre: Levantarse Es Parte Del Camino",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No caíste porque fracasaste. Caíste porque estabas caminando"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si llegaste hasta aquí, has confrontado tus caídas con honestidad brutal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Eso ya te pone por encima del 90% de las personas que niegan, minimizan o culpan a externos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Las 3 verdades sobre caídas:"
+    },
+    {
+     "type": "bullet",
+     "text": "Todos caen. No eres especial por caer. Eres humano.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Las caídas enseñan más que las cumbres. El dolor es el mejor maestro (aunque no el más amable).",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Levantarse es opcional. Puedes quedarte caído. Pero si estás leyendo esto, ya elegiste levantarte.",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu compromiso final"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completa:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q25",
+     "label": "La caída más grande que he experimentado:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q26",
+     "label": "Lo que aprendí de ella:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q27",
+     "label": "Cómo me aseguraré de no caer de la misma forma:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q28",
+     "label": "Mi mantra para la próxima caída:"
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q29",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "caidas.q30",
+     "label": "Fecha:"
+    },
+    {
+     "type": "paragraph",
+     "text": "RECUERDA: Esta guía es un documento vivo. Volverás a ella después de cada caída. No para castigarte, sino para aprender y levantarte más rápido."
+    }
+   ]
+  }
+ ]
+}

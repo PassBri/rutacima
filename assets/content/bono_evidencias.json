@@ -1,0 +1,660 @@
+{
+ "id": "bono_evidencias",
+ "title": "Kit de Evidencias",
+ "subtitle": "Bono 7 · Sistema de progreso visible",
+ "category": "bonos",
+ "order": 22,
+ "sections": [
+  {
+   "id": "bono_evidencias.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "KIT DE EVIDENCIAS"
+    },
+    {
+     "type": "paragraph",
+     "text": "Sistema de progreso visible"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para que sientas el avance real, no imaginario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ruta a la Cima"
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec1",
+   "title": "Por qué necesitas evidencias",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "La psicología del progreso visible"
+    },
+    {
+     "type": "paragraph",
+     "text": "El problema del progreso invisible:"
+    },
+    {
+     "type": "paragraph",
+     "text": "La mayoría del crecimiento personal es INVISIBLE en el día a día. Estudias y no \"sientes\" más inteligente. Vas al gym y no ves músculos. Escribes y el libro sigue incompleto."
+    },
+    {
+     "type": "paragraph",
+     "text": "Resultado: Abandonas porque sientes que \"no avanzas\" aunque SÍ estés avanzando."
+    },
+    {
+     "type": "paragraph",
+     "text": "La solución: EVIDENCIA TANGIBLE"
+    },
+    {
+     "type": "paragraph",
+     "text": "Necesitas crear un registro visible de tu progreso que tu cerebro pueda VER y CREER."
+    },
+    {
+     "type": "paragraph",
+     "text": "Este Kit te da 3 sistemas de evidencia:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Evidencias del Mes - Registro mensual de logros tangibles"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Registro de Victorias - Tracking diario de micro-logros"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Portafolio de Progreso - Archivo visual de transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Beneficios comprobados:"
+    },
+    {
+     "type": "bullet",
+     "text": "Reduce abandono en 70% (estudios de habit tracking)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Aumenta motivación intrínseca al ver progreso real",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Mejora auto-eficacia (\"sí puedo\")",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Crea ciclo de refuerzo positivo",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Reduce solicitudes de reembolso (sientes que funcionó)",
+     "mark": "✓"
+    },
+    {
+     "type": "paragraph",
+     "text": "Regla de oro:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si no lo documentaste, no sucedió."
+    },
+    {
+     "type": "paragraph",
+     "text": "No confíes en tu memoria. Tu cerebro está diseñado para olvidar logros y recordar fracasos. Necesitas EVIDENCIA EXTERNA."
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec2",
+   "title": "Sistema 1: Evidencias del mes",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Registro mensual de logros tangibles"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "¿Qué son evidencias?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Una evidencia es PRUEBA FÍSICA o DIGITAL de que lograste algo. No es un sentimiento. Es algo que puedes MOSTRAR."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos de evidencias válidas:"
+    },
+    {
+     "type": "bullet",
+     "text": "Foto de báscula mostrando peso objetivo alcanzado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Screenshot de certificado completado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Link a artículo publicado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Foto de ti corriendo 5k (con tiempo en reloj)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Screenshot de $5,000 en cuenta de ahorros",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Video de ti hablando inglés fluido",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Foto de proyecto terminado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Testimonio de cliente en escrito/audio",
+     "mark": "✓"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Plantilla: Evidencias del mes"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_evidencias.q1",
+     "label": "Mes:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_evidencias.q2",
+     "label": "Año:"
+    },
+    {
+     "type": "inputTable",
+     "id": "bono_evidencias.t3",
+     "headers": [
+      "Logro",
+      "Evidencia",
+      "Dónde está guardada"
+     ],
+     "rowLabels": [],
+     "rows": 10
+    },
+    {
+     "type": "paragraph",
+     "text": "Tipos de evidencia por eje:"
+    },
+    {
+     "type": "paragraph",
+     "text": "VOL: Screenshots de rachas, fotos de tracker completo, calendario marcado"
+    },
+    {
+     "type": "paragraph",
+     "text": "MAE: Certificados, portfolio de proyectos, repos GitHub, artículos escritos"
+    },
+    {
+     "type": "paragraph",
+     "text": "VOZ: Links a posts, analytics de alcance, testimonios de audiencia, grabaciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "VAL: Screenshots de ingresos, contratos firmados, facturas pagadas, clientes conseguidos"
+    },
+    {
+     "type": "paragraph",
+     "text": "EVO: Páginas de journaling, certificados de terapia, antes/después de mindset, breakthrough documentados"
+    },
+    {
+     "type": "paragraph",
+     "text": "TRA: Testimonios de impacto, fotos de voluntariado, donaciones realizadas, vidas tocadas"
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec3",
+   "title": "Sistema 2: Registro de victorias",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tracking diario de micro-logros"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El poder de los Micro-Logros"
+    },
+    {
+     "type": "paragraph",
+     "text": "Los grandes logros toman meses. Los micro-logros suceden CADA DÍA. Y tu cerebro necesita victorias diarias para mantener momentum."
+    },
+    {
+     "type": "paragraph",
+     "text": "Regla: Si avanzaste aunque sea 1%, es una victoria."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos de micro-victorias:"
+    },
+    {
+     "type": "bullet",
+     "text": "Escribí 300 palabras (aunque meta era 500)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Fui al gym 20 min (aunque plan era 1 hora)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Publiqué 1 post (aunque quería 3)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Estudié 30 min (aunque estaba cansado)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Hice 1 llamada de ventas (aunque tenía miedo)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Dije NO a tentación (aunque quería ceder)",
+     "mark": "✓"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Plantilla: Registro semanal de victorias"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_evidencias.q4",
+     "label": "Semana del:"
+    },
+    {
+     "type": "inputTable",
+     "id": "bono_evidencias.t5",
+     "headers": [
+      "Día",
+      "Victoria del Día (mínimo 1, máximo 3)"
+     ],
+     "rowLabels": [
+      "Lunes",
+      "Martes",
+      "Miércoles",
+      "Jueves",
+      "Viernes",
+      "Sábado",
+      "Domingo"
+     ],
+     "rows": 7
+    },
+    {
+     "type": "prompt",
+     "id": "bono_evidencias.q6",
+     "label": "Total de victorias esta semana:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_evidencias.q7",
+     "label": "Victoria más significativa:"
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec4",
+   "title": "Sistema 3: Portafolio de progreso",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Archivo visual de transformación"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El poder del Antes/Después"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu cerebro entiende VISUALMENTE. Un portafolio de progreso te permite VER tu transformación."
+    },
+    {
+     "type": "paragraph",
+     "text": "Este no es solo para fitness. Funciona para TODO."
+    },
+    {
+     "type": "paragraph",
+     "text": "Qué documentar visualmente:"
+    },
+    {
+     "type": "paragraph",
+     "text": "FITNESS: Fotos cuerpo cada 2 semanas, videos ejercicios (ver progreso forma), medidas corporales"
+    },
+    {
+     "type": "paragraph",
+     "text": "HABILIDAD: Videos/audios de ti practicando (idioma, instrumento, hablar público), portfolio de trabajos chronológico"
+    },
+    {
+     "type": "paragraph",
+     "text": "ESCRITURA: Contador de palabras acumuladas, tabla de contenidos del libro, screenshots de artículos publicados"
+    },
+    {
+     "type": "paragraph",
+     "text": "FINANZAS: Gráfica de net worth mes a mes, screenshots de cuentas, foto de deuda eliminada"
+    },
+    {
+     "type": "paragraph",
+     "text": "AUDIENCIA: Gráfica de seguidores, screenshots de posts virales, testimonios guardados"
+    },
+    {
+     "type": "paragraph",
+     "text": "DESARROLLO PERSONAL: Stack de journals completados, certificados de terapia, fotos en retiros/eventos"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Plantilla: Checklist de portafolio"
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa esta checklist para asegurar que documentas tu progreso correctamente:"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k8",
+     "label": "Foto de progreso físico (si aplica) — Cada 2 semanas"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k9",
+     "label": "Screenshot de métrica clave (followers, $ ahorrados, etc) — Semanal"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k10",
+     "label": "Video/audio de ti practicando skill — Mensual"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k11",
+     "label": "Captura de trabajo/proyecto completado — Al terminar c/u"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k12",
+     "label": "Testimonial/review de cliente/audiencia — Cuando lo recibas"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k13",
+     "label": "Foto de certificado/logro alcanzado — Al conseguirlo"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k14",
+     "label": "Gráfica de progreso actualizada — Mensual"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k15",
+     "label": "Journal entry de breakthrough importante — Cuando suceda"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k16",
+     "label": "Foto de hábito cumplido (racha, calendar) — Cada 30 días"
+    },
+    {
+     "type": "check",
+     "id": "bono_evidencias.k17",
+     "label": "Documento final comparando inicio vs ahora — Trimestral"
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec5",
+   "title": "Organización de evidencias",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Dónde y cómo guardar todo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Opción 1: Carpeta digital (Recomendado)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crea estructura de carpetas en Google Drive / Dropbox:"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Ruta a la Cima - Evidencias"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 2025"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Enero"
+    },
+    {
+     "type": "paragraph",
+     "text": "📄 Evidencias Enero 2025"
+    },
+    {
+     "type": "paragraph",
+     "text": "📄 Victorias Semana 1-4"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Fotos Progreso"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Screenshots"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Certificados y Logros"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Febrero"
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 Marzo..."
+    },
+    {
+     "type": "paragraph",
+     "text": "📁 2026"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Opción 2: Diario visual (Alternativa Física)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Imprime fotos y pégalas en diario grande."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pro: Táctil, puedes hojearlo. Contra: Menos portable."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Opción 3: Híbrido (Lo mejor)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Digital para todo + Album físico con los 10 momentos más épicos del año."
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec6",
+   "title": "Ritual de revisión de evidencias",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Cómo usar tus evidencias para momentum"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Revisión semanal (5 min cada domingo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Completa Registro de Victorias de la semana"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Identifica tu victoria más significativa"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Si tienes nueva evidencia tangible, guárdala en carpeta"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Revisión mensual (20 min último día del mes)"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Completa plantilla Evidencias del Mes"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Toma screenshot/foto de progreso actual"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Compara con mes anterior - ¿qué cambió?"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Celebra (seriamente, celebra)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Revisión trimestral (1 hora cada 3 meses)"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Revisa TODAS tus evidencias de los 3 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Crea documento comparativo: Día 1 vs Día 90"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Escribe carta a ti mismo destacando progreso"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Comparte 1-2 evidencias con alguien cercano"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Revisión anual (3 horas en diciembre)"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Revisa TODAS las evidencias del año completo"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Crea documento \"Mi Año en Evidencias\""
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Top 10 evidencias del año (imprime/guarda especial)"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Reflexión escrita: ¿Quién era yo hace 365 días? ¿Quién soy ahora?"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Comparte con comunidad/familia si aplica"
+    }
+   ]
+  },
+  {
+   "id": "bono_evidencias.sec7",
+   "title": "Plantilla: Antes vs Después",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Usa cada trimestre para ver transformación real"
+    },
+    {
+     "type": "inputTable",
+     "id": "bono_evidencias.t18",
+     "headers": [
+      "Métrica",
+      "Día 1",
+      "Hoy"
+     ],
+     "rowLabels": [
+      "Métrica principal (ej: peso, $, seguidores)",
+      "Skill level (1-10)",
+      "Energía/bienestar (1-10)",
+      "Confianza (1-10)",
+      "Consistencia hábitos (días racha)",
+      "Logros tangibles (#)",
+      "Cómo me siento",
+      "Mayor miedo",
+      "Mayor fortaleza",
+      "Próximo objetivo"
+     ],
+     "rows": 10
+    },
+    {
+     "type": "paragraph",
+     "text": "Si no lo documentaste, no sucedió."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus evidencias son tu prueba de que SÍ puedes."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,2477 @@
+{
+ "id": "bono_acciones",
+ "title": "Banco de Acciones Multi-Eje",
+ "subtitle": "Bono 5 · 200+ acciones que activan varios ejes",
+ "category": "bonos",
+ "order": 20,
+ "sections": [
+  {
+   "id": "bono_acciones.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "BANCO DE ACCIONES"
+    },
+    {
+     "type": "paragraph",
+     "text": "200+ Acciones Multi-Eje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confluencia convertida en catálogo accionable"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ruta a la Cima"
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec1",
+   "title": "El poder de las acciones Multi-Eje",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Por qué una acción vale por tres"
+    },
+    {
+     "type": "paragraph",
+     "text": "La mayoría de personas trabajan cada eje por separado: van al gym (VOL), luego estudian (MAE), luego publican contenido (VOZ). Esto fragmenta tu energía y tiempo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Las acciones multi-eje son diferentes: Una sola acción activa múltiples ejes simultáneamente. Es eficiencia exponencial."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acción tradicional: \"Estudiar Python 1 hora\" = solo MAE"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acción multi-eje: \"Estudiar Python 1 hora + documentarlo en Twitter thread\" = MAE + VOZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "Acción multi-eje avanzada: \"Construir proyecto Python + documentar en público + venderlo como template\" = VOL + MAE + VOZ + VAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Beneficios:"
+    },
+    {
+     "type": "bullet",
+     "text": "Eficiencia temporal: 1 hora de trabajo = progreso en 3-4 ejes",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Motivación compuesta: Si un eje no te motiva hoy, otro sí",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Resultados sinérgicos: El progreso en un eje potencia los otros",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Sostenibilidad: Más fácil mantener 1 hábito multi-eje que 6 separados",
+     "mark": "✓"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo usar este banco:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Identifica tus ejes más débiles (usa el Diagnóstico 6 Ejes)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Busca acciones que combinen esos ejes"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Elige 1-3 acciones para integrar a tu semana"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Ejecuta consistentemente"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Trackea impacto en múltiples ejes simultáneamente"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + MAE"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Completar curso online con práctica diaria de 1h"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Leer libro técnico 30 min diarios durante 30 días"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Practicar skill difícil (idioma, instrumento, código) 100 días consecutivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Despertar 5am diariamente para estudiar antes del trabajo"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Gym 5x/semana siguiendo programa progresivo"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Ayuno intermitente 16/8 mientras aprendes nutrición"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Meditar 20 min diarios usando app guiada"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Journaling matutino 500 palabras sin fallar"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Eliminar redes sociales para dedicar tiempo a skill building"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Bootcamp intensivo con entrega de proyectos semanales"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q1",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q2",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec2",
+   "title": "Acciones VOL + VOZ",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Publicar contenido diario (post/video) por 30 días"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Live streaming semanal a hora fija"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Newsletter semanal sin fallar 52 semanas"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Podcast semanal grabado mismo día/hora"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Vlog diario de progreso personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Thread de Twitter diario sobre aprendizajes"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Stories diarias mostrando behind-the-scenes"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Blog post semanal publicado mismo día"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Video YouTube semanal con calendario estricto"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Challenge público documentado día a día"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q4",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q5",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + VAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Prospecting diario (10 emails/DMs a potenciales clientes)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Llamadas de ventas 5x/semana sin fallar"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Construir producto digital trabajando 2h diarias"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Facturar clientes puntualmente cada viernes"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Ahorro automático 20% cada quincena"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Side hustle: 10h semanales monetizables"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Meal prep domingos para ahorrar $300/mes"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Invertir cantidad fija mensual en ETFs"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Negociar salario anualmente con data preparada"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Eliminar gastos hormiga trackeando todo gasto"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q7",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q8",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec3",
+   "title": "Acciones VOL + EVO",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Terapia semanal sin cancelar en 6 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Journaling de gratitud todas las noches"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Meditación guiada 100 días consecutivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Retiro de silencio trimestral"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Ayuno de redes sociales 30 días"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Despertar sin alarma (ritmos circadianos naturales)"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Conversación difícil semanal (practicar vulnerabilidad)"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Lectura de desarrollo personal 1 libro/mes"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Identificar y romper 1 patrón negativo/mes"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Solo time semanal 3h (introspección profunda)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q10",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q11",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Voluntariado 4h semanales en misma organización"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Mentoría pro-bono 2h semanales"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Donar % fijo de ingresos mensualmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Llamar padres/abuelos 2x semana sin fallar"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Cena familiar semanal sin dispositivos"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Enseñar skill gratis 1h/semana en comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Cleanup ambiental mensual (basura, playa, parque)"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Dar sangre cada 3 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Sembrar árbol mensualmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Apoyar causa social con trabajo constante"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q13",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q14",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec4",
+   "title": "Acciones MAE + VOZ",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Escribir artículo técnico mensual sobre lo aprendido"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Tutorial en YouTube de skill que dominas"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Charla en meetup sobre tu expertise"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Thread educativo semanal compartiendo conocimiento"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Podcast entrevistando expertos de tu campo"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Curso online enseñando tu skill"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Responder preguntas en StackOverflow/foros"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Contribuir a documentación open source"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Escribir libro sobre tu área de maestría"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Workshop mensual enseñando lo que sabes"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q16",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q17",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones MAE + VAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Freelance usando skill recién aprendida"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Consultoría 1-on-1 en tu área de expertise"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Vender templates/recursos de tu skill"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Curso pago sobre habilidad técnica"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Certificación que aumenta tu valor de mercado"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Portfolio de 10 proyectos vendibles"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Coaching grupal sobre tu maestría"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Membresía paga enseñando skill mensualmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Productizar tu conocimiento (SaaS/producto digital)"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Speaking gigs pagados sobre tu expertise"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q19",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q20",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec5",
+   "title": "Acciones MAE + EVO",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Aprender skill que te aterra (confrontar miedo)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Tomar clase que expone incompetencia (humildad)"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Experimentar con técnicas opuestas a tu estilo"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Aprender de alguien mucho más joven que tú"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Dominar habilidad que cuestiona tu identidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Curso de filosofía/psicología aplicada a tu campo"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Estudiar fracasos de maestros en tu área"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Journaling sobre resistencias al aprender"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Terapia enfocada en bloqueos de aprendizaje"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Retiro de aprendizaje intensivo (inmersión)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q22",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q23",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones MAE + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Enseñar skill gratis a comunidad marginada"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Crear recursos educativos open source"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Mentoría gratuita a 3 personas/mes"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Tutorial gratuito de alta calidad en YouTube"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Contribuir conocimiento a Wikipedia/docs"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Dar charlas gratuitas en escuelas/universidades"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Escribir guía completa gratis para principiantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Responder 10 preguntas de novatos/semana"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Crear herramienta gratuita para comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Scholarship fund: enseñar gratis a quienes no pueden pagar"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q25",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q26",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec6",
+   "title": "Acciones VOZ + VAL",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Monetizar newsletter con sponsors/suscripciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Vender productos digitales a tu audiencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Afiliados estratégicos en contenido"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Membresía paga con contenido exclusivo"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Lanzamiento de producto propio con lista email"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Coaching 1-on-1 para seguidores"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Webinar pago mensual"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Brand deals con empresas alineadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Curso online para tu comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Consultoría para marcas en tu nicho"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q28",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q29",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOZ + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Compartir vulnerabilidades públicamente (blog/video)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Documentar journey de superación personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Podcast sobre crecimiento interior y aprendizajes"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Hablar de tus fracasos sin filtro"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Compartir journey de terapia/sanación"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Vlog de transformación personal 90 días"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Escribir sobre miedos y cómo los enfrentas"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Series de 'lo que aprendí de...' semanales"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Conversaciones profundas grabadas (podcast)"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Memoir sobre tu evolución personal"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q31",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q32",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec7",
+   "title": "Acciones VOZ + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Plataforma para amplificar voces marginadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Contenido educativo gratuito con impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Usar tu alcance para causas importantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Documentar proyecto social que lideras"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Entrevistar héroes anónimos (darles voz)"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Newsletter destacando organizaciones que ayudar"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Podcast sobre justicia social/cambio"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Campaña de awareness sobre causa importante"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Usar tu audiencia para fundraising"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Contenido que inspira acción social"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q34",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q35",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VAL + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Invertir en terapia/coaching (dinero en crecimiento)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Retiros de crecimiento personal pagados"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Cursos caros de transformación personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Contratar mentor/coach de alto nivel"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Invertir en experiencias transformadoras"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Pagar por accountability coach"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Terapia intensiva (2x semana) para breakthrough"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Programa de desarrollo personal premium"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Mastermind pago con gente de alto nivel"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Journaling sobre relación dinero-identidad"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q37",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q38",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec8",
+   "title": "Acciones VAL + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Donar 10% ingresos a causas elegidas"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Crear scholarship fund en tu nombre"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Invertir en negocios de impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Pagar educación de alguien que lo necesita"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Microfinanzas/préstamos a emprendedores"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Fundar organización sin fines de lucro"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Financiar proyecto comunitario"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Legacy fund para familia/comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Invertir en startups de impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Crear fondo de emergencia para comunidad"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q40",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q41",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones EVO + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Terapia familiar (sanar relaciones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Facilitar círculos de sanación comunitarios"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Compartir aprendizajes de crecimiento personal gratis"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Mentoría enfocada en transformación, no skills"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Crear espacio seguro para vulnerabilidad grupal"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Liderar retiro de crecimiento para comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Mediar conflictos en tu familia/comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Journaling público sobre tu evolución (inspirar)"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Grupos de apoyo mutuo que facilitas"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Ser ejemplo viviente de transformación posible"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q43",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q44",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec9",
+   "title": "Acciones VOL + MAE + VOZ",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Blog diario técnico por 100 días (escribir + aprender + compartir)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Challenge público de dominar skill en 90 días filmado"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Newsletter semanal sobre lo que aprendiste + práctica"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Curso que creas mientras lo aprendes (learn in public)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Podcast diario primeros 30 días aprendiendo algo"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. GitHub commit diario + thread explicando avances"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Vlog de bootcamp (estudiar + documentar + publicar)"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Serie YouTube aprendiendo skill from scratch en público"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. 30 day challenge con post diario de progreso"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Livestream estudiando/practicando en vivo"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q46",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q47",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + MAE + VAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Freelance diario para construir portfolio + ingresos"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Crear 1 producto digital/mes durante 6 meses"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Estudiar 2h + prospecting 1h diariamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Bootcamp pago que te fuerza a entregar + aprender"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Certificación + búsqueda de empleo simultánea"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Side hustle estructurado con skill en desarrollo"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Curso pago que tomas + inmediatamente aplicas con clientes"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. 100 días de código + aplicar a trabajos semanalmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Estudiar técnica de ventas + hacer llamadas diarias"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Construir SaaS mientras aprendes a programar"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q49",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q50",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec10",
+   "title": "Acciones VOL + MAE + EVO",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Retiro de aprendizaje intensivo con introspección"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Journaling diario sobre resistencias al aprender"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Terapia + estudiar psicología del aprendizaje"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Meditar antes de cada sesión de estudio (30+30)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Ayuno de información + deep learning periods alternados"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Estudiar skill que confronta tu identidad limitante"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Challenge que mezcla hábito físico + mental + emocional"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Curso difícil + terapia paralela procesando frustración"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Despertar 4am para estudiar + journaling al final"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Práctica deliberada con análisis profundo de bloqueos"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q52",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q53",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + MAE + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Enseñar gratis mientras aprendes (solidificar conocimiento)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Estudiar para después dar charla gratuita comunitaria"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Aprender skill para ayudar ONG específica"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Documentar aprendizaje para crear recursos gratuitos"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Mentoría recíproca (enseñas mientras aprendes)"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Challenge grupal donde todos aprenden juntos"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Estudiar con compromiso de liberar conocimiento gratis"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Crear herramienta open source mientras aprendes a codear"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Bootcamp con proyecto final de impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Aprender idioma para voluntariado internacional"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q55",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q56",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec11",
+   "title": "Acciones VOL + VOZ + VAL",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Contenido diario + monetización (ads/sponsors/productos)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Newsletter diaria gratis + upsell a membresía paga"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Podcast semanal con episodios bonus pagos"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Challenge 30 días público con curso pago al final"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Vlog diario + Patreon para contenido extra"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Livestream schedule fijo + tips/super chats"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Blogging diario + afiliados estratégicos"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. YouTube consistente + productos digitales propios"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Presencia diaria Twitter + consultoría DM"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Stories diarias Instagram + mini-cursos pagos"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q58",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q59",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + VOZ + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Diario público de transformación (blog/vlog 90 días)"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Podcast sobre tu journey de sanación semanal"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Challenge vulnerabilidad: compartir miedo diario"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Vlog terapia journey (con permiso terapeuta)"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Newsletter semanal sobre aprendizajes internos"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Journaling diario público en Medium"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Serie video sobre superar adicción/patrón negativo"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Instagram daily sobre crecimiento personal sin filtros"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Memoir que escribes en público (capítulo/semana)"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Twitter thread diario sobre auto-descubrimiento"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q61",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q62",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec12",
+   "title": "Acciones VOL + VOZ + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Contenido diario de impacto social por año completo"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Documentar proyecto comunitario weekly en YouTube"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Newsletter semanal destacando causas + cómo ayudar"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Podcast entrevistando changemakers semanalmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Challenge público: ayudar 1 persona/día por 90 días"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Vlog voluntariado consistente"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Blog semanal sobre justicia social sin parar"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Stories diarias amplificando voces marginadas"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Serie video sobre organización que apoyas"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Threads diarios educando sobre causa importante"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q64",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q65",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + VAL + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Ahorrar % agresivo + journaling sobre relación con dinero"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Invertir mensualmente + estudiar finanzas personales"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Terapia financiera + plan de ahorro estricto"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Eliminar deuda con reflexión sobre patrones de gasto"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Side hustle disciplinado + procesar miedo a vender"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Budget estricto + journaling de creencias sobre abundancia"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Inversión en desarrollo personal con dinero ahorrado"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Trabajo extra + terapia sobre identidad y dinero"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Frugalidad intencional + reflexión sobre valores"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Monetizar skill + superar síndrome impostor con coach"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q67",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q68",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec13",
+   "title": "Acciones VOL + VAL + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Ahorro disciplinado para donar % grande anualmente"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Side hustle cuyos ingresos van 50% a causa"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Trabajo voluntario consistente + donar dinero"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Austeridad personal para máxima contribución social"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Negocio de impacto social con disciplina férrea"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Freelance + donar 1 proyecto/mes gratis a ONG"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Inversiones éticas con retorno para caridad"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Budget apretado para liberar fondos para causas"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Trabajo extra específicamente para financiar proyecto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Construir asset que genera ingresos para fundación"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q70",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q71",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + EVO + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Terapia semanal + ayudar otros con tu sanación"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Meditar diariamente + liderar círculo meditación gratuito"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Journaling constante + compartir aprendizajes públicamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Retiros regulares + facilitar retiros para otros"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Sanar patrones + mentorar a quien enfrenta lo mismo"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Trabajo interior disciplinado + ser ejemplo para comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Superar adicción + sponsor otros en recuperación"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Terapia familiar constante + sanar linaje completo"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Práctica espiritual diaria + servicio a comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Crecimiento personal riguroso + inspirar transformación en otros"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q73",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q74",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec14",
+   "title": "Acciones MAE + VOZ + VAL",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Expertise técnica + contenido educativo + monetización"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Dominar skill + enseñarla + vender curso"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Certificación + presencia LinkedIn + consultoría"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Construir portfolio + blog técnico + freelance"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Desarrollar producto + marketing contenido + ventas"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Maestría en código + YouTube tutorials + GitHub Sponsors"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Expertise diseño + Behance activo + clientes high-ticket"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Dominar escritura + Medium + ebooks pagos"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Habilidad técnica + conferencias + workshop pagos"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Skill rara + nicho contenido + premium pricing"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q76",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q77",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones MAE + VOZ + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Aprender en público + documentar resistencias + journaling"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Dominar skill difícil + blog sobre proceso + terapia paralela"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Certificación + compartir fracasos + crecimiento visible"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Expertise + vulnerabilidad sobre journey + transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Skill técnica + contenido auténtico sin ego + humildad"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Maestría + enseñar incluyendo tus errores + auto-reflexión"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Aprender + videos honestos de frustración + breakthrough"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Portfolio + behind-the-scenes con dudas reales + sanación"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Dominio técnico + humanizar expertise + trabajo interior"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Skill + contenido desde aprendiz perpetuo + mente principiante"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q79",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q80",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec15",
+   "title": "Acciones MAE + VOZ + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Expertise + educar gratis masivamente + impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Dominar skill + enseñar a marginados + open source"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Certificación + recursos gratuitos + empoderar comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Maestría + mentoría gratuita + democratizar conocimiento"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Skill técnica + tutorials gratuitos + acceso universal"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Portfolio + compartir proceso gratis + inspirar otros"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Expertise + charlas gratuitas + elevar industria"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Dominio + crear herramientas gratis + bien común"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Habilidad + documentación pública + legado educativo"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Maestría + enseñanza sin gatekeeping + abundancia"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q82",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q83",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones MAE + VAL + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Skill cara + monetizar + superar miedo a cobrar bien"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Certificación + ingresos + sanar síndrome impostor"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Expertise + ventas + terapia sobre merecer abundancia"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Dominio técnico + pricing premium + trabajo identidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Portfolio + clientes high-ticket + autovaloración"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Maestría + negociar salario + empoderamiento personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Skill + emprendimiento + confrontar creencias sobre dinero"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Expertise + consultoría cara + sanación deserving"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Habilidad + vender sin culpa + crecimiento autoestima"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Dominio + monetización + journaling sobre valor propio"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q85",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q86",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec16",
+   "title": "Acciones MAE + VAL + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Skill + negocio de impacto + generar valor social"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Expertise + mentoría paga + becas para quien no puede pagar"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Certificación + consultoría + donar % a causas"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Maestría + producto digital + versión gratis para ONGs"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Habilidad + freelance + proyecto pro-bono mensual"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Portfolio + clientes pagos + trabajo gratuito comunitario"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Dominio + workshop pago + versión gratuita para escuelas"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Skill + ingresos + reinvertir en acceso universal"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Expertise + negocio + modelo Robin Hood pricing"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Maestría + monetización + usar ingresos para cambio social"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q88",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q89",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones MAE + EVO + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Aprender + sanar + enseñar desde vulnerabilidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Skill + crecimiento interior + mentoría transformacional"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Expertise + trabajo sombra + guiar a otros en journey"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Dominio + terapia + ser terapeuta informal comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Maestría + evolución personal + inspirar transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Habilidad + sanación + compartir proceso completo"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Certificación + desarrollo personal + elevar conciencia colectiva"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Skill difícil + superar resistencias + modelar crecimiento"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Expertise + humildad + servir desde maestría integrada"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Dominio + enlightenment + legacy de sabiduría"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q91",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q92",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec17",
+   "title": "Acciones VOZ + VAL + EVO",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Contenido + monetización + vulnerabilidad radical"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Audiencia + productos + compartir journey de sanación"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Plataforma + ingresos + autenticidad sin filtros"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Comunidad + membresía + contenido profundamente personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Presencia + ventas + superar miedo a ser visto"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Newsletter + suscripciones + trabajo de identidad público"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Podcast + sponsors + episodios sobre crecimiento interior"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Vlog + Patreon + documentar transformación real"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Blog + afiliados + escribir desde vulnerabilidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. YouTube + productos + mostrar humanidad completa"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q94",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q95",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOZ + VAL + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Plataforma + donaciones + amplificar causas"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Audiencia + productos social impact + dar back"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Contenido + ingresos + % a organizaciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Comunidad + membresía + parte va a caridad"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Newsletter + sponsors + spotlight causas importantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Podcast + monetización + entrevistas changemakers"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. YouTube + ads revenue + campaña social mensual"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Blog + afiliados + contenido que educa sobre injusticias"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Presencia + consultoría + trabajo pro-bono paralelo"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Influencia + ingresos + responsabilidad social radical"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q97",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q98",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec18",
+   "title": "Acciones VOZ + EVO + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Plataforma + vulnerabilidad + inspirar sanación colectiva"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Contenido + crecimiento personal + empoderar audiencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Audiencia + autenticidad + crear movimiento transformación"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Comunidad + proceso público + catalizar cambio en otros"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Presencia + trabajo interior + ser ejemplo viviente"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Blog + journaling público + normalizando terapia"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Podcast + guests vulnerables + conversaciones que sanan"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. YouTube + documentar sanación + dar esperanza"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Newsletter + reflexiones profundas + comunidad de apoyo"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Voz + evolución + legado de humanidad compartida"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q100",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q101",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VAL + EVO + TRA"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Dinero + sanación + filantropía consciente"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Ingresos + terapia financiera + impact investing"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Abundancia + trabajo sombra dinero + generosidad radical"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Riqueza + desarrollo personal + redistribución consciente"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Monetización + sanar creencias + modelo Robin Hood"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Negocio + crecimiento + empleados + comunidad primero"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Inversiones + valores + empresas de impacto social"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Freelance + autovaloración + donar desde abundancia"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Consultoría cara + merecer + becas para marginados"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Ingresos + identidad + usar dinero para bien común"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q103",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q104",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec19",
+   "title": "Acciones VOL + MAE + VOZ + VAL",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Crear contenido educativo diario que monetizas directamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Bootcamp intensivo público con lanzamiento producto al final"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Newsletter expertise diaria con membresía premium paga"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. YouTube consistente enseñando skill + curso como producto"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Blog técnico diario + consultoría como backend"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Podcast semanal sobre industria + sponsors relevantes"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Livestream regular aprendiendo/construyendo + tips/Patreon"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Documentar 100 días de código + freelance simultáneo"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Presencia LinkedIn constante + oportunidades laborales"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Challenge público skill building + producto digital como salida"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q106",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q107",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + MAE + VOZ + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Aprender en público con vulnerabilidad radical consistente"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Journaling diario compartido sobre proceso de maestría"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Documentar breakthrough y breakdowns en journey técnico"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Newsletter semanal sobre aprendizaje + resistencias internas"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Vlog proceso de certificación incluyendo crisis de confianza"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Podcast sobre desarrollar expertise + síndrome impostor"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Blog técnico humanizado con fracasos y miedos incluidos"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Challenge skill + terapia paralela documentada"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Portfolio building + reflexiones profundas sobre identidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Estudiar consistentemente + compartir todo sin ego"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q109",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q110",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec20",
+   "title": "Acciones VOL + MAE + VOZ + TRA",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Aprender skill gratis para enseñarla gratis consistentemente"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Documentar journey de maestría para inspirar acceso universal"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Certificación + crear recursos abiertos para comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Challenge público aprender + mentoría gratuita a otros"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Desarrollar expertise + compartir todo el proceso libremente"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Estudiar disciplinadamente para elevar industria entera"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Portfolio building con compromiso open source"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Newsletter educativa gratuita de alta calidad semanal"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Bootcamp personal + llevar a otros gratis contigo"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Maestría + democratizar acceso sin gatekeeping"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q112",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q113",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Acciones VOL + MAE + VAL + EVO"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 acciones que activan estos ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Skill building intensivo + monetización + terapia sobre dinero"
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Certificación cara + trabajar creencias sobre merecer"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Freelance disciplinado + sanar síndrome impostor activamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Estudiar + vender + journaling relación expertise-valor"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Bootcamp + productos + superar miedo a cobrar bien"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. Portfolio + clientes premium + autovaloración paralela"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. Aprender + emprender + coaching sobre identidad emprendedora"
+    },
+    {
+     "type": "paragraph",
+     "text": "8. Skill técnica + consultoría + trabajo interior sobre autoridad"
+    },
+    {
+     "type": "paragraph",
+     "text": "9. Certificación + negociar salario + empoderamiento económico"
+    },
+    {
+     "type": "paragraph",
+     "text": "10. Expertise + pricing sin culpa + terapia financiera"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q115",
+     "label": "Tus acciones personalizadas:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q116",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_acciones.sec21",
+   "title": "Hoja de Trabajo: Mis Acciones Multi-Eje",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Selecciona y planifica tus acciones de alto impacto"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q118",
+     "label": "Mis ejes más débiles (del diagnóstico):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_acciones.q119",
+     "label": "Combinación que necesito trabajar:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mis 5 Acciones Multi-Eje Elegidas:"
+    },
+    {
+     "type": "inputTable",
+     "id": "bono_acciones.t120",
+     "headers": [
+      "Acción",
+      "Ejes",
+      "Frecuencia"
+     ],
+     "rowLabels": [],
+     "rows": 5
+    },
+    {
+     "type": "paragraph",
+     "text": "Una acción bien elegida vale por tres."
+    },
+    {
+     "type": "paragraph",
+     "text": "Este es tu diferencial metodológico."
+    }
+   ]
+  }
+ ]
+}

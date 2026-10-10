@@ -1,0 +1,534 @@
+{
+ "id": "viaje",
+ "title": "El Viaje Transformativo",
+ "subtitle": "Guía de reflexión para las 7 fases",
+ "category": "ruta",
+ "order": 3,
+ "sections": [
+  {
+   "id": "viaje.sec0",
+   "title": "Introducción",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tu Cumbre Personal no es un punto geográfico ni una simple meta de vida. Es un estado de conciencia donde todas tus dimensiones interiores convergen: tu voluntad, tu maestría, tu voz, tu capacidad de crear valor, tu evolución y tu conexión con lo trascendente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Este workbook es tu mapa personal para descubrir y alcanzar esa cumbre. A lo largo de estas páginas explorarás:"
+    },
+    {
+     "type": "bullet",
+     "text": "Las 7 Fases del Viaje Transformativo que atravesarás",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu ruta única hacia la cima",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Preguntas profundas de reflexión para cada etapa de tu viaje",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Espacios para documentar tu proceso de transformación",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec1",
+   "title": "Fase 1: Orientación",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Parte 1: Las 7 Fases Del Viaje Transformativo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Toda transformación personal sigue un patrón universal. Estas siete fases son los tramos del camino que todos atravesamos cuando buscamos alcanzar nuestra cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta fase se trata de claridad. Aquí reconoces tus valores esenciales, identificas lo que realmente importa para ti y descubres la forma de vida que quieres construir. La orientación es la brújula de todo tu camino."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q1",
+     "number": "01",
+     "label": "¿Qué me mueve profundamente? ¿Qué deseo interno sigue insistiendo dentro de mí, incluso cuando intento ignorarlo?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q2",
+     "number": "02",
+     "label": "¿Qué deseo crear, aportar o transformar en mi vida y en el mundo?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q3",
+     "number": "03",
+     "label": "¿Qué representa mi verdadera dirección? ¿Hacia dónde me señala mi brújula interna?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q4",
+     "number": "04",
+     "label": "¿Cuáles son los valores esenciales que no estoy dispuesto a negociar en mi vida?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q5",
+     "number": "05",
+     "label": "¿Qué forma de vida quiero construir? Describe cómo sería un día ideal en esa vida."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Eje activado: VOLUNTAD"
+    },
+    {
+     "type": "paragraph",
+     "text": "La fuerza interior que no depende de recompensas externas, sino de una verdad profunda que te impulsa a avanzar."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec2",
+   "title": "Fase 2: Preparación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Equiparse antes de emprender la marcha"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta fase es donde desarrollas hábitos, sistemas, habilidades y conocimientos que te permitirán avanzar con estabilidad. La preparación afina tu disciplina, te organiza internamente y te hace capaz de sostener tus metas a largo plazo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q6",
+     "number": "01",
+     "label": "¿Qué habilidades específicas necesito desarrollar o fortalecer para alcanzar mi cumbre personal?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q7",
+     "number": "02",
+     "label": "¿Qué hábitos debo cultivar diariamente para sostener mi proceso de crecimiento?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q8",
+     "number": "03",
+     "label": "¿Qué sistemas o estructuras puedo implementar para organizar mejor mi tiempo, energía y recursos?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q9",
+     "number": "04",
+     "label": "¿Qué conocimientos o aprendizajes necesito adquirir? ¿Dónde puedo obtenerlos?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q10",
+     "number": "05",
+     "label": "¿Cómo puedo fortalecer mi disciplina y mantenerme organizado incluso cuando las cosas se pongan difíciles?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Eje activado: MAESTRÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tus habilidades, tus competencias, tu disciplina refinada con tiempo y esfuerzo. El cimiento que te permitirá avanzar cuando la montaña se vuelva empinada."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec3",
+   "title": "Fase 3: Travesía",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El momento de caminar ha llegado"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ya no basta con saber hacia dónde vas ni con estar preparado. Debes caminar. La Travesía es donde comienzas a aplicar lo aprendido y te enfrentas a los primeros obstáculos reales."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q11",
+     "number": "01",
+     "label": "¿Qué acciones concretas estoy tomando diariamente para aplicar lo que he aprendido?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q12",
+     "number": "02",
+     "label": "¿Qué obstáculos he enfrentado hasta ahora? ¿Qué me han enseñado sobre mí mismo?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q13",
+     "number": "03",
+     "label": "¿Cómo mediré mi progreso?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q14",
+     "number": "04",
+     "label": "¿Cómo estoy manejando el roce con la realidad? ¿Qué ajustes he tenido que hacer en el camino?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q15",
+     "number": "05",
+     "label": "¿De qué manera estoy evolucionando como persona a través de estos desafíos?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q16",
+     "number": "06",
+     "label": "¿Qué habilidades o fortalezas he descubierto en mí durante esta fase que antes no conocía?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eje activado: EVOLUCIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "La evolución ocurre en el movimiento, en el roce con la vida. Los desafíos no son enemigos del proceso: son la propia materia prima de tu crecimiento."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec4",
+   "title": "Fase 4: Ascenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Tu voz comienza a resonar"
+    },
+    {
+     "type": "paragraph",
+     "text": "En esta etapa empiezas a ver resultados, pero también la exigencia aumenta. Es una fase de ajuste: evalúas lo que funciona, corriges lo que no, fortaleces tu resiliencia y aprendes a gestionar tu energía con sabiduría. Tu voz comienza a consolidarse."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q17",
+     "number": "01",
+     "label": "¿Qué resultados concretos estoy empezando a ver en mi proceso? ¿Cómo me hacen sentir?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q18",
+     "number": "02",
+     "label": "¿Qué estrategias o enfoques están funcionando bien? ¿Cuáles necesito ajustar o cambiar?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q19",
+     "number": "03",
+     "label": "¿Cómo estoy expresando mi autenticidad? ¿Mi mensaje se está volviendo más claro?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q20",
+     "number": "04",
+     "label": "¿De qué manera mi identidad interna está comenzando a expresarse hacia el mundo exterior?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q21",
+     "number": "05",
+     "label": "¿Cómo estoy gestionando mi energía y fortaleciendo mi resiliencia durante esta fase exigente?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eje activado: VOZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu autenticidad empieza a resonar. Tu mensaje se vuelve más claro. Tu identidad interna comienza a expresarse hacia afuera."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec5",
+   "title": "Fase 5: Cima /Cumbre Personal",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El momento del logro"
+    },
+    {
+     "type": "paragraph",
+     "text": "La cima es el momento en que alcanzas una cumbre concreta. Puede ser una meta cumplida, una transformación lograda o un hito significativo en tu desarrollo. Sin embargo, esta cima no es un final. Es una expansión."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q22",
+     "number": "01",
+     "label": "¿Qué meta o transformación específica he alcanzado o estoy por alcanzar?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q23",
+     "number": "02",
+     "label": "¿Cómo puedo transformar mi conocimiento/talento en valor sostenible?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q24",
+     "number": "03",
+     "label": "¿Cómo celebraré este logro?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q25",
+     "number": "04",
+     "label": "¿Qué recursos necesito para sostener mi vida mientras continúo expandiendo mi legado?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q26",
+     "number": "05",
+     "label": "¿A quién puedo servir con lo que he creado o desarrollado? ¿Cómo les aporta valor real?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q27",
+     "number": "06",
+     "label": "¿Cómo esta cima me expande hacia nuevas posibilidades en lugar de ser solo un punto final?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Eje activado: VALOR"
+    },
+    {
+     "type": "paragraph",
+     "text": "La capacidad de transformar tu obra, tu conocimiento o tu talento en valor económico sin perder su esencia. Monetizar no es venderte: es sostener tu vida mientras expandes tu legado."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec6",
+   "title": "Fase 6: Contemplación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La pausa consciente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tras el logro, llega un momento de pausa consciente. Esta fase te permite asimilar el cambio, valorar tu crecimiento e integrar lo aprendido en una visión más amplia de tu vida. Es la etapa donde te encuentras contigo mismo en silencio, donde comprendes lo invisible."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q28",
+     "number": "01",
+     "label": "¿Qué cambios profundos he experimentado durante este viaje? ¿Cómo he evolucionado como persona?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q29",
+     "number": "02",
+     "label": "¿Qué aprendizajes invisibles he obtenido que van más allá de los logros tangibles?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q30",
+     "number": "03",
+     "label": "¿De qué manera lo que he logrado contribuye a algo más grande que yo mismo?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q31",
+     "number": "04",
+     "label": "¿Qué sentido más profundo ha adquirido mi vida a través de este proceso?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q32",
+     "number": "05",
+     "label": "¿Cómo puedo usar esta sabiduría adquirida para elevar la conciencia de otros o contribuir al bienestar colectivo?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Eje activado: TRASCENDENCIA"
+    },
+    {
+     "type": "paragraph",
+     "text": "El espacio donde tu vida adquiere un sentido más profundo, donde comprendes que lo que haces no es solo para ti sino para el mundo, para la conciencia colectiva, para algo más grande."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec7",
+   "title": "Fase 7: Descenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Evolución aplicada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ningún caminante permanece en la cima. El Descenso es la fase donde incorporas las lecciones de tu viaje, ajustas tus estrategias, agradeces tus logros y te preparas para una nueva ascensión. Aquí consolidas tu identidad transformada."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PARA QUIENES CONTINÚAN HACIA NUEVAS CUMBRES:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q33",
+     "number": "01",
+     "label": "¿Qué lecciones específicas he aprendido en este viaje que quiero llevar conmigo al futuro?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q34",
+     "number": "02",
+     "label": "¿Qué estrategias necesito ajustar basándome en lo que funcionó y lo que no durante el ascenso?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q35",
+     "number": "03",
+     "label": "¿Qué nueva cumbre veo en el horizonte? ¿Cómo me estoy preparando para la próxima ascensión?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PARA QUIENES YA NO NECESITAN ESCALAR MÁS"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hay personas que han alcanzado sus grandes metas en la vida y ahora están en una etapa de plenitud, donde el descenso no es preparación para otra cumbre, sino un momento de disfrutar lo conquistado, compartir la sabiduría acumulada y vivir en paz con lo logrado."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si ya has alcanzado tus grandes sueños y sientes que has llegado a un lugar de completitud en tu vida, estas preguntas son para ti:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q36",
+     "number": "04",
+     "label": "¿Qué logros en mi vida me llenan de mayor satisfacción y paz? ¿Por qué son tan significativos para mí?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q37",
+     "number": "05",
+     "label": "¿Qué sabiduría he acumulado durante mi vida que puedo compartir con las siguientes generaciones?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q38",
+     "number": "05",
+     "label": "¿Cómo quiero disfrutar esta etapa de mi vida sin la presión de alcanzar nuevas metas? ¿Qué me trae verdadera alegría ahora?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "GRATITUD Y CIERRE:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q39",
+     "number": "04",
+     "label": "Por cada logro alcanzado en mi vida, ¿qué agradezco profundamente?"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q40",
+     "number": "05",
+     "label": "¿Cómo ha cambiado mi identidad a lo largo de toda mi vida? ¿Quién soy hoy después de todo este viaje?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Eje activado: TRASCENDENCIA"
+    },
+    {
+     "type": "paragraph",
+     "text": "El espacio donde tu vida adquiere un sentido más profundo, donde comprendes que lo que haces no es solo para ti sino para el mundo, para la conciencia colectiva, para algo más grande."
+    }
+   ]
+  },
+  {
+   "id": "viaje.sec8",
+   "title": "Reflexión Final",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Has completado un recorrido profundo por las 7 fases del Viaje Transformativo. Cada pregunta respondida es un paso más hacia tu Cumbre Personal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona y responde:"
+    },
+    {
+     "type": "prompt",
+     "id": "viaje.q41",
+     "number": "01",
+     "label": "Mirando el viaje completo, ¿cuál es el insight más importante que has descubierto sobre ti mismo?"
+    },
+    {
+     "type": "quote",
+     "text": "La cumbre no es el fin. Es el comienzo de algo más grande."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu viaje continúa..."
+    },
+    {
+     "type": "quote",
+     "text": "O es el momento de disfrutar la paz de lo conquistado."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu viaje es único y perfecto tal como es..."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1643 @@
+{
+ "id": "companero",
+ "title": "Compañero de Ascenso",
+ "subtitle": "Relaciones desde la plenitud",
+ "category": "ruta",
+ "order": 11,
+ "sections": [
+  {
+   "id": "companero.sec0",
+   "title": "Introducción",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Dos personas completas caminando juntas, no dos mitades buscándose"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía existe porque hay un vacío doloroso en el desarrollo personal:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Te enseñan a encontrar tu propósito, a construir hábitos, a alcanzar metas... pero nadie te enseña cómo elegir a la persona con quien compartirás el viaje."
+    },
+    {
+     "type": "paragraph",
+     "text": "Y la verdad incómoda es esta: la pareja equivocada puede destruir tu cumbre más rápido que cualquier obstáculo externo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Pero también es cierto lo contrario: el compañero de ascenso correcto puede ser la diferencia entre rendirte en la travesía o llegar a cumbres que nunca imaginaste."
+    },
+    {
+     "type": "paragraph",
+     "text": "Por qué esta guía es diferente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta NO es una guía para 'conseguir pareja'. Es una guía para:"
+    },
+    {
+     "type": "bullet",
+     "text": "Evaluar si estás listo/a para un compañero de ascenso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Identificar qué tipo de persona es compatible con tu cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Reconocer red flags y green flags desde la metodología RouteToTop",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Construir una relación que fortalezca ambas cumbres, no que las sabotee",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Saber cuándo estar solo/a es la opción más sabia",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "La premisa fundamental"
+    },
+    {
+     "type": "paragraph",
+     "text": "No puedes elegir bien a un compañero de ascenso si no tienes claridad sobre tu propia cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si no has hecho el trabajo de los workbooks anteriores (Mi Cumbre Personal, Los 6 Ejes), detente aquí. Primero encuentra tu camino. Luego busca con quién caminarlo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Instrucciones: Esta guía requiere honestidad brutal contigo mismo/a. No hay respuestas correctas, solo verdades incómodas que debes confrontar. Escribe con el corazón, pero evalúa con la cabeza."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec1",
+   "title": "Parte 1: Media Naranja Vs. Compañero De Ascenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El amor desde la carencia busca completarse. El amor desde la plenitud busca compartir"
+    },
+    {
+     "type": "paragraph",
+     "text": "El mito de la media naranja"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nos han vendido una mentira romántica:"
+    },
+    {
+     "type": "quote",
+     "text": "Eres mi media naranja"
+    },
+    {
+     "type": "quote",
+     "text": "Me completas"
+    },
+    {
+     "type": "quote",
+     "text": "Sin ti no soy nada"
+    },
+    {
+     "type": "quote",
+     "text": "Tú eres mi todo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Suena romántico. Es tóxico."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Por qué?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Porque parte de la premisa de que estás incompleto/a. Que necesitas a alguien externo para ser entero/a. Que tu felicidad depende de encontrar 'la persona correcta'."
+    },
+    {
+     "type": "paragraph",
+     "text": "Esto genera relaciones basadas en:"
+    },
+    {
+     "type": "bullet",
+     "text": "Necesidad (no elección)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Dependencia (no interdependencia)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Miedo a perder (no amor libre)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sacrificio de la cumbre propia (para mantener a la pareja)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "El concepto del compañero de ascenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "En RouteToTop, proponemos un paradigma diferente:"
+    },
+    {
+     "type": "paragraph",
+     "text": "El compañero de ascenso es alguien que:"
+    },
+    {
+     "type": "bullet",
+     "text": "Tiene su propia cumbre clara (no te hace su cumbre)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Camina a tu lado, no adelante ni atrás",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te sostiene en las pruebas sin cargarte",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Celebra tus cumbres sin sentirse amenazado/a",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te da espacio para tus travesías solitarias",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comparte campamento base contigo, pero escala su propia montaña",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: ¿Desde dónde buscas pareja?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con honestidad:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Busco pareja porque me siento incompleto/a sin alguien?"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c1",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "A veces"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Siento que necesito una pareja para ser feliz?"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c2",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "A veces"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Tengo claridad total sobre mi propia cumbre personal?"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c3",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Más o menos"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Estoy dispuesto/a sacrificar mi cumbre por mantener una relación?"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c4",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Depende de quién"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Puedo ser completamente feliz estando solo/a?"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c5",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "No estoy seguro/a"
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "INTERPRETACIÓN:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si respondiste SÍ a las primeras dos preguntas, o NO a las últimas dos: no estás listo/a para un compañero de ascenso. Primero necesitas trabajar en tu relación contigo mismo/a."
+    },
+    {
+     "type": "paragraph",
+     "text": "No es que no merezcas amor. Es que el amor desde la carencia atrae relaciones tóxicas o codependientes."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec2",
+   "title": "Parte 2: ¿Estás Listo/A Para Un Compañero De Ascenso?",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Antes de buscar a alguien, asegúrate de haberte encontrado a ti mismo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Autoevaluación de preparación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Evalúa tu preparación para una relación sana en cada uno de los 6 ejes:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q6",
+     "label": "¿Tengo claridad sobre qué tipo de relación quiero (y por qué)?",
+     "title": "EJE 1: VOLUNTAD en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q7",
+     "label": "¿Elijo pareja desde mi propósito o desde mi miedo a la soledad?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q8",
+     "label": "¿Estoy dispuesto/a estar solo/a hasta encontrar a la persona correcta?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q9",
+     "label": "¿Qué habilidades relacionales he desarrollado? (comunicación, límites, resolución de conflictos)",
+     "title": "EJE 2: MAESTRÍA en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q10",
+     "label": "¿He aprendido de mis relaciones pasadas o sigo repitiendo patrones?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q11",
+     "label": "¿Puedo sostener conversaciones difíciles sin atacar o victimizarme?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q12",
+     "label": "¿Puedo ser yo mismo/a auténticamente en una relación, o me adapto para ser aceptado/a?",
+     "title": "EJE 3: VOZ en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q13",
+     "label": "¿Expreso mis necesidades y límites claramente?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q14",
+     "label": "¿Qué partes de mí he ocultado en relaciones anteriores?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q15",
+     "label": "¿Soy financieramente independiente o busco que alguien me rescate económicamente?",
+     "title": "EJE 4: VALOR en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q16",
+     "label": "¿Puedo aportar valor (emocional, económico, energético) a una relación?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q17",
+     "label": "¿Qué expectativas tengo sobre dinero en una relación?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q18",
+     "label": "¿Estoy en crecimiento activo o estancado?",
+     "title": "EJE 5: EVOLUCIÓN en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q19",
+     "label": "¿He trabajado en mis heridas emocionales o las proyecto en mis parejas?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q20",
+     "label": "¿Busco pareja para evolucionar juntos o para mantener el status quo?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q21",
+     "label": "¿Qué legado quiero construir con una pareja (más allá de nosotros dos)?",
+     "title": "EJE 6: TRASCENDENCIA en relaciones"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q22",
+     "label": "¿Busco una relación solo para mí o para servir juntos a algo mayor?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Heridas que debes sanar ANTES de buscar pareja"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estas heridas sabotearán cualquier relación si no las sanas primero:"
+    },
+    {
+     "type": "bullet",
+     "text": "Herida de abandono: Aferrarte excesivamente por miedo a que se vayan",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Herida de rechazo: No mostrar tu verdadero yo por miedo a no ser aceptado/a",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Herida de traición: No confiar en nadie, hipervigilancia constante",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Herida de humillación: Sentir que no mereces amor o buen trato",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Herida de injusticia: Rigidez extrema, todo debe ser 'perfecto' o 'equitativo'",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q23",
+     "label": "¿Cuál(es) de estas heridas reconoces en ti?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q24",
+     "label": "¿Qué estás haciendo para sanarlas? (terapia, trabajo personal, etc.)"
+    },
+    {
+     "type": "paragraph",
+     "text": "NOTA IMPORTANTE: Si tienes heridas profundas sin sanar, buscar pareja es poner una curita en una hemorragia. Primero sana. Luego ama."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec3",
+   "title": "Parte 3: El Perfil De Tu Compañero De Ascenso Ideal",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "No busques alguien perfecto. Busca alguien cuya cumbre sea compatible con la tuya"
+    },
+    {
+     "type": "paragraph",
+     "text": "Más allá de la lista superficial"
+    },
+    {
+     "type": "paragraph",
+     "text": "Olvida la lista de:"
+    },
+    {
+     "type": "bullet",
+     "text": "Altura mínima",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Color de ojos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Carrera específica",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nivel socioeconómico exacto",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esas cosas pueden crear atracción inicial, pero no sostienen relaciones de largo plazo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Lo que SÍ importa:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Los 6 Ejes de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q25",
+     "label": "¿Qué lo/la mueve? ¿Cuál es su llamado interno?",
+     "title": "EJE 1: La VOLUNTAD de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q26",
+     "label": "¿Su cumbre es compatible con la mía? (No igual, sino compatible)"
+    },
+    {
+     "type": "paragraph",
+     "text": "IMPORTANTE: Si su cumbre requiere que tú abandones la tuya, NO es compatible."
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q27",
+     "label": "¿En qué es excelente? ¿Lo/la respeto por su dominio?",
+     "title": "EJE 2: La MAESTRÍA de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q28",
+     "label": "¿Tiene disciplina y consistencia, o vive de impulsos y promesas?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q29",
+     "label": "¿Me inspira su forma de trabajar/crear/ser?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q30",
+     "label": "¿Puede ser auténtico/a o vive una máscara?",
+     "title": "EJE 3: La VOZ de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q31",
+     "label": "¿Me siento seguro/a siendo yo mismo/a con esta persona?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q32",
+     "label": "¿Expresa sus emociones y necesidades claramente?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q33",
+     "label": "¿Genera valor en el mundo (no solo consume)?",
+     "title": "EJE 4: El VALOR de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q34",
+     "label": "¿Tiene relación sana con el dinero (ni tacaño/a ni derrochador/a)?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q35",
+     "label": "¿Nuestras visiones sobre dinero, estilo de vida y abundancia son compatibles?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q36",
+     "label": "¿Está en crecimiento activo o estancado/a?",
+     "title": "EJE 5: La EVOLUCIÓN de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q37",
+     "label": "¿Lee, aprende, busca feedback, trabaja en sí mismo/a?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q38",
+     "label": "¿Qué versión de mí emerge cuando estoy con esta persona? (mejor o peor)"
+    },
+    {
+     "type": "paragraph",
+     "text": "EJE 6: La TRASCENDENCIA de tu compañero ideal"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q39",
+     "label": "¿Sirve a algo mayor que sí mismo/a?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q40",
+     "label": "¿Qué legado quiere dejar en el mundo?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q41",
+     "label": "¿Compartimos valores fundamentales sobre familia, comunidad, hijos, propósito?"
+    }
+   ]
+  },
+  {
+   "id": "companero.sec4",
+   "title": "Parte 4: Las 3 Compatibilidades Esenciales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La química atrae. La compatibilidad sostiene"
+    },
+    {
+     "type": "paragraph",
+     "text": "Más allá de los 6 ejes individuales, hay 3 compatibilidades que determinan si la relación funcionará a largo plazo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "COMPATIBILIDAD 1: De cumbres"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Sus cumbres personales son paralelas, convergentes o en conflicto?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cumbres PARALELAS: Cada uno tiene su montaña, pero comparten el valle. Ideal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Ella quiere ser escritora, él quiere ser músico. Ambos crean, ambos respetan el arte del otro."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cumbres CONVERGENTES: Sus cumbres se unen en un propósito mayor. Poderoso, pero requiere mucha comunicación."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Ambos quieren fundar una escuela. Trabajarán juntos en la misma cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cumbres EN CONFLICTO: Alcanzar tu cumbre significa que él/ella no puede alcanzar la suya. Insostenible."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Ella quiere viajar por el mundo, él quiere arraigarse en su ciudad natal. Uno siempre sacrificará."
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q42",
+     "label": "Mi cumbre:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q43",
+     "label": "Su cumbre:"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c44",
+     "label": "Nuestra compatibilidad de cumbres es:",
+     "options": [
+      "Paralela",
+      "Convergente",
+      "En conflicto"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "COMPATIBILIDAD 2: De Fase"
+    },
+    {
+     "type": "paragraph",
+     "text": "No todas las fases del viaje son compatibles con relación de pareja."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "FASE",
+      "MEJOR PARA",
+      "RIESGO"
+     ],
+     "rows": [
+      [
+       "Orientación",
+       "Estar solo/a para ganar claridad",
+       "Confundir pareja con propósito"
+      ],
+      [
+       "Preparación",
+       "Conocer gente desde tu nueva identidad",
+       "Distraerte del trabajo necesario"
+      ],
+      [
+       "Travesía",
+       "Relación con alguien que entiende tu ausencia",
+       "Parejas que exigen atención constante"
+      ],
+      [
+       "Prueba",
+       "Aquí se revelan las verdaderas",
+       "Parejas que te abandonan en crisis"
+      ],
+      [
+       "Cumbre",
+       "Cuidado: pueden enamorarse del logro",
+       "Atraer gente por estatus, no por ti"
+      ],
+      [
+       "Descenso",
+       "Excelente para relación consciente",
+       "Depresión post-cumbre afecta relación"
+      ],
+      [
+       "Integración",
+       "Construir vida juntos",
+       "Acomodarse y dejar de crecer"
+      ]
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q45",
+     "label": "¿En qué fase estoy yo?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q46",
+     "label": "¿En qué fase está mi pareja (o potencial pareja)?"
+    },
+    {
+     "type": "paragraph",
+     "text": "COMPATIBILIDAD 3: De Ritmo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Dos personas pueden tener cumbres compatibles y estar en fases similares, pero si caminan a ritmos incompatibles, habrá fricción constante."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ritmo RÁPIDO: Decisiones ágiles, cambios constantes, intensidad alta, múltiples proyectos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ritmo MODERADO: Balance entre acción y reflexión, cambios graduales, enfoque selectivo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ritmo LENTO: Reflexión profunda, cambios pausados, un proyecto a la vez, estabilidad"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c47",
+     "label": "Mi ritmo natural:",
+     "options": [
+      "Rápido",
+      "Moderado",
+      "Lento"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c48",
+     "label": "Su ritmo natural:",
+     "options": [
+      "Rápido",
+      "Moderado",
+      "Lento"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "NOTA: Ritmos opuestos (rápido-lento) generan frustración mutua. Uno siempre sentirá que el otro lo frena o lo presiona."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec5",
+   "title": "Parte 5: Red Flags Y Green Flags",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cuando alguien te muestra quién es, créele la primera vez"
+    },
+    {
+     "type": "paragraph",
+     "text": "RED FLAGS - Señales de alerta que NO debes ignorar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 1: Sabotea tu cumbre (activa o pasivamente)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Se queja cuando dedicas tiempo a tu cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Minimiza tus logros: 'No es para tanto'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Crea 'emergencias' cuando estás en momentos clave",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te hace sentir culpable por priorizar tu crecimiento",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 2: No tiene cumbre propia (te hace su cumbre)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Su identidad completa gira alrededor de ti",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No tiene proyectos, sueños o metas propias claras",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Abandona sus intereses para solo hacer lo que tú haces",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Dice cosas como 'Tú eres mi razón de vivir'",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 3: Está perpetuamente en orientación (nunca avanza)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Siempre 'buscando su propósito' pero nunca actuando",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cambia de 'vocación' cada 3 meses",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Consume infinito contenido motivacional pero no toma acción",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Usa la 'búsqueda' como excusa para no comprometerse",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 4: Valores fundamentales incompatibles"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Tú valoras honestidad, él/ella miente 'por conveniencia'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tú valoras crecimiento, él/ella valora comodidad absoluta",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Diferencias irreconciliables en: hijos, dinero, familia, fe",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 5: No puede celebrar tus victorias"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando logras algo, cambia de tema o lo minimiza",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Se siente amenazado/a por tus logros",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Compite contigo en vez de apoyarte",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tus éxitos le recuerdan sus fracasos y te lo hace saber",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Red Flag 6: Patrones de comunicación tóxicos"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ley del hielo / tratamiento silencioso",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Gaslighting: 'Estás loco/a, eso nunca pasó'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Victimización constante: Todo es culpa tuya",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No puede tener conversaciones difíciles sin atacar",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "GREEN FLAGS - Señales de un buen compañero"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 1: Tiene su propia cumbre clara y te la comparte"
+    },
+    {
+     "type": "bullet",
+     "text": "Sabe lo que quiere de la vida",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Trabaja activamente en sus metas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te inspira con su claridad y enfoque",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 2: Te empuja a ser mejor sin controlarte"
+    },
+    {
+     "type": "bullet",
+     "text": "Te hace preguntas que te hacen reflexionar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te desafía con amor, no con juicio",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Celebra cuando tomas decisiones que te acercan a tu cumbre",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 3: Celebra tus victorias genuinamente"
+    },
+    {
+     "type": "bullet",
+     "text": "Es la primera persona que te felicita",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Quiere escuchar los detalles de tu logro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te hace sentir orgulloso/a, no culpable",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 4: Puede sostener conversaciones difíciles"
+    },
+    {
+     "type": "bullet",
+     "text": "No huye del conflicto, lo enfrenta con madurez",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Puede escuchar feedback sin colapsar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Busca soluciones, no culpables",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 5: Te da espacio cuando lo necesitas"
+    },
+    {
+     "type": "bullet",
+     "text": "Entiende que a veces necesitas travesías solitarias",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No toma personal tu necesidad de tiempo solo/a",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Confía en ti sin vigilarte",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Green Flag 6: Está en crecimiento activo"
+    },
+    {
+     "type": "bullet",
+     "text": "Lee, aprende, evoluciona constantemente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pide feedback y lo aplica",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No es la misma persona que hace un año",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Evaluación de tu relación actual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si ya tienes pareja, evalúa honestamente:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q49",
+     "label": "Red Flags que identifico en mi relación actual:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q50",
+     "label": "Green Flags que identifico en mi relación actual:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q51",
+     "label": "Pregunta crucial: ¿Esta relación me acerca o me aleja de mi cumbre?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si identificaste 3+ red flags y la relación te aleja de tu cumbre, necesitas una conversación honesta (con tu pareja y contigo mismo/a)."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec6",
+   "title": "Parte 6: Construir La Relación Durante El Ascenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Una relación sana no te frena ni te empuja. Camina a tu lado"
+    },
+    {
+     "type": "paragraph",
+     "text": "El arte de mantener dos cumbres vivas"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tener una relación mientras ambos persiguen sus cumbres requiere:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Comunicación proactiva de fases"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada mes, compartan:"
+    },
+    {
+     "type": "bullet",
+     "text": "¿En qué fase estoy en mi viaje?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué necesito de ti este mes?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué puedo ofrecerte este mes?",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si estás en TRAVESÍA, tu pareja necesita saber que habrá menos disponibilidad."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si estás en PRUEBA, tu pareja necesita saber que necesitarás apoyo emocional extra."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Protocolos de tiempo"
+    },
+    {
+     "type": "paragraph",
+     "text": "Negocien explícitamente:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo INDIVIDUAL: Cuánto tiempo a la semana cada uno trabaja en su cumbre sin interrupciones"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi necesidad: ________ horas/semana    Su necesidad: ________ horas/semana"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo DE PAREJA: Cuánto tiempo de calidad juntos (sin distracciones)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Nuestra necesidad: ________ horas/semana"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q52",
+     "label": "Tiempo COMPARTIDO EN CUMBRES: Momentos donde trabajan juntos o se apoyan mutuamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Rituales de conexión"
+    },
+    {
+     "type": "paragraph",
+     "text": "Creen rituales que mantengan la conexión incluso en fases intensas:"
+    },
+    {
+     "type": "bullet",
+     "text": "Check-in diario de 10 minutos (¿Cómo estás realmente?)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cena sin pantallas 3x por semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Caminata/actividad juntos cada domingo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Revisión mensual de relación (¿Cómo vamos?)",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q53",
+     "label": "Nuestros rituales serán:"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Apoyo mutuo sin sacrificio"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo apoyar la cumbre del otro sin sacrificar la tuya?"
+    },
+    {
+     "type": "bullet",
+     "text": "Pregunta: '¿Cómo puedo apoyarte esta semana?' (no asumas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ofrece lo que puedes dar, no lo que no tienes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Está bien decir 'Esta semana no puedo, estoy en travesía intensa'",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Celebra sus victorias como si fueran tuyas",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando sus fases no coinciden"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Tú estás en TRAVESÍA (intensidad máxima), él/ella está en INTEGRACIÓN (estabilidad)."
+    },
+    {
+     "type": "paragraph",
+     "text": "Estrategias:"
+    },
+    {
+     "type": "bullet",
+     "text": "El que está en Integración sostiene más el 'día a día' (casa, logística)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "El que está en Travesía comunica claramente sus limitaciones temporales",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ambos recuerdan: Es temporal, las fases rotan",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No tomar personal la falta de disponibilidad",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "companero.sec7",
+   "title": "Parte 7: Cuándo Soltar Una Relación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "A veces, el acto de amor más grande es dejar ir"
+    },
+    {
+     "type": "paragraph",
+     "text": "La pregunta que nadie quiere hacer"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cuándo quedarse y trabajar en la relación vs. cuándo soltar?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta es la pregunta más difícil de esta guía. Y la más importante."
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales de que vale la pena trabajar en la relación:"
+    },
+    {
+     "type": "bullet",
+     "text": "Ambos están comprometidos con crecer",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Los problemas son de comunicación/hábitos, no de valores fundamentales",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Hay amor genuino y respeto mutuo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ambos están dispuestos a buscar ayuda (terapia de pareja)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Los green flags superan a los red flags",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "La relación te acerca a tu cumbre (o al menos no te aleja)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Señales de que es momento de soltar:"
+    },
+    {
+     "type": "bullet",
+     "text": "Tus valores fundamentales son incompatibles (y no es negociable)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Uno sabotea activamente la cumbre del otro",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Hay abuso (emocional, físico, verbal) - SALIR INMEDIATAMENTE",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Solo uno está trabajando en la relación, el otro no cambia",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Te sientes más pequeño/a, más ansioso/a, más triste con esta persona",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Has sacrificado tu cumbre y ahora te resientes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Llevas años esperando que cambie y no ha cambiado",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: La decisión más difícil"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si estás considerando terminar una relación, responde:"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c54",
+     "label": "¿He comunicado claramente lo que necesito?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c55",
+     "label": "¿Ha habido cambios genuinos o solo promesas?",
+     "options": [
+      "Cambios",
+      "Solo promesas"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q56",
+     "label": "¿Me quedo por amor o por miedo (a la soledad, al fracaso, al cambio)?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q57",
+     "label": "Si no existiera el miedo al qué dirán, ¿qué haría?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q58",
+     "label": "¿Qué le diría a mi mejor amigo/a si estuviera en mi situación?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo terminar con dignidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si decides que es momento de soltar:"
+    },
+    {
+     "type": "bullet",
+     "text": "Sé claro/a y directo/a. No des falsas esperanzas.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Hazlo en persona (si es seguro), no por mensaje.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No culpes ni ataques. 'No somos compatibles' es suficiente.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Permite el duelo (tuyo y del otro).",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Corta contacto al menos 6 meses para sanar.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Busca apoyo (amigos, terapia, comunidad).",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No regreses por soledad. Dale tiempo al tiempo.",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Terminar una relación no es fracaso. Es honestidad. Es respeto. Es amor propio."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec8",
+   "title": "Parte 8: Estar Solo/A Como Elección Consciente",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "La soledad elegida es libertad. La soledad por miedo es prisión"
+    },
+    {
+     "type": "paragraph",
+     "text": "El poder de estar completo/a contigo mismo/a"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hay una diferencia abismal entre:"
+    },
+    {
+     "type": "paragraph",
+     "text": "SOLEDAD POR DEFECTO: 'Nadie me quiere, estoy solo/a porque no tengo opción'"
+    },
+    {
+     "type": "paragraph",
+     "text": "SOLEDAD CONSCIENTE: 'Elijo estar solo/a porque no he encontrado a alguien compatible con mi cumbre'"
+    },
+    {
+     "type": "paragraph",
+     "text": "La primera es escasez. La segunda es abundancia."
+    },
+    {
+     "type": "paragraph",
+     "text": "Por qué algunos ascensos se hacen mejor en solitario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Hay momentos y cumbres donde una pareja es un impedimento, no un apoyo:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando estás construyendo tu identidad desde cero",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando necesitas movilidad geográfica total",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando estás en una travesía que requiere 100% de tu energía",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando estás sanando de una relación tóxica anterior",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando tu cumbre requiere riesgo que no quieres imponer a nadie más",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Y está bien."
+    },
+    {
+     "type": "paragraph",
+     "text": "No toda cumbre se escala de a dos. Algunas son ascensos solitarios. Y eso no te hace menos completo/a."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo saber si estás evitando intimidad o eligiendo sabiamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Responde con honestidad:"
+    },
+    {
+     "type": "choice",
+     "id": "companero.c59",
+     "label": "¿Estoy solo/a porque tengo miedo a la vulnerabilidad?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c60",
+     "label": "¿Uso mi cumbre como excusa para no lidiar con mis heridas relacionales?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c61",
+     "label": "¿Soy feliz genuinamente estando solo/a?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c62",
+     "label": "¿He rechazado personas compatibles por perfeccionismo?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "companero.c63",
+     "label": "Si encuentro a alguien verdaderamente compatible, ¿estoy abierto/a?",
+     "options": [
+      "Sí",
+      "No"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si respondiste SÍ a las primeras dos o NO a la última: puede que estés evitando intimidad, no eligiendo sabiamente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejercicio: Tu relación contigo mismo/a"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo calificarías tu relación contigo mismo/a del 1 al 10?  _______"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q64",
+     "label": "¿Qué haces para cultivar esa relación?"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q65",
+     "label": "¿Te tratas con la misma compasión y paciencia que tratarías a tu mejor amigo/a?"
+    },
+    {
+     "type": "paragraph",
+     "text": "La mejor preparación para una relación sana es tener una relación sana contigo mismo/a primero."
+    }
+   ]
+  },
+  {
+   "id": "companero.sec9",
+   "title": "Cierre: El Compañero Perfecto No Existe",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Busca alguien con quien crecer, no alguien que te complete"
+    },
+    {
+     "type": "paragraph",
+     "text": "Has llegado al final de esta guía con más preguntas que respuestas. Bien."
+    },
+    {
+     "type": "paragraph",
+     "text": "Porque la verdad sobre relaciones es esta:"
+    },
+    {
+     "type": "paragraph",
+     "text": "No existe el compañero perfecto."
+    },
+    {
+     "type": "paragraph",
+     "text": "Existe el compañero compatible. El que tiene su propia cumbre. El que puede caminar a tu lado sin cargarte ni frenarte. El que celebra tus victorias y sostiene tus caídas. El que crece contigo, no solo a tu lado."
+    },
+    {
+     "type": "paragraph",
+     "text": "Y a veces, ese compañero no existe todavía en tu vida. Y a veces, el mejor compañero de tu ascenso actual eres tú mismo/a."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ambas cosas están bien."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu compromiso final"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q66",
+     "label": "Basado en todo lo trabajado en esta guía, me comprometo a:"
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q67",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "companero.q73",
+     "label": "Fecha:"
+    }
+   ]
+  }
+ ]
+}
