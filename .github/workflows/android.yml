@@ -143,3 +143,5 @@ jobs:
           gh release create apk-reciente Rutaalacima.apk \
             --title "APK más reciente" --prerelease \
             --notes "Compilado automáticamente desde ${GITHUB_SHA::7}. Para instalarlo, ábrelo en el teléfono y permite instalar apps de esta fuente."
+          # A veces la publicación queda como borrador (solo la ve el dueño): se publica explícitamente
+          gh release edit apk-reciente --draft=false --prerelease || true
