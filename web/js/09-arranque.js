@@ -158,13 +158,22 @@ const CARTA = {
 const cartaLeida = () => { try { return localStorage.getItem("rutacima-carta") === "1"; } catch { return false; } };
 function mostrarCarta(alSeguir) {
   const el = $("pantallaCarta"); if (!el) return alSeguir();
-  el.innerHTML = `<div class="carta-escena"><p class="carta-etiqueta">CARTA DE BIENVENIDA</p>
-    <article class="carta" id="carta" aria-label="Carta de bienvenida a Ruta a la Cima">
-      <p class="carta-para">${CARTA.para}</p>
-      <div class="carta-doblez"><img class="carta-lacre" id="cartaSello" src="${LOGO}" alt="Sello de cera: tócalo para romperlo" role="button" tabindex="0"></div>
-      <div class="carta-sellada" id="cartaSellada"><p>Rompe el sello para leer tu carta.</p><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
-      <div class="carta-cuerpo" id="cartaCuerpo" hidden><h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
-        <p class="carta-cierre">${CARTA.cierre}</p><div class="carta-firma"><span>${CARTA.firma}</span><small>${CARTA.rol}</small></div></div>
+  const fecha = new Date().toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" });
+  // Primero un sobre cerrado con el sello de cera en la punta de la solapa; al romperlo, sale la carta
+  el.innerHTML = `<div class="carta-escena">
+    <div class="sobre" id="sobre">
+      <div class="sobre-cuerpo" aria-hidden="true"></div>
+      <div class="sobre-solapa" aria-hidden="true"></div>
+      <img class="carta-lacre" id="cartaSello" src="${LOGO}" alt="Sello de cera: tócalo para romperlo" role="button" tabindex="0">
+      <p class="sobre-para">${CARTA.para}</p>
+    </div>
+    <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
+    <article class="carta" id="carta" aria-label="Carta de bienvenida a Ruta a la Cima" hidden>
+      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>Ruta a la Cima</span></header>
+      <p class="carta-lugar">Floridablanca, ${fecha}</p>
+      <h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
+      <p class="carta-cierre">${CARTA.cierre}</p>
+      <div class="carta-firma"><span>${CARTA.firma}</span><small>${CARTA.rol}</small></div>
     </article>
     <button class="btn lleno carta-seguir" id="cartaSeguir" hidden>${ic("ruta")} Empezar mi ascenso</button></div>`;
   mostrar("carta");
@@ -173,8 +182,9 @@ function mostrarCarta(alSeguir) {
     if (rota) return; rota = true;
     const img = $("cartaSello");
     const abrir = () => {
-      $("cartaSellada").hidden = true; $("cartaCuerpo").hidden = false; $("carta").classList.add("abierta");
-      setTimeout(() => { $("cartaSeguir").hidden = false; $("cartaSeguir").focus(); }, 900);
+      $("cartaSellada").hidden = true; $("sobre").classList.add("abierto");
+      setTimeout(() => { $("sobre").hidden = true; $("carta").hidden = false; $("pantallaCarta").scrollTop = 0; }, 420);
+      setTimeout(() => { $("cartaSeguir").hidden = false; $("cartaSeguir").focus(); }, 1300);
     };
     if (img?.complete && img.naturalWidth && typeof romperSello === "function") romperSello(img, 1984, () => setTimeout(abrir, 200)); else abrir();
   };

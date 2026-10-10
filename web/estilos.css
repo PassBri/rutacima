@@ -719,39 +719,57 @@ a.btn { text-decoration: none; }
 .carta-pantalla { position: fixed; inset: 0; z-index: 50; overflow-y: auto; background: var(--fondo);
   background-image: radial-gradient(rgb(var(--sombra) / .05) 1px, transparent 1px); background-size: 4px 4px; }
 .carta-escena { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 18px 40px; gap: 16px; }
-.carta-etiqueta { margin: 0; font-weight: 800; letter-spacing: .2em; font-size: 12px; color: var(--burdeos); }
-.carta { position: relative; width: min(560px, 100%); padding: 34px 32px 30px; color: #3A2A20; border-radius: 4px;
-  background: radial-gradient(ellipse at center, #F7EDD8 55%, #EAD9B8 100%);
-  box-shadow: 0 2px 4px rgb(var(--sombra) / .14), 0 14px 34px rgb(var(--sombra) / .18), 0 40px 60px -30px rgb(var(--sombra) / .35);
-  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 0 100%); animation: carta-llega 700ms cubic-bezier(.2, 1.1, .3, 1) both; }
-.carta::before { content: ""; position: absolute; top: 0; right: 0; width: 30px; height: 30px; background: linear-gradient(225deg, transparent 50%, #E2CFA8 50%, #F5E9D2 75%); box-shadow: -2px 2px 5px rgb(var(--sombra) / .15); }
-.carta::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 4px;
-  background: linear-gradient(transparent 49.6%, rgb(var(--sombra) / .08) 50%, rgba(255,255,255,.4) 50.4%, transparent 51.5%),
-              linear-gradient(135deg, transparent 47%, rgb(var(--sombra) / .04) 49.5%, rgba(255,255,255,.25) 50.5%, transparent 54%); }
-.carta > * { position: relative; z-index: 1; }
-.carta-para { margin: 0; text-align: center; font: italic 500 18px/1.4 var(--font-titulo); }
-.carta-doblez { position: relative; display: grid; place-items: center; height: 120px; }
-.carta-doblez::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgb(var(--sombra) / .35), transparent); }
+/* El sobre: papel crema, solapa en V y el sello de cera en la punta */
+.sobre { position: relative; width: min(480px, 100%); aspect-ratio: 16 / 10; animation: carta-llega 700ms cubic-bezier(.2, 0, 0, 1) both; }
+.sobre-cuerpo { position: absolute; inset: 0; border-radius: 6px;
+  background:
+    linear-gradient(to top right, transparent calc(50% - .6px), rgb(122 92 58 / .16) 50%, transparent calc(50% + .6px)) left bottom / 50% 62% no-repeat,
+    linear-gradient(to top left, transparent calc(50% - .6px), rgb(122 92 58 / .16) 50%, transparent calc(50% + .6px)) right bottom / 50% 62% no-repeat,
+    linear-gradient(180deg, #F3EADA, #EBDFC9);
+  box-shadow: 0 1px 2px rgb(60 40 20 / .14), 0 10px 28px rgb(60 40 20 / .16); }
+.sobre-solapa { position: absolute; left: 0; right: 0; top: 0; height: 58%; transform-origin: top center;
+  background: linear-gradient(180deg, #EFE4D0, #E5D7BC); clip-path: polygon(0 0, 100% 0, 50% 100%);
+  filter: drop-shadow(0 2px 2px rgb(60 40 20 / .18)); transition: transform .42s cubic-bezier(.2, 0, 0, 1), opacity .3s; }
+.sobre .carta-lacre { position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%); width: 96px; height: 96px; z-index: 2; }
+.sobre .carta-lacre:hover, .sobre .carta-lacre:focus-visible { transform: translate(-50%, -50%) scale(1.05) rotate(-3deg); }
+.sobre-para { position: absolute; left: 0; right: 0; bottom: 9%; margin: 0; text-align: center; color: #5A4636;
+  font: italic 500 clamp(15px, 3.6vw, 18px)/1.3 var(--font-titulo); }
+.sobre.abierto .sobre-solapa { transform: perspective(600px) rotateX(165deg); opacity: .0; }
+.sobre.abierto { animation: sobre-sale .42s cubic-bezier(.4, 0, 1, 1) forwards; }
+@keyframes sobre-sale { to { transform: translateY(24px); opacity: 0; } }
 .carta-lacre { position: relative; width: 104px; height: 104px; cursor: pointer; filter: drop-shadow(0 4px 6px rgba(60, 10, 5, .35)); transition: transform .2s; }
-.carta-lacre:hover, .carta-lacre:focus-visible { transform: scale(1.05) rotate(-3deg); outline: none; }
-.carta.abierta .carta-doblez { height: 28px; transition: height .6s; }
+.carta-lacre:hover, .carta-lacre:focus-visible { outline: none; }
 .carta-sellada { text-align: center; }
-.carta-sellada p { margin: 0 0 14px; color: rgba(58,42,32,.75); }
-.carta-cuerpo { animation: carta-despliega 900ms cubic-bezier(.2, .9, .3, 1) both; transform-origin: top center; }
-.carta-cuerpo h2 { font: 700 24px/1.3 var(--font-titulo); margin: 6px 0 14px; }
-.carta-cuerpo p { font: 400 17px/1.65 var(--font-titulo); margin: 0 0 14px; }
-.carta-cierre { font-style: italic; color: #6B2A1A; }
-.carta-firma { display: grid; justify-items: end; gap: 2px; margin-top: 10px; }
-.carta-firma::before { content: ""; width: 120px; height: 1px; background: #B8862F; margin-bottom: 6px; }
-.carta-firma span { font: italic 400 30px/1 "Brush Script MT", "Segoe Script", cursive; color: #3A2A20; }
-.carta-firma small { color: rgba(58,42,32,.7); font-size: 13px; }
+
+/* La carta: papel marfil verjurado, doblada en tres (dos pliegues), con membrete y firma */
+.carta { position: relative; width: min(600px, 100%); padding: 44px 48px 40px; color: #3A2A20; border-radius: 2px;
+  background:
+    linear-gradient(180deg, transparent calc(33.33% - 1px), rgb(90 66 40 / .07) 33.33%, rgb(255 255 255 / .55) calc(33.33% + 1px), transparent calc(33.33% + 6px)),
+    linear-gradient(180deg, transparent calc(66.66% - 1px), rgb(90 66 40 / .07) 66.66%, rgb(255 255 255 / .55) calc(66.66% + 1px), transparent calc(66.66% + 6px)),
+    repeating-linear-gradient(0deg, rgb(90 66 40 / .018) 0 1px, transparent 1px 4px),
+    #FBF6EC;
+  box-shadow: 0 1px 2px rgb(60 40 20 / .12), 0 12px 32px rgb(60 40 20 / .14);
+  animation: carta-sale 800ms cubic-bezier(.2, 0, 0, 1) both; }
+.carta[hidden] { display: none; }
+@keyframes carta-sale { from { transform: translateY(40px) scaleY(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+.carta-membrete { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-bottom: 14px; margin-bottom: 18px;
+  border-bottom: 1px solid rgb(184 134 47 / .45); }
+.carta-membrete img { width: 44px; height: 44px; }
+.carta-membrete span { font: 600 12px/1 var(--font-titulo); letter-spacing: .28em; text-transform: uppercase; color: #6B2A1A; }
+.carta-lugar { margin: 0 0 18px; text-align: right; font: italic 400 15px/1.4 var(--font-titulo); color: rgb(58 42 32 / .75); }
+.carta h2 { font: 700 23px/1.3 var(--font-titulo); margin: 0 0 14px; color: #3A2A20; }
+.carta p { font: 400 17px/1.7 var(--font-titulo); margin: 0 0 14px; text-wrap: pretty; }
+.carta-cierre { font-style: italic; color: #6B2A1A; margin-top: 20px !important; }
+.carta-firma { display: grid; justify-items: end; gap: 2px; margin-top: 6px; }
+.carta-firma span { font: italic 400 32px/1.1 "Brush Script MT", "Segoe Script", "Snell Roundhand", cursive; color: #2E2018; }
+.carta-firma::after { content: ""; order: 1; width: 140px; height: 1px; background: rgb(184 134 47 / .7); margin: 2px 0 4px; }
+.carta-firma small { order: 2; color: rgb(58 42 32 / .7); font-size: 13px; letter-spacing: .02em; }
 .carta-seguir { animation: carta-llega 600ms both; }
 .carta-releer { margin-top: 18px; display: inline-flex; gap: 6px; align-items: center; color: var(--tinta-suave); font-size: 14px; }
 .carta-releer:hover { color: var(--burdeos); }
-@keyframes carta-llega { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
-@keyframes carta-despliega { from { transform: scaleY(.15); opacity: 0; } 60% { opacity: 1; } to { transform: scaleY(1); opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .carta, .carta-cuerpo, .carta-seguir { animation: none; } }
-@media (max-width: 600px) { .carta { padding: 28px 20px 24px; } .carta-cuerpo p { font-size: 16px; } }
+@keyframes carta-llega { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .sobre, .sobre.abierto, .carta, .carta-seguir { animation: none; } .sobre-solapa { transition: none; } }
+@media (max-width: 600px) { .carta { padding: 32px 22px 28px; } .carta p { font-size: 16px; } .carta-lugar { font-size: 14px; } }
 
 /* Documentos legales */
 .legales { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 14px; font-size: 13px; }
