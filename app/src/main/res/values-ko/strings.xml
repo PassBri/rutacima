@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">그때까지는 모든 기능을 누구나 쓸 수 있어요.</string>
     <string name="plan_siempre_gratis">이건 절대 유료가 되지 않아요.</string>
     <string name="coach_limite_plan">더 대화하고 싶나요? 정상 플랜 알아보기</string>
+    <string name="onb_paso">%2$d단계 중 %1$d단계</string>
+    <string name="onb_ejemplos">아이디어가 없나요? 하나를 눌러 시작하고 내 것으로 바꿔 보세요:</string>
+    <string name="onb_ejemplo_1">좋아하는 일로 생계를 꾸리고 가족과 시간을 보내기.</string>
+    <string name="onb_ejemplo_2">나만의 프로젝트를 만들어 수백 명을 돕기.</string>
+    <string name="onb_ejemplo_3">건강과 목적, 기쁨을 안고 100세에 이르기.</string>
 </resources>

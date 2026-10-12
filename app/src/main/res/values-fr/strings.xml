@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">En attendant, tout reste ouvert à tous.</string>
     <string name="plan_siempre_gratis">Ceci n\'est jamais facturé.</string>
     <string name="coach_limite_plan">Envie de discuter davantage ? Découvre le Plan Sommet</string>
+    <string name="onb_paso">Étape %1$d sur %2$d</string>
+    <string name="onb_ejemplos">Pas d\'idée ? Touche-en une pour commencer, puis fais-la tienne :</string>
+    <string name="onb_ejemplo_1">Vivre de ce que j\'aime et avoir du temps pour ma famille.</string>
+    <string name="onb_ejemplo_2">Créer mon propre projet et aider des centaines de personnes avec lui.</string>
+    <string name="onb_ejemplo_3">Atteindre 100 ans en bonne santé, avec un but et de la joie.</string>
 </resources>

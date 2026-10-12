@@ -83,8 +83,11 @@ const ACC = {
     Store.cambiar("meta_mes", id, { dias: alternar(numeros(m.dias), d).sort((x, y) => x - y).join(",") });
   },
   habito(el, arg) {
-    const [fecha, id] = arg.split("|");
-    Store.cambiar("checklist", fecha, { marcados: alternar([...marcadosDe(fecha)], id).sort().join(",") }, BASES.checklist(fecha));
+    const [fecha, id] = arg.split("|"), nuevo = alternar([...marcadosDe(fecha)], id);
+    // Al completar el eje abierto, se vuelve a seguir al siguiente que falta
+    const eje = HABITOS.find(h => h[0] === id)?.[1];
+    if (el.checked && eje && HABITOS.filter(h => h[1] === eje).every(h => nuevo.includes(h[0]))) { estado.ejeAbierto = null; navigator.vibrate?.(8); }
+    Store.cambiar("checklist", fecha, { marcados: nuevo.sort().join(",") }, BASES.checklist(fecha));
   },
   energia(el, arg) {
     const [fecha, n] = arg.split("|"); const ag = Store.get("agenda", fecha) || {};

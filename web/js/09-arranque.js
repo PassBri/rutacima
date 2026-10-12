@@ -90,6 +90,7 @@ async function entrarReal() {
     abrirApp();
     if (!filas.length) toast(Store.nube.directa ? "¡Bienvenido! Empieza por tu perfil y tu cumbre." : "Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");
     globalThis.revisarAutorizacion?.();
+    setTimeout(() => globalThis.primeraCumbre?.(), 600);
   } catch (e) { console.error(e); mostrarCarga("No se pudo cargar tu ruta. Revisa tu conexión y recarga la página."); }
 }
 function entrarDemo() { Store.nube = null; Store.datos = {}; sembrarDemo(); abrirApp(); }
@@ -97,7 +98,10 @@ function abrirApp() {
   Store.oyentes.clear(); Store.oyentes.add(refrescar);
   mostrar("app");
   globalThis.programarAvisoInstalar?.();
-  ir("ruta", innerWidth > 900 && recordatorio() ? "vida" : null);
+  // La rutina diaria empieza en el día de hoy (marcar hábitos sin tocar nada antes).
+  // Mientras no haya cumbre escrita, se empieza por la ruta.
+  if (perfil().cumbreFrase) ir("hoy", "d:" + iso(hoyFecha()));
+  else ir("ruta", innerWidth > 900 && recordatorio() ? "vida" : null);
 }
 document.addEventListener("click", e => { if (e.target.closest("[data-acc-v='demo']")) { clearInterval(sondeo); clearInterval(renovar); entrarDemo(); } });
 

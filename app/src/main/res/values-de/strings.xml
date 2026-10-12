@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">Bis dahin bleibt alles für alle offen.</string>
     <string name="plan_siempre_gratis">Das kostet nie etwas.</string>
     <string name="coach_limite_plan">Mehr reden? Entdecke den Gipfel-Plan</string>
+    <string name="onb_paso">Schritt %1$d von %2$d</string>
+    <string name="onb_ejemplos">Keine Idee? Tippe eine an und mach sie dann zu deiner:</string>
+    <string name="onb_ejemplo_1">Von dem leben, was ich liebe, und Zeit für meine Familie haben.</string>
+    <string name="onb_ejemplo_2">Mein eigenes Projekt aufbauen und damit Hunderten von Menschen helfen.</string>
+    <string name="onb_ejemplo_3">Mit Gesundheit, Sinn und Freude 100 Jahre alt werden.</string>
 </resources>

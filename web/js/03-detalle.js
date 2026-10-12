@@ -294,32 +294,42 @@ function detMes(arg) {
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
       <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`));
 }
+/** Los 18 hábitos del día, un eje abierto a la vez (el primero que falta). Al completar uno se abre el siguiente. */
+function habitosDelDia(fecha, marc) {
+  const pendiente = EJES.find(([cod]) => HABITOS.some(h => h[1] === cod && !marc.has(h[0])))?.[0] || null;
+  const elegido = estado.ejeAbierto?.fecha === fecha ? estado.ejeAbierto.eje : undefined;
+  const visible = elegido !== undefined ? elegido : pendiente;
+  const n = marc.size, lectura = n >= 10 ? "Vas en buen camino." : n >= 8 ? "Avanzando. Busca llegar a 10 o 12." : n > 0 ? "Menos de 8: revisa qué está pasando." : "Marca los hábitos que cumpliste hoy.";
+  return `<section class="hoja hab" aria-labelledby="habTit"><div class="hab-cab"><h3 id="habTit">Checklist de hábitos</h3><span class="hab-n">${n} / 18</span></div>
+    <div class="hab-linea" role="progressbar" aria-label="Hábitos marcados" aria-valuemin="0" aria-valuemax="18" aria-valuenow="${n}"><i style="--p:${(n / 18).toFixed(3)}"></i></div>
+    <p class="suave hab-lectura">${lectura}</p>
+    ${EJES.map(([cod, nom]) => { const hs = HABITOS.filter(h => h[1] === cod), k = hs.filter(h => marc.has(h[0])).length;
+      return `<details class="hab-eje" data-eje="${cod}" data-fecha="${fecha}" ${visible === cod ? "open" : ""}><summary><span>${nom}</span>${k === hs.length ? `<span class="hab-ok" aria-label="completo">${ic("check")}</span>` : `<span class="hab-k">${k} / ${hs.length}</span>`}<span class="hab-flecha">${ic("abajo")}</span></summary>
+        ${hs.map(([id, , t]) => `<label class="check"><input type="checkbox" data-acc-change="habito" data-arg="${fecha}|${id}" ${marc.has(id) ? "checked" : ""}><span>${esc(t)}</span></label>`).join("")}</details>`; }).join("")}
+  </section>`;
+}
+/* Recordar qué eje abrió la persona (el detalle se redibuja al marcar) */
+document.addEventListener("toggle", e => {
+  const d = e.target; if (!d.classList?.contains("hab-eje")) return;
+  if (d.open) estado.ejeAbierto = { fecha: d.dataset.fecha, eje: d.dataset.eje };
+  else if (estado.ejeAbierto?.eje === d.dataset.eje) estado.ejeAbierto = { fecha: d.dataset.fecha, eje: null };
+}, true);
 function detDia(fecha) {
   const f = deIso(fecha), hoy = hoyFecha(), esHoy = f.getTime() === hoy.getTime();
   const ag = Store.get("agenda", fecha) || {}, marc = marcadosDe(fecha), ms = metasDelMes(f.getFullYear(), f.getMonth() + 1);
   const c = cascada(), p = perfil();
   const campoAg = (n, etq, ph = "") => campo(etq, `<textarea ${bind("agenda", fecha, n, "", "agenda")} placeholder="${esc(ph)}">${esc(ag[n] || "")}</textarea>`);
-  let anillos = "";
-  if (esHoy) {
-    const anioHoy = hoy.getFullYear();
-    const props = c.props, anuales = c.anuales.filter(x => x.anio === anioHoy), mesH = metasDelMes(anioHoy, hoy.getMonth() + 1);
-    const prom = xs => xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : 0;
-    const anillo = (n, x, id = "") => `<div class="anillo"><div class="r" ${id ? `id="${id}"` : ""} style="--p:${Math.round(x * 100)}">${Math.round(x * 100)}%</div>${n}</div>`;
-    anillos = hoja(`<div class="anillos">${anillo("Propósitos", prom(props.map(c.nodoProp)))}${anillo(`Año ${anioHoy}`, prom(anuales.map(c.nodoAnio)))}${anillo("Mes", prom(mesH.map(avanceMetaMes)))}${anillo("Hoy", marc.size / 18, "anilloHoy")}</div>`);
-  }
-  const habitos = EJES.map(([cod, nom]) => `<div class="hoja"><div class="etiqueta">${nom}</div>${HABITOS.filter(h => h[1] === cod).map(([id, , t]) =>
-    `<label class="check"><input type="checkbox" data-acc-change="habito" data-arg="${fecha}|${id}" ${marc.has(id) ? "checked" : ""}><span>${esc(t)}</span></label>`).join("")}</div>`).join("");
+  const habitos = habitosDelDia(fecha, marc);
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="vida">Mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
-    (esHoy && p.cumbreFrase ? hoja(`<div class="etiqueta">Tu cumbre en una frase</div><p class="frase-vida" style="margin-top:6px">${esc(p.cumbreFrase)}</p>`) : "") +
-    anillos +
+    (esHoy && p.cumbreFrase ? `<button class="cumbre-hoy" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : "") +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
-    hoja(`<div class="form"><div class="form-2">${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}">`)}
+    habitos +
+    hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>
+      ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span></span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
+    hoja(`<h3>Mi día</h3><div class="form"><div class="form-2">${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}">`)}
       ${campo("Prioridad #1", `<input type="text" ${bind("agenda", fecha, "prioridad", "", "agenda")} value="${esc(ag.prioridad || "")}">`)}</div></div>`) +
-    hoja(`<div class="etiqueta">Metas del mes · marca si hoy diste el paso</div>
-      ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span></span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
-    `<div class="etiqueta">Checklist de hábitos · ${marc.size} de 18</div><div class="habitos">${habitos}</div>` +
     hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
       <div class="form-2">${campo("Energía", `<div class="energia">${[1, 2, 3, 4, 5].map(n => `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n}"></button>`).join("")}</div>`)}
         <div class="campo"><span>Vasos de agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>

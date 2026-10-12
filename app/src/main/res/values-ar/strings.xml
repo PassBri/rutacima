@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">وحتى ذلك الحين، يبقى كل شيء متاحًا للجميع.</string>
     <string name="plan_siempre_gratis">هذا لا يُحصَّل عنه أبدًا.</string>
     <string name="coach_limite_plan">هل تريد التحدث أكثر؟ تعرّف على خطة القمة</string>
+    <string name="onb_paso">الخطوة %1$d من %2$d</string>
+    <string name="onb_ejemplos">لا أفكار؟ المس واحدة للبدء ثم اجعلها خاصة بك:</string>
+    <string name="onb_ejemplo_1">أن أعيش مما أحب وأجد وقتًا لعائلتي.</string>
+    <string name="onb_ejemplo_2">أن أبني مشروعي الخاص وأساعد به مئات الأشخاص.</string>
+    <string name="onb_ejemplo_3">أن أبلغ المئة بصحة وهدف وفرح.</string>
 </resources>

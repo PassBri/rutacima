@@ -194,9 +194,15 @@ fun RutaRoot() {
     val vm = rutaViewModel { RootViewModel(it) }
     val estado by vm.estado.collectAsStateWithLifecycle()
     // Ventana de inicio animada una vez por arranque
-    var inicioVisto by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
-    // La primera vez: la carta de bienvenida sellada (después se relee desde el perfil)
+    // Si la frase de hoy ya se abrió y no hay bloqueo con clave o huella, se entra directo (la rutina diaria
+    // no repite el ritual del sello cada vez que se abre la app en el mismo día).
     val ctx = androidx.compose.ui.platform.LocalContext.current
+    var inicioVisto by androidx.compose.runtime.saveable.rememberSaveable {
+        val c = (ctx.applicationContext as com.rutaalacima.app.RutaApp).container
+        val abiertaHoy = com.rutaalacima.app.domain.model.FrasesDelDia.indice(java.time.LocalDate.now()) in c.frases.desbloqueadas.value
+        androidx.compose.runtime.mutableStateOf(abiertaHoy && com.rutaalacima.app.seguridad.Bloqueo.modo(ctx) == com.rutaalacima.app.seguridad.ModoBloqueo.TOQUE)
+    }
+    // La primera vez: la carta de bienvenida sellada (después se relee desde el perfil)
     var cartaLeida by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(com.rutaalacima.app.ui.inicio.CartaBienvenida.leida(ctx)) }
     if (!cartaLeida) {
         com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = {
@@ -294,7 +300,8 @@ private fun AppPrincipal() {
     ) { padding ->
         val abrirWorkbook: (String) -> Unit = { nav.navigate(Rutas.workbook(it)) }
         val abrirSeccion: (String, Int) -> Unit = { id, i -> nav.navigate(Rutas.seccion(id, i)) }
-        NavHost(nav, startDestination = Rutas.RUTA) {
+        // Se abre en Hoy: el botón "Dar el paso de hoy" del sello lleva justo a marcar el día.
+        NavHost(nav, startDestination = Rutas.HOY) {
             composable(Rutas.RUTA) {
                 RutaScreen(
                     contentPadding = padding,

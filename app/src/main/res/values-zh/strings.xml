@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">在此之前，所有功能仍对所有人开放。</string>
     <string name="plan_siempre_gratis">这永远免费。</string>
     <string name="coach_limite_plan">想多聊聊？了解顶峰计划</string>
+    <string name="onb_paso">第 %1$d 步，共 %2$d 步</string>
+    <string name="onb_ejemplos">没有头绪？点一个开始，再改成你自己的：</string>
+    <string name="onb_ejemplo_1">以我热爱的事为生，并有时间陪伴家人。</string>
+    <string name="onb_ejemplo_2">创建自己的项目，并用它帮助数百人。</string>
+    <string name="onb_ejemplo_3">健康、有目标、快乐地活到 100 岁。</string>
 </resources>

@@ -32,6 +32,12 @@ import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.runtime.remember
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilledTonalButton
@@ -120,6 +126,7 @@ class HoyViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     fun alternarHoy(m: MetaMensualEntity) = viewModelScope.launch { c.planAnual.alternarDia(m, hoy().dayOfMonth) }
+    fun alternarHabito(id: String) = viewModelScope.launch { c.checklist.alternar(hoy(), id) }
 }
 
 /** Pantalla "Hoy": todo lo del día en un solo lugar, tan simple como un chat. */
@@ -164,75 +171,39 @@ fun HoyScreen(
             Text(formatoDia(hoy()), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
 
-        // Cumbre + avance global
+        // Cumbre: el porqué del día, en una frase (toca para ver tu ruta)
         item {
             Card(shape = RoundedCornerShape(24.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.RUTA) }) {
-                MontanaArte(semilla = "cumbre-${perfil.nombre}", paleta = 1, modifier = Modifier.fillMaxWidth().height(190.dp)) {
-                    Box(
-                        Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x99000000), Color.Transparent, Color(0xCC000000)))),
-                    )
+                MontanaArte(semilla = "cumbre-${perfil.nombre}", paleta = 1, modifier = Modifier.fillMaxWidth().height(150.dp)) {
+                    Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x66000000), Color(0xB3000000)))))
                     Column(Modifier.fillMaxSize().padding(18.dp), verticalArrangement = Arrangement.SpaceBetween) {
-                        Column {
-                            Text(stringResource(R.string.mi_cumbre).uppercase(), style = MaterialTheme.typography.labelLarge, color = Color(0xFFF5C451))
-                            Text(
-                                perfil.cumbreFrase.ifBlank { stringResource(R.string.cumbre_vacia) },
-                                style = MaterialTheme.typography.titleMedium, color = Color.White, maxLines = 3, overflow = TextOverflow.Ellipsis,
-                            )
-                        }
+                        Text(
+                            perfil.cumbreFrase.ifBlank { stringResource(R.string.cumbre_vacia) },
+                            style = MaterialTheme.typography.titleMedium.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif),
+                            color = Color.White, maxLines = 3, overflow = TextOverflow.Ellipsis,
+                        )
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Fase.fromName(perfil.faseActual)?.let {
-                                Text(stringResource(R.string.fase_n, it.numero, it.texto()), color = Color.White,
-                                    style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f))
-                            } ?: Spacer(Modifier.weight(1f))
-                            val g = cascada?.avanceGlobal ?: 0f
-                            Text("${(g * 100).toInt()}%", color = Color(0xFFF5C451), style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Black)
+                            Text(
+                                Fase.fromName(perfil.faseActual)?.let { stringResource(R.string.fase_n, it.numero, it.texto()) } ?: stringResource(R.string.mi_cumbre),
+                                color = Color.White.copy(alpha = 0.9f), style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f),
+                            )
+                            Text("${((cascada?.avanceGlobal ?: 0f) * 100).toInt()}%", color = Color.White,
+                                style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
                         }
                     }
                 }
             }
         }
 
-        // Cascada: 5 años · año · mes
-        item {
-            val c = cascada
-            val cinco = c?.propositos?.map { it.avance }?.average()?.toFloat()?.takeIf { !it.isNaN() } ?: 0f
-            val anuales = (c?.propositos?.flatMap { it.anios }.orEmpty() + c?.aniosSueltos.orEmpty()).filter { it.meta.anio == hoy().year }
-            val anio = anuales.map { it.avance }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
-            val mes = metasMes.map { it.avance() }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
-            RutaCard(onClick = { onIrA(Rutas.planificador(0)) }) {
-                Text(stringResource(R.string.tu_cascada), style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(10.dp))
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Anillo(cinco, stringResource(R.string.nivel_5_anios))
-                    Anillo(anio, stringResource(R.string.nivel_anio))
-                    Anillo(mes, stringResource(R.string.nivel_mes))
-                    Anillo(checks.size / ChecklistDiario.TOTAL.toFloat(), stringResource(R.string.nivel_hoy))
-                }
-            }
-        }
-
-        // Intención y prioridad de hoy
-        item {
-            val a = vm.agenda
-            if (a != null) {
-                RutaCard {
-                    SectionTitle(stringResource(R.string.hoy_mi_dia))
-                    OutlinedTextField(a.intencion, { v -> vm.editarAgenda { it.copy(intencion = v) } },
-                        label = { Text(stringResource(R.string.intencion_dia)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-                    Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(a.prioridad, { v -> vm.editarAgenda { it.copy(prioridad = v) } },
-                        label = { Text(stringResource(R.string.prioridad_1)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
-                    TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
-                }
-            }
-        }
+        // La acción principal del día: marcar los hábitos aquí mismo, un eje a la vez
+        item { HabitosHoy(checks, onAlternar = { vm.alternarHabito(it) }, onVerKit = { onIrA(Rutas.KIT) }) }
 
         // Metas del mes: check de hoy
         // Racha y mapa de constancia (toca para ver el año)
         // La frase del día pregunta algo distinto cada día para responder en la comunidad
         item { InvitacionFraseCard(onIrA = onIrA) }
         item { ConstanciaCard(onIrA = onIrA) }
-        item { SectionTitle(stringResource(R.string.metas_mes_hoy)) }
+        item { Text(stringResource(R.string.metas_mes_hoy), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(top = 6.dp)) }
         if (metasMes.isEmpty()) {
             item {
                 RutaCard(onClick = { onIrA(Rutas.nuevaMeta(NivelMeta.MES)) }) {
@@ -246,7 +217,7 @@ fun HoyScreen(
         }
         items(metasMes.filter { !it.cumplida }, key = { it.id }) { m ->
             val hecho = diaHoy in m.diasMarcados()
-            val color = Eje.fromCodigo(m.eje)?.color?.asColor() ?: MaterialTheme.colorScheme.secondary
+            val color = MaterialTheme.colorScheme.secondary
             RutaCard(onClick = { vm.alternarHoy(m) }) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
@@ -265,30 +236,45 @@ fun HoyScreen(
             }
         }
 
-        // Hábitos por eje
+        // Intención y prioridad de hoy
         item {
-            RutaCard(onClick = { onIrA(Rutas.KIT) }) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.checklist_hoy), style = MaterialTheme.typography.titleMedium)
-                        Text(stringResource(R.string.checklist_resumen, checks.size, ChecklistDiario.TOTAL),
-                            style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                    Box(contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(progress = { checks.size / ChecklistDiario.TOTAL.toFloat() }, modifier = Modifier.size(46.dp),
-                            color = MaterialTheme.colorScheme.secondary, trackColor = MaterialTheme.colorScheme.surfaceVariant, strokeCap = StrokeCap.Round)
-                        Text("${checks.size}", style = MaterialTheme.typography.labelLarge)
-                    }
+            val a = vm.agenda
+            if (a != null) {
+                RutaCard {
+                    Text(stringResource(R.string.hoy_mi_dia), style = MaterialTheme.typography.titleMedium)
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(a.intencion, { v -> vm.editarAgenda { it.copy(intencion = v) } },
+                        label = { Text(stringResource(R.string.intencion_dia)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+                    Spacer(Modifier.height(8.dp))
+                    OutlinedTextField(a.prioridad, { v -> vm.editarAgenda { it.copy(prioridad = v) } },
+                        label = { Text(stringResource(R.string.prioridad_1)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+                    TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
                 }
+            }
+        }
+
+        // Cascada: largo plazo · año · mes (líneas finas; se abre el planificador)
+        item {
+            val c = cascada
+            val cinco = c?.propositos?.map { it.avance }?.average()?.toFloat()?.takeIf { !it.isNaN() } ?: 0f
+            val anuales = (c?.propositos?.flatMap { it.anios }.orEmpty() + c?.aniosSueltos.orEmpty()).filter { it.meta.anio == hoy().year }
+            val anio = anuales.map { it.avance }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
+            val mes = metasMes.map { it.avance() }.average().toFloat().takeIf { !it.isNaN() } ?: 0f
+            RutaCard(onClick = { onIrA(Rutas.planificador(0)) }) {
+                Text(stringResource(R.string.tu_cascada), style = MaterialTheme.typography.titleMedium)
+                Spacer(Modifier.height(6.dp))
+                NivelCascada(stringResource(R.string.nivel_5_anios), cinco)
+                NivelCascada(stringResource(R.string.nivel_anio), anio)
+                NivelCascada(stringResource(R.string.nivel_mes), mes)
             }
         }
 
         // Rescate
         item {
-            Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary), modifier = Modifier.fillMaxWidth()) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(stringResource(R.string.rescate_titulo), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onPrimary)
-                    Text(stringResource(R.string.rescate_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onPrimary)
+            RutaCard {
+                Column {
+                    Text(stringResource(R.string.rescate_titulo), style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.rescate_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(10.dp))
                     // Botones de rescate: ocupan el ancho y bajan de línea si el idioma es largo.
                     val rescates = listOf(
@@ -300,8 +286,8 @@ fun HoyScreen(
                         rescates.forEach { (texto, icono, accion) ->
                             Surface(
                                 onClick = accion, shape = RoundedCornerShape(14.dp),
-                                color = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.14f),
-                                contentColor = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                                contentColor = MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.fillMaxWidth(),
                             ) {
                                 Row(Modifier.padding(horizontal = 14.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -350,7 +336,7 @@ fun HoyScreen(
         item {
             val eje = Eje.entries[hoy().dayOfYear % Eje.entries.size]
             Column {
-                Text(stringResource(R.string.recordatorio_dia, eje.texto()), style = MaterialTheme.typography.labelLarge, color = eje.color.asColor())
+                Text(stringResource(R.string.recordatorio_dia, eje.texto()), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 QuoteView(stringResource(Textos.tarjeta(eje)))
             }
         }
@@ -358,16 +344,79 @@ fun HoyScreen(
 }
 
 @Composable
-private fun Anillo(valor: Float, etiqueta: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Box(contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(
-                progress = { valor.coerceIn(0f, 1f) }, modifier = Modifier.size(58.dp), strokeWidth = 6.dp,
-                color = MaterialTheme.colorScheme.secondary, trackColor = MaterialTheme.colorScheme.surfaceVariant, strokeCap = StrokeCap.Round,
-            )
-            Text("${(valor * 100).toInt()}%", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+private fun NivelCascada(etiqueta: String, valor: Float) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(etiqueta, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.width(110.dp), maxLines = 1, overflow = TextOverflow.Ellipsis)
+        ProgressLine(valor, modifier = Modifier.weight(1f))
+        Text("${(valor.coerceIn(0f, 1f) * 100).toInt()}%", style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.End, modifier = Modifier.width(44.dp))
+    }
+}
+
+/**
+ * Los 18 hábitos del día en Hoy, sin cambiar de pantalla: un eje abierto a la vez (el primero que falta).
+ * Al completar los 3 de un eje, se abre solo el siguiente. Un toque marca; otro toque desmarca.
+ */
+@Composable
+private fun HabitosHoy(marcados: Set<String>, onAlternar: (String) -> Unit, onVerKit: () -> Unit) {
+    val pendiente = Eje.entries.firstOrNull { e -> ChecklistDiario.habitos.any { it.eje == e && it.id !in marcados } }
+    var abierto by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf<String?>(null) }
+    // Si el eje que la persona abrió se acaba de completar, se vuelve a seguir al siguiente que falta
+    androidx.compose.runtime.LaunchedEffect(marcados) {
+        val actual = Eje.entries.firstOrNull { it.name == abierto } ?: return@LaunchedEffect
+        if (ChecklistDiario.habitos.filter { it.eje == actual }.all { it.id in marcados }) { delay(350); abierto = null }
+    }
+    val visible = abierto ?: pendiente?.name
+    val haptico = androidx.compose.ui.platform.LocalHapticFeedback.current
+    RutaCard {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.checklist_hoy), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+            Text("${marcados.size} / ${ChecklistDiario.TOTAL}", style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        Spacer(Modifier.height(4.dp))
-        Text(etiqueta, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
+        Spacer(Modifier.height(8.dp))
+        ProgressLine(marcados.size / ChecklistDiario.TOTAL.toFloat())
+        Text(stringResource(Textos.lecturaChecklist(marcados.size)), style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp, bottom = 4.dp))
+        Eje.entries.forEach { eje ->
+            val delEje = ChecklistDiario.habitos.filter { it.eje == eje }
+            val hechos = delEje.count { it.id in marcados }
+            val esteAbierto = visible == eje.name
+            Row(
+                Modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp))
+                    .clickable { abierto = if (esteAbierto) "" else eje.name }
+                    .padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(eje.texto(), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                if (hechos == delEje.size) Icon(Icons.Filled.CheckCircle, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(18.dp))
+                else Text("$hechos / ${delEje.size}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.width(6.dp))
+                Icon(
+                    if (esteAbierto) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp),
+                )
+            }
+            androidx.compose.animation.AnimatedVisibility(esteAbierto) {
+                Column {
+                    delEje.forEach { h ->
+                        val si = h.id in marcados
+                        Row(
+                            Modifier.fillMaxWidth().heightIn(min = 48.dp).clip(RoundedCornerShape(12.dp))
+                                .toggleable(si, role = androidx.compose.ui.semantics.Role.Checkbox) {
+                                    if (!si) haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                                    onAlternar(h.id)
+                                },
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Checkbox(checked = si, onCheckedChange = null, modifier = Modifier.padding(horizontal = 8.dp))
+                            Text(stringResource(Textos.habito(h.id)), style = MaterialTheme.typography.bodyMedium,
+                                color = if (si) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
+                        }
+                    }
+                }
+            }
+        }
+        TextButton(onClick = onVerKit) { Text(stringResource(R.string.kit)) }
     }
 }

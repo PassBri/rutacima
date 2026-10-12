@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">In the meantime, everything stays open to everyone.</string>
     <string name="plan_siempre_gratis">This is never charged.</string>
     <string name="coach_limite_plan">Want to talk more? Discover the Summit Plan</string>
+    <string name="onb_paso">Step %1$d of %2$d</string>
+    <string name="onb_ejemplos">No ideas yet? Tap one to start, then make it yours:</string>
+    <string name="onb_ejemplo_1">Make a living from what I love and have time for my family.</string>
+    <string name="onb_ejemplo_2">Build my own project and help hundreds of people with it.</string>
+    <string name="onb_ejemplo_3">Reach 100 with health, purpose and joy.</string>
 </resources>

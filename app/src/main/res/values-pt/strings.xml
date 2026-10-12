@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">Enquanto isso, tudo continua aberto para todos.</string>
     <string name="plan_siempre_gratis">Isto nunca é cobrado.</string>
     <string name="coach_limite_plan">Quer conversar mais? Conheça o Plano Cume</string>
+    <string name="onb_paso">Passo %1$d de %2$d</string>
+    <string name="onb_ejemplos">Sem ideias? Toque uma para começar e depois torne-a sua:</string>
+    <string name="onb_ejemplo_1">Viver do que amo e ter tempo para minha família.</string>
+    <string name="onb_ejemplo_2">Criar meu próprio projeto e ajudar centenas de pessoas com ele.</string>
+    <string name="onb_ejemplo_3">Chegar aos 100 anos com saúde, propósito e alegria.</string>
 </resources>

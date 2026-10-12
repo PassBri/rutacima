@@ -67,11 +67,14 @@ private val COMPROMISOS = listOf(
     R.string.compromiso_4, R.string.compromiso_5, R.string.compromiso_6,
 )
 
-/** Bienvenida → nombre y cumbre → fase actual → compromiso. */
+/**
+ * Nombre y cumbre → fase actual → compromiso (3 pasos). La bienvenida ya la dio la carta sellada,
+ * así que se empieza directo por lo valioso: escribir la cumbre, con ejemplos para no quedar en blanco.
+ */
 @Composable
 fun OnboardingScreen() {
     val vm = rutaViewModel { OnboardingViewModel(it) }
-    var paso by rememberSaveable { mutableIntStateOf(0) }
+    var paso by rememberSaveable { mutableIntStateOf(1) }
     var nombre by rememberSaveable { mutableStateOf("") }
     var cumbre by rememberSaveable { mutableStateOf("") }
     var faseNombre by rememberSaveable { mutableStateOf<String?>(null) }
@@ -81,6 +84,14 @@ fun OnboardingScreen() {
             Modifier.fillMaxSize().safeDrawingPadding().imePadding().verticalScroll(rememberScrollState()).padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            if (paso in 1..3) {
+                Text(stringResource(R.string.onb_paso, paso, 3), style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+                androidx.compose.material3.LinearProgressIndicator(
+                    progress = { paso / 3f }, modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary, trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                )
+            }
             when (paso) {
                 0 -> {
                     Spacer(Modifier.height(24.dp))
@@ -101,8 +112,19 @@ fun OnboardingScreen() {
                     Text(stringResource(R.string.onb_cumbre_frase), style = MaterialTheme.typography.bodyLarge)
                     OutlinedTextField(cumbre, { cumbre = it }, label = { Text(stringResource(R.string.mi_cumbre_es)) }, minLines = 3,
                         modifier = Modifier.fillMaxWidth())
+                    if (cumbre.isBlank()) {
+                        Text(stringResource(R.string.onb_ejemplos), style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        listOf(R.string.onb_ejemplo_1, R.string.onb_ejemplo_2, R.string.onb_ejemplo_3).forEach { id ->
+                            val ejemplo = stringResource(id)
+                            androidx.compose.material3.SuggestionChip(
+                                onClick = { cumbre = ejemplo },
+                                label = { Text(ejemplo, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 8.dp)) },
+                                modifier = Modifier.fillMaxWidth(),
+                            )
+                        }
+                    }
                     Row {
-                        TextButton(onClick = { paso = 0 }) { Text(stringResource(R.string.atras)) }
                         Spacer(Modifier.weight(1f))
                         Button(onClick = { paso = 2 }, enabled = nombre.isNotBlank()) { Text(stringResource(R.string.continuar)) }
                     }

@@ -127,7 +127,7 @@ const LISTAS = {
     if (!ms.length) h += `<p class="vacio-mini">Aún no hay metas este mes.</p>`;
     ms.forEach(x => {
       const hechoHoy = numeros(x.dias).includes(hoy.getDate());
-      h += item("mm:" + x.id, av(pctTxt(avanceMetaMes(x)), COLOR_EJE[x.eje] || "var(--burdeos)"), esc(x.texto), hechoHoy ? "✓ hoy" : "", NOMBRE_EJE[x.eje] || "Meta del mes");
+      h += item("mm:" + x.id, av(pctTxt(avanceMetaMes(x)), "var(--burdeos)"), esc(x.texto), hechoHoy ? "hecho hoy" : "", NOMBRE_EJE[x.eje] || "Meta del mes");
     });
     h += grupo("Ayer y antes");
     for (let k = 1; k <= 6; k++) {

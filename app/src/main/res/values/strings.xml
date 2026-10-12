@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">Mientras tanto, todo sigue abierto para todos.</string>
     <string name="plan_siempre_gratis">Esto nunca se cobra.</string>
     <string name="coach_limite_plan">¿Quieres conversar más? Conoce el Plan Cumbre</string>
+    <string name="onb_paso">Paso %1$d de %2$d</string>
+    <string name="onb_ejemplos">¿Sin ideas? Toca una para empezar y luego hazla tuya:</string>
+    <string name="onb_ejemplo_1">Vivir de lo que amo y tener tiempo para mi familia.</string>
+    <string name="onb_ejemplo_2">Crear mi propio proyecto y ayudar a cientos de personas con él.</string>
+    <string name="onb_ejemplo_3">Llegar a los 100 años con salud, propósito y alegría.</string>
 </resources>

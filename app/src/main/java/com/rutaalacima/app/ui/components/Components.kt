@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -70,12 +71,9 @@ inline fun <reified VM : ViewModel> rutaViewModel(
 /** Título de sección con la línea dorada característica de los workbooks. */
 @Composable
 fun SectionTitle(text: String, modifier: Modifier = Modifier) {
-    Column(modifier.padding(top = 8.dp, bottom = 4.dp)) {
-        Text(text.uppercase(), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary,
-            letterSpacing = 1.2.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(4.dp))
-        Box(Modifier.width(36.dp).height(3.dp).background(MaterialTheme.colorScheme.secondary, RoundedCornerShape(2.dp)))
-    }
+    // Un título sobrio (sin mayúsculas sostenidas ni subrayado de color): la jerarquía la da el tamaño.
+    Text(text, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface,
+        modifier = modifier.padding(top = 10.dp, bottom = 2.dp).semantics { heading() })
 }
 
 /**

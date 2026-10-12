@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">それまでは、すべての機能を誰でも使えます。</string>
     <string name="plan_siempre_gratis">これは常に無料です。</string>
     <string name="coach_limite_plan">もっと話したい？サミットプランを見る</string>
+    <string name="onb_paso">ステップ %1$d / %2$d</string>
+    <string name="onb_ejemplos">思いつかない？ひとつタップして、自分の言葉に変えましょう：</string>
+    <string name="onb_ejemplo_1">好きなことで生計を立て、家族との時間を持つ。</string>
+    <string name="onb_ejemplo_2">自分のプロジェクトをつくり、何百人もの人の役に立つ。</string>
+    <string name="onb_ejemplo_3">健康で、目的と喜びを持って100歳を迎える。</string>
 </resources>

@@ -1215,4 +1215,9 @@
     <string name="plan_hoy_abierto">तब तक, सब कुछ सबके लिए खुला है।</string>
     <string name="plan_siempre_gratis">इसके लिए कभी शुल्क नहीं लगेगा।</string>
     <string name="coach_limite_plan">और बात करनी है? शिखर प्लान जानें</string>
+    <string name="onb_paso">चरण %1$d / %2$d</string>
+    <string name="onb_ejemplos">कोई विचार नहीं? शुरू करने के लिए एक चुनें, फिर उसे अपना बनाएँ:</string>
+    <string name="onb_ejemplo_1">जो मुझे पसंद है उसी से जीविका चलाना और परिवार के लिए समय रखना।</string>
+    <string name="onb_ejemplo_2">अपना प्रोजेक्ट बनाना और उससे सैकड़ों लोगों की मदद करना।</string>
+    <string name="onb_ejemplo_3">स्वास्थ्य, उद्देश्य और आनंद के साथ 100 वर्ष तक पहुँचना।</string>
 </resources>

@@ -134,3 +134,42 @@ function pedirNuevaClave() {
 
 Object.assign(ACC, { cambiarClaveWeb() { pedirNuevaClave(); } });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.getElementById("ventanaCuenta")?.remove(); });
+
+/* ---------- Primer uso en la web: la cumbre en una frase (lo valioso primero) ----------
+   Quien crea su cuenta en la web (sin teléfono) no pasó por el onboarding de la app. En vez de dejarlo
+   en una lista vacía, se le pide lo esencial en una sola hoja: su nombre y su cumbre, con ejemplos para
+   no quedar en blanco. Después aterriza en su día de hoy. Se puede dejar para después. */
+const EJEMPLOS_CUMBRE = [
+  "Vivir de lo que amo y tener tiempo para mi familia.",
+  "Crear mi propio proyecto y ayudar a cientos de personas con él.",
+  "Llegar a los 100 años con salud, propósito y alegría.",
+];
+function primeraCumbre(intentos = 0) {
+  if (!Store.nube || perfil().cumbreFrase) return;
+  try { if (sessionStorage.getItem("rutacima-cumbre-luego") === "1") return; } catch {}
+  // Primero va la autorización legal (si está pendiente); la cumbre espera su turno
+  if (document.getElementById("ventanaCuenta")) { if (intentos < 120) setTimeout(() => primeraCumbre(intentos + 1), 1000); return; }
+  const p = perfil();
+  ventanaCuenta(`<h3 style="margin-top:0">¿Cuál es tu cumbre?</h3>
+    <p class="suave" style="margin-top:0">Tu propósito en una frase: el norte de cada día. Toma menos de un minuto y luego la conviertes en metas y pasos.</p>
+    <div class="form">
+      <label class="campo"><span>Tu nombre</span><input id="pcNombre" type="text" autocomplete="given-name" value="${esc(p.nombre || "")}"></label>
+      <label class="campo"><span>Mi cumbre es…</span><textarea id="pcCumbre" rows="3"></textarea></label>
+    </div>
+    <div id="pcEjemplos"><p class="suave" style="font-size:13px;margin:10px 0 6px">¿Sin ideas? Toca una para empezar y luego hazla tuya:</p>
+      <div class="ejemplos-cumbre">${EJEMPLOS_CUMBRE.map(e => `<button type="button" class="chip" data-ejemplo="${esc(e)}">${esc(e)}</button>`).join("")}</div></div>
+    <div class="botones" style="margin-top:16px"><button class="btn" type="button" id="pcLuego">Más tarde</button><button class="btn lleno" type="button" id="pcListo" disabled>Empezar mi ascenso</button></div>`, v => {
+    const n = v.querySelector("#pcNombre"), c = v.querySelector("#pcCumbre"), listo = v.querySelector("#pcListo");
+    const revisar = () => { listo.disabled = !c.value.trim(); v.querySelector("#pcEjemplos").hidden = !!c.value.trim(); };
+    c.addEventListener("input", revisar);
+    v.querySelectorAll("[data-ejemplo]").forEach(b => b.onclick = () => { c.value = b.dataset.ejemplo; revisar(); c.focus(); c.setSelectionRange(c.value.length, c.value.length); });
+    v.querySelector("#pcLuego").onclick = () => { try { sessionStorage.setItem("rutacima-cumbre-luego", "1"); } catch {} v.remove(); };
+    listo.onclick = () => {
+      Store.cambiar("perfil", 1, { nombre: n.value.trim() || p.nombre || "", cumbreFrase: c.value.trim(), onboardingCompleto: true }, BASES.perfil());
+      v.remove();
+      ir("hoy", "d:" + iso(hoyFecha()));
+      toast("Tu cumbre quedó escrita. Hoy empieza el ascenso: marca tus hábitos del día.");
+    };
+    (p.nombre ? c : n).focus();
+  });
+}
