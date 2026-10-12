@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">أن أعيش مما أحب وأجد وقتًا لعائلتي.</string>
     <string name="onb_ejemplo_2">أن أبني مشروعي الخاص وأساعد به مئات الأشخاص.</string>
     <string name="onb_ejemplo_3">أن أبلغ المئة بصحة وهدف وفرح.</string>
+    <string name="planeta_venus">الزهرة</string>
+    <string name="planeta_jupiter">المشتري</string>
+    <string name="planeta_marte">المريخ</string>
+    <string name="planeta_saturno">زحل</string>
+    <string name="cielo_lectura">الشمس %1$d° · القمر %2$d%%</string>
+    <string name="cielo_desc">السماء الآن: الشمس على ارتفاع %1$d°، والقمر مضاء بنسبة %2$d%%.</string>
 </resources>

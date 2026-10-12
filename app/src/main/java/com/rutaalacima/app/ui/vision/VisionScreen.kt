@@ -466,8 +466,8 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
 private fun Casilla(cv: CasillaVista, onFoto: () -> Unit, onIdeas: () -> Unit, onEditar: () -> Unit) {
     val c = cv.casilla
     val color = c.eje?.let(::colorEje) ?: MaterialTheme.colorScheme.primary
-    val forma = remember { FormaHoja(doblez = 14.dp, radio = 6.dp) }
-    Column(Modifier.fillMaxWidth().hojaPapel(doblez = 14.dp).clip(forma)) {
+    val forma = remember { FormaHoja() }
+    Column(Modifier.fillMaxWidth().hojaPapel().clip(forma)) {
         Box(Modifier.fillMaxWidth().aspectRatio(4f / 5f).clickable(onClick = onFoto)) {
             if (cv.foto != null) {
                 val modelo: Any = if (cv.foto.startsWith("http")) cv.foto else File(cv.foto)

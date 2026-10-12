@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">좋아하는 일로 생계를 꾸리고 가족과 시간을 보내기.</string>
     <string name="onb_ejemplo_2">나만의 프로젝트를 만들어 수백 명을 돕기.</string>
     <string name="onb_ejemplo_3">건강과 목적, 기쁨을 안고 100세에 이르기.</string>
+    <string name="planeta_venus">금성</string>
+    <string name="planeta_jupiter">목성</string>
+    <string name="planeta_marte">화성</string>
+    <string name="planeta_saturno">토성</string>
+    <string name="cielo_lectura">해 %1$d° · 달 %2$d%%</string>
+    <string name="cielo_desc">지금의 하늘: 해는 %1$d°, 달은 %2$d%% 밝아요.</string>
 </resources>

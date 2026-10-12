@@ -51,8 +51,8 @@ object EstiloActual {
 }
 
 /**
- * Papel blanco (por defecto): hojas blancas sobre un fondo blanco cálido; el color de la app
- * vive en el sello, los botones y las sombras (burdeos y dorado). Limpio y de alto contraste.
+ * Altitud (por defecto): el papel blanco a 4.000 metros. Niebla fría de fondo, hojas blancas con
+ * líneas finas de instrumento y tinta de grafito; el color vive solo en el lacre burdeos y el oro.
  */
 private val PapelBlanco = lightColorScheme(
     primary = Color(0xFF6B2A1A),
@@ -63,21 +63,21 @@ private val PapelBlanco = lightColorScheme(
     onSecondary = Color(0xFF2E1F0E),
     secondaryContainer = Color(0xFFF6EBD3),
     onSecondaryContainer = Color(0xFF3A2A1C),
-    tertiary = Color(0xFF8E4A2E),
+    tertiary = Color(0xFF3E5868),
     onTertiary = Color(0xFFFFFFFF),
-    background = Color(0xFFF7F3EE),
-    onBackground = Color(0xFF2E211B),
+    background = Color(0xFFEEF1F2),
+    onBackground = Color(0xFF1D2427),
     surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF2E211B),
-    surfaceVariant = Color(0xFFEFE7DE),
-    onSurfaceVariant = Color(0xFF6B5B52),
+    onSurface = Color(0xFF1D2427),
+    surfaceVariant = Color(0xFFE4E9EB),
+    onSurfaceVariant = Color(0xFF5A666B),
     surfaceContainerLowest = Color(0xFFFFFFFF),
     surfaceContainerLow = Color(0xFFFFFFFF),
-    surfaceContainer = Color(0xFFFBF8F4),
-    surfaceContainerHigh = Color(0xFFF3EDE6),
-    surfaceContainerHighest = Color(0xFFEDE5DC),
-    outline = Color(0xFFCDBFB3),
-    outlineVariant = Color(0xFFE8DED4),
+    surfaceContainer = Color(0xFFF7F9F9),
+    surfaceContainerHigh = Color(0xFFEFF3F4),
+    surfaceContainerHighest = Color(0xFFE6EBED),
+    outline = Color(0xFFB9C3C7),
+    outlineVariant = Color(0xFFDCE2E4),
 )
 
 /** Papel antiguo: pergamino, tinta sepia, lacre y ocre. Contraste de texto ≥ 4.5:1. */
@@ -134,29 +134,31 @@ private val PastelMarron = lightColorScheme(
     outlineVariant = Color(0xFFDCCBBB),
 )
 
-/** Modo oscuro: noche cálida con oro y crema. */
+/** Modo oscuro: la noche en altura. Grafito azulado, líneas finas y el oro y el lacre como únicos acentos. */
 private val Oscuro = darkColorScheme(
-    primary = Marca.OroClaro,
-    onPrimary = Marca.TintaCafe,
-    primaryContainer = Marca.BurdeosClaro,
-    onPrimaryContainer = Marca.OroPalido,
-    secondary = Marca.Oro,
-    onSecondary = Marca.TintaCafe,
-    tertiary = Marca.Kraft,
-    onTertiary = Marca.TintaCafe,
-    background = Marca.Noche,
-    onBackground = Marca.OroPalido,
-    surface = Marca.NocheSuperficie,
-    onSurface = Marca.OroPalido,
-    surfaceVariant = Color(0xFF3A2A24),
-    onSurfaceVariant = Color(0xFFD8C6B0),
-    surfaceContainerLowest = Color(0xFF160E0C),
-    surfaceContainerLow = Color(0xFF241915),
-    surfaceContainer = Marca.NocheSuperficie,
-    surfaceContainerHigh = Color(0xFF33251F),
-    surfaceContainerHighest = Color(0xFF3A2A24),
-    outline = Color(0xFF8C7765),
-    outlineVariant = Color(0xFF4E3D34),
+    primary = Color(0xFFF0B3A1),
+    onPrimary = Color(0xFF2B1209),
+    primaryContainer = Color(0xFF5A2418),
+    onPrimaryContainer = Color(0xFFFFDBD0),
+    secondary = Color(0xFFE0B566),
+    onSecondary = Color(0xFF2B2108),
+    secondaryContainer = Color(0xFF2E2817),
+    onSecondaryContainer = Color(0xFFF6E3BC),
+    tertiary = Color(0xFF9EC1D6),
+    onTertiary = Color(0xFF0B1D28),
+    background = Color(0xFF0A0E12),
+    onBackground = Color(0xFFE8EDEF),
+    surface = Color(0xFF12181D),
+    onSurface = Color(0xFFE8EDEF),
+    surfaceVariant = Color(0xFF1F282F),
+    onSurfaceVariant = Color(0xFF98A6AD),
+    surfaceContainerLowest = Color(0xFF080B0E),
+    surfaceContainerLow = Color(0xFF12181D),
+    surfaceContainer = Color(0xFF151C21),
+    surfaceContainerHigh = Color(0xFF1B2329),
+    surfaceContainerHighest = Color(0xFF222C33),
+    outline = Color(0xFF5B6A73),
+    outlineVariant = Color(0xFF243039),
 )
 
 private val Lectura = FontFamily.Serif
@@ -164,14 +166,16 @@ private val Titular = FontFamily.SansSerif
 
 private val RutaTypography = Typography().run {
     copy(
-        displaySmall = displaySmall.copy(fontFamily = Titular, fontWeight = FontWeight.Black),
-        headlineLarge = headlineLarge.copy(fontFamily = Titular, fontWeight = FontWeight.ExtraBold),
-        headlineMedium = headlineMedium.copy(fontFamily = Titular, fontWeight = FontWeight.ExtraBold),
-        headlineSmall = headlineSmall.copy(fontFamily = Titular, fontWeight = FontWeight.Bold),
-        titleLarge = titleLarge.copy(fontFamily = Titular, fontWeight = FontWeight.Bold),
-        titleMedium = titleMedium.copy(fontFamily = Titular, fontWeight = FontWeight.SemiBold),
-        bodyLarge = TextStyle(fontFamily = Lectura, fontSize = 17.sp, lineHeight = 26.sp),
-        bodyMedium = TextStyle(fontFamily = Lectura, fontSize = 15.sp, lineHeight = 22.sp),
+        // Altitud: títulos ligeros y con aire (como los instrumentos de una estación en las nubes);
+        // la serif queda para los momentos humanos: citas, la carta y la cumbre.
+        displaySmall = displaySmall.copy(fontFamily = Titular, fontWeight = FontWeight.Light),
+        headlineLarge = headlineLarge.copy(fontFamily = Titular, fontWeight = FontWeight.Light),
+        headlineMedium = headlineMedium.copy(fontFamily = Titular, fontWeight = FontWeight.Light),
+        headlineSmall = headlineSmall.copy(fontFamily = Titular, fontWeight = FontWeight.Normal),
+        titleLarge = titleLarge.copy(fontFamily = Titular, fontWeight = FontWeight.Normal),
+        titleMedium = titleMedium.copy(fontFamily = Titular, fontWeight = FontWeight.Medium),
+        bodyLarge = TextStyle(fontFamily = Titular, fontSize = 16.sp, lineHeight = 24.sp, letterSpacing = 0.15.sp),
+        bodyMedium = TextStyle(fontFamily = Titular, fontSize = 14.sp, lineHeight = 20.sp, letterSpacing = 0.2.sp),
     )
 }
 

@@ -323,7 +323,7 @@ function detDia(fecha) {
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="vida">Mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
-    (esHoy && p.cumbreFrase ? `<button class="cumbre-hoy" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : "") +
+    (esHoy ? `<button class="cielo-dia" data-ir="ruta" data-arg="vida" aria-label="${p.cumbreFrase ? `Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta` : "Ver tu ruta"}"><span class="cielo" data-cielo="hud" aria-hidden="true"></span>${p.cumbreFrase ? `<span class="frase-vida">${esc(p.cumbreFrase)}</span>` : ""}</button>` : "") +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
     habitos +
     hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>

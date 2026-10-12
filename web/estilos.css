@@ -2,47 +2,52 @@
 /* Layout: como WhatsApp Web. Franja burdeos arriba, ventana de papel blanco centrada con
    riel de íconos, lista y panel de detalle. En el teléfono, una columna con barra inferior. */
 :root {
-  --fondo: #F7F3EE;        /* hueso: la mesa sobre la que va la hoja */
+  /* Altitud: el papel de siempre, pero a 4.000 metros: blanco de niebla, líneas finas de
+     instrumento y tinta de grafito. El color vive solo en el lacre (burdeos) y el oro. */
+  --fondo: #EEF1F2;        /* niebla de altura: la mesa sobre la que va la hoja */
   --hoja: #FFFFFF;         /* papel blanco */
-  --hoja-2: #FBF8F4;       /* papel del riel y cabeceras */
-  --tinta: #2B1E18;
-  --tinta-suave: #6B5B52;
-  --linea: #E8DED4;
+  --hoja-2: #F7F9F9;       /* papel del riel y cabeceras */
+  --tinta: #1D2427;        /* grafito */
+  --tinta-suave: #5A666B;
+  --linea: #DCE2E4;        /* línea fina de instrumento */
   --burdeos: #6B2A1A;      /* color del sello */
   --burdeos-suave: #F3E3DC;
   --oro: #B8862F;
   --oro-suave: #F6EAD3;
   --sobre-burdeos: #FFFFFF;
-  --sombra: 122 36 24;     /* sombras burdeos, nunca grises */
+  --sombra: 24 38 48;      /* sombra azul pizarra, como la del cielo sobre la nieve */
   --ok: #3F7A4A;
-  --franja: #6B2A1A;
+  --franja: #1B2A38;
   --burbuja-yo: #F6EAD3;
   --font-titulo: "Roboto Serif", Georgia, "Times New Roman", serif;
   --font-texto: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --fondo: #17110D; --hoja: #241B16; --hoja-2: #1E1712; --tinta: #F1E8DF; --tinta-suave: #BBA99C;
-  --linea: #3A2D25; --burdeos: #F0B3A1; --burdeos-suave: #43271F; --oro: #E0B566; --oro-suave: #3D3020;
-  --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #3B1A11; --burbuja-yo: #3D3020; color-scheme: dark;
+  --fondo: #0A0E12; --hoja: #12181D; --hoja-2: #0E1418; --tinta: #E8EDEF; --tinta-suave: #98A6AD;
+  --linea: #243039; --burdeos: #F0B3A1; --burdeos-suave: #3A2420; --oro: #E0B566; --oro-suave: #2E2817;
+  --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #070B10; --burbuja-yo: #2E2817; color-scheme: dark;
 } }
 :root[data-theme="dark"] {
-  --fondo: #17110D; --hoja: #241B16; --hoja-2: #1E1712; --tinta: #F1E8DF; --tinta-suave: #BBA99C;
-  --linea: #3A2D25; --burdeos: #F0B3A1; --burdeos-suave: #43271F; --oro: #E0B566; --oro-suave: #3D3020;
-  --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #3B1A11; --burbuja-yo: #3D3020; color-scheme: dark;
+  --fondo: #0A0E12; --hoja: #12181D; --hoja-2: #0E1418; --tinta: #E8EDEF; --tinta-suave: #98A6AD;
+  --linea: #243039; --burdeos: #F0B3A1; --burdeos-suave: #3A2420; --oro: #E0B566; --oro-suave: #2E2817;
+  --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #070B10; --burbuja-yo: #2E2817; color-scheme: dark;
 }
 html, body { height: 100%; }
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; }
+::selection { background: var(--oro-suave); color: var(--tinta); }
 body { background: var(--fondo); color: var(--tinta); font: 15px/1.5 var(--font-texto); overflow: hidden; }
 * { box-sizing: border-box; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 input { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
 svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
-.franja { position: fixed; inset: 0 0 auto 0; height: 128px; background: var(--franja); }
+.franja { position: fixed; inset: 0; background: var(--franja); }
 
 /* Ventana */
-.ventana { position: relative; height: 100%; max-width: 1600px; margin: 0 auto; padding-block: 19px; padding-inline: 19px; display: flex; }
-.app { flex: 1; display: flex; min-width: 0; background: var(--hoja); border-radius: 4px; overflow: hidden;
-  box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 10px 40px rgb(var(--sombra) / .16); }
+.ventana { position: relative; height: 100%; max-width: 1560px; margin: 0 auto; padding-block: 28px; padding-inline: 28px; display: flex; }
+.app { flex: 1; display: flex; min-width: 0; background: var(--hoja); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 1px 2px rgb(0 0 0 / .10), 0 24px 70px -20px rgb(0 0 0 / .45); }
 
 /* Riel de íconos: solo íconos; el nombre aparece al pasar el cursor */
 .riel { width: 64px; flex: none; background: var(--hoja-2); border-right: 1px solid var(--linea); display: flex; flex-direction: column; align-items: center; padding-block: 12px; gap: 6px; }
@@ -61,7 +66,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 /* Lista */
 .lista { width: 400px; flex: none; display: flex; flex-direction: column; border-right: 1px solid var(--linea); min-width: 0; background: var(--hoja); }
 .lista-cab { padding: 16px 16px 8px; display: flex; flex-direction: column; gap: 10px; }
-.lista-cab h1 { margin: 0; font: 700 22px/1.2 var(--font-titulo); color: var(--burdeos); text-wrap: balance; }
+.lista-cab h1 { margin: 0; font: 300 26px/1.2 var(--font-texto); letter-spacing: .01em; color: var(--tinta); text-wrap: balance; }
 .buscar { display: flex; align-items: center; gap: 10px; background: var(--hoja-2); border: 1px solid var(--linea); border-radius: 10px; padding: 7px 12px; color: var(--tinta-suave); }
 .buscar input { border: 0; background: none; outline: none; flex: 1; min-width: 0; }
 .buscar svg { width: 20px; height: 20px; }
@@ -86,8 +91,6 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 
 /* Detalle */
 .detalle { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--fondo); position: relative; }
-.detalle::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
-  background: linear-gradient(90deg, transparent calc(50% - 10px), rgb(var(--sombra) / .035) 50%, transparent calc(50% + 8px)); }
 .det-cab { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--hoja-2); border-bottom: 1px solid var(--linea); min-height: 60px; position: relative; z-index: 1; }
 .det-cab .txt { flex: 1; min-width: 0; }
 .det-cab h2 { margin: 0; font-size: 16px; font-weight: 500; }
@@ -95,12 +98,9 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .volver { display: none; }
 .det-cuerpo { flex: 1; overflow-y: auto; padding: 24px; position: relative; z-index: 1; }
 .det-cuerpo > * + * { margin-top: 18px; }
-.hoja { background: var(--hoja); border-radius: 6px; padding: 18px 20px; position: relative;
-  box-shadow: 0 1px 1px rgb(var(--sombra) / .06), 0 4px 14px rgb(var(--sombra) / .09);
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%); }
-.hoja::after { content: ""; position: absolute; top: 0; right: 0; width: 18px; height: 18px;
-  background: linear-gradient(225deg, transparent 50%, var(--linea) 50%, var(--hoja-2) 100%); }
-.hoja h3 { margin: 0 0 6px; font: 700 18px/1.3 var(--font-titulo); color: var(--burdeos); text-wrap: balance; }
+.hoja { background: var(--hoja); border-radius: 14px; padding: 18px 20px; position: relative; border: 1px solid var(--linea);
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .04), 0 8px 24px -12px rgb(var(--sombra) / .14); }
+.hoja h3 { margin: 0 0 6px; font: 500 17px/1.3 var(--font-texto); letter-spacing: .005em; color: var(--tinta); text-wrap: balance; }
 .etiqueta { font-size: 14px; color: var(--tinta-suave); font-weight: 600; }
 .suave { color: var(--tinta-suave); }
 .ancho { max-width: 860px; margin-inline: auto; display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -463,7 +463,7 @@ button.audio-txt { display: block; }
 .cord-miembro .nom b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
 .cord-miembro .nom .suave { flex: none; font-size: 13px; font-variant-numeric: tabular-nums; }
 /* Un cuadrito por día; el más reciente a la derecha (row-reverse: el desplazamiento arranca ahí) */
-.cord-dias { display: flex; flex-direction: row-reverse; gap: 3px; overflow-x: auto; padding: 2px 2px 6px; min-width: 0; scrollbar-width: thin; }
+.cord-dias { display: flex; flex-direction: row-reverse; gap: 3px; overflow-x: auto; padding: 2px 2px 6px; min-width: 0; }
 .cord-dias i { flex: none; width: 14px; height: 14px; border-radius: 3px; background: var(--hoja-2); border: 1px solid var(--linea); }
 .cord-dias i:first-child { margin-right: auto; } /* pocos días: quedan a la izquierda */
 .cord-dias i.si { background: var(--oro); border-color: transparent; }
@@ -548,22 +548,45 @@ a.btn { text-decoration: none; }
   display: grid; place-items: center; align-content: center; gap: 6px; padding: 18px; font-size: 13px; line-height: 1.25; text-align: center; z-index: 2; box-shadow: 0 8px 24px rgb(var(--sombra) / .3); }
 .qr-recargar svg { width: 26px; height: 26px; fill: currentColor; }
 
-/* La franja es un cielo vivo: sol y luna en su posición real, estrellas de noche y la cordillera abajo */
+/* El cielo vivo como un instrumento de altura: sol, luna y planetas en su lugar real, el arco del sol de
+   hoy, el horizonte con marcas cada 15° y la cordillera saliendo de un mar de nubes. Líneas finas, nada más. */
 .franja.cielo { background: var(--franja); overflow: hidden; }
 .cielo > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .cielo-estrellas circle { fill: #fff; animation: titila 3.2s ease-in-out infinite alternate; }
 @keyframes titila { from { opacity: .35; } to { opacity: 1; } }
-.cielo .astro { position: absolute; transform: translate(-50%, -50%); transition: left 60s linear, top 60s linear; }
-.astro.sol { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle, #FFF6D8 0 40%, #F7C76A 62%, rgba(247, 199, 106, 0) 72%);
-  box-shadow: 0 0 40px 14px rgba(255, 214, 120, .45); }
-.astro.luna { width: 26px; height: 26px; filter: drop-shadow(0 0 8px rgba(240, 232, 210, .55)); }
-.luna-sombra { fill: rgba(30, 30, 46, .55); }
-.luna-luz { fill: #F1E9D2; }
-.cielo .cielo-montes { top: auto; height: 46px; }
-.cielo-montes path { fill: var(--franja); opacity: .95; }
-.cielo-mini { position: relative; height: 92px; margin: -18px -20px 16px; border-radius: 4px 4px 0 0; overflow: hidden; background: var(--franja); }
-.cielo-mini .astro.sol { width: 26px; height: 26px; }
-.cielo-mini .astro.luna { width: 20px; height: 20px; }
+.cielo-hud { fill: none; }
+.cielo-hud line, .cielo-hud polyline { vector-effect: non-scaling-stroke; stroke-width: 1px; }
+.cielo-hud .cielo-arco { stroke-dasharray: 2 5; opacity: .9; }
+.cielo .astro { position: absolute; transform: translate(-50%, -50%); transition: left 60s linear, top 60s linear; display: grid; place-items: center; }
+.cielo .astro b { position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%); white-space: nowrap;
+  font: 400 10.5px/1 var(--font-texto); letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .82); font-variant-numeric: tabular-nums; }
+.astro.sol { width: 54px; height: 54px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .45); }
+.astro.sol i { width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(circle, #FFF8E6 0 46%, #FFE2A6 66%, rgba(255, 226, 166, 0) 74%);
+  box-shadow: 0 0 36px 12px rgba(255, 232, 180, .45); }
+.astro.luna { width: 42px; height: 42px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .32); }
+.astro.luna svg { width: 22px; height: 22px; filter: drop-shadow(0 0 8px rgba(236, 240, 245, .5)); }
+.luna-sombra { fill: rgba(24, 30, 44, .55); }
+.luna-luz { fill: #EEF1F4; }
+.astro.planeta { width: 14px; height: 14px; }
+.astro.planeta i { width: 4px; height: 4px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px 1px rgba(255, 255, 255, .7); }
+.astro.planeta::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .28); }
+.cielo .cielo-montes { top: auto; }
+.cielo .astro.izq b { left: auto; right: calc(100% + 6px); }
+.cielo-lectura { position: absolute; top: 14px; left: 18px; display: grid; gap: 4px; color: #fff; font: 300 28px/1 var(--font-texto); letter-spacing: .04em; font-variant-numeric: tabular-nums; text-shadow: 0 1px 8px rgb(0 0 0 / .25); }
+.cielo-lectura span { font: 400 10.5px/1 var(--font-texto); letter-spacing: .16em; text-transform: uppercase; opacity: .85; }
+.cielo-mini { position: relative; height: 92px; margin: -18px -20px 16px; border-radius: 13px 13px 0 0; overflow: hidden; background: var(--franja); }
+.cielo-mini .astro.sol { width: 34px; height: 34px; } .cielo-mini .astro.sol i { width: 18px; height: 18px; }
+.cielo-mini .astro.luna { width: 30px; height: 30px; } .cielo-mini .astro.luna svg { width: 16px; height: 16px; }
+@media (prefers-reduced-motion: reduce) { .cielo .astro { transition: none; } .cielo-estrellas circle { animation: none; } }
+
+/* Tu día empieza con el cielo de este momento y tu cumbre encima */
+.cielo-dia { position: relative; display: block; width: 100%; height: 210px; border-radius: 16px; overflow: hidden; padding: 0; text-align: start; color: #fff; cursor: pointer; isolation: isolate;
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .06), 0 14px 34px -18px rgb(var(--sombra) / .45); }
+.cielo-dia > .cielo { position: absolute; inset: 0; z-index: -1; }
+.cielo-dia::after { content: ""; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, rgb(6 10 16 / .62)); z-index: -1; pointer-events: none; }
+.cielo-dia .frase-vida { position: absolute; left: 18px; right: 18px; bottom: 16px; margin: 0; font-size: 18px; color: #fff; text-shadow: 0 1px 10px rgb(0 0 0 / .35); }
+.cielo-dia:focus-visible { outline: 2px solid var(--oro); outline-offset: 3px; }
+@media (max-width: 900px) { .cielo-dia { height: 190px; } .cielo-lectura { font-size: 24px; } }
 
 /* Álbum del año (diario de vida): mosaico de recuerdos */
 .album-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
@@ -656,9 +679,7 @@ a.btn { text-decoration: none; }
 .md-num { font: 900 20px/1 var(--font-titulo); color: var(--burdeos); padding-right: 4px; }
 .md-papel { position: relative; padding: 14px; border-radius: 10px; background: #FFFCF6;
   box-shadow: 0 1px 2px rgb(var(--sombra) / .10), 0 6px 18px rgb(var(--sombra) / .10), 0 18px 40px -18px rgb(var(--sombra) / .22);
-  clip-path: polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%); overflow: hidden; }
-.md-papel::before { content: ""; position: absolute; top: 0; right: 0; width: 26px; height: 26px; z-index: 3;
-  background: linear-gradient(225deg, transparent 50%, #EFE3D2 50%, #FFF8EE 75%); box-shadow: -2px 2px 4px rgb(var(--sombra) / .12); }
+  overflow: hidden; }
 .md-papel::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
   background: linear-gradient(135deg, transparent 47%, rgb(var(--sombra) / .04) 49.5%, rgba(255,255,255,.3) 50.5%, transparent 54%); }
 .md-papel > * { position: relative; z-index: 1; }
@@ -703,8 +724,7 @@ a.btn { text-decoration: none; }
 .bm-carta { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; padding: 22px 18px; text-align: center;
   background: linear-gradient(#FFFCF6, #F5EBDC); color: #2B1E18; border-radius: 6px;
   box-shadow: 0 1px 2px rgb(var(--sombra) / .10), 0 6px 18px rgb(var(--sombra) / .10);
-  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%); }
-.bm-carta::before { content: ""; position: absolute; top: 0; right: 0; width: 18px; height: 18px; background: linear-gradient(225deg, transparent 50%, #EFE3D2 50%, #FFF8EE 75%); }
+ }
 .bm-carta small { font-weight: 800; letter-spacing: .14em; color: #6B2A1A; font-size: 11px; }
 .bm-carta b { font: 700 22px/1.25 var(--font-titulo); max-width: 30ch; }
 .bm-carta em { font-style: normal; font-weight: 700; color: #6B2A1A; font-size: 13px; }
@@ -875,9 +895,6 @@ a.btn { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .riel-etq { animation: none; } }
 
 /* ---------- Hoy: hábitos del día (un eje abierto a la vez) ---------- */
-.cumbre-hoy { display: block; width: 100%; text-align: start; background: none; border: 0; padding: 2px 2px 4px; color: var(--tinta); cursor: pointer; border-radius: 6px; }
-.cumbre-hoy .frase-vida { margin: 0; font-size: 18px; }
-.cumbre-hoy:hover .frase-vida { text-decoration: underline; text-decoration-color: var(--oro); text-underline-offset: 4px; }
 .hab-cab { display: flex; align-items: baseline; gap: 12px; }
 .hab-cab h3 { flex: 1; }
 .hab-n { font-size: 14px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }

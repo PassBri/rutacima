@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">Vivre de ce que j\'aime et avoir du temps pour ma famille.</string>
     <string name="onb_ejemplo_2">Créer mon propre projet et aider des centaines de personnes avec lui.</string>
     <string name="onb_ejemplo_3">Atteindre 100 ans en bonne santé, avec un but et de la joie.</string>
+    <string name="planeta_venus">Vénus</string>
+    <string name="planeta_jupiter">Jupiter</string>
+    <string name="planeta_marte">Mars</string>
+    <string name="planeta_saturno">Saturne</string>
+    <string name="cielo_lectura">Soleil %1$d° · Lune %2$d %%</string>
+    <string name="cielo_desc">Le ciel en ce moment : le soleil à %1$d°, la lune éclairée à %2$d %%.</string>
 </resources>

@@ -171,24 +171,24 @@ fun HoyScreen(
             Text(formatoDia(hoy()), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
 
-        // Cumbre: el porqué del día, en una frase (toca para ver tu ruta)
+        // El día empieza con el cielo de este momento (sol, luna y planetas reales) y la cumbre encima
         item {
-            Card(shape = RoundedCornerShape(24.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.RUTA) }) {
-                MontanaArte(semilla = "cumbre-${perfil.nombre}", paleta = 1, modifier = Modifier.fillMaxWidth().height(150.dp)) {
-                    Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x66000000), Color(0xB3000000)))))
-                    Column(Modifier.fillMaxSize().padding(18.dp), verticalArrangement = Arrangement.SpaceBetween) {
+            Card(shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.RUTA) }) {
+                com.rutaalacima.app.ui.components.CieloVivo(Modifier.fillMaxWidth().height(200.dp)) {
+                    Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0.4f to Color.Transparent, 1f to Color(0x9E060A10))))
+                    Column(Modifier.align(Alignment.BottomStart).padding(18.dp)) {
                         Text(
                             perfil.cumbreFrase.ifBlank { stringResource(R.string.cumbre_vacia) },
-                            style = MaterialTheme.typography.titleMedium.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif),
+                            style = MaterialTheme.typography.titleMedium.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif, fontWeight = FontWeight.Normal),
                             color = Color.White, maxLines = 3, overflow = TextOverflow.Ellipsis,
                         )
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
                             Text(
                                 Fase.fromName(perfil.faseActual)?.let { stringResource(R.string.fase_n, it.numero, it.texto()) } ?: stringResource(R.string.mi_cumbre),
-                                color = Color.White.copy(alpha = 0.9f), style = MaterialTheme.typography.labelLarge, modifier = Modifier.weight(1f),
+                                color = Color.White.copy(alpha = 0.85f), style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f),
                             )
-                            Text("${((cascada?.avanceGlobal ?: 0f) * 100).toInt()}%", color = Color.White,
-                                style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+                            Text("${((cascada?.avanceGlobal ?: 0f) * 100).toInt()}%", color = Color.White.copy(alpha = 0.85f),
+                                style = MaterialTheme.typography.labelMedium)
                         }
                     }
                 }

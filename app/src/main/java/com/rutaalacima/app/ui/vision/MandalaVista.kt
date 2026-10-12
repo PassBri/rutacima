@@ -670,7 +670,7 @@ private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Uni
                 fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 6.dp))
         }
         // La hoja de papel donde vive la Brújula
-        Box(Modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 4.dp, doblez = 26.dp).padding(14.dp)) {
+        Box(Modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 4.dp).padding(14.dp)) {
             AnimatedContent(
                 targetState = nivel,
                 modifier = Modifier.clip(RoundedCornerShape(18.dp)),
@@ -831,7 +831,7 @@ fun BrujulaEnMuro(json: String, autor: String, modifier: Modifier = Modifier) {
     var abierta by rememberSaveable { mutableStateOf(false) }
     val nf = NumberFormat.getIntegerInstance()
     Column(
-        modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 2.dp, doblez = 18.dp)
+        modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 2.dp)
             .clickable { abierta = true }.padding(18.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {

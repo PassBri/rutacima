@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">Make a living from what I love and have time for my family.</string>
     <string name="onb_ejemplo_2">Build my own project and help hundreds of people with it.</string>
     <string name="onb_ejemplo_3">Reach 100 with health, purpose and joy.</string>
+    <string name="planeta_venus">Venus</string>
+    <string name="planeta_jupiter">Jupiter</string>
+    <string name="planeta_marte">Mars</string>
+    <string name="planeta_saturno">Saturn</string>
+    <string name="cielo_lectura">Sun %1$d° · Moon %2$d%%</string>
+    <string name="cielo_desc">The sky right now: the sun at %1$d°, the moon %2$d%% lit.</string>
 </resources>

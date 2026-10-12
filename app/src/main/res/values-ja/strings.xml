@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">好きなことで生計を立て、家族との時間を持つ。</string>
     <string name="onb_ejemplo_2">自分のプロジェクトをつくり、何百人もの人の役に立つ。</string>
     <string name="onb_ejemplo_3">健康で、目的と喜びを持って100歳を迎える。</string>
+    <string name="planeta_venus">金星</string>
+    <string name="planeta_jupiter">木星</string>
+    <string name="planeta_marte">火星</string>
+    <string name="planeta_saturno">土星</string>
+    <string name="cielo_lectura">太陽 %1$d° · 月 %2$d%%</string>
+    <string name="cielo_desc">今の空：太陽の高さ %1$d°、月は %2$d%% 輝いています。</string>
 </resources>

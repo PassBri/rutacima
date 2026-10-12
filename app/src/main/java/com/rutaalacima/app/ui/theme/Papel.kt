@@ -45,7 +45,7 @@ object Papel {
      * en papel antiguo y pastel, café tostado.
      */
     val Sombra: Color
-        get() = if (EstiloActual.estilo == EstiloPapel.BLANCO) Color(0xFF7A2418) else Color(0xFF4A3218)
+        get() = if (EstiloActual.estilo == EstiloPapel.BLANCO) Color(0xFF18262F) else Color(0xFF4A3218)
 
     /** Cuánto se nota el papel (grano y dobleces): sutil en blanco, marcado en antiguo. */
     val intensidad: Float
@@ -79,9 +79,11 @@ fun Modifier.fondoPapel(): Modifier = composed {
             0.6f to Color.Transparent, 1f to Papel.Sombra.copy(alpha = if (oscuro) 0.4f else 0.16f * k),
             center = Offset(size.width / 2, size.height * 0.42f), radius = size.maxDimension * 0.75f,
         )
+        val altitud = EstiloActual.estilo == EstiloPapel.BLANCO || oscuro
         onDrawBehind {
             drawRect(fondo)
-            drawRect(grano, alpha = if (oscuro) 0.5f else k)
+            if (altitud) { drawRect(grano, alpha = if (oscuro) 0.25f else 0.3f); return@onDrawBehind }
+            drawRect(grano, alpha = k)
             // Doblez vertical: sombra de un lado, brillo del otro
             val cx = size.width / 2
             drawRect(Brush.horizontalGradient(listOf(Color.Transparent, sombra), startX = cx - 18f, endX = cx),
@@ -101,11 +103,12 @@ fun Modifier.fondoPapel(): Modifier = composed {
     }
 }
 
-/** Forma de hoja: esquinas apenas redondeadas y la esquina superior derecha doblada. */
-class FormaHoja(private val doblez: Dp = 22.dp, private val radio: Dp = 8.dp) : Shape {
+/** Forma de hoja: esquinas redondeadas; con [doblez] > 0, la esquina superior derecha se dobla (solo papeles especiales). */
+class FormaHoja(private val doblez: Dp = 0.dp, private val radio: Dp = 14.dp) : Shape {
     override fun createOutline(size: Size, layoutDirection: LayoutDirection, density: Density): Outline {
         val d = with(density) { doblez.toPx() }.coerceAtMost(size.minDimension / 2)
         val r = with(density) { radio.toPx() }.coerceAtMost(size.minDimension / 2)
+        if (d <= 0f) return Outline.Rounded(androidx.compose.ui.geometry.RoundRect(0f, 0f, size.width, size.height, androidx.compose.ui.geometry.CornerRadius(r)))
         val p = Path().apply {
             moveTo(r, 0f)
             lineTo(size.width - d, 0f)
@@ -123,21 +126,32 @@ class FormaHoja(private val doblez: Dp = 22.dp, private val radio: Dp = 8.dp) : 
 }
 
 /**
- * Hoja de papel: sombra cálida en capas, el pliegue diagonal de la hoja y la oreja doblada
- * en la esquina. [color] es el color del papel (por defecto la superficie del tema).
+ * Hoja: en Altitud, una hoja limpia con esquinas redondeadas, línea fina de instrumento y sombra
+ * suave (sin oreja ni pliegue). Con [doblez] > 0 o [pliegue] se dibujan la oreja y el pliegue de
+ * los papeles especiales. [color] es el color del papel (por defecto la superficie del tema).
  */
 fun Modifier.hojaPapel(
     color: Color? = null,
-    elevacion: Dp = 3.dp,
-    doblez: Dp = 22.dp,
-    pliegue: Boolean = true,
+    elevacion: Dp = 2.dp,
+    doblez: Dp = 0.dp,
+    pliegue: Boolean = false,
 ): Modifier = composed {
     val papel = color ?: MaterialTheme.colorScheme.surfaceContainerLow
+    val borde = MaterialTheme.colorScheme.outlineVariant
     val forma = remember(doblez) { FormaHoja(doblez) }
     this
-        .shadow(elevacion, forma, clip = false, ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
+        .shadow(elevacion, forma, clip = false, ambientColor = Papel.Sombra.copy(alpha = 0.5f), spotColor = Papel.Sombra.copy(alpha = 0.5f))
         .drawWithCache {
             val outline = forma.createOutline(size, layoutDirection, this)
+            if (doblez.value <= 0f) {
+                val rr = (outline as Outline.Rounded).roundRect
+                val camino = Path().apply { addRoundRect(rr) }
+                return@drawWithCache onDrawWithContent {
+                    drawPath(camino, papel)
+                    drawPath(camino, borde, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 1.dp.toPx()))
+                    drawContent()
+                }
+            }
             val d = doblez.toPx().coerceAtMost(size.minDimension / 2)
             val grano = ShaderBrush(ImageShader(Papel.grano, TileMode.Repeated, TileMode.Repeated))
             // Pliegue diagonal: una línea de sombra y luz que cruza la hoja

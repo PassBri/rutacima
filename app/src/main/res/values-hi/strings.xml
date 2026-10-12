@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">जो मुझे पसंद है उसी से जीविका चलाना और परिवार के लिए समय रखना।</string>
     <string name="onb_ejemplo_2">अपना प्रोजेक्ट बनाना और उससे सैकड़ों लोगों की मदद करना।</string>
     <string name="onb_ejemplo_3">स्वास्थ्य, उद्देश्य और आनंद के साथ 100 वर्ष तक पहुँचना।</string>
+    <string name="planeta_venus">शुक्र</string>
+    <string name="planeta_jupiter">बृहस्पति</string>
+    <string name="planeta_marte">मंगल</string>
+    <string name="planeta_saturno">शनि</string>
+    <string name="cielo_lectura">सूर्य %1$d° · चंद्र %2$d%%</string>
+    <string name="cielo_desc">अभी का आकाश: सूर्य %1$d° पर, चंद्रमा %2$d%% प्रकाशित।</string>
 </resources>

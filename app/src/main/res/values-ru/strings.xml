@@ -1220,4 +1220,10 @@
     <string name="onb_ejemplo_1">Жить любимым делом и иметь время для семьи.</string>
     <string name="onb_ejemplo_2">Создать свой проект и помочь им сотням людей.</string>
     <string name="onb_ejemplo_3">Дожить до 100 лет со здоровьем, смыслом и радостью.</string>
+    <string name="planeta_venus">Венера</string>
+    <string name="planeta_jupiter">Юпитер</string>
+    <string name="planeta_marte">Марс</string>
+    <string name="planeta_saturno">Сатурн</string>
+    <string name="cielo_lectura">Солнце %1$d° · Луна %2$d %%</string>
+    <string name="cielo_desc">Небо сейчас: Солнце на %1$d°, Луна освещена на %2$d %%.</string>
 </resources>
