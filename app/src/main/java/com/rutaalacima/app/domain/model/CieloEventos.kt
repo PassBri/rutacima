@@ -60,7 +60,9 @@ class CieloDatos(
                     n.filterKeys { it != "pos" }.mapValues { it.value.jsonPrimitive.content })
             }
             val lluvias = o.getValue("lluvias").jsonArray.map {
-                val l = it.jsonObject; fun s(k: String) = l.getValue(k).jsonPrimitive.content; fun d(k: String) = l.getValue(k).jsonPrimitive.double
+                val l = it.jsonObject
+                fun s(k: String) = l.getValue(k).jsonPrimitive.content
+                fun d(k: String) = l.getValue(k).jsonPrimitive.double
                 Lluvia(s("id"), s("constelacion"), d("ra"), d("dec"), d("thz"), s("pico"), s("desde"), s("hasta"), d("ancho"))
             }
             val eventos = o.getValue("eventos").jsonArray.map {

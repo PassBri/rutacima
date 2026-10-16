@@ -11,6 +11,8 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  /** Mirar el cielo: la ventana que sigue la orientación del teléfono (o se arrastra en el computador). */
+  mirarCielo() { Cielo.abrirVentana(); },
   /** El evento del cielo de hoy, explicado en dos frases (eclipses, lluvias de meteoros, conjunciones…). */
   eventoCielo() {
     const c = Cielo.contar(Cielo.eventoDe(new Date())); if (!c) return;

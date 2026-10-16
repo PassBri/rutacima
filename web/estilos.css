@@ -949,3 +949,24 @@ a.btn { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) { .hab-linea i, .hab-flecha svg { transition: none; } }
 .ejemplos-cumbre { display: grid; gap: 8px; }
 .ejemplos-cumbre .chip { text-align: start; white-space: normal; line-height: 1.4; padding: 10px 14px; min-height: 44px; height: auto; border-radius: 12px; }
+
+/* Mirar el cielo: una ventana al cielo real según hacia dónde apuntas */
+.cielo-mirar { position: absolute; right: 14px; top: 58px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; z-index: 2;
+  color: #fff; background: rgb(6 10 16 / .32); border: 1px solid rgb(255 255 255 / .32); }
+.cielo-mirar svg { width: 22px; height: 22px; fill: currentColor; }
+.cielo-mirar::after { content: ""; position: absolute; inset: -4px; }
+.cielo-mirar:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+.ventana-cielo { position: fixed; inset: 0; z-index: 60; background: #060A12; color: #fff; touch-action: none; animation: vc-entra .42s cubic-bezier(.2,0,0,1); }
+@keyframes vc-entra { from { opacity: 0; } }
+.ventana-cielo canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+.ventana-cielo canvas:active { cursor: grabbing; }
+.vc-arriba { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: max(14px, env(safe-area-inset-top)) 16px 14px; background: linear-gradient(rgb(6 10 16 / .55), transparent); pointer-events: none; }
+.vc-rumbo { font: 300 15px/1.2 var(--font-texto); letter-spacing: .12em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+.vc-cerrar { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: rgb(255 255 255 / .1); border: 1px solid rgb(255 255 255 / .3); }
+.vc-cerrar svg { width: 22px; height: 22px; fill: currentColor; }
+.vc-cerrar:focus-visible, .vc-brujula:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+.vc-ayuda { position: absolute; left: 16px; right: 16px; bottom: max(18px, env(safe-area-inset-bottom)); margin: 0; text-align: center; font-size: 13px; color: rgb(255 255 255 / .8); pointer-events: none; }
+.vc-brujula { position: absolute; left: 50%; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 34px); transform: translateX(-50%); min-height: 44px; padding: 10px 18px; border-radius: 99px;
+  background: #fff; color: #1D2427; font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .ventana-cielo { animation: none; } }
