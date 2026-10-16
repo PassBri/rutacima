@@ -132,6 +132,33 @@ function pintarDetalle() {
   const abajo = $("detalle").querySelector(".det-cuerpo.abajo"); if (abajo) abajo.scrollTop = abajo.scrollHeight;
   pintarAudio();
   window.Cielo?.pintarTodos();
+  $("app").classList.toggle("inmersivo", estado.sec === "comunidad" && estado.sel === "feed" && estado.vistaCom === "cimas");
+  prepararCimas();
+}
+/** Cimas: el cielo de cada publicación se pinta al verla; doble toque impulsa y cae un sello de lacre. */
+function prepararCimas() {
+  const cont = $("detalle").querySelector(".cimas"); if (!cont) return;
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target; io.unobserve(el); window.Cielo?.pintar(el, new Date(Number(el.dataset.cieloPost)));
+  }), { root: cont, rootMargin: "100% 0px" });
+  cont.querySelectorAll("[data-cielo-post]").forEach(el => io.observe(el));
+  if (cont.dataset.listo) return; cont.dataset.listo = "1";
+  cont.addEventListener("dblclick", e => {
+    const c = e.target.closest(".cima"); if (!c || e.target.closest("button")) return;
+    const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima);
+    // El sello va fuera de la cima: la cima se redibuja al impulsar y el sello debe terminar de caer
+    const sello = document.createElement("img"); sello.src = LOGO; sello.alt = ""; sello.className = "cima-sello";
+    sello.style.left = e.clientX + "px"; sello.style.top = e.clientY + "px"; document.body.append(sello);
+    sello.addEventListener("animationend", () => sello.remove()); setTimeout(() => sello.remove(), 1500);
+    navigator.vibrate?.(12);
+    if (p && !p.yoImpulse) { estado.post = p; ACC.impulsar(); }
+  });
+  // Teclado: flechas arriba y abajo pasan de cima en cima
+  cont.addEventListener("keydown", e => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "j" && e.key !== "k") return;
+    e.preventDefault(); cont.scrollBy({ top: (e.key === "ArrowDown" || e.key === "j" ? 1 : -1) * cont.clientHeight, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  });
 }
 
 const DET = {
@@ -421,22 +448,35 @@ Object.assign(DET, {
     return DET["comunidad.feed"]();
   },
   "comunidad.feed"() {
+    const p0Demo = ps => ps.some(p => p.demo) && !Store.nube ? `<p class="cimas-demo">Comunidad de ejemplo</p>` : "";
     if (!estado.feed) { cargarFeed(); return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Cargando…") + cuerpo(""); }
     const ps = estado.feed;
     const autor = p => { const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase(); return av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"); };
     const vacioFeed = `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     if (estado.vistaCom === "cimas") {
-      // Cimas es la vista inmersiva del mismo muro: se entra tocando una publicación y se vuelve con este botón
-      return cab(av(ic("ruta"), "var(--burdeos)"), "Cimas", "Desliza para ver la siguiente",
-        `<button class="btn mini" data-vista="lista">${ic("comunidad")} Volver al muro</button>`) +
-        `<div class="cimas" tabindex="0" aria-label="Cimas">${ps.length ? ps.map(p => `<article class="cima" data-cima="${esc(p.id)}">
-          <div class="cima-fondo" style="--c:${COLOR_EJE[p.eje] || "#6B2A1A"}">${p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}">` : `<p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
-          <span class="cima-tipo">${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</span>
-          <div class="cima-acciones">${autor(p)}
-            <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar">${ic("impulso")}<b>${p.impulsos}</b></button>
-            <button data-ir="comunidad" data-arg="post:${esc(p.id)}" aria-label="Comentarios">${ic("comentario")}<b>${p.comentarios}</b></button></div>
-          <div class="cima-pie"><span><b>${esc(p.autorNombre)}</b> · ${hace(p.creadoEn)}</span>${p.foto && p.texto ? `<p>${esc(p.texto)}</p>` : ""}
-            ${p.metaTitulo ? `<span class="cima-meta">⛰ ${esc(p.metaTitulo)}${p.eje ? " · " + NOMBRE_EJE[p.eje] : ""}</span>` : ""}</div></article>`).join("") : vacioFeed}</div>`;
+      // Cimas: la comunidad a pantalla completa, como los videos cortos, en el mundo de Ruta a la Cima.
+      // Arriba: el muro y las pestañas. Derecha: autor y acciones. Abajo: autor, texto y meta.
+      const pestanas = [["SIGUIENDO", "Siguiendo"], ["PARA_TI", "Para ti"], ["VISION", "Visión"]];
+      const num = n => n >= 10000 ? `${Math.floor(n / 1000)} mil` : n >= 1000 ? `${(n / 1000).toFixed(1).replace(".", ",")} mil` : String(n);
+      return `<div class="cimas-cab">
+          <button class="cimas-ic" data-vista="lista" aria-label="Ver el muro" title="Ver el muro">${ic("lista")}</button>
+          <nav class="cimas-pestanas" aria-label="Qué ver">${pestanas.map(([k, n]) => `<button data-feed="${k}" aria-pressed="${estado.feedFiltro === k}">${n}</button>`).join("")}</nav>
+          <button class="cimas-ic" data-sec="mensajes" aria-label="Mensajes" title="Mensajes">${ic("mensajes")}</button></div>
+        ${p0Demo(ps)}
+        <div class="cimas" tabindex="0" aria-label="Cimas: desliza para ver la siguiente">${ps.length ? ps.map((p, i) => `<article class="cima" data-cima="${esc(p.id)}" aria-label="Publicación de ${esc(p.autorNombre)}">
+          <div class="cima-fondo">${p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
+            : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
+          <div class="cima-acciones">
+            <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
+            <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${ic("impulso")}<b>${num(p.impulsos)}</b></button>
+            <button data-ir="comunidad" data-arg="post:${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
+            <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button></div>
+          <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
+            <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], NOMBRE_EJE[p.eje], hace(p.creadoEn)].filter(Boolean).join(" · ")}</span>
+            ${p.foto && p.texto ? `<p class="cima-texto">${esc(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
+            ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
+            ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("")
+          : `<div class="cimas-vacio"><p>${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p><button class="btn lleno" data-ir="comunidad" data-arg="publicar">Publicar</button></div>`}</div>`;
     }
     return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
       (ps.length && estado.feedFiltro === "PARA_TI" ? cumbreComunidad(ps) : "") + (ps.length ? ps.map(p => `<article class="hoja post-muro">

@@ -10,7 +10,7 @@ const SECCIONES = [
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
 const SOLO_PC = new Set(["metas", "coach", "mensajes", "frases"]);
-const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "lista" };
+const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "cimas" };
 
 function pintarRiel() {
   prepararDeslizarRiel();

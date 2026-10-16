@@ -384,22 +384,64 @@ a.btn { text-decoration: none; color: inherit; }
 .segmentos button + button { border-left: 1px solid var(--linea); }
 .segmentos button[aria-pressed="true"] { background: var(--burdeos); color: var(--sobre-burdeos); }
 .post-muro { display: grid; gap: 12px; }
-.cimas { flex: 1; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; padding: 12px; display: grid; gap: 12px; grid-auto-rows: calc(100% - 0px); position: relative; z-index: 1; overscroll-behavior: contain; }
+/* Cimas: la comunidad a pantalla completa (como los videos cortos), en el mundo de Ruta a la Cima.
+   En el teléfono va de borde a borde sobre la noche; en el computador, una columna vertical centrada. */
+.cimas { flex: 1; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; display: grid; grid-auto-rows: 100%; position: relative; z-index: 1; overscroll-behavior: contain; background: #060A12; }
 .cimas:focus-visible { outline: none; }
-.cima { position: relative; scroll-snap-align: start; scroll-snap-stop: always; border-radius: 20px; overflow: hidden; background: #1D120D; max-width: 520px; width: 100%; margin-inline: auto;
-  box-shadow: 0 6px 24px rgb(var(--sombra) / .25); color: #fff; }
-.cima-fondo { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(160deg, var(--c), color-mix(in srgb, var(--c) 45%, #1d120d)); }
+.cima { position: relative; scroll-snap-align: start; scroll-snap-stop: always; overflow: hidden; background: #060A12; color: #fff;
+  width: 100%; height: 100%; margin-inline: auto; }
+@media (min-width: 901px) {
+  .cimas { padding: 16px 0; grid-auto-rows: calc(100% - 32px); row-gap: 16px; scroll-padding-top: 16px; }
+  .cima { width: min(100%, calc((100vh - 120px) * 9 / 16)); border-radius: 16px; box-shadow: 0 24px 60px -20px rgb(0 0 0 / .6); }
+}
+.cima-fondo { position: absolute; inset: 0; display: grid; place-items: center; }
 .cima-fondo img { width: 100%; height: 100%; object-fit: cover; }
-.cima-cita { margin: 0; padding: 0 40px; font: 700 clamp(20px, 2.6vw, 28px)/1.35 var(--font-titulo); text-align: center; text-wrap: balance; }
-.cima::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgb(0 0 0 / .35), transparent 18%, transparent 55%, rgb(0 0 0 / .85)); }
-.cima-tipo { position: absolute; top: 14px; left: 14px; z-index: 1; background: rgb(255 255 255 / .2); padding: 3px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-.cima-acciones { position: absolute; right: 12px; bottom: 90px; z-index: 1; display: grid; gap: 16px; justify-items: center; }
-.cima-acciones button { display: grid; justify-items: center; gap: 2px; color: #fff; font-size: 13px; }
-.cima-acciones button svg { width: 26px; height: 26px; padding: 10px; box-sizing: content-box; border-radius: 50%; background: rgb(255 255 255 / .2); }
-.cima-acciones button[aria-pressed="true"] svg { background: var(--oro); }
-.cima-pie { position: absolute; left: 16px; right: 80px; bottom: 18px; z-index: 1; display: grid; gap: 6px; font-size: 14px; }
-.cima-pie p { margin: 0; }
-.cima-meta { justify-self: start; background: rgb(255 255 255 / .2); padding: 3px 10px; border-radius: 99px; font-size: 13px; }
+.cima-cielo { position: absolute; inset: 0; pointer-events: none; }
+.cima-cita { position: relative; margin: 0; padding: 0 76px 120px 32px; font: 500 clamp(21px, 2.4vw, 27px)/1.4 var(--font-titulo); text-align: center; text-wrap: balance; color: #fff;
+  text-shadow: 0 1px 14px rgb(0 0 0 / .45); }
+.cima::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgb(6 10 18 / .55), transparent 16%, transparent 52%, rgb(6 10 18 / .88)); }
+.cima-acciones { position: absolute; right: 8px; bottom: 24px; z-index: 1; display: grid; gap: 14px; justify-items: center; }
+.cima-acciones button { display: grid; justify-items: center; gap: 3px; color: #fff; font-size: 12.5px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.cima-acciones button svg { width: 26px; height: 26px; padding: 11px; box-sizing: content-box; border-radius: 50%; background: rgb(6 10 18 / .25); border: 1px solid rgb(255 255 255 / .24); }
+.cima-acciones button[aria-pressed="true"] svg { color: #2B2108; background: var(--oro); border-color: var(--oro); }
+.cima-acciones button:focus-visible svg { outline: 2px solid var(--oro); outline-offset: 2px; }
+.cima-autor .avatar { width: 50px; height: 50px; border: 2px solid rgb(255 255 255 / .9); font-size: 16px; background: #6B2A1A !important; }
+.cima-pie { position: absolute; left: 16px; right: 84px; bottom: 20px; z-index: 1; display: grid; gap: 6px; justify-items: start; font-size: 14px; }
+.cima-quien { font-size: 16px; font-weight: 600; }
+.cima-dato { font-size: 12.5px; color: rgb(255 255 255 / .78); }
+.cima-dato.suave-c { color: rgb(255 255 255 / .6); }
+.cima-texto { margin: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cima-pie.abierto .cima-texto { -webkit-line-clamp: 12; }
+.cima-mas { color: #fff; font-weight: 600; font-size: 13px; padding: 2px 0; }
+.cima-meta { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; background: rgb(255 255 255 / .16); border: 1px solid rgb(255 255 255 / .28); padding: 4px 10px; border-radius: 99px; font-size: 13px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cima-meta svg { width: 16px; height: 16px; fill: var(--oro); flex: none; }
+.cima-ayuda { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: rgb(255 255 255 / .7); }
+.cima-ayuda svg { width: 18px; height: 18px; fill: currentColor; }
+.cima-sello { position: fixed; z-index: 70; width: 132px; height: 132px; margin: -66px 0 0 -66px; pointer-events: none; animation: sello-cae .9s cubic-bezier(.2,0,0,1) forwards; }
+@keyframes sello-cae { 0% { opacity: 0; transform: scale(1.6) rotate(-8deg); } 25% { opacity: 1; transform: scale(1) rotate(0); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(.92); } }
+.cimas-cab { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: center; gap: 4px; padding: max(8px, env(safe-area-inset-top)) 8px 8px; pointer-events: none; }
+@media (min-width: 901px) { .cimas-cab { left: 50%; right: auto; width: min(100%, calc((100vh - 120px) * 9 / 16)); transform: translateX(-50%); top: 16px; } }
+.cimas-cab > * { pointer-events: auto; }
+.cimas-ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
+.cimas-ic svg { width: 24px; height: 24px; fill: currentColor; }
+.cimas-pestanas { flex: 1; display: flex; justify-content: center; gap: 2px; }
+.cimas-pestanas button { position: relative; padding: 10px 10px 12px; color: rgb(255 255 255 / .66); font-size: 15px; font-weight: 400; white-space: nowrap; }
+.cimas-pestanas button[aria-pressed="true"] { color: #fff; font-weight: 600; }
+.cimas-pestanas button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: 22px; height: 2px; margin-left: -11px; border-radius: 1px; background: var(--oro); }
+.cimas-pestanas button:focus-visible, .cimas-ic:focus-visible { outline: 2px solid var(--oro); outline-offset: -2px; border-radius: 10px; }
+.cimas-demo { position: absolute; z-index: 3; top: calc(max(8px, env(safe-area-inset-top)) + 50px); left: 50%; transform: translateX(-50%); margin: 0; padding: 3px 10px; border-radius: 99px; background: rgb(255 255 255 / .12); color: rgb(255 255 255 / .8); font-size: 11.5px; pointer-events: none; }
+@media (min-width: 901px) { .cimas-demo { top: 70px; } }
+.cimas-vacio { display: grid; place-items: center; align-content: center; gap: 14px; color: #fff; text-align: center; padding: 24px; }
+/* Vista inmersiva: en el teléfono, Cimas ocupa todo y la barra inferior se vuelve de noche */
+.app.inmersivo .detalle { background: #060A12; }
+@media (max-width: 900px) {
+  .app.inmersivo .riel { background: #0A0E12; border-top-color: #1B232A; }
+  .app.inmersivo .riel .rb { color: rgb(255 255 255 / .72); }
+  .app.inmersivo .riel .rb[aria-current="page"] { color: #fff; }
+  .app.inmersivo .riel .rb[aria-current="page"] .rb-ic::before { background: rgb(224 181 102 / .22); }
+  .app.inmersivo .riel .rb-publicar { color: #E0B566; }
+}
 .destello { position: absolute; inset: 0; display: grid; place-items: center; z-index: 2; pointer-events: none; animation: destello .7s ease forwards; }
 .destello svg { width: 120px; height: 120px; fill: var(--oro); }
 @keyframes destello { from { opacity: 0; transform: scale(.6); } 30% { opacity: 1; transform: scale(1.1); } to { opacity: 0; transform: scale(1); } }

@@ -120,6 +120,15 @@ const ACC = {
     if (img?.complete && img.naturalWidth) romperSello(img, anio * 1000 + fraseIndice(d), () => setTimeout(() => { $("tarjetaFrase")?.classList.add("rota"); setTimeout(guardar, 350); }, 220));
     else { $("tarjetaFrase")?.classList.add("rota"); setTimeout(guardar, 350); }
   },
+  /** Compartir una publicación: la hoja del sistema en el teléfono; en el computador, se copia el texto. */
+  async compartirPost(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
+    const texto = [p.metaTitulo, p.texto, "— Rutaalacima"].filter(Boolean).join("\n\n");
+    try { if (navigator.share) { await navigator.share({ text: texto }); return; } } catch { return; }
+    try { await navigator.clipboard.writeText(texto); toast("Copiado: pégalo donde quieras compartirlo."); } catch {}
+  },
+  /** "más" / "menos" en el texto de una cima */
+  masTexto(el) { const pie = el.closest(".cima-pie"); const abierto = pie.classList.toggle("abierto"); el.textContent = abierto ? "menos" : "más"; el.setAttribute("aria-expanded", abierto); },
   impulsarId(el, id) { const p = (estado.feed || []).find(x => String(x.id) === id); if (p) { estado.post = p; ACC.impulsar(); } },
   async impulsar() {
     const p = estado.post; if (!p) return;
@@ -194,7 +203,7 @@ function clic(e) {
   if (t.dataset.ir) { ir(t.dataset.ir, t.dataset.arg || null); return; }
   if (t.dataset.pregunta) { preguntar(t.dataset.pregunta); return; }
   if (t.dataset.filtro) { estado.filtro = t.dataset.filtro; pintarLista(); return; }
-  if (t.dataset.feed) { estado.feedFiltro = t.dataset.feed; estado.feed = null; pintarLista(); return; }
+  if (t.dataset.feed) { estado.feedFiltro = t.dataset.feed; estado.feed = null; pintarLista(); if (estado.sel === "feed") pintarDetalle(); return; }
   if (t.dataset.vista) {
     // Volver de Cimas al muro, en la publicación que estabas viendo
     const actual = [...document.querySelectorAll(".cima")].find(c => { const r = c.getBoundingClientRect(); return r.top >= -r.height / 2 && r.top < innerHeight / 2; })?.dataset.cima;
@@ -202,7 +211,9 @@ function clic(e) {
     if (actual) requestAnimationFrame(() => document.querySelector(`[data-acc="verCima"][data-arg="${CSS.escape(actual)}"]`)?.closest("article")?.scrollIntoView({ block: "center" }));
     return;
   }
-  if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && (t.dataset.sec === "coach" || t.dataset.sec === "comunidad") ? (t.dataset.sec === "coach" ? "coach" : "feed") : null); return; }
+  // La Comunidad se abre a pantalla completa (Cimas), en el teléfono y en el computador
+  if (t.dataset.sec === "comunidad") { estado.vistaCom = "cimas"; ir("comunidad", "feed"); return; }
+  if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && t.dataset.sec === "coach" ? "coach" : null); return; }
   if (t.dataset.sel?.startsWith("ir-")) { const d = t.dataset.sel.slice(3); if (d === "coachvida") ir("mensajes", "coachvida"); else ir(d, d === "coach" ? "coach" : null); return; }
   if (t.dataset.sel !== undefined) elegir(t.dataset.sel);
 }
