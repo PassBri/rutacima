@@ -1,6 +1,7 @@
 package com.rutaalacima.app.ui.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.material.icons.filled.ThreeSixty
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
