@@ -420,7 +420,7 @@ a.btn { text-decoration: none; color: inherit; }
 .cima-ayuda svg { width: 18px; height: 18px; fill: currentColor; }
 .cima-sello { position: fixed; z-index: 70; width: 132px; height: 132px; margin: -66px 0 0 -66px; pointer-events: none; animation: sello-cae .9s cubic-bezier(.2,0,0,1) forwards; }
 @keyframes sello-cae { 0% { opacity: 0; transform: scale(1.6) rotate(-8deg); } 25% { opacity: 1; transform: scale(1) rotate(0); } 70% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(.92); } }
-.cimas-cab { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: center; gap: 4px; padding: max(8px, env(safe-area-inset-top)) 8px 8px; pointer-events: none; }
+.cimas-cab { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; align-items: center; gap: 4px; padding: 6px 8px 8px; pointer-events: none; }
 @media (min-width: 901px) { .cimas-cab { left: 50%; right: auto; width: min(100%, calc((100vh - 120px) * 9 / 16)); transform: translateX(-50%); top: 16px; } }
 .cimas-cab > * { pointer-events: auto; }
 .cimas-ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; }
@@ -430,7 +430,7 @@ a.btn { text-decoration: none; color: inherit; }
 .cimas-pestanas button[aria-pressed="true"] { color: #fff; font-weight: 600; }
 .cimas-pestanas button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: 22px; height: 2px; margin-left: -11px; border-radius: 1px; background: var(--oro); }
 .cimas-pestanas button:focus-visible, .cimas-ic:focus-visible { outline: 2px solid var(--oro); outline-offset: -2px; border-radius: 10px; }
-.cimas-demo { position: absolute; z-index: 3; top: calc(max(8px, env(safe-area-inset-top)) + 50px); left: 50%; transform: translateX(-50%); margin: 0; padding: 3px 10px; border-radius: 99px; background: rgb(255 255 255 / .12); color: rgb(255 255 255 / .8); font-size: 11.5px; pointer-events: none; }
+.cimas-demo { position: absolute; z-index: 3; top: 54px; left: 50%; transform: translateX(-50%); margin: 0; padding: 3px 10px; border-radius: 99px; background: rgb(255 255 255 / .12); color: rgb(255 255 255 / .8); font-size: 11.5px; pointer-events: none; }
 @media (min-width: 901px) { .cimas-demo { top: 70px; } }
 .cimas-vacio { display: grid; place-items: center; align-content: center; gap: 14px; color: #fff; text-align: center; padding: 24px; }
 /* Vista inmersiva: en el teléfono, Cimas ocupa todo y la barra inferior se vuelve de noche */
@@ -1003,7 +1003,9 @@ a.btn { text-decoration: none; }
 .ventana-cielo canvas { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
 .ventana-cielo canvas:active { cursor: grabbing; }
 .vc-arriba { position: absolute; left: 0; right: 0; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: max(14px, env(safe-area-inset-top)) 16px 14px; background: linear-gradient(rgb(6 10 16 / .55), transparent); pointer-events: none; }
+  padding: 14px 16px; background: linear-gradient(rgb(6 10 16 / .55), transparent); pointer-events: none; }
+/* Solo instalada (pantalla completa) hay que esquivar la cámara; en el navegador la barra del navegador ya lo hace */
+@media (display-mode: standalone) { .vc-arriba { padding-top: max(14px, env(safe-area-inset-top)); } }
 .vc-rumbo { font: 300 15px/1.2 var(--font-texto); letter-spacing: .12em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
 .vc-cerrar { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: rgb(255 255 255 / .1); border: 1px solid rgb(255 255 255 / .3); }
 .vc-cerrar svg { width: 22px; height: 22px; fill: currentColor; }
