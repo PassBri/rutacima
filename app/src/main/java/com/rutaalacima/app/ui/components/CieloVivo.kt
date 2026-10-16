@@ -1,7 +1,7 @@
 package com.rutaalacima.app.ui.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.material.icons.filled.ThreeSixty
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -236,7 +236,7 @@ fun CieloVivo(
                 modifier = Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 52.dp, end = 12.dp).size(48.dp).semantics { contentDescription = mirar },
             ) {
                 Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
-                    androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.ThreeSixty, null, Modifier.size(22.dp))
+                    androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Visibility, null, Modifier.size(22.dp))
                 }
             }
         }
