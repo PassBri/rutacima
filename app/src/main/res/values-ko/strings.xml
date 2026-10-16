@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">해</string>
     <string name="cielo_lluvia_corto">유성우</string>
     <string name="cerrar_cielo">닫기</string>
+    <string name="cielo_lluvia_corta">%1$s 유성</string>
 </resources>

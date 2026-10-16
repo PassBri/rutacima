@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">Солнце</string>
     <string name="cielo_lluvia_corto">Поток</string>
     <string name="cerrar_cielo">Закрыть</string>
+    <string name="cielo_lluvia_corta">Метеоры из %1$s</string>
 </resources>

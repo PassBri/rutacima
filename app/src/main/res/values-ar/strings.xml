@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">الشمس</string>
     <string name="cielo_lluvia_corto">زخة</string>
     <string name="cerrar_cielo">إغلاق</string>
+    <string name="cielo_lluvia_corta">شهب من %1$s</string>
 </resources>

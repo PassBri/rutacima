@@ -240,9 +240,14 @@ fun CieloVivo(
                 }
             }
         }
-        if (lectura && actual != null && datos != null) ChipEvento(actual, datos!!, idioma, Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
+        if (lectura && actual != null && datos != null) androidx.compose.runtime.CompositionLocalProvider(
+            LocalConfiguracionAncha provides (androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 600),
+        ) { ChipEvento(actual, datos!!, idioma, Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 12.dp, end = 12.dp)) }
     }
 }
+
+/** Si la pantalla es ancha (tableta o teléfono en horizontal): la línea del evento puede ir completa. */
+private val LocalConfiguracionAncha = androidx.compose.runtime.compositionLocalOf { false }
 
 /** Los datos del cielo (assets/cielo/datos.json, generados por tools/cielo/generar.js), leídos una sola vez. */
 object DatosCielo {
@@ -339,7 +344,10 @@ private fun textoEvento(a: CieloEventos.Actual, datos: CieloDatos, idioma: Strin
     val ll = a.lluvia
     if (ll != null) {
         val cons = datos.nombres[ll.lluvia.constelacion]?.en(idioma) ?: ll.lluvia.constelacion
-        return Triple(stringResource(R.string.cielo_lluvia, cons), stringResource(R.string.cielo_lluvia_pico, f(ll.pico)), stringResource(R.string.cielo_exp_lluvia, cons))
+        // En el teléfono la línea corta cabe completa; el detalle y la explicación van al tocarla
+        val corta = LocalConfiguracionAncha.current.not()
+        return Triple(stringResource(if (corta) R.string.cielo_lluvia_corta else R.string.cielo_lluvia, cons),
+            stringResource(R.string.cielo_lluvia_pico, f(ll.pico)), stringResource(R.string.cielo_exp_lluvia, cons))
     }
     e ?: return Triple("", "", "")
     val astro = mapOf(

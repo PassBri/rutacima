@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">Sun</string>
     <string name="cielo_lluvia_corto">Shower</string>
     <string name="cerrar_cielo">Close</string>
+    <string name="cielo_lluvia_corta">Meteors from %1$s</string>
 </resources>

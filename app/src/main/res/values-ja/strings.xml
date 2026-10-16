@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">太陽</string>
     <string name="cielo_lluvia_corto">流星群</string>
     <string name="cerrar_cielo">閉じる</string>
+    <string name="cielo_lluvia_corta">%1$sの流星</string>
 </resources>

@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">सूर्य</string>
     <string name="cielo_lluvia_corto">उल्कापात</string>
     <string name="cerrar_cielo">बंद करें</string>
+    <string name="cielo_lluvia_corta">%1$s से उल्काएँ</string>
 </resources>

@@ -1260,4 +1260,5 @@
     <string name="cielo_sol">太阳</string>
     <string name="cielo_lluvia_corto">流星雨</string>
     <string name="cerrar_cielo">关闭</string>
+    <string name="cielo_lluvia_corta">来自%1$s的流星</string>
 </resources>

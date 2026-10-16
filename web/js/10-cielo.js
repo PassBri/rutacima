@@ -150,7 +150,7 @@ const Cielo = (() => {
         linea: `Eclipse ${CLASE_ECLIPSE[e.clase] || "parcial"} de sol · ${fechaCorta(e.max)} · ${h(e.inicio)}–${h(e.fin)}`,
         explica: `La luna pasa delante del sol y desde Santander tapa el ${Math.round(e.oscurecimiento * 100)} %. Nunca lo mires directo: usa gafas de eclipse certificadas (ISO 12312-2) o proyéctalo con un cartón perforado.` };
       case "lluvia": return {
-        linea: `Lluvia de meteoros desde ${cons(e.lluvia.constelacion)} · pico el ${fechaCorta(e.lluvia.pico)}`,
+        linea: `Lluvia de meteoros desde ${cons(e.lluvia.constelacion)} · pico el ${fechaCorta(e.lluvia.pico)}`, corta: `Meteoros desde ${cons(e.lluvia.constelacion)}`,
         explica: `La Tierra cruza el polvo que dejó un cometa: cada estela es un grano que arde al entrar al aire. Busca un lugar oscuro y mira hacia ${cons(e.lluvia.constelacion)} después de medianoche.` };
       case "conjuncion": {
         const [a, b] = e.cuerpos.map(c => NOMBRE_ASTRO[c]);
@@ -268,7 +268,7 @@ const Cielo = (() => {
       </svg>
       ${hud ? `<span class="cielo-lectura">${hora(ahora)}<span>Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} %</span></span>` : ""}
       ${hud ? `<button type="button" class="cielo-mirar" data-acc="mirarCielo" aria-label="Mirar el cielo" title="Mirar el cielo">${typeof ic === "function" ? ic("cielo360") : ""}</button>` : ""}
-      ${hud && contar(ev) ? `<button type="button" class="cielo-evento" data-acc="eventoCielo" title="${contar(ev).linea}" aria-label="${contar(ev).linea}. Toca para saber más"><span>${W >= 560 ? contar(ev).linea : contar(ev).linea.split(" · ")[0]}</span></button>` : ""}`;
+      ${hud && contar(ev) ? `<button type="button" class="cielo-evento" data-acc="eventoCielo" title="${contar(ev).linea}" aria-label="${contar(ev).linea}. Toca para saber más"><span>${W >= 560 ? contar(ev).linea : (contar(ev).corta || contar(ev).linea.split(" · ")[0])}</span></button>` : ""}`;
     el.title = `Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} % iluminada`;
   }
 
