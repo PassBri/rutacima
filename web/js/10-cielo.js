@@ -82,6 +82,91 @@ const Cielo = (() => {
   const estrellas = Array.from({ length: 70 }, (_, i) => ({ x: (i * 97.3) % 100, y: (i * 37.7) % 70, r: 0.5 + (i % 3) * 0.35, t: (i % 7) * 0.6 }));
   const hora = f => f.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
 
+  /* ---------- El cielo real: constelaciones, lluvias de meteoros y eventos (datos de tools/cielo) ----------
+     Misma lógica que la app (Astronomia.kt / CieloEventos.kt). Nunca se inventa un evento: todo sale de
+     CIELO_DATOS, calculado con astronomy-engine y el calendario de la IMO para Santander, Colombia. */
+  const DATOS = typeof CIELO_DATOS !== "undefined" ? CIELO_DATOS : { estrellas: [], lineas: [], nombres: {}, lluvias: [], eventos: [] };
+  const HORA_MS = 36e5, DIA_MS = 864e5;
+  const fijo = (ra, dec) => () => ({ ra: ra * rad, dec: dec * rad });
+  /** La lluvia activa en este instante: días al pico (Δ) y tasa por hora antes de corregir por altura y luna. */
+  function lluviaDe(ahora) {
+    const t = ahora.getTime(), y = ahora.getUTCFullYear();
+    const fecha = (a, md) => { const [m, d] = md.split("-").map(Number); return Date.UTC(a, m - 1, d, 6); };
+    for (const l of DATOS.lluvias) for (const a of [y - 1, y, y + 1]) {
+      const pico = fecha(a, l.pico);
+      let desde = fecha(a, l.desde), hasta = fecha(a, l.hasta);
+      if (desde > pico) desde = fecha(a - 1, l.desde);
+      if (hasta < pico) hasta = fecha(a + 1, l.hasta);
+      if (t >= desde - DIA_MS / 4 && t <= hasta + DIA_MS * 0.75) {
+        const delta = (t - pico) / DIA_MS;
+        return { ...l, pico, delta, tasa: l.thz * Math.exp(-Math.abs(delta) / l.ancho) };
+      }
+    }
+    return null;
+  }
+  /** El evento del cielo que toca contar ahora (uno solo, por prioridad), o null. */
+  function eventoDe(ahora) {
+    const t = ahora.getTime(), ms = x => Date.parse(x);
+    const ev = DATOS.eventos;
+    const eclipse = ev.find(e => e.tipo.startsWith("eclipse") && t >= ms(e.inicio) - DIA_MS && t <= ms(e.fin));
+    if (eclipse) return eclipse;
+    const ll = lluviaDe(ahora);
+    if (ll && Math.abs(ll.delta) <= 3) return { tipo: "lluvia", lluvia: ll, max: new Date(ll.pico).toISOString() };
+    const cerca = (tipo, h) => ev.filter(e => e.tipo === tipo && Math.abs(t - ms(e.max)) <= h * HORA_MS)
+      .sort((a, b) => Math.abs(t - ms(a.max)) - Math.abs(t - ms(b.max)))[0];
+    return cerca("conjuncion", 18) || cerca("superluna", 18) || cerca("estacion", 12) || null;
+  }
+  /** Cuánto cubre el eclipse en curso (0..1) y en qué fase va: la sombra crece hasta el máximo y luego se retira. */
+  function cubrimiento(e, t) {
+    const ms = x => Date.parse(x), max = ms(e.max);
+    if (e.tipo === "eclipse_sol") {
+      const a = ms(e.inicio), b = ms(e.fin);
+      if (t < a || t > b) return 0;
+      return e.oscurecimiento * (t <= max ? (t - a) / (max - a) : (b - t) / (b - max));
+    }
+    if (e.totalInicio && t >= ms(e.totalInicio) && t <= ms(e.totalFin)) return 1;
+    if (e.parcialInicio && t >= ms(e.parcialInicio) && t <= ms(e.parcialFin)) {
+      const pico = e.totalInicio ? (t < max ? ms(e.totalInicio) : ms(e.totalFin)) : max, borde = t < max ? ms(e.parcialInicio) : ms(e.parcialFin);
+      return Math.max(0.05, (e.totalInicio ? 1 : e.oscurecimiento) * (t - borde) / (pico - borde));
+    }
+    const a = ms(e.inicio), b = ms(e.fin);
+    if (t < a || t > b) return 0;
+    return 0.12 * (t <= max ? (t - a) / (max - a) : (b - t) / (b - max));   // penumbra: apenas se apaga
+  }
+  const NOMBRE_ASTRO = { luna: "la Luna", venus: "Venus", marte: "Marte", jupiter: "Júpiter", saturno: "Saturno" };
+  const CLASE_ECLIPSE = { total: "total", partial: "parcial", penumbral: "penumbral", annular: "anular" };
+  const fechaCorta = t => new Date(t).toLocaleDateString("es", { day: "numeric", month: "long" });
+  /** Una línea para el cielo y dos frases que lo explican con el lenguaje de la montaña. */
+  function contar(e) {
+    if (!e) return null;
+    const h = x => hora(new Date(x)), cons = id => DATOS.nombres[id]?.es || id;
+    switch (e.tipo) {
+      case "eclipse_luna": return {
+        linea: `Eclipse ${CLASE_ECLIPSE[e.clase]} de luna · ${fechaCorta(e.max)} · ${h(e.parcialInicio || e.inicio)}–${h(e.parcialFin || e.fin)}`,
+        explica: e.clase === "total" ? "La Tierra se pone entre el sol y la luna y la cubre con su sombra: la luna se vuelve color cobre. Se ve a simple vista, sin ningún filtro."
+          : e.clase === "partial" ? "La sombra de la Tierra muerde una parte de la luna. Se ve a simple vista, sin ningún filtro."
+          : "La luna pasa por la penumbra de la Tierra y se oscurece apenas. Es sutil: mírala con calma y compárala con otras noches." };
+      case "eclipse_sol": return {
+        linea: `Eclipse ${CLASE_ECLIPSE[e.clase] || "parcial"} de sol · ${fechaCorta(e.max)} · ${h(e.inicio)}–${h(e.fin)}`,
+        explica: `La luna pasa delante del sol y desde Santander tapa el ${Math.round(e.oscurecimiento * 100)} %. Nunca lo mires directo: usa gafas de eclipse certificadas (ISO 12312-2) o proyéctalo con un cartón perforado.` };
+      case "lluvia": return {
+        linea: `Lluvia de meteoros desde ${cons(e.lluvia.constelacion)} · pico el ${fechaCorta(e.lluvia.pico)}`,
+        explica: `La Tierra cruza el polvo que dejó un cometa: cada estela es un grano que arde al entrar al aire. Busca un lugar oscuro y mira hacia ${cons(e.lluvia.constelacion)} después de medianoche.` };
+      case "conjuncion": {
+        const [a, b] = e.cuerpos.map(c => NOMBRE_ASTRO[c]);
+        return { linea: `${a[0].toUpperCase() + a.slice(1)} y ${b}, juntos · ${String(e.sep).replace(".", ",")}°`,
+          explica: `${a[0].toUpperCase() + a.slice(1)} y ${b} se ven casi juntos, a ${String(e.sep).replace(".", ",")}° (menos que un dedo con el brazo estirado). Es una alineación aparente: en realidad están a millones de kilómetros.` };
+      }
+      case "superluna": return { linea: `Superluna · ${e.km.toLocaleString("es")} km`,
+        explica: `La luna llena coincide con su paso más cercano a la Tierra (${e.km.toLocaleString("es")} km): se ve un poco más grande y más brillante.` };
+      case "estacion": return {
+        linea: { equinoccio_marzo: "Equinoccio de marzo", equinoccio_septiembre: "Equinoccio de septiembre", solsticio_junio: "Solsticio de junio", solsticio_diciembre: "Solsticio de diciembre" }[e.clase],
+        explica: e.clase.startsWith("equinoccio") ? "El sol cruza el ecuador del cielo: hoy el día y la noche duran casi lo mismo en todo el planeta. En Colombia, a mediodía, el sol pasa casi por encima de tu cabeza."
+          : e.clase === "solsticio_junio" ? "El sol llega a su punto más al norte del año. En Colombia, a mediodía, tu sombra apunta hacia el sur." : "El sol llega a su punto más al sur del año. En Colombia, a mediodía, tu sombra apunta hacia el norte." };
+    }
+    return null;
+  }
+
   /**
    * El cielo como un instrumento de altura: degradado real del cielo, estrellas, la línea del horizonte
    * con marcas cada 15°, el arco que recorre el sol hoy, el sol y la luna con su anillo y su altura,
@@ -106,37 +191,104 @@ const Cielo = (() => {
     for (let k = 0; k <= 72; k++) { const p = posicion(sol, new Date(media.getTime() + k * 1200000), LAT, LNG); if (p.alt / rad > -8) arco.push(`${x(p.az).toFixed(2)},${y(p.alt).toFixed(2)}`); }
     const marcas = [-75, -60, -45, -30, -15, 0, 15, 30, 45, 60, 75].map(a => { const xx = x(a * rad); return `<line x1="${xx}" y1="${H0}" x2="${xx}" y2="${H0 - (a % 45 === 0 ? 2.4 : 1.2)}"/>`; }).join("");
     const linea = `rgba(255,255,255,${0.22 + 0.2 * noche})`;
+    const ev = eventoDe(ahora);
     const planetas = completo ? PLANETAS.map(([k, nombre, umbral]) => {
       const p = posicion(planeta(k), ahora, LAT, LNG), alt = p.alt / rad;
       if (alt < 2 || altS > umbral) return "";
-      const px = x(p.az), py = y(p.alt), bajoLectura = hud && px < 36 && py < 34;
+      const px = x(p.az), py = y(p.alt), bajoLectura = hud && py < 34 && (px < 36 || (px > 50 && ev));
       return `<span class="astro planeta ${px > 78 ? "izq" : ""}" style="left:${px}%;top:${py}%" title="${nombre}"><i></i>${bajoLectura ? "" : `<b>${nombre}</b>`}</span>`;
     }).join("") : "";
+    // Constelaciones reales (solo la mitad sur del cielo, la que se ve de frente) en píxeles, sin deformar
+    const W = el.clientWidth, H = el.clientHeight, t = ahora.getTime();
+    let constelaciones = "";
+    if (completo && noche > 0.05 && W > 0) {
+      const pX = az => W * (0.5 + Math.sin(az) * 0.46), pY = alt => H * (H0 - Math.max(-12, alt / rad) / 90 * (H0 - 16)) / 100;
+      const ver = p => p.alt > 0.02 && Math.cos(p.az) > 0.05;
+      const pos = (ra, dec) => posicion(fijo(ra, dec), ahora, LAT, LNG);
+      let lin = "", est = "", nom = "";
+      const amplio = W >= 560;                         // en el teléfono: solo las constelaciones mayores y sin nombres
+      for (const c of DATOS.lineas) if (amplio || c.r === 1) for (const seg of c.l) {
+        let prev = null;
+        for (const [ra, dec] of seg) {
+          const p = pos(ra, dec), ok = ver(p), q = [pX(p.az), pY(p.alt)];
+          if (ok && prev) lin += `M${prev[0].toFixed(1)} ${prev[1].toFixed(1)}L${q[0].toFixed(1)} ${q[1].toFixed(1)}`;
+          prev = ok ? q : null;
+        }
+      }
+      for (const [ra, dec, mag] of DATOS.estrellas) {
+        const p = pos(ra, dec); if (!ver(p)) continue;
+        est += `<circle cx="${pX(p.az).toFixed(1)}" cy="${pY(p.alt).toFixed(1)}" r="${(0.5 + (4 - mag) * 0.32).toFixed(2)}"/>`;
+      }
+      if (amplio) for (const [id, n] of Object.entries(DATOS.nombres)) {
+        const p = pos(n.pos[0], n.pos[1]); if (!ver(p) || p.alt / rad < 8) continue;
+        const nx = pX(p.az), ny = pY(p.alt); if (hud && ny < H * 0.34 && (nx < W * 0.36 || nx > W * 0.5)) continue;
+        nom += `<text x="${nx.toFixed(0)}" y="${ny.toFixed(0)}">${n.es}</text>`;
+      }
+      constelaciones = `<svg class="cielo-const" viewBox="0 0 ${W} ${H}" style="opacity:${noche.toFixed(2)}" aria-hidden="true"><path d="${lin}"/><g>${est}</g>${nom}</svg>`;
+    }
+    // Lluvia de meteoros: estelas que nacen del radiante, solo de noche y con el radiante sobre el horizonte
+    let estelas = "";
+    const ll = completo ? lluviaDe(ahora) : null;
+    if (ll && altS < -10) {
+      const r = posicion(fijo(ll.ra, ll.dec), ahora, LAT, LNG);
+      const lunaArriba = altM > 0 ? il.fraccion : 0;
+      const efectiva = ll.tasa * Math.max(0, Math.sin(r.alt)) * (1 - 0.6 * lunaArriba);
+      if (efectiva >= 1) {
+        const n = Math.max(1, Math.min(6, Math.round(efectiva / 8))), rx = x(r.az), ry = y(r.alt);
+        for (let k = 0; k < n; k++) {
+          const azar = (Math.sin(t / 60000 * 12.9898 + k * 78.233) * 43758.5453) % 1, a2 = Math.abs(azar), b2 = Math.abs((azar * 7.31) % 1);
+          const sx0 = 8 + a2 * 84, sy0 = 8 + b2 * (H0 - 22), ang = Math.atan2(sy0 - ry, sx0 - rx) / rad;
+          estelas += `<i class="estela" style="left:${sx0.toFixed(1)}%;top:${sy0.toFixed(1)}%;--ang:${ang.toFixed(0)}deg;animation-delay:${(k * 60 / n + b2 * 6).toFixed(1)}s"></i>`;
+        }
+      }
+    }
+    // Eclipse en curso: la luna se tiñe de cobre o la luna tapa al sol, en la fracción real de ese minuto
+    const cub = ev && ev.tipo.startsWith("eclipse") ? cubrimiento(ev, t) : 0;
+    const eclipseLuna = ev?.tipo === "eclipse_luna" && cub > 0 ? cub : 0, eclipseSol = ev?.tipo === "eclipse_sol" && cub > 0 ? cub : 0;
     const nube = `rgba(255,255,255,${(0.16 + 0.62 * dia).toFixed(2)})`;
     const monte = rgb(mezcla(mezcla(abajo, [20, 28, 40], 0.55), [6, 9, 14], noche * 0.6));
     el.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="none" class="cielo-fondo"><defs>
         <linearGradient id="cieloG${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${rgb(arriba)}"/><stop offset=".62" stop-color="${rgb(medio)}"/><stop offset="1" stop-color="${rgb(abajo)}"/></linearGradient></defs>
         <rect width="100" height="100" fill="url(#cieloG${uid})"/></svg>
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="cielo-estrellas" style="opacity:${noche}">
-        ${estrellas.map(e => `<circle cx="${e.x}" cy="${e.y}" r="${e.r / 4}" style="animation-delay:${e.t}s"/>`).join("")}</svg>
+      ${constelaciones ? "" : `<svg viewBox="0 0 100 100" preserveAspectRatio="none" class="cielo-estrellas" style="opacity:${noche}">
+        ${estrellas.map(e => `<circle cx="${e.x}" cy="${e.y}" r="${e.r / 4}" style="animation-delay:${e.t}s"/>`).join("")}</svg>`}
       ${completo ? `<svg viewBox="0 0 100 100" preserveAspectRatio="none" class="cielo-hud" style="stroke:${linea}">
         <line x1="2" y1="${H0}" x2="98" y2="${H0}"/>${marcas}
         ${arco.length > 1 ? `<polyline points="${arco.join(" ")}" class="cielo-arco"/>` : ""}</svg>` : ""}
-      ${altS > -6 ? `<span class="astro sol ${sx > 78 ? "izq" : ""}" style="left:${sx}%;top:${sy}%;opacity:${Math.min(1, (altS + 6) / 6)}"><i></i>${completo ? `<b>${Math.round(altS)}°</b>` : ""}</span>` : ""}
-      ${altM > -3 && il.fraccion > 0.04 ? `<span class="astro luna ${mx > 78 ? "izq" : ""}" style="left:${mx}%;top:${my}%;opacity:${0.4 + 0.6 * noche}"><svg viewBox="-12 -12 24 24">
+      ${constelaciones}
+      ${altS > -6 ? `<span class="astro sol ${sx > 78 ? "izq" : ""}" style="left:${sx}%;top:${sy}%;opacity:${Math.min(1, (altS + 6) / 6)}"><i></i>${eclipseSol ? `<i class="sombra-luna" style="--c:${eclipseSol.toFixed(3)}"></i>` : ""}${completo ? `<b>${Math.round(altS)}°</b>` : ""}</span>` : ""}
+      ${altM > -3 && il.fraccion > 0.04 ? `<span class="astro luna ${mx > 78 ? "izq" : ""}" style="left:${mx}%;top:${my}%;opacity:${0.4 + 0.6 * noche};--eclipse:${eclipseLuna.toFixed(3)}"><svg viewBox="-12 -12 24 24">
           <circle r="10" class="luna-sombra"/><path d="${faseLuna(il.fase, 10)}" class="luna-luz"/></svg>${completo ? `<b>${Math.round(il.fraccion * 100)} %</b>` : ""}</span>` : ""}
-      ${planetas}
+      ${planetas}${estelas}
+      ${eclipseSol > 0.6 ? `<span class="cielo-penumbra" style="opacity:${((eclipseSol - 0.6) * 1.4).toFixed(2)}"></span>` : ""}
       <svg viewBox="0 0 400 60" preserveAspectRatio="none" class="cielo-montes" style="height:${100 - H0 + 6}%">
         <path fill="${monte}" d="M0 60 L0 40 L30 30 L52 36 L84 18 L104 26 L128 14 L150 24 L176 8 L198 22 L226 16 L252 28 L280 12 L306 26 L334 20 L360 30 L384 22 L400 28 L400 60Z" opacity=".55"/>
         <path fill="${monte}" d="M0 60 L0 46 L40 34 L70 42 L112 24 L140 38 L170 30 L214 42 L246 28 L276 40 L318 30 L352 40 L400 34 L400 60Z"/>
         <path fill="${nube}" d="M0 60 L0 48 C30 44 52 50 80 47 C108 44 128 50 160 48 C196 46 214 52 248 49 C280 46 304 51 336 48 C364 46 384 50 400 47 L400 60Z"/>
       </svg>
-      ${hud ? `<span class="cielo-lectura">${hora(ahora)}<span>Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} %</span></span>` : ""}`;
+      ${hud ? `<span class="cielo-lectura">${hora(ahora)}<span>Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} %</span></span>` : ""}
+      ${hud && contar(ev) ? `<button type="button" class="cielo-evento" data-acc="eventoCielo" title="${contar(ev).linea}" aria-label="${contar(ev).linea}. Toca para saber más"><span>${W >= 560 ? contar(ev).linea : contar(ev).linea.split(" · ")[0]}</span></button>` : ""}`;
     el.title = `Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} % iluminada`;
   }
 
   /** Pinta la franja y cada ventana de cielo de la página ([data-cielo]). */
+  /**
+   * Una sola luz para todo el mundo: la del sol de este momento (de noche, la de la luna, más suave).
+   * Las sombras de las hojas caen hacia el lado contrario del astro y se alargan cuando está bajo;
+   * al amanecer y al atardecer el papel se calienta apenas (≤ 3 % hacia el oro).
+   */
+  function luz(ahora = new Date()) {
+    const s = posicion(sol, ahora, LAT, LNG), m = posicion(luna, ahora, LAT, LNG);
+    const altS = s.alt / rad, astro = altS > -4 ? s : (m.alt > 0 ? m : null);
+    const r = document.documentElement.style;
+    if (!astro) { r.setProperty("--luz-x", "0px"); r.setProperty("--luz-y", "0px"); r.setProperty("--calidez", "0%"); return; }
+    const fuerza = astro === s ? 1 : 0.5, bajo = 1 - Math.max(0, Math.sin(astro.alt));
+    r.setProperty("--luz-x", `${(-Math.sin(astro.az) * 3 * fuerza).toFixed(2)}px`);
+    r.setProperty("--luz-y", `${(bajo * 3 * fuerza).toFixed(2)}px`);
+    r.setProperty("--calidez", `${(Math.max(0, 1 - Math.abs(altS - 4) / 14) * 3).toFixed(2)}%`);
+  }
   function pintarTodos() {
+    luz();
     document.querySelectorAll(".franja.cielo, [data-cielo]").forEach(el => { el.classList.add("cielo"); pintar(el); });
   }
   function iniciar() {
@@ -144,7 +296,7 @@ const Cielo = (() => {
     pintarTodos();
     setInterval(pintarTodos, 60000);
   }
-  return { iniciar, pintarTodos, pintar, faseLuna, iluminacion, posicion: (f, lat = LAT, lng = LNG) => ({ sol: posicion(sol, f, lat, lng), luna: posicion(luna, f, lat, lng), ...Object.fromEntries(PLANETAS.map(([k]) => [k, posicion(planeta(k), f, lat, lng)])) }) };
+  return { iniciar, pintarTodos, pintar, faseLuna, eventoDe, lluviaDe, cubrimiento, contar, iluminacion, posicion: (f, lat = LAT, lng = LNG) => ({ sol: posicion(sol, f, lat, lng), luna: posicion(luna, f, lat, lng), ...Object.fromEntries(PLANETAS.map(([k]) => [k, posicion(planeta(k), f, lat, lng)])) }) };
 })();
 window.Cielo = Cielo;
 Cielo.iniciar();

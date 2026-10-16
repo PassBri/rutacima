@@ -20,3 +20,6 @@ google-services.json
 __pycache__/
 *.pyc
 _site/
+
+# Generador de datos del cielo
+tools/cielo/node_modules/

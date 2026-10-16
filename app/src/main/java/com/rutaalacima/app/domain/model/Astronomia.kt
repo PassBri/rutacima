@@ -109,6 +109,10 @@ object Astronomia {
     fun luna(ms: Long, lat: Double = LATITUD, lng: Double): Posicion = posicion(::coordLuna, ms, lat, lng)
     fun planeta(p: Planeta, ms: Long, lat: Double = LATITUD, lng: Double): Posicion = posicion({ coordPlaneta(p, it) }, ms, lat, lng)
 
+    /** Un astro fijo (estrella, radiante de una lluvia) dado en grados de ascensión recta y declinación. */
+    fun fijo(raGrados: Double, decGrados: Double, ms: Long, lat: Double = LATITUD, lng: Double): Posicion =
+        posicion({ Ecuatorial(raGrados * RAD, decGrados * RAD) }, ms, lat, lng)
+
     fun iluminacion(ms: Long): Iluminacion {
         val d = dias(ms); val s = coordSol(d); val m = coordLuna(d); val sd = 149598000.0
         val phi = kotlin.math.acos(sin(s.dec) * sin(m.dec) + cos(s.dec) * cos(m.dec) * cos(s.ra - m.ra))

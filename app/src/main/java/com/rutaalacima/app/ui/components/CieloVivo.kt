@@ -36,6 +36,13 @@ import androidx.compose.ui.unit.sp
 import com.rutaalacima.app.R
 import com.rutaalacima.app.domain.model.Astronomia
 import com.rutaalacima.app.domain.model.Astronomia.Planeta
+import com.rutaalacima.app.domain.model.CieloDatos
+import com.rutaalacima.app.domain.model.CieloEventos
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import kotlinx.coroutines.delay
 import java.util.TimeZone
 import kotlin.math.max
@@ -87,6 +94,33 @@ fun CieloVivo(
     }
     val medidor = rememberTextMeasurer()
     val etiqueta = TextStyle(color = Color.White.copy(alpha = 0.82f), fontSize = 10.sp, letterSpacing = 1.4.sp)
+    val contexto = androidx.compose.ui.platform.LocalContext.current
+    val datos by androidx.compose.runtime.produceState<CieloDatos?>(DatosCielo.cache, contexto) {
+        if (value == null) value = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { DatosCielo.de(contexto) }
+    }
+    val idioma = remember { java.util.Locale.getDefault().language }
+    // Constelaciones reales: altura y azimut de cada estrella y vértice (una vez por minuto, no por cuadro)
+    val cielo = remember(ahora / 60_000, datos) {
+        val d = datos ?: return@remember null
+        if (altS > -4) return@remember null
+        val ver = { p: Astronomia.Posicion -> p.altura > 0.02 && kotlin.math.cos(p.azimut) > 0.05 }
+        Constelaciones(
+            estrellas = d.estrellas.mapNotNull { (ra, dec, mag) -> Astronomia.fijo(ra, dec, ahora, lng = lng).takeIf(ver)?.let { it to mag } },
+            lineas = d.lineas.map { l -> l.rango to l.segmentos.map { seg -> seg.map { (ra, dec) -> Astronomia.fijo(ra, dec, ahora, lng = lng).takeIf(ver) } } },
+            nombres = d.nombres.values.mapNotNull { n -> Astronomia.fijo(n.ra, n.dec, ahora, lng = lng).takeIf { ver(it) && it.alturaGrados > 8 }?.let { n.en(idioma) to it } },
+        )
+    }
+    val actual = datos?.let { CieloEventos.eventoDe(it, ahora) }
+    val cub = actual?.evento?.takeIf { it.tipo.startsWith("eclipse") }?.let { CieloEventos.cubrimiento(it, ahora) } ?: 0.0
+    val eclipseLuna = if (actual?.evento?.tipo == "eclipse_luna") cub.toFloat() else 0f
+    val eclipseSol = if (actual?.evento?.tipo == "eclipse_sol") cub.toFloat() else 0f
+    // Lluvia de meteoros visible: de noche, con el radiante arriba y menos estelas si hay luna
+    val estelas = datos?.let { d -> CieloEventos.lluviaDe(d, ahora) }?.takeIf { altS < -10 }?.let { ll ->
+        val r = Astronomia.fijo(ll.lluvia.ra, ll.lluvia.dec, ahora, lng = lng)
+        val lunaArriba = if (luna.alturaGrados > 0) il.fraccion else 0.0
+        val efectiva = ll.tasa * max(0.0, sin(r.altura)) * (1 - 0.6 * lunaArriba)
+        if (efectiva >= 1) Lluvia(r, (efectiva / 8).roundToInt().coerceIn(1, 6), ahora / 60_000) else null
+    }
     val descripcion = stringResource(R.string.cielo_desc, altS.roundToInt(), (il.fraccion * 100).roundToInt())
 
     Box(modifier.semantics { contentDescription = descripcion }) {
@@ -99,7 +133,26 @@ fun CieloVivo(
             fun y(alt: Double) = h0 - (max(-12.0, alt / (Math.PI / 180)) / 90.0).toFloat() * (h0 - size.height * 0.16f)
 
             drawRect(Brush.verticalGradient(0f to arriba, 0.62f to medio, 1f to abajo))
-            if (noche > 0f) ESTRELLAS.forEach { (ex, ey, r) ->
+            val c = cielo
+            if (c != null && noche > 0.05f) {
+                // En el teléfono: solo las constelaciones mayores y sin nombres (el cielo es pequeño)
+                val amplio = size.width >= 560.dp.toPx()
+                val trazo = Color.White.copy(alpha = 0.22f * noche)
+                c.lineas.forEach { (rango, segs) ->
+                    if (amplio || rango == 1) segs.forEach { seg ->
+                        seg.zipWithNext { a, b -> if (a != null && b != null) drawLine(trazo, Offset(x(a.azimut), y(a.altura)), Offset(x(b.azimut), y(b.altura)), 1.dp.toPx()) }
+                    }
+                }
+                c.estrellas.forEach { (p, mag) ->
+                    drawCircle(Color.White.copy(alpha = noche), (0.5f + (4f - mag.toFloat()) * 0.32f).dp.toPx(), Offset(x(p.azimut), y(p.altura)))
+                }
+                if (amplio) c.nombres.forEach { (nombre, p) ->
+                    val o = Offset(x(p.azimut), y(p.altura))
+                    if (lectura && o.y < size.height * 0.34f && (o.x < size.width * 0.36f || o.x > size.width * 0.5f)) return@forEach
+                    val t = medidor.measure(nombre.uppercase(), etiqueta.copy(color = Color.White.copy(alpha = 0.55f * noche), fontSize = 9.sp))
+                    drawText(t, topLeft = Offset(o.x - t.size.width / 2f, o.y - t.size.height / 2f))
+                }
+            } else if (noche > 0f) ESTRELLAS.forEach { (ex, ey, r) ->
                 drawCircle(Color.White.copy(alpha = noche * 0.85f), r.dp.toPx() * 0.6f, Offset(ex * size.width, ey * h0))
             }
             // Instrumento: horizonte, marcas y el arco del sol
@@ -119,6 +172,7 @@ fun CieloVivo(
                 val c = Offset(x(sol.azimut), y(sol.altura)); val a = min(1.0, (altS + 6) / 6).toFloat()
                 drawCircle(Brush.radialGradient(listOf(Color(0x66FFE8B4), Color.Transparent), c, 30.dp.toPx()), 30.dp.toPx(), c, alpha = a)
                 drawCircle(Brush.radialGradient(0f to Color(0xFFFFF8E6), 0.6f to Color(0xFFFFE2A6), 1f to Color(0x00FFE2A6), center = c, radius = 13.dp.toPx()), 13.dp.toPx(), c, alpha = a)
+                if (eclipseSol > 0f) drawCircle(Color(0xFF0E1620), 13.dp.toPx(), c + Offset((1 - eclipseSol) * 26.dp.toPx(), 0f))
                 drawCircle(Color.White.copy(alpha = 0.45f * a), 27.dp.toPx(), c, style = Stroke(fino))
                 rotulo(medidor, "${altS.roundToInt()}°", c, 27.dp.toPx(), etiqueta)
             }
@@ -126,7 +180,7 @@ fun CieloVivo(
             if (luna.alturaGrados > -3 && il.fraccion > 0.04) {
                 val c = Offset(x(luna.azimut), y(luna.altura)); val r = 10.dp.toPx(); val a = 0.4f + 0.6f * noche
                 drawCircle(Color(0xFF181E2C).copy(alpha = 0.55f * a), r, c)
-                drawPath(faseLuna(il.fase, r, c), Color(0xFFEEF1F4).copy(alpha = a))
+                drawPath(faseLuna(il.fase, r, c), lerp(Color(0xFFEEF1F4), Color(0xFFA8502C), eclipseLuna).copy(alpha = a * (1 - 0.45f * eclipseLuna)))
                 drawCircle(Color.White.copy(alpha = 0.32f * a), 21.dp.toPx(), c, style = Stroke(fino))
                 rotulo(medidor, "${(il.fraccion * 100).roundToInt()} %", c, 21.dp.toPx(), etiqueta)
             }
@@ -138,6 +192,7 @@ fun CieloVivo(
                 val bajoLectura = lectura && c.x < size.width * 0.36f && c.y < size.height * 0.34f
                 if (!bajoLectura) rotulo(medidor, nombre.uppercase(), c, 7.dp.toPx(), etiqueta)
             }
+            if (eclipseSol > 0.6f) drawRect(Color(0xFF060A12).copy(alpha = ((eclipseSol - 0.6f) * 1.4f).coerceAtMost(1f)))
             // Cordillera saliendo de un mar de nubes
             val monte = lerp(lerp(abajo, Color(0xFF141C28), 0.55f), Color(0xFF06090E), noche * 0.6f)
             val alto = size.height - h0 + size.height * 0.06f
@@ -154,6 +209,7 @@ fun CieloVivo(
             }
             drawPath(nubes, Color.White.copy(alpha = 0.16f + 0.62f * luz))
         }
+        estelas?.let { EstelasDeMeteoros(it, horizonte) }
         if (lectura) {
             Column(Modifier.padding(start = 18.dp, top = 14.dp)) {
                 Text(
@@ -167,6 +223,136 @@ fun CieloVivo(
             }
         }
         contenido()
+        if (lectura && actual != null && datos != null) ChipEvento(actual, datos!!, idioma, Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
+    }
+}
+
+/** Los datos del cielo (assets/cielo/datos.json, generados por tools/cielo/generar.js), leídos una sola vez. */
+object DatosCielo {
+    @Volatile var cache: CieloDatos? = null
+        private set
+    fun de(contexto: android.content.Context): CieloDatos? = cache ?: runCatching {
+        CieloDatos.leer(contexto.assets.open("cielo/datos.json").bufferedReader().use { it.readText() })
+    }.getOrNull()?.also { cache = it }
+}
+
+private class Constelaciones(
+    val estrellas: List<Pair<Astronomia.Posicion, Double>>,
+    val lineas: List<Pair<Int, List<List<Astronomia.Posicion?>>>>,
+    val nombres: List<Pair<String, Astronomia.Posicion>>,
+)
+
+private class Lluvia(val radiante: Astronomia.Posicion, val cuantas: Int, val semilla: Long)
+
+/**
+ * Estelas finas que nacen del radiante: cada una cruza el cielo en menos de un segundo dentro de un
+ * ciclo de 60 s. Con "Reducir movimiento" (animaciones del sistema apagadas) queda una estela quieta.
+ */
+@Composable
+private fun EstelasDeMeteoros(ll: Lluvia, horizonte: Float) {
+    val contexto = androidx.compose.ui.platform.LocalContext.current
+    val sinMovimiento = remember {
+        android.provider.Settings.Global.getFloat(contexto.contentResolver, android.provider.Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
+    }
+    val avance = if (sinMovimiento) remember { androidx.compose.runtime.mutableFloatStateOf(0.002f) }.floatValue else
+        androidx.compose.animation.core.rememberInfiniteTransition(label = "estelas").animateFloat(
+            0f, 1f, androidx.compose.animation.core.infiniteRepeatable(androidx.compose.animation.core.tween(60_000, easing = androidx.compose.animation.core.LinearEasing)), label = "ciclo",
+        ).value
+    Canvas(Modifier.fillMaxSize()) {
+        val h0 = size.height * horizonte
+        val rx = size.width * (0.5f + sin(ll.radiante.azimut).toFloat() * 0.46f)
+        val ry = h0 - (max(-12.0, ll.radiante.alturaGrados) / 90.0).toFloat() * (h0 - size.height * 0.16f)
+        for (k in 0 until (if (sinMovimiento) 1 else ll.cuantas)) {
+            val azar = kotlin.math.abs((sin(ll.semilla * 12.9898 + k * 78.233) * 43758.5453) % 1).toFloat()
+            val azar2 = kotlin.math.abs((azar * 7.31f) % 1f)
+            val inicio = Offset(size.width * (0.08f + azar * 0.84f), size.height * 0.08f + azar2 * (h0 - size.height * 0.22f))
+            val dir = (inicio - Offset(rx, ry)).let { val l = it.getDistance().coerceAtLeast(1f); Offset(it.x / l, it.y / l) }
+            val t = ((avance * 60f - (k * 60f / ll.cuantas + azar2 * 6f)) % 60f + 60f) % 60f / 0.84f   // 0..1 mientras la estela cruza
+            if (t !in 0f..1f) continue
+            val cabeza = inicio + dir * (90.dp.toPx() * t)
+            val cola = cabeza - dir * (70.dp.toPx() * (0.2f + 0.8f * t))
+            val alfa = if (t < 0.3f) t / 0.3f else 1f - (t - 0.3f) / 0.7f
+            drawLine(Brush.linearGradient(listOf(Color.Transparent, Color.White.copy(alpha = alfa)), cola, cabeza), cola, cabeza, 1.5.dp.toPx())
+        }
+    }
+}
+
+/** El evento del cielo de hoy: una línea discreta; al tocarla se explica en dos frases. */
+@Composable
+private fun ChipEvento(a: CieloEventos.Actual, datos: CieloDatos, idioma: String, modifier: Modifier) {
+    val (linea, detalle, explica) = textoEvento(a, datos, idioma)
+    var abierto by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
+    val desc = stringResource(R.string.cielo_evento_desc, linea)
+    androidx.compose.material3.Surface(
+        onClick = { abierto = true },
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(50),
+        color = Color(0x52060A10), contentColor = Color.White,
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.32f)),
+        modifier = modifier.widthIn(max = 220.dp).heightIn(min = 32.dp).semantics { contentDescription = desc },
+    ) {
+        androidx.compose.foundation.layout.Row(Modifier.padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+            Box(Modifier.size(6.dp).background(androidx.compose.material3.MaterialTheme.colorScheme.secondary, androidx.compose.foundation.shape.CircleShape))
+            androidx.compose.foundation.layout.Spacer(Modifier.width(8.dp))
+            Text(linea, fontSize = 12.sp, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis)
+        }
+    }
+    if (abierto) androidx.compose.material3.AlertDialog(
+        onDismissRequest = { abierto = false },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = { abierto = false }) { Text(stringResource(R.string.entendido)) } },
+        title = { Text(linea) },
+        text = {
+            Column {
+                Text(explica)
+                if (detalle.isNotBlank()) Text(detalle, style = androidx.compose.material3.MaterialTheme.typography.bodySmall,
+                    color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 10.dp))
+            }
+        },
+    )
+}
+
+/** Nombre corto, detalle (fecha y horas) y explicación del evento, en el idioma del teléfono. */
+@Composable
+private fun textoEvento(a: CieloEventos.Actual, datos: CieloDatos, idioma: String): Triple<String, String, String> {
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    val horaF = android.text.format.DateFormat.getTimeFormat(ctx)
+    fun h(ms: Long?) = ms?.let { horaF.format(java.util.Date(it)) } ?: ""
+    val patron = android.text.format.DateFormat.getBestDateTimePattern(java.util.Locale.getDefault(), "dMMMM")
+    fun f(ms: Long) = java.text.SimpleDateFormat(patron, java.util.Locale.getDefault()).format(java.util.Date(ms))
+    val e = a.evento
+    val ll = a.lluvia
+    if (ll != null) {
+        val cons = datos.nombres[ll.lluvia.constelacion]?.en(idioma) ?: ll.lluvia.constelacion
+        return Triple(stringResource(R.string.cielo_lluvia, cons), stringResource(R.string.cielo_lluvia_pico, f(ll.pico)), stringResource(R.string.cielo_exp_lluvia, cons))
+    }
+    e ?: return Triple("", "", "")
+    val astro = mapOf(
+        "luna" to stringResource(R.string.planeta_luna), "venus" to stringResource(R.string.planeta_venus), "marte" to stringResource(R.string.planeta_marte),
+        "jupiter" to stringResource(R.string.planeta_jupiter), "saturno" to stringResource(R.string.planeta_saturno),
+    )
+    val numero = java.text.NumberFormat.getInstance()
+    return when (e.tipo) {
+        "eclipse_luna" -> Triple(
+            stringResource(when (e.clase) { "total" -> R.string.cielo_eclipse_luna_total; "partial" -> R.string.cielo_eclipse_luna_parcial; else -> R.string.cielo_eclipse_luna_penumbral }),
+            "${f(e.max)} · ${h(e.parcialInicio ?: e.inicio)}–${h(e.parcialFin ?: e.fin)}",
+            stringResource(when (e.clase) { "total" -> R.string.cielo_exp_luna_total; "partial" -> R.string.cielo_exp_luna_parcial; else -> R.string.cielo_exp_luna_penumbral }),
+        )
+        "eclipse_sol" -> Triple(
+            stringResource(when (e.clase) { "total" -> R.string.cielo_eclipse_sol_total; "annular" -> R.string.cielo_eclipse_sol_anular; else -> R.string.cielo_eclipse_sol_parcial }),
+            "${f(e.max)} · ${h(e.inicio)}–${h(e.fin)}",
+            stringResource(R.string.cielo_exp_sol, (e.oscurecimiento * 100).roundToInt()),
+        )
+        "conjuncion" -> {
+            val (x1, x2) = e.cuerpos.map { astro[it] ?: it }
+            val grados = numero.format(e.sep)
+            Triple(stringResource(R.string.cielo_conjuncion, x1, x2), "${f(e.max)} · $grados°", stringResource(R.string.cielo_exp_conjuncion, x1, x2, grados))
+        }
+        "superluna" -> Triple(stringResource(R.string.cielo_superluna), f(e.max), stringResource(R.string.cielo_exp_superluna, numero.format(e.km)))
+        else -> Triple(
+            stringResource(when (e.clase) { "equinoccio_marzo" -> R.string.cielo_equinoccio_marzo; "equinoccio_septiembre" -> R.string.cielo_equinoccio_septiembre
+                "solsticio_junio" -> R.string.cielo_solsticio_junio; else -> R.string.cielo_solsticio_diciembre }),
+            f(e.max),
+            stringResource(when (e.clase) { "solsticio_junio" -> R.string.cielo_exp_solsticio_junio; "solsticio_diciembre" -> R.string.cielo_exp_solsticio_diciembre; else -> R.string.cielo_exp_equinoccio }),
+        )
     }
 }
 

@@ -242,6 +242,10 @@ private fun AppPrincipal() {
             runCatching { nav.navigate(destino) { launchSingleTop = true } }
         }
     }
+    // Una sola luz para el mundo: la del sol de este momento (el papel se calienta apenas al amanecer y al atardecer)
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        while (true) { com.rutaalacima.app.ui.theme.LuzDelDia.actualizar(); kotlinx.coroutines.delay(60_000) }
+    }
     androidx.compose.runtime.LaunchedEffect(codigoWeb) {
         if (codigoWeb != null && rutaActual != Rutas.WEB) nav.navigate(Rutas.WEB) { launchSingleTop = true }
     }

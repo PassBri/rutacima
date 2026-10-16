@@ -64,6 +64,22 @@ object Papel {
 }
 
 /**
+ * La luz del día (la misma de la web): al amanecer y al atardecer el papel se calienta apenas,
+ * como máximo un 3 % hacia el oro. Se actualiza cada minuto desde la raíz de la app.
+ */
+object LuzDelDia {
+    /** 0 = luz neutra (mediodía o noche), 1 = sol bajo (máxima calidez: 3 % hacia el oro). */
+    var calidez by androidx.compose.runtime.mutableFloatStateOf(0f)
+        private set
+
+    fun actualizar(ms: Long = System.currentTimeMillis()) {
+        val lng = com.rutaalacima.app.domain.model.Astronomia.longitudPorZona(java.util.TimeZone.getDefault().getOffset(ms).toLong())
+        val alt = com.rutaalacima.app.domain.model.Astronomia.sol(ms, lng = lng).alturaGrados
+        calidez = (1 - kotlin.math.abs(alt - 4) / 14).coerceIn(0.0, 1.0).toFloat()
+    }
+}
+
+/**
  * Fondo de hoja plegada: color de fondo, grano, un doblez vertical al centro, dos dobleces
  * horizontales (la hoja se dobló en tercios) y una viñeta de papel antiguo en los bordes.
  */
@@ -136,7 +152,10 @@ fun Modifier.hojaPapel(
     doblez: Dp = 0.dp,
     pliegue: Boolean = false,
 ): Modifier = composed {
-    val papel = color ?: MaterialTheme.colorScheme.surfaceContainerLow
+    val base = color ?: MaterialTheme.colorScheme.surfaceContainerLow
+    // Papel de la interfaz en claro: se calienta apenas con el sol bajo (nunca cambia el contraste del texto)
+    val papel = if (color == null && base.luminanceAprox() > 0.5f)
+        androidx.compose.ui.graphics.lerp(base, MaterialTheme.colorScheme.secondary, 0.03f * LuzDelDia.calidez) else base
     val borde = MaterialTheme.colorScheme.outlineVariant
     val forma = remember(doblez) { FormaHoja(doblez) }
     this

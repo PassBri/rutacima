@@ -1,0 +1,7 @@
+{
+  "name": "rutacima-cielo-datos",
+  "private": true,
+  "description": "Genera los datos del cielo real (estrellas, constelaciones y eventos astronómicos) para la app y la web.",
+  "scripts": { "generar": "node generar.js" },
+  "devDependencies": { "astronomy-engine": "2.1.19", "d3-celestial": "0.7.35" }
+}

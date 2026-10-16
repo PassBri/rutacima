@@ -11,6 +11,13 @@ const BASES = {
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 
 const ACC = {
+  /** El evento del cielo de hoy, explicado en dos frases (eclipses, lluvias de meteoros, conjunciones…). */
+  eventoCielo() {
+    const c = Cielo.contar(Cielo.eventoDe(new Date())); if (!c) return;
+    ventanaCuenta(`<h3 style="margin-top:0">${esc(c.linea.split(" · ")[0])}</h3><p>${esc(c.explica)}</p>
+      <p class="suave" style="font-size:13px">${esc(c.linea.split(" · ").slice(1).join(" · "))}</p>
+      <div class="botones"><button class="btn lleno" type="button" id="eventoListo">Entendido</button></div>`, v => { v.querySelector("#eventoListo").onclick = () => v.remove(); });
+  },
   /** Quién ve un año del diario de vida (se guarda como respuesta, igual que en la app). */
   async diarioVis(_, arg) {
     const [a, vis] = arg.split("|");
