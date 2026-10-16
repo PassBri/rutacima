@@ -149,6 +149,7 @@ object Rutas {
     const val MODERACION = "moderacion"
     /** Plan Cumbre: qué incluye, precio y "Avísame". */
     const val PLAN = "plan"
+    const val CIELO = "cielo"
 
     fun planificador(tab: Int = 0, fecha: java.time.LocalDate? = null) = "metas/$tab/${fecha ?: "-"}"
     fun workbook(id: String) = "workbook/$id"
@@ -413,6 +414,7 @@ private fun AppPrincipal() {
                     onPublicar = { titulo, texto -> nav.navigate(Rutas.publicar("REFLEXION", titulo, texto)) },
                 )
             }
+            composable(Rutas.CIELO) { com.rutaalacima.app.ui.components.MirarCieloScreen(onCerrar = { nav.popBackStack() }) }
             composable(Rutas.PLAN) { com.rutaalacima.app.ui.plan.PlanScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) }) }
             composable(Rutas.MODERACION) { com.rutaalacima.app.ui.moderacion.ModeracionScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.CARTA) { com.rutaalacima.app.ui.inicio.CartaBienvenidaScreen(onTerminar = { nav.popBackStack() }) }

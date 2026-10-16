@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">太阳到达一年中最北的位置。在哥伦比亚，正午时你的影子指向南方。</string>
     <string name="cielo_exp_solsticio_diciembre">太阳到达一年中最南的位置。在哥伦比亚，正午时你的影子指向北方。</string>
     <string name="cielo_evento_desc">%1$s。点按了解更多。</string>
+    <string name="mirar_cielo">仰望天空</string>
+    <string name="mirar_ayuda_sensor">举起手机对准天空：你看到的就是屏幕后方的天空。</string>
+    <string name="mirar_ayuda_arrastre">拖动以环顾四周。</string>
+    <string name="mirar_rumbo">%1$s %2$d° · 高度 %3$d°</string>
+    <string name="cardinales">北,东北,东,东南,南,西南,西,西北</string>
+    <string name="cielo_sol">太阳</string>
+    <string name="cielo_lluvia_corto">流星雨</string>
+    <string name="cerrar_cielo">关闭</string>
 </resources>

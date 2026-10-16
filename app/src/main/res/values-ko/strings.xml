@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">해가 한 해 중 가장 북쪽에 와요. 콜롬비아에서는 정오에 그림자가 남쪽을 가리켜요.</string>
     <string name="cielo_exp_solsticio_diciembre">해가 한 해 중 가장 남쪽에 와요. 콜롬비아에서는 정오에 그림자가 북쪽을 가리켜요.</string>
     <string name="cielo_evento_desc">%1$s. 눌러서 자세히 보기.</string>
+    <string name="mirar_cielo">하늘 보기</string>
+    <string name="mirar_ayuda_sensor">휴대폰을 향해 보세요. 화면 뒤에 있는 하늘이 보여요.</string>
+    <string name="mirar_ayuda_arrastre">끌어서 둘러보세요.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · 고도 %3$d°</string>
+    <string name="cardinales">북,북동,동,남동,남,남서,서,북서</string>
+    <string name="cielo_sol">해</string>
+    <string name="cielo_lluvia_corto">유성우</string>
+    <string name="cerrar_cielo">닫기</string>
 </resources>

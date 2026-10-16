@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">Il Sole raggiunge il suo punto più a nord dell\'anno. In Colombia, a mezzogiorno, la tua ombra punta verso sud.</string>
     <string name="cielo_exp_solsticio_diciembre">Il Sole raggiunge il suo punto più a sud dell\'anno. In Colombia, a mezzogiorno, la tua ombra punta verso nord.</string>
     <string name="cielo_evento_desc">%1$s. Tocca per saperne di più.</string>
+    <string name="mirar_cielo">Guarda il cielo</string>
+    <string name="mirar_ayuda_sensor">Punta il telefono: ciò che vedi è il cielo dietro lo schermo.</string>
+    <string name="mirar_ayuda_arrastre">Trascina per guardarti intorno.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° di altezza</string>
+    <string name="cardinales">N,NE,E,SE,S,SO,O,NO</string>
+    <string name="cielo_sol">Sole</string>
+    <string name="cielo_lluvia_corto">Sciame</string>
+    <string name="cerrar_cielo">Chiudi</string>
 </resources>

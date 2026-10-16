@@ -1,6 +1,7 @@
 package com.rutaalacima.app.ui.components
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -65,6 +66,7 @@ fun CieloVivo(
     modifier: Modifier = Modifier,
     horizonte: Float = 0.6f,
     lectura: Boolean = true,
+    onMirar: (() -> Unit)? = null,
     contenido: @Composable BoxScope.() -> Unit = {},
 ) {
     var ahora by remember { mutableLongStateOf(System.currentTimeMillis()) }
@@ -223,6 +225,20 @@ fun CieloVivo(
             }
         }
         contenido()
+        // Mirar el cielo: abre la ventana que sigue la orientación del teléfono
+        if (lectura && onMirar != null) {
+            val mirar = stringResource(R.string.mirar_cielo)
+            androidx.compose.material3.Surface(
+                onClick = onMirar, shape = androidx.compose.foundation.shape.CircleShape,
+                color = Color(0x52060A10), contentColor = Color.White,
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.32f)),
+                modifier = Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 52.dp, end = 12.dp).size(48.dp).semantics { contentDescription = mirar },
+            ) {
+                Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
+                    androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.ThreeSixty, null, Modifier.size(22.dp))
+                }
+            }
+        }
         if (lectura && actual != null && datos != null) ChipEvento(actual, datos!!, idioma, Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
     }
 }
@@ -357,7 +373,7 @@ private fun textoEvento(a: CieloEventos.Actual, datos: CieloDatos, idioma: Strin
 }
 
 /** Colores del cielo (arriba, medio, horizonte) según la altura del sol: noche, alba y día con bruma clara. */
-private fun coloresCielo(alt: Double): Triple<Color, Color, Color> {
+internal fun coloresCielo(alt: Double): Triple<Color, Color, Color> {
     val noche = Triple(Color(0xFF060A14), Color(0xFF101828), Color(0xFF1E283C))
     val alba = Triple(Color(0xFF2C3A62), Color(0xFF7E748C), Color(0xFFEEAC7A))
     val diaC = Triple(Color(0xFF4E84BA), Color(0xFF96BEDE), Color(0xFFDEE9EE))
@@ -372,7 +388,7 @@ private fun coloresCielo(alt: Double): Triple<Color, Color, Color> {
 }
 
 /** La parte iluminada de la luna: medio disco del lado de la luz y la elipse del terminador. */
-private fun faseLuna(fase: Double, r: Float, c: Offset): Path {
+internal fun faseLuna(fase: Double, r: Float, c: Offset): Path {
     val crece = fase < 0.5
     val giba = fase > 0.25 && fase < 0.75
     val rx = (Astronomia.anchoTerminador(fase) * r).toFloat()

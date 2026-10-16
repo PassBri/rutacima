@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">Die Sonne erreicht ihren nördlichsten Punkt des Jahres. In Kolumbien zeigt dein Schatten mittags nach Süden.</string>
     <string name="cielo_exp_solsticio_diciembre">Die Sonne erreicht ihren südlichsten Punkt des Jahres. In Kolumbien zeigt dein Schatten mittags nach Norden.</string>
     <string name="cielo_evento_desc">%1$s. Tippe für mehr.</string>
+    <string name="mirar_cielo">Den Himmel ansehen</string>
+    <string name="mirar_ayuda_sensor">Richte dein Handy aus: Du siehst den Himmel hinter dem Bildschirm.</string>
+    <string name="mirar_ayuda_arrastre">Ziehen, um dich umzusehen.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° Höhe</string>
+    <string name="cardinales">N,NO,O,SO,S,SW,W,NW</string>
+    <string name="cielo_sol">Sonne</string>
+    <string name="cielo_lluvia_corto">Strom</string>
+    <string name="cerrar_cielo">Schließen</string>
 </resources>

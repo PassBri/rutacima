@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">Le Soleil atteint son point le plus au nord de l\'année. En Colombie, à midi, ton ombre pointe vers le sud.</string>
     <string name="cielo_exp_solsticio_diciembre">Le Soleil atteint son point le plus au sud de l\'année. En Colombie, à midi, ton ombre pointe vers le nord.</string>
     <string name="cielo_evento_desc">%1$s. Touche pour en savoir plus.</string>
+    <string name="mirar_cielo">Regarder le ciel</string>
+    <string name="mirar_ayuda_sensor">Pointe ton téléphone : ce que tu vois, c\'est le ciel derrière l\'écran.</string>
+    <string name="mirar_ayuda_arrastre">Fais glisser pour regarder autour.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° de hauteur</string>
+    <string name="cardinales">N,NE,E,SE,S,SO,O,NO</string>
+    <string name="cielo_sol">Soleil</string>
+    <string name="cielo_lluvia_corto">Pluie</string>
+    <string name="cerrar_cielo">Fermer</string>
 </resources>

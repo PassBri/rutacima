@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">सूर्य साल के अपने सबसे उत्तरी बिंदु पर पहुँचता है। कोलंबिया में दोपहर को आपकी छाया दक्षिण की ओर होती है।</string>
     <string name="cielo_exp_solsticio_diciembre">सूर्य साल के अपने सबसे दक्षिणी बिंदु पर पहुँचता है। कोलंबिया में दोपहर को आपकी छाया उत्तर की ओर होती है।</string>
     <string name="cielo_evento_desc">%1$s। अधिक जानने के लिए टैप करें।</string>
+    <string name="mirar_cielo">आकाश देखें</string>
+    <string name="mirar_ayuda_sensor">फ़ोन को आकाश की ओर करें: स्क्रीन के पीछे का आकाश दिखेगा।</string>
+    <string name="mirar_ayuda_arrastre">चारों ओर देखने के लिए खींचें।</string>
+    <string name="mirar_rumbo">%1$s %2$d° · ऊँचाई %3$d°</string>
+    <string name="cardinales">उ,उपू,पू,दपू,द,दप,प,उप</string>
+    <string name="cielo_sol">सूर्य</string>
+    <string name="cielo_lluvia_corto">उल्कापात</string>
+    <string name="cerrar_cielo">बंद करें</string>
 </resources>

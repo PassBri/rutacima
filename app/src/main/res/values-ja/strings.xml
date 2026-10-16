@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">太陽が一年で最も北に来ます。コロンビアでは正午にあなたの影が南を向きます。</string>
     <string name="cielo_exp_solsticio_diciembre">太陽が一年で最も南に来ます。コロンビアでは正午にあなたの影が北を向きます。</string>
     <string name="cielo_evento_desc">%1$s。タップして詳しく。</string>
+    <string name="mirar_cielo">空を見る</string>
+    <string name="mirar_ayuda_sensor">スマホを向けてください。画面の向こうにある空が見えます。</string>
+    <string name="mirar_ayuda_arrastre">ドラッグして見回せます。</string>
+    <string name="mirar_rumbo">%1$s %2$d° · 高度 %3$d°</string>
+    <string name="cardinales">北,北東,東,南東,南,南西,西,北西</string>
+    <string name="cielo_sol">太陽</string>
+    <string name="cielo_lluvia_corto">流星群</string>
+    <string name="cerrar_cielo">閉じる</string>
 </resources>

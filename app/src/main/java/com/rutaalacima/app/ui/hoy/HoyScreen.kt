@@ -174,7 +174,7 @@ fun HoyScreen(
         // El día empieza con el cielo de este momento (sol, luna y planetas reales) y la cumbre encima
         item {
             Card(shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth().clickable { onIrA(Rutas.RUTA) }) {
-                com.rutaalacima.app.ui.components.CieloVivo(Modifier.fillMaxWidth().height(200.dp)) {
+                com.rutaalacima.app.ui.components.CieloVivo(Modifier.fillMaxWidth().height(200.dp), onMirar = { onIrA(Rutas.CIELO) }) {
                     Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0.4f to Color.Transparent, 1f to Color(0x9E060A10))))
                     Column(Modifier.align(Alignment.BottomStart).padding(18.dp)) {
                         Text(

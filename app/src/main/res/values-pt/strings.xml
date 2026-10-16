@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">O Sol chega ao seu ponto mais ao norte do ano. Na Colômbia, ao meio-dia, sua sombra aponta para o sul.</string>
     <string name="cielo_exp_solsticio_diciembre">O Sol chega ao seu ponto mais ao sul do ano. Na Colômbia, ao meio-dia, sua sombra aponta para o norte.</string>
     <string name="cielo_evento_desc">%1$s. Toque para saber mais.</string>
+    <string name="mirar_cielo">Olhar o céu</string>
+    <string name="mirar_ayuda_sensor">Aponte o celular: o que você vê é o céu atrás da tela.</string>
+    <string name="mirar_ayuda_arrastre">Arraste para olhar ao redor.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° de altura</string>
+    <string name="cardinales">N,NE,L,SE,S,SO,O,NO</string>
+    <string name="cielo_sol">Sol</string>
+    <string name="cielo_lluvia_corto">Chuva</string>
+    <string name="cerrar_cielo">Fechar</string>
 </resources>

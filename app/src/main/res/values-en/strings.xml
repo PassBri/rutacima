@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">The Sun reaches its northernmost point of the year. In Colombia, at midday, your shadow points south.</string>
     <string name="cielo_exp_solsticio_diciembre">The Sun reaches its southernmost point of the year. In Colombia, at midday, your shadow points north.</string>
     <string name="cielo_evento_desc">%1$s. Tap to learn more.</string>
+    <string name="mirar_cielo">Look at the sky</string>
+    <string name="mirar_ayuda_sensor">Point your phone: what you see is the sky behind the screen.</string>
+    <string name="mirar_ayuda_arrastre">Drag to look around.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° high</string>
+    <string name="cardinales">N,NE,E,SE,S,SW,W,NW</string>
+    <string name="cielo_sol">Sun</string>
+    <string name="cielo_lluvia_corto">Shower</string>
+    <string name="cerrar_cielo">Close</string>
 </resources>

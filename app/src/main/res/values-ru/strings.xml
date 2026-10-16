@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">Солнце достигает самой северной точки года. В Колумбии в полдень ваша тень указывает на юг.</string>
     <string name="cielo_exp_solsticio_diciembre">Солнце достигает самой южной точки года. В Колумбии в полдень ваша тень указывает на север.</string>
     <string name="cielo_evento_desc">%1$s. Нажмите, чтобы узнать больше.</string>
+    <string name="mirar_cielo">Смотреть на небо</string>
+    <string name="mirar_ayuda_sensor">Наведите телефон: вы видите небо за экраном.</string>
+    <string name="mirar_ayuda_arrastre">Перетащите, чтобы осмотреться.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · высота %3$d°</string>
+    <string name="cardinales">С,СВ,В,ЮВ,Ю,ЮЗ,З,СЗ</string>
+    <string name="cielo_sol">Солнце</string>
+    <string name="cielo_lluvia_corto">Поток</string>
+    <string name="cerrar_cielo">Закрыть</string>
 </resources>

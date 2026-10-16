@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">تبلغ الشمس أقصى نقطة لها شمالًا في السنة. في كولومبيا يشير ظلك ظهرًا نحو الجنوب.</string>
     <string name="cielo_exp_solsticio_diciembre">تبلغ الشمس أقصى نقطة لها جنوبًا في السنة. في كولومبيا يشير ظلك ظهرًا نحو الشمال.</string>
     <string name="cielo_evento_desc">%1$s. المس لمعرفة المزيد.</string>
+    <string name="mirar_cielo">انظر إلى السماء</string>
+    <string name="mirar_ayuda_sensor">وجّه هاتفك: ما تراه هو السماء التي خلف الشاشة.</string>
+    <string name="mirar_ayuda_arrastre">اسحب للنظر حولك.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · ارتفاع %3$d°</string>
+    <string name="cardinales">ش,ش‌ق,ق,ج‌ق,ج,ج‌غ,غ,ش‌غ</string>
+    <string name="cielo_sol">الشمس</string>
+    <string name="cielo_lluvia_corto">زخة</string>
+    <string name="cerrar_cielo">إغلاق</string>
 </resources>

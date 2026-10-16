@@ -1252,4 +1252,12 @@
     <string name="cielo_exp_solsticio_junio">El sol llega a su punto más al norte del año. En Colombia, a mediodía, tu sombra apunta hacia el sur.</string>
     <string name="cielo_exp_solsticio_diciembre">El sol llega a su punto más al sur del año. En Colombia, a mediodía, tu sombra apunta hacia el norte.</string>
     <string name="cielo_evento_desc">%1$s. Toca para saber más.</string>
+    <string name="mirar_cielo">Mirar el cielo</string>
+    <string name="mirar_ayuda_sensor">Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla.</string>
+    <string name="mirar_ayuda_arrastre">Arrastra para mirar alrededor.</string>
+    <string name="mirar_rumbo">%1$s %2$d° · %3$d° de altura</string>
+    <string name="cardinales">N,NE,E,SE,S,SO,O,NO</string>
+    <string name="cielo_sol">Sol</string>
+    <string name="cielo_lluvia_corto">Lluvia</string>
+    <string name="cerrar_cielo">Cerrar</string>
 </resources>
