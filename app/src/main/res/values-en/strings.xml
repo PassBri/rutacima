@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">Shower</string>
     <string name="cerrar_cielo">Close</string>
     <string name="cielo_lluvia_corta">Meteors from %1$s</string>
+    <string name="cimas_mas">more</string>
+    <string name="cimas_menos">less</string>
+    <string name="cimas_pantalla_completa">Full screen</string>
+    <string name="cimas_publicado_bajo">Posted under this sky</string>
 </resources>

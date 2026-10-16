@@ -229,6 +229,8 @@ private fun AppPrincipal() {
     val entrada by nav.currentBackStackEntryAsState()
     val rutaActual = entrada?.destination?.route
     val pestana = PESTANAS.firstOrNull { it.ruta == rutaActual }
+    // Cimas a pantalla completa (como los videos cortos): sin barra superior y con la barra inferior de noche
+    val inmersivo = rutaActual == Rutas.COMUNIDAD && com.rutaalacima.app.ui.theme.Inmersivo.activo
     // Cuentas que aún no aceptan la autorización de tratamiento de datos vigente (Ley 1581)
     com.rutaalacima.app.ui.legal.AutorizacionPendiente()
 
@@ -263,7 +265,7 @@ private fun AppPrincipal() {
         modifier = Modifier.weight(1f),
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
         topBar = {
-            if (pestana != null) {
+            if (pestana != null && !inmersivo) {
                 TopAppBar(
                     // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
                     title = {
@@ -298,7 +300,11 @@ private fun AppPrincipal() {
                 Column {
                     // Mientras suena un audiolibro: pausa o vuelve al capítulo desde cualquier pestaña
                     com.rutaalacima.app.ui.workbook.MiniReproductor(onAbrir = { wb, sec -> nav.navigate(Rutas.seccion(wb, sec)) })
-                    if (!ancho) BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                    if (!ancho) {
+                        if (inmersivo) com.rutaalacima.app.ui.theme.TemaNoche {
+                            BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                        } else BarraNavegacion(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+                    }
                 }
             }
         },
@@ -348,6 +354,8 @@ private fun AppPrincipal() {
                     onPublicar = { nav.navigate(Rutas.publicar(it)) },
                     onCuenta = { nav.navigate(Rutas.AJUSTES) },
                     onAutor = { id, nombre -> nav.navigate(Rutas.diarioDe(id, nombre)) },
+                    onCordadas = { nav.navigate(Rutas.CORDADAS) },
+                    onMensajes = { nav.navigate(Rutas.MENSAJES) },
                 )
             }
             composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook) }

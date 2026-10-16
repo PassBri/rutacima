@@ -19,6 +19,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.icons.filled.Diversity3
+import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -119,33 +124,57 @@ fun ComunidadScreen(
     onCuenta: () -> Unit,
     /** Tocar el nombre de una persona abre su diario de vida (los años que comparte). */
     onAutor: (String, String) -> Unit = { _, _ -> },
+    onCordadas: () -> Unit = {},
+    onMensajes: () -> Unit = {},
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
-    // Una sola Comunidad: el muro para recorrer y, al tocar una publicación, Cimas a pantalla
-    // completa desde esa misma publicación (como Instagram: del muro a la vista inmersiva y de vuelta).
-    var cimasDesde by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf<Int?>(null) }
+    // La Comunidad se abre a pantalla completa (Cimas), como los videos cortos. El muro (lista, filtros
+    // por eje, la expedición y los atajos para publicar) queda a un toque, arriba a la izquierda.
+    var enMuro by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    var pagina by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableIntStateOf(0) }
     val lista = androidx.compose.foundation.lazy.rememberLazyListState()
     var volverA by androidx.compose.runtime.remember { mutableStateOf<Int?>(null) }
-    val desde = cimasDesde
-    if (desde != null && vm.posts.isNotEmpty()) {
-        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = desde.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size }
-        val cerrar = { volverA = cimasDesde; cimasDesde = null }
-        androidx.activity.compose.BackHandler(onBack = cerrar)
-        Box(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
-            CimasFeed(
-                posts = vm.posts, estado = pager,
-                onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
-                modifier = Modifier.fillMaxSize(),
-                padding = PaddingValues(start = 12.dp, end = 12.dp, top = 4.dp, bottom = contentPadding.calculateBottomPadding() + 8.dp),
-            )
-            androidx.compose.material3.FilledTonalIconButton(onClick = cerrar, modifier = Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 20.dp)) {
-                Icon(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.comunidad_vista_lista))
-            }
+    val vista = androidx.compose.ui.platform.LocalView.current
+    androidx.compose.runtime.DisposableEffect(enMuro) {
+        com.rutaalacima.app.ui.theme.Inmersivo.activo = !enMuro
+        // Íconos claros en la barra de estado mientras se ve Cimas (fondo de noche)
+        var ctx = vista.context
+        while (ctx is android.content.ContextWrapper && ctx !is android.app.Activity) ctx = ctx.baseContext
+        val controlador = (ctx as? android.app.Activity)?.window?.let { androidx.core.view.WindowCompat.getInsetsController(it, vista) }
+        val antes = controlador?.isAppearanceLightStatusBars
+        if (!enMuro) controlador?.isAppearanceLightStatusBars = false
+        onDispose {
+            com.rutaalacima.app.ui.theme.Inmersivo.activo = false
+            if (antes != null) controlador?.isAppearanceLightStatusBars = antes
         }
-        // Al volver, el muro queda en la publicación que estabas viendo
-        LaunchedEffect(pager) {
-            androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { cimasDesde = it }
+    }
+    androidx.activity.compose.BackHandler(enabled = enMuro) { enMuro = false }
+    if (!enMuro) {
+        com.rutaalacima.app.ui.theme.TemaNoche {
+            Box(Modifier.fillMaxSize().background(Color(0xFF060A12)).padding(bottom = contentPadding.calculateBottomPadding())) {
+                when {
+                    vm.posts.isNotEmpty() -> {
+                        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = pagina.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size }
+                        LaunchedEffect(pager) { androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { pagina = it } }
+                        CimasFeed(
+                            posts = vm.posts, estado = pager,
+                            onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
+                            modifier = Modifier.fillMaxSize(),
+                            guardados = vm.guardados, onGuardar = { vm.alternarGuardado(it) },
+                            onAutor = { onAutor(it.autorId, it.autorNombre) },
+                        )
+                    }
+                    vm.cargando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                    else -> com.rutaalacima.app.ui.components.EstadoVacio(
+                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo),
+                        texto = vm.error?.let { stringResource(R.string.error_cargar, it) } ?: stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
+                        accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") },
+                        modifier = Modifier.align(Alignment.Center).padding(24.dp),
+                    )
+                }
+                PestanasCimas(vm, onMuro = { volverA = pagina; enMuro = true }, onCordadas = onCordadas, onMensajes = onMensajes, onCuenta = onCuenta)
+            }
         }
         return
     }
@@ -201,7 +230,14 @@ fun ComunidadScreen(
                 }
             }
         }
-        item { Filtros(vm) }
+        item {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.weight(1f)) { Filtros(vm) }
+            }
+            androidx.compose.material3.FilledTonalButton(onClick = { enMuro = false }, modifier = Modifier.padding(top = 8.dp)) {
+                Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.cimas_pantalla_completa))
+            }
+        }
         // La cumbre de la semana: toda la comunidad sube la misma montaña
         if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
             item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
@@ -224,7 +260,7 @@ fun ComunidadScreen(
             }
         }
         itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
-            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { cimasDesde = i },
+            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { pagina = i; enMuro = false },
                 guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) })
         }
     }
@@ -263,3 +299,42 @@ private fun Filtros(vm: ComunidadViewModel) {
     }
 }
 
+
+/**
+ * Arriba de Cimas: el muro a la izquierda, las pestañas al centro (Siguiendo · Para ti · Visión) con un
+ * subrayado dorado fino, y las cordadas y los mensajes a la derecha. Todo sobre un velo para leerse.
+ */
+@Composable
+private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas: () -> Unit, onMensajes: () -> Unit, onCuenta: () -> Unit) {
+    Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 4.dp, vertical = 4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            androidx.compose.material3.IconButton(onClick = onMuro) {
+                Icon(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.comunidad_vista_lista), tint = Color.White)
+            }
+            Row(Modifier.weight(1f), horizontalArrangement = Arrangement.Center) {
+                listOf(FiltroFeed.SIGUIENDO to R.string.filtro_siguiendo, FiltroFeed.PARA_TI to R.string.filtro_para_ti, FiltroFeed.VISION to R.string.filtro_vision).forEach { (f, nombre) ->
+                    val activo = vm.filtro == f
+                    Column(
+                        Modifier.clip(RoundedCornerShape(12.dp)).clickable { vm.cargar(f) }.padding(horizontal = 10.dp, vertical = 8.dp)
+                            .semantics { selected = activo },
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(stringResource(nombre), color = if (activo) Color.White else Color.White.copy(alpha = 0.66f),
+                            style = MaterialTheme.typography.titleSmall, fontWeight = if (activo) androidx.compose.ui.text.font.FontWeight.SemiBold else androidx.compose.ui.text.font.FontWeight.Normal, maxLines = 1)
+                        Spacer(Modifier.height(4.dp))
+                        Box(Modifier.width(22.dp).height(2.dp).clip(RoundedCornerShape(1.dp)).background(if (activo) MaterialTheme.colorScheme.secondary else Color.Transparent))
+                    }
+                }
+            }
+            androidx.compose.material3.IconButton(onClick = onCordadas) { Icon(Icons.Filled.Diversity3, stringResource(R.string.cordadas), tint = Color.White) }
+            androidx.compose.material3.IconButton(onClick = onMensajes) { Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes), tint = Color.White) }
+        }
+        if (!vm.enLinea) {
+            Text(
+                stringResource(R.string.modo_demo_titulo), color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelSmall,
+                modifier = Modifier.align(Alignment.CenterHorizontally).clip(RoundedCornerShape(50)).clickable(onClick = onCuenta)
+                    .background(Color.White.copy(alpha = 0.12f)).padding(horizontal = 10.dp, vertical = 4.dp),
+            )
+        }
+    }
+}

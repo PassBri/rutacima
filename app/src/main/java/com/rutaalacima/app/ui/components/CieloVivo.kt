@@ -68,10 +68,13 @@ fun CieloVivo(
     horizonte: Float = 0.6f,
     lectura: Boolean = true,
     onMirar: (() -> Unit)? = null,
+    /** Un instante fijo (por ejemplo, cuándo se publicó algo); null = el cielo de ahora, que avanza cada minuto. */
+    instante: Long? = null,
     contenido: @Composable BoxScope.() -> Unit = {},
 ) {
-    var ahora by remember { mutableLongStateOf(System.currentTimeMillis()) }
-    LaunchedEffect(Unit) {
+    var ahora by remember(instante) { mutableLongStateOf(instante ?: System.currentTimeMillis()) }
+    LaunchedEffect(instante) {
+        if (instante != null) return@LaunchedEffect
         while (true) {
             delay(60_000 - ahora % 60_000)
             ahora = System.currentTimeMillis()

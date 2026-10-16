@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">Chuva</string>
     <string name="cerrar_cielo">Fechar</string>
     <string name="cielo_lluvia_corta">Meteoros de %1$s</string>
+    <string name="cimas_mas">mais</string>
+    <string name="cimas_menos">menos</string>
+    <string name="cimas_pantalla_completa">Ver em tela cheia</string>
+    <string name="cimas_publicado_bajo">Publicado sob este céu</string>
 </resources>

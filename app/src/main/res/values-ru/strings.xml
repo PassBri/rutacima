@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">Поток</string>
     <string name="cerrar_cielo">Закрыть</string>
     <string name="cielo_lluvia_corta">Метеоры из %1$s</string>
+    <string name="cimas_mas">ещё</string>
+    <string name="cimas_menos">свернуть</string>
+    <string name="cimas_pantalla_completa">На весь экран</string>
+    <string name="cimas_publicado_bajo">Опубликовано под этим небом</string>
 </resources>

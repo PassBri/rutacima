@@ -8,6 +8,12 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.ui.unit.sp
+import com.rutaalacima.app.ui.i18n.texto
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -71,9 +77,10 @@ import kotlinx.coroutines.delay
 import java.io.File
 
 /**
- * Cimas: la comunidad a pantalla completa, una publicación por página. Se desliza hacia arriba
- * para ver la siguiente (como los videos cortos), doble toque para impulsar y los botones de
- * impulsar, comentar y compartir al costado derecho.
+ * Cimas: la comunidad a pantalla completa, como los videos cortos, pero en el mundo de Ruta a la Cima.
+ * Una publicación por pantalla, de borde a borde; se desliza hacia arriba para la siguiente. Doble toque
+ * para impulsar (cae un sello de lacre). Acciones al costado derecho y el pie con autor, texto y meta.
+ * Las publicaciones sin foto se ven sobre el cielo real del momento en que se publicaron.
  */
 @Composable
 fun CimasFeed(
@@ -83,141 +90,174 @@ fun CimasFeed(
     onAbrir: (Post) -> Unit,
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues(0.dp),
+    guardados: Set<String> = emptySet(),
+    onGuardar: (Post) -> Unit = {},
+    onAutor: (Post) -> Unit = {},
 ) {
     VerticalPager(
         state = estado,
         modifier = modifier,
         contentPadding = padding,
-        pageSpacing = 12.dp,
+        beyondViewportPageCount = 1,
         key = { posts[it].id },
     ) { i ->
         CimaPagina(
             post = posts[i],
             primera = i == 0,
+            guardado = posts[i].id in guardados,
             onImpulsar = { onImpulsar(posts[i]) },
             onAbrir = { onAbrir(posts[i]) },
+            onGuardar = { onGuardar(posts[i]) },
+            onAutor = { onAutor(posts[i]) },
         )
     }
 }
 
 @Composable
-private fun CimaPagina(post: Post, primera: Boolean, onImpulsar: () -> Unit, onAbrir: () -> Unit) {
+private fun CimaPagina(
+    post: Post, primera: Boolean, guardado: Boolean,
+    onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit,
+) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
-    val acento = eje?.color?.asColor() ?: MaterialTheme.colorScheme.primary
-    var destello by remember { mutableStateOf(false) }
-    LaunchedEffect(destello) { if (destello) { delay(700); destello = false } }
+    var sello by remember { mutableStateOf(false) }
+    var abierto by remember { mutableStateOf(false) }
+    LaunchedEffect(sello) { if (sello) { delay(900); sello = false } }
+    val haptico = androidx.compose.ui.platform.LocalHapticFeedback.current
 
     Box(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 12.dp)
-            .shadow(8.dp, RoundedCornerShape(24.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-            .clip(RoundedCornerShape(24.dp))
-            .background(Color(0xFF1D120D))
+            .background(Color(0xFF060A12))
             .pointerInput(post.id) {
                 detectTapGestures(
-                    onDoubleTap = { if (!post.yoImpulse) onImpulsar(); destello = true },
-                    onTap = { onAbrir() },
+                    onDoubleTap = {
+                        if (!post.yoImpulse) onImpulsar()
+                        sello = true
+                        haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                    },
+                    onTap = { abierto = false },
                 )
             },
     ) {
-        // Fondo: la foto a pantalla completa, o el paisaje del eje con la frase grande
+        // Fondo: la foto de borde a borde, o el cielo real del momento en que se publicó con la frase en letra de carta
         if (post.foto.isNotBlank()) {
             val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
             AsyncImage(modelo, androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
                 post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" },
                 Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         } else {
-            MontanaArte(post.id, Modifier.fillMaxSize(), paleta = eje?.ordinal ?: 0) {
-                Box(Modifier.fillMaxSize().background(Color(0x66000000)).padding(horizontal = 36.dp), contentAlignment = Alignment.Center) {
+            com.rutaalacima.app.ui.components.CieloVivo(Modifier.fillMaxSize(), horizonte = 0.72f, lectura = false, instante = post.creadoEn) {
+                Box(Modifier.fillMaxSize().padding(start = 32.dp, end = 76.dp, top = 120.dp, bottom = 200.dp), contentAlignment = Alignment.Center) {
                     Text(
                         "“${post.texto}”", color = Color.White, textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold,
-                        maxLines = 9, overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.headlineSmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif, fontWeight = FontWeight.Normal, lineHeight = 34.sp),
+                        maxLines = 10, overflow = TextOverflow.Ellipsis,
                     )
                 }
             }
         }
-        // Degradados para leer el texto
-        Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x66000000), 0.18f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0xD9000000))))
+        // Velos para leer: arriba (pestañas) y abajo (pie)
+        Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x8C060A12), 0.16f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0xE0060A12))))
 
-        // Arriba: tipo de publicación
-        Row(Modifier.align(Alignment.TopStart).padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-            TipoBadge(post.tipo)
-        }
-
-        // Impulso grande al dar doble toque
+        // Doble toque: cae un sello de lacre (el impulso de Ruta a la Cima)
         AnimatedVisibility(
-            visible = destello, modifier = Modifier.align(Alignment.Center),
-            enter = scaleIn(tween(180)) + fadeIn(), exit = scaleOut(tween(300)) + fadeOut(),
+            visible = sello, modifier = Modifier.align(Alignment.Center),
+            enter = scaleIn(tween(220), initialScale = 1.6f) + fadeIn(tween(160)), exit = scaleOut(tween(420), targetScale = 0.9f) + fadeOut(tween(420)),
         ) {
-            Icon(Icons.Filled.Bolt, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(120.dp))
+            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(132.dp))
         }
 
-        // Derecha: acciones
+        // Derecha: autor y acciones
         Column(
-            Modifier.align(Alignment.BottomEnd).padding(end = 10.dp, bottom = 96.dp),
+            Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
-            Avatar(post.autorNombre, post.avatarUrl, tamano = 44)
-            Accion(if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt, "${post.impulsos}",
+            Box(Modifier.clip(CircleShape).clickable(onClick = onAutor).padding(2.dp).semantics { contentDescription = post.autorNombre }) {
+                Box(Modifier.size(50.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.9f)).padding(2.dp)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
+            }
+            Accion(if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt, contar(post.impulsos),
                 stringResource(R.string.impulsar), if (post.yoImpulse) MaterialTheme.colorScheme.secondary else Color.White, onImpulsar)
-            Accion(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), Color.White, onAbrir)
+            Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
+            Accion(if (guardado) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder, "", stringResource(R.string.guardar),
+                if (guardado) MaterialTheme.colorScheme.secondary else Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
                 val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
         }
 
-        // Abajo: autor, texto, meta y eje
+        // Abajo: autor, texto (se abre con "más"), meta y eje
         Column(
-            Modifier.align(Alignment.BottomStart).fillMaxWidth().padding(start = 16.dp, end = 80.dp, bottom = 18.dp),
+            Modifier.align(Alignment.BottomStart).fillMaxWidth().padding(start = 16.dp, end = 84.dp, bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Text(
-                listOfNotNull(post.autorNombre, post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" }, haceCuanto(post.creadoEn)).joinToString(" · "),
-                color = Color.White, style = MaterialTheme.typography.titleSmall, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" } ?: post.autorNombre,
+                color = Color.White, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
+                maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.clickable(onClick = onAutor),
+            )
+            Text(
+                listOfNotNull(post.tipo.texto(), eje?.texto(), haceCuanto(post.creadoEn)).joinToString(" · "),
+                color = Color.White.copy(alpha = 0.78f), style = MaterialTheme.typography.labelMedium, maxLines = 1,
             )
             if (post.foto.isNotBlank() && post.texto.isNotBlank()) {
-                Text(post.texto, color = Color.White, style = MaterialTheme.typography.bodyMedium, maxLines = 4, overflow = TextOverflow.Ellipsis)
+                Text(
+                    post.texto, color = Color.White, style = MaterialTheme.typography.bodyMedium,
+                    maxLines = if (abierto) 12 else 2, overflow = TextOverflow.Ellipsis,
+                )
+                if (post.texto.length > 90) Text(
+                    stringResource(if (abierto) R.string.cimas_menos else R.string.cimas_mas), color = Color.White, fontWeight = FontWeight.SemiBold,
+                    style = MaterialTheme.typography.labelLarge, modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable { abierto = !abierto }.padding(vertical = 4.dp),
+                )
+            } else if (post.foto.isBlank()) {
+                Text(stringResource(R.string.cimas_publicado_bajo), color = Color.White.copy(alpha = 0.6f), style = MaterialTheme.typography.labelSmall)
             }
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                if (post.metaTitulo.isNotBlank()) {
-                    Text(
-                        "⛰ ${post.metaTitulo}", color = Color.White, style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1, overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f, fill = false).clip(RoundedCornerShape(50)).background(acento.copy(alpha = 0.75f))
-                            .padding(horizontal = 10.dp, vertical = 4.dp),
-                    )
+            if (post.metaTitulo.isNotBlank()) {
+                Row(
+                    Modifier.clip(RoundedCornerShape(50)).background(Color.White.copy(alpha = 0.16f))
+                        .border(1.dp, Color.White.copy(alpha = 0.28f), RoundedCornerShape(50)).padding(horizontal = 10.dp, vertical = 5.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(Icons.Filled.Terrain, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(16.dp))
+                    Spacer(Modifier.width(6.dp))
+                    Text(post.metaTitulo, color = Color.White, style = MaterialTheme.typography.labelMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
-                eje?.let { EjeChip(it) }
             }
             if (primera) {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-                    Icon(Icons.Filled.KeyboardArrowUp, null, tint = Color.White.copy(alpha = 0.8f), modifier = Modifier.size(18.dp))
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)) {
+                    Icon(Icons.Filled.KeyboardArrowUp, null, tint = Color.White.copy(alpha = 0.7f), modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(4.dp))
-                    Text(stringResource(R.string.cimas_ayuda), color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.cimas_ayuda), color = Color.White.copy(alpha = 0.7f), style = MaterialTheme.typography.labelSmall)
                 }
             }
         }
     }
 }
 
+/** 1.234 → "1,2 mil" como en las redes; los números pequeños se muestran tal cual. */
+private fun contar(n: Int): String = when {
+    n >= 1_000_000 -> String.format(java.util.Locale.getDefault(), "%.1fM", n / 1_000_000f)
+    n >= 10_000 -> "${n / 1000}k"
+    n >= 1_000 -> String.format(java.util.Locale.getDefault(), "%.1fk", n / 1000f)
+    else -> "$n"
+}
+
 @Composable
 private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte: Color, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(4.dp)
-            .semantics { contentDescription = descripcion },
+        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(2.dp)
+            .semantics { contentDescription = if (texto.isEmpty()) descripcion else "$descripcion, $texto" },
     ) {
-        Box(Modifier.size(46.dp).clip(CircleShape).background(Color(0x33FFFFFF)), contentAlignment = Alignment.Center) {
-            Icon(icono, null, tint = tinte, modifier = Modifier.size(26.dp))
-        }
+        Box(
+            Modifier.size(48.dp).clip(CircleShape).background(Color(0x40060A12)).border(1.dp, Color.White.copy(alpha = 0.24f), CircleShape),
+            contentAlignment = Alignment.Center,
+        ) { Icon(icono, null, tint = tinte, modifier = Modifier.size(26.dp)) }
         if (texto.isNotEmpty()) {
-            Spacer(Modifier.height(2.dp))
-            Text(texto, color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(3.dp))
+            Text(texto, color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
         }
     }
 }

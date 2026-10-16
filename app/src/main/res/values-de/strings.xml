@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">Strom</string>
     <string name="cerrar_cielo">Schließen</string>
     <string name="cielo_lluvia_corta">Meteore aus %1$s</string>
+    <string name="cimas_mas">mehr</string>
+    <string name="cimas_menos">weniger</string>
+    <string name="cimas_pantalla_completa">Vollbild</string>
+    <string name="cimas_publicado_bajo">Unter diesem Himmel veröffentlicht</string>
 </resources>

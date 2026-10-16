@@ -187,6 +187,17 @@ val EstiloCita = TextStyle(
     lineHeight = 27.sp,
 )
 
+/** La noche en altura, para las vistas inmersivas (Cimas, Mirar el cielo) aunque el teléfono esté en claro. */
+@Composable
+fun TemaNoche(content: @Composable () -> Unit) {
+    MaterialTheme(colorScheme = Oscuro, typography = RutaTypography, content = content)
+}
+
+/** Si una pantalla ocupa todo (como Cimas): la raíz esconde la barra superior y oscurece la inferior. */
+object Inmersivo {
+    var activo by androidx.compose.runtime.mutableStateOf(false)
+}
+
 @Composable
 fun RutaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
     MaterialTheme(

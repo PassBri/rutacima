@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">उल्कापात</string>
     <string name="cerrar_cielo">बंद करें</string>
     <string name="cielo_lluvia_corta">%1$s से उल्काएँ</string>
+    <string name="cimas_mas">और</string>
+    <string name="cimas_menos">कम</string>
+    <string name="cimas_pantalla_completa">पूरी स्क्रीन पर देखें</string>
+    <string name="cimas_publicado_bajo">इसी आकाश के नीचे प्रकाशित</string>
 </resources>

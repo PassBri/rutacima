@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">유성우</string>
     <string name="cerrar_cielo">닫기</string>
     <string name="cielo_lluvia_corta">%1$s 유성</string>
+    <string name="cimas_mas">더 보기</string>
+    <string name="cimas_menos">접기</string>
+    <string name="cimas_pantalla_completa">전체 화면으로 보기</string>
+    <string name="cimas_publicado_bajo">이 하늘 아래에서 올린 글</string>
 </resources>

@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">زخة</string>
     <string name="cerrar_cielo">إغلاق</string>
     <string name="cielo_lluvia_corta">شهب من %1$s</string>
+    <string name="cimas_mas">المزيد</string>
+    <string name="cimas_menos">أقل</string>
+    <string name="cimas_pantalla_completa">ملء الشاشة</string>
+    <string name="cimas_publicado_bajo">نُشر تحت هذه السماء</string>
 </resources>

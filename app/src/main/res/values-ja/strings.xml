@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">流星群</string>
     <string name="cerrar_cielo">閉じる</string>
     <string name="cielo_lluvia_corta">%1$sの流星</string>
+    <string name="cimas_mas">もっと見る</string>
+    <string name="cimas_menos">閉じる</string>
+    <string name="cimas_pantalla_completa">全画面で見る</string>
+    <string name="cimas_publicado_bajo">この空の下で投稿</string>
 </resources>

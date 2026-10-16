@@ -1261,4 +1261,8 @@
     <string name="cielo_lluvia_corto">流星雨</string>
     <string name="cerrar_cielo">关闭</string>
     <string name="cielo_lluvia_corta">来自%1$s的流星</string>
+    <string name="cimas_mas">更多</string>
+    <string name="cimas_menos">收起</string>
+    <string name="cimas_pantalla_completa">全屏查看</string>
+    <string name="cimas_publicado_bajo">在这片天空下发布</string>
 </resources>
