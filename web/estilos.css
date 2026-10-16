@@ -178,7 +178,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .enviar { width: 44px; height: 44px; border-radius: 50%; background: var(--burdeos); color: var(--sobre-burdeos); display: grid; place-items: center; flex: none; }
 
 /* Comunidad */
-.postal { aspect-ratio: 4 / 3; max-width: 100%; border-radius: 6px; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; color: #fff; position: relative; overflow: hidden; }
+.postal { aspect-ratio: 4 / 3; max-width: 100%; border-radius: 12px; background: #1E283C; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; color: #fff; position: relative; overflow: hidden; }
 .postal .q { font: 700 clamp(18px, 2.4vw, 26px)/1.3 var(--font-titulo); text-wrap: balance; }
 .postal .m { margin-top: 10px; font-size: 13px; opacity: .9; letter-spacing: .04em; }
 .postal .tipo { position: absolute; top: 16px; left: 16px; background: rgb(255 255 255 / .2); padding: 3px 10px; border-radius: 99px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; font-weight: 700; }
@@ -1014,3 +1014,16 @@ a.btn { text-decoration: none; }
 .vc-brujula { position: absolute; left: 50%; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 34px); transform: translateX(-50%); min-height: 44px; padding: 10px 18px; border-radius: 99px;
   background: #fff; color: #1D2427; font-weight: 500; }
 @media (prefers-reduced-motion: reduce) { .ventana-cielo { animation: none; } }
+
+/* Arte: la cordillera de cada semilla (web/js/16-arte.js), igual a la de la app */
+.arte-cordillera { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.postal > .arte-cordillera { z-index: 0; }
+.postal::after { content: ""; position: absolute; inset: 0; z-index: 0; background: linear-gradient(transparent 30%, rgb(6 10 18 / .7)); pointer-events: none; }
+.postal > :not(.arte-cordillera) { position: relative; z-index: 1; }
+.postal > .tipo { position: absolute; }
+.postal .q { text-shadow: 0 1px 12px rgb(0 0 0 / .35); }
+.arte-cabecera { position: relative; height: 132px; border-radius: 14px; overflow: hidden; background: #1E283C; }
+.vacio { position: relative; overflow: hidden; }
+.vacio-arte { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; opacity: .9; pointer-events: none;
+  -webkit-mask-image: linear-gradient(transparent, #000 45%); mask-image: linear-gradient(transparent, #000 45%); }
+.vacio > div:not(.vacio-arte) { position: relative; }

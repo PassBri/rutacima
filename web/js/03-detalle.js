@@ -109,8 +109,10 @@ function albumAnio(a, metas) {
 }
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
+/** El momento del día para el arte (0 amanecer, 1 día, 2 atardecer, 3 noche), según la hora local. */
+const momentoAhora = () => { const h = new Date().getHours(); return h >= 5 && h < 8 ? 0 : h >= 8 && h < 17 ? 1 : h >= 17 && h < 19 ? 2 : 3; };
 function vacio() {
-  return `<div class="vacio"><div><img src="${LOGO}" alt="Sello de Rutaalacima"><h2>Rutaalacima Web</h2>
+  return `<div class="vacio"><div class="vacio-arte" aria-hidden="true">${window.Arte ? Arte.cordillera("rutaalacima-bienvenida", momentoAhora()) : ""}</div><div><img src="${LOGO}" alt="Sello de Rutaalacima"><h2>Rutaalacima Web</h2>
     <p>La misma app de tu teléfono, en pantalla grande. Elige un año de tu ruta, tu día de hoy o una de tus metas.</p>
     <p class="pie suave">${ic("candado")} ${Store.nube ? "Conectada a tu cuenta: lo que cambies aquí aparece en tu teléfono." : "Demostración: los cambios se quedan en esta pestaña."}</p></div></div>`;
 }
@@ -417,9 +419,10 @@ async function cargarFeed() {
     cargarFeed.activo = false; if (estado.sec === "comunidad" || estado.sec === "perfil") { pintarLista(); if (!enEdicion()) pintarDetalle(); } }
 }
 function postal(p, mini = false) {
-  const c = COLOR_EJE[p.eje] || "#6B2A1A", tipo = TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || "";
+  const tipo = TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || "";
   if (p.foto && !mini) return `<img class="foto" src="${esc(p.foto)}" alt="${altFoto(p)}">`;
-  return `<div class="postal" style="background:linear-gradient(160deg, ${c}, color-mix(in srgb, ${c} 55%, #1d120d))"><span class="tipo">${tipo}</span>
+  // Sin foto: la cordillera de esa publicación (siempre la misma para el mismo post) con la frase encima
+  return `<div class="postal">${window.Arte ? Arte.cordillera(String(p.id), null, { detalle: !mini }) : ""}<span class="tipo">${tipo}</span>
     <div class="q">${mini ? esc(p.texto) : "“" + esc(p.texto) + "”"}</div>${!mini && p.metaTitulo ? `<div class="m">${ic("bandera", "i fijado")} ${esc(p.metaTitulo)}${p.eje ? " · " + NOMBRE_EJE[p.eje] : ""}</div>` : ""}</div>`;
 }
 Object.assign(DET, {
@@ -576,6 +579,7 @@ Object.assign(DET, {
     if (estado.wb[id] === undefined) estado.wb[id] = Math.min(guardada, Math.max(0, secs.length - 1));
     const i = estado.wb[id], s = secs[i];
     return cab(av(esc(g.title.trim()[0]), g.category === "bonos" ? "var(--oro)" : "var(--burdeos)"), esc(g.title), esc(g.subtitle || "")) + cuerpo(
+      `<div class="arte-cabecera" aria-hidden="true">${window.Arte ? Arte.cordillera(id, null, { bandera: g.category !== "bonos" }) : ""}</div>` +
       `<div class="tabs">${secs.map((x, k) => `<button data-acc="seccion" data-arg="${esc(id)}|${k}" aria-pressed="${k === i}">${esc(x.title || `Sección ${k + 1}`)}</button>`).join("")}</div>` +
       (s ? `<div id="audioBarra" data-cap="${esc(id)}|${i}">${htmlAudioBarra(id, i)}</div>` : "") +
       (s ? hoja(`<div class="wb">${s.title ? `<h2 style="margin-top:0">${esc(s.title)}</h2>` : ""}${(s.blocks || []).map(b => bloque(b, id)).join("")}</div>`) : `<p class="vacio-mini">Esta guía no se pudo cargar.</p>`) +
