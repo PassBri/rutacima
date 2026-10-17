@@ -1027,3 +1027,38 @@ a.btn { text-decoration: none; }
 .vacio-arte { position: absolute; left: 0; right: 0; bottom: 0; height: 38%; opacity: .9; pointer-events: none;
   -webkit-mask-image: linear-gradient(transparent, #000 45%); mask-image: linear-gradient(transparent, #000 45%); }
 .vacio > div:not(.vacio-arte) { position: relative; }
+
+/* Hoja inferior (Material 3): comentarios y opciones sin salir del feed */
+.hoja-inferior { position: fixed; inset: 0; z-index: 65; display: flex; align-items: flex-end; justify-content: center; }
+.hoja-velo { position: absolute; inset: 0; background: rgb(6 10 18 / .45); animation: hoja-velo .22s cubic-bezier(.2,0,0,1); }
+.hoja-panel { position: relative; width: min(100%, 560px); max-height: min(75vh, 640px); overflow-y: auto; background: var(--hoja); color: var(--tinta);
+  border-radius: 28px 28px 0 0; padding: 8px 16px max(16px, env(safe-area-inset-bottom)); box-shadow: 0 -8px 30px rgb(0 0 0 / .25);
+  animation: hoja-entra .32s cubic-bezier(.2,0,0,1); transition: transform .18s cubic-bezier(.2,0,0,1); }
+.hoja-inferior.saliendo .hoja-panel { animation: hoja-sale .22s cubic-bezier(.3,0,.8,.15) forwards; }
+.hoja-inferior.saliendo .hoja-velo { opacity: 0; transition: opacity .22s; }
+@keyframes hoja-entra { from { transform: translateY(100%); } }
+@keyframes hoja-sale { to { transform: translateY(100%); } }
+@keyframes hoja-velo { from { opacity: 0; } }
+.hoja-asa { display: block; width: 32px; height: 4px; border-radius: 2px; background: var(--linea); margin: 6px auto 10px; }
+.hoja-titulo { margin: 0 0 10px; font: 500 16px/1.3 var(--font-texto); text-align: center; }
+.hoja-vacia { text-align: center; margin: 18px 0; }
+.hoja-comentarios { display: grid; gap: 14px; padding: 4px 0 8px; }
+.comentario { display: flex; gap: 10px; align-items: flex-start; }
+.comentario .avatar { width: 32px; height: 32px; font-size: 12px; }
+.comentario b { font-size: 13px; font-weight: 600; }
+.comentario p { margin: 2px 0 0; font-size: 14px; }
+.hoja-escribir { position: sticky; bottom: 0; background: var(--hoja); margin: 8px -16px 0; padding: 10px 16px 0; border-top: 1px solid var(--linea); }
+.hoja-lista { display: grid; padding-bottom: 8px; }
+.hoja-lista button { display: flex; align-items: center; gap: 14px; min-height: 52px; padding: 0 8px; border-radius: 12px; font-size: 15px; text-align: start; }
+.hoja-lista button:hover { background: var(--hoja-2); }
+.hoja-lista button svg { width: 22px; height: 22px; fill: currentColor; flex: none; color: var(--tinta-suave); }
+.hoja-lista button.peligro, .hoja-lista button.peligro svg { color: #B3261E; }
+:root[data-theme="dark"] .hoja-lista button.peligro, :root[data-theme="dark"] .hoja-lista button.peligro svg { color: #F2B8B5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .hoja-lista button.peligro, :root:not([data-theme="light"]) .hoja-lista button.peligro svg { color: #F2B8B5; } }
+@media (prefers-reduced-motion: reduce) { .hoja-panel, .hoja-velo { animation: none; } }
+/* Final del feed */
+.cima-fin .arte-cordillera { position: absolute; inset: 0; }
+.cima-fin-texto { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 32px; text-align: center; color: #fff; }
+.cima-fin-texto img { width: 84px; height: 84px; }
+.cima-fin-texto h2 { margin: 0; font: 400 24px/1.25 var(--font-texto); }
+.cima-fin-texto p { margin: 0; max-width: 30ch; color: rgb(255 255 255 / .85); }

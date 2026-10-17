@@ -127,6 +127,26 @@ const ACC = {
     try { if (navigator.share) { await navigator.share({ text: texto }); return; } } catch { return; }
     try { await navigator.clipboard.writeText(texto); toast("Copiado: pégalo donde quieras compartirlo."); } catch {}
   },
+  /** Comentarios de una cima en una hoja inferior: se lee y se escribe sin salir del feed. */
+  async comentariosCima(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
+    estado.post = p; pintarHojaComentarios(p, true);
+    if (!p.comentariosLista) { await cargarComentarios(p); pintarHojaComentarios(p); }
+  },
+  /** Más de una cima: copiar el texto, reportar o bloquear (siempre a un toque). */
+  masCima(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
+    estado.post = p;
+    abrirHoja(`<h3 class="hoja-titulo">Opciones</h3><div class="hoja-lista">
+      <button data-acc="copiarCima" data-arg="${esc(p.id)}">${ic("copiar2")}<span>Copiar el texto</span></button>
+      ${p.propio ? "" : `<button data-acc="reportarPost" data-arg="${esc(p.id)}">${ic("reportar")}<span>Reportar publicación</span></button>
+      <button class="peligro" data-acc="bloquearAutor" data-arg="${esc(p.id)}">${ic("bloquear")}<span>Bloquear a ${esc(p.autorNombre)}</span></button>`}</div>`);
+  },
+  async copiarCima(el, id) {
+    const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
+    try { await navigator.clipboard.writeText([p.metaTitulo, p.texto].filter(Boolean).join("\n\n")); toast("Texto copiado."); } catch {}
+    cerrarHoja();
+  },
   /** "más" / "menos" en el texto de una cima */
   masTexto(el) { const pie = el.closest(".cima-pie"); const abierto = pie.classList.toggle("abierto"); el.textContent = abierto ? "menos" : "más"; el.setAttribute("aria-expanded", abierto); },
   impulsarId(el, id) { const p = (estado.feed || []).find(x => String(x.id) === id); if (p) { estado.post = p; ACC.impulsar(); } },
@@ -150,7 +170,7 @@ const ACC = {
       const r = await Store.nube.sb.from("reportes").insert({ quien: Store.nube.dueno, a_quien: p.autorId, post_id: p.id, motivo: (motivo || "Sin detalle").slice(0, 1000) });
       if (r.error && r.error.code !== "23505") { errorNube(r.error); return; }
     }
-    ocultarLocal("ocultos", p.id); toast("Gracias. Revisaremos tu reporte."); estado.feed = null; ir("comunidad", null);
+    ocultarLocal("ocultos", p.id); cerrarHoja(); toast("Gracias por cuidar la comunidad: la revisaremos y ya no la verás."); estado.feed = null; ir("comunidad", estado.vistaCom === "cimas" ? "feed" : null);
   },
   async bloquearAutor(el, id) {
     const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
@@ -159,7 +179,7 @@ const ACC = {
       const r = await Store.nube.sb.from("bloqueos").upsert({ quien: Store.nube.dueno, a_quien: p.autorId });
       if (r.error) { errorNube(r.error); return; }
     }
-    ocultarLocal("bloqueados", p.autorId); toast(`Bloqueaste a ${p.autorNombre}.`); estado.feed = null; ir("comunidad", null);
+    ocultarLocal("bloqueados", p.autorId); cerrarHoja(); toast(`Bloqueaste a ${p.autorNombre}. Ya no verás sus publicaciones.`); estado.feed = null; ir("comunidad", estado.vistaCom === "cimas" ? "feed" : null);
   },
   async eliminarCuenta() {
     const palabra = prompt("Esto borra para siempre tu cuenta y todo lo que está en el servidor. Lo guardado en tu teléfono se queda ahí.\n\nEscribe ELIMINAR para confirmar:");
@@ -262,7 +282,7 @@ async function enviar(e) {
       f.reset();
       if (p.demo || !Store.nube) (demoComentarios[p.id] ||= []).push({ autor: perfil().nombre || "Yo", texto });
       else { const r = await Store.nube.sb.from("comments").insert({ post_id: p.id, user_id: Store.nube.dueno, texto }); if (r.error) { errorNube(r.error); break; } }
-      p.comentariosLista = null; cargarComentarios(p);
+      p.comentariosLista = null; await cargarComentarios(p); globalThis.pintarHojaComentarios?.(p);
     } break;
     case "publicar": {
       if (!texto) break;
@@ -288,3 +308,42 @@ async function enviar(e) {
     } break;
   }
 }
+
+/* ---------- Hoja inferior (Material 3): se abre desde abajo, se cierra con el velo, Esc o arrastrando ---------- */
+function abrirHoja(html) {
+  cerrarHoja(true);
+  const h = document.createElement("div");
+  h.id = "hojaInferior"; h.className = "hoja-inferior"; h.setAttribute("role", "dialog"); h.setAttribute("aria-modal", "true");
+  h.innerHTML = `<div class="hoja-velo" data-cerrar-hoja></div><section class="hoja-panel"><span class="hoja-asa" aria-hidden="true"></span>${html}</section>`;
+  document.body.append(h);
+  // La hoja vive fuera de la app: recibe los mismos clics y envíos que el detalle
+  h.onclick = e => { if (e.target.closest("[data-cerrar-hoja]")) { cerrarHoja(); return; } clic(e); };
+  h.onsubmit = enviar;
+  h.addEventListener("keydown", e => { if (e.key === "Escape") cerrarHoja(); });
+  // Arrastrar hacia abajo para cerrar
+  const panel = h.querySelector(".hoja-panel"); let y0 = null;
+  panel.addEventListener("touchstart", e => { if (panel.scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true });
+  panel.addEventListener("touchmove", e => { if (y0 !== null) { const d = Math.max(0, e.touches[0].clientY - y0); panel.style.transform = `translateY(${d}px)`; } }, { passive: true });
+  panel.addEventListener("touchend", e => { if (y0 === null) return; const d = e.changedTouches[0].clientY - y0; y0 = null; if (d > 90) cerrarHoja(); else panel.style.transform = ""; });
+  (h.querySelector("input, textarea, button:not([data-cerrar-hoja])") || panel).focus?.();
+  return h;
+}
+function cerrarHoja(inmediato = false) {
+  const h = document.getElementById("hojaInferior"); if (!h) return;
+  if (inmediato || matchMedia("(prefers-reduced-motion: reduce)").matches) { h.remove(); return; }
+  h.classList.add("saliendo"); setTimeout(() => h.remove(), 220);
+}
+/** Pinta (o repinta) la hoja de comentarios de una publicación. */
+function pintarHojaComentarios(p, abrir = false) {
+  const lista = p.comentariosLista;
+  const cuerpo = !lista ? `<p class="suave hoja-vacia">Cargando…</p>` : !lista.length ? `<p class="suave hoja-vacia">Aún no hay comentarios. Sé la primera persona en dar ánimo.</p>`
+    : `<div class="hoja-comentarios">${lista.map(c => { const ini = (c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
+        return `<div class="comentario"><span class="avatar" style="background:#6B2A1A">${esc(ini)}</span><div><b>${esc(c.autor)}</b><p>${esc(c.texto)}</p></div></div>`; }).join("")}</div>`;
+  const html = `<h3 class="hoja-titulo">${p.comentarios || (lista || []).length} comentarios</h3>${cuerpo}
+    <form class="escribir hoja-escribir" data-form="comentar"><input name="texto" placeholder="Escribe un comentario" aria-label="Comentario" autocomplete="off" maxlength="1000"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
+  const actual = document.getElementById("hojaInferior");
+  if (abrir || !actual) { abrirHoja(html); return; }
+  actual.querySelector(".hoja-panel").innerHTML = `<span class="hoja-asa" aria-hidden="true"></span>${html}`;
+  actual.querySelector("input")?.focus();
+}
+globalThis.pintarHojaComentarios = pintarHojaComentarios;

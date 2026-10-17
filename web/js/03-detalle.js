@@ -472,13 +472,18 @@ Object.assign(DET, {
           <div class="cima-acciones">
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
             <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${ic("impulso")}<b>${num(p.impulsos)}</b></button>
-            <button data-ir="comunidad" data-arg="post:${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
-            <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button></div>
+            <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
+            <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
+            <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones: copiar, reportar o bloquear">${ic("masH")}</button></div>
           <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
             <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], NOMBRE_EJE[p.eje], hace(p.creadoEn)].filter(Boolean).join(" · ")}</span>
             ${p.foto && p.texto ? `<p class="cima-texto">${esc(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
             ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
-            ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("")
+            ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("") +
+          // El feed tiene final: la invitación es volver a la propia ruta
+          `<article class="cima cima-fin" aria-label="Final del feed"><div class="cima-fondo">${window.Arte ? Arte.cordillera("fin-del-feed", 3) : ""}</div>
+            <div class="cima-fin-texto"><img src="${LOGO}" alt=""><h2>Ya viste lo nuevo</h2><p>La montaña sigue ahí mañana. Ahora, da tu propio paso de hoy.</p>
+            <button class="btn lleno" data-ir="hoy" data-arg="d:${iso(hoyFecha())}">Dar el paso de hoy</button></div></article>`
           : `<div class="cimas-vacio"><p>${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p><button class="btn lleno" data-ir="comunidad" data-arg="publicar">Publicar</button></div>`}</div>`;
     }
     return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Tu muro, hacia abajo") + cuerpo(
