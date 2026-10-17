@@ -1,0 +1,1090 @@
+{
+ "id": "confluencia",
+ "title": "Confluencia",
+ "subtitle": "Cómo integrar los 6 ejes",
+ "category": "ruta",
+ "order": 5,
+ "sections": [
+  {
+   "id": "confluencia.sec0",
+   "title": "El Secreto De La Confluencia",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Los ejes separados son ríos. Los ejes integrados son un océano."
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El error que cometen la mayoría de los senderistas:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Trabajan cada eje por separado:"
+      },
+      {
+       "type": "bullet",
+       "text": "Lunes trabajo en MAESTRÍA (aprendo una habilidad)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Martes trabajo en VALOR (busco clientes)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Miércoles trabajo en VOZ (escribo contenido)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Y así...",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Resultado: Esfuerzo fragmentado. Progreso lento. Agotamiento."
+      },
+      {
+       "type": "paragraph",
+       "text": "Los ejes no son partes separadas. Son ríos que fluyen hacia el mismo océano."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "LA VERDAD DE LA CONFLUENCIA:"
+      },
+      {
+       "type": "paragraph",
+       "text": "1 + 1 + 1 + 1 + 1 + 1 ≠ 6"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "1 × 1 × 1 × 1 × 1 × 1 = EXPONENCIAL"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cuando los ejes se integran, no se SUMAN. Se MULTIPLICAN."
+      },
+      {
+       "type": "paragraph",
+       "text": "Un eje fortalece a otro. Dos ejes crean sinergia. Tres ejes crean momentum. Seis ejes integrados crean una fuerza imparable."
+      },
+      {
+       "type": "paragraph",
+       "text": "Esta guía te enseña cómo crear esa confluencia."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Qué aprenderás en esta guía:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo un eje fortalece naturalmente a otros",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Las 15 sinergias más poderosas entre ejes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cómo identificar bloqueos cruzados (cuando un eje débil sabotea a otros)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estrategias de integración práctica",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Casos reales de confluencia exitosa",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu ejercicio de visualización de confluencia total",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "confluencia.sec1",
+   "title": "Parte 1: Mapa De Sinergias",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Descubre cómo tus ejes se potencian mutuamente"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Las 15 Sinergias Naturales"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #1: VOLUNTAD → MAESTRÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando tu VOLUNTAD es clara (sabes tu llamado), la MAESTRÍA tiene dirección. No estudias al azar, estudias lo que te acerca a tu cumbre."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "María quiere ayudar a mujeres a sanar trauma (VOLUNTAD). Esto la lleva a estudiar psicología (MAESTRÍA). Su voluntad clara elimina la parálisis por análisis."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q1",
+     "number": "01",
+     "label": "En tu caso: ¿Cómo tu VOLUNTAD clarifica qué MAESTRÍA necesitas desarrollar?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #2: MAESTRÍA → VOZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu MAESTRÍA te da autoridad. Tu VOZ comunica esa maestría al mundo. Sin maestría, tu voz es hueca. Sin voz, tu maestría es invisible."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Carlos domina programación en Python (MAESTRÍA). Crea un canal de YouTube enseñando Python (VOZ). Su maestría hace su voz creíble. Su voz hace su maestría valiosa."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q2",
+     "number": "01",
+     "label": "En tu caso: ¿Qué MAESTRÍA tuya necesita ser comunicada a través de tu VOZ?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #3: VOZ → VALOR"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu VOZ atrae a quienes necesitan lo que ofreces. Cuando comunicas tu mensaje auténtico, el VALOR fluye naturalmente porque atraes a tu tribu correcta."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ana escribe sobre inteligencia financiera (VOZ). Su audiencia crece y le piden asesoría (VALOR). Su voz clara genera demanda por su servicio."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q3",
+     "number": "01",
+     "label": "En tu caso: ¿Cómo podría tu VOZ generar VALOR económico para ti?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #4: VALOR → MAESTRÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando generas VALOR económico, puedes reinvertir en tu MAESTRÍA. Compras cursos, contratas mentores, dedicas más tiempo a perfeccionar tu arte."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "David cobra por coaching (VALOR). Usa esas ganancias para certificarse en PNL (MAESTRÍA). Su maestría mejorada aumenta su valor. Ciclo virtuoso."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q4",
+     "number": "01",
+     "label": "En tu caso: ¿Cómo podrías reinvertir tu VALOR en profundizar tu MAESTRÍA?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #5: EVOLUCIÓN → MAESTRÍA"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada desafío que superas (EVOLUCIÓN) te enseña habilidades nuevas (MAESTRÍA). Los fracasos no te debilitan, te fortalecen con sabiduría ganada con dolor."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Laura fracasa en su primer negocio (EVOLUCIÓN dolorosa). Aprende finanzas, ventas y liderazgo (MAESTRÍA). Su segundo negocio prospera gracias a lo aprendido en el fracaso."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q5",
+     "number": "01",
+     "label": "En tu caso: ¿Qué MAESTRÍA has ganado de tus experiencias de EVOLUCIÓN (incluso las dolorosas)?"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SINERGIA #6: VOLUNTAD → VOZ"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo funciona:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Una VOLUNTAD profunda te da convicción. Esa convicción hace tu VOZ magnética. Hablas con la fuerza de quien sabe su propósito."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Miguel sabe que debe ayudar a hombres a sanar su relación con el padre (VOLUNTAD). Cuando habla de esto, su voz vibra con autenticidad (VOZ). La gente siente su convicción."
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q6",
+     "number": "01",
+     "label": "En tu caso: ¿Cómo tu VOLUNTAD profunda puede darle más poder a tu VOZ?"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Más sinergias clave:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "SINERGIA",
+      "CÓMO FUNCIONA"
+     ],
+     "rows": [
+      [
+       "#7: TRASCENDENCIA → VOLUNTAD",
+       "Cuando te conectas con algo mayor que tú (TRASCENDENCIA), tu llamado se vuelve más profundo (VOLUNTAD). Ya no es solo por ti."
+      ],
+      [
+       "#8: MAESTRÍA → VALOR",
+       "Mayor MAESTRÍA = mayor VALOR que puedes cobrar. La excelencia siempre encuentra su precio."
+      ],
+      [
+       "#9: VOZ → TRASCENDENCIA",
+       "Tu VOZ puede inspirar y transformar a otros (TRASCENDENCIA). Tu mensaje te hace crecer."
+      ],
+      [
+       "#10: VALOR → EVOLUCIÓN",
+       "Generar VALOR te desafía a crecer (EVOLUCIÓN). Cada cliente, cada venta, te estira."
+      ],
+      [
+       "#11: EVOLUCIÓN → VOLUNTAD",
+       "Al evolucionar, tu llamado se clarifica. Lo que querías a los 20 cambia a los 30, y eso está bien."
+      ],
+      [
+       "#12: MAESTRÍA → TRASCENDENCIA",
+       "Tu MAESTRÍA es tu legado. Lo que dominas puede enseñarse y vivir más allá de ti."
+      ],
+      [
+       "#13: TRASCENDENCIA → VALOR",
+       "Cuando tu trabajo beneficia al colectivo (TRASCENDENCIA), la gente paga por él (VALOR)."
+      ],
+      [
+       "#14: EVOLUCIÓN → VOZ",
+       "Tu EVOLUCIÓN te da historias poderosas que contar. Tu VOZ gana profundidad con cada cicatriz."
+      ],
+      [
+       "#15: VOLUNTAD → TRASCENDENCIA",
+       "Una VOLUNTAD que busca servir al bien mayor (TRASCENDENCIA) atrae recursos, personas, oportunidades."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "confluencia.sec2",
+   "title": "Parte 2: Bloqueos Cruzados",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cuando un eje débil sabotea a todos los demás"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "La verdad incómoda sobre los ejes:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Así como un eje fuerte potencia a otros, un eje débil los sabotea a TODOS."
+      },
+      {
+       "type": "paragraph",
+       "text": "Es como una cadena: la fuerza total está limitada por el eslabón más débil."
+      },
+      {
+       "type": "paragraph",
+       "text": "Ejemplo:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Tienes MAESTRÍA increíble, VOZ poderosa, VOLUNTAD clara... pero VALOR débil (no cobras lo que vales). Resultado: No puedes dedicarte full-time a tu cumbre. Todos los ejes sufren."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Los 6 Bloqueos Cruzados Más Comunes:"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #1: VOLUNTAD débil bloquea TODO"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "No sabes hacia dónde vas",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Estudias cosas al azar (MAESTRÍA sin dirección)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu mensaje cambia constantemente (VOZ inconsistente)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No generas valor porque no sabes qué ofrecer",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Detén todo. Vuelve a Arqueología del Senderista. Reconecta con tu llamado profundo. Sin voluntad clara, todo lo demás es ruido."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #2: MAESTRÍA débil bloquea VALOR y VOZ"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "Sabes tu voluntad, pero no tienes las habilidades",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Sientes síndrome del impostor (VOZ sin autoridad)",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes cobrar bien porque no entregas excelencia",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Invierte en aprendizaje profundo. Encuentra un mentor. Practica 10,000 horas. La maestría no se simula."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #3: VOZ débil bloquea VALOR y TRASCENDENCIA"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "Tienes maestría, pero nadie lo sabe",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes vender porque no comunicas valor",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu impacto es limitado porque tu mensaje no viaja",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Aprende a comunicar. Escribe, habla, enseña. Tu voz es el puente entre tu maestría y el mundo."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #4: VALOR débil bloquea MAESTRÍA y EVOLUCIÓN"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "No puedes vivir de tu propósito",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Trabajas en algo que odias para pagar las cuentas",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "No tienes tiempo/dinero para invertir en crecer",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Aprende a monetizar tu maestría. No es venderse. Es sostenibilidad. Sin valor económico, tu cumbre es un hobby, no una misión."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #5: EVOLUCIÓN débil bloquea TODO"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "Te resistes a cambiar",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Repites los mismos errores",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu maestría se estanca",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu voz pierde relevancia",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Abraza el crecimiento constante. Cada fracaso es data. Cada desafío es evolución. Sin evolución, mueres lentamente."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "BLOQUEO #6: TRASCENDENCIA débil bloquea VOLUNTAD"
+      },
+      {
+       "type": "paragraph",
+       "text": "Síntomas:"
+      },
+      {
+       "type": "bullet",
+       "text": "Logras cosas, pero sientes vacío",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Tu voluntad se debilita con el éxito",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Solución:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Conecta tu trabajo con algo mayor que tú. ¿A quién sirves? ¿Qué problema resuelves? Sin trascendencia, el éxito es hueco."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ejercicio: Diagnostica tus Bloqueos Cruzados"
+    },
+    {
+     "type": "paragraph",
+     "text": "Eje"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi estado actual"
+    },
+    {
+     "type": "paragraph",
+     "text": "Puntaje promedio"
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q7",
+     "label": "Voluntad"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s8",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q9",
+     "label": "Maestría"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s10",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q11",
+     "label": "Voz"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s12",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q13",
+     "label": "Valor"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s14",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q15",
+     "label": "Evolución"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s16",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q17",
+     "label": "Trascendencia"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s18",
+     "label": "¿Cómo está bloqueando este eje débil a otros?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "check",
+     "id": "confluencia.k19",
+     "label": "Mi eslabón más débil (eje con menor puntaje) es:"
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q20",
+     "label": ""
+    },
+    {
+     "type": "check",
+     "id": "confluencia.k21",
+     "label": "Este eje está bloqueando mi cumbre de esta forma:"
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q22",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "confluencia.sec3",
+   "title": "Parte 3: Estrategias De Integración",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cómo crear la confluencia en tu vida diaria"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estrategia #1: El proyecto de confluencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "En lugar de trabajar ejes por separado, diseña UN proyecto que active todos los ejes simultáneamente."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: \"Crear un podcast sobre mi viaje de transformación\""
+    },
+    {
+     "type": "bullet",
+     "text": "VOLUNTAD: El podcast nace de mi llamado a ayudar a otros",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "MAESTRÍA: Aprendo producción de audio, entrevistas, narrativa",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "VOZ: Comunico mi mensaje cada semana",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "VALOR: Monetizo con sponsors/membresías",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "EVOLUCIÓN: Cada episodio me desafía a crecer",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "TRASCENDENCIA: Inspiro a mi audiencia a transformarse",
+     "mark": "✓"
+    },
+    {
+     "type": "paragraph",
+     "text": "Un proyecto. Seis ejes. Confluencia total."
+    },
+    {
+     "type": "check",
+     "id": "confluencia.k23",
+     "label": "Diseña tu proyecto de confluencia: Nombre del proyecto:"
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q24",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q25",
+     "title": "Voluntad",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s26",
+     "label": "Voluntad",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q27",
+     "title": "Maestría",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s28",
+     "label": "Maestría",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q29",
+     "title": "Voz",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s30",
+     "label": "Voz",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q31",
+     "title": "Valor",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s32",
+     "label": "Valor",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q33",
+     "title": "Evolución",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s34",
+     "label": "Evolución",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q35",
+     "title": "Trascendencia",
+     "label": "Cómo activa cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "confluencia.s36",
+     "label": "Trascendencia",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Estrategia #2: Acciones Multi-Eje Diarias"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Identifica acciones que fortalezcan múltiples ejes simultáneamente."
+      },
+      {
+       "type": "paragraph",
+       "text": "Ejemplos de acciones Multi-Eje:"
+      },
+      {
+       "type": "quote",
+       "text": "Escribir un artículo sobre lo que estoy aprendiendo"
+      },
+      {
+       "type": "bullet",
+       "text": "MAESTRÍA (consolidas aprendizaje)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "VOZ (comunicas tu mensaje)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "EVOLUCIÓN (te desafías a articular ideas)",
+       "mark": "→"
+      },
+      {
+       "type": "quote",
+       "text": "Ofrecer mentoría gratuita a alguien"
+      },
+      {
+       "type": "bullet",
+       "text": "MAESTRÍA (enseñar es aprender dos veces)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "TRASCENDENCIA (sirves a otro)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "EVOLUCIÓN (sus preguntas te desafían)",
+       "mark": "→"
+      },
+      {
+       "type": "quote",
+       "text": "Crear un producto basado en mi experiencia"
+      },
+      {
+       "type": "bullet",
+       "text": "VOLUNTAD (nace de tu propósito)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "MAESTRÍA (empaquetas tu conocimiento)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "VOZ (comunicas tu enfoque único)",
+       "mark": "→"
+      },
+      {
+       "type": "bullet",
+       "text": "VALOR (generas ingresos)",
+       "mark": "→"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Tus acciones Multi-Eje:"
+    },
+    {
+     "type": "inputTable",
+     "id": "confluencia.t37",
+     "headers": [
+      "Ejes que fortalece:",
+      "Acciones que puedes hacer que fortalezcan 2+ ejes:",
+      "Puntaje promedio"
+     ],
+     "rowLabels": [],
+     "rows": 6
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Estrategia #3: Ciclos de Fortalecimiento"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Cada 90 días, fortalece intencionalmente 2-3 ejes que necesitan atención."
+      },
+      {
+       "type": "paragraph",
+       "text": "Ciclo de 90 días sugerido:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Q1 (Ene-Mar): VOLUNTAD + MAESTRÍA"
+      },
+      {
+       "type": "bullet",
+       "text": "Clarifica tu llamado y desarrolla habilidades base",
+       "mark": "→"
+      },
+      {
+       "type": "paragraph",
+       "text": "Q2 (Abr-Jun): VOZ + VALOR"
+      },
+      {
+       "type": "bullet",
+       "text": "Comunica tu maestría y genera primeros ingresos",
+       "mark": "→"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "Q3 (Jul-Sep): EVOLUCIÓN + TRASCENDENCIA"
+      },
+      {
+       "type": "bullet",
+       "text": "Enfrenta desafíos y expande tu impacto",
+       "mark": "→"
+      },
+      {
+       "type": "paragraph",
+       "text": "Q4 (Oct-Dic): INTEGRACIÓN TOTAL"
+      },
+      {
+       "type": "bullet",
+       "text": "Consolidar confluencia de todos los ejes",
+       "mark": "→"
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Mi plan de ciclos para el próximo año:"
+    },
+    {
+     "type": "inputTable",
+     "id": "confluencia.t38",
+     "headers": [
+      "Ejes que fortalece:",
+      "Acción principal:",
+      "Ciclos"
+     ],
+     "rowLabels": [],
+     "rows": 4
+    }
+   ]
+  },
+  {
+   "id": "confluencia.sec4",
+   "title": "Visualización: Tu Confluencia Total",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EJERCICIO DE VISUALIZACIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cierra los ojos. Respira profundo. Imagina tu vida cuando los 6 ejes fluyen juntos como ríos hacia el mismo océano."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu VOLUNTAD es clara como cristal. Sabes exactamente por qué estás aquí."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu MAESTRÍA es profunda. Eres excelente en lo que haces."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu VOZ resuena. Tu mensaje llega a quienes necesitan escucharlo."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu VALOR fluye. Vives de tu propósito con abundancia."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu EVOLUCIÓN es constante. Cada día eres mejor que ayer."
+    },
+    {
+     "type": "paragraph",
+     "text": "Tu TRASCENDENCIA es real. Dejas el mundo mejor de como lo encontraste."
+    },
+    {
+     "type": "check",
+     "id": "confluencia.k39",
+     "label": "Ahora describe esa visión: Cuando mis 6 ejes fluyen juntos, mi vida se ve así:"
+    },
+    {
+     "type": "prompt",
+     "id": "confluencia.q40",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta es tu confluencia."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ahora ve y créala."
+    }
+   ]
+  }
+ ]
+}

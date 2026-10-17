@@ -1,0 +1,929 @@
+{
+ "id": "bono_confluencia",
+ "title": "Plantillas de Confluencia",
+ "subtitle": "Bono 3 · 10 proyectos multi-eje",
+ "category": "bonos",
+ "order": 17,
+ "sections": [
+  {
+   "id": "bono_confluencia.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "RUTA A LA CIMA"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "BONO 3"
+    },
+    {
+     "type": "paragraph",
+     "text": "Plantillas de confluencia"
+    },
+    {
+     "type": "paragraph",
+     "text": "10 proyectos que activan múltiples ejes"
+    },
+    {
+     "type": "paragraph",
+     "text": "Un proyecto = Progreso en 3-6 ejes simultáneos"
+    }
+   ]
+  },
+  {
+   "id": "bono_confluencia.sec1",
+   "title": "El poder de la confluencia",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Un proyecto bien elegido puede hacerte avanzar en múltiples ejes a la vez."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es Confluencia?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Confluencia es cuando una sola acción o proyecto activa múltiples ejes de tu desarrollo simultáneamente. En lugar de trabajar cada eje por separado, encuentras iniciativas que los hacen crecer juntos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Ejemplo: Crear un podcast semanal desarrolla tu VOLUNTAD (disciplina), MAESTRÍA (edición/audio), VOZ (comunicar ideas), VALOR (monetización potencial), EVOLUCIÓN (superar miedos) y TRASCENDENCIA (impactar audiencia)."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Por qué es tan poderosa?"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Eficiencia: Una hora de esfuerzo produce progreso en 3-6 dimensiones."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Motivación compuesta: Cuando un eje decae, otro te mantiene comprometido."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Resultados sinérgicos: El crecimiento en un eje potencia el desarrollo de otro."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Sostenibilidad: Es más fácil mantener 1 proyecto multi-eje que 6 proyectos separados."
+    },
+    {
+     "type": "paragraph",
+     "text": "Cómo usar estas plantillas:"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Lee todos los proyectos: No te cases con el primero. Explora las 10 opciones."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Identifica resonancia: ¿Cuál te emociona Y asusta un poco? Esa tensión es buena."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Adapta, no copies: Estas son plantillas. Modifícalas para que sean 100% tuyas."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Comprométete con 1: Mejor terminar 1 proyecto multi-eje que empezar 5."
+    },
+    {
+     "type": "paragraph",
+     "text": "5. Mide el impacto: Usa tus indicadores para trackear progreso en cada eje."
+    },
+    {
+     "type": "paragraph",
+     "text": "Estructura de cada plantilla:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada proyecto incluye:"
+    },
+    {
+     "type": "bullet",
+     "text": "Nombre y descripción breve",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Número de ejes que activa (3-6)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Análisis específico de cómo impacta cada eje",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "N/A en ejes que no aplican (algunos proyectos no tocan todos)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Comencemos con los 10 proyectos →"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 1: Podcast personal semanal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 5 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crear y publicar un podcast semanal sobre tu área de expertise"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Disciplina para grabar semanalmente, cumplir calendarios editorial"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar habilidades de edición audio, investigación, storytelling"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Desarrollar tu voz única, compartir perspectivas auténticas"
+      ],
+      [
+       "VALOR (VAL)",
+       "Monetizar con sponsors/Patreon, generar autoridad que atrae clientes"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Confrontar miedo a hablar público, desarrollar confianza"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Inspirar audiencia, dejar contenido educativo duradero"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q1",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q2",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 2: Newsletter + Comunidad paga"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 6 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Newsletter semanal gratis + membresía paga con contenido exclusivo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Consistencia en publicar, resistir semanas sin inspiración"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar escritura, curación contenido, gestión comunidad"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Construir autoridad en nicho, expresar ideas únicas"
+      ],
+      [
+       "VALOR (VAL)",
+       "MRR de suscripciones, posibilidad de sponsors"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Desarrollar pensamiento crítico, recibir feedback público"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Impactar lectores, crear comunidad de aprendizaje"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q3",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q4",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 3: Curso online de tu habilidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 6 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crear curso estructurado enseñando algo que dominas"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Disciplina para crear contenido, grabar videos, completar proyecto"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Profundizar expertise al enseñar, mejorar pedagogía"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Establecer autoridad, comunicar tu metodología única"
+      ],
+      [
+       "VALOR (VAL)",
+       "Ingreso pasivo, escalabilidad, posicionamiento profesional"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Superar síndrome impostor, aprender tecnología educativa"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Multiplicar tu conocimiento, impactar estudiantes globalmente"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q5",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q6",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 4: Proyecto open source"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 5 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Construir herramienta de código abierto útil para comunidad"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Mantener proyecto vivo, responder issues, persistir sin recompensa"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar habilidades técnicas, aprender buenas prácticas"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Construir reputación técnica, participar comunidad dev"
+      ],
+      [
+       "VALOR (VAL)",
+       "Portfolio que atrae empleadores/clientes, posible sponsorship"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "N/A"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Contribuir bien común, ayudar otros developers, legado técnico"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q7",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q8",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 5: Reto físico + Fundraising"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 5 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Entrenar para maratón/triatlón y usarlo para recaudar fondos"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Disciplina de entrenamiento diario, resistir dolor, completar meta"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Desarrollar atletismo, nutrición, recuperación"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Compartir journey públicamente, inspirar con progreso"
+      ],
+      [
+       "VALOR (VAL)",
+       "N/A"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Superar límites autoimpuestos, desarrollar mentalidad resiliente"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Recaudar fondos causa importante, inspirar otros a moverse"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q9",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q10",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 6: Blog + Producto digital"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 6 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Blog de contenido gratis que lleva a plantilla/ebook/herramienta paga"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Publicar consistentemente, construir antes de monetizar"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar escritura SEO, diseño productos, marketing"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Desarrollar voz editorial, construir audiencia"
+      ],
+      [
+       "VALOR (VAL)",
+       "Pipeline de ventas automatizado, ingresos pasivos"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Aprender emprendimiento, resistir fase sin ingresos"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Educar gratuitamente a miles, herramientas útiles perduran"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q11",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q12",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 7: Mentoría gratuita + documentación"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 5 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Mentoría pro-bono a 3-5 personas + documentar aprendizajes públicamente"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Tiempo dedicado sin pago, consistencia sesiones"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar habilidades coaching, escucha activa, feedback"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Compartir insights de mentorías (con permiso), construir reputación"
+      ],
+      [
+       "VALOR (VAL)",
+       "Portfolio casos éxito para consultoría futura"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "N/A"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Impacto directo vidas mentorados, contenido que ayuda a más"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q13",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q14",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 8: Challenge 100 días + comunidad"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 6 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Reto público de 100 días (código/arte/escritura) con comunidad participante"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Completar 100 días sin romper cadena, liderar con ejemplo"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Mejorar habilidad elegida exponencialmente con práctica diaria"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Documentar journey públicamente, liderar comunidad"
+      ],
+      [
+       "VALOR (VAL)",
+       "Construir audiencia, posibilidad de book deal/producto después"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Desarrollar auto-disciplina extrema, confrontar resistencia interna"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Inspirar cientos a hacer su challenge, crear movimiento"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q15",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q16",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 9: Mini-Documental personal"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 5 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Crear serie documental corta (YouTube) sobre tema significativo"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Planear, filmar, editar semanalmente durante 3 meses"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Aprender video, edición, narrativa visual, investigación"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Contar historia desde perspectiva única, desarrollar estilo visual"
+      ],
+      [
+       "VALOR (VAL)",
+       "Portfolio audiovisual, posibilidad monetización YouTube"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "N/A"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Preservar historias importantes, educar visualmente"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q17",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q18",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Proyecto 10: Libro + Lanzamiento comunitario"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activa 6 ejes simultáneamente"
+    },
+    {
+     "type": "paragraph",
+     "text": "Descripción:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Escribir libro compartiendo proceso públicamente, lanzar con comunidad"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Cómo activa cada eje"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD (VOL)",
+      "Escribir consistentemente 6-12 meses, terminar manuscrito"
+     ],
+     "rows": [
+      [
+       "MAESTRÍA (MAE)",
+       "Desarrollar escritura extendida, estructura narrativa, edición"
+      ],
+      [
+       "VOZ (VOZ)",
+       "Establecer autoridad tópica, voz literaria única"
+      ],
+      [
+       "VALOR (VAL)",
+       "Regalías, credibilidad que abre puertas profesionales"
+      ],
+      [
+       "EVOLUCIÓN (EVO)",
+       "Confrontar vulnerabilidad de compartir ideas, recibir crítica"
+      ],
+      [
+       "TRASCENDENCIA (TRA)",
+       "Legado escrito perdura décadas, impactar lectores futuros"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Adaptación a tu realidad:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q19",
+     "label": "Cómo harías este proyecto TUYO (modifica formato, duración, alcance):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q20",
+     "label": "Primer paso concreto (qué harías esta semana):"
+    }
+   ]
+  },
+  {
+   "id": "bono_confluencia.sec2",
+   "title": "Diseña tu proyecto de confluencia",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Usa esta hoja para crear tu propio proyecto multi-eje"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q21",
+     "label": "Nombre del proyecto:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q22",
+     "label": "Descripción (¿qué harás exactamente?):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q23",
+     "label": "Duración estimada:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Análisis de Confluencia:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Para cada eje, explica cómo tu proyecto lo desarrolla (si no aplica, escribe N/A):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VOLUNTAD"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q24",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MAESTRÍA"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q25",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VOZ"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q26",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VALOR"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q27",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EVOLUCIÓN"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q28",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "TRASCENDENCIA"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q29",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "Plan de Acción:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q30",
+     "label": "Hito 1 (primera semana):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q31",
+     "label": "Hito 2 (primer mes):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q32",
+     "label": "Hito 3 (tres meses):"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q33",
+     "label": "Resultado final observable:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Compromiso:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo a dedicar _____ horas/semana durante _____ semanas/meses a este proyecto."
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q34",
+     "label": "Fecha de inicio:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q35",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "bono_confluencia.q36",
+     "label": "Fecha:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Un proyecto bien elegido puede transformar tu año."
+    }
+   ]
+  }
+ ]
+}
