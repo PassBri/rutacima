@@ -50,6 +50,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.union
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -226,7 +227,11 @@ internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp,
 
     editando?.let { meta ->
         val sheet = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-        ModalBottomSheet(onDismissRequest = { editando = null }, sheetState = sheet) {
+        ModalBottomSheet(
+            onDismissRequest = { editando = null }, sheetState = sheet,
+            // Encima del teclado: el campo que se edita nunca queda tapado
+            contentWindowInsets = { androidx.compose.foundation.layout.WindowInsets.ime.union(androidx.compose.foundation.layout.WindowInsets.navigationBars) },
+        ) {
             MetaEditor(
                 inicial = meta,
                 propositos = propositos,

@@ -19,7 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.union
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.ContentCopy
@@ -395,8 +395,13 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
 @Composable
 private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> Unit, onAbrirDetalle: () -> Unit) {
     var texto by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf("") }
-    androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar, sheetState = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = false)) {
-        Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp).imePadding()) {
+    // La hoja se abre completa y se apoya encima del teclado: lo que se escribe siempre se ve
+    androidx.compose.material3.ModalBottomSheet(
+        onDismissRequest = onCerrar,
+        sheetState = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = true),
+        contentWindowInsets = { androidx.compose.foundation.layout.WindowInsets.ime.union(androidx.compose.foundation.layout.WindowInsets.navigationBars) },
+    ) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(stringResource(R.string.comentarios_titulo), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f)
                     .semantics { heading() })

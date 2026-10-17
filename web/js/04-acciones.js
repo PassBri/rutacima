@@ -322,6 +322,14 @@ function abrirHoja(html) {
   h.addEventListener("keydown", e => { if (e.key === "Escape") cerrarHoja(); });
   // Arrastrar hacia abajo para cerrar
   const panel = h.querySelector(".hoja-panel"); let y0 = null;
+  // Con el teclado abierto, la hoja sube y se apoya encima de él (lo que se escribe siempre se ve)
+  const vv = window.visualViewport;
+  if (vv) {
+    const ajustar = () => { const tapado = Math.max(0, innerHeight - vv.height - vv.offsetTop); h.style.bottom = tapado + "px"; panel.style.maxHeight = `${Math.min(vv.height * 0.85, 640)}px`; };
+    vv.addEventListener("resize", ajustar); vv.addEventListener("scroll", ajustar); ajustar();
+    h._soltar = () => { vv.removeEventListener("resize", ajustar); vv.removeEventListener("scroll", ajustar); };
+  }
+  h.addEventListener("focusin", e => { if (e.target.matches("input, textarea")) setTimeout(() => e.target.scrollIntoView({ block: "nearest" }), 250); });
   panel.addEventListener("touchstart", e => { if (panel.scrollTop <= 0) y0 = e.touches[0].clientY; }, { passive: true });
   panel.addEventListener("touchmove", e => { if (y0 !== null) { const d = Math.max(0, e.touches[0].clientY - y0); panel.style.transform = `translateY(${d}px)`; } }, { passive: true });
   panel.addEventListener("touchend", e => { if (y0 === null) return; const d = e.changedTouches[0].clientY - y0; y0 = null; if (d > 90) cerrarHoja(); else panel.style.transform = ""; });
@@ -330,6 +338,7 @@ function abrirHoja(html) {
 }
 function cerrarHoja(inmediato = false) {
   const h = document.getElementById("hojaInferior"); if (!h) return;
+  h._soltar?.();
   if (inmediato || matchMedia("(prefers-reduced-motion: reduce)").matches) { h.remove(); return; }
   h.classList.add("saliendo"); setTimeout(() => h.remove(), 220);
 }
