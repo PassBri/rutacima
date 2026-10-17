@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">moins</string>
     <string name="cimas_pantalla_completa">Plein écran</string>
     <string name="cimas_publicado_bajo">Publié sous ce ciel</string>
+    <string name="comentarios_titulo">Commentaires</string>
+    <string name="sin_comentarios">Pas encore de commentaires. Sois la première personne à encourager.</string>
+    <string name="copiar_texto">Copier le texte</string>
+    <string name="texto_copiado">Texte copié.</string>
+    <string name="reportada_gracias">Merci de prendre soin de la communauté : nous l\'examinerons et tu ne la verras plus.</string>
+    <string name="bloqueado_aviso">Tu as bloqué %1$s. Tu ne verras plus ses publications.</string>
+    <string name="fin_feed_titulo">Tu as tout vu</string>
+    <string name="fin_feed_texto">La montagne sera encore là demain. Maintenant, fais ton propre pas du jour.</string>
 </resources>

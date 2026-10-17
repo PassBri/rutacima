@@ -12,6 +12,7 @@ import androidx.compose.foundation.border
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.ui.unit.sp
 import com.rutaalacima.app.ui.i18n.texto
 import androidx.compose.foundation.clickable
@@ -93,14 +94,18 @@ fun CimasFeed(
     guardados: Set<String> = emptySet(),
     onGuardar: (Post) -> Unit = {},
     onAutor: (Post) -> Unit = {},
+    onMas: (Post) -> Unit = {},
+    /** Al final del feed: una página que cierra ("Ya viste lo nuevo") y lleva a dar el paso de hoy. */
+    onFin: (() -> Unit)? = null,
 ) {
     VerticalPager(
         state = estado,
         modifier = modifier,
         contentPadding = padding,
         beyondViewportPageCount = 1,
-        key = { posts[it].id },
+        key = { if (it < posts.size) posts[it].id else "fin" },
     ) { i ->
+        if (i >= posts.size) { FinDelFeed(onFin ?: {}); return@VerticalPager }
         CimaPagina(
             post = posts[i],
             primera = i == 0,
@@ -109,14 +114,29 @@ fun CimasFeed(
             onAbrir = { onAbrir(posts[i]) },
             onGuardar = { onGuardar(posts[i]) },
             onAutor = { onAutor(posts[i]) },
+            onMas = { onMas(posts[i]) },
         )
+    }
+}
+
+/** El final del feed: la comunidad tiene fin; la invitación es volver a la propia ruta. */
+@Composable
+private fun FinDelFeed(onHoy: () -> Unit) {
+    com.rutaalacima.app.ui.components.MontanaArte("fin-del-feed", Modifier.fillMaxSize(), paleta = 3) {
+        Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x66060A12), 1f to Color(0xD9060A12))))
+        Column(Modifier.align(Alignment.Center).padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(84.dp))
+            Text(stringResource(R.string.fin_feed_titulo), color = Color.White, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
+            Text(stringResource(R.string.fin_feed_texto), color = Color.White.copy(alpha = 0.85f), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
+            androidx.compose.material3.Button(onClick = onHoy, modifier = Modifier.padding(top = 8.dp)) { Text(stringResource(R.string.inicio_accion)) }
+        }
     }
 }
 
 @Composable
 private fun CimaPagina(
     post: Post, primera: Boolean, guardado: Boolean,
-    onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit,
+    onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit, onMas: () -> Unit,
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -186,6 +206,8 @@ private fun CimaPagina(
                 val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
+            // Más: reportar, bloquear y copiar, siempre a un toque
+            Accion(Icons.Filled.MoreHoriz, "", stringResource(R.string.mas_opciones), Color.White, onMas)
         }
 
         // Abajo: autor, texto (se abre con "más"), meta y eje

@@ -19,6 +19,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Block
+import androidx.compose.ui.semantics.heading
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.automirrored.filled.Chat
@@ -107,6 +114,36 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         }
     }
 
+    // Comentarios en una hoja encima de Cimas (sin salir del feed)
+    var comentarios by mutableStateOf<List<com.rutaalacima.app.data.social.Comentario>>(emptyList())
+        private set
+    var cargandoComentarios by mutableStateOf(false)
+        private set
+
+    fun cargarComentarios(p: Post) {
+        comentarios = emptyList(); cargandoComentarios = true
+        viewModelScope.launch { comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(emptyList()); cargandoComentarios = false }
+    }
+
+    fun comentar(p: Post, texto: String) {
+        val t = texto.trim(); if (t.isEmpty()) return
+        comentarios = comentarios + com.rutaalacima.app.data.social.Comentario("local-${System.currentTimeMillis()}", c.social.nombrePropio(), t, System.currentTimeMillis())
+        posts = posts.map { if (it.id == p.id) it.copy(comentarios = it.comentarios + 1) else it }
+        viewModelScope.launch { runCatching { c.social.comentar(p, t) } }
+    }
+
+    /** Reportar: deja de verse al instante (y con 3 reportes se oculta para todos hasta revisarla). */
+    fun reportar(p: Post, motivo: String) {
+        posts = posts.filter { it.id != p.id }
+        viewModelScope.launch { runCatching { c.social.reportar(p, motivo) } }
+    }
+
+    /** Bloquear: desaparecen todas las publicaciones de esa persona. */
+    fun bloquear(p: Post) {
+        posts = posts.filter { it.autorId != p.autorId }
+        viewModelScope.launch { runCatching { c.social.bloquear(p) } }
+    }
+
     /** Impulso optimista: se ve al instante y luego se confirma con el servidor. */
     fun impulsar(p: Post) {
         posts = posts.map { if (it.id == p.id) it.copy(yoImpulse = !p.yoImpulse, impulsos = p.impulsos + if (p.yoImpulse) -1 else 1) else it }
@@ -116,6 +153,7 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
 }
 
 /** Comunidad: el muro donde la gente comparte logros, evidencias, metas y su vision board. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun ComunidadScreen(
     contentPadding: PaddingValues,
@@ -126,6 +164,7 @@ fun ComunidadScreen(
     onAutor: (String, String) -> Unit = { _, _ -> },
     onCordadas: () -> Unit = {},
     onMensajes: () -> Unit = {},
+    onHoy: () -> Unit = {},
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
@@ -150,19 +189,24 @@ fun ComunidadScreen(
         }
     }
     androidx.activity.compose.BackHandler(enabled = enMuro) { enMuro = false }
+    var comentandoEn by androidx.compose.runtime.remember { mutableStateOf<Post?>(null) }
+    var opcionesDe by androidx.compose.runtime.remember { mutableStateOf<Post?>(null) }
     if (!enMuro) {
         com.rutaalacima.app.ui.theme.TemaNoche {
             Box(Modifier.fillMaxSize().background(Color(0xFF060A12)).padding(bottom = contentPadding.calculateBottomPadding())) {
                 when {
                     vm.posts.isNotEmpty() -> {
-                        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = pagina.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size }
-                        LaunchedEffect(pager) { androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { pagina = it } }
+                        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = pagina.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size + 1 }
+                        LaunchedEffect(pager) { androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { pagina = it.coerceAtMost(vm.posts.lastIndex) } }
                         CimasFeed(
                             posts = vm.posts, estado = pager,
-                            onImpulsar = { vm.impulsar(it) }, onAbrir = { onAbrirPost(it.id) },
+                            onImpulsar = { vm.impulsar(it) },
+                            onAbrir = { comentandoEn = it; vm.cargarComentarios(it) },
                             modifier = Modifier.fillMaxSize(),
                             guardados = vm.guardados, onGuardar = { vm.alternarGuardado(it) },
                             onAutor = { onAutor(it.autorId, it.autorNombre) },
+                            onMas = { opcionesDe = it },
+                            onFin = onHoy,
                         )
                     }
                     vm.cargando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
@@ -175,6 +219,8 @@ fun ComunidadScreen(
                 }
                 PestanasCimas(vm, onMuro = { volverA = pagina; enMuro = true }, onCordadas = onCordadas, onMensajes = onMensajes, onCuenta = onCuenta)
             }
+            comentandoEn?.let { p -> HojaComentarios(vm, p, onCerrar = { comentandoEn = null }, onAbrirDetalle = { comentandoEn = null; onAbrirPost(p.id) }) }
+            opcionesDe?.let { p -> HojaOpciones(vm, p, onCerrar = { opcionesDe = null }) }
         }
         return
     }
@@ -187,81 +233,86 @@ fun ComunidadScreen(
         lista.scrollToItem(cabecera + i)
         volverA = null
     }
-    LazyColumn(
-        state = lista,
-        contentPadding = PaddingValues(
-            start = 12.dp, end = 12.dp,
-            top = contentPadding.calculateTopPadding() + 4.dp,
-            bottom = contentPadding.calculateBottomPadding() + 24.dp,
-        ),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+    // M3: jalar hacia abajo para recargar el muro
+    androidx.compose.material3.pulltorefresh.PullToRefreshBox(
+        isRefreshing = vm.cargando && vm.posts.isNotEmpty(), onRefresh = { vm.cargar() }, modifier = Modifier.fillMaxSize(),
     ) {
-        if (!vm.enLinea) {
-            item {
-                Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
-                    Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
-                        Spacer(Modifier.width(10.dp))
-                        Column(Modifier.weight(1f)) {
-                            Text(stringResource(R.string.modo_demo_titulo), style = MaterialTheme.typography.titleSmall)
-                            Text(stringResource(R.string.modo_demo_texto), style = MaterialTheme.typography.bodySmall)
+        LazyColumn(
+            state = lista,
+            contentPadding = PaddingValues(
+                start = 12.dp, end = 12.dp,
+                top = contentPadding.calculateTopPadding() + 4.dp,
+                bottom = contentPadding.calculateBottomPadding() + 24.dp,
+            ),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            if (!vm.enLinea) {
+                item {
+                    Card(colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)) {
+                        Row(Modifier.padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.Info, null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(Modifier.width(10.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(stringResource(R.string.modo_demo_titulo), style = MaterialTheme.typography.titleSmall)
+                                Text(stringResource(R.string.modo_demo_texto), style = MaterialTheme.typography.bodySmall)
+                            }
+                            TextButton(onClick = onCuenta) { Text(stringResource(R.string.crear_cuenta)) }
                         }
-                        TextButton(onClick = onCuenta) { Text(stringResource(R.string.crear_cuenta)) }
                     }
                 }
             }
-        }
-        // Historias: atajos para publicar cada tipo
-        item {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                items(TipoPost.entries) { t ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable { onPublicar(t.name) }.padding(6.dp),
-                    ) {
-                        Box(
-                            Modifier.size(58.dp).clip(CircleShape)
-                                .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
-                            contentAlignment = Alignment.Center,
-                        ) { Icon(iconoTipo(t), null, tint = Color.White, modifier = Modifier.size(26.dp)) }
-                        Spacer(Modifier.height(6.dp))
-                        Text(t.texto(), style = MaterialTheme.typography.labelSmall)
+            // Historias: atajos para publicar cada tipo
+            item {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    items(TipoPost.entries) { t ->
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable { onPublicar(t.name) }.padding(6.dp),
+                        ) {
+                            Box(
+                                Modifier.size(58.dp).clip(CircleShape)
+                                    .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
+                                contentAlignment = Alignment.Center,
+                            ) { Icon(iconoTipo(t), null, tint = Color.White, modifier = Modifier.size(26.dp)) }
+                            Spacer(Modifier.height(6.dp))
+                            Text(t.texto(), style = MaterialTheme.typography.labelSmall)
+                        }
                     }
                 }
             }
-        }
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.weight(1f)) { Filtros(vm) }
-            }
-            androidx.compose.material3.FilledTonalButton(onClick = { enMuro = false }, modifier = Modifier.padding(top = 8.dp)) {
-                Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.cimas_pantalla_completa))
-            }
-        }
-        // La cumbre de la semana: toda la comunidad sube la misma montaña
-        if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
-            item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
-        }
-        if (vm.cargando && vm.posts.isEmpty()) {
-            item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
-        }
-        vm.error?.let { e ->
             item {
-                Text(stringResource(R.string.error_cargar, e), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
-                TextButton(onClick = { vm.cargar() }) { Text(stringResource(R.string.reintentar)) }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f)) { Filtros(vm) }
+                }
+                androidx.compose.material3.FilledTonalButton(onClick = { enMuro = false }, modifier = Modifier.padding(top = 8.dp)) {
+                    Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.cimas_pantalla_completa))
+                }
             }
-        }
-        if (!vm.cargando && vm.posts.isEmpty() && vm.error == null) {
-            item {
-                com.rutaalacima.app.ui.components.EstadoVacio(
-                    semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
-                    accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
-                )
+            // La cumbre de la semana: toda la comunidad sube la misma montaña
+            if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
+                item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
             }
-        }
-        itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
-            PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { pagina = i; enMuro = false },
-                guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) })
+            if (vm.cargando && vm.posts.isEmpty()) {
+                item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
+            }
+            vm.error?.let { e ->
+                item {
+                    Text(stringResource(R.string.error_cargar, e), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+                    TextButton(onClick = { vm.cargar() }) { Text(stringResource(R.string.reintentar)) }
+                }
+            }
+            if (!vm.cargando && vm.posts.isEmpty() && vm.error == null) {
+                item {
+                    com.rutaalacima.app.ui.components.EstadoVacio(
+                        semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo), texto = stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
+                        accion = stringResource(R.string.publicar), onAccion = { onPublicar("LOGRO") }, modifier = Modifier.padding(24.dp),
+                    )
+                }
+            }
+            itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
+                PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { pagina = i; enMuro = false },
+                    guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) })
+            }
         }
     }
 }
@@ -337,4 +388,82 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
             )
         }
     }
+}
+
+/** Comentarios encima de Cimas (hoja inferior M3): se lee, se escribe y se vuelve al mismo lugar del feed. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> Unit, onAbrirDetalle: () -> Unit) {
+    var texto by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf("") }
+    androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar, sheetState = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = false)) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp).imePadding()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.comentarios_titulo), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f)
+                    .semantics { heading() })
+                TextButton(onClick = onAbrirDetalle) { Text(post.autorNombre, maxLines = 1) }
+            }
+            when {
+                vm.cargandoComentarios -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                vm.comentarios.isEmpty() -> Text(stringResource(R.string.sin_comentarios), style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 20.dp))
+                else -> LazyColumn(Modifier.fillMaxWidth().heightIn(max = 360.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(vm.comentarios, key = { it.id }) { c ->
+                        Row(verticalAlignment = Alignment.Top) {
+                            Avatar(c.autor, tamano = 32)
+                            Spacer(Modifier.width(10.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(c.autor, style = MaterialTheme.typography.labelLarge)
+                                Text(c.texto, style = MaterialTheme.typography.bodyMedium)
+                            }
+                        }
+                    }
+                }
+            }
+            Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                androidx.compose.material3.OutlinedTextField(texto, { texto = it.take(1000) }, placeholder = { Text(stringResource(R.string.escribe_comentario)) },
+                    modifier = Modifier.weight(1f), maxLines = 4, shape = MaterialTheme.shapes.extraLarge)
+                androidx.compose.material3.IconButton(onClick = { vm.comentar(post, texto); texto = "" }, enabled = texto.isNotBlank()) {
+                    Icon(Icons.AutoMirrored.Filled.Send, stringResource(R.string.comentar), tint = MaterialTheme.colorScheme.primary)
+                }
+            }
+        }
+    }
+}
+
+/** "Más" de una cima: reportar, bloquear y copiar el texto, siempre a un toque. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onCerrar: () -> Unit) {
+    var reportando by androidx.compose.runtime.remember { mutableStateOf(false) }
+    var bloqueando by androidx.compose.runtime.remember { mutableStateOf(false) }
+    val portapapeles = androidx.compose.ui.platform.LocalClipboardManager.current
+    val txtCopiado = stringResource(R.string.texto_copiado)
+    val txtReportada = stringResource(R.string.reportada_gracias)
+    val txtBloqueado = stringResource(R.string.bloqueado_aviso, post.autorNombre)
+    if (!reportando && !bloqueando) androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
+        Column(Modifier.fillMaxWidth().padding(bottom = 24.dp)) {
+            androidx.compose.material3.ListItem(
+                headlineContent = { Text(stringResource(R.string.copiar_texto)) },
+                leadingContent = { Icon(Icons.Filled.ContentCopy, null) },
+                modifier = Modifier.clickable {
+                    portapapeles.setText(androidx.compose.ui.text.AnnotatedString(listOf(post.metaTitulo, post.texto).filter { it.isNotBlank() }.joinToString("\n\n")))
+                    com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtCopiado); onCerrar()
+                },
+            )
+            if (!post.propio) {
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.reportar_publicacion)) },
+                    leadingContent = { Icon(Icons.Outlined.Flag, null) },
+                    modifier = Modifier.clickable { reportando = true },
+                )
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.bloquear_a, post.autorNombre), color = MaterialTheme.colorScheme.error) },
+                    leadingContent = { Icon(Icons.Outlined.Block, null, tint = MaterialTheme.colorScheme.error) },
+                    modifier = Modifier.clickable { bloqueando = true },
+                )
+            }
+        }
+    }
+    if (reportando) DialogoReportar(onReportar = { motivo -> vm.reportar(post, motivo); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtReportada) }, onCerrar = { reportando = false; onCerrar() })
+    if (bloqueando) DialogoBloquear(post.autorNombre, onBloquear = { vm.bloquear(post); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtBloqueado) }, onCerrar = { bloqueando = false; onCerrar() })
 }

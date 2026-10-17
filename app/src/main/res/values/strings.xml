@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">menos</string>
     <string name="cimas_pantalla_completa">Ver a pantalla completa</string>
     <string name="cimas_publicado_bajo">Publicado bajo este cielo</string>
+    <string name="comentarios_titulo">Comentarios</string>
+    <string name="sin_comentarios">Aún no hay comentarios. Sé la primera persona en dar ánimo.</string>
+    <string name="copiar_texto">Copiar el texto</string>
+    <string name="texto_copiado">Texto copiado.</string>
+    <string name="reportada_gracias">Gracias por cuidar la comunidad: la revisaremos y ya no la verás.</string>
+    <string name="bloqueado_aviso">Bloqueaste a %1$s. Ya no verás sus publicaciones.</string>
+    <string name="fin_feed_titulo">Ya viste lo nuevo</string>
+    <string name="fin_feed_texto">La montaña sigue ahí mañana. Ahora, da tu propio paso de hoy.</string>
 </resources>

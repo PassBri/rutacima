@@ -202,41 +202,49 @@ private fun MenuModeracion(autor: String, onReportar: (String) -> Unit, onBloque
                 onClick = { abierto = false; bloqueando = true })
         }
     }
-    if (reportando) {
-        val motivos = listOf(R.string.motivo_spam, R.string.motivo_ofensivo, R.string.motivo_acoso, R.string.motivo_falso, R.string.motivo_otro)
-            .map { stringResource(it) }
-        var elegido by remember { mutableStateOf(motivos.first()) }
-        var detalle by remember { mutableStateOf("") }
-        AlertDialog(
-            onDismissRequest = { reportando = false },
-            title = { Text(stringResource(R.string.reportar_publicacion)) },
-            text = {
-                Column {
-                    Text(stringResource(R.string.reportar_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    motivos.forEach { m ->
-                        Row(Modifier.fillMaxWidth().selectable(selected = m == elegido, onClick = { elegido = m }, role = Role.RadioButton),
-                            verticalAlignment = Alignment.CenterVertically) {
-                            RadioButton(selected = m == elegido, onClick = null)
-                            Spacer(Modifier.width(8.dp))
-                            Text(m, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 10.dp))
-                        }
+    if (reportando) DialogoReportar(onReportar = onReportar, onCerrar = { reportando = false })
+    if (bloqueando) DialogoBloquear(autor, onBloquear = onBloquear, onCerrar = { bloqueando = false })
+}
+
+/** Reportar una publicación con su motivo (lo usan el detalle, el muro y Cimas). */
+@Composable
+internal fun DialogoReportar(onReportar: (String) -> Unit, onCerrar: () -> Unit) {
+    val motivos = listOf(R.string.motivo_spam, R.string.motivo_ofensivo, R.string.motivo_acoso, R.string.motivo_falso, R.string.motivo_otro)
+        .map { stringResource(it) }
+    var elegido by remember { mutableStateOf(motivos.first()) }
+    var detalle by remember { mutableStateOf("") }
+    AlertDialog(
+        onDismissRequest = onCerrar,
+        title = { Text(stringResource(R.string.reportar_publicacion)) },
+        text = {
+            Column {
+                Text(stringResource(R.string.reportar_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                motivos.forEach { m ->
+                    Row(Modifier.fillMaxWidth().selectable(selected = m == elegido, onClick = { elegido = m }, role = Role.RadioButton),
+                        verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(selected = m == elegido, onClick = null)
+                        Spacer(Modifier.width(8.dp))
+                        Text(m, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(vertical = 10.dp))
                     }
-                    OutlinedTextField(detalle, { detalle = it.take(800) }, label = { Text(stringResource(R.string.mensajes_reportar_motivo)) },
-                        modifier = Modifier.fillMaxWidth(), minLines = 2)
                 }
-            },
-            confirmButton = { TextButton(onClick = { reportando = false; onReportar(listOf(elegido, detalle.trim()).filter { it.isNotEmpty() }.joinToString(": ")) }) {
-                Text(stringResource(R.string.mensajes_reportar)) } },
-            dismissButton = { TextButton(onClick = { reportando = false }) { Text(stringResource(R.string.cancelar)) } },
-        )
-    }
-    if (bloqueando) {
-        AlertDialog(
-            onDismissRequest = { bloqueando = false },
-            title = { Text(stringResource(R.string.bloquear_a, autor)) },
-            text = { Text(stringResource(R.string.bloquear_texto)) },
-            confirmButton = { TextButton(onClick = { bloqueando = false; onBloquear() }) { Text(stringResource(R.string.mensajes_bloquear), color = MaterialTheme.colorScheme.error) } },
-            dismissButton = { TextButton(onClick = { bloqueando = false }) { Text(stringResource(R.string.cancelar)) } },
-        )
-    }
+                OutlinedTextField(detalle, { detalle = it.take(800) }, label = { Text(stringResource(R.string.mensajes_reportar_motivo)) },
+                    modifier = Modifier.fillMaxWidth(), minLines = 2)
+            }
+        },
+        confirmButton = { TextButton(onClick = { onCerrar(); onReportar(listOf(elegido, detalle.trim()).filter { it.isNotEmpty() }.joinToString(": ")) }) {
+            Text(stringResource(R.string.mensajes_reportar)) } },
+        dismissButton = { TextButton(onClick = onCerrar) { Text(stringResource(R.string.cancelar)) } },
+    )
+}
+
+/** Bloquear a quien publicó (lo usan el detalle, el muro y Cimas). */
+@Composable
+internal fun DialogoBloquear(autor: String, onBloquear: () -> Unit, onCerrar: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onCerrar,
+        title = { Text(stringResource(R.string.bloquear_a, autor)) },
+        text = { Text(stringResource(R.string.bloquear_texto)) },
+        confirmButton = { TextButton(onClick = { onCerrar(); onBloquear() }) { Text(stringResource(R.string.mensajes_bloquear), color = MaterialTheme.colorScheme.error) } },
+        dismissButton = { TextButton(onClick = onCerrar) { Text(stringResource(R.string.cancelar)) } },
+    )
 }

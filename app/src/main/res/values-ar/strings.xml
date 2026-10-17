@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">أقل</string>
     <string name="cimas_pantalla_completa">ملء الشاشة</string>
     <string name="cimas_publicado_bajo">نُشر تحت هذه السماء</string>
+    <string name="comentarios_titulo">التعليقات</string>
+    <string name="sin_comentarios">لا توجد تعليقات بعد. كن أول من يشجّع.</string>
+    <string name="copiar_texto">نسخ النص</string>
+    <string name="texto_copiado">تم نسخ النص.</string>
+    <string name="reportada_gracias">شكرًا لحرصك على المجتمع: سنراجعه ولن تراه مجددًا.</string>
+    <string name="bloqueado_aviso">حظرت %1$s. لن ترى منشوراته بعد الآن.</string>
+    <string name="fin_feed_titulo">شاهدت كل الجديد</string>
+    <string name="fin_feed_texto">الجبل باقٍ غدًا. الآن خُذ خطوتك لهذا اليوم.</string>
 </resources>

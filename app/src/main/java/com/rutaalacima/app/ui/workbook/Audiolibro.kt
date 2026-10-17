@@ -1,7 +1,6 @@
 package com.rutaalacima.app.ui.workbook
 
 import android.net.Uri
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -111,8 +110,8 @@ fun BarraAudiolibro(workbookId: String, seccion: Int, minutos: Int) {
     val txtErrorGrabacion = stringResource(R.string.audio_error_reproducir)
     LaunchedEffect(e.aviso) {
         when (e.aviso) {
-            AvisoAudio.SIN_VOZ -> Toast.makeText(contexto, txtSinVoz, Toast.LENGTH_LONG).show()
-            AvisoAudio.ERROR_GRABACION -> Toast.makeText(contexto, txtErrorGrabacion, Toast.LENGTH_LONG).show()
+            AvisoAudio.SIN_VOZ -> com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtSinVoz)
+            AvisoAudio.ERROR_GRABACION -> com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtErrorGrabacion)
             null -> Unit
         }
         if (e.aviso != null) vm.reproductor.olvidarAviso()
@@ -123,7 +122,7 @@ fun BarraAudiolibro(workbookId: String, seccion: Int, minutos: Int) {
     val txtErrorSubir = stringResource(R.string.audio_error_subir)
     val elegir = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) vm.subir(workbookId, seccion, uri) { ok ->
-            Toast.makeText(contexto, if (ok) txtSubido else txtErrorSubir, Toast.LENGTH_LONG).show()
+            com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) txtSubido else txtErrorSubir)
         }
     }
 
@@ -170,7 +169,7 @@ fun BarraAudiolibro(workbookId: String, seccion: Int, minutos: Int) {
                             leadingIcon = { Icon(Icons.Filled.Close, null) },
                             onClick = {
                                 menu = false
-                                vm.quitar(workbookId, seccion) { ok -> Toast.makeText(contexto, if (ok) txtQuitado else txtErrorSubir, Toast.LENGTH_LONG).show() }
+                                vm.quitar(workbookId, seccion) { ok -> com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) txtQuitado else txtErrorSubir) }
                             },
                         )
                     }

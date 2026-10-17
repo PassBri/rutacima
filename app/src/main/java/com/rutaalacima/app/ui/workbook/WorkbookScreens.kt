@@ -167,7 +167,7 @@ fun WorkbookIndexScreen(
                                 else alcance.launch {
                                     progreso = 0 to remotas.size
                                     runCatching { contenedor.audios.descargar(wb.id) { h, t -> progreso = h to t } }
-                                        .onFailure { android.widget.Toast.makeText(ctx, txtError, android.widget.Toast.LENGTH_LONG).show() }
+                                        .onFailure { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtError) }
                                     progreso = null
                                     lista = contenedor.audios.descargada(wb.id)
                                 }

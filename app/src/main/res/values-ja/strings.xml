@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">閉じる</string>
     <string name="cimas_pantalla_completa">全画面で見る</string>
     <string name="cimas_publicado_bajo">この空の下で投稿</string>
+    <string name="comentarios_titulo">コメント</string>
+    <string name="sin_comentarios">まだコメントはありません。最初に応援しましょう。</string>
+    <string name="copiar_texto">テキストをコピー</string>
+    <string name="texto_copiado">テキストをコピーしました。</string>
+    <string name="reportada_gracias">コミュニティを守ってくれてありがとう。確認します。今後は表示されません。</string>
+    <string name="bloqueado_aviso">%1$sをブロックしました。投稿は表示されなくなります。</string>
+    <string name="fin_feed_titulo">新しい投稿はここまで</string>
+    <string name="fin_feed_texto">山は明日もそこにあります。さあ、今日のあなたの一歩を。</string>
 </resources>

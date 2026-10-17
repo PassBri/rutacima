@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">less</string>
     <string name="cimas_pantalla_completa">Full screen</string>
     <string name="cimas_publicado_bajo">Posted under this sky</string>
+    <string name="comentarios_titulo">Comments</string>
+    <string name="sin_comentarios">No comments yet. Be the first to cheer them on.</string>
+    <string name="copiar_texto">Copy text</string>
+    <string name="texto_copiado">Text copied.</string>
+    <string name="reportada_gracias">Thanks for looking after the community: we\'ll review it and you won\'t see it again.</string>
+    <string name="bloqueado_aviso">You blocked %1$s. You won\'t see their posts anymore.</string>
+    <string name="fin_feed_titulo">You\'re all caught up</string>
+    <string name="fin_feed_texto">The mountain will still be there tomorrow. Now take your own step for today.</string>
 </resources>

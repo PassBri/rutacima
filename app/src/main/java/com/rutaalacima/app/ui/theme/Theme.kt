@@ -13,6 +13,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 /**
  * Identidad visual tomada de los workbooks: sello de lacre burdeos, franja dorada,
@@ -190,8 +192,32 @@ val EstiloCita = TextStyle(
 /** La noche en altura, para las vistas inmersivas (Cimas, Mirar el cielo) aunque el teléfono esté en claro. */
 @Composable
 fun TemaNoche(content: @Composable () -> Unit) {
-    MaterialTheme(colorScheme = Oscuro, typography = RutaTypography, content = content)
+    MaterialTheme(colorScheme = Oscuro, typography = RutaTypography, shapes = FormasRuta, content = content)
 }
+
+/**
+ * Avisos de Material 3: un Snackbar en la raíz de la app (en vez de Toast). Cualquier pantalla puede
+ * llamar a AvisoGlobal.mostrar("…"); el aviso anterior se reemplaza.
+ */
+object AvisoGlobal {
+    val host = androidx.compose.material3.SnackbarHostState()
+    private val alcance = kotlinx.coroutines.MainScope()
+    fun mostrar(texto: String) {
+        alcance.launch {
+            host.currentSnackbarData?.dismiss()
+            host.showSnackbar(texto, withDismissAction = true, duration = androidx.compose.material3.SnackbarDuration.Long)
+        }
+    }
+}
+
+/** Escala de forma de la app (M3): una sola, usada por todos los componentes. */
+val FormasRuta = androidx.compose.material3.Shapes(
+    extraSmall = androidx.compose.foundation.shape.RoundedCornerShape(6.dp),
+    small = androidx.compose.foundation.shape.RoundedCornerShape(10.dp),
+    medium = androidx.compose.foundation.shape.RoundedCornerShape(14.dp),
+    large = androidx.compose.foundation.shape.RoundedCornerShape(18.dp),
+    extraLarge = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
+)
 
 /** Si una pantalla ocupa todo (como Cimas): la raíz esconde la barra superior y oscurece la inferior. */
 object Inmersivo {
@@ -208,6 +234,7 @@ fun RutaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable (
             else -> PapelBlanco
         },
         typography = RutaTypography,
+        shapes = FormasRuta,
         content = content,
     )
 }

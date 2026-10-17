@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">कम</string>
     <string name="cimas_pantalla_completa">पूरी स्क्रीन पर देखें</string>
     <string name="cimas_publicado_bajo">इसी आकाश के नीचे प्रकाशित</string>
+    <string name="comentarios_titulo">टिप्पणियाँ</string>
+    <string name="sin_comentarios">अभी कोई टिप्पणी नहीं। सबसे पहले हौसला बढ़ाएँ।</string>
+    <string name="copiar_texto">टेक्स्ट कॉपी करें</string>
+    <string name="texto_copiado">टेक्स्ट कॉपी हो गया।</string>
+    <string name="reportada_gracias">समुदाय का ध्यान रखने के लिए धन्यवाद: हम इसकी समीक्षा करेंगे और यह अब नहीं दिखेगा।</string>
+    <string name="bloqueado_aviso">आपने %1$s को ब्लॉक किया। अब उनकी पोस्ट नहीं दिखेंगी।</string>
+    <string name="fin_feed_titulo">आपने सब नया देख लिया</string>
+    <string name="fin_feed_texto">पहाड़ कल भी वहीं रहेगा। अब आज का अपना कदम उठाएँ।</string>
 </resources>

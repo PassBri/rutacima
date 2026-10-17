@@ -66,6 +66,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -261,12 +262,16 @@ private fun AppPrincipal() {
     if (ancho && pestana != null) {
         RielLateral(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
     }
+    // M3: la barra superior queda fija y toma el color del papel cuando el contenido pasa por debajo
+    val desplazamiento = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
-        modifier = Modifier.weight(1f),
+        modifier = Modifier.weight(1f).nestedScroll(desplazamiento.nestedScrollConnection),
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
+        snackbarHost = { androidx.compose.material3.SnackbarHost(com.rutaalacima.app.ui.theme.AvisoGlobal.host) },
         topBar = {
             if (pestana != null && !inmersivo) {
                 TopAppBar(
+                    scrollBehavior = desplazamiento,
                     // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -291,7 +296,10 @@ private fun AppPrincipal() {
                             Icon(Icons.Filled.AutoAwesome, stringResource(R.string.coach), tint = MaterialTheme.colorScheme.secondary)
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = androidx.compose.ui.graphics.Color.Transparent,
+                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
+                    ),
                 )
             }
         },
@@ -312,7 +320,36 @@ private fun AppPrincipal() {
         val abrirWorkbook: (String) -> Unit = { nav.navigate(Rutas.workbook(it)) }
         val abrirSeccion: (String, Int) -> Unit = { id, i -> nav.navigate(Rutas.seccion(id, i)) }
         // Se abre en Hoy: el botón "Dar el paso de hoy" del sello lleva justo a marcar el día.
-        NavHost(nav, startDestination = Rutas.HOY) {
+        // Movimiento M3: entre pestañas, "fade through" (se desvanece y aparece); al entrar a una pantalla,
+        // "shared axis" (desliza 30 dp y aparece) y al volver, lo mismo al revés. Curva enfatizada.
+        val enfatizada = androidx.compose.animation.core.CubicBezierEasing(0.2f, 0f, 0f, 1f)
+        val salida = androidx.compose.animation.core.CubicBezierEasing(0.3f, 0f, 0.8f, 0.15f)
+        val esPestana = { r: String? -> PESTANAS.any { it.ruta == r } }
+        val eje = with(androidx.compose.ui.platform.LocalDensity.current) { 30.dp.roundToPx() }
+        NavHost(
+            nav, startDestination = Rutas.HOY,
+            enterTransition = {
+                if (esPestana(initialState.destination.route) && esPestana(targetState.destination.route))
+                    androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(210, delayMillis = 90, easing = enfatizada)) +
+                        androidx.compose.animation.scaleIn(androidx.compose.animation.core.tween(210, delayMillis = 90, easing = enfatizada), initialScale = 0.96f)
+                else androidx.compose.animation.slideInHorizontally(androidx.compose.animation.core.tween(300, easing = enfatizada)) { eje } +
+                    androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(300, easing = enfatizada))
+            },
+            exitTransition = {
+                if (esPestana(initialState.destination.route) && esPestana(targetState.destination.route))
+                    androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(90, easing = salida))
+                else androidx.compose.animation.slideOutHorizontally(androidx.compose.animation.core.tween(300, easing = enfatizada)) { -eje } +
+                    androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(200, easing = salida))
+            },
+            popEnterTransition = {
+                androidx.compose.animation.slideInHorizontally(androidx.compose.animation.core.tween(300, easing = enfatizada)) { -eje } +
+                    androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(300, easing = enfatizada))
+            },
+            popExitTransition = {
+                androidx.compose.animation.slideOutHorizontally(androidx.compose.animation.core.tween(300, easing = enfatizada)) { eje } +
+                    androidx.compose.animation.fadeOut(androidx.compose.animation.core.tween(200, easing = salida))
+            },
+        ) {
             composable(Rutas.RUTA) {
                 RutaScreen(
                     contentPadding = padding,
@@ -356,6 +393,7 @@ private fun AppPrincipal() {
                     onAutor = { id, nombre -> nav.navigate(Rutas.diarioDe(id, nombre)) },
                     onCordadas = { nav.navigate(Rutas.CORDADAS) },
                     onMensajes = { nav.navigate(Rutas.MENSAJES) },
+                    onHoy = { nav.irAPestana(Rutas.HOY) },
                 )
             }
             composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook) }

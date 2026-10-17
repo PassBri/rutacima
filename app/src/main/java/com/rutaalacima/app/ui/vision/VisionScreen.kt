@@ -439,7 +439,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
 
     vm.compartido?.let { ok ->
         LaunchedEffect(ok) {
-            android.widget.Toast.makeText(ctx, ctx.getString(if (ok) R.string.mandala_compartido else R.string.mandala_no_compartido), android.widget.Toast.LENGTH_LONG).show()
+            com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(if (ok) R.string.mandala_compartido else R.string.mandala_no_compartido))
             vm.compartido = null
         }
     }

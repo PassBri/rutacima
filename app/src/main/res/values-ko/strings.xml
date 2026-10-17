@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">접기</string>
     <string name="cimas_pantalla_completa">전체 화면으로 보기</string>
     <string name="cimas_publicado_bajo">이 하늘 아래에서 올린 글</string>
+    <string name="comentarios_titulo">댓글</string>
+    <string name="sin_comentarios">아직 댓글이 없어요. 가장 먼저 응원해 주세요.</string>
+    <string name="copiar_texto">텍스트 복사</string>
+    <string name="texto_copiado">텍스트를 복사했어요.</string>
+    <string name="reportada_gracias">커뮤니티를 지켜 주셔서 고마워요. 검토할게요. 더는 보이지 않아요.</string>
+    <string name="bloqueado_aviso">%1$s 님을 차단했어요. 더 이상 게시물이 보이지 않아요.</string>
+    <string name="fin_feed_titulo">새 소식을 모두 봤어요</string>
+    <string name="fin_feed_texto">산은 내일도 그 자리에 있어요. 이제 오늘의 한 걸음을 내디뎌요.</string>
 </resources>

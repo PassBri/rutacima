@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">weniger</string>
     <string name="cimas_pantalla_completa">Vollbild</string>
     <string name="cimas_publicado_bajo">Unter diesem Himmel veröffentlicht</string>
+    <string name="comentarios_titulo">Kommentare</string>
+    <string name="sin_comentarios">Noch keine Kommentare. Mach als Erste·r Mut.</string>
+    <string name="copiar_texto">Text kopieren</string>
+    <string name="texto_copiado">Text kopiert.</string>
+    <string name="reportada_gracias">Danke, dass du auf die Community achtest: Wir prüfen es, und du siehst es nicht mehr.</string>
+    <string name="bloqueado_aviso">Du hast %1$s blockiert. Du siehst die Beiträge nicht mehr.</string>
+    <string name="fin_feed_titulo">Du bist auf dem neuesten Stand</string>
+    <string name="fin_feed_texto">Der Berg ist morgen noch da. Jetzt geh deinen eigenen Schritt für heute.</string>
 </resources>

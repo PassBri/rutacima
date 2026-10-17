@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">收起</string>
     <string name="cimas_pantalla_completa">全屏查看</string>
     <string name="cimas_publicado_bajo">在这片天空下发布</string>
+    <string name="comentarios_titulo">评论</string>
+    <string name="sin_comentarios">还没有评论。成为第一个送上鼓励的人。</string>
+    <string name="copiar_texto">复制文字</string>
+    <string name="texto_copiado">已复制文字。</string>
+    <string name="reportada_gracias">感谢你守护社区：我们会审核，你将不再看到它。</string>
+    <string name="bloqueado_aviso">你已屏蔽%1$s，将不再看到其发布的内容。</string>
+    <string name="fin_feed_titulo">最新内容已看完</string>
+    <string name="fin_feed_texto">山明天依然在。现在，迈出你今天的一步。</string>
 </resources>

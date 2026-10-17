@@ -1265,4 +1265,12 @@
     <string name="cimas_menos">свернуть</string>
     <string name="cimas_pantalla_completa">На весь экран</string>
     <string name="cimas_publicado_bajo">Опубликовано под этим небом</string>
+    <string name="comentarios_titulo">Комментарии</string>
+    <string name="sin_comentarios">Комментариев пока нет. Поддержите первым.</string>
+    <string name="copiar_texto">Скопировать текст</string>
+    <string name="texto_copiado">Текст скопирован.</string>
+    <string name="reportada_gracias">Спасибо, что бережёте сообщество: мы проверим это, и вы больше этого не увидите.</string>
+    <string name="bloqueado_aviso">Вы заблокировали %1$s. Их публикации больше не будут видны.</string>
+    <string name="fin_feed_titulo">Вы посмотрели всё новое</string>
+    <string name="fin_feed_texto">Гора никуда не денется. А теперь сделайте свой шаг на сегодня.</string>
 </resources>
