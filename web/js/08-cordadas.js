@@ -121,7 +121,7 @@ const Cord = {
       const m = DemoCord.cordadas.find(c => c.id === id)?.miembros.find(x => x.userId === n.userId);
       return { ...n, autor: n.userId === "yo" ? (perfil().nombre || "Tú") : m?.nombre || "Senderista", mia: n.userId === "yo" };
     }).sort((a, b) => b.creada - a.creada);
-    const { data, error } = await Store.nube.sb.from("cordada_notas").select("id,user_id,texto,creada,autor:profiles(nombre,username)")
+    const { data, error } = await Store.nube.sb.from("cordada_notas").select("id,user_id,texto,creada,autor:profiles!cordada_notas_user_id_fkey(nombre,username)")
       .eq("cordada_id", id).order("creada", { ascending: false }).limit(100);
     if (error) throw error;
     return data.map(n => ({ id: n.id, userId: n.user_id, texto: n.texto, creada: Date.parse(n.creada), autor: n.autor?.nombre || n.autor?.username || "Senderista", mia: n.user_id === this.yo }));

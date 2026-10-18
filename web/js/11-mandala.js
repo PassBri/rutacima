@@ -348,7 +348,7 @@ Object.assign(ACC, {
       const inst = await instantaneaBrujula(conPasos, conEvid);
       await publicarImagenVision(blob, vis, Mandala.datos().titulo + "\n#MetodoCima9x52", "Mi Brújula de la Cima 9×9", "VISION", null, inst);
       toast("Tu Brújula ya está en la comunidad: la pueden explorar.");
-    } catch (e) { console.error(e); toast("No se pudo compartir. Inténtalo de nuevo."); }
+    } catch (e) { console.error(e); toast("No se pudo compartir." + (detalleError(e) || " Inténtalo de nuevo.")); }
     mdPublicando = false; pintarDetalle();
   },
   mandalaBloque(el, v) {

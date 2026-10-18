@@ -389,7 +389,7 @@ async function cargarFeed() {
       estado.feed = estado.feedFiltro === "VISION" ? todos.filter(p => p.tipo === "VISION") : estado.feedFiltro === "SIGUIENDO" ? misPostsDemo : todos;
     } else {
       const sb = Store.nube.sb, yo = Store.nube.dueno;
-      let q = sb.from("posts").select("*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").order("created_at", { ascending: false }).limit(40);
+      let q = sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").order("created_at", { ascending: false }).limit(40);
       if (estado.feedFiltro === "VISION") q = q.eq("tipo", "VISION");
       if (estado.feedFiltro === "SIGUIENDO") {
         const { data: f } = await sb.from("follows").select("followed_id").eq("follower_id", yo);
@@ -412,7 +412,7 @@ async function cargarFeed() {
         brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo,
       }));
     }
-  } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad."); }
+  } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad." + detalleError(e)); }
   finally {
     const ocultos = listaLocal("ocultos"), bloqueados = listaLocal("bloqueados");
     if (estado.feed) estado.feed = estado.feed.filter(p => !ocultos.has(String(p.id)) && !bloqueados.has(String(p.autorId)));
@@ -512,7 +512,7 @@ async function cargarComentarios(p) {
   await null;
   if (p.demo || !Store.nube) { p.comentariosLista = [{ autor: "Diana", texto: "¡Qué inspiración! Gracias por compartirlo." }, { autor: "Julián", texto: "Vamos, sigue así. Nos vemos en la cima." }, ...(demoComentarios[p.id] || [])]; }
   else {
-    const { data } = await Store.nube.sb.from("comments").select("id,texto,created_at,autor:profiles(username,nombre)").eq("post_id", p.id).order("created_at");
+    const { data } = await Store.nube.sb.from("comments").select("id,texto,created_at,autor:profiles!comments_user_id_fkey(username,nombre)").eq("post_id", p.id).order("created_at");
     p.comentariosLista = (data || []).map(c => ({ autor: c.autor?.nombre || c.autor?.username || "", texto: c.texto }));
   }
   if (estado.sel === "post:" + p.id && !enEdicion()) pintarDetalle();

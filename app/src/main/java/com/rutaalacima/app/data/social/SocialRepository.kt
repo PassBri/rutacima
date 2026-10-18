@@ -213,7 +213,7 @@ class SocialRepository(
     suspend fun albumDe(autorId: String, anio: Int): List<Post> = withContext(Dispatchers.IO) {
         if (!enLinea) return@withContext DemoComunidad.posts(context, impulsados()).filter { it.autorId == autorId && it.anio == anio }
         val uid = supa.sesion.value!!.userId
-        val filas = supa.select("posts", "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)" +
+        val filas = supa.select("posts", "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)" +
             "&user_id=eq.$autorId&anio=eq.$anio&order=created_at.desc&limit=200").jsonArray
         filas.map { filaAPost(it.jsonObject, uid, emptySet()) }.also(::recordar)
     }
@@ -272,7 +272,7 @@ class SocialRepository(
             return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
-        val base = "select=*,autor:profiles(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40" +
+        val base = "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40" +
             (eje?.let { "&eje=eq.$it" } ?: "")
         val consulta = when (filtro) {
             FiltroFeed.PARA_TI -> base
@@ -346,7 +346,7 @@ class SocialRepository(
 
     suspend fun comentarios(post: Post): List<Comentario> = withContext(Dispatchers.IO) {
         if (enLinea && !post.demo) {
-            supa.select("comments", "select=id,texto,created_at,autor:profiles(username,nombre)&post_id=eq.${post.id}&order=created_at")
+            supa.select("comments", "select=id,texto,created_at,autor:profiles!comments_user_id_fkey(username,nombre)&post_id=eq.${post.id}&order=created_at")
                 .jsonArray.map { e ->
                     val o = e.jsonObject
                     val autor = o["autor"] as? JsonObject

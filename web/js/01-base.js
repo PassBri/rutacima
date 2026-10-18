@@ -65,7 +65,7 @@ const lista = s => String(s || "").split(",").map(x => x.trim()).filter(Boolean)
 const numeros = s => lista(s).map(Number).filter(n => !isNaN(n));
 function toast(t) {
   const el = $("toast"); el.textContent = t; el.hidden = false;
-  clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), 3200);
+  clearTimeout(toast.t); toast.t = setTimeout(() => (el.hidden = true), Math.max(3200, t.length * 55));
 }
 
 /* Íconos de Material Design */
@@ -198,7 +198,9 @@ const Store = {
     if (this.nube) try { await this.nube.borrar(tipo, String(clave)); } catch (e) { errorNube(e); }
   },
 };
-function errorNube(e) { console.error(e); toast("No se pudo guardar en tu cuenta. Revisa tu conexión."); }
+/** El motivo que da el servidor, corto y entre paréntesis, para poder diagnosticar sin abrir la consola. */
+function detalleError(e) { const m = String(e?.message || e?.error_description || e?.msg || e || "").replace(/\s+/g, " ").slice(0, 140); return m ? ` (${m})` : ""; }
+function errorNube(e) { console.error(e); toast("No se pudo guardar en tu cuenta." + (detalleError(e) || " Revisa tu conexión.")); }
 
 /** Conexión con Supabase: sesión anónima del navegador, vinculada a tu cuenta desde la app. */
 class Nube {

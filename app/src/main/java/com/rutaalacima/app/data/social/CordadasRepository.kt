@@ -78,7 +78,7 @@ class CordadasRepository(private val supa: SupabaseClient) {
     }
 
     suspend fun notas(id: String): List<NotaCordada> =
-        filas(supa.select("cordada_notas", "select=id,user_id,texto,creada,autor:profiles(nombre,username)&cordada_id=eq.$id&order=creada.desc&limit=100"))
+        filas(supa.select("cordada_notas", "select=id,user_id,texto,creada,autor:profiles!cordada_notas_user_id_fkey(nombre,username)&cordada_id=eq.$id&order=creada.desc&limit=100"))
             .map { o ->
                 val a = o["autor"] as? JsonObject
                 NotaCordada(o.s("id"), o.s("user_id"), a?.s("nombre")?.ifBlank { a.s("username") }.orEmpty(), o.s("texto"), fecha(o.s("creada")), o.s("user_id") == yo)
