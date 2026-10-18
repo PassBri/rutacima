@@ -103,10 +103,35 @@ function albumAnio(a, metas) {
       <div class="segmentos" role="group" aria-label="Quién puede ver este año">${opciones.map(([k, n]) => `<button data-acc="diarioVis" data-arg="${a}|${k}" aria-pressed="${vis === k}">${n}</button>`).join("")}</div></div>
     <p class="suave" style="margin:6px 0 12px">${nota}</p>
     ${cumplidas.length ? `<div class="chips" style="margin-bottom:12px">${cumplidas.map(m => `<span class="chip" aria-pressed="true">🏆 ${esc(m.titulo)}</span>`).join("")}</div>` : ""}
-    ${ps.length ? `<div class="album">${ps.map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">
-        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span>${p.metaTitulo ? `<b>${esc(p.metaTitulo)}</b>` : ""}${p.texto ? (p.foto ? esc(p.texto) : `<i>“${esc(p.texto)}”</i>`) : ""}</span></button>`).join("")}</div>`
+    ${ps.length ? recuerdosAnio(a, ps)
       : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay recuerdos de este año. Regístralos desde la app." : "Cargando recuerdos…"}</p>`}`);
 }
+/** Recuerdos de un año: una tira de 6 que no tapa los meses; "Ver todo" abre el mosaico completo. */
+function recuerdosAnio(a, ps) {
+  const abierto = estado.albumAbierto === a, vistos = abierto ? ps : ps.slice(0, 6);
+  const tarjeta = p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">
+        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span>${p.metaTitulo ? `<b>${esc(p.metaTitulo)}</b>` : ""}${p.texto ? (p.foto ? esc(p.texto) : `<i>“${esc(p.texto)}”</i>`) : ""}</span></button>`;
+  return `<div class="${abierto ? "album" : "album album-tira"}">${vistos.map(tarjeta).join("")}</div>` +
+    (ps.length > 6 ? `<button class="btn mini" style="margin-top:10px" data-acc="albumAbrir" data-arg="${abierto ? "" : a}">${abierto ? "Ver menos" : `Ver todo (${ps.length})`}</button>` : "");
+}
+/** Un año por vivir: su visión. Fotos de lo que quieres ver cumplido ese año, privadas hasta que las compartas. */
+function visionAnio(a) {
+  if (!estado.misPosts) cargarMisPosts();
+  const ps = (estado.misPosts || []).filter(p => p.tipo === "VISION" && (p.anio ?? new Date(p.creadoEn).getFullYear()) === a);
+  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  return hoja(`<div class="album-cab"><h3>Visión de ${a}</h3>
+      <label class="btn mini oro">${ic("foto")} Agregar una foto<input type="file" accept="image/*" hidden data-foto-anio="${a}"></label></div>
+    <p class="suave" style="margin:6px 0 12px">Pon aquí lo que quieres ver cumplido en ${a}. Solo tú lo ves hasta que decidas compartirlo.</p>
+    ${ps.length ? recuerdosAnio(a, ps) : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay fotos para este año." : "Cargando…"}</p>`}
+    <p style="margin:12px 0 0"><button class="btn mini" data-ir="perfil" data-arg="vision">${ic("coach")} Mi vision board${cs.length ? ` · ${conFoto}/${cs.length}` : ""}</button></p>`);
+}
+async function fotoVisionAnio(a, archivo) {
+  if (!archivo) return;
+  toast("Subiendo tu foto…");
+  try { await publicarImagenVision(archivo, "PRIVADA", "", `Visión ${a}`, "VISION", null, null, Number(a)); toast("Foto agregada a tu visión de " + a); pintarDetalle(); }
+  catch (e) { errorNube(e); }
+}
+window.fotoVisionAnio = fotoVisionAnio;
 const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 
 /** El momento del día para el arte (0 amanecer, 1 día, 2 atardecer, 3 noche), según la hora local. */
@@ -211,11 +236,11 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` + (a <= hoy.getFullYear() ? albumAnio(a, metas) : "") +
+      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}">${ic("bandera", "i fijado")} ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
-      `<div class="meses">${meses}</div>`);
+      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + `<div class="meses">${meses}</div>`);
   },
   "ruta.m"(arg) { return detMes(arg); },
   "ruta.d"(arg) { return detDia(arg); },

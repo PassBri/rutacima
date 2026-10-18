@@ -555,21 +555,21 @@ async function imagenMandala() {
 window.imagenMandala = imagenMandala;
 
 /** Publica una imagen como publicación de visión (en la nube o en el ejemplo). */
-async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo = "VISION", eje = null, brujula = null) {
+async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo = "VISION", eje = null, brujula = null, anio = new Date().getFullYear()) {
   let id;
   if (Store.nube) {
     const sb = Store.nube.sb, postId = crypto.randomUUID(), ruta = `${Store.nube.dueno}/${postId}.jpg`; id = postId;
     const up = await sb.storage.from("media").upload(ruta, blob, { upsert: true, contentType: "image/jpeg" });
     if (up.error) throw up.error;
     const url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
-    const fila = { id: postId, user_id: Store.nube.dueno, tipo, texto, image_url: url, eje, anio: new Date().getFullYear(), visibilidad, meta_titulo: metaTitulo };
+    const fila = { id: postId, user_id: Store.nube.dueno, tipo, texto, image_url: url, eje, anio, visibilidad, meta_titulo: metaTitulo };
     if (brujula) fila.brujula = brujula;
     const r = await sb.from("posts").insert(fila);
     if (r.error) throw r.error;
-    (estado.misPosts ||= []).unshift({ id: postId, tipo, eje, texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad, brujula });
+    (estado.misPosts ||= []).unshift({ id: postId, anio, tipo, eje, texto, foto: url, metaTitulo, creadoEn: Date.now(), propio: true, visibilidad, brujula });
   } else {
     id = "mio-" + nuevoId();
-    misPostsDemo.unshift({ id, autorNombre: perfil().nombre || "Yo", tipo, eje, texto, foto: URL.createObjectURL(blob), metaTitulo,
+    misPostsDemo.unshift({ id, autorNombre: perfil().nombre || "Yo", anio, tipo, eje, texto, foto: URL.createObjectURL(blob), metaTitulo,
       impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, visibilidad, brujula });
     estado.misPosts = misPostsDemo;
   }

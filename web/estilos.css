@@ -139,7 +139,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
 .leyenda i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 .meses { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
-.mes { padding: 14px; }
+.mes { padding: 14px; display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; }
 .mes h4 { margin: 0 0 8px; font-size: 14px; display: flex; justify-content: space-between; }
 .mes h4 span { color: var(--tinta-suave); font-weight: 400; font-variant-numeric: tabular-nums; }
 .dias { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
@@ -1062,3 +1062,14 @@ a.btn { text-decoration: none; }
 .cima-fin-texto img { width: 84px; height: 84px; }
 .cima-fin-texto h2 { margin: 0; font: 400 24px/1.25 var(--font-texto); }
 .cima-fin-texto p { margin: 0; max-width: 30ch; color: rgb(255 255 255 / .85); }
+
+/* Álbum del año en tira: 6 recuerdos de la misma altura, sin tapar los meses */
+.album.album-tira { columns: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.album.album-tira .recuerdo { margin: 0; }
+.album.album-tira .recuerdo img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
+.album.album-tira .recuerdo { display: flex; flex-direction: column; aspect-ratio: auto; }
+.album.album-tira .recuerdo span { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.album.album-tira .recuerdo:not(:has(img)) { aspect-ratio: 4 / 5; justify-content: center; }
+.hoja + .meses { margin-top: 16px; }
+.album.album-tira { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+@media (max-width: 700px) { .album.album-tira { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

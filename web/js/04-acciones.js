@@ -21,6 +21,7 @@ const ACC = {
       <div class="botones"><button class="btn lleno" type="button" id="eventoListo">Entendido</button></div>`, v => { v.querySelector("#eventoListo").onclick = () => v.remove(); });
   },
   /** Quién ve un año del diario de vida (se guarda como respuesta, igual que en la app). */
+  albumAbrir(_, a) { estado.albumAbierto = a ? Number(a) : null; pintarDetalle(); },
   async diarioVis(_, arg) {
     const [a, vis] = arg.split("|");
     await responder("diario", `diario-${a}#visibilidad`, vis);
@@ -241,6 +242,7 @@ function cambio(e) {
   const el = e.target;
   if (el.dataset.accChange) { ACC[el.dataset.accChange]?.(el, el.dataset.arg || ""); return; }
   if (el.dataset.fotoVision) { ponerFotoVision(el.dataset.fotoVision, el.files?.[0]); return; }
+  if (el.dataset.fotoAnio) { fotoVisionAnio(el.dataset.fotoAnio, el.files?.[0]); el.value = ""; return; }
   if (el.dataset.resp) { const [wb, clave] = el.dataset.resp.split("|"); responder(wb, clave, el.value.trim() ? el.value : ""); return; }
   if (!el.dataset.bind) return;
   const [tipo, clave, nombre, conv] = el.dataset.bind.split("|");
