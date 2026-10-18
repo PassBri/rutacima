@@ -214,7 +214,8 @@ async function iniciar() {
   } catch (e) {
     console.error(e);
     Store.nube = null;
-    mostrarCarga("No se pudo conectar con el servidor de Rutaalacima. Revisa que los inicios de sesión anónimos estén activados (ver README) y recarga.");
+    const det = String(e?.message || e?.error_description || e?.msg || e || "").slice(0, 160);
+    mostrarCarga("No se pudo conectar con el servidor de Rutaalacima. Revisa tu conexión y recarga." + (det ? ` (Detalle: ${det}${e?.code ? " · " + e.code : ""})` : ""));
   }
 }
 iniciar();
