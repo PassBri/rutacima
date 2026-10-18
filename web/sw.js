@@ -27,6 +27,12 @@ self.addEventListener("fetch", e => {
       .catch(() => caches.match("index.html").then(r => r || caches.match("./"))));
     return;
   }
+  // config.js: siempre de la red primero (trae la URL y la clave del servidor); la copia guardada solo sin conexión
+  if (propio && url.pathname.endsWith("/config.js")) {
+    e.respondWith(fetch(req, { cache: "no-store" }).then(r => { const copia = r.clone(); caches.open(VERSION).then(c => c.put(req, copia)); return r; })
+      .catch(() => caches.match(req)));
+    return;
+  }
   e.respondWith(caches.open(VERSION).then(async c => {
     const guardada = await c.match(req);
     const red = fetch(req).then(r => { if (r.ok || r.type === "opaque") c.put(req, r.clone()); return r; }).catch(() => guardada);
