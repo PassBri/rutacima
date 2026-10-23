@@ -1,5 +1,8 @@
 package com.rutaalacima.app.domain.model
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+
 /**
  * Herramientas nativas del "Kit de Emergencia".
  */
