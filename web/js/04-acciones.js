@@ -123,11 +123,22 @@ const ACC = {
     const [id, d] = arg.split("|").map(Number), m = Store.get("meta_mes", id); if (!m) return;
     Store.cambiar("meta_mes", id, { dias: alternar(numeros(m.dias), d).sort((x, y) => x - y).join(",") });
   },
+  habEditar() { estado.habEditar = !estado.habEditar; pintarDetalle(); },
+  habRenombrar(el, id) { const t = el.value.trim().slice(0, 120); if (!t) { el.value = habitos().find(h => h[0] === id)?.[2] || ""; return; } guardarHabitos(habitos().map(h => h[0] === id ? [h[0], h[1], t] : h)); },
+  habQuitar(_, id) { const l = habitos(), h = l.find(x => x[0] === id); if (!h || l.filter(x => x[1] === h[1]).length <= 1) return; guardarHabitos(l.filter(x => x[0] !== id)); pintarDetalle(); },
+  habAgregar(_, eje) {
+    const inp = document.getElementById("habNuevo-" + eje), t = inp?.value.trim().slice(0, 120), l = habitos();
+    if (!t || l.filter(h => h[1] === eje).length >= HABITOS_MAX) return;
+    let id; do { id = eje + "-" + Date.now().toString(36) + l.length; } while (l.some(h => h[0] === id));
+    const i = l.map(h => h[1]).lastIndexOf(eje), n = [...l]; n.splice(i + 1, 0, [id, eje, t]); guardarHabitos(n); pintarDetalle();
+    requestAnimationFrame(() => document.getElementById("habNuevo-" + eje)?.focus());
+  },
+  habFabrica(_, v) { if (v !== "si") { estado.habFabrica = true; pintarDetalle(); return; } estado.habFabrica = false; guardarHabitos(HABITOS_BASE); pintarDetalle(); },
   habito(el, arg) {
     const [fecha, id] = arg.split("|"), nuevo = alternar([...marcadosDe(fecha)], id);
     // Al completar el eje abierto, se vuelve a seguir al siguiente que falta
-    const eje = HABITOS.find(h => h[0] === id)?.[1];
-    if (el.checked && eje && HABITOS.filter(h => h[1] === eje).every(h => nuevo.includes(h[0]))) { estado.ejeAbierto = null; navigator.vibrate?.(8); }
+    const hs = habitos(), eje = hs.find(h => h[0] === id)?.[1];
+    if (el.checked && eje && hs.filter(h => h[1] === eje).every(h => nuevo.includes(h[0]))) { estado.ejeAbierto = null; navigator.vibrate?.(8); }
     Store.cambiar("checklist", fecha, { marcados: nuevo.sort().join(",") }, BASES.checklist(fecha));
   },
   energia(el, arg) {

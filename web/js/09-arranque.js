@@ -120,7 +120,7 @@ function sembrarDemo() {
   });
   for (let k = 1; k < 420; k++) {
     const d = new Date(hoy); d.setDate(d.getDate() - k);
-    if (azar(d.getFullYear(), d.getMonth(), d.getDate()) < 0.62) Store.poner("checklist", iso(d), { fecha: iso(d), marcados: HABITOS.filter((h, j) => azar(d.getDate(), j, d.getMonth()) < 0.5).map(h => h[0]).join(",") });
+    if (azar(d.getFullYear(), d.getMonth(), d.getDate()) < 0.62) Store.poner("checklist", iso(d), { fecha: iso(d), marcados: HABITOS_BASE.filter((h, j) => azar(d.getDate(), j, d.getMonth()) < 0.5).map(h => h[0]).join(",") });
   }
   Store.poner("agenda", iso(hoy), { fecha: iso(hoy), intencion: "Subir con calma y constancia", prioridad: "Estudiar el módulo 4 (1 hora)" });
   Store.poner("ejes", 30, { id: 30, fecha: Date.now() - 20 * DIA_MS, voluntad: 8, maestria: 7, voz: 5, valor: 6, evolucion: 7, trascendencia: 6, origen: "rapida", nota: "" });

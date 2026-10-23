@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">Bloqueaste a %1$s. Ya no verás sus publicaciones.</string>
     <string name="fin_feed_titulo">Ya viste lo nuevo</string>
     <string name="fin_feed_texto">La montaña sigue ahí mañana. Ahora, da tu propio paso de hoy.</string>
+    <string name="editar">Editar</string>
+    <string name="habitos_editar_titulo">Tus hábitos</string>
+    <string name="habitos_editar_ayuda">Escríbelos a tu manera. Cada eje lleva de 1 a 6 hábitos. Los días que ya marcaste se conservan.</string>
+    <string name="habitos_quitar">Quitar hábito</string>
+    <string name="habitos_nuevo">Nuevo hábito</string>
+    <string name="habitos_agregar">Agregar hábito</string>
+    <string name="habitos_fabrica">Volver a los de fábrica</string>
+    <string name="habitos_fabrica_si">Sí, volver a los 18</string>
 </resources>

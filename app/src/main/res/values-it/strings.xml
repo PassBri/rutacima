@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">Hai bloccato %1$s. Non vedrai più i suoi post.</string>
     <string name="fin_feed_titulo">Sei in pari</string>
     <string name="fin_feed_texto">La montagna sarà lì anche domani. Ora fai il tuo passo di oggi.</string>
+    <string name="editar">Modifica</string>
+    <string name="habitos_editar_titulo">Le tue abitudini</string>
+    <string name="habitos_editar_ayuda">Scrivile a modo tuo. Ogni asse ha da 1 a 6 abitudini. I giorni già segnati restano.</string>
+    <string name="habitos_quitar">Rimuovi abitudine</string>
+    <string name="habitos_nuevo">Nuova abitudine</string>
+    <string name="habitos_agregar">Aggiungi abitudine</string>
+    <string name="habitos_fabrica">Ripristina predefinite</string>
+    <string name="habitos_fabrica_si">Sì, ripristina le 18</string>
 </resources>

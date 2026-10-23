@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">आपने %1$s को ब्लॉक किया। अब उनकी पोस्ट नहीं दिखेंगी।</string>
     <string name="fin_feed_titulo">आपने सब नया देख लिया</string>
     <string name="fin_feed_texto">पहाड़ कल भी वहीं रहेगा। अब आज का अपना कदम उठाएँ।</string>
+    <string name="editar">संपादित करें</string>
+    <string name="habitos_editar_titulo">आपकी आदतें</string>
+    <string name="habitos_editar_ayuda">इन्हें अपने तरीके से लिखें। हर धुरी में 1 से 6 आदतें। पहले से चिह्नित दिन बने रहते हैं।</string>
+    <string name="habitos_quitar">आदत हटाएँ</string>
+    <string name="habitos_nuevo">नई आदत</string>
+    <string name="habitos_agregar">आदत जोड़ें</string>
+    <string name="habitos_fabrica">डिफ़ॉल्ट पर लौटें</string>
+    <string name="habitos_fabrica_si">हाँ, 18 पर लौटें</string>
 </resources>

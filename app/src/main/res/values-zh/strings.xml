@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">你已屏蔽%1$s，将不再看到其发布的内容。</string>
     <string name="fin_feed_titulo">最新内容已看完</string>
     <string name="fin_feed_texto">山明天依然在。现在，迈出你今天的一步。</string>
+    <string name="editar">编辑</string>
+    <string name="habitos_editar_titulo">你的习惯</string>
+    <string name="habitos_editar_ayuda">用你的方式写下它们。每个维度有 1 到 6 个习惯。已经打勾的日子会保留。</string>
+    <string name="habitos_quitar">删除习惯</string>
+    <string name="habitos_nuevo">新习惯</string>
+    <string name="habitos_agregar">添加习惯</string>
+    <string name="habitos_fabrica">恢复默认</string>
+    <string name="habitos_fabrica_si">是，恢复 18 个</string>
 </resources>

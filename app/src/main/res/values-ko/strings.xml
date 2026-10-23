@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">%1$s 님을 차단했어요. 더 이상 게시물이 보이지 않아요.</string>
     <string name="fin_feed_titulo">새 소식을 모두 봤어요</string>
     <string name="fin_feed_texto">산은 내일도 그 자리에 있어요. 이제 오늘의 한 걸음을 내디뎌요.</string>
+    <string name="editar">편집</string>
+    <string name="habitos_editar_titulo">나의 습관</string>
+    <string name="habitos_editar_ayuda">나만의 방식으로 적어 보세요. 축마다 습관은 1~6개입니다. 이미 체크한 날은 그대로 남아요.</string>
+    <string name="habitos_quitar">습관 삭제</string>
+    <string name="habitos_nuevo">새 습관</string>
+    <string name="habitos_agregar">습관 추가</string>
+    <string name="habitos_fabrica">기본값으로 되돌리기</string>
+    <string name="habitos_fabrica_si">네, 18개로 되돌리기</string>
 </resources>

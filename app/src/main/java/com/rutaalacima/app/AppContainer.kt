@@ -37,6 +37,15 @@ class AppContainer(context: Context) {
     val bancos = BancosRepository(context)
     val perfil = PerfilRepository(db)
     val respuestas = RespuestasRepository(db)
+
+    init {
+        // Los hábitos propios de la persona (editables y sincronizados con la web)
+        appScope.launch(kotlinx.coroutines.Dispatchers.Main) {
+            respuestas.observar(com.rutaalacima.app.domain.model.ChecklistDiario.WORKBOOK).collect {
+                com.rutaalacima.app.domain.model.ChecklistDiario.aplicar(it[com.rutaalacima.app.domain.model.ChecklistDiario.CLAVE])
+            }
+        }
+    }
     val ejes = EjesRepository(db)
     val checklist = ChecklistRepository(db)
     val planificador = PlanificadorRepository(db)

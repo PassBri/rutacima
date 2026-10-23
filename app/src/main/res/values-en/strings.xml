@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">You blocked %1$s. You won\'t see their posts anymore.</string>
     <string name="fin_feed_titulo">You\'re all caught up</string>
     <string name="fin_feed_texto">The mountain will still be there tomorrow. Now take your own step for today.</string>
+    <string name="editar">Edit</string>
+    <string name="habitos_editar_titulo">Your habits</string>
+    <string name="habitos_editar_ayuda">Write them your way. Each axis has 1 to 6 habits. Days you already checked are kept.</string>
+    <string name="habitos_quitar">Remove habit</string>
+    <string name="habitos_nuevo">New habit</string>
+    <string name="habitos_agregar">Add habit</string>
+    <string name="habitos_fabrica">Restore defaults</string>
+    <string name="habitos_fabrica_si">Yes, restore the 18</string>
 </resources>

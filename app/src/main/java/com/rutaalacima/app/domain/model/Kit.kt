@@ -4,32 +4,75 @@ package com.rutaalacima.app.domain.model
  * Herramientas nativas del "Kit de Emergencia".
  */
 
-/** Hábito del checklist diario por eje (Herramienta 2). */
-data class HabitoDiario(val id: String, val eje: Eje, val texto: String)
+/**
+ * Hábito del checklist diario por eje (Herramienta 2). [texto] vacío = el texto de fábrica, traducido
+ * (Textos.habito); con texto, es el que la persona escribió.
+ */
+data class HabitoDiario(val id: String, val eje: Eje, val texto: String = "")
 
 object ChecklistDiario {
-    val habitos: List<HabitoDiario> = listOf(
-        HabitoDiario("VOL1", Eje.VOLUNTAD, "Revisé mi visión/propósito (1 min)"),
-        HabitoDiario("VOL2", Eje.VOLUNTAD, "Hice algo hoy que me acerca a mi cumbre"),
-        HabitoDiario("VOL3", Eje.VOLUNTAD, "Dije NO a algo que me aleja de mi cumbre"),
-        HabitoDiario("MAE1", Eje.MAESTRIA, "Practiqué/perfeccioné una habilidad clave (mín. 30 min)"),
-        HabitoDiario("MAE2", Eje.MAESTRIA, "Aprendí algo nuevo relacionado con mi cumbre"),
-        HabitoDiario("MAE3", Eje.MAESTRIA, "Salí de mi zona de confort hoy"),
-        HabitoDiario("VOZ1", Eje.VOZ, "Expresé mi opinión auténtica en al menos una situación"),
-        HabitoDiario("VOZ2", Eje.VOZ, "Compartí mi trabajo/mensaje de alguna forma"),
-        HabitoDiario("VOZ3", Eje.VOZ, "No me callé algo importante por miedo"),
-        HabitoDiario("VAL1", Eje.VALOR, "Trabajé en algo que genera valor económico"),
-        HabitoDiario("VAL2", Eje.VALOR, "Cobré/pedí lo que merezco sin culpa"),
-        HabitoDiario("VAL3", Eje.VALOR, "Invertí en mi crecimiento (tiempo o dinero)"),
-        HabitoDiario("EVO1", Eje.EVOLUCION, "Reflexioné sobre algo que aprendí hoy (journaling 5 min)"),
-        HabitoDiario("EVO2", Eje.EVOLUCION, "Pedí feedback o perspectiva externa"),
-        HabitoDiario("EVO3", Eje.EVOLUCION, "Ajusté un hábito o estrategia que no funciona"),
-        HabitoDiario("TRA1", Eje.TRASCENDENCIA, "Ayudé a alguien sin esperar nada a cambio"),
-        HabitoDiario("TRA2", Eje.TRASCENDENCIA, "Conecté con algo mayor que yo (naturaleza, arte, espiritualidad)"),
-        HabitoDiario("TRA3", Eje.TRASCENDENCIA, "Trabajé en mi legado o contribución al mundo"),
+    /** Los 18 de fábrica (3 por eje). La persona puede renombrarlos, agregar y quitar (mínimo 1 por eje). */
+    val base: List<HabitoDiario> = listOf(
+        HabitoDiario("VOL1", Eje.VOLUNTAD), HabitoDiario("VOL2", Eje.VOLUNTAD), HabitoDiario("VOL3", Eje.VOLUNTAD),
+        HabitoDiario("MAE1", Eje.MAESTRIA), HabitoDiario("MAE2", Eje.MAESTRIA), HabitoDiario("MAE3", Eje.MAESTRIA),
+        HabitoDiario("VOZ1", Eje.VOZ), HabitoDiario("VOZ2", Eje.VOZ), HabitoDiario("VOZ3", Eje.VOZ),
+        HabitoDiario("VAL1", Eje.VALOR), HabitoDiario("VAL2", Eje.VALOR), HabitoDiario("VAL3", Eje.VALOR),
+        HabitoDiario("EVO1", Eje.EVOLUCION), HabitoDiario("EVO2", Eje.EVOLUCION), HabitoDiario("EVO3", Eje.EVOLUCION),
+        HabitoDiario("TRA1", Eje.TRASCENDENCIA), HabitoDiario("TRA2", Eje.TRASCENDENCIA), HabitoDiario("TRA3", Eje.TRASCENDENCIA),
     )
 
-    const val TOTAL = 18
+    /** Clave de la lista propia: se guarda como respuesta del workbook "habitos" y se sincroniza con la web. */
+    const val WORKBOOK = "habitos"
+    const val CLAVE = "habitos#lista"
+    const val MAX_POR_EJE = 6
+
+    /** Lista vigente. Es estado de Compose: las pantallas se actualizan solas cuando cambia. */
+    var habitos: List<HabitoDiario> by androidx.compose.runtime.mutableStateOf(base)
+        private set
+
+    val TOTAL: Int get() = habitos.size
+
+    /** Aplica la lista guardada (JSON: [{"id","eje","t"}]); si no hay o no sirve, quedan los de fábrica. */
+    fun aplicar(json: String?) {
+        habitos = desdeJson(json) ?: base
+    }
+
+    fun desdeJson(json: String?): List<HabitoDiario>? = runCatching {
+        if (json.isNullOrBlank()) return null
+        val arr = kotlinx.serialization.json.Json.parseToJsonElement(json) as kotlinx.serialization.json.JsonArray
+        val lista = arr.mapNotNull { e ->
+            val o = e as? kotlinx.serialization.json.JsonObject ?: return@mapNotNull null
+            val id = (o["id"] as? kotlinx.serialization.json.JsonPrimitive)?.content ?: return@mapNotNull null
+            val cod = (o["eje"] as? kotlinx.serialization.json.JsonPrimitive)?.content
+            val eje = Eje.entries.firstOrNull { it.codigo == cod } ?: return@mapNotNull null
+            HabitoDiario(id, eje, (o["t"] as? kotlinx.serialization.json.JsonPrimitive)?.content.orEmpty().take(120))
+        }.distinctBy { it.id }
+        // Cada eje conserva al menos un hábito: si alguno quedó vacío, vuelven los de fábrica de ese eje
+        val completa = Eje.entries.flatMap { e -> lista.filter { it.eje == e }.ifEmpty { base.filter { it.eje == e } } }
+        completa.takeIf { it.isNotEmpty() }
+    }.getOrNull()
+
+    fun aJson(lista: List<HabitoDiario>): String = kotlinx.serialization.json.buildJsonArray {
+        lista.forEach { h -> add(kotlinx.serialization.json.buildJsonObject {
+            put("id", kotlinx.serialization.json.JsonPrimitive(h.id)); put("eje", kotlinx.serialization.json.JsonPrimitive(h.eje.codigo))
+            put("t", kotlinx.serialization.json.JsonPrimitive(h.texto))
+        }) }
+    }.toString()
+
+    /** Los cambios de la persona, ya validados (máximo [MAX_POR_EJE] y mínimo 1 por eje). */
+    fun renombrar(lista: List<HabitoDiario>, id: String, texto: String) = lista.map { if (it.id == id) it.copy(texto = texto.take(120)) else it }
+    fun agregar(lista: List<HabitoDiario>, eje: Eje, texto: String): List<HabitoDiario> {
+        if (lista.count { it.eje == eje } >= MAX_POR_EJE || texto.isBlank()) return lista
+        var n = lista.size
+        var id: String
+        do { id = eje.codigo + "-" + java.lang.Long.toString(System.currentTimeMillis() % 2176782336L, 36) + n++ } while (lista.any { it.id == id })
+        val i = lista.indexOfLast { it.eje == eje }
+        return lista.toMutableList().apply { add(if (i < 0) size else i + 1, HabitoDiario(id, eje, texto.trim().take(120))) }
+    }
+    fun quitar(lista: List<HabitoDiario>, id: String): List<HabitoDiario> {
+        val h = lista.firstOrNull { it.id == id } ?: return lista
+        return if (lista.count { it.eje == h.eje } <= 1) lista else lista.filterNot { it.id == id }
+    }
 
     /** "Con 10-12 checks estás en buen camino. Menos de 8, revisa qué está pasando." */
     fun lectura(checks: Int): String = when {

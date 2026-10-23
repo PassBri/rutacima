@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">حظرت %1$s. لن ترى منشوراته بعد الآن.</string>
     <string name="fin_feed_titulo">شاهدت كل الجديد</string>
     <string name="fin_feed_texto">الجبل باقٍ غدًا. الآن خُذ خطوتك لهذا اليوم.</string>
+    <string name="editar">تعديل</string>
+    <string name="habitos_editar_titulo">عاداتك</string>
+    <string name="habitos_editar_ayuda">اكتبها بطريقتك. لكل محور من 1 إلى 6 عادات. الأيام التي سجّلتها تبقى كما هي.</string>
+    <string name="habitos_quitar">إزالة العادة</string>
+    <string name="habitos_nuevo">عادة جديدة</string>
+    <string name="habitos_agregar">إضافة عادة</string>
+    <string name="habitos_fabrica">استعادة الافتراضية</string>
+    <string name="habitos_fabrica_si">نعم، استعادة الـ 18</string>
 </resources>

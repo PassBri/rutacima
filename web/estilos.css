@@ -1207,3 +1207,12 @@ body:has(.md-visor) { overflow: hidden; }
 .md-visor-ayuda { margin: 0; text-align: center; font-size: 13px; color: var(--tinta-suave); }
 .md-sec-cab > div { flex: 1; }
 .md-ver-grande { color: var(--burdeos) !important; font-weight: 600; }
+
+/* Editar hábitos: por eje, renombrar, quitar y agregar */
+.hab-cab .btn.mini { margin-left: 8px; }
+.hab-edit { padding: 10px 0 4px; border-top: 1px solid var(--linea); }
+.hab-edit h4 { margin: 0 0 8px; font-size: 14px; }
+.hab-fila { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.hab-fila input { flex: 1; min-width: 0; min-height: 44px; padding: 8px 12px; border: 1px solid var(--linea); border-radius: 10px; background: var(--hoja); color: var(--tinta); font: inherit; }
+.hab-fila input:focus { outline: 2px solid var(--burdeos); outline-offset: 0; border-color: transparent; }
+.hab-fila .md-visor-ic { width: 44px; height: 44px; flex: none; }

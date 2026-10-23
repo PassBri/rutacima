@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">Tu as bloqué %1$s. Tu ne verras plus ses publications.</string>
     <string name="fin_feed_titulo">Tu as tout vu</string>
     <string name="fin_feed_texto">La montagne sera encore là demain. Maintenant, fais ton propre pas du jour.</string>
+    <string name="editar">Modifier</string>
+    <string name="habitos_editar_titulo">Tes habitudes</string>
+    <string name="habitos_editar_ayuda">Écris-les à ta façon. Chaque axe a de 1 à 6 habitudes. Les jours déjà cochés sont conservés.</string>
+    <string name="habitos_quitar">Retirer l’habitude</string>
+    <string name="habitos_nuevo">Nouvelle habitude</string>
+    <string name="habitos_agregar">Ajouter l’habitude</string>
+    <string name="habitos_fabrica">Revenir aux habitudes d’origine</string>
+    <string name="habitos_fabrica_si">Oui, revenir aux 18</string>
 </resources>

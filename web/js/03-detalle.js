@@ -348,18 +348,32 @@ function detMes(arg) {
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
       <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`));
 }
-/** Los 18 hábitos del día, un eje abierto a la vez (el primero que falta). Al completar uno se abre el siguiente. */
+/** Los hábitos del día, un eje abierto a la vez (el primero que falta). Al completar uno se abre el siguiente. Se editan aquí mismo. */
 function habitosDelDia(fecha, marc) {
-  const pendiente = EJES.find(([cod]) => HABITOS.some(h => h[1] === cod && !marc.has(h[0])))?.[0] || null;
+  const HS = habitos(), total = HS.length, n = HS.filter(h => marc.has(h[0])).length;
+  const editar = estado.habEditar;
+  const cabeza = `<div class="hab-cab"><h3 id="habTit">${editar ? "Tus hábitos" : "Checklist de hábitos"}</h3>${editar ? "" : `<span class="hab-n">${n} / ${total}</span>`}
+    <button class="btn mini" data-acc="habEditar" aria-pressed="${!!editar}">${editar ? ic("check") + " Listo" : ic("editar") + " Editar"}</button></div>`;
+  if (editar) return `<section class="hoja hab" aria-labelledby="habTit">${cabeza}
+    <p class="suave hab-lectura">Escríbelos a tu manera. Cada eje lleva de 1 a ${HABITOS_MAX} hábitos. Los días que ya marcaste se conservan.</p>
+    ${EJES.map(([cod, nom]) => { const hs = HS.filter(h => h[1] === cod);
+      return `<div class="hab-edit"><h4>${nom}</h4>${hs.map(([id, , t]) => `<div class="hab-fila"><input type="text" value="${esc(t)}" maxlength="120" data-acc-change="habRenombrar" data-arg="${esc(id)}" aria-label="Hábito de ${nom}">
+        <button class="md-visor-ic" data-acc="habQuitar" data-arg="${esc(id)}" ${hs.length <= 1 ? "disabled" : ""} aria-label="Quitar hábito" title="Quitar">${ic("borrar")}</button></div>`).join("")}
+        ${hs.length < HABITOS_MAX ? `<div class="hab-fila"><input type="text" id="habNuevo-${cod}" maxlength="120" placeholder="Nuevo hábito de ${nom.toLowerCase()}" aria-label="Nuevo hábito de ${nom}" onkeydown="if(event.key==='Enter'){event.preventDefault();ACC.habAgregar(null,'${cod}')}">
+        <button class="md-visor-ic" data-acc="habAgregar" data-arg="${cod}" aria-label="Agregar hábito" title="Agregar">${ic("mas")}</button></div>` : ""}</div>`; }).join("")}
+    <div class="botones" style="margin-top:12px">${estado.habFabrica ? `<button class="btn mini peligro" data-acc="habFabrica" data-arg="si">Sí, volver a los 18</button><button class="btn mini" data-acc="habFabrica" data-arg="no">Cancelar</button>`
+      : `<button class="btn mini" data-acc="habFabrica">Volver a los de fábrica</button>`}</div></section>`;
+  const pendiente = EJES.find(([cod]) => HS.some(h => h[1] === cod && !marc.has(h[0])))?.[0] || null;
   const elegido = estado.ejeAbierto?.fecha === fecha ? estado.ejeAbierto.eje : undefined;
   const visible = elegido !== undefined ? elegido : pendiente;
-  const n = marc.size, lectura = n >= 10 ? "Vas en buen camino." : n >= 8 ? "Avanzando. Busca llegar a 10 o 12." : n > 0 ? "Menos de 8: revisa qué está pasando." : "Marca los hábitos que cumpliste hoy.";
-  return `<section class="hoja hab" aria-labelledby="habTit"><div class="hab-cab"><h3 id="habTit">Checklist de hábitos</h3><span class="hab-n">${n} / 18</span></div>
-    <div class="hab-linea" role="progressbar" aria-label="Hábitos marcados" aria-valuemin="0" aria-valuemax="18" aria-valuenow="${n}"><i style="--p:${(n / 18).toFixed(3)}"></i></div>
+  const r = n / Math.max(1, total);
+  const lectura = r >= 10 / 18 ? "Vas en buen camino." : r >= 8 / 18 ? "Avanzando. Busca llegar a dos tercios." : n > 0 ? "Menos de la mitad: revisa qué está pasando." : "Marca los hábitos que cumpliste hoy.";
+  return `<section class="hoja hab" aria-labelledby="habTit">${cabeza}
+    <div class="hab-linea" role="progressbar" aria-label="Hábitos marcados" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${n}"><i style="--p:${r.toFixed(3)}"></i></div>
     <p class="suave hab-lectura">${lectura}</p>
-    ${EJES.map(([cod, nom]) => { const hs = HABITOS.filter(h => h[1] === cod), k = hs.filter(h => marc.has(h[0])).length;
+    ${EJES.map(([cod, nom]) => { const hs = HS.filter(h => h[1] === cod), k = hs.filter(h => marc.has(h[0])).length;
       return `<details class="hab-eje" data-eje="${cod}" data-fecha="${fecha}" ${visible === cod ? "open" : ""}><summary><span>${nom}</span>${k === hs.length ? `<span class="hab-ok" aria-label="completo">${ic("check")}</span>` : `<span class="hab-k">${k} / ${hs.length}</span>`}<span class="hab-flecha">${ic("abajo")}</span></summary>
-        ${hs.map(([id, , t]) => `<label class="check"><input type="checkbox" data-acc-change="habito" data-arg="${fecha}|${id}" ${marc.has(id) ? "checked" : ""}><span>${esc(t)}</span></label>`).join("")}</details>`; }).join("")}
+        ${hs.map(([id, , t]) => `<label class="check"><input type="checkbox" data-acc-change="habito" data-arg="${fecha}|${esc(id)}" ${marc.has(id) ? "checked" : ""}><span>${esc(t)}</span></label>`).join("")}</details>`; }).join("")}
   </section>`;
 }
 /* Recordar qué eje abrió la persona (el detalle se redibuja al marcar) */

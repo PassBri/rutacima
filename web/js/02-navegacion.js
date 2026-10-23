@@ -121,7 +121,7 @@ const LISTAS = {
   hoy() {
     const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1;
     let h = cabLista("Hoy", { buscar: false }) + `<div class="items">`;
-    h += item("d:" + iso(hoy), av(hoy.getDate(), "var(--burdeos)"), "Tu día", "hoy", `${marcadosDe(iso(hoy)).size} de 18 hábitos · ${MESES[hoy.getMonth()]}`, ic("pin", "i fijado"));
+    h += item("d:" + iso(hoy), av(hoy.getDate(), "var(--burdeos)"), "Tu día", "hoy", `${marcadosDe(iso(hoy)).size} de ${habitos().length} hábitos · ${MESES[hoy.getMonth()]}`, ic("pin", "i fijado"));
     h += grupo(`Metas de ${MESES[m - 1]}`);
     const ms = metasDelMes(a, m);
     if (!ms.length) h += `<p class="vacio-mini">Aún no hay metas este mes.</p>`;

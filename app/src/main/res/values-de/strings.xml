@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">Du hast %1$s blockiert. Du siehst die Beiträge nicht mehr.</string>
     <string name="fin_feed_titulo">Du bist auf dem neuesten Stand</string>
     <string name="fin_feed_texto">Der Berg ist morgen noch da. Jetzt geh deinen eigenen Schritt für heute.</string>
+    <string name="editar">Bearbeiten</string>
+    <string name="habitos_editar_titulo">Deine Gewohnheiten</string>
+    <string name="habitos_editar_ayuda">Schreib sie auf deine Art. Jede Achse hat 1 bis 6 Gewohnheiten. Bereits abgehakte Tage bleiben erhalten.</string>
+    <string name="habitos_quitar">Gewohnheit entfernen</string>
+    <string name="habitos_nuevo">Neue Gewohnheit</string>
+    <string name="habitos_agregar">Gewohnheit hinzufügen</string>
+    <string name="habitos_fabrica">Standard wiederherstellen</string>
+    <string name="habitos_fabrica_si">Ja, die 18 wiederherstellen</string>
 </resources>

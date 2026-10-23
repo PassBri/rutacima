@@ -58,6 +58,7 @@ import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.data.content.ContentRepository
 import com.rutaalacima.app.data.content.Workbook
 import com.rutaalacima.app.domain.model.ChecklistDiario
+import com.rutaalacima.app.ui.habitos.textoVisible
 import com.rutaalacima.app.domain.model.Eje
 import com.rutaalacima.app.domain.model.MatrizDecisiones
 import com.rutaalacima.app.domain.model.MatrizDecisiones.Respuesta
@@ -193,7 +194,7 @@ fun KitScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Checkbox(checked = h.id in marcados, onCheckedChange = { vm.alternar(dia, h.id) })
-                            Text(stringResource(Textos.habito(h.id)), style = MaterialTheme.typography.bodyMedium)
+                            Text(h.textoVisible(), style = MaterialTheme.typography.bodyMedium)
                         }
                     }
                 }

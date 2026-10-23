@@ -129,7 +129,7 @@ const EJES = [
 ];
 const NOMBRE_EJE = Object.fromEntries(EJES.map(([c, n]) => [c, n]));
 const COLOR_EJE = { VOL: "#8E3B26", MAE: "#5C4A8A", VOZ: "#2F6F7A", VAL: "#6B5530", EVO: "#3F7A4A", TRA: "#6B2A1A" };
-const HABITOS = [
+const HABITOS_BASE = [
   ["VOL1", "VOL", "Revisé mi visión/propósito (1 min)"], ["VOL2", "VOL", "Hice algo hoy que me acerca a mi cumbre"], ["VOL3", "VOL", "Dije NO a algo que me aleja de mi cumbre"],
   ["MAE1", "MAE", "Practiqué/perfeccioné una habilidad clave (mín. 30 min)"], ["MAE2", "MAE", "Aprendí algo nuevo relacionado con mi cumbre"], ["MAE3", "MAE", "Salí de mi zona de confort hoy"],
   ["VOZ1", "VOZ", "Expresé mi opinión auténtica en al menos una situación"], ["VOZ2", "VOZ", "Compartí mi trabajo/mensaje de alguna forma"], ["VOZ3", "VOZ", "No me callé algo importante por miedo"],
@@ -137,6 +137,24 @@ const HABITOS = [
   ["EVO1", "EVO", "Reflexioné sobre algo que aprendí hoy (journaling 5 min)"], ["EVO2", "EVO", "Pedí feedback o perspectiva externa"], ["EVO3", "EVO", "Ajusté un hábito o estrategia que no funciona"],
   ["TRA1", "TRA", "Ayudé a alguien sin esperar nada a cambio"], ["TRA2", "TRA", "Conecté con algo mayor que yo (naturaleza, arte, espiritualidad)"], ["TRA3", "TRA", "Trabajé en mi legado o contribución al mundo"],
 ];
+/* Hábitos propios: se guardan como respuesta "habitos#lista" (igual que en la app) y se sincronizan. t vacío = texto de fábrica. */
+const HABITOS_CLAVE = "habitos#lista", HABITOS_MAX = 6;
+function habitos() {
+  try {
+    const v = Store.get("respuesta", HABITOS_CLAVE)?.valor;
+    if (v) {
+      const l = JSON.parse(v).filter(h => h && h.id && NOMBRE_EJE[h.eje])
+        .map(h => [String(h.id), h.eje, String(h.t || "").slice(0, 120) || HABITOS_BASE.find(b => b[0] === h.id)?.[2] || ""]);
+      const res = EJES.flatMap(([c]) => { const x = l.filter(h => h[1] === c); return x.length ? x : HABITOS_BASE.filter(h => h[1] === c); });
+      if (res.length) return res;
+    }
+  } catch { /* lista dañada: quedan los de fábrica */ }
+  return HABITOS_BASE;
+}
+function guardarHabitos(l) {
+  const iguales = l.length === HABITOS_BASE.length && l.every((h, i) => h[0] === HABITOS_BASE[i][0] && h[2] === HABITOS_BASE[i][2]);
+  return responder("habitos", HABITOS_CLAVE, iguales ? "" : JSON.stringify(l.map(([id, eje, t]) => ({ id, eje, t: HABITOS_BASE.some(b => b[0] === id && b[2] === t) ? "" : t }))));
+}
 const FASES = [["ORIENTACION", "Orientación"], ["PREPARACION", "Preparación"], ["TRAVESIA", "Travesía"], ["ASCENSO", "Ascenso"], ["CULMINACION", "Culminación"], ["CONTEMPLACION", "Contemplación"], ["DESCENSO", "Descenso"]];
 /** Horizonte de un propósito: la persona elige cualquier número de años en este rango; los atajos solo ayudan. */
 const HORIZONTE_MIN = 2, HORIZONTE_MAX = 50;

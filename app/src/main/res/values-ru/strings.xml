@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">Вы заблокировали %1$s. Их публикации больше не будут видны.</string>
     <string name="fin_feed_titulo">Вы посмотрели всё новое</string>
     <string name="fin_feed_texto">Гора никуда не денется. А теперь сделайте свой шаг на сегодня.</string>
+    <string name="editar">Изменить</string>
+    <string name="habitos_editar_titulo">Твои привычки</string>
+    <string name="habitos_editar_ayuda">Пиши их по-своему. На каждой оси от 1 до 6 привычек. Отмеченные дни сохраняются.</string>
+    <string name="habitos_quitar">Удалить привычку</string>
+    <string name="habitos_nuevo">Новая привычка</string>
+    <string name="habitos_agregar">Добавить привычку</string>
+    <string name="habitos_fabrica">Вернуть исходные</string>
+    <string name="habitos_fabrica_si">Да, вернуть 18</string>
 </resources>

@@ -76,6 +76,8 @@ import com.rutaalacima.app.data.local.RespuestaEntity
 import com.rutaalacima.app.data.local.avance
 import com.rutaalacima.app.data.local.diasMarcados
 import com.rutaalacima.app.domain.model.ChecklistDiario
+import com.rutaalacima.app.ui.habitos.textoVisible
+import androidx.compose.material.icons.outlined.Edit
 import com.rutaalacima.app.domain.model.Eje
 import com.rutaalacima.app.domain.model.Fase
 import com.rutaalacima.app.ui.Rutas
@@ -410,13 +412,20 @@ private fun HabitosHoy(marcados: Set<String>, onAlternar: (String) -> Unit, onVe
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Checkbox(checked = si, onCheckedChange = null, modifier = Modifier.padding(horizontal = 8.dp))
-                            Text(stringResource(Textos.habito(h.id)), style = MaterialTheme.typography.bodyMedium,
+                            Text(h.textoVisible(), style = MaterialTheme.typography.bodyMedium,
                                 color = if (si) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
                         }
                     }
                 }
             }
         }
-        TextButton(onClick = onVerKit) { Text(stringResource(R.string.kit)) }
+        var editar by remember { mutableStateOf(false) }
+        Row {
+            TextButton(onClick = { editar = true }) {
+                Icon(Icons.Outlined.Edit, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.editar))
+            }
+            TextButton(onClick = onVerKit) { Text(stringResource(R.string.kit)) }
+        }
+        if (editar) com.rutaalacima.app.ui.habitos.EditorHabitos(onCerrar = { editar = false })
     }
 }

@@ -1273,4 +1273,12 @@
     <string name="bloqueado_aviso">%1$sをブロックしました。投稿は表示されなくなります。</string>
     <string name="fin_feed_titulo">新しい投稿はここまで</string>
     <string name="fin_feed_texto">山は明日もそこにあります。さあ、今日のあなたの一歩を。</string>
+    <string name="editar">編集</string>
+    <string name="habitos_editar_titulo">あなたの習慣</string>
+    <string name="habitos_editar_ayuda">自分の言葉で書きましょう。各軸に 1〜6 個の習慣。チェック済みの日はそのまま残ります。</string>
+    <string name="habitos_quitar">習慣を削除</string>
+    <string name="habitos_nuevo">新しい習慣</string>
+    <string name="habitos_agregar">習慣を追加</string>
+    <string name="habitos_fabrica">初期設定に戻す</string>
+    <string name="habitos_fabrica_si">はい、18 個に戻す</string>
 </resources>

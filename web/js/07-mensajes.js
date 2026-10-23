@@ -335,7 +335,7 @@ DET["mensajes.acomp"] = uid => {
   if (r.cumbre) h += hoja(`<div class="etiqueta">Su cumbre</div><p style="font-size:18px;margin:6px 0 0">${esc(r.cumbre)}</p>`);
   h += hoja(`<div class="etiqueta">Hábitos de los últimos 7 días</div>
     <div style="display:flex;gap:6px;align-items:flex-end;height:80px;margin-top:10px">${r.habitos7.map(n => `<span title="${n} de 18" style="flex:1;border-radius:6px 6px 0 0;height:${Math.max(4, n / 18 * 100)}%;background:${n >= 10 ? "var(--oro)" : "color-mix(in srgb, var(--burdeos) 50%, transparent)"}"></span>`).join("")}</div>
-    <p class="suave" style="margin:6px 0 0;font-size:13px">Promedio: ${prom.toFixed(1)} de 18 hábitos al día</p>`);
+    <p class="suave" style="margin:6px 0 0;font-size:13px">Promedio: ${prom.toFixed(1)} de ${habitos().length} hábitos al día</p>`);
   h += bloqueX("Propósitos", r.propositos) + bloqueX("Metas del año", r.metasAnio) + bloqueX("Metas del mes", r.metasMes);
   if (r.ejes) h += hoja(`<div class="etiqueta">Ejes</div>` + EJES.map(([c, n], i) => `<div style="display:grid;grid-template-columns:120px 1fr 24px;gap:10px;align-items:center;margin-top:8px"><span>${n}</span>${barra(r.ejes[i] * 10)}<b>${r.ejes[i]}</b></div>`).join(""));
   if (r.visionTotal) h += hoja(`<p style="margin:0">Vision board: ${r.visionConFoto} de ${r.visionTotal} casillas con su foto</p>`);
