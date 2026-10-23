@@ -382,7 +382,7 @@ function mandalaHtml(tableroHtml = "") {
         : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div></div>`;
     const ayuda = ["Toca tu cumbre para acercarte a tu vision board.",
       "Toca la cumbre para ver el 9×9, o un campamento para ir directo a su bloque. Para alejarte: la flecha, las migas, el signo − o Esc.",
-      "Toca un bloque para editarlo abajo; el centro te aleja al vision board. Para alejarte: la flecha, las migas, el signo − o Esc."][nivel];
+      "Toca un bloque para editarlo; el centro te aleja al vision board. Para alejarte: la flecha, las migas, el signo − o Esc."][nivel];
     const migas = ["Cumbre", "Vision board", "9×9"].map((t, i) => (i ? `<span class="md-sep" aria-hidden="true">›</span>` : "") +
       (i === nivel ? `<b aria-current="step">${t}</b>` : `<button data-acc="mdNivel" data-arg="${i}">${t}</button>`)).join("");
     visor = `<div class="md-visor" role="dialog" aria-modal="true" aria-label="Tu Brújula en grande">
@@ -391,7 +391,7 @@ function mandalaHtml(tableroHtml = "") {
         <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span><span style="flex:1"></span>
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "disabled"} aria-label="Alejar (−)" title="Alejar (−)">−</button>
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel + 1}" ${nivel < 2 ? "" : "disabled"} aria-label="Acercar (+)" title="Acercar (+)">+</button>
-        <button class="btn mini" data-acc="mdEditarAbajo">${ic("foto")} Editar abajo</button>
+        <button class="btn mini" data-acc="mdEditarAbajo">${ic("editar")} Editar</button>
         <button class="md-visor-ic" data-acc="mdPantalla" aria-label="Pantalla completa" title="Pantalla completa (F)">⛶</button>
         <button class="md-visor-ic" data-acc="mdVisor" data-arg="" aria-label="Cerrar (Esc)" title="Cerrar (Esc)">${ic("cerrar")}</button></div>
       <div class="md-visor-lienzo md-papel">${vista}</div>
@@ -421,6 +421,9 @@ Object.assign(ACC, {
     if (estado.mdVisor && el?.closest?.(".md-visor")) {
       if (Number(v) === 4 && el.classList.contains("md-bloque")) { ACC.mdNivel(null, "1"); return; }
       estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
+      estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
+      document.getElementById("md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });   // quieta debajo del visor que se desvanece
+      return;
     }
     estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
     if (el) requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
@@ -450,7 +453,8 @@ Object.assign(ACC, {
   /** Cierra el visor y baja al editor de lo que se estaba viendo. */
   mdEditarAbajo() {
     const n = estado.mdNivel ?? 0; estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.(); pintarDetalle();
-    requestAnimationFrame(() => document.getElementById(n === 0 ? "md-s1" : n === 1 ? "md-s9" : "md-bloque")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    // La página ya queda en su lugar mientras el visor se desvanece: sin saltos ni desplazamientos a la vista
+    document.getElementById(n === 0 ? "md-s1" : n === 1 ? "md-s9" : "md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });
   },
   mdPaso(_, v) { estado.mdPaso = v || null; estado.mdCaidaVer = false; pintarDetalle(); },
   mdCaidaVer() { estado.mdCaidaVer = !estado.mdCaidaVer; pintarDetalle(); },
@@ -794,7 +798,19 @@ function montarVisor(html) {
     raiz = document.createElement("div"); raiz.id = "visorRaiz"; document.body.appendChild(raiz);
     raiz.onclick = e => clic(e); raiz.onchange = e => cambio(e);
   }
-  if (raiz.innerHTML !== html) raiz.innerHTML = html;
+  const actual = raiz.querySelector(".md-visor");
+  if (!html) {
+    if (actual) raiz.innerHTML = "";   // corte limpio: la página ya está en su lugar, no se mezclan las dos capas
+    return;
+  }
+  if (actual) {
+    // Cambio de nivel: solo cambia el contenido; el fondo del visor no se vuelve a animar (no se ve lo de atrás)
+    const t = document.createElement("template"); t.innerHTML = html;
+    const nuevo = t.content.querySelector(".md-visor");
+    if (nuevo && actual.innerHTML !== nuevo.innerHTML) actual.innerHTML = nuevo.innerHTML;
+    return;
+  }
+  raiz.innerHTML = html;
 }
 const pintarDetalleBase = pintarDetalle;
 pintarDetalle = function () {

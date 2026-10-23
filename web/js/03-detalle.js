@@ -337,7 +337,7 @@ function detMes(arg) {
   for (let k = 0; k < ini; k++) cal += `<i class="dia vacio-d"></i>`;
   for (let d = 1; d <= diasEnMes(a, m); d++) {
     const f = new Date(a, m - 1, d), pasado = f <= hoy, ok = pasado && diaCumplido(f), esHoy = f.getTime() === hoy.getTime();
-    cal += `<button class="dia btn-dia ${ok ? "hecho" : ""} ${pasado && !esHoy ? "pasado" : ""} ${esHoy ? "hoy" : ""}" data-sel="d:${iso(f)}" aria-label="${d} de ${MESES[m - 1]}" style="font-size:11px;color:var(--tinta-suave)">${d}</button>`;
+    cal += `<button class="dia btn-dia ${ok ? "hecho" : ""} ${pasado && !esHoy ? "pasado" : ""} ${esHoy ? "hoy" : ""}" data-sel="d:${iso(f)}" aria-label="${d} de ${MESES[m - 1]}" style="font-size:11px">${d}</button>`;
   }
   const campoMes = (n, etq) => campo(etq, `<textarea ${bind("mes", clave, n, "", `mes`)}>${esc(b[n] || "")}</textarea>`);
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(

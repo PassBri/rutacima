@@ -144,7 +144,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .mes h4 span { color: var(--tinta-suave); font-weight: 400; font-variant-numeric: tabular-nums; }
 .dias { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
 .dia { aspect-ratio: 1; border-radius: 50%; background: var(--hoja-2); border: 1px solid var(--linea); }
-.dia.hecho { background: var(--oro); border-color: transparent; }
+.dia.hecho { background: var(--burdeos); border-color: transparent; color: var(--sobre-burdeos); }
 .dia.hoy { outline: 2px solid var(--burdeos); outline-offset: 1px; }
 .dia.vacio-d { background: none; border: 0; }
 .dia.pasado:not(.hecho) { background: var(--burdeos-suave); border-color: transparent; }
@@ -303,7 +303,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 /* Tira de días de una meta del mes */
 .tira { display: grid; grid-template-columns: repeat(auto-fill, minmax(28px, 1fr)); gap: 4px; margin-top: 8px; }
 .tira button { aspect-ratio: 1; border-radius: 50%; font-size: 11px; border: 1px solid var(--linea); background: var(--hoja-2); color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
-.tira button.si { background: var(--oro); border-color: transparent; color: #fff; font-weight: 700; }
+.tira button.si { background: var(--burdeos); border-color: transparent; color: var(--sobre-burdeos); font-weight: 600; }
 .tira button.hoy { outline: 2px solid var(--burdeos); outline-offset: 1px; }
 .tira button:disabled { opacity: .35; cursor: default; }
 .meta-fila { display: grid; gap: 4px; padding-block: 10px; border-bottom: 1px solid var(--linea); }
@@ -312,7 +312,8 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .meta-fila .arriba > :first-child { flex: 1; min-width: 0; }
 .pct { font-weight: 700; color: var(--burdeos); font-variant-numeric: tabular-nums; }
 .dia-btn { cursor: pointer; }
-.dias .dia.btn-dia { cursor: pointer; }
+.dias .dia.btn-dia { cursor: pointer; color: var(--tinta-suave); }
+.dias .dia.btn-dia.hecho { color: var(--sobre-burdeos); font-weight: 600; }
 .mes.clic { cursor: pointer; transition: transform .12s; }
 .mes.clic:hover { transform: translateY(-2px); }
 .migas { display: flex; gap: 6px; flex-wrap: wrap; font-size: 13px; color: var(--tinta-suave); align-items: center; }
@@ -510,7 +511,7 @@ button.audio-txt { display: block; }
 .cord-dias { display: flex; flex-direction: row-reverse; gap: 3px; overflow-x: auto; padding: 2px 2px 6px; min-width: 0; }
 .cord-dias i { flex: none; width: 14px; height: 14px; border-radius: 3px; background: var(--hoja-2); border: 1px solid var(--linea); }
 .cord-dias i:first-child { margin-right: auto; } /* pocos días: quedan a la izquierda */
-.cord-dias i.si { background: var(--oro); border-color: transparent; }
+.cord-dias i.si { background: var(--burdeos); border-color: transparent; }
 .cord-dias i.hoy { outline: 1.5px solid var(--burdeos); outline-offset: 1px; }
 .cord-codigo { font: 700 38px/1.1 var(--font-titulo); letter-spacing: .2em; color: var(--burdeos); margin: 10px 0 6px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .form-codigo { display: flex; gap: 8px; align-items: center; }
@@ -786,10 +787,10 @@ a.btn { text-decoration: none; }
 .md-tk.con-foto .md-puntos i { background: #fff; }
 .md-ayuda { margin: 8px 0 0; }
 .md-grilla-caja .md-grilla { margin-top: 0; }
-@keyframes md-acercar { from { transform: scale(3); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
-@keyframes md-alejar { from { transform: scale(.34); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes md-acercar { from { transform: scale(1.35); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes md-alejar { from { transform: scale(.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .md-anim-acercar { animation: md-acercar 520ms cubic-bezier(.2,0,0,1) both; transform-origin: center; }
-.md-anim-alejar { animation: md-alejar 420ms cubic-bezier(.2, 1, .3, 1) both; transform-origin: center; }
+.md-anim-alejar { animation: md-alejar 380ms cubic-bezier(.2, 0, 0, 1) both; transform-origin: center; }
 @media (prefers-reduced-motion: reduce) { .md-anim-acercar, .md-anim-alejar { animation: none; } }
 @media (max-width: 600px) { .md-nivel9 { gap: 7px; } .md-tk, .md-tc { padding: 10px 7px 7px; border-radius: 12px; } .md-tk small { font-size: 8px; letter-spacing: .04em; }
   .md-tk b { font-size: 11px; -webkit-line-clamp: 3; } .md-tc b { font-size: 11px; -webkit-line-clamp: 4; } .md-puntos i { width: 4px; height: 4px; } .md-papel { padding: 10px; } }
@@ -1183,6 +1184,9 @@ a.btn { text-decoration: none; }
 /* Visor emergente de la Brújula: Cumbre ⇄ Vision board ⇄ 9×9, a pantalla completa */
 .md-visor { position: fixed; inset: 0; z-index: 1200; display: flex; flex-direction: column; gap: 10px; padding: 12px clamp(12px, 3vw, 32px) 16px; background: color-mix(in srgb, var(--fondo, #F3EFE8) 96%, #000); animation: visor-entra .28s cubic-bezier(.2, 0, 0, 1); }
 @keyframes visor-entra { from { opacity: 0; transform: scale(.98); } }
+.md-visor.md-visor-sale { animation: visor-sale .2s cubic-bezier(.4, 0, 1, 1) forwards; pointer-events: none; }
+@keyframes visor-sale { to { opacity: 0; } }
+.md-visor-lienzo:has(> .md-anim-acercar, > .md-anim-alejar) { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .md-visor { animation: none; } }
 body:has(.md-visor) { overflow: hidden; }
 .md-visor-barra { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
