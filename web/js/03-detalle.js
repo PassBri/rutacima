@@ -911,16 +911,13 @@ function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
   return { pct: estado === "LOGRADA" ? 100 : pct, estado };
 }
 
-DET["perfil.vision"] = () => {
-  if (!estado.misPosts) cargarMisPosts();
-  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
-  const md = window.Mandala && cs.length ? Mandala.datos() : null;
+/** Tarjeta de una casilla del vision board (también la usa el 9×9 para la cumbre y los campamentos). */
+function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBloque = false) {
   const color = e => COLOR_EJE[e] || "#6B2A1A";
-  const tarjeta = c => {
     const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
     const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
-    return `<div class="hoja casilla-v est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
-      <button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>
+    return `<div class="hoja casilla-v${enBloque ? " en-bloque" : ""} est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
+      ${enBloque ? "" : `<button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>`}
       <button class="casilla-pct-btn" data-acc="pctCasilla" data-arg="${k}" title="Ajustar el avance" aria-label="Avance ${av.pct} %. Toca para ajustarlo">${mdAnillo(av.pct, "esquina")}</button>
       <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
@@ -942,7 +939,16 @@ DET["perfil.vision"] = () => {
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
           <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
       </div></div>`;
-  };
+  }
+window.casillaVisionHtml = casillaVisionHtml;
+
+DET["perfil.vision"] = () => {
+  if (!estado.misPosts) cargarMisPosts();
+  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  const md = window.Mandala && cs.length ? Mandala.datos() : null;
+  const color = e => COLOR_EJE[e] || "#6B2A1A";
+  const tarjeta = c => casillaVisionHtml(c, md);
+
 
   return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(

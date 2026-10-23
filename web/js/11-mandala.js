@@ -331,7 +331,7 @@ function mandalaHtml() {
       lineas += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${ganado ? "ganada" : ""}"/>`;
     });
   }
-  const svg = lineas ? `<svg class="md-lineas" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lineas}</svg>` : "";
+  const svg = "";   // las confluencias se marcan con ⇄ en cada paso; las líneas cruzaban toda la grilla
   // Zoom de 3 niveles (Material: container transform): cumbre (1) → vision board (9) → Brújula completa (81)
   const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
   estado.mdAnim = null;
@@ -361,7 +361,7 @@ function mandalaHtml() {
     <button class="md-atras" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar (Esc)">${ic("volver")}</button>
     <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>`;
   return hoja(intro + selector + `<div class="md-zoom md-papel">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
-    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${mdTituloEditable(d, camp, cs, titulo)}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
+    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${(camp >= 0 ? cs : d.cumbre) ? casillaVisionHtml(camp >= 0 ? cs : d.cumbre, d, true) : mdTituloEditable(d, camp, cs, titulo)}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`) + hoja(cierreHtml(d));

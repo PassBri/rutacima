@@ -1150,3 +1150,10 @@ a.btn { text-decoration: none; }
 .casilla-ajuste input { accent-color: var(--c, var(--burdeos)); width: 100%; }
 .casilla-ajuste b { font-variant-numeric: tabular-nums; color: var(--c, var(--burdeos)); min-width: 3.2em; text-align: right; }
 .casilla-ajuste small { grid-column: 1 / -1; }
+
+/* La casilla del vision board dentro del bloque abierto del 9×9: foto a la izquierda, edición a la derecha */
+.casilla-v.en-bloque { flex-direction: row; margin: 0 0 4px; box-shadow: none; border: 1px solid var(--linea); }
+.casilla-v.en-bloque .casilla-foto { flex: 0 0 min(38%, 220px); aspect-ratio: 4 / 5; }
+.casilla-v.en-bloque .casilla-edicion { flex: 1; min-width: 0; padding: 14px 16px; justify-content: center; }
+.casilla-v.en-bloque .casilla-frase { font-size: 20px; }
+@media (max-width: 600px) { .casilla-v.en-bloque { flex-direction: column; } .casilla-v.en-bloque .casilla-foto { flex-basis: auto; aspect-ratio: 16 / 9; } }
