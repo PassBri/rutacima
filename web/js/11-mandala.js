@@ -170,6 +170,17 @@ const mdFotoPaso = (c, p) => { const id = c && respuesta(Mandala.claveFoto(c.id,
 /** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
 const mdNombre = c => (c.afirmacion || c.titulo || "").trim();
 
+/** Avance de la cumbre (i = -1) o de un campamento: promedio de sus 8 pasos, contando las jornadas de cada uno. */
+function mdPct(d, i) {
+  const de = k => d.camps[k] ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, p) => s + d.avance(k, p), 0) / 8 : 0;
+  return Math.round((i < 0 ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, k) => s + de(k), 0) / 8 : de(i)) * 100);
+}
+/** Indicador de avance de Material 3: anillo pequeño con el porcentaje, en la esquina de la tarjeta. */
+const mdAnillo = (pct, clase = "") => `<span class="pct-m3 ${clase}${pct >= 100 ? " lleno" : ""}" style="--p:${pct}" role="img" aria-label="Avance ${pct} %" title="Avance ${pct} %"><i aria-hidden="true"></i>${pct}%</span>`;
+/** En el 9×9 completo las casillas son pequeñas: el avance va como barra fina en el borde inferior. */
+const mdBarraMini = pct => `<span class="pct-linea" title="Avance ${pct} %" aria-label="Avance ${pct} %"><i style="width:${pct}%"></i></span>`;
+window.mdPct = mdPct; window.mdAnillo = mdAnillo;
+
 /** El nombre del bloque abierto, editable en su lugar: la cumbre (casilla central o frase del perfil) o el campamento. */
 function mdTituloEditable(d, camp, cs, titulo) {
   const estilo = 'class="md-titulo-edit" aria-label="Nombre de este bloque"';
@@ -178,16 +189,25 @@ function mdTituloEditable(d, camp, cs, titulo) {
     : `<input type="text" ${estilo} ${bind("perfil", 1, "cumbreFrase")} value="${esc(d.titulo)}" placeholder="Mi cumbre en una frase">`;
 }
 
+/** Barra lineal de Material 3 con el avance del bloque abierto y cómo se calcula. */
+function mdBarraAvance(d, camp) {
+  const pct = mdPct(d, camp);
+  return `<div class="avance-m3"><div class="avance-m3-fila"><span>Avance ${camp < 0 ? "de tu cumbre" : "del campamento"}</span><b>${pct}%</b></div>
+    <div class="avance-m3-barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div>
+    <details class="avance-m3-ayuda"><summary>¿Cómo se calcula?</summary>
+      <p>${camp < 0 ? "Es el promedio de tus 8 campamentos." : "Es el promedio de sus 8 pasos."} Cada paso suma según sus jornadas: si pide 3 y llevas 1, va en 33 %; al ganarlo, cuenta completo. Lo mueves con <b>Avancé hoy</b> en cada paso de abajo.</p></details></div>`;
+}
+
 /** Una celda: la cumbre, un campamento (con su foto) o un paso. */
 function mdCelda(d, cel, grande) {
   if (cel.tipo === "CUMBRE") {
     const foto = mdFoto(d.cumbre);
-    return `<span class="md-c md-cumbre${foto ? " con-foto" : ""}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${esc(d.titulo)}</b></span>`;
+    return `<span class="md-c md-cumbre${foto ? " con-foto" : ""}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdBarraMini(mdPct(d, -1))}</span>`;
   }
   const camp = d.camps[cel.camp], color = d.color(cel.camp);
   if (cel.tipo === "CAMPAMENTO") {
     const foto = mdFoto(camp);
-    return `<span class="md-c md-camp${camp ? "" : " libre"}" style="--c:${color}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${camp ? esc(mdNombre(camp)) : "+ " + Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp])}</b></span>`;
+    return `<span class="md-c md-camp${camp ? "" : " libre"}" style="--c:${color}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${camp ? esc(mdNombre(camp)) : "+ " + Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp])}</b>${camp ? mdBarraMini(mdPct(d, cel.camp)) : ""}</span>`;
   }
   const est = Mandala.estado(camp?.id, cel.paso), texto = camp ? respuesta(Mandala.clave(camp.id, cel.paso)) : "";
   const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1} · ${Mandala.FASES[cel.paso]}</small>`;
@@ -317,15 +337,15 @@ function mandalaHtml() {
   const vista = nivel === 0
     ? `<button class="md-nivel1${anim}" data-acc="mdNivel" data-arg="1" aria-label="Abrir tu vision board">
         ${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
-        <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em></button>`
+        <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em>${mdAnillo(mdPct(d, -1), "centro")}</button>`
     : nivel === 1
       ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
           const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
           if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdNivel" data-arg="2" aria-label="Ver el 9×9 completo">
-            ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b></button>`;
+            ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(mdPct(d, -1), "esquina")}</button>`;
           const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
           return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Abrir ${esc(Mandala.nombre(cod))}">
-            ${foto ? `<img src="${esc(foto)}" alt="">` : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
+            ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
         }).join("")}</div>`
       : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div>${svg}</div>`;
   const ayuda = ["Tu cumbre personal. Toca o haz doble clic para abrir tu vision board.",
@@ -337,7 +357,7 @@ function mandalaHtml() {
     <button class="md-atras" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar (Esc)">${ic("volver")}</button>
     <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>`;
   return hoja(intro + selector + `<div class="md-zoom md-papel">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
-    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${mdTituloEditable(d, camp, cs, titulo)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
+    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${mdTituloEditable(d, camp, cs, titulo)}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`) + hoja(cierreHtml(d));

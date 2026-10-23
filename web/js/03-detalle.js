@@ -903,8 +903,8 @@ function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
   let pct = null;
   if (d) {
     const i = d.camps.findIndex(x => x && x.id === c.id);
-    if (i >= 0) pct = Math.round([0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(c.id, q) === "HECHO").length / 8 * 100);
-    else if (d.cumbre && d.cumbre.id === c.id) pct = Math.round(d.hechos / 64 * 100);
+    if (i >= 0) pct = mdPct(d, i);
+    else if (d.cumbre && d.cumbre.id === c.id) pct = mdPct(d, -1);
   }
   if (pct === null) pct = manual === "CAMINO" ? 50 : 0;
   const estado = manual || (pct >= 100 ? "LOGRADA" : pct > 0 ? "CAMINO" : "ABIERTA");
@@ -921,7 +921,7 @@ DET["perfil.vision"] = () => {
     const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
     return `<div class="hoja casilla-v est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
       <button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>
-      <span class="casilla-pct" title="Avance">${av.pct}%</span>
+      ${mdAnillo(av.pct, "esquina")}
       <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
         ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
@@ -944,6 +944,8 @@ DET["perfil.vision"] = () => {
   return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
+      <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
+        <p>La cumbre y los 8 campamentos se miden en tu 9×9: cada paso suma según sus jornadas (<b>Avancé hoy</b>). Las demás casillas, con su estado: Abierta 0 %, En camino 50 %, Lograda 100 %. Marcar una casilla como <b>Lograda</b> la deja en 100 %. El estado se cambia tocando la etiqueta de la tarjeta.</p></details>
       ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
