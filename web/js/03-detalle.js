@@ -898,7 +898,7 @@ async function ponerFotoVision(id, archivo) {
 const ESTADOS_CASILLA = [["ABIERTA", "Abierta"], ["CAMINO", "En camino"], ["LOGRADA", "Lograda"]];
 /** % de una casilla: si es la cumbre o un campamento del 9×9, sale de sus pasos ganados; si no, de su estado. */
 function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
-  const manual = respuesta(`vision:estado:${c.id}`);
+  const manual = respuesta(`vision:estado:${c.id}`), pctMano = Number(respuesta(`vision:pct:${c.id}`)) || 0;
   if (manual === "LOGRADA") return { pct: 100, estado: "LOGRADA" };
   let pct = null;
   if (d) {
@@ -906,8 +906,8 @@ function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
     if (i >= 0) pct = mdPct(d, i);
     else if (d.cumbre && d.cumbre.id === c.id) pct = mdPct(d, -1);
   }
-  if (pct === null) pct = manual === "CAMINO" ? 50 : 0;
-  const estado = manual || (pct >= 100 ? "LOGRADA" : pct > 0 ? "CAMINO" : "ABIERTA");
+  if (pct === null) pct = pctMano;
+  const estado = pct >= 100 ? "LOGRADA" : manual === "ABIERTA" && pct === 0 ? "ABIERTA" : pct > 0 || manual === "CAMINO" ? "CAMINO" : "ABIERTA";
   return { pct: estado === "LOGRADA" ? 100 : pct, estado };
 }
 
@@ -921,7 +921,7 @@ DET["perfil.vision"] = () => {
     const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
     return `<div class="hoja casilla-v est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
       <button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>
-      ${mdAnillo(av.pct, "esquina")}
+      <button class="casilla-pct-btn" data-acc="pctCasilla" data-arg="${k}" title="Ajustar el avance" aria-label="Avance ${av.pct} %. Toca para ajustarlo">${mdAnillo(av.pct, "esquina")}</button>
       <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
         ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
@@ -935,6 +935,9 @@ DET["perfil.vision"] = () => {
           ${foto ? `<button class="btn mini" data-acc="quitarFotoVision" data-arg="${k}" title="Quitar la foto">${ic("borrar")}</button>`
             : `<a href="${urlIdeas(c.busqueda)}" target="_blank" rel="noopener" class="btn mini">${ic("buscar")} Ideas</a>`}
         </div>
+        ${estado.pctCasilla === k ? `<div class="casilla-ajuste"><label for="pct-${k}">Avance</label>
+          <input id="pct-${k}" type="range" min="0" max="100" step="5" value="${av.pct}" data-acc-input="pctCasillaVer" data-acc-change="pctCasillaGuardar" data-arg="${k}"><b>${av.pct}%</b>
+          <small>${md && (md.camps.some(x => x && String(x.id) === k) || String(md.cumbre?.id) === k) ? "Nunca baja de lo que llevas en el 9×9." : ""}</small></div>` : ""}
         <details class="casilla-mas"><summary>Más opciones</summary>
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
           <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
@@ -945,7 +948,7 @@ DET["perfil.vision"] = () => {
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
       <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
-        <p>La cumbre y los 8 campamentos se miden en tu 9×9: cada paso suma según sus jornadas (<b>Avancé hoy</b>). Las demás casillas, con su estado: Abierta 0 %, En camino 50 %, Lograda 100 %. Marcar una casilla como <b>Lograda</b> la deja en 100 %. El estado se cambia tocando la etiqueta de la tarjeta.</p></details>
+        <p>Toca la etiqueta para pasar de <b>Abierta</b> a <b>En camino</b> (empieza en 25 %) y a <b>Lograda</b> (100 %). Toca el % de la esquina para ajustarlo con la barra. En la cumbre y los 8 campamentos también cuentan los pasos del 9×9 (<b>Avancé hoy</b>): el % nunca baja de lo que llevas allí, y la cumbre es el promedio de sus campamentos.</p></details>
       ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>

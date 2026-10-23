@@ -34,12 +34,23 @@ const ACC = {
   },
   /** Quita la foto de una casilla del vision board (la publicación privada se conserva en el diario). */
   async quitarFotoVision(_, id) { await Store.cambiar("vision", Number(id) || id, { publicacionId: null }); toast("Foto quitada de la casilla"); pintarDetalle(); },
-  /** Abierta → En camino → Lograda → (automático). Se guarda como respuesta, así viaja a la app. */
+  /** Abierta → En camino → Lograda. Al pasar a En camino se abre el ajuste del %. Se guarda como respuesta: viaja a la app. */
   estadoCasilla(_, id) {
-    const clave = `vision:estado:${id}`, actual = respuesta(clave), orden = ["", "ABIERTA", "CAMINO", "LOGRADA"];
     const c = Store.get("vision", Number(id)) || Store.get("vision", id); if (!c) return;
-    const visto = avanceCasilla(c).estado, sig = actual ? orden[(orden.indexOf(actual) + 1) % orden.length] : (visto === "LOGRADA" ? "ABIERTA" : visto === "CAMINO" ? "LOGRADA" : "CAMINO");
-    responder("vision", clave, sig); pintarDetalle();
+    const sig = { ABIERTA: "CAMINO", CAMINO: "LOGRADA", LOGRADA: "ABIERTA" }[avanceCasilla(c).estado];
+    responder("vision", `vision:estado:${id}`, sig);
+    if (sig === "CAMINO") { if (!(Number(respuesta(`vision:pct:${id}`)) > 0)) responder("vision", `vision:pct:${id}`, "25"); estado.pctCasilla = String(id); }
+    if (sig === "ABIERTA") { responder("vision", `vision:pct:${id}`, ""); estado.pctCasilla = null; }
+    if (sig === "LOGRADA") estado.pctCasilla = null;
+    pintarDetalle();
+  },
+  pctCasilla(_, id) { estado.pctCasilla = estado.pctCasilla === String(id) ? null : String(id); pintarDetalle(); },
+  pctCasillaVer(el) { const v = el.value; el.nextElementSibling.textContent = v + "%"; const a = el.closest(".casilla-v")?.querySelector(".pct-m3"); if (a) { a.style.setProperty("--p", v); a.lastChild.textContent = v + "%"; } },
+  pctCasillaGuardar(el, id) {
+    const v = Number(el.value);
+    responder("vision", `vision:pct:${id}`, v ? String(v) : "");
+    responder("vision", `vision:estado:${id}`, v >= 100 ? "LOGRADA" : v > 0 ? "CAMINO" : "ABIERTA");
+    pintarDetalle();
   },
   albumAbrir(_, a) { estado.albumAbierto = a ? Number(a) : null; pintarDetalle(); },
   async diarioVis(_, arg) {

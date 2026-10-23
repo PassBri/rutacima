@@ -1143,3 +1143,10 @@ a.btn { text-decoration: none; }
 .md-cumbre .pct-linea i { background: var(--burdeos); }
 .pct-m3.centro { margin-top: 6px; height: 26px; font-size: 12px; padding: 0 10px 0 5px; }
 .pct-m3.centro i { width: 16px; height: 16px; -webkit-mask: radial-gradient(circle, transparent 4.6px, #000 5.1px); mask: radial-gradient(circle, transparent 4.6px, #000 5.1px); }
+.casilla-pct-btn { position: absolute; z-index: 2; top: 0; right: 0; padding: 0; background: none; border: 0; cursor: pointer; }
+.casilla-pct-btn .pct-m3.esquina { position: static; margin: 8px; }
+.casilla-pct-btn:hover .pct-m3 { box-shadow: 0 0 0 2px var(--oro); }
+.casilla-ajuste { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 8px; font-size: 12px; color: var(--tinta-suave); padding: 6px 0 2px; }
+.casilla-ajuste input { accent-color: var(--c, var(--burdeos)); width: 100%; }
+.casilla-ajuste b { font-variant-numeric: tabular-nums; color: var(--c, var(--burdeos)); min-width: 3.2em; text-align: right; }
+.casilla-ajuste small { grid-column: 1 / -1; }

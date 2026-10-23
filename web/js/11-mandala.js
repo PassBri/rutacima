@@ -172,8 +172,12 @@ const mdNombre = c => (c.afirmacion || c.titulo || "").trim();
 
 /** Avance de la cumbre (i = -1) o de un campamento: promedio de sus 8 pasos, contando las jornadas de cada uno. */
 function mdPct(d, i) {
-  const de = k => d.camps[k] ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, p) => s + d.avance(k, p), 0) / 8 : 0;
-  return Math.round((i < 0 ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, k) => s + de(k), 0) / 8 : de(i)) * 100);
+  const pasos = k => d.camps[k] ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, p) => s + d.avance(k, p), 0) / 8 * 100 : 0;
+  // Lo que la persona marcó a mano (estado Lograda o su %) manda si es mayor que lo que dicen los pasos
+  const conManual = (c, base) => !c ? base : respuesta(`vision:estado:${c.id}`) === "LOGRADA" ? 100 : Math.max(base, Number(respuesta(`vision:pct:${c.id}`)) || 0);
+  if (i >= 0) return Math.round(conManual(d.camps[i], pasos(i)));
+  const prom = [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, k) => s + conManual(d.camps[k], pasos(k)), 0) / 8;
+  return Math.round(conManual(d.cumbre, prom));
 }
 /** Indicador de avance de Material 3: anillo pequeño con el porcentaje, en la esquina de la tarjeta. */
 const mdAnillo = (pct, clase = "") => `<span class="pct-m3 ${clase}${pct >= 100 ? " lleno" : ""}" style="--p:${pct}" role="img" aria-label="Avance ${pct} %" title="Avance ${pct} %"><i aria-hidden="true"></i>${pct}%</span>`;
