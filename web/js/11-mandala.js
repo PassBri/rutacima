@@ -832,19 +832,8 @@ function metasDeCampamento(i) {
 function visionVida() {
   const d = Mandala.datos(), hoy = hoyFecha().getFullYear(), sel = estado.vidaCamp ?? null;
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
-  if (!casillasVision().length) return hoja(`<div class="vv-vacio"><div><h3>Tu vision board</h3>
-      <p class="suave">Es el corazón de tu ruta: tu cumbre al centro y 8 campamentos alrededor. Lo arma la IA con tu cumbre, tus propósitos y tus metas; tú lo llenas con tus fotos.</p></div>
-      <button class="btn lleno" data-acc="armarVision">${ic("coach")} Armar mi vision board</button></div>`);
+  if (!casillasVision().length) return "";
   const anios = ms => [...new Set(ms.map(m => m.anio))];
-  const celdas = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
-    const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
-    if (cel.tipo === "CUMBRE") return `<button class="vv-c vv-cumbre${fotoC ? " con-foto" : ""}" data-ir="perfil" data-arg="vision" aria-label="Tu cumbre: ${esc(d.titulo)}. Abrir tu Brújula">
-        ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<small>MI CUMBRE</small><b>${esc(d.titulo)}</b>${mdAnillo(pctC, "esquina")}</button>`;
-    const i = cel.camp, c = d.camps[i], cod = Mandala.CAMPAMENTOS_FIJOS[i], foto = mdFoto(c), ms = metasDeCampamento(i), as = anios(ms);
-    const pie = cod === "CAM" ? "Cordadas y mentores" : ms.length ? `${ms.length} ${ms.length === 1 ? "meta" : "metas"} · ${as.slice(0, 3).join(", ")}${as.length > 3 ? "…" : ""}` : "Sin metas aún";
-    return `<button class="vv-c${foto ? " con-foto" : ""}${sel === i ? " elegido" : ""}" style="--c:${d.color(i)}" data-acc="vidaCamp" data-arg="${i}" aria-pressed="${sel === i}" aria-label="${esc(Mandala.nombre(cod))}: ${c ? esc(mdNombre(c)) : "sin campamento"}. ${pie}">
-        ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, i), "esquina") : ""}<small>${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b><span class="vv-pie">${pie}</span></button>`;
-  }).join("");
   let panel = "";
   if (sel !== null && sel >= 0 && sel < 8) {
     const c = d.camps[sel], cod = Mandala.CAMPAMENTOS_FIJOS[sel], ms = metasDeCampamento(sel), c0 = cascada();
@@ -859,16 +848,20 @@ function visionVida() {
       ${fotos.length ? `<div class="album album-tira" style="margin-top:12px">${fotos.map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}"><img src="${esc(p.foto)}" alt="" loading="lazy"><span>${esc(p.metaTitulo || "")}</span></button>`).join("")}</div>` : ""}
       <div class="botones" style="margin-top:10px">${c ? `<button class="btn mini" data-acc="vidaBrujula" data-arg="${Mandala.ANILLO[sel]}">${ic("ruta")} Sus 8 pasos en la Brújula</button>` : `<button class="btn mini" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Crear este campamento</button>`}</div></div>`;
   }
-  return hoja(`<div class="vv-cab"><div><h3>Mi vision board</h3><p class="suave">Tu cumbre al centro y lo que la sostiene. Toca un campamento para ver y planear sus metas por año.</p></div>
-      <div class="botones"><button class="btn mini" data-ir="perfil" data-arg="vision">${ic("ruta")} Brújula 9×9</button>
-      <button class="btn mini lleno" data-acc="compartirVision" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando…" : "Compartir"}</button></div></div>
-    <div class="vv-tablero">${celdas}</div>${panel}`);
+  const chips = [0, 1, 2, 3, 4, 5, 6, 7].map(i => {
+    const cod = Mandala.CAMPAMENTOS_FIJOS[i], ms = metasDeCampamento(i);
+    return `<button class="vv-chip${sel === i ? " elegido" : ""}" style="--c:${d.color(i)}" data-acc="vidaCamp" data-arg="${i}" aria-pressed="${sel === i}">
+      <i aria-hidden="true"></i>${esc(Mandala.nombre(cod))}<span>${cod === "CAM" ? "" : ms.length}</span></button>`;
+  }).join("");
+  return hoja(`<div class="vv-cab"><div><h3>Planear por campamento</h3><p class="suave">Las metas que sostienen cada campamento de tu vision board, año por año. Elige uno para verlas o crear una nueva.</p></div>
+      <button class="btn mini lleno" data-acc="compartirVision" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando…" : "Compartir mi vision board"}</button></div>
+    <div class="vv-chips">${chips}</div>${panel}`);
 }
 Object.assign(ACC, {
   vidaCamp(_, i) { estado.vidaCamp = i === "" || Number(i) === estado.vidaCamp ? null : Number(i); if (!estado.misPosts) cargarMisPosts(); pintarDetalle();
     if (estado.vidaCamp !== null) requestAnimationFrame(() => document.querySelector(".vv-panel")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" })); },
   /** Comparte el vision board (la imagen de la Brújula con su tablero) en la pestaña Visión de la comunidad. */
-  vidaBrujula(_, b) { estado.mandalaBloque = Number(b); estado.mdPaso = null; ir("perfil", "vision"); requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ block: "start" })); },
-  compartirVision() { estado.mdCompartir = true; ir("perfil", "vision"); requestAnimationFrame(() => document.querySelector(".md-compartir")?.scrollIntoView({ block: "center" })); },
+  vidaBrujula(_, b) { estado.mandalaBloque = Number(b); estado.mdPaso = null; if (!document.getElementById("md-bloque")) ir("perfil", "vision"); else pintarDetalle(); requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ block: "start" })); },
+  compartirVision() { estado.mdCompartir = true; if (!document.querySelector(".md-secciones")) ir("perfil", "vision"); else pintarDetalle(); requestAnimationFrame(() => document.querySelector(".md-compartir")?.scrollIntoView({ block: "center" })); },
 });
 window.visionVida = visionVida;

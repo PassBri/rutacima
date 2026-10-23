@@ -297,9 +297,8 @@ const DET = {
     }
     return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
       lineaVida(hoyFecha().getFullYear()) + esteDia() + corazonAnio(hoyFecha().getFullYear()) +
-      (window.visionVida ? visionVida() : "") +
-      `<div class="vida-sec" id="vida-vision"><h2>Mi cumbre y mi Brújula</h2><p class="suave">Tu vision board completo: la cumbre, los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil.</p></div>` +
-      visionCompleta() + aniosVida(r) +
+      `<div class="vida-sec" id="vida-vision"><h2>Mi vision board</h2><p class="suave">Tu cumbre, los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
+      visionCompleta() + (window.visionVida ? visionVida() : "") + aniosVida(r) +
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>

@@ -1311,3 +1311,9 @@ body:has(.md-visor) { overflow: hidden; }
 .carta-sellada img { width: 72px; height: 72px; flex: none; filter: drop-shadow(0 4px 8px rgb(var(--sombra) / .25)); }
 .carta-texto { font-family: var(--font-titulo); font-size: 16px; line-height: 1.6; margin: 0 0 10px; }
 .carta-area { width: 100%; font-family: var(--font-titulo); font-size: 16px; line-height: 1.6; padding: 12px; border: 1px solid var(--linea); border-radius: 12px; background: var(--hoja); color: var(--tinta); }
+.vv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.vv-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); font-size: 14px; }
+.vv-chip i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.vv-chip span { font-size: 12px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.vv-chip span:empty { display: none; }
+.vv-chip.elegido { background: color-mix(in srgb, var(--c) 14%, var(--hoja)); border-color: var(--c); }
