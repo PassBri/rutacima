@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">올해</string>
     <string name="vv_por_vivir">앞으로</string>
     <string name="vv_brujula">9×9 나침반</string>
+    <string name="mirar_camara">카메라로 보기</string>
+    <string name="mirar_camara_quitar">카메라 끄기</string>
+    <string name="mirar_ayuda_camara">하늘을 향하세요. 선은 별자리의 별들을 잇고, 동그라미는 각 별의 위치를 표시합니다.</string>
 </resources>

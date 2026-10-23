@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">этот год</string>
     <string name="vv_por_vivir">впереди</string>
     <string name="vv_brujula">Компас 9×9</string>
+    <string name="mirar_camara">Смотреть через камеру</string>
+    <string name="mirar_camara_quitar">Выключить камеру</string>
+    <string name="mirar_ayuda_camara">Наведи на небо: линии соединяют звёзды каждого созвездия, а кольца отмечают, где каждая из них.</string>
 </resources>

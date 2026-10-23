@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">quest’anno</string>
     <string name="vv_por_vivir">da vivere</string>
     <string name="vv_brujula">Bussola 9×9</string>
+    <string name="mirar_camara">Guarda con la fotocamera</string>
+    <string name="mirar_camara_quitar">Spegni la fotocamera</string>
+    <string name="mirar_ayuda_camara">Punta al cielo: le linee uniscono le stelle di ogni costellazione e gli anelli segnano dove si trova ognuna.</string>
 </resources>

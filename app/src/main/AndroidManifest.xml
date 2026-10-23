@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Solo para "Mirar el cielo" con la cámara; se pide en ese momento y la app funciona sin ella -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Audiolibros: siguen sonando con la pantalla apagada -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

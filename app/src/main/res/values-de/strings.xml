@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">dieses Jahr</string>
     <string name="vv_por_vivir">noch zu leben</string>
     <string name="vv_brujula">Kompass 9×9</string>
+    <string name="mirar_camara">Mit der Kamera ansehen</string>
+    <string name="mirar_camara_quitar">Kamera ausschalten</string>
+    <string name="mirar_ayuda_camara">Richte es auf den Himmel: Linien verbinden die Sterne jedes Sternbilds, Ringe zeigen, wo jeder steht.</string>
 </resources>

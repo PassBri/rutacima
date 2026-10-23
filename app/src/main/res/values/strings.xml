@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">este año</string>
     <string name="vv_por_vivir">por vivir</string>
     <string name="vv_brujula">Brújula 9×9</string>
+    <string name="mirar_camara">Ver con la cámara</string>
+    <string name="mirar_camara_quitar">Quitar la cámara</string>
+    <string name="mirar_ayuda_camara">Apunta al cielo: las líneas unen las estrellas de cada constelación y los aros marcan dónde está cada una.</string>
 </resources>

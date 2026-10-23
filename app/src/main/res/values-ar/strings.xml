@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">هذا العام</string>
     <string name="vv_por_vivir">لم يُعَش بعد</string>
     <string name="vv_brujula">البوصلة 9×9</string>
+    <string name="mirar_camara">العرض بالكاميرا</string>
+    <string name="mirar_camara_quitar">إيقاف الكاميرا</string>
+    <string name="mirar_ayuda_camara">وجّه الهاتف إلى السماء: الخطوط تصل نجوم كل كوكبة والحلقات تحدد موضع كل نجم.</string>
 </resources>

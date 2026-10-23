@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">इस साल</string>
     <string name="vv_por_vivir">आने वाला</string>
     <string name="vv_brujula">9×9 कम्पास</string>
+    <string name="mirar_camara">कैमरे से देखें</string>
+    <string name="mirar_camara_quitar">कैमरा बंद करें</string>
+    <string name="mirar_ayuda_camara">आसमान की ओर करें: रेखाएँ हर तारामंडल के तारों को जोड़ती हैं और घेरे बताते हैं कि हर तारा कहाँ है।</string>
 </resources>

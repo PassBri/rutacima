@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">cette année</string>
     <string name="vv_por_vivir">à vivre</string>
     <string name="vv_brujula">Boussole 9×9</string>
+    <string name="mirar_camara">Voir avec la caméra</string>
+    <string name="mirar_camara_quitar">Couper la caméra</string>
+    <string name="mirar_ayuda_camara">Vise le ciel : les lignes relient les étoiles de chaque constellation et les cercles montrent où se trouve chacune.</string>
 </resources>

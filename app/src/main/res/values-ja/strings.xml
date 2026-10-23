@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">今年</string>
     <string name="vv_por_vivir">これから</string>
     <string name="vv_brujula">9×9 コンパス</string>
+    <string name="mirar_camara">カメラで見る</string>
+    <string name="mirar_camara_quitar">カメラをオフ</string>
+    <string name="mirar_ayuda_camara">空に向けてください。線が星座の星を結び、輪がそれぞれの星の位置を示します。</string>
 </resources>

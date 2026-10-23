@@ -1295,4 +1295,7 @@
     <string name="vv_este_anio">今年</string>
     <string name="vv_por_vivir">待经历</string>
     <string name="vv_brujula">9×9 罗盘</string>
+    <string name="mirar_camara">用相机看</string>
+    <string name="mirar_camara_quitar">关闭相机</string>
+    <string name="mirar_ayuda_camara">对准天空：线条连接每个星座的星星，圆圈标出每颗星的位置。</string>
 </resources>

@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.PhotoCamera
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -145,7 +146,18 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
     }
     val rumboTexto = stringResource(R.string.mirar_rumbo, cardinales[((rumbo / 45f).roundToInt()) % 8], rumbo.roundToInt(), alt.roundToInt())
 
+    // Cámara: la imagen real de fondo y las guías encima. Se pide el permiso solo al tocar el botón.
+    var camara by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    var lente by remember { mutableStateOf<Pair<Double, Double>?>(null) }   // tan(medio ángulo) del lado corto y del largo
+    val permiso = androidx.activity.compose.rememberLauncherForActivityResult(androidx.activity.result.contract.ActivityResultContracts.RequestPermission()) { ok -> camara = ok }
+    fun alternarCamara() {
+        if (camara) { camara = false; return }
+        if (androidx.core.content.ContextCompat.checkSelfPermission(contexto, android.Manifest.permission.CAMERA) == android.content.pm.PackageManager.PERMISSION_GRANTED) camara = true
+        else permiso.launch(android.Manifest.permission.CAMERA)
+    }
+
     Box(Modifier.fillMaxSize().background(Color(0xFF060A12))) {
+        if (camara) CamaraDeFondo(onLente = { lente = it })
         Canvas(
             Modifier.fillMaxSize().pointerInput(conSensor) {
                 if (!conSensor) detectDragGestures { _, d ->
@@ -155,7 +167,8 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                 }
             },
         ) {
-            dibujarVentana(cielo, rumbo, alt, if (size.width < 700.dp.toPx()) 70f else 90f, tiempo, sinMovimiento, medidor, cardinales, tSol, tLuna, tLluvia)
+            val fov = if (camara) fovDeCamara(lente, size.width, size.height) else if (size.width < 700.dp.toPx()) 70f else 90f
+            dibujarVentana(cielo, rumbo, alt, fov, tiempo, sinMovimiento, medidor, cardinales, tSol, tLuna, tLluvia, camara = camara)
         }
         Row(
             Modifier.fillMaxWidth().background(Brush.verticalGradient(listOf(Color(0x8C060A10), Color.Transparent))).safeDrawingPadding().padding(16.dp),
@@ -169,12 +182,80 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                 Box(contentAlignment = Alignment.Center) { Icon(Icons.Filled.Close, null) }
             }
         }
-        Text(
-            stringResource(if (conSensor) R.string.mirar_ayuda_sensor else R.string.mirar_ayuda_arrastre),
-            color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp, textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().safeDrawingPadding().padding(16.dp),
-        )
+        androidx.compose.foundation.layout.Column(
+            Modifier.align(Alignment.BottomCenter).fillMaxWidth().safeDrawingPadding().padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            if (conSensor) {
+                val etq = stringResource(if (camara) R.string.mirar_camara_quitar else R.string.mirar_camara)
+                Surface(onClick = { alternarCamara() }, shape = CircleShape, color = if (camara) Color.White else Color.White.copy(alpha = 0.12f),
+                    contentColor = if (camara) Color(0xFF060A12) else Color.White, border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
+                    modifier = Modifier.padding(bottom = 10.dp).semantics { contentDescription = etq }) {
+                    Row(Modifier.padding(horizontal = 18.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(if (camara) Icons.Filled.Close else Icons.Filled.PhotoCamera, null, Modifier.size(18.dp))
+                        androidx.compose.foundation.layout.Spacer(Modifier.size(8.dp))
+                        Text(etq, fontSize = 14.sp)
+                    }
+                }
+            }
+            Text(
+                stringResource(if (camara) R.string.mirar_ayuda_camara else if (conSensor) R.string.mirar_ayuda_sensor else R.string.mirar_ayuda_arrastre),
+                color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp, textAlign = TextAlign.Center,
+                style = androidx.compose.ui.text.TextStyle(shadow = androidx.compose.ui.graphics.Shadow(Color.Black.copy(alpha = 0.7f), blurRadius = 4f)),
+            )
+        }
     }
+}
+
+/**
+ * Ángulo horizontal que se ve de la cámara en la pantalla. La vista previa (4:3) llena la pantalla y
+ * recorta lo que sobra (FILL_CENTER); con el tamaño del sensor y la focal del lente se sabe cuánto cielo
+ * cabe de lado a lado. Sin datos del lente, 60° (lo típico de la cámara principal en vertical).
+ */
+private fun fovDeCamara(lente: Pair<Double, Double>?, w: Float, h: Float): Float {
+    val (tCorto, tLargo) = lente ?: return 60f
+    val vertical = h >= w
+    // Imagen en el sentido de la pantalla: en vertical, el lado corto del sensor va de lado a lado
+    val imgW = if (vertical) 3.0 else 4.0; val imgH = if (vertical) 4.0 else 3.0
+    val escala = maxOf(w / imgW, h / imgH)
+    val fraccion = (w / escala) / imgW
+    val tanMedio = fraccion * (if (vertical) tCorto else tLargo)
+    return (2 * kotlin.math.atan(tanMedio) / G).toFloat().coerceIn(20f, 120f)
+}
+
+/** La cámara de atrás, a pantalla completa, detrás de las guías. Entrega las tangentes del medio ángulo del lente. */
+@androidx.annotation.OptIn(androidx.camera.camera2.interop.ExperimentalCamera2Interop::class)
+@Composable
+private fun CamaraDeFondo(onLente: (Pair<Double, Double>) -> Unit) {
+    val contexto = LocalContext.current
+    val ciclo = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    val vista = remember {
+        androidx.camera.view.PreviewView(contexto).apply {
+            implementationMode = androidx.camera.view.PreviewView.ImplementationMode.COMPATIBLE
+            scaleType = androidx.camera.view.PreviewView.ScaleType.FILL_CENTER
+        }
+    }
+    DisposableEffect(Unit) {
+        val futuro = androidx.camera.lifecycle.ProcessCameraProvider.getInstance(contexto)
+        var proveedor: androidx.camera.lifecycle.ProcessCameraProvider? = null
+        futuro.addListener({
+            runCatching {
+                val p = futuro.get(); proveedor = p
+                val previa = androidx.camera.core.Preview.Builder().build().also { it.setSurfaceProvider(vista.surfaceProvider) }
+                p.unbindAll()
+                val cam = p.bindToLifecycle(ciclo, androidx.camera.core.CameraSelector.DEFAULT_BACK_CAMERA, previa)
+                val info = androidx.camera.camera2.interop.Camera2CameraInfo.from(cam.cameraInfo)
+                val sensor = info.getCameraCharacteristic(android.hardware.camera2.CameraCharacteristics.SENSOR_INFO_PHYSICAL_SIZE)
+                val focal = info.getCameraCharacteristic(android.hardware.camera2.CameraCharacteristics.LENS_INFO_AVAILABLE_FOCAL_LENGTHS)?.firstOrNull()
+                if (sensor != null && focal != null && focal > 0f) {
+                    val corto = minOf(sensor.width, sensor.height); val largo = maxOf(sensor.width, sensor.height)
+                    onLente((corto / 2.0 / focal) to (largo / 2.0 / focal))
+                }
+            }
+        }, androidx.core.content.ContextCompat.getMainExecutor(contexto))
+        onDispose { runCatching { proveedor?.unbindAll() } }
+    }
+    androidx.compose.ui.viewinterop.AndroidView({ vista }, Modifier.fillMaxSize())
 }
 
 /** Todo lo que hay en el cielo en un minuto: rumbo (desde el norte) y altura, en grados. */
@@ -213,28 +294,31 @@ private class CieloDelMinuto(
 private fun DrawScope.dibujarVentana(
     c: CieloDelMinuto, rumbo: Float, alt: Float, fov: Float, tiempo: Long, sinMovimiento: Boolean,
     medidor: androidx.compose.ui.text.TextMeasurer, cardinales: List<String>, tSol: String, tLuna: String, tLluvia: String,
+    /** Sobre la cámara: sin cielo ni montañas pintados, proyección del lente (rectilínea) y guías siempre visibles. */
+    camara: Boolean = false,
 ) {
     val w = size.width; val h = size.height
     val a0 = rumbo * G; val h0 = alt * G
     val f = doubleArrayOf(cos(h0) * sin(a0), cos(h0) * cos(a0), sin(h0))
     val r = doubleArrayOf(cos(a0), -sin(a0), 0.0)
     val u = doubleArrayOf(-sin(a0) * sin(h0), -cos(a0) * sin(h0), cos(h0))
-    val escala = (w / 2) / (2 * tan(fov * G / 4))
+    val escala = if (camara) (w / 2) / tan(fov * G / 2) else (w / 2) / (2 * tan(fov * G / 4))
     fun proy(az: Double, al: Double): Offset? {
         val a = az * G; val e = al * G
         val vx = cos(e) * sin(a); val vy = cos(e) * cos(a); val vz = sin(e)
         val pz = vx * f[0] + vy * f[1] + vz * f[2]
-        if (pz < -0.2) return null
-        val k = 2 / (1 + pz)
+        if (pz < (if (camara) 0.15 else -0.2)) return null
+        val k = if (camara) 1 / pz else 2 / (1 + pz)
         return Offset((w / 2 + k * (vx * r[0] + vy * r[1]) * escala).toFloat(), (h / 2 - k * (vx * u[0] + vy * u[1] + vz * u[2]) * escala).toFloat())
     }
     val altS = c.sol.second
-    val noche = ((-altS - 2) / 10).coerceIn(0.0, 1.0).toFloat()
+    val noche = if (camara) 1f else ((-altS - 2) / 10).coerceIn(0.0, 1.0).toFloat()
     val dia = ((altS + 4) / 14).coerceIn(0.0, 1.0).toFloat()
     val (arriba, medio, abajo) = coloresCielo(altS)
     val yHor = proy(rumbo.toDouble(), 0.0)?.y ?: h
     val yCenit = proy(rumbo.toDouble(), 89.9)?.y ?: -h
-    drawRect(Brush.verticalGradient(0f to arriba, 0.62f to medio, 1f to abajo, startY = min(yCenit, yHor - 1), endY = yHor))
+    if (camara) drawRect(Color(0x26060A12))   // un velo apenas, para que las guías se lean sobre la imagen
+    else drawRect(Brush.verticalGradient(0f to arriba, 0.62f to medio, 1f to abajo, startY = min(yCenit, yHor - 1), endY = yHor))
     if (c.eclipseSol > 0.6f) drawRect(Color(0xFF060A12).copy(alpha = ((c.eclipseSol - 0.6f) * 1.4f).coerceAtMost(1f)))
     val etiqueta = TextStyle(color = Color.White.copy(alpha = 0.85f), fontSize = 11.sp, letterSpacing = 1.4.sp)
     fun rotulo(o: Offset, t: String, radio: Float) {
@@ -243,12 +327,16 @@ private fun DrawScope.dibujarVentana(
     }
     // Constelaciones y estrellas
     if (noche > 0.05f) {
-        val trazo = Color.White.copy(alpha = 0.22f * noche)
+        val trazo = Color.White.copy(alpha = if (camara) 0.6f else 0.22f * noche)
         c.lineas.forEach { segs -> segs.forEach { seg -> seg.zipWithNext { p, q ->
             if (p.second > -1 && q.second > -1) { val a = proy(p.first, p.second); val b = proy(q.first, q.second); if (a != null && b != null) drawLine(trazo, a, b, 1.dp.toPx()) }
         } } }
-        c.estrellas.forEach { (az, al, mag) -> if (al > -1) proy(az, al)?.let { drawCircle(Color.White.copy(alpha = noche), (0.6f + (4f - mag.toFloat()) * 0.4f).dp.toPx(), it) } }
-        val est = etiqueta.copy(color = Color.White.copy(alpha = 0.55f * noche), fontSize = 10.sp, letterSpacing = 2.sp)
+        c.estrellas.forEach { (az, al, mag) -> if (al > -1) proy(az, al)?.let {
+            if (camara) drawCircle(Color.White.copy(alpha = 0.7f), (2.5f + (4f - mag.toFloat()) * 0.8f).dp.toPx(), it, style = Stroke(1.dp.toPx()))   // aro: la estrella real va adentro
+            else drawCircle(Color.White.copy(alpha = noche), (0.6f + (4f - mag.toFloat()) * 0.4f).dp.toPx(), it)
+        } }
+        val est = etiqueta.copy(color = Color.White.copy(alpha = if (camara) 0.9f else 0.55f * noche), fontSize = if (camara) 12.sp else 10.sp, letterSpacing = 2.sp,
+            shadow = if (camara) androidx.compose.ui.graphics.Shadow(Color.Black.copy(alpha = 0.7f), blurRadius = 4f) else null)
         c.nombres.forEach { (n, az, al) -> if (al > 3) proy(az, al)?.let { o -> val m = medidor.measure(n.uppercase(), est); drawText(m, topLeft = Offset(o.x - m.size.width / 2f, o.y - m.size.height / 2f)) } }
     }
     // Planetas
@@ -290,9 +378,9 @@ private fun DrawScope.dibujarVentana(
             drawLine(Brush.linearGradient(listOf(Color.Transparent, Color.White.copy(alpha = alfa)), o0, o1), o0, o1, 1.5.dp.toPx())
         }
     }
-    // Suelo: la cordillera alrededor y el mar de nubes, con perspectiva atmosférica
+    // Suelo: la cordillera alrededor y el mar de nubes, con perspectiva atmosférica (no sobre la cámara: el suelo es el real)
     val monte = lerp(lerp(abajo, Color(0xFF141C28), 0.55f), Color(0xFF06090E), noche * 0.6f)
-    for ((capa, alto, alfa) in listOf(Triple(0, 6.0, 0.55f), Triple(1, 3.4, 1f))) {
+    if (!camara) for ((capa, alto, alfa) in listOf(Triple(0, 6.0, 0.55f), Triple(1, 3.4, 1f))) {
         val camino = Path(); var empezado = false
         var az = rumbo - fov.toDouble()
         while (az <= rumbo + fov) {
@@ -302,7 +390,7 @@ private fun DrawScope.dibujarVentana(
         }
         if (empezado) { camino.lineTo(w + 10, h + 10); camino.close(); drawPath(camino, monte.copy(alpha = alfa)) }
     }
-    proy(rumbo.toDouble(), 0.6)?.let { o ->
+    if (!camara) proy(rumbo.toDouble(), 0.6)?.let { o ->
         if (o.y < h) drawRect(
             Brush.verticalGradient(0f to Color.White.copy(alpha = 0.14f + 0.5f * dia), 0.12f to lerp(monte, Color.White, 0.06f + 0.4f * dia), 1f to lerp(monte, Color.Black, 0.35f), startY = o.y, endY = max(o.y + 1, h)),
             topLeft = Offset(0f, o.y), size = androidx.compose.ui.geometry.Size(w, h - o.y),

@@ -121,6 +121,10 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.coil.compose)
+    // Mirar el cielo con la cámara: la imagen real de fondo y las guías encima
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.core.splashscreen)
