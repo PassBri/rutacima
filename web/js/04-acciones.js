@@ -34,6 +34,13 @@ const ACC = {
   },
   /** Quita la foto de una casilla del vision board (la publicación privada se conserva en el diario). */
   async quitarFotoVision(_, id) { await Store.cambiar("vision", Number(id) || id, { publicacionId: null }); toast("Foto quitada de la casilla"); pintarDetalle(); },
+  /** Abierta → En camino → Lograda → (automático). Se guarda como respuesta, así viaja a la app. */
+  estadoCasilla(_, id) {
+    const clave = `vision:estado:${id}`, actual = respuesta(clave), orden = ["", "ABIERTA", "CAMINO", "LOGRADA"];
+    const c = Store.get("vision", Number(id)) || Store.get("vision", id); if (!c) return;
+    const visto = avanceCasilla(c).estado, sig = actual ? orden[(orden.indexOf(actual) + 1) % orden.length] : (visto === "LOGRADA" ? "ABIERTA" : visto === "CAMINO" ? "LOGRADA" : "CAMINO");
+    responder("vision", clave, sig); pintarDetalle();
+  },
   albumAbrir(_, a) { estado.albumAbierto = a ? Number(a) : null; pintarDetalle(); },
   async diarioVis(_, arg) {
     const [a, vis] = arg.split("|");
@@ -371,3 +378,45 @@ function pintarHojaComentarios(p, abrir = false) {
   actual.querySelector("input")?.focus();
 }
 globalThis.pintarHojaComentarios = pintarHojaComentarios;
+
+
+/* ---------- Vision board: arrastrar las casillas para cambiar el orden (ratón, dedo o flechas) ---------- */
+function reordenarCasillas(idOrigen, idDestino) {
+  const cs = casillasVision(), de = cs.findIndex(c => String(c.id) === String(idOrigen)), a = cs.findIndex(c => String(c.id) === String(idDestino));
+  if (de < 0 || a < 0 || de === a) return;
+  const [m] = cs.splice(de, 1); cs.splice(a, 0, m);
+  cs.forEach((c, i) => { if ((c.orden || 0) !== i) Store.cambiar("vision", c.id, { orden: i }); });
+  pintarDetalle();
+  requestAnimationFrame(() => document.querySelector(`[data-mover-casilla="${idOrigen}"]`)?.focus());
+}
+document.addEventListener("pointerdown", e => {
+  const asa = e.target.closest?.("[data-mover-casilla]"); if (!asa || e.button > 0) return;
+  e.preventDefault();
+  const tarjeta = asa.closest(".casilla-v"), id = asa.dataset.moverCasilla, tablero = tarjeta.parentElement;
+  const r = tarjeta.getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
+  const fantasma = tarjeta.cloneNode(true); fantasma.classList.add("casilla-fantasma");
+  Object.assign(fantasma.style, { width: r.width + "px", height: r.height + "px", left: r.left + "px", top: r.top + "px" });
+  document.body.appendChild(fantasma); tarjeta.classList.add("arrastrando");
+  let destino = null;
+  const mover = ev => {
+    fantasma.style.left = ev.clientX - dx + "px"; fantasma.style.top = ev.clientY - dy + "px";
+    fantasma.hidden = true; const t = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".casilla-v"); fantasma.hidden = false;
+    const nuevo = t && t.parentElement === tablero && t !== tarjeta ? t : null;
+    if (nuevo !== destino) { destino?.classList.remove("destino"); destino = nuevo; destino?.classList.add("destino"); }
+    const caja = document.querySelector(".cuerpo") || document.scrollingElement;   // desplaza si se acerca al borde
+    if (ev.clientY < 90) caja.scrollBy(0, -12); else if (ev.clientY > innerHeight - 60) caja.scrollBy(0, 12);
+  };
+  const soltar = () => {
+    removeEventListener("pointermove", mover); removeEventListener("pointerup", soltar); removeEventListener("pointercancel", soltar);
+    fantasma.remove(); tarjeta.classList.remove("arrastrando"); destino?.classList.remove("destino");
+    if (destino) reordenarCasillas(id, destino.dataset.casilla);
+  };
+  addEventListener("pointermove", mover); addEventListener("pointerup", soltar); addEventListener("pointercancel", soltar);
+});
+document.addEventListener("keydown", e => {
+  const asa = e.target.closest?.("[data-mover-casilla]"); if (!asa) return;
+  const paso = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key]; if (!paso) return;
+  e.preventDefault();
+  const cs = casillasVision(), i = cs.findIndex(c => String(c.id) === asa.dataset.moverCasilla), j = i + paso;
+  if (j >= 0 && j < cs.length) reordenarCasillas(cs[i].id, cs[j].id);
+});

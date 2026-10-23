@@ -863,8 +863,8 @@ async function armarVision() {
     const p = propuestas?.find(x => x.origen === origen) || local.find(x => x.origen === origen); if (!p) return;
     const ex = ubicadas[orden];
     if (!ex) Store.guardar("vision", { id: nuevoId(), orden, publicacionId: null, ...p });
-    else if (ex.publicacionId) Store.cambiar("vision", ex.id, { orden, origen });
-    else Store.cambiar("vision", ex.id, { orden, titulo: p.titulo, afirmacion: p.afirmacion, eje: p.eje, sugerencia: p.sugerencia, busqueda: p.busqueda, origen });
+    else if (ex.publicacionId) Store.cambiar("vision", ex.id, { origen });
+    else Store.cambiar("vision", ex.id, { titulo: p.titulo, afirmacion: p.afirmacion, eje: p.eje, sugerencia: p.sugerencia, busqueda: p.busqueda, origen });
   });
   const usadas = new Set(ubicadas.filter(Boolean).map(c => c.id));
   actuales.filter(c => !usadas.has(c.id) && !c.publicacionId).forEach(c => Store.borrar("vision", c.id));
@@ -894,13 +894,34 @@ async function ponerFotoVision(id, archivo) {
     toast("Foto agregada");
   } catch (e) { errorNube(e); }
 }
+/* ---------- Avance de cada casilla: estado (Abierta, En camino, Lograda) y porcentaje ---------- */
+const ESTADOS_CASILLA = [["ABIERTA", "Abierta"], ["CAMINO", "En camino"], ["LOGRADA", "Lograda"]];
+/** % de una casilla: si es la cumbre o un campamento del 9×9, sale de sus pasos ganados; si no, de su estado. */
+function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
+  const manual = respuesta(`vision:estado:${c.id}`);
+  if (manual === "LOGRADA") return { pct: 100, estado: "LOGRADA" };
+  let pct = null;
+  if (d) {
+    const i = d.camps.findIndex(x => x && x.id === c.id);
+    if (i >= 0) pct = Math.round([0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(c.id, q) === "HECHO").length / 8 * 100);
+    else if (d.cumbre && d.cumbre.id === c.id) pct = Math.round(d.hechos / 64 * 100);
+  }
+  if (pct === null) pct = manual === "CAMINO" ? 50 : 0;
+  const estado = manual || (pct >= 100 ? "LOGRADA" : pct > 0 ? "CAMINO" : "ABIERTA");
+  return { pct: estado === "LOGRADA" ? 100 : pct, estado };
+}
+
 DET["perfil.vision"] = () => {
   if (!estado.misPosts) cargarMisPosts();
   const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  const md = window.Mandala && cs.length ? Mandala.datos() : null;
   const color = e => COLOR_EJE[e] || "#6B2A1A";
   const tarjeta = c => {
     const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
-    return `<div class="hoja casilla-v" style="padding:0;--c:${color(c.eje)}">
+    const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
+    return `<div class="hoja casilla-v est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
+      <button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>
+      <span class="casilla-pct" title="Avance">${av.pct}%</span>
       <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
         ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
@@ -908,8 +929,9 @@ DET["perfil.vision"] = () => {
       </label>
       <div class="casilla-edicion">
         <textarea class="casilla-frase" rows="2" aria-label="Frase de la casilla" placeholder="Escribe la frase de esta casilla" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
+        <input class="casilla-rotulo" aria-label="Rótulo" placeholder="Rótulo" ${bind("vision", k, "titulo")} value="${esc(c.titulo)}">
         <div class="casilla-fila">
-          <input class="casilla-rotulo" aria-label="Rótulo" placeholder="Rótulo" ${bind("vision", k, "titulo")} value="${esc(c.titulo)}">
+          <button class="casilla-estado" data-acc="estadoCasilla" data-arg="${k}" title="Toca para cambiar el estado">${est}</button><span style="flex:1"></span>
           ${foto ? `<button class="btn mini" data-acc="quitarFotoVision" data-arg="${k}" title="Quitar la foto">${ic("borrar")}</button>`
             : `<a href="${urlIdeas(c.busqueda)}" target="_blank" rel="noopener" class="btn mini">${ic("buscar")} Ideas</a>`}
         </div>
