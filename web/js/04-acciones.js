@@ -131,6 +131,8 @@ const ACC = {
     Store.guardar("meta_anio", { id, anio, propositoId: null, titulo, subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: null, indicador: "", observable: "" });
     toast(`“${titulo}” ya es meta de ${anio}`); ir("metas", "a:" + id);
   },
+  /** Desde una meta: abre Mi vida en el campamento que sostiene, con sus metas por año. */
+  irCampamento(_, i) { estado.vidaCamp = Number(i); ir("ruta", "vida"); requestAnimationFrame(() => document.querySelector(".vv-panel")?.scrollIntoView({ block: "center" })); },
   cartaEditar(_, a) { estado.cartaEditar = a ? Number(a) : null; pintarDetalle(); if (a) requestAnimationFrame(() => document.querySelector(".carta-area")?.focus()); },
   habEditar() { estado.habEditar = !estado.habEditar; pintarDetalle(); },
   habRenombrar(el, id) { const t = el.value.trim().slice(0, 120); if (!t) { el.value = habitos().find(h => h[0] === id)?.[2] || ""; return; } guardarHabitos(habitos().map(h => h[0] === id ? [h[0], h[1], t] : h)); },

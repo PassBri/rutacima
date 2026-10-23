@@ -175,10 +175,20 @@ function mdPct(d, i) {
   const pasos = k => d.camps[k] ? [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, p) => s + d.avance(k, p), 0) / 8 * 100 : 0;
   // Lo que la persona marcó a mano (estado Lograda o su %) manda si es mayor que lo que dicen los pasos
   const conManual = (c, base) => !c ? base : respuesta(`vision:estado:${c.id}`) === "LOGRADA" ? 100 : Math.max(base, Number(respuesta(`vision:pct:${c.id}`)) || 0);
-  if (i >= 0) return Math.round(conManual(d.camps[i], pasos(i)));
-  const prom = [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, k) => s + conManual(d.camps[k], pasos(k)), 0) / 8;
+  // Las metas de este año que sostienen el campamento (mismo eje) también lo hacen subir: Mi ruta, Metas y el vision board cuentan lo mismo
+  const conMetas = (k, base) => { const v = metasPct(k); return v === null ? base : Math.max(base, v); };
+  if (i >= 0) return Math.round(conManual(d.camps[i], conMetas(i, pasos(i))));
+  const prom = [0, 1, 2, 3, 4, 5, 6, 7].reduce((s, k) => s + conManual(d.camps[k], conMetas(k, pasos(k))), 0) / 8;
   return Math.round(conManual(d.cumbre, prom));
 }
+/** Promedio de avance de las metas de este año de un campamento (null si no tiene). */
+function metasPct(i) {
+  const a = hoyFecha().getFullYear(), ms = metasDeCampamento(i).filter(m => m.anio === a); if (!ms.length) return null;
+  const c = cascada(); return ms.reduce((s, m) => s + c.nodoAnio(m), 0) / ms.length * 100;
+}
+/** Índice (0..7) del campamento que sostiene una meta, según su eje (sin eje: Confluencia). */
+const campDeMeta = m => Mandala.CAMPAMENTOS_FIJOS.indexOf(m.eje || "CON");
+window.campDeMeta = campDeMeta;
 /** Indicador de avance de Material 3: anillo pequeño con el porcentaje, en la esquina de la tarjeta. */
 const mdAnillo = (pct, clase = "") => `<span class="pct-m3 ${clase}${pct >= 100 ? " lleno" : ""}" style="--p:${pct}" role="img" aria-label="Avance ${pct} %" title="Avance ${pct} %"><i aria-hidden="true"></i>${pct}%</span>`;
 /** En el 9×9 completo las casillas son pequeñas: el avance va como barra fina en el borde inferior. */

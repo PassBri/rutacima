@@ -257,7 +257,9 @@ function corazonAnio(a) {
   return hoja(`<h3 style="margin:0 0 4px">${titulo}</h3><p class="suave" style="margin:0 0 12px">${ayuda}</p>
     <div class="form">${campo("Palabra del año", `<input type="text" maxlength="40" data-resp="vida|${claveVida(a, "palabra")}" value="${esc(respuesta(claveVida(a, "palabra")))}" placeholder="${futuro ? "Libertad, Familia, Cumbre…" : "La palabra de ese año"}">`)}
     ${campo(futuro ? "Anhelos y sueños" : "Anhelos", `<textarea rows="4" data-resp="vida|${claveVida(a, "anhelos")}" placeholder="${futuro ? "Conocer la Patagonia\nAbrir mi escuela\nCorrer mi primera maratón" : "Lo que anhelabas ese año"}">${esc(respuesta(claveVida(a, "anhelos")))}</textarea>`)}</div>
-    ${anh.length && a >= hoy ? `<div class="chips" style="margin-top:10px">${anh.slice(0, 8).map(t => `<button class="chip" data-acc="anheloAMeta" data-arg="${a}|${esc(t)}" title="Convertir en meta de ${a}">${ic("mas")} ${esc(t)}</button>`).join("")}</div>
+    ${anh.length && a >= hoy ? `<div class="chips" style="margin-top:10px">${anh.slice(0, 8).map(t => { const ya = Store.lista("meta_anio").find(m => m.anio === a && m.titulo.trim().toLowerCase() === t.toLowerCase());
+        return ya ? `<button class="chip" aria-pressed="true" data-ir="metas" data-arg="a:${ya.id}" title="Ya es meta de ${a}">${ic("check")} ${esc(t)}</button>`
+          : `<button class="chip" data-acc="anheloAMeta" data-arg="${a}|${esc(t)}" title="Convertir en meta de ${a}">${ic("mas")} ${esc(t)}</button>`; }).join("")}</div>
       <p class="suave" style="margin:6px 0 0;font-size:13px">Toca un anhelo para convertirlo en meta de ${a}.</p>` : ""}`);
 }
 /** Lo cumplido del año: metas logradas y logros publicados. */
@@ -384,12 +386,15 @@ const DET = {
     const m = Store.get("meta_anio", arg); if (!m) return vacio();
     const c = cascada(), k = String(m.id);
     const hijos = c.mensuales.filter(x => x.metaAnualId === m.id).sort((x, y) => x.anio - y.anio || x.mes - y.mes);
+    const md = window.Mandala && casillasVision().length ? Mandala.datos() : null, ci = md ? campDeMeta(m) : -1, camp = ci >= 0 ? md.camps[ci] : null;
+    const enlace = md && ci >= 0 ? `<button class="meta-camp" style="--c:${md.color(ci)}" data-acc="irCampamento" data-arg="${ci}"><i aria-hidden="true"></i>
+        <span>Sostiene <b>${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[ci]))}</b>${camp ? ` · ${esc(mdNombre(camp))}` : ""} en tu vision board</span>${ic("abajo")}</button>` : "";
     return cab(av(pctTxt(c.nodoAnio(m)), COLOR_EJE[m.eje] || "var(--oro)"), esc(m.titulo), `Meta de ${m.anio}`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="meta_anio|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
-      hoja(`<div class="form">${campo("Meta", txt("meta_anio", k, "titulo", m.titulo))}
+      enlace + hoja(`<div class="form">${campo("Meta", txt("meta_anio", k, "titulo", m.titulo))}
         <div class="form-2">${campo("Año", `<input type="number" min="1900" max="2200" ${bind("meta_anio", k, "anio", "num")} value="${m.anio}">`)}
           ${campo("Propósito", sel("meta_anio", k, "propositoId", m.propositoId ?? "", [["", "Sin propósito"], ...c.props.map(p => [p.id, p.titulo])], "numNulo"))}
-          ${campo("Eje", sel("meta_anio", k, "eje", m.eje || "", opcionesEje, "nulo"))}
+          ${campo("Eje · campamento del vision board", sel("meta_anio", k, "eje", m.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("meta_anio", k, "prioridad", m.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}
           ${campo("Estado", sel("meta_anio", k, "estado", m.estado || "NO_INICIADA", ESTADOS))}
           ${campo("Decisión", sel("meta_anio", k, "decision", m.decision || "CONTINUAR", DECISIONES))}</div>
@@ -1048,6 +1053,11 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
         ${estado.pctCasilla === k ? `<div class="casilla-ajuste"><label for="pct-${k}">Avance</label>
           <input id="pct-${k}" type="range" min="0" max="100" step="5" value="${av.pct}" data-acc-input="pctCasillaVer" data-acc-change="pctCasillaGuardar" data-arg="${k}"><b>${av.pct}%</b>
           <small>${md && (md.camps.some(x => x && String(x.id) === k) || String(md.cumbre?.id) === k) ? "Nunca baja de lo que llevas en el 9×9." : ""}</small></div>` : ""}
+        ${(() => { const i = md ? md.camps.findIndex(x => x && x.id === c.id) : -1; if (i < 0 || Mandala.CAMPAMENTOS_FIJOS[i] === "CAM") return "";
+          const hoy = hoyFecha().getFullYear(), ms = metasDeCampamento(i), c0 = cascada(), proximas = ms.filter(m => m.anio >= hoy).slice(0, 3);
+          return `<div class="casilla-metas"><div class="casilla-metas-cab"><b>Metas que la sostienen</b><span>${ms.length}</span></div>
+            ${proximas.map(m => `<button data-ir="metas" data-arg="a:${m.id}"><span>${m.anio} · ${esc(m.titulo)}</span><span class="pct">${pctTxt(c0.nodoAnio(m))}</span></button>`).join("")}
+            <button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${hoy}||${Mandala.CAMPAMENTOS_FIJOS[i] === "CON" ? "" : Mandala.CAMPAMENTOS_FIJOS[i]}">${ic("mas")} Meta para ${hoy}</button></div>`; })()}
         <details class="casilla-mas"><summary>Más opciones</summary>
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
           <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
