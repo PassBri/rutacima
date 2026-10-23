@@ -31,7 +31,7 @@ function mostrarCorreo(modo = "entrar") {
       <p class="suave" style="margin-top:-12px">${crear ? "Tu ruta queda guardada en tu cuenta y la abres desde cualquier navegador, también en iPhone."
         : olvido ? "Te enviamos un enlace para crear una contraseña nueva." : "Usa el mismo correo y contraseña de tu cuenta de Rutaalacima."}</p>
       <form class="form form-correo" id="formCorreo" novalidate>
-        ${crear ? `<label class="campo"><span>Usuario</span><div class="con-prefijo"><b>@</b><input name="usuario" autocomplete="username" minlength="3" maxlength="30" pattern="[a-z0-9._]{3,30}" required></div><small class="suave">De 3 a 30: letras minúsculas, números, punto o guion bajo.</small></label>
+        ${crear ? `<label class="campo"><span>Usuario</span><div class="con-prefijo"><b>@</b><input name="usuario" autocomplete="off" spellcheck="false" minlength="3" maxlength="30" pattern="[a-z0-9._]{3,30}" required></div><small class="suave">De 3 a 30: letras minúsculas, números, punto o guion bajo.</small></label>
         <label class="campo"><span>Tu nombre</span><input name="nombre" autocomplete="name" maxlength="60"></label>` : ""}
         <label class="campo"><span>Correo</span><input name="correo" type="email" autocomplete="email" required></label>
         ${olvido ? "" : `<label class="campo"><span>Contraseña</span><input name="clave" type="password" autocomplete="${crear ? "new-password" : "current-password"}" minlength="6" required></label>`}
@@ -55,6 +55,7 @@ function mostrarCorreo(modo = "entrar") {
     if (!olvido && clave.length < 6) { err.textContent = "La contraseña debe tener al menos 6 caracteres."; return f.clave.focus(); }
     if (crear) {
       if (!/^[a-z0-9._]{3,30}$/.test(f.usuario.value)) { err.textContent = "El usuario debe tener de 3 a 30 letras minúsculas, números, punto o guion bajo."; return f.usuario.focus(); }
+      if (pareceCorreo(f.usuario.value, correo)) { err.textContent = "No uses tu correo como usuario: toda la comunidad lo vería. Elige un nombre corto, por ejemplo brian.suarez."; return f.usuario.focus(); }
       if (!f.acepto.checked || !f.edad.checked) { err.textContent = "Para crear la cuenta debes aceptar los documentos y confirmar tu edad."; return; }
     }
     const boton = f.querySelector("button[type=submit]"); boton.disabled = true;

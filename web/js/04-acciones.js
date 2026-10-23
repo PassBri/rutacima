@@ -21,6 +21,17 @@ const ACC = {
       <div class="botones"><button class="btn lleno" type="button" id="eventoListo">Entendido</button></div>`, v => { v.querySelector("#eventoListo").onclick = () => v.remove(); });
   },
   /** Quién ve un año del diario de vida (se guarda como respuesta, igual que en la app). */
+  /** Cambia el @usuario público. Nunca el correo: la comunidad lo vería. */
+  async cambiarUsuario(el) {
+    const u = el.value.toLowerCase().replace(/[^a-z0-9._]/g, ""), antes = Store.nube?.perfil?.username || "";
+    el.value = u;
+    if (!Store.nube || u === antes) return;
+    if (!/^[a-z0-9._]{3,30}$/.test(u)) { toast("El usuario debe tener de 3 a 30 letras minúsculas, números, punto o guion bajo."); el.value = antes; return; }
+    if (pareceCorreo(u, Store.nube.correo)) { toast("No uses tu correo como usuario: toda la comunidad lo vería."); el.value = antes; return; }
+    const { error } = await Store.nube.sb.from("profiles").update({ username: u }).eq("id", Store.nube.dueno);
+    if (error) { el.value = antes; toast(/duplicate|unique/i.test(error.message) ? "Ese usuario ya existe. Prueba con otro." : "No se pudo cambiar el usuario." + detalleError(error)); return; }
+    Store.nube.perfil.username = u; estado.feed = null; toast("Ahora eres @" + u); pintarLista?.();
+  },
   albumAbrir(_, a) { estado.albumAbierto = a ? Number(a) : null; pintarDetalle(); },
   async diarioVis(_, arg) {
     const [a, vis] = arg.split("|");

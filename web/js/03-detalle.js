@@ -716,6 +716,7 @@ Object.assign(DET, {
     const p = perfil(), r = recordatorio(), anioHoy = new Date().getFullYear();
     return cab(av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), r ? `${r.edad} años · camino hacia los ${metaVida()}` : "") + cuerpo(
       hoja(`<div class="form">${campo("Tu nombre", txt("perfil", 1, "nombre", p.nombre))}
+        ${Store.nube?.perfil ? campo("Tu usuario (lo ve la comunidad)", `<div class="con-prefijo"><b>@</b><input name="usuarioPerfil" autocomplete="off" spellcheck="false" maxlength="30" value="${esc(Store.nube.perfil.username || "")}" data-acc-change="cambiarUsuario"></div>`) : ""}
         ${campo("Mi cumbre es… (en una frase)", area("perfil", 1, "cumbreFrase", p.cumbreFrase))}
         <div class="form-2">${campo("Año de nacimiento", `<input type="number" min="1900" max="${anioHoy}" ${bind("perfil", 1, "anioNacimiento", "numNulo")} value="${p.anioNacimiento ?? ""}">`)}
           ${campo("Mes de nacimiento", sel("perfil", 1, "mesNacimiento", p.mesNacimiento ?? "", [["", "—"], ...MESES.map((m, i) => [i + 1, mayus(m)])], "numNulo"))}

@@ -170,6 +170,14 @@ const mdFotoPaso = (c, p) => { const id = c && respuesta(Mandala.claveFoto(c.id,
 /** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
 const mdNombre = c => (c.afirmacion || c.titulo || "").trim();
 
+/** El nombre del bloque abierto, editable en su lugar: la cumbre (casilla central o frase del perfil) o el campamento. */
+function mdTituloEditable(d, camp, cs, titulo) {
+  const estilo = 'class="md-titulo-edit" aria-label="Nombre de este bloque"';
+  if (camp >= 0) return cs ? `<input type="text" ${estilo} ${bind("vision", String(cs.id), "afirmacion")} value="${esc(mdNombre(cs))}" placeholder="Nombre del campamento">` : `<h3 style="margin:0">${esc(titulo)}</h3>`;
+  return d.cumbre ? `<input type="text" ${estilo} ${bind("vision", String(d.cumbre.id), "afirmacion")} value="${esc(d.titulo)}" placeholder="Mi cumbre en una frase">`
+    : `<input type="text" ${estilo} ${bind("perfil", 1, "cumbreFrase")} value="${esc(d.titulo)}" placeholder="Mi cumbre en una frase">`;
+}
+
 /** Una celda: la cumbre, un campamento (con su foto) o un paso. */
 function mdCelda(d, cel, grande) {
   if (cel.tipo === "CUMBRE") {
@@ -185,7 +193,7 @@ function mdCelda(d, cel, grande) {
   const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1} · ${Mandala.FASES[cel.paso]}</small>`;
   if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
       ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}${fase}
-      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" ${est === "HECHO" ? "readonly" : ""} placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
+      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
       ${mdJornadas(d, cel, camp, texto)}${d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla grande">☁</span>` : ""}${d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace">⇄ ${d.enlaces(cel.camp, cel.paso).map(x => Mandala.nombre(x)).join(", ")}</span>` : ""}</span>`;
   const extra = (d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla" title="Niebla: más de ${Travesia.NIEBLA_DIAS} días sin avanzar">☁</span>` : "") +
     (d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace" title="Paso de confluencia">⇄</span>` : "");
@@ -329,7 +337,7 @@ function mandalaHtml() {
     <button class="md-atras" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar (Esc)">${ic("volver")}</button>
     <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>`;
   return hoja(intro + selector + `<div class="md-zoom md-papel">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
-    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p><h3 style="margin:0">${esc(titulo)}</h3>${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
+    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${mdTituloEditable(d, camp, cs, titulo)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`) + hoja(cierreHtml(d));

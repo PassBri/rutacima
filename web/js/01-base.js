@@ -198,6 +198,11 @@ const Store = {
     if (this.nube) try { await this.nube.borrar(tipo, String(clave)); } catch (e) { errorNube(e); }
   },
 };
+/** ¿El usuario es el correo (con o sin la @)? Un @usuario así deja el correo a la vista de todos. */
+function pareceCorreo(u, correo = "") {
+  const c = String(correo).toLowerCase(), local = c.split("@")[0].replace(/[^a-z0-9._]/g, "");
+  return /(gmail|hotmail|outlook|yahoo|icloud|live)(\.|$)|\.(com|net|org|es|edu)$/.test(u) || (!!c && u === c.replace(/[^a-z0-9._]/g, "")) || (local.length >= 3 && u.startsWith(local) && u.length > local.length + 3 && /\./.test(u.slice(local.length)));
+}
 /** El motivo que da el servidor, corto y entre paréntesis, para poder diagnosticar sin abrir la consola. */
 function detalleError(e) { const m = String(e?.message || e?.error_description || e?.msg || e || "").replace(/\s+/g, " ").slice(0, 140); return m ? ` (${m})` : ""; }
 function errorNube(e) { console.error(e); toast("No se pudo guardar en tu cuenta." + (detalleError(e) || " Revisa tu conexión.")); }
