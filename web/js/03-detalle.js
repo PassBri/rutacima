@@ -950,7 +950,7 @@ DET["perfil.vision"] = () => {
   const tarjeta = c => casillaVisionHtml(c, md);
 
 
-  return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
+  return cab(av(ic("coach"), "var(--oro)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
       <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
@@ -959,6 +959,5 @@ DET["perfil.vision"] = () => {
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
-    (cs.length ? mandalaHtml() : "") +
-    (cs.length ? `<h3 style="margin:6px 0 0">Las 9 casillas del centro</h3><div class="tablero">${cs.map(tarjeta).join("")}</div><p class="suave">Tus fotos se guardan como publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>` : ""));
+    (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Arrastra las tarjetas por el ⠿ para ordenarlas. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
 };

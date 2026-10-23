@@ -289,7 +289,7 @@ function ritmoHtml(r) {
     <small>Un paso no se marca: se gana con jornadas, días distintos en que avanzaste en él. Cada 4 tramos la dificultad se ajusta como en Bitcoin: si vas muy rápido, un paso nuevo pide más jornadas; si te frenas, pide menos para que vuelvas. Así llegas a la cumbre el 31 de diciembre.</small></div>`;
 }
 
-function mandalaHtml() {
+function mandalaHtml(tableroHtml = "") {
   const d = Mandala.datos(), b = estado.mandalaBloque ?? 4;
   const compartir = estado.mdCompartir
     ? `<div class="md-compartir"><p>Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale y quién la ve:</p>
@@ -332,39 +332,32 @@ function mandalaHtml() {
     });
   }
   const svg = "";   // las confluencias se marcan con ⇄ en cada paso; las líneas cruzaban toda la grilla
-  // Zoom de 3 niveles (Material: container transform): cumbre (1) → vision board (9) → Brújula completa (81)
-  const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
-  estado.mdAnim = null;
-  const fotoC = mdFoto(d.cumbre);
-  const puntos = i => { const g = [0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(d.camps[i]?.id, q) === "HECHO").length;
-    return `<span class="md-puntos">${[0, 1, 2, 3, 4, 5, 6, 7].map(q => `<i class="${q < g ? "si" : ""}"></i>`).join("")}</span>`; };
-  const vista = nivel === 0
-    ? `<button class="md-nivel1${anim}" data-acc="mdNivel" data-arg="1" aria-label="Abrir tu vision board">
-        ${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
-        <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em>${mdAnillo(mdPct(d, -1), "centro")}</button>`
-    : nivel === 1
-      ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
-          const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
-          if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdNivel" data-arg="2" aria-label="Ver el 9×9 completo">
-            ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(mdPct(d, -1), "esquina")}</button>`;
-          const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
-          return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Abrir ${esc(Mandala.nombre(cod))}">
-            ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
-        }).join("")}</div>`
-      : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div>${svg}</div>`;
-  const ayuda = ["Tu cumbre personal. Toca o haz doble clic para abrir tu vision board.",
-    "Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos. Para volver: la flecha, las migas o la tecla Esc.",
-    "Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo. Para volver: la flecha, las migas o la tecla Esc."][nivel];
-  const migas = ["Cumbre", "Vision board", "9×9"].map((t, i) => (i ? `<span class="md-sep" aria-hidden="true">›</span>` : "") +
-    (i === nivel ? `<b aria-current="step">${t}</b>` : `<button data-acc="mdNivel" data-arg="${i}" class="${i > nivel ? "adelante" : ""}">${t}</button>`)).join("");
-  const selector = `<nav class="md-barra" aria-label="Niveles de la Brújula">
-    <button class="md-atras" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar (Esc)">${ic("volver")}</button>
-    <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>`;
-  return hoja(intro + selector + `<div class="md-zoom md-papel">${vista}</div><p class="suave md-ayuda">${ayuda}</p>` + pie) + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) +
-    hoja(`<p class="suave" style="margin-top:0">Toca un bloque del 9×9 para abrirlo y escribir sus pasos.</p>${(camp >= 0 ? cs : d.cumbre) ? casillaVisionHtml(camp >= 0 ? cs : d.cumbre, d, true) : mdTituloEditable(d, camp, cs, titulo)}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}${rumbo}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
+  // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
+  const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
+  const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
+    <button data-acc="mdIr" data-arg="md-s1"><b>1</b> Cumbre</button><button data-acc="mdIr" data-arg="md-s9"><b>9</b> Vision board</button><button data-acc="mdIr" data-arg="md-s81"><b>81</b> Brújula 9×9</button></nav>`;
+  const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div></div>`;
+  const s1 = hoja(cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.") +
+    (d.cumbre ? casillaVisionHtml(d.cumbre, d, true) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
+    mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
+  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Cada uno se edita aquí: foto, frase, estado y avance.") +
+    `<div class="md-nivel9 md-mapa">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
+      const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
+      if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdIr" data-arg="md-s1" aria-label="Ir a tu cumbre">${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(pctC, "esquina")}</button>`;
+      const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
+      return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mandalaBloque" : "crearCampamento"}" data-arg="${c ? Mandala.ANILLO[cel.camp] : cod}" aria-label="${c ? "Abrir los pasos de " : "Agregar "}${esc(Mandala.nombre(cod))}">
+        ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b></button>`;
+    }).join("")}</div><p class="suave md-ayuda">Toca un campamento para abrir sus 8 pasos en la Brújula 9×9.</p>` + (tableroHtml || ""));
+  const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
+      <button class="btn mini" data-acc="mdIrCasilla" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
+    : `<div class="md-bloque-cab">${mdAnillo(pctC, "")}<div><small>Centro · tu cumbre y sus 8 campamentos</small><h4>${esc(d.titulo)}</h4></div></div>`;
+  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. Toca un bloque para escribir sus pasos y avanzar cada día.") +
+    `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie) +
+    hoja(`<div id="md-bloque"></div>${camposBloque}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
-      ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`) + hoja(cierreHtml(d));
+      ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
+  return nav + s1 + s9 + s81 + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) + hoja(cierreHtml(d));
 }
 
 
@@ -384,12 +377,13 @@ Object.assign(ACC, {
     mdPublicando = false; pintarDetalle();
   },
   mandalaBloque(el, v) {
-    // En el 81, el segundo toque sobre el centro (ya elegido) vuelve a la cumbre
-    if (Number(v) === 4 && (estado.mandalaBloque ?? 4) === 4 && el?.classList?.contains("md-bloque") && Date.now() - (estado.mdNivelEn || 0) > 400) {
-      estado.mdAnim = "alejar"; estado.mdNivel = 0; estado.mdNivelEn = Date.now(); pintarDetalle(); return;
-    }
     estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
+    if (el) requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
   },
+  /** Navegación por secciones: Cumbre (1) · Vision board (9) · Brújula 9×9 (81). */
+  /** Desde el bloque abierto, sube a la tarjeta de esa casilla en el vision board. */
+  mdIrCasilla(_, id) { const t = document.querySelector(`.casilla-v[data-casilla="${id}"]:not(.en-bloque)`); t?.scrollIntoView({ behavior: "smooth", block: "center" }); t?.classList.add("resalta"); setTimeout(() => t?.classList.remove("resalta"), 1600); },
+  mdIr(_, id) { document.getElementById(id)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); },
   /** Cambia de nivel de zoom; ignora el segundo clic de un doble clic para no saltarse un nivel. */
   mdNivel(_, v) {
     const n = Math.max(0, Math.min(2, Number(v))), ahora = Date.now(), actual = estado.mdNivel ?? 0;
