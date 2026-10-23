@@ -308,11 +308,12 @@ const Cielo = (() => {
     if (document.getElementById("ventanaCielo")) return;
     const v = document.createElement("div");
     v.id = "ventanaCielo"; v.className = "ventana-cielo"; v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true"); v.setAttribute("aria-label", "Mirar el cielo");
-    v.innerHTML = `<canvas aria-hidden="true"></canvas>
+    v.innerHTML = `<video class="vc-video" playsinline muted aria-hidden="true"></video><canvas aria-hidden="true"></canvas>
       <div class="vc-arriba"><span class="vc-rumbo" aria-live="polite"></span>
         <button type="button" class="vc-cerrar" aria-label="Cerrar">${typeof ic === "function" ? ic("cerrar") : "×"}</button></div>
       <p class="vc-ayuda"></p>
-      <button type="button" class="vc-brujula" hidden>Usar la brújula del teléfono</button>`;
+      <button type="button" class="vc-brujula" hidden>Usar la brújula del teléfono</button>
+      <button type="button" class="vc-camara" hidden>Ver con la cámara</button>`;
     document.body.append(v);
     const lienzo = v.querySelector("canvas"), ctx = lienzo.getContext("2d"), ayuda = v.querySelector(".vc-ayuda"), rumboTxt = v.querySelector(".vc-rumbo");
     // Mirada inicial: hacia el sur, a 35° sobre el horizonte (la mitad del cielo que mejor se ve desde Colombia)
@@ -354,7 +355,21 @@ const Cielo = (() => {
       if (paso && !sensores) { meta.rumbo = (meta.rumbo + paso[0] + 360) % 360; meta.alt = Math.max(-20, Math.min(89, meta.alt + paso[1])); }
     };
     addEventListener("keydown", teclas);
-    function cerrar() { cancelAnimationFrame(cuadro); removeEventListener("deviceorientationabsolute", alGirar); removeEventListener("deviceorientation", alGirar); removeEventListener("keydown", teclas); v.remove(); }
+    // Cámara: la imagen real de fondo y las guías encima (permiso solo al tocar el botón)
+    const video = v.querySelector(".vc-video"), bCam = v.querySelector(".vc-camara");
+    let camara = null;
+    if (tactil && navigator.mediaDevices?.getUserMedia) bCam.hidden = false;
+    const quitarCamara = () => { camara?.getTracks().forEach(t => t.stop()); camara = null; video.srcObject = null; v.classList.remove("con-camara"); bCam.textContent = "Ver con la cámara"; bCam.setAttribute("aria-pressed", "false"); };
+    bCam.onclick = async () => {
+      if (camara) { quitarCamara(); ayuda.textContent = sensores ? "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla." : "Mueve el teléfono para mirar el cielo."; return; }
+      try {
+        camara = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
+        video.srcObject = camara; await video.play().catch(() => {});
+        v.classList.add("con-camara"); bCam.textContent = "Quitar la cámara"; bCam.setAttribute("aria-pressed", "true");
+        ayuda.textContent = "Apunta al cielo: las líneas unen las estrellas de cada constelación y los aros marcan dónde está cada una.";
+      } catch { quitarCamara(); bCam.textContent = "Sin permiso de cámara"; }
+    };
+    function cerrar() { quitarCamara(); cancelAnimationFrame(cuadro); removeEventListener("deviceorientationabsolute", alGirar); removeEventListener("deviceorientation", alGirar); removeEventListener("keydown", teclas); v.remove(); }
     v.querySelector(".vc-cerrar").onclick = cerrar;
     v.querySelector(".vc-cerrar").focus();
 
@@ -392,33 +407,45 @@ const Cielo = (() => {
       const A0 = vista.rumbo * rad, h0 = vista.alt * rad;
       const f = [Math.cos(h0) * Math.sin(A0), Math.cos(h0) * Math.cos(A0), Math.sin(h0)];
       const r = [Math.cos(A0), -Math.sin(A0), 0], u = [-Math.sin(A0) * Math.sin(h0), -Math.cos(A0) * Math.sin(h0), Math.cos(h0)];
-      const escala = (W / 2) / (2 * Math.tan(vista.fov * rad / 4));
+      const conCam = !!camara && video.videoWidth > 0;
+      let fov = vista.fov;
+      if (conCam) {
+        const vw = video.videoWidth, vh = video.videoHeight, largo = Math.max(vw, vh), tLargo = Math.tan(34.5 * rad), tAncho = tLargo * vw / largo;
+        const esc = Math.max(W / vw, H / vh), frac = (W / esc) / vw;
+        fov = 2 * Math.atan(frac * tAncho) / rad;
+      }
+      const escala = conCam ? (W / 2) / Math.tan(fov * rad / 2) : (W / 2) / (2 * Math.tan(fov * rad / 4));
       /** Pantalla (x, y) de un punto del cielo, o null si está detrás. */
       const proy = (A, h) => {
         const a = A * rad, e = h * rad, vx = Math.cos(e) * Math.sin(a), vy = Math.cos(e) * Math.cos(a), vz = Math.sin(e);
-        const pz = vx * f[0] + vy * f[1] + vz * f[2]; if (pz < -0.2) return null;
-        const k = 2 / (1 + pz);
+        const pz = vx * f[0] + vy * f[1] + vz * f[2]; if (pz < (conCam ? 0.15 : -0.2)) return null;
+        const k = conCam ? 1 / pz : 2 / (1 + pz);   // con cámara, la proyección del lente (rectilínea)
         return [W / 2 + k * (vx * r[0] + vy * r[1]) * escala, H / 2 - k * (vx * u[0] + vy * u[1] + vz * u[2]) * escala];
       };
-      const altS = d.sol.h, noche = Math.max(0, Math.min(1, (-altS - 2) / 10)), dia = Math.max(0, Math.min(1, (altS + 4) / 14));
+      const altS = d.sol.h, noche = conCam ? 1 : Math.max(0, Math.min(1, (-altS - 2) / 10)), dia = Math.max(0, Math.min(1, (altS + 4) / 14));
       // Cielo: degradado por altura real (cenit arriba, bruma en el horizonte)
       const yHor = proy(vista.rumbo, 0)?.[1] ?? H, yCenit = proy(vista.rumbo, 89.9)?.[1] ?? -H;
       const g = ctx.createLinearGradient(0, Math.min(yCenit, yHor - 1), 0, yHor);
       g.addColorStop(0, rgb(d.colores[0])); g.addColorStop(0.62, rgb(d.colores[1])); g.addColorStop(1, rgb(d.colores[2]));
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      if (conCam) { ctx.clearRect(0, 0, W, H); ctx.fillStyle = "rgba(6,10,18,.15)"; ctx.fillRect(0, 0, W, H); }
+      else { ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
       if (d.cub > 0.6 && d.ev.tipo === "eclipse_sol") { ctx.fillStyle = `rgba(6,10,18,${Math.min(1, (d.cub - 0.6) * 1.4)})`; ctx.fillRect(0, 0, W, H); }
       // Constelaciones y estrellas (de noche)
       if (noche > 0.05) {
-        ctx.strokeStyle = `rgba(255,255,255,${0.22 * noche})`; ctx.lineWidth = 1; ctx.beginPath();
+        ctx.strokeStyle = `rgba(255,255,255,${conCam ? 0.6 : 0.22 * noche})`; ctx.lineWidth = conCam ? 1.4 : 1; ctx.beginPath();
         for (const c of d.lineas) for (const seg of c) {
           let prev = null;
           for (const p of seg) { const q = p.h > -1 ? proy(p.A, p.h) : null; if (q && prev) { ctx.moveTo(prev[0], prev[1]); ctx.lineTo(q[0], q[1]); } prev = q; }
         }
         ctx.stroke();
         ctx.fillStyle = `rgba(255,255,255,${noche})`;
-        for (const s of d.estrellas) { if (s.h < -1) continue; const q = proy(s.A, s.h); if (!q) continue; ctx.beginPath(); ctx.arc(q[0], q[1], 0.6 + (4 - s.mag) * 0.4, 0, 7); ctx.fill(); }
-        ctx.font = "400 10px Roboto, system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = `rgba(255,255,255,${0.55 * noche})`;
+        ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = 1;
+        for (const s of d.estrellas) { if (s.h < -1) continue; const q = proy(s.A, s.h); if (!q) continue; ctx.beginPath();
+          if (conCam) { ctx.arc(q[0], q[1], 2.5 + (4 - s.mag) * 0.8, 0, 7); ctx.stroke(); } else { ctx.arc(q[0], q[1], 0.6 + (4 - s.mag) * 0.4, 0, 7); ctx.fill(); } }
+        ctx.font = conCam ? "500 12px Roboto, system-ui, sans-serif" : "400 10px Roboto, system-ui, sans-serif"; ctx.textAlign = "center"; ctx.fillStyle = `rgba(255,255,255,${conCam ? 0.92 : 0.55 * noche})`;
+        if (conCam) { ctx.shadowColor = "rgba(0,0,0,.7)"; ctx.shadowBlur = 4; }
         for (const n of d.nombres) { if (n.h < 3) continue; const q = proy(n.A, n.h); if (q) ctx.fillText(n.nombre.toUpperCase().split("").join(" "), q[0], q[1]); }
+        ctx.shadowBlur = 0;
       }
       ctx.textAlign = "left"; ctx.font = "400 11px Roboto, system-ui, sans-serif";
       const rotulo = (q, txt, radio) => { ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.fillText(txt.toUpperCase(), q[0] + radio + 6, q[1] + 4); };
@@ -466,7 +493,7 @@ const Cielo = (() => {
       }
       // Suelo: la cordillera alrededor (360°) y el mar de nubes, con perspectiva atmosférica
       const monte = mezcla(mezcla(d.colores[2], [20, 28, 40], 0.55), [6, 9, 14], noche * 0.6);
-      for (const [capa, alto, alfa] of [[0, 6, 0.55], [1, 3.4, 1]]) {
+      if (!conCam) for (const [capa, alto, alfa] of [[0, 6, 0.55], [1, 3.4, 1]]) {
         ctx.fillStyle = `rgba(${monte.join(",")},${alfa})`; ctx.beginPath(); let empezado = false;
         for (let A = vista.rumbo - vista.fov; A <= vista.rumbo + vista.fov; A += 1.5) {
           const cresta = alto * (0.55 + 0.45 * Math.sin(A * rad * (capa ? 9 : 6) + capa * 2) * Math.cos(A * rad * (capa ? 4 : 3) + 1));
@@ -477,7 +504,7 @@ const Cielo = (() => {
       }
       // Bajo el horizonte: un mar de nubes claro junto a las cumbres que se apaga hacia el valle
       const qn = proy(vista.rumbo, 0.6);
-      if (qn && qn[1] < H) {
+      if (!conCam && qn && qn[1] < H) {
         const suelo = ctx.createLinearGradient(0, qn[1], 0, Math.max(qn[1] + 1, H));
         suelo.addColorStop(0, `rgba(255,255,255,${(0.14 + 0.5 * dia).toFixed(2)})`);
         suelo.addColorStop(0.12, `rgba(${mezcla(monte, [255, 255, 255], 0.06 + 0.4 * dia).join(",")},.96)`);
