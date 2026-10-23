@@ -205,7 +205,7 @@ internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp,
                             modifier = Modifier.clip(RoundedCornerShape(6.dp)).clickable { onAbrirMes(anioSel, i + 1) }.padding(2.dp)) {
                             Text(ini, style = MaterialTheme.typography.labelSmall)
                             Box(Modifier.size(16.dp).clip(RoundedCornerShape(8.dp))
-                                .background(if (hecho) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant))
+                                .background(if (hecho) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant))
                         }
                     }
                 }

@@ -508,7 +508,7 @@ private fun Casilla(cv: CasillaVista, onFoto: () -> Unit, onIdeas: () -> Unit, o
 
 internal fun colorEje(codigo: String): Color = when (codigo) {
     "VOL" -> Color(0xFF8E3B26); "MAE" -> Color(0xFF5C4A8A); "VOZ" -> Color(0xFF2F6F7A)
-    "VAL" -> Color(0xFF8A6A1F); "EVO" -> Color(0xFF3F7A4A); else -> Color(0xFF6B2A1A)
+    "VAL" -> Color(0xFF6B5530); "EVO" -> Color(0xFF3F7A4A); else -> Color(0xFF6B2A1A)
 }
 
 @Composable

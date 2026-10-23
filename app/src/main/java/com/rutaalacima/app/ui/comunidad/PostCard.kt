@@ -70,14 +70,14 @@ import java.io.File
 fun Avatar(nombre: String, url: String = "", tamano: Int = 40, forma: androidx.compose.ui.graphics.Shape = CircleShape) {
     Box(
         Modifier.size(tamano.dp).clip(forma)
-            .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
+            .background(MaterialTheme.colorScheme.primaryContainer),   // tonal de Material 3: sin degradado ni dorado
         contentAlignment = Alignment.Center,
     ) {
         if (url.isNotBlank()) AsyncImage(url, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         else {
             // Primer carácter (respeta emojis de dos unidades UTF-16).
             val ini = if (nombre.isNotEmpty() && Character.isHighSurrogate(nombre[0])) nombre.take(2) else nombre.take(1).uppercase()
-            Text(ini, color = Color.White, fontWeight = FontWeight.Bold, style = if (tamano > 48) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.titleMedium)
+            Text(ini, color = MaterialTheme.colorScheme.onPrimaryContainer, fontWeight = FontWeight.SemiBold, style = if (tamano > 48) MaterialTheme.typography.headlineSmall else MaterialTheme.typography.titleMedium)
         }
     }
 }

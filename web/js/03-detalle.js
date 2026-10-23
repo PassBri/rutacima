@@ -727,7 +727,7 @@ Object.assign(DET, {
   "perfil.ejes"() {
     const e = ultimaEvaluacion(), hist = Store.lista("ejes").sort((a, b) => b.fecha - a.fecha);
     const val = estado.evalNueva ||= Object.fromEntries(EJES.map(([, , k]) => [k, e ? e[k] : 5]));
-    return cab(av(ic("comunidad"), "var(--oro)"), "Mis ejes", e ? `Última evaluación: ${new Date(e.fecha).toLocaleDateString("es")}` : "Evalúa tus 6 ejes") + cuerpo(
+    return cab(av(ic("comunidad"), "var(--burdeos)"), "Mis ejes", e ? `Última evaluación: ${new Date(e.fecha).toLocaleDateString("es")}` : "Evalúa tus 6 ejes") + cuerpo(
       (e ? hoja(`<h3>Así están tus ejes</h3><div class="ejes">${EJES.map(([c, n, k]) => `<div class="eje"><span>${n}</span><div class="barra"><i style="width:${e[k] * 10}%;background:${COLOR_EJE[c]}"></i></div><b>${e[k]}</b></div>`).join("")}</div>`) : "") +
       hoja(`<h3>Nueva evaluación</h3><p class="suave" style="margin-top:0">Del 1 al 10, ¿cómo está hoy cada eje de tu cumbre?</p><div class="form">
         ${EJES.map(([c, n, k]) => campo(n, `<div class="rango"><input type="range" min="1" max="10" value="${val[k]}" data-acc-change="evalEje" data-arg="${k}" data-acc-input="evalEje"><b>${val[k]}</b></div>`)).join("")}
@@ -950,7 +950,7 @@ DET["perfil.vision"] = () => {
   const tarjeta = c => casillaVisionHtml(c, md);
 
 
-  return cab(av(ic("coach"), "var(--oro)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
+  return cab(av(ic("coach"), "var(--burdeos)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
       <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>

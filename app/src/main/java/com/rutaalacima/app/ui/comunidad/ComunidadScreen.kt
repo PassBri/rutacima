@@ -273,9 +273,9 @@ fun ComunidadScreen(
                         ) {
                             Box(
                                 Modifier.size(58.dp).clip(CircleShape)
-                                    .background(Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary))),
+                                    .background(MaterialTheme.colorScheme.primaryContainer),
                                 contentAlignment = Alignment.Center,
-                            ) { Icon(iconoTipo(t), null, tint = Color.White, modifier = Modifier.size(26.dp)) }
+                            ) { Icon(iconoTipo(t), null, tint = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.size(26.dp)) }
                             Spacer(Modifier.height(6.dp))
                             Text(t.texto(), style = MaterialTheme.typography.labelSmall)
                         }

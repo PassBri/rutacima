@@ -373,7 +373,7 @@ private fun CuadriculaCordada(c: Cordada, companeros: List<Companero>, hoy: Loca
                 Row(Modifier.weight(1f).horizontalScroll(desplazar), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                     dias.forEach { d ->
                         Box(Modifier.size(12.dp).clip(RoundedCornerShape(3.dp))
-                            .background(if (d in p.dias) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surfaceVariant))
+                            .background(if (d in p.dias) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant))
                     }
                 }
             }

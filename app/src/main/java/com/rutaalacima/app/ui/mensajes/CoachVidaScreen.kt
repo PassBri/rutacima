@@ -323,7 +323,7 @@ fun AcompanadoScreen(id: String, nombre: String, onBack: () -> Unit, onChat: (St
                         r.habitos7.forEach { n ->
                             Box(Modifier.weight(1f).fillMaxHeight((n / 18f).coerceAtLeast(0.04f))
                                 .clip(RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp))
-                                .background(if (n >= 10) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)))
+                                .background(if (n >= 10) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)))
                         }
                     }
                     Text(stringResource(R.string.coach_vida_promedio, r.promedioHabitos), style = MaterialTheme.typography.bodySmall,

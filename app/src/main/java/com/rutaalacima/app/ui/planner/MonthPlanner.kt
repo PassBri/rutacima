@@ -282,13 +282,13 @@ private fun MetaMensualCard(meta: MetaMensualEntity, ym: YearMonth, vm: MesViewM
                 val hecho = d in marcados
                 Box(
                     Modifier.size(28.dp).clip(CircleShape)
-                        .background(if (hecho) MaterialTheme.colorScheme.secondary else Color.Transparent)
-                        .border(1.dp, if (hecho) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                        .background(if (hecho) MaterialTheme.colorScheme.primary else Color.Transparent)
+                        .border(1.dp, if (hecho) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant, CircleShape)
                         .clickable { vm.alternarDia(meta, d) },
                     contentAlignment = Alignment.Center,
                 ) {
                     Text("$d", fontSize = 10.sp, fontWeight = if (hecho) FontWeight.Bold else FontWeight.Normal,
-                        color = if (hecho) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSurfaceVariant)
+                        color = if (hecho) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }

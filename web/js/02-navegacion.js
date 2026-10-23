@@ -81,7 +81,7 @@ const item = (sel, avatar, titulo, hora, sub, extra = "") =>
   `<button class="item" data-sel="${esc(sel)}" aria-selected="${estado.sel === sel}">${avatar}<span class="txt">
      <span class="t1"><span>${titulo}</span><span class="hora">${hora}</span></span>
      <span class="t2"><span>${sub}</span>${extra}</span></span></button>`;
-const av = (txt, color) => `<span class="avatar" style="background:${color}">${txt}</span>`;
+const av = (txt, color) => `<span class="avatar" style="--c:${color}">${txt}</span>`;
 const avSello = () => `<img class="avatar" src="${LOGO}" alt="">`;
 const coincide = s => !estado.busqueda || String(s).toLowerCase().includes(estado.busqueda.toLowerCase());
 const grupo = t => `<div class="grupo">${t}</div>`;
@@ -132,7 +132,7 @@ const LISTAS = {
     h += grupo("Ayer y antes");
     for (let k = 1; k <= 6; k++) {
       const d = new Date(hoy); d.setDate(d.getDate() - k);
-      h += item("d:" + iso(d), av(d.getDate(), diaCumplido(d) ? "var(--oro)" : "#B8A99C"), mayus(d.toLocaleDateString("es", { weekday: "long" })), `${d.getDate()} ${MES_C[d.getMonth()]}`, `${marcadosDe(iso(d)).size} hábitos`);
+      h += item("d:" + iso(d), av(d.getDate(), diaCumplido(d) ? "var(--burdeos)" : "#B8A99C"), mayus(d.toLocaleDateString("es", { weekday: "long" })), `${d.getDate()} ${MES_C[d.getMonth()]}`, `${marcadosDe(iso(d)).size} hábitos`);
     }
     return h + `</div>`;
   },
@@ -199,7 +199,7 @@ const LISTAS = {
     h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", u ? horaDe(u.creadoEn) : "", esc(u ? separarAccion(u.texto)[0] : "Pregúntame por tu ruta"));
     h += grupo("Atajos");
     [["Perdí la motivación", "Perdí la motivación"], ["Planea mi semana", "Planea mi semana"], ["¿Qué eje debo trabajar?", "¿Qué eje debo trabajar?"], ["Divide mi meta anual en pasos", "Divide mi meta anual en pasos"]].forEach(([t, q]) => {
-      h += `<button class="item" data-pregunta="${esc(q)}">${av(ic("coach"), "var(--oro)")}<span class="txt"><span class="t1"><span>${t}</span></span><span class="t2"><span>Preguntar al coach</span></span></span></button>`;
+      h += `<button class="item" data-pregunta="${esc(q)}">${av(ic("coach"), "var(--burdeos)")}<span class="txt"><span class="t1"><span>${t}</span></span><span class="t2"><span>Preguntar al coach</span></span></span></button>`;
     });
     return h + `</div>`;
   },
@@ -213,7 +213,7 @@ const LISTAS = {
       if (estado.filtro === "abiertas" && !abierta) continue;
       const fr = Contenido.frases[fraseIndice(d)];
       if (!coincide(abierta ? fr.t : "")) continue;
-      h += item("f:" + iso(d), abierta ? av(ic("frases"), "var(--oro)") : avSello(), k === 0 ? "Frase de hoy" : `Día ${diaDelAnio(d) + 1}`, `${d.getDate()} ${MES_C[d.getMonth()]}`,
+      h += item("f:" + iso(d), abierta ? av(ic("frases"), "var(--burdeos)") : avSello(), k === 0 ? "Frase de hoy" : `Día ${diaDelAnio(d) + 1}`, `${d.getDate()} ${MES_C[d.getMonth()]}`,
         abierta ? esc(fr.t) : `${ic("candado", "i fijado")} Sellada`, k === 0 && !abierta ? `<span class="badge">1</span>` : "");
     }
     return h + `</div>`;
@@ -224,18 +224,18 @@ const LISTAS = {
     h += item("perfil", av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += grupo("Mi ascenso");
     h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
-    h += item("ejes", av(ic("comunidad"), "var(--oro)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
+    h += item("ejes", av(ic("comunidad"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
     const vs = Store.lista("vision");
-    h += item("vision", av(ic("coach"), "var(--oro)"), "Mi vision board", vs.length ? `${vs.filter(v => v.publicacionId).length}/${vs.length}` : "", vs.length ? "Llénalo con tus fotos" : "Ármalo con IA y tus datos");
+    h += item("vision", av(ic("coach"), "var(--burdeos)"), "Mi vision board", vs.length ? `${vs.filter(v => v.publicacionId).length}/${vs.length}` : "", vs.length ? "Llénalo con tus fotos" : "Ármalo con IA y tus datos");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
-    h += item("ir-frases", av(ic("frases"), "var(--oro)"), "Mis frases", "", "Las frases que ya abriste");
+    h += item("ir-frases", av(ic("frases"), "var(--burdeos)"), "Mis frases", "", "Las frases que ya abriste");
     h += grupo("Personas");
     h += item("ir-mensajes", av(ic("mensajes"), "var(--burdeos)"), "Mensajes", "", "Tus conversaciones 1 a 1");
-    h += item("ir-coachvida", av(ic("cumbre"), "var(--oro)"), "Coach de vida", "", "Una persona que te acompaña");
+    h += item("ir-coachvida", av(ic("cumbre"), "var(--burdeos)"), "Coach de vida", "", "Una persona que te acompaña");
     h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach con IA", "", "Pregúntale por tu ruta");
     h += grupo("Más");
     if (globalThis.INSTALAR?.disponible()) h += `<button class="item" data-acc="instalarApp">${av(`<img src="iconos/apple-touch-icon.png" alt="" style="width:100%;height:100%;border-radius:50%">`, "var(--hoja-2)")}<span class="txt"><span class="t1"><span>Instalar la app</span></span><span class="t2"><span>En tu teléfono o tu computador, como una app</span></span></span></button>`;
-    h += item("plan", av(ic("cumbre"), "var(--oro)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
+    h += item("plan", av(ic("cumbre"), "var(--burdeos)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", "", Store.nube ? (Store.nube.directa ? Store.nube.correo || nombreNavegador() : nombreNavegador()) + (globalThis.MOD?.suspension ? " · cuenta suspendida" : "") : "Ruta de ejemplo");
     // Moderación: solo para cuentas moderadoras (se comprueba una vez por sesión)
     const mod = globalThis.MOD;

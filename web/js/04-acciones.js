@@ -380,7 +380,7 @@ function pintarHojaComentarios(p, abrir = false) {
   const lista = p.comentariosLista;
   const cuerpo = !lista ? `<p class="suave hoja-vacia">Cargando…</p>` : !lista.length ? `<p class="suave hoja-vacia">Aún no hay comentarios. Sé la primera persona en dar ánimo.</p>`
     : `<div class="hoja-comentarios">${lista.map(c => { const ini = (c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
-        return `<div class="comentario"><span class="avatar" style="background:#6B2A1A">${esc(ini)}</span><div><b>${esc(c.autor)}</b><p>${esc(c.texto)}</p></div></div>`; }).join("")}</div>`;
+        return `<div class="comentario"><span class="avatar">${esc(ini)}</span><div><b>${esc(c.autor)}</b><p>${esc(c.texto)}</p></div></div>`; }).join("")}</div>`;
   const html = `<h3 class="hoja-titulo">${p.comentarios || (lista || []).length} comentarios</h3>${cuerpo}
     <form class="escribir hoja-escribir" data-form="comentar"><input name="texto" placeholder="Escribe un comentario" aria-label="Comentario" autocomplete="off" maxlength="1000"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
   const actual = document.getElementById("hojaInferior");

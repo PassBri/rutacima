@@ -283,7 +283,7 @@ function htmlSesiones(acomp) {
   if (!xs) h += `<p class="suave" style="margin:6px 0 0">Cargando…</p>`;
   else if (xs.error) h += `<p class="suave" style="margin:6px 0 0">No se pudieron cargar las sesiones. Revisa tu conexión.</p>`;
   else if (!xs.length) h += `<p class="suave" style="margin:6px 0 0">No hay sesiones agendadas.</p>`;
-  else h += xs.map(s => `<div class="sesion">${av(ic("hoy"), "var(--oro)")}<div class="ses-txt"><b>${esc(fechaSesion(s.inicio))}</b><span class="suave">${s.minutos} min${s.tema ? " · " + esc(s.tema) : ""}</span></div>
+  else h += xs.map(s => `<div class="sesion">${av(ic("hoy"), "var(--burdeos)")}<div class="ses-txt"><b>${esc(fechaSesion(s.inicio))}</b><span class="suave">${s.minutos} min${s.tema ? " · " + esc(s.tema) : ""}</span></div>
       <span class="botones">${s.enlace && /^https:\/\//.test(s.enlace) ? `<a class="btn mini lleno" href="${esc(s.enlace)}" target="_blank" rel="noopener noreferrer">Unirme</a>` : ""}<button class="btn mini" data-acc="cancelarSesion" data-arg="${esc(acomp)}|${esc(s.id)}">Cancelar</button></span></div>`).join("");
   const dias = Array.from({ length: 14 }, (_, k) => { const d = hoyFecha(); d.setDate(d.getDate() + k); return [iso(d), k === 0 ? "Hoy" : k === 1 ? "Mañana" : mayus(d.toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" }))]; });
   const horas = Array.from({ length: 16 }, (_, k) => String(k + 6).padStart(2, "0") + ":00");

@@ -214,7 +214,7 @@ fun KitScreen(
                             Box(
                                 Modifier.fillMaxWidth().fillMaxHeight((n / 18f).coerceIn(0.04f, 0.75f))
                                     .clip(RoundedCornerShape(4.dp))
-                                    .background(if (n >= 10) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.outlineVariant),
+                                    .background(if (n >= 10) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant),
                             )
                             Text(f.dayOfWeek.getDisplayName(java.time.format.TextStyle.NARROW, Locale.getDefault()),
                                 style = MaterialTheme.typography.labelSmall)

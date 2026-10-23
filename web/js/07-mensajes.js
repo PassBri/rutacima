@@ -222,7 +222,7 @@ setInterval(() => { if (Store.nube && estado.sec !== "mensajes" && !document.hid
 LISTAS.mensajes = function () {
   let h = cabLista("Mensajes", { buscar: true }) + `<div class="items">`;
   const mio = MS.cv?.acomps.find(a => a.rol === "usuario");
-  h += item("coachvida", av(ic("cumbre"), "var(--oro)"), "Coach de vida", "", mio ? `Tu coach: ${esc(mio.otroNombre)}` : "Una persona que te acompaña en tu ascenso");
+  h += item("coachvida", av(ic("cumbre"), "var(--burdeos)"), "Coach de vida", "", mio ? `Tu coach: ${esc(mio.otroNombre)}` : "Una persona que te acompaña en tu ascenso");
   const activas = (CK.lista || []).filter(c => !cordadaTerminada(c));
   h += item("cordadas", avCordada(), "Cordadas", "", activas.length ? `${activas.length} ${activas.length === 1 ? "reto activo" : "retos activos"}${activas.some(c => !c.marqueHoy) ? " · marca tu día" : ""}` : "Retos de varios días en grupo",
     activas.some(c => !c.marqueHoy) ? `<span class="badge">${activas.filter(c => !c.marqueHoy).length}</span>` : "");
@@ -278,7 +278,7 @@ function vacioMensajes() {
 const barra = (pct) => `<div class="barra"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>`;
 DET["mensajes.coachvida"] = () => {
   const cv = MS.cv;
-  const titulo = cab(av(ic("cumbre"), "var(--oro)"), "Coach de vida", "Una persona real que te acompaña en tu ascenso");
+  const titulo = cab(av(ic("cumbre"), "var(--burdeos)"), "Coach de vida", "Una persona real que te acompaña en tu ascenso");
   if (!cv) { cargarCoachVida(); return titulo + cuerpo(`<p class="suave">Cargando…</p>`); }
   const mio = cv.acomps.find(a => a.rol === "usuario"), acompanados = cv.acomps.filter(a => a.rol === "coach");
   let h = `<p style="margin:0">Conversa contigo, revisa tu avance si se lo permites y te ayuda a no rendirte.</p>`;

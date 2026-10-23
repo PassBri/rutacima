@@ -128,7 +128,7 @@ const EJES = [
   ["VAL", "Valor", "valor"], ["EVO", "Evolución", "evolucion"], ["TRA", "Trascendencia", "trascendencia"],
 ];
 const NOMBRE_EJE = Object.fromEntries(EJES.map(([c, n]) => [c, n]));
-const COLOR_EJE = { VOL: "#8E3B26", MAE: "#5C4A8A", VOZ: "#2F6F7A", VAL: "#8A6A1F", EVO: "#3F7A4A", TRA: "#6B2A1A" };
+const COLOR_EJE = { VOL: "#8E3B26", MAE: "#5C4A8A", VOZ: "#2F6F7A", VAL: "#6B5530", EVO: "#3F7A4A", TRA: "#6B2A1A" };
 const HABITOS = [
   ["VOL1", "VOL", "Revisé mi visión/propósito (1 min)"], ["VOL2", "VOL", "Hice algo hoy que me acerca a mi cumbre"], ["VOL3", "VOL", "Dije NO a algo que me aleja de mi cumbre"],
   ["MAE1", "MAE", "Practiqué/perfeccioné una habilidad clave (mín. 30 min)"], ["MAE2", "MAE", "Aprendí algo nuevo relacionado con mi cumbre"], ["MAE3", "MAE", "Salí de mi zona de confort hoy"],
