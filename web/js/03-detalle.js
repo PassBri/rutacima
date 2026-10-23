@@ -255,8 +255,8 @@ function corazonAnio(a) {
   const ayuda = futuro ? "Escribe tus anhelos y sueños para ese año, uno por línea. Después conviértelos en metas." : a === hoy ? "La palabra que guía tu año y lo que anhelas, uno por línea." : `Cómo recuerdas tu ${a}${edad !== null ? `, a los ${edad} años` : ""}: una palabra y lo que anhelabas o viviste.`;
   const anh = anhelosDe(a);
   return hoja(`<h3 style="margin:0 0 4px">${titulo}</h3><p class="suave" style="margin:0 0 12px">${ayuda}</p>
-    <div class="form">${campo("Palabra del año", `<input type="text" maxlength="40" data-resp="vida|${claveVida(a, "palabra")}" value="${esc(respuesta(claveVida(a, "palabra")))}" placeholder="${futuro ? "Libertad, Familia, Cumbre…" : "La palabra de ese año"}">`)}
-    ${campo(futuro ? "Anhelos y sueños" : "Anhelos", `<textarea rows="4" data-resp="vida|${claveVida(a, "anhelos")}" placeholder="${futuro ? "Conocer la Patagonia\nAbrir mi escuela\nCorrer mi primera maratón" : "Lo que anhelabas ese año"}">${esc(respuesta(claveVida(a, "anhelos")))}</textarea>`)}</div>
+    <div class="form">${campo("Palabra del año", `<input type="text" maxlength="40" data-resp="vida|${claveVida(a, "palabra")}" value="${esc(respuesta(claveVida(a, "palabra")))}" placeholder="${futuro || a === hoy ? "Libertad, Familia, Cumbre…" : "La palabra de ese año"}">`)}
+    ${campo(futuro ? "Anhelos y sueños" : "Anhelos", `<textarea rows="4" data-resp="vida|${claveVida(a, "anhelos")}" placeholder="${futuro ? "Conocer la Patagonia\nAbrir mi escuela\nCorrer mi primera maratón" : a === hoy ? "Lo que anhelas este año, uno por línea" : "Lo que anhelabas ese año"}">${esc(respuesta(claveVida(a, "anhelos")))}</textarea>`)}</div>
     ${anh.length && a >= hoy ? `<div class="chips" style="margin-top:10px">${anh.slice(0, 8).map(t => { const ya = Store.lista("meta_anio").find(m => m.anio === a && m.titulo.trim().toLowerCase() === t.toLowerCase());
         return ya ? `<button class="chip" aria-pressed="true" data-ir="metas" data-arg="a:${ya.id}" title="Ya es meta de ${a}">${ic("check")} ${esc(t)}</button>`
           : `<button class="chip" data-acc="anheloAMeta" data-arg="${a}|${esc(t)}" title="Convertir en meta de ${a}">${ic("mas")} ${esc(t)}</button>`; }).join("")}</div>
@@ -281,6 +281,72 @@ function cartaAnio(a) {
   return hoja(`<h3 style="margin:0 0 4px">Carta a tu yo de ${a}</h3><p class="suave" style="margin:0 0 10px">${futuro ? `Escríbele a la persona que serás en ${a}. Se sella con lacre y se abre el 1 de enero de ese año.` : "Lo que quieres decirte este año."}</p>
     <textarea rows="6" class="carta-area" data-resp="vida|${claveVida(a, "carta")}" placeholder="Querido yo de ${a}…">${esc(texto)}</textarea>
     <div class="botones" style="margin-top:8px"><button class="btn mini lleno" data-acc="cartaEditar" data-arg="">${futuro ? "Sellar la carta" : "Listo"}</button></div>`);
+}
+
+
+/* ======================================================================
+ * La cascada completa: cumbres personales (propósitos, que abarcan varios años) → años → meses → días →
+ * actividades del día. Cada nivel muestra de dónde viene y qué lo sostiene abajo.
+ * ====================================================================== */
+/** Los años que abarca una cumbre personal: desde que se creó (o su primera meta) hasta su horizonte. */
+function aniosDeCumbre(p) {
+  const metas = Store.lista("meta_anio").filter(m => m.propositoId === p.id).map(m => m.anio);
+  const ini = Math.min(p.creadoEn ? new Date(p.creadoEn).getFullYear() : hoyFecha().getFullYear(), ...metas);
+  const fin = Math.max(ini + (p.horizonte || 5) - 1, ...metas);
+  return { ini, fin };
+}
+const cumbresDelAnio = a => Store.lista("proposito").filter(p => { const r = aniosDeCumbre(p); return a >= r.ini && a <= r.fin; });
+/** "↑ meta del año · cumbre": de dónde viene una meta del mes o del año. */
+function cadena(tipo, o) {
+  const partes = [];
+  if (tipo === "meta_mes" && o.metaAnualId != null) { const a = Store.get("meta_anio", o.metaAnualId); if (a) { partes.push(`<button data-ir="metas" data-arg="a:${a.id}">${esc(a.titulo)}</button>`); o = a; tipo = "meta_anio"; } }
+  if (tipo === "meta_anio" && o.propositoId != null) { const p = Store.get("proposito", o.propositoId); if (p) partes.push(`<button data-ir="metas" data-arg="p:${p.id}">${ic("ruta")} ${esc(p.titulo)}</button>`); }
+  return partes.length ? `<span class="cadena">↑ ${partes.join(" · ")}</span>` : "";
+}
+/** La cinta de años de una cumbre personal, con las metas de cada año. */
+function cintaCumbre(p) {
+  const { ini, fin } = aniosDeCumbre(p), hoy = hoyFecha().getFullYear(), metas = Store.lista("meta_anio").filter(m => m.propositoId === p.id);
+  let h = "";
+  for (let a = ini; a <= fin; a++) {
+    const n = metas.filter(m => m.anio === a).length;
+    h += `<button class="cc-anio${a === hoy ? " hoy" : a < hoy ? " vivido" : ""}" data-ir="ruta" data-arg="a:${a}"><b>${a}</b><small>${n ? `${n} ${n === 1 ? "meta" : "metas"}` : "sin metas"}</small></button>`;
+  }
+  return `<div class="cc-cinta" aria-label="Años de esta cumbre">${h}</div>`;
+}
+/** Año: las cumbres personales en curso, en qué año de su camino van y sus metas de este año. */
+function cumbresAnio(a) {
+  const ps = cumbresDelAnio(a); if (!ps.length) return "";
+  const c = cascada();
+  return hoja(`<h3 style="margin:0 0 4px">Cumbres personales en ${a}</h3><p class="suave" style="margin:0 0 10px">Tus propósitos de largo plazo que pasan por este año, y lo que les aportas en ${a}.</p>
+    ${ps.map(p => { const r = aniosDeCumbre(p), ms = c.anuales.filter(m => m.propositoId === p.id && m.anio === a);
+      return `<div class="cumbre-anio"><button class="cumbre-anio-cab" data-ir="metas" data-arg="p:${p.id}"><i class="eje-punto" style="background:${COLOR_EJE[p.eje] || "#7A4A6B"}"></i>
+          <span><b>${esc(p.titulo)}</b><small>Año ${a - r.ini + 1} de ${r.fin - r.ini + 1} · ${r.ini}–${r.fin}</small></span><span class="pct">${pctTxt(c.nodoProp(p))}</span></button>
+        ${ms.map(m => `<button class="cumbre-anio-meta" data-ir="metas" data-arg="a:${m.id}"><span>${esc(m.titulo)}</span><span class="pct">${pctTxt(c.nodoAnio(m))}</span></button>`).join("") || `<p class="suave" style="margin:4px 0">Aún no tiene metas para ${a}.</p>`}
+        <button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}|${p.id}|${p.eje || ""}">${ic("mas")} Meta de ${a} para esta cumbre</button></div>`; }).join("")}`);
+}
+/** Mes: metas del año que todavía no tienen un paso este mes (para bajar la meta grande a este mes). */
+function sinPasoEsteMes(a, m) {
+  const delMes = metasDelMes(a, m), anuales = Store.lista("meta_anio").filter(x => x.anio === a && x.estado !== "CUMPLIDA" && !delMes.some(y => y.metaAnualId === x.id));
+  if (!anuales.length) return "";
+  return `<div class="sin-paso"><p class="suave" style="margin:10px 0 6px">Metas de ${a} sin paso en ${MESES[m - 1]}:</p>
+    ${anuales.map(x => `<button class="chip" data-acc="nuevaMetaMes" data-arg="${a}-${String(m).padStart(2, "0")}|${x.id}">${ic("mas")} ${esc(x.titulo)}</button>`).join("")}</div>`;
+}
+/** Actividades del día por hora (el mismo horario de la app), cada una puede ir a una meta del mes: al hacerla, el día cuenta en esa meta. */
+const horarioDe = ag => { try { return JSON.parse(ag.horario || "{}") || {}; } catch { return {}; } };
+function actividadesDia(fecha, ag, ms) {
+  const hor = horarioDe(ag), todas = estado.horasTodas === fecha;
+  const horas = todas ? [...Array(24).keys()] : [...Array(24).keys()].filter(h => (h >= 5 && h <= 22) || hor[h]);
+  const f = deIso(fecha), hoyF = hoyFecha();
+  const fila = h => {
+    const t = hor[h] || "", meta = respuesta(`dia#${fecha}#${h}#meta`), hecho = respuesta(`dia#${fecha}#${h}#hecho`) === "1";
+    return `<div class="act${hecho ? " hecha" : ""}"><span class="act-h">${String(h).padStart(2, "0")}:00</span>
+      <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t || f > hoyF ? "disabled" : ""} aria-label="Hecha">
+      <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
+      ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}" ${String(x.id) === meta ? "selected" : ""}>${esc(x.texto)}</option>`).join("")}</select>` : `<span></span>`}</div>`;
+  };
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Actividades del día</h3><button class="btn mini" data-acc="horasTodas" data-arg="${todas ? "" : fecha}">${todas ? "Horario corto" : "Ver 24 horas"}</button></div>
+    <p class="suave" style="margin:4px 0 10px">Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.</p>
+    <div class="acts">${horas.map(fila).join("")}</div>`);
 }
 
 const DET = {
@@ -337,9 +403,9 @@ const DET = {
       `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` + lineaVida(a) +
       `<div class="anio-nav"><button class="btn mini" data-ir="ruta" data-arg="a:${a - 1}" aria-label="Año anterior: ${a - 1}">‹ ${a - 1}</button>
         <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
-      corazonAnio(a) +
+      corazonAnio(a) + cumbresAnio(a) +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
-        ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
+        ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}${(() => { const n = c.mensuales.filter(x => x.metaAnualId === m.id).length; return n ? ` <span class="suave" style="font-size:12px">· ${n} ${n === 1 ? "mes" : "meses"}</span>` : ""; })()}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
       (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cumplidosAnio(a) + cartaAnio(a) + `<div class="meses">${meses}</div>`);
   },
@@ -364,7 +430,9 @@ const DET = {
     const auto = anuales.length > 0;
     return cab(av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `Propósito a ${p.horizonte || 5} años`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="proposito|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
-      (window.franjaCampamento ? franjaCampamento("proposito", p) : "") + hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
+      (window.franjaCampamento ? franjaCampamento("proposito", p) : "") +
+      hoja(`<h3 style="margin:0 0 4px">Los años de esta cumbre</h3><p class="suave" style="margin:0 0 8px">${aniosDeCumbre(p).ini}–${aniosDeCumbre(p).fin}: toca un año para ver sus metas, meses y días.</p>${cintaCumbre(p)}`) +
+      hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
         ${selectorHorizonte("proposito", k, p.horizonte || 5)}
         <div class="form-2">          ${campo("Eje · campamento del vision board", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}</div>
@@ -445,7 +513,7 @@ function detMes(arg) {
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(
     `<div class="migas"><button data-sel="vida">Mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
     hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
-      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button><span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}`) +
+      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`) +
     hoja(`<div class="etiqueta" style="margin-bottom:8px">Días del mes · toca uno para abrirlo</div><div class="dias" style="max-width:320px">${cal}</div>`) +
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
       <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`));
@@ -497,7 +565,8 @@ function detDia(fecha) {
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
     habitos +
     hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>
-      ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span></span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
+      ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
+    actividadesDia(fecha, ag, ms) +
     hoja(`<h3>Mi día</h3><div class="form"><div class="form-2">${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}">`)}
       ${campo("Prioridad #1", `<input type="text" ${bind("agenda", fecha, "prioridad", "", "agenda")} value="${esc(ag.prioridad || "")}">`)}</div></div>`) +
     hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}

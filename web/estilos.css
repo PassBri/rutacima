@@ -1335,3 +1335,27 @@ body:has(.md-visor) { overflow: hidden; }
 .eje-punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
 /* En Mi vida la barra de secciones de la Brújula no se queda pegada: taparía las demás secciones */
 :is(.det-cuerpo, .cuerpo, #detalle):has(#vida-vision) .md-secciones { position: static; }
+/* La cascada: cumbres → años → meses → días → actividades */
+.cadena { display: block; font-size: 12px; color: var(--tinta-suave); margin-top: 2px; }
+.cadena button { color: var(--burdeos); font-size: 12px; padding: 0; }
+.cadena svg { width: 12px; height: 12px; fill: currentColor; vertical-align: -2px; }
+.cc-cinta { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+.cc-anio { flex: none; min-width: 64px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--linea); background: var(--hoja); text-align: left; display: grid; color: var(--tinta); }
+.cc-anio small { font-size: 11px; color: var(--tinta-suave); }
+.cc-anio.vivido { background: var(--hoja-2); }
+.cc-anio.hoy { border-color: var(--burdeos); background: var(--burdeos-suave); }
+.cumbre-anio { padding: 10px 0; border-top: 1px solid var(--linea); display: grid; gap: 4px; }
+.cumbre-anio-cab { display: flex; align-items: center; gap: 8px; text-align: left; color: var(--tinta); }
+.cumbre-anio-cab span:nth-child(2) { flex: 1; display: grid; }
+.cumbre-anio-cab small { font-size: 12px; color: var(--tinta-suave); }
+.cumbre-anio-meta { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0 4px 18px; text-align: left; font-size: 14px; color: var(--tinta); }
+.cumbre-anio .btn { justify-self: start; margin-left: 18px; }
+.sin-paso .chip { margin: 0 6px 6px 0; }
+.acts { display: grid; gap: 2px; }
+.act { display: grid; grid-template-columns: 48px 24px 1fr minmax(0, 200px); align-items: center; gap: 8px; min-height: 40px; }
+.act-h { font-size: 12px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.act-t { min-width: 0; padding: 6px 8px; border: 0; border-bottom: 1px solid var(--linea); background: transparent; color: var(--tinta); font: inherit; }
+.act-t:focus { outline: none; border-bottom-color: var(--burdeos); }
+.act select { min-width: 0; font-size: 13px; padding: 4px 6px; border: 1px solid var(--linea); border-radius: 8px; background: var(--hoja); color: var(--tinta); }
+.act.hecha .act-t { text-decoration: line-through; color: var(--tinta-suave); }
+@media (max-width: 600px) { .act { grid-template-columns: 40px 24px 1fr; } .act select { grid-column: 3; } }

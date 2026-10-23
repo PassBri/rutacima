@@ -9,6 +9,9 @@ const BASES = {
   checklist: c => ({ fecha: c, marcados: "" }),
 };
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
+/** Marca un día en una meta del mes (sin desmarcarlo si ya estaba). */
+function marcarDiaMeta(id, fecha) { const m = Store.get("meta_mes", id), d = deIso(fecha).getDate(); if (!m || numeros(m.dias).includes(d)) return;
+  Store.cambiar("meta_mes", id, { dias: [...numeros(m.dias), d].sort((x, y) => x - y).join(",") }); }
 
 const ACC = {
   /** Mirar el cielo: la ventana que sigue la orientación del teléfono (o se arrastra en el computador). */
@@ -133,6 +136,14 @@ const ACC = {
   },
   /** Desde una meta: abre Mi vida en el campamento que sostiene, con sus metas por año. */
   irCampamento(_, i) { estado.vidaCamp = Number(i); ir("ruta", "vida"); requestAnimationFrame(() => document.querySelector(".vv-panel")?.scrollIntoView({ block: "center" })); },
+  /* Actividades del día: texto en el horario (igual que la app), meta del mes que mueve y si se hizo */
+  actTexto(el, arg) { const [fecha, h] = arg.split("|"), ag = Store.get("agenda", fecha) || {}, hor = horarioDe(ag), t = el.value.trim().slice(0, 200);
+    if (t) hor[h] = t; else delete hor[h]; Store.cambiar("agenda", fecha, { horario: JSON.stringify(hor) }, BASES.agenda(fecha)); },
+  actMeta(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#meta`, el.value);
+    if (el.value && respuesta(`dia#${fecha}#${h}#hecho`) === "1") marcarDiaMeta(el.value, fecha); },
+  actHecha(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#hecho`, el.checked ? "1" : "");
+    const meta = respuesta(`dia#${fecha}#${h}#meta`); if (el.checked && meta) { marcarDiaMeta(meta, fecha); toast("El día cuenta en tu meta del mes"); } },
+  horasTodas(_, f) { estado.horasTodas = f || null; pintarDetalle(); },
   cartaEditar(_, a) { estado.cartaEditar = a ? Number(a) : null; pintarDetalle(); if (a) requestAnimationFrame(() => document.querySelector(".carta-area")?.focus()); },
   habEditar() { estado.habEditar = !estado.habEditar; pintarDetalle(); },
   habRenombrar(el, id) { const t = el.value.trim().slice(0, 120); if (!t) { el.value = habitos().find(h => h[0] === id)?.[2] || ""; return; } guardarHabitos(habitos().map(h => h[0] === id ? [h[0], h[1], t] : h)); },
