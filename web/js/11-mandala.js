@@ -183,11 +183,24 @@ function mdPct(d, i) {
 }
 /** Promedio de avance de las metas de este año de un campamento (null si no tiene). */
 function metasPct(i) {
-  const a = hoyFecha().getFullYear(), ms = metasDeCampamento(i).filter(m => m.anio === a); if (!ms.length) return null;
-  const c = cascada(); return ms.reduce((s, m) => s + c.nodoAnio(m), 0) / ms.length * 100;
+  const h = hoyFecha(), a = h.getFullYear(), mes = h.getMonth() + 1, c = cascada();
+  const v = [...metasDeCampamento(i).filter(m => m.anio === a).map(m => c.nodoAnio(m)),
+    ...mensualesDeCampamento(i).filter(m => m.anio === a && m.mes === mes && m.metaAnualId == null).map(avanceMetaMes)];
+  return v.length ? v.reduce((s, x) => s + x, 0) / v.length * 100 : null;
 }
-/** Índice (0..7) del campamento que sostiene una meta, según su eje (sin eje: Confluencia). */
-const campDeMeta = m => Mandala.CAMPAMENTOS_FIJOS.indexOf(m.eje || "CON");
+/** Índice (0..7) del campamento que sostiene una meta de cualquier nivel (sin eje en la cadena: Confluencia). */
+const campDe = (tipo, o) => Mandala.CAMPAMENTOS_FIJOS.indexOf(ejeEfectivo(tipo, o) || "CON");
+const campDeMeta = m => campDe("meta_anio", m);
+window.campDe = campDe;
+/** Franja que dice qué campamento sostiene una meta o propósito, y lo abre en Mi vida. */
+function franjaCampamento(tipo, o) {
+  if (!window.Mandala || !casillasVision().length) return "";
+  const md = Mandala.datos(), i = campDe(tipo, o); if (i < 0) return "";
+  const camp = md.camps[i], heredado = !o.eje && ejeEfectivo(tipo, o) ? " (heredado de su meta superior)" : "";
+  return `<button class="meta-camp" style="--c:${md.color(i)}" data-acc="irCampamento" data-arg="${i}"><i aria-hidden="true"></i>
+    <span>Sostiene <b>${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[i]))}</b>${camp ? ` · ${esc(mdNombre(camp))}` : ""} en tu vision board${heredado}</span>${ic("abajo")}</button>`;
+}
+window.franjaCampamento = franjaCampamento;
 window.campDeMeta = campDeMeta;
 /** Indicador de avance de Material 3: anillo pequeño con el porcentaje, en la esquina de la tarjeta. */
 const mdAnillo = (pct, clase = "") => `<span class="pct-m3 ${clase}${pct >= 100 ? " lleno" : ""}" style="--p:${pct}" role="img" aria-label="Avance ${pct} %" title="Avance ${pct} %"><i aria-hidden="true"></i>${pct}%</span>`;
@@ -833,12 +846,26 @@ pintarDetalle = function () {
  * las metas que lo sostienen y en qué años. Tocar un campamento abre su planeación: metas por año,
  * agregar una meta para ese campamento y fotos de visión. Debajo, los años vividos y por vivir.
  * ====================================================================== */
-/** Las metas de un campamento: las del mismo eje; Confluencia toma las metas sin eje. */
-function metasDeCampamento(i) {
-  const cod = Mandala.CAMPAMENTOS_FIJOS[i];
-  if (cod === "CAM") return [];
-  return Store.lista("meta_anio").filter(m => cod === "CON" ? !m.eje : m.eje === cod).sort((a, b) => a.anio - b.anio);
+/*
+ * Largo, mediano y corto plazo en el vision board. Cada nivel se une a un campamento por su eje; si no
+ * tiene eje, hereda el de arriba: la meta del mes el de su meta del año, y la meta del año el de su propósito.
+ * Sin eje en toda la cadena: Confluencia (un proyecto que mueve varios ejes).
+ */
+function ejeEfectivo(tipo, o) {
+  if (!o) return null;
+  if (tipo === "proposito") return o.eje || null;
+  if (tipo === "meta_anio") return o.eje || ejeEfectivo("proposito", o.propositoId != null ? Store.get("proposito", o.propositoId) : null);
+  if (tipo === "meta_mes") return o.eje || ejeEfectivo("meta_anio", o.metaAnualId != null ? Store.get("meta_anio", o.metaAnualId) : null);
+  return null;
 }
+const deCamp = (tipo, i) => o => { const cod = Mandala.CAMPAMENTOS_FIJOS[i], e = ejeEfectivo(tipo, o); return cod === "CAM" ? false : cod === "CON" ? !e : e === cod; };
+/** Propósitos (largo plazo) de un campamento. */
+const propositosDeCampamento = i => Store.lista("proposito").filter(deCamp("proposito", i));
+/** Metas del año (mediano plazo) de un campamento. */
+function metasDeCampamento(i) { return Store.lista("meta_anio").filter(deCamp("meta_anio", i)).sort((a, b) => a.anio - b.anio); }
+/** Metas del mes (corto plazo) de un campamento. */
+const mensualesDeCampamento = i => Store.lista("meta_mes").filter(deCamp("meta_mes", i)).sort((a, b) => a.anio - b.anio || a.mes - b.mes);
+window.ejeEfectivo = ejeEfectivo;
 function visionVida() {
   const d = Mandala.datos(), hoy = hoyFecha().getFullYear(), sel = estado.vidaCamp ?? null;
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
@@ -847,19 +874,25 @@ function visionVida() {
   let panel = "";
   if (sel !== null && sel >= 0 && sel < 8) {
     const c = d.camps[sel], cod = Mandala.CAMPAMENTOS_FIJOS[sel], ms = metasDeCampamento(sel), c0 = cascada();
+    const props = propositosDeCampamento(sel), h0 = hoyFecha(), mesHoy = h0.getMonth() + 1;
+    const mens = mensualesDeCampamento(sel).filter(m => m.anio > hoy || (m.anio === hoy && m.mes >= mesHoy)).slice(0, 6);
+    const largo = `<div class="vv-nivel"><h5>Largo plazo · propósitos</h5>${props.map(p => `<button class="vv-meta" data-ir="metas" data-arg="p:${p.id}"><span>${esc(p.titulo)} · ${p.horizonte || 5} años</span><span class="pct">${pctTxt(c0.nodoProp(p))}</span><span class="barra"><i style="width:${c0.nodoProp(p) * 100}%"></i></span></button>`).join("") || `<p class="suave">Sin propósitos todavía.</p>`}
+        <button class="btn mini oro" data-acc="nuevoProposito" data-arg="${cod === "CON" ? "" : cod}">${ic("mas")} Propósito</button></div>`;
+    const corto = `<div class="vv-nivel"><h5>Corto plazo · metas del mes</h5>${mens.map(m => `<button class="vv-meta" data-ir="metas" data-arg="m:${m.id}"><span>${MESES[m.mes - 1]} ${m.anio} · ${esc(m.texto)}</span><span class="pct">${pctTxt(avanceMetaMes(m))}</span><span class="barra"><i style="width:${avanceMetaMes(m) * 100}%"></i></span></button>`).join("") || `<p class="suave">Sin metas del mes todavía.</p>`}
+        <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${hoy}-${String(mesHoy).padStart(2, "0")}||${cod === "CON" ? "" : cod}">${ic("mas")} Meta de ${MESES[mesHoy - 1]}</button></div>`;
     const porAnio = anios(ms).map(a => `<div class="vv-anio"><button class="vv-anio-n" data-ir="ruta" data-arg="a:${a}">${a}${a === hoy ? " · este año" : a < hoy ? "" : " · por vivir"}</button>
         ${ms.filter(m => m.anio === a).map(m => `<button class="vv-meta" data-ir="metas" data-arg="a:${m.id}"><span>${esc(m.titulo)}</span><span class="pct">${pctTxt(c0.nodoAnio(m))}</span><span class="barra"><i style="width:${c0.nodoAnio(m) * 100}%"></i></span></button>`).join("")}</div>`).join("");
     const fotos = (estado.misPosts || []).filter(p => p.tipo === "VISION" && p.eje === cod && p.foto).slice(0, 6);
     panel = `<div class="vv-panel" style="--c:${d.color(sel)}"><div class="vv-panel-cab"><div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[sel]}</small><h4>${c ? esc(mdNombre(c)) : "Campamento libre"}</h4></div>
         <button class="md-visor-ic" data-acc="vidaCamp" data-arg="" aria-label="Cerrar">${ic("cerrar")}</button></div>
       ${cod === "CAM" ? `<p class="suave">Tu campamento base son las personas que suben contigo: tu cordada, tu mentor y tu coach de vida.</p><div class="botones"><button class="btn" data-ir="mensajes" data-arg="cordadas">Mis cordadas</button><button class="btn" data-ir="mensajes" data-arg="coachvida">Mi coach de vida</button></div>`
-        : `${porAnio || `<p class="suave">Todavía no hay metas que sostengan este campamento. Planea la primera: ¿en qué año la quieres lograr?</p>`}
-        <div class="botones">${[hoy, hoy + 1, hoy + 2].map(a => `<button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}||${cod === "CON" ? "" : cod}">${ic("mas")} Meta para ${a}</button>`).join("")}</div>`}
+        : `${largo}<div class="vv-nivel"><h5>Mediano plazo · metas del año</h5>${porAnio || `<p class="suave">Sin metas del año todavía. ¿En qué año la quieres lograr?</p>`}
+        <div class="botones">${[hoy, hoy + 1, hoy + 2].map(a => `<button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}||${cod === "CON" ? "" : cod}">${ic("mas")} Meta para ${a}</button>`).join("")}</div></div>${corto}`}
       ${fotos.length ? `<div class="album album-tira" style="margin-top:12px">${fotos.map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}"><img src="${esc(p.foto)}" alt="" loading="lazy"><span>${esc(p.metaTitulo || "")}</span></button>`).join("")}</div>` : ""}
       <div class="botones" style="margin-top:10px">${c ? `<button class="btn mini" data-acc="vidaBrujula" data-arg="${Mandala.ANILLO[sel]}">${ic("ruta")} Sus 8 pasos en la Brújula</button>` : `<button class="btn mini" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Crear este campamento</button>`}</div></div>`;
   }
   const chips = [0, 1, 2, 3, 4, 5, 6, 7].map(i => {
-    const cod = Mandala.CAMPAMENTOS_FIJOS[i], ms = metasDeCampamento(i);
+    const cod = Mandala.CAMPAMENTOS_FIJOS[i], ms = [...propositosDeCampamento(i), ...metasDeCampamento(i), ...mensualesDeCampamento(i)];
     return `<button class="vv-chip${sel === i ? " elegido" : ""}" style="--c:${d.color(i)}" data-acc="vidaCamp" data-arg="${i}" aria-pressed="${sel === i}">
       <i aria-hidden="true"></i>${esc(Mandala.nombre(cod))}<span>${cod === "CAM" ? "" : ms.length}</span></button>`;
   }).join("");

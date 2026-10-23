@@ -96,9 +96,9 @@ const ACC = {
     if (String(estado.sel).endsWith(":" + clave)) { estado.sel = null; $("app").classList.remove("con-detalle"); }
     toast("Borrado"); refrescar();
   },
-  nuevoProposito() {
+  nuevoProposito(el, eje) {
     const id = nuevoId();
-    Store.guardar("proposito", { id, orden: Store.lista("proposito").length, titulo: "Nuevo propósito", metasEspecificas: "", prioridad: "B", eje: null, descripcion: "", indicadorExito: "", visualizacion: "", porQueImporta: "", impacto: "", reflexionFinal: "", progreso: 0, horizonte: 5, creadoEn: Date.now() });
+    Store.guardar("proposito", { id, orden: Store.lista("proposito").length, titulo: "Nuevo propósito", metasEspecificas: "", prioridad: "B", eje: NOMBRE_EJE[eje] ? eje : null, descripcion: "", indicadorExito: "", visualizacion: "", porQueImporta: "", impacto: "", reflexionFinal: "", progreso: 0, horizonte: 5, creadoEn: Date.now() });
     ir("metas", "p:" + id); enfocarPrimero();
   },
   nuevaMetaAnio(el, arg) {
@@ -115,8 +115,8 @@ const ACC = {
     ocultarLocal("coach-creadas", id); toast("Meta creada"); pintarDetalle();
   },
   nuevaMetaMes(el, arg) {
-    const [ym, anual] = arg.split("|"), [a, m] = ym.split("-").map(Number), id = nuevoId();
-    Store.guardar("meta_mes", { id, anio: a, mes: m, orden: metasDelMes(a, m).length, texto: "Nueva meta del mes", dias: "", cumplida: false, metaAnualId: anual ? Number(anual) : null, eje: null, indicador: "", objetivoDias: 20 });
+    const [ym, anual, eje] = arg.split("|"), [a, m] = ym.split("-").map(Number), id = nuevoId();
+    Store.guardar("meta_mes", { id, anio: a, mes: m, orden: metasDelMes(a, m).length, texto: "Nueva meta del mes", dias: "", cumplida: false, metaAnualId: anual ? Number(anual) : null, eje: NOMBRE_EJE[eje] ? eje : null, indicador: "", objetivoDias: 20 });
     ir("metas", "m:" + id); enfocarPrimero();
   },
   diaMeta(el, arg) {

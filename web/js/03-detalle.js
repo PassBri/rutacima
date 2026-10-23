@@ -339,7 +339,7 @@ const DET = {
         <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
       corazonAnio(a) +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
-        ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}">${ic("bandera", "i fijado")} ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
+        ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
       (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cumplidosAnio(a) + cartaAnio(a) + `<div class="meses">${meses}</div>`);
   },
@@ -364,9 +364,9 @@ const DET = {
     const auto = anuales.length > 0;
     return cab(av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `Propósito a ${p.horizonte || 5} años`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="proposito|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
-      hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
+      (window.franjaCampamento ? franjaCampamento("proposito", p) : "") + hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
         ${selectorHorizonte("proposito", k, p.horizonte || 5)}
-        <div class="form-2">          ${campo("Eje principal", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
+        <div class="form-2">          ${campo("Eje · campamento del vision board", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}</div>
         ${auto ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoProp(p))}, el promedio de sus metas anuales.</p>`
           : campo(`Avance manual`, `<div class="rango"><input type="range" min="0" max="100" step="5" value="${p.progreso || 0}" ${bind("proposito", k, "progreso", "num")}><b>${p.progreso || 0}%</b></div>`)}
@@ -386,9 +386,7 @@ const DET = {
     const m = Store.get("meta_anio", arg); if (!m) return vacio();
     const c = cascada(), k = String(m.id);
     const hijos = c.mensuales.filter(x => x.metaAnualId === m.id).sort((x, y) => x.anio - y.anio || x.mes - y.mes);
-    const md = window.Mandala && casillasVision().length ? Mandala.datos() : null, ci = md ? campDeMeta(m) : -1, camp = ci >= 0 ? md.camps[ci] : null;
-    const enlace = md && ci >= 0 ? `<button class="meta-camp" style="--c:${md.color(ci)}" data-acc="irCampamento" data-arg="${ci}"><i aria-hidden="true"></i>
-        <span>Sostiene <b>${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[ci]))}</b>${camp ? ` · ${esc(mdNombre(camp))}` : ""} en tu vision board</span>${ic("abajo")}</button>` : "";
+    const enlace = window.franjaCampamento ? franjaCampamento("meta_anio", m) : "";
     return cab(av(pctTxt(c.nodoAnio(m)), COLOR_EJE[m.eje] || "var(--oro)"), esc(m.titulo), `Meta de ${m.anio}`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="meta_anio|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
       enlace + hoja(`<div class="form">${campo("Meta", txt("meta_anio", k, "titulo", m.titulo))}
@@ -416,11 +414,11 @@ function detMetaMes(id) {
   const k = String(m.id), c = cascada();
   return cab(av(pctTxt(avanceMetaMes(m)), COLOR_EJE[m.eje] || "var(--burdeos)"), esc(m.texto), `Meta de ${MESES[m.mes - 1]} ${m.anio}`,
     `<button class="btn mini peligro" data-acc="borrar" data-arg="meta_mes|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
-    hoja(`<div class="etiqueta">Días cumplidos · ${numeros(m.dias).length} de ${m.objetivoDias || 20}</div>${tiraDias(m)}
+    (window.franjaCampamento ? franjaCampamento("meta_mes", m) : "") + hoja(`<div class="etiqueta">Días cumplidos · ${numeros(m.dias).length} de ${m.objetivoDias || 20}</div>${tiraDias(m)}
       <label class="check" style="margin-top:10px"><input type="checkbox" ${bind("meta_mes", k, "cumplida", "bool")} ${m.cumplida ? "checked" : ""}><span>Meta cumplida</span></label>`) +
     hoja(`<div class="form">${campo("Meta", txt("meta_mes", k, "texto", m.texto))}
       <div class="form-2">${campo("Meta del año", sel("meta_mes", k, "metaAnualId", m.metaAnualId ?? "", [["", "Sin conectar"], ...c.anuales.map(a => [a.id, `${a.anio} · ${a.titulo}`])], "numNulo"))}
-        ${campo("Eje", sel("meta_mes", k, "eje", m.eje || "", opcionesEje, "nulo"))}
+        ${campo("Eje · campamento del vision board", sel("meta_mes", k, "eje", m.eje || "", [["", ejeEfectivo("meta_mes", { ...m, eje: null }) ? `El de su meta del año (${NOMBRE_EJE[ejeEfectivo("meta_mes", { ...m, eje: null })]})` : "Sin eje"], ...opcionesEje.slice(1)], "nulo"))}
         ${campo("Días objetivo", `<input type="number" min="1" max="31" ${bind("meta_mes", k, "objetivoDias", "num")} value="${m.objetivoDias || 20}">`)}</div>
       ${campo("Indicador", txt("meta_mes", k, "indicador", m.indicador))}</div>`), "max-width:720px");
 }
@@ -447,7 +445,7 @@ function detMes(arg) {
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(
     `<div class="migas"><button data-sel="vida">Mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
     hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
-      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}">${esc(x.texto)}</button><span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}`) +
+      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button><span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}`) +
     hoja(`<div class="etiqueta" style="margin-bottom:8px">Días del mes · toca uno para abrirlo</div><div class="dias" style="max-width:320px">${cal}</div>`) +
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
       <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`));
@@ -1054,9 +1052,14 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
           <input id="pct-${k}" type="range" min="0" max="100" step="5" value="${av.pct}" data-acc-input="pctCasillaVer" data-acc-change="pctCasillaGuardar" data-arg="${k}"><b>${av.pct}%</b>
           <small>${md && (md.camps.some(x => x && String(x.id) === k) || String(md.cumbre?.id) === k) ? "Nunca baja de lo que llevas en el 9×9." : ""}</small></div>` : ""}
         ${(() => { const i = md ? md.camps.findIndex(x => x && x.id === c.id) : -1; if (i < 0 || Mandala.CAMPAMENTOS_FIJOS[i] === "CAM") return "";
-          const hoy = hoyFecha().getFullYear(), ms = metasDeCampamento(i), c0 = cascada(), proximas = ms.filter(m => m.anio >= hoy).slice(0, 3);
-          return `<div class="casilla-metas"><div class="casilla-metas-cab"><b>Metas que la sostienen</b><span>${ms.length}</span></div>
-            ${proximas.map(m => `<button data-ir="metas" data-arg="a:${m.id}"><span>${m.anio} · ${esc(m.titulo)}</span><span class="pct">${pctTxt(c0.nodoAnio(m))}</span></button>`).join("")}
+          const h0 = hoyFecha(), hoy = h0.getFullYear(), mes = h0.getMonth() + 1, c0 = cascada();
+          const ps = propositosDeCampamento(i), ms = metasDeCampamento(i), mm = mensualesDeCampamento(i);
+          const fila = (niv, arg, txt, pct) => `<button data-ir="metas" data-arg="${arg}"><span><small>${niv}</small> ${txt}</span><span class="pct">${pctTxt(pct)}</span></button>`;
+          const filas = [...ps.slice(0, 2).map(p => fila("Largo", "p:" + p.id, esc(p.titulo), c0.nodoProp(p))),
+            ...ms.filter(m => m.anio >= hoy).slice(0, 2).map(m => fila(String(m.anio), "a:" + m.id, esc(m.titulo), c0.nodoAnio(m))),
+            ...mm.filter(m => m.anio === hoy && m.mes === mes).slice(0, 2).map(m => fila(MESES[m.mes - 1].slice(0, 3), "m:" + m.id, esc(m.texto), avanceMetaMes(m)))];
+          return `<div class="casilla-metas"><div class="casilla-metas-cab"><b>Lo que la sostiene</b><span>${ps.length} largo · ${ms.length} año · ${mm.length} mes</span></div>
+            ${filas.join("")}
             <button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${hoy}||${Mandala.CAMPAMENTOS_FIJOS[i] === "CON" ? "" : Mandala.CAMPAMENTOS_FIJOS[i]}">${ic("mas")} Meta para ${hoy}</button></div>`; })()}
         <details class="casilla-mas"><summary>Más opciones</summary>
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}

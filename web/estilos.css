@@ -1327,3 +1327,11 @@ body:has(.md-visor) { overflow: hidden; }
 .meta-camp i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); flex: none; }
 .meta-camp span { flex: 1; font-size: 14px; }
 .meta-camp svg { width: 18px; height: 18px; fill: var(--tinta-suave); transform: rotate(-90deg); }
+.vv-nivel { padding: 10px 0; border-top: 1px solid var(--linea); }
+.vv-nivel h5 { margin: 0 0 6px; font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--tinta-suave); }
+.vv-nivel > .btn { margin-top: 6px; }
+.vv-nivel .vv-anio { border-top: 0; padding: 4px 0; }
+.casilla-metas small { display: inline-block; min-width: 38px; font-size: 11px; color: var(--tinta-suave); text-transform: uppercase; letter-spacing: .03em; }
+.eje-punto { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+/* En Mi vida la barra de secciones de la Brújula no se queda pegada: taparía las demás secciones */
+:is(.det-cuerpo, .cuerpo, #detalle):has(#vida-vision) .md-secciones { position: static; }
