@@ -900,16 +900,25 @@ DET["perfil.vision"] = () => {
   const color = e => COLOR_EJE[e] || "#6B2A1A";
   const tarjeta = c => {
     const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
-    return `<div class="hoja casilla-v" style="padding:0">
-      <label class="casilla-foto" style="--c:${color(c.eje)}">
+    return `<div class="hoja casilla-v" style="padding:0;--c:${color(c.eje)}">
+      <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
-        ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-txt">${esc(c.afirmacion)}</span>`
-          : `<span class="casilla-af">${esc(c.afirmacion)}</span><span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
+        ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
+          : `<span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
       </label>
-      <details class="casilla-pie"><summary><span>${esc(c.titulo)}</span>${foto ? "" : `<a href="${urlIdeas(c.busqueda)}" target="_blank" rel="noopener" class="btn mini">${ic("buscar")} Ideas</a>`}</summary>
-        <div class="form" style="padding:12px">${campo("Frase", area("vision", k, "afirmacion", c.afirmacion))}${campo("Rótulo", txt("vision", k, "titulo", c.titulo))}
-        ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}<button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></div></details></div>`;
+      <div class="casilla-edicion">
+        <textarea class="casilla-frase" rows="2" aria-label="Frase de la casilla" placeholder="Escribe la frase de esta casilla" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
+        <div class="casilla-fila">
+          <input class="casilla-rotulo" aria-label="Rótulo" placeholder="Rótulo" ${bind("vision", k, "titulo")} value="${esc(c.titulo)}">
+          ${foto ? `<button class="btn mini" data-acc="quitarFotoVision" data-arg="${k}" title="Quitar la foto">${ic("borrar")}</button>`
+            : `<a href="${urlIdeas(c.busqueda)}" target="_blank" rel="noopener" class="btn mini">${ic("buscar")} Ideas</a>`}
+        </div>
+        <details class="casilla-mas"><summary>Más opciones</summary>
+          ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
+          <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
+      </div></div>`;
   };
+
   return cab(av(ic("coach"), "var(--oro)"), "Mi vision board", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>

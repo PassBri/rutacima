@@ -32,6 +32,8 @@ const ACC = {
     if (error) { el.value = antes; toast(/duplicate|unique/i.test(error.message) ? "Ese usuario ya existe. Prueba con otro." : "No se pudo cambiar el usuario." + detalleError(error)); return; }
     Store.nube.perfil.username = u; estado.feed = null; toast("Ahora eres @" + u); pintarLista?.();
   },
+  /** Quita la foto de una casilla del vision board (la publicación privada se conserva en el diario). */
+  async quitarFotoVision(_, id) { await Store.cambiar("vision", Number(id) || id, { publicacionId: null }); toast("Foto quitada de la casilla"); pintarDetalle(); },
   albumAbrir(_, a) { estado.albumAbierto = a ? Number(a) : null; pintarDetalle(); },
   async diarioVis(_, arg) {
     const [a, vis] = arg.split("|");
