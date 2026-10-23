@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">Mit der Kamera ansehen</string>
     <string name="mirar_camara_quitar">Kamera ausschalten</string>
     <string name="mirar_ayuda_camara">Richte es auf den Himmel: Linien verbinden die Sterne jedes Sternbilds, Ringe zeigen, wo jeder steht.</string>
+    <string name="vida_desliza">Wischen, um das Jahr zu wechseln</string>
+    <string name="vida_suenas">Was du dir für %1$d erträumst</string>
+    <string name="vida_tu_anio">Dein %1$d</string>
+    <string name="vida_lo_que_fue">Was %1$d war</string>
+    <string name="vida_anhelos_ayuda">Das Wort, das dieses Jahr leitet, und wonach du dich sehnst oder sehntest, eins pro Zeile.</string>
+    <string name="vida_anhelos_ayuda_futuro">Schreib deine Wünsche und Träume für dieses Jahr, einen pro Zeile. Mach dann Ziele daraus.</string>
+    <string name="vida_palabra">Wort des Jahres</string>
+    <string name="vida_palabra_ejemplo">Freiheit, Familie, Gipfel…</string>
+    <string name="vida_anhelos">Sehnsüchte</string>
+    <string name="vida_anhelos_suenos">Sehnsüchte und Träume</string>
+    <string name="vida_anhelos_ejemplo">Patagonien sehen\nMeine Schule eröffnen</string>
+    <string name="vida_anhelo_a_meta">Tippe auf einen Wunsch, um ihn zum Ziel für %1$d zu machen.</string>
+    <string name="vida_cumplidos">Erreicht %1$d</string>
+    <string name="vida_carta_titulo">Brief an dein Ich von %1$d</string>
+    <string name="vida_carta_sellada">Versiegelt. Öffnet sich am 1. Januar %1$d.</string>
+    <string name="vida_carta_reescribir">Neu schreiben</string>
+    <string name="vida_carta_sello">Wachssiegel</string>
+    <string name="vida_carta_ayuda_futuro">Schreib der Person, die du %1$d sein wirst. Er wird versiegelt und öffnet sich am 1. Januar dieses Jahres.</string>
+    <string name="vida_carta_ayuda">Was du dir %1$d sagen willst.</string>
+    <string name="vida_carta_campo">Dein Brief</string>
+    <string name="vida_carta_ejemplo">Liebes Ich von %1$d …</string>
+    <string name="vida_carta_sellar">Brief versiegeln</string>
 </resources>

@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">कैमरे से देखें</string>
     <string name="mirar_camara_quitar">कैमरा बंद करें</string>
     <string name="mirar_ayuda_camara">आसमान की ओर करें: रेखाएँ हर तारामंडल के तारों को जोड़ती हैं और घेरे बताते हैं कि हर तारा कहाँ है।</string>
+    <string name="vida_desliza">साल बदलने के लिए स्वाइप करें</string>
+    <string name="vida_suenas">%1$d के लिए आपके सपने</string>
+    <string name="vida_tu_anio">आपका %1$d</string>
+    <string name="vida_lo_que_fue">%1$d कैसा था</string>
+    <string name="vida_anhelos_ayuda">उस साल का मार्गदर्शक शब्द और जो आप चाहते हैं या चाहते थे, हर पंक्ति में एक।</string>
+    <string name="vida_anhelos_ayuda_futuro">उस साल की अपनी चाहतें और सपने लिखें, हर पंक्ति में एक। फिर उन्हें लक्ष्य बनाइए।</string>
+    <string name="vida_palabra">साल का शब्द</string>
+    <string name="vida_palabra_ejemplo">आज़ादी, परिवार, शिखर…</string>
+    <string name="vida_anhelos">चाहतें</string>
+    <string name="vida_anhelos_suenos">चाहतें और सपने</string>
+    <string name="vida_anhelos_ejemplo">पैटागोनिया देखना\nअपना स्कूल खोलना</string>
+    <string name="vida_anhelo_a_meta">किसी चाहत को छूकर %1$d का लक्ष्य बनाइए।</string>
+    <string name="vida_cumplidos">%1$d की उपलब्धियाँ</string>
+    <string name="vida_carta_titulo">%1$d वाले अपने आप को पत्र</string>
+    <string name="vida_carta_sellada">मुहरबंद। 1 जनवरी %1$d को खुलेगा।</string>
+    <string name="vida_carta_reescribir">फिर से लिखें</string>
+    <string name="vida_carta_sello">मोम की मुहर</string>
+    <string name="vida_carta_ayuda_futuro">%1$d में जो आप होंगे, उसे लिखें। यह मोम से मुहरबंद होगा और उस साल 1 जनवरी को खुलेगा।</string>
+    <string name="vida_carta_ayuda">%1$d में आप खुद से क्या कहना चाहते हैं।</string>
+    <string name="vida_carta_campo">आपका पत्र</string>
+    <string name="vida_carta_ejemplo">प्रिय %1$d वाले मैं…</string>
+    <string name="vida_carta_sellar">पत्र मुहरबंद करें</string>
 </resources>

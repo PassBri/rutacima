@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">Voir avec la caméra</string>
     <string name="mirar_camara_quitar">Couper la caméra</string>
     <string name="mirar_ayuda_camara">Vise le ciel : les lignes relient les étoiles de chaque constellation et les cercles montrent où se trouve chacune.</string>
+    <string name="vida_desliza">Glisse pour changer d’année</string>
+    <string name="vida_suenas">Ce dont tu rêves pour %1$d</string>
+    <string name="vida_tu_anio">Ton %1$d</string>
+    <string name="vida_lo_que_fue">Ce que fut %1$d</string>
+    <string name="vida_anhelos_ayuda">Le mot qui guide cette année et ce que tu désires ou désirais, un par ligne.</string>
+    <string name="vida_anhelos_ayuda_futuro">Écris tes désirs et tes rêves pour cette année, un par ligne. Puis transforme-les en objectifs.</string>
+    <string name="vida_palabra">Mot de l’année</string>
+    <string name="vida_palabra_ejemplo">Liberté, Famille, Sommet…</string>
+    <string name="vida_anhelos">Désirs</string>
+    <string name="vida_anhelos_suenos">Désirs et rêves</string>
+    <string name="vida_anhelos_ejemplo">Voir la Patagonie\nOuvrir mon école</string>
+    <string name="vida_anhelo_a_meta">Touche un désir pour en faire un objectif de %1$d.</string>
+    <string name="vida_cumplidos">Accomplis en %1$d</string>
+    <string name="vida_carta_titulo">Lettre à ton moi de %1$d</string>
+    <string name="vida_carta_sellada">Scellée. S’ouvre le 1er janvier %1$d.</string>
+    <string name="vida_carta_reescribir">La réécrire</string>
+    <string name="vida_carta_sello">Sceau de cire</string>
+    <string name="vida_carta_ayuda_futuro">Écris à la personne que tu seras en %1$d. Elle est scellée à la cire et s’ouvre le 1er janvier de cette année.</string>
+    <string name="vida_carta_ayuda">Ce que tu veux te dire en %1$d.</string>
+    <string name="vida_carta_campo">Ta lettre</string>
+    <string name="vida_carta_ejemplo">Cher moi de %1$d…</string>
+    <string name="vida_carta_sellar">Sceller la lettre</string>
 </resources>

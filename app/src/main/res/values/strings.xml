@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">Ver con la cámara</string>
     <string name="mirar_camara_quitar">Quitar la cámara</string>
     <string name="mirar_ayuda_camara">Apunta al cielo: las líneas unen las estrellas de cada constelación y los aros marcan dónde está cada una.</string>
+    <string name="vida_desliza">Desliza para cambiar de año</string>
+    <string name="vida_suenas">Lo que sueñas para %1$d</string>
+    <string name="vida_tu_anio">Tu %1$d</string>
+    <string name="vida_lo_que_fue">Lo que fue %1$d</string>
+    <string name="vida_anhelos_ayuda">La palabra que guía ese año y lo que anhelas o anhelabas, uno por línea.</string>
+    <string name="vida_anhelos_ayuda_futuro">Escribe tus anhelos y sueños para ese año, uno por línea. Después conviértelos en metas.</string>
+    <string name="vida_palabra">Palabra del año</string>
+    <string name="vida_palabra_ejemplo">Libertad, Familia, Cumbre…</string>
+    <string name="vida_anhelos">Anhelos</string>
+    <string name="vida_anhelos_suenos">Anhelos y sueños</string>
+    <string name="vida_anhelos_ejemplo">Conocer la Patagonia\nAbrir mi escuela</string>
+    <string name="vida_anhelo_a_meta">Toca un anhelo para convertirlo en meta de %1$d.</string>
+    <string name="vida_cumplidos">Cumplidos de %1$d</string>
+    <string name="vida_carta_titulo">Carta a tu yo de %1$d</string>
+    <string name="vida_carta_sellada">Sellada. Se abre el 1 de enero de %1$d.</string>
+    <string name="vida_carta_reescribir">Reescribirla</string>
+    <string name="vida_carta_sello">Sello de lacre</string>
+    <string name="vida_carta_ayuda_futuro">Escríbele a la persona que serás en %1$d. Se sella con lacre y se abre el 1 de enero de ese año.</string>
+    <string name="vida_carta_ayuda">Lo que quieres decirte en %1$d.</string>
+    <string name="vida_carta_campo">Tu carta</string>
+    <string name="vida_carta_ejemplo">Querido yo de %1$d…</string>
+    <string name="vida_carta_sellar">Sellar la carta</string>
 </resources>

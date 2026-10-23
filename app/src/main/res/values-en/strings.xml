@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">View with camera</string>
     <string name="mirar_camara_quitar">Turn off camera</string>
     <string name="mirar_ayuda_camara">Point at the sky: lines join the stars of each constellation and rings mark where each one is.</string>
+    <string name="vida_desliza">Swipe to change year</string>
+    <string name="vida_suenas">What you dream for %1$d</string>
+    <string name="vida_tu_anio">Your %1$d</string>
+    <string name="vida_lo_que_fue">What %1$d was</string>
+    <string name="vida_anhelos_ayuda">The word that guides that year and what you long or longed for, one per line.</string>
+    <string name="vida_anhelos_ayuda_futuro">Write your longings and dreams for that year, one per line. Then turn them into goals.</string>
+    <string name="vida_palabra">Word of the year</string>
+    <string name="vida_palabra_ejemplo">Freedom, Family, Summit…</string>
+    <string name="vida_anhelos">Longings</string>
+    <string name="vida_anhelos_suenos">Longings and dreams</string>
+    <string name="vida_anhelos_ejemplo">See Patagonia\nOpen my school</string>
+    <string name="vida_anhelo_a_meta">Tap a longing to turn it into a %1$d goal.</string>
+    <string name="vida_cumplidos">Achieved in %1$d</string>
+    <string name="vida_carta_titulo">Letter to your %1$d self</string>
+    <string name="vida_carta_sellada">Sealed. Opens on January 1, %1$d.</string>
+    <string name="vida_carta_reescribir">Rewrite it</string>
+    <string name="vida_carta_sello">Wax seal</string>
+    <string name="vida_carta_ayuda_futuro">Write to the person you will be in %1$d. It is sealed with wax and opens on January 1 of that year.</string>
+    <string name="vida_carta_ayuda">What you want to tell yourself in %1$d.</string>
+    <string name="vida_carta_campo">Your letter</string>
+    <string name="vida_carta_ejemplo">Dear me of %1$d…</string>
+    <string name="vida_carta_sellar">Seal the letter</string>
 </resources>

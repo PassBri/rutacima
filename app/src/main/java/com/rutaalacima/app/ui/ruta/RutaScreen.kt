@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -185,6 +187,12 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
         }, emptyList())
     var armando by androidx.compose.runtime.mutableStateOf(false)
         private set
+    /** Lo de cada año de la vida: palabra, anhelos y carta (respuestas del workbook "vida", sincronizadas con la web). */
+    val vida: StateFlow<Map<String, String>> = e(c.respuestas.observar(WB_VIDA), emptyMap())
+    fun guardarVida(clave: String, valor: String) = viewModelScope.launch { c.respuestas.guardar(WB_VIDA, clave, valor) }
+    fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
+        c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
+    }
     fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
 
@@ -219,6 +227,7 @@ fun RutaScreen(
     val mensuales by vm.mensuales.collectAsStateWithLifecycle()
     val checks by vm.checks.collectAsStateWithLifecycle()
     val casillas by vm.casillas.collectAsStateWithLifecycle()
+    val vida by vm.vida.collectAsStateWithLifecycle()
     var codigo by rememberSaveable { mutableStateOf("vida") }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
@@ -239,20 +248,38 @@ fun RutaScreen(
     Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
         Migas(nivel, perfil, ir)
         SaltosChips(ir)
-        AnimatedContent(targetState = nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
+        val deslizar = Modifier.pointerInput(codigo) {
+            val n0 = nivel; if (n0 !is Nivel.Anio) return@pointerInput
+            var acumulado = 0f
+            detectHorizontalDragGestures(onDragStart = { acumulado = 0f }, onDragEnd = {
+                if (acumulado < -140f) ir(Nivel.Anio(n0.anio + 1)) else if (acumulado > 140f) ir(Nivel.Anio(n0.anio - 1))
+            }) { _, d -> acumulado += d }
+        }
+        AnimatedContent(targetState = nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }, modifier = deslizar) { n ->
             LazyColumn(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = contentPadding.calculateBottomPadding() + 96.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 when (n) {
                     Nivel.Vida -> {
+                        perfil.anioNacimiento?.let { nac ->
+                            item(key = "linea-vida") { LineaVida(nac, perfil.esperanza(), hoy().year, anuales, posts, vida) { ir(Nivel.Anio(it)) } }
+                            item(key = "corazon-hoy") { CorazonAnio(hoy().year, vida, vm::guardarVida) { vm.anheloAMeta(hoy().year, it) } }
+                        }
                         item(key = "vision-vida") {
                             VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
                                 onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
                         }
                         nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
                     }
-                    is Nivel.Anio -> nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
+                    is Nivel.Anio -> {
+                        perfil.anioNacimiento?.let { nac -> item(key = "linea-${n.anio}") { LineaVida(nac, perfil.esperanza(), n.anio, anuales, posts, vida) { ir(Nivel.Anio(it)) } } }
+                        item(key = "nav-${n.anio}") { NavAnio(n.anio) { ir(Nivel.Anio(it)) } }
+                        item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
+                        nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
+                        item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
+                        item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
+                    }
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, checks, vm, onPlanificador, onKit, onPublicar)

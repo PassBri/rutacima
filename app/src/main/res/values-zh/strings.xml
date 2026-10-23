@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">用相机看</string>
     <string name="mirar_camara_quitar">关闭相机</string>
     <string name="mirar_ayuda_camara">对准天空：线条连接每个星座的星星，圆圈标出每颗星的位置。</string>
+    <string name="vida_desliza">滑动切换年份</string>
+    <string name="vida_suenas">你对 %1$d 年的梦想</string>
+    <string name="vida_tu_anio">你的 %1$d</string>
+    <string name="vida_lo_que_fue">%1$d 年的样子</string>
+    <string name="vida_anhelos_ayuda">引导这一年的词，以及你渴望或曾渴望的事，每行一个。</string>
+    <string name="vida_anhelos_ayuda_futuro">写下你对那一年的渴望和梦想，每行一个。然后把它们变成目标。</string>
+    <string name="vida_palabra">年度词</string>
+    <string name="vida_palabra_ejemplo">自由、家庭、顶峰…</string>
+    <string name="vida_anhelos">渴望</string>
+    <string name="vida_anhelos_suenos">渴望与梦想</string>
+    <string name="vida_anhelos_ejemplo">去巴塔哥尼亚\n开办我的学校</string>
+    <string name="vida_anhelo_a_meta">点一个渴望，把它变成 %1$d 年的目标。</string>
+    <string name="vida_cumplidos">%1$d 年的成就</string>
+    <string name="vida_carta_titulo">写给 %1$d 年的自己</string>
+    <string name="vida_carta_sellada">已封存，%1$d 年 1 月 1 日开启。</string>
+    <string name="vida_carta_reescribir">重写</string>
+    <string name="vida_carta_sello">火漆印</string>
+    <string name="vida_carta_ayuda_futuro">写给 %1$d 年的自己。用火漆封存，那一年的 1 月 1 日开启。</string>
+    <string name="vida_carta_ayuda">%1$d 年你想对自己说的话。</string>
+    <string name="vida_carta_campo">你的信</string>
+    <string name="vida_carta_ejemplo">亲爱的 %1$d 年的我…</string>
+    <string name="vida_carta_sellar">封存这封信</string>
 </resources>

@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">카메라로 보기</string>
     <string name="mirar_camara_quitar">카메라 끄기</string>
     <string name="mirar_ayuda_camara">하늘을 향하세요. 선은 별자리의 별들을 잇고, 동그라미는 각 별의 위치를 표시합니다.</string>
+    <string name="vida_desliza">밀어서 연도 바꾸기</string>
+    <string name="vida_suenas">%1$d년에 꿈꾸는 것</string>
+    <string name="vida_tu_anio">나의 %1$d년</string>
+    <string name="vida_lo_que_fue">%1$d년은 이랬어요</string>
+    <string name="vida_anhelos_ayuda">그해를 이끄는 단어와 바라는(바랐던) 것, 한 줄에 하나씩.</string>
+    <string name="vida_anhelos_ayuda_futuro">그해의 바람과 꿈을 한 줄에 하나씩 적으세요. 그다음 목표로 바꾸세요.</string>
+    <string name="vida_palabra">올해의 단어</string>
+    <string name="vida_palabra_ejemplo">자유, 가족, 정상…</string>
+    <string name="vida_anhelos">바람</string>
+    <string name="vida_anhelos_suenos">바람과 꿈</string>
+    <string name="vida_anhelos_ejemplo">파타고니아 가기\n나의 학교 열기</string>
+    <string name="vida_anhelo_a_meta">바람을 누르면 %1$d년 목표가 됩니다.</string>
+    <string name="vida_cumplidos">%1$d년에 이룬 것</string>
+    <string name="vida_carta_titulo">%1$d년의 나에게 쓰는 편지</string>
+    <string name="vida_carta_sellada">봉인됨. %1$d년 1월 1일에 열립니다.</string>
+    <string name="vida_carta_reescribir">다시 쓰기</string>
+    <string name="vida_carta_sello">밀랍 봉인</string>
+    <string name="vida_carta_ayuda_futuro">%1$d년의 나에게 쓰세요. 밀랍으로 봉인되고 그해 1월 1일에 열립니다.</string>
+    <string name="vida_carta_ayuda">%1$d년에 나에게 하고 싶은 말.</string>
+    <string name="vida_carta_campo">나의 편지</string>
+    <string name="vida_carta_ejemplo">%1$d년의 나에게…</string>
+    <string name="vida_carta_sellar">편지 봉인하기</string>
 </resources>

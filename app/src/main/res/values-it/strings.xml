@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">Guarda con la fotocamera</string>
     <string name="mirar_camara_quitar">Spegni la fotocamera</string>
     <string name="mirar_ayuda_camara">Punta al cielo: le linee uniscono le stelle di ogni costellazione e gli anelli segnano dove si trova ognuna.</string>
+    <string name="vida_desliza">Scorri per cambiare anno</string>
+    <string name="vida_suenas">Ciò che sogni per il %1$d</string>
+    <string name="vida_tu_anio">Il tuo %1$d</string>
+    <string name="vida_lo_que_fue">Com’è stato il %1$d</string>
+    <string name="vida_anhelos_ayuda">La parola che guida quell’anno e ciò che desideri o desideravi, uno per riga.</string>
+    <string name="vida_anhelos_ayuda_futuro">Scrivi desideri e sogni per quell’anno, uno per riga. Poi trasformali in obiettivi.</string>
+    <string name="vida_palabra">Parola dell’anno</string>
+    <string name="vida_palabra_ejemplo">Libertà, Famiglia, Vetta…</string>
+    <string name="vida_anhelos">Desideri</string>
+    <string name="vida_anhelos_suenos">Desideri e sogni</string>
+    <string name="vida_anhelos_ejemplo">Vedere la Patagonia\nAprire la mia scuola</string>
+    <string name="vida_anhelo_a_meta">Tocca un desiderio per farlo diventare obiettivo del %1$d.</string>
+    <string name="vida_cumplidos">Traguardi del %1$d</string>
+    <string name="vida_carta_titulo">Lettera al te del %1$d</string>
+    <string name="vida_carta_sellada">Sigillata. Si apre il 1° gennaio %1$d.</string>
+    <string name="vida_carta_reescribir">Riscriverla</string>
+    <string name="vida_carta_sello">Sigillo di ceralacca</string>
+    <string name="vida_carta_ayuda_futuro">Scrivi alla persona che sarai nel %1$d. Si sigilla con ceralacca e si apre il 1° gennaio di quell’anno.</string>
+    <string name="vida_carta_ayuda">Ciò che vuoi dirti nel %1$d.</string>
+    <string name="vida_carta_campo">La tua lettera</string>
+    <string name="vida_carta_ejemplo">Caro me del %1$d…</string>
+    <string name="vida_carta_sellar">Sigilla la lettera</string>
 </resources>

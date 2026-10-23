@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">カメラで見る</string>
     <string name="mirar_camara_quitar">カメラをオフ</string>
     <string name="mirar_ayuda_camara">空に向けてください。線が星座の星を結び、輪がそれぞれの星の位置を示します。</string>
+    <string name="vida_desliza">スワイプで年を切り替え</string>
+    <string name="vida_suenas">%1$d 年に夢見ること</string>
+    <string name="vida_tu_anio">あなたの %1$d 年</string>
+    <string name="vida_lo_que_fue">%1$d 年はこうだった</string>
+    <string name="vida_anhelos_ayuda">その年を導く言葉と、願うこと（願っていたこと）を 1 行に 1 つ。</string>
+    <string name="vida_anhelos_ayuda_futuro">その年の願いと夢を 1 行に 1 つ書きましょう。あとで目標に変えられます。</string>
+    <string name="vida_palabra">今年の言葉</string>
+    <string name="vida_palabra_ejemplo">自由、家族、頂上…</string>
+    <string name="vida_anhelos">願い</string>
+    <string name="vida_anhelos_suenos">願いと夢</string>
+    <string name="vida_anhelos_ejemplo">パタゴニアへ行く\n自分の学校を開く</string>
+    <string name="vida_anhelo_a_meta">願いをタップすると %1$d 年の目標になります。</string>
+    <string name="vida_cumplidos">%1$d 年に達成したこと</string>
+    <string name="vida_carta_titulo">%1$d 年の自分への手紙</string>
+    <string name="vida_carta_sellada">封印済み。%1$d 年 1 月 1 日に開きます。</string>
+    <string name="vida_carta_reescribir">書き直す</string>
+    <string name="vida_carta_sello">封蝋</string>
+    <string name="vida_carta_ayuda_futuro">%1$d 年の自分に書きましょう。封蝋で閉じ、その年の 1 月 1 日に開きます。</string>
+    <string name="vida_carta_ayuda">%1$d 年に自分へ伝えたいこと。</string>
+    <string name="vida_carta_campo">あなたの手紙</string>
+    <string name="vida_carta_ejemplo">親愛なる %1$d 年の私へ…</string>
+    <string name="vida_carta_sellar">手紙を封印する</string>
 </resources>

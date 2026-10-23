@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">العرض بالكاميرا</string>
     <string name="mirar_camara_quitar">إيقاف الكاميرا</string>
     <string name="mirar_ayuda_camara">وجّه الهاتف إلى السماء: الخطوط تصل نجوم كل كوكبة والحلقات تحدد موضع كل نجم.</string>
+    <string name="vida_desliza">اسحب لتغيير السنة</string>
+    <string name="vida_suenas">ما تحلم به لعام %1$d</string>
+    <string name="vida_tu_anio">عامك %1$d</string>
+    <string name="vida_lo_que_fue">كيف كان %1$d</string>
+    <string name="vida_anhelos_ayuda">الكلمة التي تقود ذلك العام وما تتوق إليه أو كنت تتوق إليه، واحد في كل سطر.</string>
+    <string name="vida_anhelos_ayuda_futuro">اكتب أمنياتك وأحلامك لذلك العام، واحدة في كل سطر. ثم حوّلها إلى أهداف.</string>
+    <string name="vida_palabra">كلمة العام</string>
+    <string name="vida_palabra_ejemplo">الحرية، العائلة، القمة…</string>
+    <string name="vida_anhelos">أمنيات</string>
+    <string name="vida_anhelos_suenos">أمنيات وأحلام</string>
+    <string name="vida_anhelos_ejemplo">زيارة باتاغونيا\nافتتاح مدرستي</string>
+    <string name="vida_anhelo_a_meta">المس أمنية لتحويلها إلى هدف لعام %1$d.</string>
+    <string name="vida_cumplidos">إنجازات %1$d</string>
+    <string name="vida_carta_titulo">رسالة إلى نفسك في %1$d</string>
+    <string name="vida_carta_sellada">مختومة. تُفتح في 1 يناير %1$d.</string>
+    <string name="vida_carta_reescribir">إعادة كتابتها</string>
+    <string name="vida_carta_sello">ختم الشمع</string>
+    <string name="vida_carta_ayuda_futuro">اكتب للشخص الذي ستكونه في %1$d. تُختم بالشمع وتُفتح في 1 يناير من ذلك العام.</string>
+    <string name="vida_carta_ayuda">ما تريد قوله لنفسك في %1$d.</string>
+    <string name="vida_carta_campo">رسالتك</string>
+    <string name="vida_carta_ejemplo">عزيزي أنا في %1$d…</string>
+    <string name="vida_carta_sellar">ختم الرسالة</string>
 </resources>

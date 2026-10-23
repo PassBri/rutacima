@@ -1298,4 +1298,26 @@
     <string name="mirar_camara">Смотреть через камеру</string>
     <string name="mirar_camara_quitar">Выключить камеру</string>
     <string name="mirar_ayuda_camara">Наведи на небо: линии соединяют звёзды каждого созвездия, а кольца отмечают, где каждая из них.</string>
+    <string name="vida_desliza">Проведи, чтобы сменить год</string>
+    <string name="vida_suenas">О чём ты мечтаешь в %1$d</string>
+    <string name="vida_tu_anio">Твой %1$d</string>
+    <string name="vida_lo_que_fue">Каким был %1$d</string>
+    <string name="vida_anhelos_ayuda">Слово, которое ведёт этот год, и то, чего ты хочешь или хотел, по одному в строке.</string>
+    <string name="vida_anhelos_ayuda_futuro">Запиши желания и мечты на этот год, по одному в строке. Потом преврати их в цели.</string>
+    <string name="vida_palabra">Слово года</string>
+    <string name="vida_palabra_ejemplo">Свобода, Семья, Вершина…</string>
+    <string name="vida_anhelos">Желания</string>
+    <string name="vida_anhelos_suenos">Желания и мечты</string>
+    <string name="vida_anhelos_ejemplo">Увидеть Патагонию\nОткрыть свою школу</string>
+    <string name="vida_anhelo_a_meta">Нажми на желание, чтобы сделать его целью на %1$d.</string>
+    <string name="vida_cumplidos">Достигнуто в %1$d</string>
+    <string name="vida_carta_titulo">Письмо себе в %1$d</string>
+    <string name="vida_carta_sellada">Запечатано. Откроется 1 января %1$d.</string>
+    <string name="vida_carta_reescribir">Переписать</string>
+    <string name="vida_carta_sello">Сургучная печать</string>
+    <string name="vida_carta_ayuda_futuro">Напиши человеку, которым ты станешь в %1$d. Письмо запечатают сургучом, и оно откроется 1 января того года.</string>
+    <string name="vida_carta_ayuda">Что ты хочешь сказать себе в %1$d.</string>
+    <string name="vida_carta_campo">Твоё письмо</string>
+    <string name="vida_carta_ejemplo">Дорогой я из %1$d…</string>
+    <string name="vida_carta_sellar">Запечатать письмо</string>
 </resources>
