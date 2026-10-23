@@ -1179,3 +1179,23 @@ a.btn { text-decoration: none; }
 .md-bloque-cab .pct-m3 { height: 30px; font-size: 13px; padding: 0 12px 0 6px; }
 .md-bloque-cab .pct-m3 i { width: 18px; height: 18px; -webkit-mask: radial-gradient(circle, transparent 5.4px, #000 6px); mask: radial-gradient(circle, transparent 5.4px, #000 6px); }
 .casilla-v.resalta { outline: 3px solid var(--oro); outline-offset: 3px; transition: outline-color .3s; }
+
+/* Visor emergente de la Brújula: Cumbre ⇄ Vision board ⇄ 9×9, a pantalla completa */
+.md-visor { position: fixed; inset: 0; z-index: 1200; display: flex; flex-direction: column; gap: 10px; padding: 12px clamp(12px, 3vw, 32px) 16px; background: color-mix(in srgb, var(--fondo, #F3EFE8) 96%, #000); animation: visor-entra .28s cubic-bezier(.2, 0, 0, 1); }
+@keyframes visor-entra { from { opacity: 0; transform: scale(.98); } }
+@media (prefers-reduced-motion: reduce) { .md-visor { animation: none; } }
+body:has(.md-visor) { overflow: hidden; }
+.md-visor-barra { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.md-visor-barra .md-migas { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; }
+.md-visor-barra .md-migas button { color: var(--burdeos); padding: 6px 8px; border-radius: 8px; }
+.md-visor-barra .md-migas button:hover { background: color-mix(in srgb, var(--oro) 16%, transparent); }
+.md-visor-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; font-size: 20px; line-height: 1; color: var(--tinta); background: var(--hoja); border: 1px solid var(--linea); }
+.md-visor-ic:hover:not([disabled]) { border-color: var(--oro); }
+.md-visor-ic[disabled] { opacity: .35; cursor: default; }
+.md-visor-ic svg { width: 20px; height: 20px; }
+.md-visor-lienzo { flex: 1; min-height: 0; display: grid; place-items: center; overflow: auto; border-radius: 16px; }
+.md-visor-lienzo > .md-nivel1, .md-visor-lienzo > .md-nivel9, .md-visor-lienzo > .md-grilla-caja { width: min(100%, calc(100dvh - 150px)); max-width: none; max-height: none; aspect-ratio: 1; margin: 0 auto; }
+.md-visor-lienzo > .md-grilla-caja .md-grilla { height: 100%; }
+.md-visor-ayuda { margin: 0; text-align: center; font-size: 13px; color: var(--tinta-suave); }
+.md-sec-cab > div { flex: 1; }
+.md-ver-grande { color: var(--burdeos) !important; font-weight: 600; }

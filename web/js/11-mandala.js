@@ -335,8 +335,10 @@ function mandalaHtml(tableroHtml = "") {
   // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
-    <button data-acc="mdIr" data-arg="md-s1"><b>1</b> Cumbre</button><button data-acc="mdIr" data-arg="md-s9"><b>9</b> Vision board</button><button data-acc="mdIr" data-arg="md-s81"><b>81</b> Brújula 9×9</button></nav>`;
-  const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div></div>`;
+    <button data-acc="mdIr" data-arg="md-s1"><b>1</b> Cumbre</button><button data-acc="mdIr" data-arg="md-s9"><b>9</b> Vision board</button><button data-acc="mdIr" data-arg="md-s81"><b>81</b> Brújula 9×9</button>
+    <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" title="Ver en grande: de la cumbre al 9×9 y de vuelta">⛶ Ver en grande</button></nav>`;
+  const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
+    <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande">⛶</button></div>`;
   const s1 = hoja(cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.") +
     (d.cumbre ? casillaVisionHtml(d.cumbre, d, true) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
@@ -357,6 +359,45 @@ function mandalaHtml(tableroHtml = "") {
       <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
+  // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
+  let visor = "";
+  if (estado.mdVisor) {
+    const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
+    estado.mdAnim = null;
+    const puntos = i => { const g = [0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(d.camps[i]?.id, q) === "HECHO").length;
+      return `<span class="md-puntos">${[0, 1, 2, 3, 4, 5, 6, 7].map(q => `<i class="${q < g ? "si" : ""}"></i>`).join("")}</span>`; };
+    const vista = nivel === 0
+      ? `<button class="md-nivel1${anim}" data-acc="mdNivel" data-arg="1" aria-label="Acercar: tu vision board">
+          ${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
+          <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em>${mdAnillo(pctC, "centro")}</button>`
+      : nivel === 1
+        ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
+            const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
+            if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdNivel" data-arg="2" aria-label="Acercar: el 9×9 completo">
+              ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(pctC, "esquina")}</button>`;
+            const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
+            return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Acercar: ${esc(Mandala.nombre(cod))}">
+              ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
+          }).join("")}</div>`
+        : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div></div>`;
+    const ayuda = ["Toca tu cumbre para acercarte a tu vision board.",
+      "Toca la cumbre para ver el 9×9, o un campamento para ir directo a su bloque. Para alejarte: la flecha, las migas, el signo − o Esc.",
+      "Toca un bloque para editarlo abajo; el centro te aleja al vision board. Para alejarte: la flecha, las migas, el signo − o Esc."][nivel];
+    const migas = ["Cumbre", "Vision board", "9×9"].map((t, i) => (i ? `<span class="md-sep" aria-hidden="true">›</span>` : "") +
+      (i === nivel ? `<b aria-current="step">${t}</b>` : `<button data-acc="mdNivel" data-arg="${i}">${t}</button>`)).join("");
+    visor = `<div class="md-visor" role="dialog" aria-modal="true" aria-label="Tu Brújula en grande">
+      <div class="md-visor-barra">
+        <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "disabled"} aria-label="Alejar">${ic("volver")}</button>
+        <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span><span style="flex:1"></span>
+        <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "disabled"} aria-label="Alejar (−)" title="Alejar (−)">−</button>
+        <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel + 1}" ${nivel < 2 ? "" : "disabled"} aria-label="Acercar (+)" title="Acercar (+)">+</button>
+        <button class="btn mini" data-acc="mdEditarAbajo">${ic("foto")} Editar abajo</button>
+        <button class="md-visor-ic" data-acc="mdPantalla" aria-label="Pantalla completa" title="Pantalla completa (F)">⛶</button>
+        <button class="md-visor-ic" data-acc="mdVisor" data-arg="" aria-label="Cerrar (Esc)" title="Cerrar (Esc)">${ic("cerrar")}</button></div>
+      <div class="md-visor-lienzo md-papel">${vista}</div>
+      <p class="md-visor-ayuda">${ayuda}</p></div>`;
+  }
+  montarVisor(visor);
   return nav + s1 + s9 + s81 + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) + hoja(cierreHtml(d));
 }
 
@@ -377,6 +418,10 @@ Object.assign(ACC, {
     mdPublicando = false; pintarDetalle();
   },
   mandalaBloque(el, v) {
+    if (estado.mdVisor && el?.closest?.(".md-visor")) {
+      if (Number(v) === 4 && el.classList.contains("md-bloque")) { ACC.mdNivel(null, "1"); return; }
+      estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
+    }
     estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
     if (el) requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
   },
@@ -394,6 +439,18 @@ Object.assign(ACC, {
     if (Date.now() - (estado.mdNivelEn || 0) < 400) return;
     estado.mandalaBloque = Mandala.ANILLO[Number(i)]; estado.mdPaso = null;
     estado.mdAnim = "acercar"; estado.mdNivel = 2; estado.mdNivelEn = Date.now(); pintarDetalle();
+  },
+  /** Abre (con el nivel) o cierra el visor emergente. */
+  mdVisor(_, v) {
+    if (v === "" || v === undefined) { estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.(); pintarDetalle(); return; }
+    estado.mdVisor = true; estado.mdNivel = Number(v); estado.mdAnim = "acercar"; estado.mdNivelEn = 0; pintarDetalle();
+    requestAnimationFrame(() => document.querySelector(".md-visor-lienzo button, .md-visor .md-visor-ic:not([disabled])")?.focus());
+  },
+  mdPantalla() { const v = document.querySelector(".md-visor"); if (!v) return; document.fullscreenElement ? document.exitFullscreen?.() : (document.documentElement.requestFullscreen?.() || null); },
+  /** Cierra el visor y baja al editor de lo que se estaba viendo. */
+  mdEditarAbajo() {
+    const n = estado.mdNivel ?? 0; estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.(); pintarDetalle();
+    requestAnimationFrame(() => document.getElementById(n === 0 ? "md-s1" : n === 1 ? "md-s9" : "md-bloque")?.scrollIntoView({ behavior: "smooth", block: "start" }));
   },
   mdPaso(_, v) { estado.mdPaso = v || null; estado.mdCaidaVer = false; pintarDetalle(); },
   mdCaidaVer() { estado.mdCaidaVer = !estado.mdCaidaVer; pintarDetalle(); },
@@ -605,6 +662,13 @@ async function publicarImagenVision(blob, visibilidad, texto, metaTitulo, tipo =
 
 // Esc aleja un nivel de la Brújula (cuando está abierta y no se está escribiendo)
 document.addEventListener("keydown", e => {
+  if (document.querySelector(".md-visor") && !e.target.closest("input, textarea")) {
+    const n = estado.mdNivel ?? 0;
+    if (e.key === "Escape" && !document.fullscreenElement) { e.preventDefault(); n > 0 ? ACC.mdNivel(null, String(n - 1)) : ACC.mdVisor(null, ""); return; }
+    if (e.key === "-" || e.key === "_") { e.preventDefault(); if (n > 0) ACC.mdNivel(null, String(n - 1)); return; }
+    if (e.key === "+" || e.key === "=") { e.preventDefault(); if (n < 2) ACC.mdNivel(null, String(n + 1)); return; }
+    if (e.key === "f" || e.key === "F") { e.preventDefault(); ACC.mdPantalla(); return; }
+  }
   if (e.key !== "Escape" || !document.querySelector(".md-zoom") || e.target.closest("input, textarea")) return;
   if (String(estado.sel || "").startsWith("brujula:")) { if ((estado.vbNivel ?? 0) > 0) { e.preventDefault(); ACC.vbNivel(null, String(estado.vbNivel - 1)); } return; }
   if ((estado.mdNivel ?? 0) > 0) { e.preventDefault(); ACC.mdNivel(null, String(estado.mdNivel - 1)); }
@@ -721,3 +785,19 @@ Object.assign(ACC, {
     texto: "Mi Brújula de la Cima a mitad de año.", metaTitulo: "Mi Brújula de la Cima 9×9", impulsos: 64, comentarios: 5, yoImpulse: false,
     creadoEn: Date.now() - 2 * 3600000, foto: "", propio: false, demo: true, brujula: b });
 })();
+
+
+/* El visor vive en el <body>, por encima de la barra lateral y del panel; se vacía al salir de la Brújula. */
+function montarVisor(html) {
+  let raiz = document.getElementById("visorRaiz");
+  if (!raiz) {
+    raiz = document.createElement("div"); raiz.id = "visorRaiz"; document.body.appendChild(raiz);
+    raiz.onclick = e => clic(e); raiz.onchange = e => cambio(e);
+  }
+  if (raiz.innerHTML !== html) raiz.innerHTML = html;
+}
+const pintarDetalleBase = pintarDetalle;
+pintarDetalle = function () {
+  pintarDetalleBase.apply(this, arguments);
+  if (!document.querySelector(".md-secciones")) { if (estado.mdVisor) estado.mdVisor = false; montarVisor(""); }
+};
