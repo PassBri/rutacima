@@ -304,7 +304,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
+fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: Boolean = false) {
     val vm = rutaViewModel { VisionViewModel(it) }
     val ctx = LocalContext.current
     val casillas by vm.casillas.collectAsStateWithLifecycle()
@@ -419,6 +419,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}) {
                         onNuevaMontana = { vm.nuevaMontana(campamentos.map { it?.casilla?.id }) },
                         onCompartir = { vis, pasos, evid -> vm.compartirMandala(ctx, datos, textos, vis, pasos, evid) },
                         compartiendo = vm.compartiendo,
+                        abrirCompartir = compartir,
                     )
                 }
             }

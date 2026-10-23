@@ -213,10 +213,12 @@ fun MandalaSeccion(
     onNuevaMontana: () -> Unit,
     onCompartir: (Visibilidad, conPasos: Boolean, conEvidencias: Boolean) -> Unit,
     compartiendo: Boolean,
+    /** Abre de una vez la pregunta de con quién compartir (desde "Compartir" en Mi vida). */
+    abrirCompartir: Boolean = false,
 ) {
     var bloque by rememberSaveable { mutableStateOf(4) }
     var editando by remember { mutableStateOf<Pair<Int, Int>?>(null) }
-    var preguntarCompartir by remember { mutableStateOf(false) }
+    var preguntarCompartir by rememberSaveable { mutableStateOf(abrirCompartir && datos.campamentos.isNotEmpty()) }
     val pr = datos.progreso
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(stringResource(R.string.brujula_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)

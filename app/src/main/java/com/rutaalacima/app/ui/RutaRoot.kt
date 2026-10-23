@@ -130,6 +130,7 @@ object Rutas {
     const val FRASES = "frases"
     const val WEB = "web"
     const val VISION = "vision"
+    const val VISION_COMPARTIR = "vision?compartir={compartir}"
     const val MENSAJES = "mensajes"
     const val CHAT = "chat/{id}"
     const val COACH_VIDA = "coach_vida"
@@ -363,6 +364,7 @@ private fun AppPrincipal() {
                     onAjustes = { nav.navigate(Rutas.AJUSTES) },
                     onAlbum = { nav.navigate(Rutas.album(it)) },
                     onVision = { nav.navigate(Rutas.VISION) },
+                    onCompartirVision = { nav.navigate("vision?compartir=1") },
                     onNuevaMetaCampamento = { eje, anio -> nav.navigate(Rutas.nuevaMeta(com.rutaalacima.app.ui.metas.NivelMeta.ANIO, eje, anio)) },
                 )
             }
@@ -485,6 +487,9 @@ private fun AppPrincipal() {
                 AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
             }
             composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }) }
+            composable(Rutas.VISION_COMPARTIR, arguments = listOf(navArgument("compartir") { type = NavType.StringType; nullable = true; defaultValue = null })) {
+                com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }, compartir = true)
+            }
             composable(Rutas.WEB) {
                 com.rutaalacima.app.ui.web.WebScreen(onBack = { nav.popBackStack() }, onCuenta = { nav.navigate(Rutas.AJUSTES) })
             }

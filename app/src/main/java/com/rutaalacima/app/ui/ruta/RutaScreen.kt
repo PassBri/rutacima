@@ -206,6 +206,8 @@ fun RutaScreen(
     onAlbum: (Int) -> Unit = {},
     /** Abre la Brújula (vision board 9 y 9×9). */
     onVision: () -> Unit = {},
+    /** Comparte el vision board en la comunidad (pestaña Visión). */
+    onCompartirVision: () -> Unit = onVision,
     /** Nueva meta anual con su campamento (eje) y su año ya elegidos. */
     onNuevaMetaCampamento: (eje: String?, anio: Int) -> Unit = { _, _ -> },
 ) {
@@ -245,7 +247,7 @@ fun RutaScreen(
                 when (n) {
                     Nivel.Vida -> {
                         item(key = "vision-vida") {
-                            VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onVision,
+                            VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
                                 onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
                         }
                         nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
