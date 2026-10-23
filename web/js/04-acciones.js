@@ -123,6 +123,15 @@ const ACC = {
     const [id, d] = arg.split("|").map(Number), m = Store.get("meta_mes", id); if (!m) return;
     Store.cambiar("meta_mes", id, { dias: alternar(numeros(m.dias), d).sort((x, y) => x - y).join(",") });
   },
+  /** Mueve la línea de vida una pantalla a la izquierda o a la derecha. */
+  lvMover(el, d) { const c = el.closest(".lv")?.querySelector(".lv-cinta"); c?.scrollBy({ left: Number(d) * c.clientWidth * 0.8, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); },
+  /** Un anhelo se vuelve meta de ese año (con el título ya escrito). */
+  anheloAMeta(_, arg) {
+    const i = arg.indexOf("|"), anio = Number(arg.slice(0, i)), titulo = arg.slice(i + 1).slice(0, 120), id = nuevoId();
+    Store.guardar("meta_anio", { id, anio, propositoId: null, titulo, subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: null, indicador: "", observable: "" });
+    toast(`“${titulo}” ya es meta de ${anio}`); ir("metas", "a:" + id);
+  },
+  cartaEditar(_, a) { estado.cartaEditar = a ? Number(a) : null; pintarDetalle(); if (a) requestAnimationFrame(() => document.querySelector(".carta-area")?.focus()); },
   habEditar() { estado.habEditar = !estado.habEditar; pintarDetalle(); },
   habRenombrar(el, id) { const t = el.value.trim().slice(0, 120); if (!t) { el.value = habitos().find(h => h[0] === id)?.[2] || ""; return; } guardarHabitos(habitos().map(h => h[0] === id ? [h[0], h[1], t] : h)); },
   habQuitar(_, id) { const l = habitos(), h = l.find(x => x[0] === id); if (!h || l.filter(x => x[1] === h[1]).length <= 1) return; guardarHabitos(l.filter(x => x[0] !== id)); pintarDetalle(); },
@@ -442,3 +451,26 @@ document.addEventListener("keydown", e => {
   const cs = casillasVision(), i = cs.findIndex(c => String(c.id) === asa.dataset.moverCasilla), j = i + paso;
   if (j >= 0 && j < cs.length) reordenarCasillas(cs[i].id, cs[j].id);
 });
+
+/* ---------- Línea de vida: centrar el año que se mira y pasar de año con el teclado o deslizando ---------- */
+{
+  const base = pintarDetalle;
+  pintarDetalle = function () {
+    base.apply(this, arguments);
+    const c = document.querySelector("#detalle .lv-cinta"), a = c?.querySelector(".actual") || c?.querySelector(".hoy");
+    if (c && a) c.scrollLeft = a.offsetLeft - (c.clientWidth - a.offsetWidth) / 2;
+  };
+  const anioVisto = () => { const s = String(estado.sel || ""); return estado.sec === "ruta" && s.startsWith("a:") ? Number(s.slice(2)) : null; };
+  const escribiendo = el => el && (el.closest("input, textarea, select, [contenteditable]") || el.closest(".lv-cinta, .album, .md-visor"));
+  addEventListener("keydown", e => {
+    const a = anioVisto(); if (a === null || escribiendo(e.target) || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === "ArrowLeft" || e.key === "ArrowRight") { e.preventDefault(); ir("ruta", "a:" + (a + (e.key === "ArrowRight" ? 1 : -1))); }
+  });
+  let toque = null;
+  addEventListener("touchstart", e => { toque = anioVisto() !== null && !escribiendo(e.target) && e.target.closest?.("#detalle") ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null; }, { passive: true });
+  addEventListener("touchend", e => {
+    if (!toque) return; const t = e.changedTouches[0], dx = t.clientX - toque.x, dy = t.clientY - toque.y; toque = null;
+    const a = anioVisto(); if (a === null || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
+    ir("ruta", "a:" + (a + (dx < 0 ? 1 : -1)));
+  }, { passive: true });
+}

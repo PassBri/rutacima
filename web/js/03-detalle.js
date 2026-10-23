@@ -209,6 +209,78 @@ function aniosVida(r) {
     <p class="suave" style="margin:4px 0 10px">Cada año con sus metas (los colores son sus campamentos), sus recuerdos o su visión.</p><div class="va-lista">${filas.join("")}</div>`);
 }
 
+
+/* ======================================================================
+ * Mi vida como registro de toda la vida: cada año guarda su palabra, sus anhelos y sueños, sus metas,
+ * lo cumplido, sus recuerdos (o su visión, si está por vivir) y una carta a ese yo. Se pasa de un año a
+ * otro con la línea de vida, las flechas, el teclado o deslizando el dedo.
+ * Todo se guarda como respuestas "vida#<año>#…": viaja a la app y a las copias sin tablas nuevas.
+ * ====================================================================== */
+const claveVida = (a, k) => `vida#${a}#${k}`;
+const anhelosDe = a => respuesta(claveVida(a, "anhelos")).split("\n").map(x => x.trim()).filter(Boolean);
+/** Lo cumplido de un año: metas logradas y publicaciones de logro. */
+function cumplidosDe(a) {
+  const metas = Store.lista("meta_anio").filter(m => m.anio === a && (m.estado === "CUMPLIDA" || Number(m.avance) >= 100));
+  const logros = (estado.misPosts || []).filter(p => p.tipo === "LOGRO" && (p.anio ?? new Date(p.creadoEn).getFullYear()) === a);
+  return { metas, logros };
+}
+/** La línea de vida: una cinta de años de punta a punta, centrada en el que se mira. */
+function lineaVida(actual) {
+  const r = recordatorio(); if (!r) return "";
+  const nac = r.nac.getFullYear(), fin = nac + metaVida(), hoy = hoyFecha().getFullYear(), metas = Store.lista("meta_anio");
+  const fotos = new Map(); (estado.misPosts || []).forEach(p => { const a = p.anio ?? new Date(p.creadoEn).getFullYear(); if (p.foto && !fotos.has(a)) fotos.set(a, p.foto); });
+  let h = "";
+  for (let a = nac; a <= fin; a++) {
+    const ms = metas.filter(m => m.anio === a), ejes = [...new Set(ms.map(m => m.eje || "CON"))].slice(0, 4);
+    const palabra = respuesta(claveVida(a, "palabra")), carta = respuesta(claveVida(a, "carta")), foto = fotos.get(a);
+    h += `<button class="lv-anio${a === hoy ? " hoy" : a < hoy ? " vivido" : ""}${a === actual ? " actual" : ""}" data-ir="ruta" data-arg="a:${a}" ${a === actual ? 'aria-current="true"' : ""}
+      aria-label="${a}, ${a - nac} años${palabra ? ", " + esc(palabra) : ""}${ms.length ? `, ${ms.length} metas` : ""}">
+      ${foto ? `<img src="${esc(foto)}" alt="" loading="lazy">` : ""}<b>${a}</b><small>${a - nac} años</small>
+      ${palabra ? `<em>${esc(palabra)}</em>` : ""}<span class="lv-ejes">${ejes.map(e => `<i style="background:${COLOR_EJE[e] || "#7A4A6B"}"></i>`).join("")}${carta && a > hoy ? `<i class="lv-sello" title="Carta sellada"></i>` : ""}</span></button>`;
+  }
+  return `<div class="lv" role="navigation" aria-label="Tu línea de vida"><button class="lv-flecha" data-acc="lvMover" data-arg="-1" aria-label="Años anteriores">${ic("abajo")}</button>
+    <div class="lv-cinta" data-lv="${actual}">${h}</div><button class="lv-flecha der" data-acc="lvMover" data-arg="1" aria-label="Años siguientes">${ic("abajo")}</button></div>`;
+}
+/** "Este día en otros años": lo que registraste un día como hoy. */
+function esteDia() {
+  const hoy = hoyFecha(), ps = (estado.misPosts || []).filter(p => { const f = new Date(p.creadoEn); return f.getMonth() === hoy.getMonth() && f.getDate() === hoy.getDate() && f.getFullYear() < hoy.getFullYear(); });
+  if (!ps.length) return "";
+  return hoja(`<h3 style="margin:0 0 4px">Este día en otros años</h3><p class="suave" style="margin:0 0 10px">Lo que viviste un ${hoy.getDate()} de ${MESES[hoy.getMonth()]}.</p>
+    <div class="album album-tira">${ps.slice(0, 6).map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span><b>${new Date(p.creadoEn).getFullYear()}</b>${esc(p.metaTitulo || p.texto || "")}</span></button>`).join("")}</div>`);
+}
+/** El corazón del año: su palabra y sus anhelos y sueños (por vivir) o lo que anhelabas (vivido). */
+function corazonAnio(a) {
+  const hoy = hoyFecha().getFullYear(), futuro = a > hoy, edad = perfil().anioNacimiento ? a - perfil().anioNacimiento : null;
+  const titulo = futuro ? `Lo que sueñas para ${a}` : a === hoy ? `Tu ${a}` : `Lo que fue ${a}`;
+  const ayuda = futuro ? "Escribe tus anhelos y sueños para ese año, uno por línea. Después conviértelos en metas." : a === hoy ? "La palabra que guía tu año y lo que anhelas, uno por línea." : `Cómo recuerdas tu ${a}${edad !== null ? `, a los ${edad} años` : ""}: una palabra y lo que anhelabas o viviste.`;
+  const anh = anhelosDe(a);
+  return hoja(`<h3 style="margin:0 0 4px">${titulo}</h3><p class="suave" style="margin:0 0 12px">${ayuda}</p>
+    <div class="form">${campo("Palabra del año", `<input type="text" maxlength="40" data-resp="vida|${claveVida(a, "palabra")}" value="${esc(respuesta(claveVida(a, "palabra")))}" placeholder="${futuro ? "Libertad, Familia, Cumbre…" : "La palabra de ese año"}">`)}
+    ${campo(futuro ? "Anhelos y sueños" : "Anhelos", `<textarea rows="4" data-resp="vida|${claveVida(a, "anhelos")}" placeholder="${futuro ? "Conocer la Patagonia\nAbrir mi escuela\nCorrer mi primera maratón" : "Lo que anhelabas ese año"}">${esc(respuesta(claveVida(a, "anhelos")))}</textarea>`)}</div>
+    ${anh.length && a >= hoy ? `<div class="chips" style="margin-top:10px">${anh.slice(0, 8).map(t => `<button class="chip" data-acc="anheloAMeta" data-arg="${a}|${esc(t)}" title="Convertir en meta de ${a}">${ic("mas")} ${esc(t)}</button>`).join("")}</div>
+      <p class="suave" style="margin:6px 0 0;font-size:13px">Toca un anhelo para convertirlo en meta de ${a}.</p>` : ""}`);
+}
+/** Lo cumplido del año: metas logradas y logros publicados. */
+function cumplidosAnio(a) {
+  const { metas, logros } = cumplidosDe(a);
+  if (!metas.length && !logros.length) return "";
+  return hoja(`<h3 style="margin:0 0 10px">Cumplidos de ${a}</h3>
+    ${metas.map(m => `<button class="cumplido" data-ir="metas" data-arg="a:${m.id}">${ic("bandera", "i fijado")}<span>${esc(m.titulo)}</span></button>`).join("")}
+    ${logros.length ? `<div class="album album-tira" style="margin-top:10px">${logros.slice(0, 6).map(p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span>${esc(p.metaTitulo || p.texto || "")}</span></button>`).join("")}</div>` : ""}`);
+}
+/** Carta a tu yo de ese año: si el año está por venir, queda sellada con lacre hasta el 1 de enero. */
+function cartaAnio(a) {
+  const hoy = hoyFecha().getFullYear(), texto = respuesta(claveVida(a, "carta")), futuro = a > hoy, editar = estado.cartaEditar === a;
+  if (futuro && texto && !editar) return hoja(`<div class="carta-sellada"><img src="${LOGO}" alt="Sello de lacre"><div><h3 style="margin:0">Carta a tu yo de ${a}</h3>
+      <p class="suave" style="margin:4px 0 10px">Sellada. Se abre el 1 de enero de ${a}.</p><button class="btn mini" data-acc="cartaEditar" data-arg="${a}">Reescribirla</button></div></div>`);
+  if (!futuro && texto && !editar) return hoja(`<h3 style="margin:0 0 6px">${a === hoy ? "La carta que te escribiste para este año" : `Tu carta de ${a}`}</h3>
+      <p class="carta-texto">${esc(texto).replace(/\n/g, "<br>")}</p><button class="btn mini" data-acc="cartaEditar" data-arg="${a}">Editar</button>`);
+  if (!futuro && !texto && a < hoy) return "";
+  return hoja(`<h3 style="margin:0 0 4px">Carta a tu yo de ${a}</h3><p class="suave" style="margin:0 0 10px">${futuro ? `Escríbele a la persona que serás en ${a}. Se sella con lacre y se abre el 1 de enero de ese año.` : "Lo que quieres decirte este año."}</p>
+    <textarea rows="6" class="carta-area" data-resp="vida|${claveVida(a, "carta")}" placeholder="Querido yo de ${a}…">${esc(texto)}</textarea>
+    <div class="botones" style="margin-top:8px"><button class="btn mini lleno" data-acc="cartaEditar" data-arg="">${futuro ? "Sellar la carta" : "Listo"}</button></div>`);
+}
+
 const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   vida() {
@@ -224,7 +296,10 @@ const DET = {
       puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
     return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
-      (window.visionVida ? visionVida() : "") + aniosVida(r) +
+      lineaVida(hoyFecha().getFullYear()) + esteDia() + corazonAnio(hoyFecha().getFullYear()) +
+      (window.visionVida ? visionVida() : "") +
+      `<div class="vida-sec" id="vida-vision"><h2>Mi cumbre y mi Brújula</h2><p class="suave">Tu vision board completo: la cumbre, los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil.</p></div>` +
+      visionCompleta() + aniosVida(r) +
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
@@ -258,11 +333,14 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` +
+      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` + lineaVida(a) +
+      `<div class="anio-nav"><button class="btn mini" data-ir="ruta" data-arg="a:${a - 1}" aria-label="Año anterior: ${a - 1}">‹ ${a - 1}</button>
+        <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
+      corazonAnio(a) +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}">${ic("bandera", "i fijado")} ${esc(m.titulo)}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
-      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + `<div class="meses">${meses}</div>`);
+      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cumplidosAnio(a) + cartaAnio(a) + `<div class="meses">${meses}</div>`);
   },
   "ruta.m"(arg) { return detMes(arg); },
   "ruta.d"(arg) { return detDia(arg); },
@@ -809,7 +887,7 @@ async function cargarMisPosts() {
       const { data } = await Store.nube.sb.from("posts").select("*").eq("user_id", Store.nube.dueno).order("created_at", { ascending: false }).limit(200);
       estado.misPosts = (data || []).map(p => ({ id: p.id, anio: p.anio, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
     }
-  } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision" || String(estado.sel).startsWith("a:")) && !enEdicion()) pintarDetalle(); }
+  } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision" || estado.sel === "vida" || String(estado.sel).startsWith("a:")) && !enEdicion()) pintarDetalle(); }
 }
 
 
@@ -987,7 +1065,15 @@ DET["perfil.vision"] = () => {
 
 
   return cab(av(ic("coach"), "var(--burdeos)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
-    cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(
+    cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(visionCompleta());
+};
+/** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida. */
+function visionCompleta() {
+  if (!estado.misPosts) cargarMisPosts();
+  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  const md = window.Mandala && cs.length ? Mandala.datos() : null;
+  const tarjeta = c => casillaVisionHtml(c, md);
+  return (
     hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
       <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
         <p>Toca la etiqueta para pasar de <b>Abierta</b> a <b>En camino</b> (empieza en 25 %) y a <b>Lograda</b> (100 %). Toca el % de la esquina para ajustarlo con la barra. En la cumbre y los 8 campamentos también cuentan los pasos del 9×9 (<b>Avancé hoy</b>): el % nunca baja de lo que llevas allí, y la cumbre es el promedio de sus campamentos.</p></details>
@@ -996,4 +1082,4 @@ DET["perfil.vision"] = () => {
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
     (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Arrastra las tarjetas por el ⠿ para ordenarlas. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
-};
+}
