@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">습관 추가</string>
     <string name="habitos_fabrica">기본값으로 되돌리기</string>
     <string name="habitos_fabrica_si">네, 18개로 되돌리기</string>
+    <string name="vv_titulo">나의 비전 보드</string>
+    <string name="vv_ayuda">가운데는 나의 정상, 주변은 그것을 받치는 것들. 캠프를 눌러 연도별 목표를 보고 계획하세요.</string>
+    <string name="vv_vacio">당신 루트의 심장입니다. 가운데 정상, 주변에 8개의 캠프. AI가 정상·목적·목표로 만들고, 당신이 사진으로 채웁니다.</string>
+    <string name="vv_armar">비전 보드 만들기</string>
+    <string name="vv_armando">비전 보드를 만드는 중…</string>
+    <string name="vv_metas_n">목표 %1$d개</string>
+    <string name="vv_sin_metas">아직 목표 없음</string>
+    <string name="vv_sin_metas_texto">아직 이 캠프를 받치는 목표가 없어요. 첫 목표를 계획하세요. 몇 년에 이루고 싶나요?</string>
+    <string name="vv_cordadas">자일 파티와 멘토</string>
+    <string name="vv_cam_texto">베이스캠프는 함께 오르는 사람들입니다. 자일 파티, 멘토, 라이프 코치.</string>
+    <string name="vv_meta_para">%1$d년 목표</string>
+    <string name="vv_este_anio">올해</string>
+    <string name="vv_por_vivir">앞으로</string>
+    <string name="vv_brujula">9×9 나침반</string>
 </resources>

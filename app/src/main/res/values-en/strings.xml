@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Add habit</string>
     <string name="habitos_fabrica">Restore defaults</string>
     <string name="habitos_fabrica_si">Yes, restore the 18</string>
+    <string name="vv_titulo">My vision board</string>
+    <string name="vv_ayuda">Your summit in the center and what holds it up. Tap a camp to see and plan its goals by year.</string>
+    <string name="vv_vacio">It is the heart of your route: your summit in the center and 8 camps around it. AI builds it from your summit, purposes and goals; you fill it with your photos.</string>
+    <string name="vv_armar">Build my vision board</string>
+    <string name="vv_armando">Building your vision board…</string>
+    <string name="vv_metas_n">%1$d goals</string>
+    <string name="vv_sin_metas">No goals yet</string>
+    <string name="vv_sin_metas_texto">No goals hold up this camp yet. Plan the first one: in which year do you want to reach it?</string>
+    <string name="vv_cordadas">Rope teams and mentors</string>
+    <string name="vv_cam_texto">Your base camp is the people who climb with you: your rope team, your mentor and your life coach.</string>
+    <string name="vv_meta_para">Goal for %1$d</string>
+    <string name="vv_este_anio">this year</string>
+    <string name="vv_por_vivir">still to live</string>
+    <string name="vv_brujula">9×9 Compass</string>
 </resources>

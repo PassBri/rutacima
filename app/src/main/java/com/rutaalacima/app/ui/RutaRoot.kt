@@ -123,7 +123,7 @@ object Rutas {
     const val KIT = "kit"
     const val EJES = "ejes"
     const val COACH = "coach"
-    const val NUEVA_META = "nueva_meta/{nivel}"
+    const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}"
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
@@ -156,7 +156,8 @@ object Rutas {
     fun workbook(id: String) = "workbook/$id"
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
-    fun nuevaMeta(nivel: NivelMeta) = "nueva_meta/${nivel.name}"
+    fun nuevaMeta(nivel: NivelMeta, eje: String? = null, anio: Int? = null): String =
+        "nueva_meta/${nivel.name}" + listOfNotNull(eje?.let { "eje=$it" }, anio?.let { "anio=$it" }).let { if (it.isEmpty()) "" else it.joinToString("&", "?") }
     fun publicar(tipo: String = "LOGRO", meta: String? = null, texto: String? = null, anio: Int? = null, mes: Int? = null): String {
         val q = listOfNotNull(meta?.let { "meta=" + android.net.Uri.encode(it) }, texto?.let { "texto=" + android.net.Uri.encode(it) },
             anio?.let { "anio=$it" }, mes?.let { "mes=$it" })
@@ -327,7 +328,7 @@ private fun AppPrincipal() {
         val esPestana = { r: String? -> PESTANAS.any { it.ruta == r } }
         val eje = with(androidx.compose.ui.platform.LocalDensity.current) { 30.dp.roundToPx() }
         NavHost(
-            nav, startDestination = Rutas.HOY,
+            nav, startDestination = Rutas.RUTA,
             enterTransition = {
                 if (esPestana(initialState.destination.route) && esPestana(targetState.destination.route))
                     androidx.compose.animation.fadeIn(androidx.compose.animation.core.tween(210, delayMillis = 90, easing = enfatizada)) +
@@ -361,6 +362,8 @@ private fun AppPrincipal() {
                     onKit = { nav.navigate(Rutas.KIT) },
                     onAjustes = { nav.navigate(Rutas.AJUSTES) },
                     onAlbum = { nav.navigate(Rutas.album(it)) },
+                    onVision = { nav.navigate(Rutas.VISION) },
+                    onNuevaMetaCampamento = { eje, anio -> nav.navigate(Rutas.nuevaMeta(com.rutaalacima.app.ui.metas.NivelMeta.ANIO, eje, anio)) },
                 )
             }
             composable(Rutas.HOY) {
@@ -431,10 +434,16 @@ private fun AppPrincipal() {
             }
             composable(Rutas.EJES) { AxesScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }, onPlan = { nav.navigate(Rutas.PLAN) }) }
-            composable(Rutas.NUEVA_META, arguments = listOf(navArgument("nivel") { type = NavType.StringType })) { e ->
+            composable(Rutas.NUEVA_META, arguments = listOf(
+                navArgument("nivel") { type = NavType.StringType },
+                navArgument("eje") { type = NavType.StringType; nullable = true; defaultValue = null },
+                navArgument("anio") { type = NavType.StringType; nullable = true; defaultValue = null },
+            )) { e ->
                 val nivel = runCatching { NivelMeta.valueOf(e.arguments?.getString("nivel").orEmpty()) }.getOrDefault(NivelMeta.MES)
                 NuevaMetaScreen(
                     nivelInicial = nivel,
+                    ejeInicial = e.arguments?.getString("eje")?.takeIf { it.isNotBlank() },
+                    anioInicial = e.arguments?.getString("anio")?.toIntOrNull(),
                     onBack = { nav.popBackStack() },
                     onCompartir = { nav.popBackStack(); nav.navigate(Rutas.publicar("META")) },
                 )

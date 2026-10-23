@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Adicionar hábito</string>
     <string name="habitos_fabrica">Voltar aos padrões</string>
     <string name="habitos_fabrica_si">Sim, voltar aos 18</string>
+    <string name="vv_titulo">Meu vision board</string>
+    <string name="vv_ayuda">Seu cume no centro e o que o sustenta. Toque um acampamento para ver e planejar suas metas por ano.</string>
+    <string name="vv_vacio">É o coração da sua rota: seu cume no centro e 8 acampamentos ao redor. A IA o monta com seu cume, propósitos e metas; você o preenche com suas fotos.</string>
+    <string name="vv_armar">Montar meu vision board</string>
+    <string name="vv_armando">Montando seu vision board…</string>
+    <string name="vv_metas_n">%1$d metas</string>
+    <string name="vv_sin_metas">Sem metas ainda</string>
+    <string name="vv_sin_metas_texto">Ainda não há metas que sustentem este acampamento. Planeje a primeira: em que ano quer alcançá-la?</string>
+    <string name="vv_cordadas">Cordadas e mentores</string>
+    <string name="vv_cam_texto">Seu acampamento base são as pessoas que sobem com você: sua cordada, seu mentor e seu coach de vida.</string>
+    <string name="vv_meta_para">Meta para %1$d</string>
+    <string name="vv_este_anio">este ano</string>
+    <string name="vv_por_vivir">por viver</string>
+    <string name="vv_brujula">Bússola 9×9</string>
 </resources>

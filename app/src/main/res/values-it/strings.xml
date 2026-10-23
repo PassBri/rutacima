@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Aggiungi abitudine</string>
     <string name="habitos_fabrica">Ripristina predefinite</string>
     <string name="habitos_fabrica_si">Sì, ripristina le 18</string>
+    <string name="vv_titulo">Il mio vision board</string>
+    <string name="vv_ayuda">La tua vetta al centro e ciò che la sostiene. Tocca un campo per vedere e pianificare i suoi obiettivi per anno.</string>
+    <string name="vv_vacio">È il cuore del tuo percorso: la vetta al centro e 8 campi intorno. L’IA lo costruisce con vetta, propositi e obiettivi; tu lo riempi con le tue foto.</string>
+    <string name="vv_armar">Crea il mio vision board</string>
+    <string name="vv_armando">Creazione del vision board…</string>
+    <string name="vv_metas_n">%1$d obiettivi</string>
+    <string name="vv_sin_metas">Ancora nessun obiettivo</string>
+    <string name="vv_sin_metas_texto">Nessun obiettivo sostiene ancora questo campo. Pianifica il primo: in che anno vuoi raggiungerlo?</string>
+    <string name="vv_cordadas">Cordate e mentori</string>
+    <string name="vv_cam_texto">Il tuo campo base sono le persone che salgono con te: la tua cordata, il tuo mentore e il tuo life coach.</string>
+    <string name="vv_meta_para">Obiettivo per il %1$d</string>
+    <string name="vv_este_anio">quest’anno</string>
+    <string name="vv_por_vivir">da vivere</string>
+    <string name="vv_brujula">Bussola 9×9</string>
 </resources>

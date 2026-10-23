@@ -6,8 +6,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EventNote
 import androidx.compose.material.icons.filled.ViewWeek
 import androidx.compose.material.icons.filled.Today
-import androidx.compose.material3.SmallFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.ripple
 import com.rutaalacima.app.ui.theme.hojaPapel
 import com.rutaalacima.app.ui.theme.rememberToque
@@ -25,6 +23,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -177,6 +176,16 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     suspend fun agenda(fecha: LocalDate): AgendaDiaEntity = c.agenda.dia(fecha)
     fun alternarDia(m: MetaMensualEntity, dia: Int) = viewModelScope.launch { c.planAnual.alternarDia(m, dia) }
     fun cambiarMeta(anios: Int) = viewModelScope.launch { c.perfil.actualizar { it.copy(esperanzaVida = anios) } }
+
+    /** El vision board (casillas con su foto): el eje de Mi vida. */
+    val casillas: StateFlow<List<com.rutaalacima.app.ui.vision.CasillaVista>> = e(
+        kotlinx.coroutines.flow.combine(c.vision.casillas, c.social.misPublicaciones) { cs, ps ->
+            val fotos = ps.associate { it.id to it.foto }
+            cs.map { com.rutaalacima.app.ui.vision.CasillaVista(it, it.publicacionId?.let { id -> fotos[id] }?.takeIf { f -> f.isNotBlank() }) }
+        }, emptyList())
+    var armando by androidx.compose.runtime.mutableStateOf(false)
+        private set
+    fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
 
 /**
@@ -195,6 +204,10 @@ fun RutaScreen(
     onAjustes: () -> Unit,
     /** Abre el álbum de un año del diario de vida. */
     onAlbum: (Int) -> Unit = {},
+    /** Abre la Brújula (vision board 9 y 9×9). */
+    onVision: () -> Unit = {},
+    /** Nueva meta anual con su campamento (eje) y su año ya elegidos. */
+    onNuevaMetaCampamento: (eje: String?, anio: Int) -> Unit = { _, _ -> },
 ) {
     val vm = rutaViewModel { RutaViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -203,6 +216,7 @@ fun RutaScreen(
     val anuales by vm.anuales.collectAsStateWithLifecycle()
     val mensuales by vm.mensuales.collectAsStateWithLifecycle()
     val checks by vm.checks.collectAsStateWithLifecycle()
+    val casillas by vm.casillas.collectAsStateWithLifecycle()
     var codigo by rememberSaveable { mutableStateOf("vida") }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
@@ -222,13 +236,20 @@ fun RutaScreen(
     Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
         Migas(nivel, perfil, ir)
+        SaltosChips(ir)
         AnimatedContent(targetState = nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
             LazyColumn(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 8.dp, bottom = contentPadding.calculateBottomPadding() + 96.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 when (n) {
-                    Nivel.Vida -> nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
+                    Nivel.Vida -> {
+                        item(key = "vision-vida") {
+                            VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onVision,
+                                onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
+                        }
+                        nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
+                    }
                     is Nivel.Anio -> nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
@@ -237,21 +258,12 @@ fun RutaScreen(
             }
         }
     }
-        SaltosRapidos(
-            modifier = Modifier.align(Alignment.BottomEnd)
-                .padding(end = 16.dp, bottom = contentPadding.calculateBottomPadding() + 16.dp),
-            ir = ir,
-        )
     }
 }
 
-/**
- * Botón flotante (FAB) con atajos: Hoy, Esta semana, Este mes, Este año. Un solo FAB por
- * pantalla (Material 3); al abrirse muestra los atajos como FAB pequeños con su etiqueta.
- */
+/** Atajos (Hoy, esta semana, este mes, este año) como chips de Material 3: sin botón flotante. */
 @Composable
-private fun SaltosRapidos(modifier: Modifier, ir: (Nivel) -> Unit) {
-    var abierto by rememberSaveable { mutableStateOf(false) }
+private fun SaltosChips(ir: (Nivel) -> Unit) {
     val h = hoy()
     val atajos = listOf(
         Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
@@ -259,35 +271,11 @@ private fun SaltosRapidos(modifier: Modifier, ir: (Nivel) -> Unit) {
         Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),
         Triple(R.string.ruta_este_anio, Icons.Filled.EventNote, Nivel.Anio(h.year)),
     )
-    Column(modifier, horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        androidx.compose.animation.AnimatedVisibility(
-            visible = abierto,
-            enter = fadeIn() + androidx.compose.animation.expandVertically(expandFrom = Alignment.Bottom),
-            exit = fadeOut() + androidx.compose.animation.shrinkVertically(shrinkTowards = Alignment.Bottom),
-        ) {
-            Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                atajos.forEach { (texto, icono, destino) ->
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            stringResource(texto), style = MaterialTheme.typography.labelLarge,
-                            modifier = Modifier.hojaPapel(elevacion = 2.dp, doblez = 0.dp, pliegue = false).padding(horizontal = 12.dp, vertical = 6.dp),
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        SmallFloatingActionButton(
-                            onClick = { abierto = false; ir(destino) },
-                            containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
-                            contentColor = MaterialTheme.colorScheme.primary,
-                        ) { Icon(icono, stringResource(texto)) }
-                    }
-                }
-            }
-        }
-        FloatingActionButton(
-            onClick = { abierto = !abierto },
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-        ) {
-            Icon(if (abierto) Icons.Filled.Close else Icons.Filled.Explore, stringResource(R.string.ruta_ir_a))
+    Row(Modifier.fillMaxWidth().horizontalScroll(androidx.compose.foundation.rememberScrollState()).padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        atajos.forEach { (texto, icono, destino) ->
+            androidx.compose.material3.AssistChip(onClick = { ir(destino) }, label = { Text(stringResource(texto)) },
+                leadingIcon = { Icon(icono, null, Modifier.size(18.dp)) })
         }
     }
 }

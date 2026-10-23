@@ -102,8 +102,8 @@ const ACC = {
     ir("metas", "p:" + id); enfocarPrimero();
   },
   nuevaMetaAnio(el, arg) {
-    const [anio, prop] = arg.split("|"), id = nuevoId();
-    Store.guardar("meta_anio", { id, anio: Number(anio), propositoId: prop ? Number(prop) : null, titulo: "Nueva meta", subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: null, indicador: "", observable: "" });
+    const [anio, prop, eje] = arg.split("|"), id = nuevoId();
+    Store.guardar("meta_anio", { id, anio: Number(anio), propositoId: prop ? Number(prop) : null, titulo: "Nueva meta", subMetas: "", decision: "CONTINUAR", prioridad: "B", avance: 0, estado: "NO_INICIADA", obstaculo: "", proximaAccion: "", eje: NOMBRE_EJE[eje] ? eje : null, indicador: "", observable: "" });
     ir("metas", "a:" + id); enfocarPrimero();
   },
   crearMetaCoach(el, id) {

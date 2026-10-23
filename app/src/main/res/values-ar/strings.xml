@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">إضافة عادة</string>
     <string name="habitos_fabrica">استعادة الافتراضية</string>
     <string name="habitos_fabrica_si">نعم، استعادة الـ 18</string>
+    <string name="vv_titulo">لوحة رؤيتي</string>
+    <string name="vv_ayuda">قمتك في المركز وما يسندها حولها. المس مخيمًا لترى أهدافه وتخطط لها حسب السنة.</string>
+    <string name="vv_vacio">إنها قلب مسارك: قمتك في المركز و8 مخيمات حولها. يبنيها الذكاء الاصطناعي من قمتك وغاياتك وأهدافك، وأنت تملؤها بصورك.</string>
+    <string name="vv_armar">إنشاء لوحة رؤيتي</string>
+    <string name="vv_armando">جارٍ إنشاء لوحة رؤيتك…</string>
+    <string name="vv_metas_n">%1$d أهداف</string>
+    <string name="vv_sin_metas">لا أهداف بعد</string>
+    <string name="vv_sin_metas_texto">لا أهداف تسند هذا المخيم بعد. خطط للأول: في أي سنة تريد تحقيقه؟</string>
+    <string name="vv_cordadas">الفرق والمرشدون</string>
+    <string name="vv_cam_texto">مخيم القاعدة هم من يصعدون معك: فريقك ومرشدك ومدرب حياتك.</string>
+    <string name="vv_meta_para">هدف لعام %1$d</string>
+    <string name="vv_este_anio">هذا العام</string>
+    <string name="vv_por_vivir">لم يُعَش بعد</string>
+    <string name="vv_brujula">البوصلة 9×9</string>
 </resources>

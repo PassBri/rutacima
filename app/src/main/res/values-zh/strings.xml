@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">添加习惯</string>
     <string name="habitos_fabrica">恢复默认</string>
     <string name="habitos_fabrica_si">是，恢复 18 个</string>
+    <string name="vv_titulo">我的愿景板</string>
+    <string name="vv_ayuda">你的顶峰在中心，周围是支撑它的一切。点一个营地，按年份查看并规划它的目标。</string>
+    <string name="vv_vacio">这是你路线的核心：顶峰在中心，周围 8 个营地。AI 根据你的顶峰、使命和目标来搭建，你再用自己的照片填满它。</string>
+    <string name="vv_armar">搭建我的愿景板</string>
+    <string name="vv_armando">正在搭建你的愿景板…</string>
+    <string name="vv_metas_n">%1$d 个目标</string>
+    <string name="vv_sin_metas">还没有目标</string>
+    <string name="vv_sin_metas_texto">还没有目标支撑这个营地。规划第一个：你想在哪一年实现？</string>
+    <string name="vv_cordadas">绳队和导师</string>
+    <string name="vv_cam_texto">你的大本营是和你一起攀登的人：你的绳队、导师和人生教练。</string>
+    <string name="vv_meta_para">%1$d 年的目标</string>
+    <string name="vv_este_anio">今年</string>
+    <string name="vv_por_vivir">待经历</string>
+    <string name="vv_brujula">9×9 罗盘</string>
 </resources>

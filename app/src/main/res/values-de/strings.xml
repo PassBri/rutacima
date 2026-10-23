@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Gewohnheit hinzufügen</string>
     <string name="habitos_fabrica">Standard wiederherstellen</string>
     <string name="habitos_fabrica_si">Ja, die 18 wiederherstellen</string>
+    <string name="vv_titulo">Mein Vision Board</string>
+    <string name="vv_ayuda">Dein Gipfel in der Mitte und was ihn trägt. Tippe auf ein Lager, um seine Ziele nach Jahr zu sehen und zu planen.</string>
+    <string name="vv_vacio">Das Herz deiner Route: dein Gipfel in der Mitte und 8 Lager drumherum. Die KI baut es aus Gipfel, Zielen und Vorsätzen; du füllst es mit deinen Fotos.</string>
+    <string name="vv_armar">Mein Vision Board erstellen</string>
+    <string name="vv_armando">Dein Vision Board wird erstellt…</string>
+    <string name="vv_metas_n">%1$d Ziele</string>
+    <string name="vv_sin_metas">Noch keine Ziele</string>
+    <string name="vv_sin_metas_texto">Noch tragen keine Ziele dieses Lager. Plane das erste: In welchem Jahr willst du es erreichen?</string>
+    <string name="vv_cordadas">Seilschaften und Mentoren</string>
+    <string name="vv_cam_texto">Dein Basislager sind die Menschen, die mit dir steigen: deine Seilschaft, dein Mentor und dein Life-Coach.</string>
+    <string name="vv_meta_para">Ziel für %1$d</string>
+    <string name="vv_este_anio">dieses Jahr</string>
+    <string name="vv_por_vivir">noch zu leben</string>
+    <string name="vv_brujula">Kompass 9×9</string>
 </resources>

@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">आदत जोड़ें</string>
     <string name="habitos_fabrica">डिफ़ॉल्ट पर लौटें</string>
     <string name="habitos_fabrica_si">हाँ, 18 पर लौटें</string>
+    <string name="vv_titulo">मेरा विज़न बोर्ड</string>
+    <string name="vv_ayuda">बीच में आपका शिखर और उसे थामने वाली चीज़ें। किसी कैंप को छूकर उसके लक्ष्य साल के हिसाब से देखें और योजना बनाएँ।</string>
+    <string name="vv_vacio">यह आपकी राह का दिल है: बीच में शिखर और चारों ओर 8 कैंप। AI इसे आपके शिखर, उद्देश्यों और लक्ष्यों से बनाता है; आप इसे अपनी तस्वीरों से भरते हैं।</string>
+    <string name="vv_armar">मेरा विज़न बोर्ड बनाएँ</string>
+    <string name="vv_armando">आपका विज़न बोर्ड बन रहा है…</string>
+    <string name="vv_metas_n">%1$d लक्ष्य</string>
+    <string name="vv_sin_metas">अभी कोई लक्ष्य नहीं</string>
+    <string name="vv_sin_metas_texto">अभी इस कैंप को थामने वाला कोई लक्ष्य नहीं। पहला लक्ष्य बनाइए: किस साल इसे पाना चाहते हैं?</string>
+    <string name="vv_cordadas">टोलियाँ और मेंटर</string>
+    <string name="vv_cam_texto">आपका बेस कैंप वे लोग हैं जो आपके साथ चढ़ते हैं: आपकी टोली, मेंटर और लाइफ़ कोच।</string>
+    <string name="vv_meta_para">%1$d का लक्ष्य</string>
+    <string name="vv_este_anio">इस साल</string>
+    <string name="vv_por_vivir">आने वाला</string>
+    <string name="vv_brujula">9×9 कम्पास</string>
 </resources>

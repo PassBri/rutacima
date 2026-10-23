@@ -188,6 +188,27 @@ function prepararCimas() {
   });
 }
 
+/** Los años alrededor de hoy, en fila: metas por campamento (puntos de color), recuerdos o fotos de visión. */
+function aniosVida(r) {
+  if (!estado.misPosts) cargarMisPosts();
+  const hoy = hoyFecha().getFullYear(), nac = r.nac.getFullYear(), metas = Store.lista("meta_anio");
+  const desde = Math.max(nac, hoy - 2), hasta = Math.min(nac + metaVida(), hoy + 6);
+  const filas = [];
+  for (let a = desde; a <= hasta; a++) {
+    const ms = metas.filter(m => m.anio === a), ps = (estado.misPosts || []).filter(p => (p.anio ?? new Date(p.creadoEn).getFullYear()) === a);
+    const fotos = ps.filter(p => p.foto).length, vision = ps.filter(p => p.tipo === "VISION").length;
+    const ejes = [...new Set(ms.map(m => m.eje || "CON"))];
+    const sub = [ms.length ? `${ms.length} ${ms.length === 1 ? "meta" : "metas"}` : a > hoy ? "Sin metas aún" : "",
+      a > hoy ? (vision ? `${vision} ${vision === 1 ? "foto" : "fotos"} de visión` : "") : (fotos ? `${fotos} ${fotos === 1 ? "recuerdo" : "recuerdos"}` : "")].filter(Boolean).join(" · ");
+    filas.push(`<button class="va-fila${a === hoy ? " hoy" : a < hoy ? " vivido" : ""}" data-ir="ruta" data-arg="a:${a}">
+      <span class="va-anio">${a}</span><span class="va-edad">${a - nac} años</span>
+      <span class="va-txt">${a === hoy ? "<b>Este año</b> · " : ""}${sub || "&nbsp;"}</span>
+      <span class="va-ejes" aria-hidden="true">${ejes.map(e => `<i style="background:${COLOR_EJE[e] || Mandala.COLORES?.CON || "#7A4A6B"}"></i>`).join("")}</span>${ic("abajo")}</button>`);
+  }
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Tus años</h3><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${hoy}">${ic("mas")} Nueva meta</button></div>
+    <p class="suave" style="margin:4px 0 10px">Cada año con sus metas (los colores son sus campamentos), sus recuerdos o su visión.</p><div class="va-lista">${filas.join("")}</div>`);
+}
+
 const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   vida() {
@@ -202,7 +223,8 @@ const DET = {
       if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
       puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
-    return cab(avSello(), `Camino hacia los ${metaVida()} años`, `${esc(perfil().nombre || "Tú")} · ${r.edad} años`) + cuerpo(
+    return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
+      (window.visionVida ? visionVida() : "") + aniosVida(r) +
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>

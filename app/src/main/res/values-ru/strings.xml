@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Добавить привычку</string>
     <string name="habitos_fabrica">Вернуть исходные</string>
     <string name="habitos_fabrica_si">Да, вернуть 18</string>
+    <string name="vv_titulo">Моя доска визуализации</string>
+    <string name="vv_ayuda">В центре — твоя вершина, вокруг — то, что её держит. Нажми на лагерь, чтобы увидеть и спланировать его цели по годам.</string>
+    <string name="vv_vacio">Это сердце твоего маршрута: вершина в центре и 8 лагерей вокруг. ИИ собирает её из твоей вершины, целей и задач, а ты наполняешь своими фото.</string>
+    <string name="vv_armar">Собрать мою доску</string>
+    <string name="vv_armando">Собираю твою доску…</string>
+    <string name="vv_metas_n">Целей: %1$d</string>
+    <string name="vv_sin_metas">Пока нет целей</string>
+    <string name="vv_sin_metas_texto">Этот лагерь пока не держит ни одна цель. Спланируй первую: в каком году ты хочешь её достичь?</string>
+    <string name="vv_cordadas">Связки и наставники</string>
+    <string name="vv_cam_texto">Твой базовый лагерь — люди, которые идут с тобой: связка, наставник и лайф-коуч.</string>
+    <string name="vv_meta_para">Цель на %1$d</string>
+    <string name="vv_este_anio">этот год</string>
+    <string name="vv_por_vivir">впереди</string>
+    <string name="vv_brujula">Компас 9×9</string>
 </resources>

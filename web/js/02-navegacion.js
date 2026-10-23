@@ -100,7 +100,7 @@ const LISTAS = {
     const conMetas = new Map();
     Store.lista("meta_anio").forEach(m => conMetas.set(m.anio, (conMetas.get(m.anio) || 0) + 1));
     const finPlan = (p.anioInicioPlan || anioHoy) + Math.max(5, ...Store.lista("proposito").map(x => x.horizonte || 5)) - 1;
-    if (estado.filtro === "todo" && coincide("camino vida")) h += item("vida", avSello(), `Camino hacia los ${metaVida()} años`, "hoy", `Día ${r.dia.toLocaleString("es")} de tu vida`, ic("pin", "i fijado"));
+    if (estado.filtro === "todo" && coincide("camino vida")) h += item("vida", avSello(), "Mi vida", "inicio", `Cumbre, vision board y años · día ${r.dia.toLocaleString("es")}`, ic("pin", "i fijado"));
     let anios = [];
     for (let a = anioHoy; a <= ultimo; a++) anios.push(a);
     for (let a = anioHoy - 1; a >= nac; a--) anios.push(a);

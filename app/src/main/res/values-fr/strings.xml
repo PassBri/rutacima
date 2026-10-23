@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">Ajouter l’habitude</string>
     <string name="habitos_fabrica">Revenir aux habitudes d’origine</string>
     <string name="habitos_fabrica_si">Oui, revenir aux 18</string>
+    <string name="vv_titulo">Mon vision board</string>
+    <string name="vv_ayuda">Ton sommet au centre et ce qui le soutient. Touche un camp pour voir et planifier ses objectifs par année.</string>
+    <string name="vv_vacio">C’est le cœur de ta route : ton sommet au centre et 8 camps autour. L’IA le construit avec ton sommet, tes buts et tes objectifs ; tu le remplis de tes photos.</string>
+    <string name="vv_armar">Créer mon vision board</string>
+    <string name="vv_armando">Création de ton vision board…</string>
+    <string name="vv_metas_n">%1$d objectifs</string>
+    <string name="vv_sin_metas">Pas encore d’objectifs</string>
+    <string name="vv_sin_metas_texto">Aucun objectif ne soutient encore ce camp. Planifie le premier : en quelle année veux-tu l’atteindre ?</string>
+    <string name="vv_cordadas">Cordées et mentors</string>
+    <string name="vv_cam_texto">Ton camp de base, ce sont les personnes qui montent avec toi : ta cordée, ton mentor et ton coach de vie.</string>
+    <string name="vv_meta_para">Objectif pour %1$d</string>
+    <string name="vv_este_anio">cette année</string>
+    <string name="vv_por_vivir">à vivre</string>
+    <string name="vv_brujula">Boussole 9×9</string>
 </resources>

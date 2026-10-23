@@ -1281,4 +1281,18 @@
     <string name="habitos_agregar">習慣を追加</string>
     <string name="habitos_fabrica">初期設定に戻す</string>
     <string name="habitos_fabrica_si">はい、18 個に戻す</string>
+    <string name="vv_titulo">私のビジョンボード</string>
+    <string name="vv_ayuda">中央にあなたの頂上、その周りに支えるもの。キャンプをタップすると年ごとの目標を見て計画できます。</string>
+    <string name="vv_vacio">あなたのルートの中心です。中央に頂上、周りに 8 つのキャンプ。AI が頂上・目的・目標から組み立て、あなたが写真で埋めます。</string>
+    <string name="vv_armar">ビジョンボードを作る</string>
+    <string name="vv_armando">ビジョンボードを作成中…</string>
+    <string name="vv_metas_n">目標 %1$d 件</string>
+    <string name="vv_sin_metas">目標はまだありません</string>
+    <string name="vv_sin_metas_texto">このキャンプを支える目標はまだありません。最初の目標を計画しましょう。何年に達成しますか？</string>
+    <string name="vv_cordadas">ザイルパーティとメンター</string>
+    <string name="vv_cam_texto">ベースキャンプは一緒に登る人たち。ザイルパーティ、メンター、ライフコーチです。</string>
+    <string name="vv_meta_para">%1$d 年の目標</string>
+    <string name="vv_este_anio">今年</string>
+    <string name="vv_por_vivir">これから</string>
+    <string name="vv_brujula">9×9 コンパス</string>
 </resources>

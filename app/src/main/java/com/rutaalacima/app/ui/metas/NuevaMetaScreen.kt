@@ -91,11 +91,11 @@ enum class NivelMeta(@StringRes val nombre: Int, @StringRes val corto: Int, @Str
     MES(R.string.nivel_mes_largo, R.string.nivel_mes, R.string.nivel_mes_ayuda, Icons.Filled.CalendarMonth),
 }
 
-class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : ViewModel() {
-    var paso by mutableStateOf(0)
+class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeInicial: String? = null, private val anioInicial: Int? = null) : ViewModel() {
+    var paso by mutableStateOf(if (ejeInicial != null || anioInicial != null) 1 else 0)
     var nivel by mutableStateOf(inicial)
     var titulo by mutableStateOf("")
-    var eje by mutableStateOf<Eje?>(null)
+    var eje by mutableStateOf<Eje?>(ejeInicial?.let { Eje.fromCodigo(it) })
     var prioridad by mutableStateOf(Prioridad.B)
     var indicador by mutableStateOf("")
     var observable by mutableStateOf("")
@@ -178,7 +178,7 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : View
                 }
                 NivelMeta.ANIO -> c.planificador.guardarMeta(
                     MetaAnualEntity(
-                        anio = ahora.year, propositoId = padreId, titulo = titulo.trim(), subMetas = acciones.joinToString("\n"),
+                        anio = anioInicial ?: ahora.year, propositoId = padreId, titulo = titulo.trim(), subMetas = acciones.joinToString("\n"),
                         prioridad = prioridad.name, eje = eje?.codigo, indicador = indicador.trim(), observable = observable.trim(),
                     ),
                 )
@@ -197,8 +197,8 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta) : View
 /** Asistente para crear metas en la cascada, con los bancos de Ruta a la Cima y la IA. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit) {
-    val vm = rutaViewModel(key = "nueva-${nivelInicial.name}") { NuevaMetaViewModel(it, nivelInicial) }
+fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit, ejeInicial: String? = null, anioInicial: Int? = null) {
+    val vm = rutaViewModel(key = "nueva-${nivelInicial.name}-$ejeInicial-$anioInicial") { NuevaMetaViewModel(it, nivelInicial, ejeInicial, anioInicial) }
     val pasos = listOf(R.string.paso_nivel, R.string.paso_inspiracion, R.string.paso_detalles, R.string.paso_plan)
     val ultimo = if (vm.nivel == NivelMeta.MES) 2 else 3
 
