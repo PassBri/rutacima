@@ -459,7 +459,7 @@ Object.assign(ACC, {
       const postId = await publicarImagenVision(archivo, "PRIVADA", respuesta(Mandala.clave(c.id, p)), (c.afirmacion || "").slice(0, 80), "EVIDENCIA", c.eje || null);
       await responder("mandala", Mandala.claveFoto(c.id, p), postId);
       toast("Evidencia guardada: lo vivido ya reemplaza a lo soñado.");
-    } catch (e) { console.error(e); toast("No se pudo guardar la foto."); }
+    } catch (e) { console.error(e); toast("No se pudo guardar la foto." + detalleError(e)); }
     pintarDetalle();
   },
   /** Registra la jornada de hoy (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */

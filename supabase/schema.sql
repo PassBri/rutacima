@@ -802,7 +802,9 @@ create trigger limitar_solicitudes before insert on public.conversaciones for ea
 create or replace function public.limitar_publicaciones() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  perform public.limite((select count(*) from public.posts where user_id = new.user_id and created_at > now() - interval '1 day'), 20, 'publicar');
+  -- Las fotos privadas (vision board, evidencias de los pasos) no son spam: solo cuenta lo que otros ven
+  if new.visibilidad = 'PRIVADA' then return new; end if;
+  perform public.limite((select count(*) from public.posts where user_id = new.user_id and visibilidad <> 'PRIVADA' and created_at > now() - interval '1 day'), 20, 'publicar');
   return new;
 end $$;
 drop trigger if exists limitar_publicaciones on public.posts;
