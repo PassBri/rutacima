@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">12 derniers mois</string>
     <string name="cu_salud_de">Santé financière %1$s</string>
     <string name="cu_riesgo_c">Risque</string>
+    <string name="cu_repite_dia">Se répète chaque mois le %1$d</string>
+    <string name="cu_repite_ej">Loyer, salaire, internet…</string>
+    <string name="cu_fijo_marca">Fixe chaque mois</string>
+    <string name="cu_fijo_cambiado">Fixe · modifié ce mois-ci</string>
+    <string name="cu_fijos_titulo">Fixes de chaque mois</string>
+    <string name="cu_fijos_sub">Ils apparaissent seuls chaque mois à leur date</string>
+    <string name="cu_fijos_vacio">Tu paies un loyer, internet ou reçois un salaire fixe ? En le notant un jour, coche « Se répète chaque mois » et il apparaîtra seul chaque mois.</string>
+    <string name="cu_fijos_nota">Un nouveau montant s’applique dès ce mois-ci. Pour un seul mois, modifie-le à sa date.</string>
+    <string name="cu_fijos_nota_monto">S’applique dès ce mois-ci</string>
+    <string name="cu_fijo_quedo">C’est fixé : %1$s chaque mois le %2$d</string>
+    <string name="cu_fijo_parado">Ne se répète plus à partir du mois prochain</string>
+    <string name="cu_fijo_saltado">Retiré pour ce mois seulement ; reste fixe les autres</string>
+    <string name="cu_fijo_dia">Le %1$d</string>
+    <string name="cu_fijo_desde">depuis %1$s</string>
+    <string name="cu_fijo_parar">Arrêter la répétition</string>
+    <string name="cu_fijo_editar">Modifier le fixe</string>
+    <string name="cu_cada_mes">Chaque mois</string>
+    <string name="cu_fijo_monto_desde">Dès %1$s : %2$s chaque mois</string>
+    <string name="cu_dia_mes">Jour du mois</string>
 </resources>

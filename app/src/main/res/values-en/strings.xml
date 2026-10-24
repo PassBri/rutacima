@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Last 12 months</string>
     <string name="cu_salud_de">Financial health in %1$s</string>
     <string name="cu_riesgo_c">Risk</string>
+    <string name="cu_repite_dia">Repeats every month on day %1$d</string>
+    <string name="cu_repite_ej">Rent, salary, internet…</string>
+    <string name="cu_fijo_marca">Fixed every month</string>
+    <string name="cu_fijo_cambiado">Fixed · changed this month</string>
+    <string name="cu_fijos_titulo">Monthly fixed items</string>
+    <string name="cu_fijos_sub">They appear on their own every month on their day</string>
+    <string name="cu_fijos_vacio">Do you pay rent or internet, or get a fixed salary? When you log it on a day, tick “Repeats every month” and it will appear on its own each month.</string>
+    <string name="cu_fijos_nota">A new amount applies from this month on. To change just one month, edit it on its day.</string>
+    <string name="cu_fijos_nota_monto">Applies from this month on</string>
+    <string name="cu_fijo_quedo">Set as fixed: %1$s every month on day %2$d</string>
+    <string name="cu_fijo_parado">No longer repeats from next month</string>
+    <string name="cu_fijo_saltado">Removed for this month only; still fixed the rest</string>
+    <string name="cu_fijo_dia">Day %1$d</string>
+    <string name="cu_fijo_desde">since %1$s</string>
+    <string name="cu_fijo_parar">Stop repeating</string>
+    <string name="cu_fijo_editar">Edit fixed item</string>
+    <string name="cu_cada_mes">Every month</string>
+    <string name="cu_fijo_monto_desde">From %1$s: %2$s every month</string>
+    <string name="cu_dia_mes">Day of the month</string>
 </resources>

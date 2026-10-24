@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">पिछले 12 महीने</string>
     <string name="cu_salud_de">%1$s की वित्तीय सेहत</string>
     <string name="cu_riesgo_c">जोखिम</string>
+    <string name="cu_repite_dia">हर महीने %1$d तारीख को दोहराएँ</string>
+    <string name="cu_repite_ej">किराया, वेतन, इंटरनेट…</string>
+    <string name="cu_fijo_marca">हर महीने तय</string>
+    <string name="cu_fijo_cambiado">तय · इस महीने बदला</string>
+    <string name="cu_fijos_titulo">हर महीने के तय</string>
+    <string name="cu_fijos_sub">हर महीने अपने दिन खुद दिखते हैं</string>
+    <string name="cu_fijos_vacio">किराया, इंटरनेट या तय वेतन है? लिखते समय «हर महीने दोहराएँ» चुनें, फिर यह हर महीने खुद दिखेगा।</string>
+    <string name="cu_fijos_nota">रकम बदलें तो इस महीने से लागू होगी। सिर्फ़ एक महीना बदलना हो तो उस दिन पर बदलें।</string>
+    <string name="cu_fijos_nota_monto">इस महीने से लागू</string>
+    <string name="cu_fijo_quedo">तय हो गया: हर महीने %2$d तारीख को %1$s</string>
+    <string name="cu_fijo_parado">अगले महीने से नहीं दोहराएगा</string>
+    <string name="cu_fijo_saltado">सिर्फ़ इस महीने हटाया; बाकी महीनों में तय रहेगा</string>
+    <string name="cu_fijo_dia">%1$d तारीख</string>
+    <string name="cu_fijo_desde">%1$s से</string>
+    <string name="cu_fijo_parar">दोहराना बंद करें</string>
+    <string name="cu_fijo_editar">तय मद बदलें</string>
+    <string name="cu_cada_mes">हर महीने</string>
+    <string name="cu_fijo_monto_desde">%1$s से: हर महीने %2$s</string>
+    <string name="cu_dia_mes">महीने की तारीख</string>
 </resources>

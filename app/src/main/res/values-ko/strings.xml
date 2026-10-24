@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">최근 12개월</string>
     <string name="cu_salud_de">%1$s 재정 건강</string>
     <string name="cu_riesgo_c">위험</string>
+    <string name="cu_repite_dia">매달 %1$d일에 반복</string>
+    <string name="cu_repite_ej">월세, 월급, 인터넷…</string>
+    <string name="cu_fijo_marca">매달 고정</string>
+    <string name="cu_fijo_cambiado">고정 · 이번 달 변경</string>
+    <string name="cu_fijos_titulo">매달 고정 항목</string>
+    <string name="cu_fijos_sub">매달 그날에 자동으로 나타나요</string>
+    <string name="cu_fijos_vacio">월세, 인터넷 요금이나 고정 월급이 있나요? 기록할 때 «매달 반복»을 체크하면 매달 자동으로 나타나요.</string>
+    <string name="cu_fijos_nota">금액을 바꾸면 이번 달부터 적용돼요. 한 달만 바꾸려면 그날에서 수정하세요.</string>
+    <string name="cu_fijos_nota_monto">이번 달부터 적용</string>
+    <string name="cu_fijo_quedo">고정됨: 매달 %2$d일 %1$s</string>
+    <string name="cu_fijo_parado">다음 달부터 반복하지 않아요</string>
+    <string name="cu_fijo_saltado">이번 달만 삭제했어요. 다른 달은 그대로예요</string>
+    <string name="cu_fijo_dia">%1$d일</string>
+    <string name="cu_fijo_desde">%1$s부터</string>
+    <string name="cu_fijo_parar">반복 중지</string>
+    <string name="cu_fijo_editar">고정 항목 수정</string>
+    <string name="cu_cada_mes">매달</string>
+    <string name="cu_fijo_monto_desde">%1$s부터: 매달 %2$s</string>
+    <string name="cu_dia_mes">매달 날짜</string>
 </resources>

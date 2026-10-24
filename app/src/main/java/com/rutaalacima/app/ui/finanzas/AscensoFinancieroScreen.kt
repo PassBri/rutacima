@@ -42,6 +42,8 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Repeat
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.Visibility
@@ -133,6 +135,7 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val deudasDatos: com.rutaalacima.app.domain.model.Deudas.Datos by lazy { com.rutaalacima.app.domain.model.Deudas.leer(respuestas[com.rutaalacima.app.domain.model.Deudas.CLAVE]) }
     val deudas: List<com.rutaalacima.app.domain.model.Deudas.Hoy> by lazy { com.rutaalacima.app.domain.model.Deudas.hoy(deudasDatos, dias.values.flatten()) }
     val activos: List<com.rutaalacima.app.domain.model.Patrimonio.Activo> by lazy { com.rutaalacima.app.domain.model.Patrimonio.leer(respuestas[com.rutaalacima.app.domain.model.Patrimonio.CLAVE]) }
+    val fijos: List<com.rutaalacima.app.domain.model.Fijos.Fijo> by lazy { com.rutaalacima.app.domain.model.Fijos.leer(respuestas[com.rutaalacima.app.domain.model.Fijos.CLAVE]) }
     val publica get() = respuestas["fin#visibilidad"] == "publica"
     val bloqueo get() = respuestas["fin#bloqueo"] == "1"
     val ocultarFuera get() = !publica && respuestas["fin#ocultar"] == "1"
@@ -149,20 +152,42 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         val dias = mutableMapOf<String, MutableList<Mov>>()
         agendas.forEach { a -> Cuentas.deAgenda(a.ingresos, a.gastos, a.ahorro, a.inversion).takeIf { it.isNotEmpty() }?.let { dias.getOrPut(a.fecha) { mutableListOf() } += it } }
         r.forEach { (k, v) -> if (k.startsWith(Cuentas.PREFIJO)) Cuentas.leer(v).takeIf { it.isNotEmpty() }?.let { dias.getOrPut(k.removePrefix(Cuentas.PREFIJO)) { mutableListOf() } += it } }
-        Libro(dias.filterKeys { runCatching { LocalDate.parse(it) }.isSuccess }, Cuentas.moneda(r[Cuentas.CLAVE_MONEDA]), r)
+        val validos = dias.filterKeys { runCatching { LocalDate.parse(it) }.isSuccess }
+        Libro(com.rutaalacima.app.domain.model.Fijos.unir(validos, com.rutaalacima.app.domain.model.Fijos.leer(r[com.rutaalacima.app.domain.model.Fijos.CLAVE]), hoy()), Cuentas.moneda(r[Cuentas.CLAVE_MONEDA]), r)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, Libro())
 
     private suspend fun guardados(f: String) = Cuentas.leer(c.respuestas.cargar(Cuentas.WB)[Cuentas.claveDia(f)])
     private suspend fun guardar(f: String, xs: List<Mov>) = c.respuestas.guardar(Cuentas.WB, Cuentas.claveDia(f), Cuentas.escribir(xs))
 
-    fun agregar(f: String, t: Tipo, monto: Double, cat: String, nota: String) = viewModelScope.launch {
-        guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim()))
+    fun agregar(f: String, t: Tipo, monto: Double, cat: String, nota: String, repite: Boolean = false) = viewModelScope.launch {
+        if (repite) fijos { it + com.rutaalacima.app.domain.model.Fijos.Fijo("f" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim(), f.takeLast(2).toInt(), f.take(7)) }
+        else guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim()))
     }
+
+    // ---------------------------------------------------------------- Fijos de cada mes
+    private fun fijos(cambio: (List<com.rutaalacima.app.domain.model.Fijos.Fijo>) -> List<com.rutaalacima.app.domain.model.Fijos.Fijo>) =
+        poner(com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(cambio(libro.value.fijos)))
+    fun fijoCambiar(id: String, cambio: (com.rutaalacima.app.domain.model.Fijos.Fijo) -> com.rutaalacima.app.domain.model.Fijos.Fijo) = fijos { l -> l.map { if (it.id == id) cambio(it) else it } }
+    /** El monto nuevo rige desde este mes; si este mes ya se cambió a mano, sigue enlazado al fijo nuevo. */
+    fun fijoEditar(id: String, n: String, dia: Int, v: Double) = viewModelScope.launch {
+        val nuevoId = "f" + System.currentTimeMillis()
+        val antes = libro.value.fijos.map { if (it.id == id) it.copy(n = n, dia = dia) else it }
+        val cambia = antes.firstOrNull { it.id == id }?.m != v
+        val despues = if (cambia) com.rutaalacima.app.domain.model.Fijos.cambiarMonto(antes, id, v, hoy(), nuevoId) else antes
+        c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(despues))
+        if (despues.any { it.id == nuevoId }) antes.firstOrNull { it.id == id }?.let { x ->
+            val f = com.rutaalacima.app.domain.model.Fijos.fecha(x, YearMonth.from(hoy())).toString()
+            val g = guardados(f); if (g.any { it.fx == id }) guardar(f, g.map { if (it.fx == id) it.copy(fx = nuevoId) else it })
+        }
+    }
+    fun fijoParar(id: String) = fijos { com.rutaalacima.app.domain.model.Fijos.parar(it, id, hoy()) }
+    fun fijoRestaurar(x: com.rutaalacima.app.domain.model.Fijos.Fijo) = fijos { l -> l.filter { it.id != x.id } + x }
 
     /** Cambia un movimiento; si venía del control de antes, pasa al libro de cuentas y se borra de la agenda. */
     fun editar(f: String, x: Mov, nuevo: Mov) = viewModelScope.launch {
         val campo = x.agenda
-        if (campo != null) {
+        if (x.virtual) guardar(f, guardados(f) + nuevo.copy(id = "m" + System.currentTimeMillis(), fx = x.fx))   // un fijo cambiado solo este mes
+        else if (campo != null) {
             limpiarAgenda(f, campo)
             guardar(f, guardados(f) + nuevo.copy(id = "m" + System.currentTimeMillis()))
         } else guardar(f, guardados(f).map { if (it.id == x.id) nuevo.copy(id = x.id) else it })
@@ -170,10 +195,13 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
 
     fun borrar(f: String, x: Mov) = viewModelScope.launch {
         val campo = x.agenda
-        if (campo != null) limpiarAgenda(f, campo) else guardar(f, guardados(f).filter { it.id != x.id })
+        x.fx?.let { fx -> fijos { com.rutaalacima.app.domain.model.Fijos.saltar(it, fx, f.take(7), true) } }   // un fijo quitado: solo este mes
+        if (campo != null) limpiarAgenda(f, campo) else if (!x.virtual) guardar(f, guardados(f).filter { it.id != x.id })
     }
 
     fun deshacerBorrado(f: String, x: Mov) = viewModelScope.launch {
+        x.fx?.let { fx -> fijos { com.rutaalacima.app.domain.model.Fijos.saltar(it, fx, f.take(7), false) } }
+        if (x.virtual) return@launch
         val campo = x.agenda
         if (campo != null) c.agenda.dia(LocalDate.parse(f)).let { d ->
             val v = Cuentas.numero(x.m)
@@ -687,6 +715,7 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
         }
     }
     item(key = "deudas") { DeudasResumen(libro, plata) { ir(NivelCuentas.DeudasN) } }
+    item(key = "fijos") { FijosCard(libro, null, plata, vm) }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
     item(key = "privacidad") { PrivacidadCard(libro, vm) }
@@ -775,6 +804,7 @@ private fun LazyListScope.mes(ym: YearMonth, libro: Libro, plata: (Double) -> St
             }
         }
     }
+    item(key = "fijos") { FijosCard(libro, ym, plata, vm) }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
 }
@@ -783,7 +813,7 @@ private fun LazyListScope.mes(ym: YearMonth, libro: Libro, plata: (Double) -> St
 private fun LazyListScope.dia(f: LocalDate, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, vm: CuentasViewModel, avisos: SnackbarHostState) {
     val fs = f.toString(); val movs = libro.movs(fs); val s = Cuentas.sumar(movs); val ym = YearMonth.from(f); val mesS = libro.suma("$ym-")
     item(key = "nav") { NavPeriodo("${f.dayOfMonth} ${nombreMes(f.monthValue)} ${f.year}", { ir(NivelCuentas.Dia(f.minusDays(1))) }, { ir(NivelCuentas.Dia(f.plusDays(1))) }) }
-    item(key = "nuevo") { NuevoMovimiento(plata) { t, m, c, n -> vm.agregar(fs, t, m, c, n) } }
+    item(key = "nuevo") { NuevoMovimiento(plata, f.dayOfMonth) { t, m, c, n, rep -> vm.agregar(fs, t, m, c, n, rep) } }
     item(key = "movs-tit") { SectionTitle(stringResource(R.string.cu_movimientos, movs.size)) }
     if (movs.isEmpty()) item(key = "movs-vacio") {
         Text(stringResource(R.string.cu_sin_movs_dia), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
@@ -815,7 +845,8 @@ private fun LazyListScope.dia(f: LocalDate, libro: Libro, plata: (Double) -> Str
 /** Anotar un movimiento: tipo, monto, categoría y concepto. El monto y la categoría bastan. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun NuevoMovimiento(plata: (Double) -> String, onAgregar: (Tipo, Double, String, String) -> Unit) {
+private fun NuevoMovimiento(plata: (Double) -> String, dia: Int, onAgregar: (Tipo, Double, String, String, Boolean) -> Unit) {
+    var repite by rememberSaveable { mutableStateOf(false) }
     var tipo by rememberSaveable { mutableStateOf(Tipo.GAS) }
     var monto by rememberSaveable { mutableStateOf("") }
     var cat by rememberSaveable(tipo) { mutableStateOf(Cuentas.CATEGORIAS.getValue(tipo).first().first) }
@@ -826,10 +857,10 @@ private fun NuevoMovimiento(plata: (Double) -> String, onAgregar: (Tipo, Double,
         val v = kotlin.math.abs(Finanzas.monto(monto))
         if (v == 0.0) error = true
         else {
-            onAgregar(tipo, v, cat, nota)
-            android.widget.Toast.makeText(ctx, ctx.getString(R.string.cu_anotado, ctx.getString(when (tipo) {
+            onAgregar(tipo, v, cat, nota, repite)
+            android.widget.Toast.makeText(ctx, if (repite) ctx.getString(R.string.cu_fijo_quedo, plata(v), dia) else ctx.getString(R.string.cu_anotado, ctx.getString(when (tipo) {
                 Tipo.ING -> R.string.cu_ing1; Tipo.GAS -> R.string.cu_gas1; Tipo.AHO -> R.string.cu_aho1; Tipo.INV -> R.string.cu_inv1 }), plata(v)), android.widget.Toast.LENGTH_SHORT).show()
-            monto = ""; nota = ""; error = false
+            monto = ""; nota = ""; error = false; repite = false
         }
     }
     RutaCard {
@@ -852,7 +883,17 @@ private fun NuevoMovimiento(plata: (Double) -> String, onAgregar: (Tipo, Double,
         OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done), keyboardActions = KeyboardActions(onDone = { agregar() }),
             modifier = Modifier.fillMaxWidth().padding(top = 6.dp))
-        Button(onClick = agregar, modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) { Text(stringResource(R.string.cu_agregar)) }
+        Row(Modifier.fillMaxWidth().padding(top = 4.dp).clip(RoundedCornerShape(8.dp))
+            .toggleable(repite, role = androidx.compose.ui.semantics.Role.Checkbox) { repite = it }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            androidx.compose.material3.Checkbox(repite, null)
+            Icon(Icons.Filled.Repeat, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.width(6.dp))
+            Column {
+                Text(stringResource(R.string.cu_repite_dia, dia), style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.cu_repite_ej), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        Button(onClick = agregar, modifier = Modifier.fillMaxWidth().padding(top = 6.dp)) { Text(stringResource(R.string.cu_agregar)) }
     }
 }
 
@@ -885,7 +926,7 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
     val t = Tipo.de(x.t)
     var editar by remember { mutableStateOf(false) }
     val alcance = rememberCoroutineScope()
-    val quitado = stringResource(R.string.cu_quitado); val deshacer = stringResource(R.string.cu_deshacer)
+    val quitado = stringResource(if (x.fx != null) R.string.cu_fijo_saltado else R.string.cu_quitado); val deshacer = stringResource(R.string.cu_deshacer)
     val nota = x.n.ifBlank { if (x.agenda != null) stringResource(R.string.cu_registro_dia) else "" }
     Row(
         Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)
@@ -898,6 +939,10 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
         Column(Modifier.weight(1f)) {
             Text(nombreCategoria(t, x.c), style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (nota.isNotBlank()) Text(nota, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (x.fx != null) Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Filled.Repeat, null, Modifier.size(13.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(Modifier.width(4.dp))
+                Text(stringResource(if (x.virtual) R.string.cu_fijo_marca else R.string.cu_fijo_cambiado), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
         if (x.r.isNotEmpty()) Icon(Icons.Filled.AttachFile, stringResource(R.string.cu_recibos_n, x.r.size), Modifier.size(18.dp).padding(end = 2.dp), tint = MaterialTheme.colorScheme.primary)
         Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
@@ -925,7 +970,7 @@ private fun EditarMovimiento(x: Mov, fecha: String, plata: (Double) -> String, v
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), supportingText = { Text(plata(v)) }, modifier = Modifier.fillMaxWidth())
                 SelectorCategoria(t, cat, Modifier.fillMaxWidth()) { cat = it }
                 OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                if (x.agenda == null) RecibosMovimiento(x, fecha, vm)
+                if (x.agenda == null && !x.virtual) RecibosMovimiento(x, fecha, vm)
             }
         },
         confirmButton = { TextButton(onClick = { onGuardar(x.copy(m = v, c = cat, n = nota.trim())) }, enabled = v > 0) { Text(stringResource(R.string.guardar)) } },

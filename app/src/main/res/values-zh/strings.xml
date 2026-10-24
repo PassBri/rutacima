@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">最近 12 个月</string>
     <string name="cu_salud_de">%1$s 财务健康</string>
     <string name="cu_riesgo_c">风险</string>
+    <string name="cu_repite_dia">每月 %1$d 日重复</string>
+    <string name="cu_repite_ej">房租、工资、网费……</string>
+    <string name="cu_fijo_marca">每月固定</string>
+    <string name="cu_fijo_cambiado">固定 · 本月已修改</string>
+    <string name="cu_fijos_titulo">每月固定项</string>
+    <string name="cu_fijos_sub">每月到日子自动出现</string>
+    <string name="cu_fijos_vacio">你要付房租、网费或有固定工资吗？记录时勾选“每月重复”，以后每月会自动出现。</string>
+    <string name="cu_fijos_nota">修改金额从本月起生效。只改某一个月，请在当天修改。</string>
+    <string name="cu_fijos_nota_monto">从本月起生效</string>
+    <string name="cu_fijo_quedo">已设为固定：每月 %2$d 日 %1$s</string>
+    <string name="cu_fijo_parado">下个月起不再重复</string>
+    <string name="cu_fijo_saltado">仅本月移除；其他月份照常</string>
+    <string name="cu_fijo_dia">%1$d 日</string>
+    <string name="cu_fijo_desde">自 %1$s</string>
+    <string name="cu_fijo_parar">停止重复</string>
+    <string name="cu_fijo_editar">编辑固定项</string>
+    <string name="cu_cada_mes">每月</string>
+    <string name="cu_fijo_monto_desde">从%1$s起：每月 %2$s</string>
+    <string name="cu_dia_mes">每月几号</string>
 </resources>

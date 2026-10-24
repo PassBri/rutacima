@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Letzte 12 Monate</string>
     <string name="cu_salud_de">Finanzielle Gesundheit %1$s</string>
     <string name="cu_riesgo_c">Risiko</string>
+    <string name="cu_repite_dia">Wiederholt sich jeden Monat am %1$d.</string>
+    <string name="cu_repite_ej">Miete, Gehalt, Internet…</string>
+    <string name="cu_fijo_marca">Fest jeden Monat</string>
+    <string name="cu_fijo_cambiado">Fest · diesen Monat geändert</string>
+    <string name="cu_fijos_titulo">Feste Posten pro Monat</string>
+    <string name="cu_fijos_sub">Erscheinen jeden Monat von selbst an ihrem Tag</string>
+    <string name="cu_fijos_vacio">Zahlst du Miete, Internet oder bekommst ein festes Gehalt? Hak beim Eintragen „Wiederholt sich jeden Monat“ an, dann erscheint es jeden Monat von selbst.</string>
+    <string name="cu_fijos_nota">Ein neuer Betrag gilt ab diesem Monat. Für nur einen Monat bearbeite ihn an seinem Tag.</string>
+    <string name="cu_fijos_nota_monto">Gilt ab diesem Monat</string>
+    <string name="cu_fijo_quedo">Fest eingetragen: %1$s jeden Monat am %2$d.</string>
+    <string name="cu_fijo_parado">Ab nächstem Monat keine Wiederholung mehr</string>
+    <string name="cu_fijo_saltado">Nur diesen Monat entfernt; sonst bleibt es fest</string>
+    <string name="cu_fijo_dia">Am %1$d.</string>
+    <string name="cu_fijo_desde">seit %1$s</string>
+    <string name="cu_fijo_parar">Nicht mehr wiederholen</string>
+    <string name="cu_fijo_editar">Festen Posten bearbeiten</string>
+    <string name="cu_cada_mes">Jeden Monat</string>
+    <string name="cu_fijo_monto_desde">Ab %1$s: %2$s jeden Monat</string>
+    <string name="cu_dia_mes">Tag im Monat</string>
 </resources>

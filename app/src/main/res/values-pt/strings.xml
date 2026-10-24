@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Últimos 12 meses</string>
     <string name="cu_salud_de">Saúde financeira de %1$s</string>
     <string name="cu_riesgo_c">Risco</string>
+    <string name="cu_repite_dia">Repete todo mês no dia %1$d</string>
+    <string name="cu_repite_ej">Aluguel, salário, internet…</string>
+    <string name="cu_fijo_marca">Fixo todo mês</string>
+    <string name="cu_fijo_cambiado">Fixo · alterado neste mês</string>
+    <string name="cu_fijos_titulo">Fixos de cada mês</string>
+    <string name="cu_fijos_sub">Aparecem sozinhos todo mês no seu dia</string>
+    <string name="cu_fijos_vacio">Paga aluguel, internet ou recebe salário fixo? Ao anotar num dia, marque «Repete todo mês» e ele aparecerá sozinho todo mês.</string>
+    <string name="cu_fijos_nota">Se mudar o valor, vale a partir deste mês. Para mudar só um mês, edite no dia.</string>
+    <string name="cu_fijos_nota_monto">Vale a partir deste mês</string>
+    <string name="cu_fijo_quedo">Ficou fixo: %1$s todo mês no dia %2$d</string>
+    <string name="cu_fijo_parado">Não se repete mais a partir do próximo mês</string>
+    <string name="cu_fijo_saltado">Removido só neste mês; segue fixo nos outros</string>
+    <string name="cu_fijo_dia">Dia %1$d</string>
+    <string name="cu_fijo_desde">desde %1$s</string>
+    <string name="cu_fijo_parar">Parar de repetir</string>
+    <string name="cu_fijo_editar">Editar fixo</string>
+    <string name="cu_cada_mes">Todo mês</string>
+    <string name="cu_fijo_monto_desde">A partir de %1$s: %2$s todo mês</string>
+    <string name="cu_dia_mes">Dia do mês</string>
 </resources>

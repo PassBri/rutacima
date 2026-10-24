@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Ultimi 12 mesi</string>
     <string name="cu_salud_de">Salute finanziaria %1$s</string>
     <string name="cu_riesgo_c">Rischio</string>
+    <string name="cu_repite_dia">Si ripete ogni mese il giorno %1$d</string>
+    <string name="cu_repite_ej">Affitto, stipendio, internet…</string>
+    <string name="cu_fijo_marca">Fisso ogni mese</string>
+    <string name="cu_fijo_cambiado">Fisso · cambiato questo mese</string>
+    <string name="cu_fijos_titulo">Fissi di ogni mese</string>
+    <string name="cu_fijos_sub">Compaiono da soli ogni mese nel loro giorno</string>
+    <string name="cu_fijos_vacio">Paghi affitto, internet o ricevi uno stipendio fisso? Quando lo annoti, spunta «Si ripete ogni mese» e comparirà da solo ogni mese.</string>
+    <string name="cu_fijos_nota">Un nuovo importo vale da questo mese. Per un solo mese, modificalo nel suo giorno.</string>
+    <string name="cu_fijos_nota_monto">Vale da questo mese</string>
+    <string name="cu_fijo_quedo">Fissato: %1$s ogni mese il giorno %2$d</string>
+    <string name="cu_fijo_parado">Non si ripete più dal prossimo mese</string>
+    <string name="cu_fijo_saltado">Tolto solo questo mese; resta fisso negli altri</string>
+    <string name="cu_fijo_dia">Giorno %1$d</string>
+    <string name="cu_fijo_desde">da %1$s</string>
+    <string name="cu_fijo_parar">Smetti di ripetere</string>
+    <string name="cu_fijo_editar">Modifica fisso</string>
+    <string name="cu_cada_mes">Ogni mese</string>
+    <string name="cu_fijo_monto_desde">Da %1$s: %2$s ogni mese</string>
+    <string name="cu_dia_mes">Giorno del mese</string>
 </resources>

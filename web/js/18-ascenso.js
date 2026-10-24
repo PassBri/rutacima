@@ -58,10 +58,11 @@ function movsGuardados(f) { try { const v = JSON.parse(respuesta(claveMov(f)) ||
 function movsDe(f) {
   const ag = Store.get("agenda", f) || {}, viejos = [["ingresos", "ing", "otro"], ["gastos", "gas", "otro"], ["ahorro", "aho", "otro"], ["inversion", "inv", "otro"]]
     .map(([k, t, c]) => ({ id: "ag-" + k, t, c, m: Math.abs(montoFin(ag[k])), n: "Registro del día", ag: k })).filter(x => x.m);
-  return [...viejos, ...movsGuardados(f)];
+  const g = movsGuardados(f), fijos = (window.fijosEn?.(f) || []).filter(v => !g.some(y => y.fx === v.fx));   // los fijos del mes que no se cambiaron a mano
+  return [...viejos, ...fijos, ...g];
 }
 function guardarMovs(f, xs) {
-  const l = xs.filter(x => !x.ag).map(({ id, t, m, c, n, r, d }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}) }));
+  const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}) }));
   return responder(ASC.WB, claveMov(f), l.length ? JSON.stringify(l) : "");
 }
 const catDe = (t, c) => (window.categorias ? categorias(t) : ASC.CAT[t] || []).find(x => x[0] === c) || ASC.CAT[t]?.at(-1);
@@ -85,6 +86,7 @@ function diasConMovs() {
   const set = new Set();
   Store.lista("respuesta").forEach(r => { if (r.clave.startsWith("fin#mov#") && r.valor) set.add(r.clave.slice(8)); });
   Store.lista("agenda").forEach(a => { if (a.fecha && ["ingresos", "gastos", "ahorro", "inversion"].some(k => montoFin(a[k]))) set.add(a.fecha); });
+  (window.fechasFijos?.() || []).forEach(f => set.add(f));
   return [...set].filter(f => /^\d{4}-\d{2}-\d{2}$/.test(f)).sort();
 }
 const totalesDe = pref => sumar(diasConMovs().filter(f => f.startsWith(pref)).flatMap(movsDe));
@@ -151,7 +153,7 @@ DET["finanzas.b"] = () => {
     cifras(t) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
       <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
-    saludResumen("") + deudasResumen() + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
+    saludResumen("") + deudasResumen() + fijosHoja("") + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
 };
 DET["finanzas.a"] = arg => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
@@ -177,7 +179,7 @@ DET["finanzas.m"] = arg => {
       ${uso != null ? `<div class="fin-pres"><div class="barra"><i style="width:${Math.min(100, uso * 100)}%;${uso > 1 ? "background:var(--peligro, #B3261E)" : ""}"></i></div><span class="suave">Gastaste ${plata(t.gas)} de ${plata(pres)}${uso > 1 ? " · te pasaste " + plata(t.gas - pres) : " · te quedan " + plata(pres - t.gas)}</span></div>` : ""}`) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Día a día</h3><button class="btn mini lleno" data-sel="d:${hoyI.startsWith(ym) ? hoyI : ym + "-01"}">${ic("mas")} Registrar</button></div>
       ${filas.length ? grafica(filas) + tablaPeriodos(filas, "Día", t) : `<p class="suave">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`) +
-    mochilas(t) + porCategoria(t), "max-width:980px");
+    fijosHoja(ym) + mochilas(t) + porCategoria(t), "max-width:980px");
 };
 DET["finanzas.d"] = f => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
@@ -194,13 +196,14 @@ DET["finanzas.d"] = f => {
           <label class="campo"><span>Categoría <button type="button" class="enlace" data-acc="ascCrearCat" data-arg="${tipo}">+ Nueva</button></span><select name="cat">${opc(tipo)}</select></label>
           <label class="campo"><span>Concepto</span><input name="texto" maxlength="120" autocomplete="off" placeholder="${{ ing: "Pago de la quincena", gas: "Mercado de la semana", aho: "Aporte al fondo", inv: "Curso de finanzas" }[tipo]}"></label>
           <button class="btn lleno" type="submit">Agregar</button>
-        </div></form>
+        </div>
+        <label class="asc-repite"><input type="checkbox" name="repite"> ${ic("repetir")} Se repite cada mes el día ${d.getDate()} <span class="suave">(arriendo, salario, internet…)</span></label></form>
       <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
         ${movs.length ? movs.map(x => `<tr class="t-${x.t}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
           <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
-          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
+          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.fx ? `<small class="fijo-marca" title="Se repite cada mes">${ic("repetir")} Fijo cada mes${x.virtual ? "" : " · cambiado este mes"}</small>` : ""}</td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
-          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          <td class="acc-mov">${x.ag || x.virtual ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
           : `<tr><td colspan="5" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
@@ -238,7 +241,8 @@ LISTAS.finanzas = () => {
 function cambiarMov(arg, cambio) {
   const [f, id] = arg.split("|"), xs = movsDe(f), x = xs.find(y => y.id === id); if (!x) return;
   if (x.ag) { Store.cambiar("agenda", f, { [x.ag]: "" }, BASES.agenda(f)); x.id = "m" + nuevoId(); delete x.ag; }   // pasa al libro de cuentas
-  cambio(x); guardarMovs(f, xs.filter(y => !y.ag || y === x));
+  if (x.virtual) { x.id = "m" + nuevoId(); delete x.virtual; }                                                  // un fijo cambiado solo este mes
+  cambio(x); guardarMovs(f, xs.filter(y => (!y.ag && !y.virtual) || y === x));
 }
 Object.assign(ACC, {
   ascOjo() { estado.ascOculto = !estado.ascOculto; pintarDetalle(); pintarLista(); },
@@ -250,8 +254,11 @@ Object.assign(ACC, {
   ascBorrar(_, arg) {
     const [f, id] = arg.split("|"), xs = movsDe(f), x = xs.find(y => y.id === id); if (!x) return;
     if (x.ag) Store.cambiar("agenda", f, { [x.ag]: "" }, BASES.agenda(f));
-    else guardarMovs(f, xs.filter(y => y.id !== id));
-    toast("Movimiento quitado", { accion: "Deshacer", alHacer: () => { if (x.ag) Store.cambiar("agenda", f, { [x.ag]: String(x.m) }, BASES.agenda(f)); else guardarMovs(f, [...movsGuardados(f), x]); } });
+    else if (!x.virtual) guardarMovs(f, xs.filter(y => y.id !== id));
+    if (x.fx) saltarFijo(x.fx, f.slice(0, 7));          // un fijo quitado: este mes no se cobra
+    toast(x.fx ? "Quitado solo este mes; sigue fijo los demás" : "Movimiento quitado", { accion: "Deshacer", alHacer: () => {
+      if (x.fx) saltarFijo(x.fx, f.slice(0, 7), false);
+      if (x.ag) Store.cambiar("agenda", f, { [x.ag]: String(x.m) }, BASES.agenda(f)); else if (!x.virtual) guardarMovs(f, [...movsGuardados(f), x]); } });
   },
   ascMonedaElegir(el) { responder(ASC.WB, "fin#moneda", el.value); toast(`Tus cuentas quedan en ${nombreMoneda(el.value)}`); },
 });
@@ -260,8 +267,11 @@ window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
     const f = form.dataset.arg, m = Math.abs(montoFin(datos.get("monto")));
     if (!m) { toast("Escribe el monto"); form.querySelector('[name="monto"]').focus(); return; }
     const t = estado.ascTipo || "gas";
-    guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t, m, c: datos.get("cat") || "otro", n: texto }]);
-    form.reset(); toast(`${ASC.TIPOS.find(y => y[0] === t)[2]} de ${plata(m)} anotado`);
+    if (datos.get("repite")) {                          // fijo: aparece solo cada mes en este día
+      const l = fijosDatos(); l.push({ id: "f" + nuevoId(), t, m, c: datos.get("cat") || "otro", n: texto, dia: Number(f.slice(8)), desde: f.slice(0, 7), hasta: "", saltar: [] });
+      guardarFijos(l); form.reset(); toast(`Quedó fijo: ${plata(m)} cada mes el día ${Number(f.slice(8))}`);
+    } else { guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t, m, c: datos.get("cat") || "otro", n: texto }]);
+      form.reset(); toast(`${ASC.TIPOS.find(y => y[0] === t)[2]} de ${plata(m)} anotado`); }
     setTimeout(() => document.querySelector('.asc-nuevo [name="monto"]')?.focus(), 50);
   },
 });

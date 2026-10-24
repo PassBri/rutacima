@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">آخر 12 شهرًا</string>
     <string name="cu_salud_de">الصحة المالية في %1$s</string>
     <string name="cu_riesgo_c">خطر</string>
+    <string name="cu_repite_dia">يتكرر كل شهر في اليوم %1$d</string>
+    <string name="cu_repite_ej">الإيجار، الراتب، الإنترنت…</string>
+    <string name="cu_fijo_marca">ثابت كل شهر</string>
+    <string name="cu_fijo_cambiado">ثابت · عُدّل هذا الشهر</string>
+    <string name="cu_fijos_titulo">الثوابت الشهرية</string>
+    <string name="cu_fijos_sub">تظهر وحدها كل شهر في يومها</string>
+    <string name="cu_fijos_vacio">هل تدفع إيجارًا أو إنترنت أو تتقاضى راتبًا ثابتًا؟ عند تسجيله اختر «يتكرر كل شهر» وسيظهر وحده كل شهر.</string>
+    <string name="cu_fijos_nota">المبلغ الجديد يسري من هذا الشهر. لتغيير شهر واحد فقط عدّله في يومه.</string>
+    <string name="cu_fijos_nota_monto">يسري من هذا الشهر</string>
+    <string name="cu_fijo_quedo">أصبح ثابتًا: %1$s كل شهر في اليوم %2$d</string>
+    <string name="cu_fijo_parado">لن يتكرر بدءًا من الشهر القادم</string>
+    <string name="cu_fijo_saltado">حُذف لهذا الشهر فقط؛ يبقى ثابتًا في غيره</string>
+    <string name="cu_fijo_dia">اليوم %1$d</string>
+    <string name="cu_fijo_desde">منذ %1$s</string>
+    <string name="cu_fijo_parar">إيقاف التكرار</string>
+    <string name="cu_fijo_editar">تعديل الثابت</string>
+    <string name="cu_cada_mes">كل شهر</string>
+    <string name="cu_fijo_monto_desde">من %1$s: %2$s كل شهر</string>
+    <string name="cu_dia_mes">يوم الشهر</string>
 </resources>

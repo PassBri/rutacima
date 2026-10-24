@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Последние 12 месяцев</string>
     <string name="cu_salud_de">Финансовое здоровье за %1$s</string>
     <string name="cu_riesgo_c">Риск</string>
+    <string name="cu_repite_dia">Повторяется каждый месяц %1$d-го числа</string>
+    <string name="cu_repite_ej">Аренда, зарплата, интернет…</string>
+    <string name="cu_fijo_marca">Каждый месяц</string>
+    <string name="cu_fijo_cambiado">Постоянный · изменён в этом месяце</string>
+    <string name="cu_fijos_titulo">Постоянные каждый месяц</string>
+    <string name="cu_fijos_sub">Появляются сами каждый месяц в свой день</string>
+    <string name="cu_fijos_vacio">Платишь аренду, интернет или получаешь постоянную зарплату? При записи отметь «Повторяется каждый месяц» — и запись будет появляться сама.</string>
+    <string name="cu_fijos_nota">Новая сумма действует с этого месяца. Чтобы изменить один месяц, правь запись в её день.</string>
+    <string name="cu_fijos_nota_monto">Действует с этого месяца</string>
+    <string name="cu_fijo_quedo">Закреплено: %1$s каждый месяц %2$d-го</string>
+    <string name="cu_fijo_parado">Со следующего месяца больше не повторяется</string>
+    <string name="cu_fijo_saltado">Убрано только в этом месяце; в остальные остаётся</string>
+    <string name="cu_fijo_dia">%1$d-е число</string>
+    <string name="cu_fijo_desde">с %1$s</string>
+    <string name="cu_fijo_parar">Больше не повторять</string>
+    <string name="cu_fijo_editar">Изменить постоянную запись</string>
+    <string name="cu_cada_mes">Каждый месяц</string>
+    <string name="cu_fijo_monto_desde">С %1$s: %2$s каждый месяц</string>
+    <string name="cu_dia_mes">Число месяца</string>
 </resources>

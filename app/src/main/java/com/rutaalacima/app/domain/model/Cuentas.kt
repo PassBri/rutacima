@@ -28,9 +28,11 @@ object Cuentas {
     /** r: recibos; d: la deuda que paga este movimiento (Salir de deudas). */
     @Serializable
     data class Mov(val id: String, val t: String, val m: Double, val c: String = "otro", val n: String = "",
-                   val r: List<Recibo> = emptyList(), val d: String? = null) {
+                   val r: List<Recibo> = emptyList(), val d: String? = null, val fx: String? = null) {
         /** Si viene del control financiero de antes: el campo de la agenda ("ingresos"…). */
         @kotlinx.serialization.Transient var agenda: String? = null
+        /** Si es un fijo del mes que aún no se ha cambiado a mano (fx = el fijo; ver Fijos). */
+        @kotlinx.serialization.Transient var virtual: Boolean = false
     }
 
     enum class Tipo(val codigo: String) { ING("ing"), GAS("gas"), AHO("aho"), INV("inv");
@@ -80,7 +82,7 @@ object Cuentas {
         else runCatching { json.decodeFromString(ser, v) }.getOrDefault(emptyList()).filter { it.m.isFinite() && Tipo.entries.any { t -> t.codigo == it.t } }
 
     fun escribir(xs: List<Mov>): String {
-        val l = xs.filter { it.agenda == null }.map { it.copy(m = Math.round(it.m * 100) / 100.0, n = it.n.take(120)) }
+        val l = xs.filter { it.agenda == null && !it.virtual }.map { it.copy(m = Math.round(it.m * 100) / 100.0, n = it.n.take(120)) }
         return if (l.isEmpty()) "" else json.encodeToString(ser, l)
     }
 

@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">Últimos 12 meses</string>
     <string name="cu_salud_de">Salud financiera de %1$s</string>
     <string name="cu_riesgo_c">Riesgo</string>
+    <string name="cu_repite_dia">Se repite cada mes el día %1$d</string>
+    <string name="cu_repite_ej">Arriendo, salario, internet…</string>
+    <string name="cu_fijo_marca">Fijo cada mes</string>
+    <string name="cu_fijo_cambiado">Fijo · cambiado este mes</string>
+    <string name="cu_fijos_titulo">Fijos de cada mes</string>
+    <string name="cu_fijos_sub">Aparecen solos cada mes en su día</string>
+    <string name="cu_fijos_vacio">¿Pagas arriendo, internet o recibes un salario fijo? Al anotarlo en un día marca «Se repite cada mes» y aparecerá solo cada mes, sin volver a escribirlo.</string>
+    <string name="cu_fijos_nota">Si cambias el monto, rige desde este mes. Para cambiar solo un mes, edítalo en su día.</string>
+    <string name="cu_fijos_nota_monto">Rige desde este mes</string>
+    <string name="cu_fijo_quedo">Quedó fijo: %1$s cada mes el día %2$d</string>
+    <string name="cu_fijo_parado">Ya no se repite desde el próximo mes</string>
+    <string name="cu_fijo_saltado">Quitado solo este mes; sigue fijo los demás</string>
+    <string name="cu_fijo_dia">Día %1$d</string>
+    <string name="cu_fijo_desde">desde %1$s</string>
+    <string name="cu_fijo_parar">Dejar de repetir</string>
+    <string name="cu_fijo_editar">Editar fijo</string>
+    <string name="cu_cada_mes">Cada mes</string>
+    <string name="cu_fijo_monto_desde">Desde %1$s: %2$s cada mes</string>
+    <string name="cu_dia_mes">Día del mes</string>
 </resources>

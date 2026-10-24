@@ -1651,4 +1651,23 @@
     <string name="cu_ultimos_12">直近12か月</string>
     <string name="cu_salud_de">%1$s のお金の健康</string>
     <string name="cu_riesgo_c">危険</string>
+    <string name="cu_repite_dia">毎月 %1$d 日に繰り返す</string>
+    <string name="cu_repite_ej">家賃、給料、ネット代…</string>
+    <string name="cu_fijo_marca">毎月の固定</string>
+    <string name="cu_fijo_cambiado">固定・今月だけ変更</string>
+    <string name="cu_fijos_titulo">毎月の固定</string>
+    <string name="cu_fijos_sub">毎月その日に自動で入ります</string>
+    <string name="cu_fijos_vacio">家賃やネット代、固定の給料はありますか？記録するときに「毎月繰り返す」にチェックすると、毎月自動で入ります。</string>
+    <string name="cu_fijos_nota">金額を変えると今月から反映されます。1か月分だけなら、その日で編集してください。</string>
+    <string name="cu_fijos_nota_monto">今月から反映</string>
+    <string name="cu_fijo_quedo">固定にしました：毎月 %2$d 日に %1$s</string>
+    <string name="cu_fijo_parado">来月からは繰り返しません</string>
+    <string name="cu_fijo_saltado">今月だけ削除。ほかの月はそのまま</string>
+    <string name="cu_fijo_dia">%1$d 日</string>
+    <string name="cu_fijo_desde">%1$s から</string>
+    <string name="cu_fijo_parar">繰り返しをやめる</string>
+    <string name="cu_fijo_editar">固定を編集</string>
+    <string name="cu_cada_mes">毎月</string>
+    <string name="cu_fijo_monto_desde">%1$sから：毎月 %2$s</string>
+    <string name="cu_dia_mes">毎月の日</string>
 </resources>
