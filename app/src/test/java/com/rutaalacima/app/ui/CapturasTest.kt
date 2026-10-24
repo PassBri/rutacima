@@ -167,13 +167,12 @@ class CapturasTest {
     }
 
     private fun libroSalud(): com.rutaalacima.app.ui.finanzas.Libro {
-        val M = com.rutaalacima.app.domain.model.Cuentas
         val dias = (0 until 8).associate { k ->
             val f = YearMonth.from(hoy).minusMonths(k.toLong()).atDay(5).toString()
             val r = listOf(0.9, 1.1, 1.0, 0.95, 1.05, 1.0, 0.97, 1.08)[k]
-            f to listOf(M.Mov("i$k", "ing", 15_312_993.0, "trabajo", ""), M.Mov("p$k", "ing", 87_000.0, "pasivo", ""),
-                M.Mov("v$k", "gas", Math.round(9_163_107 * r).toDouble(), "vivienda", ""), M.Mov("a$k", "gas", Math.round(2_168_300 * (2 - r)).toDouble(), "entretenimiento", ""),
-                M.Mov("s$k", "aho", 483_290.0 * (k % 3 + 1), "emergencia", ""), M.Mov("n$k", "inv", 300_000.0 * (k % 2), "fondos", ""))
+            f to listOf(com.rutaalacima.app.domain.model.Cuentas.Mov("i$k", "ing", 15_312_993.0, "trabajo", ""), com.rutaalacima.app.domain.model.Cuentas.Mov("p$k", "ing", 87_000.0, "pasivo", ""),
+                com.rutaalacima.app.domain.model.Cuentas.Mov("v$k", "gas", Math.round(9_163_107 * r).toDouble(), "vivienda", ""), com.rutaalacima.app.domain.model.Cuentas.Mov("a$k", "gas", Math.round(2_168_300 * (2 - r)).toDouble(), "entretenimiento", ""),
+                com.rutaalacima.app.domain.model.Cuentas.Mov("s$k", "aho", 483_290.0 * (k % 3 + 1), "emergencia", ""), com.rutaalacima.app.domain.model.Cuentas.Mov("n$k", "inv", 300_000.0 * (k % 2), "fondos", ""))
         }
         val resp = mapOf(
             "fin#deudas" to """{"metodo":"bola","extra":500000,"lista":[{"id":"d1","nombre":"Tarjeta","saldo":8000000,"tasa":28,"minimo":400000,"tipo":"mala"},{"id":"d2","nombre":"Hipoteca","saldo":239131130,"tasa":12,"minimo":4592653,"tipo":"buena"}]}""",
