@@ -1482,10 +1482,10 @@ body:has(.md-visor) { overflow: hidden; }
 :root[data-theme="dark"] .moch .alerta { color: #F2B8B5; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .moch .alerta { color: #F2B8B5; } }
 .asc-cats { display: grid; gap: 8px; }
-.asc-cat { display: grid; grid-template-columns: minmax(110px, 160px) 1fr auto; gap: 10px; align-items: center; font-size: 14px; }
+.asc-cat { display: grid; grid-template-columns: minmax(110px, 160px) 1fr 120px; gap: 10px; align-items: center; font-size: 14px; }
 .asc-cat .barra-c { height: 8px; border-radius: 999px; background: var(--hoja-2); overflow: hidden; }
 .asc-cat .barra-c i { display: block; height: 100%; border-radius: 999px; }
-.asc-cat .num { font-variant-numeric: tabular-nums; }
+.asc-cat .num { font-variant-numeric: tabular-nums; text-align: right; }
 .asc-sube { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; align-items: center; text-align: left; width: 100%; cursor: pointer; color: var(--tinta); font: inherit; border: 1px solid var(--linea); }
 .asc-sube span { color: var(--tinta-suave); font-size: 13px; } .asc-sube b { font-size: 18px; font-variant-numeric: tabular-nums; }
 .asc-sube small { color: var(--tinta-suave); } .asc-sube svg { grid-row: 1 / 4; grid-column: 2; width: 24px; height: 24px; fill: var(--tinta-suave); }

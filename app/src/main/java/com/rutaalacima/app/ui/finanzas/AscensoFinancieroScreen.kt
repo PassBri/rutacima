@@ -495,8 +495,7 @@ fun CategoriasCard(s: Cuentas.Suma, plata: (Double) -> String) {
                 Box(Modifier.weight(1f).height(8.dp).clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
                     Box(Modifier.fillMaxWidth((v / max).toFloat()).fillMaxHeight().background(colorTipo(k.first)))
                 }
-                Spacer(Modifier.width(10.dp))
-                Text(plata(v), style = MaterialTheme.typography.bodySmall)
+                Text(plata(v), Modifier.width(104.dp), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.End, maxLines = 1)
             }
         }
     }
