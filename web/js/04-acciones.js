@@ -396,6 +396,7 @@ async function enviar(e) {
         estado.feed = null; estado.misPosts = null; toast("Publicado"); ir("comunidad", null);
       } catch (err) { errorNube(err); boton.disabled = false; boton.textContent = "Publicar"; }
     } break;
+    default: window.FORMULARIOS?.[f.dataset.form]?.(f, datos, texto);
   }
 }
 

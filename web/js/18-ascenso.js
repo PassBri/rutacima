@@ -1,0 +1,270 @@
+"use strict";
+/* ======================================================================
+ * Ascenso financiero (igual que en la app, domain/model/Ascenso.kt).
+ * Un libro de cuentas que sube y baja: balance general → año → mes → día, y del día al balance.
+ * Cada día guarda sus movimientos en la respuesta "fin#mov#<aaaa-mm-dd>" (workbook "finanzas") como JSON:
+ *   [{ id, t: "ing"|"gas"|"aho"|"inv", m: monto, c: categoría, n: concepto }]
+ * Los gastos se reparten en las tres mochilas del libro Cima financiera: verde (lo esencial, ~50 %),
+ * amarilla (gastos variables, ~30 %) y roja (ahorro e inversión en tu futuro, ≥ 20 %).
+ * Los montos del control financiero de antes (agenda.ingresos…) se suman como movimientos del día.
+ * ====================================================================== */
+
+const ASC = {
+  WB: "finanzas",
+  TIPOS: [["ing", "Ingresos", "Ingreso"], ["gas", "Gastos", "Gasto"], ["aho", "Ahorro", "Ahorro"], ["inv", "Inversión", "Inversión"]],
+  /** Categorías por tipo: [código, nombre, mochila] (la mochila solo aplica a gastos; ahorro e inversión son la roja). */
+  CAT: {
+    ing: [["trabajo", "Trabajo o salario"], ["negocio", "Negocio"], ["ventas", "Ventas"], ["honorarios", "Honorarios"], ["pasivo", "Ingreso pasivo"], ["otro", "Otro ingreso"]],
+    gas: [["alimentacion", "Alimentación", "verde"], ["vivienda", "Vivienda", "verde"], ["servicios", "Servicios básicos", "verde"], ["transporte", "Transporte", "verde"],
+      ["salud", "Salud", "verde"], ["deudas", "Pago de deudas", "verde"], ["entretenimiento", "Entretenimiento", "amarilla"], ["restaurantes", "Restaurantes", "amarilla"],
+      ["ropa", "Ropa y accesorios", "amarilla"], ["suscripciones", "Suscripciones", "amarilla"], ["hormiga", "Gastos hormiga", "amarilla"], ["otro", "Otro gasto", "amarilla"]],
+    aho: [["emergencia", "Fondo de emergencia"], ["meta", "Ahorro para una meta"], ["retiro", "Retiro"], ["otro", "Otro ahorro"]],
+    inv: [["educacion", "Educación"], ["herramientas", "Herramientas de trabajo"], ["fondos", "Fondos y acciones"], ["negocio", "Mi negocio"], ["inmuebles", "Bienes raíces"], ["otro", "Otra inversión"]],
+  },
+  MOCHILAS: [["verde", "Mochila verde", "Lo esencial", 0.5], ["amarilla", "Mochila amarilla", "Gastos variables", 0.3], ["roja", "Mochila roja", "Ahorro e inversión", 0.2]],
+  /** Moneda por país y, si no se sabe el país, por idioma (los 12 de la app). */
+  POR_PAIS: { CO: "COP", MX: "MXN", AR: "ARS", CL: "CLP", PE: "PEN", EC: "USD", VE: "VES", BO: "BOB", PY: "PYG", UY: "UYU", GT: "GTQ", CR: "CRC", DO: "DOP", PA: "USD", SV: "USD", HN: "HNL",
+    NI: "NIO", CU: "CUP", PR: "USD", ES: "EUR", US: "USD", CA: "CAD", GB: "GBP", AU: "AUD", BR: "BRL", PT: "EUR", FR: "EUR", BE: "EUR", CH: "CHF", DE: "EUR", AT: "EUR", IT: "EUR",
+    CN: "CNY", TW: "TWD", HK: "HKD", JP: "JPY", KR: "KRW", SA: "SAR", AE: "AED", EG: "EGP", MA: "MAD", IN: "INR", RU: "RUB" },
+  POR_IDIOMA: { es: "COP", en: "USD", pt: "BRL", fr: "EUR", de: "EUR", it: "EUR", zh: "CNY", ja: "JPY", ko: "KRW", ar: "SAR", hi: "INR", ru: "RUB" },
+  MONEDAS: ["COP", "USD", "EUR", "MXN", "ARS", "CLP", "PEN", "BOB", "PYG", "UYU", "VES", "GTQ", "CRC", "DOP", "HNL", "NIO", "BRL", "CAD", "GBP", "CHF", "AUD", "CNY", "JPY", "KRW", "INR", "RUB", "SAR", "AED", "EGP", "MAD"],
+};
+const claveMov = f => `fin#mov#${f}`;
+/** El idioma y país del navegador, limpio ("es-CO"); si no se puede leer, español de Colombia. */
+const ascLocale = (() => { try { return Intl.getCanonicalLocales(String(navigator.language || "").split(/[@_.]/)[0].replace("_", "-"))[0] || "es-CO"; } catch { return "es-CO"; } })();
+
+/** Moneda elegida o la de tu país e idioma. */
+function ascMoneda() {
+  const m = respuesta("fin#moneda"); if (m) return m;
+  const [idioma, pais] = ascLocale.split("-");
+  return ASC.POR_PAIS[(pais || "").toUpperCase()] || ASC.POR_IDIOMA[idioma] || "USD";
+}
+/** "$ 1.250.000", "US$ 12,50", "1.234,50 €"… en el idioma del navegador; sin decimales si el monto es entero. */
+function plata(v, { signo = false } = {}) {
+  const entero = Math.abs(v % 1) < 0.005;
+  let s;
+  try { s = new Intl.NumberFormat(ascLocale, { style: "currency", currency: ascMoneda(), minimumFractionDigits: entero ? 0 : 2, maximumFractionDigits: entero ? 0 : 2 }).format(v); }
+  catch { s = fmtFin(v); }
+  return signo && v > 0 ? "+" + s : s;
+}
+/** El número sin símbolo, con los separadores de tu idioma (para editar en la tabla). */
+const numAsc = v => new Intl.NumberFormat(ascLocale, { maximumFractionDigits: 2 }).format(v);
+const nombreMoneda = c => { try { return new Intl.DisplayNames([ascLocale], { type: "currency" }).of(c); } catch { return c; } };
+
+/** Movimientos guardados de un día. */
+function movsGuardados(f) { try { const v = JSON.parse(respuesta(claveMov(f)) || "[]"); return Array.isArray(v) ? v.filter(x => x && ASC.CAT[x.t] && Number.isFinite(Number(x.m))) : []; } catch { return []; } }
+/** Los del día con los montos del control financiero de antes (se muestran como movimientos y se pueden editar). */
+function movsDe(f) {
+  const ag = Store.get("agenda", f) || {}, viejos = [["ingresos", "ing", "otro"], ["gastos", "gas", "otro"], ["ahorro", "aho", "otro"], ["inversion", "inv", "otro"]]
+    .map(([k, t, c]) => ({ id: "ag-" + k, t, c, m: Math.abs(montoFin(ag[k])), n: "Registro del día", ag: k })).filter(x => x.m);
+  return [...viejos, ...movsGuardados(f)];
+}
+function guardarMovs(f, xs) {
+  const l = xs.filter(x => !x.ag).map(({ id, t, m, c, n }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120) }));
+  return responder(ASC.WB, claveMov(f), l.length ? JSON.stringify(l) : "");
+}
+const catDe = (t, c) => ASC.CAT[t]?.find(x => x[0] === c) || ASC.CAT[t]?.at(-1);
+const mochilaDe = x => x.t === "gas" ? (catDe("gas", x.c)?.[2] || "amarilla") : x.t === "aho" || x.t === "inv" ? "roja" : null;
+
+/** Suma de movimientos: totales por tipo, por mochila y por categoría. */
+function sumar(movs) {
+  const s = { ing: 0, gas: 0, aho: 0, inv: 0, n: 0, mochila: { verde: 0, amarilla: 0, roja: 0 }, cat: {} };
+  movs.forEach(x => {
+    const m = Number(x.m) || 0; s[x.t] += m; s.n++;
+    const mo = mochilaDe(x); if (mo) s.mochila[mo] += m;
+    const k = x.t + ":" + x.c; s.cat[k] = (s.cat[k] || 0) + m;
+  });
+  s.disp = s.ing - s.gas - s.aho - s.inv;          // lo que queda libre
+  s.construido = s.aho + s.inv;                    // lo que suma a tu patrimonio
+  s.tasa = s.ing > 0 ? Math.min(1, Math.max(0, s.construido / s.ing)) : null;
+  return s;
+}
+/** Todos los días con movimientos (de la respuesta o del control de antes). */
+function diasConMovs() {
+  const set = new Set();
+  Store.lista("respuesta").forEach(r => { if (r.clave.startsWith("fin#mov#") && r.valor) set.add(r.clave.slice(8)); });
+  Store.lista("agenda").forEach(a => { if (a.fecha && ["ingresos", "gastos", "ahorro", "inversion"].some(k => montoFin(a[k]))) set.add(a.fecha); });
+  return [...set].filter(f => /^\d{4}-\d{2}-\d{2}$/.test(f)).sort();
+}
+const totalesDe = pref => sumar(diasConMovs().filter(f => f.startsWith(pref)).flatMap(movsDe));
+
+/* ---------- Piezas visuales ---------- */
+const COL = [["ing", "Ingresos"], ["gas", "Gastos"], ["aho", "Ahorro"], ["inv", "Inversión"], ["disp", "Disponible"]];
+const celda = (v, k) => `<td class="num${k === "disp" && v < 0 ? " neg" : ""}${!v ? " cero" : ""}">${v ? plata(v) : "—"}</td>`;
+/** Tabla tipo hoja de cálculo: una fila por periodo (toca para bajar), acumulado que sube y fila de totales. */
+function tablaPeriodos(filas, etqCol, total) {
+  let acum = 0;
+  return `<div class="asc-tabla"><table><thead><tr><th>${etqCol}</th>${COL.map(([, t]) => `<th class="num">${t}</th>`).join("")}<th class="num">Acumulado</th></tr></thead><tbody>
+    ${filas.map(({ etq, sel, s, actual }) => { acum += s.disp;
+      return `<tr class="${actual ? "actual" : ""}${s.n ? "" : " vacia"}" data-sel="${sel}" tabindex="0" role="link" aria-label="Abrir ${esc(etq)}"><th scope="row">${esc(etq)}</th>${COL.map(([k]) => celda(s[k], k)).join("")}<td class="num acum${acum < 0 ? " neg" : ""}">${s.n || acum ? plata(acum) : "—"}</td></tr>`; }).join("")}
+    </tbody><tfoot><tr><th scope="row">Total</th>${COL.map(([k]) => celda(total[k], k)).join("")}<td class="num"></td></tr></tfoot></table></div>`;
+}
+/** Las cuatro cifras de un periodo y lo disponible. */
+function cifras(s) {
+  return `<div class="asc-cifras">${COL.map(([k, t]) => `<div class="asc-cifra c-${k}"><span>${t}</span><b class="${k === "disp" && s.disp < 0 ? "neg" : ""}">${plata(s[k])}</b></div>`).join("")}</div>`;
+}
+/** Las tres mochilas: cuánto pesa cada una frente a lo que entró, y la referencia 50/30/20. */
+function mochilas(s) {
+  const base = s.ing || (s.mochila.verde + s.mochila.amarilla + s.mochila.roja) || 1;
+  return hoja(`<h3 style="margin:0 0 4px">Tus tres mochilas</h3><p class="suave" style="margin:0 0 12px">Del libro Cima financiera: lo esencial cerca del 50 %, lo variable cerca del 30 % y al menos el 20 % para tu futuro.</p>
+    <div class="moch-barra" role="img" aria-label="${ASC.MOCHILAS.map(([k, n]) => `${n}: ${Math.round(s.mochila[k] / base * 100)} %`).join(", ")}">${ASC.MOCHILAS.map(([k]) => `<i class="m-${k}" style="flex:${s.mochila[k] || 0}"></i>`).join("")}${s.ing > s.gas + s.construido ? `<i class="m-libre" style="flex:${s.ing - s.gas - s.construido}"></i>` : ""}</div>
+    <div class="moch-filas">${ASC.MOCHILAS.map(([k, n, d, ideal]) => { const p = s.mochila[k] / base, bien = k === "roja" ? p >= ideal : p <= ideal + 0.05;
+      return `<div class="moch"><i class="m-${k}"></i><span><b>${n}</b><small>${d} · ideal ${k === "roja" ? "≥ " : "≈ "}${Math.round(ideal * 100)} %</small></span><span class="num">${plata(s.mochila[k])}</span><span class="num ${s.ing ? (bien ? "ok" : "alerta") : ""}">${s.ing ? Math.round(p * 100) + " %" : "—"}</span></div>`; }).join("")}</div>`);
+}
+/** En qué se fue el dinero: categorías de mayor a menor, con barras a escala. */
+function porCategoria(s) {
+  const l = Object.entries(s.cat).filter(([k]) => !k.startsWith("ing:")).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  if (!l.length) return "";
+  const max = l[0][1];
+  return hoja(`<h3 style="margin:0 0 10px">¿A dónde fue tu dinero?</h3><div class="asc-cats">${l.map(([k, v]) => { const [t, c] = k.split(":"), cat = catDe(t, c);
+    return `<div class="asc-cat"><span>${esc(cat?.[1] || c)}</span><span class="barra-c"><i class="b-${t}" style="width:${(v / max * 100).toFixed(1)}%"></i></span><span class="num">${plata(v)}</span></div>`; }).join("")}</div>`);
+}
+/** Barras de ingresos y gastos por periodo (a escala, con su valor al pasar). */
+function grafica(filas) {
+  const max = Math.max(1, ...filas.flatMap(x => [x.s.ing, x.s.gas + x.s.aho + x.s.inv]));
+  if (!filas.some(x => x.s.n)) return "";
+  const W = 100 / filas.length;
+  return `<div class="asc-graf" role="img" aria-label="Ingresos y salidas por periodo">${filas.map(x => `<button class="asc-col" data-sel="${x.sel}" style="width:${W}%" title="${esc(x.etq)}: entró ${plata(x.s.ing)}, salió ${plata(x.s.gas + x.s.aho + x.s.inv)}">
+      <span class="pila"><i class="b-ing" style="height:${(x.s.ing / max * 100).toFixed(1)}%"></i><i class="b-gas" style="height:${((x.s.gas + x.s.aho + x.s.inv) / max * 100).toFixed(1)}%"></i></span><small>${esc(x.corto)}</small></button>`).join("")}</div>
+    <p class="asc-ley"><span><i class="b-ing"></i>Entró</span><span><i class="b-gas"></i>Salió (gastos, ahorro e inversión)</span></p>`;
+}
+/** Migas de pan: siempre se puede subir al balance o bajar al día. */
+function migasAsc(partes) {
+  return `<nav class="migas" aria-label="Dónde estás">${partes.map(([t, sel], i) => i < partes.length - 1 ? `<button data-sel="${sel}">${esc(t)}</button> › ` : `<span>${esc(t)}</span>`).join("")}</nav>`;
+}
+const navPeriodo = (antes, despues, etq) => `<div class="asc-nav"><button class="rb" data-sel="${antes}" aria-label="Anterior">${ic("izq")}</button><b>${esc(etq)}</b><button class="rb" data-sel="${despues}" aria-label="Siguiente">${ic("der")}</button></div>`;
+const avAsc = () => av(ic("finanzas"), "var(--ok)");
+const ymDe = (a, m) => `${a}-${String(m).padStart(2, "0")}`;
+
+/* ---------- Pantallas ---------- */
+DET["finanzas.b"] = () => {
+  const dias = diasConMovs(), hoyA = new Date().getFullYear();
+  const anios = [...new Set([...dias.map(f => Number(f.slice(0, 4))), hoyA])].sort();
+  const filas = anios.map(a => ({ etq: String(a), corto: String(a), sel: "a:" + a, s: totalesDe(a + "-"), actual: a === hoyA }));
+  const t = sumar(dias.flatMap(movsDe));
+  return cab(avAsc(), "Ascenso financiero", "Balance general · todos tus años") + cuerpo(
+    migasAsc([["Balance general", "b"]]) +
+    (t.n ? "" : `<div class="aviso">${ic("finanzas")} Empieza por hoy: anota lo que entró y salió. Cada día suma al mes, cada mes al año y cada año a este balance.<button class="btn lleno" data-sel="d:${iso(hoyFecha())}" style="margin-left:auto">Registrar hoy</button></div>`) +
+    cifras(t) +
+    hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
+      <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
+    mochilas(t) + porCategoria(t) + monedaHoja(), "max-width:980px");
+};
+DET["finanzas.a"] = arg => {
+  const a = Number(arg) || new Date().getFullYear(), hoy = hoyFecha();
+  const filas = [...Array(12).keys()].map(i => ({ etq: mayus(MESES[i]), corto: MES_C[i], sel: "m:" + ymDe(a, i + 1), s: totalesDe(ymDe(a, i + 1) + "-"), actual: a === hoy.getFullYear() && i === hoy.getMonth() }));
+  const t = totalesDe(a + "-");
+  return cab(avAsc(), String(a), "Ascenso financiero · el año mes a mes") + cuerpo(
+    migasAsc([["Balance general", "b"], [String(a), ""]]) + navPeriodo("a:" + (a - 1), "a:" + (a + 1), String(a)) + cifras(t) +
+    hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Mes a mes</h3><span class="suave" style="font-size:13px">Toca un mes para ver sus días</span></div>${grafica(filas)}${tablaPeriodos(filas, "Mes", t)}`) +
+    mochilas(t) + porCategoria(t), "max-width:980px");
+};
+DET["finanzas.m"] = arg => {
+  const [a, m] = arg.split("-").map(Number), ym = ymDe(a, m), hoyI = iso(hoyFecha());
+  const dias = new Set(diasConMovs().filter(f => f.startsWith(ym)));
+  if (hoyI.startsWith(ym)) dias.add(hoyI);
+  const filas = [...dias].sort().map(f => { const d = deIso(f); return { etq: `${d.getDate()} · ${d.toLocaleDateString("es", { weekday: "short" })}`, corto: String(d.getDate()), sel: "d:" + f, s: sumar(movsDe(f)), actual: f === hoyI }; });
+  const t = totalesDe(ym + "-"), pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym)))), uso = pres ? t.gas / pres : null;
+  const ant = m === 1 ? ymDe(a - 1, 12) : ymDe(a, m - 1), sig = m === 12 ? ymDe(a + 1, 1) : ymDe(a, m + 1);
+  return cab(avAsc(), `${mayus(MESES[m - 1])} ${a}`, "Ascenso financiero · el mes día a día") + cuerpo(
+    migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), ""]]) + navPeriodo("m:" + ant, "m:" + sig, `${mayus(MESES[m - 1])} ${a}`) + cifras(t) +
+    hoja(`<h3 style="margin:0 0 8px">Presupuesto de gastos</h3>${campo("Lo máximo que quieres gastar este mes", `<input type="text" inputmode="decimal" data-resp="${FIN_WB}|${claveFinPresupuesto(ym)}" value="${esc(respuesta(claveFinPresupuesto(ym)))}" placeholder="Ej. ${plata(1500000)}">`)}
+      ${uso != null ? `<div class="fin-pres"><div class="barra"><i style="width:${Math.min(100, uso * 100)}%;${uso > 1 ? "background:var(--peligro, #B3261E)" : ""}"></i></div><span class="suave">Gastaste ${plata(t.gas)} de ${plata(pres)}${uso > 1 ? " · te pasaste " + plata(t.gas - pres) : " · te quedan " + plata(pres - t.gas)}</span></div>` : ""}`) +
+    hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Día a día</h3><button class="btn mini lleno" data-sel="d:${hoyI.startsWith(ym) ? hoyI : ym + "-01"}">${ic("mas")} Registrar</button></div>
+      ${filas.length ? grafica(filas) + tablaPeriodos(filas, "Día", t) : `<p class="suave">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`) +
+    mochilas(t) + porCategoria(t), "max-width:980px");
+};
+DET["finanzas.d"] = f => {
+  const d = deIso(f), a = d.getFullYear(), m = d.getMonth() + 1, ym = ymDe(a, m), movs = movsDe(f), s = sumar(movs), mes = totalesDe(ym + "-");
+  const tipo = estado.ascTipo || "gas";
+  const opc = t => ASC.CAT[t].map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("");
+  return cab(avAsc(), `${d.getDate()} de ${MESES[m - 1]}`, mayus(d.toLocaleDateString("es", { weekday: "long" })) + ` · ${a}`) + cuerpo(
+    migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), "m:" + ym], [String(d.getDate()), ""]]) +
+    navPeriodo("d:" + sumarDias(f, -1), "d:" + sumarDias(f, 1), `${d.getDate()} ${MES_C[m - 1]} ${a}`) +
+    hoja(`<form class="asc-nuevo" data-form="ascMov" data-arg="${f}">
+        <div class="seg" role="radiogroup" aria-label="Tipo de movimiento">${ASC.TIPOS.map(([k, , u]) => `<button type="button" role="radio" aria-checked="${tipo === k}" class="seg-b t-${k}" data-acc="ascTipo" data-arg="${k}">${u}</button>`).join("")}</div>
+        <div class="asc-fila-nueva">
+          <label class="campo"><span>Monto</span><input name="monto" inputmode="decimal" autocomplete="off" placeholder="${plata(0)}" required aria-label="Monto"></label>
+          <label class="campo"><span>Categoría</span><select name="cat">${opc(tipo)}</select></label>
+          <label class="campo"><span>Concepto</span><input name="texto" maxlength="120" autocomplete="off" placeholder="${{ ing: "Pago de la quincena", gas: "Mercado de la semana", aho: "Aporte al fondo", inv: "Curso de finanzas" }[tipo]}"></label>
+          <button class="btn lleno" type="submit">Agregar</button>
+        </div></form>
+      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th><span class="oculto">Quitar</span></th></tr></thead><tbody>
+        ${movs.length ? movs.map(x => `<tr class="t-${x.t}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
+          <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${ASC.CAT[x.t].map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
+          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
+          <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
+          <td><button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          : `<tr><td colspan="5" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
+      </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td></tr></tfoot>` : ""}</table></div>`) +
+    cifras(s) +
+    `<button class="hoja asc-sube" data-sel="m:${ym}"><span>Así va ${MESES[m - 1]}</span><b class="${mes.disp < 0 ? "neg" : ""}">${plata(mes.disp)} disponible</b><small>Entró ${plata(mes.ing)} · salió ${plata(mes.gas + mes.aho + mes.inv)}</small>${ic("der")}</button>`, "max-width:980px");
+};
+/** La moneda en la que llevas tus cuentas. */
+function monedaHoja() {
+  const actual = ascMoneda();
+  return hoja(`<h3 style="margin:0 0 4px">Moneda</h3><p class="suave" style="margin:0 0 10px">Se elige según tu país e idioma. Cámbiala si llevas tus cuentas en otra.</p>
+    <select data-acc-change="ascMonedaElegir" aria-label="Moneda">${[...new Set([actual, ...ASC.MONEDAS])].map(c => `<option value="${c}" ${c === actual ? "selected" : ""}>${c} · ${esc(nombreMoneda(c))}</option>`).join("")}</select>`);
+}
+
+/* ---------- Lista ---------- */
+LISTAS.finanzas = () => {
+  const hoyI = iso(hoyFecha()), ym = hoyI.slice(0, 7), a = new Date().getFullYear(), hoyS = sumar(movsDe(hoyI)), mesS = totalesDe(ym + "-");
+  const anios = [...new Set([...diasConMovs().map(f => Number(f.slice(0, 4))), a])].sort((x, y) => y - x);
+  let h = cabLista("Ascenso financiero", { buscar: false }) + `<div class="items">`;
+  h += item("d:" + hoyI, av(hoyFecha().getDate(), "var(--ok)"), "Hoy", "", hoyS.n ? `${hoyS.n} ${hoyS.n === 1 ? "movimiento" : "movimientos"} · ${plata(hoyS.disp)}` : "Anota lo que entró y salió");
+  h += item("m:" + ym, av(MES_C[hoyFecha().getMonth()], "var(--ok)"), mayus(MESES[hoyFecha().getMonth()]), "", `${plata(mesS.disp)} disponible`);
+  h += item("b", av(ic("finanzas"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
+  h += grupo("Años");
+  anios.forEach(y => { const s = totalesDe(y + "-"); h += item("a:" + y, av(String(y).slice(2), "var(--ok)"), String(y), "", s.n ? `Entró ${plata(s.ing)} · ${plata(s.disp)} libre` : "Sin movimientos"); });
+  h += grupo("Aprende");
+  h += `<button class="item" data-acc="aprendeFinanzas">${av(ic("aprende"), "var(--burdeos)")}<span class="txt"><span class="t1"><span>Inteligencia financiera</span></span><span class="t2"><span>7 guías: de la base al ascenso</span></span></span></button>`;
+  return h + `</div>`;
+};
+
+/* ---------- Acciones ---------- */
+function cambiarMov(arg, cambio) {
+  const [f, id] = arg.split("|"), xs = movsDe(f), x = xs.find(y => y.id === id); if (!x) return;
+  if (x.ag) { Store.cambiar("agenda", f, { [x.ag]: "" }, BASES.agenda(f)); x.id = "m" + nuevoId(); delete x.ag; }   // pasa al libro de cuentas
+  cambio(x); guardarMovs(f, xs.filter(y => !y.ag || y === x));
+}
+Object.assign(ACC, {
+  aprendeFinanzas() { ir("aprende"); estado.filtro = "finanzas"; pintarLista(); },
+  ascTipo(_, t) { estado.ascTipo = t; pintarDetalle(); document.querySelector('.asc-nuevo [name="monto"]')?.focus(); },
+  ascCat(el, arg) { cambiarMov(arg, x => { x.c = el.value; }); },
+  ascNota(el, arg) { cambiarMov(arg, x => { x.n = el.value.trim(); }); },
+  ascMonto(el, arg) { const v = Math.abs(montoFin(el.value)); if (!v) { toast("Escribe un monto mayor que cero"); pintarDetalle(); return; } cambiarMov(arg, x => { x.m = v; }); },
+  ascBorrar(_, arg) {
+    const [f, id] = arg.split("|"), xs = movsDe(f), x = xs.find(y => y.id === id); if (!x) return;
+    if (x.ag) Store.cambiar("agenda", f, { [x.ag]: "" }, BASES.agenda(f));
+    else guardarMovs(f, xs.filter(y => y.id !== id));
+    toast("Movimiento quitado", { accion: "Deshacer", alHacer: () => { if (x.ag) Store.cambiar("agenda", f, { [x.ag]: String(x.m) }, BASES.agenda(f)); else guardarMovs(f, [...movsGuardados(f), x]); } });
+  },
+  ascMonedaElegir(el) { responder(ASC.WB, "fin#moneda", el.value); toast(`Tus cuentas quedan en ${nombreMoneda(el.value)}`); },
+});
+window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
+  ascMov(form, datos, texto) {
+    const f = form.dataset.arg, m = Math.abs(montoFin(datos.get("monto")));
+    if (!m) { toast("Escribe el monto"); form.querySelector('[name="monto"]').focus(); return; }
+    const t = estado.ascTipo || "gas";
+    guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t, m, c: datos.get("cat") || "otro", n: texto }]);
+    form.reset(); toast(`${ASC.TIPOS.find(y => y[0] === t)[2]} de ${plata(m)} anotado`);
+    setTimeout(() => document.querySelector('.asc-nuevo [name="monto"]')?.focus(), 50);
+  },
+});
+
+/* La tabla se abre con Enter igual que con un clic (como una hoja de cálculo) */
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches?.(".asc-tabla tr[data-sel]")) { e.preventDefault(); e.target.click(); } });
+
+/** Para el día (Hoy) y el balance del mes: un resumen que lleva al módulo. */
+window.ascResumenDia = function (f) {
+  const movs = movsDe(f), s = sumar(movs);
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Control financiero</h3><button class="btn mini" data-ir="finanzas" data-arg="d:${f}">${ic("finanzas")} ${movs.length ? "Ver y anotar" : "Anotar"}</button></div>
+    ${movs.length ? `<div class="asc-mini">${movs.slice(0, 5).map(x => `<span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span><span>${esc(x.n || catDe(x.t, x.c)?.[1] || "")}</span><span class="num">${plata(x.m)}</span>`).join("")}</div>
+      <p class="fin-libre">Disponible hoy <b class="${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</b></p>` : `<p class="suave" style="margin:6px 0 0">Anota lo que entró y salió hoy. En Ascenso financiero se suma al mes, al año y a tu balance general.</p>`}`);
+};
+window.ascResumenMes = function (a, m) {
+  const ym = ymDe(a, m), t = totalesDe(ym + "-");
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Finanzas del mes</h3><button class="btn mini" data-ir="finanzas" data-arg="m:${ym}">${ic("finanzas")} Abrir</button></div>
+    ${t.n ? cifras(t) + (t.tasa != null ? `<p class="fin-libre">Ahorro e inversión: <b>${Math.round(t.tasa * 100)} %</b> de lo que entró</p>` : "") : `<p class="suave" style="margin:6px 0 0">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`);
+};
