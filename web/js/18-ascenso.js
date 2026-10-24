@@ -151,7 +151,7 @@ DET["finanzas.b"] = () => {
     cifras(t) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
       <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
-    saludHoja("") + deudasResumen() + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
+    saludResumen("") + deudasResumen() + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
 };
 DET["finanzas.a"] = arg => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
@@ -161,7 +161,7 @@ DET["finanzas.a"] = arg => {
   return cab(avAsc(), String(a), "Ascenso financiero · el año mes a mes", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), ""]]) + navPeriodo("a:" + (a - 1), "a:" + (a + 1), String(a)) + cifras(t) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Mes a mes</h3><span class="suave" style="font-size:13px">Toca un mes para ver sus días</span></div>${grafica(filas)}${tablaPeriodos(filas, "Mes", t)}`) +
-    saludHoja(a + "-") + mochilas(t) + porCategoria(t), "max-width:980px");
+    saludResumen(a + "-") + mochilas(t) + porCategoria(t), "max-width:980px");
 };
 DET["finanzas.m"] = arg => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
@@ -222,9 +222,11 @@ LISTAS.finanzas = () => {
   h += item("d:" + hoyI, av(hoyFecha().getDate(), "var(--ok)"), "Hoy", "", hoyS.n ? `${hoyS.n} ${hoyS.n === 1 ? "movimiento" : "movimientos"} · ${plata(hoyS.disp)}` : "Anota lo que entró y salió");
   h += item("m:" + ym, av(MES_C[hoyFecha().getMonth()], "var(--ok)"), mayus(MESES[hoyFecha().getMonth()]), "", `${plata(mesS.disp)} disponible`);
   h += item("b", av(ic("finanzas"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
+  const sf = window.saludDe ? saludDe("") : null;
+  h += item("salud", av(ic("salud"), "var(--ok)"), "Salud financiera", "", sf?.isf != null ? `ISF ${sf.isf} % · ${sf.nivel[0]}` : "Tus indicadores, mes a mes");
   const dd = window.deudasHoy ? deudasHoy() : [], debe = dd.reduce((a, x) => a + x.actual, 0);
   h += item("deudas", av(ic("deuda"), "var(--ok)"), "Salir de deudas", "", dd.length ? (debe > 0 ? `Debes ${plata(debe)} · ${dd.filter(x => x.actual > 0).length} por pagar` : "¡Sin deudas!") : "Tu plan con avalancha o bola de nieve");
-  h += item("patrimonio", av(ic("finanzas"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
+  h += item("patrimonio", av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
   h += grupo("Años");
   anios.forEach(y => { const s = totalesDe(y + "-"); h += item("a:" + y, av(String(y).slice(2), "var(--ok)"), String(y), "", s.n ? `Entró ${plata(s.ing)} · ${plata(s.disp)} libre` : "Sin movimientos"); });
   h += grupo("Aprende");

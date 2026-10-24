@@ -68,6 +68,15 @@ const TIPOS_ACTIVO = [["liquidez", "Efectivo y cuentas"], ["inversion", "Inversi
 function activosDatos() { try { const l = JSON.parse(respuesta("fin#activos") || "[]"); return Array.isArray(l) ? l : []; } catch { return []; } }
 const guardarActivos = l => responder(ASC.WB, "fin#activos", l.length ? JSON.stringify(l) : "");
 
+/** Escala de cada indicador para su barra: hasta dónde llega, la meta (línea) y si es mejor más alto o más bajo. */
+const ESCALAS = {
+  "Porcentaje de flujo neto": { max: 0.4, meta: 0.2, alto: true, metaTxt: "20 %" }, "Índice de liquidez": { max: 2, meta: 1.2, alto: true, metaTxt: "1,2" },
+  "Tasa de ahorro": { max: 0.3, meta: 0.1, alto: true, metaTxt: "10 %" }, "Ahorro + inversión ÷ ingresos": { max: 0.4, meta: 0.2, alto: true, metaTxt: "20 %" },
+  "Deuda ÷ ingreso (DTI)": { max: 0.6, meta: 0.3, alto: false, metaTxt: "30 %" }, "Relación gasto ÷ ingreso": { max: 1.2, meta: 0.7, alto: false, metaTxt: "70 %" },
+  "Fondo de emergencia": { max: 12, meta: 3, meta2: 6, alto: true, metaTxt: "3 a 6 meses" }, "Índice de endeudamiento": { max: 1, meta: 0.3, alto: false, metaTxt: "30 %" },
+  "Ingresos pasivos ÷ ingresos": { max: 0.5, meta: 0.2, alto: true, metaTxt: "20 %" }, "Índice de libertad financiera": { max: 1.2, meta: 1, alto: true, metaTxt: "1" },
+  "Pasivos buenos ÷ pasivos": { max: 1, meta: 0.5, alto: true, metaTxt: "50 %" }, "Patrimonio neto ÷ ingresos anuales": { max: 5, meta: 1, alto: true, metaTxt: "1 año" },
+};
 /* ---------- Salud financiera: el estado de cuentas de la persona y su índice (ISF) ---------- */
 /**
  * Indicadores de un periodo ("" = los últimos 12 meses con movimientos; "2026-" = ese año), en promedio mensual:
@@ -91,7 +100,7 @@ function saludDe(pref) {
   const activos = declarados + hasta.construido, neto = activos - pasivos;
   const emergencia = hasta.cat["aho:emergencia"] || 0, fondo = mes(fijos) > 0 ? emergencia / mes(fijos) : null;
   const r = {
-    nMeses, s, activos, declarados, pasivos, neto, deudaMes,
+    nMeses, s, activos, declarados, pasivos, neto, deudaMes, mesesLista: [...new Set(rango.map(f => f.slice(0, 7)))].sort(),
     filas: [["Ingresos activos (trabajo, negocio, ventas)", ingAct], ["Ingresos pasivos (rentas, intereses)", pasivoIng], ["Ingresos totales", s.ing, true],
       ["Gastos fijos (mochila verde)", fijos], ["Gastos variables (mochila amarilla)", variables], ["Ahorro", s.aho], ["Inversión", s.inv], ["Egresos totales", egresos, true],
       ["Flujo de efectivo neto", s.ing - egresos, true]],
@@ -124,34 +133,144 @@ function saludDe(pref) {
     ["Índice de libertad financiera", r.libertad, num, est(r.libertad, 1, 0.25), "Ingresos pasivos ÷ gastos. En 1, tus rentas pagan tu vida."],
     ["Pasivos buenos ÷ pasivos", r.buenasRatio, pct, r.buenasRatio == null ? "na" : r.buenasRatio >= 0.5 ? "ok" : "medio", "Deudas que producen (negocio, estudio, vivienda) frente a las que solo cuestan."],
     ["Patrimonio neto ÷ ingresos anuales", r.netoIng, num, est(r.netoIng, 1, 0.3), "Cuántos años de ingresos tienes construidos."],
-  ].filter(x => x[1] != null).map(([nombre, v, f, estado, ayuda]) => ({ nombre, valor: f(v), estado, ayuda }));
+  ].filter(x => x[1] != null).map(([nombre, v, f, estado, ayuda]) => ({ nombre, valor: f(v), v, estado, ayuda, ...(ESCALAS[nombre] || {}) }));
   return r;
+}
+/* Gráficos de la salud financiera (mismos colores y formas que la app):
+ * · cada peso que entra: barra 100 % apilada (fijos, variables, ahorro, inversión, libre)
+ * · indicadores: medidores con la meta marcada y el estado con ícono y palabra (nunca solo color)
+ * · lo que tienes y lo que debes: dos barras en la misma escala
+ * · mes a mes: flujo neto % y ahorro + inversión % con la meta del 20 % (crucero y lectura al pasar)
+ * La tabla del estado de cuentas queda a un toque, para leer las cifras exactas. */
+const EST_SALUD = { ok: ["Bien", "✓"], medio: ["Atención", "!"], bajo: ["Por mejorar", "✕"], na: ["", ""] };
+const pctT = v => Math.round(v * 100) + " %";
+function barraPeso(r) {
+  const s = r.s; if (!(s.ing > 0)) return "";
+  const libre = s.ing - s.gas - s.aho - s.inv;
+  const partes = [["fijos", "Gastos fijos", s.mochila.verde], ["variables", "Gastos variables", s.mochila.amarilla + Math.max(0, s.gas - s.mochila.verde - s.mochila.amarilla)],
+    ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
+  const base = Math.max(s.ing, s.gas + s.aho + s.inv);
+  return `<figure class="viz"><figcaption>¿Qué haces con cada peso que entra?</figcaption>
+    <div class="peso-barra" role="img" aria-label="${partes.map(([, n, v]) => `${n} ${pctT(v / s.ing)}`).join(", ")}">${partes.map(([k, n, v]) =>
+      `<span class="seg-${k}" style="flex:${v / base}" tabindex="0" data-tip="${esc(n)}|${pctT(v / s.ing)} de lo que entra|${plata(Math.round(v / r.nMeses))} al mes"></span>`).join("")}</div>
+    ${libre < 0 ? `<p class="peso-aviso">✕ Sale más de lo que entra: ${plata(Math.round(-libre / r.nMeses))} al mes de déficit.</p>` : ""}
+    <ul class="peso-ley">${partes.map(([k, n, v]) => `<li><i class="seg-${k}"></i><span>${n}</span><b>${pctT(v / s.ing)}</b><small>${plata(Math.round(v / r.nMeses))}/mes</small></li>`).join("")}</ul></figure>`;
+}
+function medidor(x) {
+  if (x.max == null || !Number.isFinite(x.v)) return `<div class="med"><div class="med-cab"><b>${x.nombre}</b><span class="med-val">${x.valor}</span>${chipEst(x.estado)}</div><p class="med-ayuda">${x.ayuda}</p></div>`;
+  const p = v => Math.max(0, Math.min(100, v / x.max * 100)), meta = p(x.meta), meta2 = x.meta2 ? p(x.meta2) : null;
+  // La zona buena del riel: a la derecha de la meta si más es mejor, a la izquierda si menos es mejor
+  const zona = x.alto ? `left:${meta}%;right:${meta2 != null ? 100 - meta2 : 0}%` : `left:0;right:${100 - meta}%`;
+  return `<div class="med e-${x.estado}"><div class="med-cab"><b>${x.nombre}</b><span class="med-val">${x.valor}</span>${chipEst(x.estado)}</div>
+    <div class="med-riel" role="img" aria-label="${esc(x.nombre)}: ${esc(x.valor)}; meta ${esc(x.metaTxt)}; ${EST_SALUD[x.estado][0]}"><span class="med-zona" style="${zona}"></span><span class="med-fill" style="width:${p(x.v)}%"></span>
+      <span class="med-meta" style="left:${meta}%"></span>${meta2 != null ? `<span class="med-meta" style="left:${meta2}%"></span>` : ""}${x.v > x.max ? `<span class="med-mas" aria-hidden="true">›</span>` : ""}</div>
+    <p class="med-ayuda">${x.ayuda} <span class="med-metatxt">Meta: ${x.metaTxt}</span></p></div>`;
+}
+const chipEst = e => e === "na" ? "" : `<span class="chip-est e-${e}"><i aria-hidden="true">${EST_SALUD[e][1]}</i>${EST_SALUD[e][0]}</span>`;
+function balanceBarras(r) {
+  if (!r.activos && !r.pasivos) return "";
+  const max = Math.max(r.activos, r.pasivos, 1);
+  return `<figure class="viz"><figcaption>Lo que tienes y lo que debes</figcaption>
+    <div class="bal-fila"><span>Activos</span><div class="bal-riel"><i class="bal-act" style="width:${(r.activos / max * 100).toFixed(1)}%"></i></div><b>${plata(r.activos)}</b></div>
+    <div class="bal-fila"><span>Pasivos</span><div class="bal-riel"><i class="bal-pas" style="width:${(r.pasivos / max * 100).toFixed(1)}%"></i></div><b>${plata(r.pasivos)}</b></div>
+    <p class="bal-neto">Patrimonio neto <b class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</b>${r.activos > 0 ? ` · debes ${pctT(r.pasivos / r.activos)} de lo que tienes` : ""}</p></figure>`;
+}
+/** Línea mes a mes: % de flujo neto y % de ahorro + inversión, con la meta del 20 % punteada. */
+function lineaMeses(pref, r) {
+  const ms = r.mesesLista; if (ms.length < 2) return "";
+  const datos = ms.map(m => { const s = sumar(diasConMovs().filter(f => f.startsWith(m)).flatMap(movsDe)); return { m, f: s.ing > 0 ? (s.ing - s.gas - s.aho - s.inv) / s.ing : null, c: s.ing > 0 ? (s.aho + s.inv) / s.ing : null }; });
+  const vals = datos.flatMap(d => [d.f, d.c]).filter(v => v != null);
+  const lo = Math.min(0, ...vals), hi = Math.max(0.3, ...vals), W = 600, H = 180, L = 36, R = 8, T = 10, B = 24;
+  const x = i => L + i * (W - L - R) / (datos.length - 1), y = v => T + (hi - v) / (hi - lo) * (H - T - B);
+  const camino = k => { let d = "", abierto = false; datos.forEach((p, i) => { if (p[k] == null) { abierto = false; return; } d += `${abierto ? "L" : "M"}${x(i).toFixed(1)},${y(p[k]).toFixed(1)}`; abierto = true; }); return d; };
+  const ticks = [lo, 0, 0.2, hi].filter((v, i, a) => a.indexOf(v) === i && v >= lo && v <= hi);
+  const etq = m => MES_C[Number(m.slice(5)) - 1] + (pref ? "" : " " + m.slice(2, 4));
+  return `<figure class="viz linea-meses" data-puntos='${JSON.stringify(datos.map((d, i) => ({ x: x(i) / W, m: mayus(MESES[Number(d.m.slice(5)) - 1]) + " " + d.m.slice(0, 4), f: d.f == null ? "—" : pctT(d.f), c: d.c == null ? "—" : pctT(d.c) })))}'>
+    <figcaption>Mes a mes</figcaption>
+    <ul class="ley-lineas"><li><i class="ln-flujo"></i>Flujo neto</li><li><i class="ln-construye"></i>Ahorro + inversión</li><li><i class="ln-meta"></i>Meta 20 %</li></ul>
+    <div class="lm-caja"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Flujo neto y ahorro más inversión por mes">
+      ${ticks.map(v => `<line class="lm-grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/>`).join("")}
+      <line class="lm-meta" x1="${L}" x2="${W - R}" y1="${y(0.2)}" y2="${y(0.2)}"/>
+      <path class="lm-flujo" d="${camino("f")}"/><path class="lm-construye" d="${camino("c")}"/>
+      ${datos.map((p, i) => (p.f != null ? `<circle class="lm-p-flujo" cx="${x(i)}" cy="${y(p.f)}" r="3.5"/>` : "") + (p.c != null ? `<circle class="lm-p-construye" cx="${x(i)}" cy="${y(p.c)}" r="3.5"/>` : "")).join("")}
+      <line class="lm-cruz" x1="0" x2="0" y1="${T}" y2="${H - B}" hidden/></svg>
+      <div class="lm-ejes">${ticks.map(v => `<span style="top:${(y(v) / H * 100).toFixed(1)}%">${pctT(v)}</span>`).join("")}</div>
+      <div class="lm-meses">${datos.map((d, i) => `<span style="left:${(x(i) / W * 100).toFixed(1)}%">${etq(d.m)}</span>`).join("")}</div>
+      <div class="lm-tip" hidden></div></div></figure>`;
 }
 function saludHoja(pref) {
   const r = saludDe(pref);
   if (!r.s.n) return "";
-  const EST = { ok: "Bien", medio: "Atención", bajo: "Por mejorar", na: "" }, m = v => plata(v / r.nMeses);
-  const periodo = pref ? `en ${pref.slice(0, 4)}` : "en tus últimos 12 meses";
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Salud financiera</h3>${publicaFin() ? `<button class="btn mini" data-acc="ascCompartir" data-arg="${pref}">${ic("publicar")} Compartir mi avance</button>` : ""}</div>
+  const periodo = pref ? `en ${pref.slice(0, 4)}` : "en tus últimos 12 meses", actual = !pref || pref.startsWith(String(new Date().getFullYear()));
+  const m = v => plata(Math.round(v / r.nMeses));
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Cómo está tu salud financiera</h3>${publicaFin() ? `<button class="btn mini" data-acc="ascCompartir" data-arg="${pref}">${ic("publicar")} Compartir mi avance</button>` : ""}</div>
     ${r.isf != null ? `<div class="salud-cab"><div class="salud-anillo" style="--p:${r.isf}" role="img" aria-label="Índice de Salud Financiera ${r.isf} %"><b>${r.isf}</b><small>ISF %</small></div>
-      <div><b class="salud-etq e-${r.nivel[2]}">${r.nivel[0]}</b><p class="suave" style="margin:4px 0 0">${r.nivel[1]}</p><p class="suave" style="margin:4px 0 0;font-size:12.5px">Índice de Salud Financiera ${periodo}. 80-100 excelente · 50-79 buena · 20-49 moderada · menos de 20 en riesgo.</p></div></div>` : ""}
+      <div class="salud-nivel"><b class="salud-etq e-${r.nivel[2]}">${r.nivel[0]}</b><p class="suave" style="margin:2px 0 8px">${r.nivel[1]}</p>
+        <div class="isf-escala" aria-label="Escala del índice">${[["Riesgo", 0, 20], ["Moderada", 20, 50], ["Buena", 50, 80], ["Excelente", 80, 100]].map(([n, a, b]) => `<span class="${r.isf >= a && (r.isf < b || b === 100) ? "aqui" : ""}" style="flex:${b - a}">${n}</span>`).join("")}<i style="left:${r.isf}%"></i></div>
+        <p class="suave" style="margin:6px 0 0;font-size:12.5px">Índice de Salud Financiera ${periodo}.</p></div></div>` : ""}
+    ${barraPeso(r)}
+    <div class="medidores">${r.ind.map(medidor).join("")}</div>
+    ${actual ? balanceBarras(r) : ""}
+    ${lineaMeses(pref, r)}
+    <details class="salud-detalle"><summary>Ver el estado de cuentas en cifras</summary>
     <div class="asc-tabla"><table class="salud-tabla"><thead><tr><th>Concepto</th><th class="num">Mensual (promedio)</th><th class="num">${pref ? "En " + pref.slice(0, 4) : "12 meses"}</th></tr></thead><tbody>
       ${r.filas.map(([n, v, fuerte]) => `<tr class="${fuerte ? "fuerte" : ""}"><th scope="row">${n}</th><td class="num${v < 0 ? " neg" : ""}">${m(v)}</td><td class="num${v < 0 ? " neg" : ""}">${plata(v)}</td></tr>`).join("")}
       <tr><th scope="row">Cuotas de deuda al mes</th><td class="num">${plata(r.deudaMes)}</td><td class="num"></td></tr>
-      ${!pref || pref.startsWith(String(new Date().getFullYear())) ? `<tr class="fuerte"><th scope="row">Activos totales</th><td class="num"></td><td class="num">${plata(r.activos)}</td></tr>
+      ${actual ? `<tr class="fuerte"><th scope="row">Activos totales</th><td class="num"></td><td class="num">${plata(r.activos)}</td></tr>
       <tr><th scope="row">Pasivos totales</th><td class="num"></td><td class="num">${plata(r.pasivos)}</td></tr>
       <tr class="fuerte"><th scope="row">Patrimonio neto</th><td class="num"></td><td class="num${r.neto < 0 ? " neg" : ""}">${plata(r.neto)}</td></tr>` : ""}
-    </tbody></table></div>
-    <div class="salud-lista" style="margin-top:12px">${r.ind.map(x => `<div class="salud-ind"><span class="salud-punto e-${x.estado}" aria-hidden="true"></span><span><b>${x.nombre}</b><small>${x.ayuda}</small></span><span class="salud-val">${x.valor}<small class="e-${x.estado}">${EST[x.estado]}</small></span></div>`).join("")}</div>
-    ${!pref || pref.startsWith(String(new Date().getFullYear())) ? `<div class="botones" style="margin-top:12px"><button class="btn mini" data-sel="patrimonio">${ic("finanzas")} Mis activos y pasivos</button><button class="btn mini" data-sel="deudas">${ic("deuda")} Salir de deudas</button></div>` : ""}`);
+    </tbody></table></div></details>`);
 }
+/* Resumen de una línea en el balance y en el año: la salud completa vive en su propia pantalla */
+function saludResumen(pref) {
+  const r = saludDe(pref); if (r.isf == null) return "";
+  const a = pref ? pref.slice(0, 4) : "";
+  return `<button class="salud-enlace" data-sel="salud${a ? ":" + a : ""}">${av(ic("salud"), "var(--ok)")}<span><b>Salud financiera${a ? " de " + a : ""}: ${r.isf} % · ${r.nivel[0]}</b><small>${r.ind.filter(x => x.estado === "ok").length} de ${r.ind.filter(x => x.estado !== "na").length} indicadores en meta · ver gráficos</small></span>${ic("der")}</button>`;
+}
+/* ---------- Pantalla: salud financiera ---------- */
+DET["finanzas.salud"] = arg => {
+  if (finBloqueado()) return pantallaBloqueo();
+  const hoyA = new Date().getFullYear(), a = Number(arg) || null;
+  const anios = [...new Set([...diasConMovs().map(f => Number(f.slice(0, 4))), hoyA])].sort((x, y) => y - x);
+  const chips = `<div class="chips salud-periodos" aria-label="Periodo">${[["salud", "Últimos 12 meses", !a], ...anios.map(y => ["salud:" + y, String(y), a === y])]
+    .map(([sel, t, on]) => `<button class="chip" aria-pressed="${on}" data-sel="${sel}">${t}</button>`).join("")}</div>`;
+  const cuerpoS = saludHoja(a ? a + "-" : "") || hoja(`<p class="suave" style="margin:0">Aún no hay movimientos ${a ? "en " + a : ""} para medir tu salud financiera. Anota lo que entra y sale y aquí verás tus indicadores.</p><div class="botones" style="margin-top:12px"><button class="btn lleno" data-sel="d:${iso(hoyFecha())}">Registrar hoy</button></div>`);
+  return cab(av(ic("salud"), "var(--ok)"), "Salud financiera", "Ascenso financiero · tus indicadores", ojoAsc()) + cuerpo(
+    migasAsc([["Balance general", "b"], ["Salud financiera", ""]]) + chips + cuerpoS +
+    `<div class="botones" style="margin-top:4px"><button class="btn mini" data-sel="patrimonio">${ic("balanza")} Activos y pasivos</button><button class="btn mini" data-sel="deudas">${ic("deuda")} Salir de deudas</button></div>`, "max-width:980px");
+};
+/* Lectura al pasar: el segmento o el mes bajo el puntero (también con el teclado en los segmentos) */
+(() => {
+  let tip = null;
+  const mostrar = (el, x, y) => {
+    const [a, b, c] = el.dataset.tip.split("|");
+    tip ||= Object.assign(document.createElement("div"), { className: "viz-tip", role: "tooltip" });
+    tip.replaceChildren(...[[b, "strong"], [a, "span"], [c, "small"]].map(([t, tag]) => Object.assign(document.createElement(tag), { textContent: t })));
+    document.body.append(tip); tip.style.left = Math.min(innerWidth - 180, x + 12) + "px"; tip.style.top = (y - 56) + "px";
+  };
+  document.addEventListener("pointermove", e => {
+    const seg = e.target.closest?.(".peso-barra [data-tip]");
+    if (seg) mostrar(seg, e.clientX, e.clientY); else tip?.remove();
+    const fig = e.target.closest?.(".linea-meses .lm-caja");
+    document.querySelectorAll(".linea-meses").forEach(f => { if (!fig || !f.contains(fig)) { f.querySelector(".lm-tip").hidden = true; f.querySelector(".lm-cruz").setAttribute("hidden", ""); } });
+    if (!fig) return;
+    const f = fig.closest(".linea-meses"), pts = JSON.parse(f.dataset.puntos), rc = fig.getBoundingClientRect(), fx = (e.clientX - rc.left) / rc.width;
+    const p = pts.reduce((a, b) => Math.abs(b.x - fx) < Math.abs(a.x - fx) ? b : a);
+    const cruz = f.querySelector(".lm-cruz"); cruz.removeAttribute("hidden"); cruz.setAttribute("x1", p.x * 600); cruz.setAttribute("x2", p.x * 600);
+    const t = f.querySelector(".lm-tip"); t.hidden = false; t.style.left = `min(calc(${(p.x * 100).toFixed(1)}% + 10px), calc(100% - 170px))`;
+    t.replaceChildren(Object.assign(document.createElement("b"), { textContent: p.m }),
+      ...[["ln-flujo", p.f, "Flujo neto"], ["ln-construye", p.c, "Ahorro + inversión"]].map(([k, v, n]) => { const d = document.createElement("div"); d.append(Object.assign(document.createElement("i"), { className: k }), Object.assign(document.createElement("strong"), { textContent: v }), Object.assign(document.createElement("span"), { textContent: n })); return d; }));
+  });
+  document.addEventListener("focusin", e => { const seg = e.target.closest?.(".peso-barra [data-tip]"); if (seg) { const r = seg.getBoundingClientRect(); mostrar(seg, r.left, r.top); } });
+  document.addEventListener("focusout", () => tip?.remove());
+})();
 
 /* ---------- Pantalla: patrimonio (activos y pasivos) ---------- */
 DET["finanzas.patrimonio"] = () => {
   if (finBloqueado()) return pantallaBloqueo();
   const l = activosDatos(), led = sumar(diasConMovs().flatMap(movsDe)).construido, deudas = deudasHoy();
   const act = l.reduce((a, x) => a + (Number(x.valor) || 0), 0) + led, pas = deudas.reduce((a, x) => a + x.actual, 0);
-  return cab(av(ic("finanzas"), "var(--ok)"), "Activos y pasivos", "Ascenso financiero · tu patrimonio neto", ojoAsc()) + cuerpo(
+  return cab(av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "Ascenso financiero · tu patrimonio neto", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], ["Activos y pasivos", ""]]) +
     `<div class="asc-cifras"><div class="asc-cifra c-ing"><span>Activos totales</span><b>${plata(act)}</b></div><div class="asc-cifra c-gas"><span>Pasivos totales</span><b>${plata(pas)}</b></div><div class="asc-cifra c-disp"><span>Patrimonio neto</span><b class="${act - pas < 0 ? "neg" : ""}">${plata(act - pas)}</b></div></div>` +
     hoja(`<h3 style="margin:0 0 4px">Lo que tienes</h3><p class="suave" style="margin:0 0 10px">Un activo pone dinero en tu bolsillo o guarda valor: cuentas, inversiones, tu casa, tu negocio. Escribe su valor de hoy.</p>
@@ -401,3 +520,5 @@ function deudasResumen() {
   return `<button class="hoja asc-sube" data-sel="deudas"><span>Salir de deudas · ${d.metodo === "bola" ? "bola de nieve" : "avalancha"}</span><b class="${debe > 0 ? "" : "ok"}">${debe > 0 ? `Debes ${plata(debe)}` : "¡Sin deudas!"}</b><small>${debe > 0 ? (plan.meses ? `Quedas libre en ${mesesDespues(plan.meses)}` : "Con estos pagos la deuda no baja: revisa tu plan") : "Todas tus deudas están pagadas"}</small>${ic("der")}</button>`;
 }
 window.finBloqueado = finBloqueado; window.ocultarFuera = ocultarFuera;
+
+window.saludDe = saludDe;
