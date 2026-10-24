@@ -339,7 +339,8 @@ function actividadesDia(fecha, ag, ms) {
   const f = deIso(fecha), hoyF = hoyFecha();
   const fila = h => {
     const t = hor[h] || "", meta = respuesta(`dia#${fecha}#${h}#meta`), hecho = respuesta(`dia#${fecha}#${h}#hecho`) === "1";
-    return `<div class="act${hecho ? " hecha" : ""}"><span class="act-h">${String(h).padStart(2, "0")}:00</span>
+    const ahora = fecha === iso(hoyF) && new Date().getHours() === Number(h);
+    return `<div class="act${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"><span class="act-h">${ahora ? "Ahora" : String(h).padStart(2, "0") + ":00"}</span>
       <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t || f > hoyF ? "disabled" : ""} aria-label="Hecha">
       <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
       ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}" ${String(x.id) === meta ? "selected" : ""}>${esc(x.texto)}</option>`).join("")}</select>` : `<span></span>`}</div>`;
@@ -347,6 +348,55 @@ function actividadesDia(fecha, ag, ms) {
   return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Actividades del día</h3><button class="btn mini" data-acc="horasTodas" data-arg="${todas ? "" : fecha}">${todas ? "Horario corto" : "Ver 24 horas"}</button></div>
     <p class="suave" style="margin:4px 0 10px">Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.</p>
     <div class="acts">${horas.map(fila).join("")}</div>`);
+}
+
+
+/* ======================================================================
+ * Planificador diario (igual en la app): ritual de la mañana con las 3 cumbres de hoy (método Ivy Lee:
+ * pocas, en orden, empezando por la primera), bloques por hora con la hora actual marcada, cierre del día
+ * que deja escritas las 3 de mañana y pasa lo pendiente. Las 3 se guardan como respuesta "dia#<fecha>#top"
+ * (JSON [{t, meta, hecho}]); la primera también va a agenda.prioridad, el campo que ya tiene la app.
+ * ====================================================================== */
+const topDe = fecha => { try { const v = JSON.parse(respuesta(`dia#${fecha}#top`) || "[]"); return Array.isArray(v) ? v.slice(0, 3) : []; } catch { return []; } };
+function guardarTop(fecha, xs) {
+  const l = xs.slice(0, 3).map(x => ({ t: String(x.t || "").slice(0, 160), meta: x.meta ? String(x.meta) : "", hecho: !!x.hecho })).filter(x => x.t);
+  responder("dia", `dia#${fecha}#top`, l.length ? JSON.stringify(l) : "");
+  Store.cambiar("agenda", fecha, { prioridad: l[0]?.t || "" }, BASES.agenda(fecha));
+}
+const sumarDias = (fecha, n) => { const d = deIso(fecha); d.setDate(d.getDate() + n); return iso(d); };
+/** Lo que quedó sin hacer un día: sus cumbres no hechas y sus actividades con texto no hechas. */
+function pendientesDe(fecha) {
+  const top = topDe(fecha).filter(x => !x.hecho), hor = horarioDe(Store.get("agenda", fecha) || {});
+  const acts = Object.entries(hor).filter(([h]) => respuesta(`dia#${fecha}#${h}#hecho`) !== "1").map(([h, t]) => ({ h, t, meta: respuesta(`dia#${fecha}#${h}#meta`) }));
+  return { top, acts };
+}
+function filaTop(fecha, i, x, ms, editable) {
+  return `<div class="top${x?.hecho ? " hecha" : ""}"><span class="top-n">${i + 1}</span>
+    <input type="checkbox" data-acc-change="topHecha" data-arg="${fecha}|${i}" ${x?.hecho ? "checked" : ""} ${!x?.t || !editable ? "disabled" : ""} aria-label="Hecha">
+    <input type="text" class="top-t" value="${esc(x?.t || "")}" placeholder="${["Lo más importante", "Lo segundo", "Lo tercero"][i]}" maxlength="160" data-acc-change="topTexto" data-arg="${fecha}|${i}" aria-label="Cumbre ${i + 1} del día">
+    ${x?.t ? `<select data-acc-change="topMeta" data-arg="${fecha}|${i}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(m => `<option value="${m.id}" ${String(m.id) === x.meta ? "selected" : ""}>${esc(m.texto)}</option>`).join("")}</select>` : "<span></span>"}</div>`;
+}
+/** El ritual de la mañana: intención y las 3 cumbres de hoy. */
+function planDelDia(fecha, ag, ms) {
+  const top = topDe(fecha), hoyF = iso(hoyFecha()), ayer = sumarDias(fecha, -1), p = pendientesDe(ayer);
+  const traer = fecha === hoyF && (p.top.length || p.acts.length) && !respuesta(`dia#${fecha}#traido`);
+  return hoja(`<h3 style="margin:0 0 4px">Plan del día</h3><p class="suave" style="margin:0 0 12px">Pocas cosas, en orden: empieza por la 1 y no pases a la siguiente hasta terminarla. Únelas a una meta del mes para que cuenten allá.</p>
+    ${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}" placeholder="Hoy quiero…">`)}
+    <div class="etiqueta" style="margin:12px 0 6px">Las 3 cumbres de hoy</div>
+    <div class="tops">${[0, 1, 2].map(i => filaTop(fecha, i, top[i], ms, deIso(fecha) <= hoyFecha())).join("")}</div>
+    ${traer ? `<div class="traer"><span>Ayer quedaron ${p.top.length + p.acts.length} pendientes.</span><button class="btn mini oro" data-acc="traerPendientes" data-arg="${fecha}">Traerlos a hoy</button><button class="btn mini" data-acc="traerNo" data-arg="${fecha}">Soltarlos</button></div>` : ""}`);
+}
+/** El cierre: lo que salió, y las 3 cumbres de mañana escritas antes de dormir (Ivy Lee). */
+function cierreDia(fecha, ag, campoAg) {
+  const man = sumarDias(fecha, 1), topM = topDe(man), d = deIso(man), msM = metasDelMes(d.getFullYear(), d.getMonth() + 1), p = pendientesDe(fecha);
+  return hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
+      <div class="form-2">${campo("Energía", `<div class="energia">${[1, 2, 3, 4, 5].map(n => `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n}"></button>`).join("")}</div>`)}
+        <div class="campo"><span>Vasos de agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
+      ${campoAg("notas", "Notas")}</div>
+    <div class="etiqueta" style="margin:16px 0 6px">Mañana · tus 3 cumbres</div>
+    <p class="suave" style="margin:0 0 8px;font-size:13px">Escríbelas antes de dormir: mañana empiezas sin decidir.</p>
+    <div class="tops">${[0, 1, 2].map(i => filaTop(man, i, topM[i], msM, false)).join("")}</div>
+    ${p.top.length || p.acts.length ? `<div class="botones" style="margin-top:8px"><button class="btn mini" data-acc="pasarAManana" data-arg="${fecha}">Pasar ${p.top.length + p.acts.length} pendientes a mañana</button></div>` : ""}`);
 }
 
 const DET = {
@@ -365,8 +415,8 @@ const DET = {
     }
     return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
       lineaVida(hoyFecha().getFullYear()) + esteDia() + corazonAnio(hoyFecha().getFullYear()) +
-      `<div class="vida-sec" id="vida-vision"><h2>Mi vision board</h2><p class="suave">Tu cumbre, los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
-      visionCompleta() + (window.visionVida ? visionVida() : "") + aniosVida(r) +
+      `<div class="vida-sec" id="vida-vision"><h2>Cumbre, vision board y Brújula</h2><p class="suave">Los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
+      visionCompleta() + (window.visionVida ? visionVida() : "") +
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
@@ -563,16 +613,12 @@ function detDia(fecha) {
     `<div class="migas"><button data-ir="ruta" data-arg="vida">Mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
-    habitos +
+    planDelDia(fecha, ag, ms) +
+    actividadesDia(fecha, ag, ms) + (esHoy && window.cordadasHoy ? cordadasHoy() : "") +
     hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>
       ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
-    actividadesDia(fecha, ag, ms) +
-    hoja(`<h3>Mi día</h3><div class="form"><div class="form-2">${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}">`)}
-      ${campo("Prioridad #1", `<input type="text" ${bind("agenda", fecha, "prioridad", "", "agenda")} value="${esc(ag.prioridad || "")}">`)}</div></div>`) +
-    hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
-      <div class="form-2">${campo("Energía", `<div class="energia">${[1, 2, 3, 4, 5].map(n => `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n}"></button>`).join("")}</div>`)}
-        <div class="campo"><span>Vasos de agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
-      ${campoAg("pendientes", "Pendientes")}${campoAg("notas", "Notas")}</div>`));
+    habitos +
+    cierreDia(fecha, ag, campoAg));
 }
 
 /* ---------- Comunidad ---------- */

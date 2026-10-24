@@ -70,6 +70,12 @@ function programarAvisoInstalar() {
     document.body.append(a);
     $("avisoInstalarSi").onclick = instalarApp;
     $("avisoInstalarNo").onclick = () => { try { localStorage.setItem("rutacima-instalar", "no"); } catch {} a.remove(); };
+    // No estorba: se va sola a los 12 s, al cambiar de pantalla o al empezar a escribir (los formularios quedan libres)
+    const irse = () => { a.remove(); removeEventListener("focusin", alEscribir, true); document.removeEventListener("click", alNavegar, true); };
+    const alEscribir = e => { if (e.target.closest("input, textarea, select")) irse(); };
+    const alNavegar = e => { if (!e.target.closest("#avisoInstalar") && e.target.closest("[data-sec], [data-ir], [data-sel], .rb")) irse(); };
+    addEventListener("focusin", alEscribir, true); document.addEventListener("click", alNavegar, true);
+    setTimeout(irse, 12000);
   }, 4000);
 }
 addEventListener("load", programarAvisoInstalar);

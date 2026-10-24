@@ -144,6 +144,24 @@ const ACC = {
   actHecha(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#hecho`, el.checked ? "1" : "");
     const meta = respuesta(`dia#${fecha}#${h}#meta`); if (el.checked && meta) { marcarDiaMeta(meta, fecha); toast("El día cuenta en tu meta del mes"); } },
   horasTodas(_, f) { estado.horasTodas = f || null; pintarDetalle(); },
+  /* Plan del día: las 3 cumbres */
+  topTexto(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); while (xs.length <= Number(i)) xs.push({ t: "" }); xs[i] = { ...xs[i], t: el.value.trim() }; guardarTop(f, xs); pintarDetalle(); },
+  topMeta(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); if (!xs[i]) return; xs[i].meta = el.value; guardarTop(f, xs); if (xs[i].hecho && el.value) marcarDiaMeta(el.value, f); },
+  topHecha(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); if (!xs[i]) return; xs[i].hecho = el.checked; guardarTop(f, xs);
+    if (el.checked && xs[i].meta) { marcarDiaMeta(xs[i].meta, f); toast("¡Cumbre del día! Cuenta en tu meta del mes."); } else if (el.checked) toast("¡Cumbre del día!"); pintarDetalle(); },
+  /** Lo pendiente de un día pasa al siguiente: las cumbres no hechas primero, y las actividades a su misma hora. */
+  pasarPendientes(desde, hasta) {
+    const p = pendientesDe(desde), xs = topDe(hasta);
+    p.top.forEach(x => { if (xs.length < 3 && !xs.some(y => y.t === x.t)) xs.push({ t: x.t, meta: x.meta, hecho: false }); });
+    guardarTop(hasta, xs);
+    const ag = Store.get("agenda", hasta) || {}, hor = horarioDe(ag);
+    p.acts.forEach(a => { if (!hor[a.h]) { hor[a.h] = a.t; if (a.meta) responder("dia", `dia#${hasta}#${a.h}#meta`, a.meta); } });
+    Store.cambiar("agenda", hasta, { horario: JSON.stringify(hor) }, BASES.agenda(hasta));
+    return p.top.length + p.acts.length;
+  },
+  traerPendientes(_, f) { const n = ACC.pasarPendientes(sumarDias(f, -1), f); responder("dia", `dia#${f}#traido`, "1"); toast(`${n} pendientes traídos de ayer`); pintarDetalle(); },
+  traerNo(_, f) { responder("dia", `dia#${f}#traido`, "1"); pintarDetalle(); },
+  pasarAManana(_, f) { const n = ACC.pasarPendientes(f, sumarDias(f, 1)); responder("dia", `dia#${sumarDias(f, 1)}#traido`, "1"); toast(`${n} pendientes pasan a mañana`); pintarDetalle(); },
   cartaEditar(_, a) { estado.cartaEditar = a ? Number(a) : null; pintarDetalle(); if (a) requestAnimationFrame(() => document.querySelector(".carta-area")?.focus()); },
   habEditar() { estado.habEditar = !estado.habEditar; pintarDetalle(); },
   habRenombrar(el, id) { const t = el.value.trim().slice(0, 120); if (!t) { el.value = habitos().find(h => h[0] === id)?.[2] || ""; return; } guardarHabitos(habitos().map(h => h[0] === id ? [h[0], h[1], t] : h)); },

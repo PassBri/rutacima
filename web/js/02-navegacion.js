@@ -172,7 +172,7 @@ const LISTAS = {
     if (!estado.feed) { cargarFeed(); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
     if (!estado.feed.length) h += `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     // En el celular el muro no está al lado: la expedición va arriba de la lista
-    if (estado.feedFiltro === "PARA_TI" && estado.feed.length) h += `<div class="solo-movil exp-movil">${cumbreComunidad(estado.feed)}</div>`;
+    if (estado.feedFiltro === "PARA_TI" && estado.feed.length) h += `<details class="solo-movil exp-movil exp-plegable"><summary>${ic("ruta")} La expedición de la comunidad</summary>${cumbreComunidad(estado.feed)}</details>`;
     estado.feed.forEach(p => {
       const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
       h += item((p.brujula && window.leerBrujula?.(p.brujula) ? "brujula:" : "cima:") + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);

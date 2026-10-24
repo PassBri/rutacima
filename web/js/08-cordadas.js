@@ -171,6 +171,8 @@ const Cord = {
 /* ---------- Estado y carga ---------- */
 const CK = { lista: null, listaEn: 0, det: {}, ses: {}, notasCoach: {} };
 const repintarMensajes = (sel = null) => {
+  // Las cordadas también viven en el día (Hoy): se repinta ahí cuando cambian
+  if (String(estado.sel || "").startsWith("d:")) { if (enEdicion()) detallePendiente = true; else pintarDetalle(); return; }
   if (estado.sec !== "mensajes") return;
   pintarLista();
   if (sel === null || estado.sel === sel) { if (enEdicion()) detallePendiente = true; else pintarDetalle(); }
@@ -215,10 +217,27 @@ const botonMarcar = c => cordadaTerminada(c) ? "" :
 const pillsCordada = c => `<span class="pill">${etapaCordada(c)}</span>${c.eje ? ` <span class="pill" style="background:color-mix(in srgb, ${COLOR_EJE[c.eje]} 18%, transparent)">${esc(NOMBRE_EJE[c.eje] || c.eje)}</span>` : ""}`;
 const resumenCordada = c => `Tú: ${c.misDias} ${c.misDias === 1 ? "día" : "días"} · ${c.miembros} ${c.miembros === 1 ? "persona" : "personas"} · ${c.diasGrupo} ${c.diasGrupo === 1 ? "día" : "días"} en total`;
 
+/** Qué meta del mes mueve el reto de una cordada (privado: solo tú lo ves). Al marcar tu día, también cuenta en ella. */
+function selectorMetaCordada(c) {
+  const h = hoyFecha(), ms = metasDelMes(h.getFullYear(), h.getMonth() + 1), v = respuesta(`cordada#${c.id}#meta`);
+  return `<label class="campo cord-meta"><span>Este reto mueve mi meta del mes</span><select data-resp="cordada|cordada#${esc(c.id)}#meta">
+    <option value="">Ninguna</option>${ms.map(m => `<option value="${m.id}" ${String(m.id) === v ? "selected" : ""}>${esc(m.texto)}</option>`).join("")}</select></label>`;
+}
+/** Las cordadas activas en el día de hoy: marcar sin ir a Mensajes. */
+function cordadasHoy() {
+  if (!CK.lista || Date.now() - CK.listaEn > 60000) cargarCordadas();
+  const xs = (CK.lista || []).filter(c => !cordadaTerminada(c)); if (!xs.length) return "";
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Tus cordadas</h3><button class="btn mini" data-ir="mensajes" data-arg="cordadas">Ver todas</button></div>
+    <p class="suave" style="margin:4px 0 10px">Tu grupo sube contigo: marca tu día y ellos lo ven.</p>
+    ${xs.map(c => `<div class="cord-hoy"><div><b>${esc(c.nombre)}</b><span class="suave">${esc(c.reto)} · ${etapaCordada(c)}</span></div>${botonMarcar(c)}</div>`).join("")}`);
+}
+window.cordadasHoy = cordadasHoy;
+
 DET["mensajes.cordadas"] = () => {
   const titulo = cab(avCordada(), "Cordadas", "Retos de varios días con 3 a 6 personas");
   if (!CK.lista || Date.now() - CK.listaEn > 30000) cargarCordadas();
-  let h = `<p style="margin:0">Una cordada es un grupo de 3 a 6 personas que suben atadas a la misma cuerda: un reto de varios días, cada quien marca su día y se dan ánimo.</p>`;
+  let h = `<p style="margin:0">Una cordada es un grupo de 3 a 6 personas que suben atadas a la misma cuerda: un reto de varios días (por ejemplo, «levantarnos a las 5:00 y escribir 20 minutos»). Cada quien marca su día —aquí o en Hoy—, ve los días de los demás y se dan ánimo en el muro.</p>
+    <ol class="cord-pasos"><li><b>Crea</b> la cordada con su reto y su duración.</li><li><b>Invita</b> con el código de 6 letras (por WhatsApp, por ejemplo).</li><li><b>Marca tu día</b> cada vez que cumplas; puedes unirlo a una meta del mes para que cuente allá también.</li></ol>`;
   if (!Store.nube) h += `<div class="aviso">Demostración: cordadas de ejemplo. Prueba el código CUMBRE para unirte a otra.</div>`;
   h += `<div class="etiqueta">Mis cordadas</div>`;
   if (!CK.lista) h += `<p class="suave">Cargando…</p>`;
@@ -253,7 +272,8 @@ DET["mensajes.cordada"] = id => {
   const titulo = volverA(cab(avCordada(), esc(c.nombre), `${etapaCordada(c)} · ${c.miembros} ${c.miembros === 1 ? "persona" : "personas"}`));
   let h = hoja(`<div class="etiqueta">El reto</div><p class="cord-reto">${esc(c.reto)}</p><div>${pillsCordada(c)}</div>
     ${cordadaTerminada(c) ? "" : `<div class="botones" style="margin-top:14px"><button class="btn ${c.marqueHoy ? "oro" : "lleno"}" data-acc="marcarCordada" data-arg="${esc(c.id)}" aria-pressed="${c.marqueHoy}">${ic("check")} ${c.marqueHoy ? "Hoy ya cumpliste" : "Marcar mi día de hoy"}</button></div>`}
-    <div style="margin-top:14px">${barra(c.misDias / c.dias * 100)}</div><p class="suave" style="margin:6px 0 0;font-size:13px">${resumenCordada(c)}</p>`);
+    <div style="margin-top:14px">${barra(c.misDias / c.dias * 100)}</div><p class="suave" style="margin:6px 0 0;font-size:13px">${resumenCordada(c)}</p>
+    ${selectorMetaCordada(c)}`);
   if (!d?.miembros) h += `<p class="suave">${d?.error ? "No se pudo cargar la cordada. Revisa tu conexión." : "Cargando…"}</p>`;
   else {
     const fechas = diasCordada(c), hoy = iso(hoyFecha());
@@ -321,7 +341,9 @@ Object.assign(ACC, {
     // Al instante en pantalla; si el servidor falla, se vuelve a cargar
     c.marqueHoy = si; c.misDias += si ? 1 : -1; c.diasGrupo += si ? 1 : -1; if (yo) si ? yo.dias.add(dia) : yo.dias.delete(dia);
     repintarMensajes();
-    try { await Cord.marcar(id, si); if (si) toast("¡Día marcado! Tu cordada lo verá."); }
+    // Si el reto mueve una meta del mes, el día también cuenta allá
+    const meta = respuesta(`cordada#${id}#meta`); if (si && meta) marcarDiaMeta(meta, dia);
+    try { await Cord.marcar(id, si); if (si) toast(meta ? "¡Día marcado! Tu cordada lo verá y cuenta en tu meta del mes." : "¡Día marcado! Tu cordada lo verá."); }
     catch (e) { console.error(e); toast(e?.message || "No se pudo marcar tu día. Revisa tu conexión."); CK.listaEn = 0; cargarCordadas(); cargarCordada(id); }
   },
   async copiarInvitacion(el, id) {
