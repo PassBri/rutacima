@@ -44,7 +44,7 @@ class GraficaAscensoTest {
             "2026-09-20" to listOf(Cuentas.Mov("2", "gas", 300.0, "vivienda")),
             "2026-10-05" to listOf(Cuentas.Mov("3", "gas", 900.0, "vivienda"), Cuentas.Mov("4", "aho", 50.0, "emergencia")),
         )
-        val p = g.de(dias, g.Gran.M, LocalDate.of(2026, 10, 24))
+        val p = g.de(dias, com.rutaalacima.app.domain.model.GraficaAscenso.Gran.M, LocalDate.of(2026, 10, 24))
         assertEquals(2, p.size)
         assertEquals(0.0, p[0].o, 0.0); assertEquals(1000.0, p[0].h, 0.0); assertEquals(700.0, p[0].c, 0.0)
         assertEquals(700.0, p[1].o, 0.0); assertEquals(-250.0, p[1].c, 0.0); assertEquals(-250.0, p[1].l, 0.0)
