@@ -57,6 +57,9 @@ async function instalarApp() {
   });
 }
 
+// Lo último que se escribió: el aviso no aparece mientras la persona está llenando algo
+addEventListener("input", () => { window.ultimaEscritura = Date.now(); }, true);
+
 /** Aviso discreto, una sola vez, cuando ya se está usando la app. */
 function programarAvisoInstalar() {
   clearTimeout(programarAvisoInstalar.t);
@@ -64,7 +67,9 @@ function programarAvisoInstalar() {
     let cerrado = false; try { cerrado = localStorage.getItem("rutacima-instalar") === "no"; } catch {}
     if (cerrado || !INSTALAR.disponible() || $("pantallaApp").hidden || document.getElementById("avisoInstalar")) return;
     // Si la persona está escribiendo, se espera a otro momento
-    if (document.activeElement?.closest?.("input, textarea, select")) { programarAvisoInstalar(); return; }
+    if (document.activeElement?.closest?.("input, textarea, select") || Date.now() - (window.ultimaEscritura || 0) < 30000) { programarAvisoInstalar(); return; }
+    if (programarAvisoInstalar.mostrado) return;
+    programarAvisoInstalar.mostrado = true;      // una vez por visita: si se fue sola, no vuelve hasta la próxima
     const a = document.createElement("div");
     a.id = "avisoInstalar"; a.className = "aviso-instalar"; a.setAttribute("role", "region"); a.setAttribute("aria-label", "Instalar la app");
     a.innerHTML = `<img src="iconos/apple-touch-icon.png" alt=""><div><b>Instala Rutaalacima</b><span>Ábrela desde tu pantalla de inicio, como una app.</span></div>
