@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Шаг месяца создан</string>
     <string name="anios_cumbre">Годы этой вершины</string>
     <string name="sin_metas">нет целей</string>
+    <string name="fin_mes">Финансы месяца</string>
+    <string name="fin_dias_registro">Дней с записями в %2$s: %1$d.</string>
+    <string name="fin_vacio">В %1$s пока нет записей. Записывай доходы и расходы в финансовом блоке каждого дня — здесь появится весь месяц.</string>
+    <string name="fin_disponible">Остаток</string>
+    <string name="fin_disponible_hoy">Остаток за сегодня</string>
+    <string name="fin_tasa">Сбережения и инвестиции: %1$d %% от дохода</string>
+    <string name="fin_presupuesto">Бюджет расходов на месяц</string>
+    <string name="fin_presupuesto_ej">Напр. 50 000</string>
+    <string name="fin_gastaste">Потрачено %1$s из %2$s</string>
+    <string name="fin_te_pasaste">Перерасход %1$s</string>
+    <string name="fin_gastos_dia">Расходы по дням</string>
+    <string name="fin_linea">Линия — дневной бюджет</string>
+    <string name="fin_dia_ayuda">Запиши, что сегодня пришло и ушло. Месяц сложит это в своём итоге.</string>
+    <string name="cord_meta_ayuda">Отметка дня засчитается и в эту цель месяца.</string>
+    <string name="cord_hoy_titulo">Твои связки</string>
+    <string name="cord_hoy_ayuda">Группа поднимается с тобой: отметь день — они увидят.</string>
+    <string name="cord_ver_todas">Все</string>
+    <string name="cord_marcado_meta">День отмечен! Засчитано и в цель месяца.</string>
+    <string name="cord_paso_1">Создай связку с вызовом и сроком.</string>
+    <string name="cord_paso_2">Пригласи по коду из 6 букв (например, в WhatsApp).</string>
+    <string name="cord_paso_3">Отмечай день, когда справился; свяжи с целью месяца, чтобы засчитывалось и там.</string>
 </resources>

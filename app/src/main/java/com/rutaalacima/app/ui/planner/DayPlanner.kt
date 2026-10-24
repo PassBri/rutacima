@@ -412,17 +412,21 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         // Campos de antes: se muestran solo si ya tienen algo escrito (las 3 cumbres los reemplazan)
         if (d.metas.isNotBlank()) item { CampoDia(stringResource(R.string.metas), d.metas, 3) { v -> vm.editar { it.copy(metas = v) } } }
         if (d.pendientes.isNotBlank()) item { CampoDia(stringResource(R.string.pendientes), d.pendientes, 3) { v -> vm.editar { it.copy(pendientes = v) } } }
-        item { SectionTitle(stringResource(R.string.control_financiero)) }
+        item {
+            SectionTitle(stringResource(R.string.control_financiero))
+            Text(stringResource(R.string.fin_dia_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ingresos), d.ingresos) { v -> vm.editar { it.copy(ingresos = v) } } }
-                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.gastos), d.gastos) { v -> vm.editar { it.copy(gastos = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ingresos), d.ingresos, numerico = true) { v -> vm.editar { it.copy(ingresos = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.gastos), d.gastos, numerico = true) { v -> vm.editar { it.copy(gastos = v) } } }
             }
             Spacer(Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ahorro), d.ahorro) { v -> vm.editar { it.copy(ahorro = v) } } }
-                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.inversion), d.inversion) { v -> vm.editar { it.copy(inversion = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.ahorro), d.ahorro, numerico = true) { v -> vm.editar { it.copy(ahorro = v) } } }
+                Box(Modifier.weight(1f)) { CampoDia(stringResource(R.string.inversion), d.inversion, numerico = true) { v -> vm.editar { it.copy(inversion = v) } } }
             }
+            DisponibleHoy(d.ingresos, d.gastos, d.ahorro, d.inversion)
         }
     }
 }
@@ -474,12 +478,14 @@ private fun SelectorMeta(actual: String, metas: List<MetaMensualEntity>, onElegi
 }
 
 @Composable
-private fun CampoDia(titulo: String, valor: String, lineas: Int = 1, onChange: (String) -> Unit) {
+private fun CampoDia(titulo: String, valor: String, lineas: Int = 1, numerico: Boolean = false, onChange: (String) -> Unit) {
     OutlinedTextField(
         value = valor,
         onValueChange = onChange,
         label = { Text(titulo) },
         modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = if (numerico) androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Decimal)
+            else androidx.compose.foundation.text.KeyboardOptions.Default,
         minLines = lineas,
         singleLine = lineas == 1,
     )

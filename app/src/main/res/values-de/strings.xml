@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Monatsschritt erstellt</string>
     <string name="anios_cumbre">Jahre dieses Gipfels</string>
     <string name="sin_metas">keine Ziele</string>
+    <string name="fin_mes">Finanzen des Monats</string>
+    <string name="fin_dias_registro">%1$d Tage erfasst im %2$s.</string>
+    <string name="fin_vacio">Noch keine Einträge im %1$s. Trag Einnahmen und Ausgaben in der Finanzübersicht jedes Tages ein, dann siehst du hier den ganzen Monat.</string>
+    <string name="fin_disponible">Verfügbar</string>
+    <string name="fin_disponible_hoy">Heute verfügbar</string>
+    <string name="fin_tasa">Sparen und Investieren: %1$d %% der Einnahmen</string>
+    <string name="fin_presupuesto">Ausgabenbudget des Monats</string>
+    <string name="fin_presupuesto_ej">z. B. 1.500</string>
+    <string name="fin_gastaste">Du hast %1$s von %2$s ausgegeben</string>
+    <string name="fin_te_pasaste">%1$s darüber</string>
+    <string name="fin_gastos_dia">Ausgaben pro Tag</string>
+    <string name="fin_linea">Die Linie ist das Tagesbudget</string>
+    <string name="fin_dia_ayuda">Trag ein, was heute rein- und rausging. Der Monat summiert es in seiner Bilanz.</string>
+    <string name="cord_meta_ayuda">Wenn du deinen Tag abhakst, zählt er auch für dieses Monatsziel.</string>
+    <string name="cord_hoy_titulo">Deine Seilschaften</string>
+    <string name="cord_hoy_ayuda">Deine Gruppe steigt mit dir: Hak deinen Tag ab und sie sehen es.</string>
+    <string name="cord_ver_todas">Alle ansehen</string>
+    <string name="cord_marcado_meta">Tag abgehakt! Er zählt auch für dein Monatsziel.</string>
+    <string name="cord_paso_1">Erstelle die Seilschaft mit Herausforderung und Dauer.</string>
+    <string name="cord_paso_2">Lade mit dem 6-stelligen Code ein (z. B. per WhatsApp).</string>
+    <string name="cord_paso_3">Hak deinen Tag ab, wenn du es schaffst; verknüpf ihn mit einem Monatsziel, damit er dort auch zählt.</string>
 </resources>

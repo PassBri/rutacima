@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Étape du mois créée</string>
     <string name="anios_cumbre">Années de ce sommet</string>
     <string name="sin_metas">sans objectifs</string>
+    <string name="fin_mes">Finances du mois</string>
+    <string name="fin_dias_registro">%1$d jours notés en %2$s.</string>
+    <string name="fin_vacio">Aucun mouvement en %1$s pour l’instant. Note revenus et dépenses dans le suivi financier de chaque jour et tu verras le mois entier ici.</string>
+    <string name="fin_disponible">Disponible</string>
+    <string name="fin_disponible_hoy">Disponible aujourd’hui</string>
+    <string name="fin_tasa">Épargne et investissement : %1$d %% de ce qui est entré</string>
+    <string name="fin_presupuesto">Budget de dépenses du mois</string>
+    <string name="fin_presupuesto_ej">Ex. 1 500</string>
+    <string name="fin_gastaste">Tu as dépensé %1$s sur %2$s</string>
+    <string name="fin_te_pasaste">Dépassé de %1$s</string>
+    <string name="fin_gastos_dia">Dépenses par jour</string>
+    <string name="fin_linea">La ligne est le budget quotidien</string>
+    <string name="fin_dia_ayuda">Note ce qui est entré et sorti aujourd’hui. Le mois l’additionne dans son bilan.</string>
+    <string name="cord_meta_ayuda">Quand tu coches ton jour, il compte aussi pour cet objectif du mois.</string>
+    <string name="cord_hoy_titulo">Tes cordées</string>
+    <string name="cord_hoy_ayuda">Ton groupe grimpe avec toi : coche ton jour et ils le voient.</string>
+    <string name="cord_ver_todas">Tout voir</string>
+    <string name="cord_marcado_meta">Jour coché ! Il compte aussi pour ton objectif du mois.</string>
+    <string name="cord_paso_1">Crée la cordée avec son défi et sa durée.</string>
+    <string name="cord_paso_2">Invite avec le code de 6 lettres (par WhatsApp, par exemple).</string>
+    <string name="cord_paso_3">Coche ton jour chaque fois que tu réussis ; relie-le à un objectif du mois pour qu’il compte aussi là.</string>
 </resources>

@@ -746,6 +746,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
             android.widget.Toast.makeText(ctx, ctx.getString(R.string.paso_mes_creado), android.widget.Toast.LENGTH_SHORT).show()
         }
     }
+    item(key = "finanzas-$ym") { com.rutaalacima.app.ui.planner.FinanzasMesCard(ym) }
     item {
         OutlinedButton(onClick = { onPlanificador(2, ym.atDay(1)) }, modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.CalendarMonth, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.ruta_planificador_mes))

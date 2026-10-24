@@ -138,6 +138,10 @@ interface AgendaDao {
     @Query("SELECT fecha FROM agenda_diaria WHERE fecha LIKE :prefijo || '%'")
     fun observeFechasDelMes(prefijo: String): Flow<List<String>>
 
+    /** Los días con agenda de un mes (para sumar sus finanzas); prefijo = "yyyy-MM". */
+    @Query("SELECT * FROM agenda_diaria WHERE fecha LIKE :prefijo || '%'")
+    fun observeDelMes(prefijo: String): Flow<List<AgendaDiaEntity>>
+
     @Upsert
     suspend fun upsert(dia: AgendaDiaEntity)
 }

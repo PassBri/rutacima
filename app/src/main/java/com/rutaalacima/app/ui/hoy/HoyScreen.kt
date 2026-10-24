@@ -109,6 +109,8 @@ class HoyViewModel(private val c: AppContainer) : ViewModel() {
     val cascada: StateFlow<Cascada?> = estado(c.cascada.cascada, null)
     val checksHoy: StateFlow<Set<String>> = estado(c.checklist.dia(hoy()), emptySet())
     val metasMes: StateFlow<List<MetaMensualEntity>> = estado(c.planAnual.metasMes(hoy().year, hoy().monthValue), emptyList())
+    /** Respuestas del día (las 3 cumbres de hoy), las mismas del planificador y de la web. */
+    val dia: StateFlow<Map<String, String>> = estado(c.respuestas.observar(com.rutaalacima.app.ui.planner.WB_DIA), emptyMap())
     val ultimaRespuesta: StateFlow<RespuestaEntity?> = estado(c.respuestas.ultimaRespuesta, null)
     val indice: StateFlow<List<WorkbookSummary>> = estado(flow { emit(c.contenido.index()) }, emptyList())
 
@@ -199,6 +201,8 @@ fun HoyScreen(
 
         // La acción principal del día: marcar los hábitos aquí mismo, un eje a la vez
         item { HabitosHoy(checks, onAlternar = { vm.alternarHabito(it) }, onVerKit = { onIrA(Rutas.KIT) }) }
+        // Tus cordadas activas: marcar el día sin salir de Hoy (cuenta también en la meta unida)
+        item(key = "cordadas-hoy") { com.rutaalacima.app.ui.cordadas.CordadasHoy(onVerTodas = { onIrA(Rutas.CORDADAS) }) }
 
         // Metas del mes: check de hoy
         // Racha y mapa de constancia (toca para ver el año)
@@ -248,8 +252,16 @@ fun HoyScreen(
                     OutlinedTextField(a.intencion, { v -> vm.editarAgenda { it.copy(intencion = v) } },
                         label = { Text(stringResource(R.string.intencion_dia)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
                     Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(a.prioridad, { v -> vm.editarAgenda { it.copy(prioridad = v) } },
-                        label = { Text(stringResource(R.string.prioridad_1)) }, modifier = Modifier.fillMaxWidth(), singleLine = true)
+                    // Las 3 cumbres del día (se escriben en el planificador, igual que en la web)
+                    val tops = com.rutaalacima.app.ui.planner.leerTops(vm.dia.collectAsStateWithLifecycle().value["dia#${hoy()}#top"])
+                    if (tops.isNotEmpty()) {
+                        Text(stringResource(R.string.tres_cumbres_hoy), style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 4.dp))
+                        tops.forEachIndexed { i, t ->
+                            Text("${i + 1}. " + t.t, style = MaterialTheme.typography.bodyMedium,
+                                textDecoration = if (t.hecho) androidx.compose.ui.text.style.TextDecoration.LineThrough else null,
+                                color = if (t.hecho) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
+                        }
+                    }
                     TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
                 }
             }

@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">已创建本月步骤</string>
     <string name="anios_cumbre">这座顶峰的年份</string>
     <string name="sin_metas">无目标</string>
+    <string name="fin_mes">本月财务</string>
+    <string name="fin_dias_registro">%2$s 有 %1$d 天有记录。</string>
+    <string name="fin_vacio">%1$s 还没有记录。在每天的财务记录里写下收入和支出，这里就会显示整个月。</string>
+    <string name="fin_disponible">可用</string>
+    <string name="fin_disponible_hoy">今日可用</string>
+    <string name="fin_tasa">储蓄和投资：占收入的 %1$d %%</string>
+    <string name="fin_presupuesto">本月支出预算</string>
+    <string name="fin_presupuesto_ej">例如 5000</string>
+    <string name="fin_gastaste">已花 %1$s / %2$s</string>
+    <string name="fin_te_pasaste">超出 %1$s</string>
+    <string name="fin_gastos_dia">每日支出</string>
+    <string name="fin_linea">虚线是每日预算</string>
+    <string name="fin_dia_ayuda">记下今天的收入和支出，本月回顾里会自动汇总。</string>
+    <string name="cord_meta_ayuda">打卡时，也会计入这个本月目标。</string>
+    <string name="cord_hoy_titulo">你的结组</string>
+    <string name="cord_hoy_ayuda">你的小组和你一起攀登：打卡后他们都能看到。</string>
+    <string name="cord_ver_todas">查看全部</string>
+    <string name="cord_marcado_meta">已打卡！也计入了你的本月目标。</string>
+    <string name="cord_paso_1">创建结组，写好挑战和时长。</string>
+    <string name="cord_paso_2">用 6 位邀请码邀请大家（例如通过 WhatsApp）。</string>
+    <string name="cord_paso_3">每次完成就打卡；可以关联本月目标，让它也计入那里。</string>
 </resources>

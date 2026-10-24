@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Paso del mes creado</string>
     <string name="anios_cumbre">Años de esta cumbre</string>
     <string name="sin_metas">sin metas</string>
+    <string name="fin_mes">Finanzas del mes</string>
+    <string name="fin_dias_registro">%1$d días con registro en %2$s.</string>
+    <string name="fin_vacio">Aún no hay movimientos en %1$s. Anota ingresos y gastos en el control financiero de cada día y aquí verás el mes completo.</string>
+    <string name="fin_disponible">Disponible</string>
+    <string name="fin_disponible_hoy">Disponible hoy</string>
+    <string name="fin_tasa">Ahorro e inversión: %1$d %% de lo que entró</string>
+    <string name="fin_presupuesto">Presupuesto de gastos del mes</string>
+    <string name="fin_presupuesto_ej">Ej. 1.500.000</string>
+    <string name="fin_gastaste">Gastaste %1$s de %2$s</string>
+    <string name="fin_te_pasaste">Te pasaste %1$s</string>
+    <string name="fin_gastos_dia">Gastos por día</string>
+    <string name="fin_linea">La línea es el presupuesto diario</string>
+    <string name="fin_dia_ayuda">Anota lo que entró y salió hoy. El mes lo suma en su balance.</string>
+    <string name="cord_meta_ayuda">Al marcar tu día, también cuenta en esta meta del mes.</string>
+    <string name="cord_hoy_titulo">Tus cordadas</string>
+    <string name="cord_hoy_ayuda">Tu grupo sube contigo: marca tu día y ellos lo ven.</string>
+    <string name="cord_ver_todas">Ver todas</string>
+    <string name="cord_marcado_meta">¡Día marcado! También cuenta en tu meta del mes.</string>
+    <string name="cord_paso_1">Crea la cordada con su reto y su duración.</string>
+    <string name="cord_paso_2">Invita con el código de 6 letras (por WhatsApp, por ejemplo).</string>
+    <string name="cord_paso_3">Marca tu día cada vez que cumplas; puedes unirlo a una meta del mes para que cuente allá también.</string>
 </resources>

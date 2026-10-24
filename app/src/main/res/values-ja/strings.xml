@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">今月の一歩を作成しました</string>
     <string name="anios_cumbre">この頂の年</string>
     <string name="sin_metas">目標なし</string>
+    <string name="fin_mes">今月のお金</string>
+    <string name="fin_dias_registro">%2$s は %1$d 日分の記録があります。</string>
+    <string name="fin_vacio">%1$s の記録はまだありません。毎日のお金の記録に収入と支出を書くと、ここで 1 か月分が見られます。</string>
+    <string name="fin_disponible">使えるお金</string>
+    <string name="fin_disponible_hoy">今日使えるお金</string>
+    <string name="fin_tasa">貯蓄と投資：収入の %1$d %%</string>
+    <string name="fin_presupuesto">今月の支出予算</string>
+    <string name="fin_presupuesto_ej">例：150,000</string>
+    <string name="fin_gastaste">%2$s のうち %1$s を使いました</string>
+    <string name="fin_te_pasaste">%1$s オーバー</string>
+    <string name="fin_gastos_dia">日ごとの支出</string>
+    <string name="fin_linea">線は 1 日あたりの予算です</string>
+    <string name="fin_dia_ayuda">今日の収入と支出を書きましょう。月の振り返りで合計されます。</string>
+    <string name="cord_meta_ayuda">日をチェックすると、この月の目標にも記録されます。</string>
+    <string name="cord_hoy_titulo">あなたのザイルパーティ</string>
+    <string name="cord_hoy_ayuda">仲間が一緒に登っています。日をチェックすると皆に見えます。</string>
+    <string name="cord_ver_todas">すべて見る</string>
+    <string name="cord_marcado_meta">チェックしました！月の目標にも記録されました。</string>
+    <string name="cord_paso_1">挑戦と期間を決めてパーティーを作る。</string>
+    <string name="cord_paso_2">6 文字のコードで招待する（WhatsApp などで）。</string>
+    <string name="cord_paso_3">できた日はチェック。月の目標につなげれば、そちらにも記録されます。</string>
 </resources>

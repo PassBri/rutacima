@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Monthly step created</string>
     <string name="anios_cumbre">Years of this summit</string>
     <string name="sin_metas">no goals</string>
+    <string name="fin_mes">Finances this month</string>
+    <string name="fin_dias_registro">%1$d days logged in %2$s.</string>
+    <string name="fin_vacio">No entries yet in %1$s. Log income and spending in each day’s money tracker and you’ll see the whole month here.</string>
+    <string name="fin_disponible">Available</string>
+    <string name="fin_disponible_hoy">Available today</string>
+    <string name="fin_tasa">Savings and investment: %1$d %% of what came in</string>
+    <string name="fin_presupuesto">Monthly spending budget</string>
+    <string name="fin_presupuesto_ej">E.g. 1,500</string>
+    <string name="fin_gastaste">You spent %1$s of %2$s</string>
+    <string name="fin_te_pasaste">Over by %1$s</string>
+    <string name="fin_gastos_dia">Spending per day</string>
+    <string name="fin_linea">The line is the daily budget</string>
+    <string name="fin_dia_ayuda">Log what came in and went out today. The month adds it up in its review.</string>
+    <string name="cord_meta_ayuda">When you check in, it also counts toward this monthly goal.</string>
+    <string name="cord_hoy_titulo">Your rope teams</string>
+    <string name="cord_hoy_ayuda">Your group climbs with you: check in and they’ll see it.</string>
+    <string name="cord_ver_todas">See all</string>
+    <string name="cord_marcado_meta">Checked in! It also counts toward your monthly goal.</string>
+    <string name="cord_paso_1">Create the team with its challenge and length.</string>
+    <string name="cord_paso_2">Invite people with the 6-letter code (by WhatsApp, for example).</string>
+    <string name="cord_paso_3">Check in each day you do it; link it to a monthly goal so it counts there too.</string>
 </resources>

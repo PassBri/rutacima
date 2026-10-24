@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">Passo del mese creato</string>
     <string name="anios_cumbre">Anni di questa vetta</string>
     <string name="sin_metas">nessun obiettivo</string>
+    <string name="fin_mes">Finanze del mese</string>
+    <string name="fin_dias_registro">%1$d giorni registrati a %2$s.</string>
+    <string name="fin_vacio">Ancora nessun movimento a %1$s. Annota entrate e spese nel controllo finanziario di ogni giorno e qui vedrai il mese intero.</string>
+    <string name="fin_disponible">Disponibile</string>
+    <string name="fin_disponible_hoy">Disponibile oggi</string>
+    <string name="fin_tasa">Risparmio e investimento: %1$d %% di ciò che è entrato</string>
+    <string name="fin_presupuesto">Budget di spesa del mese</string>
+    <string name="fin_presupuesto_ej">Es. 1.500</string>
+    <string name="fin_gastaste">Hai speso %1$s di %2$s</string>
+    <string name="fin_te_pasaste">Hai sforato di %1$s</string>
+    <string name="fin_gastos_dia">Spese al giorno</string>
+    <string name="fin_linea">La linea è il budget giornaliero</string>
+    <string name="fin_dia_ayuda">Annota ciò che è entrato e uscito oggi. Il mese lo somma nel suo bilancio.</string>
+    <string name="cord_meta_ayuda">Quando segni il tuo giorno, conta anche per questo obiettivo del mese.</string>
+    <string name="cord_hoy_titulo">Le tue cordate</string>
+    <string name="cord_hoy_ayuda">Il tuo gruppo sale con te: segna il tuo giorno e lo vedono.</string>
+    <string name="cord_ver_todas">Vedi tutte</string>
+    <string name="cord_marcado_meta">Giorno segnato! Conta anche per il tuo obiettivo del mese.</string>
+    <string name="cord_paso_1">Crea la cordata con la sfida e la durata.</string>
+    <string name="cord_paso_2">Invita con il codice di 6 lettere (via WhatsApp, per esempio).</string>
+    <string name="cord_paso_3">Segna il tuo giorno ogni volta che ce la fai; collegalo a un obiettivo del mese perché conti anche lì.</string>
 </resources>

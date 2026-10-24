@@ -77,9 +77,11 @@ import com.rutaalacima.app.ui.i18n.Textos
 import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.util.haceCuanto
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.time.LocalDate
 
-class CordadasViewModel(c: AppContainer) : ViewModel() {
+class CordadasViewModel(private val c: AppContainer) : ViewModel() {
     val repo = c.cordadas
     var lista by mutableStateOf<List<Cordada>?>(null)
         private set
@@ -100,7 +102,11 @@ class CordadasViewModel(c: AppContainer) : ViewModel() {
 
     fun crear(nombre: String, reto: String, eje: String?, dias: Int, abrir: (String) -> Unit) = accion({ repo.crear(nombre, reto, eje, dias) }, abrir)
     fun unirse(codigo: String, abrir: (String) -> Unit) = accion({ repo.unirse(codigo) }, abrir)
-    fun marcarHoy(c: Cordada) = viewModelScope.launch { runCatching { repo.marcar(c.id, LocalDate.now(), !c.marqueHoy) }; cargar() }
+    fun marcarHoy(k: Cordada) = viewModelScope.launch {
+        runCatching { repo.marcar(k.id, LocalDate.now(), !k.marqueHoy) }
+        if (!k.marqueHoy) runCatching { marcarMetaDeCordada(c, k.id, LocalDate.now()) }
+        cargar()
+    }
 }
 
 /** Mis cordadas: los retos en grupo, crear uno nuevo o unirme con un código. */
@@ -125,7 +131,18 @@ fun CordadasScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 4.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item { Text(stringResource(R.string.cordadas_intro), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            item {
+                Column {
+                    Text(stringResource(R.string.cordadas_intro), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    // Cómo se usa, en tres pasos (igual que en la web)
+                    listOf(R.string.cord_paso_1, R.string.cord_paso_2, R.string.cord_paso_3).forEachIndexed { i, r ->
+                        Row(Modifier.padding(top = 8.dp)) {
+                            Text("${i + 1}.", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold, modifier = Modifier.width(22.dp))
+                            Text(stringResource(r), style = MaterialTheme.typography.bodyMedium)
+                        }
+                    }
+                }
+            }
             if (!vm.repo.disponible) {
                 item {
                     RutaCard {
@@ -226,8 +243,14 @@ private fun FormularioCordada(ocupado: Boolean, onCrear: (String, String, String
 
 // ====================================================================== Una cordada
 
-class CordadaViewModel(c: AppContainer) : ViewModel() {
+class CordadaViewModel(private val c: AppContainer) : ViewModel() {
     val repo = c.cordadas
+    /** Metas del mes, para unir la cordada a una (cordada#<id>#meta). */
+    val metas = c.planAnual.todasMetasMes.stateIn(viewModelScope, kotlinx.coroutines.flow.SharingStarted.Eagerly, emptyList())
+    val unidas = c.respuestas.observar(WB_CORDADA).stateIn(viewModelScope, kotlinx.coroutines.flow.SharingStarted.Eagerly, emptyMap())
+    fun unirMeta(id: String, meta: String) = viewModelScope.launch { c.respuestas.guardar(WB_CORDADA, claveMetaCordada(id), meta) }
+    /** Al marcar, el día también cuenta en la meta unida; avisa por [movio]. */
+    var movio by mutableStateOf(false)
     var cordada by mutableStateOf<Cordada?>(null)
         private set
     var companeros by mutableStateOf<List<Companero>>(emptyList())
@@ -249,6 +272,7 @@ class CordadaViewModel(c: AppContainer) : ViewModel() {
         // Al instante en pantalla; luego se confirma con el servidor
         companeros = companeros.map { if (it.soyYo) it.copy(dias = if (si) it.dias + dia else it.dias - dia) else it }
         runCatching { repo.marcar(id, dia, si) }.onFailure { aviso = it.message }
+        if (si) movio = runCatching { marcarMetaDeCordada(c, id, dia) }.getOrDefault(false)
         cargar(id)
     }
 
@@ -270,6 +294,8 @@ fun CordadaScreen(id: String, onBack: () -> Unit) {
     LaunchedEffect(id) { vm.cargar(id) }
     val c = vm.cordada
     val ctx = LocalContext.current
+    val conMeta = stringResource(R.string.cord_marcado_meta)
+    LaunchedEffect(vm.movio) { if (vm.movio) { android.widget.Toast.makeText(ctx, conMeta, android.widget.Toast.LENGTH_SHORT).show(); vm.movio = false } }
     var menu by remember { mutableStateOf(false) }
     val hoy = LocalDate.now()
     Scaffold(
@@ -320,6 +346,14 @@ fun CordadaScreen(id: String, onBack: () -> Unit) {
                             Spacer(Modifier.width(8.dp))
                             Text(stringResource(if (marcado) R.string.cordadas_hoy_listo else R.string.cordadas_marcar_hoy))
                         }
+                    }
+                    // La meta del mes que mueve esta cordada
+                    val metas by vm.metas.collectAsStateWithLifecycle()
+                    val unidas by vm.unidas.collectAsStateWithLifecycle()
+                    val delMes = metas.filter { it.anio == hoy.year && it.mes == hoy.monthValue }
+                    if (c.activa() && delMes.isNotEmpty()) {
+                        Spacer(Modifier.height(4.dp))
+                        SelectorMetaCordada(unidas[claveMetaCordada(id)].orEmpty(), delMes) { vm.unirMeta(id, it) }
                     }
                 }
             }

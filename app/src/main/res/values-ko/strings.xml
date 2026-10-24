@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">이달의 단계를 만들었어요</string>
     <string name="anios_cumbre">이 정상의 해</string>
     <string name="sin_metas">목표 없음</string>
+    <string name="fin_mes">이달의 재정</string>
+    <string name="fin_dias_registro">%2$s에 기록한 날 %1$d일.</string>
+    <string name="fin_vacio">%1$s에는 아직 기록이 없어요. 매일 재정 기록에 수입과 지출을 적으면 여기서 한 달 전체를 볼 수 있어요.</string>
+    <string name="fin_disponible">남은 돈</string>
+    <string name="fin_disponible_hoy">오늘 남은 돈</string>
+    <string name="fin_tasa">저축과 투자: 들어온 돈의 %1$d %%</string>
+    <string name="fin_presupuesto">이달의 지출 예산</string>
+    <string name="fin_presupuesto_ej">예: 1,500,000</string>
+    <string name="fin_gastaste">%2$s 중 %1$s 썼어요</string>
+    <string name="fin_te_pasaste">%1$s 초과</string>
+    <string name="fin_gastos_dia">일별 지출</string>
+    <string name="fin_linea">선은 하루 예산이에요</string>
+    <string name="fin_dia_ayuda">오늘 들어오고 나간 돈을 적으세요. 월간 결산에서 합산돼요.</string>
+    <string name="cord_meta_ayuda">하루를 체크하면 이 이달의 목표에도 반영돼요.</string>
+    <string name="cord_hoy_titulo">나의 로프 팀</string>
+    <string name="cord_hoy_ayuda">팀이 함께 올라요. 하루를 체크하면 모두가 봐요.</string>
+    <string name="cord_ver_todas">모두 보기</string>
+    <string name="cord_marcado_meta">체크 완료! 이달의 목표에도 반영됐어요.</string>
+    <string name="cord_paso_1">도전과 기간을 정해 팀을 만드세요.</string>
+    <string name="cord_paso_2">6자리 코드로 초대하세요(예: WhatsApp).</string>
+    <string name="cord_paso_3">해낸 날마다 체크하세요. 이달의 목표에 연결하면 거기에도 반영돼요.</string>
 </resources>

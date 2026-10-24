@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">تم إنشاء خطوة الشهر</string>
     <string name="anios_cumbre">سنوات هذه القمة</string>
     <string name="sin_metas">بلا أهداف</string>
+    <string name="fin_mes">مالية الشهر</string>
+    <string name="fin_dias_registro">%1$d أيام مسجلة في %2$s.</string>
+    <string name="fin_vacio">لا توجد حركات بعد في %1$s. سجّل الدخل والمصروفات في المتابعة المالية لكل يوم وسترى الشهر كاملًا هنا.</string>
+    <string name="fin_disponible">المتاح</string>
+    <string name="fin_disponible_hoy">المتاح اليوم</string>
+    <string name="fin_tasa">الادخار والاستثمار: %1$d %% مما دخل</string>
+    <string name="fin_presupuesto">ميزانية المصروفات الشهرية</string>
+    <string name="fin_presupuesto_ej">مثال: 1500</string>
+    <string name="fin_gastaste">أنفقت %1$s من %2$s</string>
+    <string name="fin_te_pasaste">تجاوزت بمقدار %1$s</string>
+    <string name="fin_gastos_dia">المصروفات اليومية</string>
+    <string name="fin_linea">الخط هو الميزانية اليومية</string>
+    <string name="fin_dia_ayuda">سجّل ما دخل وما خرج اليوم. يجمعه الشهر في حصيلته.</string>
+    <string name="cord_meta_ayuda">عند تعليم يومك، يُحتسب أيضًا في هدف الشهر هذا.</string>
+    <string name="cord_hoy_titulo">فِرَق الحبل الخاصة بك</string>
+    <string name="cord_hoy_ayuda">مجموعتك تصعد معك: علّم يومك وسيرونه.</string>
+    <string name="cord_ver_todas">عرض الكل</string>
+    <string name="cord_marcado_meta">تم تعليم اليوم! يُحتسب أيضًا في هدف الشهر.</string>
+    <string name="cord_paso_1">أنشئ الفريق بتحدّيه ومدته.</string>
+    <string name="cord_paso_2">ادعُ بالرمز المكوّن من 6 أحرف (عبر واتساب مثلًا).</string>
+    <string name="cord_paso_3">علّم يومك كلما أنجزت؛ يمكنك ربطه بهدف الشهر ليُحتسب هناك أيضًا.</string>
 </resources>

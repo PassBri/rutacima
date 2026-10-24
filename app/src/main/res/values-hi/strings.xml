@@ -1352,4 +1352,25 @@
     <string name="paso_mes_creado">महीने का कदम बना</string>
     <string name="anios_cumbre">इस शिखर के वर्ष</string>
     <string name="sin_metas">कोई लक्ष्य नहीं</string>
+    <string name="fin_mes">महीने का वित्त</string>
+    <string name="fin_dias_registro">%2$s में %1$d दिन दर्ज।</string>
+    <string name="fin_vacio">%1$s में अभी कोई लेन-देन नहीं। हर दिन के वित्तीय रिकॉर्ड में आय और खर्च लिखें, यहाँ पूरा महीना दिखेगा।</string>
+    <string name="fin_disponible">उपलब्ध</string>
+    <string name="fin_disponible_hoy">आज उपलब्ध</string>
+    <string name="fin_tasa">बचत और निवेश: आय का %1$d %%</string>
+    <string name="fin_presupuesto">महीने का खर्च बजट</string>
+    <string name="fin_presupuesto_ej">उदा. 15,000</string>
+    <string name="fin_gastaste">%2$s में से %1$s खर्च किए</string>
+    <string name="fin_te_pasaste">%1$s ज़्यादा</string>
+    <string name="fin_gastos_dia">प्रतिदिन खर्च</string>
+    <string name="fin_linea">रेखा रोज़ाना बजट है</string>
+    <string name="fin_dia_ayuda">आज क्या आया और गया, लिखें। महीना इसे अपनी समीक्षा में जोड़ता है।</string>
+    <string name="cord_meta_ayuda">दिन चिह्नित करने पर यह इस महीने के लक्ष्य में भी गिना जाएगा।</string>
+    <string name="cord_hoy_titulo">आपकी रस्सी टीमें</string>
+    <string name="cord_hoy_ayuda">आपका समूह आपके साथ चढ़ता है: दिन चिह्नित करें, वे देखेंगे।</string>
+    <string name="cord_ver_todas">सभी देखें</string>
+    <string name="cord_marcado_meta">दिन चिह्नित! यह महीने के लक्ष्य में भी गिना गया।</string>
+    <string name="cord_paso_1">चुनौती और अवधि के साथ टीम बनाएँ।</string>
+    <string name="cord_paso_2">6 अक्षरों के कोड से आमंत्रित करें (जैसे WhatsApp से)।</string>
+    <string name="cord_paso_3">हर बार पूरा करने पर दिन चिह्नित करें; इसे महीने के लक्ष्य से जोड़ें ताकि वहाँ भी गिना जाए।</string>
 </resources>
