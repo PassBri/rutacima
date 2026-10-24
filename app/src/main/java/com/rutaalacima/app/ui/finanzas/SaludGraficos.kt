@@ -257,6 +257,7 @@ fun BalanceBarras(r: Salud.Resultado, plata: (Double) -> String) {
     }, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
 }
 
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 /** Mes a mes: flujo neto y ahorro + inversión sobre lo que entra, con la meta del 20 %. Se lee al tocar o deslizar. */
 @Composable
 fun LineaMeses(anio: Int?, libro: Libro) {
@@ -275,7 +276,7 @@ fun LineaMeses(anio: Int?, libro: Libro) {
     fun etq(m: String) = nombreMes(m.drop(5).toInt()).take(3) + if (anio == null) " " + m.substring(2, 4) else ""
 
     Text(stringResource(R.string.cu_mes_a_mes), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 20.dp, bottom = 6.dp))
-    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+    androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         listOf(Triple(R.string.cu_c_flujo, cFlujo, false), Triple(R.string.cu_ind_construye, cCons, false), Triple(R.string.cu_meta20, suave, true)).forEach { (n, c, discont) ->
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Canvas(Modifier.width(16.dp).height(8.dp)) {
