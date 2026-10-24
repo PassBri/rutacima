@@ -67,8 +67,18 @@ class CapturasTest {
         File(dir, "$nombre.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 
-    private fun pantalla(oscuro: Boolean, contenido: @Composable () -> Unit) = compose.setContent {
-        RutaTheme(darkTheme = oscuro) {
+    private val oscuro = androidx.compose.runtime.mutableStateOf(false)
+
+    /** Dibuja el contenido en claro y en oscuro (setContent solo se puede llamar una vez por prueba). */
+    private fun pantalla(nombre: String, contenido: @Composable () -> Unit) {
+        compose.setContent { Tema(contenido) }
+        guardar("$nombre-claro")
+        oscuro.value = true
+        guardar("$nombre-oscuro")
+    }
+
+    @Composable private fun Tema(contenido: @Composable () -> Unit) {
+        RutaTheme(darkTheme = oscuro.value) {
             Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 contenido()
             }
@@ -89,14 +99,11 @@ class CapturasTest {
     )
 
     @Test fun cascadaDelAnioYDelMes() {
-        for (oscuro in listOf(false, true)) {
-            pantalla(oscuro) {
-                CumbresAnio(hoy.year, propositos, anuales, {}, {})
-                CintaCumbre(propositos[0], anuales) {}
-                SinPasoMes(ym, anuales, mensuales) {}
-                SelectorMetaCordada("100", mensuales) {}
-            }
-            guardar(if (oscuro) "cascada-oscuro" else "cascada-claro")
+        pantalla("cascada") {
+            CumbresAnio(hoy.year, propositos, anuales, {}, {})
+            CintaCumbre(propositos[0], anuales) {}
+            SinPasoMes(ym, anuales, mensuales) {}
+            SelectorMetaCordada("100", mensuales) {}
         }
     }
 
@@ -108,12 +115,9 @@ class CapturasTest {
             12 to Finanzas.dia("150.000", "210.000", "", ""),
             15 to Finanzas.dia("", "45.000", "50.000", ""),
         )
-        for (oscuro in listOf(false, true)) {
-            pantalla(oscuro) {
-                FinanzasMesContenido(ym, Finanzas.mes(dias, "1.500.000"), "1.500.000", {})
-                DisponibleHoy("150.000", "64.500", "20.000", "")
-            }
-            guardar(if (oscuro) "finanzas-oscuro" else "finanzas-claro")
+        pantalla("finanzas") {
+            FinanzasMesContenido(ym, Finanzas.mes(dias, "1.500.000"), "1.500.000", {})
+            DisponibleHoy("150.000", "64.500", "20.000", "")
         }
     }
 
