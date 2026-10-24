@@ -1627,3 +1627,30 @@ label.cargando { opacity: .6; pointer-events: none; }
 .fijo-marca svg { width: 13px; height: 13px; fill: currentColor; }
 .asc-fijos td small { display: block; font-size: 12px; margin-top: 2px; }
 .asc-fijos tfoot .pildora { margin-inline-start: 4px; }
+
+/* ---------- Gráfica del ascenso (estilo bolsa) ---------- */
+.gr-barra { display: flex; flex-wrap: wrap; gap: 8px 12px; margin: 12px 0 8px; }
+.gr-grupo { display: inline-flex; border: 1px solid var(--linea); border-radius: 10px; overflow: hidden; }
+.gr-b { padding: 6px 11px; font-size: 13px; color: var(--tinta-suave); min-height: 34px; font-variant-numeric: tabular-nums; }
+.gr-b + .gr-b { border-inline-start: 1px solid var(--linea); }
+.gr-b[aria-pressed="true"] { background: var(--burdeos); color: var(--sobre-burdeos); }
+.gr-b:hover:not([aria-pressed="true"]) { background: var(--hoja-2); color: var(--tinta); }
+.gr-zoom .gr-b { min-width: 36px; font-size: 16px; }
+.gr-series { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+.gr-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 99px; border: 1px solid var(--linea); font-size: 12.5px; color: var(--tinta-suave); min-height: 30px; }
+.gr-chip i { width: 10px; height: 10px; border-radius: 2px; opacity: .35; }
+.gr-chip[aria-pressed="true"] { color: var(--tinta); border-color: var(--tinta-suave); background: var(--hoja-2); font-weight: 500; }
+.gr-chip[aria-pressed="true"] i { opacity: 1; }
+.gr-chip:disabled { opacity: .5; }
+.gr-i-sma { background: none !important; border-top: 2px dashed var(--tinta-suave); height: 0 !important; width: 14px !important; border-radius: 0 !important; }
+.gr-i-salud { background: linear-gradient(90deg, var(--v-fijos) 50%, var(--v-ahorro) 50%); }
+.gr-sep { width: 1px; height: 20px; background: var(--linea); margin: 0 4px; }
+.gr-caja { position: relative; user-select: none; -webkit-user-select: none; }
+.gr-caja canvas { display: block; width: 100%; height: 360px; touch-action: pan-y; cursor: crosshair; border-radius: 8px; }
+.gr-caja canvas:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 4px; }
+.gr-tip { position: absolute; top: 8px; min-width: 190px; padding: 8px 10px; border-radius: 10px; background: var(--hoja); border: 1px solid var(--linea); box-shadow: 0 6px 18px rgb(var(--sombra) / .18); font-size: 12.5px; display: grid; gap: 3px; pointer-events: none; z-index: 2; }
+.gr-tip b { font-weight: 600; margin-bottom: 2px; }
+.gr-tip div { display: grid; grid-template-columns: 10px 1fr auto; gap: 8px; align-items: center; }
+.gr-tip i { width: 10px; height: 10px; border-radius: 2px; } .gr-tip span { color: var(--tinta-suave); } .gr-tip strong { font-variant-numeric: tabular-nums; font-weight: 600; }
+.gr-pie { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 6px; font-size: 13px; }
+@media (max-width: 700px) { .gr-barra, .gr-series { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; padding-inline: 4px; } .gr-barra::-webkit-scrollbar, .gr-series::-webkit-scrollbar { display: none; } .gr-grupo, .gr-chip { flex: none; } .gr-b { padding: 6px 9px; } .gr-hoja .cab-lista-btn .suave { display: none; } .gr-caja canvas { height: 320px; } }

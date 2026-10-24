@@ -150,7 +150,7 @@ DET["finanzas.b"] = () => {
   return cab(avAsc(), "Ascenso financiero", "Balance general · todos tus años", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"]]) +
     (t.n ? "" : `<div class="aviso">${ic("finanzas")} Empieza por hoy: anota lo que entró y salió. Cada día suma al mes, cada mes al año y cada año a este balance.<button class="btn lleno" data-sel="d:${iso(hoyFecha())}" style="margin-left:auto">Registrar hoy</button></div>`) +
-    cifras(t) +
+    cifras(t) + (window.graficaAscenso?.() || "") +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
       <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
     saludResumen("") + deudasResumen() + fijosHoja("") + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
