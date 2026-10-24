@@ -65,6 +65,20 @@ jobs:
           CAPTURAS: "1"
         run: ./gradlew --no-daemon testDebugUnitTest --tests '*CapturasTest*' --rerun
 
+      - name: Publicar capturas en la rama "capturas"
+        if: always() && github.event_name != 'pull_request'
+        continue-on-error: true
+        run: |
+          mkdir -p "$RUNNER_TEMP/cap"
+          cp -r app/build/capturas/. "$RUNNER_TEMP/cap/" 2>/dev/null || true
+          cp app/build/test-results/testDebugUnitTest/TEST-*CapturasTest*.xml "$RUNNER_TEMP/cap/" 2>/dev/null || true
+          ls -la "$RUNNER_TEMP/cap" > "$RUNNER_TEMP/cap/lista.txt"
+          cd "$RUNNER_TEMP/cap"
+          git init -q -b capturas
+          git add -A
+          git -c user.name="Ruta CI" -c user.email="ci@rutaalacima.local" commit -qm "Capturas de ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" capturas
+
       - name: Guardar capturas
         if: always()
         uses: actions/upload-artifact@v4
