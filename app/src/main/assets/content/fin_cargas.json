@@ -1,0 +1,131 @@
+{
+ "id": "fin_cargas",
+ "title": "Cargas financieras",
+ "subtitle": "Libro 3 · Transforma pasivos en activos",
+ "category": "finanzas",
+ "order": 27,
+ "sections": [
+  {
+   "id": "fin_cargas.sec0",
+   "title": "Lo que pesa en la mochila",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Los gastos son el dinero que sale. Algunos son necesarios; otros son peso muerto que no te deja subir. Los más peligrosos son los pequeños: los **gastos hormiga** pasan desapercibidos uno por uno, pero juntos son una gran fuga."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "La regla del frasco"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada vez que sientas la tentación de un gasto pequeño, pon esa cantidad en un frasco. Al final de la semana mira cuánto juntaste y úsalo para algo valioso: ahorrar, invertir o comprar algo realmente útil."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "El desafío del día cero"
+    },
+    {
+     "type": "paragraph",
+     "text": "Elige un día a la semana sin ningún gasto extra. Usa lo que ya tienes en casa. Te hace consciente de lo que de verdad necesitas."
+    }
+   ]
+  },
+  {
+   "id": "fin_cargas.sec1",
+   "title": "Deudas: dos rutas para salir",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Método",
+      "Cómo funciona",
+      "Para quién"
+     ],
+     "rows": [
+      [
+       "Avalancha",
+       "Pagas el mínimo en todas y todo lo extra va a la deuda con el interés más alto",
+       "Quien quiere pagar menos intereses y tiene disciplina"
+      ],
+      [
+       "Bola de nieve",
+       "Pagas el mínimo en todas y todo lo extra va a la deuda más pequeña",
+       "Quien necesita victorias rápidas para no rendirse"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Usa el crédito a tu favor, no en tu contra: si tienes que ocultar cuánto debes, ya es una señal de alerta."
+    }
+   ]
+  },
+  {
+   "id": "fin_cargas.sec2",
+   "title": "Tus deudas y fugas",
+   "blocks": [
+    {
+     "type": "inputTable",
+     "id": "fin_cargas.t1",
+     "headers": [
+      "Deuda",
+      "Saldo",
+      "Interés anual",
+      "Pago mínimo"
+     ],
+     "rowLabels": [],
+     "rows": 4
+    },
+    {
+     "type": "choice",
+     "id": "fin_cargas.c2",
+     "label": "¿Qué método vas a usar?",
+     "options": [
+      "Avalancha",
+      "Bola de nieve",
+      "Todavía no lo sé"
+     ]
+    },
+    {
+     "type": "inputTable",
+     "id": "fin_cargas.t3",
+     "headers": [
+      "Gasto hormiga",
+      "Cuánto al mes",
+      "¿Lo elimino o lo reduzco?"
+     ],
+     "rowLabels": [],
+     "rows": 4
+    }
+   ]
+  },
+  {
+   "id": "fin_cargas.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_cargas.k4",
+     "label": "Marqué como \"Gastos hormiga\" los gastos pequeños de esta semana"
+    },
+    {
+     "type": "check",
+     "id": "fin_cargas.k5",
+     "label": "Registré los pagos de deudas en su categoría"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "En Ascenso financiero, la sección \"¿A dónde fue tu dinero?\" te muestra cuánto suman tus gastos hormiga en el mes y en el año."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

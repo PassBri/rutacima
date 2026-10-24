@@ -1,0 +1,166 @@
+{
+ "id": "fin_base",
+ "title": "Base financiera",
+ "subtitle": "Libro 1 · Fundamentos financieros",
+ "category": "finanzas",
+ "order": 25,
+ "sections": [
+  {
+   "id": "fin_base.sec0",
+   "title": "El dinero es agua",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Si el dinero fuera un elemento de la naturaleza, sería agua."
+    },
+    {
+     "type": "paragraph",
+     "text": "Fluye sin cesar, se adapta a su entorno y, cuando no se controla, se filtra gota a gota. Cuando se administra con equilibrio, se convierte en una fuente de vida que nutre tu crecimiento."
+    },
+    {
+     "type": "paragraph",
+     "text": "La diferencia no está en cuánta agua recibes, sino en cómo la administras: controlar su flujo, guardarla en tiempos de abundancia y usarla con inteligencia en tiempos de escasez."
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "**El verdadero problema no es tropezar. Es no saber cómo recuperarse.**"
+      },
+      {
+       "type": "paragraph",
+       "text": "Esta guía es tu brújula y tu mapa antes de empezar el ascenso."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fin_base.sec1",
+   "title": "Lo que entra y lo que sale",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ingresos"
+    },
+    {
+     "type": "bullet",
+     "text": "**Ingresos activos:** la energía que obtienes con esfuerzo constante (tu trabajo, tus horas, tus servicios).",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Ingresos pasivos:** recursos que siguen fluyendo sin tu esfuerzo diario (rentas, intereses, productos digitales, regalías).",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Gastos"
+    },
+    {
+     "type": "bullet",
+     "text": "**Gastos necesarios:** lo imprescindible para sobrevivir en la expedición: comida, vivienda, servicios, transporte.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Gastos variables:** la carga adicional en la mochila. No son malos, pero pesan: revísalos cada mes.",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Los usos del dinero"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Uso",
+      "Qué significa en el camino"
+     ],
+     "rows": [
+      [
+       "Gastar",
+       "Consumir recursos para avanzar hoy"
+      ],
+      [
+       "Ahorrar",
+       "Guardar agua para los tramos secos"
+      ],
+      [
+       "Invertir",
+       "Multiplicar recursos para avanzar más lejos"
+      ],
+      [
+       "Diversificar",
+       "No depender de un solo camino"
+      ],
+      [
+       "Donar, pagar deudas, educarte, dejar legado",
+       "Usos que te liberan y te trascienden"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fin_base.sec2",
+   "title": "Activos y pasivos",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Un **activo** pone dinero en tu bolsillo; un **pasivo** lo saca. La meta no es eliminar todos los pasivos, sino que tus activos crezcan más rápido y, cuando puedas, convertir pasivos en activos (por ejemplo, un carro que también trabaja para entregas)."
+    },
+    {
+     "type": "inputTable",
+     "id": "fin_base.t1",
+     "headers": [
+      "Lo que tienes",
+      "¿Activo o pasivo?",
+      "¿Cómo podría producir?"
+     ],
+     "rowLabels": [],
+     "rows": 4
+    },
+    {
+     "type": "prompt",
+     "id": "fin_base.q2",
+     "label": "¿Qué gasto de tu vida podrías convertir en una fuente de ingreso?"
+    }
+   ]
+  },
+  {
+   "id": "fin_base.sec3",
+   "title": "Tu primer paso",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_base.k3",
+     "label": "Anoté hoy en Ascenso financiero todo lo que entró y salió"
+    },
+    {
+     "type": "check",
+     "id": "fin_base.k4",
+     "label": "Separé mis gastos necesarios de los variables"
+    },
+    {
+     "type": "prompt",
+     "id": "fin_base.q5",
+     "label": "¿Qué descubriste al mirar a dónde fue tu dinero esta semana?"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "En Ascenso financiero (el ícono $) cada movimiento del día se suma al mes, al año y a tu balance general. Vuelve a esta guía cuando revises tu mes."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -104,6 +104,8 @@ class AgendaRepository(private val db: RutaDatabase) {
 
     suspend fun guardar(dia: AgendaDiaEntity) = db.agendaDao().upsert(dia)
 
+    val conFinanzas: Flow<List<AgendaDiaEntity>> = db.agendaDao().observeConFinanzas()
+
     fun delMes(anio: Int, mes: Int): Flow<List<AgendaDiaEntity>> = db.agendaDao().observeDelMes("%04d-%02d".format(anio, mes))
 
     /** Días del mes que tienen agenda diligenciada. */

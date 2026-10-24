@@ -30,6 +30,10 @@ import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.material.icons.filled.WaterDrop
+import androidx.compose.material.icons.filled.TrendingUp
+import androidx.compose.material.icons.filled.Savings
+import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.TrackChanges
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -191,6 +195,13 @@ fun MontanaArte(
 
 /** Ícono profesional de cada guía, bono o lectura. */
 fun iconoGuia(id: String): ImageVector = when (id) {
+    "fin_base" -> Icons.Filled.WaterDrop
+    "fin_camino" -> Icons.Filled.TrendingUp
+    "fin_cargas" -> Icons.Filled.Savings
+    "fin_brujula" -> Icons.Filled.Explore
+    "fin_supervivencia" -> Icons.Filled.Shield
+    "fin_cima" -> Icons.Filled.Insights
+    "fin_ascenso" -> Icons.Filled.Hiking
     "descubre" -> Icons.Filled.Explore
     "diagnostico" -> Icons.Filled.Psychology
     "seis_ejes" -> Icons.Filled.Hub

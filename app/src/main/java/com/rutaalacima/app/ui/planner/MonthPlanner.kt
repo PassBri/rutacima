@@ -207,7 +207,7 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
             item { CampoMes(stringResource(R.string.bal_objetivos_mes), m.objetivosProximo) { v -> vm.editar { it.copy(objetivosProximo = v) } } }
         }
         // Finanzas del mes: la suma del control financiero de cada día, con presupuesto (igual que en la web)
-        item(key = "finanzas-$ym") { FinanzasMesCard(ym) }
+        item(key = "finanzas-$ym") { com.rutaalacima.app.ui.finanzas.ResumenCuentasMes(ym) }
     }
 }
 

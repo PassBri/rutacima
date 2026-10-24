@@ -61,6 +61,7 @@ enum class Etapa(@StringRes val titulo: Int, @StringRes val descripcion: Int, va
     CAMINA(R.string.etapa_3, R.string.etapa_3_desc, 7, listOf("portales", "campamento", "companero")),
     SUPERA(R.string.etapa_4, R.string.etapa_4_desc, 2, listOf("caidas", "niebla", "bono_anti_abandono", "kit")),
     CIMA(R.string.etapa_5, R.string.etapa_5_desc, 1, listOf("desde_cima", "bono_evidencias", "planificador_cierre")),
+    FINANZAS(R.string.etapa_finanzas, R.string.etapa_finanzas_desc, 2, listOf("fin_base", "fin_camino", "fin_cargas", "fin_brujula", "fin_supervivencia", "fin_cima", "fin_ascenso")),
     BANCOS(R.string.etapa_bancos, R.string.etapa_bancos_desc, 4, listOf("bono_metas", "bono_indicadores", "bono_acciones", "bono_confluencia", "bono_cierre")),
     LECTURAS(R.string.etapa_lecturas, R.string.etapa_lecturas_desc, 5, listOf("ebook", "teoria")),
     FACILITADORES(R.string.etapa_facilitadores, R.string.etapa_facilitadores_desc, 6, listOf("facilitadores")),

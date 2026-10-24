@@ -1,0 +1,137 @@
+{
+ "id": "fin_camino",
+ "title": "Camino financiero",
+ "subtitle": "Libro 2 · Generación de ingresos",
+ "category": "finanzas",
+ "order": 26,
+ "sections": [
+  {
+   "id": "fin_camino.sec0",
+   "title": "Varias fuentes de agua",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "En una expedición de montaña, contar con varias fuentes de agua y provisiones te da seguridad. Con el dinero pasa igual: depender de un solo ingreso es caminar con una sola cantimplora."
+    },
+    {
+     "type": "bullet",
+     "text": "**Ingreso por empleo:** estable y predecible; depende de un empleador.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Ingreso por negocio:** lo generas con tu propio proyecto; exige más, puede crecer más.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Ingreso pasivo:** sigue llegando con poco esfuerzo diario una vez lo construyes.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_camino.sec1",
+   "title": "De corto a mediano plazo",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Ingresos inmediatos"
+    },
+    {
+     "type": "bullet",
+     "text": "Monetiza una habilidad que ya tienes: clases, reparaciones, diseño, cocina, asesorías.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Usa lo que ya posees como herramienta: el teléfono, el computador, la moto, una sala de la casa.",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Una base sostenible"
+    },
+    {
+     "type": "bullet",
+     "text": "Micronegocios desde casa con costos mínimos.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Activos digitales: un portafolio, contenido, productos digitales que se venden muchas veces.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Inversiones pequeñas pero constantes, empezando con poco dinero.",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Aprender sin parar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cada curso, libro o certificación es una inversión en tu herramienta más valiosa: tú."
+    }
+   ]
+  },
+  {
+   "id": "fin_camino.sec2",
+   "title": "Tu mapa de ingresos",
+   "blocks": [
+    {
+     "type": "inputTable",
+     "id": "fin_camino.t1",
+     "headers": [
+      "Fuente de ingreso",
+      "Tipo (activo, negocio, pasivo)",
+      "Cuánto aporta al mes",
+      "Siguiente paso"
+     ],
+     "rowLabels": [],
+     "rows": 4
+    },
+    {
+     "type": "prompt",
+     "id": "fin_camino.q2",
+     "label": "¿Qué habilidad tuya podría convertirse en un ingreso este mes?"
+    },
+    {
+     "type": "prompt",
+     "id": "fin_camino.q3",
+     "label": "¿Qué necesidad ves en tu comunidad que nadie está resolviendo?"
+    }
+   ]
+  },
+  {
+   "id": "fin_camino.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_camino.k4",
+     "label": "Registré mis ingresos del mes por categoría (trabajo, negocio, ventas, pasivo)"
+    },
+    {
+     "type": "check",
+     "id": "fin_camino.k5",
+     "label": "Definí una segunda fuente de ingreso para explorar"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "En Ascenso financiero, elige la categoría correcta para cada ingreso: así verás en el año qué parte viene de tu trabajo y qué parte ya fluye sola."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

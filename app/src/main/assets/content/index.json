@@ -214,5 +214,68 @@
   "order": 24,
   "sections": 11,
   "inputs": 23
+ },
+ {
+  "id": "fin_base",
+  "title": "Base financiera",
+  "subtitle": "Libro 1 · Fundamentos financieros",
+  "category": "finanzas",
+  "order": 25,
+  "sections": 4,
+  "inputs": 5
+ },
+ {
+  "id": "fin_camino",
+  "title": "Camino financiero",
+  "subtitle": "Libro 2 · Generación de ingresos",
+  "category": "finanzas",
+  "order": 26,
+  "sections": 4,
+  "inputs": 5
+ },
+ {
+  "id": "fin_cargas",
+  "title": "Cargas financieras",
+  "subtitle": "Libro 3 · Transforma pasivos en activos",
+  "category": "finanzas",
+  "order": 27,
+  "sections": 4,
+  "inputs": 5
+ },
+ {
+  "id": "fin_brujula",
+  "title": "Brújula financiera",
+  "subtitle": "Libro 4 · Mentalidad financiera",
+  "category": "finanzas",
+  "order": 28,
+  "sections": 4,
+  "inputs": 5
+ },
+ {
+  "id": "fin_supervivencia",
+  "title": "Supervivencia financiera",
+  "subtitle": "Libro 5 · Estrategias de protección financiera",
+  "category": "finanzas",
+  "order": 29,
+  "sections": 4,
+  "inputs": 4
+ },
+ {
+  "id": "fin_cima",
+  "title": "Cima financiera",
+  "subtitle": "Libro 6 · Indicadores financieros",
+  "category": "finanzas",
+  "order": 30,
+  "sections": 4,
+  "inputs": 4
+ },
+ {
+  "id": "fin_ascenso",
+  "title": "Ascenso financiero",
+  "subtitle": "Libro 7 · Tu viaje financiero paso a paso",
+  "category": "finanzas",
+  "order": 31,
+  "sections": 4,
+  "inputs": 5
  }
 ]

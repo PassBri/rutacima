@@ -1,0 +1,110 @@
+{
+ "id": "fin_supervivencia",
+ "title": "Supervivencia financiera",
+ "subtitle": "Libro 5 · Estrategias de protección financiera",
+ "category": "finanzas",
+ "order": 29,
+ "sections": [
+  {
+   "id": "fin_supervivencia.sec0",
+   "title": "Antes de la tormenta",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Ningún senderista sube sin abrigo para la tormenta. La protección financiera empieza con lo esencial y crece poco a poco."
+    },
+    {
+     "type": "bullet",
+     "text": "**Fondo de emergencia:** entre tres y seis meses de tus gastos básicos, en una cuenta que puedas usar de inmediato.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Registros claros:** guarda contratos, pólizas y cuentas en un archivo de seguridad que tu familia conozca.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Seguros:** protege tu salud, tu hogar y tu fuente de ingresos.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_supervivencia.sec1",
+   "title": "Cuando llega la crisis",
+   "blocks": [
+    {
+     "type": "bullet",
+     "text": "Mantén la calma: las decisiones con miedo suelen costar caro.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ajustes rápidos: recorta los gastos variables primero y protege lo esencial.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ingresos inmediatos: ¿qué puedes vender, enseñar o hacer esta semana?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Protégete de la inflación: no guardes todo en un solo lugar ni en una sola moneda.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Aprende y adapta: cada crisis deja una lección para el siguiente tramo.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_supervivencia.sec2",
+   "title": "Finanzas en familia",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "El dinero también se aprende en casa: presupuesto compartido, metas como equipo, reuniones familiares cortas y retos de ahorro que involucren a todos, según la edad de cada uno."
+    },
+    {
+     "type": "prompt",
+     "id": "fin_supervivencia.q1",
+     "label": "¿Cuántos meses de gastos básicos cubre hoy tu fondo de emergencia?"
+    },
+    {
+     "type": "prompt",
+     "id": "fin_supervivencia.q2",
+     "label": "¿Qué protección te falta (seguro, ahorro, registro) y cuándo la vas a tener?"
+    },
+    {
+     "type": "check",
+     "id": "fin_supervivencia.k3",
+     "label": "Mi familia sabe dónde están los documentos importantes"
+    }
+   ]
+  },
+  {
+   "id": "fin_supervivencia.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_supervivencia.k4",
+     "label": "Registré mis aportes como \"Ahorro · Fondo de emergencia\""
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "En Ascenso financiero, filtra tus ahorros por categoría y compáralos con tus gastos esenciales del mes (la mochila verde): así sabes cuántos meses te cubre tu fondo."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

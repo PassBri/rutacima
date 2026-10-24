@@ -32,6 +32,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
@@ -122,6 +123,9 @@ object Rutas {
     const val PROPOSITO = "proposito/{id}"
     const val KIT = "kit"
     const val EJES = "ejes"
+    /** Ascenso financiero: el libro de cuentas; nivel "b", "a:2026", "m:2026-10" o "d:2026-10-24". */
+    const val FINANZAS = "finanzas?nivel={nivel}"
+    fun finanzas(nivel: String? = null) = "finanzas" + (nivel?.let { "?nivel=" + android.net.Uri.encode(it) } ?: "")
     const val COACH = "coach"
     const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}&padre={padre}"
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
@@ -291,6 +295,12 @@ private fun AppPrincipal() {
                                 Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes))
                             }
                         }
+                        // Ascenso financiero: el libro de cuentas, a un toque desde Mi ruta y Hoy
+                        if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
+                            IconButton(onClick = { nav.navigate(Rutas.finanzas(if (pestana.ruta == Rutas.HOY) "d:" + java.time.LocalDate.now() else null)) }) {
+                                Icon(Icons.Filled.AttachMoney, stringResource(R.string.cu_titulo))
+                            }
+                        }
                         if (pestana.ruta == Rutas.PERFIL) {
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
@@ -437,6 +447,13 @@ private fun AppPrincipal() {
                 KitScreen(onBack = { nav.popBackStack() }, onOpenSection = abrirSeccion, onOpenWorkbook = abrirWorkbook)
             }
             composable(Rutas.EJES) { AxesScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.FINANZAS, arguments = listOf(navArgument("nivel") { type = NavType.StringType; nullable = true; defaultValue = null })) { e ->
+                com.rutaalacima.app.ui.finanzas.AscensoFinancieroScreen(
+                    inicial = e.arguments?.getString("nivel"),
+                    onBack = { nav.popBackStack() },
+                    onAprende = { nav.popBackStack(); nav.irAPestana(Rutas.APRENDE) },
+                )
+            }
             composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }, onPlan = { nav.navigate(Rutas.PLAN) }) }
             composable(Rutas.NUEVA_META, arguments = listOf(
                 navArgument("nivel") { type = NavType.StringType },

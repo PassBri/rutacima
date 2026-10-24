@@ -1,0 +1,151 @@
+{
+ "id": "fin_cima",
+ "title": "Cima financiera",
+ "subtitle": "Libro 6 · Indicadores financieros",
+ "category": "finanzas",
+ "order": 30,
+ "sections": [
+  {
+   "id": "fin_cima.sec0",
+   "title": "Las tres mochilas",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Imagina que llevas tres mochilas en tu expedición financiera. Cada una es una parte de tu presupuesto."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Mochila",
+      "Qué guarda",
+      "Cuánto de tus ingresos"
+     ],
+     "rows": [
+      [
+       "Verde",
+       "Lo esencial: alimentos, vivienda, servicios, transporte",
+       "Cerca del 50 %"
+      ],
+      [
+       "Amarilla",
+       "Gastos variables: salidas, ropa, suscripciones, pequeño ahorro",
+       "Cerca del 30 %"
+      ],
+      [
+       "Roja",
+       "Tu futuro: educación, herramientas, ahorro e inversión",
+       "Al menos el 20 %"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Mientras más inviertas en la mochila roja, más rápido avanzas hacia la cima."
+    }
+   ]
+  },
+  {
+   "id": "fin_cima.sec1",
+   "title": "El diario del viajero",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Un senderista experimentado anota cada detalle de su expedición. Anota todo lo que gastas, sin importar cuán pequeño sea, y al final del día clasifícalo. Revísalo cada semana para ver patrones."
+    },
+    {
+     "type": "bullet",
+     "text": "¿Cuánto gastaste en total?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué gastos te sorprendieron?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Dónde podrías reducir sin sacrificar calidad de vida?",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "¿Qué harías con el dinero si eliminaras los gastos hormiga?",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_cima.sec2",
+   "title": "Tus indicadores",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Índice de endeudamiento"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Pasivos totales ÷ Activos totales) × 100. Menos del 30 %: salud óptima. Entre 30 y 50 %: riesgo moderado. Más del 50 %: riesgo alto."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Patrimonio neto"
+    },
+    {
+     "type": "paragraph",
+     "text": "Activos totales − Pasivos totales. Si es negativo, la prioridad es reducir deudas y aumentar activos productivos."
+    },
+    {
+     "type": "inputTable",
+     "id": "fin_cima.t1",
+     "headers": [
+      "Indicador",
+      "Mi cifra",
+      "Meta"
+     ],
+     "rowLabels": [
+      "Activos totales",
+      "Pasivos totales",
+      "Patrimonio neto",
+      "Índice de endeudamiento",
+      "Tasa de ahorro e inversión"
+     ],
+     "rows": 0
+    },
+    {
+     "type": "scale",
+     "id": "fin_cima.s2",
+     "label": "¿Qué tan sana sientes hoy tu economía?",
+     "min": 1,
+     "max": 10
+    }
+   ]
+  },
+  {
+   "id": "fin_cima.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_cima.k3",
+     "label": "Revisé mis tres mochilas del mes en Ascenso financiero"
+    },
+    {
+     "type": "check",
+     "id": "fin_cima.k4",
+     "label": "Mi mochila roja llegó al 20 % de lo que entró"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Ascenso financiero clasifica cada gasto en su mochila automáticamente según la categoría que elijas, y te muestra el peso de cada una frente al 50/30/20."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

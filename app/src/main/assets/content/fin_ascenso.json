@@ -1,0 +1,181 @@
+{
+ "id": "fin_ascenso",
+ "title": "Ascenso financiero",
+ "subtitle": "Libro 7 · Tu viaje financiero paso a paso",
+ "category": "finanzas",
+ "order": 31,
+ "sections": [
+  {
+   "id": "fin_ascenso.sec0",
+   "title": "Las ocho etapas del ascenso",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Etapa",
+      "Lugar en la montaña",
+      "Qué la caracteriza"
+     ],
+     "rows": [
+      [
+       "Desempleado",
+       "El Valle",
+       "Autodescubrimiento, evaluar habilidades, definir metas"
+      ],
+      [
+       "Empleado",
+       "Base de la montaña",
+       "Ingresos regulares, disciplina y habilidades básicas"
+      ],
+      [
+       "Estratega",
+       "Puntos de observación",
+       "Entender sistemas, ver oportunidades, planear a largo plazo"
+      ],
+      [
+       "Emprendedor",
+       "Primer campamento",
+       "Proyecto propio, riesgos calculados, liderazgo"
+      ],
+      [
+       "Empresario",
+       "Campamento avanzado",
+       "Sistemas, equipo, negocio que funciona sin ti"
+      ],
+      [
+       "Inversionista",
+       "Cima",
+       "El dinero trabaja para ti"
+      ],
+      [
+       "Diversificador",
+       "Cumbre personal",
+       "Varias fuentes y equilibrio entre ellas"
+      ],
+      [
+       "Mentor",
+       "Cordillera",
+       "Tu éxito se convierte en legado para otros"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fin_ascenso.sec1",
+   "title": "Indicadores para subir de etapa",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Del valle a la base"
+    },
+    {
+     "type": "bullet",
+     "text": "Reducir 20-30 % los gastos no esenciales mientras buscas ingresos.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Un curso gratuito al mes y nuevos contactos cada semana.",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "En la base de la montaña"
+    },
+    {
+     "type": "bullet",
+     "text": "Ahorrar el 20 % del ingreso neto.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Fondo de emergencia de 3 a 6 meses de gastos.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Pagar el 100 % de las facturas a tiempo e invertir el 10 % en formación.",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Hacia los campamentos"
+    },
+    {
+     "type": "bullet",
+     "text": "Ingresos adicionales del 10-20 % sobre tu salario principal.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Un proyecto propio que cubra al menos la mitad de tus gastos personales.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_ascenso.sec2",
+   "title": "¿Dónde estás hoy?",
+   "blocks": [
+    {
+     "type": "choice",
+     "id": "fin_ascenso.c1",
+     "label": "¿En qué etapa del ascenso te encuentras?",
+     "options": [
+      "El Valle",
+      "Base de la montaña",
+      "Puntos de observación",
+      "Primer campamento",
+      "Campamento avanzado",
+      "Cima",
+      "Cumbre personal",
+      "Cordillera"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "fin_ascenso.q2",
+     "label": "¿Qué indicador te falta para pasar a la siguiente etapa?"
+    },
+    {
+     "type": "prompt",
+     "id": "fin_ascenso.q3",
+     "label": "¿Qué harás este mes para acercarte?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Celebra tus éxitos: cada hito del viaje merece reconocerse."
+    }
+   ]
+  },
+  {
+   "id": "fin_ascenso.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_ascenso.k4",
+     "label": "Revisé mi balance general del año en Ascenso financiero"
+    },
+    {
+     "type": "check",
+     "id": "fin_ascenso.k5",
+     "label": "Comparé este año con el anterior: cuánto entró, cuánto construí"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El balance general de Ascenso financiero es tu bitácora del ascenso: año por año, cuánto entró, cuánto se fue y cuánto patrimonio construiste."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

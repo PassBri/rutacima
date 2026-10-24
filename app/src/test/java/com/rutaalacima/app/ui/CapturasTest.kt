@@ -138,4 +138,31 @@ class CapturasTest {
         compose.waitUntil(10_000) { vm.dia != null && vm.resp.value.isNotEmpty() && vm.metasMes.value.isNotEmpty() }
         guardar("plan-dia")
     }
+
+    @Test fun ascensoFinanciero() {
+        val ym = YearMonth.from(hoy)
+        val movs = listOf(
+            com.rutaalacima.app.domain.model.Cuentas.Mov("1", "ing", 2_400_000.0, "trabajo", "Quincena"),
+            com.rutaalacima.app.domain.model.Cuentas.Mov("2", "gas", 650_000.0, "vivienda", "Arriendo"),
+            com.rutaalacima.app.domain.model.Cuentas.Mov("3", "gas", 85_000.0, "alimentacion", "Mercado"),
+            com.rutaalacima.app.domain.model.Cuentas.Mov("4", "gas", 32_000.0, "hormiga", "Cafés"),
+            com.rutaalacima.app.domain.model.Cuentas.Mov("5", "aho", 300_000.0, "emergencia", ""),
+            com.rutaalacima.app.domain.model.Cuentas.Mov("6", "inv", 120_000.0, "educacion", "Curso"),
+        )
+        val s = com.rutaalacima.app.domain.model.Cuentas.sumar(movs)
+        val plata: (Double) -> String = { com.rutaalacima.app.domain.model.Cuentas.formato(it, "COP", java.util.Locale("es", "CO")) }
+        val filas = (1..12).map { m ->
+            val k = if (m <= hoy.monthValue) (m % 4 + 1) / 4.0 else 0.0
+            com.rutaalacima.app.ui.finanzas.FilaPeriodo(com.rutaalacima.app.ui.planner.nombreMes(m), com.rutaalacima.app.ui.planner.nombreMes(m).take(3),
+                com.rutaalacima.app.domain.model.Cuentas.sumar(if (k > 0) movs.map { it.copy(m = it.m * k) } else emptyList()),
+                com.rutaalacima.app.ui.finanzas.NivelCuentas.Mes(YearMonth.of(hoy.year, m)), m == hoy.monthValue)
+        }
+        pantalla("ascenso") {
+            com.rutaalacima.app.ui.finanzas.CifrasCuentas(s, plata)
+            com.rutaalacima.app.ui.finanzas.GraficaPeriodos(filas, plata) {}
+            com.rutaalacima.app.ui.finanzas.TablaPeriodos(filas.take(6), "Mes", s, plata) {}
+            com.rutaalacima.app.ui.finanzas.MochilasCard(s, plata)
+            com.rutaalacima.app.ui.finanzas.CategoriasCard(s, plata)
+        }
+    }
 }

@@ -1,0 +1,124 @@
+{
+ "id": "fin_brujula",
+ "title": "Brújula financiera",
+ "subtitle": "Libro 4 · Mentalidad financiera",
+ "category": "finanzas",
+ "order": 28,
+ "sections": [
+  {
+   "id": "fin_brujula.sec0",
+   "title": "Las reglas de la brújula",
+   "blocks": [
+    {
+     "type": "bullet",
+     "text": "**Regla 80/20:** vive con el 80 % de lo que ganas y guarda el 20 %. Si es mucho, empieza con el 10 % y sube poco a poco.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Primero ahorra:** separa el ahorro apenas recibes el dinero. Si esperas a ver qué sobra, nunca sobra.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Gasta menos de lo que ganas:** es la base de toda salud financiera.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Tu salud es lo más valioso:** cuidarte hoy es ahorrar mañana.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**El tiempo es dinero:** controla tu tiempo en pantalla.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Calidad, no cantidad:** compra menos y mejor.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Invierte en relaciones:** tu red de contactos abre caminos.",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "**Aprende a decir no:** cada sí a un gasto es un no a una meta.",
+     "mark": "•"
+    }
+   ]
+  },
+  {
+   "id": "fin_brujula.sec1",
+   "title": "Emociones y decisiones",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Muchas decisiones de dinero se toman con la emoción, no con la lógica. Reconoce la emoción (ansiedad, euforia, comparación), espera antes de comprar y pregúntate: ¿vale la pena este gasto frente a las horas de trabajo que me costó?"
+    },
+    {
+     "type": "scale",
+     "id": "fin_brujula.s1",
+     "label": "¿Cuánto influyen hoy tus emociones en tus compras?",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "fin_brujula.q2",
+     "label": "¿Qué emoción te lleva más a gastar sin planear?"
+    }
+   ]
+  },
+  {
+   "id": "fin_brujula.sec2",
+   "title": "Metas SMART financieras",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Una meta clara es específica, medible, alcanzable, relevante y con fecha. Divide la grande en pequeñas victorias."
+    },
+    {
+     "type": "inputTable",
+     "id": "fin_brujula.t3",
+     "headers": [
+      "Meta financiera",
+      "Cuánto",
+      "Para cuándo",
+      "Paso de este mes"
+     ],
+     "rowLabels": [],
+     "rows": 3
+    }
+   ]
+  },
+  {
+   "id": "fin_brujula.sec3",
+   "title": "Aplícalo",
+   "blocks": [
+    {
+     "type": "check",
+     "id": "fin_brujula.k4",
+     "label": "Este mes registré el ahorro el mismo día que recibí mi ingreso"
+    },
+    {
+     "type": "check",
+     "id": "fin_brujula.k5",
+     "label": "Mi tasa de ahorro e inversión llegó al 20 %"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "En Ascenso financiero, la mochila roja te muestra qué porcentaje de lo que entró se fue a ahorro e inversión: tu regla 80/20 en vivo."
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
