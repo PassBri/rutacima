@@ -91,7 +91,7 @@ enum class NivelMeta(@StringRes val nombre: Int, @StringRes val corto: Int, @Str
     MES(R.string.nivel_mes_largo, R.string.nivel_mes, R.string.nivel_mes_ayuda, Icons.Filled.CalendarMonth),
 }
 
-class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeInicial: String? = null, private val anioInicial: Int? = null) : ViewModel() {
+class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeInicial: String? = null, private val anioInicial: Int? = null, padreInicial: Long? = null) : ViewModel() {
     var paso by mutableStateOf(if (ejeInicial != null || anioInicial != null) 1 else 0)
     var nivel by mutableStateOf(inicial)
     var titulo by mutableStateOf("")
@@ -99,7 +99,7 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeIni
     var prioridad by mutableStateOf(Prioridad.B)
     var indicador by mutableStateOf("")
     var observable by mutableStateOf("")
-    var padreId by mutableStateOf<Long?>(null)
+    var padreId by mutableStateOf<Long?>(padreInicial)
     var objetivoDias by mutableStateOf(20)
     /** Horizonte del propósito a largo plazo: los años que elija la persona (Vida.HORIZONTE_MIN a HORIZONTE_MAX). */
     var horizonte by mutableStateOf(5)
@@ -197,8 +197,8 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeIni
 /** Asistente para crear metas en la cascada, con los bancos de Ruta a la Cima y la IA. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit, ejeInicial: String? = null, anioInicial: Int? = null) {
-    val vm = rutaViewModel(key = "nueva-${nivelInicial.name}-$ejeInicial-$anioInicial") { NuevaMetaViewModel(it, nivelInicial, ejeInicial, anioInicial) }
+fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit, ejeInicial: String? = null, anioInicial: Int? = null, padreInicial: Long? = null) {
+    val vm = rutaViewModel(key = "nueva-${nivelInicial.name}-$ejeInicial-$anioInicial-$padreInicial") { NuevaMetaViewModel(it, nivelInicial, ejeInicial, anioInicial, padreInicial) }
     val pasos = listOf(R.string.paso_nivel, R.string.paso_inspiracion, R.string.paso_detalles, R.string.paso_plan)
     val ultimo = if (vm.nivel == NivelMeta.MES) 2 else 3
 

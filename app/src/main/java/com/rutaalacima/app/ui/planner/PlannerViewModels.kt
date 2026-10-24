@@ -57,6 +57,10 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
         .flatMapLatest { pid -> if (pid == 0L) flowOf(emptyList()) else c.planificador.acciones(pid) }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    /** Todas las metas anuales: para la cinta de años de esta cumbre personal. */
+    val anuales: StateFlow<List<com.rutaalacima.app.data.local.MetaAnualEntity>> =
+        c.planificador.todasLasMetas.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     init {
         if (idInicial != 0L) {
             viewModelScope.launch {

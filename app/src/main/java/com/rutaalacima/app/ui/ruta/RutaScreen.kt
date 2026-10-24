@@ -1,6 +1,7 @@
 package com.rutaalacima.app.ui.ruta
 
 import androidx.compose.animation.expandVertically
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EventNote
@@ -177,6 +178,12 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun diasConAgenda(ym: YearMonth): Flow<Set<Int>> = c.agenda.diasConAgenda(ym.year, ym.monthValue)
     suspend fun agenda(fecha: LocalDate): AgendaDiaEntity = c.agenda.dia(fecha)
     fun alternarDia(m: MetaMensualEntity, dia: Int) = viewModelScope.launch { c.planAnual.alternarDia(m, dia) }
+    /** Respuestas del día (las 3 cumbres de cada día), compartidas con el planificador y la web. */
+    val dias: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.ui.planner.WB_DIA), emptyMap())
+    /** Baja una meta del año a este mes: crea su paso mensual, ya unido a ella. */
+    fun crearPasoMes(a: MetaAnualEntity, ym: YearMonth) = viewModelScope.launch {
+        c.planAnual.guardarMetaMes(MetaMensualEntity(anio = ym.year, mes = ym.monthValue, texto = a.titulo, metaAnualId = a.id, eje = a.eje))
+    }
     fun cambiarMeta(anios: Int) = viewModelScope.launch { c.perfil.actualizar { it.copy(esperanzaVida = anios) } }
 
     /** El vision board (casillas con su foto): el eje de Mi vida. */
@@ -218,6 +225,8 @@ fun RutaScreen(
     onCompartirVision: () -> Unit = onVision,
     /** Nueva meta anual con su campamento (eje) y su año ya elegidos. */
     onNuevaMetaCampamento: (eje: String?, anio: Int) -> Unit = { _, _ -> },
+    /** Nueva meta anual ya unida a una cumbre personal (propósito). */
+    onNuevaMetaCumbre: (eje: String?, anio: Int, propositoId: Long) -> Unit = { e, a, _ -> onNuevaMetaCampamento(e, a) },
 ) {
     val vm = rutaViewModel { RutaViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
@@ -228,6 +237,7 @@ fun RutaScreen(
     val checks by vm.checks.collectAsStateWithLifecycle()
     val casillas by vm.casillas.collectAsStateWithLifecycle()
     val vida by vm.vida.collectAsStateWithLifecycle()
+    val dias by vm.dias.collectAsStateWithLifecycle()
     var codigo by rememberSaveable { mutableStateOf("vida") }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
@@ -276,13 +286,16 @@ fun RutaScreen(
                         perfil.anioNacimiento?.let { nac -> item(key = "linea-${n.anio}") { LineaVida(nac, perfil.esperanza(), n.anio, anuales, posts, vida) { ir(Nivel.Anio(it)) } } }
                         item(key = "nav-${n.anio}") { NavAnio(n.anio) { ir(Nivel.Anio(it)) } }
                         item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
+                        item(key = "cumbres-${n.anio}") {
+                            CumbresAnio(n.anio, propositos, anuales, onProposito) { p -> onNuevaMetaCumbre(p.eje, n.anio, p.id) }
+                        }
                         nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
                     }
-                    is Nivel.Mes -> nivelMes(n.ym, mensuales, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
+                    is Nivel.Mes -> nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
-                    is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, checks, vm, onPlanificador, onKit, onPublicar)
+                    is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
                 }
             }
         }
@@ -659,6 +672,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
 private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
     ym: YearMonth,
     mensuales: List<MetaMensualEntity>,
+    anuales: List<MetaAnualEntity>,
+    propositos: List<PropositoEntity>,
     checks: Map<LocalDate, Set<String>>,
     posts: List<Post>,
     vm: RutaViewModel,
@@ -718,9 +733,17 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
     items(metas, key = { "m${it.id}" }) { m ->
         RutaCard {
             Text(m.texto, style = MaterialTheme.typography.titleSmall)
+            CadenaMeta(m, anuales, propositos)
             Text(stringResource(R.string.dias_de, m.diasMarcados().size, m.objetivoDias), style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             ProgressLine(m.avance(), Modifier.padding(top = 6.dp))
+        }
+    }
+    item(key = "sin-paso-$ym") {
+        val ctx = androidx.compose.ui.platform.LocalContext.current
+        SinPasoMes(ym, anuales, mensuales) { a ->
+            vm.crearPasoMes(a, ym)
+            android.widget.Toast.makeText(ctx, ctx.getString(R.string.paso_mes_creado), android.widget.Toast.LENGTH_SHORT).show()
         }
     }
     item {
@@ -814,6 +837,9 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
     fecha: LocalDate,
     perfil: PerfilEntity,
     mensuales: List<MetaMensualEntity>,
+    anuales: List<MetaAnualEntity>,
+    propositos: List<PropositoEntity>,
+    dias: Map<String, String>,
     checks: Map<LocalDate, Set<String>>,
     vm: RutaViewModel,
     onPlanificador: (Int, LocalDate?) -> Unit,
@@ -831,6 +857,23 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
             )
             agenda?.let { a ->
                 if (a.intencion.isNotBlank()) Text(stringResource(R.string.intencion_dia) + ": " + a.intencion, style = MaterialTheme.typography.bodyMedium)
+            }
+            // Las 3 cumbres del día (las mismas del planificador y de la web)
+            val tops = com.rutaalacima.app.ui.planner.leerTops(dias["dia#$fecha#top"])
+            if (tops.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Text(stringResource(R.string.tres_cumbres_hoy), style = MaterialTheme.typography.labelLarge)
+                tops.forEachIndexed { i, t ->
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+                        Text("${i + 1}", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary, modifier = Modifier.width(20.dp))
+                        Text(t.t, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f),
+                            textDecoration = if (t.hecho) androidx.compose.ui.text.style.TextDecoration.LineThrough else null,
+                            color = if (t.hecho) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
+                        if (t.hecho) Icon(Icons.Filled.Check, stringResource(R.string.hecha), tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp))
+                    }
+                }
+            } else agenda?.let { a ->
                 if (a.prioridad.isNotBlank()) Text(stringResource(R.string.prioridad_1_hoy) + ": " + a.prioridad, style = MaterialTheme.typography.bodyMedium)
             }
             Spacer(Modifier.height(8.dp))
@@ -852,6 +895,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
                 Checkbox(checked = hecho, onCheckedChange = { vm.alternarDia(m, fecha.dayOfMonth) })
                 Column(Modifier.weight(1f)) {
                     Text(m.texto, style = MaterialTheme.typography.titleSmall)
+                    CadenaMeta(m, anuales, propositos)
                     Text(stringResource(R.string.dias_de, m.diasMarcados().size, m.objetivoDias), style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }

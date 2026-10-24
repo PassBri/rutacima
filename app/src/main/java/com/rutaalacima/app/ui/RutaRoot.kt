@@ -123,7 +123,7 @@ object Rutas {
     const val KIT = "kit"
     const val EJES = "ejes"
     const val COACH = "coach"
-    const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}"
+    const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}&padre={padre}"
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
     const val POST = "post/{id}"
     const val AJUSTES = "ajustes"
@@ -157,8 +157,8 @@ object Rutas {
     fun workbook(id: String) = "workbook/$id"
     fun seccion(id: String, index: Int) = "seccion/$id/$index"
     fun proposito(id: Long) = "proposito/$id"
-    fun nuevaMeta(nivel: NivelMeta, eje: String? = null, anio: Int? = null): String =
-        "nueva_meta/${nivel.name}" + listOfNotNull(eje?.let { "eje=$it" }, anio?.let { "anio=$it" }).let { if (it.isEmpty()) "" else it.joinToString("&", "?") }
+    fun nuevaMeta(nivel: NivelMeta, eje: String? = null, anio: Int? = null, padre: Long? = null): String =
+        "nueva_meta/${nivel.name}" + listOfNotNull(eje?.let { "eje=$it" }, anio?.let { "anio=$it" }, padre?.let { "padre=$it" }).let { if (it.isEmpty()) "" else it.joinToString("&", "?") }
     fun publicar(tipo: String = "LOGRO", meta: String? = null, texto: String? = null, anio: Int? = null, mes: Int? = null): String {
         val q = listOfNotNull(meta?.let { "meta=" + android.net.Uri.encode(it) }, texto?.let { "texto=" + android.net.Uri.encode(it) },
             anio?.let { "anio=$it" }, mes?.let { "mes=$it" })
@@ -366,6 +366,7 @@ private fun AppPrincipal() {
                     onVision = { nav.navigate(Rutas.VISION) },
                     onCompartirVision = { nav.navigate("vision?compartir=1") },
                     onNuevaMetaCampamento = { eje, anio -> nav.navigate(Rutas.nuevaMeta(com.rutaalacima.app.ui.metas.NivelMeta.ANIO, eje, anio)) },
+                    onNuevaMetaCumbre = { eje, anio, id -> nav.navigate(Rutas.nuevaMeta(com.rutaalacima.app.ui.metas.NivelMeta.ANIO, eje, anio, id)) },
                 )
             }
             composable(Rutas.HOY) {
@@ -429,7 +430,8 @@ private fun AppPrincipal() {
                 )
             }
             composable(Rutas.PROPOSITO, arguments = listOf(navArgument("id") { type = NavType.LongType })) { e ->
-                PropositoScreen(propositoId = e.arguments?.getLong("id") ?: 0L, onBack = { nav.popBackStack() })
+                PropositoScreen(propositoId = e.arguments?.getLong("id") ?: 0L, onBack = { nav.popBackStack() },
+                    onAnio = { a -> nav.navigate(Rutas.planificador(3, java.time.LocalDate.of(a, 1, 1))) })
             }
             composable(Rutas.KIT) {
                 KitScreen(onBack = { nav.popBackStack() }, onOpenSection = abrirSeccion, onOpenWorkbook = abrirWorkbook)
@@ -440,12 +442,14 @@ private fun AppPrincipal() {
                 navArgument("nivel") { type = NavType.StringType },
                 navArgument("eje") { type = NavType.StringType; nullable = true; defaultValue = null },
                 navArgument("anio") { type = NavType.StringType; nullable = true; defaultValue = null },
+                navArgument("padre") { type = NavType.StringType; nullable = true; defaultValue = null },
             )) { e ->
                 val nivel = runCatching { NivelMeta.valueOf(e.arguments?.getString("nivel").orEmpty()) }.getOrDefault(NivelMeta.MES)
                 NuevaMetaScreen(
                     nivelInicial = nivel,
                     ejeInicial = e.arguments?.getString("eje")?.takeIf { it.isNotBlank() },
                     anioInicial = e.arguments?.getString("anio")?.toIntOrNull(),
+                    padreInicial = e.arguments?.getString("padre")?.toLongOrNull(),
                     onBack = { nav.popBackStack() },
                     onCompartir = { nav.popBackStack(); nav.navigate(Rutas.publicar("META")) },
                 )

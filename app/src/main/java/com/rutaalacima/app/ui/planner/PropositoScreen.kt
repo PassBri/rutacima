@@ -60,9 +60,10 @@ import com.rutaalacima.app.ui.theme.asColor
 /** Ficha de un propósito: descripción, indicador de éxito, visualización, porqué y plan de acción. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
+fun PropositoScreen(propositoId: Long, onBack: () -> Unit, onAnio: (Int) -> Unit = {}) {
     val vm = rutaViewModel(key = "proposito-$propositoId") { PropositoViewModel(it, propositoId) }
     val acciones by vm.acciones.collectAsStateWithLifecycle()
+    val anuales by vm.anuales.collectAsStateWithLifecycle()
     val p = vm.proposito
     var confirmarBorrado by remember { mutableStateOf(false) }
     var nuevaAccion by remember { mutableStateOf("") }
@@ -97,6 +98,12 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit) {
             }
             item {
                 SelectorHorizonte(p.horizonte, { sel -> vm.editar { it.copy(horizonte = sel) } })
+            }
+            // La cinta de años de esta cumbre personal, con las metas de cada año (igual que en la web)
+            if (vm.id != 0L) item {
+                Text(stringResource(R.string.anios_cumbre), style = MaterialTheme.typography.labelLarge)
+                androidx.compose.foundation.layout.Spacer(Modifier.padding(top = 6.dp))
+                com.rutaalacima.app.ui.ruta.CintaCumbre(p, anuales, onAnio)
             }
             item {
                 ChipSelector(stringResource(R.string.prioridad_abcd), Prioridad.entries, Prioridad.from(p.prioridad), { "${it.clave} · " + it.texto() },
