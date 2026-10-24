@@ -19,7 +19,7 @@ class ContentParsingTest {
 
     @Test
     fun indiceTieneTodosLosWorkbooks() {
-        assertEquals(24, indice.size)
+        assertEquals(31, indice.size)  // 24 del método + 7 de inteligencia financiera
         assertEquals(indice.size, indice.map { it.id }.toSet().size)
     }
 
