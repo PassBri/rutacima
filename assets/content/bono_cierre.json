@@ -1,0 +1,195 @@
+{
+ "id": "bono_cierre",
+ "title": "Checklist de Cierre Mensual",
+ "subtitle": "Bono 4 · 20-30 minutos al mes",
+ "category": "bonos",
+ "order": 18,
+ "sections": [
+  {
+   "id": "bono_cierre.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CHECKLIST DE CIERRE MENSUAL"
+    },
+    {
+     "type": "paragraph",
+     "text": "Ruta a la cima | 20-30 minutos | Una vez al mes"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q1",
+     "label": "Mes:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q2",
+     "label": "Año:"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k3",
+     "label": "PASO 1: Evaluar Metas (5 min)"
+    },
+    {
+     "type": "inputTable",
+     "id": "bono_cierre.t4",
+     "headers": [
+      "Meta",
+      "Estado",
+      "%",
+      "Evidencia"
+     ],
+     "rowLabels": [],
+     "rows": 3
+    },
+    {
+     "type": "paragraph",
+     "text": "L=Lograda | P=Parcial | N=No lograda"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k5",
+     "label": "PASO 2: Revisar Indicadores (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "De tus 6-10 indicadores, ¿cuántos cumpliste? ___/___  (%: ___)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q6",
+     "label": "Indicador con mejor desempeño:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q7",
+     "label": "Indicador que necesita atención:"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k8",
+     "label": "PASO 3: Calificar los 6 Ejes (3 min)"
+    },
+    {
+     "type": "paragraph",
+     "text": "Califica tu desarrollo este mes en cada eje (1=muy bajo, 10=excelente):"
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s9",
+     "label": "VOL (Voluntad)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s10",
+     "label": "MAE (Maestría)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s11",
+     "label": "VOZ (Voz)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s12",
+     "label": "VAL (Valor)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s13",
+     "label": "EVO (Evolución)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "bono_cierre.s14",
+     "label": "TRA (Trascendencia)",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q15",
+     "label": "Eje más fuerte este mes:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q16",
+     "label": "Eje que necesita más atención:"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k17",
+     "label": "PASO 4: Extraer Aprendizajes (5 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q18",
+     "label": "Top 3 logros del mes:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q19",
+     "label": "Lección más valiosa:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q20",
+     "label": "¿Qué haría diferente si pudiera repetir el mes?"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k21",
+     "label": "PASO 5: Celebrar y Agradecer (2 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q22",
+     "label": "¿Qué merece ser celebrado?"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q23",
+     "label": "¿Por qué/quién estoy agradecido?"
+    },
+    {
+     "type": "check",
+     "id": "bono_cierre.k24",
+     "label": "PASO 6: Decisión para Próximo Mes (2 min)"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q25",
+     "label": "Basado en este mes, ¿qué 1 cosa cambiaré o reforzaré el próximo mes?"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q26",
+     "label": "Acción concreta:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q27",
+     "label": "Cierre completado"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_cierre.q28",
+     "label": "Fecha:"
+    }
+   ]
+  }
+ ]
+}

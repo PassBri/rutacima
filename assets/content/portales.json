@@ -1,0 +1,1127 @@
+{
+ "id": "portales",
+ "title": "Portales y Transiciones",
+ "subtitle": "Rituales para cruzar de fase",
+ "category": "ruta",
+ "order": 6,
+ "sections": [
+  {
+   "id": "portales.sec0",
+   "title": "La Importancia De Los Portales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Las transiciones son tan importantes como los destinos"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "El error que cometen la mayoría de los senderistas:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Se enfocan en las fases (los destinos) pero ignoran las TRANSICIONES (los portales)."
+      },
+      {
+       "type": "paragraph",
+       "text": "Resultado:"
+      },
+      {
+       "type": "bullet",
+       "text": "Se quedan atascados entre fases sin saber por qué",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Llevan equipaje innecesario que los frena",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Resisten el cambio natural del viaje",
+       "mark": "•"
+      },
+      {
+       "type": "bullet",
+       "text": "Nunca cierran ciclos completamente",
+       "mark": "•"
+      },
+      {
+       "type": "paragraph",
+       "text": "Las transiciones son PORTALES. No se pueden saltar. Deben atravesarse conscientemente."
+      }
+     ]
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "UN PORTAL ES UN UMBRAL SAGRADO"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cada transición entre fases es un portal donde:"
+      },
+      {
+       "type": "bullet",
+       "text": "Honras lo que fue",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Sueltas lo que ya no sirve",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Llevas contigo lo esencial",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Te preparas para lo que viene",
+       "mark": "✓"
+      },
+      {
+       "type": "bullet",
+       "text": "Marcas el cambio con intención",
+       "mark": "✓"
+      },
+      {
+       "type": "paragraph",
+       "text": "Cruzar un portal sin consciencia es perderse."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cruzarlo con ritual es transformarse."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Los 7 Portales de tu viaje:"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "PORTAL",
+      "DE",
+      "HACIA"
+     ],
+     "rows": [
+      [
+       "#1",
+       "Orientación",
+       "Preparación"
+      ],
+      [
+       "#2",
+       "Preparación",
+       "Travesía"
+      ],
+      [
+       "#3",
+       "Travesía",
+       "Ascenso"
+      ],
+      [
+       "#4",
+       "Ascenso",
+       "Culminación"
+      ],
+      [
+       "#5",
+       "Culminación",
+       "Contemplación"
+      ],
+      [
+       "#6",
+       "Contemplación",
+       "Descenso"
+      ],
+      [
+       "#7",
+       "Descenso",
+       "Nueva Orientación"
+      ]
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Esta guía te llevará por cada portal con rituales específicos de cierre e inicio."
+    }
+   ]
+  },
+  {
+   "id": "portales.sec1",
+   "title": "Señales De Transición",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cómo saber cuándo es momento de cruzar el portal"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "3 señales universales de que terminaste una fase:"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SEÑAL 1: ABURRIMIENTO O INQUIETUD"
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que antes te emocionaba ahora se siente repetitivo. Tu alma te dice: \"Ya aprendiste esto. Es hora de avanzar.\""
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SEÑAL 2: COMPETENCIA NATURAL"
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que antes era difícil ahora es fácil. Has dominado las lecciones de esta fase."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "SEÑAL 3: LLAMADO A LO DESCONOCIDO"
+      },
+      {
+       "type": "paragraph",
+       "text": "Sientes atracción hacia algo nuevo, aunque te dé miedo. Es el portal llamándote."
+      }
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Autoevaluación: ¿Estoy listo para el portal?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca SÍ o NO:"
+    },
+    {
+     "type": "choice",
+     "id": "portales.c1",
+     "label": "Lo que estoy haciendo ya no me desafía",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "portales.c2",
+     "label": "Siento que he completado las lecciones de esta fase",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "portales.c3",
+     "label": "Siento curiosidad/miedo por lo que sigue",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "portales.c4",
+     "label": "Tengo claridad sobre mi siguiente paso",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "choice",
+     "id": "portales.c5",
+     "label": "Estoy dispuesto a soltar lo que ya no sirve",
+     "options": [
+      "SÍ",
+      "NO"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "Si marcaste 3+ SÍ: Estás listo para cruzar el portal."
+    },
+    {
+     "type": "paragraph",
+     "text": "Si marcaste 2 o menos: Todavía hay lecciones en esta fase."
+    }
+   ]
+  },
+  {
+   "id": "portales.sec2",
+   "title": "Portal #1: Orientación → Preparación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Del despertar a la acción"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "ESENCIA DE ESTE PORTAL:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Dejas de solo PENSAR en tu cumbre y empiezas a PREPARARTE para ella."
+      },
+      {
+       "type": "paragraph",
+       "text": "Pasas de la reflexión a la acción intencional."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RITUAL DE CIERRE: Honrando la orientación"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Escribe una carta de gratitud a tu fase de Orientación"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q6",
+     "label": "Gracias, Orientación, por... (completa):"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q7",
+     "label": "PASO 2: ¿Qué descubriste sobre ti en esta fase?"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Declara el cierre"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q8",
+     "label": "Cierro esta fase de Orientación. He despertado. Ahora me preparo."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "QUÉ SOLTAR / QUÉ LLEVAR"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SOLTAR"
+    },
+    {
+     "type": "check",
+     "id": "portales.k9",
+     "label": "La parálisis por análisis"
+    },
+    {
+     "type": "check",
+     "id": "portales.k10",
+     "label": "La necesidad de tenerlo todo resuelto"
+    },
+    {
+     "type": "check",
+     "id": "portales.k11",
+     "label": "El miedo a empezar imperfecto"
+    },
+    {
+     "type": "check",
+     "id": "portales.k12",
+     "label": "Las excusas de \"no estoy listo\""
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q13",
+     "label": "Otra cosa que debo soltar:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LLEVAR"
+    },
+    {
+     "type": "bullet",
+     "text": "La claridad de tu llamado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La visión de tu cumbre",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu valentía inicial",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu curiosidad genuina",
+     "mark": "✓"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q14",
+     "label": "Otra cosa que debo llevar:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RITUAL DE INICIO: Entrando a Preparación"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Declara tu intención"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q15",
+     "label": "Entro a la fase de Preparación con la intención de..."
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q16",
+     "label": "PASO 2: Define tus 3 prioridades en Preparación"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q17",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Acción simbólica"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q19",
+     "label": "Realiza HOY una acción que marque el inicio de tu preparación:"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec3",
+   "title": "Portal #2: Preparación → Travesía",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "De practicar a caminar el sendero real"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "ESENCIA DE ESTE PORTAL:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Terminas de PREPARARTE y empiezas a HACER el trabajo real."
+      },
+      {
+       "type": "paragraph",
+       "text": "Este es uno de los portales más difíciles porque requiere dejar la seguridad de la preparación y enfrentar la incertidumbre del camino."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "QUÉ SOLTAR / QUÉ LLEVAR"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SOLTAR"
+    },
+    {
+     "type": "check",
+     "id": "portales.k20",
+     "label": "La ilusión de que algún día estarás 100% listo"
+    },
+    {
+     "type": "check",
+     "id": "portales.k21",
+     "label": "El perfeccionismo prelanzamiento"
+    },
+    {
+     "type": "check",
+     "id": "portales.k22",
+     "label": "La comodidad de solo estudiar"
+    },
+    {
+     "type": "check",
+     "id": "portales.k23",
+     "label": "El miedo al juicio externo"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q24",
+     "label": "Escribo lo que más me cuesta soltar:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LLEVAR"
+    },
+    {
+     "type": "bullet",
+     "text": "Las habilidades que desarrollaste",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu plan de acción (aunque imperfecto)",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu compromiso con el proceso",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu capacidad de aprender haciendo",
+     "mark": "✓"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q25",
+     "label": "Mi mayor fortaleza para la travesía:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RITUAL DE TRANSICIÓN"
+    },
+    {
+     "type": "paragraph",
+     "text": "El compromiso del caminante:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Completa este compromiso y fírmalo:"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q26",
+     "label": "Yo,"
+    },
+    {
+     "type": "paragraph",
+     "text": "declaro que he terminado de prepararme."
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo a caminar el sendero real, aunque no esté perfecto."
+    },
+    {
+     "type": "paragraph",
+     "text": "Acepto que la travesía será difícil. Acepto que habrá días sin resultados visibles."
+    },
+    {
+     "type": "paragraph",
+     "text": "Me comprometo a no volver a la preparación como excusa para evitar el camino."
+    },
+    {
+     "type": "paragraph",
+     "text": "Caminaré cada día, aunque sea un paso pequeño."
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q27",
+     "label": "Esta travesía comienza el:"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec4",
+   "title": "Portal #3: Travesía → Ascenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "De la resistencia a la velocidad"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "ESENCIA DE ESTE PORTAL:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Terminas la fase de esfuerzo sin recompensa y entras a la aceleración."
+      },
+      {
+       "type": "paragraph",
+       "text": "Las semillas plantadas en la travesía empiezan a germinar. Ves tracción. Sientes momentum."
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "SEÑALES DE QUE ESTÁS LISTO PARA EL ASCENSO"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca las que aplican:"
+    },
+    {
+     "type": "check",
+     "id": "portales.k28",
+     "label": "Has sido consistente en la travesía (al menos 60-90 días)"
+    },
+    {
+     "type": "check",
+     "id": "portales.k29",
+     "label": "Empiezas a ver pequeños resultados (aunque no grandes)"
+    },
+    {
+     "type": "check",
+     "id": "portales.k30",
+     "label": "Tus acciones se vuelven más naturales (menos fricción)"
+    },
+    {
+     "type": "check",
+     "id": "portales.k31",
+     "label": "Recibes validación externa (alguien nota tu trabajo)"
+    },
+    {
+     "type": "check",
+     "id": "portales.k32",
+     "label": "Sientes que el esfuerzo está creando momentum"
+    },
+    {
+     "type": "paragraph",
+     "text": "Si marcaste 3+: Estás entrando al Ascenso."
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "QUÉ SOLTAR / QUÉ LLEVAR"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SOLTAR"
+    },
+    {
+     "type": "check",
+     "id": "portales.k33",
+     "label": "La mentalidad de víctima"
+    },
+    {
+     "type": "check",
+     "id": "portales.k34",
+     "label": "Las quejas sobre lo difícil que es"
+    },
+    {
+     "type": "check",
+     "id": "portales.k35",
+     "label": "La impaciencia (ya pagaste el precio)"
+    },
+    {
+     "type": "check",
+     "id": "portales.k36",
+     "label": "El agotamiento innecesario"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q37",
+     "label": "Lo que más me pesó en la travesía:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LLEVAR"
+    },
+    {
+     "type": "bullet",
+     "text": "La disciplina que construiste",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La resistencia ganada",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La sabiduría de los errores",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "El momentum inicial",
+     "mark": "✓"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q38",
+     "label": "La lección más valiosa de la Travesía:"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "RITUAL: Celebración del Momentum"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 1: Reconoce tu victoria"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q39",
+     "label": "Sobreviví la travesía. Esto es lo que logré:"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 2: Celebra físicamente"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q40",
+     "label": "Haz algo especial para marcar este logro (cena, viaje pequeño, regalo):"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Declara tu Ascenso"
+    },
+    {
+     "type": "paragraph",
+     "text": "Entro al Ascenso con confianza porque ahora sé que puedo."
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q41",
+     "label": "Fecha de entrada al Ascenso:"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec5",
+   "title": "Portal #4: Ascenso → Culminación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El último esfuerzo hacia la cima"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SOLTAR"
+    },
+    {
+     "type": "check",
+     "id": "portales.k42",
+     "label": "La complacencia"
+    },
+    {
+     "type": "check",
+     "id": "portales.k43",
+     "label": "El miedo al éxito"
+    },
+    {
+     "type": "check",
+     "id": "portales.k44",
+     "label": "El autosabotaje final"
+    },
+    {
+     "type": "check",
+     "id": "portales.k45",
+     "label": "El \"ya llegué\" prematuro"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LLEVAR"
+    },
+    {
+     "type": "bullet",
+     "text": "Todo el momentum acumulado",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Tu mejor esfuerzo",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La claridad total",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "El hambre de llegar",
+     "mark": "✓"
+    },
+    {
+     "type": "paragraph",
+     "text": "RITUAL: El Último tramo"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q46",
+     "label": "La cumbre está a la vista. Lo que me falta para llegar es:"
+    },
+    {
+     "type": "quote",
+     "text": "Me comprometo a dar mi mejor esfuerzo final."
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q47",
+     "label": "Fecha estimada de culminación:"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec6",
+   "title": "Portal #5: Culminación → Contemplación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "De la victoria a la sabiduría"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SOLTAR"
+    },
+    {
+     "type": "check",
+     "id": "portales.k48",
+     "label": "La necesidad de acción constante"
+    },
+    {
+     "type": "check",
+     "id": "portales.k49",
+     "label": "El ego inflado"
+    },
+    {
+     "type": "check",
+     "id": "portales.k50",
+     "label": "La urgencia"
+    },
+    {
+     "type": "check",
+     "id": "portales.k51",
+     "label": "El \"¿y ahora qué?\" ansioso"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LLEVAR"
+    },
+    {
+     "type": "bullet",
+     "text": "La victoria ganada",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "Las lecciones aprendidas",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La gratitud profunda",
+     "mark": "✓"
+    },
+    {
+     "type": "bullet",
+     "text": "La humildad del viaje",
+     "mark": "✓"
+    },
+    {
+     "type": "paragraph",
+     "text": "RITUAL: La pausa sagrada"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tómate 3-7 días de silencio intencional. Sin nuevos proyectos."
+    },
+    {
+     "type": "paragraph",
+     "text": "Reflexiona:"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q52",
+     "label": "¿Quién era yo al inicio? ¿Quién soy ahora?"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q53",
+     "label": "¿Qué significó esta cumbre realmente?"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec7",
+   "title": "Portal #6: Contemplación → Descenso",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "De la cima de vuelta al mundo"
+    },
+    {
+     "type": "paragraph",
+     "text": "ESENCIA: Compartir tu sabiduría y prepararte para la próxima montaña."
+    },
+    {
+     "type": "paragraph",
+     "text": "SOLTAR: El apego a esta cumbre"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q54",
+     "label": "RITUAL: ¿Cómo puedo servir a otros con lo que aprendí?",
+     "title": "LLEVAR: La sabiduría para enseñar a otros"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec8",
+   "title": "Portal #7: Descenso → Nueva Orientación",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El ciclo se completa. El ciclo comienza."
+    },
+    {
+     "type": "paragraph",
+     "text": "ESENCIA: Integras todo y te preparas para una nueva cumbre, más alta."
+    },
+    {
+     "type": "paragraph",
+     "text": "SOLTAR: La identidad de quién eras antes"
+    },
+    {
+     "type": "paragraph",
+     "text": "LLEVAR: Todo lo aprendido hacia la nueva montaña"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q55",
+     "label": "RITUAL: ¿Cuál es mi próxima cumbre?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Y así, el viaje continúa..."
+    }
+   ]
+  },
+  {
+   "id": "portales.sec9",
+   "title": "Manejando Resistencias Al Cambio",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "Cuando no quieres cruzar el portal"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Es normal resistirse a las transiciones."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cada portal te pide soltar algo conocido por algo desconocido. Eso da miedo."
+      },
+      {
+       "type": "paragraph",
+       "text": "Las 5 resistencias más comunes:"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "1. MIEDO AL FRACASO EN LA NUEVA FASE"
+      },
+      {
+       "type": "quote",
+       "text": "¿Y si no puedo con lo que sigue?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "2. APEGO A LA COMODIDAD ACTUAL"
+      },
+      {
+       "type": "quote",
+       "text": "Ya domino esta fase. ¿Por qué cambiar?"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "3. SÍNDROME DEL IMPOSTOR"
+      },
+      {
+       "type": "quote",
+       "text": "No merezco pasar a la siguiente fase."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "4. AGOTAMIENTO"
+      },
+      {
+       "type": "quote",
+       "text": "Estoy cansado. No tengo energía para más."
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "5. MIEDO A PERDER LO GANADO"
+      },
+      {
+       "type": "quote",
+       "text": "¿Y si pierdo lo que construí?"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Protocolo de Resistencia:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuando sientas resistencia a cruzar un portal:"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q56",
+     "label": "¿Cuál de las 5 resistencias es la tuya?",
+     "title": "PASO 1: Nombra la resistencia"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q57",
+     "label": "¿Qué es lo peor que podría pasar?",
+     "title": "PASO 2: Dialoga con el miedo"
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q58",
+     "label": "¿Es eso realmente tan terrible?"
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 3: Reconoce la verdad"
+    },
+    {
+     "type": "paragraph",
+     "text": "La resistencia es miedo disfrazado. El crecimiento SIEMPRE da miedo."
+    },
+    {
+     "type": "paragraph",
+     "text": "PASO 4: Da el primer paso pequeño"
+    },
+    {
+     "type": "paragraph",
+     "text": "No necesitas cruzar el portal de un salto. Da un paso."
+    },
+    {
+     "type": "prompt",
+     "id": "portales.q59",
+     "label": "Mi primer paso será:"
+    }
+   ]
+  },
+  {
+   "id": "portales.sec10",
+   "title": "Sabiduría Final De Los Portales",
+   "blocks": [
+    {
+     "type": "quote",
+     "text": "El viaje es una espiral, no una línea"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "RECUERDA SIEMPRE:"
+      },
+      {
+       "type": "paragraph",
+       "text": "Los portales no son obstáculos. Son umbrales sagrados."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cada transición es una muerte y un renacimiento."
+      },
+      {
+       "type": "paragraph",
+       "text": "No puedes llevar todo al portal siguiente. Y eso está bien."
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que sueltas con gratitud, te libera."
+      },
+      {
+       "type": "paragraph",
+       "text": "Lo que llevas con intención, te fortalece."
+      },
+      {
+       "type": "paragraph",
+       "text": "Nunca vuelves al mismo lugar. El viaje es una espiral ascendente."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cada cumbre alcanzada te prepara para ver la siguiente montaña."
+      },
+      {
+       "type": "paragraph",
+       "text": "Cruza tus portales con consciencia."
+      },
+      {
+       "type": "paragraph",
+       "text": "Honra tus transiciones."
+      },
+      {
+       "type": "paragraph",
+       "text": "Confía en el proceso."
+      },
+      {
+       "type": "paragraph",
+       "text": "El portal te espera."
+      },
+      {
+       "type": "paragraph",
+       "text": "¿Estás listo para cruzar?"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
