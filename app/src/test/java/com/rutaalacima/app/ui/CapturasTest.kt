@@ -78,11 +78,11 @@ class CapturasTest {
     }
 
     @Composable private fun Tema(contenido: @Composable () -> Unit) {
-        RutaTheme(darkTheme = oscuro.value) {
+        RutaTheme(darkTheme = oscuro.value) { androidx.compose.material3.Surface(color = MaterialTheme.colorScheme.background) {
             Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 contenido()
             }
-        }
+        } }
     }
 
     private val propositos = listOf(

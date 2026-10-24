@@ -86,9 +86,9 @@ fun FinanzasMesContenido(ym: YearMonth, r: Finanzas.Mes?, guardado: String, onPr
     var texto by remember(ym) { mutableStateOf(guardado) }
     var editado by remember(ym) { mutableStateOf(false) }
     androidx.compose.runtime.LaunchedEffect(guardado) { if (!editado) texto = guardado }
-    val mesNombre = nombreMes(ym.monthValue)
+    val mesNombre = com.rutaalacima.app.ui.ruta.mesEnFrase(ym.monthValue)
     RutaCard(modifier) {
-        Text(stringResource(R.string.fin_mes), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.fin_mes), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
         val m = r
         if (m == null || m.vacio) {
             Text(stringResource(R.string.fin_vacio, mesNombre), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)

@@ -80,7 +80,7 @@ fun CumbresAnio(
     val ps = propositos.filter { anio in aniosDeCumbre(it, anuales) }
     if (ps.isEmpty()) return
     RutaCard {
-        Text(stringResource(R.string.cumbres_en_anio, anio), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.cumbres_en_anio, anio), style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.onSurface)
         Text(stringResource(R.string.cumbres_en_anio_ayuda, anio), style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
         ps.forEach { p ->
@@ -92,7 +92,8 @@ fun CumbresAnio(
                     Spacer(Modifier.size(10.dp).clip(CircleShape).background(colorEje(p.eje)))
                     Spacer(Modifier.width(10.dp))
                     Column(Modifier.weight(1f)) {
-                        Text(p.titulo, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                        Text(p.titulo, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                            color = MaterialTheme.colorScheme.onSurface)
                         Text(stringResource(R.string.cumbre_anio_n, anio - r.first + 1, r.last - r.first + 1, r.first, r.last),
                             style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
@@ -102,7 +103,7 @@ fun CumbresAnio(
                     color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 20.dp))
                 ms.forEach { m ->
                     Row(Modifier.padding(start = 20.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Text(m.titulo, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f))
+                        Text(m.titulo, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.onSurface)
                         Text("${m.avance}%", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
@@ -132,7 +133,7 @@ fun SinPasoMes(ym: YearMonth, anuales: List<MetaAnualEntity>, mensuales: List<Me
     val faltan = anuales.filter { it.anio == ym.year && it.estado != "CUMPLIDA" && delMes.none { m -> m.metaAnualId == it.id } }
     if (faltan.isEmpty()) return
     Column {
-        Text(stringResource(R.string.sin_paso_mes, ym.year, nombreMes(ym.monthValue)), style = MaterialTheme.typography.bodySmall,
+        Text(stringResource(R.string.sin_paso_mes, ym.year, mesEnFrase(ym.monthValue)), style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             faltan.forEach { a ->
@@ -166,4 +167,10 @@ fun CintaCumbre(p: PropositoEntity, anuales: List<MetaAnualEntity>, onAnio: (Int
             }
         }
     }
+}
+
+/** Nombre del mes dentro de una frase: en minúscula en los idiomas que así lo escriben ("en octubre"). */
+fun mesEnFrase(mes: Int): String {
+    val n = nombreMes(mes)
+    return if (java.util.Locale.getDefault().language in setOf("es", "pt", "fr", "it", "ru")) n.lowercase() else n
 }
