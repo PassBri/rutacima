@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.test.captureToImage
-import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onRoot
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.dp
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -53,7 +50,7 @@ import java.time.YearMonth
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
 @Config(sdk = [34], application = Application::class, qualifiers = "es-w400dp-h1500dp-xhdpi")
 class CapturasTest {
-    @get:Rule val compose = createComposeRule()
+    @get:Rule val compose = createAndroidComposeRule<androidx.activity.ComponentActivity>()
 
     @Before fun soloSiSePiden() = assumeTrue(System.getenv("CAPTURAS") == "1")
 
@@ -63,7 +60,11 @@ class CapturasTest {
     private fun guardar(nombre: String) {
         compose.waitForIdle()
         val dir = File("build/capturas").apply { mkdirs() }
-        File(dir, "$nombre.png").outputStream().use { compose.onRoot().captureToImage().asAndroidBitmap().compress(Bitmap.CompressFormat.PNG, 100, it) }
+        // Se dibuja la vista directamente (captureToImage no logra redibujar bajo Robolectric)
+        val vista = compose.activity.window.decorView
+        val bmp = Bitmap.createBitmap(vista.width.coerceAtLeast(1), vista.height.coerceAtLeast(1), Bitmap.Config.ARGB_8888)
+        compose.runOnUiThread { vista.draw(android.graphics.Canvas(bmp)) }
+        File(dir, "$nombre.png").outputStream().use { bmp.compress(Bitmap.CompressFormat.PNG, 100, it) }
     }
 
     private fun pantalla(oscuro: Boolean, contenido: @Composable () -> Unit) = compose.setContent {
