@@ -35,3 +35,21 @@ class FijosTest {
         assertEquals("", Cuentas.escribir(v.values.flatten()))   // los virtuales no se guardan
     }
 }
+
+class GraficaAscensoTest {
+    @Test fun velasYSaldo() {
+        val g = com.rutaalacima.app.domain.model.GraficaAscenso
+        val dias = mapOf(
+            "2026-09-03" to listOf(Cuentas.Mov("1", "ing", 1000.0, "trabajo")),
+            "2026-09-20" to listOf(Cuentas.Mov("2", "gas", 300.0, "vivienda")),
+            "2026-10-05" to listOf(Cuentas.Mov("3", "gas", 900.0, "vivienda"), Cuentas.Mov("4", "aho", 50.0, "emergencia")),
+        )
+        val p = g.de(dias, g.Gran.M, LocalDate.of(2026, 10, 24))
+        assertEquals(2, p.size)
+        assertEquals(0.0, p[0].o, 0.0); assertEquals(1000.0, p[0].h, 0.0); assertEquals(700.0, p[0].c, 0.0)
+        assertEquals(700.0, p[1].o, 0.0); assertEquals(-250.0, p[1].c, 0.0); assertEquals(-250.0, p[1].l, 0.0)
+        assertEquals(50.0, p[1].patr, 0.0)
+        assertEquals(0.7, p[0].flujo!!, 1e-9)
+        assertEquals(listOf(0.0, 200.0, 400.0, 600.0, 800.0, 1000.0), g.marcas(0.0, 1000.0))
+    }
+}

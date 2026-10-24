@@ -194,4 +194,9 @@ class CapturasTest {
             Column { com.rutaalacima.app.ui.finanzas.BalanceBarras(r, plata); com.rutaalacima.app.ui.finanzas.LineaMeses(null, libro) }
         }
     }
+
+    @Test fun graficaAscenso() {
+        val libro = libroSalud()
+        pantalla("grafica") { com.rutaalacima.app.ui.finanzas.GraficaAscensoCard(libro, plataCo) }
+    }
 }

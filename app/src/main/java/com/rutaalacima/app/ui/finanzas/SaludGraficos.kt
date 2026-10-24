@@ -83,17 +83,17 @@ import java.util.Locale
  * Paleta validada para daltonismo y contraste; en oscuro, sus propios tonos.
  */
 
-private val V_FIJOS = Color(0xFF2E8B57) to Color(0xFF45A86E)
-private val V_VARIABLES = Color(0xFFD98A1C) to Color(0xFFC98500)
-private val V_AHORRO = Color(0xFF2A78D6) to Color(0xFF3987E5)
-private val V_INVERSION = Color(0xFFC2447E) to Color(0xFFD55181)
-private val V_LIBRE = Color(0xFFC9D1D4) to Color(0xFF3A4750)
-private val ST_OK = Color(0xFF0CA30C)
-private val ST_MEDIO = Color(0xFFFAB219)
-private val ST_BAJO = Color(0xFFD03B3B)
+internal val V_FIJOS = Color(0xFF2E8B57) to Color(0xFF45A86E)
+internal val V_VARIABLES = Color(0xFFD98A1C) to Color(0xFFC98500)
+internal val V_AHORRO = Color(0xFF2A78D6) to Color(0xFF3987E5)
+internal val V_INVERSION = Color(0xFFC2447E) to Color(0xFFD55181)
+internal val V_LIBRE = Color(0xFFC9D1D4) to Color(0xFF3A4750)
+internal val ST_OK = Color(0xFF0CA30C)
+internal val ST_MEDIO = Color(0xFFFAB219)
+internal val ST_BAJO = Color(0xFFD03B3B)
 
-@Composable private fun oscuro() = MaterialTheme.colorScheme.surface.luminance() < 0.5f
-@Composable private fun vc(p: Pair<Color, Color>) = if (oscuro()) p.second else p.first
+@Composable internal fun oscuro() = MaterialTheme.colorScheme.surface.luminance() < 0.5f
+@Composable internal fun vc(p: Pair<Color, Color>) = if (oscuro()) p.second else p.first
 private fun colorSt(e: Salud.Estado) = when (e) { Salud.Estado.OK -> ST_OK; Salud.Estado.MEDIO -> ST_MEDIO; Salud.Estado.BAJO -> ST_BAJO; Salud.Estado.NA -> Color.Gray }
 
 private fun pctG(v: Double) = NumberFormat.getNumberInstance(Locale.getDefault()).apply { maximumFractionDigits = 0 }.format(v * 100) + " %"

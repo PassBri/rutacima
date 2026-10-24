@@ -701,6 +701,7 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
     }
     item(key = "salud") { SaludAcceso(libro.salud(null), null) { ir(NivelCuentas.SaludN(null)) } }
     item(key = "cifras") { CifrasCuentas(t, plata) }
+    item(key = "grafica") { GraficaAscensoCard(libro, plata) }
     item(key = "tabla") {
         RutaCard {
             Text(stringResource(R.string.cu_anio_por_anio), style = MaterialTheme.typography.titleMedium)
