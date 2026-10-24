@@ -197,10 +197,7 @@ const LISTAS = {
     const ms = mensajesCoach(), u = ms[ms.length - 1];
     let h = cabLista("Coach", { buscar: false }) + `<div class="items">`;
     h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", u ? horaDe(u.creadoEn) : "", esc(u ? separarAccion(u.texto)[0] : "Pregúntame por tu ruta"));
-    h += grupo("Atajos");
-    [["Perdí la motivación", "Perdí la motivación"], ["Planea mi semana", "Planea mi semana"], ["¿Qué eje debo trabajar?", "¿Qué eje debo trabajar?"], ["Divide mi meta anual en pasos", "Divide mi meta anual en pasos"]].forEach(([t, q]) => {
-      h += `<button class="item" data-pregunta="${esc(q)}">${av(ic("coach"), "var(--burdeos)")}<span class="txt"><span class="t1"><span>${t}</span></span><span class="t2"><span>Preguntar al coach</span></span></span></button>`;
-    });
+    // Los atajos van como sugerencias dentro de la conversación (no repetidos aquí).
     return h + `</div>`;
   },
   frases() {
