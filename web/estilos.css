@@ -1386,3 +1386,20 @@ body:has(.md-visor) { overflow: hidden; }
 .act.ahora { background: var(--burdeos-suave); border-radius: 10px; }
 .act.ahora .act-h { color: var(--burdeos); font-weight: 600; }
 @media (max-width: 600px) { .top { grid-template-columns: 24px 24px 1fr; } .top select { grid-column: 3; } }
+/* Control financiero */
+.fin-campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.fin-campos input { font-variant-numeric: tabular-nums; }
+.fin-libre { margin: 10px 0 0; font-size: 14px; color: var(--tinta-suave); }
+.fin-libre b, .fin-tot dd { color: var(--tinta); font-variant-numeric: tabular-nums; }
+.fin-libre b.neg, .fin-tot dd.neg { color: #B3261E; }
+.fin-tot { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 0 0 6px; }
+.fin-tot div { padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); }
+.fin-tot dt { font-size: 12px; color: var(--tinta-suave); }
+.fin-tot dd { margin: 2px 0 0; font-size: 17px; font-weight: 600; }
+.fin-tot .fin-disp { background: var(--burdeos-suave); }
+.fin-pres { display: grid; gap: 6px; margin-top: 8px; font-size: 13px; }
+.fin-graf { width: 100%; max-width: 520px; height: auto; display: block; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fin-libre b.neg, :root:not([data-theme="light"]) .fin-tot dd.neg { color: #F0B3A1; } }
+:root[data-theme="dark"] .fin-libre b.neg, :root[data-theme="dark"] .fin-tot dd.neg { color: #F0B3A1; }
+.fin-tot + .fin-libre { margin-bottom: 12px; }
+@media (max-width: 600px) { .fin-tot .fin-disp { grid-column: 1 / -1; } }

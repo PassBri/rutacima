@@ -566,7 +566,8 @@ function detMes(arg) {
       ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`) +
     hoja(`<div class="etiqueta" style="margin-bottom:8px">Días del mes · toca uno para abrirlo</div><div class="dias" style="max-width:320px">${cal}</div>`) +
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
-      <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`));
+      <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`) +
+    (window.finanzasMes ? finanzasMes(a, m) : ""));
 }
 /** Los hábitos del día, un eje abierto a la vez (el primero que falta). Al completar uno se abre el siguiente. Se editan aquí mismo. */
 function habitosDelDia(fecha, marc) {
@@ -618,7 +619,8 @@ function detDia(fecha) {
     hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>
       ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
     habitos +
-    cierreDia(fecha, ag, campoAg));
+    cierreDia(fecha, ag, campoAg) +
+    (window.finanzasDia ? finanzasDia(fecha, ag) : ""));
 }
 
 /* ---------- Comunidad ---------- */
