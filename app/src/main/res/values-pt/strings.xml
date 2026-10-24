@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">É essencial (mochila verde)</string>
     <string name="cu_crear">Criar</string>
     <string name="cu_categoria_creada">Categoria «%1$s» criada</string>
+    <string name="cu_peso_titulo">O que você faz com cada real que entra?</string>
+    <string name="cu_seg_fijos">Despesas fixas</string>
+    <string name="cu_seg_variables">Despesas variáveis</string>
+    <string name="cu_seg_libre">Livre</string>
+    <string name="cu_seg_deficit">Déficit</string>
+    <string name="cu_por_mes">%1$s/mês</string>
+    <string name="cu_deficit_aviso">Sai mais do que entra: %1$s por mês de déficit.</string>
+    <string name="cu_meta">Meta: %1$s</string>
+    <string name="cu_meta_anio">1 ano</string>
+    <string name="cu_tienes_debes">O que você tem e o que deve</string>
+    <string name="cu_activos_c">Ativos</string>
+    <string name="cu_pasivos_c">Passivos</string>
+    <string name="cu_debes_de">Você deve %1$s do que tem</string>
+    <string name="cu_meta20">Meta 20 %</string>
+    <string name="cu_toca_mes_lectura">Toque no gráfico para ler cada mês</string>
+    <string name="cu_ver_cifras">Ver o extrato em números</string>
+    <string name="cu_ocultar_cifras">Ocultar os números</string>
+    <string name="cu_salud_sub">%1$d de %2$d indicadores na meta · ver gráficos</string>
+    <string name="cu_salud_vacia">Ainda não há movimentos neste período para medir sua saúde financeira. Anote o que entra e sai e aqui verá seus indicadores.</string>
+    <string name="cu_isf_periodo">Índice de Saúde Financeira em %1$s.</string>
+    <string name="cu_ultimos_12">Últimos 12 meses</string>
+    <string name="cu_salud_de">Saúde financeira de %1$s</string>
+    <string name="cu_riesgo_c">Risco</string>
 </resources>

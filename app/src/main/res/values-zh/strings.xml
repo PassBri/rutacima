@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">属于必需（绿色背包）</string>
     <string name="cu_crear">创建</string>
     <string name="cu_categoria_creada">已创建类别“%1$s”</string>
+    <string name="cu_peso_titulo">每进来的一块钱你怎么用？</string>
+    <string name="cu_seg_fijos">固定支出</string>
+    <string name="cu_seg_variables">可变支出</string>
+    <string name="cu_seg_libre">结余</string>
+    <string name="cu_seg_deficit">赤字</string>
+    <string name="cu_por_mes">%1$s/月</string>
+    <string name="cu_deficit_aviso">支出大于收入：每月赤字 %1$s。</string>
+    <string name="cu_meta">目标：%1$s</string>
+    <string name="cu_meta_anio">1 年</string>
+    <string name="cu_tienes_debes">你拥有的与你欠的</string>
+    <string name="cu_activos_c">资产</string>
+    <string name="cu_pasivos_c">负债</string>
+    <string name="cu_debes_de">负债占资产的 %1$s</string>
+    <string name="cu_meta20">目标 20%</string>
+    <string name="cu_toca_mes_lectura">点按图表查看每个月</string>
+    <string name="cu_ver_cifras">查看详细数字</string>
+    <string name="cu_ocultar_cifras">收起数字</string>
+    <string name="cu_salud_sub">%2$d 项指标中 %1$d 项达标 · 查看图表</string>
+    <string name="cu_salud_vacia">这个时间段还没有记录，无法衡量你的财务健康。记下收入和支出，这里就会显示指标。</string>
+    <string name="cu_isf_periodo">%1$s 的财务健康指数。</string>
+    <string name="cu_ultimos_12">最近 12 个月</string>
+    <string name="cu_salud_de">%1$s 财务健康</string>
+    <string name="cu_riesgo_c">风险</string>
 </resources>

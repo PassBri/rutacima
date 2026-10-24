@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">ज़रूरी है (हरा बैग)</string>
     <string name="cu_crear">बनाएँ</string>
     <string name="cu_categoria_creada">श्रेणी “%1$s” बनी</string>
+    <string name="cu_peso_titulo">आने वाले हर रुपये का आप क्या करते हैं?</string>
+    <string name="cu_seg_fijos">स्थायी खर्च</string>
+    <string name="cu_seg_variables">बदलते खर्च</string>
+    <string name="cu_seg_libre">बचा हुआ</string>
+    <string name="cu_seg_deficit">घाटा</string>
+    <string name="cu_por_mes">%1$s/माह</string>
+    <string name="cu_deficit_aviso">आमदनी से ज़्यादा खर्च: हर महीने %1$s का घाटा।</string>
+    <string name="cu_meta">लक्ष्य: %1$s</string>
+    <string name="cu_meta_anio">1 साल</string>
+    <string name="cu_tienes_debes">आपके पास क्या है और क्या देना है</string>
+    <string name="cu_activos_c">संपत्ति</string>
+    <string name="cu_pasivos_c">देनदारियाँ</string>
+    <string name="cu_debes_de">आपके पास जितना है उसका %1$s कर्ज़ है</string>
+    <string name="cu_meta20">लक्ष्य 20 %</string>
+    <string name="cu_toca_mes_lectura">हर महीना देखने के लिए चार्ट छुएँ</string>
+    <string name="cu_ver_cifras">आंकड़ों में विवरण देखें</string>
+    <string name="cu_ocultar_cifras">आंकड़े छिपाएँ</string>
+    <string name="cu_salud_sub">%2$d में से %1$d सूचक लक्ष्य पर · चार्ट देखें</string>
+    <string name="cu_salud_vacia">इस अवधि में अभी कोई लेन-देन नहीं है जिससे वित्तीय सेहत मापी जा सके। आने-जाने वाला पैसा लिखें, यहाँ आपके सूचक दिखेंगे।</string>
+    <string name="cu_isf_periodo">%1$s का वित्तीय सेहत सूचकांक।</string>
+    <string name="cu_ultimos_12">पिछले 12 महीने</string>
+    <string name="cu_salud_de">%1$s की वित्तीय सेहत</string>
+    <string name="cu_riesgo_c">जोखिम</string>
 </resources>

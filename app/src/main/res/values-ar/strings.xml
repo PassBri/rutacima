@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">أساسي (الحقيبة الخضراء)</string>
     <string name="cu_crear">إنشاء</string>
     <string name="cu_categoria_creada">تم إنشاء فئة «%1$s»</string>
+    <string name="cu_peso_titulo">ماذا تفعل بكل مبلغ يدخل؟</string>
+    <string name="cu_seg_fijos">مصروفات ثابتة</string>
+    <string name="cu_seg_variables">مصروفات متغيرة</string>
+    <string name="cu_seg_libre">متبقٍ</string>
+    <string name="cu_seg_deficit">عجز</string>
+    <string name="cu_por_mes">%1$s/شهر</string>
+    <string name="cu_deficit_aviso">يخرج أكثر مما يدخل: عجز %1$s شهريًا.</string>
+    <string name="cu_meta">الهدف: %1$s</string>
+    <string name="cu_meta_anio">سنة واحدة</string>
+    <string name="cu_tienes_debes">ما تملكه وما تدين به</string>
+    <string name="cu_activos_c">الأصول</string>
+    <string name="cu_pasivos_c">الالتزامات</string>
+    <string name="cu_debes_de">تدين بـ %1$s مما تملكه</string>
+    <string name="cu_meta20">الهدف 20 %</string>
+    <string name="cu_toca_mes_lectura">المس الرسم لقراءة كل شهر</string>
+    <string name="cu_ver_cifras">عرض الكشف بالأرقام</string>
+    <string name="cu_ocultar_cifras">إخفاء الأرقام</string>
+    <string name="cu_salud_sub">%1$d من %2$d مؤشرات ضمن الهدف · عرض الرسوم</string>
+    <string name="cu_salud_vacia">لا توجد حركات في هذه الفترة بعد لقياس صحتك المالية. سجّل ما يدخل وما يخرج وستظهر مؤشراتك هنا.</string>
+    <string name="cu_isf_periodo">مؤشر الصحة المالية في %1$s.</string>
+    <string name="cu_ultimos_12">آخر 12 شهرًا</string>
+    <string name="cu_salud_de">الصحة المالية في %1$s</string>
+    <string name="cu_riesgo_c">خطر</string>
 </resources>

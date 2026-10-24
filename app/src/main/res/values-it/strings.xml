@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">È essenziale (zaino verde)</string>
     <string name="cu_crear">Crea</string>
     <string name="cu_categoria_creada">Categoria «%1$s» creata</string>
+    <string name="cu_peso_titulo">Cosa fai con ogni euro che entra?</string>
+    <string name="cu_seg_fijos">Spese fisse</string>
+    <string name="cu_seg_variables">Spese variabili</string>
+    <string name="cu_seg_libre">Libero</string>
+    <string name="cu_seg_deficit">Deficit</string>
+    <string name="cu_por_mes">%1$s/mese</string>
+    <string name="cu_deficit_aviso">Esce più di quanto entra: %1$s di deficit al mese.</string>
+    <string name="cu_meta">Obiettivo: %1$s</string>
+    <string name="cu_meta_anio">1 anno</string>
+    <string name="cu_tienes_debes">Ciò che hai e ciò che devi</string>
+    <string name="cu_activos_c">Attivi</string>
+    <string name="cu_pasivos_c">Passività</string>
+    <string name="cu_debes_de">Devi il %1$s di ciò che hai</string>
+    <string name="cu_meta20">Obiettivo 20 %</string>
+    <string name="cu_toca_mes_lectura">Tocca il grafico per leggere ogni mese</string>
+    <string name="cu_ver_cifras">Vedi il rendiconto in cifre</string>
+    <string name="cu_ocultar_cifras">Nascondi le cifre</string>
+    <string name="cu_salud_sub">%1$d su %2$d indicatori in obiettivo · vedi i grafici</string>
+    <string name="cu_salud_vacia">Non ci sono ancora movimenti in questo periodo per misurare la tua salute finanziaria. Annota entrate e uscite e qui vedrai i tuoi indicatori.</string>
+    <string name="cu_isf_periodo">Indice di salute finanziaria per %1$s.</string>
+    <string name="cu_ultimos_12">Ultimi 12 mesi</string>
+    <string name="cu_salud_de">Salute finanziaria %1$s</string>
+    <string name="cu_riesgo_c">Rischio</string>
 </resources>

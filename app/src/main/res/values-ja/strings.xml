@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">必需品（緑のリュック）</string>
     <string name="cu_crear">作成</string>
     <string name="cu_categoria_creada">カテゴリ「%1$s」を作成しました</string>
+    <string name="cu_peso_titulo">入ってきたお金を何に使っていますか？</string>
+    <string name="cu_seg_fijos">固定費</string>
+    <string name="cu_seg_variables">変動費</string>
+    <string name="cu_seg_libre">残り</string>
+    <string name="cu_seg_deficit">赤字</string>
+    <string name="cu_por_mes">%1$s/月</string>
+    <string name="cu_deficit_aviso">入るより出る方が多い状態：毎月 %1$s の赤字です。</string>
+    <string name="cu_meta">目標：%1$s</string>
+    <string name="cu_meta_anio">1年</string>
+    <string name="cu_tienes_debes">持っているものと借りているもの</string>
+    <string name="cu_activos_c">資産</string>
+    <string name="cu_pasivos_c">負債</string>
+    <string name="cu_debes_de">資産の %1$s を借りています</string>
+    <string name="cu_meta20">目標 20%</string>
+    <string name="cu_toca_mes_lectura">グラフをタップすると各月が見られます</string>
+    <string name="cu_ver_cifras">明細を数字で見る</string>
+    <string name="cu_ocultar_cifras">数字を隠す</string>
+    <string name="cu_salud_sub">%2$d 項目中 %1$d 項目が目標達成・グラフを見る</string>
+    <string name="cu_salud_vacia">この期間はまだ記録がなく、お金の健康を測れません。入出金を記録すると、ここに指標が表示されます。</string>
+    <string name="cu_isf_periodo">%1$s のお金の健康指数。</string>
+    <string name="cu_ultimos_12">直近12か月</string>
+    <string name="cu_salud_de">%1$s のお金の健康</string>
+    <string name="cu_riesgo_c">危険</string>
 </resources>

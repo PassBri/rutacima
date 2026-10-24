@@ -282,14 +282,15 @@ sealed interface NivelCuentas {
     data class Dia(val f: LocalDate) : NivelCuentas
     data object DeudasN : NivelCuentas
     data object PatrimonioN : NivelCuentas
+    data class SaludN(val a: Int?) : NivelCuentas
 
-    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio" }
-    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN -> Balance }
+    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a" }
+    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN -> Balance }
 
     companion object {
         fun de(c: String?): NivelCuentas = runCatching {
             val (t, v) = (c ?: "b").split(":", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; else -> Balance }
+            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); else -> Balance }
         }.getOrDefault(Balance)
     }
 }
@@ -398,6 +399,7 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         is NivelCuentas.Dia -> dia(n.f, libro, plata, ir, vm, avisos)
                         NivelCuentas.DeudasN -> deudasNivel(libro, plata, vm, avisos)
                         NivelCuentas.PatrimonioN -> patrimonioNivel(libro, plata, ir, vm)
+                        is NivelCuentas.SaludN -> saludNivel(n.a, libro, plata, ir)
                     }
                 }
             }
@@ -417,6 +419,7 @@ private fun Migas(n: NivelCuentas, ir: (NivelCuentas) -> Unit) {
             is NivelCuentas.Dia -> { add("${n.f.year}" to NivelCuentas.Anio(n.f.year)); add(nombreMes(n.f.monthValue) to NivelCuentas.Mes(YearMonth.from(n.f))); add("${n.f.dayOfMonth}" to n) }
             NivelCuentas.DeudasN -> add(stringResource(R.string.cu_deudas) to n)
             NivelCuentas.PatrimonioN -> add(stringResource(R.string.cu_patrimonio_titulo) to n)
+            is NivelCuentas.SaludN -> add(stringResource(R.string.cu_salud) to n)
             else -> {}
         }
     }
@@ -668,6 +671,7 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
             FilledTonalButton(onClick = { ir(NivelCuentas.Mes(YearMonth.from(hoy()))) }, Modifier.weight(1f)) { Text(nombreMes(hoy().monthValue), maxLines = 1) }
         }
     }
+    item(key = "salud") { SaludAcceso(libro.salud(null), null) { ir(NivelCuentas.SaludN(null)) } }
     item(key = "cifras") { CifrasCuentas(t, plata) }
     item(key = "tabla") {
         RutaCard {
@@ -682,7 +686,6 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
                 style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
-    item(key = "salud") { SaludCard(libro.salud(null), null, libro, plata, ir) }
     item(key = "deudas") { DeudasResumen(libro, plata) { ir(NivelCuentas.DeudasN) } }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
@@ -720,7 +723,7 @@ private fun LazyListScope.anio(a: Int, libro: Libro, plata: (Double) -> String, 
             TablaPeriodos(filas, stringResource(R.string.cu_col_mes), t, plata, ir)
         }
     }
-    item(key = "salud-$a") { SaludCard(libro.salud(a), a, libro, plata, ir) }
+    item(key = "salud-$a") { SaludAcceso(libro.salud(a), a) { ir(NivelCuentas.SaludN(a)) } }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
 }

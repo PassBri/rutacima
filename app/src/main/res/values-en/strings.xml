@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">It’s essential (green backpack)</string>
     <string name="cu_crear">Create</string>
     <string name="cu_categoria_creada">Category “%1$s” created</string>
+    <string name="cu_peso_titulo">What do you do with every unit of money that comes in?</string>
+    <string name="cu_seg_fijos">Fixed expenses</string>
+    <string name="cu_seg_variables">Variable expenses</string>
+    <string name="cu_seg_libre">Free</string>
+    <string name="cu_seg_deficit">Deficit</string>
+    <string name="cu_por_mes">%1$s/month</string>
+    <string name="cu_deficit_aviso">More goes out than comes in: %1$s a month in deficit.</string>
+    <string name="cu_meta">Goal: %1$s</string>
+    <string name="cu_meta_anio">1 year</string>
+    <string name="cu_tienes_debes">What you own and what you owe</string>
+    <string name="cu_activos_c">Assets</string>
+    <string name="cu_pasivos_c">Liabilities</string>
+    <string name="cu_debes_de">You owe %1$s of what you own</string>
+    <string name="cu_meta20">20 % goal</string>
+    <string name="cu_toca_mes_lectura">Tap the chart to read each month</string>
+    <string name="cu_ver_cifras">See the statement in figures</string>
+    <string name="cu_ocultar_cifras">Hide the figures</string>
+    <string name="cu_salud_sub">%1$d of %2$d indicators on target · see charts</string>
+    <string name="cu_salud_vacia">There are no entries in this period yet to measure your financial health. Log what comes in and goes out and your indicators will show here.</string>
+    <string name="cu_isf_periodo">Financial Health Index for %1$s.</string>
+    <string name="cu_ultimos_12">Last 12 months</string>
+    <string name="cu_salud_de">Financial health in %1$s</string>
+    <string name="cu_riesgo_c">Risk</string>
 </resources>

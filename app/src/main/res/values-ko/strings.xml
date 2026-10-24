@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">필수(초록 배낭)</string>
     <string name="cu_crear">만들기</string>
     <string name="cu_categoria_creada">‘%1$s’ 분류를 만들었어요</string>
+    <string name="cu_peso_titulo">들어온 돈을 어디에 쓰나요?</string>
+    <string name="cu_seg_fijos">고정 지출</string>
+    <string name="cu_seg_variables">변동 지출</string>
+    <string name="cu_seg_libre">여유</string>
+    <string name="cu_seg_deficit">적자</string>
+    <string name="cu_por_mes">%1$s/월</string>
+    <string name="cu_deficit_aviso">들어오는 것보다 나가는 게 많아요: 월 %1$s 적자.</string>
+    <string name="cu_meta">목표: %1$s</string>
+    <string name="cu_meta_anio">1년</string>
+    <string name="cu_tienes_debes">가진 것과 갚을 것</string>
+    <string name="cu_activos_c">자산</string>
+    <string name="cu_pasivos_c">부채</string>
+    <string name="cu_debes_de">가진 것의 %1$s를 빚지고 있어요</string>
+    <string name="cu_meta20">목표 20%</string>
+    <string name="cu_toca_mes_lectura">그래프를 누르면 달마다 볼 수 있어요</string>
+    <string name="cu_ver_cifras">숫자로 명세 보기</string>
+    <string name="cu_ocultar_cifras">숫자 숨기기</string>
+    <string name="cu_salud_sub">%2$d개 중 %1$d개 지표 목표 달성 · 그래프 보기</string>
+    <string name="cu_salud_vacia">이 기간에는 아직 기록이 없어 재정 건강을 잴 수 없어요. 들어오고 나간 돈을 적으면 여기에 지표가 나와요.</string>
+    <string name="cu_isf_periodo">%1$s 재정 건강 지수.</string>
+    <string name="cu_ultimos_12">최근 12개월</string>
+    <string name="cu_salud_de">%1$s 재정 건강</string>
+    <string name="cu_riesgo_c">위험</string>
 </resources>

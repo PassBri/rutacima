@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">Ist nötig (grüner Rucksack)</string>
     <string name="cu_crear">Erstellen</string>
     <string name="cu_categoria_creada">Kategorie „%1$s“ erstellt</string>
+    <string name="cu_peso_titulo">Was machst du mit jedem Euro, der reinkommt?</string>
+    <string name="cu_seg_fijos">Fixkosten</string>
+    <string name="cu_seg_variables">Variable Kosten</string>
+    <string name="cu_seg_libre">Frei</string>
+    <string name="cu_seg_deficit">Defizit</string>
+    <string name="cu_por_mes">%1$s/Monat</string>
+    <string name="cu_deficit_aviso">Es geht mehr raus als rein: %1$s Defizit pro Monat.</string>
+    <string name="cu_meta">Ziel: %1$s</string>
+    <string name="cu_meta_anio">1 Jahr</string>
+    <string name="cu_tienes_debes">Was du hast und was du schuldest</string>
+    <string name="cu_activos_c">Vermögen</string>
+    <string name="cu_pasivos_c">Schulden</string>
+    <string name="cu_debes_de">Du schuldest %1$s von dem, was du hast</string>
+    <string name="cu_meta20">Ziel 20 %</string>
+    <string name="cu_toca_mes_lectura">Tippe auf die Grafik, um jeden Monat zu lesen</string>
+    <string name="cu_ver_cifras">Kontostand in Zahlen ansehen</string>
+    <string name="cu_ocultar_cifras">Zahlen ausblenden</string>
+    <string name="cu_salud_sub">%1$d von %2$d Kennzahlen im Ziel · Grafiken ansehen</string>
+    <string name="cu_salud_vacia">In diesem Zeitraum gibt es noch keine Buchungen, um deine finanzielle Gesundheit zu messen. Trag Ein- und Ausgänge ein, dann siehst du hier deine Kennzahlen.</string>
+    <string name="cu_isf_periodo">Index der finanziellen Gesundheit für %1$s.</string>
+    <string name="cu_ultimos_12">Letzte 12 Monate</string>
+    <string name="cu_salud_de">Finanzielle Gesundheit %1$s</string>
+    <string name="cu_riesgo_c">Risiko</string>
 </resources>

@@ -165,4 +165,34 @@ class CapturasTest {
             com.rutaalacima.app.ui.finanzas.CategoriasCard(s, plata)
         }
     }
+
+    private fun libroSalud(): com.rutaalacima.app.ui.finanzas.Libro {
+        val M = com.rutaalacima.app.domain.model.Cuentas
+        val dias = (0 until 8).associate { k ->
+            val f = YearMonth.from(hoy).minusMonths(k.toLong()).atDay(5).toString()
+            val r = listOf(0.9, 1.1, 1.0, 0.95, 1.05, 1.0, 0.97, 1.08)[k]
+            f to listOf(M.Mov("i$k", "ing", 15_312_993.0, "trabajo", ""), M.Mov("p$k", "ing", 87_000.0, "pasivo", ""),
+                M.Mov("v$k", "gas", Math.round(9_163_107 * r).toDouble(), "vivienda", ""), M.Mov("a$k", "gas", Math.round(2_168_300 * (2 - r)).toDouble(), "entretenimiento", ""),
+                M.Mov("s$k", "aho", 483_290.0 * (k % 3 + 1), "emergencia", ""), M.Mov("n$k", "inv", 300_000.0 * (k % 2), "fondos", ""))
+        }
+        val resp = mapOf(
+            "fin#deudas" to """{"metodo":"bola","extra":500000,"lista":[{"id":"d1","nombre":"Tarjeta","saldo":8000000,"tasa":28,"minimo":400000,"tipo":"mala"},{"id":"d2","nombre":"Hipoteca","saldo":239131130,"tasa":12,"minimo":4592653,"tipo":"buena"}]}""",
+            "fin#activos" to """[{"id":"a1","nombre":"Casa","tipo":"bienes","valor":350000000}]""",
+        )
+        return com.rutaalacima.app.ui.finanzas.Libro(dias, "COP", resp)
+    }
+    private val plataCo: (Double) -> String = { com.rutaalacima.app.domain.model.Cuentas.formato(it, "COP", java.util.Locale("es", "CO")) }
+
+    @Test fun saludFinanciera() {
+        val libro = libroSalud(); val r = libro.salud(null)
+        pantalla("salud") { com.rutaalacima.app.ui.finanzas.SaludCard(r, null, libro, plataCo) }
+    }
+
+    @Test fun saludGraficos() {
+        val libro = libroSalud(); val r = libro.salud(null); val plata = plataCo
+        pantalla("salud-graficos") {
+            com.rutaalacima.app.ui.finanzas.SaludAcceso(r, null) {}
+            Column { com.rutaalacima.app.ui.finanzas.BalanceBarras(r, plata); com.rutaalacima.app.ui.finanzas.LineaMeses(null, libro) }
+        }
+    }
 }

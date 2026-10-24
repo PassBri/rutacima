@@ -166,11 +166,12 @@ fun colorEstado(e: Salud.Estado) = when (e) {
     Salud.Estado.NA -> MaterialTheme.colorScheme.onSurfaceVariant
 }
 
-/** Salud financiera: el Índice (ISF), el estado de cuentas mensual y los indicadores con su semáforo. */
+/** Salud financiera: el Índice (ISF) con su escala, cada peso que entra, los medidores, lo que tienes y debes, mes a mes y las cifras. */
 @Composable
-fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit) {
+fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> String) {
     if (r.suma.n == 0) return
     val ctx = LocalContext.current
+    var cifras by remember { mutableStateOf(false) }
     RutaCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.cu_salud), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
@@ -181,17 +182,17 @@ fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> S
                 }
             }
         }
+        val periodo = anio?.let { "$it" } ?: stringResource(R.string.cu_ultimos_12).lowercase()
         r.isf?.let { isf ->
-            val nivel = r.nivel!!
-            val (nom, desc, est) = when (nivel) {
+            val (nom, desc, est) = when (r.nivel!!) {
                 Salud.Nivel.EXCELENTE -> Triple(R.string.cu_nivel_excelente, R.string.cu_nivel_excelente_d, Salud.Estado.OK)
                 Salud.Nivel.BUENA -> Triple(R.string.cu_nivel_buena, R.string.cu_nivel_buena_d, Salud.Estado.OK)
                 Salud.Nivel.MODERADA -> Triple(R.string.cu_nivel_moderada, R.string.cu_nivel_moderada_d, Salud.Estado.MEDIO)
                 Salud.Nivel.RIESGO -> Triple(R.string.cu_nivel_riesgo, R.string.cu_nivel_riesgo_d, Salud.Estado.BAJO)
             }
-            Row(Modifier.padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
                 Box(Modifier.size(84.dp), contentAlignment = Alignment.Center) {
-                    val pista = MaterialTheme.colorScheme.surfaceVariant; val color = MaterialTheme.colorScheme.primary
+                    val pista = MaterialTheme.colorScheme.surfaceContainerHighest; val color = MaterialTheme.colorScheme.primary
                     androidx.compose.foundation.Canvas(Modifier.fillMaxSize()) {
                         val g = 9.dp.toPx()
                         drawArc(pista, 0f, 360f, false, style = androidx.compose.ui.graphics.drawscope.Stroke(g))
@@ -204,50 +205,37 @@ fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> S
                 }
                 Spacer(Modifier.width(14.dp))
                 Column(Modifier.weight(1f)) {
-                    Text(stringResource(nom), style = MaterialTheme.typography.titleMedium, color = colorEstado(est), fontWeight = FontWeight.SemiBold)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(nom), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                        Spacer(Modifier.width(8.dp)); ChipEstado(est)
+                    }
                     Text(stringResource(desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    Text(stringResource(R.string.cu_isf_escala), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                    EscalaIsf(isf)
                 }
             }
+            Text(stringResource(R.string.cu_isf_periodo, periodo), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
         }
-        // Estado de cuentas: mensual (promedio) y del periodo
-        val periodo = anio?.let { "$it" } ?: stringResource(R.string.cu_12_meses)
-        val filas = listOf(
-            Triple(R.string.cu_c_ing_act, r.ingActivos, false), Triple(R.string.cu_c_ing_pas, r.ingPasivos, false), Triple(R.string.cu_c_ing_tot, r.suma.ing, true),
-            Triple(R.string.cu_c_fijos, r.fijos, false), Triple(R.string.cu_c_variables, r.variables, false), Triple(R.string.cu_aho, r.suma.aho, false),
-            Triple(R.string.cu_inv, r.suma.inv, false), Triple(R.string.cu_c_egresos, r.egresos, true), Triple(R.string.cu_c_flujo, r.flujoNeto, true),
-        )
-        Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)) {
-            FilaEstado(stringResource(R.string.cu_c_concepto), stringResource(R.string.cu_c_mensual), periodo, cabecera = true)
-            filas.forEach { (n, v, fuerte) -> FilaEstado(stringResource(n), plata(r.mensual(v)), plata(v), fuerte = fuerte, negativo = v < 0) }
-            FilaEstado(stringResource(R.string.cu_c_cuotas), plata(r.deudaMes), "")
-            if (r.actual) {
-                FilaEstado(stringResource(R.string.cu_c_activos), "", plata(r.activos), fuerte = true)
-                FilaEstado(stringResource(R.string.cu_c_pasivos), "", plata(r.pasivos))
-                FilaEstado(stringResource(R.string.cu_c_neto), "", plata(r.neto), fuerte = true, negativo = r.neto < 0)
-            }
-        }
-        r.indicadores.forEach { i ->
-            val (n, d) = nombreIndicador(i.clave)
-            HorizontalDivider(Modifier.padding(top = 10.dp), color = MaterialTheme.colorScheme.outlineVariant)
-            Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(10.dp).clip(CircleShape).background(colorEstado(i.estado)))
-                Spacer(Modifier.width(12.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(n, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
-                    Text(d, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                Spacer(Modifier.width(8.dp))
-                Column(horizontalAlignment = Alignment.End) {
-                    Text(valorIndicador(i), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold)
-                    Text(stringResource(when (i.estado) { Salud.Estado.OK -> R.string.cu_est_ok; Salud.Estado.MEDIO -> R.string.cu_est_medio; else -> R.string.cu_est_bajo }),
-                        style = MaterialTheme.typography.labelSmall, color = colorEstado(i.estado))
+        BarraPeso(r, plata)
+        r.indicadores.forEach { i -> val (n, d) = nombreIndicador(i.clave); Medidor(i, n, d, valorIndicador(i)) }
+        if (r.actual) BalanceBarras(r, plata)
+        LineaMeses(anio, libro)
+        VerCifras(cifras) { cifras = !cifras }
+        if (cifras) {
+            val filas = listOf(
+                Triple(R.string.cu_c_ing_act, r.ingActivos, false), Triple(R.string.cu_c_ing_pas, r.ingPasivos, false), Triple(R.string.cu_c_ing_tot, r.suma.ing, true),
+                Triple(R.string.cu_c_fijos, r.fijos, false), Triple(R.string.cu_c_variables, r.variables, false), Triple(R.string.cu_aho, r.suma.aho, false),
+                Triple(R.string.cu_inv, r.suma.inv, false), Triple(R.string.cu_c_egresos, r.egresos, true), Triple(R.string.cu_c_flujo, r.flujoNeto, true),
+            )
+            Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)) {
+                FilaEstado(stringResource(R.string.cu_c_concepto), stringResource(R.string.cu_c_mensual), anio?.let { "$it" } ?: stringResource(R.string.cu_12_meses), cabecera = true)
+                filas.forEach { (n, v, fuerte) -> FilaEstado(stringResource(n), plata(Math.round(r.mensual(v)).toDouble()), plata(v), fuerte = fuerte, negativo = v < 0) }
+                FilaEstado(stringResource(R.string.cu_c_cuotas), plata(r.deudaMes), "")
+                if (r.actual) {
+                    FilaEstado(stringResource(R.string.cu_c_activos), "", plata(r.activos), fuerte = true)
+                    FilaEstado(stringResource(R.string.cu_c_pasivos), "", plata(r.pasivos))
+                    FilaEstado(stringResource(R.string.cu_c_neto), "", plata(r.neto), fuerte = true, negativo = r.neto < 0)
                 }
             }
-        }
-        if (r.actual) Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = { ir(NivelCuentas.PatrimonioN) }, Modifier.weight(1f)) { Text(stringResource(R.string.cu_patrimonio_titulo), maxLines = 1, overflow = TextOverflow.Ellipsis) }
-            OutlinedButton(onClick = { ir(NivelCuentas.DeudasN) }, Modifier.weight(1f)) { Text(stringResource(R.string.cu_deudas), maxLines = 1, overflow = TextOverflow.Ellipsis) }
         }
     }
 }

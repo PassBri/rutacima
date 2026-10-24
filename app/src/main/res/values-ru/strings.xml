@@ -1628,4 +1628,27 @@
     <string name="cu_es_esencial">Необходимое (зелёный рюкзак)</string>
     <string name="cu_crear">Создать</string>
     <string name="cu_categoria_creada">Категория «%1$s» создана</string>
+    <string name="cu_peso_titulo">Куда уходит каждый полученный рубль?</string>
+    <string name="cu_seg_fijos">Постоянные расходы</string>
+    <string name="cu_seg_variables">Переменные расходы</string>
+    <string name="cu_seg_libre">Свободно</string>
+    <string name="cu_seg_deficit">Дефицит</string>
+    <string name="cu_por_mes">%1$s/мес.</string>
+    <string name="cu_deficit_aviso">Расходы больше доходов: дефицит %1$s в месяц.</string>
+    <string name="cu_meta">Цель: %1$s</string>
+    <string name="cu_meta_anio">1 год</string>
+    <string name="cu_tienes_debes">Что у тебя есть и что ты должен</string>
+    <string name="cu_activos_c">Активы</string>
+    <string name="cu_pasivos_c">Пассивы</string>
+    <string name="cu_debes_de">Долг — %1$s от того, что есть</string>
+    <string name="cu_meta20">Цель 20 %</string>
+    <string name="cu_toca_mes_lectura">Коснись графика, чтобы увидеть каждый месяц</string>
+    <string name="cu_ver_cifras">Посмотреть отчёт в цифрах</string>
+    <string name="cu_ocultar_cifras">Скрыть цифры</string>
+    <string name="cu_salud_sub">%1$d из %2$d показателей в норме · смотреть графики</string>
+    <string name="cu_salud_vacia">За этот период ещё нет записей, чтобы оценить финансовое здоровье. Записывай доходы и расходы — здесь появятся показатели.</string>
+    <string name="cu_isf_periodo">Индекс финансового здоровья за %1$s.</string>
+    <string name="cu_ultimos_12">Последние 12 месяцев</string>
+    <string name="cu_salud_de">Финансовое здоровье за %1$s</string>
+    <string name="cu_riesgo_c">Риск</string>
 </resources>
