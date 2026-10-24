@@ -1,0 +1,10 @@
+total 544
+drwxr-xr-x  2 runner runner   4096 Oct 24 03:57 .
+drwxr-xr-x 14 runner runner   4096 Oct 24 03:57 ..
+-rw-r--r--  1 runner runner    613 Oct 24 03:57 TEST-com.rutaalacima.app.ui.CapturasTest.xml
+-rw-r--r--  1 runner runner 108240 Oct 24 03:57 cascada-claro.png
+-rw-r--r--  1 runner runner 109007 Oct 24 03:57 cascada-oscuro.png
+-rw-r--r--  1 runner runner  79984 Oct 24 03:57 finanzas-claro.png
+-rw-r--r--  1 runner runner  80508 Oct 24 03:57 finanzas-oscuro.png
+-rw-r--r--  1 runner runner      0 Oct 24 03:57 lista.txt
+-rw-r--r--  1 runner runner 158361 Oct 24 03:57 plan-dia.png

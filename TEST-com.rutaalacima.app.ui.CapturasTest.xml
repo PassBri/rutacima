@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.rutaalacima.app.ui.CapturasTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-24T03:57:45" hostname="runnervm8k3b6" time="5.357">
+  <properties/>
+  <testcase name="cascadaDelAnioYDelMes" classname="com.rutaalacima.app.ui.CapturasTest" time="4.327"/>
+  <testcase name="finanzasDelMes" classname="com.rutaalacima.app.ui.CapturasTest" time="0.385"/>
+  <testcase name="planDelDia" classname="com.rutaalacima.app.ui.CapturasTest" time="0.645"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
