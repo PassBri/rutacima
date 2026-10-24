@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">%1$s 주</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d개 기간</string>
     <string name="gr_salud_corto">건강 %</string>
+    <string name="gr_acceso_sub">일·주·월·연 단위로 확대해 살펴보세요 · 캔들, 막대, 선</string>
+    <string name="gr_vacia">첫 기록을 남기면 여기서 잔액이 날마다, 달마다, 해마다 오르는 모습을 볼 수 있어요.</string>
 </resources>

@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">%1$s का सप्ताह</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d अवधियाँ</string>
     <string name="gr_salud_corto">सेहत %</string>
+    <string name="gr_acceso_sub">दिन, हफ़्ते, महीने या साल के हिसाब से ज़ूम करके देखें · कैंडल, बार और रेखाएँ</string>
+    <string name="gr_vacia">पहली एंट्री लिखते ही यहाँ दिखेगा कि आपका शेष दिन-ब-दिन, महीने-दर-महीने और साल-दर-साल कैसे बढ़ता है।</string>
 </resources>

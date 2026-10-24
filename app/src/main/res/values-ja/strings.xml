@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">%1$s の週</string>
     <string name="gr_ventana">%1$s — %2$s・%3$d 期間</string>
     <string name="gr_salud_corto">健康 %</string>
+    <string name="gr_acceso_sub">日・週・月・年で拡大して見られます・ローソク足、棒、折れ線</string>
+    <string name="gr_vacia">最初の記録をすると、ここで残高が日ごと、月ごと、年ごとに上がっていく様子が見られます。</string>
 </resources>

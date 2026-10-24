@@ -22,6 +22,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CandlestickChart
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.FilterChip
@@ -350,4 +353,22 @@ private fun DrawScope.barra(c: Color, x0: Float, y0: Float, w: Float, h: Float, 
     val r = minOf(4.dp.toPx(), w / 2, h)
     drawRoundRect(c, Offset(x0, y0), Size(w, h), CornerRadius(r))
     if (arriba) drawRect(c, Offset(x0, y0 + h - r), Size(w, r)) else drawRect(c, Offset(x0, y0), Size(w, r))
+}
+
+/** En el balance: el acceso a la gráfica, que vive en su propia pantalla (como en la web). */
+@Composable
+fun GraficaAcceso(onAbrir: () -> Unit) {
+    RutaCard(onClick = onAbrir) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer), contentAlignment = Alignment.Center) {
+                Icon(Icons.Filled.CandlestickChart, null, tint = MaterialTheme.colorScheme.onPrimaryContainer)
+            }
+            Spacer(Modifier.width(12.dp))
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.gr_titulo), style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.gr_acceso_sub), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null)
+        }
+    }
 }

@@ -150,7 +150,7 @@ DET["finanzas.b"] = () => {
   return cab(avAsc(), "Ascenso financiero", "Balance general · todos tus años", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"]]) +
     (t.n ? "" : `<div class="aviso">${ic("finanzas")} Empieza por hoy: anota lo que entró y salió. Cada día suma al mes, cada mes al año y cada año a este balance.<button class="btn lleno" data-sel="d:${iso(hoyFecha())}" style="margin-left:auto">Registrar hoy</button></div>`) +
-    cifras(t) + (window.graficaAscenso?.() || "") +
+    cifras(t) + (window.graficaAcceso?.() || "") +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
       <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
     saludResumen("") + deudasResumen() + fijosHoja("") + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
@@ -226,6 +226,7 @@ LISTAS.finanzas = () => {
   h += item("m:" + ym, av(MES_C[hoyFecha().getMonth()], "var(--ok)"), mayus(MESES[hoyFecha().getMonth()]), "", `${plata(mesS.disp)} disponible`);
   h += item("b", av(ic("finanzas"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
   const sf = window.saludDe ? saludDe("") : null;
+  h += item("grafica", av(ic("grafica"), "var(--ok)"), "Gráfica del ascenso", "", "Velas, barras y líneas por días, meses o años");
   h += item("salud", av(ic("salud"), "var(--ok)"), "Salud financiera", "", sf?.isf != null ? `ISF ${sf.isf} % · ${sf.nivel[0]}` : "Tus indicadores, mes a mes");
   const dd = window.deudasHoy ? deudasHoy() : [], debe = dd.reduce((a, x) => a + x.actual, 0);
   h += item("deudas", av(ic("deuda"), "var(--ok)"), "Salir de deudas", "", dd.length ? (debe > 0 ? `Debes ${plata(debe)} · ${dd.filter(x => x.actual > 0).length} por pagar` : "¡Sin deudas!") : "Tu plan con avalancha o bola de nieve");

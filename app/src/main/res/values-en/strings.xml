@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">Week of %1$s</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d periods</string>
     <string name="gr_salud_corto">Health %</string>
+    <string name="gr_acceso_sub">Zoom through your accounts by day, week, month or year · candles, bars and lines</string>
+    <string name="gr_vacia">Once you log your first entries, you’ll see your balance climb day by day, month by month and year by year.</string>
 </resources>

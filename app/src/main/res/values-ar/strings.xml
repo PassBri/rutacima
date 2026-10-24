@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">أسبوع %1$s</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d فترات</string>
     <string name="gr_salud_corto">الصحة %</string>
+    <string name="gr_acceso_sub">كبّر وتصفح حساباتك بالأيام أو الأسابيع أو الأشهر أو السنوات · شموع وأعمدة وخطوط</string>
+    <string name="gr_vacia">عندما تسجل أولى حركاتك سترى هنا كيف يرتفع رصيدك يومًا بعد يوم وشهرًا بعد شهر وعامًا بعد عام.</string>
 </resources>

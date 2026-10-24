@@ -58,7 +58,7 @@ object GraficaAscenso {
         val m = Math.pow(10.0, Math.floor(Math.log10(p0)))
         val paso = listOf(1.0, 2.0, 2.5, 5.0, 10.0).map { it * m }.firstOrNull { it >= p0 } ?: p0
         val r = mutableListOf<Double>(); var v = Math.ceil(lo / paso) * paso
-        while (v <= hi) { r += Math.round(v / paso) * paso; v += paso }
+        while (v <= hi) { r += (Math.round(v / paso) * paso).let { if (it == -0.0) 0.0 else it }; v += paso }
         return r
     }
 }

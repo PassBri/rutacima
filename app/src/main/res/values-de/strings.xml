@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">Woche vom %1$s</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d Zeiträume</string>
     <string name="gr_salud_corto">Gesundheit %</string>
+    <string name="gr_acceso_sub">Zoome durch deine Konten nach Tagen, Wochen, Monaten oder Jahren · Kerzen, Balken und Linien</string>
+    <string name="gr_vacia">Sobald du deine ersten Buchungen einträgst, siehst du hier deinen Saldo Tag für Tag, Monat für Monat und Jahr für Jahr steigen.</string>
 </resources>

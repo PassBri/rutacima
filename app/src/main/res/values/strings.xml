@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">Semana del %1$s</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d periodos</string>
     <string name="gr_salud_corto">Salud %</string>
+    <string name="gr_acceso_sub">Amplía y recorre tus cuentas por días, semanas, meses o años · velas, barras y líneas</string>
+    <string name="gr_vacia">Cuando anotes tus primeros movimientos, aquí verás cómo sube tu saldo día a día, mes a mes y año a año.</string>
 </resources>

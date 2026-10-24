@@ -63,6 +63,15 @@ function graficaAscenso() {
     <div id="grTabla"></div>`, "gr-hoja");
 }
 window.graficaAscenso = graficaAscenso;
+/** En el balance: un acceso de una línea; la gráfica vive en su propia pantalla. */
+window.graficaAcceso = () => diasConMovs().length ? `<button class="salud-enlace" data-sel="grafica">${av(ic("grafica"), "var(--ok)")}<span><b>Gráfica del ascenso</b><small>Amplía y recorre tus cuentas por días, semanas, meses o años · velas, barras y líneas</small></span>${ic("der")}</button>` : "";
+DET["finanzas.grafica"] = () => {
+  if (window.finBloqueado?.()) return pantallaBloqueo();
+  const g = graficaAscenso();
+  return cab(av(ic("grafica"), "var(--ok)"), "Gráfica del ascenso", "Ascenso financiero · como en la bolsa", ojoAsc()) + cuerpo(
+    migasAsc([["Balance general", "b"], ["Gráfica del ascenso", ""]]) +
+    (g || hoja(`<p class="suave" style="margin:0">Cuando anotes tus primeros movimientos, aquí verás cómo sube tu saldo día a día, mes a mes y año a año.</p><div class="botones" style="margin-top:12px"><button class="btn lleno" data-sel="d:${iso(hoyFecha())}">Registrar hoy</button></div>`)), "max-width:1100px");
+};
 
 /* ---------- Dibujo e interacción ---------- */
 const grEstado = { datos: [], i0: 0, i1: 0, hover: -1, gran: null };
@@ -229,7 +238,7 @@ function grRect(x, x0, y0, w, h, r, arriba) {
 }
 function grTicks(lo, hi, n) {
   const paso0 = (hi - lo) / n, m = Math.pow(10, Math.floor(Math.log10(paso0))), paso = [1, 2, 2.5, 5, 10].map(k => k * m).find(k => k >= paso0) || paso0;
-  const r = []; for (let v = Math.ceil(lo / paso) * paso; v <= hi; v += paso) r.push(Math.round(v / paso) * paso); return r;
+  const r = []; for (let v = Math.ceil(lo / paso) * paso; v <= hi; v += paso) r.push(Math.round(v / paso) * paso || 0); return r;
 }
 function grTabla() {
   const el = document.getElementById("grTabla"); if (!el) return;

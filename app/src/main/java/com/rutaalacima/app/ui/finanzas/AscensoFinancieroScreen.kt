@@ -311,14 +311,15 @@ sealed interface NivelCuentas {
     data object DeudasN : NivelCuentas
     data object PatrimonioN : NivelCuentas
     data class SaludN(val a: Int?) : NivelCuentas
+    data object GraficaN : NivelCuentas
 
-    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a" }
-    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN -> Balance }
+    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a"; GraficaN -> "grafica" }
+    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN, GraficaN -> Balance }
 
     companion object {
         fun de(c: String?): NivelCuentas = runCatching {
             val (t, v) = (c ?: "b").split(":", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); else -> Balance }
+            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); "grafica" -> GraficaN; else -> Balance }
         }.getOrDefault(Balance)
     }
 }
@@ -428,6 +429,7 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         NivelCuentas.DeudasN -> deudasNivel(libro, plata, vm, avisos)
                         NivelCuentas.PatrimonioN -> patrimonioNivel(libro, plata, ir, vm)
                         is NivelCuentas.SaludN -> saludNivel(n.a, libro, plata, ir)
+                        NivelCuentas.GraficaN -> item(key = "grafica-sola") { if (libro.dias.isEmpty()) RutaCard { Text(stringResource(R.string.gr_vacia), style = MaterialTheme.typography.bodyMedium) } else GraficaAscensoCard(libro, plata) }
                     }
                 }
             }
@@ -448,6 +450,7 @@ private fun Migas(n: NivelCuentas, ir: (NivelCuentas) -> Unit) {
             NivelCuentas.DeudasN -> add(stringResource(R.string.cu_deudas) to n)
             NivelCuentas.PatrimonioN -> add(stringResource(R.string.cu_patrimonio_titulo) to n)
             is NivelCuentas.SaludN -> add(stringResource(R.string.cu_salud) to n)
+            NivelCuentas.GraficaN -> add(stringResource(R.string.gr_titulo) to n)
             else -> {}
         }
     }
@@ -701,7 +704,7 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
     }
     item(key = "salud") { SaludAcceso(libro.salud(null), null) { ir(NivelCuentas.SaludN(null)) } }
     item(key = "cifras") { CifrasCuentas(t, plata) }
-    item(key = "grafica") { GraficaAscensoCard(libro, plata) }
+    if (libro.dias.isNotEmpty()) item(key = "grafica") { GraficaAcceso { ir(NivelCuentas.GraficaN) } }
     item(key = "tabla") {
         RutaCard {
             Text(stringResource(R.string.cu_anio_por_anio), style = MaterialTheme.typography.titleMedium)

@@ -1703,4 +1703,6 @@
     <string name="gr_semana_de">%1$s 那一周</string>
     <string name="gr_ventana">%1$s — %2$s · %3$d 个期间</string>
     <string name="gr_salud_corto">健康 %</string>
+    <string name="gr_acceso_sub">按日、周、月或年缩放浏览账目 · K线、柱状和折线</string>
+    <string name="gr_vacia">记下第一笔收支后，这里会显示你的余额如何逐日、逐月、逐年上升。</string>
 </resources>
