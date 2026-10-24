@@ -2,6 +2,7 @@ package com.rutaalacima.app.domain.model
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
 import java.util.Currency
 import java.util.Locale
@@ -20,8 +21,14 @@ object Cuentas {
     fun claveDia(fecha: String) = "fin#mov#$fecha"
     const val PREFIJO = "fin#mov#"
 
+    /** Un recibo (foto o PDF) de un movimiento: en el depósito privado "recibos" o, sin cuenta, en el teléfono ("local:…"). */
     @Serializable
-    data class Mov(val id: String, val t: String, val m: Double, val c: String = "otro", val n: String = "") {
+    data class Recibo(val id: String, val nom: String = "", val tipo: String = "", val ruta: String = "")
+
+    /** r: recibos; d: la deuda que paga este movimiento (Salir de deudas). */
+    @Serializable
+    data class Mov(val id: String, val t: String, val m: Double, val c: String = "otro", val n: String = "",
+                   val r: List<Recibo> = emptyList(), val d: String? = null) {
         /** Si viene del control financiero de antes: el campo de la agenda ("ingresos"…). */
         @kotlinx.serialization.Transient var agenda: String? = null
     }
@@ -40,10 +47,29 @@ object Cuentas {
         Tipo.INV to listOf("educacion", "herramientas", "fondos", "negocio", "inmuebles", "otro").map { it to Mochila.ROJA },
     )
 
-    fun mochila(m: Mov): Mochila? = when (Tipo.de(m.t)) {
+    /** Categoría creada por la persona (fin#cats): código "u_…", nombre y, si es gasto, su mochila. */
+    @Serializable
+    data class Propia(val c: String, val n: String, val mo: String? = null)
+
+    private val serPropias = kotlinx.serialization.builtins.MapSerializer(String.serializer(), ListSerializer(Propia.serializer()))
+    fun leerPropias(v: String?): Map<String, List<Propia>> = if (v.isNullOrBlank()) emptyMap() else runCatching { json.decodeFromString(serPropias, v) }.getOrDefault(emptyMap())
+    fun escribirPropias(p: Map<String, List<Propia>>): String = json.encodeToString(serPropias, p)
+
+    /** Las categorías de un tipo: las de siempre (sin "otro"), las propias y "otro" al final. */
+    fun categorias(t: Tipo, propias: Map<String, List<Propia>> = emptyMap()): List<Pair<String, Mochila?>> {
+        val base = CATEGORIAS.getValue(t)
+        val suyas = propias[t.codigo].orEmpty().map { it.c to (if (t == Tipo.GAS) (if (it.mo == "verde") Mochila.VERDE else Mochila.AMARILLA) else if (t == Tipo.ING) null else Mochila.ROJA) }
+        return base.filter { it.first != "otro" } + suyas + base.filter { it.first == "otro" }
+    }
+
+    /** Código para una categoría nueva ("Mascotas" → "u_mascotas"), igual que en la web. */
+    fun codigoPropia(nombre: String): String = "u_" + java.text.Normalizer.normalize(nombre.trim().lowercase(), java.text.Normalizer.Form.NFD)
+        .replace(Regex("\\p{M}"), "").replace(Regex("[^a-z0-9]+"), "_").trim('_').take(24)
+
+    fun mochila(m: Mov, propias: Map<String, List<Propia>> = emptyMap()): Mochila? = when (Tipo.de(m.t)) {
         Tipo.ING -> null
         Tipo.AHO, Tipo.INV -> Mochila.ROJA
-        Tipo.GAS -> CATEGORIAS.getValue(Tipo.GAS).firstOrNull { it.first == m.c }?.second ?: Mochila.AMARILLA
+        Tipo.GAS -> categorias(Tipo.GAS, propias).firstOrNull { it.first == m.c }?.second ?: Mochila.AMARILLA
     }
 
     private val json = Json { ignoreUnknownKeys = true }
@@ -78,13 +104,13 @@ object Cuentas {
         fun de(t: Tipo) = when (t) { Tipo.ING -> ing; Tipo.GAS -> gas; Tipo.AHO -> aho; Tipo.INV -> inv }
     }
 
-    fun sumar(movs: List<Mov>): Suma {
+    fun sumar(movs: List<Mov>, propias: Map<String, List<Propia>> = emptyMap()): Suma {
         var s = Suma()
         val moch = mutableMapOf<Mochila, Double>(); val cat = mutableMapOf<Pair<Tipo, String>, Double>()
         movs.forEach { x ->
             val t = Tipo.de(x.t)
             s = when (t) { Tipo.ING -> s.copy(ing = s.ing + x.m); Tipo.GAS -> s.copy(gas = s.gas + x.m); Tipo.AHO -> s.copy(aho = s.aho + x.m); Tipo.INV -> s.copy(inv = s.inv + x.m) }
-            mochila(x)?.let { moch[it] = (moch[it] ?: 0.0) + x.m }
+            mochila(x, propias)?.let { moch[it] = (moch[it] ?: 0.0) + x.m }
             cat[t to x.c] = (cat[t to x.c] ?: 0.0) + x.m
         }
         return s.copy(n = movs.size, mochilas = moch, categorias = cat)

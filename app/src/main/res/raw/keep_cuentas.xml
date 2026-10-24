@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ascenso financiero busca estos textos por nombre (categorías e indicadores): que el reductor de recursos no los quite. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/cu_cat_*,@string/cu_ind_*" />

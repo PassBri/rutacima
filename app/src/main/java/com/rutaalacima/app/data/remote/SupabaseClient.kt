@@ -200,6 +200,33 @@ class SupabaseClient(context: Context) {
         "$url/storage/v1/object/public/$bucket/$rutaEnBucket"
     }
 
+    /** Descarga un archivo de un bucket privado (solo funciona con la sesión de su dueño). */
+    suspend fun descargarPrivado(bucket: String, rutaEnBucket: String): ByteArray = withContext(Dispatchers.IO) {
+        asegurarSesion()
+        val con = (URL("$url/storage/v1/object/authenticated/$bucket/$rutaEnBucket").openConnection() as HttpURLConnection).apply {
+            connectTimeout = 15_000; readTimeout = 60_000
+            setRequestProperty("apikey", anonKey)
+            setRequestProperty("Authorization", "Bearer ${_sesion.value?.accessToken ?: anonKey}")
+        }
+        try {
+            if (con.responseCode !in 200..299) throw SupabaseException(con.responseCode, "No se pudo abrir el archivo (${con.responseCode})")
+            con.inputStream.use { it.readBytes() }
+        } finally { con.disconnect() }
+    }
+
+    /** Sube un archivo a un bucket privado (sin reemplazar). */
+    suspend fun subirPrivado(bucket: String, rutaEnBucket: String, bytes: ByteArray, tipo: String) = withContext(Dispatchers.IO) {
+        asegurarSesion()
+        peticion("POST", "/storage/v1/object/$bucket/$rutaEnBucket", bytes, tipo = tipo)
+        Unit
+    }
+
+    suspend fun borrarArchivo(bucket: String, rutaEnBucket: String) = withContext(Dispatchers.IO) {
+        asegurarSesion()
+        runCatching { peticion("DELETE", "/storage/v1/object/$bucket/$rutaEnBucket") }
+        Unit
+    }
+
     // ------------------------------------------------------------------ Edge Functions
 
     suspend fun funcion(nombre: String, cuerpo: JsonElement): JsonElement = withContext(Dispatchers.IO) {

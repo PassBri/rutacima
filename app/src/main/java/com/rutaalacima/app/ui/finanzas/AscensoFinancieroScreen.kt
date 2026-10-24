@@ -43,6 +43,9 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.AttachFile
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
@@ -126,9 +129,17 @@ import java.util.Locale
 
 /** Todo el libro de cuentas: los movimientos de cada día (con los del control de antes) y la moneda. */
 data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: String = Cuentas.moneda(null), val respuestas: Map<String, String> = emptyMap()) {
+    val propias: Map<String, List<Cuentas.Propia>> by lazy { Cuentas.leerPropias(respuestas["fin#cats"]) }
+    val deudasDatos: com.rutaalacima.app.domain.model.Deudas.Datos by lazy { com.rutaalacima.app.domain.model.Deudas.leer(respuestas[com.rutaalacima.app.domain.model.Deudas.CLAVE]) }
+    val deudas: List<com.rutaalacima.app.domain.model.Deudas.Hoy> by lazy { com.rutaalacima.app.domain.model.Deudas.hoy(deudasDatos, dias.values.flatten()) }
+    val activos: List<com.rutaalacima.app.domain.model.Patrimonio.Activo> by lazy { com.rutaalacima.app.domain.model.Patrimonio.leer(respuestas[com.rutaalacima.app.domain.model.Patrimonio.CLAVE]) }
+    val publica get() = respuestas["fin#visibilidad"] == "publica"
+    val bloqueo get() = respuestas["fin#bloqueo"] == "1"
+    val ocultarFuera get() = !publica && respuestas["fin#ocultar"] == "1"
+    fun salud(anio: Int?) = com.rutaalacima.app.domain.model.Salud.de(dias, anio, deudas, activos, propias)
     fun movs(fecha: String): List<Mov> = dias[fecha].orEmpty()
-    fun suma(prefijo: String): Cuentas.Suma = Cuentas.sumar(dias.filterKeys { it.startsWith(prefijo) }.values.flatten())
-    val total: Cuentas.Suma by lazy { Cuentas.sumar(dias.values.flatten()) }
+    fun suma(prefijo: String): Cuentas.Suma = Cuentas.sumar(dias.filterKeys { it.startsWith(prefijo) }.values.flatten(), propias)
+    val total: Cuentas.Suma by lazy { Cuentas.sumar(dias.values.flatten(), propias) }
     val anios: List<Int> get() = (dias.keys.mapNotNull { it.take(4).toIntOrNull() } + hoy().year).distinct().sorted()
     fun presupuesto(ym: YearMonth): String = respuestas[Finanzas.clavePresupuesto(ym.year, ym.monthValue)].orEmpty()
 }
@@ -176,6 +187,83 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     fun elegirMoneda(m: String) = viewModelScope.launch { c.respuestas.guardar(Cuentas.WB, Cuentas.CLAVE_MONEDA, m) }
+    private fun poner(clave: String, v: String) = viewModelScope.launch { c.respuestas.guardar(Cuentas.WB, clave, v) }
+
+    // ---------------------------------------------------------------- Categorías propias
+    fun crearCategoria(t: Tipo, nombre: String, verde: Boolean): String? {
+        val n = nombre.trim().take(40); if (n.isEmpty()) return null
+        val cod = Cuentas.codigoPropia(n)
+        val todas = libro.value.propias.toMutableMap()
+        if (Cuentas.categorias(t, todas).none { it.first == cod })
+            todas[t.codigo] = todas[t.codigo].orEmpty() + Cuentas.Propia(cod, n, if (t == Tipo.GAS) (if (verde) "verde" else "amarilla") else null)
+        poner("fin#cats", Cuentas.escribirPropias(todas))
+        return cod
+    }
+
+    // ---------------------------------------------------------------- Deudas
+    private fun deudas(cambio: (com.rutaalacima.app.domain.model.Deudas.Datos) -> com.rutaalacima.app.domain.model.Deudas.Datos) =
+        poner(com.rutaalacima.app.domain.model.Deudas.CLAVE, com.rutaalacima.app.domain.model.Deudas.escribir(cambio(libro.value.deudasDatos)))
+    fun deudaAgregar(nombre: String, saldo: Double, tasa: Double, minimo: Double, buena: Boolean) =
+        deudas { it.copy(lista = it.lista + com.rutaalacima.app.domain.model.Deudas.Deuda("d" + System.currentTimeMillis(), nombre.trim().take(60), saldo, tasa, minimo, if (buena) "buena" else "mala")) }
+    fun deudaCambiar(id: String, cambio: (com.rutaalacima.app.domain.model.Deudas.Deuda) -> com.rutaalacima.app.domain.model.Deudas.Deuda) =
+        deudas { d -> d.copy(lista = d.lista.map { if (it.id == id) cambio(it) else it }) }
+    fun deudaQuitar(id: String) = deudas { d -> d.copy(lista = d.lista.filter { it.id != id }) }
+    fun deudaRestaurar(x: com.rutaalacima.app.domain.model.Deudas.Deuda) = deudas { it.copy(lista = it.lista + x) }
+    fun deudaMetodo(m: String) = deudas { it.copy(metodo = m) }
+    fun deudaExtra(v: Double) = deudas { it.copy(extra = v) }
+    /** Un pago: gasto de hoy en "Pago de deudas" que nombra la deuda (así baja su saldo). */
+    fun deudaPagar(x: com.rutaalacima.app.domain.model.Deudas.Deuda, monto: Double, nota: String) = viewModelScope.launch {
+        val f = hoy().toString()
+        guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), "gas", monto, "deudas", nota, d = x.id))
+    }
+
+    // ---------------------------------------------------------------- Activos
+    private fun activos(cambio: (List<com.rutaalacima.app.domain.model.Patrimonio.Activo>) -> List<com.rutaalacima.app.domain.model.Patrimonio.Activo>) =
+        poner(com.rutaalacima.app.domain.model.Patrimonio.CLAVE, com.rutaalacima.app.domain.model.Patrimonio.escribir(cambio(libro.value.activos)))
+    fun activoAgregar(nombre: String, tipo: String, valor: Double) = activos { it + com.rutaalacima.app.domain.model.Patrimonio.Activo("a" + System.currentTimeMillis(), nombre.trim().take(60), tipo, valor) }
+    fun activoCambiar(x: com.rutaalacima.app.domain.model.Patrimonio.Activo) = activos { l -> l.map { if (it.id == x.id) x else it } }
+    fun activoQuitar(id: String) = activos { l -> l.filter { it.id != id } }
+
+    // ---------------------------------------------------------------- Privacidad
+    fun visibilidad(publica: Boolean) = poner("fin#visibilidad", if (publica) "publica" else "")
+    fun bloqueo(si: Boolean) = poner("fin#bloqueo", if (si) "1" else "")
+    fun ocultar(si: Boolean) = poner("fin#ocultar", if (si) "1" else "")
+    /** Hasta cuándo queda abierto el módulo tras la huella (5 minutos o hasta salir de la app). */
+    var abiertoHasta by mutableStateOf(0L)
+    val abierto get() = System.currentTimeMillis() < abiertoHasta
+    var oculto by mutableStateOf(false)
+
+    // ---------------------------------------------------------------- Recibos
+    private val dirRecibos get() = java.io.File(c.contexto.filesDir, "recibos").apply { mkdirs() }
+    /** Guarda el recibo: en el depósito privado de la cuenta si hay sesión; si no, en el teléfono. */
+    fun agregarRecibo(f: String, x: Mov, uri: android.net.Uri, alTerminar: (Boolean) -> Unit) = viewModelScope.launch {
+        val ok = runCatching {
+            val cr = c.contexto.contentResolver
+            val tipo = cr.getType(uri) ?: "image/jpeg"
+            require(tipo.startsWith("image/") || tipo == "application/pdf")
+            val bytes = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { cr.openInputStream(uri)!!.use { it.readBytes() } }
+            require(bytes.size <= 15_000_000)
+            val nom = cr.query(uri, arrayOf(android.provider.OpenableColumns.DISPLAY_NAME), null, null, null)?.use { if (it.moveToFirst()) it.getString(0) else null } ?: "recibo"
+            val id = "r" + System.currentTimeMillis()
+            val ext = if (tipo == "application/pdf") "pdf" else tipo.substringAfter("/").replace("jpeg", "jpg")
+            val sesion = c.supabase.sesion.value
+            val ruta = if (sesion != null && c.supabase.configurado) "${sesion.userId}/$id.$ext".also { c.supabase.subirPrivado("recibos", it, bytes, tipo) }
+                else "local:$id.$ext".also { kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { java.io.File(dirRecibos, it.removePrefix("local:")).writeBytes(bytes) } }
+            guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r + Cuentas.Recibo(id, nom.take(80), tipo, ruta)) else it })
+        }.isSuccess
+        alTerminar(ok)
+    }
+    fun quitarRecibo(f: String, x: Mov, r: Cuentas.Recibo) = viewModelScope.launch {
+        guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r.filter { y -> y.id != r.id }) else it })
+        if (r.ruta.startsWith("local:")) java.io.File(dirRecibos, r.ruta.removePrefix("local:")).delete() else c.supabase.borrarArchivo("recibos", r.ruta)
+    }
+    /** El archivo del recibo en el teléfono (lo descarga si está en la nube). */
+    suspend fun archivoRecibo(r: Cuentas.Recibo): java.io.File? = runCatching {
+        if (r.ruta.startsWith("local:")) java.io.File(dirRecibos, r.ruta.removePrefix("local:")).takeIf { it.exists() }
+        else java.io.File(c.contexto.cacheDir, "recibo-" + r.ruta.substringAfterLast('/')).also { f ->
+            if (!f.exists()) { val b = c.supabase.descargarPrivado("recibos", r.ruta); kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { f.writeBytes(b) } }
+        }
+    }.getOrNull()
 
     private var guardadoPres: kotlinx.coroutines.Job? = null
     fun presupuesto(ym: YearMonth, v: String) {
@@ -192,14 +280,16 @@ sealed interface NivelCuentas {
     data class Anio(val a: Int) : NivelCuentas
     data class Mes(val ym: YearMonth) : NivelCuentas
     data class Dia(val f: LocalDate) : NivelCuentas
+    data object DeudasN : NivelCuentas
+    data object PatrimonioN : NivelCuentas
 
-    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f" }
-    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)) }
+    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio" }
+    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN -> Balance }
 
     companion object {
         fun de(c: String?): NivelCuentas = runCatching {
             val (t, v) = (c ?: "b").split(":", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); else -> Balance }
+            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; else -> Balance }
         }.getOrDefault(Balance)
     }
 }
@@ -235,8 +325,13 @@ private fun Color.luminanciaBaja() = (0.299f * red + 0.587f * green + 0.114f * b
         Tipo.AHO -> if (plural) R.string.cu_aho else R.string.cu_aho1; Tipo.INV -> if (plural) R.string.cu_inv else R.string.cu_inv1 })
 
 /** Nombre de una categoría en el idioma de la app. */
+/** Las categorías creadas por la persona (para sus nombres) y el ViewModel del libro (para crear más). */
+val LocalPropias = androidx.compose.runtime.staticCompositionLocalOf<Map<String, List<Cuentas.Propia>>> { emptyMap() }
+val LocalCuentas = androidx.compose.runtime.staticCompositionLocalOf<CuentasViewModel?> { null }
+
 @Composable
 fun nombreCategoria(t: Tipo, c: String): String {
+    if (c.startsWith("u_")) LocalPropias.current[t.codigo]?.firstOrNull { it.c == c }?.let { return it.n }
     val ctx = LocalContext.current
     val id = ctx.resources.getIdentifier("cu_cat_${t.codigo}_$c", "string", ctx.packageName)
     return if (id != 0) stringResource(id) else c
@@ -260,8 +355,16 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
     val ir: (NivelCuentas) -> Unit = { codigo = it.codigo() }
     val avisos = remember { SnackbarHostState() }
     BackHandler { nivel.arriba()?.let(ir) ?: onBack() }
-    val plata: (Double) -> String = { Cuentas.formato(it, libro.moneda) }
+    val plata: (Double) -> String = { if (vm.oculto) "•••••" else Cuentas.formato(it, libro.moneda) }
+    // Se vuelve a cerrar al salir de la app
+    val ciclo = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    androidx.compose.runtime.DisposableEffect(ciclo) {
+        val o = androidx.lifecycle.LifecycleEventObserver { _, e -> if (e == androidx.lifecycle.Lifecycle.Event.ON_STOP) vm.abiertoHasta = 0L }
+        ciclo.lifecycle.addObserver(o); onDispose { ciclo.lifecycle.removeObserver(o) }
+    }
+    val bloqueado = libro.bloqueo && !vm.abierto
 
+    androidx.compose.runtime.CompositionLocalProvider(LocalPropias provides libro.propias, LocalCuentas provides vm) {
     Scaffold(
         modifier = Modifier.fondoPapel(),
         containerColor = Color.Transparent,
@@ -271,9 +374,15 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(stringResource(R.string.cu_titulo)) },
                 navigationIcon = { IconButton(onClick = { nivel.arriba()?.let(ir) ?: onBack() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+                actions = {
+                    if (!bloqueado) IconButton(onClick = { vm.oculto = !vm.oculto }) {
+                        Icon(if (vm.oculto) Icons.Filled.VisibilityOff else Icons.Filled.Visibility, stringResource(if (vm.oculto) R.string.cu_mostrar_montos else R.string.cu_ocultar_montos))
+                    }
+                },
             )
         },
     ) { padding ->
+        if (bloqueado) { PantallaBloqueo(Modifier.padding(padding)) { vm.abiertoHasta = System.currentTimeMillis() + 5 * 60_000 }; return@Scaffold }
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
@@ -287,10 +396,13 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         is NivelCuentas.Anio -> anio(n.a, libro, plata, ir)
                         is NivelCuentas.Mes -> mes(n.ym, libro, plata, ir, vm)
                         is NivelCuentas.Dia -> dia(n.f, libro, plata, ir, vm, avisos)
+                        NivelCuentas.DeudasN -> deudasNivel(libro, plata, vm, avisos)
+                        NivelCuentas.PatrimonioN -> patrimonioNivel(libro, plata, ir, vm)
                     }
                 }
             }
         }
+    }
     }
 }
 
@@ -303,6 +415,8 @@ private fun Migas(n: NivelCuentas, ir: (NivelCuentas) -> Unit) {
             is NivelCuentas.Anio -> add("${n.a}" to n)
             is NivelCuentas.Mes -> { add("${n.ym.year}" to NivelCuentas.Anio(n.ym.year)); add(nombreMes(n.ym.monthValue) to n) }
             is NivelCuentas.Dia -> { add("${n.f.year}" to NivelCuentas.Anio(n.f.year)); add(nombreMes(n.f.monthValue) to NivelCuentas.Mes(YearMonth.from(n.f))); add("${n.f.dayOfMonth}" to n) }
+            NivelCuentas.DeudasN -> add(stringResource(R.string.cu_deudas) to n)
+            NivelCuentas.PatrimonioN -> add(stringResource(R.string.cu_patrimonio_titulo) to n)
             else -> {}
         }
     }
@@ -485,10 +599,22 @@ fun MochilasCard(s: Cuentas.Suma, plata: (Double) -> String) {
 @Composable
 fun CategoriasCard(s: Cuentas.Suma, plata: (Double) -> String) {
     val l = s.categorias.filterKeys { it.first != Tipo.ING }.entries.sortedByDescending { it.value }.take(8)
-    if (l.isEmpty()) return
+    if (l.isEmpty()) {
+        RutaCard {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.cu_a_donde), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                BotonCrearCategoria()
+            }
+            Text(stringResource(R.string.cu_cats_vacio), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        return
+    }
     val max = l.first().value
     RutaCard {
-        Text(stringResource(R.string.cu_a_donde), style = MaterialTheme.typography.titleMedium)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(stringResource(R.string.cu_a_donde), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+            BotonCrearCategoria()
+        }
         l.forEach { (k, v) ->
             Row(Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(nombreCategoria(k.first, k.second), Modifier.width(130.dp), style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -556,8 +682,11 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
                 style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
+    item(key = "salud") { SaludCard(libro.salud(null), null, libro, plata, ir) }
+    item(key = "deudas") { DeudasResumen(libro, plata) { ir(NivelCuentas.DeudasN) } }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
+    item(key = "privacidad") { PrivacidadCard(libro, vm) }
     item(key = "moneda") { MonedaCard(libro.moneda) { vm.elegirMoneda(it) } }
     item(key = "aprende") {
         RutaCard(onClick = onAprende) {
@@ -591,6 +720,7 @@ private fun LazyListScope.anio(a: Int, libro: Libro, plata: (Double) -> String, 
             TablaPeriodos(filas, stringResource(R.string.cu_col_mes), t, plata, ir)
         }
     }
+    item(key = "salud-$a") { SaludCard(libro.salud(a), a, libro, plata, ir) }
     item(key = "mochilas") { MochilasCard(t, plata) }
     item(key = "cats") { CategoriasCard(t, plata) }
 }
@@ -727,16 +857,21 @@ private fun NuevoMovimiento(plata: (Double) -> String, onAgregar: (Tipo, Double,
 @Composable
 private fun SelectorCategoria(tipo: Tipo, actual: String, modifier: Modifier = Modifier, onElegir: (String) -> Unit) {
     var abierto by remember { mutableStateOf(false) }
+    var creando by remember { mutableStateOf(false) }
+    if (creando) NuevaCategoriaDialogo(tipo, onCerrar = { creando = false }) { onElegir(it); creando = false }
     ExposedDropdownMenuBox(expanded = abierto, onExpandedChange = { abierto = it }, modifier = modifier) {
         OutlinedTextField(nombreCategoria(tipo, actual), {}, readOnly = true, singleLine = true, label = { Text(stringResource(R.string.cu_categoria)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(abierto) }, modifier = Modifier.fillMaxWidth().menuAnchor(MenuAnchorType.PrimaryNotEditable))
         ExposedDropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {
-            Cuentas.CATEGORIAS.getValue(tipo).forEach { (c, m) ->
+            Cuentas.categorias(tipo, LocalPropias.current).forEach { (c, m) ->
                 val mo = m?.takeIf { tipo == Tipo.GAS }
                 val punto = if (mo != null) colorMochila(mo) else null
                 DropdownMenuItem(text = { Text(nombreCategoria(tipo, c)) }, onClick = { onElegir(c); abierto = false },
                     leadingIcon = if (punto != null) { { Box(Modifier.size(10.dp).clip(CircleShape).background(punto)) } } else null)
             }
+            val vmC = LocalCuentas.current
+            if (vmC != null) DropdownMenuItem(text = { Text(stringResource(R.string.cu_nueva_categoria)) }, onClick = { abierto = false; creando = true },
+                leadingIcon = { Icon(Icons.Filled.Add, null) })
         }
     }
 }
@@ -761,17 +896,18 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
             Text(nombreCategoria(t, x.c), style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (nota.isNotBlank()) Text(nota, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
         }
+        if (x.r.isNotEmpty()) Icon(Icons.Filled.AttachFile, stringResource(R.string.cu_recibos_n, x.r.size), Modifier.size(18.dp).padding(end = 2.dp), tint = MaterialTheme.colorScheme.primary)
         Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
         IconButton(onClick = {
             vm.borrar(fecha, x)
             alcance.launch { if (avisos.showSnackbar(quitado, deshacer, withDismissAction = true) == SnackbarResult.ActionPerformed) vm.deshacerBorrado(fecha, x) }
         }) { Icon(Icons.Filled.Delete, stringResource(R.string.cu_quitar), tint = MaterialTheme.colorScheme.onSurfaceVariant) }
     }
-    if (editar) EditarMovimiento(x, plata, onCerrar = { editar = false }) { nuevo -> vm.editar(fecha, x, nuevo); editar = false }
+    if (editar) EditarMovimiento(x, fecha, plata, vm, onCerrar = { editar = false }) { nuevo -> vm.editar(fecha, x, nuevo); editar = false }
 }
 
 @Composable
-private fun EditarMovimiento(x: Mov, plata: (Double) -> String, onCerrar: () -> Unit, onGuardar: (Mov) -> Unit) {
+private fun EditarMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm: CuentasViewModel, onCerrar: () -> Unit, onGuardar: (Mov) -> Unit) {
     val t = Tipo.de(x.t)
     var monto by remember { mutableStateOf(Cuentas.numero(x.m)) }
     var cat by remember { mutableStateOf(x.c) }
@@ -786,9 +922,10 @@ private fun EditarMovimiento(x: Mov, plata: (Double) -> String, onCerrar: () -> 
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), supportingText = { Text(plata(v)) }, modifier = Modifier.fillMaxWidth())
                 SelectorCategoria(t, cat, Modifier.fillMaxWidth()) { cat = it }
                 OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                if (x.agenda == null) RecibosMovimiento(x, fecha, vm)
             }
         },
-        confirmButton = { TextButton(onClick = { onGuardar(Mov(x.id, x.t, v, cat, nota.trim())) }, enabled = v > 0) { Text(stringResource(R.string.guardar)) } },
+        confirmButton = { TextButton(onClick = { onGuardar(x.copy(m = v, c = cat, n = nota.trim())) }, enabled = v > 0) { Text(stringResource(R.string.guardar)) } },
         dismissButton = { TextButton(onClick = onCerrar) { Text(stringResource(R.string.cancelar)) } },
     )
 }
@@ -808,8 +945,8 @@ fun ResumenCuentasDia(fecha: LocalDate) {
     val vm = rutaViewModel { CuentasViewModel(it) }
     val libro by vm.libro.collectAsStateWithLifecycle()
     val abrir = irACuentas()
-    val movs = libro.movs(fecha.toString()); val s = Cuentas.sumar(movs)
-    val plata: (Double) -> String = { Cuentas.formato(it, libro.moneda) }
+    val movs = libro.movs(fecha.toString()); val s = Cuentas.sumar(movs, libro.propias)
+    val plata: (Double) -> String = { if (libro.ocultarFuera) "•••••" else Cuentas.formato(it, libro.moneda) }
     RutaCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.control_financiero), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
@@ -839,7 +976,7 @@ fun ResumenCuentasMes(ym: YearMonth, modifier: Modifier = Modifier) {
     val libro by vm.libro.collectAsStateWithLifecycle()
     val abrir = irACuentas()
     val t = libro.suma("$ym-")
-    val plata: (Double) -> String = { Cuentas.formato(it, libro.moneda) }
+    val plata: (Double) -> String = { if (libro.ocultarFuera) "•••••" else Cuentas.formato(it, libro.moneda) }
     RutaCard(modifier) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.fin_mes), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
