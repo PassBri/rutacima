@@ -10,7 +10,7 @@ const BASES = {
 };
 const alternar = (xs, x) => xs.includes(x) ? xs.filter(y => y !== x) : [...xs, x];
 /** Marca un día en una meta del mes (sin desmarcarlo si ya estaba). */
-function marcarDiaMeta(id, fecha) { const m = Store.get("meta_mes", id), d = deIso(fecha).getDate(); if (!m || numeros(m.dias).includes(d)) return;
+function marcarDiaMeta(id, fecha) { const m = Store.get("meta_mes", id), d = deIso(fecha).getDate(); if (!m || numeros(m.dias).includes(d) || deIso(fecha) > hoyFecha()) return;
   Store.cambiar("meta_mes", id, { dias: [...numeros(m.dias), d].sort((x, y) => x - y).join(",") }); }
 
 const ACC = {
@@ -138,17 +138,23 @@ const ACC = {
   irCampamento(_, i) { estado.vidaCamp = Number(i); ir("ruta", "vida"); requestAnimationFrame(() => document.querySelector(".vv-panel")?.scrollIntoView({ block: "center" })); },
   /* Actividades del día: texto en el horario (igual que la app), meta del mes que mueve y si se hizo */
   actTexto(el, arg) { const [fecha, h] = arg.split("|"), ag = Store.get("agenda", fecha) || {}, hor = horarioDe(ag), t = el.value.trim().slice(0, 200);
-    if (t) hor[h] = t; else delete hor[h]; Store.cambiar("agenda", fecha, { horario: JSON.stringify(hor) }, BASES.agenda(fecha)); },
+    if (t) hor[h] = t; else delete hor[h]; Store.cambiar("agenda", fecha, { horario: JSON.stringify(hor) }, BASES.agenda(fecha));
+    // La fila se activa al instante (sin redibujar, para no perder el foco del siguiente campo): casilla y meta del mes
+    const fila = el.closest(".act"); if (!fila) return;
+    const cb = fila.querySelector('input[type=checkbox]'); if (cb) { cb.disabled = !t; if (!t) cb.checked = false; }
+    const sel = fila.querySelector("select"), f = deIso(fecha), ms = metasDelMes(f.getFullYear(), f.getMonth() + 1);
+    if (t && !sel) fila.lastElementChild.outerHTML = `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}">${esc(x.texto)}</option>`).join("")}</select>`;
+    else if (!t && sel) sel.outerHTML = "<span></span>"; },
   actMeta(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#meta`, el.value);
     if (el.value && respuesta(`dia#${fecha}#${h}#hecho`) === "1") marcarDiaMeta(el.value, fecha); },
   actHecha(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#hecho`, el.checked ? "1" : "");
-    const meta = respuesta(`dia#${fecha}#${h}#meta`); if (el.checked && meta) { marcarDiaMeta(meta, fecha); toast("El día cuenta en tu meta del mes"); } },
-  horasTodas(_, f) { estado.horasTodas = f || null; pintarDetalle(); },
+    const meta = respuesta(`dia#${fecha}#${h}#meta`); el.closest(".act")?.classList.toggle("hecha", el.checked);
+    if (el.checked && meta && deIso(fecha) <= hoyFecha()) { marcarDiaMeta(meta, fecha); toast("El día cuenta en tu meta del mes"); } else if (el.checked) toast("Actividad hecha"); },
   /* Plan del día: las 3 cumbres */
   topTexto(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); while (xs.length <= Number(i)) xs.push({ t: "" }); xs[i] = { ...xs[i], t: el.value.trim() }; guardarTop(f, xs); pintarDetalle(); },
   topMeta(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); if (!xs[i]) return; xs[i].meta = el.value; guardarTop(f, xs); if (xs[i].hecho && el.value) marcarDiaMeta(el.value, f); },
   topHecha(el, arg) { const [f, i] = arg.split("|"), xs = topDe(f); if (!xs[i]) return; xs[i].hecho = el.checked; guardarTop(f, xs);
-    if (el.checked && xs[i].meta) { marcarDiaMeta(xs[i].meta, f); toast("¡Cumbre del día! Cuenta en tu meta del mes."); } else if (el.checked) toast("¡Cumbre del día!"); pintarDetalle(); },
+    if (el.checked && xs[i].meta && deIso(f) <= hoyFecha()) { marcarDiaMeta(xs[i].meta, f); toast("¡Cumbre del día! Cuenta en tu meta del mes."); } else if (el.checked) toast("¡Cumbre del día!"); pintarDetalle(); },
   /** Lo pendiente de un día pasa al siguiente: las cumbres no hechas primero, y las actividades a su misma hora. */
   pasarPendientes(desde, hasta) {
     const p = pendientesDe(desde), xs = topDe(hasta);

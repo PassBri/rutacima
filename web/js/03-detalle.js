@@ -334,18 +334,18 @@ function sinPasoEsteMes(a, m) {
 /** Actividades del día por hora (el mismo horario de la app), cada una puede ir a una meta del mes: al hacerla, el día cuenta en esa meta. */
 const horarioDe = ag => { try { return JSON.parse(ag.horario || "{}") || {}; } catch { return {}; } };
 function actividadesDia(fecha, ag, ms) {
-  const hor = horarioDe(ag), todas = estado.horasTodas === fecha;
-  const horas = todas ? [...Array(24).keys()] : [...Array(24).keys()].filter(h => (h >= 5 && h <= 22) || hor[h]);
+  // Las 24 horas, de 4:00 a 3:00 (el mismo orden que la app): el día empieza al madrugar, no a medianoche
+  const hor = horarioDe(ag), horas = [...Array(24).keys()].map(i => (i + 4) % 24);
   const f = deIso(fecha), hoyF = hoyFecha();
   const fila = h => {
     const t = hor[h] || "", meta = respuesta(`dia#${fecha}#${h}#meta`), hecho = respuesta(`dia#${fecha}#${h}#hecho`) === "1";
     const ahora = fecha === iso(hoyF) && new Date().getHours() === Number(h);
     return `<div class="act${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"><span class="act-h">${ahora ? "Ahora" : String(h).padStart(2, "0") + ":00"}</span>
-      <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t || f > hoyF ? "disabled" : ""} aria-label="Hecha">
+      <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t ? "disabled" : ""} aria-label="Hecha">
       <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
       ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}" ${String(x.id) === meta ? "selected" : ""}>${esc(x.texto)}</option>`).join("")}</select>` : `<span></span>`}</div>`;
   };
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Actividades del día</h3><button class="btn mini" data-acc="horasTodas" data-arg="${todas ? "" : fecha}">${todas ? "Horario corto" : "Ver 24 horas"}</button></div>
+  return hoja(`<h3 style="margin:0">Actividades del día</h3>
     <p class="suave" style="margin:4px 0 10px">Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.</p>
     <div class="acts">${horas.map(fila).join("")}</div>`);
 }
@@ -383,7 +383,7 @@ function planDelDia(fecha, ag, ms) {
   return hoja(`<h3 style="margin:0 0 4px">Plan del día</h3><p class="suave" style="margin:0 0 12px">Pocas cosas, en orden: empieza por la 1 y no pases a la siguiente hasta terminarla. Únelas a una meta del mes para que cuenten allá.</p>
     ${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}" placeholder="Hoy quiero…">`)}
     <div class="etiqueta" style="margin:12px 0 6px">Las 3 cumbres de hoy</div>
-    <div class="tops">${[0, 1, 2].map(i => filaTop(fecha, i, top[i], ms, deIso(fecha) <= hoyFecha())).join("")}</div>
+    <div class="tops">${[0, 1, 2].map(i => filaTop(fecha, i, top[i], ms, true)).join("")}</div>
     ${traer ? `<div class="traer"><span>Ayer quedaron ${p.top.length + p.acts.length} pendientes.</span><button class="btn mini oro" data-acc="traerPendientes" data-arg="${fecha}">Traerlos a hoy</button><button class="btn mini" data-acc="traerNo" data-arg="${fecha}">Soltarlos</button></div>` : ""}`);
 }
 /** El cierre: lo que salió, y las 3 cumbres de mañana escritas antes de dormir (Ivy Lee). */

@@ -199,11 +199,12 @@ class AgendaViewModel(private val c: AppContainer) : ViewModel() {
     fun topHecha(f: LocalDate, r: Map<String, String>, i: Int, si: Boolean): Boolean {
         val xs = tops(f, r).toMutableList(); if (i >= xs.size) return false
         xs[i] = xs[i].copy(hecho = si); guardarTops(f, xs, true)
-        return if (si && xs[i].meta.isNotBlank()) { marcarMeta(xs[i].meta, f); true } else false
+        return if (si && xs[i].meta.isNotBlank() && !f.isAfter(hoy())) { marcarMeta(xs[i].meta, f); true } else false
     }
 
     /** Marca el día en una meta del mes (sin desmarcar si ya estaba). */
     fun marcarMeta(id: String, f: LocalDate) {
+        if (f.isAfter(hoy())) return  // un día que aún no llega no cuenta en la meta
         val m = metasMes.value.firstOrNull { it.id.toString() == id && it.anio == f.year && it.mes == f.monthValue } ?: return
         if (f.dayOfMonth !in m.diasMarcados()) viewModelScope.launch { c.planAnual.alternarDia(m, f.dayOfMonth) }
     }
@@ -271,7 +272,6 @@ class AgendaViewModel(private val c: AppContainer) : ViewModel() {
 @Composable
 fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
     val d = vm.dia
-    var horarioCompleto by remember { mutableStateOf(false) }
     val r by vm.resp.collectAsStateWithLifecycle()
     val todas by vm.metasMes.collectAsStateWithLifecycle()
     val ctx = LocalContext.current
@@ -313,7 +313,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 Text(stringResource(R.string.tres_cumbres_hoy), style = MaterialTheme.typography.labelLarge)
                 val tops = vm.tops(f, r)
                 (0..2).forEach { i ->
-                    FilaTop(i, tops.getOrNull(i), metas, marcable = !f.isAfter(hoy()),
+                    FilaTop(i, tops.getOrNull(i), metas, marcable = true,
                         onTexto = { vm.topTexto(f, r, i, it) }, onMeta = { vm.topMeta(f, r, i, it) },
                         onHecha = { si -> val movio = vm.topHecha(f, r, i, si); if (si) aviso(ctx.getString(if (movio) R.string.cumbre_dia_meta else R.string.cumbre_dia)) })
                 }
@@ -340,14 +340,11 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         item(key = "acts-tit") {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SectionTitle(stringResource(R.string.actividades_dia), Modifier.weight(1f))
-                TextButton(onClick = { horarioCompleto = !horarioCompleto }) {
-                    Text(stringResource(if (horarioCompleto) R.string.ver_horario_corto else R.string.ver_24_horas))
-                }
             }
             Text(stringResource(R.string.actividades_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         val horario = d.horarioMapa()
-        val horas = if (horarioCompleto) HORAS_DEL_DIA else HORAS_DEL_DIA.filter { it in 5..22 || horario.containsKey(it) }
+        val horas = HORAS_DEL_DIA  // las 24 horas, de 4:00 am a 3:00 am (igual que la web)
         val ahora = if (f == hoy()) java.time.LocalTime.now().hour else -1
         items(horas, key = { "h$it" }) { h ->
             val t = horario[h].orEmpty()
@@ -363,7 +360,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 Text(if (esAhora) stringResource(R.string.ahora_hora) else etiquetaHora(h), modifier = Modifier.width(64.dp).padding(start = 4.dp),
                     style = MaterialTheme.typography.labelMedium, fontWeight = if (esAhora) FontWeight.Bold else FontWeight.Normal,
                     color = if (esAhora) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
-                Checkbox(checked = hecho, onCheckedChange = { vm.actHecha(h, it, r) }, enabled = t.isNotBlank() && !f.isAfter(hoy()),
+                Checkbox(checked = hecho, onCheckedChange = { vm.actHecha(h, it, r) }, enabled = t.isNotBlank(),
                     modifier = Modifier.semantics { contentDescription = ctx.getString(R.string.hecha) })
                 OutlinedTextField(
                     value = t,
