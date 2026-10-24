@@ -1651,3 +1651,20 @@ begin
 end $$;
 revoke all on function public.metricas_plan() from public, anon;
 grant execute on function public.metricas_plan() to authenticated;
+
+-- ======================================================================
+-- Recibos de Ascenso financiero: fotos y PDF privados. Cada persona solo ve, sube y borra los de
+-- su carpeta (<id de la cuenta>/…); la web y la app los abren con enlaces firmados que vencen.
+-- ======================================================================
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('recibos', 'recibos', false, 15728640, array['image/jpeg','image/png','image/webp','image/heic','application/pdf'])
+on conflict (id) do update set public = false, file_size_limit = excluded.file_size_limit, allowed_mime_types = excluded.allowed_mime_types;
+drop policy if exists "ver mis recibos" on storage.objects;
+create policy "ver mis recibos" on storage.objects for select
+  using (bucket_id = 'recibos' and (storage.foldername(name))[1] = public.yo()::text);
+drop policy if exists "subir mis recibos" on storage.objects;
+create policy "subir mis recibos" on storage.objects for insert
+  with check (bucket_id = 'recibos' and (storage.foldername(name))[1] = public.yo()::text);
+drop policy if exists "borrar mis recibos" on storage.objects;
+create policy "borrar mis recibos" on storage.objects for delete
+  using (bucket_id = 'recibos' and (storage.foldername(name))[1] = public.yo()::text);

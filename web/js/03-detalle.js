@@ -757,7 +757,7 @@ Object.assign(DET, {
   "comunidad.publicar"() {
     return cab(av(ic("publicar"), "var(--burdeos)"), "Publicar", "Planta tu bandera: comparte un paso de tu ascenso") + cuerpo(
       hoja(`<form class="form" data-form="publicar">
-        ${campo("¿Qué quieres compartir?", `<textarea name="texto" required maxlength="2200" placeholder="Hoy logré…"></textarea>`)}
+        ${campo("¿Qué quieres compartir?", `<textarea name="texto" required maxlength="2200" placeholder="Hoy logré…">${esc(estado.borradorPost || "")}</textarea>`)}${(estado.borradorPost = "", "")}
         <div class="form-2">${campo("Tipo", `<select name="tipo">${TIPOS_POST.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}
           ${campo("Eje", `<select name="eje">${opcionesEje.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}
           ${campo("Quién lo ve", `<select name="visibilidad">${VISIBILIDAD.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}</div>

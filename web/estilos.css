@@ -1442,7 +1442,7 @@ body:has(.md-visor) { overflow: hidden; }
 .asc-movs input:hover, .asc-movs select:hover { border-color: var(--linea); }
 .asc-movs input:focus, .asc-movs select:focus { border-color: var(--burdeos); outline: none; background: var(--hoja); }
 .asc-movs input.num { text-align: right; font-variant-numeric: tabular-nums; }
-.asc-movs td:nth-child(4) { width: 160px; } .asc-movs td:last-child { width: 44px; }
+.asc-movs td:nth-child(4) { width: 160px; } .asc-movs td:last-child { width: 92px; }
 .pildora { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
 .pildora.t-ing { color: var(--c-ing); background: color-mix(in srgb, var(--c-ing) 14%, transparent); }
 .pildora.t-gas { color: var(--c-gas); background: color-mix(in srgb, var(--c-gas) 14%, transparent); }
@@ -1505,3 +1505,43 @@ body:has(.md-visor) { overflow: hidden; }
   .asc-movs tfoot tr { display: grid; grid-template-columns: 1fr auto; } .asc-movs tfoot td:last-child { display: none; }
   .asc-tabla table:not(.asc-movs) { min-width: 560px; }
 }
+/* Ascenso financiero: salud, deudas, privacidad y recibos */
+.salud-cab { display: flex; gap: 16px; align-items: center; margin: 12px 0 14px; }
+.salud-anillo { --p: 0; width: 84px; height: 84px; border-radius: 50%; flex: none; display: grid; place-content: center; text-align: center;
+  background: radial-gradient(closest-side, var(--hoja) 78%, transparent 80% 100%), conic-gradient(var(--burdeos) calc(var(--p) * 1%), var(--hoja-2) 0); }
+.salud-anillo b { font-size: 26px; line-height: 1; font-variant-numeric: tabular-nums; } .salud-anillo small { font-size: 11px; color: var(--tinta-suave); }
+.salud-etq { font-size: 18px; font-family: var(--font-titulo); }
+.e-ok { color: var(--c-ing); } .e-medio { color: var(--m-amarilla); } .e-bajo { color: #B3261E; }
+:root[data-theme="dark"] .e-bajo { color: #F2B8B5; } @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .e-bajo { color: #F2B8B5; } }
+.salud-lista { display: grid; gap: 2px; }
+.salud-ind { display: grid; grid-template-columns: 10px 1fr auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px solid var(--linea); }
+.salud-ind span:nth-child(2) { display: grid; gap: 2px; } .salud-ind small { color: var(--tinta-suave); font-size: 12.5px; }
+.salud-punto { width: 10px; height: 10px; border-radius: 50%; background: currentColor; }
+.salud-val { text-align: right; display: grid; font-weight: 600; font-variant-numeric: tabular-nums; } .salud-val small { font-weight: 500; font-size: 12px; }
+.capas { display: grid; gap: 10px; margin-top: 12px; }
+.capa { display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); }
+.capa > svg { width: 22px; height: 22px; fill: var(--c-ing); } .capa span { display: grid; gap: 2px; } .capa small { color: var(--tinta-suave); font-size: 12.5px; }
+.capa input[type=checkbox] { width: 22px; height: 22px; accent-color: var(--burdeos); }
+.bloqueo-fin { text-align: center; display: grid; gap: 10px; justify-items: center; padding: 18px 0; }
+.bloqueo-fin .grande { width: 48px; height: 48px; fill: var(--burdeos); }
+.plan-deudas { padding: 12px 14px; border-radius: 12px; background: var(--hoja-2); margin-top: 6px; } .plan-deudas p { margin: 0 0 6px; } .plan-deudas p:last-child { margin: 0; }
+.asc-deudas input { width: 84px; } .asc-deudas th[scope=row] { min-width: 180px; }
+.orden { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--burdeos-suave); color: var(--burdeos); font-size: 12px; margin-right: 8px; vertical-align: 1px; }
+.orden.ok { background: color-mix(in srgb, var(--c-ing) 16%, transparent); } .orden svg { width: 14px; height: 14px; fill: var(--c-ing); }
+.barra-deuda { height: 4px; border-radius: 2px; background: var(--hoja-2); margin-top: 6px; overflow: hidden; } .barra-deuda i { display: block; height: 100%; background: var(--c-ing); }
+.acciones-deuda { display: flex; gap: 6px; align-items: center; justify-content: flex-end; }
+.deuda-nueva { grid-template-columns: minmax(140px, 2fr) minmax(110px, 1fr) minmax(80px, .7fr) minmax(110px, 1fr) minmax(140px, 1.2fr) auto; }
+@media (max-width: 700px) { .deuda-nueva { grid-template-columns: 1fr 1fr; } .deuda-nueva label:first-child { grid-column: 1 / -1; } }
+.asc-sube b.ok { color: var(--c-ing); }
+.acc-mov { display: flex; gap: 2px; justify-content: flex-end; }
+.acc-mov .rb.con { color: var(--burdeos); } .acc-mov .rb small { font-size: 10px; margin-left: -2px; }
+.recibos { display: grid; gap: 8px; margin: 10px 0 14px; }
+.recibo { display: grid; grid-template-columns: 56px 1fr auto auto; gap: 10px; align-items: center; }
+.recibo-vista { width: 56px; height: 56px; border-radius: 8px; background: var(--hoja-2); display: grid; place-items: center; overflow: hidden; }
+.recibo-vista img { width: 100%; height: 100%; object-fit: cover; } .recibo-vista svg { width: 26px; height: 26px; fill: var(--tinta-suave); }
+.recibo-nom { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+label.cargando { opacity: .6; pointer-events: none; }
+.enlace { background: none; border: 0; padding: 0; color: var(--burdeos); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.campo > span .enlace { margin-left: 6px; font-size: 12.5px; }
+.salud-tabla { min-width: 460px !important; } .salud-tabla tr.fuerte th, .salud-tabla tr.fuerte td { font-weight: 600; background: var(--hoja-2); }
+.salud-tabla th[scope=row] { white-space: normal; }

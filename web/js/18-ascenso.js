@@ -41,6 +41,7 @@ function ascMoneda() {
 }
 /** "$ 1.250.000", "US$ 12,50", "1.234,50 €"… en el idioma del navegador; sin decimales si el monto es entero. */
 function plata(v, { signo = false } = {}) {
+  if (estado.ascOculto) return "•••••";               // montos ocultos (botón del ojo), por ejemplo en un lugar público
   const entero = Math.abs(v % 1) < 0.005;
   let s;
   try { s = new Intl.NumberFormat(ascLocale, { style: "currency", currency: ascMoneda(), minimumFractionDigits: entero ? 0 : 2, maximumFractionDigits: entero ? 0 : 2 }).format(v); }
@@ -60,10 +61,10 @@ function movsDe(f) {
   return [...viejos, ...movsGuardados(f)];
 }
 function guardarMovs(f, xs) {
-  const l = xs.filter(x => !x.ag).map(({ id, t, m, c, n }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120) }));
+  const l = xs.filter(x => !x.ag).map(({ id, t, m, c, n, r, d }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}) }));
   return responder(ASC.WB, claveMov(f), l.length ? JSON.stringify(l) : "");
 }
-const catDe = (t, c) => ASC.CAT[t]?.find(x => x[0] === c) || ASC.CAT[t]?.at(-1);
+const catDe = (t, c) => (window.categorias ? categorias(t) : ASC.CAT[t] || []).find(x => x[0] === c) || ASC.CAT[t]?.at(-1);
 const mochilaDe = x => x.t === "gas" ? (catDe("gas", x.c)?.[2] || "amarilla") : x.t === "aho" || x.t === "inv" ? "roja" : null;
 
 /** Suma de movimientos: totales por tipo, por mochila y por categoría. */
@@ -114,9 +115,9 @@ function mochilas(s) {
 /** En qué se fue el dinero: categorías de mayor a menor, con barras a escala. */
 function porCategoria(s) {
   const l = Object.entries(s.cat).filter(([k]) => !k.startsWith("ing:")).sort((a, b) => b[1] - a[1]).slice(0, 8);
-  if (!l.length) return "";
+  if (!l.length) return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">¿A dónde fue tu dinero?</h3><button class="btn mini" data-acc="ascCrearCat" data-arg="gas">${ic("mas")} Crear categoría</button></div><p class="suave" style="margin:8px 0 0">Cuando anotes gastos verás aquí en qué se van. Crea tus propias categorías: Mascotas, Gimnasio, Regalos…</p>`);
   const max = l[0][1];
-  return hoja(`<h3 style="margin:0 0 10px">¿A dónde fue tu dinero?</h3><div class="asc-cats">${l.map(([k, v]) => { const [t, c] = k.split(":"), cat = catDe(t, c);
+  return hoja(`<div class="cab-lista-btn" style="margin-bottom:10px"><h3 style="margin:0">¿A dónde fue tu dinero?</h3><button class="btn mini" data-acc="ascCrearCat" data-arg="gas">${ic("mas")} Crear categoría</button></div><div class="asc-cats">${l.map(([k, v]) => { const [t, c] = k.split(":"), cat = catDe(t, c);
     return `<div class="asc-cat"><span>${esc(cat?.[1] || c)}</span><span class="barra-c"><i class="b-${t}" style="width:${(v / max * 100).toFixed(1)}%"></i></span><span class="num">${plata(v)}</span></div>`; }).join("")}</div>`);
 }
 /** Barras de ingresos y gastos por periodo (a escala, con su valor al pasar). */
@@ -137,36 +138,40 @@ const avAsc = () => av(ic("finanzas"), "var(--ok)");
 const ymDe = (a, m) => `${a}-${String(m).padStart(2, "0")}`;
 
 /* ---------- Pantallas ---------- */
+const ojoAsc = () => `<button class="rb" data-acc="ascOjo" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>`;
 DET["finanzas.b"] = () => {
+  if (window.finBloqueado?.()) return pantallaBloqueo();
   const dias = diasConMovs(), hoyA = new Date().getFullYear();
   const anios = [...new Set([...dias.map(f => Number(f.slice(0, 4))), hoyA])].sort();
   const filas = anios.map(a => ({ etq: String(a), corto: String(a), sel: "a:" + a, s: totalesDe(a + "-"), actual: a === hoyA }));
   const t = sumar(dias.flatMap(movsDe));
-  return cab(avAsc(), "Ascenso financiero", "Balance general · todos tus años") + cuerpo(
+  return cab(avAsc(), "Ascenso financiero", "Balance general · todos tus años", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"]]) +
     (t.n ? "" : `<div class="aviso">${ic("finanzas")} Empieza por hoy: anota lo que entró y salió. Cada día suma al mes, cada mes al año y cada año a este balance.<button class="btn lleno" data-sel="d:${iso(hoyFecha())}" style="margin-left:auto">Registrar hoy</button></div>`) +
     cifras(t) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Año por año</h3><span class="suave" style="font-size:13px">Toca un año para ver sus meses</span></div>${grafica(filas)}${tablaPeriodos(filas, "Año", t)}
       <p class="asc-pie">Patrimonio construido: <b>${plata(t.construido)}</b> en ahorro e inversión${t.tasa != null ? ` · ${Math.round(t.tasa * 100)} % de todo lo que entró` : ""}.</p>`) +
-    mochilas(t) + porCategoria(t) + monedaHoja(), "max-width:980px");
+    saludHoja("") + deudasResumen() + mochilas(t) + porCategoria(t) + privacidadHoja() + monedaHoja(), "max-width:980px");
 };
 DET["finanzas.a"] = arg => {
+  if (window.finBloqueado?.()) return pantallaBloqueo();
   const a = Number(arg) || new Date().getFullYear(), hoy = hoyFecha();
   const filas = [...Array(12).keys()].map(i => ({ etq: mayus(MESES[i]), corto: MES_C[i], sel: "m:" + ymDe(a, i + 1), s: totalesDe(ymDe(a, i + 1) + "-"), actual: a === hoy.getFullYear() && i === hoy.getMonth() }));
   const t = totalesDe(a + "-");
-  return cab(avAsc(), String(a), "Ascenso financiero · el año mes a mes") + cuerpo(
+  return cab(avAsc(), String(a), "Ascenso financiero · el año mes a mes", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), ""]]) + navPeriodo("a:" + (a - 1), "a:" + (a + 1), String(a)) + cifras(t) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Mes a mes</h3><span class="suave" style="font-size:13px">Toca un mes para ver sus días</span></div>${grafica(filas)}${tablaPeriodos(filas, "Mes", t)}`) +
-    mochilas(t) + porCategoria(t), "max-width:980px");
+    saludHoja(a + "-") + mochilas(t) + porCategoria(t), "max-width:980px");
 };
 DET["finanzas.m"] = arg => {
+  if (window.finBloqueado?.()) return pantallaBloqueo();
   const [a, m] = arg.split("-").map(Number), ym = ymDe(a, m), hoyI = iso(hoyFecha());
   const dias = new Set(diasConMovs().filter(f => f.startsWith(ym)));
   if (hoyI.startsWith(ym)) dias.add(hoyI);
   const filas = [...dias].sort().map(f => { const d = deIso(f); return { etq: `${d.getDate()} · ${d.toLocaleDateString("es", { weekday: "short" })}`, corto: String(d.getDate()), sel: "d:" + f, s: sumar(movsDe(f)), actual: f === hoyI }; });
   const t = totalesDe(ym + "-"), pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym)))), uso = pres ? t.gas / pres : null;
   const ant = m === 1 ? ymDe(a - 1, 12) : ymDe(a, m - 1), sig = m === 12 ? ymDe(a + 1, 1) : ymDe(a, m + 1);
-  return cab(avAsc(), `${mayus(MESES[m - 1])} ${a}`, "Ascenso financiero · el mes día a día") + cuerpo(
+  return cab(avAsc(), `${mayus(MESES[m - 1])} ${a}`, "Ascenso financiero · el mes día a día", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), ""]]) + navPeriodo("m:" + ant, "m:" + sig, `${mayus(MESES[m - 1])} ${a}`) + cifras(t) +
     hoja(`<h3 style="margin:0 0 8px">Presupuesto de gastos</h3>${campo("Lo máximo que quieres gastar este mes", `<input type="text" inputmode="decimal" data-resp="${FIN_WB}|${claveFinPresupuesto(ym)}" value="${esc(respuesta(claveFinPresupuesto(ym)))}" placeholder="Ej. ${plata(1500000)}">`)}
       ${uso != null ? `<div class="fin-pres"><div class="barra"><i style="width:${Math.min(100, uso * 100)}%;${uso > 1 ? "background:var(--peligro, #B3261E)" : ""}"></i></div><span class="suave">Gastaste ${plata(t.gas)} de ${plata(pres)}${uso > 1 ? " · te pasaste " + plata(t.gas - pres) : " · te quedan " + plata(pres - t.gas)}</span></div>` : ""}`) +
@@ -175,26 +180,27 @@ DET["finanzas.m"] = arg => {
     mochilas(t) + porCategoria(t), "max-width:980px");
 };
 DET["finanzas.d"] = f => {
+  if (window.finBloqueado?.()) return pantallaBloqueo();
   const d = deIso(f), a = d.getFullYear(), m = d.getMonth() + 1, ym = ymDe(a, m), movs = movsDe(f), s = sumar(movs), mes = totalesDe(ym + "-");
   const tipo = estado.ascTipo || "gas";
-  const opc = t => ASC.CAT[t].map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("");
-  return cab(avAsc(), `${d.getDate()} de ${MESES[m - 1]}`, mayus(d.toLocaleDateString("es", { weekday: "long" })) + ` · ${a}`) + cuerpo(
+  const opc = t => categorias(t).map(([c, n]) => `<option value="${c}" ${c === estado.ascCatNueva ? "selected" : ""}>${esc(n)}</option>`).join("");
+  return cab(avAsc(), `${d.getDate()} de ${MESES[m - 1]}`, mayus(d.toLocaleDateString("es", { weekday: "long" })) + ` · ${a}`, ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), "m:" + ym], [String(d.getDate()), ""]]) +
     navPeriodo("d:" + sumarDias(f, -1), "d:" + sumarDias(f, 1), `${d.getDate()} ${MES_C[m - 1]} ${a}`) +
     hoja(`<form class="asc-nuevo" data-form="ascMov" data-arg="${f}">
         <div class="seg" role="radiogroup" aria-label="Tipo de movimiento">${ASC.TIPOS.map(([k, , u]) => `<button type="button" role="radio" aria-checked="${tipo === k}" class="seg-b t-${k}" data-acc="ascTipo" data-arg="${k}">${u}</button>`).join("")}</div>
         <div class="asc-fila-nueva">
           <label class="campo"><span>Monto</span><input name="monto" inputmode="decimal" autocomplete="off" placeholder="${plata(0)}" required aria-label="Monto"></label>
-          <label class="campo"><span>Categoría</span><select name="cat">${opc(tipo)}</select></label>
+          <label class="campo"><span>Categoría <button type="button" class="enlace" data-acc="ascCrearCat" data-arg="${tipo}">+ Nueva</button></span><select name="cat">${opc(tipo)}</select></label>
           <label class="campo"><span>Concepto</span><input name="texto" maxlength="120" autocomplete="off" placeholder="${{ ing: "Pago de la quincena", gas: "Mercado de la semana", aho: "Aporte al fondo", inv: "Curso de finanzas" }[tipo]}"></label>
           <button class="btn lleno" type="submit">Agregar</button>
         </div></form>
-      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th><span class="oculto">Quitar</span></th></tr></thead><tbody>
+      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
         ${movs.length ? movs.map(x => `<tr class="t-${x.t}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
-          <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${ASC.CAT[x.t].map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
+          <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
           <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
-          <td><button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
           : `<tr><td colspan="5" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
@@ -209,12 +215,16 @@ function monedaHoja() {
 
 /* ---------- Lista ---------- */
 LISTAS.finanzas = () => {
+  if (window.finBloqueado?.()) return cabLista("Ascenso financiero", { buscar: false }) + `<div class="items">${item("b", av(ic("candado"), "var(--ok)"), "Privado", "", "Abre el libro con tu PIN")}</div>`;
   const hoyI = iso(hoyFecha()), ym = hoyI.slice(0, 7), a = new Date().getFullYear(), hoyS = sumar(movsDe(hoyI)), mesS = totalesDe(ym + "-");
   const anios = [...new Set([...diasConMovs().map(f => Number(f.slice(0, 4))), a])].sort((x, y) => y - x);
   let h = cabLista("Ascenso financiero", { buscar: false }) + `<div class="items">`;
   h += item("d:" + hoyI, av(hoyFecha().getDate(), "var(--ok)"), "Hoy", "", hoyS.n ? `${hoyS.n} ${hoyS.n === 1 ? "movimiento" : "movimientos"} · ${plata(hoyS.disp)}` : "Anota lo que entró y salió");
   h += item("m:" + ym, av(MES_C[hoyFecha().getMonth()], "var(--ok)"), mayus(MESES[hoyFecha().getMonth()]), "", `${plata(mesS.disp)} disponible`);
   h += item("b", av(ic("finanzas"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
+  const dd = window.deudasHoy ? deudasHoy() : [], debe = dd.reduce((a, x) => a + x.actual, 0);
+  h += item("deudas", av(ic("deuda"), "var(--ok)"), "Salir de deudas", "", dd.length ? (debe > 0 ? `Debes ${plata(debe)} · ${dd.filter(x => x.actual > 0).length} por pagar` : "¡Sin deudas!") : "Tu plan con avalancha o bola de nieve");
+  h += item("patrimonio", av(ic("finanzas"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
   h += grupo("Años");
   anios.forEach(y => { const s = totalesDe(y + "-"); h += item("a:" + y, av(String(y).slice(2), "var(--ok)"), String(y), "", s.n ? `Entró ${plata(s.ing)} · ${plata(s.disp)} libre` : "Sin movimientos"); });
   h += grupo("Aprende");
@@ -229,6 +239,7 @@ function cambiarMov(arg, cambio) {
   cambio(x); guardarMovs(f, xs.filter(y => !y.ag || y === x));
 }
 Object.assign(ACC, {
+  ascOjo() { estado.ascOculto = !estado.ascOculto; pintarDetalle(); pintarLista(); },
   aprendeFinanzas() { ir("aprende"); estado.filtro = "finanzas"; pintarLista(); },
   ascTipo(_, t) { estado.ascTipo = t; pintarDetalle(); document.querySelector('.asc-nuevo [name="monto"]')?.focus(); },
   ascCat(el, arg) { cambiarMov(arg, x => { x.c = el.value; }); },
@@ -258,13 +269,14 @@ document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.ma
 
 /** Para el día (Hoy) y el balance del mes: un resumen que lleva al módulo. */
 window.ascResumenDia = function (f) {
-  const movs = movsDe(f), s = sumar(movs);
+  const movs = movsDe(f), s = sumar(movs), plata = window.plataFuera || globalThis.plata;
   return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Control financiero</h3><button class="btn mini" data-ir="finanzas" data-arg="d:${f}">${ic("finanzas")} ${movs.length ? "Ver y anotar" : "Anotar"}</button></div>
     ${movs.length ? `<div class="asc-mini">${movs.slice(0, 5).map(x => `<span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span><span>${esc(x.n || catDe(x.t, x.c)?.[1] || "")}</span><span class="num">${plata(x.m)}</span>`).join("")}</div>
       <p class="fin-libre">Disponible hoy <b class="${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</b></p>` : `<p class="suave" style="margin:6px 0 0">Anota lo que entró y salió hoy. En Ascenso financiero se suma al mes, al año y a tu balance general.</p>`}`);
 };
 window.ascResumenMes = function (a, m) {
   const ym = ymDe(a, m), t = totalesDe(ym + "-");
+  if (window.ocultarFuera?.()) return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Finanzas del mes</h3><button class="btn mini" data-ir="finanzas" data-arg="m:${ym}">${ic("finanzas")} Abrir</button></div><p class="suave" style="margin:6px 0 0">Tus montos están ocultos. Ábrelas en Ascenso financiero.</p>`);
   return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Finanzas del mes</h3><button class="btn mini" data-ir="finanzas" data-arg="m:${ym}">${ic("finanzas")} Abrir</button></div>
     ${t.n ? cifras(t) + (t.tasa != null ? `<p class="fin-libre">Ahorro e inversión: <b>${Math.round(t.tasa * 100)} %</b> de lo que entró</p>` : "") : `<p class="suave" style="margin:6px 0 0">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`);
 };
