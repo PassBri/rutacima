@@ -59,6 +59,20 @@ jobs:
             exit 1
           fi
 
+      - name: Capturas de pantallas nuevas
+        continue-on-error: true
+        env:
+          CAPTURAS: "1"
+        run: ./gradlew --no-daemon testDebugUnitTest --tests '*CapturasTest*' --rerun
+
+      - name: Guardar capturas
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capturas-app
+          path: app/build/capturas/
+          if-no-files-found: ignore
+
       - name: Compilar APK
         shell: bash
         run: |

@@ -77,6 +77,12 @@ fun FinanzasMesCard(ym: YearMonth, modifier: Modifier = Modifier) {
     val vm = rutaViewModel(key = "finanzas-$ym") { FinanzasMesViewModel(it, ym) }
     val r by vm.resumen.collectAsStateWithLifecycle()
     val guardado by vm.presupuesto.collectAsStateWithLifecycle()
+    FinanzasMesContenido(ym, r, guardado, vm::guardarPresupuesto, modifier)
+}
+
+/** El contenido de las finanzas del mes, sin ViewModel (también se usa en las capturas de prueba). */
+@Composable
+fun FinanzasMesContenido(ym: YearMonth, r: Finanzas.Mes?, guardado: String, onPresupuesto: (String) -> Unit, modifier: Modifier = Modifier) {
     var texto by remember(ym) { mutableStateOf(guardado) }
     var editado by remember(ym) { mutableStateOf(false) }
     androidx.compose.runtime.LaunchedEffect(guardado) { if (!editado) texto = guardado }
@@ -108,7 +114,7 @@ fun FinanzasMesCard(ym: YearMonth, modifier: Modifier = Modifier) {
             }
         }
         OutlinedTextField(
-            texto, { texto = it; editado = true; vm.guardarPresupuesto(it) },
+            texto, { texto = it; editado = true; onPresupuesto(it) },
             label = { Text(stringResource(R.string.fin_presupuesto)) }, placeholder = { Text(stringResource(R.string.fin_presupuesto_ej)) },
             singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
             modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
