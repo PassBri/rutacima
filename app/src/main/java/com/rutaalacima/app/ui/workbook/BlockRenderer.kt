@@ -75,7 +75,7 @@ fun WorkbookEditorViewModel.comoRespuestas(): Respuestas = object : Respuestas {
 fun BlockView(block: Block, r: Respuestas, modifier: Modifier = Modifier) {
     when (block) {
         is HeadingBlock -> HeadingView(block, modifier)
-        is ParagraphBlock -> Text(block.text, style = MaterialTheme.typography.bodyLarge, modifier = modifier.fillMaxWidth())
+        is ParagraphBlock -> Text(negritas(block.text), style = MaterialTheme.typography.bodyLarge, modifier = modifier.fillMaxWidth())
         is BulletBlock -> BulletView(block, modifier)
         is QuoteBlock -> QuoteView(block.text, modifier)
         is CalloutBlock -> CalloutView(block, r, modifier)
@@ -110,11 +110,12 @@ private fun BulletView(b: BulletBlock, modifier: Modifier) {
         "✓" -> "✓" to Color(0xFF2E7D32)
         "✗" -> "✗" to Color(0xFFB3261E)
         "→" -> "→" to MaterialTheme.colorScheme.secondary
-        else -> "•" to MaterialTheme.colorScheme.secondary
+        "◦" -> "◦" to MaterialTheme.colorScheme.secondary
+        else -> (if (b.mark.matches(Regex("\\d{1,2}[.)]|[a-z][.)]"))) b.mark else "•") to MaterialTheme.colorScheme.secondary
     }
-    Row(modifier.fillMaxWidth()) {
-        Text(mark, color = color, fontWeight = FontWeight.Bold, modifier = Modifier.width(22.dp))
-        Text(b.text, style = MaterialTheme.typography.bodyLarge)
+    Row(modifier.fillMaxWidth().padding(start = if (b.mark == "◦") 20.dp else 0.dp)) {
+        Text(mark, color = color, fontWeight = FontWeight.Bold, modifier = Modifier.width(if (mark.length > 1) 28.dp else 22.dp))
+        Text(negritas(b.text), style = MaterialTheme.typography.bodyLarge)
     }
 }
 
@@ -309,4 +310,15 @@ private fun InputTableView(b: InputTableBlock, r: Respuestas, modifier: Modifier
             }
         }
     }
+}
+
+/** "**texto**" en negrita, como en la web (las guías de Aprende lo usan para resaltar ideas). */
+fun negritas(t: String): androidx.compose.ui.text.AnnotatedString = androidx.compose.ui.text.buildAnnotatedString {
+    var i = 0
+    Regex("\\*\\*(.+?)\\*\\*").findAll(t).forEach { m ->
+        append(t.substring(i, m.range.first))
+        pushStyle(androidx.compose.ui.text.SpanStyle(fontWeight = FontWeight.SemiBold)); append(m.groupValues[1]); pop()
+        i = m.range.last + 1
+    }
+    append(t.substring(i))
 }

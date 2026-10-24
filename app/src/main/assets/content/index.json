@@ -221,7 +221,7 @@
   "subtitle": "Libro 1 · Fundamentos financieros",
   "category": "finanzas",
   "order": 25,
-  "sections": 4,
+  "sections": 36,
   "inputs": 5
  },
  {
@@ -230,7 +230,7 @@
   "subtitle": "Libro 2 · Generación de ingresos",
   "category": "finanzas",
   "order": 26,
-  "sections": 4,
+  "sections": 50,
   "inputs": 5
  },
  {
@@ -239,7 +239,7 @@
   "subtitle": "Libro 3 · Transforma pasivos en activos",
   "category": "finanzas",
   "order": 27,
-  "sections": 4,
+  "sections": 44,
   "inputs": 5
  },
  {
@@ -248,7 +248,7 @@
   "subtitle": "Libro 4 · Mentalidad financiera",
   "category": "finanzas",
   "order": 28,
-  "sections": 4,
+  "sections": 40,
   "inputs": 5
  },
  {
@@ -257,7 +257,7 @@
   "subtitle": "Libro 5 · Estrategias de protección financiera",
   "category": "finanzas",
   "order": 29,
-  "sections": 4,
+  "sections": 47,
   "inputs": 4
  },
  {
@@ -266,7 +266,7 @@
   "subtitle": "Libro 6 · Indicadores financieros",
   "category": "finanzas",
   "order": 30,
-  "sections": 4,
+  "sections": 28,
   "inputs": 4
  },
  {
@@ -275,7 +275,7 @@
   "subtitle": "Libro 7 · Tu viaje financiero paso a paso",
   "category": "finanzas",
   "order": 31,
-  "sections": 4,
+  "sections": 43,
   "inputs": 5
  }
 ]
