@@ -184,8 +184,8 @@ private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVe
 private val PESTANAS = listOf(
     Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain, Icons.Outlined.Terrain),
     Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today, Icons.Outlined.Today),
-    Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, Icons.Filled.Groups, Icons.Outlined.Groups),
-    Pestana(Rutas.APRENDE, R.string.tab_aprende, Icons.AutoMirrored.Filled.MenuBook, Icons.AutoMirrored.Outlined.MenuBook),
+    Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata, com.rutaalacima.app.ui.components.IconosRuta.FogataContorno),
+    Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.HacerFuego, com.rutaalacima.app.ui.components.IconosRuta.HacerFuegoContorno),
     Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person, Icons.Outlined.Person),
 )
 

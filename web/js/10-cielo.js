@@ -261,15 +261,68 @@ const Cielo = (() => {
           <circle r="10" class="luna-sombra"/><path d="${faseLuna(il.fase, 10)}" class="luna-luz"/></svg>${completo ? `<b>${Math.round(il.fraccion * 100)} %</b>` : ""}</span>` : ""}
       ${planetas}${estelas}
       ${eclipseSol > 0.6 ? `<span class="cielo-penumbra" style="opacity:${((eclipseSol - 0.6) * 1.4).toFixed(2)}"></span>` : ""}
-      <svg viewBox="0 0 400 60" preserveAspectRatio="none" class="cielo-montes" style="height:${100 - H0 + 6}%">
-        <path fill="${monte}" d="M0 60 L0 40 L30 30 L52 36 L84 18 L104 26 L128 14 L150 24 L176 8 L198 22 L226 16 L252 28 L280 12 L306 26 L334 20 L360 30 L384 22 L400 28 L400 60Z" opacity=".55"/>
-        <path fill="${monte}" d="M0 60 L0 46 L40 34 L70 42 L112 24 L140 38 L170 30 L214 42 L246 28 L276 40 L318 30 L352 40 L400 34 L400 60Z"/>
-        <path fill="${nube}" d="M0 60 L0 48 C30 44 52 50 80 47 C108 44 128 50 160 48 C196 46 214 52 248 49 C280 46 304 51 336 48 C364 46 384 50 400 47 L400 60Z"/>
-      </svg>
+      ${cordillera(W, H, H0, abajo, medio, mezcla(mezcla(abajo, [20, 28, 40], 0.55), [6, 9, 14], noche * 0.6), nube, noche, dia)}
       ${hud ? `<span class="cielo-lectura">${hora(ahora)}<span>Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} %</span></span>` : ""}
       ${hud ? `<button type="button" class="cielo-mirar" data-acc="mirarCielo" aria-label="Mirar el cielo" title="Mirar el cielo">${typeof ic === "function" ? ic("cielo360") : ""}</button>` : ""}
       ${hud && contar(ev) ? `<button type="button" class="cielo-evento" data-acc="eventoCielo" title="${contar(ev).linea}" aria-label="${contar(ev).linea}. Toca para saber más"><span>${W >= 560 ? contar(ev).linea : (contar(ev).corta || contar(ev).linea.split(" · ")[0])}</span></button>` : ""}`;
     el.title = `Sol ${Math.round(altS)}° · Luna ${Math.round(il.fraccion * 100)} % iluminada`;
+  }
+
+
+  /**
+   * La cordillera del fondo, dibujada al tamaño real de la pantalla (sin estirarse): cinco filas de montañas
+   * generadas con desplazamiento del punto medio, de la más lejana (clara, azulada por el aire) a la más
+   * cercana (oscura), con las cumbres iluminadas por el sol o la luna y un mar de nubes entre las filas.
+   * Siempre la misma forma (semilla fija), para que el paisaje sea reconocible.
+   */
+  function cordillera(W, H, H0, abajo, medio, monte, nube, noche, dia) {
+    const alto = H * (100 - H0 + 8) / 100;
+    if (!W || !alto) return "";
+    let semilla = 20260324;
+    const azar = () => (semilla = (semilla * 1664525 + 1013904223) >>> 0) / 4294967296;
+    /** Perfil de una fila: puntos cada [paso] px con rugosidad [r]. */
+    const cresta = (base, amp, r, picos) => {
+      const n = 128, y = new Array(n + 1);
+      y[0] = base - azar() * amp * .5; y[n] = base - azar() * amp * .5;
+      for (let tam = n; tam > 1; tam /= 2) {
+        for (let i = tam / 2; i < n; i += tam) y[i] = (y[i - tam / 2] + y[i + tam / 2]) / 2 + (azar() - .5) * amp * (tam / n) ** r * 2.2;
+      }
+      // Unos pocos picos dominantes, como los nevados que se ven desde el valle
+      for (let k = 0; k < picos; k++) {
+        const c = Math.floor(8 + azar() * (n - 16)), ancho = 6 + azar() * 10, h = amp * (.35 + azar() * .4);
+        for (let i = Math.max(0, Math.ceil(c - ancho)); i <= Math.min(n, Math.floor(c + ancho)); i++) y[i] -= h * Math.max(0, 1 - Math.abs(i - c) / ancho) ** 1.6;
+      }
+      // Si algún pico se sale por arriba, se escala toda la fila (nunca se recorta en meseta)
+      const tope = alto * .03, min = Math.min(...y), k = min < tope ? (base - tope) / (base - min) : 1;
+      return y.map((v, i) => [i / n * W, base - (base - v) * k]);
+    };
+    const camino = pts => `M0 ${alto}L${pts.map(([x, y]) => `${x.toFixed(1)} ${y.toFixed(1)}`).join("L")}L${W} ${alto}Z`;
+    // Distancia: 0 = lejos (se funde con el horizonte), 1 = cerca (el color de la roca)
+    const filas = [
+      { base: alto * .44, amp: alto * .46, r: .58, picos: 4, d: .14 },
+      { base: alto * .54, amp: alto * .34, r: .64, picos: 3, d: .34 },
+      { base: alto * .66, amp: alto * .24, r: .70, picos: 2, d: .56 },
+      { base: alto * .79, amp: alto * .15, r: .76, picos: 1, d: .78 },
+      { base: alto * .91, amp: alto * .08, r: .82, picos: 0, d: 1 },
+    ];
+    const luzCumbre = mezcla(mezcla([236, 228, 222], [150, 170, 205], noche), medio, .25);   // nieve: dorada de día, azul de luna
+    const uid = (cordillera.n = (cordillera.n || 0) + 1);
+    let defs = "", capas = "";
+    filas.forEach((f, i) => {
+      // La roca cercana: pizarra azulada de día, casi negra de noche; las filas lejanas se funden con el horizonte
+      const cerca = mezcla(mezcla([34, 42, 52], monte, .25), [7, 9, 14], noche * .85);
+      const color = mezcla(abajo, cerca, .18 + .82 * f.d), sombra = mezcla(color, [4, 6, 10], .2 + .25 * noche);
+      const brillo = mezcla(color, luzCumbre, (1 - f.d) * (.45 + .35 * dia) + .08);
+      defs += `<linearGradient id="cm${uid}_${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${rgb(brillo)}"/><stop offset="${(.1 + .12 * f.d).toFixed(2)}" stop-color="${rgb(color)}"/><stop offset="1" stop-color="${rgb(sombra)}"/></linearGradient>`;
+      capas += `<path fill="url(#cm${uid}_${i})" d="${camino(cresta(f.base, f.amp, f.r, f.picos))}"/>`;
+      // Bruma entre filas: el aire de altura que separa los planos
+      if (i < filas.length - 1) capas += `<rect y="${(f.base - f.amp * .1).toFixed(1)}" width="${W}" height="${(alto - f.base).toFixed(1)}" fill="url(#cb${uid})" opacity="${(.22 - i * .04).toFixed(2)}"/>`;
+      // Mar de nubes: un banco suave que se desvanece hacia abajo, entre la fila media y las cercanas
+      if (i === 2) capas += `<rect y="${(f.base - alto * .02).toFixed(1)}" width="${W}" height="${(alto * .2).toFixed(1)}" fill="url(#cn${uid})"/>`;
+    });
+    defs += `<linearGradient id="cb${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${rgb(abajo)}" stop-opacity="0"/><stop offset=".55" stop-color="${rgb(abajo)}" stop-opacity=".9"/><stop offset="1" stop-color="${rgb(abajo)}" stop-opacity="0"/></linearGradient>`;
+    defs += `<linearGradient id="cn${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${nube}" stop-opacity="0"/><stop offset=".45" stop-color="${nube}" stop-opacity=".7"/><stop offset="1" stop-color="${nube}" stop-opacity="0"/></linearGradient>`;
+    return `<svg viewBox="0 0 ${W} ${alto.toFixed(1)}" preserveAspectRatio="none" class="cielo-montes" style="height:${(100 - H0 + 8)}%" aria-hidden="true"><defs>${defs}</defs>${capas}</svg>`;
   }
 
   /** Pinta la franja y cada ventana de cielo de la página ([data-cielo]). */

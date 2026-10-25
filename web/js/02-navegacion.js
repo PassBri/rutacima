@@ -223,7 +223,7 @@ const LISTAS = {
     h += item("perfil", p.fotoPerfilUrl || globalThis.mv?.demo?.avatar ? `<span class="avatar" style="padding:0;overflow:hidden"><img src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"></span>` : av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += grupo("Mi ascenso");
     h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
-    h += item("ejes", av(ic("comunidad"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
+    h += item("ejes", av(ic("personas"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
     h += item("ir-frases", av(ic("frases"), "var(--burdeos)"), "Mis frases", "", "Las frases que ya abriste");
     h += grupo("Personas");

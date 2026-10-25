@@ -199,21 +199,9 @@ fun CieloVivo(
                 if (!bajoLectura) rotulo(medidor, nombre.uppercase(), c, 7.dp.toPx(), etiqueta)
             }
             if (eclipseSol > 0.6f) drawRect(Color(0xFF060A12).copy(alpha = ((eclipseSol - 0.6f) * 1.4f).coerceAtMost(1f)))
-            // Cordillera saliendo de un mar de nubes
+            // La cordillera del fondo (igual que la web, web/js/10-cielo.js · cordillera)
             val monte = lerp(lerp(abajo, Color(0xFF141C28), 0.55f), Color(0xFF06090E), noche * 0.6f)
-            val alto = size.height - h0 + size.height * 0.06f
-            montes(MONTES_LEJOS, alto, monte.copy(alpha = 0.55f))
-            montes(MONTES_CERCA, alto, monte)
-            val nubes = Path().apply {
-                val sx = size.width / 400f; val sy = alto / 60f; val top = size.height - alto
-                moveTo(0f, size.height); lineTo(0f, top + 48 * sy)
-                var px = 0f
-                listOf(80f to 47f, 160f to 48f, 248f to 49f, 336f to 48f, 400f to 47f).forEach { (nx, ny) ->
-                    cubicTo((px + 30) * sx, top + 44 * sy, (nx - 28) * sx, top + 50 * sy, nx * sx, top + ny * sy); px = nx
-                }
-                lineTo(size.width, size.height); close()
-            }
-            drawPath(nubes, Color.White.copy(alpha = 0.16f + 0.62f * luz))
+            cordillera(size.height - h0 + size.height * 0.08f, abajo, medio, monte, Color.White.copy(alpha = 0.16f + 0.62f * luz), noche, luz)
         }
         estelas?.let { EstelasDeMeteoros(it, horizonte) }
         if (lectura) {
@@ -424,17 +412,65 @@ private fun DrawScope.rotulo(medidor: androidx.compose.ui.text.TextMeasurer, tex
     drawText(t, topLeft = Offset(x, c.y - t.size.height / 2f))
 }
 
-private fun DrawScope.montes(puntos: List<Pair<Float, Float>>, alto: Float, color: Color) {
-    val sx = size.width / 400f; val sy = alto / 60f; val top = size.height - alto
-    drawPath(Path().apply {
-        moveTo(0f, size.height)
-        puntos.forEach { (px, py) -> lineTo(px * sx, top + py * sy) }
-        lineTo(size.width, size.height); close()
-    }, color)
+/**
+ * Cinco filas de montañas generadas con desplazamiento del punto medio (semilla fija: siempre el mismo paisaje),
+ * de la más lejana (clara, fundida con el horizonte) a la más cercana (oscura), con las cumbres iluminadas
+ * por el sol o la luna y bruma entre los planos. Se dibuja al tamaño real, sin estirarse.
+ */
+private fun DrawScope.cordillera(alto: Float, abajo: Color, medio: Color, monte: Color, nube: Color, noche: Float, dia: Float) {
+    if (alto <= 0f || size.width <= 0f) return
+    val w = size.width; val top = size.height - alto
+    var semilla = 20260324L
+    fun azar(): Float { semilla = (semilla * 1664525L + 1013904223L) and 0xFFFFFFFFL; return (semilla.toDouble() / 4294967296.0).toFloat() }
+    fun cresta(base: Float, amp: Float, r: Float, picos: Int): FloatArray {
+        val n = 128; val y = FloatArray(n + 1)
+        y[0] = base - azar() * amp * .5f; y[n] = base - azar() * amp * .5f
+        var tam = n
+        while (tam > 1) {
+            var i = tam / 2
+            while (i < n) { y[i] = (y[i - tam / 2] + y[i + tam / 2]) / 2f + (azar() - .5f) * amp * Math.pow(tam.toDouble() / n, r.toDouble()).toFloat() * 2.2f; i += tam }
+            tam /= 2
+        }
+        repeat(picos) {
+            val c = kotlin.math.floor(8 + azar() * (n - 16)).toInt(); val ancho = 6 + azar() * 10; val h = amp * (.35f + azar() * .4f)
+            for (i in maxOf(0, kotlin.math.ceil(c - ancho).toInt())..minOf(n, kotlin.math.floor(c + ancho).toInt()))
+                y[i] -= h * Math.pow(maxOf(0f, 1 - kotlin.math.abs(i - c) / ancho).toDouble(), 1.6).toFloat()
+        }
+        val tope = alto * .03f; val min = y.min(); val k = if (min < tope) (base - tope) / (base - min) else 1f
+        return FloatArray(n + 1) { base - (base - y[it]) * k }
+    }
+    data class Fila(val base: Float, val amp: Float, val r: Float, val picos: Int, val d: Float)
+    val filas = listOf(
+        Fila(alto * .44f, alto * .46f, .58f, 4, .14f), Fila(alto * .54f, alto * .34f, .64f, 3, .34f),
+        Fila(alto * .66f, alto * .24f, .70f, 2, .56f), Fila(alto * .79f, alto * .15f, .76f, 1, .78f),
+        Fila(alto * .91f, alto * .08f, .82f, 0, 1f),
+    )
+    val luzCumbre = lerp(lerp(Color(0xFFECE4DE), Color(0xFF96AACD), noche), medio, .25f)
+    val cerca = lerp(lerp(Color(0xFF222A34), monte, .25f), Color(0xFF07090E), noche * .85f)
+    val bruma = abajo
+    filas.forEachIndexed { i, f ->
+        val color = lerp(abajo, cerca, .18f + .82f * f.d)
+        val sombra = lerp(color, Color(0xFF04060A), .2f + .25f * noche)
+        val brillo = lerp(color, luzCumbre, (1 - f.d) * (.45f + .35f * dia) + .08f)
+        val ys = cresta(f.base, f.amp, f.r, f.picos)
+        val camino = Path().apply {
+            moveTo(0f, size.height)
+            ys.forEachIndexed { k, v -> lineTo(k / 128f * w, top + v) }
+            lineTo(w, size.height); close()
+        }
+        val cima = top + ys.min()
+        drawPath(camino, Brush.verticalGradient(0f to brillo, (.1f + .12f * f.d) to color, 1f to sombra, startY = cima, endY = size.height))
+        if (i < filas.size - 1) {
+            val y0 = top + f.base - f.amp * .1f
+            drawRect(Brush.verticalGradient(0f to bruma.copy(alpha = 0f), .55f to bruma.copy(alpha = .9f), 1f to bruma.copy(alpha = 0f), startY = y0, endY = size.height),
+                topLeft = Offset(0f, y0), size = Size(w, size.height - y0), alpha = (.22f - i * .04f))
+        }
+        if (i == 2) {
+            val y0 = top + f.base - alto * .02f; val y1 = y0 + alto * .2f
+            drawRect(Brush.verticalGradient(0f to nube.copy(alpha = 0f), .45f to nube.copy(alpha = nube.alpha * .7f), 1f to nube.copy(alpha = 0f), startY = y0, endY = y1),
+                topLeft = Offset(0f, y0), size = Size(w, y1 - y0))
+        }
+    }
 }
 
-private val MONTES_LEJOS = listOf(0f to 40f, 30f to 30f, 52f to 36f, 84f to 18f, 104f to 26f, 128f to 14f, 150f to 24f, 176f to 8f, 198f to 22f,
-    226f to 16f, 252f to 28f, 280f to 12f, 306f to 26f, 334f to 20f, 360f to 30f, 384f to 22f, 400f to 28f)
-private val MONTES_CERCA = listOf(0f to 46f, 40f to 34f, 70f to 42f, 112f to 24f, 140f to 38f, 170f to 30f, 214f to 42f, 246f to 28f,
-    276f to 40f, 318f to 30f, 352f to 40f, 400f to 34f)
 private val ESTRELLAS = List(70) { i -> Triple(((i * 97.3) % 100).toFloat() / 100f, ((i * 37.7) % 70).toFloat() / 70f * 0.95f, 0.5f + (i % 3) * 0.35f) }
