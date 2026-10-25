@@ -95,7 +95,7 @@ DET["comunidad.avisos"] = () => {
     `<button class="btn mini ic-solo" data-acc="prefsAvisos" aria-expanded="${!!estado.prefsAvisos}" aria-label="Qué avisos recibir" title="Qué avisos recibir">${ic("ajustes")}</button>`) + cuerpo(
     (estado.prefsAvisos ? prefsAvisosHtml() : "") +
     (permiso ? `<div class="aviso-permiso">${ic("campana")}<span>Recibe los avisos en este navegador aunque estés en otra pestaña.</span><button class="btn mini lleno" data-acc="permisoAvisos">Activar</button></div>` : "") +
-    (!RED.avisos ? `<p class="suave">Cargando…</p>` : grupos.length ? `<div class="avisos">${h}</div>`
+    (!RED.avisos ? `<p class="suave cargando-marca">Cargando…</p>` : grupos.length ? `<div class="avisos">${h}</div>`
       : `<div class="vacio-avisos">${ic("campana")}<h3>Aún no tienes avisos</h3><p class="suave">Cuando alguien impulse, comente o empiece a seguir tu ascenso, lo verás aquí.</p>
           <button class="btn lleno" data-ir="comunidad" data-arg="publicar">${ic("publicar")} Publicar un paso</button></div>`), "max-width:640px");
 };
@@ -300,7 +300,7 @@ DET["comunidad.persona"] = id => {
   if (p.noExiste) return cab(av(ic("perfil"), "var(--burdeos)"), "Perfil", "") + cuerpo(hoja(`<p>Esta persona ya no está en la comunidad.</p>`));
   const cifra = (n, t) => `<span><b>${n.toLocaleString("es")}</b><small>${t}</small></span>`;
   return cab(avRed(p), esc(p.nombre), "@" + esc(p.usuario)) + cuerpo(
-    `<section class="perfil-pub">${avRed(p, "perfil-pub-av")}<h2>${esc(p.nombre)}</h2>${p.meSigue && !p.propio ? `<span class="te-sigue">Te sigue</span>` : ""}
+    `<section class="perfil-pub"><span class="aro-marca grande">${avRed(p, "perfil-pub-av")}</span><h2>${esc(p.nombre)}</h2>${p.meSigue && !p.propio ? `<span class="te-sigue">Te sigue</span>` : ""}
       <div class="perfil-cifras">${cifra(p.posts.length, "Publicaciones")}${cifra(p.seguidores, "Seguidores")}${cifra(p.siguiendo, "Siguiendo")}</div>
       ${p.bio ? `<p class="perfil-bio">${esc(p.bio)}</p>` : ""}${p.cumbre ? `<p class="perfil-cumbre">${ic("cima")} ${esc(p.cumbre)}</p>` : ""}
       ${p.propio ? "" : `<div class="botones">${botonSeguir(p.id).replace("btn mini", "btn")}<button class="btn" data-acc="escribirA" data-arg="${esc(p.id)}|${esc(p.nombre)}">${ic("mensajes")} Mensaje</button></div>`}</section>
@@ -564,7 +564,7 @@ DET["comunidad.retos"] = () => {
   if (!RED.retos) cargarRetos();
   const mod = window.MOD?.soy;
   return cab(av(ic("metas"), "var(--burdeos)"), "Retos de la comunidad", "Subir juntos, un día a la vez") + cuerpo(
-    (!RED.retos ? `<p class="suave">Cargando…</p>` : RED.retos.length ? RED.retos.map(r => tarjetaReto(r)).join("")
+    (!RED.retos ? `<p class="suave cargando-marca">Cargando…</p>` : RED.retos.length ? RED.retos.map(r => tarjetaReto(r)).join("")
       : hoja(`<p class="suave" style="margin:0">Este mes todavía no hay un reto abierto. Vuelve pronto.</p>`)) +
     (mod ? hoja(`<h3 style="margin:0 0 8px">Nuevo reto (moderación)</h3><form class="form" id="formReto">
       ${campo("Título", `<input name="titulo" maxlength="80" required placeholder="21 días madrugando">`)}${campo("De qué se trata", `<textarea name="descripcion" maxlength="600" rows="3"></textarea>`)}
@@ -636,7 +636,7 @@ setTimeout(() => cargarVerificados(), 2500);
     if (pest === "coaches") {
       if (!RED.porVerificar) cargarPorVerificar();
       const lista = RED.porVerificar;
-      const cuerpoCoaches = !lista ? `<p class="vacio-mini">Cargando…</p>` : !lista.length ? hoja(`<p class="vacio-mini">No hay postulaciones de coaches por revisar.</p>`)
+      const cuerpoCoaches = !lista ? `<p class="vacio-mini cargando-marca">Cargando…</p>` : !lista.length ? hoja(`<p class="vacio-mini">No hay postulaciones de coaches por revisar.</p>`)
         : lista.map(c => hoja(`<div class="coach-pend"><b>${esc(c.nombre || c.username)}</b> <span class="suave">@${esc(c.username)} · ${fechaMod(c.creado)}</span>
             ${c.especialidad ? `<p style="margin:6px 0 0"><b>Especialidad:</b> ${esc(c.especialidad)}</p>` : ""}${c.bio ? `<p class="suave" style="margin:6px 0 0">${esc(c.bio)}</p>` : ""}
             <div class="botones" style="margin-top:10px"><button class="btn lleno" data-acc="verificarCoach" data-arg="${esc(c.user_id)}|1">${ic("check")} Verificar</button><button class="btn peligro" data-acc="verificarCoach" data-arg="${esc(c.user_id)}|">No aprobar</button></div></div>`)).join("");

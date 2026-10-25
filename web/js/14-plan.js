@@ -33,7 +33,7 @@ DET["perfil.plan"] = () => {
       ${esencial ? `<small>Esto nunca se cobra.</small>` : ""}${dG ? `<small>Gratis: ${dG} · Cumbre: ${dC}</small>` : ""}</div>
       ${marca(gratis || esencial, `Gratis: ${dG || (gratis || esencial ? "incluido" : "no incluido")}`)}${marca(true, `Cumbre: ${dC || "incluido"}`)}</div>`).join("");
   let accion;
-  if (!PLAN.estado) accion = `<p class="suave">Cargando…</p>`;
+  if (!PLAN.estado) accion = `<p class="suave cargando-marca">Cargando…</p>`;
   else if (cumbre) accion = "";
   else if (e.avisame) accion = `<p class="plan-ok">✓ Listo: te avisaremos cuando esté disponible.</p>`;
   else if (e.demo) accion = `<p class="suave">En la demostración no se guarda. Entra con tu cuenta para que te avisemos.</p>`;

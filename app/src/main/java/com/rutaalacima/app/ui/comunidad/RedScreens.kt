@@ -347,7 +347,7 @@ fun PersonaScreen(id: String, onBack: () -> Unit, onPost: (String) -> Unit, onCh
         ) {
             item("cab", span = { GridItemSpan(3) }) {
                 Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Avatar(p.persona.nombre, p.persona.avatar, 96)
+                    com.rutaalacima.app.ui.components.AroMarca(96.dp) { Avatar(p.persona.nombre, p.persona.avatar, 96) }
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(p.persona.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
                         InsigniaCoach(p.persona.id, 20)

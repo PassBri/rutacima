@@ -84,7 +84,7 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit, onAnio: (Int) -> Unit
         },
     ) { padding ->
         if (!vm.cargado) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             return@Scaffold
         }
         LazyColumn(

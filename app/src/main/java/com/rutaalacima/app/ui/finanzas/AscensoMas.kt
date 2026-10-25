@@ -684,9 +684,9 @@ private fun VisorRecibo(r: Cuentas.Recibo, vm: CuentasViewModel, onCerrar: () ->
                     LazyColumn(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         items(l) { b -> Image(b.asImageBitmap(), null, Modifier.fillMaxWidth().border(1.dp, MaterialTheme.colorScheme.outlineVariant), contentScale = ContentScale.FillWidth) }
                     }
-                } ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                } ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
                 else -> archivo?.let { coil.compose.AsyncImage(it, r.nom, Modifier.fillMaxSize(), contentScale = ContentScale.Fit) }
-                    ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                    ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             }
         }
     }

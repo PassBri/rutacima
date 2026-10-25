@@ -96,7 +96,7 @@ fun WorkbookIndexScreen(
         },
     ) { padding ->
         if (wb == null) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             return@Scaffold
         }
         LazyColumn(
@@ -313,7 +313,7 @@ fun SectionScreen(
     ) { padding ->
         val seccion = wb?.sections?.getOrNull(index)
         if (wb == null || !vm.cargado || seccion == null) {
-            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             return@Scaffold
         }
         // Resultados automáticos de las escalas 1-10 de esta sección (se recalculan al responder).

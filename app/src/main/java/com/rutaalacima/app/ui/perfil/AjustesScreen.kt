@@ -365,7 +365,7 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                             )
                             val ok = stringResource(R.string.bienvenido_comunidad)
                             val confirmar = stringResource(R.string.confirma_correo)
-                            if (vm.cargando) CircularProgressIndicator()
+                            if (vm.cargando) com.rutaalacima.app.ui.components.CargandoMarca()
                             else Button(
                                 onClick = { vm.entrar(ok, confirmar) }, modifier = Modifier.fillMaxWidth(),
                                 enabled = vm.email.contains('@') && vm.clave.length >= 6 && (!vm.registrando || (vm.usuario.length >= 3 && vm.aceptoLegal && vm.edadLegal)),

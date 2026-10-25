@@ -86,8 +86,9 @@ internal fun LienzoNivelBrujula(
         val ancho = minOf(maxWidth, altoDisponible * proporcion, if (nivel == 0) 400.dp else 560.dp)
         Box(Modifier.width(ancho).aspectRatio(proporcion).clip(RoundedCornerShape(16.dp))) {
             when (nivel) {
-                0 -> NivelCumbre(datos, Modifier.fillMaxSize().combinedClickable(onClick = { onNivel(1) }, onDoubleClick = { onNivel(1) }),
-                    modoTexto = modo == ModoTarjetas.TEXTO)
+                0 -> GiroTarjeta(modo == ModoTarjetas.TEXTO) { texto ->
+                    NivelCumbre(datos, Modifier.fillMaxSize().combinedClickable(onClick = { onNivel(1) }, onDoubleClick = { onNivel(1) }), modoTexto = texto)
+                }
                 1 -> NivelVision(datos, onCentro = { onNivel(2) },
                     onCampamento = { i -> if (modo == ModoTarjetas.EDICION) onNivel(2) else onBloque(Mandala.bloqueDe(i)) },
                     modoTexto = modo == ModoTarjetas.TEXTO)

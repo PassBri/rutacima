@@ -240,7 +240,7 @@ DET["mensajes.cordadas"] = () => {
     <ol class="cord-pasos"><li><b>Crea</b> la cordada con su reto y su duración.</li><li><b>Invita</b> con el código de 6 letras (por WhatsApp, por ejemplo).</li><li><b>Marca tu día</b> cada vez que cumplas; puedes unirlo a una meta del mes para que cuente allá también.</li></ol>`;
   if (!Store.nube) h += `<div class="aviso">Demostración: cordadas de ejemplo. Prueba el código CUMBRE para unirte a otra.</div>`;
   h += `<div class="etiqueta">Mis cordadas</div>`;
-  if (!CK.lista) h += `<p class="suave">Cargando…</p>`;
+  if (!CK.lista) h += `<p class="suave cargando-marca">Cargando…</p>`;
   else if (!CK.lista.length) h += `<p class="suave">${CK.errorLista ? "No se pudieron cargar tus cordadas. Revisa tu conexión." : "Aún no estás en ninguna cordada. Crea una e invita a 2 a 5 personas, o únete con el código que te compartieron."}</p>`;
   else CK.lista.forEach(c => {
     h += hoja(`<div class="cord-card" data-sel="cordada:${esc(c.id)}">
@@ -300,7 +300,7 @@ function htmlSesiones(acomp) {
   if (CK.ses[acomp] === undefined) cargarSesiones(acomp);
   const xs = CK.ses[acomp];
   let h = `<div class="etiqueta">Sesiones</div>`;
-  if (!xs) h += `<p class="suave" style="margin:6px 0 0">Cargando…</p>`;
+  if (!xs) h += `<p class="suave cargando-marca" style="margin:6px 0 0">Cargando…</p>`;
   else if (xs.error) h += `<p class="suave" style="margin:6px 0 0">No se pudieron cargar las sesiones. Revisa tu conexión.</p>`;
   else if (!xs.length) h += `<p class="suave" style="margin:6px 0 0">No hay sesiones agendadas.</p>`;
   else h += xs.map(s => `<div class="sesion">${av(ic("hoy"), "var(--burdeos)")}<div class="ses-txt"><b>${esc(fechaSesion(s.inicio))}</b><span class="suave">${s.minutos} min${s.tema ? " · " + esc(s.tema) : ""}</span></div>
@@ -320,7 +320,7 @@ function htmlSesiones(acomp) {
 function htmlNotasCoach(acomp) {
   const v = CK.notasCoach[acomp];
   return `<div class="etiqueta">Mis notas privadas</div><p class="suave" style="margin:4px 0 8px;font-size:13px">Solo tú las ves: lo que acuerdan, avances y qué revisar en la próxima sesión.</p>
-    ${v === undefined ? `<p class="suave">Cargando…</p>` : `<label class="campo"><textarea rows="6" maxlength="8000" data-acc-input="notasCoach" data-arg="${esc(acomp)}" aria-label="Mis notas privadas">${esc(v)}</textarea></label>
+    ${v === undefined ? `<p class="suave cargando-marca">Cargando…</p>` : `<label class="campo"><textarea rows="6" maxlength="8000" data-acc-input="notasCoach" data-arg="${esc(acomp)}" aria-label="Mis notas privadas">${esc(v)}</textarea></label>
     <p class="suave notas-estado" id="notasEstado" aria-live="polite"></p>`}`;
 }
 

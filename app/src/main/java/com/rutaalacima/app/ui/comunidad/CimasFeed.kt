@@ -198,7 +198,7 @@ private fun CimaPagina(
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             Box(Modifier.clip(CircleShape).clickable(onClick = onAutor).padding(2.dp).semantics { contentDescription = post.autorNombre }) {
-                Box(Modifier.size(50.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.9f)).padding(2.dp)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
+                com.rutaalacima.app.ui.components.AroMarca(46.dp, Color.White.copy(alpha = 0.92f)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
             }
             Accion(if (post.yoImpulse) com.rutaalacima.app.ui.components.IconosRuta.Banderin else com.rutaalacima.app.ui.components.IconosRuta.BanderinContorno, contar(post.impulsos),
                 stringResource(R.string.impulsar), if (post.yoImpulse) MaterialTheme.colorScheme.secondary else Color.White, onImpulsar)

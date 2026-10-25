@@ -302,7 +302,7 @@ fun ComunidadScreen(
                             onFin = onHoy,
                         )
                     }
-                    vm.cargando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                    vm.cargando -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
                     else -> com.rutaalacima.app.ui.components.EstadoVacio(
                         semilla = "comunidad", titulo = stringResource(R.string.vacio_comunidad_titulo),
                         texto = vm.error?.let { stringResource(R.string.error_cargar, it) } ?: stringResource(if (vm.filtro == FiltroFeed.GUARDADOS) R.string.vacio_guardados else R.string.feed_vacio),
@@ -395,7 +395,7 @@ fun ComunidadScreen(
                 item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
             }
             if (vm.cargando && vm.posts.isEmpty()) {
-                item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
+                item { Box(Modifier.fillMaxWidth().padding(40.dp), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() } }
             }
             vm.error?.let { e ->
                 item {
@@ -511,7 +511,7 @@ private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> 
                 TextButton(onClick = onAbrirDetalle) { Text(post.autorNombre, maxLines = 1) }
             }
             when {
-                vm.cargandoComentarios -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                vm.cargandoComentarios -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
                 vm.comentarios.isEmpty() -> Text(stringResource(R.string.sin_comentarios), style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 20.dp))
                 else -> LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {

@@ -174,7 +174,7 @@ const LISTAS = {
     let h = cabLista("Comunidad", { buscar: false, nuevo: ["publicar", "Publicar"] });
     h += `<div class="lista-cab" style="padding-top:0">
       <div class="chips">${[["PARA_TI", "Para ti"], ["VISION", "Visión"], ["SIGUIENDO", "Siguiendo"]].map(([k, n]) => `<button class="chip" data-feed="${k}" aria-pressed="${estado.feedFiltro === k}">${n}</button>`).join("")}</div></div><div class="items">`;
-    if (!estado.feed) { cargarFeed(); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
+    if (!estado.feed) { cargarFeed(); return h + `<p class="vacio-mini cargando-marca">Cargando…</p></div>`; }
     if (!estado.feed.length) h += `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     // En el celular el muro no está al lado: la expedición va arriba de la lista
     if (estado.feedFiltro === "PARA_TI" && estado.feed.length) h += `<details class="solo-movil exp-movil exp-plegable"><summary>${ic("ruta")} La expedición de la comunidad</summary>${cumbreComunidad(estado.feed)}</details>`;
@@ -210,7 +210,7 @@ const LISTAS = {
   },
   frases() {
     let h = cabLista("Mis frases", { chips: [["todo", "Todas"], ["abiertas", "Abiertas"]] }) + `<div class="items">`;
-    if (!Contenido.frases) { Contenido.cargarFrases(); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
+    if (!Contenido.frases) { Contenido.cargarFrases(); return h + `<p class="vacio-mini cargando-marca">Cargando…</p></div>`; }
     const hoy = hoyFecha();
     for (let k = 0; k < 60; k++) {
       const d = new Date(hoy); d.setDate(d.getDate() - k);
@@ -226,7 +226,7 @@ const LISTAS = {
   perfil() {
     const p = perfil(), ult = ultimaEvaluacion();
     let h = cabLista("Perfil", { buscar: false }) + `<div class="items">`;
-    h += item("perfil", p.fotoPerfilUrl || globalThis.mv?.demo?.avatar ? `<span class="avatar" style="padding:0;overflow:hidden"><img src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"></span>` : av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
+    h += item("perfil", `<span class="aro-marca">${p.fotoPerfilUrl || globalThis.mv?.demo?.avatar ? `<span class="avatar" style="padding:0;overflow:hidden"><img src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"></span>` : av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)")}</span>`, esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += grupo("Mi ascenso");
     h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
     h += item("ejes", av(ic("ejes"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");

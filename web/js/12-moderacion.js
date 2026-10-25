@@ -148,7 +148,7 @@ DET["perfil.moderacion"] = () => {
   const tabs = `<div class="mod-tabs" role="tablist">${tab("pendientes", `Pendientes (${n})`)}${tab("historial", "Historial")}${tab("metricas", "Métricas")}${tab("errores", `Errores${MOD.errores?.length ? ` (${MOD.errores.length})` : ""}`)}${tab("planes", "Planes")}
     <button class="btn mini" data-acc="recargarMod" style="margin-left:auto">Actualizar</button></div>`;
   let h;
-  if (MOD.casos === null) h = `<p class="vacio-mini">Cargando…</p>`;
+  if (MOD.casos === null) h = `<p class="vacio-mini cargando-marca">Cargando…</p>`;
   else if (pest === "pendientes") h = n ? MOD.casos.map(tarjetaCaso).join("") : hoja(`<p class="vacio-mini">${ic("mazo")} No hay reportes por revisar. La comunidad está en calma.</p>`);
   else if (pest === "metricas") h = vistaMetricas();
   else if (pest === "errores") h = vistaErrores();

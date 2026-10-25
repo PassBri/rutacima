@@ -176,7 +176,7 @@ fun PerfilScreen(
                         tipoFoto = com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL
                         elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly))
                     }.semantics { contentDescription = ctx.getString(R.string.mv_cambiar_foto) }) {
-                        Avatar(perfil.nombre, perfil.fotoPerfilUrl.ifBlank { perfil.fotoPerfil }, tamano = 96)
+                        com.rutaalacima.app.ui.components.AroMarca(96.dp) { Avatar(perfil.nombre, perfil.fotoPerfilUrl.ifBlank { perfil.fotoPerfil }, tamano = 96) }
                     }
                     Text(perfil.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                     if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)

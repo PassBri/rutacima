@@ -399,23 +399,34 @@ function mandalaHtml(tableroHtml = "") {
   let visor = "";
   if (estado.mdVisor) {
     const nivel = estado.mdNivel ?? 0, anim = estado.mdAnim ? ` md-anim-${estado.mdAnim}` : "";
-    estado.mdAnim = null;
+    estado.mdAnim = null; setTimeout(() => { estado.mdVolteo = null; }, 0);
     const puntos = i => { const g = [0, 1, 2, 3, 4, 5, 6, 7].filter(q => Mandala.estado(d.camps[i]?.id, q) === "HECHO").length;
       return `<span class="md-puntos">${[0, 1, 2, 3, 4, 5, 6, 7].map(q => `<i class="${q < g ? "si" : ""}"></i>`).join("")}</span>`; };
+    // Girar: cada tarjeta tiene su botón y la barra gira todas; el reverso muestra lo que hay detrás de la foto
+    const giradas = estado.mdGiradas ||= new Set(), girada = k => giradas.has(k) !== !!estado.mdTodas;
+    const volteo = k => estado.mdVolteo === k || estado.mdVolteo === "todas" ? " md-volteo" : "";
+    const botonGiro = (k, nombre) => `<button class="md-girar" data-acc="mdGirar" data-arg="${k}" aria-pressed="${girada(k)}" aria-label="Girar ${esc(nombre)}" title="Girar">${ic("girar")}</button>`;
+    const pasosDe = i => { const c0 = d.camps[i]; return c0 ? [0, 1, 2, 3, 4, 5, 6, 7].map(q => { const t = respuesta(Mandala.clave(c0.id, q)), h = Mandala.estado(c0.id, q) === "HECHO";
+      return `<li class="${h ? "si" : ""}">${h ? "✓ " : ""}${t ? esc(t) : `<span class="suave">Paso ${q + 1}</span>`}</li>`; }).join("") : ""; };
     const vista = nivel === 0
-      ? `<button class="md-nivel1${anim}" data-acc="mdNivel" data-arg="1" aria-label="Acercar: tu vision board">
+      ? `<div class="md-giro md-giro-1">${girada("c") ? `<button class="md-nivel1 md-reverso${anim}${volteo("c")}" data-acc="mdNivel" data-arg="1" aria-label="Acercar: tu vision board">
+          <small>TUS 8 CAMPAMENTOS</small><b>${esc(d.titulo)}</b><hr><ol class="md-rev-lista">${[0, 1, 2, 3, 4, 5, 6, 7].map(i => d.camps[i]
+            ? `<li><span>${esc(mdNombre(d.camps[i]))}</span><i>${Math.round(mdPct(d, i))} %</i></li>` : `<li class="suave"><span>${esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[i]))}</span><i>—</i></li>`).join("")}</ol></button>`
+        : `<button class="md-nivel1${anim}${volteo("c")}" data-acc="mdNivel" data-arg="1" aria-label="Acercar: tu vision board">
           ${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}
-          <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em>${mdAnillo(pctC, "centro")}</button>`
+          <small>MI CUMBRE</small><b>${esc(d.titulo)}</b><hr><em>Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</em>${mdAnillo(pctC, "centro")}</button>`}${botonGiro("c", "tu cumbre")}</div>`
       : nivel === 1
         ? `<div class="md-nivel9${anim}">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
             const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
-            if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdNivel" data-arg="2" aria-label="Acercar: el 9×9 completo">
-              ${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(pctC, "esquina")}</button>`;
-            const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
-            return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Acercar: ${esc(Mandala.nombre(cod))}">
-              ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}</button>`;
+            if (cel.tipo === "CUMBRE") { const g = girada("t4");
+              return `<div class="md-giro"><button class="md-tc${fotoC && !g ? " con-foto" : ""}${g ? " md-reverso" : ""}${volteo("t4")}" data-acc="mdNivel" data-arg="2" aria-label="Acercar: el 9×9 completo">
+              ${fotoC && !g ? `<img src="${esc(fotoC)}" alt="">` : ""}${g ? `<small>MI CUMBRE</small>` : ""}<b>${esc(d.titulo)}</b>${g ? `<em class="md-rev-dato">${Math.round(pctC)} % · ${d.ritmo.mm.toLocaleString("es")} mm</em>` : mdAnillo(pctC, "esquina")}</button>${botonGiro("t4", "la cumbre")}</div>`; }
+            const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c), k0 = "t" + cel.camp, g = c && girada(k0);
+            return `<div class="md-giro"><button class="md-tk${foto && !g ? " con-foto" : ""}${g ? " md-reverso" : ""}${volteo(k0)}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mdCampamento" : "crearCampamento"}" data-arg="${c ? cel.camp : cod}" aria-label="Acercar: ${esc(Mandala.nombre(cod))}">
+              ${g ? `<small>${esc(mdNombre(c))}</small><ol class="md-rev-pasos">${pasosDe(cel.camp)}</ol>`
+                : `${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b>${puntos(cel.camp)}`}</button>${c ? botonGiro(k0, mdNombre(c)) : ""}</div>`;
           }).join("")}</div>`
-        : `<div class="md-grilla-caja${anim}"><div class="md-grilla">${grilla}</div></div>`;
+        : `<div class="md-grilla-caja${anim}${estado.mdTodas ? " md-sin-fotos" : ""}${volteo("todas")}"><div class="md-grilla">${grilla}</div></div>`;
     const ayuda = ["Toca tu cumbre para acercarte a tu vision board.",
       "Toca la cumbre para ver el 9×9, o un campamento para ir directo a su bloque. Para alejarte: la flecha, las migas, el signo − o Esc.",
       "Toca un bloque para editarlo; el centro te aleja al vision board. Para alejarte: la flecha, las migas, el signo − o Esc."][nivel];
@@ -427,6 +438,7 @@ function mandalaHtml(tableroHtml = "") {
         <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span><span style="flex:1"></span>
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "disabled"} aria-label="Alejar (−)" title="Alejar (−)">−</button>
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel + 1}" ${nivel < 2 ? "" : "disabled"} aria-label="Acercar (+)" title="Acercar (+)">+</button>
+        <button class="md-visor-ic" data-acc="mdGirar" data-arg="todas" aria-pressed="${!!estado.mdTodas}" aria-label="${estado.mdTodas ? "Volver a las fotos" : "Girar todas las tarjetas"}" title="${estado.mdTodas ? "Volver a las fotos" : "Girar todas"}">${ic("girar")}</button>
         <button class="btn mini" data-acc="mdEditarAbajo">${ic("editar")} Editar</button>
         <button class="md-visor-ic" data-acc="mdPantalla" aria-label="Pantalla completa" title="Pantalla completa (F)">${ic("pantallaCompleta")}</button>
         <button class="md-visor-ic" data-acc="mdVisor" data-arg="" aria-label="Cerrar (Esc)" title="Cerrar (Esc)">${ic("cerrar")}</button></div>
@@ -471,6 +483,12 @@ Object.assign(ACC, {
   mdIrCasilla(_, id) { const t = document.querySelector(`.casilla-v[data-casilla="${id}"]:not(.en-bloque)`); t?.scrollIntoView({ behavior: "smooth", block: "center" }); t?.classList.add("resalta"); setTimeout(() => t?.classList.remove("resalta"), 1600); },
   mdIr(_, id) { document.getElementById(id)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); },
   /** Cambia de nivel de zoom; ignora el segundo clic de un doble clic para no saltarse un nivel. */
+  /** Gira una tarjeta del visor (c, t0…t7, t4) o todas a la vez. */
+  mdGirar(_, k) {
+    if (k === "todas") estado.mdTodas = !estado.mdTodas;
+    else { const s = estado.mdGiradas ||= new Set(); s.has(k) ? s.delete(k) : s.add(k); }
+    estado.mdVolteo = k; navigator.vibrate?.(8); pintarDetalle();
+  },
   mdNivel(_, v) {
     const n = Math.max(0, Math.min(2, Number(v))), ahora = Date.now(), actual = estado.mdNivel ?? 0;
     if (n === actual || ahora - (estado.mdNivelEn || 0) < 400) return;

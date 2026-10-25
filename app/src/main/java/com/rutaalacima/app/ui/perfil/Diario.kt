@@ -299,7 +299,7 @@ fun DiarioAjenoScreen(autorId: String, nombre: String, onBack: () -> Unit, onAbr
     ) { padding ->
         val anios = vm.anios
         when {
-            anios == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+            anios == null -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             anios.isEmpty() -> EstadoVacio("diario-$autorId", stringResource(R.string.diario_titulo), stringResource(R.string.diario_ajeno_vacio, nombre),
                 modifier = Modifier.padding(padding).padding(24.dp))
             else -> LazyVerticalStaggeredGrid(
@@ -317,7 +317,7 @@ fun DiarioAjenoScreen(autorId: String, nombre: String, onBack: () -> Unit, onAbr
                 }
                 val album = vm.album
                 if (album == null) item(span = StaggeredGridItemSpan.FullLine) {
-                    Box(Modifier.fillMaxWidth().height(120.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+                    Box(Modifier.fillMaxWidth().height(120.dp), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
                 } else items(album, key = { it.id }) { p -> TarjetaRecuerdo(p) { onAbrirPost(p.id) } }
             }
         }

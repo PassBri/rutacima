@@ -737,7 +737,7 @@ Object.assign(DET, {
     const p0Demo = ps => ps.some(p => p.demo) && !Store.nube ? `<p class="cimas-demo">Comunidad de ejemplo</p>` : "";
     if (!estado.feed) { cargarFeed(); return cab(av(ic("comunidad"), "var(--burdeos)"), "Comunidad", "Cargando…") + cuerpo(""); }
     const ps = estado.feed;
-    const autor = p => { const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase(); return av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"); };
+    const autor = p => { const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase(); return `<span class="aro-marca claro">${av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)")}</span>`; };
     const vacioFeed = `<p class="vacio-mini">${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p>`;
     if (estado.vistaCom === "cimas") {
       // Cimas: la comunidad a pantalla completa, como los videos cortos, en el mundo de Ruta a la Cima.

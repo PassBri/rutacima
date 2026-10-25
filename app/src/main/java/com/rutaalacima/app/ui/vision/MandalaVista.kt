@@ -85,6 +85,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
@@ -808,6 +809,29 @@ internal fun NivelCumbre(datos: DatosMandala, modifier: Modifier, modoTexto: Boo
     }
 }
 
+/**
+ * Cada tarjeta del visor se gira sola con su botón: de la foto al texto y de vuelta, con un giro de papel.
+ * El selector Imagen/Texto gira todas a la vez; el botón de cada tarjeta la invierte respecto a ese modo.
+ */
+@Composable
+internal fun GiroTarjeta(modoTexto: Boolean, contenido: @Composable (texto: Boolean) -> Unit) {
+    var girada by remember { mutableStateOf(false) }
+    val angulo by androidx.compose.animation.core.animateFloatAsState(if (girada) 180f else 0f,
+        androidx.compose.animation.core.tween(340, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "giro")
+    val reverso = angulo > 90f
+    Box(Modifier.fillMaxSize()) {
+        Box(Modifier.fillMaxSize().graphicsLayer {
+            rotationY = if (reverso) angulo - 180f else angulo; cameraDistance = 12f * density
+        }) { contenido(modoTexto != reverso) }
+        IconButton(onClick = { girada = !girada }, modifier = Modifier.align(Alignment.BottomEnd).padding(2.dp).size(32.dp)) {
+            Surface(shape = androidx.compose.foundation.shape.CircleShape, color = if (girada) TINTA_PAPEL else Color.White.copy(alpha = 0.92f), shadowElevation = 1.dp) {
+                Icon(androidx.compose.material.icons.Icons.Filled.Autorenew, stringResource(R.string.ef_girar),
+                    Modifier.padding(5.dp).size(16.dp), tint = if (girada) Color.White else TINTA_PAPEL)
+            }
+        }
+    }
+}
+
 /** Nivel 9: el vision board en tarjetas de papel; cada campamento lleva el color de su eje como borde. */
 @Composable
 internal fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento: (Int) -> Unit, modoTexto: Boolean = false) {
@@ -819,8 +843,10 @@ internal fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento
                 for (col in 0 until 3) {
                     val cel = Mandala.celda(3 + f, 3 + col)
                     Box(Modifier.width(ancho).height(alto).padding(5.dp)) {
-                        if (cel.tipo == Mandala.Tipo.CUMBRE) TarjetaCumbre(datos, onCentro, modoTexto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp))
-                        else TarjetaCampamento(datos, cel.campamento, modoTexto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp)) { onCampamento(cel.campamento) }
+                        GiroTarjeta(modoTexto) { texto ->
+                            if (cel.tipo == Mandala.Tipo.CUMBRE) TarjetaCumbre(datos, onCentro, texto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp))
+                            else TarjetaCampamento(datos, cel.campamento, texto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp)) { onCampamento(cel.campamento) }
+                        }
                     }
                 }
             }

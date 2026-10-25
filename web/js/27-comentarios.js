@@ -44,7 +44,7 @@ const filaCom = (c, hija = false) => `<div class="com${hija ? " hija" : ""}" dat
 /** La lista: comentarios principales y, debajo de cada uno, sus respuestas plegadas. */
 function listaComentariosHtml(p) {
   const l = p.comentariosLista;
-  if (!l) return `<p class="suave hoja-vacia">Cargando…</p>`;
+  if (!l) return `<p class="suave hoja-vacia cargando-marca">Cargando…</p>`;
   if (!l.length) return `<p class="suave hoja-vacia">Aún no hay comentarios. Sé la primera persona en dar ánimo.</p>`;
   const raiz = l.filter(c => !c.parentId || !l.some(x => x.id === c.parentId));
   return `<div class="coms">${raiz.map(c => {

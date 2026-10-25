@@ -299,7 +299,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
             }
         }
         if (d == null) {
-            item { Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() } }
+            item { Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() } }
             return@LazyColumn
         }
         // 1. El plan de la mañana

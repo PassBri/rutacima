@@ -489,7 +489,7 @@ function cerrarHoja(inmediato = false) {
 /** Pinta (o repinta) la hoja de comentarios de una publicación. */
 function pintarHojaComentarios(p, abrir = false) {
   const lista = p.comentariosLista;
-  const cuerpo = !lista ? `<p class="suave hoja-vacia">Cargando…</p>` : !lista.length ? `<p class="suave hoja-vacia">Aún no hay comentarios. Sé la primera persona en dar ánimo.</p>`
+  const cuerpo = !lista ? `<p class="suave hoja-vacia cargando-marca">Cargando…</p>` : !lista.length ? `<p class="suave hoja-vacia">Aún no hay comentarios. Sé la primera persona en dar ánimo.</p>`
     : `<div class="hoja-comentarios">${lista.map(c => { const ini = (c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
         return `<div class="comentario"><span class="avatar">${esc(ini)}</span><div><b>${esc(c.autor)}</b><p>${esc(c.texto)}</p></div></div>`; }).join("")}</div>`;
   const html = `<h3 class="hoja-titulo">${p.comentarios || (lista || []).length} comentarios</h3>${cuerpo}

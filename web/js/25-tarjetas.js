@@ -303,7 +303,7 @@ DET["perfil.publicaciones"] = () => {
       ${p.cumbreFrase ? `<p class="tk-bio">${esc(p.cumbreFrase)}</p>` : ""}
     </section>
     <div class="tk-pestanas" role="tablist" aria-label="Qué ver">${tab("pub", "cuadricula", "Publicaciones")}${tab("privadas", "candado", "Privadas")}${tab("guardadas", "guardado", "Guardadas")}</div>
-    ${!estado.misPosts && pest !== "guardadas" ? `<p class="vacio-mini">Cargando…</p>` : lista.length ? `<div class="tk-rejilla">${lista.map(celda).join("")}</div>` : `<p class="vacio-mini">${vacio}</p>`}`, "max-width:720px");
+    ${!estado.misPosts && pest !== "guardadas" ? `<p class="vacio-mini cargando-marca">Cargando…</p>` : lista.length ? `<div class="tk-rejilla">${lista.map(celda).join("")}</div>` : `<p class="vacio-mini">${vacio}</p>`}`, "max-width:720px");
 };
 
 /* ---------- Brújula 9×9: en Edición se escribe en la grilla; en Imagen o Texto, tocar un bloque lo abre ---------- */

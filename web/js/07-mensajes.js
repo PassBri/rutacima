@@ -228,7 +228,7 @@ LISTAS.mensajes = function () {
     activas.some(c => !c.marqueHoy) ? `<span class="badge">${activas.filter(c => !c.marqueHoy).length}</span>` : "");
   if (!CK.lista) cargarCordadas();
   if (!MS.cv) cargarCoachVida();
-  if (!MS.convs) { cargarConvs().then(() => { if (estado.sec === "mensajes") { pintarLista(); pintarRiel(); } }); return h + `<p class="vacio-mini">Cargando…</p></div>`; }
+  if (!MS.convs) { cargarConvs().then(() => { if (estado.sec === "mensajes") { pintarLista(); pintarRiel(); } }); return h + `<p class="vacio-mini cargando-marca">Cargando…</p></div>`; }
   const fila = c => item("c:" + c.id, avPersona(c.otroNombre, c.esMiCoach || c.laAcompano ? "var(--oro)" : "var(--burdeos)"),
     esc(c.otroNombre) + (c.esMiCoach ? ` <span class="pill">Tu coach</span>` : c.laAcompano ? ` <span class="pill">Acompañas</span>` : ""), c.ultimoEn ? hace(c.ultimoEn) : "",
     c.solicitudParaMi ? "Quiere escribirte" : c.estado === "bloqueada" ? "Conversación bloqueada" : !c.ultimoTexto ? "Sin mensajes todavía" : (c.ultimoEsMio ? "Tú: " : "") + esc(c.ultimoTexto),
@@ -279,7 +279,7 @@ const barra = (pct) => `<div class="barra"><i style="width:${Math.max(0, Math.mi
 DET["mensajes.coachvida"] = () => {
   const cv = MS.cv;
   const titulo = cab(av(ic("cumbre"), "var(--burdeos)"), "Coach de vida", "Una persona real que te acompaña en tu ascenso");
-  if (!cv) { cargarCoachVida(); return titulo + cuerpo(`<p class="suave">Cargando…</p>`); }
+  if (!cv) { cargarCoachVida(); return titulo + cuerpo(`<p class="suave cargando-marca">Cargando…</p>`); }
   const mio = cv.acomps.find(a => a.rol === "usuario"), acompanados = cv.acomps.filter(a => a.rol === "coach");
   let h = `<p style="margin:0">Conversa contigo, revisa tu avance si se lo permites y te ayuda a no rendirte.</p>`;
   if (!Store.nube) h += `<div class="aviso">Demostración: coaches y conversaciones de ejemplo.</div>`;
