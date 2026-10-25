@@ -137,7 +137,7 @@ const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 /** El momento del día para el arte (0 amanecer, 1 día, 2 atardecer, 3 noche), según la hora local. */
 const momentoAhora = () => { const h = new Date().getHours(); return h >= 5 && h < 8 ? 0 : h >= 8 && h < 17 ? 1 : h >= 17 && h < 19 ? 2 : 3; };
 function vacio() {
-  return `<div class="vacio"><div class="vacio-arte" aria-hidden="true">${window.Arte ? Arte.cordillera("rutaalacima-bienvenida", momentoAhora()) : ""}</div><div><img src="${LOGO}" alt="Sello de SuRoute"><h2>SuRoute Web</h2>
+  return `<div class="vacio"><div class="vacio-arte" aria-hidden="true">${window.Arte ? Arte.cordillera("rutaalacima-bienvenida", momentoAhora()) : ""}</div><div>${marca()}<h2>SuRoute Web</h2>
     <p>La misma app de tu teléfono, en pantalla grande. Elige un año de tu ruta, tu día de hoy o una de tus metas.</p>
     <p class="pie suave">${ic("candado")} ${Store.nube ? "Conectada a tu cuenta: lo que cambies aquí aparece en tu teléfono." : "Demostración: los cambios se quedan en esta pestaña."}</p></div></div>`;
 }
@@ -744,7 +744,7 @@ Object.assign(DET, {
             ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("") +
           // El feed tiene final: la invitación es volver a la propia ruta
           `<article class="cima cima-fin" aria-label="Final del feed"><div class="cima-fondo">${window.Arte ? Arte.cordillera("fin-del-feed", 3) : ""}</div>
-            <div class="cima-fin-texto"><img src="${LOGO}" alt=""><h2>Ya viste lo nuevo</h2><p>La montaña sigue ahí mañana. Ahora, da tu propio paso de hoy.</p>
+            <div class="cima-fin-texto">${marca()}<h2>Ya viste lo nuevo</h2><p>La montaña sigue ahí mañana. Ahora, da tu propio paso de hoy.</p>
             <button class="btn lleno" data-ir="hoy" data-arg="d:${iso(hoyFecha())}">Dar el paso de hoy</button></div></article>`
           : `<div class="cimas-vacio"><p>${estado.feedFiltro === "SIGUIENDO" ? "Todavía no sigues a nadie." : "Aún no hay publicaciones."}</p><button class="btn lleno" data-ir="comunidad" data-arg="publicar">Publicar</button></div>`}</div>`;
     }

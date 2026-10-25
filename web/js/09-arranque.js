@@ -8,20 +8,20 @@ function mostrar(cual) {
   $("pantallaCarga").hidden = cual !== "carga";
   $("pantallaApp").hidden = cual !== "app";
 }
-function mostrarCarga(t) { $("pantallaCarga").innerHTML = `<div><img src="${LOGO}" alt=""><p>${esc(t)}</p></div>`; mostrar("carga"); }
+function mostrarCarga(t) { $("pantallaCarga").innerHTML = `<div>${marca()}<p>${esc(t)}</p></div>`; mostrar("carga"); }
 
 let sondeo = null, renovar = null;
 async function mostrarVincular() {
   clearInterval(sondeo); clearInterval(renovar);
   const real = !!Store.nube;
-  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">SuRoute Web</div>
+  $("pantallaVincular").innerHTML = `<div class="marca">${marca()}SuRoute Web</div>
     ${window.INSTALAR?.instalada?.() ? "" : `<div class="v-descarga"><div class="v-descarga-ilus" aria-hidden="true">${ic("pc")}</div>
       <div><h2>Descarga SuRoute para tu computador</h2><p>Instálala y ábrela en su propia ventana, con su sello en el menú de inicio o en el Dock. También para Android y iPhone.</p></div>
       <a class="btn lleno v-descarga-btn" id="vDescargar" href="descargar.html">Descargar ${ic("descargar")}</a></div>`}
     <div class="tarjeta-v"><div><h1>Usa SuRoute en tu computador</h1>
       <ol class="pasos"><li>Abre <b>SuRoute</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>SuRoute Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
       <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
-    <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""><button class="qr-recargar" id="qrRecargar" hidden>${ic("ruta")}<span>Toca para generar un código nuevo</span></button></div>
+    <div><div class="qr" id="qr">${marca("centro logo", true)}<button class="qr-recargar" id="qrRecargar" hidden>${ic("ruta")}<span>Toca para generar un código nuevo</span></button></div>
       ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
       <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
@@ -178,7 +178,7 @@ function mostrarCarta(alSeguir) {
     </div>
     <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
     <article class="carta" id="carta" aria-label="Carta de bienvenida a SuRoute" hidden>
-      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>SuRoute · Summit Route</span></header>
+      <header class="carta-membrete">${marca()}<span>SuRoute · Summit Route</span></header>
       <p class="carta-lugar">Floridablanca, ${fecha}</p>
       <h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
       <p class="carta-cierre">${CARTA.cierre}</p>

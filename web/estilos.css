@@ -61,7 +61,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 
 /* Riel de íconos: solo íconos; el nombre aparece al pasar el cursor */
 .riel { width: 64px; flex: none; background: var(--hoja-2); border-right: 1px solid var(--linea); display: flex; flex-direction: column; align-items: center; padding-block: 12px; gap: 6px; }
-.riel .sello { width: 40px; height: 40px; margin-bottom: 10px; }
+.riel .sello { width: 40px; height: 40px; margin-bottom: 10px; color: var(--tinta); }
 .riel .esp { flex: 1; }
 .rb { position: relative; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--tinta-suave); transition: background .15s, color .15s; }
 .rb:hover { background: var(--burdeos-suave); }
@@ -125,6 +125,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 /* Vacío (como la pantalla de bienvenida de WhatsApp Web) */
 .vacio { flex: 1; display: grid; place-items: center; text-align: center; padding: 24px; position: relative; z-index: 1; }
 .vacio img { width: 150px; height: 150px; filter: drop-shadow(0 8px 16px rgb(var(--sombra) / .25)); }
+.vacio .logo { width: 140px; height: 140px; color: var(--tinta); margin-bottom: 6px; }
 .vacio h2 { font: 500 30px/1.2 var(--font-titulo); margin: 14px 0 8px; color: var(--burdeos); }
 .vacio p { max-width: 460px; margin: 0 auto; color: var(--tinta-suave); }
 .vacio .pie { margin-top: 32px; font-size: 13px; display: flex; gap: 6px; justify-content: center; align-items: center; }
@@ -225,7 +226,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 /* Vincular (pantalla del código QR) */
 .vincular { position: relative; max-width: 1000px; margin: 0 auto; padding-block: 28px; padding-inline: 19px; height: 100%; overflow-y: auto; }
 .marca { display: flex; align-items: center; gap: 10px; color: #fff; font: 500 15px var(--font-texto); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 28px; }
-.marca img { width: 38px; height: 38px; }
+.marca img, .marca .logo { width: 38px; height: 38px; color: var(--tinta); }
 /* Aviso de descarga sobre la tarjeta del QR, como el de WhatsApp Web */
 .v-descarga { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; margin-bottom: 16px; padding: 22px 32px;
   background: var(--hoja); border-radius: 4px; box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 10px 40px rgb(var(--sombra) / .16); }
@@ -243,7 +244,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .pasos b { font-weight: 500; }
 .qr { width: 264px; height: 264px; position: relative; display: grid; place-items: center; background: #fff; border-radius: 8px; border: 1px solid var(--linea); padding: 8px; }
 .qr canvas, .qr img.codigo { width: 100%; height: 100%; image-rendering: pixelated; }
-.qr .centro { position: absolute; width: 64px; height: 64px; background: #fff; border-radius: 50%; padding: 4px; }
+.qr .centro { position: absolute; width: 64px; height: 64px; background: #fff; border-radius: 50%; padding: 4px; color: #2B1D17; box-sizing: border-box; }
 .v-pie { border-top: 1px solid var(--linea); margin-top: 32px; padding-top: 22px; grid-column: 1 / -1; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .pill { display: inline-block; padding: 2px 10px; border-radius: 99px; background: var(--oro-suave); color: var(--burdeos); font-size: 12px; font-weight: 700; letter-spacing: .04em; vertical-align: middle; }
 
@@ -873,7 +874,7 @@ a.btn { text-decoration: none; }
 @keyframes carta-sale { from { transform: translateY(40px) scaleY(.96); opacity: 0; } to { transform: none; opacity: 1; } }
 .carta-membrete { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-bottom: 14px; margin-bottom: 18px;
   border-bottom: 1px solid rgb(184 134 47 / .45); }
-.carta-membrete img { width: 44px; height: 44px; }
+.carta-membrete img, .carta-membrete .logo { width: 44px; height: 44px; color: #2B1D17; }
 .carta-membrete span { font: 600 12px/1 var(--font-titulo); letter-spacing: .28em; text-transform: uppercase; color: #6B2A1A; }
 .carta-lugar { margin: 0 0 18px; text-align: right; font: italic 400 15px/1.4 var(--font-titulo); color: rgb(58 42 32 / .75); }
 .carta h2 { font: 700 23px/1.3 var(--font-titulo); margin: 0 0 14px; color: #3A2A20; }
@@ -1085,7 +1086,7 @@ a.btn { text-decoration: none; }
 /* Final del feed */
 .cima-fin .arte-cordillera { position: absolute; inset: 0; }
 .cima-fin-texto { position: absolute; inset: 0; z-index: 1; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 32px; text-align: center; color: #fff; }
-.cima-fin-texto img { width: 84px; height: 84px; }
+.cima-fin-texto img, .cima-fin-texto .logo { width: 84px; height: 84px; color: inherit; }
 .cima-fin-texto h2 { margin: 0; font: 400 24px/1.25 var(--font-texto); }
 .cima-fin-texto p { margin: 0; max-width: 30ch; color: rgb(255 255 255 / .85); }
 
@@ -1797,3 +1798,6 @@ label.cargando { opacity: .6; pointer-events: none; }
 .tabs.mas-der { -webkit-mask: linear-gradient(90deg, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, #000 calc(100% - 48px), transparent); }
 .tabs.mas-izq { -webkit-mask: linear-gradient(90deg, transparent, #000 48px); mask: linear-gradient(90deg, transparent, #000 48px); }
 .tabs.mas-izq.mas-der { -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+
+/* Pantalla de carga: el logo nuevo */
+#pantallaCarga .logo { width: 96px; height: 96px; color: var(--tinta); }

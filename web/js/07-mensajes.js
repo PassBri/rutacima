@@ -269,7 +269,7 @@ DET["mensajes.c"] = id => {
     `<div class="det-cuerpo abajo"><div class="chat" id="chatMsj">${htmlMensajes(id)}</div></div><div id="pieChat">${htmlPieChat(c)}</div>`;
 };
 function vacioMensajes() {
-  return `<div class="vacio"><div><img src="${LOGO}" alt=""><h2>Mensajes</h2>
+  return `<div class="vacio"><div>${marca()}<h2>Mensajes</h2>
     <p>Conversa con otras personas de la comunidad y con tu coach de vida. Si no se siguen mutuamente, el primer mensaje llega como solicitud y la otra persona decide si acepta.</p>
     <p class="pie suave">${ic("candado")} Puedes bloquear o reportar cualquier conversación.</p></div></div>`;
 }

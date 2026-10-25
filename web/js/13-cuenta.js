@@ -25,7 +25,7 @@ const mensajeCuenta = e => (ERRORES_CUENTA.find(([r]) => r.test(e?.message || ""
 function mostrarCorreo(modo = "entrar") {
   clearInterval(sondeo); clearInterval(renovar);
   const crear = modo === "crear", olvido = modo === "olvido";
-  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">SuRoute Web</div>
+  $("pantallaVincular").innerHTML = `<div class="marca">${marca()}SuRoute Web</div>
     <div class="tarjeta-v tarjeta-correo"><div>
       <h1>${crear ? "Crea tu cuenta" : olvido ? "Recupera tu contraseña" : "Entra con tu correo"}</h1>
       <p class="suave" style="margin-top:-12px">${crear ? "Tu ruta queda guardada en tu cuenta y la abres desde cualquier navegador, también en iPhone."
