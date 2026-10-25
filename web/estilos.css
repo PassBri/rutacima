@@ -1790,3 +1790,10 @@ label.cargando { opacity: .6; pointer-events: none; }
 .mochila-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 4px; }
 .mochila-fila > span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--oro); }
 .mochila-fila > span svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* Filas de lado: se arrastran con el mouse y se desvanecen en el borde cuando hay más */
+.tabs, .ef-filtros, .ef-chips { cursor: grab; scrollbar-width: thin; scroll-behavior: smooth; }
+.tabs.arrastrando, .ef-filtros.arrastrando, .ef-chips.arrastrando { cursor: grabbing; scroll-behavior: auto; user-select: none; }
+.tabs.mas-der { -webkit-mask: linear-gradient(90deg, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, #000 calc(100% - 48px), transparent); }
+.tabs.mas-izq { -webkit-mask: linear-gradient(90deg, transparent, #000 48px); mask: linear-gradient(90deg, transparent, #000 48px); }
+.tabs.mas-izq.mas-der { -webkit-mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }

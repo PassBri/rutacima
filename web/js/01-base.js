@@ -401,3 +401,44 @@ function aplicarApariencia(cambio = {}) {
     if (a.tema === "sistema") localStorage.removeItem("rutacima-tema"); else localStorage.setItem("rutacima-tema", r.dataset.theme);
   } catch {}
 }
+
+/* Filas que se desplazan de lado (secciones de una guía, filtros de fotos, chips largos): en el computador
+ * se arrastran con el mouse y la rueda las mueve de lado, como en el teléfono con el dedo. */
+(() => {
+  const FILAS = ".tabs, .ef-filtros, .ef-chips, .lado";
+  const fila = t => { const f = t?.closest?.(FILAS); return f && f.scrollWidth > f.clientWidth + 2 ? f : null; };
+  let arr = null;
+  document.addEventListener("pointerdown", e => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    const f = fila(e.target); if (!f) return;
+    arr = { f, x: e.clientX, izq: f.scrollLeft, movio: false };
+  });
+  document.addEventListener("pointermove", e => {
+    if (!arr) return;
+    const dx = e.clientX - arr.x;
+    if (!arr.movio && Math.abs(dx) < 5) return;
+    arr.movio = true; arr.f.classList.add("arrastrando");
+    arr.f.scrollLeft = arr.izq - dx;
+  });
+  const soltar = () => {
+    if (!arr) return;
+    const { f, movio } = arr; arr = null; f.classList.remove("arrastrando");
+    // Un arrastre no debe abrir la sección sobre la que se soltó
+    if (movio) addEventListener("click", ev => { ev.stopPropagation(); ev.preventDefault(); }, { capture: true, once: true });
+  };
+  document.addEventListener("pointerup", soltar); document.addEventListener("pointercancel", soltar);
+  document.addEventListener("wheel", e => {
+    const f = fila(e.target); if (!f || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+    const antes = f.scrollLeft; f.scrollLeft += e.deltaY;
+    if (f.scrollLeft !== antes) e.preventDefault();
+  }, { passive: false });
+  // Bordes que se desvanecen cuando hay más a un lado
+  const marcar = f => { f.classList.toggle("mas-izq", f.scrollLeft > 2); f.classList.toggle("mas-der", f.scrollLeft + f.clientWidth < f.scrollWidth - 2); };
+  document.addEventListener("scroll", e => { if (e.target?.matches?.(FILAS)) marcar(e.target); }, true);
+  new MutationObserver(() => document.querySelectorAll(FILAS).forEach(f => {
+    marcar(f);
+    // La sección abierta queda a la vista
+    const act = f.querySelector('[aria-pressed="true"]');
+    if (act && !f.dataset.centrada) { f.dataset.centrada = "1"; f.scrollLeft = act.offsetLeft - (f.clientWidth - act.offsetWidth) / 2; marcar(f); }
+  })).observe(document.documentElement, { childList: true, subtree: true });
+})();
