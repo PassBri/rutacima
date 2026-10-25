@@ -245,7 +245,7 @@ function mdCelda(d, cel, grande) {
   const extra = (d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla" title="Niebla: más de ${Travesia.NIEBLA_DIAS} días sin avanzar">☁</span>` : "") +
     (d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace" title="Paso de confluencia">⇄</span>` : "");
   const t81 = camp ? `<textarea class="md-t81" data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(mdNombre(camp))}">${esc(texto)}</textarea>` : "";
-  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${t81}${est === "HECHO" ? "<i>✓</i>" : ""}${extra}</span>`;
+  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}"${texto ? ` title="${esc(texto)}"` : ""}>${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${t81}${est === "HECHO" ? "<i>✓</i>" : ""}${extra}</span>`;
 }
 
 /** Jornadas de un paso y el botón para registrar la de hoy. */
@@ -393,7 +393,8 @@ function mandalaHtml(tableroHtml = "") {
     ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
   const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.") +
-    (estado.md81 ? editorBloque : `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie));
+    (estado.md81 ? editorBloque : `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>
+      <p class="md-leyenda"><span><i style="--n:7%"></i>Por escribir</span><span><i style="--n:30%"></i>Escrito</span><span><i style="--n:100%"></i>Ganado ✓</span></p>` + pie));
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
   let visor = "";
   if (estado.mdVisor) {

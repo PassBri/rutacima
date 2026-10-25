@@ -2079,3 +2079,19 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 .md-visor .md-nivel1, .md-visor .md-nivel9 { width: min(100%, calc(100dvh - 150px)); max-width: none; }
 .md-visor .md-impresion { height: 50%; }
 .md-nivel1 b { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+
+/* ---------- 9×9 en modo Imagen: mapa de calor (Material, tarjetas tonales). La grilla y sus 81 casillas no cambian;
+   el texto se ve en Texto y se escribe en Edición. ---------- */
+html[data-modo-tarjetas="imagen"] .md-grilla { gap: 8px; padding: 8px; background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); border-radius: 20px; }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-bloque { gap: 3px; background: transparent; border-radius: 12px; outline-offset: 3px; }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-c { border-radius: 6px; }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-paso .t, html[data-modo-tarjetas="imagen"] .md-grilla .md-enlace, html[data-modo-tarjetas="imagen"] .md-grilla .md-niebla { display: none; }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-paso { background: color-mix(in srgb, var(--c) 7%, var(--hoja)); transition: background .2s; }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-paso.md-escrito { background: color-mix(in srgb, var(--c) 30%, var(--hoja)); }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-paso.md-hecho { background: var(--c); }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-paso.md-hecho > i { position: static; color: #fff; font-size: clamp(10px, 1.6vw, 16px); }
+html[data-modo-tarjetas="imagen"] .md-grilla .md-camp b { font-size: clamp(8px, 1.1vw, 12px); font-weight: 600; }
+@media (hover: hover) and (pointer: fine) { html[data-modo-tarjetas="imagen"] .md-grilla .md-bloque:hover .md-paso { filter: brightness(.97); } }
+.md-leyenda { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 10px 0 0; font-size: 12px; color: var(--tinta-suave); }
+.md-leyenda i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 5px; vertical-align: -2px; background: color-mix(in srgb, var(--burdeos) var(--n), var(--hoja)); }
+html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
