@@ -948,8 +948,8 @@ fun BrujulaEnMuro(json: String, autor: String, modifier: Modifier = Modifier) {
                 }
                 BrujulaZoom(datos, bloque) { bloque = it }
                 if (inst.conPasos) Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { _, _ -> }, onSugerir = {}, onAgregarCampamento = {}, soloLectura = true)
-                com.rutaalacima.app.ui.comunidad.ContinuacionMuro(json)
                 else Text(stringResource(R.string.brujula_sin_pasos), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                com.rutaalacima.app.ui.comunidad.ContinuacionMuro(json)
             }
         }
     }
