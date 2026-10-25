@@ -30,7 +30,7 @@ async function mostrarVincular() {
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
   if ($("vCorreo")) { $("vCorreo").onclick = () => mostrarCorreo("entrar"); $("vCrear").onclick = () => mostrarCorreo("crear"); }
-  if (!real) { pintarQR("https://github.com/PassBri/rutacima"); return; }
+  if (!real) { pintarQR("https://github.com/PassBri/suroute"); return; }
   const nuevo = async () => {
     try {
       const c = await Store.nube.crearCodigo();

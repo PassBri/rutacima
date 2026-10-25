@@ -21,7 +21,7 @@
 <p align="center">
   <a href="https://suroute.com/"><b>🌐 Abrir SuRoute Web</b></a>
   &nbsp;·&nbsp; la misma app en tu computador<br>
-  <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
+  <a href="https://github.com/PassBri/suroute/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
 </p>
 
 <p align="center">
@@ -627,7 +627,7 @@ coach en modo guía.
 
 **Sin Android Studio:** cada cambio en `main` se compila en GitHub Actions
 ([`.github/workflows/android.yml`](.github/workflows/android.yml)). El APK queda en
-[Releases › APK más reciente](https://github.com/PassBri/rutacima/releases/tag/apk-reciente) y como artefacto de
+[Releases › APK más reciente](https://github.com/PassBri/suroute/releases/tag/apk-reciente) y como artefacto de
 cada ejecución.
 
 **Versión para Google Play.** Para firmar el AAB de lanzamiento, crea en **Settings › Secrets and variables ›
