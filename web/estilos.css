@@ -2045,3 +2045,11 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 .md-visor .md-nivel9 { aspect-ratio: 3 / 4.6; width: min(100%, 560px, calc((100dvh - 170px) * 3 / 4.6)); max-width: none; }
 .md-visor .md-grilla { width: min(100%, calc(100dvh - 170px)); aspect-ratio: 1; }
 .md-nivel1 { aspect-ratio: 4 / 5; }
+/* Cumbre y vision board cuadrados (como el 9×9) */
+.tablero-9 .giro-in, .tarjeta-libre, .cumbre-tarjeta .giro-in { aspect-ratio: 1; }
+.tablero-9 { max-width: 640px; }
+.md-nivel1, .md-visor .md-nivel1 { aspect-ratio: 1; }
+.md-visor .md-nivel1 { width: min(100%, 520px, calc(100dvh - 170px)); }
+.md-visor .md-nivel9, .md-nivel9 { aspect-ratio: 1; }
+.md-visor .md-nivel9 { width: min(100%, 640px, calc(100dvh - 170px)); }
+.casilla-v.compacta .lect-frase { -webkit-line-clamp: 5; }
