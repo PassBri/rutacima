@@ -92,7 +92,7 @@ DET["comunidad.avisos"] = () => {
   grupos.forEach(g => { const t = tramo(g); if (t !== ultimo) { h += `<h3 class="aviso-tramo">${t}</h3>`; ultimo = t; } h += avisoHtml(g); });
   const permiso = "Notification" in window && Notification.permission === "default" && Store.nube;
   return cab(av(ic("campana"), "var(--burdeos)"), "Avisos", "Tu actividad en la comunidad",
-    `<button class="btn mini" data-acc="prefsAvisos" aria-expanded="${!!estado.prefsAvisos}">${ic("ajustes")} Qué recibir</button>`) + cuerpo(
+    `<button class="btn mini ic-solo" data-acc="prefsAvisos" aria-expanded="${!!estado.prefsAvisos}" aria-label="Qué avisos recibir" title="Qué avisos recibir">${ic("ajustes")}</button>`) + cuerpo(
     (estado.prefsAvisos ? prefsAvisosHtml() : "") +
     (permiso ? `<div class="aviso-permiso">${ic("campana")}<span>Recibe los avisos en este navegador aunque estés en otra pestaña.</span><button class="btn mini lleno" data-acc="permisoAvisos">Activar</button></div>` : "") +
     (!RED.avisos ? `<p class="suave">Cargando…</p>` : grupos.length ? `<div class="avisos">${h}</div>`
@@ -728,7 +728,7 @@ DET["comunidad.privacidad"] = () => {
   };
   // Privacidad desde Avisos
   const av0 = DET["comunidad.avisos"];
-  DET["comunidad.avisos"] = () => av0().replace(/(<button class="btn mini" data-acc="prefsAvisos")/, `<button class="btn mini" data-ir="comunidad" data-arg="privacidad">${ic("candado")} Privacidad</button>$1`);
+  DET["comunidad.avisos"] = () => av0().replace(/(<button class="btn mini" data-acc="prefsAvisos")/, `<button class="btn mini ic-solo" data-ir="comunidad" data-arg="privacidad" aria-label="Privacidad y seguridad" title="Privacidad y seguridad">${ic("candado")}</button>$1`);
 }
 
 /** Apelar una suspensión (se muestra junto al aviso de suspensión). */

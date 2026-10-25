@@ -2516,3 +2516,5 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .pv-chip i::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: currentColor; }
 .pv-chip i.vivido { color: var(--burdeos); } .pv-chip i.actual { color: var(--oro); } .pv-chip i.futuro { color: color-mix(in srgb, var(--tinta) 30%, transparent); }
 .pv-chip i.ley-meta { color: color-mix(in srgb, var(--tinta) 30%, transparent); } .pv-chip i.ley-meta::after { background: var(--oro); width: 5px; height: 5px; margin-left: -2.5px; }
+.btn.mini.ic-solo { width: 40px; height: 40px; padding: 0; justify-content: center; flex: none; } .det-cab .ic-solo + .ic-solo { margin-left: 4px; }
+a.carta-releer { text-decoration: none; }

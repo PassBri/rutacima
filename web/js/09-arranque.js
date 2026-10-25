@@ -33,7 +33,7 @@ async function mostrarVincular() {
     ${window.INSTALAR?.instalada?.() ? "" : `<div class="ac-descarga"><span class="ac-descarga-ic" aria-hidden="true">${ic("pc")}</span>
       <div><b>SuRoute para tu computador</b><span>En su propia ventana, con su sello en el menú de inicio o en el Dock. También para Android y iPhone.</span></div>
       <a class="ac-btn tonal" id="vDescargar" href="descargar.html">${ic("descargar")} Descargar</a></div>`}
-    <div class="v-extra"><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
+    <div class="v-extra"><a class="carta-releer" href="conoce.html">${ic("brujula")} Conoce SuRoute</a><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
     ${enlacesLegales()}</div>`;
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
