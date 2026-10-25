@@ -370,16 +370,17 @@ function enlazarTexto(t) {
     .replace(/(^|[\s(])#([\p{L}\p{N}_]{2,40})/gu, (m, a, h) => `${a}<button class="mencion" data-ir="comunidad" data-arg="etiqueta:${h}">#${h}</button>`);
 }
 window.enlazarTexto = enlazarTexto;
-const baseFunciones = () => /^https:\/\//.test(CONFIG.supabaseUrl) ? CONFIG.supabaseUrl.replace(/\/$/, "") + "/functions/v1/compartir" : "";
-/** Enlace público con vista previa (solo publicaciones públicas y reales). */
-const enlacePublico = p => p && !p.demo && Store.nube && (p.visibilidad || "PUBLICA") === "PUBLICA" && baseFunciones() ? `${baseFunciones()}?p=${encodeURIComponent(p.id)}` : "";
-const enlaceInvitacion = u => u && baseFunciones() ? `${baseFunciones()}?i=${encodeURIComponent(u)}` : "";
+/* Los enlaces van directo a suroute.com: Supabase muestra como texto las páginas de sus funciones en el dominio gratuito */
+const SITIO_RED = "https://suroute.com";
+/** Enlace público (solo publicaciones públicas y reales). */
+const enlacePublico = p => p && !p.demo && Store.nube && (p.visibilidad || "PUBLICA") === "PUBLICA" ? `${SITIO_RED}/#p=${encodeURIComponent(p.id)}` : "";
+const enlaceInvitacion = u => u ? `${SITIO_RED}/?invita=${encodeURIComponent(u)}` : "";
 window.enlacePublico = enlacePublico; window.enlaceInvitacion = enlaceInvitacion;
 ACC.compartirPost = async (el, id) => {
   const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
   const url = enlacePublico(p), texto = [p.metaTitulo, p.texto].filter(Boolean).join("\n\n") || "Una cima en SuRoute";
   try { if (navigator.share) { await navigator.share(url ? { title: "SuRoute", text: texto, url } : { text: texto + "\n\n— SuRoute" }); return; } } catch { return; }
-  try { await navigator.clipboard.writeText(url ? `${texto}\n${url}` : `${texto}\n\n— SuRoute`); toast(url ? "Enlace copiado: al pegarlo se verá con su foto." : "Copiado: pégalo donde quieras compartirlo."); } catch { /* sin portapapeles */ }
+  try { await navigator.clipboard.writeText(url ? `${texto}\n${url}` : `${texto}\n\n— SuRoute`); toast(url ? "Enlace copiado." : "Copiado: pégalo donde quieras compartirlo."); } catch { /* sin portapapeles */ }
 };
 ACC.verUsuario = async (_, usuario) => {
   if (!Store.nube) { const x = demoPersonas().find(p => p.usuario === usuario); if (x) ir("comunidad", "persona:" + x.id); else toast("@" + usuario + " no está en la comunidad de ejemplo."); return; }

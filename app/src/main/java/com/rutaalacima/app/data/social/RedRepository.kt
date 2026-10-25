@@ -298,9 +298,10 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
 }
 
 
-/** Enlaces públicos con vista previa (función compartir de Supabase). Vacío sin servidor o si no es pública. */
+/** Enlaces públicos: van directo a suroute.com (Supabase muestra como texto las páginas de sus funciones en el dominio gratuito). */
 object EnlacesRed {
-    private val base: String get() = com.rutaalacima.app.BuildConfig.SUPABASE_URL.trimEnd('/').let { if (it.startsWith("https://")) "$it/functions/v1/compartir" else "" }
-    fun publicacion(p: Post): String = if (base.isNotEmpty() && !p.demo && p.visibilidad == Visibilidad.PUBLICA && p.id.length == 36) "$base?p=${p.id}" else ""
-    fun invitacion(usuario: String): String = if (base.isNotEmpty() && usuario.isNotBlank()) "$base?i=${URLEncoder.encode(usuario, "UTF-8")}" else "https://suroute.com/descargar.html"
+    private const val SITIO = "https://suroute.com"
+    private val conServidor: Boolean get() = com.rutaalacima.app.BuildConfig.SUPABASE_URL.startsWith("https://")
+    fun publicacion(p: Post): String = if (conServidor && !p.demo && p.visibilidad == Visibilidad.PUBLICA && p.id.length == 36) "$SITIO/#p=${p.id}" else ""
+    fun invitacion(usuario: String): String = if (usuario.isNotBlank()) "$SITIO/?invita=${URLEncoder.encode(usuario, "UTF-8")}" else "$SITIO/descargar.html"
 }
