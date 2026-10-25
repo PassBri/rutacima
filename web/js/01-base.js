@@ -406,6 +406,15 @@ function aplicarApariencia(cambio = {}) {
     localStorage.setItem("rutacima-papel", a.papel);
     if (a.tema === "sistema") localStorage.removeItem("rutacima-tema"); else localStorage.setItem("rutacima-tema", r.dataset.theme);
   } catch {}
+  /* La barra de estado del teléfono toma el color del papel elegido, no solo el del sistema. */
+  requestAnimationFrame(() => {
+    const c = getComputedStyle(r).getPropertyValue("--hoja-2").trim() || getComputedStyle(document.body).backgroundColor;
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+      m.dataset.orig ??= m.content;
+      /* Con el tema del sistema y papel blanco, cada esquema conserva su color propio. */
+      m.setAttribute("content", a.tema === "sistema" && a.papel === "blanco" ? m.dataset.orig : c);
+    });
+  });
 }
 
 /* Filas que se desplazan de lado (secciones de una guía, filtros de fotos, chips largos): en el computador
