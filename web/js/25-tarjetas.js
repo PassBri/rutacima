@@ -35,6 +35,8 @@ ACC.modoTarjetas = (el, v) => {
   try { localStorage.setItem("rutacima-modo-tarjetas", v); } catch {}
   document.documentElement.dataset.modoTarjetas = v;
   document.querySelectorAll(".modo-tarj [role=radio]").forEach(b => b.setAttribute("aria-checked", b.dataset.arg === v));
+  // En Edición el 9×9 se escribe en la grilla: si había un bloque abierto, vuelve a la grilla de 81
+  if (v === "edicion" && estado.md81 && document.getElementById("md-s81")) { estado.md81 = false; pintarDetalle(); }
   // Entre Texto y Edición solo cambia lo que muestra el dorso; con Imagen de por medio, las tarjetas se giran
   if ((antes === "imagen") === (v === "imagen")) return;
   estado.giradas.clear();
