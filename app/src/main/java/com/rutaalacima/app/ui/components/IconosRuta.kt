@@ -31,9 +31,9 @@ object IconosRuta {
         else addPath(nodos, pathFillType = PathFillType.EvenOdd, stroke = SolidColor(Color.Black), strokeLineWidth = 1.4f, strokeLineJoin = StrokeJoin.Round)
     }.build()
 
-    // Impulso (me gusta): un banderín clavado en la cima
-    val Banderin: ImageVector by lazy { icono("Banderin", "M7.2 2.5h1.6v15.8H7.2z M8.8 3.2l9.7 3.4-9.7 3.5z M2.8 21.5c1.4-2.4 3.4-3.7 5.2-3.7s3.8 1.3 5.2 3.7z", true, PathFillType.NonZero) }
-    val BanderinContorno: ImageVector by lazy { icono("BanderinContorno", "M8 18.3V2.8 M8.8 3.3l9 3.3-9 3.3z M3 21.2c1.4-2.2 3.2-3.3 5-3.3s3.6 1.1 5 3.3z", false) }
+    // Impulso (me gusta): un corazón con la montaña adentro (el nombre se conserva)
+    val Banderin: ImageVector by lazy { icono("Impulso", "M12 21.3S2.2 15.4 2.2 8.9C2.2 5.6 4.6 3.2 7.6 3.2c1.8 0 3.4.8 4.4 2.2 1-1.4 2.6-2.2 4.4-2.2 3 0 5.4 2.4 5.4 5.7 0 6.5-9.8 12.4-9.8 12.4zM7 14.2l3.5-4.6 2 2.6 1.4-1.8 3.1 3.8z", true) }
+    val BanderinContorno: ImageVector by lazy { icono("ImpulsoContorno", "M12 20.5S3 15 3 8.9C3 6 5.1 4 7.6 4c1.8 0 3.4 1 4.4 2.6C13 5 14.6 4 16.4 4 18.9 4 21 6 21 8.9 21 15 12 20.5 12 20.5z M7.5 13.5l3-4 2 2.6 1.4-1.8 2.6 3.2", false) }
     // Comunidad: la fogata, limpia (llama con su núcleo y dos leños cruzados)
     val Fogata: ImageVector by lazy { icono("Fogata", "M12 3c1 3 4.5 4.6 4.5 8.4A4.5 4.5 0 0 1 12 16a4.5 4.5 0 0 1-4.5-4.6c0-2 1-3.3 2-4.2.3 1.5 1 2.4 2 2.6C11 7.6 11 5.3 12 3z M12 10.2c-.9 1-1.5 1.8-1.5 2.8 0 .9.7 1.6 1.5 1.6s1.5-.7 1.5-1.6c0-1-.6-1.8-1.5-2.8z M19.70 18.00L19.95 17.88L20.20 17.61L20.32 17.35L20.34 16.99L20.23 16.63L20.06 16.41L19.74 16.21L19.47 16.15L12.00 17.78L4.81 16.17L4.44 16.16L4.01 16.35L3.70 16.80L3.68 17.35L3.98 17.82L4.39 18.03L7.63 18.75L4.22 19.53L3.80 19.89L3.66 20.24L3.66 20.51L3.77 20.87L4.01 21.15L4.35 21.32L4.71 21.34L12.00 19.72L19.19 21.33L19.56 21.34L20.06 21.09L20.33 20.61L20.29 20.06L20.02 19.68L19.61 19.47L16.37 18.75Z", true) }
     val FogataContorno: ImageVector by lazy { icono("FogataContorno", "M12 3c1 3 4.5 4.6 4.5 8.4A4.5 4.5 0 0 1 12 16a4.5 4.5 0 0 1-4.5-4.6c0-2 1-3.3 2-4.2.3 1.5 1 2.4 2 2.6C11 7.6 11 5.3 12 3z M4.6 20.4L19.4 17.1M19.4 20.4L4.6 17.1", false) }

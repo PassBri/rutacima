@@ -128,8 +128,8 @@ const P = {
   volver: "M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z",
   candado: "M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z",
   bandera: "M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z",
-  // Impulso (me gusta): un banderín clavado en la cima
-  impulso: "M7.2 2.5h1.6v15.8H7.2z M8.8 3.2l9.7 3.4-9.7 3.5z M2.8 21.5c1.4-2.4 3.4-3.7 5.2-3.7s3.8 1.3 5.2 3.7z",
+  // Impulso (me gusta): un corazón con la montaña adentro
+  impulso: "M12 21.3S2.2 15.4 2.2 8.9C2.2 5.6 4.6 3.2 7.6 3.2c1.8 0 3.4.8 4.4 2.2 1-1.4 2.6-2.2 4.4-2.2 3 0 5.4 2.4 5.4 5.7 0 6.5-9.8 12.4-9.8 12.4zM7 14.2l3.5-4.6 2 2.6 1.4-1.8 3.1 3.8z",
   tema: "M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6c3.31 0 6 2.69 6 6s-2.69 6-6 6z",
   salir: "M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z",
   pin: "M16 9V4h1c.55 0 1-.45 1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s.45 1 1 1h1v5c0 1.66-1.34 3-3 3v2h5.97v7l1 1 1-1v-7H19v-2c-1.66 0-3-1.34-3-3z",
@@ -156,7 +156,7 @@ const P = {
   foto: "M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z",
 };
 /** Íconos propios dibujados con huecos (fogata, hacer fuego): se rellenan con la regla par-impar. */
-const IC_PAR = new Set(["coach", "comunidad", "aprende", "ejes", "puntos"]);
+const IC_PAR = new Set(["impulso", "coach", "comunidad", "aprende", "ejes", "puntos"]);
 const ic = (n, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path${IC_PAR.has(n) ? ' fill-rule="evenodd"' : ""} d="${P[n]}"/></svg>`;
 
 /* ======================================================================
