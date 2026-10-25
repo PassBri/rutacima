@@ -61,8 +61,20 @@ const Arte = (() => {
     const W = 400, H = 240, id = "a" + semillaDe(clave).toString(36);
     const camino = y => `M0 ${H}` + y.map((v, i) => `L${(i * W / N).toFixed(1)} ${(v * H).toFixed(1)}`).join("") + `L${W} ${H}Z`;
     let capas = "";
+    // Bandera en la cima más alta de la capa 3: se pinta con su capa, así las crestas cercanas y la bruma pasan delante
+    // y sus colores son los del paisaje (la roca y un toque de oro velado por la distancia), no un adhesivo encima
+    const banderaEn = y => {
+      let im = 0; y.forEach((v, i) => { if (v < y[im]) im = i; });
+      const x = im * W / N, yy = y[im] * H;
+      if (x <= W * 0.1 || x >= W * 0.9) return "";
+      const roca = colorCapa(m, 3), asta = mix(roca, hex(m.cerca), 0.55), tela = mix(roca, hex("#C49A4E"), m.noche ? 0.35 : 0.6);
+      const f = n => n.toFixed(1);
+      return `<path d="M${f(x)} ${f(yy + 0.5)}V${f(yy - 15)}" stroke="${rgbTxt(asta)}" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M${f(x + 0.4)} ${f(yy - 15)}C${f(x + 3.4)} ${f(yy - 16.2)} ${f(x + 6.2)} ${f(yy - 13.6)} ${f(x + 9.2)} ${f(yy - 14.4)}C${f(x + 6.6)} ${f(yy - 11.6)} ${f(x + 3.2)} ${f(yy - 12.2)} ${f(x + 0.4)} ${f(yy - 10.6)}Z" fill="${rgbTxt(tela)}"/>`;
+    };
     cs.forEach((y, k) => {
       capas += `<path d="${camino(y)}" fill="${rgbTxt(colorCapa(m, k))}"/>`;
+      if (bandera && k === 3) capas += banderaEn(y);
       // Nieve en las cumbres lejanas (capas 1 y 2): la cresta por encima de la línea de nieve
       if (detalle && (k === 1 || k === 2)) {
         const linea = (BASE[k] - AMP[k] * 0.3) * H;
@@ -74,14 +86,6 @@ const Arte = (() => {
         capas += `<rect y="${yb.toFixed(1)}" width="${W}" height="28" fill="url(#${id}b)"/>`;
       }
     });
-    // Bandera en la cima más alta de la capa 3
-    let flag = "";
-    if (bandera) {
-      const y3 = cs[3]; let im = 0; y3.forEach((v, i) => { if (v < y3[im]) im = i; });
-      const x = im * W / N, y = y3[im] * H;
-      if (x > W * 0.1 && x < W * 0.9) flag = `<line x1="${x.toFixed(1)}" y1="${y.toFixed(1)}" x2="${x.toFixed(1)}" y2="${(y - 22).toFixed(1)}" stroke="#F5EED9" stroke-width="1.4"/>
-        <path d="M${x.toFixed(1)} ${(y - 22).toFixed(1)}l13 4-13 5z" fill="#B8862F" stroke="#6B2A1A" stroke-width=".7"/>`;
-    }
     const ax = 40 + astro[0] * 320, ay = 30 + astro[1] * 50;
     let estrellas = "";
     if (m.noche && detalle) { const r = azar(semillaDe(texto + "*")); for (let i = 0; i < 40; i++) estrellas += `<circle cx="${(r() * W).toFixed(1)}" cy="${(r() * H * 0.5).toFixed(1)}" r="${(0.4 + r() * 0.7).toFixed(2)}" fill="#fff" opacity="${(0.4 + r() * 0.5).toFixed(2)}"/>`; }
@@ -91,7 +95,7 @@ const Arte = (() => {
       <radialGradient id="${id}h"><stop offset="0" stop-color="${m.astro}" stop-opacity=".55"/><stop offset="1" stop-color="${m.astro}" stop-opacity="0"/></radialGradient></defs>
       <rect width="${W}" height="${H}" fill="url(#${id}c)"/>${estrellas}
       <circle cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="34" fill="url(#${id}h)"/><circle cx="${ax.toFixed(1)}" cy="${ay.toFixed(1)}" r="${m.noche ? 9 : 12}" fill="${m.astro}"/>
-      ${capas}${flag}</svg>`;
+      ${capas}</svg>`;
     cache.set(clave, svg);
     return svg;
   }

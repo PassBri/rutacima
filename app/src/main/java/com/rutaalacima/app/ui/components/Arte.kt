@@ -162,6 +162,23 @@ fun MontanaArte(
                         geo.first.forEachIndexed { k, y ->
                             val c = camino(y)
                             drawPath(c, colores[k])
+                            // Bandera en la cima más alta de la capa 3: con su capa (lo cercano y la bruma pasan delante)
+                            // y con los colores del paisaje, la roca y un oro velado por la distancia
+                            if (bandera && k == 3) {
+                                var im = 0
+                                y.forEachIndexed { i, v -> if (v < y[im]) im = i }
+                                val x = im * 400f / Cordillera.N; val yy = y[im].toFloat() * 240f
+                                if (x > 40f && x < 360f) {
+                                    val asta = androidx.compose.ui.graphics.lerp(colores[3], m.cerca, 0.55f)
+                                    val tela = androidx.compose.ui.graphics.lerp(colores[3], Color(0xFFC49A4E), if (m.noche) 0.35f else 0.6f)
+                                    drawLine(asta, Offset(x, yy + 0.5f), Offset(x, yy - 15f), 1.1f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                                    drawPath(Path().apply {
+                                        moveTo(x + 0.4f, yy - 15f)
+                                        cubicTo(x + 3.4f, yy - 16.2f, x + 6.2f, yy - 13.6f, x + 9.2f, yy - 14.4f)
+                                        cubicTo(x + 6.6f, yy - 11.6f, x + 3.2f, yy - 12.2f, x + 0.4f, yy - 10.6f); close()
+                                    }, tela)
+                                }
+                            }
                             // Nieve en las cumbres lejanas (capas 1 y 2)
                             if (detalle && (k == 1 || k == 2)) {
                                 val linea = (Cordillera.BASE[k] - Cordillera.AMP[k] * 0.3f) * 240f
@@ -172,17 +189,6 @@ fun MontanaArte(
                                 val yb = Cordillera.BASE[k + 1] * 240f - 18f
                                 drawRect(Brush.verticalGradient(0f to m.cieloHorizonte.copy(alpha = 0f), 0.5f to m.cieloHorizonte.copy(alpha = 0.55f), 1f to m.cieloHorizonte.copy(alpha = 0f), startY = yb, endY = yb + 28f),
                                     topLeft = Offset(0f, yb), size = Size(400f, 28f))
-                            }
-                        }
-                        // Bandera en la cima más alta de la capa 3
-                        if (bandera) {
-                            val y3 = geo.first[3]; var im = 0
-                            y3.forEachIndexed { i, v -> if (v < y3[im]) im = i }
-                            val x = im * 400f / Cordillera.N; val y = y3[im].toFloat() * 240f
-                            if (x > 40f && x < 360f) {
-                                drawLine(Color(0xFFF5EED9), Offset(x, y), Offset(x, y - 22f), 1.4f)
-                                val tela = Path().apply { moveTo(x, y - 22f); lineTo(x + 13f, y - 18f); lineTo(x, y - 13f); close() }
-                                drawPath(tela, Color(0xFFB8862F)); drawPath(tela, Color(0xFF6B2A1A), style = Stroke(0.7f))
                             }
                         }
                     }
