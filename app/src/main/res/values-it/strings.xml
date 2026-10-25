@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Invia un messaggio a %1$s</string>
     <string name="borrar_publicacion">Elimina post</string>
     <string name="borrar_publicacion_q">Eliminare questo post? Non si può annullare.</string>
+    <string name="mochila_titulo">Il tuo zaino</string>
+    <string name="mochila_sub">Gli strumenti dell’escursionista</string>
+    <string name="mochila_intro">Ogni escursionista porta il necessario per il cammino. Ecco gli strumenti del metodo: aprili mentre costruisci i tuoi obiettivi, quando chiudi il mese o quando è difficile continuare. Ciò che scrivi resta salvato.</string>
+    <string name="mochila_aprende">Gli strumenti del metodo per il cammino</string>
+    <string name="mochila_de_tu">Dal tuo zaino</string>
+    <string name="mochila_g_metas">Per tracciare i tuoi obiettivi</string>
+    <string name="mochila_g_metas_d">Aprili mentre scrivi uno scopo o un obiettivo dell’anno.</string>
+    <string name="mochila_g_dias">Per pianificare i tuoi giorni</string>
+    <string name="mochila_g_dias_d">Quando prepari la settimana o i passi di un obiettivo.</string>
+    <string name="mochila_g_mes">Per chiudere il mese</string>
+    <string name="mochila_g_mes_d">Venti minuti alla fine di ogni mese.</string>
+    <string name="mochila_g_seguir">Quando è difficile continuare</string>
+    <string name="mochila_g_seguir_d">Le cadute fanno parte del cammino.</string>
+    <string name="mochila_u_metas">Idee di obiettivi da adattare alla tua vita</string>
+    <string name="mochila_u_indicadores">Come misurare ogni obiettivo, asse per asse</string>
+    <string name="mochila_u_confluencia">Progetti che muovono più assi insieme</string>
+    <string name="mochila_u_acciones">Azioni che attivano più assi in un solo passo</string>
+    <string name="mochila_u_cierre">Il bilancio del mese, punto per punto</string>
+    <string name="mochila_u_evidencias">Rendi visibile il tuo progresso</string>
+    <string name="mochila_u_anti">Protocolli per tornare senza sensi di colpa</string>
 </resources>

@@ -59,10 +59,9 @@ enum class Etapa(@StringRes val titulo: Int, @StringRes val descripcion: Int, va
     CONOCETE(R.string.etapa_1, R.string.etapa_1_desc, 0, listOf("descubre", "diagnostico", "seis_ejes")),
     TRAZA(R.string.etapa_2, R.string.etapa_2_desc, 3, listOf("viaje", "confluencia", "proposito_valor")),
     CAMINA(R.string.etapa_3, R.string.etapa_3_desc, 7, listOf("portales", "campamento", "companero")),
-    SUPERA(R.string.etapa_4, R.string.etapa_4_desc, 2, listOf("caidas", "niebla", "bono_anti_abandono", "kit")),
-    CIMA(R.string.etapa_5, R.string.etapa_5_desc, 1, listOf("desde_cima", "bono_evidencias", "planificador_cierre")),
+    SUPERA(R.string.etapa_4, R.string.etapa_4_desc, 2, listOf("caidas", "niebla", "kit")),
+    CIMA(R.string.etapa_5, R.string.etapa_5_desc, 1, listOf("desde_cima", "planificador_cierre")),
     FINANZAS(R.string.etapa_finanzas, R.string.etapa_finanzas_desc, 2, listOf("fin_base", "fin_camino", "fin_cargas", "fin_brujula", "fin_supervivencia", "fin_cima", "fin_ascenso")),
-    BANCOS(R.string.etapa_bancos, R.string.etapa_bancos_desc, 4, listOf("bono_metas", "bono_indicadores", "bono_acciones", "bono_confluencia", "bono_cierre")),
     LECTURAS(R.string.etapa_lecturas, R.string.etapa_lecturas_desc, 5, listOf("ebook", "teoria")),
     FACILITADORES(R.string.etapa_facilitadores, R.string.etapa_facilitadores_desc, 6, listOf("facilitadores")),
 }
@@ -84,7 +83,7 @@ class AprendeViewModel(c: AppContainer) : ViewModel() {
 }
 
 @Composable
-fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit) {
+fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit, onMochila: () -> Unit = {}) {
     val vm = rutaViewModel { AprendeViewModel(it) }
     val guias by vm.guias.collectAsStateWithLifecycle()
     val enOtroIdioma = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language != "es"
@@ -98,6 +97,21 @@ fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit) {
             com.rutaalacima.app.ui.components.RutaCard(Modifier.padding(horizontal = 16.dp)) {
                 androidx.compose.material3.Text(androidx.compose.ui.res.stringResource(com.rutaalacima.app.R.string.guias_en_espanol),
                     style = androidx.compose.material3.MaterialTheme.typography.bodyMedium)
+            }
+        }
+        // Los bonos viven en la mochila: herramientas para usar mientras construyes tus metas
+        item {
+            com.rutaalacima.app.ui.components.RutaCard(Modifier.padding(horizontal = 16.dp), onClick = onMochila) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.secondaryContainer), contentAlignment = Alignment.Center) {
+                        androidx.compose.material3.Icon(com.rutaalacima.app.ui.components.IconosRuta.Morral, null, tint = MaterialTheme.colorScheme.secondary)
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.mochila_titulo), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.mochila_aprende), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
             }
         }
         item {

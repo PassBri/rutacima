@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">أرسل رسالة إلى %1$s</string>
     <string name="borrar_publicacion">حذف المنشور</string>
     <string name="borrar_publicacion_q">هل تريد حذف هذا المنشور؟ لا يمكن التراجع.</string>
+    <string name="mochila_titulo">حقيبتك</string>
+    <string name="mochila_sub">أدوات المتنزّه</string>
+    <string name="mochila_intro">كل متنزّه يحمل ما يحتاجه الطريق. هذه أدوات المنهج: افتحها وأنت تبني أهدافك، أو عند إغلاق الشهر، أو حين يصعب عليك الاستمرار. ما تكتبه فيها يُحفظ.</string>
+    <string name="mochila_aprende">أدوات المنهج للطريق</string>
+    <string name="mochila_de_tu">من حقيبتك</string>
+    <string name="mochila_g_metas">لرسم أهدافك</string>
+    <string name="mochila_g_metas_d">افتحها وأنت تكتب غاية أو هدفًا للسنة.</string>
+    <string name="mochila_g_dias">لتخطيط أيامك</string>
+    <string name="mochila_g_dias_d">عند ترتيب الأسبوع أو خطوات هدف.</string>
+    <string name="mochila_g_mes">لإغلاق الشهر</string>
+    <string name="mochila_g_mes_d">عشرون دقيقة في نهاية كل شهر.</string>
+    <string name="mochila_g_seguir">حين يصعب الاستمرار</string>
+    <string name="mochila_g_seguir_d">السقطات جزء من الطريق.</string>
+    <string name="mochila_u_metas">أفكار أهداف تكيّفها مع حياتك</string>
+    <string name="mochila_u_indicadores">كيف تقيس كل هدف، محورًا بمحور</string>
+    <string name="mochila_u_confluencia">مشاريع تحرّك عدة محاور معًا</string>
+    <string name="mochila_u_acciones">أفعال تنشّط عدة محاور بخطوة واحدة</string>
+    <string name="mochila_u_cierre">مراجعة الشهر نقطة بنقطة</string>
+    <string name="mochila_u_evidencias">اجعل تقدّمك مرئيًا</string>
+    <string name="mochila_u_anti">بروتوكولات للعودة دون شعور بالذنب</string>
 </resources>

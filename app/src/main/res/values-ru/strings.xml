@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Написать %1$s</string>
     <string name="borrar_publicacion">Удалить публикацию</string>
     <string name="borrar_publicacion_q">Удалить эту публикацию? Это нельзя отменить.</string>
+    <string name="mochila_titulo">Твой рюкзак</string>
+    <string name="mochila_sub">Снаряжение путника</string>
+    <string name="mochila_intro">Каждый путник берёт в дорогу всё нужное. Здесь инструменты метода: открывай их, когда строишь цели, подводишь итоги месяца или когда трудно продолжать. Всё, что ты напишешь, сохранится.</string>
+    <string name="mochila_aprende">Инструменты метода для пути</string>
+    <string name="mochila_de_tu">Из твоего рюкзака</string>
+    <string name="mochila_g_metas">Чтобы наметить цели</string>
+    <string name="mochila_g_metas_d">Открывай, когда пишешь предназначение или цель на год.</string>
+    <string name="mochila_g_dias">Чтобы планировать дни</string>
+    <string name="mochila_g_dias_d">Когда составляешь неделю или шаги цели.</string>
+    <string name="mochila_g_mes">Чтобы подвести итоги месяца</string>
+    <string name="mochila_g_mes_d">Двадцать минут в конце каждого месяца.</string>
+    <string name="mochila_g_seguir">Когда трудно продолжать</string>
+    <string name="mochila_g_seguir_d">Падения — часть пути.</string>
+    <string name="mochila_u_metas">Идеи целей, которые можно адаптировать к своей жизни</string>
+    <string name="mochila_u_indicadores">Как измерять каждую цель по каждой оси</string>
+    <string name="mochila_u_confluencia">Проекты, которые двигают несколько осей сразу</string>
+    <string name="mochila_u_acciones">Действия, которые активируют несколько осей за один шаг</string>
+    <string name="mochila_u_cierre">Обзор месяца, пункт за пунктом</string>
+    <string name="mochila_u_evidencias">Сделай прогресс видимым</string>
+    <string name="mochila_u_anti">Протоколы, чтобы вернуться без чувства вины</string>
 </resources>

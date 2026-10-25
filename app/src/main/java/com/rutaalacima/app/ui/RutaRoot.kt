@@ -126,6 +126,7 @@ object Rutas {
     const val FINANZAS = "finanzas?nivel={nivel}"
     fun finanzas(nivel: String? = null) = "finanzas" + (nivel?.let { "?nivel=" + android.net.Uri.encode(it) } ?: "")
     const val COACH = "coach"
+    const val MOCHILA = "mochila"
     const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}&padre={padre}"
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
     const val POST = "post/{id}"
@@ -185,7 +186,7 @@ private val PESTANAS = listOf(
     Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today, Icons.Outlined.Today),
     Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata, com.rutaalacima.app.ui.components.IconosRuta.FogataContorno),
     Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbre, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbreContorno),
-    Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person, Icons.Outlined.Person),
+    Pestana(Rutas.PERFIL, R.string.tab_perfil, com.rutaalacima.app.ui.components.IconosRuta.Perfil, com.rutaalacima.app.ui.components.IconosRuta.PerfilContorno),
 )
 
 enum class EstadoApp { CARGANDO, ONBOARDING, LISTO }
@@ -300,6 +301,12 @@ private fun AppPrincipal() {
                                 Icon(Icons.Filled.AttachMoney, stringResource(R.string.cu_titulo))
                             }
                         }
+                        // Tu mochila: las herramientas del método, a un toque mientras construyes tus metas
+                        if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
+                            IconButton(onClick = { nav.navigate(Rutas.MOCHILA) }) {
+                                Icon(com.rutaalacima.app.ui.components.IconosRuta.Morral, stringResource(R.string.mochila_titulo))
+                            }
+                        }
                         if (pestana.ruta == Rutas.PERFIL) {
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
@@ -412,7 +419,7 @@ private fun AppPrincipal() {
                     onChat = { nav.navigate(Rutas.chat(it)) },
                 )
             }
-            composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook) }
+            composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook, onMochila = { nav.navigate(Rutas.MOCHILA) }) }
             composable(Rutas.PERFIL) {
                 PerfilScreen(
                     contentPadding = padding,
@@ -454,6 +461,7 @@ private fun AppPrincipal() {
                     onAprende = { nav.popBackStack(); nav.irAPestana(Rutas.APRENDE) },
                 )
             }
+            composable(Rutas.MOCHILA) { com.rutaalacima.app.ui.mochila.MochilaScreen(onBack = { nav.popBackStack() }, onOpen = abrirWorkbook) }
             composable(Rutas.COACH) { CoachScreen(onBack = { nav.popBackStack() }, onCoachVida = { nav.navigate(Rutas.COACH_VIDA) }, onPlan = { nav.navigate(Rutas.PLAN) }) }
             composable(Rutas.NUEVA_META, arguments = listOf(
                 navArgument("nivel") { type = NavType.StringType },
@@ -469,6 +477,7 @@ private fun AppPrincipal() {
                     padreInicial = e.arguments?.getString("padre")?.toLongOrNull(),
                     onBack = { nav.popBackStack() },
                     onCompartir = { nav.popBackStack(); nav.navigate(Rutas.publicar("META")) },
+                    onAbrirWorkbook = abrirWorkbook,
                 )
             }
             composable(Rutas.PUBLICAR, arguments = listOf(

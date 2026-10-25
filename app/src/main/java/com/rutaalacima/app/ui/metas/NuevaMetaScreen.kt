@@ -197,7 +197,9 @@ class NuevaMetaViewModel(private val c: AppContainer, inicial: NivelMeta, ejeIni
 /** Asistente para crear metas en la cascada, con los bancos de Ruta a la Cima y la IA. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit, ejeInicial: String? = null, anioInicial: Int? = null, padreInicial: Long? = null) {
+fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: () -> Unit, ejeInicial: String? = null, anioInicial: Int? = null, padreInicial: Long? = null, onAbrirWorkbook: (String) -> Unit = {}) {
+    var mochila by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
+    if (mochila) com.rutaalacima.app.ui.mochila.HojaMochila(com.rutaalacima.app.ui.mochila.MOCHILA_METAS, onAbrirWorkbook) { mochila = false }
     val vm = rutaViewModel(key = "nueva-${nivelInicial.name}-$ejeInicial-$anioInicial-$padreInicial") { NuevaMetaViewModel(it, nivelInicial, ejeInicial, anioInicial, padreInicial) }
     val pasos = listOf(R.string.paso_nivel, R.string.paso_inspiracion, R.string.paso_detalles, R.string.paso_plan)
     val ultimo = if (vm.nivel == NivelMeta.MES) 2 else 3
@@ -213,6 +215,10 @@ fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: ()
                     IconButton(onClick = { if (vm.paso > 0 && !vm.guardada) vm.paso-- else onBack() }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver))
                     }
+                },
+                // De tu mochila: Banco de Metas, de Indicadores y Confluencia mientras trazas la meta
+                actions = {
+                    IconButton(onClick = { mochila = true }) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Morral, stringResource(R.string.mochila_de_tu)) }
                 },
             )
         },

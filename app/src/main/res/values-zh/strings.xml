@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">给 %1$s 发消息</string>
     <string name="borrar_publicacion">删除帖子</string>
     <string name="borrar_publicacion_q">删除这条帖子？此操作无法撤销。</string>
+    <string name="mochila_titulo">你的背包</string>
+    <string name="mochila_sub">登山者的工具</string>
+    <string name="mochila_intro">每位登山者都会带上路途所需。这里是方法的工具：在制定目标、月末总结或难以坚持时打开它们。你写下的内容都会保存。</string>
+    <string name="mochila_aprende">方法的路途工具</string>
+    <string name="mochila_de_tu">来自你的背包</string>
+    <string name="mochila_g_metas">规划你的目标</string>
+    <string name="mochila_g_metas_d">在写下人生目标或年度目标时打开。</string>
+    <string name="mochila_g_dias">规划你的每一天</string>
+    <string name="mochila_g_dias_d">安排一周或目标的步骤时使用。</string>
+    <string name="mochila_g_mes">月末总结</string>
+    <string name="mochila_g_mes_d">每月最后二十分钟。</string>
+    <string name="mochila_g_seguir">难以坚持时</string>
+    <string name="mochila_g_seguir_d">跌倒也是旅程的一部分。</string>
+    <string name="mochila_u_metas">可按你的生活调整的目标灵感</string>
+    <string name="mochila_u_indicadores">如何按维度衡量每个目标</string>
+    <string name="mochila_u_confluencia">同时推动多个维度的项目</string>
+    <string name="mochila_u_acciones">一步激活多个维度的行动</string>
+    <string name="mochila_u_cierre">逐项回顾本月</string>
+    <string name="mochila_u_evidencias">让你的进步看得见</string>
+    <string name="mochila_u_anti">无愧疚地重回正轨的方法</string>
 </resources>

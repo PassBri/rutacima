@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Enviar mensagem para %1$s</string>
     <string name="borrar_publicacion">Excluir publicação</string>
     <string name="borrar_publicacion_q">Excluir esta publicação? Não é possível desfazer.</string>
+    <string name="mochila_titulo">Sua mochila</string>
+    <string name="mochila_sub">As ferramentas do trilheiro</string>
+    <string name="mochila_intro">Todo trilheiro leva o necessário para o caminho. Aqui estão as ferramentas do método: abra-as enquanto constrói suas metas, ao fechar o mês ou quando for difícil continuar. O que você escrever nelas fica salvo.</string>
+    <string name="mochila_aprende">As ferramentas do método para o caminho</string>
+    <string name="mochila_de_tu">Da sua mochila</string>
+    <string name="mochila_g_metas">Para traçar suas metas</string>
+    <string name="mochila_g_metas_d">Abra-as enquanto escreve um propósito ou uma meta do ano.</string>
+    <string name="mochila_g_dias">Para planejar seus dias</string>
+    <string name="mochila_g_dias_d">Ao montar a semana ou os passos de uma meta.</string>
+    <string name="mochila_g_mes">Para fechar o mês</string>
+    <string name="mochila_g_mes_d">Vinte minutos no fim de cada mês.</string>
+    <string name="mochila_g_seguir">Quando for difícil continuar</string>
+    <string name="mochila_g_seguir_d">As quedas fazem parte do caminho.</string>
+    <string name="mochila_u_metas">Ideias de metas para adaptar à sua vida</string>
+    <string name="mochila_u_indicadores">Como medir cada meta, eixo por eixo</string>
+    <string name="mochila_u_confluencia">Projetos que movem vários eixos ao mesmo tempo</string>
+    <string name="mochila_u_acciones">Ações que ativam vários eixos em um só passo</string>
+    <string name="mochila_u_cierre">A revisão do mês, ponto por ponto</string>
+    <string name="mochila_u_evidencias">Torne visível o seu progresso</string>
+    <string name="mochila_u_anti">Protocolos para voltar sem culpa</string>
 </resources>

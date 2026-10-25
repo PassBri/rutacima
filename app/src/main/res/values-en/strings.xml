@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Message %1$s</string>
     <string name="borrar_publicacion">Delete post</string>
     <string name="borrar_publicacion_q">Delete this post? This can’t be undone.</string>
+    <string name="mochila_titulo">Your backpack</string>
+    <string name="mochila_sub">The hiker’s tools</string>
+    <string name="mochila_intro">Every hiker carries what the trail requires. These are the method’s tools: open them while you build your goals, when you close the month or when it’s hard to keep going. Whatever you write in them is saved.</string>
+    <string name="mochila_aprende">The method’s tools for the trail</string>
+    <string name="mochila_de_tu">From your backpack</string>
+    <string name="mochila_g_metas">To map out your goals</string>
+    <string name="mochila_g_metas_d">Open them while you write a purpose or a goal for the year.</string>
+    <string name="mochila_g_dias">To plan your days</string>
+    <string name="mochila_g_dias_d">When you set up the week or the steps of a goal.</string>
+    <string name="mochila_g_mes">To close the month</string>
+    <string name="mochila_g_mes_d">Twenty minutes at the end of each month.</string>
+    <string name="mochila_g_seguir">When it’s hard to keep going</string>
+    <string name="mochila_g_seguir_d">Falls are part of the trail.</string>
+    <string name="mochila_u_metas">Goal ideas to adapt to your life</string>
+    <string name="mochila_u_indicadores">How to measure each goal, axis by axis</string>
+    <string name="mochila_u_confluencia">Projects that move several axes at once</string>
+    <string name="mochila_u_acciones">Actions that activate several axes in one step</string>
+    <string name="mochila_u_cierre">The monthly review, point by point</string>
+    <string name="mochila_u_evidencias">Make your progress visible</string>
+    <string name="mochila_u_anti">Protocols to get back on track without guilt</string>
 </resources>

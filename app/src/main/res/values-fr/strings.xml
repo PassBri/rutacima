@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Envoyer un message à %1$s</string>
     <string name="borrar_publicacion">Supprimer la publication</string>
     <string name="borrar_publicacion_q">Supprimer cette publication ? Action irréversible.</string>
+    <string name="mochila_titulo">Ton sac à dos</string>
+    <string name="mochila_sub">Les outils du randonneur</string>
+    <string name="mochila_intro">Tout randonneur emporte le nécessaire pour le chemin. Voici les outils de la méthode : ouvre-les en construisant tes objectifs, en clôturant le mois ou quand il est difficile de continuer. Ce que tu y écris est enregistré.</string>
+    <string name="mochila_aprende">Les outils de la méthode pour le chemin</string>
+    <string name="mochila_de_tu">De ton sac à dos</string>
+    <string name="mochila_g_metas">Pour tracer tes objectifs</string>
+    <string name="mochila_g_metas_d">Ouvre-les en écrivant un but ou un objectif de l’année.</string>
+    <string name="mochila_g_dias">Pour planifier tes journées</string>
+    <string name="mochila_g_dias_d">Quand tu prépares la semaine ou les étapes d’un objectif.</string>
+    <string name="mochila_g_mes">Pour clôturer le mois</string>
+    <string name="mochila_g_mes_d">Vingt minutes à la fin de chaque mois.</string>
+    <string name="mochila_g_seguir">Quand il est difficile de continuer</string>
+    <string name="mochila_g_seguir_d">Les chutes font partie du chemin.</string>
+    <string name="mochila_u_metas">Des idées d’objectifs à adapter à ta vie</string>
+    <string name="mochila_u_indicadores">Comment mesurer chaque objectif, axe par axe</string>
+    <string name="mochila_u_confluencia">Des projets qui font avancer plusieurs axes à la fois</string>
+    <string name="mochila_u_acciones">Des actions qui activent plusieurs axes en un seul pas</string>
+    <string name="mochila_u_cierre">Le bilan du mois, point par point</string>
+    <string name="mochila_u_evidencias">Rends ton progrès visible</string>
+    <string name="mochila_u_anti">Des protocoles pour revenir sans culpabilité</string>
 </resources>

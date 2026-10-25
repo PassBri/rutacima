@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">%1$s को संदेश भेजें</string>
     <string name="borrar_publicacion">पोस्ट हटाएँ</string>
     <string name="borrar_publicacion_q">यह पोस्ट हटाएँ? इसे वापस नहीं किया जा सकता।</string>
+    <string name="mochila_titulo">आपका बैग</string>
+    <string name="mochila_sub">पर्वतारोही के औज़ार</string>
+    <string name="mochila_intro">हर पर्वतारोही रास्ते के लिए ज़रूरी चीज़ें साथ रखता है। ये विधि के औज़ार हैं: लक्ष्य बनाते समय, महीना बंद करते समय या जब आगे बढ़ना मुश्किल हो, इन्हें खोलें। आप जो लिखेंगे वह सहेजा जाएगा।</string>
+    <string name="mochila_aprende">रास्ते के लिए विधि के औज़ार</string>
+    <string name="mochila_de_tu">आपके बैग से</string>
+    <string name="mochila_g_metas">अपने लक्ष्य बनाने के लिए</string>
+    <string name="mochila_g_metas_d">कोई उद्देश्य या साल का लक्ष्य लिखते समय खोलें।</string>
+    <string name="mochila_g_dias">अपने दिनों की योजना के लिए</string>
+    <string name="mochila_g_dias_d">जब आप सप्ताह या किसी लक्ष्य के कदम तय करें।</string>
+    <string name="mochila_g_mes">महीना बंद करने के लिए</string>
+    <string name="mochila_g_mes_d">हर महीने के अंत में बीस मिनट।</string>
+    <string name="mochila_g_seguir">जब आगे बढ़ना मुश्किल हो</string>
+    <string name="mochila_g_seguir_d">गिरना भी रास्ते का हिस्सा है।</string>
+    <string name="mochila_u_metas">अपनी ज़िंदगी के अनुसार ढालने लायक लक्ष्य-विचार</string>
+    <string name="mochila_u_indicadores">हर लक्ष्य को आयाम-दर-आयाम कैसे मापें</string>
+    <string name="mochila_u_confluencia">एक साथ कई आयाम आगे बढ़ाने वाली परियोजनाएँ</string>
+    <string name="mochila_u_acciones">एक कदम में कई आयाम सक्रिय करने वाले काम</string>
+    <string name="mochila_u_cierre">महीने की समीक्षा, बिंदु-दर-बिंदु</string>
+    <string name="mochila_u_evidencias">अपनी प्रगति को दिखने लायक बनाएँ</string>
+    <string name="mochila_u_anti">बिना अपराधबोध के लौटने के तरीके</string>
 </resources>

@@ -1737,4 +1737,24 @@
     <string name="enviar_mensaje_a">Nachricht an %1$s</string>
     <string name="borrar_publicacion">Beitrag löschen</string>
     <string name="borrar_publicacion_q">Diesen Beitrag löschen? Das lässt sich nicht rückgängig machen.</string>
+    <string name="mochila_titulo">Dein Rucksack</string>
+    <string name="mochila_sub">Die Werkzeuge der Wanderin und des Wanderers</string>
+    <string name="mochila_intro">Wer wandert, trägt das Nötige für den Weg. Hier sind die Werkzeuge der Methode: Öffne sie, während du deine Ziele aufbaust, den Monat abschließt oder wenn es schwerfällt weiterzugehen. Was du hineinschreibst, wird gespeichert.</string>
+    <string name="mochila_aprende">Die Werkzeuge der Methode für den Weg</string>
+    <string name="mochila_de_tu">Aus deinem Rucksack</string>
+    <string name="mochila_g_metas">Um deine Ziele zu entwerfen</string>
+    <string name="mochila_g_metas_d">Öffne sie, während du einen Lebenszweck oder ein Jahresziel schreibst.</string>
+    <string name="mochila_g_dias">Um deine Tage zu planen</string>
+    <string name="mochila_g_dias_d">Wenn du die Woche oder die Schritte eines Ziels planst.</string>
+    <string name="mochila_g_mes">Um den Monat abzuschließen</string>
+    <string name="mochila_g_mes_d">Zwanzig Minuten am Ende jedes Monats.</string>
+    <string name="mochila_g_seguir">Wenn es schwerfällt weiterzugehen</string>
+    <string name="mochila_g_seguir_d">Stürze gehören zum Weg.</string>
+    <string name="mochila_u_metas">Zielideen, die du an dein Leben anpasst</string>
+    <string name="mochila_u_indicadores">Wie du jedes Ziel misst, Achse für Achse</string>
+    <string name="mochila_u_confluencia">Projekte, die mehrere Achsen zugleich bewegen</string>
+    <string name="mochila_u_acciones">Aktionen, die mehrere Achsen in einem Schritt aktivieren</string>
+    <string name="mochila_u_cierre">Der Monatsrückblick, Punkt für Punkt</string>
+    <string name="mochila_u_evidencias">Mach deinen Fortschritt sichtbar</string>
+    <string name="mochila_u_anti">Protokolle, um ohne Schuldgefühl zurückzukehren</string>
 </resources>
