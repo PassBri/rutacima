@@ -2029,7 +2029,7 @@ html[data-modo-tarjetas="edicion"] .visor-t-slide > .dorso .visor-t-lectura { di
 @media (max-width: 700px) { .modo-tarj.oscuro button span { display: inline; } }
 
 /* ---------- Todo vertical: la cumbre, el vision board y el 9×9 ---------- */
-.md-grilla { aspect-ratio: 3 / 4.6; max-width: 560px; margin-left: auto; margin-right: auto; }
+.md-grilla { aspect-ratio: 1; max-width: 640px; margin-left: auto; margin-right: auto; }
 .md-bloque { cursor: pointer; }
 .md-bloque:focus-visible { outline-color: var(--oro); }
 .md-t81 { display: none; position: relative; z-index: 1; width: 100%; height: 100%; resize: none; border: 0; padding: 3px; background: transparent; color: var(--tinta); font: 500 11px/1.25 var(--font-texto, system-ui) !important; text-align: center; }
@@ -2043,5 +2043,5 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 /* Vista con + y −: la cumbre y el vision board también en vertical, sin salirse de la pantalla */
 .md-visor .md-nivel1 { aspect-ratio: 4 / 5; width: min(100%, 420px, calc((100dvh - 170px) * 4 / 5)); max-height: none; }
 .md-visor .md-nivel9 { aspect-ratio: 3 / 4.6; width: min(100%, 560px, calc((100dvh - 170px) * 3 / 4.6)); max-width: none; }
-.md-visor .md-grilla { width: min(100%, 560px, calc((100dvh - 170px) * 3 / 4.6)); }
+.md-visor .md-grilla { width: min(100%, calc(100dvh - 170px)); aspect-ratio: 1; }
 .md-nivel1 { aspect-ratio: 4 / 5; }
