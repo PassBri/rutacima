@@ -25,7 +25,9 @@
       "Propósito original",
       "% logrado",
       "Obstáculos: ¿qué te impidió?",
-      "Aprendizaje clave: ¿qué descubriste?"
+      "Aprendizaje clave: ¿qué descubriste?",
+      "¿Cumplido? (sí / no)",
+      "Prioridad (A, B, C o D)"
      ],
      "rowLabels": [
       "Propósito 01",
