@@ -431,7 +431,7 @@ const DET = {
         <div class="puntos">${puntos}</div>
         <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>
         <p class="suave" style="font-size:13px;margin:4px 0 0">Cada fila es una década: a la izquierda, el año en que empieza.</p>
-        <div class="leyenda" style="margin-top:16px"><span><i style="background:var(--burdeos)"></i>Vivido</span><span><i style="background:var(--oro)"></i>Este año</span><span><i style="background:var(--hoja);border:1px solid var(--linea)"></i>Por vivir</span><span>${ic("bandera", "i fijado")}Año con metas</span></div>`));
+        <div class="leyenda" style="margin-top:16px"><span><i style="background:var(--burdeos)"></i>Vivido</span><span><i style="background:var(--oro)"></i>Este año</span><span><i style="background:var(--hoja);border:1px solid var(--linea)"></i>Por vivir</span><span><i class="ley-meta" aria-hidden="true"></i>Año con metas</span></div>`));
   },
   "ruta.a"(arg) {
     const a = Number(arg), p = perfil(), edad = p.anioNacimiento ? a - p.anioNacimiento : null;
