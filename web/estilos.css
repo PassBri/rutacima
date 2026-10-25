@@ -1780,3 +1780,13 @@ label.cargando { opacity: .6; pointer-events: none; }
 /* El año actual ya lleva su contorno dorado: la órbita va un poco más afuera para que se vea */
 .pv.actual.meta::after { inset: -7px; }
 @media (prefers-reduced-motion: reduce) { .leyenda .ley-meta::after { animation: none; } }
+
+/* ---------- Tu mochila ---------- */
+.mochila-lista { display: grid; gap: 8px; }
+.mochila-op { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--linea); border-radius: 16px; background: var(--hoja); color: var(--tinta); text-align: left; min-height: 56px; cursor: pointer; }
+.mochila-op:hover { border-color: var(--oro); }
+.mochila-op > span:not(.badge):not(.avatar) { flex: 1; display: grid; gap: 2px; }
+.mochila-op small { color: var(--tinta-suave); }
+.mochila-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 4px; }
+.mochila-fila > span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--oro); }
+.mochila-fila > span svg { width: 18px; height: 18px; fill: currentColor; }

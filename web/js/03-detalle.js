@@ -145,7 +145,7 @@ function vacio() {
 function pintarDetalle() {
   const s = estado.sec, v = estado.sel;
   let h;
-  if (v === null) h = s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "mensajes" ? vacioMensajes() : vacio();
+  if (v === null) h = s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "mensajes" ? vacioMensajes() : s === "mochila" ? (estado.sel = "inicio", DET["mochila.inicio"]()) : vacio();
   else {
     const [t, ...resto] = String(v).split(":"); const arg = resto.join(":");
     const f = DET[`${s}.${t}`] || DET[t];
@@ -471,7 +471,7 @@ const DET = {
   "metas.nuevo"() {
     const anioHoy = new Date().getFullYear();
     return cab(av(ic("mas"), "var(--burdeos)"), "Nueva meta", "Elige el nivel de la cascada") + cuerpo(
-      hoja(`<h3>Propósito a largo plazo</h3><p class="suave">Tu cumbre a los años que tú elijas. De aquí salen las metas de cada año.</p><button class="btn lleno" data-acc="nuevoProposito">Crear propósito</button>`) +
+      (window.deTuMochila ? deTuMochila() : "") + hoja(`<h3>Propósito a largo plazo</h3><p class="suave">Tu cumbre a los años que tú elijas. De aquí salen las metas de cada año.</p><button class="btn lleno" data-acc="nuevoProposito">Crear propósito</button>`) +
       hoja(`<h3>Meta del año</h3><p class="suave">Tu campamento base: lo que lograrás este año para acercarte al propósito.</p><button class="btn lleno" data-acc="nuevaMetaAnio" data-arg="${anioHoy}">Crear meta de ${anioHoy}</button>`) +
       hoja(`<h3>Meta del mes</h3><p class="suave">Lo que harás este mes. Cada día que la cumplas, el avance sube solo hasta tu propósito.</p><button class="btn lleno" data-acc="nuevaMetaMes" data-arg="${iso(hoyFecha()).slice(0, 7)}">Crear meta de ${MESES[hoyFecha().getMonth()]}</button>`), "max-width:640px");
   },
@@ -483,7 +483,7 @@ const DET = {
     const auto = anuales.length > 0;
     return cab(av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `Propósito a ${p.horizonte || 5} años`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="proposito|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
-      (window.franjaCampamento ? franjaCampamento("proposito", p) : "") +
+      (window.deTuMochila ? deTuMochila() : "") + (window.franjaCampamento ? franjaCampamento("proposito", p) : "") +
       hoja(`<h3 style="margin:0 0 4px">Los años de esta cumbre</h3><p class="suave" style="margin:0 0 8px">${aniosDeCumbre(p).ini}–${aniosDeCumbre(p).fin}: toca un año para ver sus metas, meses y días.</p>${cintaCumbre(p)}`) +
       hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
         ${selectorHorizonte("proposito", k, p.horizonte || 5)}
@@ -510,6 +510,7 @@ const DET = {
     const enlace = window.franjaCampamento ? franjaCampamento("meta_anio", m) : "";
     return cab(av(pctTxt(c.nodoAnio(m)), COLOR_EJE[m.eje] || "var(--oro)"), esc(m.titulo), `Meta de ${m.anio}`,
       `<button class="btn mini peligro" data-acc="borrar" data-arg="meta_anio|${k}">${ic("borrar")} Borrar</button>`) + cuerpo(
+      (window.deTuMochila ? deTuMochila() : "") +
       enlace + hoja(`<div class="form">${campo("Meta", txt("meta_anio", k, "titulo", m.titulo))}
         <div class="form-2">${campo("Año", `<input type="number" min="1900" max="2200" ${bind("meta_anio", k, "anio", "num")} value="${m.anio}">`)}
           ${campo("Propósito", sel("meta_anio", k, "propositoId", m.propositoId ?? "", [["", "Sin propósito"], ...c.props.map(p => [p.id, p.titulo])], "numNulo"))}
