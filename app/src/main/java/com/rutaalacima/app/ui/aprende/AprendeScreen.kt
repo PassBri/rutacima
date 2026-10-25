@@ -104,7 +104,7 @@ fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit, onMoc
             com.rutaalacima.app.ui.components.RutaCard(Modifier.padding(horizontal = 16.dp), onClick = onMochila) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.secondaryContainer), contentAlignment = Alignment.Center) {
-                        androidx.compose.material3.Icon(com.rutaalacima.app.ui.components.IconosRuta.Morral, null, tint = MaterialTheme.colorScheme.secondary)
+                        androidx.compose.material3.Icon(com.rutaalacima.app.ui.components.IconosRuta.Mosqueton, null, tint = MaterialTheme.colorScheme.secondary)
                     }
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {

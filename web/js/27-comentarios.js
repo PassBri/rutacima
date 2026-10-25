@@ -120,5 +120,5 @@ document.addEventListener("submit", async e => {
     if (enLinea) { const si = estaGuardada(id); el.setAttribute("aria-pressed", si); el.setAttribute("aria-label", si ? "Quitar de tu mochila" : "Guardar en tu mochila"); }
   };
 }
-const botonMochila = p => `<button data-acc="guardarPost" data-arg="${esc(p.id)}" aria-pressed="${estaGuardada(p.id)}" aria-label="${estaGuardada(p.id) ? "Quitar de tu mochila" : "Guardar en tu mochila"}" title="Guardar en tu mochila">${ic("mochila")}</button>`;
+const botonMochila = p => `<button data-acc="guardarPost" data-arg="${esc(p.id)}" aria-pressed="${estaGuardada(p.id)}" aria-label="${estaGuardada(p.id) ? "Quitar de tu mochila" : "Guardar en tu mochila"}" title="Guardar en tu mochila">${ic("morral")}</button>`;
 globalThis.botonMochila = botonMochila;

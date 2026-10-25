@@ -2,9 +2,12 @@
 /* ======================================================================
  * Navegación (igual que WhatsApp Web: riel, lista y detalle)
  * ====================================================================== */
+/* Ordenadas por cuánto las usa la gente: lo de todos los días primero (Hoy, Mi ruta), luego lo social y el
+ * acompañamiento, después lo que se consulta de vez en cuando y al final el perfil. En el teléfono la barra
+ * muestra Hoy · Mi ruta · Publicar · Comunidad · Aprende · Perfil. */
 const SECCIONES = [
-  ["ruta", "Mi ruta"], ["hoy", "Hoy"], ["metas", "Metas"], ["comunidad", "Comunidad"],
-  ["aprende", "Aprende"], ["mochila", "Mochila"], ["coach", "Coach"], ["mensajes", "Mensajes"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["perfil", "Perfil"],
+  ["hoy", "Hoy"], ["ruta", "Mi ruta"], ["metas", "Metas"], ["comunidad", "Comunidad"],
+  ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Mochila"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["perfil", "Perfil"],
 ];
 /** En el teléfono la barra es igual a la de la app: solo íconos (5 secciones y Publicar con brújula en
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.

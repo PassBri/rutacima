@@ -218,7 +218,7 @@ fun NuevaMetaScreen(nivelInicial: NivelMeta, onBack: () -> Unit, onCompartir: ()
                 },
                 // De tu mochila: Banco de Metas, de Indicadores y Confluencia mientras trazas la meta
                 actions = {
-                    IconButton(onClick = { mochila = true }) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Morral, stringResource(R.string.mochila_de_tu)) }
+                    IconButton(onClick = { mochila = true }) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Mosqueton, stringResource(R.string.mochila_de_tu)) }
                 },
             )
         },

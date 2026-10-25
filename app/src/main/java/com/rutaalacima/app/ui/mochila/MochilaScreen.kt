@@ -116,7 +116,7 @@ private fun Herramienta(g: GuiaItem, uso: String, onClick: () -> Unit) {
         },
         leadingContent = {
             Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.secondaryContainer), contentAlignment = Alignment.Center) {
-                Icon(IconosRuta.Morral, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(22.dp))
+                Icon(IconosRuta.Mosqueton, null, tint = MaterialTheme.colorScheme.secondary, modifier = Modifier.size(22.dp))
             }
         },
         colors = androidx.compose.material3.ListItemDefaults.colors(containerColor = Color.Transparent),
@@ -133,7 +133,7 @@ fun HojaMochila(herramientas: List<Pair<String, Int>>, onOpen: (String) -> Unit,
     ModalBottomSheet(onDismissRequest = onCerrar) {
         Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp, bottom = 24.dp)) {
             Row(Modifier.padding(start = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(IconosRuta.Morral, null, tint = MaterialTheme.colorScheme.secondary)
+                Icon(IconosRuta.Mosqueton, null, tint = MaterialTheme.colorScheme.secondary)
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.mochila_de_tu), style = MaterialTheme.typography.titleMedium)
             }
