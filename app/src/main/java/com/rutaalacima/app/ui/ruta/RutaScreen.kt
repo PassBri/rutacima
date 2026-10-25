@@ -204,9 +204,14 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
         c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
     }
-    suspend fun publicarRecuerdos(anio: Int, foto: android.net.Uri, visibilidad: com.rutaalacima.app.data.social.Visibilidad, titulo: String) {
+    suspend fun publicarRecuerdos(anio: Int, foto: android.net.Uri, visibilidad: com.rutaalacima.app.data.social.Visibilidad, titulo: String,
+        fotos: List<com.rutaalacima.app.data.social.Post>, frase: String, metas: String) {
+        // Las fotos van con su dirección pública para que quien vea la publicación reproduzca el flashback
+        val subidas = fotos.takeLast(40).mapIndexed { i, p ->
+            Triple(c.social.fotoParaCompartir(p.foto, "recuerdos-$anio-$i"), p.metaTitulo.ifBlank { p.texto }, p.creadoEn)
+        }.filter { it.first.startsWith("http") || it.first.isNotBlank() }
         c.social.publicar(com.rutaalacima.app.data.social.TipoPost.LOGRO, titulo, foto, null, visibilidad,
-            metaTitulo = titulo, anio = anio)
+            metaTitulo = titulo, anio = anio, brujula = RecuerdosCompartidos.json(anio, frase, metas, subidas))
     }
     fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
@@ -294,8 +299,9 @@ fun RutaScreen(
                         perfil.anioNacimiento?.let { nac -> item(key = "linea-${n.anio}") { LineaVida(nac, perfil.esperanza(), n.anio, anuales, posts, vida) { ir(Nivel.Anio(it)) } } }
                         item(key = "nav-${n.anio}") { NavAnio(n.anio) { ir(Nivel.Anio(it)) } }
                         item(key = "recuerdos-${n.anio}") {
-                            RecuerdosAnio(n.anio, posts, perfil.cumbreFrase, metasRecuerdos) { foto, visibilidad, titulo ->
-                                vm.publicarRecuerdos(n.anio, foto, visibilidad, titulo)
+                            RecuerdosAnio(n.anio, posts, perfil.cumbreFrase, metasRecuerdos) { foto, visibilidad, titulo, fotos ->
+                                vm.publicarRecuerdos(n.anio, foto, visibilidad, titulo, fotos, perfil.cumbreFrase,
+                                    metasRecuerdos.filter { it.anio == n.anio }.let { m -> "${m.count { it.estado == "COMPLETADA" || it.avance >= 100 }}/${m.size}" })
                             }
                         }
                         item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }

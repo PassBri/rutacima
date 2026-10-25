@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">إعادة</string>
     <string name="rec_todos">الجميع</string>
     <string name="rec_explorar">تابع الاستكشاف</string>
+    <string name="rec_de_autor">عام %1$d لـ %2$s</string>
+    <string name="rec_cifras_ajenas">%1$d ذكرى · %2$d أشهر</string>
+    <string name="rec_privadas">صورك الخاصة (%1$d) لن تُنشر: تُنشر فقط الصور التي شاركتها.</string>
+    <string name="rec_seguir">متابعة</string>
+    <string name="rec_detener">إيقاف مؤقت</string>
+    <string name="rec_ver_de">مشاهدة ذكريات %1$d</string>
 </resources>

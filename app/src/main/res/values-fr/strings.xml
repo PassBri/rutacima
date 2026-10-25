@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">Revoir</string>
     <string name="rec_todos">Tout le monde</string>
     <string name="rec_explorar">Continuez à explorer</string>
+    <string name="rec_de_autor">Le %1$d de %2$s</string>
+    <string name="rec_cifras_ajenas">%1$d souvenirs · %2$d mois</string>
+    <string name="rec_privadas">Vos %1$d photos privées ne sont pas publiées : seules celles déjà partagées le sont.</string>
+    <string name="rec_seguir">Reprendre</string>
+    <string name="rec_detener">Pause</string>
+    <string name="rec_ver_de">Voir les souvenirs de %1$d</string>
 </resources>

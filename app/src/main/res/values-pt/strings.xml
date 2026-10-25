@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">Repetir</string>
     <string name="rec_todos">Todos</string>
     <string name="rec_explorar">Continue explorando</string>
+    <string name="rec_de_autor">O %1$d de %2$s</string>
+    <string name="rec_cifras_ajenas">%1$d lembranças · %2$d meses</string>
+    <string name="rec_privadas">Suas %1$d fotos privadas não são publicadas: só vão as que você já compartilhou.</string>
+    <string name="rec_seguir">Continuar</string>
+    <string name="rec_detener">Pausar</string>
+    <string name="rec_ver_de">Ver as lembranças de %1$d</string>
 </resources>

@@ -169,6 +169,7 @@ fun PostCard(
             TipoBadge(post.tipo)
         }
 
+        com.rutaalacima.app.ui.ruta.BotonRecuerdosPost(post, Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
         if (post.brujula.isNotBlank() && com.rutaalacima.app.ui.vision.brujulaValida(post.brujula)) {
             // Brújula de la Cima: la cumbre en papel; al tocarla se explora con el zoom 1 · 9 · 81
             com.rutaalacima.app.ui.vision.BrujulaEnMuro(post.brujula, post.autorNombre, Modifier.padding(horizontal = 12.dp))

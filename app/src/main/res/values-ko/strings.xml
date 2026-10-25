@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">다시 보기</string>
     <string name="rec_todos">모두</string>
     <string name="rec_explorar">계속 둘러보기</string>
+    <string name="rec_de_autor">%2$s의 %1$d년</string>
+    <string name="rec_cifras_ajenas">추억 %1$d개 · %2$d개월</string>
+    <string name="rec_privadas">비공개 사진 %1$d장은 게시되지 않습니다. 이미 공유한 사진만 게시됩니다.</string>
+    <string name="rec_seguir">계속</string>
+    <string name="rec_detener">일시정지</string>
+    <string name="rec_ver_de">%1$d년의 추억 보기</string>
 </resources>

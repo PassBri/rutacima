@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">फिर देखें</string>
     <string name="rec_todos">सभी</string>
     <string name="rec_explorar">खोज जारी रखें</string>
+    <string name="rec_de_autor">%2$s का %1$d</string>
+    <string name="rec_cifras_ajenas">%1$d यादें · %2$d महीने</string>
+    <string name="rec_privadas">आपकी %1$d निजी तस्वीरें प्रकाशित नहीं होंगी: केवल साझा की गई तस्वीरें जाएँगी।</string>
+    <string name="rec_seguir">जारी रखें</string>
+    <string name="rec_detener">रोकें</string>
+    <string name="rec_ver_de">%1$d की यादें देखें</string>
 </resources>

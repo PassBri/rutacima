@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">もう一度</string>
     <string name="rec_todos">全員</string>
     <string name="rec_explorar">さらに探索</string>
+    <string name="rec_de_autor">%2$sの%1$d年</string>
+    <string name="rec_cifras_ajenas">思い出 %1$d件 · %2$dか月</string>
+    <string name="rec_privadas">非公開の写真 %1$d 枚は公開されません。共有済みの写真だけが公開されます。</string>
+    <string name="rec_seguir">再開</string>
+    <string name="rec_detener">一時停止</string>
+    <string name="rec_ver_de">%1$d年の思い出を見る</string>
 </resources>

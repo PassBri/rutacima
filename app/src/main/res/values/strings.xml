@@ -1827,4 +1827,10 @@
     <string name="rec_repetir">Repetir</string>
     <string name="rec_todos">Todos</string>
     <string name="rec_explorar">Sigue explorando</string>
+    <string name="rec_de_autor">El %1$d de %2$s</string>
+    <string name="rec_cifras_ajenas">%1$d recuerdos · %2$d meses</string>
+    <string name="rec_privadas">Tus %1$d fotos privadas no se publican: solo van las que ya compartiste.</string>
+    <string name="rec_seguir">Seguir</string>
+    <string name="rec_detener">Detener</string>
+    <string name="rec_ver_de">Ver los recuerdos de %1$d</string>
 </resources>

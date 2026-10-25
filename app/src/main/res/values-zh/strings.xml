@@ -1825,4 +1825,10 @@
     <string name="rec_repetir">重播</string>
     <string name="rec_todos">所有人</string>
     <string name="rec_explorar">继续探索</string>
+    <string name="rec_de_autor">%2$s 的 %1$d 年</string>
+    <string name="rec_cifras_ajenas">%1$d 个回忆 · %2$d 个月</string>
+    <string name="rec_privadas">你的 %1$d 张私密照片不会发布：只发布已分享的照片。</string>
+    <string name="rec_seguir">继续</string>
+    <string name="rec_detener">暂停</string>
+    <string name="rec_ver_de">观看 %1$d 年的回忆</string>
 </resources>

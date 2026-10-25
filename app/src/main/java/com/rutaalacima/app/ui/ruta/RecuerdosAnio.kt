@@ -46,6 +46,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Pause
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.animation.core.Animatable
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -100,7 +103,7 @@ private fun fechaRecuerdo(p: Post) = Instant.ofEpochMilli(p.creadoEn).atZone(Zon
 
 @Composable
 fun RecuerdosAnio(anio: Int, posts: List<Post>, fraseCumbre: String, metas: List<MetaAnualEntity>,
-    onPublicar: suspend (Uri, Visibilidad, String) -> Unit) {
+    onPublicar: suspend (Uri, Visibilidad, String, List<Post>) -> Unit) {
     val fotos = remember(posts, anio) { posts.filter { it.foto.isNotBlank() && it.anio == anio }.sortedBy { it.creadoEn } }
     var abierto by remember(anio) { mutableStateOf(false) }
     RutaCard {
@@ -127,33 +130,40 @@ fun RecuerdosAnio(anio: Int, posts: List<Post>, fraseCumbre: String, metas: List
 }
 
 @Composable
-private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<MetaAnualEntity>,
-    onPublicar: suspend (Uri, Visibilidad, String) -> Unit, onCerrar: () -> Unit) {
+fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<MetaAnualEntity>,
+    onPublicar: suspend (Uri, Visibilidad, String, List<Post>) -> Unit, onCerrar: () -> Unit,
+    /** null = mis recuerdos; si no, el nombre de quien los publicó (sin publicar ni descargar). */
+    autorAjeno: String? = null, metasTexto: String? = null) {
     val contexto = LocalContext.current
     val scope = rememberCoroutineScope()
     var indice by remember { mutableIntStateOf(0) }
     var progreso by remember { mutableFloatStateOf(0f) }
-    var pausa by remember { mutableStateOf(false) }
+    var pausaBoton by remember { mutableStateOf(false) }
+    var pausaDedo by remember { mutableStateOf(false) }
+    val pausa = pausaBoton || pausaDedo
+    val destello = remember { Animatable(0f) }
     var audiencia by remember { mutableStateOf(false) }
     var ocupado by remember { mutableStateOf(false) }
     var mensaje by remember { mutableStateOf("") }
     val reducir = !ValueAnimator.areAnimatorsEnabled()
     val frase = cumbre.ifBlank { stringResource(R.string.rec_frase) }
-    val titulo = stringResource(R.string.rec_mi_anio, anio)
+    val titulo = if (autorAjeno != null) stringResource(R.string.rec_de_autor, anio, autorAjeno) else stringResource(R.string.rec_mi_anio, anio)
     val marca = stringResource(R.string.rec_marca)
     val exito = stringResource(R.string.rec_exito)
     val error = stringResource(R.string.rec_error)
     val meses = remember(fotos) { fotos.map { fechaRecuerdo(it).monthValue }.distinct().size }
     val delAnio = remember(metas, anio) { metas.filter { it.anio == anio } }
+    val privadas = fotos.count { it.visibilidad == Visibilidad.PRIVADA }
     val logradas = delAnio.count { it.estado == "COMPLETADA" || it.avance >= 100 }
-    LaunchedEffect(indice) { progreso = 0f }
+    // Flashback: cada foto entra con un destello breve
+    LaunchedEffect(indice) { progreso = 0f; if (!reducir) { destello.snapTo(.75f); destello.animateTo(0f, tween(320)) } }
     LaunchedEffect(indice, pausa, reducir) {
         if (!pausa && !reducir && indice < fotos.size) {
             var anterior = android.os.SystemClock.elapsedRealtime()
             while (progreso < 1f) {
                 delay(16)
                 val ahora = android.os.SystemClock.elapsedRealtime()
-                progreso = (progreso + (ahora - anterior) / 4500f).coerceAtMost(1f)
+                progreso = (progreso + (ahora - anterior) / 1700f).coerceAtMost(1f)
                 anterior = ahora
             }
             indice++
@@ -164,9 +174,11 @@ private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, meta
         ocupado = true
         scope.launch {
             try {
-                val archivo = mosaicoRecuerdos(contexto, anio, fotos, frase, marca)
+                val usar = if (visibilidad == null) fotos else fotos.filter { it.visibilidad != Visibilidad.PRIVADA }
+                check(usar.isNotEmpty())
+                val archivo = mosaicoRecuerdos(contexto, anio, usar, frase, marca)
                 if (visibilidad == null) guardarRecuerdosGaleria(contexto, archivo)
-                else onPublicar(Uri.fromFile(archivo), visibilidad, titulo)
+                else onPublicar(Uri.fromFile(archivo), visibilidad, titulo, usar)
                 mensaje = exito
                 audiencia = false
             } catch (e: kotlinx.coroutines.CancellationException) { throw e }
@@ -190,10 +202,11 @@ private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, meta
                         if (reducir) snap() else tween(450), label = "selloRecuerdo")
                     AsyncImage(solicitudFotoVision(p.foto, lado), null,
                         Modifier.fillMaxSize().graphicsLayer {
-                            val zoom = if (reducir) 1f else 1.02f + progreso * .1f
+                            val zoom = if (reducir) 1f else 1.14f - progreso * .12f
                             scaleX = zoom; scaleY = zoom
                             translationX = if (reducir) 0f else -size.width * progreso * .015f
                         }, contentScale = ContentScale.Crop)
+                    Box(Modifier.fillMaxSize().graphicsLayer { alpha = destello.value }.background(Color(0xFFFFF7E8)))
                     Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()
                         .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = .8f)))).padding(20.dp)) {
                         Box(Modifier.size(56.dp).graphicsLayer { scaleX = sello; scaleY = sello; rotationZ = -8f }
@@ -206,7 +219,7 @@ private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, meta
                         Text(fecha.format(DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM)), color = Color.White)
                     }
                     Box(Modifier.fillMaxSize().padding(top = 64.dp).pointerInput(indice) {
-                        detectTapGestures(onLongPress = {}, onPress = { pausa = true; try { tryAwaitRelease() } finally { pausa = false } },
+                        detectTapGestures(onLongPress = {}, onPress = { pausaDedo = true; try { tryAwaitRelease() } finally { pausaDedo = false } },
                             onTap = { punto -> indice = if (punto.x < size.width * .4f) (indice - 1).coerceAtLeast(0) else (indice + 1).coerceAtMost(fotos.size) })
                     })
                 } else {
@@ -220,9 +233,12 @@ private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, meta
                         .verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(titulo, color = Color.White, style = MaterialTheme.typography.titleLarge)
                         Text(frase, color = Color.White, style = MaterialTheme.typography.headlineSmall)
-                        Text(stringResource(R.string.rec_cifras, fotos.size, meses, logradas, delAnio.size), color = Color.White)
-                        Button(onClick = { audiencia = !audiencia }, enabled = !ocupado) { Text(stringResource(R.string.rec_publicar)) }
-                        Row {
+                        if (metasTexto != null) Text(stringResource(R.string.rec_cifras_ajenas, fotos.size, meses), color = Color.White)
+                        else Text(stringResource(R.string.rec_cifras, fotos.size, meses, logradas, delAnio.size), color = Color.White)
+                        if (autorAjeno == null) Button(onClick = { audiencia = !audiencia }, enabled = !ocupado) { Text(stringResource(R.string.rec_publicar)) }
+                        if (autorAjeno == null && audiencia && privadas > 0) Text(stringResource(R.string.rec_privadas, privadas), color = Color.White, style = MaterialTheme.typography.bodySmall)
+                        if (autorAjeno != null) TextButton(onClick = { indice = 0 }) { Text(stringResource(R.string.rec_repetir), color = Color.White) }
+                        else Row {
                             TextButton(onClick = {
                                 if (Build.VERSION.SDK_INT < 29 && ContextCompat.checkSelfPermission(contexto, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                                     permisoGaleria.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -245,7 +261,13 @@ private fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, meta
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                         Text(anio.toString(), color = Color.White)
-                        IconButton(onClick = onCerrar) { Icon(Icons.Filled.Close, stringResource(R.string.cerrar_brujula), tint = Color.White) }
+                        Row {
+                            IconButton(onClick = { pausaBoton = !pausaBoton }) {
+                                Icon(if (pausaBoton) Icons.Filled.PlayArrow else Icons.Filled.Pause,
+                                    stringResource(if (pausaBoton) R.string.rec_seguir else R.string.rec_detener), tint = Color.White)
+                            }
+                            IconButton(onClick = onCerrar) { Icon(Icons.Filled.Close, stringResource(R.string.cerrar_brujula), tint = Color.White) }
+                        }
                     }
                 }
             }
@@ -310,5 +332,58 @@ private suspend fun guardarRecuerdosGaleria(context: Context, archivo: File) = w
         check(destino.parentFile?.mkdirs() == true || destino.parentFile?.isDirectory == true)
         archivo.copyTo(destino, overwrite = true)
         MediaScannerConnection.scanFile(context, arrayOf(destino.absolutePath), arrayOf("image/jpeg"), null)
+    }
+}
+
+
+/** Recuerdos publicados por alguien: el JSON de la publicación (v 99, tipo RECUERDOS) con sus fotos. */
+object RecuerdosCompartidos {
+    data class Datos(val anio: Int, val frase: String, val metas: String, val fotos: List<Triple<String, String, Long>>)
+    fun leer(json: String): Datos? = runCatching {
+        if (json.isBlank()) return null
+        val o = kotlinx.serialization.json.Json.parseToJsonElement(json) as? kotlinx.serialization.json.JsonObject ?: return null
+        fun txt(k: String) = (o[k] as? kotlinx.serialization.json.JsonPrimitive)?.content.orEmpty()
+        if (txt("tipo") != "RECUERDOS") return null
+        val fotos = (o["fotos"] as? kotlinx.serialization.json.JsonArray).orEmpty().mapNotNull { e ->
+            val f = e as? kotlinx.serialization.json.JsonObject ?: return@mapNotNull null
+            val url = (f["f"] as? kotlinx.serialization.json.JsonPrimitive)?.content.orEmpty()
+            if (url.isBlank()) null else Triple(url, (f["t"] as? kotlinx.serialization.json.JsonPrimitive)?.content.orEmpty(),
+                (f["c"] as? kotlinx.serialization.json.JsonPrimitive)?.content?.toDoubleOrNull()?.toLong() ?: 0L)
+        }
+        if (fotos.isEmpty()) null else Datos(txt("anio").toIntOrNull() ?: 0, txt("frase"), txt("metas"), fotos)
+    }.getOrNull()
+
+    /** El JSON que se publica: las fotos ya subidas (direcciones públicas). */
+    fun json(anio: Int, frase: String, metas: String, fotos: List<Triple<String, String, Long>>): String =
+        kotlinx.serialization.json.buildJsonObject {
+            put("v", kotlinx.serialization.json.JsonPrimitive(99)); put("tipo", kotlinx.serialization.json.JsonPrimitive("RECUERDOS"))
+            put("anio", kotlinx.serialization.json.JsonPrimitive(anio)); put("frase", kotlinx.serialization.json.JsonPrimitive(frase.take(200)))
+            put("metas", kotlinx.serialization.json.JsonPrimitive(metas))
+            put("fotos", kotlinx.serialization.json.JsonArray(fotos.takeLast(40).map { (f, t, c) ->
+                kotlinx.serialization.json.buildJsonObject {
+                    put("f", kotlinx.serialization.json.JsonPrimitive(f)); put("t", kotlinx.serialization.json.JsonPrimitive(t.take(140)))
+                    put("c", kotlinx.serialization.json.JsonPrimitive(c))
+                }
+            }))
+        }.toString()
+}
+
+/** En el muro: "Ver los recuerdos de 2026" abre el flashback de quien los publicó. */
+@Composable
+fun BotonRecuerdosPost(post: Post, modifier: Modifier = Modifier) {
+    val datos = remember(post.brujula) { RecuerdosCompartidos.leer(post.brujula) } ?: return
+    var abierto by remember(post.id) { mutableStateOf(false) }
+    Button(onClick = { abierto = true }, modifier = modifier) {
+        Icon(Icons.Filled.PlayArrow, null); Text(stringResource(R.string.rec_ver_de, datos.anio))
+    }
+    if (abierto) {
+        val fotos = remember(datos) {
+            datos.fotos.mapIndexed { i, (f, t, c) ->
+                Post(id = "${post.id}-$i", autorId = post.autorId, autorNombre = post.autorNombre, autorUsuario = post.autorUsuario,
+                    tipo = post.tipo, texto = t, foto = f, anio = datos.anio, creadoEn = if (c > 0) c else post.creadoEn)
+            }
+        }
+        HistoriaRecuerdos(datos.anio, fotos, datos.frase, emptyList(), { _, _, _, _ -> }, { abierto = false },
+            autorAjeno = post.autorNombre.ifBlank { "SuRoute" }, metasTexto = datos.metas)
     }
 }
