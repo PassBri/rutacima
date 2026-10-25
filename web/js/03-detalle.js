@@ -102,6 +102,7 @@ function albumAnio(a, metas) {
   return hoja(`<div class="album-cab"><h3>Álbum de ${a}</h3>
       <div class="segmentos" role="group" aria-label="Quién puede ver este año">${opciones.map(([k, n]) => `<button data-acc="diarioVis" data-arg="${a}|${k}" aria-pressed="${vis === k}">${n}</button>`).join("")}</div></div>
     <p class="suave" style="margin:6px 0 12px">${nota}</p>
+    ${window.botonHistoriaAnio ? `<p style="margin:0 0 12px">${botonHistoriaAnio(a)}</p>` : ""}
     ${cumplidas.length ? `<div class="chips" style="margin-bottom:12px">${cumplidas.map(m => `<span class="chip" aria-pressed="true">🏆 ${esc(m.titulo)}</span>`).join("")}</div>` : ""}
     ${ps.length ? recuerdosAnio(a, ps)
       : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay recuerdos de este año. Regístralos desde la app." : "Cargando recuerdos…"}</p>`}`);

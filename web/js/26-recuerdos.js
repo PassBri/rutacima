@@ -9,21 +9,9 @@ function fotosDelAnio(a) {
   return (estado.misPosts || []).filter(p => p.foto && (p.anio ? Number(p.anio) === a : new Date(p.creadoEn).getFullYear() === a))
     .sort((x, y) => (x.creadoEn || 0) - (y.creadoEn || 0));
 }
-/** Tarjeta de la vista del año: una tira de fotos y el botón para ver la historia. */
-function recuerdosAnio(a) {
-  if (!estado.misPosts) { cargarMisPosts(); return ""; }
-  const fs = fotosDelAnio(a);
-  if (!fs.length) return hoja(`<div class="rec-cab"><div><h3>Recuerdos de ${a}</h3><p class="suave">Cuando publiques fotos de ${a}, aquí se vuelven una historia para revivir y compartir.</p></div></div>`);
-  const meses = new Set(fs.map(p => new Date(p.creadoEn).getMonth())).size;
-  return hoja(`<div class="rec-cab"><div><h3>Recuerdos de ${a}</h3><p class="suave">${fs.length} ${fs.length === 1 ? "foto" : "fotos"} · ${meses} ${meses === 1 ? "mes" : "meses"}</p></div>
-      <button class="btn lleno" data-acc="reelAnio" data-arg="${a}">${ic("play")} Ver mis recuerdos</button></div>
-    <button class="rec-tira" data-acc="reelAnio" data-arg="${a}" aria-label="Ver los recuerdos de ${a}">${fs.slice(-6).map((p, i) => `<img src="${esc(p.foto)}" alt="" loading="lazy" style="--i:${i}">`).join("")}</button>`, "rec-hoja");
-}
-window.recuerdosAnio = recuerdosAnio;
-{ // La vista del año los muestra arriba, después de la línea de vida
-  const base = window.corazonAnio;
-  if (typeof base === "function") window.corazonAnio = globalThis.corazonAnio = a => recuerdosAnio(a) + base(a);
-}
+/** Botón para ver la historia del año; va dentro del Álbum del año (js/03-detalle.js albumAnio). */
+const botonHistoriaAnio = a => fotosDelAnio(a).length ? `<button class="btn lleno mini" data-acc="reelAnio" data-arg="${a}">${ic("play")} Ver mis recuerdos</button>` : "";
+window.botonHistoriaAnio = botonHistoriaAnio;
 
 const MES_SELLO = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
 ACC.reelAnio = (el, arg) => {
