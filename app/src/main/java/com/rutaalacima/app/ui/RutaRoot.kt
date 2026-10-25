@@ -32,7 +32,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.AttachMoney
+import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
@@ -185,7 +185,7 @@ private val PESTANAS = listOf(
     Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain, Icons.Outlined.Terrain),
     Pestana(Rutas.HOY, R.string.tab_hoy, Icons.Filled.Today, Icons.Outlined.Today),
     Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata, com.rutaalacima.app.ui.components.IconosRuta.FogataContorno),
-    Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.HacerFuego, com.rutaalacima.app.ui.components.IconosRuta.HacerFuegoContorno),
+    Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbre, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbreContorno),
     Pestana(Rutas.PERFIL, R.string.tab_perfil, Icons.Filled.Person, Icons.Outlined.Person),
 )
 
@@ -298,7 +298,7 @@ private fun AppPrincipal() {
                         // Ascenso financiero: el libro de cuentas, a un toque desde Mi ruta y Hoy
                         if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
                             IconButton(onClick = { nav.navigate(Rutas.finanzas(if (pestana.ruta == Rutas.HOY) "d:" + java.time.LocalDate.now() else null)) }) {
-                                Icon(Icons.Filled.AttachMoney, stringResource(R.string.cu_titulo))
+                                Icon(Icons.Filled.AccountBalanceWallet, stringResource(R.string.cu_titulo))
                             }
                         }
                         if (pestana.ruta == Rutas.PERFIL) {

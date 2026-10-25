@@ -102,7 +102,7 @@ const LISTAS = {
     const finPlan = (p.anioInicioPlan || anioHoy) + Math.max(5, ...Store.lista("proposito").map(x => x.horizonte || 5)) - 1;
     // Mi ruta: el mapa de toda la vida (el tiempo), la visión (cumbre, vision board y Brújula) y cada año
     if (estado.filtro === "todo" && coincide("mapa de mi vida puntos años")) h += item("puntos", av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", "inicio", `${r.edad} de ${metaVida()} años · un punto por año`, ic("pin", "i fijado"));
-    if (estado.filtro === "todo" && coincide("cumbre brujula vision board")) h += item("vida", av(ic("cumbre"), "var(--burdeos)"), "Cumbre y Brújula", "", "Tu cumbre, tu vision board y los 81 pasos");
+    if (estado.filtro === "todo" && coincide("cumbre brujula vision board")) h += item("vida", av(ic("cima"), "var(--burdeos)"), "Cumbre y Brújula", "", "Tu cumbre, tu vision board y los 81 pasos");
     let anios = [];
     for (let a = anioHoy; a <= ultimo; a++) anios.push(a);
     for (let a = anioHoy - 1; a >= nac; a--) anios.push(a);
@@ -223,7 +223,7 @@ const LISTAS = {
     h += item("perfil", p.fotoPerfilUrl || globalThis.mv?.demo?.avatar ? `<span class="avatar" style="padding:0;overflow:hidden"><img src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"></span>` : av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += grupo("Mi ascenso");
     h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
-    h += item("ejes", av(ic("personas"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
+    h += item("ejes", av(ic("ejes"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
     h += item("ir-frases", av(ic("frases"), "var(--burdeos)"), "Mis frases", "", "Las frases que ya abriste");
     h += grupo("Personas");
@@ -232,7 +232,7 @@ const LISTAS = {
     h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach con IA", "", "Pregúntale por tu ruta");
     h += grupo("Más");
     if (globalThis.INSTALAR?.disponible()) h += `<button class="item" data-acc="instalarApp">${av(`<img src="iconos/apple-touch-icon.png" alt="" style="width:100%;height:100%;border-radius:50%">`, "var(--hoja-2)")}<span class="txt"><span class="t1"><span>Instalar la app</span></span><span class="t2"><span>En tu teléfono o tu computador, como una app</span></span></span></button>`;
-    h += item("plan", av(ic("cumbre"), "var(--burdeos)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
+    h += item("plan", av(ic("cima"), "var(--burdeos)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", "", Store.nube ? (Store.nube.directa ? Store.nube.correo || nombreNavegador() : nombreNavegador()) + (globalThis.MOD?.suspension ? " · cuenta suspendida" : "") : "Ruta de ejemplo");
     // Moderación: solo para cuentas moderadoras (se comprueba una vez por sesión)
     const mod = globalThis.MOD;

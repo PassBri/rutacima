@@ -22,7 +22,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Block
-import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -196,7 +196,7 @@ private fun MenuModeracion(autor: String, onReportar: (String) -> Unit, onBloque
     androidx.compose.foundation.layout.Box {
         IconButton(onClick = { abierto = true }) { Icon(Icons.Filled.MoreVert, stringResource(R.string.mas_opciones)) }
         DropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {
-            DropdownMenuItem(text = { Text(stringResource(R.string.reportar_publicacion)) }, leadingIcon = { Icon(Icons.Outlined.Flag, null) },
+            DropdownMenuItem(text = { Text(stringResource(R.string.reportar_publicacion)) }, leadingIcon = { Icon(Icons.Outlined.Report, null) },
                 onClick = { abierto = false; reportando = true })
             DropdownMenuItem(text = { Text(stringResource(R.string.bloquear_a, autor)) }, leadingIcon = { Icon(Icons.Outlined.Block, null) },
                 onClick = { abierto = false; bloqueando = true })

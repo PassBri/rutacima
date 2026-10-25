@@ -39,8 +39,8 @@ DET["perfil.plan"] = () => {
   else if (e.demo) accion = `<p class="suave">En la demostración no se guarda. Entra con tu cuenta para que te avisemos.</p>`;
   else accion = `<button class="btn lleno" data-acc="avisamePlan">Avísame cuando esté disponible</button>`;
   const hasta = cumbre && e.hasta ? new Date(e.hasta).toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" }) : "";
-  return cab(av(ic("cumbre"), "var(--burdeos)"), "Plan Cumbre", "Qué incluye y cuánto cuesta") + cuerpo(
-    hoja(`<div class="plan-intro">${ic("cumbre")}<h2>Plan Cumbre</h2><p>Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener SuRoute.</p></div>`) +
+  return cab(av(ic("cima"), "var(--burdeos)"), "Plan Cumbre", "Qué incluye y cuánto cuesta") + cuerpo(
+    hoja(`<div class="plan-intro">${ic("cima")}<h2>Plan Cumbre</h2><p>Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener SuRoute.</p></div>`) +
     hoja(cumbre ? `<h3 style="margin:0;color:var(--burdeos)">Tienes el Plan Cumbre hasta el ${esc(hasta)}</h3>${ORIGEN_PLAN[e.origen] ? `<p class="suave" style="margin:4px 0 0">${ORIGEN_PLAN[e.origen]}</p>` : ""}`
       : `<h3 style="margin:0">Tu plan: Gratis</h3><p class="suave" style="margin:4px 0 0">Mientras tanto, todo sigue abierto para todos.</p>`) +
     hoja(`<div class="plan-fila plan-cab"><span></span><span class="plan-celda">Gratis</span><span class="plan-celda si">Cumbre</span></div>${filas}`) +

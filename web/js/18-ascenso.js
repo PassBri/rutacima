@@ -224,7 +224,7 @@ LISTAS.finanzas = () => {
   let h = cabLista("Ascenso financiero", { buscar: false }) + `<div class="items">`;
   h += item("d:" + hoyI, av(hoyFecha().getDate(), "var(--ok)"), "Hoy", "", hoyS.n ? `${hoyS.n} ${hoyS.n === 1 ? "movimiento" : "movimientos"} · ${plata(hoyS.disp)}` : "Anota lo que entró y salió");
   h += item("m:" + ym, av(MES_C[hoyFecha().getMonth()], "var(--ok)"), mayus(MESES[hoyFecha().getMonth()]), "", `${plata(mesS.disp)} disponible`);
-  h += item("b", av(ic("finanzas"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
+  h += item("b", av(ic("plata"), "var(--ok)"), "Balance general", "", `Todos tus años · ${plata(sumar(diasConMovs().flatMap(movsDe)).construido)} construidos`);
   const sf = window.saludDe ? saludDe("") : null;
   h += item("grafica", av(ic("grafica"), "var(--ok)"), "Gráfica del ascenso", "", "Velas, barras y líneas por días, meses o años");
   h += item("salud", av(ic("salud"), "var(--ok)"), "Salud financiera", "", sf?.isf != null ? `ISF ${sf.isf} % · ${sf.nivel[0]}` : "Tus indicadores, mes a mes");

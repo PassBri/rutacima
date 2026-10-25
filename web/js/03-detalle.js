@@ -403,7 +403,7 @@ const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   /* ---------- Mi ruta: Cumbre y Brújula (la visión de toda la vida) ---------- */
   vida() {
-    return cab(av(ic("cumbre"), "var(--burdeos)"), "Cumbre y Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
+    return cab(av(ic("cima"), "var(--burdeos)"), "Cumbre y Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
       visionCompleta() + (window.visionVida ? visionVida() : ""));
   },
   /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */
@@ -915,7 +915,7 @@ DET.coach = () => {
           <div class="etiqueta">${accion.tipo === "meta_mes" ? "Meta del mes propuesta" : "Meta del año propuesta"}</div><p>${esc(accion.texto)}</p>
           ${creada ? `<span class="suave">✓ Meta creada</span>` : `<button class="btn mini lleno" data-acc="crearMetaCoach" data-arg="${esc(String(m.id))}">Crear esta meta</button>`}</div>` : ""); }).join("")}
       ${coachEscribiendo ? `<div class="burbuja el escribiendo">escribiendo…</div>` : ""}
-      ${coachLimite ? `<button class="btn mini oro coach-plan" data-ir="perfil" data-arg="plan">${ic("cumbre")} ¿Quieres conversar más? Conoce el Plan Cumbre</button>` : ""}</div>
+      ${coachLimite ? `<button class="btn mini oro coach-plan" data-ir="perfil" data-arg="plan">${ic("cima")} ¿Quieres conversar más? Conoce el Plan Cumbre</button>` : ""}</div>
       ${ms.length < 2 ? `<div class="sugerencias">${sugs.map(s => `<button data-pregunta="${esc(s)}">${esc(s)}</button>`).join("")}</div>` : ""}</div>
     <form class="escribir" data-form="coach"><input name="texto" placeholder="Escribe un mensaje" aria-label="Mensaje" autocomplete="off"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`;
 };

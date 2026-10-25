@@ -25,7 +25,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Block
 import androidx.compose.ui.semantics.heading
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -460,7 +460,7 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onCerrar: () -> Uni
             if (!post.propio) {
                 androidx.compose.material3.ListItem(
                     headlineContent = { Text(stringResource(R.string.reportar_publicacion)) },
-                    leadingContent = { Icon(Icons.Outlined.Flag, null) },
+                    leadingContent = { Icon(Icons.Outlined.Report, null) },
                     modifier = Modifier.clickable { reportando = true },
                 )
                 androidx.compose.material3.ListItem(
