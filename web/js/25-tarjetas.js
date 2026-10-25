@@ -290,3 +290,16 @@ DET["perfil.publicaciones"] = () => {
     <div class="tk-pestanas" role="tablist" aria-label="Qué ver">${tab("pub", "cuadricula", "Publicaciones")}${tab("privadas", "candado", "Privadas")}${tab("guardadas", "guardado", "Guardadas")}</div>
     ${!estado.misPosts && pest !== "guardadas" ? `<p class="vacio-mini">Cargando…</p>` : lista.length ? `<div class="tk-rejilla">${lista.map(celda).join("")}</div>` : `<p class="vacio-mini">${vacio}</p>`}`, "max-width:720px");
 };
+
+/* ---------- Brújula 9×9: en Edición se escribe en la grilla; en Imagen o Texto, tocar un bloque lo abre ---------- */
+{
+  const abrir = (e, bl) => { if (estado.modoTarjetas === "edicion" && !bl.closest(".md-visor")) return; ACC.mandalaBloque(bl, bl.dataset.bloque); };
+  document.addEventListener("click", e => {
+    const bl = e.target.closest?.(".md-grilla .md-bloque[data-bloque]"); if (!bl || e.target.closest("textarea")) return;
+    abrir(e, bl);
+  });
+  document.addEventListener("keydown", e => {
+    const bl = e.target.closest?.(".md-grilla .md-bloque[data-bloque]"); if (!bl || e.target !== bl || (e.key !== "Enter" && e.key !== " ")) return;
+    e.preventDefault(); abrir(e, bl);
+  });
+}

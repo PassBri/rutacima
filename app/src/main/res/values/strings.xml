@@ -1798,4 +1798,9 @@
     <string name="vision_paso_detalle">Editar el paso y sus evidencias</string>
     <string name="vision_nivel_numero">%1$d</string>
     <string name="vision_campamento_libre">+ %1$s</string>
+
+    <!-- Tres modos: foto, lectura y edición -->
+    <string name="vision_modo_edicion">Edición</string>
+    <string name="vision_ver_foto">Ver la foto</string>
+    <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
 </resources>

@@ -37,6 +37,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.OpenInFull
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Image
@@ -54,7 +55,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,6 +73,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -79,14 +84,16 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.rutaalacima.app.R
-import com.rutaalacima.app.data.Cascada
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.domain.model.Mandala
-import com.rutaalacima.app.ui.Rutas
 import com.rutaalacima.app.ui.theme.hojaPapel
-import java.io.File
-import java.time.LocalDate
 import kotlinx.coroutines.delay
+
+/** El modo persiste como texto, para poder ampliar sus estados sin depender de ordinales. */
+enum class ModoTarjetas(val clave: String) {
+    IMAGEN("imagen"), TEXTO("texto"), EDICION("edicion");
+    val muestraDorso: Boolean get() = this != IMAGEN
+}
 
 internal enum class CampoTarjeta { FRASE, ROTULO, SUGERENCIA, QUITAR_FOTO }
 
@@ -102,22 +109,26 @@ internal data class AccionesTarjeta(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SelectorModoTarjetas(texto: Boolean, onModo: (Boolean) -> Unit, modifier: Modifier = Modifier) {
+internal fun SelectorModoTarjetas(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit, modifier: Modifier = Modifier) {
     SingleChoiceSegmentedButtonRow(modifier) {
-        listOf(R.string.vision_modo_imagen to Icons.Outlined.Image, R.string.vision_modo_texto to Icons.Outlined.Edit)
-            .forEachIndexed { i, (etiqueta, icono) ->
-                SegmentedButton(selected = texto == (i == 1), onClick = { onModo(i == 1) },
-                    shape = SegmentedButtonDefaults.itemShape(i, 2),
-                    icon = { Icon(icono, null, Modifier.size(16.dp)) }) {
-                    Text(stringResource(etiqueta), maxLines = 1, overflow = TextOverflow.Ellipsis)
-                }
+        val opciones = remember {
+            listOf(R.string.vision_modo_imagen to Icons.Outlined.Image,
+                R.string.vision_modo_texto to Icons.Filled.FormatQuote,
+                R.string.vision_modo_edicion to Icons.Outlined.Edit)
+        }
+        opciones.forEachIndexed { i, (etiqueta, icono) ->
+            SegmentedButton(selected = modo == ModoTarjetas.entries[i], onClick = { onModo(ModoTarjetas.entries[i]) },
+                shape = SegmentedButtonDefaults.itemShape(i, 3),
+                icon = { Icon(icono, null, Modifier.size(16.dp)) }) {
+                Text(stringResource(etiqueta), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
+        }
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-internal fun NavegacionVision(texto: Boolean, onModo: (Boolean) -> Unit, habilitada: Boolean, onSeccion: (Int) -> Unit, onGrande: () -> Unit) {
+internal fun NavegacionVision(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit, habilitada: Boolean, onSeccion: (Int) -> Unit, onGrande: () -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = Modifier.fillMaxWidth()) {
         listOf(1, 9, 81).forEachIndexed { i, numero ->
@@ -126,7 +137,7 @@ internal fun NavegacionVision(texto: Boolean, onModo: (Boolean) -> Unit, habilit
                 Text(stringResource(R.string.vision_nivel_numero, numero))
             }
         }
-        SelectorModoTarjetas(texto, onModo)
+        SelectorModoTarjetas(modo, onModo)
         TextButton(onClick = onGrande, enabled = habilitada) {
             Icon(Icons.Filled.OpenInFull, null, Modifier.size(18.dp))
             Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.vision_ver_grande))
@@ -143,26 +154,28 @@ internal fun RosaVision(
         repeat(3) { fila ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 repeat(3) { columna ->
-                    val celda = Mandala.celda(3 + fila, 3 + columna)
-                    val centro = celda.tipo == Mandala.Tipo.CUMBRE
-                    val cv = if (centro) cumbre else campamentos[celda.campamento]
-                    val forma = RoundedCornerShape(12.dp)
-                    val modificador = Modifier.weight(1f).then(if (centro) Modifier.border(2.dp, Color(0xFFC9973B), forma) else Modifier)
-                    if (cv != null) tarjeta(cv, fila * 3 + columna, if (centro) null else Mandala.RUMBOS[celda.campamento], modificador)
-                    else {
-                        val codigo = if (centro) null else Mandala.CAMPAMENTOS_FIJOS[celda.campamento]
-                        val color = codigo?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary
-                        Box(modificador.aspectRatio(3f / 4.6f).clip(forma).background(color.copy(alpha = .06f))
-                            .clickable(enabled = codigo != null) { codigo?.let(onCrear) }, contentAlignment = Alignment.Center) {
-                            Canvas(Modifier.fillMaxSize()) {
-                                drawRoundRect(color.copy(alpha = .6f), cornerRadius = androidx.compose.ui.geometry.CornerRadius(12.dp.toPx()),
-                                    style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 4.dp.toPx()))))
-                            }
-                            Column(Modifier.padding(6.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                Icon(Icons.Filled.Add, null, tint = color)
-                                Text(if (codigo == null) stringResource(R.string.mandala_cumbre)
-                                    else stringResource(R.string.vision_campamento_libre, nombreCodigo(codigo)),
-                                    style = MaterialTheme.typography.labelSmall, color = color)
+                    key(fila, columna) {
+                        val celda = Mandala.celda(3 + fila, 3 + columna)
+                        val centro = celda.tipo == Mandala.Tipo.CUMBRE
+                        val cv = if (centro) cumbre else campamentos[celda.campamento]
+                        val forma = RoundedCornerShape(12.dp)
+                        val modificador = Modifier.weight(1f).then(if (centro) Modifier.border(2.dp, Color(0xFFC9973B), forma) else Modifier)
+                        if (cv != null) key(cv.casilla.id) { tarjeta(cv, fila * 3 + columna, if (centro) null else Mandala.RUMBOS[celda.campamento], modificador) }
+                        else {
+                            val codigo = if (centro) null else Mandala.CAMPAMENTOS_FIJOS[celda.campamento]
+                            val color = codigo?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary
+                            Box(modificador.aspectRatio(3f / 4.6f).clip(forma).background(color.copy(alpha = .06f))
+                                .clickable(enabled = codigo != null) { codigo?.let(onCrear) }, contentAlignment = Alignment.Center) {
+                                Canvas(Modifier.fillMaxSize()) {
+                                    drawRoundRect(color.copy(alpha = .6f), cornerRadius = androidx.compose.ui.geometry.CornerRadius(12.dp.toPx()),
+                                        style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 4.dp.toPx()))))
+                                }
+                                Column(Modifier.padding(6.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                    Icon(Icons.Filled.Add, null, tint = color)
+                                    Text(if (codigo == null) stringResource(R.string.mandala_cumbre)
+                                        else stringResource(R.string.vision_campamento_libre, nombreCodigo(codigo)),
+                                        style = MaterialTheme.typography.labelSmall, color = color)
+                                }
                             }
                         }
                     }
@@ -174,40 +187,85 @@ internal fun RosaVision(
 
 /** Un cambio global tiene cascada; un giro individual responde inmediatamente. */
 @Composable
-private fun anguloTarjeta(id: Long, girada: Boolean, generacion: Int, indice: Int): Float {
+private fun anguloTarjeta(id: Long, girada: Boolean, generacion: Int, indice: Int): State<Float> {
     var objetivo by remember(id) { mutableStateOf(girada) }
     var anterior by remember(id) { mutableStateOf(generacion) }
     val animar = ValueAnimator.areAnimatorsEnabled()
     LaunchedEffect(girada, generacion) {
-        if (generacion != anterior && animar) delay(indice.coerceAtLeast(0) * 35L)
+        if (generacion != anterior && animar) delay(indice.coerceAtLeast(0) * 20L)
         anterior = generacion
         objetivo = girada
     }
-    val angulo by animateFloatAsState(if (objetivo) 180f else 0f,
-        animationSpec = if (animar) tween(500, easing = FastOutSlowInEasing) else snap(), label = "visionFlip")
-    return angulo
+    return animateFloatAsState(if (objetivo) 180f else 0f,
+        animationSpec = if (animar) tween(340, easing = FastOutSlowInEasing) else snap(), label = "visionFlip")
 }
 
 @Composable
 internal fun TarjetaVision(
-    cv: CasillaVista, apodo: String, girada: Boolean, generacion: Int, indice: Int, porcentaje: Int,
-    acciones: AccionesTarjeta, onGirar: () -> Unit, onVer: () -> Unit, onAmpliar: () -> Unit,
+    cv: CasillaVista, apodo: String, girada: Boolean, generacion: Int, indice: Int, porcentaje: Int, modo: ModoTarjetas,
+    acciones: AccionesTarjeta, onEditar: () -> Unit, onGirar: () -> Unit, onVer: () -> Unit, onAmpliar: () -> Unit,
     compacta: Boolean, cumbre: Boolean, rumbo: String?, onPasos: (() -> Unit)?,
     metas: List<MetaSosten>, apodosMetas: Map<String, String>, modifier: Modifier = Modifier,
 ) {
     val angulo = anguloTarjeta(cv.casilla.id, girada, generacion, indice)
+    val dorso by remember(angulo) { derivedStateOf { angulo.value > 90f } }
     val forma = RoundedCornerShape(if (compacta) 12.dp else 16.dp)
     val ratio = if (compacta) 3f / 4.6f else if (cumbre) 4f / 5f else 9f / 16f
     Box(modifier.fillMaxWidth().aspectRatio(ratio).graphicsLayer {
-        rotationY = angulo; cameraDistance = 12f * density
+        rotationY = angulo.value; cameraDistance = 12f * density
     }.clip(forma).background(MaterialTheme.colorScheme.surface)) {
-        if (angulo > 90f) {
-            if (compacta) DorsoCompacto(cv, apodo, porcentaje, acciones, onGirar, onAmpliar,
+        if (dorso) {
+            if (modo != ModoTarjetas.EDICION) DorsoLectura(cv, apodo, porcentaje, onGirar, onEditar,
+                Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }, compacta = compacta)
+            else if (compacta) DorsoCompacto(cv, apodo, porcentaje, acciones, onGirar, onAmpliar,
                 Modifier.fillMaxSize().graphicsLayer { rotationY = 180f })
             else DorsoCompleto(cv, apodo, porcentaje, acciones, onGirar, metas, apodosMetas,
                 Modifier.fillMaxSize().graphicsLayer { rotationY = 180f })
         } else {
             FrenteTarjeta(cv, apodo, porcentaje, acciones, onVer, onGirar, compacta, rumbo, onPasos)
+        }
+    }
+}
+
+/** El dorso de lectura no contiene campos ni acciones que cambien el avance. */
+@Composable
+private fun DorsoLectura(
+    cv: CasillaVista, apodo: String, porcentaje: Int, onFoto: () -> Unit, onEditar: () -> Unit,
+    modifier: Modifier = Modifier, compacta: Boolean = false, pantallaCompleta: Boolean = false,
+) {
+    val codigo = cv.casilla.eje ?: cv.casilla.origen.removePrefix("campamento:")
+    val eje = if (codigo in Mandala.CAMPAMENTOS_FIJOS) colorCampamento(codigo) else MaterialTheme.colorScheme.primary
+    val fondo = if (pantallaCompleta) androidx.compose.ui.graphics.lerp(Color(0xFF0B0D10), eje, .45f) else MaterialTheme.colorScheme.surface
+    val tinta = if (pantallaCompleta) Color.White else MaterialTheme.colorScheme.onSurface
+    val estilo = when { pantallaCompleta -> MaterialTheme.typography.headlineLarge; compacta -> MaterialTheme.typography.titleSmall; else -> MaterialTheme.typography.headlineSmall }
+    val estado = stringResource(if (porcentaje >= 100) R.string.tarjeta_lograda else if (porcentaje > 0) R.string.tarjeta_camino else R.string.tarjeta_abierta)
+    val margen = if (compacta) 7.dp else 20.dp
+    val contenido = if (pantallaCompleta) modifier.background(fondo).safeDrawingPadding().padding(top = 116.dp, bottom = 24.dp, start = margen, end = margen)
+        else modifier.background(fondo).padding(margen)
+    Column(contenido, verticalArrangement = Arrangement.spacedBy(if (compacta) 4.dp else 12.dp)) {
+        if (apodo.isNotBlank()) Text(stringResource(R.string.apodo_entre_comillas, apodo), color = tinta,
+            style = if (compacta) MaterialTheme.typography.labelSmall else MaterialTheme.typography.titleSmall)
+        Box(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), contentAlignment = Alignment.CenterStart) {
+            Text(cv.casilla.afirmacion.ifBlank { cv.casilla.titulo }, style = estilo, fontWeight = FontWeight.Bold, color = tinta)
+        }
+        Text(stringResource(R.string.vision_estado_porcentaje, estado, porcentaje), color = tinta,
+            style = MaterialTheme.typography.labelSmall)
+        if (compacta) Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            IconButton(onClick = onFoto, modifier = Modifier.size(28.dp)) {
+                Icon(Icons.Filled.Autorenew, stringResource(R.string.vision_ver_foto), Modifier.size(16.dp), tint = tinta)
+            }
+            IconButton(onClick = onEditar, modifier = Modifier.size(28.dp)) {
+                Icon(Icons.Outlined.Edit, stringResource(R.string.editar), Modifier.size(16.dp), tint = tinta)
+            }
+        } else Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = onFoto) {
+                Icon(Icons.Filled.Autorenew, null, Modifier.size(18.dp), tint = tinta)
+                Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.vision_ver_foto), color = tinta)
+            }
+            TextButton(onClick = onEditar) {
+                Icon(Icons.Outlined.Edit, null, Modifier.size(18.dp), tint = tinta)
+                Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.editar), color = tinta)
+            }
         }
     }
 }
@@ -302,7 +360,7 @@ private fun FrenteTarjeta(cv: CasillaVista, apodo: String, porcentaje: Int, acci
     val foto = cv.foto
     Box(Modifier.fillMaxSize()) {
         if (foto != null) {
-            AsyncImage(if (foto.startsWith("http")) foto else File(foto), cv.casilla.titulo,
+            AsyncImage(solicitudFotoVision(foto, if (compacta) 200.dp else 400.dp, if (compacta) 307.dp else 500.dp), cv.casilla.titulo,
                 Modifier.fillMaxSize().clickable(onClick = onVer), contentScale = ContentScale.Crop)
             Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(if (compacta) 70.dp else 110.dp)
                 .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = .65f)))))
@@ -332,49 +390,38 @@ private fun FrenteTarjeta(cv: CasillaVista, apodo: String, porcentaje: Int, acci
 
 internal data class MetaSosten(val tipo: String, val id: Long, val titulo: String, val porcentaje: Int, val ruta: String)
 
-internal fun metasSostienen(c: VisionCasillaEntity, tarjetas: List<CasillaVista>, cascada: Cascada?): List<MetaSosten> {
-    val datos = cascada ?: return emptyList()
-    val (_, camps) = Mandala.repartir(tarjetas, { it.casilla.origen }, { it.casilla.eje })
-    val i = camps.indexOfFirst { it?.casilla?.id == c.id }
-    val codigo = if (i >= 0) Mandala.CAMPAMENTOS_FIJOS[i] else c.eje
-    if (codigo == "CAM") return emptyList()
-    fun pertenece(eje: String?) = c.origen == "cumbre" || if (codigo == "CON") eje.isNullOrBlank() else eje == codigo
-    val hoy = LocalDate.now()
-    val propositos = datos.propositos.filter { pertenece(it.proposito.eje) }.map {
-        MetaSosten("p", it.proposito.id, it.proposito.titulo, (it.avance * 100).toInt(), Rutas.proposito(it.proposito.id))
-    }
-    val anuales = datos.propositos.flatMap { p -> p.anios.map { it to (it.meta.eje ?: p.proposito.eje) } } + datos.aniosSueltos.map { it to it.meta.eje }
-    val metas = anuales.filter { (a, eje) -> a.meta.anio >= hoy.year && pertenece(eje) }.map { (a, _) ->
-        MetaSosten("a", a.meta.id, a.meta.titulo, (a.avance * 100).toInt(), Rutas.planificador(3, LocalDate.of(a.meta.anio, 1, 1)))
-    }
-    val meses = anuales.flatMap { (a, eje) -> a.meses.map { it to (it.meta.eje ?: eje) } } + datos.mesesSueltos.map { it to it.meta.eje }
-    val mensuales = meses.filter { (m, eje) -> m.meta.anio == hoy.year && m.meta.mes == hoy.monthValue && pertenece(eje) }.map { (m, _) ->
-        MetaSosten("m", m.meta.id, m.meta.texto, (m.avance * 100).toInt(), Rutas.planificador(2, LocalDate.of(m.meta.anio, m.meta.mes, 1)))
-    }
-    return propositos + metas + mensuales
-}
 
 @Composable
 internal fun VisorTarjetas(
-    tarjetas: List<CasillaVista>, inicial: Long, apodos: Map<String, String>, modoTexto: Boolean, onModo: (Boolean) -> Unit,
-    giradas: List<Long>, generacion: Int, onGirar: (Long) -> Unit, acciones: AccionesTarjeta,
-    porcentaje: (VisionCasillaEntity) -> Int, metas: (VisionCasillaEntity) -> List<MetaSosten>, onCerrar: () -> Unit,
+    tarjetas: List<CasillaVista>, inicial: Long, apodos: Map<String, String>, modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit,
+    giradas: List<Long>, generacion: Int, onGirar: (Long) -> Unit, onEditar: (Long) -> Unit, acciones: AccionesTarjeta,
+    porcentajes: Map<Long, Int>, metas: Map<Long, List<MetaSosten>>, onCerrar: () -> Unit,
 ) {
     val pager = rememberPagerState(initialPage = tarjetas.indexOfFirst { it.casilla.id == inicial }.coerceAtLeast(0), pageCount = { tarjetas.size })
     Dialog(onDismissRequest = onCerrar, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
         Box(Modifier.fillMaxSize().background(Color.Black)) {
             VerticalPager(state = pager, modifier = Modifier.fillMaxSize(), key = { tarjetas[it].casilla.id }) { i ->
                 val cv = tarjetas[i]; val c = cv.casilla
-                val angulo = anguloTarjeta(c.id, modoTexto xor (c.id in giradas), generacion, i)
-                Box(Modifier.fillMaxSize().graphicsLayer { rotationY = angulo; cameraDistance = 12f * density }) {
-                    if (angulo > 90f) {
-                        Box(Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }.safeDrawingPadding().imePadding().padding(top = 76.dp, bottom = 12.dp, start = 12.dp, end = 12.dp), contentAlignment = Alignment.Center) {
-                            DorsoCompleto(cv, apodos["apodo:vision:${c.id}"].orEmpty(), porcentaje(c), acciones, { onGirar(c.id) }, metas(c), apodos,
-                                Modifier.widthIn(max = 460.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp)).hojaPapel())
-                        }
+                val angulo = anguloTarjeta(c.id, modo.muestraDorso xor (c.id in giradas), generacion, i)
+                val dorso by remember(angulo) { derivedStateOf { angulo.value > 90f } }
+                val porcentaje = porcentajes[c.id] ?: 0
+                Box(Modifier.fillMaxSize().graphicsLayer { rotationY = angulo.value; cameraDistance = 12f * density }) {
+                    if (dorso) {
+                        if (modo == ModoTarjetas.EDICION) {
+                            Box(Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }.safeDrawingPadding().imePadding().padding(top = 116.dp, bottom = 12.dp, start = 12.dp, end = 12.dp), contentAlignment = Alignment.Center) {
+                                DorsoCompleto(cv, apodos["apodo:vision:${c.id}"].orEmpty(), porcentaje, acciones, { onGirar(c.id) }, metas[c.id].orEmpty(), apodos,
+                                    Modifier.widthIn(max = 460.dp).fillMaxWidth().clip(RoundedCornerShape(18.dp)).hojaPapel())
+                            }
+                        } else DorsoLectura(cv, apodos["apodo:vision:${c.id}"].orEmpty(), porcentaje,
+                            { onGirar(c.id) }, { onEditar(c.id) },
+                            Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }, pantallaCompleta = true)
                     } else {
                         val foto = cv.foto
-                        if (foto != null) AsyncImage(if (foto.startsWith("http")) foto else File(foto), c.titulo, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        if (foto != null) {
+                            val configuracion = LocalConfiguration.current
+                            AsyncImage(solicitudFotoVision(foto, configuracion.screenWidthDp.dp, configuracion.screenHeightDp.dp),
+                                c.titulo, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        }
                         else Column(Modifier.fillMaxSize().background(c.eje?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary)
                             .clickable { acciones.onFoto(c) }.safeDrawingPadding().padding(24.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(Icons.Filled.AddAPhoto, null, tint = Color.White, modifier = Modifier.size(40.dp))
@@ -385,16 +432,20 @@ internal fun VisorTarjetas(
                             .safeDrawingPadding().padding(top = 50.dp, bottom = 20.dp, start = 18.dp, end = 18.dp)) {
                             apodos["apodo:vision:${c.id}"]?.takeIf { it.isNotBlank() }?.let { Text(stringResource(R.string.apodo_entre_comillas, it), color = Color.White, style = MaterialTheme.typography.titleSmall) }
                             Text(c.afirmacion, style = MaterialTheme.typography.headlineSmall, color = Color.White)
-                            Text(stringResource(R.string.tarjeta_rotulo_pct, c.titulo, porcentaje(c)), color = Color.White)
-                            TextButton(onClick = { onGirar(c.id) }, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.editar), color = Color.White) }
+                            Text(stringResource(R.string.tarjeta_rotulo_pct, c.titulo, porcentaje), color = Color.White)
+                            TextButton(onClick = { onEditar(c.id) }, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.editar), color = Color.White) }
                         }
                     }
                 }
             }
-            Row(Modifier.fillMaxWidth().background(Color.Black.copy(alpha = .5f)).safeDrawingPadding().padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onCerrar) { Icon(Icons.Filled.Close, stringResource(R.string.audio_cerrar_corto), tint = Color.White) }
-                SelectorModoTarjetas(modoTexto, onModo, Modifier.weight(1f))
-                Text(stringResource(R.string.tarjeta_contador, pager.currentPage + 1, tarjetas.size), color = Color.White, modifier = Modifier.padding(6.dp), style = MaterialTheme.typography.labelSmall)
+            Column(Modifier.fillMaxWidth().background(Color.Black.copy(alpha = .65f)).safeDrawingPadding().padding(horizontal = 8.dp)) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = onCerrar) { Icon(Icons.Filled.Close, stringResource(R.string.audio_cerrar_corto), tint = Color.White) }
+                    Spacer(Modifier.weight(1f))
+                    Text(stringResource(R.string.tarjeta_contador, pager.currentPage + 1, tarjetas.size), color = Color.White,
+                        modifier = Modifier.padding(6.dp), style = MaterialTheme.typography.labelSmall)
+                }
+                SelectorModoTarjetas(modo, onModo, Modifier.fillMaxWidth())
             }
         }
     }

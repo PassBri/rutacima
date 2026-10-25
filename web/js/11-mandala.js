@@ -244,7 +244,8 @@ function mdCelda(d, cel, grande) {
       ${mdJornadas(d, cel, camp, texto)}${d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla grande">☁</span>` : ""}${d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace">⇄ ${d.enlaces(cel.camp, cel.paso).map(x => Mandala.nombre(x)).join(", ")}</span>` : ""}</span>`;
   const extra = (d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla" title="Niebla: más de ${Travesia.NIEBLA_DIAS} días sin avanzar">☁</span>` : "") +
     (d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace" title="Paso de confluencia">⇄</span>` : "");
-  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${est === "HECHO" ? "<i>✓</i>" : ""}${extra}</span>`;
+  const t81 = camp ? `<textarea class="md-t81" data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(mdNombre(camp))}">${esc(texto)}</textarea>` : "";
+  return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">${evid ? `<img src="${esc(evid)}" alt="">` : ""}<span class="t">${esc(texto)}</span>${t81}${est === "HECHO" ? "<i>✓</i>" : ""}${extra}</span>`;
 }
 
 /** Jornadas de un paso y el botón para registrar la de hoy. */
@@ -329,8 +330,9 @@ function mandalaHtml(tableroHtml = "") {
     ${d.confluencias ? `<p class="md-conf">${d.confluencias} ${d.confluencias === 1 ? "paso" : "pasos"} de confluencia: una acción que movió varios ejes</p>` : ""}
     ${d.enNiebla ? `<p class="md-nieblas">${d.enNiebla} ${d.enNiebla === 1 ? "paso" : "pasos"} en la niebla (más de ${Travesia.NIEBLA_DIAS} días sin avanzar)</p>` : ""}
     <div style="height:12px"></div>${compartir}`;
-  const grilla = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-bloque${bl === b ? " elegido" : ""}" data-acc="mandalaBloque" data-arg="${bl}" aria-label="Abrir bloque ${bl + 1}">${
-    [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => mdCelda(d, Mandala.celda(Math.floor(bl / 3) * 3 + Math.floor(k / 3), (bl % 3) * 3 + k % 3), false)).join("")}</button>`).join("");
+  /* Cada bloque es un <div>: en modo Edición se escribe en sus casillas; en los otros modos, tocarlo lo abre (js/25-tarjetas.js). */
+  const grilla = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<div class="md-bloque${bl === b ? " elegido" : ""}" data-bloque="${bl}" role="button" tabindex="0" aria-label="Abrir bloque ${bl + 1}">${
+    [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => mdCelda(d, Mandala.celda(Math.floor(bl / 3) * 3 + Math.floor(k / 3), (bl % 3) * 3 + k % 3), false)).join("")}</div>`).join("");
   const camp = Mandala.ANILLO.indexOf(b), cs = camp >= 0 ? d.camps[camp] : null;
   const grande = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
     const cel = Mandala.celda(Math.floor(b / 3) * 3 + Math.floor(k / 3), (b % 3) * 3 + k % 3);
@@ -390,7 +392,7 @@ function mandalaHtml(tableroHtml = "") {
     ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
     ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
-  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. Toca un bloque y se abre aquí mismo para escribir sus pasos.") +
+  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.") +
     (estado.md81 ? editorBloque : `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie));
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
   let visor = "";

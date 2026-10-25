@@ -1796,4 +1796,9 @@
     <string name="vision_paso_detalle">ステップと証拠を編集</string>
     <string name="vision_nivel_numero">%1$d</string>
     <string name="vision_campamento_libre">+ %1$s</string>
+
+    <!-- Tres modos: foto, lectura y edición -->
+    <string name="vision_modo_edicion">編集</string>
+    <string name="vision_ver_foto">写真を見る</string>
+    <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
 </resources>
