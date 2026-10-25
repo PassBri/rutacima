@@ -32,9 +32,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Diversity3
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Groups
@@ -298,14 +297,14 @@ private fun AppPrincipal() {
                         // Ascenso financiero: el libro de cuentas, a un toque desde Mi ruta y Hoy
                         if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
                             IconButton(onClick = { nav.navigate(Rutas.finanzas(if (pestana.ruta == Rutas.HOY) "d:" + java.time.LocalDate.now() else null)) }) {
-                                Icon(Icons.Filled.AccountBalanceWallet, stringResource(R.string.cu_titulo))
+                                Icon(Icons.Filled.AttachMoney, stringResource(R.string.cu_titulo))
                             }
                         }
                         if (pestana.ruta == Rutas.PERFIL) {
                             IconButton(onClick = { nav.navigate(Rutas.AJUSTES) }) { Icon(Icons.Filled.Settings, stringResource(R.string.ajustes)) }
                         }
                         IconButton(onClick = { nav.navigate(Rutas.COACH) }) {
-                            Icon(Icons.Filled.AutoAwesome, stringResource(R.string.coach), tint = MaterialTheme.colorScheme.secondary)
+                            Icon(com.rutaalacima.app.ui.components.IconosRuta.Coach, stringResource(R.string.coach), tint = MaterialTheme.colorScheme.secondary)
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(

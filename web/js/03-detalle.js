@@ -123,7 +123,7 @@ function visionAnio(a) {
       <label class="btn mini oro">${ic("foto")} Agregar una foto<input type="file" accept="image/*" hidden data-foto-anio="${a}"></label></div>
     <p class="suave" style="margin:6px 0 12px">Pon aquí lo que quieres ver cumplido en ${a}. Solo tú lo ves hasta que decidas compartirlo.</p>
     ${ps.length ? recuerdosAnio(a, ps) : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay fotos para este año." : "Cargando…"}</p>`}
-    <p style="margin:12px 0 0"><button class="btn mini" data-ir="perfil" data-arg="vision">${ic("coach")} Mi vision board${cs.length ? ` · ${conFoto}/${cs.length}` : ""}</button></p>`);
+    <p style="margin:12px 0 0"><button class="btn mini" data-ir="perfil" data-arg="vision">${ic("ia")} Mi vision board${cs.length ? ` · ${conFoto}/${cs.length}` : ""}</button></p>`);
 }
 async function fotoVisionAnio(a, archivo) {
   if (!archivo) return;
@@ -417,7 +417,7 @@ const DET = {
     for (let i = 0; i < metaVida(); i++) {
       const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
       if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
-      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
+      puntos += `<button class="pv ${cls}${conMetas.has(a) ? " meta" : ""}" data-sel="a:${a}" aria-label="${a}, ${i} años${conMetas.has(a) ? ", con metas" : ""}" title="${a} · ${i} años${conMetas.has(a) ? " · con metas" : ""}"></button>`;
     }
     return cab(av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", `${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
@@ -427,7 +427,7 @@ const DET = {
         <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
         <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
         <p class="frase-vida">${r.frase}</p>`) + esteDia() +
-      hoja(`<p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. Las banderas marcan años con metas.</p>
+      hoja(`<p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. El anillo que gira marca los años con metas.</p>
         <div class="puntos">${puntos}</div>
         <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>
         <p class="suave" style="font-size:13px;margin:4px 0 0">Cada fila es una década: a la izquierda, el año en que empieza.</p>
@@ -1212,7 +1212,7 @@ DET["perfil.vision"] = () => {
   const tarjeta = c => casillaVisionHtml(c, md);
 
 
-  return cab(av(ic("coach"), "var(--burdeos)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
+  return cab(av(ic("ia"), "var(--burdeos)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
     cs.length ? `<button class="btn mini oro" data-acc="casillaNueva">${ic("mas")} Casilla</button>` : "") + cuerpo(visionCompleta());
 };
 /** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida. */
@@ -1227,7 +1227,7 @@ function visionCompleta() {
         <p>Toca la etiqueta para pasar de <b>Abierta</b> a <b>En camino</b> (empieza en 25 %) y a <b>Lograda</b> (100 %). Toca el % de la esquina para ajustarlo con la barra. En la cumbre y los 8 campamentos también cuentan los pasos del 9×9 (<b>Avancé hoy</b>): el % nunca baja de lo que llevas allí, y la cumbre es el promedio de sus campamentos.</p></details>
       ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
-        : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("coach")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
+        : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("ia")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
     (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Arrastra las tarjetas por el ⠿ para ordenarlas. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
 }

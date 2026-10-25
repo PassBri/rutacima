@@ -47,7 +47,6 @@ import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Cake
 import androidx.compose.material.icons.filled.EditCalendar
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.LocalHospital
 import androidx.compose.material.icons.filled.WbSunny
 import androidx.compose.material3.Button
@@ -497,7 +496,25 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
     }
 }
 
-/** La vida en puntos: uno por año, 10 por fila. Bandera dorada = año de una meta a largo plazo. */
+/** Órbita de un año con metas: un arco que se desvanece y gira despacio (9 s por vuelta), sin tapar el punto. */
+@Composable
+private fun AnilloMeta(modifier: Modifier, oro: Color, burdeos: Color) {
+    val giro by androidx.compose.animation.core.rememberInfiniteTransition(label = "orbita").animateFloat(
+        0f, 360f, androidx.compose.animation.core.infiniteRepeatable(androidx.compose.animation.core.tween(9000, easing = androidx.compose.animation.core.LinearEasing)),
+        label = "giro",
+    )
+    androidx.compose.foundation.Canvas(modifier) {
+        val r = size.minDimension * 0.43f + 2.5.dp.toPx()
+        androidx.compose.ui.graphics.drawscope.rotate(giro) {
+            drawCircle(
+                Brush.sweepGradient(0f to Color.Transparent, 0.3f to Color.Transparent, 0.55f to oro.copy(alpha = 0.35f), 0.88f to oro, 1f to burdeos),
+                radius = r, style = androidx.compose.ui.graphics.drawscope.Stroke(1.8.dp.toPx()),
+            )
+        }
+    }
+}
+
+/** La vida en puntos: uno por año, 10 por fila. La órbita que gira marca un año con metas a largo plazo. */
 @Composable
 fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, aniosMeta: Set<Int>, onAnio: (Int) -> Unit) {
     val vivido = MaterialTheme.colorScheme.primary
@@ -544,8 +561,8 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                         contentAlignment = Alignment.Center,
                     ) {
                     }
-                    // La bandera de una meta va en la esquina para no tapar el año
-                    if (anio in aniosMeta) Icon(Icons.Filled.Flag, null, Modifier.align(Alignment.TopEnd).fillMaxSize(0.38f), tint = recuerdo)
+                    // Año con metas: una órbita fina que gira despacio alrededor del punto
+                    if (anio in aniosMeta) AnilloMeta(Modifier.matchParentSize(), recuerdo, vivido)
                 }
             }
             repeat(10 - fila.size) { Spacer(Modifier.weight(1f)) }

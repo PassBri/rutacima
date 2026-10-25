@@ -26,7 +26,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.CircularProgressIndicator
@@ -124,7 +123,7 @@ fun CoachScreen(onBack: () -> Unit, onCoachVida: () -> Unit = {}, onPlan: () -> 
                 colors = androidx.compose.material3.TopAppBarDefaults.topAppBarColors(containerColor = androidx.compose.ui.graphics.Color.Transparent),
                 title = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.AutoAwesome, null, tint = MaterialTheme.colorScheme.secondary)
+                        Icon(com.rutaalacima.app.ui.components.IconosRuta.Coach, null, tint = MaterialTheme.colorScheme.secondary)
                         Spacer(Modifier.size(8.dp))
                         Column {
                             Text(stringResource(R.string.coach))

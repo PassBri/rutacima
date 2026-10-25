@@ -379,7 +379,7 @@ function mandalaHtml(tableroHtml = "") {
   const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. Toca un bloque para escribir sus pasos y avanzar cada día.") +
     `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie) +
     hoja(`<div id="md-bloque"></div>${camposBloque}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
-      <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("coach")} Sugerir pasos</button>` : ""}
+      <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("ia")} Sugerir pasos</button>` : ""}
       ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
       ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos

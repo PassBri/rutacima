@@ -18,11 +18,12 @@ object IconosRuta {
     private const val LIBRO = "M2 8.2c3.1-1 6.3-.6 9.2 1.3V21c-2.9-1.7-6.1-2-9.2-1zM22 8.2c-3.1-1-6.3-.6-9.2 1.3V21c2.9-1.7 6.1-2 9.2-1zM8.4 7.1 12 1.6l3.6 5.5c-1.2-.3-2.4-.2-3.6.5-1.2-.7-2.4-.8-3.6-.5z"
     private const val LIBRO_CONTORNO = "M2 8.2c3.1-1 6.3-.6 9.2 1.3V21c-2.9-1.7-6.1-2-9.2-1zM3.6 9.5c2.2-.4 4.4-.1 6 .9v7.9c-1.9-.8-4-1.1-6-.8zM22 8.2c-3.1-1-6.3-.6-9.2 1.3V21c2.9-1.7 6.1-2 9.2-1zM20.4 9.5c-2.2-.4-4.4-.1-6 .9v7.9c1.9-.8 4-1.1 6-.8zM8.4 7.1 12 1.6l3.6 5.5c-1.2-.3-2.4-.2-3.6.5-1.2-.7-2.4-.8-3.6-.5z"
     private const val CIMA = "M1 21 9.6 8.6l3.2 4.4 2.3-3.1L23 21zM9 2h1.3v7.2H9zM10.3 2.2l5.4 1.9-5.4 1.9z"
+    private const val BROTE = "M11.2 12.6h1.6V20h-1.6zM11.5 13.2C11.4 9.6 8.6 7 4.6 7c0 3.8 2.9 6.2 6.9 6.2zM12.5 11.6c0-4 3-7 7-7 0 4-3 7-7 7zM6 19.6c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v1.4H6zM5.6 1.4l.6 1.6 1.6.6-1.6.6-.6 1.6L5 4.2l-1.6-.6L5 3z"
     private const val EJES = "M12.00 2.00L20.66 7.00L20.66 17.00L12.00 22.00L3.34 17.00L3.34 7.00ZM4.81 7.85L4.81 16.15L12.00 20.30L19.19 16.15L19.19 7.85L12.00 3.70ZM12.00 5.40L15.81 9.80L17.02 14.90L12.00 15.60L6.63 15.10L7.84 9.60Z"
 
-    private fun icono(nombre: String, d: String, relleno: Boolean) = ImageVector.Builder(nombre, 24.dp, 24.dp, 24f, 24f).apply {
+    private fun icono(nombre: String, d: String, relleno: Boolean, tipo: PathFillType = PathFillType.EvenOdd) = ImageVector.Builder(nombre, 24.dp, 24.dp, 24f, 24f).apply {
         val nodos = PathParser().parsePathString(d).toNodes()
-        if (relleno) addPath(nodos, pathFillType = PathFillType.EvenOdd, fill = SolidColor(Color.Black))
+        if (relleno) addPath(nodos, pathFillType = tipo, fill = SolidColor(Color.Black))
         else addPath(nodos, pathFillType = PathFillType.EvenOdd, stroke = SolidColor(Color.Black), strokeLineWidth = 1.4f, strokeLineJoin = StrokeJoin.Round)
     }.build()
 
@@ -33,6 +34,8 @@ object IconosRuta {
     val LibroCumbreContorno: ImageVector by lazy { icono("LibroCumbreContorno", LIBRO_CONTORNO, true) }
     // Cumbre y Brújula (y Plan Cumbre): la montaña con la bandera en la cima
     val Cima: ImageVector by lazy { icono("Cima", CIMA, true) }
+    // Coach: un brote con una chispa (la naturaleza que crece y el aprendizaje guiado)
+    val Coach: ImageVector by lazy { icono("Coach", BROTE, true, PathFillType.NonZero) }
     // Mis ejes: un radar de seis ejes
     val Ejes: ImageVector by lazy { icono("Ejes", EJES, true) }
 }

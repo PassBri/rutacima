@@ -1763,3 +1763,12 @@ label.cargando { opacity: .6; pointer-events: none; }
 .muestra-pastel { background: #FAF3EC; } .muestra-pastel b { background: #7A5544; }
 .hoja-grupo { display: grid; gap: 8px; padding: 8px 16px 12px; }
 .hoja-grupo > span { font-size: 13px; color: var(--tinta-suave); }
+
+/* Año con metas: una órbita fina que gira despacio alrededor del punto (como un anillo de historia, pero sereno) */
+.pv.meta::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from 0deg, transparent 0 30%, color-mix(in srgb, var(--oro) 35%, transparent) 55%, var(--oro) 88%, var(--burdeos) 100%);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  animation: orbita-meta 9s linear infinite; }
+@keyframes orbita-meta { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) { .pv.meta::after { animation: none; } }
