@@ -281,7 +281,7 @@ private fun AppPrincipal() {
                     // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(30.dp))
+                            androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), stringResource(R.string.app_name), Modifier.size(30.dp), tint = MaterialTheme.colorScheme.onSurface)
                             Spacer(Modifier.width(10.dp))
                             Text(stringResource(pestana.titulo), style = MaterialTheme.typography.titleLarge)
                         }
@@ -608,7 +608,7 @@ private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () 
     androidx.compose.material3.NavigationRail(
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
         header = {
-            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(40.dp).padding(top = 4.dp))
+            androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(40.dp).padding(top = 4.dp), tint = MaterialTheme.colorScheme.onSurface)
             androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
                 Icon(Icons.Outlined.Explore, stringResource(R.string.publicar))
             }

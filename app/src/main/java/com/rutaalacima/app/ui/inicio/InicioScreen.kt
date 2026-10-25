@@ -199,7 +199,7 @@ fun InicioScreen(onTerminar: () -> Unit) {
                     drawCircle(oro, radius = size.minDimension / 2 - 4f,
                         style = Stroke(width = 5f, pathEffect = PathEffect.dashPathEffect(floatArrayOf(4f, 22f)), cap = androidx.compose.ui.graphics.StrokeCap.Round))
                 }
-                Image(painterResource(R.drawable.logo_sello), stringResource(R.string.app_name), Modifier.size(tam))
+                androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute), stringResource(R.string.app_name), Modifier.size(tam), tint = MaterialTheme.colorScheme.onSurface)
             }
             Spacer(Modifier.height(12.dp))
             Text(
@@ -332,7 +332,7 @@ fun InicioScreen(onTerminar: () -> Unit) {
             Spacer(Modifier.height(28.dp))
             // Firma de la serie
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.navigationBarsPadding().graphicsLayer { alpha = titulo.value }) {
-                Image(painterResource(R.drawable.logo_sello), null, Modifier.size(26.dp))
+                androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(26.dp), tint = MaterialTheme.colorScheme.onSurface)
                 Spacer(Modifier.width(8.dp))
                 Text(stringResource(R.string.inicio_serie), style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, letterSpacing = 1.5.sp)

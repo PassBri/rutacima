@@ -168,7 +168,7 @@ fun WebScreen(onBack: () -> Unit, onCuenta: () -> Unit) {
             item {
                 RutaCard {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(painterResource(R.drawable.logo_sello), null, Modifier.size(44.dp))
+                        androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(44.dp), tint = MaterialTheme.colorScheme.onSurface)
                         Spacer(Modifier.width(12.dp))
                         Text(stringResource(R.string.web_intro), style = MaterialTheme.typography.bodyMedium)
                     }

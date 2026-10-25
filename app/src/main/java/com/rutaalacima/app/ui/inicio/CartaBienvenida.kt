@@ -229,9 +229,9 @@ private fun Carta(parrafos: List<Int>) {
             }
             .padding(horizontal = 26.dp, vertical = 32.dp),
     ) {
-        // Membrete
+        // Membrete: el logo de SuRoute en tinta (el sello de cera queda en el sobre)
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(44.dp))
+            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.logo_suroute), null, Modifier.size(44.dp), tint = androidx.compose.ui.graphics.Color(0xFF2B1D17))
             Spacer(Modifier.height(6.dp))
             Text(stringResource(R.string.app_name).uppercase() + " · " + stringResource(R.string.lema).uppercase(), fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 3.sp, color = BURDEOS)
             Spacer(Modifier.height(14.dp))

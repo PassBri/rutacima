@@ -271,7 +271,7 @@ fun ResumenAnioScreen(anio: Int, onBack: () -> Unit, onPublicar: (String, String
                     }
                     when (p) {
                         0 -> {
-                            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(120.dp))
+                            androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute), null, Modifier.size(120.dp), tint = h.tinta)
                             Text(titulo, style = MaterialTheme.typography.displaySmall, fontWeight = FontWeight.Black, color = h.tinta, textAlign = TextAlign.Center)
                         }
                         1 -> {
@@ -313,7 +313,7 @@ fun ResumenAnioScreen(anio: Int, onBack: () -> Unit, onPublicar: (String, String
                             Cifra("${d.frasesAbiertas}", stringResource(R.string.resumen_frases), h.tinta)
                         }
                         else -> {
-                            Image(painterResource(R.drawable.logo_sello), null, Modifier.size(96.dp))
+                            androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute), null, Modifier.size(96.dp), tint = h.tinta)
                             Text(stringResource(R.string.resumen_cierre), style = MaterialTheme.typography.headlineSmall, color = h.tinta, textAlign = TextAlign.Center)
                             val resumen = stringResource(R.string.resumen_texto, anio, d.diasConHabitos, d.habitos, d.mejorRacha, d.metasMesCumplidas + d.metasAnioCumplidas)
                             Spacer(Modifier.height(8.dp))

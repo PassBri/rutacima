@@ -83,7 +83,7 @@ private fun Contenido(titulo: String, cuerpo: String, autor: String, pie: String
             .clickable(actionStartActivity<MainActivity>()),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(ImageProvider(R.drawable.logo_sello), contentDescription = null, modifier = GlanceModifier.size(26.dp))
+            Image(ImageProvider(R.drawable.logo_suroute_grueso), contentDescription = null, modifier = GlanceModifier.size(26.dp), colorFilter = androidx.glance.ColorFilter.tint(ColorProvider(Tinta)))
             Spacer(GlanceModifier.width(8.dp))
             Text(titulo.uppercase(), style = TextStyle(color = ColorProvider(Oro), fontWeight = FontWeight.Bold, fontSize = 11.sp))
         }

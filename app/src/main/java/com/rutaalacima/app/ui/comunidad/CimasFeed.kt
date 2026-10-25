@@ -125,7 +125,7 @@ private fun FinDelFeed(onHoy: () -> Unit) {
     com.rutaalacima.app.ui.components.MontanaArte("fin-del-feed", Modifier.fillMaxSize(), paleta = 3) {
         Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x66060A12), 1f to Color(0xD9060A12))))
         Column(Modifier.align(Alignment.Center).padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(84.dp))
+            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.logo_suroute), null, Modifier.size(84.dp), tint = Color.White)
             Text(stringResource(R.string.fin_feed_titulo), color = Color.White, style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
             Text(stringResource(R.string.fin_feed_texto), color = Color.White.copy(alpha = 0.85f), style = MaterialTheme.typography.bodyLarge, textAlign = TextAlign.Center)
             androidx.compose.material3.Button(onClick = onHoy, modifier = Modifier.padding(top = 8.dp)) { Text(stringResource(R.string.inicio_accion)) }
