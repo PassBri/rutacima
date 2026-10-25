@@ -487,7 +487,7 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
                 )
                 androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
                     opciones.forEachIndexed { i, (v, txt) ->
-                        androidx.compose.material3.SegmentedButton(
+                        SegmentedButton(
                             selected = vis == v,
                             onClick = { vis = v; vm.cambiarVisibilidad(post, v) },
                             shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, opciones.size),
