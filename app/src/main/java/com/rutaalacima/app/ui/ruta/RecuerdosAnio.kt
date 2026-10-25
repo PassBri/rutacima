@@ -126,7 +126,7 @@ fun RecuerdosAnio(anio: Int, posts: List<Post>, fraseCumbre: String, metas: List
             Button(onClick = { abierto = true }) { Text(stringResource(R.string.rec_ver)) }
         }
     }
-    if (abierto) HistoriaRecuerdos(anio, fotos, fraseCumbre, metas, onPublicar) { abierto = false }
+    if (abierto) HistoriaRecuerdos(anio, fotos, fraseCumbre, metas, onPublicar, onCerrar = { abierto = false })
 }
 
 @Composable
