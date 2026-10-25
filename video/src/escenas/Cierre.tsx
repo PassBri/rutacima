@@ -16,7 +16,7 @@ export const Cierre: React.FC = () => {
 				<div style={{fontFamily: TEXTO, fontSize: 50, color: C.suave, marginTop: 14, ...s}}>Empieza hoy con un solo paso.</div>
 				<div style={{display: 'flex', gap: 28, marginTop: 56, ...b}}>
 					<div style={{padding: '22px 44px', borderRadius: 999, backgroundColor: C.burdeos, color: '#fff', fontFamily: TEXTO, fontWeight: 500, fontSize: 40}}>App Android en GitHub</div>
-					<div style={{padding: '22px 44px', borderRadius: 999, backgroundColor: C.oroSuave, color: C.burdeos, fontFamily: TEXTO, fontWeight: 500, fontSize: 40}}>passbri.github.io/rutacima</div>
+					<div style={{padding: '22px 44px', borderRadius: 999, backgroundColor: C.oroSuave, color: C.burdeos, fontFamily: TEXTO, fontWeight: 500, fontSize: 40}}>suroute.com</div>
 				</div>
 			</AbsoluteFill>
 			<AbsoluteFill style={{justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 90}}>

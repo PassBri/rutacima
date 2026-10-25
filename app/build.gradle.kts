@@ -37,7 +37,7 @@ android {
         buildConfigField("String", "SUPABASE_URL", "\"${props.getProperty("supabase.url", "")}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${props.getProperty("supabase.anonKey", "")}\"")
         // Dirección de SuRoute Web (carpeta /web publicada con GitHub Pages u otro hosting)
-        buildConfigField("String", "WEB_URL", "\"${props.getProperty("rutacima.webUrl", "https://passbri.github.io/rutacima/")}\"")
+        buildConfigField("String", "WEB_URL", "\"${props.getProperty("rutacima.webUrl", "https://suroute.com/")}\"")
         // Plan Cumbre: precios que se muestran (texto, en pesos colombianos). Los cobros aún no están activos.
         buildConfigField("String", "PLAN_PRECIO_MES", "\"${props.getProperty("plan.precioMes", "\$14.900")}\"")
         buildConfigField("String", "PLAN_PRECIO_ANIO", "\"${props.getProperty("plan.precioAnio", "\$119.000")}\"")

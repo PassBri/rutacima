@@ -19,16 +19,16 @@
 </p>
 
 <p align="center">
-  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir SuRoute Web</b></a>
+  <a href="https://suroute.com/"><b>🌐 Abrir SuRoute Web</b></a>
   &nbsp;·&nbsp; la misma app en tu computador<br>
   <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
 </p>
 
 <p align="center">
-  <a href="https://passbri.github.io/rutacima/video.html">
+  <a href="https://suroute.com/video.html">
     <img src="diseno/video/vista_previa.gif" alt="Video de presentación de SuRoute: el sello, tu vida en puntos, el método, la app y la web" width="720">
   </a><br>
-  <a href="https://passbri.github.io/rutacima/video.html"><b>▶ Ver el video de presentación</b></a> (55 s, con sonido)
+  <a href="https://suroute.com/video.html"><b>▶ Ver el video de presentación</b></a> (55 s, con sonido)
   &nbsp;·&nbsp; <a href="diseno/video/rutaalacima_presentacion.mp4">descargar MP4</a>
 </p>
 
@@ -419,7 +419,7 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   teléfono, sin cuenta. Restaurar suma lo del archivo a lo que ya tienes; un archivo parcial (por ejemplo, solo la
   fecha de nacimiento) no borra tu nombre ni tu cumbre.
 - **Eliminar mi cuenta:** borra la cuenta y todo lo que subiste (publicaciones, mensajes, fotos). Hay que escribir
-  ELIMINAR para confirmar. También se explica en la [política de privacidad](https://passbri.github.io/rutacima/privacidad.html#eliminar-cuenta).
+  ELIMINAR para confirmar. También se explica en la [política de privacidad](https://suroute.com/privacidad.html#eliminar-cuenta).
 
 **Widget:** en la pantalla de inicio del teléfono, tu cumbre, la prioridad del día y tu racha.
 
@@ -467,7 +467,7 @@ toca la cuenta, los datos ni los audios. Cada publicación cambia su versión y 
 funciona igual que una creada en el teléfono: la ruta se guarda en la nube y se abre desde cualquier navegador.
 También hay *¿Olvidaste tu contraseña?* y *Cambiar contraseña* (Perfil › Mi cuenta). Para que los enlaces de
 confirmación y de recuperación vuelvan a la web, en Supabase › Authentication › URL Configuration pon como
-*Site URL* `https://passbri.github.io/rutacima/` (y agrégala en *Redirect URLs*).
+*Site URL* `https://suroute.com/` (y agrégala en *Redirect URLs*).
 
 <p align="center">
   <img src="diseno/web_vincular.png" alt="SuRoute Web: pantalla para vincular con código QR" width="720"><br><br>
@@ -664,7 +664,7 @@ SuRoute usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el 
    supabase.url=https://TU-PROYECTO.supabase.co
    supabase.anonKey=TU_ANON_KEY
    # opcional: dónde está publicada la web
-   rutacima.webUrl=https://passbri.github.io/rutacima/
+   rutacima.webUrl=https://suroute.com/
    ```
 5. **Web.** Pon la misma URL y la misma clave en [`web/config.js`](web/config.js). La clave *anon* es pública por
    diseño; la seguridad la ponen las reglas del paso 1.
@@ -673,7 +673,7 @@ SuRoute usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el 
    - Para conectarla a tu servidor: **Settings › Secrets and variables › Actions › Variables** y crea
      `RUTACIMA_SUPABASE_URL` y `RUTACIMA_SUPABASE_ANON_KEY`. Sin ellas abre en modo demostración.
    - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
-     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar SuRoute Web › Run workflow**.
+     `https://suroute.com/`. También puedes publicarla a mano en **Actions › Publicar SuRoute Web › Run workflow**.
    - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
 7. **Verificar coaches.** Las postulaciones llegan a **Table Editor › coaches** con `verificado = false`. Revisa la
    ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes (de conversaciones y de

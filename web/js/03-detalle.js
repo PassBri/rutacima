@@ -994,7 +994,7 @@ const DOCS_LEGALES = [["privacidad.html", "Privacidad"], ["terminos.html", "Tér
   ["autorizacion.html", "Autorización de datos"], ["normas.html", "Normas de la comunidad"]];
 function enlacesLegales() {
   // Fuera del sitio publicado (por ejemplo, en una vista previa) los documentos se abren desde GitHub Pages
-  const base = /github\.io$|^localhost|^127\./.test(location.hostname) ? "" : "https://passbri.github.io/rutacima/";
+  const base = /github\.io$|(^|\.)suroute\.com$|^localhost|^127\./.test(location.hostname) ? "" : "https://suroute.com/";
   return `<nav class="legales" aria-label="Documentos legales">${DOCS_LEGALES.map(([a, t]) => `<a href="${base}${a}" target="_blank" rel="noopener">${t}</a>`).join("")}</nav>`;
 }
 async function cargarMisPosts() {

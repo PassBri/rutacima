@@ -1,5 +1,5 @@
 # Publica SuRoute Web en GitHub Pages (rama gh-pages) cada vez que cambia la web, o a mano desde Actions.
-# La web queda en https://passbri.github.io/rutacima/
+# La web queda en https://suroute.com/
 # Para conectarla a tu servidor: Settings › Secrets and variables › Actions › Variables:
 #   RUTACIMA_SUPABASE_URL y RUTACIMA_SUPABASE_ANON_KEY (la clave anon es pública por diseño).
 # Sin ellas, la web abre en modo demostración.

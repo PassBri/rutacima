@@ -53,5 +53,7 @@ sed -i "s|src=\"js/\([0-9a-z-]*\)\.js\"|src=\"js/\1.js?v=$VERSION\"|g; s|href=\"
 
 # GitHub Pages: servir los archivos tal cual (sin Jekyll)
 touch "$DESTINO/.nojekyll"
+# Dominio propio en GitHub Pages (la rama gh-pages se reescribe en cada publicación)
+echo "${WEB_DOMINIO:-suroute.com}" > "$DESTINO/CNAME"
 echo "SuRoute Web lista en $DESTINO ($(du -sh "$DESTINO" | cut -f1))"
 if [ -n "${SUPABASE_URL:-}" ]; then echo "Conectada a $SUPABASE_URL"; else echo "Sin servidor configurado: abrirá en modo demostración"; fi

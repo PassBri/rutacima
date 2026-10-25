@@ -39,7 +39,7 @@ function avisoSuspension() {
   return hoja(`<h3 style="color:#A3321F">${ic("mazo")} Tu cuenta está suspendida</h3>
     <p>${hasta ? `Hasta el ${esc(hasta)}. Mientras tanto puedes seguir usando tu ruta, pero no publicar, comentar ni escribir mensajes.` : "De forma permanente. Puedes seguir usando tu ruta, pero no participar en la comunidad."}</p>
     ${s.motivo ? `<p><b>Motivo:</b> ${esc(s.motivo)}</p>` : ""}
-    <p class="suave">Si crees que es un error, escríbenos: lo revisamos. <a href="${/github\.io$|^localhost|^127\./.test(location.hostname) ? "" : "https://passbri.github.io/rutacima/"}privacidad.html#procedimiento" target="_blank" rel="noopener">Pedir revisión</a></p>`, "mod-suspension");
+    <p class="suave">Si crees que es un error, escríbenos: lo revisamos. <a href="${/github\.io$|(^|\.)suroute\.com$|^localhost|^127\./.test(location.hostname) ? "" : "https://suroute.com/"}privacidad.html#procedimiento" target="_blank" rel="noopener">Pedir revisión</a></p>`, "mod-suspension");
 }
 
 function tarjetaCaso(c) {

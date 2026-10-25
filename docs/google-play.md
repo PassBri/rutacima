@@ -1,7 +1,7 @@
 # Publicar SuRoute en Google Play
 
 Guía para llenar Play Console con respuestas que coinciden con lo que la app hace de verdad y con la
-[política de privacidad](https://passbri.github.io/rutacima/privacidad.html). Si cambia algo en la app
+[política de privacidad](https://suroute.com/privacidad.html). Si cambia algo en la app
 (un dato nuevo, un proveedor nuevo), actualiza primero la política y luego estas respuestas.
 
 ## 1. Antes de empezar
@@ -9,7 +9,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 - [ ] Correo de contacto publicado en los documentos legales (hoy dice "correo por confirmar").
 - [ ] `supabase/schema.sql` ejecutado en Supabase (consentimientos, moderación, errores, métricas).
 - [ ] Al menos una cuenta en la tabla `moderadores`.
-- [ ] En Supabase › Authentication › URL Configuration: *Site URL* `https://passbri.github.io/rutacima/`.
+- [ ] En Supabase › Authentication › URL Configuration: *Site URL* `https://suroute.com/`.
 - [ ] Firma de publicación configurada (secretos del repositorio) y el `.aab` de la versión de publicación.
 - [ ] Cuenta de desarrollador personal nueva: Google exige una **prueba cerrada con al menos 12 personas
       durante 14 días** antes de pedir el acceso a producción (revisa el número vigente en Play Console).
@@ -18,7 +18,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 
 | Sección | Respuesta |
 |---|---|
-| Política de privacidad | `https://passbri.github.io/rutacima/privacidad.html` |
+| Política de privacidad | `https://suroute.com/privacidad.html` |
 | Anuncios | No contiene anuncios |
 | Acceso a la app | Casi todo funciona sin cuenta. Para revisar la comunidad, deja a los revisores una cuenta de prueba (correo y contraseña) creada para eso, sin datos reales |
 | Clasificación de contenido | Cuestionario IARC: categoría *Social* o *Estilo de vida*; **sí** hay contenido generado por usuarios y comunicación entre usuarios; **no** violencia, sexo, drogas ni apuestas |
@@ -26,8 +26,8 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 | Apps de noticias | No |
 | Apps de salud | No es una app de salud: es desarrollo personal. Si el formulario pregunta, marca que no ofrece funciones médicas |
 | Servicio en primer plano | `mediaPlayback`: reproducir los audiolibros con la pantalla apagada. Adjunta un video corto que muestre el reproductor y la notificación |
-| Eliminación de cuenta | Sí, en la app (Perfil › Ajustes › Cuenta › Eliminar mi cuenta) y en la web. URL: `https://passbri.github.io/rutacima/privacidad.html#eliminar-cuenta` |
-| Contenido generado por usuarios | Hay reportes y bloqueo en la app, ocultamiento automático con 3 reportes, panel de moderación con suspensiones y [normas de la comunidad](https://passbri.github.io/rutacima/normas.html) que se aceptan al crear la cuenta |
+| Eliminación de cuenta | Sí, en la app (Perfil › Ajustes › Cuenta › Eliminar mi cuenta) y en la web. URL: `https://suroute.com/privacidad.html#eliminar-cuenta` |
+| Contenido generado por usuarios | Hay reportes y bloqueo en la app, ocultamiento automático con 3 reportes, panel de moderación con suspensiones y [normas de la comunidad](https://suroute.com/normas.html) que se aceptan al crear la cuenta |
 
 ## 3. Seguridad de los datos (Data safety)
 
