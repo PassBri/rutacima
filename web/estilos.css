@@ -2053,3 +2053,10 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 .md-visor .md-nivel9, .md-nivel9 { aspect-ratio: 1; }
 .md-visor .md-nivel9 { width: min(100%, 640px, calc(100dvh - 170px)); }
 .casilla-v.compacta .lect-frase { -webkit-line-clamp: 5; }
+/* En la rosa cuadrada el dorso de edición es solo la frase; el apodo y lo demás se editan en grande (⤢) */
+.dorso.compacta .dorso-edicion .casilla-apodo { display: none; }
+.dorso.compacta { padding: 6px; gap: 4px; }
+.dorso.compacta .dorso-pie .casilla-estado { font-size: 10px; padding: 2px 6px; }
+.dorso.compacta .dorso-mas { width: 26px; height: 26px; }
+.dorso.compacta .casilla-frase { padding: 0; }
+@media (max-width: 700px) { .dorso.compacta .casilla-frase { font-size: 16px !important; line-height: 1.2; } .dorso.compacta .lect-frase { font-size: 13px; } }
