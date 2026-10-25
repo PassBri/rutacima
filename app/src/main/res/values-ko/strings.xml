@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">%2$s의 %1$d단계</string>
     <string name="brujula_ayuda_81">블록을 눌러 단계를 여세요. +, − 또는 탐색 경로로 보기를 바꿀 수 있어요.</string>
     <string name="brujula_edicion_81_ayuda">칸에 직접 입력하세요. +, − 또는 탐색 경로로 보기를 바꿀 수 있어요.</string>
+    <string name="calor_vacio">작성 전</string>
+    <string name="calor_escrito">작성됨</string>
+    <string name="calor_ganado">달성 ✓</string>
+    <string name="rec_titulo">%1$d년의 추억</string>
+    <string name="rec_vacio">%1$d년 사진을 게시하면 이곳에서 다시 보고 공유할 이야기가 됩니다.</string>
+    <string name="rec_ver">내 추억 보기</string>
+    <string name="rec_frase">나의 정상에 한 해 더 가까이</string>
+    <string name="rec_mi_anio">SuRoute에서 나의 %1$d년</string>
+    <string name="rec_marca">SUROUTE · 나의 추억</string>
+    <string name="rec_exito">추억이 준비되었습니다</string>
+    <string name="rec_error">추억을 준비하지 못했습니다</string>
+    <string name="rec_cifras">추억 %1$d개 · %2$d개월 · 목표 %3$d/%4$d개 달성</string>
+    <string name="rec_publicar">커뮤니티에 게시</string>
+    <string name="rec_descargar">다운로드</string>
+    <string name="rec_repetir">다시 보기</string>
+    <string name="rec_todos">모두</string>
+    <string name="rec_explorar">계속 둘러보기</string>
 </resources>

@@ -1810,4 +1810,21 @@
     <string name="brujula_paso_campamento">Paso %1$d de %2$s</string>
     <string name="brujula_ayuda_81">Toca un bloque para abrir sus pasos. Usa +, − o las migas para cambiar de nivel.</string>
     <string name="brujula_edicion_81_ayuda">Escribe directamente en las casillas. Usa +, − o las migas para cambiar de nivel.</string>
+    <string name="calor_vacio">Por escribir</string>
+    <string name="calor_escrito">Escrito</string>
+    <string name="calor_ganado">Ganado ✓</string>
+    <string name="rec_titulo">Recuerdos de %1$d</string>
+    <string name="rec_vacio">Cuando publiques fotos de %1$d, aquí se vuelven una historia para revivir y compartir.</string>
+    <string name="rec_ver">Ver mis recuerdos</string>
+    <string name="rec_frase">Un año más cerca de mi cumbre</string>
+    <string name="rec_mi_anio">Mi %1$d en SuRoute</string>
+    <string name="rec_marca">SUROUTE · MIS RECUERDOS</string>
+    <string name="rec_exito">Tus recuerdos están listos</string>
+    <string name="rec_error">No se pudieron preparar tus recuerdos</string>
+    <string name="rec_cifras">%1$d recuerdos · %2$d meses · %3$d/%4$d metas logradas</string>
+    <string name="rec_publicar">Publicar en la comunidad</string>
+    <string name="rec_descargar">Descargar</string>
+    <string name="rec_repetir">Repetir</string>
+    <string name="rec_todos">Todos</string>
+    <string name="rec_explorar">Sigue explorando</string>
 </resources>

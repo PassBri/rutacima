@@ -204,6 +204,10 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
         c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
     }
+    suspend fun publicarRecuerdos(anio: Int, foto: android.net.Uri, visibilidad: com.rutaalacima.app.data.social.Visibilidad, titulo: String) {
+        c.social.publicar(com.rutaalacima.app.data.social.TipoPost.LOGRO, titulo, foto, null, visibilidad,
+            metaTitulo = titulo, anio = anio)
+    }
     fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
 
@@ -242,6 +246,11 @@ fun RutaScreen(
     val casillas by vm.casillas.collectAsStateWithLifecycle()
     val vida by vm.vida.collectAsStateWithLifecycle()
     val dias by vm.dias.collectAsStateWithLifecycle()
+    val metasRecuerdos = remember(propositos, anuales, mensuales) {
+        val cascada = com.rutaalacima.app.data.Cascada.construir(propositos, anuales, mensuales)
+        (cascada.propositos.flatMap { it.anios } + cascada.aniosSueltos)
+            .map { it.meta.copy(avance = (it.avance * 100f).toInt()) }
+    }
     var codigo by rememberSaveable { mutableStateOf("vida") }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
@@ -284,6 +293,11 @@ fun RutaScreen(
                     is Nivel.Anio -> {
                         perfil.anioNacimiento?.let { nac -> item(key = "linea-${n.anio}") { LineaVida(nac, perfil.esperanza(), n.anio, anuales, posts, vida) { ir(Nivel.Anio(it)) } } }
                         item(key = "nav-${n.anio}") { NavAnio(n.anio) { ir(Nivel.Anio(it)) } }
+                        item(key = "recuerdos-${n.anio}") {
+                            RecuerdosAnio(n.anio, posts, perfil.cumbreFrase, metasRecuerdos) { foto, visibilidad, titulo ->
+                                vm.publicarRecuerdos(n.anio, foto, visibilidad, titulo)
+                            }
+                        }
                         item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
                         item(key = "cumbres-${n.anio}") {
                             CumbresAnio(n.anio, propositos, anuales, onProposito) { p -> onNuevaMetaCumbre(p.eje, n.anio, p.id) }

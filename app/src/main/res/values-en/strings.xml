@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">Step %1$d of %2$s</string>
     <string name="brujula_ayuda_81">Tap a block to open its steps. Use +, − or the breadcrumbs to change levels.</string>
     <string name="brujula_edicion_81_ayuda">Write directly in the cells. Use +, − or the breadcrumbs to change levels.</string>
+    <string name="calor_vacio">To write</string>
+    <string name="calor_escrito">Written</string>
+    <string name="calor_ganado">Won ✓</string>
+    <string name="rec_titulo">Memories of %1$d</string>
+    <string name="rec_vacio">Photos you post for %1$d become a story to relive and share here.</string>
+    <string name="rec_ver">View my memories</string>
+    <string name="rec_frase">One year closer to my summit</string>
+    <string name="rec_mi_anio">My %1$d on SuRoute</string>
+    <string name="rec_marca">SUROUTE · MY MEMORIES</string>
+    <string name="rec_exito">Your memories are ready</string>
+    <string name="rec_error">Could not prepare your memories</string>
+    <string name="rec_cifras">%1$d memories · %2$d months · %3$d/%4$d goals achieved</string>
+    <string name="rec_publicar">Post to the community</string>
+    <string name="rec_descargar">Download</string>
+    <string name="rec_repetir">Replay</string>
+    <string name="rec_todos">Everyone</string>
+    <string name="rec_explorar">Keep exploring</string>
 </resources>

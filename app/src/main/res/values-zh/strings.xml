@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">%2$s的第%1$d步</string>
     <string name="brujula_ayuda_81">点按区块查看步骤。使用+、−或导航路径切换层级。</string>
     <string name="brujula_edicion_81_ayuda">直接在格子中填写。使用+、−或导航路径切换层级。</string>
+    <string name="calor_vacio">待填写</string>
+    <string name="calor_escrito">已填写</string>
+    <string name="calor_ganado">已达成 ✓</string>
+    <string name="rec_titulo">%1$d 年的回忆</string>
+    <string name="rec_vacio">你发布的 %1$d 年照片将在这里成为可重温和分享的故事。</string>
+    <string name="rec_ver">查看我的回忆</string>
+    <string name="rec_frase">离我的顶峰又近了一年</string>
+    <string name="rec_mi_anio">我的 SuRoute %1$d 年</string>
+    <string name="rec_marca">SUROUTE · 我的回忆</string>
+    <string name="rec_exito">你的回忆已准备好</string>
+    <string name="rec_error">无法准备你的回忆</string>
+    <string name="rec_cifras">%1$d 个回忆 · %2$d 个月 · 已达成 %3$d/%4$d 个目标</string>
+    <string name="rec_publicar">发布到社区</string>
+    <string name="rec_descargar">下载</string>
+    <string name="rec_repetir">重播</string>
+    <string name="rec_todos">所有人</string>
+    <string name="rec_explorar">继续探索</string>
 </resources>

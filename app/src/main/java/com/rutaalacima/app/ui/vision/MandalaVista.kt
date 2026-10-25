@@ -219,7 +219,7 @@ fun MandalaSeccion(
         CabeceraSeccionVision(stringResource(R.string.brujula_titulo), onVerGrande)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
         if (modoEdicion || bloqueAbierto == null) Cuadricula(datos, bloqueAbierto ?: 4, modoTexto = modoTexto,
-            modoEdicion = modoEdicion, onPaso = onPaso, onBloque = { onBloque(it) })
+            modoEdicion = modoEdicion, tonal = !modoTexto && !modoEdicion, onPaso = onPaso, onBloque = { onBloque(it) })
         else {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 TextButton(onClick = { onBloque(null) }) {
@@ -234,6 +234,7 @@ fun MandalaSeccion(
                     onTextoPaso = { i, p, texto -> datos.casilla(i)?.let { onPaso(it.casilla, p, texto) } })
             }
         }
+        if (!modoTexto && !modoEdicion && bloqueAbierto == null) LeyendaCalor()
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
@@ -328,9 +329,14 @@ private fun modeloFoto(f: String, lado: Dp = 400.dp, alto: Dp = lado): ImageRequ
 internal fun Cuadricula(
     datos: DatosMandala, elegido: Int, modoTexto: Boolean = false,
     modoEdicion: Boolean = false,
+    tonal: Boolean = false,
     onPaso: ((VisionCasillaEntity, Int, String) -> Unit)? = null,
     onBloque: (Int) -> Unit,
 ) {
+    if (tonal) {
+        CuadriculaTonal(datos, onBloque)
+        return
+    }
     val linea = MaterialTheme.colorScheme.outline
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp))) {
@@ -942,7 +948,61 @@ fun BrujulaEnMuro(json: String, autor: String, modifier: Modifier = Modifier) {
                 }
                 BrujulaZoom(datos, bloque) { bloque = it }
                 if (inst.conPasos) Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { _, _ -> }, onSugerir = {}, onAgregarCampamento = {}, soloLectura = true)
+                com.rutaalacima.app.ui.comunidad.ContinuacionMuro(json)
                 else Text(stringResource(R.string.brujula_sin_pasos), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+/** Estilo exclusivo del mapa propio; la comunidad conserva Cuadricula sin tonal. */
+@Composable
+private fun CuadriculaTonal(datos: DatosMandala, onBloque: (Int) -> Unit) {
+    val hoja = MaterialTheme.colorScheme.surface
+    BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f)
+        .background(MaterialTheme.colorScheme.surfaceContainer, RoundedCornerShape(20.dp)).padding(8.dp)) {
+        val bloqueLado = ((maxWidth - 16.dp) / 3).coerceAtLeast(1.dp)
+        val lado = ((bloqueLado - 6.dp) / 3).coerceAtLeast(1.dp)
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            repeat(3) { bf -> Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                repeat(3) { bc ->
+                    val bloque = bf * 3 + bc
+                    Column(Modifier.size(bloqueLado).clip(RoundedCornerShape(12.dp)).clickable { onBloque(bloque) },
+                        verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                        repeat(3) { f -> Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                            repeat(3) { c ->
+                                val cel = Mandala.CELDAS[(bf * 3 + f) * 9 + bc * 3 + c]
+                                Box(Modifier.size(lado).clip(RoundedCornerShape(6.dp)), contentAlignment = Alignment.Center) {
+                                    if (cel.tipo != Mandala.Tipo.PASO) CeldaPlana(datos, cel, hoja, true, ladoFoto = lado)
+                                    else {
+                                        val estado = datos.estado(cel.campamento, cel.paso)
+                                        val color = datos.color(cel.campamento)
+                                        val alpha = when (estado) {
+                                            Mandala.EstadoPaso.VACIO -> .07f
+                                            Mandala.EstadoPaso.ESCRITO -> .30f
+                                            Mandala.EstadoPaso.HECHO -> 1f
+                                        }
+                                        Box(Modifier.fillMaxSize().background(androidx.compose.ui.graphics.lerp(hoja, color, alpha)), contentAlignment = Alignment.Center) {
+                                            if (estado == Mandala.EstadoPaso.HECHO) Icon(Icons.Filled.Check, stringResource(R.string.calor_ganado), Modifier.size(14.dp), tint = Color.White)
+                                        }
+                                    }
+                                }
+                            }
+                        } }
+                    }
+                }
+            } }
+        }
+    }
+}
+
+@Composable
+internal fun LeyendaCalor() {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+        listOf(R.string.calor_vacio to .07f, R.string.calor_escrito to .3f, R.string.calor_ganado to 1f).forEach { (texto, alpha) ->
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(10.dp).background(MaterialTheme.colorScheme.primary.copy(alpha = alpha), RoundedCornerShape(3.dp)))
+                Text(stringResource(texto), Modifier.padding(start = 4.dp), style = MaterialTheme.typography.labelSmall)
             }
         }
     }

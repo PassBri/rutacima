@@ -75,6 +75,7 @@ internal fun CabeceraSeccionVision(titulo: String, onGrande: () -> Unit) {
 internal fun LienzoNivelBrujula(
     datos: DatosMandala, nivel: Int, bloque: Int, modo: ModoTarjetas = ModoTarjetas.IMAGEN,
     modifier: Modifier = Modifier,
+    propio: Boolean = false,
     onPaso: ((VisionCasillaEntity, Int, String) -> Unit)? = null,
     onNivel: (Int) -> Unit, onBloque: (Int) -> Unit,
 ) {
@@ -91,7 +92,7 @@ internal fun LienzoNivelBrujula(
                     onCampamento = { i -> if (modo == ModoTarjetas.EDICION) onNivel(2) else onBloque(Mandala.bloqueDe(i)) },
                     modoTexto = modo == ModoTarjetas.TEXTO)
                 else -> Cuadricula(datos, bloque, modoTexto = modo == ModoTarjetas.TEXTO,
-                    modoEdicion = modo == ModoTarjetas.EDICION && onPaso != null, onPaso = onPaso, onBloque = onBloque)
+                    tonal = propio && modo == ModoTarjetas.IMAGEN, modoEdicion = modo == ModoTarjetas.EDICION && onPaso != null, onPaso = onPaso, onBloque = onBloque)
             }
         }
     }
@@ -139,9 +140,10 @@ internal fun VisorNivelesBrujula(
                         (scaleIn(resorte, initialScale = if (acercar) 3f else .34f) + fadeIn(tween(220))) togetherWith
                             (scaleOut(tween(260), targetScale = if (acercar) .34f else 3f) + fadeOut(tween(180)))
                     }, label = "brujulaNiveles") { actual ->
-                    LienzoNivelBrujula(datos, actual, bloque, modo, Modifier.fillMaxSize(),
+                    LienzoNivelBrujula(datos, actual, bloque, modo, Modifier.fillMaxSize(), propio = true,
                         onPaso = onPaso, onNivel = { nivel = it }, onBloque = onAbrirBloque)
                 }
+                if (nivel == 2 && modo == ModoTarjetas.IMAGEN) LeyendaCalor()
                 Text(stringResource(when {
                     nivel == 0 -> R.string.brujula_zoom_1
                     nivel == 1 -> R.string.brujula_zoom_9

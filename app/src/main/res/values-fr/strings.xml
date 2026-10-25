@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">Étape %1$d de %2$s</string>
     <string name="brujula_ayuda_81">Touchez un bloc pour ouvrir ses étapes. Utilisez +, − ou le fil de navigation pour changer de niveau.</string>
     <string name="brujula_edicion_81_ayuda">Écrivez directement dans les cases. Utilisez +, − ou le fil de navigation pour changer de niveau.</string>
+    <string name="calor_vacio">À écrire</string>
+    <string name="calor_escrito">Écrit</string>
+    <string name="calor_ganado">Réussi ✓</string>
+    <string name="rec_titulo">Souvenirs de %1$d</string>
+    <string name="rec_vacio">Vos photos de %1$d deviennent ici une histoire à revivre et à partager.</string>
+    <string name="rec_ver">Voir mes souvenirs</string>
+    <string name="rec_frase">Un an plus près de mon sommet</string>
+    <string name="rec_mi_anio">Mon année %1$d sur SuRoute</string>
+    <string name="rec_marca">SUROUTE · MES SOUVENIRS</string>
+    <string name="rec_exito">Vos souvenirs sont prêts</string>
+    <string name="rec_error">Impossible de préparer vos souvenirs</string>
+    <string name="rec_cifras">%1$d souvenirs · %2$d mois · %3$d/%4$d objectifs atteints</string>
+    <string name="rec_publicar">Publier dans la communauté</string>
+    <string name="rec_descargar">Télécharger</string>
+    <string name="rec_repetir">Revoir</string>
+    <string name="rec_todos">Tout le monde</string>
+    <string name="rec_explorar">Continuez à explorer</string>
 </resources>

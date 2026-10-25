@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">Passo %1$d de %2$s</string>
     <string name="brujula_ayuda_81">Toque em um bloco para abrir seus passos. Use +, − ou o caminho de navegação para mudar de nível.</string>
     <string name="brujula_edicion_81_ayuda">Escreva diretamente nas células. Use +, − ou o caminho de navegação para mudar de nível.</string>
+    <string name="calor_vacio">Por escrever</string>
+    <string name="calor_escrito">Escrito</string>
+    <string name="calor_ganado">Conquistado ✓</string>
+    <string name="rec_titulo">Memórias de %1$d</string>
+    <string name="rec_vacio">As fotos que publicar de %1$d viram uma história para reviver e compartilhar aqui.</string>
+    <string name="rec_ver">Ver minhas memórias</string>
+    <string name="rec_frase">Um ano mais perto do meu cume</string>
+    <string name="rec_mi_anio">Meu %1$d no SuRoute</string>
+    <string name="rec_marca">SUROUTE · MINHAS MEMÓRIAS</string>
+    <string name="rec_exito">Suas memórias estão prontas</string>
+    <string name="rec_error">Não foi possível preparar suas memórias</string>
+    <string name="rec_cifras">%1$d memórias · %2$d meses · %3$d/%4$d metas alcançadas</string>
+    <string name="rec_publicar">Publicar na comunidade</string>
+    <string name="rec_descargar">Baixar</string>
+    <string name="rec_repetir">Repetir</string>
+    <string name="rec_todos">Todos</string>
+    <string name="rec_explorar">Continue explorando</string>
 </resources>

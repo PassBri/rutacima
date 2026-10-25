@@ -64,6 +64,26 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
         private set
     var comentarios by mutableStateOf<List<Comentario>>(emptyList())
         private set
+    var explorando by mutableStateOf<List<Post>>(emptyList())
+        private set
+    fun cargarExploracion() = viewModelScope.launch {
+        if (post?.brujula.isNullOrBlank()) return@launch
+        val muro = runCatching { c.social.feed(com.rutaalacima.app.data.social.FiltroFeed.PARA_TI) }.getOrDefault(emptyList())
+        val i = muro.indexOfFirst { it.id == post?.id }
+        explorando = (muro.drop(i + 1) + muro.take(i.coerceAtLeast(0))).filter { it.id != post?.id }.distinctBy { it.id }
+    }
+    fun abrirExplorado(p: Post) {
+        post = p
+        comentarios = emptyList()
+        nuevo = ""
+        cargar()
+        cargarExploracion()
+    }
+    fun impulsarOtra(p: Post) = viewModelScope.launch {
+        runCatching { c.social.impulsar(p) }.onSuccess {
+            explorando = explorando.map { if (it.id == p.id) it.copy(yoImpulse = !p.yoImpulse, impulsos = p.impulsos + if (p.yoImpulse) -1 else 1) else it }
+        }
+    }
     var nuevo by mutableStateOf("")
 
     /** Se puede escribirle al autor (no es mío, no es de ejemplo y hay cuenta). */
@@ -120,7 +140,7 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
 @Composable
 fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Unit = {}) {
     val vm = rutaViewModel(key = "post-$postId") { PostDetalleViewModel(it, postId) }
-    LaunchedEffect(postId) { vm.cargar() }
+    LaunchedEffect(postId) { vm.cargar(); vm.cargarExploracion() }
     val post: Post? = vm.post
 
     Scaffold(
@@ -170,6 +190,12 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
                 return@LazyColumn
             }
             item { PostCard(post, onImpulsar = vm::impulsar, onComentar = {}, onAbrir = {}) }
+            if (post.brujula.isNotBlank() && vm.explorando.isNotEmpty()) {
+                item(key = "explorar-titulo") { Text(stringResource(R.string.rec_explorar), style = MaterialTheme.typography.titleMedium) }
+                items(vm.explorando, key = { "explorar-${it.id}" }) { p ->
+                    PostCard(p, onImpulsar = { vm.impulsarOtra(p) }, onComentar = { vm.abrirExplorado(p) }, onAbrir = { vm.abrirExplorado(p) })
+                }
+            }
             item { Text(stringResource(R.string.comentarios_n, vm.comentarios.size), style = MaterialTheme.typography.titleMedium) }
             items(vm.comentarios, key = { it.id }) { c ->
                 Row(verticalAlignment = Alignment.Top) {

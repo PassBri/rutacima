@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">%2$sのステップ%1$d</string>
     <string name="brujula_ayuda_81">ブロックをタップしてステップを開きます。+、−、パンくずリストで階層を切り替えます。</string>
     <string name="brujula_edicion_81_ayuda">マスに直接入力できます。+、−、パンくずリストで階層を切り替えます。</string>
+    <string name="calor_vacio">未記入</string>
+    <string name="calor_escrito">記入済み</string>
+    <string name="calor_ganado">達成 ✓</string>
+    <string name="rec_titulo">%1$d 年の思い出</string>
+    <string name="rec_vacio">%1$d 年の写真を投稿すると、ここで振り返って共有できるストーリーになります。</string>
+    <string name="rec_ver">思い出を見る</string>
+    <string name="rec_frase">頂上へまた一年近づいた</string>
+    <string name="rec_mi_anio">SuRoute での私の %1$d 年</string>
+    <string name="rec_marca">SUROUTE · 私の思い出</string>
+    <string name="rec_exito">思い出の準備ができました</string>
+    <string name="rec_error">思い出を準備できませんでした</string>
+    <string name="rec_cifras">思い出 %1$d 件 · %2$d か月 · 目標達成 %3$d/%4$d</string>
+    <string name="rec_publicar">コミュニティに投稿</string>
+    <string name="rec_descargar">ダウンロード</string>
+    <string name="rec_repetir">もう一度</string>
+    <string name="rec_todos">全員</string>
+    <string name="rec_explorar">さらに探索</string>
 </resources>

@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">Schritt %1$d von %2$s</string>
     <string name="brujula_ayuda_81">Tippe auf einen Block, um seine Schritte zu öffnen. Wechsle die Ebene mit +, − oder dem Navigationspfad.</string>
     <string name="brujula_edicion_81_ayuda">Schreibe direkt in die Felder. Wechsle die Ebene mit +, − oder dem Navigationspfad.</string>
+    <string name="calor_vacio">Noch offen</string>
+    <string name="calor_escrito">Geschrieben</string>
+    <string name="calor_ganado">Geschafft ✓</string>
+    <string name="rec_titulo">Erinnerungen an %1$d</string>
+    <string name="rec_vacio">Deine Fotos aus %1$d werden hier zu einer Geschichte zum Wiedererleben und Teilen.</string>
+    <string name="rec_ver">Meine Erinnerungen ansehen</string>
+    <string name="rec_frase">Ein Jahr näher an meinem Gipfel</string>
+    <string name="rec_mi_anio">Mein %1$d auf SuRoute</string>
+    <string name="rec_marca">SUROUTE · MEINE ERINNERUNGEN</string>
+    <string name="rec_exito">Deine Erinnerungen sind bereit</string>
+    <string name="rec_error">Deine Erinnerungen konnten nicht erstellt werden</string>
+    <string name="rec_cifras">%1$d Erinnerungen · %2$d Monate · %3$d/%4$d Ziele erreicht</string>
+    <string name="rec_publicar">In der Community veröffentlichen</string>
+    <string name="rec_descargar">Herunterladen</string>
+    <string name="rec_repetir">Wiederholen</string>
+    <string name="rec_todos">Alle</string>
+    <string name="rec_explorar">Weiter entdecken</string>
 </resources>

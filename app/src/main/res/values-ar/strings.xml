@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">الخطوة %1$d من %2$s</string>
     <string name="brujula_ayuda_81">اضغط على مجموعة لفتح خطواتها. استخدم + أو − أو مسار التنقل لتغيير المستوى.</string>
     <string name="brujula_edicion_81_ayuda">اكتب مباشرة في الخانات. استخدم + أو − أو مسار التنقل لتغيير المستوى.</string>
+    <string name="calor_vacio">لم يُكتب بعد</string>
+    <string name="calor_escrito">مكتوب</string>
+    <string name="calor_ganado">مُنجز ✓</string>
+    <string name="rec_titulo">ذكريات %1$d</string>
+    <string name="rec_vacio">صورك المنشورة لعام %1$d تصبح هنا قصة لتعيشها مجدداً وتشاركها.</string>
+    <string name="rec_ver">عرض ذكرياتي</string>
+    <string name="rec_frase">عام أقرب إلى قمتي</string>
+    <string name="rec_mi_anio">عامي %1$d على SuRoute</string>
+    <string name="rec_marca">SUROUTE · ذكرياتي</string>
+    <string name="rec_exito">ذكرياتك جاهزة</string>
+    <string name="rec_error">تعذر إعداد ذكرياتك</string>
+    <string name="rec_cifras">%1$d ذكريات · %2$d أشهر · %3$d/%4$d أهداف محققة</string>
+    <string name="rec_publicar">النشر في المجتمع</string>
+    <string name="rec_descargar">تنزيل</string>
+    <string name="rec_repetir">إعادة</string>
+    <string name="rec_todos">الجميع</string>
+    <string name="rec_explorar">تابع الاستكشاف</string>
 </resources>

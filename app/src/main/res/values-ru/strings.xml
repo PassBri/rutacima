@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">Шаг %1$d: %2$s</string>
     <string name="brujula_ayuda_81">Нажмите на блок, чтобы открыть его шаги. Меняйте уровень с помощью +, − или навигационной цепочки.</string>
     <string name="brujula_edicion_81_ayuda">Пишите прямо в ячейках. Меняйте уровень с помощью +, − или навигационной цепочки.</string>
+    <string name="calor_vacio">Не записано</string>
+    <string name="calor_escrito">Записано</string>
+    <string name="calor_ganado">Достигнуто ✓</string>
+    <string name="rec_titulo">Воспоминания за %1$d</string>
+    <string name="rec_vacio">Ваши фотографии за %1$d год станут здесь историей, которую можно пересмотреть и поделиться.</string>
+    <string name="rec_ver">Смотреть мои воспоминания</string>
+    <string name="rec_frase">Ещё на год ближе к вершине</string>
+    <string name="rec_mi_anio">Мой %1$d год в SuRoute</string>
+    <string name="rec_marca">SUROUTE · МОИ ВОСПОМИНАНИЯ</string>
+    <string name="rec_exito">Ваши воспоминания готовы</string>
+    <string name="rec_error">Не удалось подготовить воспоминания</string>
+    <string name="rec_cifras">%1$d воспоминаний · %2$d месяцев · %3$d/%4$d целей достигнуто</string>
+    <string name="rec_publicar">Опубликовать в сообществе</string>
+    <string name="rec_descargar">Скачать</string>
+    <string name="rec_repetir">Повторить</string>
+    <string name="rec_todos">Все</string>
+    <string name="rec_explorar">Продолжить просмотр</string>
 </resources>

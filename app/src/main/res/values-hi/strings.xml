@@ -1808,4 +1808,21 @@
     <string name="brujula_paso_campamento">%2$s का कदम %1$d</string>
     <string name="brujula_ayuda_81">कदम खोलने के लिए खंड पर टैप करें। स्तर बदलने के लिए +, − या नेविगेशन पथ का उपयोग करें।</string>
     <string name="brujula_edicion_81_ayuda">खानों में सीधे लिखें। स्तर बदलने के लिए +, − या नेविगेशन पथ का उपयोग करें।</string>
+    <string name="calor_vacio">लिखना बाकी</string>
+    <string name="calor_escrito">लिखा गया</string>
+    <string name="calor_ganado">पूरा हुआ ✓</string>
+    <string name="rec_titulo">%1$d की यादें</string>
+    <string name="rec_vacio">%1$d की आपकी प्रकाशित तस्वीरें यहाँ फिर जीने और साझा करने की कहानी बनती हैं।</string>
+    <string name="rec_ver">मेरी यादें देखें</string>
+    <string name="rec_frase">अपने शिखर के एक साल और करीब</string>
+    <string name="rec_mi_anio">SuRoute पर मेरा %1$d</string>
+    <string name="rec_marca">SUROUTE · मेरी यादें</string>
+    <string name="rec_exito">आपकी यादें तैयार हैं</string>
+    <string name="rec_error">आपकी यादें तैयार नहीं हो सकीं</string>
+    <string name="rec_cifras">%1$d यादें · %2$d महीने · %3$d/%4$d लक्ष्य पूरे</string>
+    <string name="rec_publicar">समुदाय में प्रकाशित करें</string>
+    <string name="rec_descargar">डाउनलोड</string>
+    <string name="rec_repetir">फिर देखें</string>
+    <string name="rec_todos">सभी</string>
+    <string name="rec_explorar">खोज जारी रखें</string>
 </resources>
