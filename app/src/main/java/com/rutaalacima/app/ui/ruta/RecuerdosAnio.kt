@@ -108,11 +108,12 @@ fun RecuerdosAnio(anio: Int, posts: List<Post>, fraseCumbre: String, metas: List
         if (fotos.isEmpty()) Text(stringResource(R.string.rec_vacio, anio))
         else {
             BoxWithConstraints(Modifier.fillMaxWidth().padding(vertical = 12.dp).clickable { abierto = true }) {
-                val lado = minOf(84.dp, maxWidth / 4)
+                val ancho = maxWidth
+                val lado = minOf(84.dp, ancho / 4)
                 val tira = fotos.takeLast(6)
                 Box(Modifier.fillMaxWidth().height(lado + 12.dp)) {
                     tira.forEachIndexed { i, p ->
-                        val x = (maxWidth - lado) * (i.toFloat() / (tira.size - 1).coerceAtLeast(1))
+                        val x = (ancho - lado) * (i.toFloat() / (tira.size - 1).coerceAtLeast(1))
                         AsyncImage(solicitudFotoVision(p.foto, lado), null, Modifier
                             .offset(x = x, y = 6.dp).size(lado).graphicsLayer { rotationZ = (i - 2.5f) * 2f }
                             .clip(RoundedCornerShape(12.dp)), contentScale = ContentScale.Crop)
