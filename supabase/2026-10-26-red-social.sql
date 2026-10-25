@@ -145,3 +145,91 @@ begin
   return true;
 end $$;
 grant execute on function public.aceptar_invitacion(text) to anon, authenticated;
+
+-- ---------- 6. Carrusel y video, retos colectivos y coaches verificados ----------
+-- Varias fotos o un video por publicación: [{"t":"img"|"vid","u":"https://…"}]. image_url sigue siendo la portada.
+alter table public.posts add column if not exists media jsonb not null default '[]'::jsonb;
+do $$ begin
+  alter table public.posts add constraint posts_media_max check (jsonb_typeof(media) = 'array' and jsonb_array_length(media) <= 10);
+exception when duplicate_object then null; end $$;
+
+-- Retos del mes, abiertos a toda la comunidad (los crea la moderación)
+create table if not exists public.retos (
+  id          uuid primary key default gen_random_uuid(),
+  titulo      text not null check (char_length(titulo) between 3 and 80),
+  descripcion text not null default '' check (char_length(descripcion) <= 600),
+  eje         text check (eje in ('VOL','MAE','VOZ','VAL','EVO','TRA')),
+  inicio      date not null default current_date,
+  fin         date not null default (current_date + 29),
+  creado_por  uuid references public.profiles(id) on delete set null,
+  created_at  timestamptz not null default now(),
+  check (fin >= inicio)
+);
+create table if not exists public.reto_participantes (
+  reto_id uuid not null references public.retos(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  unido   timestamptz not null default now(),
+  primary key (reto_id, user_id)
+);
+create table if not exists public.reto_marcas (
+  reto_id uuid not null references public.retos(id) on delete cascade,
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  dia     date not null default current_date,
+  primary key (reto_id, user_id, dia)
+);
+alter table public.retos enable row level security;
+alter table public.reto_participantes enable row level security;
+alter table public.reto_marcas enable row level security;
+drop policy if exists "ver retos" on public.retos;
+create policy "ver retos" on public.retos for select using (true);
+drop policy if exists "moderar retos" on public.retos;
+create policy "moderar retos" on public.retos for all using (public.es_moderador()) with check (public.es_moderador());
+drop policy if exists "ver participantes" on public.reto_participantes;
+create policy "ver participantes" on public.reto_participantes for select using (true);
+drop policy if exists "unirme" on public.reto_participantes;
+create policy "unirme" on public.reto_participantes for insert with check (user_id = public.yo());
+drop policy if exists "salirme" on public.reto_participantes;
+create policy "salirme" on public.reto_participantes for delete using (user_id = public.yo());
+drop policy if exists "ver marcas" on public.reto_marcas;
+create policy "ver marcas" on public.reto_marcas for select using (true);
+drop policy if exists "marcar" on public.reto_marcas;
+create policy "marcar" on public.reto_marcas for insert with check (user_id = public.yo()
+  and exists (select 1 from public.reto_participantes p where p.reto_id = reto_marcas.reto_id and p.user_id = public.yo()));
+drop policy if exists "desmarcar" on public.reto_marcas;
+create policy "desmarcar" on public.reto_marcas for delete using (user_id = public.yo());
+grant select on public.retos, public.reto_participantes, public.reto_marcas to anon, authenticated;
+grant insert, update, delete on public.retos to authenticated;
+grant insert, delete on public.reto_participantes, public.reto_marcas to anon, authenticated;
+
+-- Retos vigentes con su gente y mi avance
+create or replace function public.retos_activos() returns table (
+  id uuid, titulo text, descripcion text, eje text, inicio date, fin date,
+  participantes int, marcas_hoy int, yo_participo boolean, mis_dias int, hoy_marcado boolean)
+language sql stable security definer set search_path = public as $$
+  select r.id, r.titulo, r.descripcion, r.eje, r.inicio, r.fin,
+    (select count(*)::int from public.reto_participantes p where p.reto_id = r.id),
+    (select count(*)::int from public.reto_marcas m where m.reto_id = r.id and m.dia = current_date),
+    exists (select 1 from public.reto_participantes p where p.reto_id = r.id and p.user_id = public.yo()),
+    (select count(*)::int from public.reto_marcas m where m.reto_id = r.id and m.user_id = public.yo()),
+    exists (select 1 from public.reto_marcas m where m.reto_id = r.id and m.user_id = public.yo() and m.dia = current_date)
+  from public.retos r where current_date between r.inicio and r.fin order by r.inicio desc
+$$;
+grant execute on function public.retos_activos() to anon, authenticated;
+
+-- Coaches por verificar (solo moderación) y verificar o rechazar
+create or replace function public.coaches_por_verificar() returns table (user_id uuid, nombre text, username text, bio text, especialidad text, creado timestamptz)
+language sql stable security definer set search_path = public as $$
+  select c.user_id, p.nombre, p.username, c.bio, c.especialidad, c.creado
+  from public.coaches c join public.profiles p on p.id = c.user_id
+  where public.es_moderador() and not c.verificado and c.activo order by c.creado
+$$;
+create or replace function public.verificar_coach(p_user uuid, p_si boolean) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.es_moderador() then raise exception 'Solo moderación'; end if;
+  if p_si then update public.coaches set verificado = true where user_id = p_user;
+  else update public.coaches set activo = false where user_id = p_user; end if;
+  perform public.notificar(p_user, null, 'COACH', null, null,
+    case when p_si then 'Tu perfil de coach de vida fue verificado. Ya apareces en el directorio.' else 'Tu postulación como coach de vida no fue aprobada por ahora.' end);
+end $$;
+grant execute on function public.coaches_por_verificar(), public.verificar_coach(uuid, boolean) to authenticated;

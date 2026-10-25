@@ -69,7 +69,7 @@ function agruparAvisos(lista) {
 function fraseAviso(g) {
   const [, uno, varios] = TIPOS_AVISO[g.tipo] || TIPOS_AVISO.SISTEMA, a = g.actores.filter(Boolean);
   const nombre = x => `<b>${esc(x?.nombre || "Alguien")}</b>`;
-  if (g.tipo === "SISTEMA") return esc(g.texto);
+  if (g.tipo === "SISTEMA" || !a.length) return esc(g.texto);
   if (a.length <= 1) return `${nombre(a[0])} ${uno}`;
   if (a.length === 2) return `${nombre(a[0])} y ${nombre(a[1])} ${varios}`;
   return `${nombre(a[0])} y ${a.length - 1} personas más ${varios}`;
@@ -534,4 +534,126 @@ ACC.editarPost = async (el, id) => {
     }
     p.texto = texto; p.metaTitulo = meta; cerrarHoja(); toast("Publicación actualizada"); pintarDetalle();
   };
+};
+
+/* ---------- 6b. Retos del mes, abiertos a toda la comunidad ---------- */
+const RETOS_DEMO = () => [{ id: "reto-demo", titulo: "21 días madrugando", descripcion: "Levántate a la hora que elegiste y marca el día. Sin culpa si fallas uno: vuelve al siguiente.", eje: "VOL",
+  inicio: iso(new Date(Date.now() - 864e5 * 5)), fin: iso(new Date(Date.now() + 864e5 * 16)), participantes: 128, marcas_hoy: 41, yo_participo: !!estado.retoDemo, mis_dias: estado.retoDemo ? 2 : 0, hoy_marcado: estado.retoDemoHoy || false }];
+async function cargarRetos() {
+  if (RED.retosCargando) return; RED.retosCargando = true;
+  try {
+    if (!Store.nube) RED.retos = RETOS_DEMO();
+    else { const { data, error } = await Store.nube.sb.rpc("retos_activos"); RED.retos = error ? [] : data || []; }
+  } finally { RED.retosCargando = false; }
+  if (estado.sec === "comunidad") { pintarLista(); if (estado.sel === "retos") pintarDetalle(); }
+}
+const diasReto = r => Math.max(1, Math.round((Date.parse(r.fin) - Date.parse(r.inicio)) / 864e5) + 1);
+function tarjetaReto(r, compacta = false) {
+  const total = diasReto(r), pct = Math.min(100, Math.round((r.mis_dias || 0) / total * 100));
+  return `<div class="reto${compacta ? " compacta" : ""}" style="--c:${COLOR_EJE[r.eje] || "var(--burdeos)"}">
+    <div class="reto-cab">${ic("metas")}<div><small>Reto de la comunidad${r.eje ? " · " + esc(NOMBRE_EJE[r.eje]) : ""}</small><b>${esc(r.titulo)}</b></div></div>
+    ${compacta ? "" : `<p>${esc(r.descripcion)}</p>`}
+    <div class="reto-datos"><span><b>${(r.participantes || 0).toLocaleString("es")}</b> en el reto</span><span><b>${r.marcas_hoy || 0}</b> marcaron hoy</span>${r.yo_participo ? `<span>Tú: <b>${r.mis_dias}</b> de ${total} días</span>` : ""}</div>
+    ${r.yo_participo ? `<div class="barra"><i style="width:${pct}%"></i></div>` : ""}
+    <div class="botones">${!r.yo_participo ? `<button class="btn lleno" data-acc="unirseReto" data-arg="${esc(r.id)}">${ic("mas")} Unirme</button>`
+      : r.hoy_marcado ? `<span class="reto-hecho">${ic("check")} Hoy cumplido</span>` : `<button class="btn lleno" data-acc="marcarReto" data-arg="${esc(r.id)}">${ic("check")} Marcar hoy</button>`}
+      ${compacta ? `<button class="btn mini" data-ir="comunidad" data-arg="retos">Ver</button>` : r.yo_participo ? `<button class="btn mini" data-acc="salirReto" data-arg="${esc(r.id)}">Salir del reto</button>` : ""}</div></div>`;
+}
+DET["comunidad.retos"] = () => {
+  if (!RED.retos) cargarRetos();
+  const mod = window.MOD?.soy;
+  return cab(av(ic("metas"), "var(--burdeos)"), "Retos de la comunidad", "Subir juntos, un día a la vez") + cuerpo(
+    (!RED.retos ? `<p class="suave">Cargando…</p>` : RED.retos.length ? RED.retos.map(r => tarjetaReto(r)).join("")
+      : hoja(`<p class="suave" style="margin:0">Este mes todavía no hay un reto abierto. Vuelve pronto.</p>`)) +
+    (mod ? hoja(`<h3 style="margin:0 0 8px">Nuevo reto (moderación)</h3><form class="form" id="formReto">
+      ${campo("Título", `<input name="titulo" maxlength="80" required placeholder="21 días madrugando">`)}${campo("De qué se trata", `<textarea name="descripcion" maxlength="600" rows="3"></textarea>`)}
+      <div class="form-2">${campo("Eje", `<select name="eje"><option value="">Todos</option>${EJES.map(([c, n]) => `<option value="${c}">${n}</option>`).join("")}</select>`)}${campo("Días", `<input name="dias" type="number" min="3" max="90" value="21" inputmode="numeric">`)}</div>
+      <div class="botones"><button class="btn lleno" type="submit">Crear reto</button></div></form>`) : ""), "max-width:640px");
+};
+document.addEventListener("submit", async e => {
+  const f = e.target; if (f.id !== "formReto") return; e.preventDefault();
+  const dias = Math.min(90, Math.max(3, Number(f.dias.value) || 21));
+  const r = await Store.nube.sb.from("retos").insert({ titulo: f.titulo.value.trim(), descripcion: f.descripcion.value.trim(), eje: f.eje.value || null,
+    inicio: iso(new Date()), fin: iso(new Date(Date.now() + (dias - 1) * 864e5)), creado_por: Store.nube.dueno });
+  if (r.error) return errorNube(r.error);
+  toast("Reto creado: ya aparece en Comunidad"); RED.retos = null; cargarRetos();
+});
+Object.assign(ACC, {
+  async unirseReto(_, id) {
+    if (!Store.nube) { estado.retoDemo = true; RED.retos = RETOS_DEMO(); }
+    else { const r = await Store.nube.sb.from("reto_participantes").insert({ reto_id: id, user_id: Store.nube.dueno }); if (r.error && r.error.code !== "23505") return errorNube(r.error); }
+    toast("¡Estás en el reto! Marca cada día que cumplas."); RED.retos = null; cargarRetos();
+  },
+  async marcarReto(_, id) {
+    navigator.vibrate?.(12);
+    if (!Store.nube) { estado.retoDemoHoy = true; RED.retos = RETOS_DEMO(); }
+    else { const r = await Store.nube.sb.from("reto_marcas").insert({ reto_id: id, user_id: Store.nube.dueno, dia: iso(hoyFecha()) }); if (r.error && r.error.code !== "23505") return errorNube(r.error); }
+    RED.retos = null; cargarRetos();
+  },
+  async salirReto(_, id) {
+    if (!confirm("¿Salir del reto? Tus días marcados se conservan si vuelves.")) return;
+    if (!Store.nube) { estado.retoDemo = false; RED.retos = RETOS_DEMO(); }
+    else await Store.nube.sb.from("reto_participantes").delete().eq("reto_id", id).eq("user_id", Store.nube.dueno);
+    RED.retos = null; cargarRetos();
+  },
+});
+{
+  // El reto vigente arriba de la lista de Comunidad
+  const lista = LISTAS.comunidad;
+  LISTAS.comunidad = (...a) => {
+    if (!RED.retos) cargarRetos();
+    const r = RED.retos?.[0];
+    return r ? lista(...a).replace(/(<div class="lista-cab" style="padding-top:0">)/, `$1<div class="reto-lista">${tarjetaReto(r, true)}</div>`) : lista(...a);
+  };
+}
+
+/* ---------- 6c. Coaches verificados ---------- */
+async function cargarVerificados() {
+  if (RED.verificados || !Store.nube) { RED.verificados ||= new Set(); return; }
+  RED.verificados = new Set();
+  const { data } = await Store.nube.sb.from("coaches").select("user_id").eq("verificado", true).eq("activo", true);
+  RED.verificados = new Set((data || []).map(x => x.user_id));
+  if (estado.sec === "comunidad") pintarDetalle();
+}
+const insignia = id => RED.verificados?.has(id) ? `<span class="insignia-coach" title="Coach de vida verificado" aria-label="Coach de vida verificado">${ic("check")}</span>` : "";
+window.insigniaCoach = insignia;
+setTimeout(() => cargarVerificados(), 2500);
+{
+  // La insignia junto al nombre en Cimas y en el perfil público
+  const feed = DET["comunidad.feed"];
+  DET["comunidad.feed"] = (...a) => feed(...a).replace(/<article class="cima" data-cima="([^"]+)"([\s\S]*?)<b class="cima-quien">([^<]*)<\/b>/g, (m, id, medio, quien) => {
+    const p = (estado.feed || []).find(x => String(x.id) === id);
+    return `<article class="cima" data-cima="${id}"${medio}<b class="cima-quien">${quien}${p ? insignia(p.autorId) : ""}</b>`;
+  });
+  const per = DET["comunidad.persona"];
+  DET["comunidad.persona"] = id => per(id).replace(/(<section class="perfil-pub">[\s\S]*?<h2>[^<]*)(<\/h2>)/, `$1${insignia(id)}$2`);
+  // Moderación: pestañas para verificar coaches y crear retos
+  const mod = DET["perfil.moderacion"];
+  if (mod) DET["perfil.moderacion"] = () => {
+    const pest = window.MOD?.pestana;
+    let h = mod().replace(/(<button class="btn mini" data-acc="recargarMod")/, `<button role="tab" aria-selected="${pest === "coaches"}" data-acc="pestanaMod" data-arg="coaches">Coaches${RED.porVerificar?.length ? ` (${RED.porVerificar.length})` : ""}</button><button role="tab" aria-selected="${pest === "retos"}" data-acc="pestanaMod" data-arg="retos">Retos</button>$1`);
+    if (pest === "coaches") {
+      if (!RED.porVerificar) cargarPorVerificar();
+      const lista = RED.porVerificar;
+      const cuerpoCoaches = !lista ? `<p class="vacio-mini">Cargando…</p>` : !lista.length ? hoja(`<p class="vacio-mini">No hay postulaciones de coaches por revisar.</p>`)
+        : lista.map(c => hoja(`<div class="coach-pend"><b>${esc(c.nombre || c.username)}</b> <span class="suave">@${esc(c.username)} · ${fechaMod(c.creado)}</span>
+            ${c.especialidad ? `<p style="margin:6px 0 0"><b>Especialidad:</b> ${esc(c.especialidad)}</p>` : ""}${c.bio ? `<p class="suave" style="margin:6px 0 0">${esc(c.bio)}</p>` : ""}
+            <div class="botones" style="margin-top:10px"><button class="btn lleno" data-acc="verificarCoach" data-arg="${esc(c.user_id)}|1">${ic("check")} Verificar</button><button class="btn peligro" data-acc="verificarCoach" data-arg="${esc(c.user_id)}|">No aprobar</button></div></div>`)).join("");
+      h = h.replace(/(<\/div><\/div>)$/, "").replace(/(role="tablist">[\s\S]*?<\/div>)[\s\S]*$/, `$1${cuerpoCoaches}</div></div>`);
+    }
+    if (pest === "retos") h = h.replace(/(role="tablist">[\s\S]*?<\/div>)[\s\S]*$/, `$1<p class="suave">Los retos se crean desde Comunidad › Retos.</p><button class="btn lleno" data-ir="comunidad" data-arg="retos">Abrir Retos</button></div></div>`);
+    return h;
+  };
+}
+async function cargarPorVerificar() {
+  RED.porVerificar = [];
+  const { data, error } = await Store.nube.sb.rpc("coaches_por_verificar");
+  RED.porVerificar = error ? [] : data || []; if (estado.sel === "moderacion") pintarDetalle();
+}
+ACC.verificarCoach = async (_, arg) => {
+  const [id, si] = arg.split("|");
+  if (!si && !confirm("¿No aprobar esta postulación? La persona recibirá un aviso.")) return;
+  const r = await Store.nube.sb.rpc("verificar_coach", { p_user: id, p_si: !!si });
+  if (r.error) return errorNube(r.error);
+  toast(si ? "Coach verificado" : "Postulación no aprobada"); RED.porVerificar = null; RED.verificados = null; cargarVerificados(); pintarDetalle();
 };

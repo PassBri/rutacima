@@ -2466,3 +2466,26 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .cima-sonido { position: absolute; z-index: 3; left: 14px; top: 64px; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgb(0 0 0 / .45); color: #fff; }
 .cima-sonido svg { width: 20px; height: 20px; fill: currentColor; opacity: .6; }
 .cima-sonido.activo svg { opacity: 1; }
+/* ---------- Retos de la comunidad ---------- */
+.reto { display: grid; gap: 10px; padding: 18px; border-radius: 20px; background: color-mix(in srgb, var(--c) 8%, var(--hoja)); border: 1px solid color-mix(in srgb, var(--c) 22%, transparent); }
+.reto + .reto { margin-top: 12px; }
+.reto-cab { display: flex; gap: 12px; align-items: center; }
+.reto-cab > svg { width: 36px; height: 36px; padding: 8px; border-radius: 12px; background: var(--c); fill: #fff; flex: none; }
+.reto-cab div { display: grid; }
+.reto-cab small { font-size: 12px; color: var(--tinta-suave); }
+.reto-cab b { font: 600 17px/1.25 var(--font-titulo); }
+.reto p { margin: 0; color: var(--tinta-suave); }
+.reto-datos { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--tinta-suave); }
+.reto-datos b { color: var(--tinta); font-variant-numeric: tabular-nums; }
+.reto .barra i { background: var(--c); }
+.reto .botones { margin: 0; }
+.reto-hecho { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--c); }
+.reto-hecho svg { width: 18px; height: 18px; fill: currentColor; }
+.reto.compacta { padding: 14px; gap: 8px; }
+.reto.compacta .reto-cab b { font-size: 15px; }
+.reto-lista { padding: 0 12px 10px; }
+/* Insignia de coach verificado */
+.insignia-coach { display: inline-grid; place-items: center; width: 16px; height: 16px; margin-left: 5px; border-radius: 50%; background: var(--oro, #B08D57); vertical-align: -2px; }
+.insignia-coach svg { width: 11px; height: 11px; fill: #fff; }
+.perfil-pub h2 .insignia-coach { width: 20px; height: 20px; }
+.perfil-pub h2 .insignia-coach svg { width: 14px; height: 14px; }
