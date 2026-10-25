@@ -2164,3 +2164,9 @@ html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
 .en-pausa .reel-grano { animation-play-state: paused; }
 .en-pausa .reel-pausa { background: #fff; color: #111; }
 @media (prefers-reduced-motion: reduce) { .reel-grano, .reel-flash { display: none; } }
+/* Recuerdos publicados: botón para verlos como flashback */
+.rec-play { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 99px; border: 0; background: var(--burdeos); color: #fff; font-weight: 500; font-size: 14px; justify-self: start; }
+.rec-play svg { width: 18px; height: 18px; fill: currentColor; }
+.cima-fondo .rec-play { position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 48px; padding: 0 20px; box-shadow: 0 8px 24px rgb(0 0 0 / .35); }
+.rec-play { white-space: nowrap; }
+.reel-nota { flex-basis: 100%; margin: 0 0 4px; font-size: 12px; opacity: .8; }

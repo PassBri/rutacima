@@ -811,7 +811,7 @@ function siguenPublicaciones(id) {
   if (!resto.length) return "";
   return `<section class="vb-siguen" aria-label="Más publicaciones"><h3>Sigue explorando</h3>${resto.map(x => `<article class="hoja vb-pub">
       <span class="vb-quien"><b>${esc(x.autorNombre || "")}</b>${x.autorUsuario ? " @" + esc(x.autorUsuario) : ""} · ${hace(x.creadoEn)}</span>
-      ${x.brujula && leerBrujula(x.brujula) ? brujulaMuro(x) : `<button data-ir="comunidad" data-arg="post:${esc(x.id)}" style="text-align:left;padding:0;border:0;background:none">${postal(x)}</button>`}
+      ${x.brujula && leerBrujula(x.brujula) ? brujulaMuro(x) : `<button data-ir="comunidad" data-arg="post:${esc(x.id)}" style="text-align:left;padding:0;border:0;background:none">${postal(x)}</button>${window.botonRecuerdosPost ? botonRecuerdosPost(x) : ""}`}
       ${x.texto && !x.brujula ? `<p style="margin:0">${esc(String(x.texto).slice(0, 220))}</p>` : ""}</article>`).join("")}</section>`;
 }
 Object.assign(ACC, {

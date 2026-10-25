@@ -6,7 +6,7 @@
 
 /** Las fotos propias de un año, de la más antigua a la más reciente. */
 function fotosDelAnio(a) {
-  return (estado.misPosts || []).filter(p => p.foto && (p.anio ? Number(p.anio) === a : new Date(p.creadoEn).getFullYear() === a))
+  return (estado.misPosts || []).filter(p => p.foto && !(p.brujula && window.leerRecuerdos?.(p.brujula)) && (p.anio ? Number(p.anio) === a : new Date(p.creadoEn).getFullYear() === a))
     .sort((x, y) => (x.creadoEn || 0) - (y.creadoEn || 0));
 }
 /** Botón para ver la historia del año; va dentro del Álbum del año (js/03-detalle.js albumAnio). */
@@ -14,10 +14,27 @@ const botonHistoriaAnio = a => fotosDelAnio(a).length ? `<button class="btn llen
 window.botonHistoriaAnio = botonHistoriaAnio;
 
 const MES_SELLO = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+/** Mis recuerdos de un año. */
 ACC.reelAnio = (el, arg) => {
   const a = Number(arg), fs = fotosDelAnio(a); if (!fs.length) return;
   const p = perfil(), c = cascada(), metas = c.anuales.filter(m => m.anio === a);
-  const lograda = metas.filter(m => m.estado === "COMPLETADA" || c.nodoAnio(m) >= 100).length;
+  const lograda = metas.filter(m => m.estado === "COMPLETADA" || m.estado === "CUMPLIDA" || c.nodoAnio(m) >= 100).length;
+  abrirReel(el, { a, fs, frase: p.cumbreFrase || "", metasTxt: `${lograda}/${metas.length}`, propio: true, titulo: `Mi ${a} en SuRoute` });
+};
+/** Los recuerdos que otra persona publicó: se ven como flashback igual que los propios. */
+const leerRecuerdos = b => { try { const o = typeof b === "string" ? JSON.parse(b) : b; return o && o.tipo === "RECUERDOS" && Array.isArray(o.fotos) && o.fotos.length ? o : null; } catch { return null; } };
+window.leerRecuerdos = leerRecuerdos;
+const botonRecuerdosPost = p => { const r = p?.brujula && leerRecuerdos(p.brujula);
+  return r ? `<button class="rec-play" data-acc="reelPost" data-arg="${esc(p.id)}">${ic("play")} Ver los recuerdos de ${r.anio}</button>` : ""; };
+window.botonRecuerdosPost = botonRecuerdosPost;
+ACC.reelPost = (el, id) => {
+  const p = [...(estado.feed || []), ...(estado.misPosts || []), ...(estado.misRecientes || [])].find(x => String(x.id) === String(id)) || (String(estado.post?.id) === String(id) ? estado.post : null);
+  const r = p && leerRecuerdos(p.brujula); if (!r) return;
+  const fs = r.fotos.map(x => ({ foto: x.f, texto: x.t || "", creadoEn: x.c || Date.UTC(r.anio, 0, 1) }));
+  abrirReel(el, { a: r.anio, fs, frase: r.frase || "", metasTxt: r.metas || "", propio: !!p.propio, titulo: `El ${r.anio} de ${p.autorNombre || "la comunidad"}` });
+};
+function abrirReel(el, R) {
+  const { a, fs } = R, p = perfil();
   const meses = new Set(fs.map(x => new Date(x.creadoEn).getMonth())).size;
   const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 1700;   // flashback: rápido, pero se alcanza a ver
   const slides = [...fs.map((x, i) => {
@@ -26,11 +43,12 @@ ACC.reelAnio = (el, arg) => {
       <figcaption><span class="reel-sello" aria-label="${MESES[f.getMonth()]}">${MES_SELLO[f.getMonth()]}</span>${frase ? `<p>«${esc(frase)}»</p>` : ""}<small>${f.getDate()} de ${MESES[f.getMonth()]}</small></figcaption></figure>`;
   }), `<figure class="reel-slide reel-fin" data-i="${fs.length}">
       <div class="reel-mosaico">${fs.slice(0, 9).map(x => `<img src="${esc(x.foto)}" alt="">`).join("")}</div>
-      <figcaption><small>Mi ${a} en SuRoute</small><h2>${esc(p.cumbreFrase || "Un año más cerca de mi cumbre")}</h2>
-        <div class="reel-cifras"><span><b>${fs.length}</b>recuerdos</span><span><b>${meses}</b>${meses === 1 ? "mes" : "meses"}</span><span><b>${lograda}/${metas.length}</b>metas</span></div>
-        <div class="reel-botones"><button class="btn lleno" data-reel="publicar">${ic("publicar")} Publicar en la comunidad</button>
-          <button class="btn" data-reel="descargar">${ic("descargar")} Descargar</button><button class="btn" data-reel="repetir">${ic("repetir")} Repetir</button></div>
-        <div class="reel-publicar" hidden><span>¿Quién lo ve?</span><button class="btn mini" data-reel="SEGUIDORES">Mis seguidores</button><button class="btn mini lleno" data-reel="PUBLICA">Todos</button></div>
+      <figcaption><small>${esc(R.titulo)}</small><h2>${esc(R.frase || "Un año más cerca de la cumbre")}</h2>
+        <div class="reel-cifras"><span><b>${fs.length}</b>recuerdos</span><span><b>${meses}</b>${meses === 1 ? "mes" : "meses"}</span>${R.metasTxt ? `<span><b>${esc(R.metasTxt)}</b>metas</span>` : ""}</div>
+        <div class="reel-botones">${R.propio ? `<button class="btn lleno" data-reel="publicar">${ic("publicar")} Publicar en la comunidad</button>
+          <button class="btn" data-reel="descargar">${ic("descargar")} Descargar</button>` : ""}<button class="btn" data-reel="repetir">${ic("repetir")} Repetir</button></div>
+        <div class="reel-publicar" hidden>${(() => { const priv = fs.filter(x => x.visibilidad === "PRIVADA").length;
+          return priv ? `<p class="reel-nota">Tus ${priv} ${priv === 1 ? "foto privada no se publica" : "fotos privadas no se publican"}: solo van las que ya compartiste.</p>` : ""; })()}<span>¿Quién lo ve?</span><button class="btn mini" data-reel="SEGUIDORES">Mis seguidores</button><button class="btn mini lleno" data-reel="PUBLICA">Todos</button></div>
       </figcaption></figure>`];
   const v = document.createElement("div");
   v.className = "reel"; v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true"); v.setAttribute("aria-label", `Recuerdos de ${a}`);
@@ -83,12 +101,19 @@ ACC.reelAnio = (el, arg) => {
     if (q === "descargar" || q === "PUBLICA" || q === "SEGUIDORES") {
       b.disabled = true;
       try {
-        const blob = await mosaicoAnio(a, fs, p);
+        // Al publicar solo van las fotos que no son privadas; al descargar, todas (la imagen queda en tu equipo)
+        const pub = q === "descargar" ? fs : fs.filter(x => x.visibilidad !== "PRIVADA");
+        if (!pub.length) { toast("Todas tus fotos de este año son privadas. Compártelas primero o descarga la imagen."); b.disabled = false; return; }
+        const blob = await mosaicoAnio(a, pub, { cumbreFrase: R.frase });
         if (q === "descargar") {
           const u = URL.createObjectURL(blob), l = Object.assign(document.createElement("a"), { href: u, download: `suroute-recuerdos-${a}.jpg` });
           document.body.appendChild(l); l.click(); l.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000);
         } else {
-          await publicarImagenVision(blob, q, `Mis recuerdos de ${a}${p.cumbreFrase ? " · " + p.cumbreFrase : ""}`, `Mis recuerdos de ${a}`, "LOGRO", null, null, a);
+          // v: 99 para que ni la web ni la app la confundan con una Brújula; las fotos van para el flashback de quien la vea
+          const datos = { v: 99, tipo: "RECUERDOS", anio: a, frase: (R.frase || "").slice(0, 200), metas: R.metasTxt || "",
+            fotos: pub.slice(-40).map(x => ({ f: x.foto, t: String(x.metaTitulo || x.texto || "").slice(0, 140), c: x.creadoEn })) };
+          await publicarImagenVision(blob, q, `Mis recuerdos de ${a}${R.frase ? " · " + R.frase : ""}`, `Mis recuerdos de ${a}`, "LOGRO", null, datos, a);
+          estado.feed = null;
           toast(q === "PUBLICA" ? "Tus recuerdos ya están en la comunidad" : "Tus seguidores ya ven tus recuerdos");
           v.querySelector(".reel-publicar").hidden = true;
         }
