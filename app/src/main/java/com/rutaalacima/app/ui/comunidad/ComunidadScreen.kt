@@ -27,6 +27,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.outlined.Report
 import androidx.compose.material.icons.outlined.Block
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.ui.semantics.heading
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.filled.Diversity3
@@ -140,6 +141,22 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         viewModelScope.launch { runCatching { c.social.reportar(p, motivo) } }
     }
 
+    /** Quién ve una publicación propia: cambia al instante y luego se guarda. */
+    fun cambiarVisibilidad(p: Post, v: com.rutaalacima.app.data.social.Visibilidad) {
+        posts = posts.map { if (it.id == p.id) it.copy(visibilidad = v) else it }
+        viewModelScope.launch { runCatching { c.social.cambiarVisibilidad(p, v) } }
+    }
+
+    fun eliminar(p: Post) {
+        posts = posts.filter { it.id != p.id }
+        viewModelScope.launch { runCatching { c.social.eliminar(p) } }
+    }
+
+    /** Abre (o crea) la conversación con quien publicó. */
+    fun escribir(p: Post, onChat: (String) -> Unit) {
+        viewModelScope.launch { runCatching { c.mensajes.abrirCon(p.autorId) }.onSuccess(onChat) }
+    }
+
     /** Bloquear: desaparecen todas las publicaciones de esa persona. */
     fun bloquear(p: Post) {
         posts = posts.filter { it.autorId != p.autorId }
@@ -167,6 +184,7 @@ fun ComunidadScreen(
     onCordadas: () -> Unit = {},
     onMensajes: () -> Unit = {},
     onHoy: () -> Unit = {},
+    onChat: (String) -> Unit = {},
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
@@ -222,7 +240,7 @@ fun ComunidadScreen(
                 PestanasCimas(vm, onMuro = { volverA = pagina; enMuro = true }, onCordadas = onCordadas, onMensajes = onMensajes, onCuenta = onCuenta)
             }
             comentandoEn?.let { p -> HojaComentarios(vm, p, onCerrar = { comentandoEn = null }, onAbrirDetalle = { comentandoEn = null; onAbrirPost(p.id) }) }
-            opcionesDe?.let { p -> HojaOpciones(vm, p, onCerrar = { opcionesDe = null }) }
+            opcionesDe?.let { p -> HojaOpciones(vm, p, onChat = onChat, onCerrar = { opcionesDe = null }) }
         }
         return
     }
@@ -437,17 +455,19 @@ private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> 
     }
 }
 
-/** "Más" de una cima: reportar, bloquear y copiar el texto, siempre a un toque. */
+/** "Más" de una cima: copiar; en las propias, quién la ve y borrar; en las de otros, escribir, reportar o bloquear. */
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onCerrar: () -> Unit) {
+private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) -> Unit, onCerrar: () -> Unit) {
     var reportando by androidx.compose.runtime.remember { mutableStateOf(false) }
     var bloqueando by androidx.compose.runtime.remember { mutableStateOf(false) }
+    var borrando by androidx.compose.runtime.remember { mutableStateOf(false) }
+    var vis by androidx.compose.runtime.remember(post.id) { mutableStateOf(post.visibilidad) }
     val portapapeles = androidx.compose.ui.platform.LocalClipboardManager.current
     val txtCopiado = stringResource(R.string.texto_copiado)
     val txtReportada = stringResource(R.string.reportada_gracias)
     val txtBloqueado = stringResource(R.string.bloqueado_aviso, post.autorNombre)
-    if (!reportando && !bloqueando) androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
+    if (!reportando && !bloqueando && !borrando) androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
         Column(Modifier.fillMaxWidth().padding(bottom = 24.dp)) {
             androidx.compose.material3.ListItem(
                 headlineContent = { Text(stringResource(R.string.copiar_texto)) },
@@ -457,7 +477,34 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onCerrar: () -> Uni
                     com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtCopiado); onCerrar()
                 },
             )
-            if (!post.propio) {
+            if (post.propio) {
+                Text(stringResource(R.string.quien_lo_ve), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp))
+                val opciones = listOf(
+                    com.rutaalacima.app.data.social.Visibilidad.PUBLICA to R.string.visibilidad_publica,
+                    com.rutaalacima.app.data.social.Visibilidad.SEGUIDORES to R.string.visibilidad_seguidores,
+                    com.rutaalacima.app.data.social.Visibilidad.PRIVADA to R.string.visibilidad_privada,
+                )
+                androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+                    opciones.forEachIndexed { i, (v, txt) ->
+                        androidx.compose.material3.SegmentedButton(
+                            selected = vis == v,
+                            onClick = { vis = v; vm.cambiarVisibilidad(post, v) },
+                            shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, opciones.size),
+                        ) { Text(stringResource(txt), maxLines = 1) }
+                    }
+                }
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.borrar_publicacion), color = MaterialTheme.colorScheme.error) },
+                    leadingContent = { Icon(Icons.Outlined.Delete, null, tint = MaterialTheme.colorScheme.error) },
+                    modifier = Modifier.padding(top = 8.dp).clickable { borrando = true },
+                )
+            } else {
+                if (!post.demo) androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.enviar_mensaje_a, post.autorNombre)) },
+                    leadingContent = { Icon(Icons.AutoMirrored.Filled.Chat, null) },
+                    modifier = Modifier.clickable { vm.escribir(post, onChat); onCerrar() },
+                )
                 androidx.compose.material3.ListItem(
                     headlineContent = { Text(stringResource(R.string.reportar_publicacion)) },
                     leadingContent = { Icon(Icons.Outlined.Report, null) },
@@ -471,6 +518,13 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onCerrar: () -> Uni
             }
         }
     }
+    if (borrando) androidx.compose.material3.AlertDialog(
+        onDismissRequest = { borrando = false; onCerrar() },
+        title = { Text(stringResource(R.string.borrar_publicacion_q)) },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = { vm.eliminar(post); borrando = false; onCerrar() }) {
+            Text(stringResource(R.string.eliminar), color = MaterialTheme.colorScheme.error) } },
+        dismissButton = { androidx.compose.material3.TextButton(onClick = { borrando = false; onCerrar() }) { Text(stringResource(R.string.cancelar)) } },
+    )
     if (reportando) DialogoReportar(onReportar = { motivo -> vm.reportar(post, motivo); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtReportada) }, onCerrar = { reportando = false; onCerrar() })
     if (bloqueando) DialogoBloquear(post.autorNombre, onBloquear = { vm.bloquear(post); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtBloqueado) }, onCerrar = { bloqueando = false; onCerrar() })
 }

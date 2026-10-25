@@ -204,7 +204,7 @@ function mostrarCarta(alSeguir) {
 window.mostrarCarta = mostrarCarta;
 
 async function iniciar() {
-  try { const t = localStorage.getItem("rutacima-tema"); if (t) document.documentElement.dataset.theme = t; } catch {}
+  aplicarApariencia();
   ["lista", "detalle", "riel"].forEach(id => { $(id).onclick = clic; });
   $("detalle").onchange = cambio; $("detalle").oninput = entrada; $("lista").oninput = entrada; $("detalle").onsubmit = enviar;
   Contenido.cargarFrases(); Contenido.cargarIndice();

@@ -383,3 +383,19 @@ function diaCumplido(f) {
 }
 const fraseIndice = d => Math.min(364, Math.max(0, diaDelAnio(d)));
 const abiertas = anio => new Set((Store.get("frases", anio)?.dias) || []);
+
+/** Apariencia guardada en este navegador: papel BLANCO, ANTIGUO o PASTEL (los mismos de la app) y tema. */
+function apariencia() {
+  let papel = "blanco", tema = "sistema";
+  try { papel = localStorage.getItem("rutacima-papel") || papel; tema = { light: "claro", dark: "oscuro" }[localStorage.getItem("rutacima-tema")] || tema; } catch {}
+  return { papel, tema };
+}
+function aplicarApariencia(cambio = {}) {
+  const a = { ...apariencia(), ...cambio }, r = document.documentElement;
+  if (a.papel === "blanco") delete r.dataset.papel; else r.dataset.papel = a.papel;
+  if (a.tema === "sistema") delete r.dataset.theme; else r.dataset.theme = a.tema === "oscuro" ? "dark" : "light";
+  try {
+    localStorage.setItem("rutacima-papel", a.papel);
+    if (a.tema === "sistema") localStorage.removeItem("rutacima-tema"); else localStorage.setItem("rutacima-tema", r.dataset.theme);
+  } catch {}
+}

@@ -1734,4 +1734,7 @@
     <string name="gr_salud_corto">الصحة %</string>
     <string name="gr_acceso_sub">كبّر وتصفح حساباتك بالأيام أو الأسابيع أو الأشهر أو السنوات · شموع وأعمدة وخطوط</string>
     <string name="gr_vacia">عندما تسجل أولى حركاتك سترى هنا كيف يرتفع رصيدك يومًا بعد يوم وشهرًا بعد شهر وعامًا بعد عام.</string>
+    <string name="enviar_mensaje_a">أرسل رسالة إلى %1$s</string>
+    <string name="borrar_publicacion">حذف المنشور</string>
+    <string name="borrar_publicacion_q">هل تريد حذف هذا المنشور؟ لا يمكن التراجع.</string>
 </resources>

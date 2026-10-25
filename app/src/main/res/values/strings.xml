@@ -1736,4 +1736,7 @@
     <string name="gr_salud_corto">Salud %</string>
     <string name="gr_acceso_sub">Amplía y recorre tus cuentas por días, semanas, meses o años · velas, barras y líneas</string>
     <string name="gr_vacia">Cuando anotes tus primeros movimientos, aquí verás cómo sube tu saldo día a día, mes a mes y año a año.</string>
+    <string name="enviar_mensaje_a">Enviar mensaje a %1$s</string>
+    <string name="borrar_publicacion">Borrar publicación</string>
+    <string name="borrar_publicacion_q">¿Borrar esta publicación? No se puede deshacer.</string>
 </resources>

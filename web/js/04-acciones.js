@@ -78,11 +78,7 @@ const ACC = {
     Store.cambiar(tipo, clave, { horizonte: nuevo }, BASES[tipo]?.(clave) || {});
   },
   volver() { estado.sel = null; $("app").classList.remove("con-detalle"); pintarLista(); if (innerWidth > 900) pintarDetalle(); },
-  tema() {
-    const r = document.documentElement, oscuro = r.dataset.theme ? r.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    r.dataset.theme = oscuro ? "light" : "dark";
-    try { localStorage.setItem("rutacima-tema", r.dataset.theme); } catch {}
-  },
+  tema() { ir("perfil", "apariencia"); },
   async salir() {
     if (Store.nube) { mostrarCarga("Cerrando sesión…"); try { await Store.nube.desvincular(); } catch (e) { console.error(e); } location.reload(); }
     else { Store.datos = {}; iniciar(); }
@@ -222,15 +218,37 @@ const ACC = {
     estado.post = p; pintarHojaComentarios(p, true);
     if (!p.comentariosLista) { await cargarComentarios(p); pintarHojaComentarios(p); }
   },
-  /** Más de una cima: copiar el texto, reportar o bloquear (siempre a un toque). */
+  /** Más de una publicación: copiar; en las propias, quién la ve y borrar; en las de otros, escribir, reportar o bloquear. */
   masCima(el, id) {
     const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
     estado.post = p;
+    const vis = p.visibilidad || "PUBLICA";
     abrirHoja(`<h3 class="hoja-titulo">Opciones</h3><div class="hoja-lista">
       <button data-acc="copiarCima" data-arg="${esc(p.id)}">${ic("copiar2")}<span>Copiar el texto</span></button>
-      ${p.propio ? "" : `<button data-acc="reportarPost" data-arg="${esc(p.id)}">${ic("reportar")}<span>Reportar publicación</span></button>
-      <button class="peligro" data-acc="bloquearAutor" data-arg="${esc(p.id)}">${ic("bloquear")}<span>Bloquear a ${esc(p.autorNombre)}</span></button>`}</div>`);
+      ${p.propio
+        ? `<div class="hoja-grupo"><span>Quién la ve</span><div class="segmentos" style="grid-template-columns:repeat(3,1fr)" role="group" aria-label="Quién ve esta publicación">${VISIBILIDAD.map(([v, n]) =>
+            `<button data-acc="visibilidadPost" data-arg="${esc(p.id)}|${v}" aria-pressed="${v === vis}">${n}</button>`).join("")}</div></div>
+           <button class="peligro" data-acc="borrarPostHoja" data-arg="${esc(p.id)}">${ic("borrar")}<span>Borrar publicación</span></button>`
+        : `<button data-acc="escribirHoja" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}">${ic("mensajes")}<span>Enviar mensaje a ${esc(p.autorNombre)}</span></button>
+           <button data-acc="reportarPost" data-arg="${esc(p.id)}">${ic("reportar")}<span>Reportar publicación</span></button>
+           <button class="peligro" data-acc="bloquearAutor" data-arg="${esc(p.id)}">${ic("bloquear")}<span>Bloquear a ${esc(p.autorNombre)}</span></button>`}</div>`);
   },
+  escribirHoja(el, arg) { cerrarHoja(); ACC.escribirA(el, arg); },
+  async visibilidadPost(el, arg) {
+    const [id, v] = arg.split("|"), p = [...(estado.feed || []), ...(estado.misPosts || [])].find(x => String(x.id) === id); if (!p) return;
+    if (Store.nube && !p.demo) { const r = await Store.nube.sb.from("posts").update({ visibilidad: v }).eq("id", id); if (r.error) return errorNube(r.error); }
+    p.visibilidad = v;
+    el.parentElement.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b === el));
+    toast(v === "PRIVADA" ? "Ahora solo tú la ves" : v === "SEGUIDORES" ? "Ahora la ven tus seguidores" : "Ahora es pública");
+    if (v !== "PUBLICA") { estado.feed = null; estado.misPosts = null; }
+  },
+  async borrarPostHoja(el, id) {
+    if (!el.dataset.seguro) { el.dataset.seguro = "1"; el.querySelector("span").textContent = "¿Seguro? Toca otra vez para borrar"; return; }
+    cerrarHoja(); await ACC.borrarPost(el, id);
+  },
+  /** Apariencia: el papel (como en la app) y el tema claro, oscuro o el del sistema. */
+  papel(el, v) { aplicarApariencia({ papel: v }); pintarLista(); pintarDetalle(); },
+  temaModo(el, v) { aplicarApariencia({ tema: v }); pintarLista(); pintarDetalle(); },
   async copiarCima(el, id) {
     const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
     try { await navigator.clipboard.writeText([p.metaTitulo, p.texto].filter(Boolean).join("\n\n")); toast("Texto copiado."); } catch {}

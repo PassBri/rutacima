@@ -1734,4 +1734,7 @@
     <string name="gr_salud_corto">Здоровье %</string>
     <string name="gr_acceso_sub">Масштабируй и листай счета по дням, неделям, месяцам и годам · свечи, столбцы, линии</string>
     <string name="gr_vacia">Когда запишешь первые операции, здесь будет видно, как растёт остаток день за днём, месяц за месяцем и год за годом.</string>
+    <string name="enviar_mensaje_a">Написать %1$s</string>
+    <string name="borrar_publicacion">Удалить публикацию</string>
+    <string name="borrar_publicacion_q">Удалить эту публикацию? Это нельзя отменить.</string>
 </resources>

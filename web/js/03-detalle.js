@@ -735,7 +735,7 @@ Object.assign(DET, {
             <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${ic("impulso")}<b>${num(p.impulsos)}</b></button>
             <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
             <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
-            <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones: copiar, reportar o bloquear">${ic("masH")}</button></div>
+            <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones">${ic("masH")}</button></div>
           <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
             <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], NOMBRE_EJE[p.eje], hace(p.creadoEn)].filter(Boolean).join(" · ")}</span>
             ${p.foto && p.texto ? `<p class="cima-texto">${esc(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
@@ -977,6 +977,17 @@ Object.assign(DET, {
     return cab(av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "Tu diario de vida", `<button class="btn mini oro" data-ir="comunidad" data-arg="publicar">${ic("mas")} Publicar</button>`) + cuerpo(
       ps.length ? `<div class="posts">${ps.map(p => `<button data-ir="comunidad" data-arg="post:${esc(p.id)}" style="text-align:left">${p.foto ? `<img class="foto" style="aspect-ratio:4/5" src="${esc(p.foto)}" alt="${altFoto(p)}">` : postal(p, true)}</button>`).join("")}</div>`
         : `<p class="vacio-mini">${estado.misPosts ? "Todavía no has publicado." : "Cargando…"}</p>`);
+  },
+  "perfil.apariencia"() {
+    const a = apariencia();
+    const papeles = [["blanco", "Blanco", "Limpio y luminoso"], ["antiguo", "Antiguo", "Papel envejecido, tinta café"], ["pastel", "Pastel", "Café con leche y caramelo"]];
+    const temas = [["claro", "Claro"], ["oscuro", "Oscuro"], ["sistema", "Según el sistema"]];
+    return cab(av(ic("tema"), "var(--burdeos)"), "Apariencia", "El papel y la luz de SuRoute en este navegador") + cuerpo(
+      hoja(`<h3>Papel</h3><p class="suave" style="margin-top:0">El mismo estilo que eliges en la app (Perfil › Ajustes). Se usa con el tema claro.</p>
+        <div class="papeles" role="radiogroup" aria-label="Papel">${papeles.map(([v, n, d]) =>
+          `<button class="papel-op" role="radio" data-acc="papel" data-arg="${v}" aria-checked="${a.papel === v}"><i class="muestra muestra-${v}" aria-hidden="true"><b></b></i><span><b>${n}</b><small>${d}</small></span></button>`).join("")}</div>`) +
+      hoja(`<h3>Tema</h3><div class="segmentos" style="grid-template-columns:repeat(3,1fr)" role="radiogroup" aria-label="Tema">${temas.map(([v, n]) =>
+          `<button role="radio" data-acc="temaModo" data-arg="${v}" aria-checked="${a.tema === v}" aria-pressed="${a.tema === v}">${n}</button>`).join("")}</div>`), "max-width:640px");
   },
   "perfil.cuenta"() {
     return cab(av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", Store.nube ? (Store.nube.directa ? Store.nube.correo || "" : nombreNavegador()) : "Ruta de ejemplo") + cuerpo(

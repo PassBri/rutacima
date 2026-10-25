@@ -218,6 +218,20 @@ class SocialRepository(
         filas.map { filaAPost(it.jsonObject, uid, emptySet()) }.also(::recordar)
     }
 
+    /** Cambia quién ve una publicación propia (en el teléfono y, si ya está en la comunidad, también allá). */
+    suspend fun cambiarVisibilidad(post: Post, v: Visibilidad) = withContext(Dispatchers.IO) {
+        val local = dao.get(post.id)
+        if (local != null) {
+            val p = local.copy(visibilidad = v.name)
+            dao.upsert(p)
+            if (enLinea) runCatching {
+                if (p.remoteId != null) supa.actualizar("posts", "id=eq.${p.id}", buildJsonObject { put("visibilidad", v.name) })
+                else if (v != Visibilidad.PRIVADA) subir(p)
+            }
+        } else if (enLinea) runCatching { supa.actualizar("posts", "id=eq.${post.id}", buildJsonObject { put("visibilidad", v.name) }) }
+        cache[post.id]?.let { cache[post.id] = it.copy(visibilidad = v) }
+    }
+
     suspend fun eliminar(post: Post) {
         dao.delete(post.id)
         if (enLinea) runCatching { supa.delete("posts", "id=eq.${post.id}") }

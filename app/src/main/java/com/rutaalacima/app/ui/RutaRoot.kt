@@ -410,6 +410,7 @@ private fun AppPrincipal() {
                     onCordadas = { nav.navigate(Rutas.CORDADAS) },
                     onMensajes = { nav.navigate(Rutas.MENSAJES) },
                     onHoy = { nav.irAPestana(Rutas.HOY) },
+                    onChat = { nav.navigate(Rutas.chat(it)) },
                 )
             }
             composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook) }

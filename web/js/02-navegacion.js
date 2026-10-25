@@ -20,7 +20,7 @@ function pintarRiel() {
     SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("brujula")}</span><span class="tip">Publicar</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
-     <button class="rb solo-pc" data-acc="tema" aria-label="Tema claro u oscuro">${ic("tema")}<span class="tip">Tema claro u oscuro</span></button>
+     <button class="rb solo-pc" data-acc="tema" aria-label="Apariencia">${ic("tema")}<span class="tip">Apariencia</span></button>
      <button class="rb solo-pc" data-acc="salir" aria-label="${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}">${ic("salir")}<span class="tip">${Store.nube ? "Cerrar sesión en este computador" : "Salir de la demostración"}</span></button>`;
 }
 /** Teléfono: al apoyar o deslizar el dedo por la barra aparece el nombre del ícono; al soltar, se abre. */
@@ -232,6 +232,7 @@ const LISTAS = {
     h += item("ir-coach", av(ic("coach"), "var(--burdeos)"), "Coach con IA", "", "Pregúntale por tu ruta");
     h += grupo("Más");
     if (globalThis.INSTALAR?.disponible()) h += `<button class="item" data-acc="instalarApp">${av(`<img src="iconos/apple-touch-icon.png" alt="" style="width:100%;height:100%;border-radius:50%">`, "var(--hoja-2)")}<span class="txt"><span class="t1"><span>Instalar la app</span></span><span class="t2"><span>En tu teléfono o tu computador, como una app</span></span></span></button>`;
+    { const a = apariencia(); h += item("apariencia", av(ic("tema"), "var(--burdeos)"), "Apariencia", "", `Papel ${a.papel} · tema ${a.tema === "sistema" ? "del sistema" : a.tema}`); }
     h += item("plan", av(ic("cima"), "var(--burdeos)"), "Plan Cumbre", "", globalThis.PLAN?.estado?.plan === "cumbre" ? "Tienes el Plan Cumbre" : "Qué incluye y cuánto cuesta");
     h += item("cuenta", av(ic("salir"), "#8A7B70"), Store.nube ? (Store.nube.directa ? "Mi cuenta" : "Este computador") : "Demostración", "", Store.nube ? (Store.nube.directa ? Store.nube.correo || nombreNavegador() : nombreNavegador()) + (globalThis.MOD?.suspension ? " · cuenta suspendida" : "") : "Ruta de ejemplo");
     // Moderación: solo para cuentas moderadoras (se comprueba una vez por sesión)
