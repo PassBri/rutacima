@@ -2204,3 +2204,28 @@ html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
 /* Guardar en la mochila */
 .cima-acciones [data-acc="guardarPost"][aria-pressed="true"], .mochila-btn[aria-pressed="true"] { color: var(--oro); }
 .mochila-btn svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* ---------- Mapa de mi vida: Material, ordenado por décadas ---------- */
+.pv-hoja { padding: 20px 20px 16px; }
+.pv-cab h3 { margin: 0; font: 600 18px/1.3 var(--font-titulo); }
+.pv-cab p { margin: 2px 0 0; font-size: 13px; }
+.pv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 12px; }
+.pv-chip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 10px; border-radius: 8px; border: 1px solid var(--linea); font-size: 13px; color: var(--tinta-suave); background: var(--hoja); }
+.pv-chip b { color: var(--tinta); font-weight: 600; font-variant-numeric: tabular-nums; }
+.pv-chip.actual { background: color-mix(in srgb, var(--oro) 14%, var(--hoja)); border-color: transparent; }
+.pv-chip i { width: 12px; height: 12px; border-radius: 50%; position: relative; }
+.pv-chip i.vivido { background: var(--burdeos); } .pv-chip i.actual { background: var(--oro); }
+.pv-chip i.futuro { border: 1.5px solid var(--linea); background: var(--hoja); }
+.pv-chip i.ley-meta { border: 1.5px solid var(--linea); }
+.puntos { display: grid; gap: 2px; max-width: none; grid-template-columns: none; }
+.pv-dec { display: grid; grid-template-columns: 44px repeat(10, minmax(0, 1fr)); gap: clamp(4px, 1vw, 10px); align-items: center; padding: 6px 8px; border-radius: 14px; }
+.pv-dec.esta { background: color-mix(in srgb, var(--oro) 10%, transparent); }
+.pv-fila { display: grid; line-height: 1.1; }
+.pv-fila b { font-size: 13px; font-weight: 600; color: var(--tinta); font-variant-numeric: tabular-nums; }
+.pv-fila small { font-size: 10.5px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.pv-dec.esta .pv-fila b { color: var(--oro); }
+.puntos .pv { width: 100%; max-width: 40px; justify-self: center; border: 0; }
+.pv.futuro { background: transparent; box-shadow: inset 0 0 0 1.5px var(--linea); border: 0; }
+.pv.actual b { font-size: 12px; font-weight: 700; color: #fff; }
+.pv-dec.pasada .pv.vivido { background: color-mix(in srgb, var(--burdeos) 88%, var(--hoja)); }
+@media (max-width: 600px) { .pv-dec { grid-template-columns: 34px repeat(10, minmax(0, 1fr)); padding: 4px 4px; } .pv-hoja { padding: 16px 12px; } .pv.actual b { font-size: 10px; } }

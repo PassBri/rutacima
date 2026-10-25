@@ -414,12 +414,16 @@ const DET = {
     const nac = r.nac.getFullYear(), anioHoy = new Date().getFullYear();
     const conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
     // Cada fila es una década: a la izquierda, el año en que empieza; el punto dorado es este año
-    let puntos = "";
+    // Cada fila es una década (edad y año en que empieza); la década que vives se resalta como un contenedor tonal
+    let puntos = "", nMetas = 0;
     for (let i = 0; i < metaVida(); i++) {
       const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
-      if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
-      puntos += `<button class="pv ${cls}${conMetas.has(a) ? " meta" : ""}" data-sel="a:${a}" aria-label="${a}, ${i} años${conMetas.has(a) ? ", con metas" : ""}" title="${a} · ${i} años${conMetas.has(a) ? " · con metas" : ""}"></button>`;
+      if (conMetas.has(a)) nMetas++;
+      if (i % 10 === 0) puntos += `${i ? "</div>" : ""}<div class="pv-dec${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}${a + 9 < anioHoy ? " pasada" : ""}"><span class="pv-fila" aria-hidden="true"><b>${i}</b><small>${a}</small></span>`;
+      puntos += `<button class="pv ${cls}${conMetas.has(a) ? " meta" : ""}" data-sel="a:${a}" aria-label="${a}, ${i} años${conMetas.has(a) ? ", con metas" : ""}" title="${a} · ${i} años${conMetas.has(a) ? " · con metas" : ""}">${cls === "actual" ? `<b>${i}</b>` : ""}</button>`;
     }
+    puntos += "</div>";
+    const vividos = Math.max(0, anioHoy - nac), porVivir = Math.max(0, metaVida() - vividos - 1);
     return cab(av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", `${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
@@ -428,11 +432,13 @@ const DET = {
         <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
         <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
         <p class="frase-vida">${r.frase}</p>`) + esteDia() +
-      hoja(`<p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. El anillo que gira marca los años con metas.</p>
-        <div class="puntos">${puntos}</div>
-        <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>
-        <p class="suave" style="font-size:13px;margin:4px 0 0">Cada fila es una década: a la izquierda, el año en que empieza.</p>
-        <div class="leyenda" style="margin-top:16px"><span><i style="background:var(--burdeos)"></i>Vivido</span><span><i style="background:var(--oro)"></i>Este año</span><span><i style="background:var(--hoja);border:1px solid var(--linea)"></i>Por vivir</span><span><i class="ley-meta" aria-hidden="true"></i>Año con metas</span></div>`));
+      hoja(`<div class="pv-cab"><div><h3>Tu vida en años</h3><p class="suave">Una fila por década · toca un año para abrirlo mes a mes</p></div></div>
+        <div class="pv-chips" role="list">
+          <span role="listitem" class="pv-chip"><i class="vivido"></i><b>${vividos}</b> vividos</span>
+          <span role="listitem" class="pv-chip actual"><i class="actual"></i><b>${anioHoy}</b> · ${r.edad} años</span>
+          <span role="listitem" class="pv-chip"><i class="futuro"></i><b>${porVivir}</b> por vivir</span>
+          <span role="listitem" class="pv-chip"><i class="ley-meta"></i><b>${nMetas}</b> con metas</span></div>
+        <div class="puntos">${puntos}</div>`, "pv-hoja"));
   },
   "ruta.a"(arg) {
     const a = Number(arg), p = perfil(), edad = p.anioNacimiento ? a - p.anioNacimiento : null;
