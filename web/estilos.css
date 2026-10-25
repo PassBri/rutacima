@@ -2260,3 +2260,8 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .md-leyenda span:nth-child(2) i { --n: 45% !important; }
 /* En el mapa de calor, el nombre del campamento no se monta sobre su barrita */
 html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-grilla .md-camp b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 7px; line-height: 1.15; }
+.md-ritmo-pliegue > summary { display: flex; justify-content: space-between; align-items: center; gap: 12px; min-height: 40px; cursor: pointer; list-style: none; }
+.md-ritmo-pliegue > summary::-webkit-details-marker { display: none; }
+.md-ritmo-pliegue > summary::after { content: "▾"; color: var(--tinta-suave); transition: transform .2s cubic-bezier(.2,0,0,1); }
+.md-ritmo-pliegue[open] > summary::after { transform: rotate(180deg); }
+.md-ritmo-pliegue > summary .suave { margin-left: auto; font-variant-numeric: tabular-nums; }

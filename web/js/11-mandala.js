@@ -434,7 +434,7 @@ function mandalaHtml(tableroHtml = "") {
       <p class="md-visor-ayuda">${ayuda}</p></div>`;
   }
   montarVisor(visor);
-  return nav + s1 + s9 + s81 + hoja(ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:0"')) + hoja(cierreHtml(d));
+  return nav + s1 + s9 + s81 + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
 }
 
 
