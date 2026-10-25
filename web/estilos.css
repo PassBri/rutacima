@@ -2654,3 +2654,12 @@ a.carta-releer { text-decoration: none; }
 .carta-lugar { color: var(--tinta-suave); }
 @media (max-width: 560px) { .carta { padding: 32px 22px 28px; } }
 .carta-firma span { color: var(--tinta); } .carta-firma small { color: var(--tinta-suave); } .carta-cierre { color: var(--burdeos); }
+/* Material 3 Expressive: grupo de botones conectados (Imagen · Texto · Edición y los segmentos) */
+.modo-tarj, .segmentos { padding: 0; gap: 2px; border: 0; background: none; border-radius: 0; overflow: visible; }
+.modo-tarj button, .segmentos button { height: 40px; border-radius: var(--md-shape-sm); background: var(--hoja-2); border: 0 !important; color: var(--tinta);
+  transition: border-radius .35s var(--md-easing-emph-decel), background .2s, color .2s; }
+.modo-tarj button:first-child, .segmentos button:first-child { border-radius: 99px var(--md-shape-sm) var(--md-shape-sm) 99px; }
+.modo-tarj button:last-child, .segmentos button:last-child { border-radius: var(--md-shape-sm) 99px 99px var(--md-shape-sm); }
+.modo-tarj button[aria-checked="true"], .segmentos button[aria-pressed="true"] { border-radius: 99px; background: var(--burdeos); color: var(--sobre-burdeos); box-shadow: none; }
+.modo-tarj.oscuro button { background: rgb(255 255 255 / .14); color: #fff; }
+.modo-tarj.oscuro button[aria-checked="true"] { background: #fff; color: #111; }

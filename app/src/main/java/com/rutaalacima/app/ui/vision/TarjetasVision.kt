@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.ui.semantics.role
 import android.animation.ValueAnimator
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -109,19 +110,30 @@ internal data class AccionesTarjeta(
     val onMeta: (String) -> Unit,
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
+/** Imagen · Texto · Edición: grupo de botones conectados de Material 3 Expressive (reemplaza a los segmentos). */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 internal fun SelectorModoTarjetas(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit, modifier: Modifier = Modifier) {
-    SingleChoiceSegmentedButtonRow(modifier) {
-        val opciones = remember {
-            listOf(R.string.vision_modo_imagen to Icons.Outlined.Image,
-                R.string.vision_modo_texto to Icons.Filled.FormatQuote,
-                R.string.vision_modo_edicion to Icons.Outlined.Edit)
-        }
+    val opciones = remember {
+        listOf(R.string.vision_modo_imagen to Icons.Outlined.Image,
+            R.string.vision_modo_texto to Icons.Filled.FormatQuote,
+            R.string.vision_modo_edicion to Icons.Outlined.Edit)
+    }
+    androidx.compose.foundation.layout.Row(modifier,
+        horizontalArrangement = Arrangement.spacedBy(androidx.compose.material3.ButtonGroupDefaults.ConnectedSpaceBetween)) {
         opciones.forEachIndexed { i, (etiqueta, icono) ->
-            SegmentedButton(selected = modo == ModoTarjetas.entries[i], onClick = { onModo(ModoTarjetas.entries[i]) },
-                shape = SegmentedButtonDefaults.itemShape(i, 3),
-                icon = { Icon(icono, null, Modifier.size(16.dp)) }) {
+            val elegido = modo == ModoTarjetas.entries[i]
+            androidx.compose.material3.ToggleButton(
+                checked = elegido, onCheckedChange = { onModo(ModoTarjetas.entries[i]) },
+                modifier = Modifier.weight(1f).semantics { role = androidx.compose.ui.semantics.Role.RadioButton },
+                shapes = when (i) {
+                    0 -> androidx.compose.material3.ButtonGroupDefaults.connectedLeadingButtonShapes()
+                    opciones.lastIndex -> androidx.compose.material3.ButtonGroupDefaults.connectedTrailingButtonShapes()
+                    else -> androidx.compose.material3.ButtonGroupDefaults.connectedMiddleButtonShapes()
+                },
+            ) {
+                Icon(icono, null, Modifier.size(18.dp))
+                androidx.compose.foundation.layout.Spacer(Modifier.size(6.dp))
                 Text(stringResource(etiqueta), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }

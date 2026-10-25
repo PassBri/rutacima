@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.rutaalacima.app.ui.comunidad
 
 import androidx.compose.material.icons.filled.Check
@@ -333,8 +335,15 @@ fun ComunidadScreen(
             .collect { if (it >= lista.layoutInfo.totalItemsCount - 4) vm.cargarMas() }
     }
     // M3: jalar hacia abajo para recargar el muro
+    // Deslizar para actualizar con el indicador de carga de Material 3 Expressive (cambia de forma mientras carga)
+    val estadoActualizar = androidx.compose.material3.pulltorefresh.rememberPullToRefreshState()
+    val actualizando = vm.cargando && vm.posts.isNotEmpty()
     androidx.compose.material3.pulltorefresh.PullToRefreshBox(
-        isRefreshing = vm.cargando && vm.posts.isNotEmpty(), onRefresh = { vm.cargar() }, modifier = Modifier.fillMaxSize(),
+        isRefreshing = actualizando, onRefresh = { vm.cargar() }, modifier = Modifier.fillMaxSize(), state = estadoActualizar,
+        indicator = {
+            androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator(
+                state = estadoActualizar, isRefreshing = actualizando, modifier = Modifier.align(Alignment.TopCenter))
+        },
     ) {
         LazyColumn(
             state = lista,

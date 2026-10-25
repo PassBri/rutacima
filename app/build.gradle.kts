@@ -15,7 +15,7 @@ ksp {
 
 android {
     namespace = "com.rutaalacima.app"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.rutaalacima.app"
