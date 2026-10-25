@@ -2364,3 +2364,39 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 }
 @media (prefers-reduced-motion: reduce) { .ac-btn, .ac-campo > span { transition: none; } }
 .ac-campo input:focus-visible { outline: none; }
+
+/* ---------- Avisos (la campana) ---------- */
+.campana { position: relative; }
+.campana-n { position: absolute; top: 2px; right: 2px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--burdeos); color: #fff; font: 700 11px/18px var(--font-texto); text-align: center; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--hoja); pointer-events: none; }
+.cimas-ic.campana .campana-n { box-shadow: none; top: 0; right: 0; }
+.avisos { display: grid; gap: 2px; }
+.aviso-tramo { margin: 14px 4px 6px; font: 600 14px/1.3 var(--font-texto); color: var(--tinta-suave); }
+.aviso-tramo:first-child { margin-top: 0; }
+.aviso-fila { display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center; width: 100%; padding: 10px 12px; border-radius: 16px; text-align: left; color: var(--tinta); background: transparent; }
+.aviso-fila.nuevo { background: color-mix(in srgb, var(--burdeos) 7%, var(--hoja)); }
+@media (hover: hover) and (pointer: fine) { .aviso-fila:hover { background: color-mix(in srgb, var(--tinta) 5%, var(--hoja)); } }
+.aviso-caras { position: relative; width: 48px; height: 48px; }
+.aviso-av { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); color: var(--burdeos); font: 600 15px var(--font-texto); }
+.aviso-caras.dos .aviso-av { position: absolute; width: 34px; height: 34px; font-size: 12px; border: 2px solid var(--hoja); }
+.aviso-caras.dos .aviso-av:first-child { left: 0; top: 0; }
+.aviso-caras.dos .aviso-av:nth-child(2) { right: 0; bottom: 0; }
+.aviso-tipo { position: absolute; right: -4px; bottom: -4px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--burdeos); color: #fff; border: 2px solid var(--hoja); }
+.aviso-tipo svg { width: 12px; height: 12px; fill: currentColor; }
+.aviso-tipo.t-seguidor { background: #4A5E7A; } .aviso-tipo.t-comentario, .aviso-tipo.t-respuesta { background: #3E6B4F; } .aviso-tipo.t-mencion { background: #7A4A6B; }
+.aviso-txt { display: grid; gap: 2px; min-width: 0; font-size: 14.5px; line-height: 1.4; }
+.aviso-txt q { color: var(--tinta-suave); }
+.aviso-txt small { color: var(--tinta-suave); font-size: 12.5px; }
+.aviso-foto { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; }
+.aviso-permiso { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px; background: color-mix(in srgb, var(--oro) 14%, var(--hoja)); font-size: 14px; }
+.aviso-permiso svg { width: 22px; height: 22px; flex: none; fill: var(--burdeos); }
+.aviso-permiso span { flex: 1; }
+.vacio-avisos { text-align: center; padding: 32px 16px; display: grid; justify-items: center; gap: 8px; }
+.vacio-avisos > svg { width: 48px; height: 48px; fill: color-mix(in srgb, var(--burdeos) 50%, transparent); }
+.vacio-avisos h3 { margin: 0; font: 600 18px var(--font-titulo); }
+.vacio-avisos p { margin: 0 0 8px; max-width: 36ch; }
+.aviso-prefs { display: grid; gap: 4px; }
+.interruptor { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; cursor: pointer; font-size: 15px; }
+.interruptor input { appearance: none; -webkit-appearance: none; flex: none; width: 52px; height: 32px; border-radius: 99px; border: 2px solid color-mix(in srgb, var(--tinta) 45%, transparent); background: color-mix(in srgb, var(--tinta) 8%, var(--hoja)); position: relative; cursor: pointer; transition: background .2s, border-color .2s; }
+.interruptor input::after { content: ""; position: absolute; top: 50%; left: 6px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--tinta) 55%, transparent); transform: translateY(-50%); transition: left .2s cubic-bezier(.2,0,0,1), width .2s, height .2s, background .2s; }
+.interruptor input:checked { background: var(--burdeos); border-color: var(--burdeos); }
+.interruptor input:checked::after { left: 24px; width: 24px; height: 24px; background: #fff; }
