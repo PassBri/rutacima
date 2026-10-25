@@ -420,7 +420,7 @@ const DET = {
       const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
       if (conMetas.has(a)) nMetas++;
       if (i % 10 === 0) puntos += `${i ? "</div>" : ""}<div class="pv-dec${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}${a + 9 < anioHoy ? " pasada" : ""}"><span class="pv-fila" aria-hidden="true"><b>${i}</b><small>${a}</small></span>`;
-      puntos += `<button class="pv ${cls}${conMetas.has(a) ? " meta" : ""}" data-sel="a:${a}" aria-label="${a}, ${i} años${conMetas.has(a) ? ", con metas" : ""}" title="${a} · ${i} años${conMetas.has(a) ? " · con metas" : ""}">${cls === "actual" ? `<b>${i}</b>` : ""}</button>`;
+      puntos += `<button class="pv ${cls}${conMetas.has(a) ? " meta" : ""}" data-sel="a:${a}" aria-label="${a}, ${i} años${conMetas.has(a) ? ", con metas" : ""}" title="${a} · ${i} años${conMetas.has(a) ? " · con metas" : ""}">${PUNTO_MARCA}${cls === "actual" ? `<b>${i}</b>` : ""}</button>`;
     }
     puntos += "</div>";
     const vividos = Math.max(0, anioHoy - nac), porVivir = Math.max(0, metaVida() - vividos - 1);
@@ -696,6 +696,8 @@ async function cargarFeed(mas = false) {
     if (estado.feed) estado.feed = estado.feed.filter(p => !ocultos.has(String(p.id)) && !bloqueados.has(String(p.autorId)) && !silenciados.has(String(p.autorId)));
     cargarFeed.activo = false; if (estado.sec === "comunidad" || estado.sec === "perfil") { pintarLista(); if (!enEdicion()) pintarDetalle(); } }
 }
+/** Cada año de la vida es el símbolo de SuRoute: el círculo abierto al sur con su punto. */
+const PUNTO_MARCA = `<svg class="pv-marca" viewBox="0 0 100 100" aria-hidden="true"><path class="pv-aro" d="M41.45 85.53A38 38 0 1 1 58.55 85.53"/><circle class="pv-sur" cx="50" cy="86.5" r="7"/></svg>`;
 function postal(p, mini = false) {
   const tipo = TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || "";
   if (p.foto && !mini) return `<img class="foto" src="${esc(p.foto)}" alt="${altFoto(p)}">`;

@@ -2490,3 +2490,29 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .perfil-pub h2 .insignia-coach { width: 20px; height: 20px; }
 .perfil-pub h2 .insignia-coach svg { width: 14px; height: 14px; }
 .volver-cimas { flex: none; margin-left: auto; }
+
+/* ---------- Tu vida en años: cada punto es el símbolo de SuRoute ---------- */
+.puntos .pv, .pv-dec .pv { background: transparent !important; box-shadow: none !important; border: 0 !important; outline: 0; border-radius: 50%; color: var(--burdeos); }
+.pv-marca { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pv-aro { fill: none; stroke: currentColor; stroke-width: 6; transition: stroke-width .2s cubic-bezier(.2,0,0,1); }
+.pv-sur { fill: currentColor; }
+.pv.vivido { color: var(--burdeos); }
+.pv.vivido .pv-aro { stroke-width: 7; }
+.pv.futuro { color: color-mix(in srgb, var(--tinta) 26%, transparent); }
+.pv.futuro .pv-aro { stroke-width: 4.5; }
+.pv.actual { color: var(--oro); }
+.pv.actual .pv-aro { stroke-width: 8; }
+.pv.actual .pv-marca { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--oro) 55%, transparent)); }
+.pv.actual b { position: relative; z-index: 1; color: var(--tinta) !important; font-size: 11px; }
+/* Año con metas: el punto del sur se enciende en oro (sin el anillo animado de antes) */
+.pv.meta::after { display: none; }
+.pv.meta .pv-sur { fill: var(--oro); r: 10; }
+.pv.futuro.meta { color: color-mix(in srgb, var(--burdeos) 45%, transparent); }
+@media (hover: hover) and (pointer: fine) { .pv:hover .pv-aro { stroke-width: 10; } }
+.pv:focus-visible { outline: 2px solid var(--oro); outline-offset: 2px; }
+/* Leyenda con el mismo símbolo */
+.pv-chip i { background: none !important; border: 0 !important; }
+.pv-chip i::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid currentColor; clip-path: polygon(0 0, 100% 0, 100% 100%, 62% 100%, 62% 70%, 38% 70%, 38% 100%, 0 100%); }
+.pv-chip i::after { content: ""; position: absolute; left: 50%; bottom: -1px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: currentColor; }
+.pv-chip i.vivido { color: var(--burdeos); } .pv-chip i.actual { color: var(--oro); } .pv-chip i.futuro { color: color-mix(in srgb, var(--tinta) 30%, transparent); }
+.pv-chip i.ley-meta { color: color-mix(in srgb, var(--tinta) 30%, transparent); } .pv-chip i.ley-meta::after { background: var(--oro); width: 5px; height: 5px; margin-left: -2.5px; }
