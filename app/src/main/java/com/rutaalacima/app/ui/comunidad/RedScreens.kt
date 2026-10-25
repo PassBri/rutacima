@@ -44,6 +44,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -663,7 +664,7 @@ fun PrivacidadScreen(onBack: () -> Unit) {
                     val ops = listOf("TODOS" to R.string.red_todos, "SIGUEN" to R.string.red_personas_sigo, "NADIE" to R.string.red_nadie)
                     androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                         ops.forEachIndexed { i, (k, n) ->
-                            androidx.compose.material3.SegmentedButton(selected = vm.regla == k, onClick = { vm.cambiarRegla(k) },
+                            SegmentedButton(selected = vm.regla == k, onClick = { vm.cambiarRegla(k) },
                                 shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, ops.size)) { Text(stringResource(n), maxLines = 1) }
                         }
                     }
