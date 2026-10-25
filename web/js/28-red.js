@@ -447,3 +447,91 @@ ACC.ejeFavorito = (_, cod) => { const s = misEjesRed(); s.has(cod) ? s.delete(co
     if (postEnlace) { history.replaceState(null, "", location.pathname + location.search); abrirPostEnlazado(postEnlace); }
   }, 800);
 }
+
+/* ---------- 6a. Carrusel de fotos y video corto ---------- */
+const MAX_FOTOS = 10, MAX_VIDEO_S = 60, MAX_VIDEO_MB = 50;
+/** Revisa lo elegido (hasta 10 fotos, o un video de hasta 60 s) y muestra la tira de vista previa. */
+async function prepararMedia(input) {
+  const archivos = [...input.files], videos = archivos.filter(f => f.type.startsWith("video/"));
+  const avisar = t => { toast(t); input.value = ""; estado.mediaPendiente = null; };
+  if (videos.length > 1 || (videos.length && archivos.length > 1)) return avisar("Elige un solo video, o hasta 10 fotos.");
+  if (archivos.length > MAX_FOTOS) return avisar(`Elige hasta ${MAX_FOTOS} fotos.`);
+  if (videos.length) {
+    const v = videos[0];
+    if (v.size > MAX_VIDEO_MB * 1024 * 1024) return avisar(`El video pesa más de ${MAX_VIDEO_MB} MB. Recórtalo o elige uno más corto.`);
+    const dur = await new Promise(r => { const el = document.createElement("video"); el.preload = "metadata"; el.onloadedmetadata = () => r(el.duration); el.onerror = () => r(0); el.src = URL.createObjectURL(v); });
+    if (dur > MAX_VIDEO_S + 0.5) return avisar(`El video dura ${Math.round(dur)} s. El máximo es ${MAX_VIDEO_S} s.`);
+  }
+  estado.mediaPendiente = archivos;
+  input.insertAdjacentHTML("afterend", `<div class="media-previa">${archivos.map(f => f.type.startsWith("video/")
+    ? `<video src="${URL.createObjectURL(f)}" muted playsinline></video>` : `<img src="${URL.createObjectURL(f)}" alt="">`).join("")}</div>`);
+}
+window.prepararMedia = prepararMedia;
+/** Achica una foto a 1440 px de lado mayor (JPEG) antes de subirla. */
+async function achicar(f) {
+  try {
+    const bmp = await createImageBitmap(f), k = Math.min(1, 1440 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement("canvas"); c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+    c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+    return await new Promise(r => c.toBlob(b => r(b || f), "image/jpeg", 0.86));
+  } catch { return f; }
+}
+async function subirMedia(id, archivos, progreso) {
+  const sb = Store.nube.sb, r = [];
+  for (let i = 0; i < archivos.length; i++) {
+    progreso?.(i + 1);
+    const f = archivos[i], video = f.type.startsWith("video/"), cuerpo = video ? f : await achicar(f);
+    const ext = video ? (f.type.includes("webm") ? "webm" : f.type.includes("quicktime") ? "mov" : "mp4") : "jpg";
+    const ruta = `${Store.nube.dueno}/${id}-${i}.${ext}`;
+    const up = await sb.storage.from("media").upload(ruta, cuerpo, { upsert: true, contentType: video ? f.type || "video/mp4" : "image/jpeg" });
+    if (up.error) throw up.error;
+    r.push({ t: video ? "vid" : "img", u: sb.storage.from("media").getPublicUrl(ruta).data.publicUrl });
+  }
+  return r;
+}
+window.subirMedia = subirMedia;
+/** En Cimas: carrusel deslizable con puntos, o el video (se reproduce sin sonido al verlo; tocar activa el sonido). */
+function mediaCima(p) {
+  const m = Array.isArray(p.media) ? p.media.filter(x => x?.u) : [];
+  if (!m.length || (m.length === 1 && m[0].t === "img")) return "";
+  const pieza = (x, i) => x.t === "vid"
+    ? `<video class="cima-video" src="${esc(x.u)}" playsinline muted loop preload="metadata" data-video-cima aria-label="Video de la publicación"></video>`
+    : `<img src="${esc(x.u)}" alt="${i ? "" : altFoto(p)}" loading="lazy">`;
+  if (m.length === 1) return `<div class="cima-media">${pieza(m[0], 0)}<button class="cima-sonido" data-acc="sonidoCima" aria-label="Activar sonido">${ic("audifonos")}</button></div>`;
+  return `<div class="cima-carrusel" data-carrusel>${m.map((x, i) => `<div class="cima-diapo">${pieza(x, i)}</div>`).join("")}</div>
+    <div class="cima-puntos" aria-hidden="true">${m.map((_, i) => `<i class="${i ? "" : "si"}"></i>`).join("")}</div>`;
+}
+window.mediaCima = mediaCima;
+ACC.sonidoCima = el => { const v = el.closest(".cima-media")?.querySelector("video"); if (!v) return; v.muted = !v.muted; if (v.paused) v.play().catch(() => {}); el.setAttribute("aria-label", v.muted ? "Activar sonido" : "Silenciar"); el.classList.toggle("activo", !v.muted); };
+{
+  // Los videos se reproducen solo mientras se ven; los puntos del carrusel siguen a la foto visible
+  const ojo = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }), { threshold: 0.6 });
+  new MutationObserver(() => {
+    document.querySelectorAll("[data-video-cima]:not([data-visto])").forEach(v => { v.dataset.visto = "1"; ojo.observe(v); });
+    document.querySelectorAll("[data-carrusel]:not([data-visto])").forEach(c => {
+      c.dataset.visto = "1";
+      c.addEventListener("scroll", () => { const i = Math.round(c.scrollLeft / c.clientWidth); c.nextElementSibling?.querySelectorAll("i").forEach((p, k) => p.classList.toggle("si", k === i)); }, { passive: true });
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+}
+
+/* ---------- 6d. Editar una publicación propia ---------- */
+ACC.editarPost = async (el, id) => {
+  cerrarHoja?.();
+  const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
+  abrirHoja(`<h3 class="hoja-titulo">Editar publicación</h3>
+    <form class="form" id="formEditarPost" style="padding:0 16px 16px">
+      ${campo("Texto", `<textarea name="texto" maxlength="2200" required rows="5">${esc(p.texto || "")}</textarea>`)}
+      ${campo("Meta relacionada", `<input name="meta" maxlength="120" value="${esc(p.metaTitulo || "")}">`)}
+      <div class="botones"><button class="btn lleno" type="submit">Guardar</button><button class="btn" type="button" data-cerrar-hoja>Cancelar</button></div></form>`);
+  const f = document.getElementById("formEditarPost");
+  f.onsubmit = async e => {
+    e.preventDefault();
+    const texto = f.texto.value.trim(), meta = f.meta.value.trim(); if (!texto) return;
+    if (Store.nube && !p.demo) {
+      const r = await Store.nube.sb.from("posts").update({ texto, meta_titulo: meta }).eq("id", p.id).eq("user_id", Store.nube.dueno);
+      if (r.error) return errorNube(r.error);
+    }
+    p.texto = texto; p.metaTitulo = meta; cerrarHoja(); toast("Publicación actualizada"); pintarDetalle();
+  };
+};

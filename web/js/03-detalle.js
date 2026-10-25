@@ -685,7 +685,7 @@ async function cargarFeed(mas = false) {
         id: p.id, autorId: p.user_id, autorNombre: p.autor?.nombre || p.autor?.username || "Senderista", autorUsuario: p.autor?.username || "",
         tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad,
         impulsos: p.impulsos?.[0]?.count || 0, comentarios: p.comentarios?.[0]?.count || 0, yoImpulse: mios.has(p.id),
-        brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo,
+        brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo, media: Array.isArray(p.media) ? p.media : [],
       })).filter(p => !previos.some(x => x.id === p.id));
       // "Para ti" ordena cada página (lo ya visto no se mueve); los demás van por fecha
       estado.feed = previos.concat(estado.feedFiltro === "PARA_TI" && window.ordenarParaTi ? await ordenarParaTi(nuevos) : nuevos);
@@ -745,7 +745,7 @@ Object.assign(DET, {
           <button class="cimas-ic" data-sec="mensajes" aria-label="Mensajes" title="Mensajes">${ic("mensajes")}</button></div>
         ${p0Demo(ps)}
         <div class="cimas" tabindex="0" aria-label="Cimas: desliza para ver la siguiente">${ps.length ? ps.map((p, i) => `<article class="cima" data-cima="${esc(p.id)}" aria-label="Publicación de ${esc(p.autorNombre)}">
-          <div class="cima-fondo">${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
+          <div class="cima-fondo">${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${window.mediaCima?.(p) || ""}${window.mediaCima?.(p) ? "" : p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
             : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${enlazarTexto(p.texto)}”</p>`}</div>
           <div class="cima-acciones">
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
@@ -784,7 +784,7 @@ Object.assign(DET, {
           ${campo("Eje", `<select name="eje">${opcionesEje.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}
           ${campo("Quién lo ve", `<select name="visibilidad">${VISIBILIDAD.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>`)}</div>
         ${campo("Meta relacionada", `<select name="meta"><option value="">Ninguna</option>${Store.lista("meta_anio").map(m => `<option>${esc(m.titulo)}</option>`).join("")}</select>`)}
-        ${Store.nube ? campo("Foto (opcional)", `<input type="file" name="foto" accept="image/*">`) : ""}
+        ${Store.nube ? campo("Fotos o video (opcional)", `<input type="file" name="foto" accept="image/*,video/mp4,video/webm,video/quicktime" multiple><small class="suave">Hasta 10 fotos, o un video de hasta 60 segundos.</small>`) : ""}
         <div class="botones"><button class="btn lleno" type="submit">Publicar</button></div></form>`), "max-width:640px");
   },
 });

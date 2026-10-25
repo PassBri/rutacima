@@ -228,6 +228,7 @@ const ACC = {
       ${p.propio
         ? `<div class="hoja-grupo"><span>Quién la ve</span><div class="segmentos" style="grid-template-columns:repeat(3,1fr)" role="group" aria-label="Quién ve esta publicación">${VISIBILIDAD.map(([v, n]) =>
             `<button data-acc="visibilidadPost" data-arg="${esc(p.id)}|${v}" aria-pressed="${v === vis}">${n}</button>`).join("")}</div></div>
+           <button data-acc="editarPost" data-arg="${esc(p.id)}">${ic("editar")}<span>Editar texto</span></button>
            <button class="peligro" data-acc="borrarPostHoja" data-arg="${esc(p.id)}">${ic("borrar")}<span>Borrar publicación</span></button>`
         : `<button data-acc="escribirHoja" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}">${ic("mensajes")}<span>Enviar mensaje a ${esc(p.autorNombre)}</span></button>
            <button data-acc="reportarPost" data-arg="${esc(p.id)}">${ic("reportar")}<span>Reportar publicación</span></button>
@@ -356,6 +357,9 @@ function cambio(e) {
   if (el.dataset.accChange) { ACC[el.dataset.accChange]?.(el, el.dataset.arg || ""); return; }
   // Foto de una publicación: se abre el editor (formato, recorte, giro y filtro) y se muestra la vista previa
   if (el.name === "foto" && el.closest('[data-form="publicar"]')) {
+    estado.mediaPendiente = null; el.parentElement.querySelector(".media-previa")?.remove();
+    // Varias fotos o un video: carrusel (sin el editor de una sola foto)
+    if (window.prepararMedia && (el.files.length > 1 || /^video\//.test(el.files[0]?.type || ""))) { prepararMedia(el); return; }
     const archivo = el.files?.[0]; estado.fotoEditada = null; el.parentElement.querySelector(".foto-previa")?.remove();
     if (archivo && window.editarFoto) editarFoto(archivo, "publicacion", 1440).then(b => {
       if (!b) { el.value = ""; return; }
@@ -417,18 +421,24 @@ async function enviar(e) {
       try {
         if (Store.nube) {
           const sb = Store.nube.sb, id = crypto.randomUUID(), foto = estado.fotoEditada || datos.get("foto");
-          let url = "";
-          if (foto && foto.size) {
+          let url = "", media = null;
+          if (estado.mediaPendiente?.length) {
+            boton.textContent = "Subiendo…";
+            media = await subirMedia(id, estado.mediaPendiente, n => boton.textContent = `Subiendo ${n} de ${estado.mediaPendiente.length}…`);
+            url = media.find(m => m.t === "img")?.u || "";
+          } else if (foto && foto.size) {
             const ruta = `${Store.nube.dueno}/${id}.jpg`;
             const up = await sb.storage.from("media").upload(ruta, foto, { upsert: true, contentType: foto.type || "image/jpeg" });
             if (up.error) throw up.error;
             url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
           }
           // Se pide la fila de vuelta: así se sabe que quedó guardada y que tu cuenta puede verla
-          const r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post }).select().single();
+          let r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post, ...(media ? { media } : {}) }).select().single();
+          if (r.error && media && /media/.test(r.error.message || "")) r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post }).select().single();
           if (r.error) throw r.error;
           const nuevo = { id, anio: post.anio, autorId: Store.nube.dueno, autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, foto: url,
-            metaTitulo: post.meta_titulo, visibilidad: post.visibilidad, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.parse(r.data?.created_at) || Date.now(), propio: true };
+            metaTitulo: post.meta_titulo, visibilidad: post.visibilidad, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.parse(r.data?.created_at) || Date.now(), propio: true, media: media || [] };
+          estado.mediaPendiente = null;
           (estado.misRecientes ||= []).unshift(nuevo); estado.misPosts = null;
           if (post.visibilidad !== "PRIVADA") estado.feed = [nuevo, ...(estado.feed || []).filter(p => p.id !== id)];
           estado.fotoEditada = null; toast(post.visibilidad === "PRIVADA" ? "Guardado en Mis publicaciones (solo tú lo ves)" : "Publicado");
