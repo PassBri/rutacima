@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">검토할 코치 신청이 없어요.</string>
     <string name="mod_verificar">인증</string>
     <string name="mod_no_aprobar">승인 안 함</string>
+    <string name="red_responder">답글</string>
+    <string name="red_respondiendo">%1$s 님에게 답글</string>
+    <string name="red_ocultar">숨기기</string>
+    <string name="red_mostrar">보이기</string>
+    <string name="red_oculto">다른 사람에게 숨김</string>
+    <string name="red_silenciar">%1$s 님 뮤트</string>
+    <string name="red_silenciado">%1$s 님을 뮤트했어요</string>
+    <string name="red_privacidad">개인정보와 안전</string>
+    <string name="red_quien_comenta">게시물에 댓글을 달 수 있는 사람</string>
+    <string name="red_todos">모두</string>
+    <string name="red_personas_sigo">내가 팔로우하는 사람</string>
+    <string name="red_nadie">아무도</string>
+    <string name="red_menor">14~17세예요</string>
+    <string name="red_menor_ayuda">게시물은 팔로워에게만 보이고, 내가 팔로우하는 사람만 메시지를 보낼 수 있어요.</string>
+    <string name="red_silenciados">뮤트한 사람</string>
+    <string name="red_sin_silenciados">아직 뮤트한 사람이 없어요.</string>
+    <string name="red_dejar_silenciar">뮤트 해제</string>
 </resources>

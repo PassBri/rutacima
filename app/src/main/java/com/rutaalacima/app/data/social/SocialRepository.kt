@@ -73,7 +73,12 @@ object MediaJson {
     fun json(m: List<MediaPost>): JsonArray = JsonArray(m.map { buildJsonObject { put("t", it.tipo); put("u", it.url) } })
 }
 
-data class Comentario(val id: String, val autor: String, val texto: String, val creadoEn: Long)
+data class Comentario(
+    val id: String, val autor: String, val texto: String, val creadoEn: Long,
+    /** Respuesta a otro comentario (null = comentario principal). */
+    val parentId: String? = null, val likes: Int = 0, val yoLike: Boolean = false,
+    val propio: Boolean = false, val ocultoAutor: Boolean = false, val autorAvatar: String = "",
+)
 
 enum class FiltroFeed { PARA_TI, SIGUIENDO, VISION, GUARDADOS }
 
@@ -376,7 +381,7 @@ class SocialRepository(
                 FiltroFeed.PARA_TI -> todo
                 FiltroFeed.GUARDADOS -> todo.filter { it.id in guardados }
             }
-            return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
+            return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() && it.autorId !in silenciadosLocales() }.also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
         val base = "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=$paginaFeed&offset=$desde" +
@@ -401,7 +406,8 @@ class SocialRepository(
         val ids = filas.mapNotNull { it.jsonObject["id"]?.jsonPrimitive?.contentOrNull }
         val mios = if (ids.isEmpty()) emptySet() else supa.select("votes", "select=post_id&user_id=eq.$uid&post_id=in.(${ids.joinToString(",")})")
             .jsonArray.mapNotNull { it.jsonObject["post_id"]?.jsonPrimitive?.contentOrNull }.toSet()
-        filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.also(::recordar)
+        val silenciados = silenciadosLocales()
+        filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.filter { it.autorId !in silenciados }.also(::recordar)
     }
 
     /** Publicaciones públicas con un filtro extra de PostgREST (etiqueta o eje), para sus páginas. */
@@ -475,33 +481,72 @@ class SocialRepository(
 
     suspend fun comentarios(post: Post): List<Comentario> = withContext(Dispatchers.IO) {
         if (enLinea && !post.demo) {
-            supa.select("comments", "select=id,texto,created_at,autor:profiles!comments_user_id_fkey(username,nombre)&post_id=eq.${post.id}&order=created_at")
-                .jsonArray.map { e ->
-                    val o = e.jsonObject
-                    val autor = o["autor"] as? JsonObject
-                    Comentario(
-                        id = o["id"]?.jsonPrimitive?.contentOrNull.orEmpty(),
-                        autor = autor?.get("nombre")?.jsonPrimitive?.contentOrNull ?: autor?.get("username")?.jsonPrimitive?.contentOrNull.orEmpty(),
-                        texto = o["texto"]?.jsonPrimitive?.contentOrNull.orEmpty(),
-                        creadoEn = runCatching { Instant.parse(o["created_at"]!!.jsonPrimitive.content).toEpochMilli() }.getOrDefault(0L),
-                    )
-                }
+            val uid = supa.sesion.value!!.userId
+            fun fila(e: kotlinx.serialization.json.JsonElement): Comentario {
+                val o = e.jsonObject; val autor = o["autor"] as? JsonObject
+                fun s(k: String) = o[k]?.jsonPrimitive?.contentOrNull.orEmpty()
+                return Comentario(
+                    id = s("id"), autor = autor?.get("nombre")?.jsonPrimitive?.contentOrNull?.ifBlank { null } ?: autor?.get("username")?.jsonPrimitive?.contentOrNull.orEmpty(),
+                    texto = s("texto"), creadoEn = runCatching { Instant.parse(s("created_at")).toEpochMilli() }.getOrDefault(0L),
+                    parentId = s("parent_id").ifBlank { null }, likes = conteo(o, "likes"), propio = s("user_id") == uid,
+                    ocultoAutor = o["oculto_autor"]?.jsonPrimitive?.contentOrNull == "true", autorAvatar = autor?.get("avatar_url")?.jsonPrimitive?.contentOrNull.orEmpty(),
+                )
+            }
+            // Con respuestas e impulsos (si la base ya los tiene); si no, comentarios simples
+            val lista = runCatching {
+                supa.select("comments", "select=id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)&post_id=eq.${post.id}&order=created_at")
+                    .jsonArray.map(::fila)
+            }.getOrElse {
+                supa.select("comments", "select=id,texto,created_at,user_id,autor:profiles!comments_user_id_fkey(username,nombre)&post_id=eq.${post.id}&order=created_at").jsonArray.map(::fila)
+            }
+            val mios = if (lista.isEmpty()) emptySet() else runCatching {
+                supa.select("comment_likes", "select=comment_id&user_id=eq.$uid&comment_id=in.(${lista.joinToString(",") { it.id }})").jsonArray
+                    .mapNotNull { it.jsonObject["comment_id"]?.jsonPrimitive?.contentOrNull }.toSet()
+            }.getOrDefault(emptySet())
+            lista.map { it.copy(yoLike = it.id in mios) }
         } else {
             DemoComunidad.comentarios(context, post.id) +
-                dao.comentarios(post.id).map { Comentario(it.id.toString(), it.autor, it.texto, it.creadoEn) }
+                dao.comentarios(post.id).map { Comentario(it.id.toString(), it.autor, it.texto, it.creadoEn, propio = true) }
         }
     }
 
-    suspend fun comentar(post: Post, texto: String) = withContext(Dispatchers.IO) {
+    suspend fun comentar(post: Post, texto: String, parentId: String? = null) = withContext(Dispatchers.IO) {
         if (texto.isBlank()) return@withContext
         if (enLinea && !post.demo) {
-            supa.insert("comments", buildJsonObject {
-                put("post_id", post.id); put("user_id", supa.sesion.value!!.userId); put("texto", texto.trim())
-            }, devolver = false)
+            val fila = buildJsonObject { put("post_id", post.id); put("user_id", supa.sesion.value!!.userId); put("texto", texto.trim()) }
+            if (parentId != null) runCatching { supa.insert("comments", JsonObject(fila + ("parent_id" to kotlinx.serialization.json.JsonPrimitive(parentId))), devolver = false) }
+                .getOrElse { supa.insert("comments", fila, devolver = false) }
+            else supa.insert("comments", fila, devolver = false)
         } else {
             dao.comentar(ComentarioLocalEntity(publicacionId = post.id, autor = nombrePropio(), texto = texto.trim()))
         }
     }
+
+    /** Impulso a un comentario (como "me gusta"). */
+    suspend fun impulsarComentario(c: Comentario) = withContext(Dispatchers.IO) {
+        if (!enLinea) return@withContext
+        val uid = supa.sesion.value!!.userId
+        if (c.yoLike) supa.delete("comment_likes", "comment_id=eq.${c.id}&user_id=eq.$uid")
+        else supa.insert("comment_likes", buildJsonObject { put("comment_id", c.id); put("user_id", uid) }, devolver = false)
+    }
+
+    /** Ocultar (o mostrar) un comentario en mi publicación. */
+    suspend fun ocultarComentario(c: Comentario, si: Boolean) = withContext(Dispatchers.IO) {
+        if (enLinea) supa.rpc("ocultar_comentario", buildJsonObject { put("p_comment", c.id); put("p_si", si) })
+    }
+
+    /** Silenciar: dejo de ver a esa persona y sus avisos, sin bloquearla. */
+    suspend fun silenciar(autorId: String, si: Boolean) = withContext(Dispatchers.IO) {
+        val s = prefs.getStringSet("silenciados", emptySet()).orEmpty()
+        prefs.edit().putStringSet("silenciados", if (si) s + autorId else s - autorId).apply()
+        if (si) cache.values.removeAll { it.autorId == autorId }
+        if (enLinea) runCatching {
+            val uid = supa.sesion.value!!.userId
+            if (si) supa.upsert("silencios", buildJsonObject { put("quien", uid); put("a_quien", autorId) })
+            else supa.delete("silencios", "quien=eq.$uid&a_quien=eq.$autorId")
+        }
+    }
+    fun silenciadosLocales(): Set<String> = prefs.getStringSet("silenciados", emptySet()).orEmpty()
 
     // ------------------------------------------------------------------ Reportar y bloquear
 

@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">لا توجد طلبات مدرّبين للمراجعة.</string>
     <string name="mod_verificar">توثيق</string>
     <string name="mod_no_aprobar">رفض</string>
+    <string name="red_responder">رد</string>
+    <string name="red_respondiendo">الرد على %1$s</string>
+    <string name="red_ocultar">إخفاء</string>
+    <string name="red_mostrar">إظهار</string>
+    <string name="red_oculto">مخفي عن الآخرين</string>
+    <string name="red_silenciar">كتم %1$s</string>
+    <string name="red_silenciado">لقد كتمت %1$s</string>
+    <string name="red_privacidad">الخصوصية والأمان</string>
+    <string name="red_quien_comenta">من يمكنه التعليق على منشوراتك</string>
+    <string name="red_todos">الجميع</string>
+    <string name="red_personas_sigo">من أتابعهم</string>
+    <string name="red_nadie">لا أحد</string>
+    <string name="red_menor">عمري بين 14 و17</string>
+    <string name="red_menor_ayuda">تصل منشوراتك إلى متابعيك فقط ولا يراسلك إلا من تتابعهم.</string>
+    <string name="red_silenciados">الأشخاص المكتومون</string>
+    <string name="red_sin_silenciados">لم تكتم أحدًا.</string>
+    <string name="red_dejar_silenciar">إلغاء الكتم</string>
 </resources>

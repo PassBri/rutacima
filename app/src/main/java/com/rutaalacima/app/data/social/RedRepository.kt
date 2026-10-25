@@ -262,6 +262,31 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
         supa.rpc("verificar_coach", buildJsonObject { put("p_user", id); put("p_si", si) }); verificadosCache = null
     }
 
+    // ------------------------------------------------------------------ Privacidad y seguridad
+
+    /** (quién puede comentar, soy menor de edad). */
+    suspend fun privacidad(): Pair<String, Boolean> = withContext(Dispatchers.IO) {
+        if (!disponible) return@withContext prefs.getString("demo_regla", "TODOS").orEmpty() to prefs.getBoolean("demo_menor", false)
+        runCatching {
+            val o = filas(supa.select("profiles", "select=comentarios_de,menor&id=eq.$yo")).first()
+            o.s("comentarios_de").ifBlank { "TODOS" } to ((o["menor"] as? JsonPrimitive)?.booleanOrNull ?: false)
+        }.getOrDefault("TODOS" to false)
+    }
+    suspend fun reglaComentarios(r: String) = withContext(Dispatchers.IO) {
+        if (!disponible) { prefs.edit().putString("demo_regla", r).apply(); return@withContext }
+        supa.rpc("mis_comentarios_de", buildJsonObject { put("p_regla", r) })
+    }
+    suspend fun soyMenor(si: Boolean) = withContext(Dispatchers.IO) {
+        if (!disponible) { prefs.edit().putBoolean("demo_menor", si).apply(); return@withContext }
+        supa.rpc("mi_edad_menor", buildJsonObject { put("p_si", si) })
+    }
+    suspend fun silenciados(): List<Persona> = withContext(Dispatchers.IO) {
+        val ids = social.silenciadosLocales()
+        if (!disponible) return@withContext demoPersonas().filter { it.id in ids }
+        runCatching { filas(supa.select("silencios", "select=a_quien,persona:profiles!silencios_a_quien_fkey(id,username,nombre,avatar_url)&quien=eq.$yo"))
+            .mapNotNull { it.o("persona")?.let(::persona) } }.getOrDefault(emptyList())
+    }
+
     private fun demoPersonas() = listOf(
         Persona("mateo.valor", "Mateo G.", "mateo.valor", cumbre = "Facturar el doble con mi propio negocio"),
         Persona("sofi.voz", "Sofía L.", "sofi.voz", cumbre = "Hablar en público sin miedo"),

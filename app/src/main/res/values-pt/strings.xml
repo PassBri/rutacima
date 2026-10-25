@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">Não há candidaturas de coaches para revisar.</string>
     <string name="mod_verificar">Verificar</string>
     <string name="mod_no_aprobar">Não aprovar</string>
+    <string name="red_responder">Responder</string>
+    <string name="red_respondiendo">Respondendo a %1$s</string>
+    <string name="red_ocultar">Ocultar</string>
+    <string name="red_mostrar">Mostrar</string>
+    <string name="red_oculto">Oculto para os demais</string>
+    <string name="red_silenciar">Silenciar %1$s</string>
+    <string name="red_silenciado">Você silenciou %1$s</string>
+    <string name="red_privacidad">Privacidade e segurança</string>
+    <string name="red_quien_comenta">Quem pode comentar suas publicações</string>
+    <string name="red_todos">Todos</string>
+    <string name="red_personas_sigo">Pessoas que sigo</string>
+    <string name="red_nadie">Ninguém</string>
+    <string name="red_menor">Tenho entre 14 e 17 anos</string>
+    <string name="red_menor_ayuda">O que você publicar chega só aos seus seguidores e só as pessoas que você segue podem escrever.</string>
+    <string name="red_silenciados">Pessoas silenciadas</string>
+    <string name="red_sin_silenciados">Você não silenciou ninguém.</string>
+    <string name="red_dejar_silenciar">Deixar de silenciar</string>
 </resources>

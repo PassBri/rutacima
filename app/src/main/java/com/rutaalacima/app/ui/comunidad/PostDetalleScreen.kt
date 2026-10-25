@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.material.icons.filled.Close
 import com.rutaalacima.app.ui.theme.fondoPapel
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -99,12 +100,23 @@ class PostDetalleViewModel(private val c: AppContainer, id: String) : ViewModel(
         viewModelScope.launch { comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(emptyList()) }
     }
 
+    var respondiendo by mutableStateOf<Comentario?>(null)
+    fun impulsarComentario(k: Comentario) {
+        comentarios = comentarios.map { if (it.id == k.id) it.copy(yoLike = !k.yoLike, likes = (k.likes + if (k.yoLike) -1 else 1).coerceAtLeast(0)) else it }
+        viewModelScope.launch { runCatching { c.social.impulsarComentario(k) } }
+    }
+    fun ocultarComentario(k: Comentario) {
+        comentarios = comentarios.map { if (it.id == k.id) it.copy(ocultoAutor = !k.ocultoAutor) else it }
+        viewModelScope.launch { runCatching { c.social.ocultarComentario(k, !k.ocultoAutor) } }
+    }
+
     fun comentar() {
         val p = post ?: return
         val t = nuevo
-        nuevo = ""
+        val padre = respondiendo?.let { it.parentId ?: it.id }
+        nuevo = ""; respondiendo = null
         viewModelScope.launch {
-            runCatching { c.social.comentar(p, t) }
+            runCatching { c.social.comentar(p, t, padre) }
             post = p.copy(comentarios = p.comentarios + 1)
             cargar()
         }
@@ -170,12 +182,20 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
         },
         bottomBar = {
             Surface(tonalElevation = 3.dp) {
-                Row(Modifier.fillMaxWidth().navigationBarsPadding().imePadding().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.fillMaxWidth().navigationBarsPadding().imePadding()) {
+                vm.respondiendo?.let { r ->
+                    Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.red_respondiendo, r.autor), style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f))
+                        IconButton(onClick = { vm.respondiendo = null }) { Icon(Icons.Filled.Close, stringResource(R.string.cancelar)) }
+                    }
+                }
+                Row(Modifier.fillMaxWidth().padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     OutlinedTextField(vm.nuevo, { vm.nuevo = it }, placeholder = { Text(stringResource(R.string.escribe_comentario)) },
                         modifier = Modifier.weight(1f), maxLines = 4)
                     IconButton(onClick = vm::comentar, enabled = vm.nuevo.isNotBlank()) {
                         Icon(Icons.AutoMirrored.Filled.Send, stringResource(R.string.comentar), tint = MaterialTheme.colorScheme.primary)
                     }
+                }
                 }
             }
         },
@@ -197,17 +217,8 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
                 }
             }
             item { Text(stringResource(R.string.comentarios_n, vm.comentarios.size), style = MaterialTheme.typography.titleMedium) }
-            items(vm.comentarios, key = { it.id }) { c ->
-                Row(verticalAlignment = Alignment.Top) {
-                    Avatar(c.autor, tamano = 32)
-                    Spacer(Modifier.width(10.dp))
-                    Column {
-                        Text(c.autor, style = MaterialTheme.typography.labelLarge)
-                        TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
-                        Text(haceCuanto(c.creadoEn), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                }
-            }
+            comentariosConRespuestas(vm.comentarios, vm.post?.propio == true, onResponder = { vm.respondiendo = it },
+                onImpulsar = vm::impulsarComentario, onOcultar = vm::ocultarComentario)
         }
     }
 }

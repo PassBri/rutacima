@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">No coach applications to review.</string>
     <string name="mod_verificar">Verify</string>
     <string name="mod_no_aprobar">Decline</string>
+    <string name="red_responder">Reply</string>
+    <string name="red_respondiendo">Replying to %1$s</string>
+    <string name="red_ocultar">Hide</string>
+    <string name="red_mostrar">Show</string>
+    <string name="red_oculto">Hidden from others</string>
+    <string name="red_silenciar">Mute %1$s</string>
+    <string name="red_silenciado">You muted %1$s</string>
+    <string name="red_privacidad">Privacy and safety</string>
+    <string name="red_quien_comenta">Who can comment on your posts</string>
+    <string name="red_todos">Everyone</string>
+    <string name="red_personas_sigo">People I follow</string>
+    <string name="red_nadie">No one</string>
+    <string name="red_menor">I am between 14 and 17</string>
+    <string name="red_menor_ayuda">Your posts reach only your followers and only people you follow can message you.</string>
+    <string name="red_silenciados">Muted people</string>
+    <string name="red_sin_silenciados">You have not muted anyone.</string>
+    <string name="red_dejar_silenciar">Unmute</string>
 </resources>

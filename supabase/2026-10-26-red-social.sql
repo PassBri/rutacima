@@ -115,13 +115,20 @@ grant execute on function public.mis_avisos(jsonb) to anon, authenticated;
 -- ---------- 5. Menciones e invitaciones ----------
 -- @usuario en una publicación o un comentario avisa a esa persona
 create or replace function public.aviso_menciones() returns trigger language plpgsql security definer set search_path = public as $$
-declare u text; dest uuid; post uuid;
+declare u text; dest uuid; post uuid; ya uuid[] := '{}';
 begin
-  post := case when tg_table_name = 'posts' then new.id else new.post_id end;
-  if tg_table_name = 'posts' and new.visibilidad = 'PRIVADA' then return new; end if;
+  -- Cada tabla con su campo (en PL/pgSQL los campos de NEW se resuelven al ejecutar cada sentencia)
+  if tg_table_name = 'posts' then
+    post := new.id;
+    if new.visibilidad = 'PRIVADA' then return new; end if;
+  else
+    post := new.post_id;
+    -- Quien ya recibe el aviso del comentario o de la respuesta no recibe además el de la mención
+    ya := array[(select user_id from public.posts where id = new.post_id), (select user_id from public.comments where id = new.parent_id)];
+  end if;
   for u in select distinct lower(m[1]) from regexp_matches(coalesce(new.texto, ''), '(?:^|[^a-z0-9._])@([a-z0-9._]{3,30})', 'gi') as m loop
     select id into dest from public.profiles where username = u;
-    if dest is not null then
+    if dest is not null and not coalesce(dest = any(ya), false) then
       perform public.notificar(dest, new.user_id, 'MENCION', post, case when tg_table_name = 'comments' then new.id else null end, new.texto);
     end if;
   end loop;
@@ -375,3 +382,17 @@ begin
     case when p_aceptar then 'Aceptamos tu apelación: ya puedes volver a participar en la comunidad.' else 'Revisamos tu apelación y la suspensión se mantiene. ' || coalesce(p_respuesta, '') end);
 end $$;
 grant execute on function public.resolver_apelacion(bigint, boolean, text) to authenticated;
+-- Al eliminar por moderación, los reportes se borran con la publicación: se avisa antes a quienes reportaron
+create or replace function public.avisar_reportes_al_borrar() returns trigger language plpgsql security definer set search_path = public as $$
+declare q uuid;
+begin
+  if not public.es_moderador() or old.user_id = public.yo() then return old; end if;
+  for q in select distinct r.quien from public.reportes r
+    where (tg_table_name = 'posts' and r.post_id = old.id) or (tg_table_name = 'comments' and r.comment_id = old.id)
+  loop perform public.notificar(q, null, 'SISTEMA', null, null, 'Revisamos tu reporte y tomamos medidas. Gracias por cuidar la comunidad.'); end loop;
+  return old;
+end $$;
+drop trigger if exists avisar_reportes_al_borrar on public.posts;
+create trigger avisar_reportes_al_borrar before delete on public.posts for each row execute function public.avisar_reportes_al_borrar();
+drop trigger if exists avisar_reportes_al_borrar on public.comments;
+create trigger avisar_reportes_al_borrar before delete on public.comments for each row execute function public.avisar_reportes_al_borrar();

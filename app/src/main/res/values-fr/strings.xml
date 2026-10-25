@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">Aucune candidature de coach à examiner.</string>
     <string name="mod_verificar">Vérifier</string>
     <string name="mod_no_aprobar">Refuser</string>
+    <string name="red_responder">Répondre</string>
+    <string name="red_respondiendo">Réponse à %1$s</string>
+    <string name="red_ocultar">Masquer</string>
+    <string name="red_mostrar">Afficher</string>
+    <string name="red_oculto">Masqué pour les autres</string>
+    <string name="red_silenciar">Masquer %1$s</string>
+    <string name="red_silenciado">Vous avez masqué %1$s</string>
+    <string name="red_privacidad">Confidentialité et sécurité</string>
+    <string name="red_quien_comenta">Qui peut commenter vos publications</string>
+    <string name="red_todos">Tout le monde</string>
+    <string name="red_personas_sigo">Personnes que je suis</string>
+    <string name="red_nadie">Personne</string>
+    <string name="red_menor">J’ai entre 14 et 17 ans</string>
+    <string name="red_menor_ayuda">Vos publications n’atteignent que vos abonnés et seules les personnes que vous suivez peuvent vous écrire.</string>
+    <string name="red_silenciados">Personnes masquées</string>
+    <string name="red_sin_silenciados">Vous n’avez masqué personne.</string>
+    <string name="red_dejar_silenciar">Ne plus masquer</string>
 </resources>

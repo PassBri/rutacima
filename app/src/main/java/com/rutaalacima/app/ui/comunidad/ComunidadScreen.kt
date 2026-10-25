@@ -69,6 +69,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.filled.Close
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Notifications
@@ -172,11 +174,27 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         viewModelScope.launch { comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(emptyList()); cargandoComentarios = false }
     }
 
+    /** Comentario al que se está respondiendo (null = comentario nuevo). */
+    var respondiendo by mutableStateOf<com.rutaalacima.app.data.social.Comentario?>(null)
     fun comentar(p: Post, texto: String) {
         val t = texto.trim(); if (t.isEmpty()) return
-        comentarios = comentarios + com.rutaalacima.app.data.social.Comentario("local-${System.currentTimeMillis()}", c.social.nombrePropio(), t, System.currentTimeMillis())
+        val padre = respondiendo?.let { it.parentId ?: it.id }
+        comentarios = comentarios + com.rutaalacima.app.data.social.Comentario("local-${System.currentTimeMillis()}", c.social.nombrePropio(), t, System.currentTimeMillis(), parentId = padre, propio = true)
         posts = posts.map { if (it.id == p.id) it.copy(comentarios = it.comentarios + 1) else it }
-        viewModelScope.launch { runCatching { c.social.comentar(p, t) } }
+        respondiendo = null
+        viewModelScope.launch { runCatching { c.social.comentar(p, t, padre) }; comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(comentarios) }
+    }
+    fun impulsarComentario(k: com.rutaalacima.app.data.social.Comentario) {
+        comentarios = comentarios.map { if (it.id == k.id) it.copy(yoLike = !k.yoLike, likes = (k.likes + if (k.yoLike) -1 else 1).coerceAtLeast(0)) else it }
+        viewModelScope.launch { runCatching { c.social.impulsarComentario(k) } }
+    }
+    fun ocultarComentario(k: com.rutaalacima.app.data.social.Comentario) {
+        comentarios = comentarios.map { if (it.id == k.id) it.copy(ocultoAutor = !k.ocultoAutor) else it }
+        viewModelScope.launch { runCatching { c.social.ocultarComentario(k, !k.ocultoAutor) } }
+    }
+    fun silenciar(p: Post) {
+        posts = posts.filter { it.autorId != p.autorId }
+        viewModelScope.launch { runCatching { c.social.silenciar(p.autorId, true) } }
     }
 
     /** Reportar: deja de verse al instante (y con 3 reportes se oculta para todos hasta revisarla). */
@@ -496,17 +514,14 @@ private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> 
                 vm.cargandoComentarios -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
                 vm.comentarios.isEmpty() -> Text(stringResource(R.string.sin_comentarios), style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 20.dp))
-                else -> LazyColumn(Modifier.fillMaxWidth().heightIn(max = 360.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    items(vm.comentarios, key = { it.id }) { c ->
-                        Row(verticalAlignment = Alignment.Top) {
-                            Avatar(c.autor, tamano = 32)
-                            Spacer(Modifier.width(10.dp))
-                            Column(Modifier.weight(1f)) {
-                                Text(c.autor, style = MaterialTheme.typography.labelLarge)
-                                TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
-                            }
-                        }
-                    }
+                else -> LazyColumn(Modifier.fillMaxWidth().heightIn(max = 420.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    comentariosConRespuestas(vm.comentarios, post.propio, onResponder = { vm.respondiendo = it }, onImpulsar = vm::impulsarComentario, onOcultar = vm::ocultarComentario)
+                }
+            }
+            vm.respondiendo?.let { r ->
+                Row(Modifier.fillMaxWidth().padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.red_respondiendo, r.autor), style = MaterialTheme.typography.labelMedium, modifier = Modifier.weight(1f))
+                    androidx.compose.material3.IconButton(onClick = { vm.respondiendo = null }) { Icon(Icons.Filled.Close, stringResource(R.string.cancelar)) }
                 }
             }
             Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -588,6 +603,11 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
                     modifier = Modifier.padding(top = 8.dp).clickable { borrando = true },
                 )
             } else {
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.red_silenciar, post.autorNombre)) },
+                    leadingContent = { Icon(Icons.Filled.VisibilityOff, null) },
+                    modifier = Modifier.clickable { vm.silenciar(post); onCerrar() },
+                )
                 if (!post.demo) androidx.compose.material3.ListItem(
                     headlineContent = { Text(stringResource(R.string.enviar_mensaje_a, post.autorNombre)) },
                     leadingContent = { Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, null) },

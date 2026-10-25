@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">Нет заявок коучей на проверку.</string>
     <string name="mod_verificar">Подтвердить</string>
     <string name="mod_no_aprobar">Отклонить</string>
+    <string name="red_responder">Ответить</string>
+    <string name="red_respondiendo">Ответ для %1$s</string>
+    <string name="red_ocultar">Скрыть</string>
+    <string name="red_mostrar">Показать</string>
+    <string name="red_oculto">Скрыто от других</string>
+    <string name="red_silenciar">Заглушить %1$s</string>
+    <string name="red_silenciado">Вы заглушили %1$s</string>
+    <string name="red_privacidad">Конфиденциальность и безопасность</string>
+    <string name="red_quien_comenta">Кто может комментировать ваши публикации</string>
+    <string name="red_todos">Все</string>
+    <string name="red_personas_sigo">Те, на кого я подписан</string>
+    <string name="red_nadie">Никто</string>
+    <string name="red_menor">Мне от 14 до 17 лет</string>
+    <string name="red_menor_ayuda">Ваши публикации видят только подписчики, и писать вам могут только те, на кого вы подписаны.</string>
+    <string name="red_silenciados">Заглушённые люди</string>
+    <string name="red_sin_silenciados">Вы никого не заглушили.</string>
+    <string name="red_dejar_silenciar">Включить снова</string>
 </resources>

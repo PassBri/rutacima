@@ -130,6 +130,7 @@ object Rutas {
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
     const val POST = "post/{id}"
     const val AVISOS = "avisos"
+    const val PRIVACIDAD = "privacidad"
     const val PERSONAS = "personas"
     const val PERSONA = "persona/{id}"
     const val LISTADO = "listado/{clave}"
@@ -531,8 +532,9 @@ private fun AppPrincipal() {
             }
             composable(Rutas.AVISOS) {
                 com.rutaalacima.app.ui.comunidad.AvisosScreen(onBack = { nav.popBackStack() }, onPost = { nav.navigate(Rutas.post(it)) },
-                    onPersona = { if (it.isNotBlank()) nav.navigate(Rutas.persona(it)) })
+                    onPersona = { if (it.isNotBlank()) nav.navigate(Rutas.persona(it)) }, onPrivacidad = { nav.navigate(Rutas.PRIVACIDAD) })
             }
+            composable(Rutas.PRIVACIDAD) { com.rutaalacima.app.ui.comunidad.PrivacidadScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.LISTADO, arguments = listOf(navArgument("clave") { type = NavType.StringType })) { e ->
                 com.rutaalacima.app.ui.comunidad.ListadoPublicacionesScreen(clave = e.arguments?.getString("clave").orEmpty(),
                     onBack = { nav.popBackStack() }, onPost = { nav.navigate(Rutas.post(it)) })

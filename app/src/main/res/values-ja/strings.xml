@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">審査待ちのコーチ申請はありません。</string>
     <string name="mod_verificar">認証する</string>
     <string name="mod_no_aprobar">承認しない</string>
+    <string name="red_responder">返信</string>
+    <string name="red_respondiendo">%1$sに返信中</string>
+    <string name="red_ocultar">非表示</string>
+    <string name="red_mostrar">表示</string>
+    <string name="red_oculto">他の人には非表示</string>
+    <string name="red_silenciar">%1$sをミュート</string>
+    <string name="red_silenciado">%1$sをミュートしました</string>
+    <string name="red_privacidad">プライバシーと安全</string>
+    <string name="red_quien_comenta">投稿にコメントできる人</string>
+    <string name="red_todos">全員</string>
+    <string name="red_personas_sigo">フォローしている人</string>
+    <string name="red_nadie">誰も不可</string>
+    <string name="red_menor">14〜17歳です</string>
+    <string name="red_menor_ayuda">投稿はフォロワーだけに届き、メッセージはフォローしている人からだけ届きます。</string>
+    <string name="red_silenciados">ミュート中の人</string>
+    <string name="red_sin_silenciados">誰もミュートしていません。</string>
+    <string name="red_dejar_silenciar">ミュート解除</string>
 </resources>

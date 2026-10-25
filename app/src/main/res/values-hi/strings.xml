@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">समीक्षा के लिए कोई कोच आवेदन नहीं।</string>
     <string name="mod_verificar">सत्यापित करें</string>
     <string name="mod_no_aprobar">मंज़ूर न करें</string>
+    <string name="red_responder">जवाब दें</string>
+    <string name="red_respondiendo">%1$s को जवाब</string>
+    <string name="red_ocultar">छिपाएँ</string>
+    <string name="red_mostrar">दिखाएँ</string>
+    <string name="red_oculto">दूसरों से छिपा</string>
+    <string name="red_silenciar">%1$s को म्यूट करें</string>
+    <string name="red_silenciado">आपने %1$s को म्यूट किया</string>
+    <string name="red_privacidad">निजता और सुरक्षा</string>
+    <string name="red_quien_comenta">आपकी पोस्ट पर कौन टिप्पणी कर सकता है</string>
+    <string name="red_todos">सभी</string>
+    <string name="red_personas_sigo">जिन्हें मैं फ़ॉलो करता हूँ</string>
+    <string name="red_nadie">कोई नहीं</string>
+    <string name="red_menor">मेरी उम्र 14 से 17 साल है</string>
+    <string name="red_menor_ayuda">आपकी पोस्ट सिर्फ़ फ़ॉलोअर्स तक पहुँचेगी और सिर्फ़ वे लोग संदेश भेज सकेंगे जिन्हें आप फ़ॉलो करते हैं।</string>
+    <string name="red_silenciados">म्यूट किए गए लोग</string>
+    <string name="red_sin_silenciados">आपने किसी को म्यूट नहीं किया।</string>
+    <string name="red_dejar_silenciar">म्यूट हटाएँ</string>
 </resources>

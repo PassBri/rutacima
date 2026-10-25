@@ -30,6 +30,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
@@ -120,7 +121,7 @@ private val ICONO_AVISO: Map<String, ImageVector> by lazy {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AvisosScreen(onBack: () -> Unit, onPost: (String) -> Unit, onPersona: (String) -> Unit) {
+fun AvisosScreen(onBack: () -> Unit, onPost: (String) -> Unit, onPersona: (String) -> Unit, onPrivacidad: () -> Unit = {}) {
     val vm = rutaViewModel { AvisosViewModel(it) }
     var ajustes by rememberSaveable { mutableStateOf(false) }
     Scaffold(
@@ -130,7 +131,10 @@ fun AvisosScreen(onBack: () -> Unit, onPost: (String) -> Unit, onPersona: (Strin
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(stringResource(R.string.red_avisos)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
-                actions = { IconButton(onClick = { ajustes = !ajustes; if (ajustes) vm.cargarPrefs() }) { Icon(Icons.Filled.Settings, stringResource(R.string.red_que_recibir)) } },
+                actions = {
+                    IconButton(onClick = onPrivacidad) { Icon(Icons.Filled.Lock, stringResource(R.string.red_privacidad)) }
+                    IconButton(onClick = { ajustes = !ajustes; if (ajustes) vm.cargarPrefs() }) { Icon(Icons.Filled.Settings, stringResource(R.string.red_que_recibir)) }
+                },
             )
         },
     ) { padding ->
@@ -569,6 +573,124 @@ fun RetoCard(r: com.rutaalacima.app.data.social.Reto, onUnirse: () -> Unit, onMa
                 else -> Button(onClick = onMarcar) { Text(stringResource(R.string.red_marcar_hoy)) }
             }
             if (r.yoParticipo) androidx.compose.material3.TextButton(onClick = onSalir) { Text(stringResource(R.string.red_salir_reto)) }
+        }
+    }
+}
+
+/* ====================================================================== Comentarios con respuestas */
+
+/**
+ * Comentarios con sus respuestas debajo (sangradas), impulso de comentario, "Responder" y, en mis
+ * publicaciones, "Ocultar". Se usa en la hoja de Cimas y en el detalle de la publicación.
+ */
+fun androidx.compose.foundation.lazy.LazyListScope.comentariosConRespuestas(
+    lista: List<com.rutaalacima.app.data.social.Comentario>, esDueno: Boolean,
+    onResponder: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+    onImpulsar: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+    onOcultar: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+) {
+    val ids = lista.map { it.id }.toSet()
+    val raiz = lista.filter { it.parentId == null || it.parentId !in ids }
+    raiz.forEach { c ->
+        item(key = "c${c.id}") { FilaComentario(c, false, esDueno, onResponder, onImpulsar, onOcultar) }
+        lista.filter { it.parentId == c.id }.forEach { h ->
+            item(key = "c${h.id}") { FilaComentario(h, true, esDueno, onResponder, onImpulsar, onOcultar) }
+        }
+    }
+}
+
+@Composable
+private fun FilaComentario(
+    c: com.rutaalacima.app.data.social.Comentario, respuesta: Boolean, esDueno: Boolean,
+    onResponder: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+    onImpulsar: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+    onOcultar: (com.rutaalacima.app.data.social.Comentario) -> Unit,
+) {
+    Row(Modifier.fillMaxWidth().padding(start = if (respuesta) 42.dp else 0.dp), verticalAlignment = Alignment.Top) {
+        Avatar(c.autor, c.autorAvatar, if (respuesta) 26 else 32)
+        Spacer(Modifier.width(10.dp))
+        Column(Modifier.weight(1f)) {
+            Text(c.autor, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
+            if (c.ocultoAutor) Text(stringResource(R.string.red_oculto), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                Text(haceCuanto(c.creadoEn), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(R.string.red_responder), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.clip(RoundedCornerShape(6.dp)).clickable { onResponder(c) }.padding(vertical = 6.dp))
+                if (esDueno && !c.propio) Text(stringResource(if (c.ocultoAutor) R.string.red_mostrar else R.string.red_ocultar), style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.clip(RoundedCornerShape(6.dp)).clickable { onOcultar(c) }.padding(vertical = 6.dp))
+            }
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clip(RoundedCornerShape(12.dp)).clickable { onImpulsar(c) }.padding(6.dp)) {
+            Icon(if (c.yoLike) IconosRuta.Banderin else IconosRuta.BanderinContorno, stringResource(R.string.impulsar), Modifier.size(20.dp),
+                tint = if (c.yoLike) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+            if (c.likes > 0) Text(c.likes.toString(), style = MaterialTheme.typography.labelSmall)
+        }
+    }
+}
+
+/* ====================================================================== Privacidad y seguridad */
+
+class PrivacidadViewModel(private val c: AppContainer) : ViewModel() {
+    var regla by mutableStateOf("TODOS"); private set
+    var menor by mutableStateOf(false); private set
+    var silenciados by mutableStateOf<List<Persona>>(emptyList()); private set
+    init { viewModelScope.launch { val p = c.red.privacidad(); regla = p.first; menor = p.second; silenciados = c.red.silenciados() } }
+    fun cambiarRegla(r: String) = viewModelScope.launch { regla = r; runCatching { c.red.reglaComentarios(r) } }
+    fun cambiarMenor(si: Boolean) = viewModelScope.launch { menor = si; runCatching { c.red.soyMenor(si) } }
+    fun desilenciar(p: Persona) = viewModelScope.launch { c.social.silenciar(p.id, false); silenciados = silenciados - p }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PrivacidadScreen(onBack: () -> Unit) {
+    val vm = rutaViewModel { PrivacidadViewModel(it) }
+    Scaffold(
+        modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = { Text(stringResource(R.string.red_privacidad)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+            )
+        },
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 8.dp, bottom = 32.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            item("regla") {
+                Column(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Text(stringResource(R.string.red_quien_comenta), style = MaterialTheme.typography.titleMedium)
+                    val ops = listOf("TODOS" to R.string.red_todos, "SIGUEN" to R.string.red_personas_sigo, "NADIE" to R.string.red_nadie)
+                    androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                        ops.forEachIndexed { i, (k, n) ->
+                            androidx.compose.material3.SegmentedButton(selected = vm.regla == k, onClick = { vm.cambiarRegla(k) },
+                                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, ops.size)) { Text(stringResource(n), maxLines = 1) }
+                        }
+                    }
+                }
+            }
+            item("menor") {
+                Row(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).clickable { vm.cambiarMenor(!vm.menor) }.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.red_menor), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.red_menor_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Switch(checked = vm.menor, onCheckedChange = vm::cambiarMenor)
+                }
+            }
+            item("sil") {
+                Column(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).padding(vertical = 8.dp)) {
+                    Text(stringResource(R.string.red_silenciados), Modifier.padding(horizontal = 16.dp, vertical = 8.dp), style = MaterialTheme.typography.titleMedium)
+                    if (vm.silenciados.isEmpty()) Text(stringResource(R.string.red_sin_silenciados), Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    vm.silenciados.forEach { p ->
+                        ListItem(colors = ListItemDefaults.colors(containerColor = Color.Transparent), headlineContent = { Text(p.nombre) },
+                            leadingContent = { Avatar(p.nombre, p.avatar, 36) },
+                            trailingContent = { OutlinedButton(onClick = { vm.desilenciar(p) }) { Text(stringResource(R.string.red_dejar_silenciar)) } })
+                    }
+                }
+            }
         }
     }
 }

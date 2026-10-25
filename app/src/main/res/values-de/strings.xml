@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">Keine Coach-Bewerbungen zu prüfen.</string>
     <string name="mod_verificar">Verifizieren</string>
     <string name="mod_no_aprobar">Ablehnen</string>
+    <string name="red_responder">Antworten</string>
+    <string name="red_respondiendo">Antwort an %1$s</string>
+    <string name="red_ocultar">Ausblenden</string>
+    <string name="red_mostrar">Anzeigen</string>
+    <string name="red_oculto">Für andere ausgeblendet</string>
+    <string name="red_silenciar">%1$s stummschalten</string>
+    <string name="red_silenciado">Du hast %1$s stummgeschaltet</string>
+    <string name="red_privacidad">Privatsphäre und Sicherheit</string>
+    <string name="red_quien_comenta">Wer deine Beiträge kommentieren darf</string>
+    <string name="red_todos">Alle</string>
+    <string name="red_personas_sigo">Personen, denen ich folge</string>
+    <string name="red_nadie">Niemand</string>
+    <string name="red_menor">Ich bin zwischen 14 und 17</string>
+    <string name="red_menor_ayuda">Deine Beiträge sehen nur deine Follower, und nur Personen, denen du folgst, können dir schreiben.</string>
+    <string name="red_silenciados">Stummgeschaltete Personen</string>
+    <string name="red_sin_silenciados">Du hast niemanden stummgeschaltet.</string>
+    <string name="red_dejar_silenciar">Stummschaltung aufheben</string>
 </resources>

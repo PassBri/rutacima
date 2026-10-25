@@ -1905,4 +1905,21 @@
     <string name="mod_coaches_vacio">没有待审核的教练申请。</string>
     <string name="mod_verificar">认证</string>
     <string name="mod_no_aprobar">不通过</string>
+    <string name="red_responder">回复</string>
+    <string name="red_respondiendo">回复 %1$s</string>
+    <string name="red_ocultar">隐藏</string>
+    <string name="red_mostrar">显示</string>
+    <string name="red_oculto">对他人隐藏</string>
+    <string name="red_silenciar">屏蔽 %1$s</string>
+    <string name="red_silenciado">你已屏蔽 %1$s</string>
+    <string name="red_privacidad">隐私与安全</string>
+    <string name="red_quien_comenta">谁可以评论你的帖子</string>
+    <string name="red_todos">所有人</string>
+    <string name="red_personas_sigo">我关注的人</string>
+    <string name="red_nadie">没有人</string>
+    <string name="red_menor">我在 14 到 17 岁之间</string>
+    <string name="red_menor_ayuda">你发布的内容只给关注者看，也只有你关注的人能给你发消息。</string>
+    <string name="red_silenciados">已屏蔽的人</string>
+    <string name="red_sin_silenciados">你还没有屏蔽任何人。</string>
+    <string name="red_dejar_silenciar">取消屏蔽</string>
 </resources>
