@@ -197,10 +197,10 @@ private fun CimaPagina(
             Box(Modifier.clip(CircleShape).clickable(onClick = onAutor).padding(2.dp).semantics { contentDescription = post.autorNombre }) {
                 Box(Modifier.size(50.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.9f)).padding(2.dp)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
             }
-            Accion(if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt, contar(post.impulsos),
+            Accion(if (post.yoImpulse) com.rutaalacima.app.ui.components.IconosRuta.Banderin else com.rutaalacima.app.ui.components.IconosRuta.BanderinContorno, contar(post.impulsos),
                 stringResource(R.string.impulsar), if (post.yoImpulse) MaterialTheme.colorScheme.secondary else Color.White, onImpulsar)
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
-            Accion(if (guardado) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder, "", stringResource(R.string.guardar),
+            Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
                 if (guardado) MaterialTheme.colorScheme.secondary else Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
                 val texto = listOf(post.metaTitulo, post.texto, "— SuRoute").filter { it.isNotBlank() }.joinToString("\n\n")

@@ -2170,3 +2170,37 @@ html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
 .cima-fondo .rec-play { position: absolute; z-index: 3; left: 50%; top: 50%; transform: translate(-50%, -50%); height: 48px; padding: 0 20px; box-shadow: 0 8px 24px rgb(0 0 0 / .35); }
 .rec-play { white-space: nowrap; }
 .reel-nota { flex-basis: 100%; margin: 0 0 4px; font-size: 12px; opacity: .8; }
+
+/* ---------- Comentarios estilo red de video corto ---------- */
+.com-cab { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; margin-bottom: 6px; }
+.com-cab .hoja-titulo { margin: 0; text-align: center; font-size: 15px; }
+.com-cab button { width: 40px; height: 40px; display: grid; place-items: center; border: 0; background: none; color: var(--tinta); border-radius: 50%; }
+.com-cab button svg { width: 22px; height: 22px; fill: currentColor; }
+.com-lista { max-height: min(60dvh, 560px); overflow-y: auto; overscroll-behavior: contain; padding: 4px 0 8px; }
+.com-lista.en-detalle { max-height: none; }
+.coms { display: grid; gap: 16px; }
+.com { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: start; }
+.com.hija { grid-template-columns: 28px 1fr auto; margin-top: 12px; }
+.com-av { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: var(--burdeos); color: #fff; font-size: 13px; font-weight: 600; flex: none; }
+.com.hija .com-av { width: 28px; height: 28px; font-size: 11px; }
+.com-quien { font-size: 13px; color: var(--tinta-suave); }
+.com-cuerpo p { margin: 2px 0 4px; font-size: 15px; line-height: 1.35; overflow-wrap: anywhere; }
+.com-pie { display: flex; gap: 16px; align-items: center; font-size: 13px; color: var(--tinta-suave); }
+.com-pie button { border: 0; background: none; padding: 4px 0; color: var(--tinta-suave); font-weight: 600; font-size: 13px; }
+.com-ban { display: grid; justify-items: center; gap: 2px; border: 0; background: none; color: var(--tinta-suave); padding: 4px 2px; min-width: 40px; }
+.com-ban svg { width: 22px; height: 22px; fill: currentColor; }
+.com-ban b { font-size: 12px; font-weight: 500; min-height: 14px; }
+.com-ban[aria-pressed="true"] { color: var(--burdeos); }
+.com-resp { margin-left: 50px; }
+.com-ver { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; border: 0; background: none; padding: 2px 0; font-size: 13px; font-weight: 600; color: var(--tinta-suave); }
+.com-ver i { width: 28px; height: 1px; background: var(--linea); }
+.com-ver svg { width: 16px; height: 16px; fill: currentColor; }
+.com-respondiendo { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 12px; margin-top: 6px; border-radius: 10px; background: var(--hoja-2); font-size: 13px; color: var(--tinta-suave); }
+.com-respondiendo button { border: 0; background: none; display: grid; place-items: center; width: 28px; height: 28px; }
+.com-respondiendo svg { width: 16px; height: 16px; fill: currentColor; }
+.com-escribir { display: flex; align-items: center; gap: 10px; }
+.com-escribir .com-av { width: 36px; height: 36px; }
+.com-escribir input { flex: 1; border-radius: 99px !important; }
+/* Guardar en la mochila */
+.cima-acciones [data-acc="guardarPost"][aria-pressed="true"], .mochila-btn[aria-pressed="true"] { color: var(--oro); }
+.mochila-btn svg { width: 18px; height: 18px; fill: currentColor; }

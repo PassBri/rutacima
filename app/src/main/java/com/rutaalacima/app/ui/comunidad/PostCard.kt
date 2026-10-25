@@ -216,13 +216,13 @@ fun PostCard(
         Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             com.rutaalacima.app.ui.components.BotonImpulso(
                 activo = post.yoImpulse, cantidad = post.impulsos,
-                icono = if (post.yoImpulse) Icons.Filled.Bolt else Icons.Outlined.Bolt,
+                icono = if (post.yoImpulse) com.rutaalacima.app.ui.components.IconosRuta.Banderin else com.rutaalacima.app.ui.components.IconosRuta.BanderinContorno,
                 descripcion = stringResource(R.string.impulsar), onClick = onImpulsar,
             )
             Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
             Spacer(Modifier.weight(1f))
             if (onGuardar != null) IconButton(onClick = onGuardar) {
-                Icon(if (guardado) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder,
+                Icon(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno,
                     stringResource(if (guardado) R.string.quitar_guardado else R.string.guardar_publicacion),
                     tint = if (guardado) MaterialTheme.colorScheme.secondary else LocalContentColor.current)
             }

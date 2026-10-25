@@ -736,6 +736,7 @@ Object.assign(DET, {
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
             <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${ic("impulso")}<b>${num(p.impulsos)}</b></button>
             <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
+            ${globalThis.botonMochila ? botonMochila(p) : ""}
             <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
             <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones">${ic("masH")}</button></div>
           <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
@@ -756,7 +757,7 @@ Object.assign(DET, {
           : `<button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}
         ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}`}
         <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
-          <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button></div></article>`).join("") : vacioFeed),
+          <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button>${globalThis.botonMochila ? botonMochila(p).replace("<button ", '<button class="btn mochila-btn" ') : ""}</div></article>`).join("") : vacioFeed),
       "max-width:600px");
   },
   "comunidad.publicar"() {
