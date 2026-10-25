@@ -40,6 +40,7 @@ import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.CircularProgressIndicator
@@ -139,9 +140,8 @@ internal fun NavegacionVision(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit
             }
         }
         SelectorModoTarjetas(modo, onModo)
-        TextButton(onClick = onGrande, enabled = habilitada) {
-            Icon(Icons.Filled.OpenInFull, null, Modifier.size(18.dp))
-            Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.vision_ver_grande))
+        androidx.compose.material3.IconButton(onClick = onGrande, enabled = habilitada) {
+            Icon(Icons.Filled.Fullscreen, stringResource(R.string.vision_ver_grande))
         }
     }
 }

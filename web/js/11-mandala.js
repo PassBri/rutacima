@@ -364,9 +364,9 @@ function mandalaHtml(tableroHtml = "") {
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
-    <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" title="Ver en grande: de la cumbre al 9×9 y de vuelta, con + y −">${ic("ampliar")}<span>Ver en grande</span></button></nav>`;
+    <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
-    <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">⛶</button></div>`;
+    <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div>`;
   const s1 = hoja((estado.brujulaAnio ? cabSec("md-s1", "1", `Mi cumbre de ${estado.brujulaAnio}`, "Lo más grande de este año. Todo lo de abajo la sostiene.") : cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.")) +
     (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
@@ -428,7 +428,7 @@ function mandalaHtml(tableroHtml = "") {
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel - 1}" ${nivel ? "" : "disabled"} aria-label="Alejar (−)" title="Alejar (−)">−</button>
         <button class="md-visor-ic" data-acc="mdNivel" data-arg="${nivel + 1}" ${nivel < 2 ? "" : "disabled"} aria-label="Acercar (+)" title="Acercar (+)">+</button>
         <button class="btn mini" data-acc="mdEditarAbajo">${ic("editar")} Editar</button>
-        <button class="md-visor-ic" data-acc="mdPantalla" aria-label="Pantalla completa" title="Pantalla completa (F)">⛶</button>
+        <button class="md-visor-ic" data-acc="mdPantalla" aria-label="Pantalla completa" title="Pantalla completa (F)">${ic("pantallaCompleta")}</button>
         <button class="md-visor-ic" data-acc="mdVisor" data-arg="" aria-label="Cerrar (Esc)" title="Cerrar (Esc)">${ic("cerrar")}</button></div>
       <div class="md-visor-lienzo md-papel">${vista}</div>
       <p class="md-visor-ayuda">${ayuda}</p></div>`;

@@ -749,6 +749,7 @@ Object.assign(DET, {
             <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], NOMBRE_EJE[p.eje], hace(p.creadoEn)].filter(Boolean).join(" · ")}</span>
             ${p.foto && p.texto ? `<p class="cima-texto">${esc(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
             ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
+            ${p.brujula && window.leerBrujula?.(p.brujula) ? `<button class="cima-explorar" data-ir="comunidad" data-arg="brujula:${esc(p.id)}">${ic("cima")} Explorar su Brújula 1 · 9 · 81</button>` : ""}
             ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("") +
           // El feed tiene final: la invitación es volver a la propia ruta
           `<article class="cima cima-fin" aria-label="Final del feed"><div class="cima-fondo">${window.Arte ? Arte.cordillera("fin-del-feed", 3) : ""}</div>

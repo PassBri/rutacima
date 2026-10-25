@@ -180,7 +180,8 @@ const LISTAS = {
     if (estado.feedFiltro === "PARA_TI" && estado.feed.length) h += `<details class="solo-movil exp-movil exp-plegable"><summary>${ic("ruta")} La expedición de la comunidad</summary>${cumbreComunidad(estado.feed)}</details>`;
     estado.feed.forEach(p => {
       const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
-      h += item((p.brujula && window.leerBrujula?.(p.brujula) ? "brujula:" : "cima:") + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
+      // Todas las publicaciones abren en Cimas, en el mismo lugar; la Brújula se explora desde ahí
+      h += item("cima:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
     });
     return h + `</div>`;
   },
