@@ -13,6 +13,8 @@ import com.rutaalacima.app.ui.theme.rememberToque
 import com.rutaalacima.app.ui.theme.flotante
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
@@ -505,7 +507,7 @@ private fun AnilloMeta(modifier: Modifier, oro: Color, burdeos: Color) {
     )
     androidx.compose.foundation.Canvas(modifier) {
         val r = size.minDimension * 0.43f + 2.5.dp.toPx()
-        androidx.compose.ui.graphics.drawscope.rotate(giro) {
+        rotate(giro) {
             drawCircle(
                 Brush.sweepGradient(0f to Color.Transparent, 0.3f to Color.Transparent, 0.55f to oro.copy(alpha = 0.35f), 0.88f to oro, 1f to burdeos),
                 radius = r, style = androidx.compose.ui.graphics.drawscope.Stroke(1.8.dp.toPx()),
