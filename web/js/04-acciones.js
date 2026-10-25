@@ -399,8 +399,15 @@ async function enviar(e) {
             if (up.error) throw up.error;
             url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
           }
-          const r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post });
+          // Se pide la fila de vuelta: así se sabe que quedó guardada y que tu cuenta puede verla
+          const r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post }).select().single();
           if (r.error) throw r.error;
+          const nuevo = { id, anio: post.anio, autorId: Store.nube.dueno, autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, foto: url,
+            metaTitulo: post.meta_titulo, visibilidad: post.visibilidad, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.parse(r.data?.created_at) || Date.now(), propio: true };
+          (estado.misRecientes ||= []).unshift(nuevo); estado.misPosts = null;
+          if (post.visibilidad !== "PRIVADA") estado.feed = [nuevo, ...(estado.feed || []).filter(p => p.id !== id)];
+          estado.fotoEditada = null; toast(post.visibilidad === "PRIVADA" ? "Guardado en Mis publicaciones (solo tú lo ves)" : "Publicado");
+          ir("comunidad", null); break;
         } else {
           misPostsDemo.unshift({ id: "mio-" + nuevoId(), autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, metaTitulo: post.meta_titulo, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, demo: false });
         }

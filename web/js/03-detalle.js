@@ -688,7 +688,7 @@ function postal(p, mini = false) {
 }
 Object.assign(DET, {
   "comunidad.post"(id) {
-    const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post;
+    const p = [...(estado.feed || []), ...(estado.misPosts || []), ...(estado.misRecientes || [])].find(x => String(x.id) === id) || (String(estado.post?.id) === id ? estado.post : null);
     if (!p) return vacio();
     estado.post = p;
     if (!p.comentariosLista) cargarComentarios(p);
@@ -1007,8 +1007,12 @@ async function cargarMisPosts() {
   try {
     if (!Store.nube) estado.misPosts = misPostsDemo;
     else {
-      const { data } = await Store.nube.sb.from("posts").select("*").eq("user_id", Store.nube.dueno).order("created_at", { ascending: false }).limit(200);
-      estado.misPosts = (data || []).map(p => ({ id: p.id, anio: p.anio, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
+      const { data, error } = await Store.nube.sb.from("posts").select("*").eq("user_id", Store.nube.dueno).order("created_at", { ascending: false }).limit(200);
+      if (error) { console.error(error); estado.misPosts ||= []; toast("No se pudieron cargar tus publicaciones." + detalleError(error)); return; }
+      estado.misPosts = (data || []).map(p => ({ id: p.id, anio: p.anio, autorId: p.user_id, autorNombre: perfil().nombre || "Yo", tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad, impulsos: 0, comentarios: 0, creadoEn: Date.parse(p.created_at), propio: true }));
+      // Lo recién publicado se ve aunque el servidor tarde en devolverlo
+      const ids = new Set(estado.misPosts.map(p => p.id));
+      estado.misPosts.unshift(...(estado.misRecientes || []).filter(p => !ids.has(p.id)));
     }
   } finally { cargarMisPosts.activo = false; if ((estado.sel === "publicaciones" || estado.sel === "vision" || estado.sel === "vida" || String(estado.sel).startsWith("a:")) && !enEdicion()) pintarDetalle(); }
 }
