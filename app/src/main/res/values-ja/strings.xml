@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">移動…</string>
     <string name="inicio_accion">今日の一歩を踏み出す</string>
     <string name="frase_dia_n">今日の言葉 %1$d / 365</string>
-    <string name="frase_sellada_rostro">顔または指紋で封印を解いて、今日の言葉を読みましょう。</string>
-    <string name="frase_sellada_clave">PINで封印を解いて、今日の言葉を読みましょう。</string>
-    <string name="frase_sellada_toque">封印をタップして、今日の言葉を開きましょう。</string>
-    <string name="romper_sello">封印を解く</string>
+    <string name="frase_sellada_rostro">顔または指紋で今日の言葉を開きます。</string>
+    <string name="frase_sellada_clave">パスコードで今日の言葉を開きます。</string>
+    <string name="frase_sellada_toque">シンボルをタップして今日の言葉を開きます。</string>
+    <string name="romper_sello">開く</string>
     <string name="usar_clave">PINを使う</string>
     <string name="frase_contador">今年は365個中%1$d個の言葉を開きました</string>
     <string name="biometria_titulo">今日の言葉を開く</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">独自のPIN</string>
     <string name="bloqueo_toque">タップのみ</string>
     <string name="bloqueo_sin_biometria">この端末には顔認証、指紋認証、画面ロックが設定されていません。</string>
-    <string name="bloqueo_ayuda">毎日、本の中の言葉が蝋で封印されてあなたを待っています。封印の解き方を選んでください。顔と指紋は端末が確認します。SuRouteがあなたの顔を見たり保存したりすることはありません。</string>
+    <string name="bloqueo_ayuda">毎日、本の中の言葉があなたが開くまで大切に保管されています。開き方を選んでください。顔と指紋は端末が確認します。SuRouteがあなたの顔を見たり保存したりすることはありません。</string>
     <string name="cambiar_clave">PINを変更</string>
     <string name="mis_frases">私の言葉</string>
     <string name="mis_frases_n">開いた言葉：%1$d / 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">できませんでした。SuRouteのコピーか確認してください。</string>
     <string name="widget_nombre">今日の言葉と習慣</string>
     <string name="widget_desc">今日の言葉、今日の習慣、連続記録</string>
-    <string name="widget_sellada">🔒 今日の言葉は封印中。タップして封を開けましょう。</string>
+    <string name="widget_sellada">今日の言葉が待っています。タップして開きましょう。</string>
     <string name="widget_habitos">今日の習慣 %1$d/%2$d</string>
     <string name="coach_crear_meta_mes">提案：今月の目標</string>
     <string name="coach_crear_meta_anio">提案：今年の目標</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">縮小</string>
     <string name="carta_titulo">ようこその手紙</string>
     <string name="carta_para">登ると決めたあなたへ</string>
-    <string name="carta_romper">封を切って手紙を読みましょう。</string>
+    <string name="carta_romper">シンボルをタップして手紙を開きます。</string>
     <string name="carta_saludo">親愛なる旅人へ</string>
     <string name="carta_p1">これを読んでいるなら、いちばん難しい一歩はもう踏み出しています。登ると決めたのです。</string>
     <string name="carta_p2">SuRoute はやることリストではありません。あなたの頂——人生に意味を与えるもの——を見つける地図であり、霧が来ても見失わないためのコンパスです。</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">%1$d 年の自分への手紙</string>
     <string name="vida_carta_sellada">封印済み。%1$d 年 1 月 1 日に開きます。</string>
     <string name="vida_carta_reescribir">書き直す</string>
-    <string name="vida_carta_sello">封蝋</string>
-    <string name="vida_carta_ayuda_futuro">%1$d 年の自分に書きましょう。封蝋で閉じ、その年の 1 月 1 日に開きます。</string>
+    <string name="vida_carta_sello">保管された手紙</string>
+    <string name="vida_carta_ayuda_futuro">%1$d 年の自分に書きましょう。手紙は保管され、その年の 1 月 1 日に開きます。</string>
     <string name="vida_carta_ayuda">%1$d 年に自分へ伝えたいこと。</string>
     <string name="vida_carta_campo">あなたの手紙</string>
     <string name="vida_carta_ejemplo">親愛なる %1$d 年の私へ…</string>

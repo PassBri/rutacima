@@ -1324,7 +1324,7 @@ body:has(.md-visor) { overflow: hidden; }
 .lv-anio > :not(img) { position: relative; z-index: 1; }
 .lv-ejes { display: flex; gap: 3px; margin-top: 3px; min-height: 8px; }
 .lv-ejes i { width: 8px; height: 8px; border-radius: 50%; }
-.lv-ejes .lv-sello { background: url("sello.png") center / cover; width: 12px; height: 12px; margin-top: -2px; }
+.lv-ejes .lv-sello { width: 12px; height: 12px; margin-top: -2px; }
 .lv-flecha { flex: none; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--hoja); border: 1px solid var(--linea); }
 .lv-flecha svg { width: 18px; height: 18px; fill: var(--tinta-suave); transform: rotate(90deg); }
 .lv-flecha.der svg { transform: rotate(-90deg); }
@@ -2613,3 +2613,44 @@ a.carta-releer { text-decoration: none; }
   .toast { left: 12px; right: 12px; transform: none; max-width: none; bottom: calc(56px + 12px + env(safe-area-inset-bottom, 0px)); justify-content: space-between; }
   @keyframes md-snackbar { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 }
+
+/* ===== Un solo logo: el símbolo de SuRoute en un contenedor tonal de Material 3 (reemplaza al sello de cera) ===== */
+.simbolo { display: inline-grid; place-items: center; border-radius: 50%; background: var(--burdeos-suave); color: var(--burdeos); flex: none; }
+.simbolo svg { width: 62%; height: 62%; overflow: visible; }
+.simbolo path { fill: none; stroke: currentColor; stroke-width: 5.5; transition: transform .5s var(--md-easing-emph-decel); transform-origin: 50% 48.5%; }
+.simbolo circle { fill: currentColor; transition: transform .5s var(--md-easing-emph-decel), opacity .3s; }
+.simbolo.avatar { width: 40px; height: 40px; }
+.simbolo.grande { width: 72px; height: 72px; }
+.sellada .lacre { width: 120px; height: 120px; filter: none; box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 4px 12px rgb(var(--sombra) / .10); transition: transform .5s var(--md-easing-emph-decel), opacity .4s; }
+.sellada .lacre svg { width: 58%; height: 58%; }
+/* Abrir: el círculo gira una vuelta, el punto del sur baja y el contenedor se expande y se va */
+.abriendo .lacre path, .abriendo .carta-lacre path { transform: rotate(360deg) scale(1.08); transition-duration: .55s; }
+.abriendo .lacre circle, .abriendo .carta-lacre circle { transform: translateY(14px); opacity: 0; }
+.abriendo .lacre, .abriendo .carta-lacre { transform: scale(1.12); }
+.sellada.rota .lacre { transform: scale(.6); opacity: 0; height: 0; margin: 0 auto; }
+.cima-sello.simbolo { width: 120px; height: 120px; margin: -60px 0 0 -60px; background: rgb(255 255 255 / .92); color: #6B2A1A; box-shadow: 0 8px 28px rgb(0 0 0 / .35); }
+.carta-sellada .simbolo { width: 72px; height: 72px; }
+.lv-ejes .lv-sello { background: var(--burdeos) !important; border-radius: 50%; width: 12px; height: 12px; margin-top: -2px;
+  -webkit-mask: radial-gradient(circle at 50% 50%, transparent 3.2px, #000 3.6px) ; mask: radial-gradient(circle at 50% 50%, transparent 3.2px, #000 3.6px); }
+
+/* Carta de bienvenida en Material 3: tarjeta tonal con el símbolo; la carta, una superficie elevada */
+.carta-pantalla { background: var(--fondo); background-image: none; }
+.sobre { aspect-ratio: auto; width: min(420px, 100%); padding: 40px 28px 32px; border-radius: var(--md-shape-xl); background: var(--hoja);
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 6px 20px rgb(var(--sombra) / .10); display: grid; justify-items: center; gap: 6px; text-align: center;
+  animation: carta-llega 500ms var(--md-easing-emph-decel) both; }
+.sobre .carta-lacre { position: static; transform: none; width: 112px; height: 112px; border: 0; cursor: pointer; filter: none; margin-bottom: 14px;
+  transition: transform .5s var(--md-easing-emph-decel), box-shadow .2s; }
+.sobre .carta-lacre svg { width: 58%; height: 58%; }
+@media (hover: hover) and (pointer: fine) { .sobre .carta-lacre:hover { transform: scale(1.04); box-shadow: 0 4px 14px rgb(var(--sombra) / .16); } }
+.sobre .carta-lacre:focus-visible { transform: none; outline: 3px solid var(--oro); outline-offset: 4px; }
+.sobre-de { margin: 0; font: 500 12px/1 var(--font-texto); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); }
+.sobre .sobre-para { position: static; margin: 0; color: var(--tinta); font: 600 22px/1.3 var(--font-titulo); font-style: normal; }
+.sobre.abierto { animation: sobre-sale .32s var(--md-easing-emph-accel) forwards; }
+.carta { border-radius: var(--md-shape-xl); background: var(--hoja); color: var(--tinta); padding: 40px 44px 36px;
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 8px 28px rgb(var(--sombra) / .12); animation: carta-sale 500ms var(--md-easing-emph-decel) both; }
+.carta h2, .carta p { color: var(--tinta); }
+.carta-membrete { border-bottom-color: var(--linea); }
+.carta-membrete span { color: var(--burdeos); }
+.carta-lugar { color: var(--tinta-suave); }
+@media (max-width: 560px) { .carta { padding: 32px 22px 28px; } }
+.carta-firma span { color: var(--tinta); } .carta-firma small { color: var(--tinta-suave); } .carta-cierre { color: var(--burdeos); }

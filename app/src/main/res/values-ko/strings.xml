@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">이동…</string>
     <string name="inicio_accion">오늘의 한 걸음 내딛기</string>
     <string name="frase_dia_n">오늘의 문장 %1$d / 365</string>
-    <string name="frase_sellada_rostro">얼굴 또는 지문으로 봉인을 풀고 오늘의 문장을 읽어 보세요.</string>
-    <string name="frase_sellada_clave">PIN으로 봉인을 풀고 오늘의 문장을 읽어 보세요.</string>
-    <string name="frase_sellada_toque">봉인을 탭해서 오늘의 문장을 열어 보세요.</string>
-    <string name="romper_sello">봉인 풀기</string>
+    <string name="frase_sellada_rostro">얼굴이나 지문으로 오늘의 문장을 여세요.</string>
+    <string name="frase_sellada_clave">비밀번호로 오늘의 문장을 여세요.</string>
+    <string name="frase_sellada_toque">심볼을 탭해 오늘의 문장을 여세요.</string>
+    <string name="romper_sello">열기</string>
     <string name="usar_clave">PIN 사용</string>
     <string name="frase_contador">올해 365개 중 %1$d개의 문장을 열었어요</string>
     <string name="biometria_titulo">오늘의 문장 열기</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">나만의 PIN</string>
     <string name="bloqueo_toque">탭만 하기</string>
     <string name="bloqueo_sin_biometria">이 휴대전화에는 얼굴 인식, 지문 또는 화면 잠금이 설정되어 있지 않아요.</string>
-    <string name="bloqueo_ayuda">매일 책 속의 문장이 밀랍으로 봉인된 채 기다리고 있어요. 봉인을 푸는 방법을 선택하세요. 얼굴과 지문은 휴대전화가 확인하며, SuRoute는 당신의 얼굴을 보거나 저장하지 않아요.</string>
+    <string name="bloqueo_ayuda">매일 책 속의 문장이 당신이 열 때까지 기다리고 있어요. 여는 방법을 선택하세요. 얼굴과 지문은 휴대전화가 확인하며, SuRoute는 당신의 얼굴을 보거나 저장하지 않아요.</string>
     <string name="cambiar_clave">PIN 변경</string>
     <string name="mis_frases">내 문장</string>
     <string name="mis_frases_n">연 문장: %1$d / 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">실패했어요. SuRoute 사본 파일인지 확인하세요.</string>
     <string name="widget_nombre">나의 문구와 습관</string>
     <string name="widget_desc">오늘의 문구, 오늘의 습관과 연속 기록</string>
-    <string name="widget_sellada">🔒 오늘의 문구가 봉인되어 있어요. 탭해서 봉인을 깨세요.</string>
+    <string name="widget_sellada">오늘의 문장이 기다리고 있어요. 탭해서 여세요.</string>
     <string name="widget_habitos">오늘 습관 %1$d/%2$d</string>
     <string name="coach_crear_meta_mes">제안된 이번 달 목표</string>
     <string name="coach_crear_meta_anio">제안된 올해 목표</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">축소</string>
     <string name="carta_titulo">환영 편지</string>
     <string name="carta_para">오르기로 결심한 당신에게</string>
-    <string name="carta_romper">봉인을 깨고 편지를 읽어 보세요.</string>
+    <string name="carta_romper">심볼을 탭해 편지를 여세요.</string>
     <string name="carta_saludo">사랑하는 길벗에게</string>
     <string name="carta_p1">이 편지를 읽고 있다면, 가장 어려운 걸음은 이미 내디뎠어요. 오르기로 결심했으니까요.</string>
     <string name="carta_p2">SuRoute는 할 일 목록이 아니에요. 당신의 정상—삶에 의미를 주는 것—을 찾는 지도이자, 안개가 와도 잃지 않게 해 주는 나침반이에요.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">%1$d년의 나에게 쓰는 편지</string>
     <string name="vida_carta_sellada">봉인됨. %1$d년 1월 1일에 열립니다.</string>
     <string name="vida_carta_reescribir">다시 쓰기</string>
-    <string name="vida_carta_sello">밀랍 봉인</string>
-    <string name="vida_carta_ayuda_futuro">%1$d년의 나에게 쓰세요. 밀랍으로 봉인되고 그해 1월 1일에 열립니다.</string>
+    <string name="vida_carta_sello">보관된 편지</string>
+    <string name="vida_carta_ayuda_futuro">%1$d년의 나에게 쓰세요. 편지는 보관되고 그해 1월 1일에 열립니다.</string>
     <string name="vida_carta_ayuda">%1$d년에 나에게 하고 싶은 말.</string>
     <string name="vida_carta_campo">나의 편지</string>
     <string name="vida_carta_ejemplo">%1$d년의 나에게…</string>

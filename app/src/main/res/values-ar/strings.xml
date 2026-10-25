@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">انتقل إلى…</string>
     <string name="inicio_accion">اخطُ خطوة اليوم</string>
     <string name="frase_dia_n">عبارة اليوم %1$d من 365</string>
-    <string name="frase_sellada_rostro">اكسر الختم بوجهك أو بصمتك لقراءة عبارة اليوم.</string>
-    <string name="frase_sellada_clave">اكسر الختم برمز PIN لقراءة عبارة اليوم.</string>
-    <string name="frase_sellada_toque">المس الختم لفتح عبارة اليوم.</string>
-    <string name="romper_sello">اكسر الختم</string>
+    <string name="frase_sellada_rostro">افتح عبارة اليوم بوجهك أو ببصمتك.</string>
+    <string name="frase_sellada_clave">افتح عبارة اليوم برمزك السري.</string>
+    <string name="frase_sellada_toque">المس الرمز لفتح عبارة اليوم.</string>
+    <string name="romper_sello">افتح</string>
     <string name="usar_clave">استخدام رمز PIN</string>
     <string name="frase_contador">فتحتَ %1$d من 365 عبارة هذا العام</string>
     <string name="biometria_titulo">افتح عبارة يومك</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">رمز PIN خاص</string>
     <string name="bloqueo_toque">اللمس فقط</string>
     <string name="bloqueo_sin_biometria">لم يتم إعداد فتح القفل بالوجه أو بصمة الإصبع أو قفل الشاشة على هذا الهاتف.</string>
-    <string name="bloqueo_ayuda">تنتظرك كل يوم عبارة من الكتب، مختومة بالشمع. اختر كيف تكسر الختم. يتحقق هاتفك من وجهك وبصمتك: لا يرى SuRoute وجهك ولا يحفظه أبدًا.</string>
+    <string name="bloqueo_ayuda">تنتظرك كل يوم عبارة من الكتب، محفوظة حتى تفتحها. اختر طريقة فتحها. يتحقق هاتفك من وجهك وبصمتك: لا يرى SuRoute وجهك ولا يحفظه أبدًا.</string>
     <string name="cambiar_clave">تغيير رمز PIN</string>
     <string name="mis_frases">عباراتي</string>
     <string name="mis_frases_n">العبارات المفتوحة: %1$d من 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">تعذّر ذلك. تأكد أن الملف نسخة من SuRoute.</string>
     <string name="widget_nombre">عبارتي وعاداتي</string>
     <string name="widget_desc">عبارة اليوم وعاداتك وسلسلتك</string>
-    <string name="widget_sellada">🔒 عبارة اليوم مختومة. اضغط لكسر الختم.</string>
+    <string name="widget_sellada">عبارتك لهذا اليوم بانتظارك. المس لفتحها.</string>
     <string name="widget_habitos">%1$d/%2$d عادات اليوم</string>
     <string name="coach_crear_meta_mes">هدف مقترح لهذا الشهر</string>
     <string name="coach_crear_meta_anio">هدف مقترح لهذا العام</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">تصغير</string>
     <string name="carta_titulo">رسالة ترحيب</string>
     <string name="carta_para">إليك، يا من قررت الصعود</string>
-    <string name="carta_romper">اكسر الختم لتقرأ رسالتك.</string>
+    <string name="carta_romper">المس الرمز لفتح رسالتك.</string>
     <string name="carta_saludo">عزيزي السائر،</string>
     <string name="carta_p1">إن كنت تقرأ هذا، فقد خطوت الخطوة الأصعب: قررت أن تصعد.</string>
     <string name="carta_p2">SuRoute ليست قائمة مهام. إنها خريطة لتجد قمتك —ما يمنح حياتك معنى— وبوصلة كي لا تضيعها حين يحل الضباب.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">رسالة إلى نفسك في %1$d</string>
     <string name="vida_carta_sellada">مختومة. تُفتح في 1 يناير %1$d.</string>
     <string name="vida_carta_reescribir">إعادة كتابتها</string>
-    <string name="vida_carta_sello">ختم الشمع</string>
-    <string name="vida_carta_ayuda_futuro">اكتب للشخص الذي ستكونه في %1$d. تُختم بالشمع وتُفتح في 1 يناير من ذلك العام.</string>
+    <string name="vida_carta_sello">رسالة محفوظة</string>
+    <string name="vida_carta_ayuda_futuro">اكتب للشخص الذي ستكونه في %1$d. تُحفظ الرسالة وتُفتح في 1 يناير من ذلك العام.</string>
     <string name="vida_carta_ayuda">ما تريد قوله لنفسك في %1$d.</string>
     <string name="vida_carta_campo">رسالتك</string>
     <string name="vida_carta_ejemplo">عزيزي أنا في %1$d…</string>

@@ -35,32 +35,37 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 
 /**
- * Sello de cera de la frase del día. Con [progreso] en 0 está entero; al animarlo de 0 a 1 se
- * agrieta desde el punto de impacto, tiembla y se parte en trozos con canto y sombra que saltan,
- * giran y caen, soltando migas de cera (receta en [RoturaSello]; la web la dibuja igual).
- * Los trozos pueden salirse del tamaño del componente: el dibujo no se recorta.
+ * La frase del día y la carta se guardan con el símbolo de SuRoute en un contenedor tonal de Material 3
+ * (antes era un sello de cera: ahora hay un solo logo). Con [progreso] en 0 está quieto; al animarlo de 0 a 1
+ * el círculo da una vuelta y se expande, el punto del sur baja y el contenedor se desvanece.
+ * [semilla] se conserva por compatibilidad con quien lo llama.
  */
+@Suppress("UNUSED_PARAMETER")
 @Composable
 fun SelloDeCera(progreso: Float, semilla: Long, modifier: Modifier = Modifier) {
-    val imagen = ImageBitmap.imageResource(R.drawable.logo_sello)
-    val rotura = remember(semilla) { RoturaSello.generar(semilla) }
+    val esquema = androidx.compose.material3.MaterialTheme.colorScheme
+    val fondo = esquema.primaryContainer
+    val tinta = esquema.onPrimaryContainer
     Canvas(modifier) {
-        val r = size.minDimension / 2
         val t = progreso.coerceIn(0f, 1f)
-        translate(center.x, center.y) {
-            when {
-                t <= 0f -> { sombraReposo(r); imagenEntera(imagen, r, 0f, 0f) }
-                t < RoturaSello.FIN_GRIETAS -> {
-                    val tb = RoturaSello.temblor(t)
-                    sombraReposo(r)
-                    translate(tb.x * r, tb.y * r) {
-                        imagenEntera(imagen, r, 0f, 0f)
-                        grietas(rotura, r, RoturaSello.grietas(t))
-                    }
-                }
-                else -> trozos(imagen, rotura, r, RoturaSello.vuelo(t))
+        val s = androidx.compose.animation.core.FastOutSlowInEasing.transform(t)
+        val r = size.minDimension / 2f
+        val alfa = 1f - androidx.compose.animation.core.LinearEasing.transform(((t - 0.45f) / 0.55f).coerceIn(0f, 1f))
+        // Contenedor tonal con una sombra suave de elevación 1
+        drawCircle(Color.Black.copy(alpha = 0.10f * alfa), radius = r * (0.98f + 0.14f * s), center = Offset(center.x, center.y + r * 0.05f))
+        drawCircle(fondo.copy(alpha = alfa), radius = r * (0.96f + 0.14f * s))
+        // El símbolo: gira una vuelta y crece un poco; el punto baja y se apaga
+        withTransform({ rotate(360f * s, center); scale(1f + 0.12f * s, 1f + 0.12f * s, center) }) {
+            val lado = size.minDimension * 0.6f
+            translate((size.width - lado) / 2f, (size.height - lado) / 2f) {
+                drawArc(tinta.copy(alpha = alfa), 90f + 13f, 334f, false,
+                    topLeft = Offset(lado * 0.12f, lado * 0.105f), size = androidx.compose.ui.geometry.Size(lado * 0.76f, lado * 0.76f),
+                    style = Stroke(width = lado * 0.055f))
             }
         }
+        val lado = size.minDimension * 0.6f
+        drawCircle(tinta.copy(alpha = alfa * (1f - s)), radius = lado * 0.065f,
+            center = Offset(center.x, (size.height - lado) / 2f + lado * 0.865f + lado * 0.25f * s))
     }
 }
 

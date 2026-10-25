@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">यहाँ जाएँ…</string>
     <string name="inicio_accion">आज का कदम उठाइए</string>
     <string name="frase_dia_n">आज का विचार %1$d / 365</string>
-    <string name="frase_sellada_rostro">आज का विचार पढ़ने के लिए अपने चेहरे या फ़िंगरप्रिंट से सील तोड़ें।</string>
-    <string name="frase_sellada_clave">आज का विचार पढ़ने के लिए अपने PIN से सील तोड़ें।</string>
-    <string name="frase_sellada_toque">आज का विचार खोलने के लिए सील पर टैप करें।</string>
-    <string name="romper_sello">सील तोड़ें</string>
+    <string name="frase_sellada_rostro">अपने चेहरे या फ़िंगरप्रिंट से आज का विचार खोलें।</string>
+    <string name="frase_sellada_clave">अपने पासकोड से आज का विचार खोलें।</string>
+    <string name="frase_sellada_toque">आज का विचार खोलने के लिए चिह्न पर टैप करें।</string>
+    <string name="romper_sello">खोलें</string>
     <string name="usar_clave">मेरा PIN इस्तेमाल करें</string>
     <string name="frase_contador">इस साल आपने 365 में से %1$d विचार खोले हैं</string>
     <string name="biometria_titulo">अपना आज का विचार खोलें</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">अपना PIN</string>
     <string name="bloqueo_toque">सिर्फ़ टैप</string>
     <string name="bloqueo_sin_biometria">इस फ़ोन में फ़ेस अनलॉक, फ़िंगरप्रिंट या स्क्रीन लॉक सेट नहीं है।</string>
-    <string name="bloqueo_ayuda">हर दिन किताबों से एक विचार मोम से सील होकर आपका इंतज़ार करता है। चुनें कि सील कैसे तोड़नी है। चेहरा और फ़िंगरप्रिंट आपका फ़ोन जाँचता है: SuRoute आपका चेहरा कभी नहीं देखता और न सहेजता है।</string>
+    <string name="bloqueo_ayuda">हर दिन किताबों से एक विचार आपका इंतज़ार करता है, जब तक आप उसे खोलें नहीं। चुनें कि उसे कैसे खोलना है। चेहरा और फ़िंगरप्रिंट आपका फ़ोन जाँचता है: SuRoute आपका चेहरा कभी नहीं देखता और न ही सहेजता है।</string>
     <string name="cambiar_clave">PIN बदलें</string>
     <string name="mis_frases">मेरे विचार</string>
     <string name="mis_frases_n">खोले गए विचार: 365 में से %1$d</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">नहीं हो सका। जाँचें कि फ़ाइल SuRoute की प्रति है।</string>
     <string name="widget_nombre">मेरा उद्धरण और आदतें</string>
     <string name="widget_desc">आज का उद्धरण, आज की आदतें और आपकी लय</string>
-    <string name="widget_sellada">🔒 आज का उद्धरण मुहरबंद है। मुहर तोड़ने के लिए टैप करें।</string>
+    <string name="widget_sellada">आज का विचार आपका इंतज़ार कर रहा है। खोलने के लिए टैप करें।</string>
     <string name="widget_habitos">आज %1$d/%2$d आदतें</string>
     <string name="coach_crear_meta_mes">सुझाया गया मासिक लक्ष्य</string>
     <string name="coach_crear_meta_anio">सुझाया गया वार्षिक लक्ष्य</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">छोटा करें</string>
     <string name="carta_titulo">स्वागत पत्र</string>
     <string name="carta_para">तुम्हारे लिए, जिसने चढ़ने का फ़ैसला किया</string>
-    <string name="carta_romper">अपना पत्र पढ़ने के लिए मुहर तोड़ें।</string>
+    <string name="carta_romper">अपना पत्र खोलने के लिए चिह्न पर टैप करें।</string>
     <string name="carta_saludo">प्रिय यात्री,</string>
     <string name="carta_p1">अगर तुम यह पढ़ रहे हो, तो सबसे कठिन कदम उठा चुके हो: तुमने चढ़ने का फ़ैसला किया।</string>
     <string name="carta_p2">SuRoute कामों की सूची नहीं है। यह तुम्हारा शिखर खोजने का नक्शा है —जो तुम्हारी ज़िंदगी को अर्थ देता है— और धुंध आने पर उसे न खोने के लिए एक कम्पास।</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">%1$d वाले अपने आप को पत्र</string>
     <string name="vida_carta_sellada">मुहरबंद। 1 जनवरी %1$d को खुलेगा।</string>
     <string name="vida_carta_reescribir">फिर से लिखें</string>
-    <string name="vida_carta_sello">मोम की मुहर</string>
-    <string name="vida_carta_ayuda_futuro">%1$d में जो आप होंगे, उसे लिखें। यह मोम से मुहरबंद होगा और उस साल 1 जनवरी को खुलेगा।</string>
+    <string name="vida_carta_sello">सहेजा गया पत्र</string>
+    <string name="vida_carta_ayuda_futuro">%1$d में जो आप होंगे, उसे लिखें। यह सहेजा जाएगा और उस साल 1 जनवरी को खुलेगा।</string>
     <string name="vida_carta_ayuda">%1$d में आप खुद से क्या कहना चाहते हैं।</string>
     <string name="vida_carta_campo">आपका पत्र</string>
     <string name="vida_carta_ejemplo">प्रिय %1$d वाले मैं…</string>

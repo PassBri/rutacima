@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">前往…</string>
     <string name="inicio_accion">迈出今天的一步</string>
     <string name="frase_dia_n">每日一句 第 %1$d 句，共 365 句</string>
-    <string name="frase_sellada_rostro">用面孔或指纹打破封印，阅读今天的语录。</string>
-    <string name="frase_sellada_clave">输入 PIN 码打破封印，阅读今天的语录。</string>
-    <string name="frase_sellada_toque">点按封印，打开今天的语录。</string>
-    <string name="romper_sello">打破封印</string>
+    <string name="frase_sellada_rostro">用面孔或指纹打开今天的语录。</string>
+    <string name="frase_sellada_clave">用密码打开今天的语录。</string>
+    <string name="frase_sellada_toque">轻触标志，打开今天的语录。</string>
+    <string name="romper_sello">打开</string>
     <string name="usar_clave">使用我的 PIN 码</string>
     <string name="frase_contador">今年你已打开 %1$d 句，共 365 句</string>
     <string name="biometria_titulo">打开你的每日语录</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">自定义 PIN 码</string>
     <string name="bloqueo_toque">仅点按</string>
     <string name="bloqueo_sin_biometria">这部手机尚未设置面孔解锁、指纹或锁屏方式。</string>
-    <string name="bloqueo_ayuda">每天都有一句来自书中的语录等着你，并用蜡封好。选择你打破封印的方式。面孔和指纹由手机验证：SuRoute 绝不会看到或保存你的面孔。</string>
+    <string name="bloqueo_ayuda">每天都有一句来自书中的语录等着你，直到你打开它。选择打开的方式。面孔和指纹由手机验证：SuRoute 绝不会看到或保存你的面孔。</string>
     <string name="cambiar_clave">更改 PIN 码</string>
     <string name="mis_frases">我的语录</string>
     <string name="mis_frases_n">已打开语录：%1$d / 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">操作失败。请确认文件是 SuRoute 的副本。</string>
     <string name="widget_nombre">我的语录和习惯</string>
     <string name="widget_desc">今日语录、今天的习惯与连续天数</string>
-    <string name="widget_sellada">🔒 今天的语录还封着。点按来打开封印。</string>
+    <string name="widget_sellada">今天的语录在等你。轻触打开。</string>
     <string name="widget_habitos">今天 %1$d/%2$d 个习惯</string>
     <string name="coach_crear_meta_mes">建议的月度目标</string>
     <string name="coach_crear_meta_anio">建议的年度目标</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">缩小</string>
     <string name="carta_titulo">欢迎信</string>
     <string name="carta_para">致决定攀登的你</string>
-    <string name="carta_romper">打破封印，阅读你的信。</string>
+    <string name="carta_romper">轻触标志，打开你的信。</string>
     <string name="carta_saludo">亲爱的行者：</string>
     <string name="carta_p1">如果你正在读这封信，你已经迈出了最难的一步：你决定攀登。</string>
     <string name="carta_p2">SuRoute 不是待办清单。它是一张找到你顶峰的地图——那赋予你人生意义的东西——也是一枚罗盘，让你在迷雾来临时不会迷失。</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">写给 %1$d 年的自己</string>
     <string name="vida_carta_sellada">已封存，%1$d 年 1 月 1 日开启。</string>
     <string name="vida_carta_reescribir">重写</string>
-    <string name="vida_carta_sello">火漆印</string>
-    <string name="vida_carta_ayuda_futuro">写给 %1$d 年的自己。用火漆封存，那一年的 1 月 1 日开启。</string>
+    <string name="vida_carta_sello">已保存的信</string>
+    <string name="vida_carta_ayuda_futuro">写给 %1$d 年的自己。信会被保存，在那一年的 1 月 1 日开启。</string>
     <string name="vida_carta_ayuda">%1$d 年你想对自己说的话。</string>
     <string name="vida_carta_campo">你的信</string>
     <string name="vida_carta_ejemplo">亲爱的 %1$d 年的我…</string>

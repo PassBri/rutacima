@@ -114,7 +114,7 @@ fun LineaVida(
                         Text(stringResource(R.string.vida_anios_edad, edad), fontSize = 10.sp, color = tinta.copy(alpha = 0.8f))
                         Row(horizontalArrangement = Arrangement.spacedBy(3.dp), modifier = Modifier.padding(top = 3.dp).heightIn(min = 8.dp), verticalAlignment = Alignment.CenterVertically) {
                             ejes.forEach { e -> Box(Modifier.size(7.dp).background(colorCampamento(e), CircleShape)) }
-                            if (sellada) Image(painterResource(R.drawable.logo_sello), null, Modifier.size(11.dp))
+                            if (sellada) com.rutaalacima.app.ui.components.SelloDeCera(0f, 0L, Modifier.size(12.dp))
                         }
                     }
                 }
@@ -207,7 +207,7 @@ fun CartaAnio(anio: Int, vida: Map<String, String>, onGuardar: (String, String) 
     RutaCard {
         when {
             futuro && texto.isNotBlank() && !editar -> Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(painterResource(R.drawable.logo_sello), stringResource(R.string.vida_carta_sello), Modifier.size(64.dp))
+                run { val d = stringResource(R.string.vida_carta_sello); com.rutaalacima.app.ui.components.SelloDeCera(0f, 0L, Modifier.size(64.dp).semantics { contentDescription = d }) }
                 Spacer(Modifier.width(14.dp))
                 Column(Modifier.weight(1f)) {
                     Text(stringResource(R.string.vida_carta_titulo, anio), style = MaterialTheme.typography.titleMedium)

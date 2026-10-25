@@ -173,15 +173,14 @@ const cartaLeida = () => { try { return localStorage.getItem("rutacima-carta") =
 function mostrarCarta(alSeguir) {
   const el = $("pantallaCarta"); if (!el) return alSeguir();
   const fecha = new Date().toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" });
-  // Primero un sobre cerrado con el sello de cera en la punta de la solapa; al romperlo, sale la carta
+  // Primero una tarjeta de Material 3 con el símbolo de SuRoute; al abrirla, el símbolo gira y sale la carta
   el.innerHTML = `<div class="carta-escena">
     <div class="sobre" id="sobre">
-      <div class="sobre-cuerpo" aria-hidden="true"></div>
-      <div class="sobre-solapa" aria-hidden="true"></div>
-      <img class="carta-lacre" id="cartaSello" src="${LOGO}" alt="Sello de cera: tócalo para romperlo" role="button" tabindex="0">
+      <button class="carta-lacre simbolo grande" id="cartaSello" aria-label="Abrir la carta">${SIMBOLO_SVG}</button>
+      <p class="sobre-de">Una carta para ti</p>
       <p class="sobre-para">${CARTA.para}</p>
     </div>
-    <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
+    <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("correo")} Abrir la carta</button></div>
     <article class="carta" id="carta" aria-label="Carta de bienvenida a SuRoute" hidden>
       <header class="carta-membrete">${marca()}<span>SuRoute · Summit Route</span></header>
       <p class="carta-lugar">Floridablanca, ${fecha}</p>
@@ -194,16 +193,15 @@ function mostrarCarta(alSeguir) {
   let rota = false;
   const romper = () => {
     if (rota) return; rota = true;
-    const img = $("cartaSello");
     const abrir = () => {
       $("cartaSellada").hidden = true; $("sobre").classList.add("abierto");
       setTimeout(() => { $("sobre").hidden = true; $("carta").hidden = false; $("pantallaCarta").scrollTop = 0; }, 420);
       setTimeout(() => { $("cartaSeguir").hidden = false; $("cartaSeguir").focus(); }, 1300);
     };
-    if (img?.complete && img.naturalWidth && typeof romperSello === "function") romperSello(img, 1984, () => setTimeout(abrir, 200)); else abrir();
+    navigator.vibrate?.(10); $("sobre").classList.add("abriendo");
+    setTimeout(abrir, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 520);
   };
   $("cartaRomper").onclick = romper; $("cartaSello").onclick = romper;
-  $("cartaSello").onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); romper(); } };
   $("cartaSeguir").onclick = () => { try { localStorage.setItem("rutacima-carta", "1"); } catch {} alSeguir(); };
 }
 window.mostrarCarta = mostrarCarta;

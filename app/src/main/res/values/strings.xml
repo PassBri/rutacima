@@ -633,10 +633,10 @@
     <string name="ruta_ir_a">Ir a…</string>
     <string name="inicio_accion">Dar el paso de hoy</string>
     <string name="frase_dia_n">Frase del día %1$d de 365</string>
-    <string name="frase_sellada_rostro">Rompe el sello con tu rostro o tu huella para leer la frase de hoy.</string>
-    <string name="frase_sellada_clave">Rompe el sello con tu clave para leer la frase de hoy.</string>
-    <string name="frase_sellada_toque">Toca el sello para abrir la frase de hoy.</string>
-    <string name="romper_sello">Romper el sello</string>
+    <string name="frase_sellada_rostro">Abre la frase de hoy con tu rostro o tu huella.</string>
+    <string name="frase_sellada_clave">Abre la frase de hoy con tu clave.</string>
+    <string name="frase_sellada_toque">Toca el símbolo para abrir la frase de hoy.</string>
+    <string name="romper_sello">Abrir</string>
     <string name="usar_clave">Usar mi clave</string>
     <string name="frase_contador">Has abierto %1$d de 365 frases este año</string>
     <string name="biometria_titulo">Abre tu frase del día</string>
@@ -654,7 +654,7 @@
     <string name="bloqueo_clave">Clave propia</string>
     <string name="bloqueo_toque">Solo tocar</string>
     <string name="bloqueo_sin_biometria">Este teléfono no tiene rostro, huella ni bloqueo de pantalla configurados.</string>
-    <string name="bloqueo_ayuda">Cada día te espera una frase de los libros, sellada con cera. Elige cómo romper el sello. El rostro y la huella los verifica tu teléfono: SuRoute nunca ve ni guarda tu cara.</string>
+    <string name="bloqueo_ayuda">Cada día te espera una frase de los libros, guardada hasta que la abras. Elige cómo abrirla. El rostro y la huella los verifica tu teléfono: SuRoute nunca ve ni guarda tu cara.</string>
     <string name="cambiar_clave">Cambiar clave</string>
     <string name="mis_frases">Mis frases</string>
     <string name="mis_frases_n">Frases abiertas: %1$d de 365</string>
@@ -898,7 +898,7 @@
     <string name="respaldo_error">No se pudo. Revisa que el archivo sea una copia de SuRoute.</string>
     <string name="widget_nombre">Mi frase y mis hábitos</string>
     <string name="widget_desc">La frase del día, tus hábitos de hoy y tu racha</string>
-    <string name="widget_sellada">🔒 Tu frase de hoy espera sellada. Toca para romper el sello.</string>
+    <string name="widget_sellada">Tu frase de hoy te espera. Toca para abrirla.</string>
     <string name="widget_habitos">%1$d/%2$d hábitos hoy</string>
     <string name="coach_crear_meta_mes">Meta del mes propuesta</string>
     <string name="coach_crear_meta_anio">Meta del año propuesta</string>
@@ -1140,7 +1140,7 @@
     <string name="brujula_alejar">Alejar</string>
     <string name="carta_titulo">Carta de bienvenida</string>
     <string name="carta_para">Para ti, que decidiste subir</string>
-    <string name="carta_romper">Rompe el sello para leer tu carta.</string>
+    <string name="carta_romper">Toca el símbolo para abrir tu carta.</string>
     <string name="carta_saludo">Querido caminante:</string>
     <string name="carta_p1">Si estás leyendo esto, ya diste el paso más difícil: decidiste subir.</string>
     <string name="carta_p2">SuRoute no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.</string>
@@ -1345,8 +1345,8 @@
     <string name="vida_carta_titulo">Carta a tu yo de %1$d</string>
     <string name="vida_carta_sellada">Sellada. Se abre el 1 de enero de %1$d.</string>
     <string name="vida_carta_reescribir">Reescribirla</string>
-    <string name="vida_carta_sello">Sello de lacre</string>
-    <string name="vida_carta_ayuda_futuro">Escríbele a la persona que serás en %1$d. Se sella con lacre y se abre el 1 de enero de ese año.</string>
+    <string name="vida_carta_sello">Carta guardada</string>
+    <string name="vida_carta_ayuda_futuro">Escríbele a la persona que serás en %1$d. Se guarda y se abre el 1 de enero de ese año.</string>
     <string name="vida_carta_ayuda">Lo que quieres decirte en %1$d.</string>
     <string name="vida_carta_campo">Tu carta</string>
     <string name="vida_carta_ejemplo">Querido yo de %1$d…</string>

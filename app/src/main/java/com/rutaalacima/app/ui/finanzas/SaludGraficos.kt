@@ -373,8 +373,8 @@ fun SaludAcceso(r: Salud.Resultado, anio: Int?, onAbrir: () -> Unit) {
 fun LazyListScope.saludNivel(anio: Int?, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit) {
     item(key = "periodos") {
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(anio == null, { ir(NivelCuentas.SaludN(null)) }, { Text(stringResource(R.string.cu_ultimos_12)) })
-            libro.anios.sortedDescending().forEach { a -> FilterChip(anio == a, { ir(NivelCuentas.SaludN(a)) }, { Text("$a") }) }
+            FilterChip(anio == null, { ir(NivelCuentas.SaludN(null)) }, { Text(stringResource(R.string.cu_ultimos_12)) }, leadingIcon = if (anio == null) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null)
+            libro.anios.sortedDescending().forEach { a -> FilterChip(anio == a, { ir(NivelCuentas.SaludN(a)) }, { Text("$a") }, leadingIcon = if (anio == a) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null) }
         }
     }
     val r = libro.salud(anio)

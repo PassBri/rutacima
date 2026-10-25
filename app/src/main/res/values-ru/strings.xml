@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">Перейти к…</string>
     <string name="inicio_accion">Сделать шаг сегодня</string>
     <string name="frase_dia_n">Фраза дня %1$d из 365</string>
-    <string name="frase_sellada_rostro">Сломай печать лицом или отпечатком пальца, чтобы прочитать фразу на сегодня.</string>
-    <string name="frase_sellada_clave">Сломай печать с помощью PIN-кода, чтобы прочитать фразу на сегодня.</string>
-    <string name="frase_sellada_toque">Нажми на печать, чтобы открыть фразу на сегодня.</string>
-    <string name="romper_sello">Сломать печать</string>
+    <string name="frase_sellada_rostro">Открой фразу дня лицом или отпечатком пальца.</string>
+    <string name="frase_sellada_clave">Открой фразу дня своим кодом.</string>
+    <string name="frase_sellada_toque">Нажми на символ, чтобы открыть фразу дня.</string>
+    <string name="romper_sello">Открыть</string>
     <string name="usar_clave">Ввести PIN-код</string>
     <string name="frase_contador">В этом году ты открыл(а) %1$d из 365 фраз</string>
     <string name="biometria_titulo">Открой фразу дня</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">Свой PIN-код</string>
     <string name="bloqueo_toque">Только нажатие</string>
     <string name="bloqueo_sin_biometria">На этом телефоне не настроены разблокировка по лицу, отпечаток пальца или блокировка экрана.</string>
-    <string name="bloqueo_ayuda">Каждый день тебя ждёт фраза из книг, запечатанная воском. Выбери, как сломать печать. Лицо и отпечаток проверяет твой телефон: SuRoute никогда не видит и не хранит твоё лицо.</string>
+    <string name="bloqueo_ayuda">Каждый день тебя ждёт фраза из книг — она хранится, пока ты её не откроешь. Выбери, как её открыть. Лицо и отпечаток проверяет твой телефон: SuRoute никогда не видит и не хранит твоё лицо.</string>
     <string name="cambiar_clave">Сменить PIN-код</string>
     <string name="mis_frases">Мои фразы</string>
     <string name="mis_frases_n">Открыто фраз: %1$d из 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">Не получилось. Проверь, что это копия SuRoute.</string>
     <string name="widget_nombre">Моя цитата и привычки</string>
     <string name="widget_desc">Цитата дня, привычки и серия</string>
-    <string name="widget_sellada">🔒 Цитата дня запечатана. Нажми, чтобы сломать печать.</string>
+    <string name="widget_sellada">Твоя фраза дня ждёт тебя. Нажми, чтобы открыть.</string>
     <string name="widget_habitos">Привычек сегодня: %1$d/%2$d</string>
     <string name="coach_crear_meta_mes">Предложенная цель месяца</string>
     <string name="coach_crear_meta_anio">Предложенная цель года</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">Отдалить</string>
     <string name="carta_titulo">Приветственное письмо</string>
     <string name="carta_para">Тебе, решившему подняться</string>
-    <string name="carta_romper">Сломай печать, чтобы прочитать письмо.</string>
+    <string name="carta_romper">Нажми на символ, чтобы открыть письмо.</string>
     <string name="carta_saludo">Дорогой путник!</string>
     <string name="carta_p1">Если ты читаешь это, самый трудный шаг уже сделан: ты решил подняться.</string>
     <string name="carta_p2">SuRoute — не список дел. Это карта, чтобы найти свою вершину — то, что придаёт жизни смысл, — и компас, чтобы не потерять её, когда придёт туман.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">Письмо себе в %1$d</string>
     <string name="vida_carta_sellada">Запечатано. Откроется 1 января %1$d.</string>
     <string name="vida_carta_reescribir">Переписать</string>
-    <string name="vida_carta_sello">Сургучная печать</string>
-    <string name="vida_carta_ayuda_futuro">Напиши человеку, которым ты станешь в %1$d. Письмо запечатают сургучом, и оно откроется 1 января того года.</string>
+    <string name="vida_carta_sello">Сохранённое письмо</string>
+    <string name="vida_carta_ayuda_futuro">Напиши человеку, которым ты станешь в %1$d. Письмо сохранится и откроется 1 января того года.</string>
     <string name="vida_carta_ayuda">Что ты хочешь сказать себе в %1$d.</string>
     <string name="vida_carta_campo">Твоё письмо</string>
     <string name="vida_carta_ejemplo">Дорогой я из %1$d…</string>

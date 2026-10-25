@@ -143,8 +143,7 @@ fun InicioScreen(onTerminar: () -> Unit) {
     val abrir: () -> Unit = {
         vm.abrir(); error = null; sello = Sello.ABIERTO
         haptico.performHapticFeedback(HapticFeedbackType.LongPress)
-        SonidoSello.reproducir(ctx)
-        alcance.launch { quiebre.animateTo(1f, tween(1500, easing = LinearEasing)) }
+        alcance.launch { quiebre.animateTo(1f, tween(620, easing = androidx.compose.animation.core.FastOutSlowInEasing)) }
         // La frase aparece cuando los trozos ya van saliendo
         alcance.launch { delay(480); rotura.animateTo(1f, tween(800, easing = FastOutSlowInEasing)) }
     }
@@ -245,14 +244,13 @@ fun InicioScreen(onTerminar: () -> Unit) {
                         }
                     }
                 }
-                // Sello de cera sobre la frase: se agrieta y se parte en trozos al abrirla
-                // (cada día se rompe distinto: la semilla es el día del año)
+                // El símbolo de SuRoute guarda la frase: al abrirla gira, se expande y se desvanece
                 if (quiebre.value < 1f) {
                     val descripcion = stringResource(R.string.romper_sello)
                     SelloDeCera(
                         progreso = quiebre.value,
                         semilla = LocalDate.now().year * 1000L + vm.indice,
-                        modifier = Modifier.offset(y = 14.dp).size(84.dp)
+                        modifier = Modifier.offset(y = 14.dp).size(96.dp)
                             .semantics { contentDescription = descripcion; role = Role.Button }
                             .clickable(
                                 enabled = sello == Sello.CERRADO,
@@ -280,7 +278,6 @@ fun InicioScreen(onTerminar: () -> Unit) {
                     Spacer(Modifier.height(14.dp))
                     Button(
                         onClick = romper,
-                        modifier = Modifier.shadow(6.dp, RoundedCornerShape(50), ambientColor = Papel.Sombra, spotColor = Papel.Sombra),
                         contentPadding = PaddingValues(horizontal = 26.dp, vertical = 14.dp),
                     ) {
                         Icon(

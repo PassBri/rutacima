@@ -85,7 +85,7 @@ const item = (sel, avatar, titulo, hora, sub, extra = "") =>
      <span class="t1"><span>${titulo}</span><span class="hora">${hora}</span></span>
      <span class="t2"><span>${sub}</span>${extra}</span></span></button>`;
 const av = (txt, color) => `<span class="avatar" style="--c:${color}">${txt}</span>`;
-const avSello = () => `<img class="avatar" src="${LOGO}" alt="">`;
+const avSello = () => SIMBOLO("avatar");
 const coincide = s => !estado.busqueda || String(s).toLowerCase().includes(estado.busqueda.toLowerCase());
 const grupo = t => `<div class="grupo">${t}</div>`;
 const pctTxt = x => `${Math.round(x * 100)}%`;
@@ -219,7 +219,7 @@ const LISTAS = {
       const fr = Contenido.frases[fraseIndice(d)];
       if (!coincide(abierta ? fr.t : "")) continue;
       h += item("f:" + iso(d), abierta ? av(ic("frases"), "var(--burdeos)") : avSello(), k === 0 ? "Frase de hoy" : `Día ${diaDelAnio(d) + 1}`, `${d.getDate()} ${MES_C[d.getMonth()]}`,
-        abierta ? esc(fr.t) : `${ic("candado", "i fijado")} Sellada`, k === 0 && !abierta ? `<span class="badge">1</span>` : "");
+        abierta ? esc(fr.t) : `${ic("candado", "i fijado")} Por abrir`, k === 0 && !abierta ? `<span class="badge">1</span>` : "");
     }
     return h + `</div>`;
   },

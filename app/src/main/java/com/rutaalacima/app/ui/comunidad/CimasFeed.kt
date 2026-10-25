@@ -183,12 +183,12 @@ private fun CimaPagina(
         // Velos para leer: arriba (pestañas) y abajo (pie)
         Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x8C060A12), 0.16f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0xE0060A12))))
 
-        // Doble toque: cae un sello de lacre (el impulso de Ruta a la Cima)
+        // Doble toque: aparece el símbolo de SuRoute (el impulso de Ruta a la Cima)
         AnimatedVisibility(
             visible = sello, modifier = Modifier.align(Alignment.Center),
             enter = scaleIn(tween(220), initialScale = 1.6f) + fadeIn(tween(160)), exit = scaleOut(tween(420), targetScale = 0.9f) + fadeOut(tween(420)),
         ) {
-            androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(132.dp))
+            com.rutaalacima.app.ui.components.SelloDeCera(0f, 0L, Modifier.size(120.dp))
         }
 
         // Derecha: autor y acciones

@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -205,8 +206,8 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
                     enabled = !(velas && s.k == "saldo"),
                     leadingIcon = { Box(Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(s.color().copy(alpha = if (on) 1f else 0.35f))) })
             }
-            FilterChip(media, { media = !media }, { Text(stringResource(R.string.gr_media)) })
-            FilterChip(salud, { salud = !salud }, { Text(stringResource(R.string.gr_salud)) })
+            FilterChip(media, { media = !media }, { Text(stringResource(R.string.gr_media)) }, leadingIcon = if (media) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null)
+            FilterChip(salud, { salud = !salud }, { Text(stringResource(R.string.gr_salud)) }, leadingIcon = if (salud) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null)
         }
         // Lectura del periodo tocado
         Column(Modifier.fillMaxWidth().padding(top = 8.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(horizontal = 12.dp, vertical = 8.dp)) {

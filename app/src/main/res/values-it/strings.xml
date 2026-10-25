@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">Vai a…</string>
     <string name="inicio_accion">Fai il passo di oggi</string>
     <string name="frase_dia_n">Frase del giorno %1$d di 365</string>
-    <string name="frase_sellada_rostro">Rompi il sigillo con il tuo volto o la tua impronta per leggere la frase di oggi.</string>
-    <string name="frase_sellada_clave">Rompi il sigillo con il tuo PIN per leggere la frase di oggi.</string>
-    <string name="frase_sellada_toque">Tocca il sigillo per aprire la frase di oggi.</string>
-    <string name="romper_sello">Rompi il sigillo</string>
+    <string name="frase_sellada_rostro">Apri la frase di oggi con il volto o l’impronta.</string>
+    <string name="frase_sellada_clave">Apri la frase di oggi con il tuo codice.</string>
+    <string name="frase_sellada_toque">Tocca il simbolo per aprire la frase di oggi.</string>
+    <string name="romper_sello">Apri</string>
     <string name="usar_clave">Usa il mio PIN</string>
     <string name="frase_contador">Quest\'anno hai aperto %1$d frasi su 365</string>
     <string name="biometria_titulo">Apri la tua frase del giorno</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">PIN personale</string>
     <string name="bloqueo_toque">Solo tocco</string>
     <string name="bloqueo_sin_biometria">Questo telefono non ha lo sblocco con il volto, l\'impronta o il blocco schermo configurati.</string>
-    <string name="bloqueo_ayuda">Ogni giorno ti aspetta una frase dei libri, sigillata con la ceralacca. Scegli come rompere il sigillo. Volto e impronta sono verificati dal tuo telefono: SuRoute non vede né salva mai il tuo volto.</string>
+    <string name="bloqueo_ayuda">Ogni giorno ti aspetta una frase dei libri, custodita finché non la apri. Scegli come aprirla. Volto e impronta sono verificati dal tuo telefono: SuRoute non vede né salva mai il tuo volto.</string>
     <string name="cambiar_clave">Cambia PIN</string>
     <string name="mis_frases">Le mie frasi</string>
     <string name="mis_frases_n">Frasi aperte: %1$d di 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">Impossibile. Verifica che il file sia una copia di SuRoute.</string>
     <string name="widget_nombre">La mia frase e le mie abitudini</string>
     <string name="widget_desc">La frase del giorno, le abitudini di oggi e la tua serie</string>
-    <string name="widget_sellada">🔒 La frase di oggi è sigillata. Tocca per rompere il sigillo.</string>
+    <string name="widget_sellada">La tua frase di oggi ti aspetta. Tocca per aprirla.</string>
     <string name="widget_habitos">%1$d/%2$d abitudini oggi</string>
     <string name="coach_crear_meta_mes">Obiettivo del mese proposto</string>
     <string name="coach_crear_meta_anio">Obiettivo dell’anno proposto</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">Allontana</string>
     <string name="carta_titulo">Lettera di benvenuto</string>
     <string name="carta_para">Per te, che hai deciso di salire</string>
-    <string name="carta_romper">Rompi il sigillo per leggere la tua lettera.</string>
+    <string name="carta_romper">Tocca il simbolo per aprire la tua lettera.</string>
     <string name="carta_saludo">Caro viandante,</string>
     <string name="carta_p1">Se stai leggendo, hai già fatto il passo più difficile: hai deciso di salire.</string>
     <string name="carta_p2">SuRoute non è una lista di cose da fare. È una mappa per trovare la tua vetta —ciò che dà senso alla tua vita— e una bussola per non perderla quando arriverà la nebbia.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">Lettera al te del %1$d</string>
     <string name="vida_carta_sellada">Sigillata. Si apre il 1° gennaio %1$d.</string>
     <string name="vida_carta_reescribir">Riscriverla</string>
-    <string name="vida_carta_sello">Sigillo di ceralacca</string>
-    <string name="vida_carta_ayuda_futuro">Scrivi alla persona che sarai nel %1$d. Si sigilla con ceralacca e si apre il 1° gennaio di quell’anno.</string>
+    <string name="vida_carta_sello">Lettera custodita</string>
+    <string name="vida_carta_ayuda_futuro">Scrivi alla persona che sarai nel %1$d. Resta custodita e si apre il 1° gennaio di quell’anno.</string>
     <string name="vida_carta_ayuda">Ciò che vuoi dirti nel %1$d.</string>
     <string name="vida_carta_campo">La tua lettera</string>
     <string name="vida_carta_ejemplo">Caro me del %1$d…</string>

@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">Go to…</string>
     <string name="inicio_accion">Take today’s step</string>
     <string name="frase_dia_n">Quote of the day %1$d of 365</string>
-    <string name="frase_sellada_rostro">Break the seal with your face or fingerprint to read today\'s quote.</string>
-    <string name="frase_sellada_clave">Break the seal with your PIN to read today\'s quote.</string>
-    <string name="frase_sellada_toque">Tap the seal to open today\'s quote.</string>
-    <string name="romper_sello">Break the seal</string>
+    <string name="frase_sellada_rostro">Open today\'s quote with your face or fingerprint.</string>
+    <string name="frase_sellada_clave">Open today\'s quote with your passcode.</string>
+    <string name="frase_sellada_toque">Tap the symbol to open today\'s quote.</string>
+    <string name="romper_sello">Open</string>
     <string name="usar_clave">Use my PIN</string>
     <string name="frase_contador">You\'ve opened %1$d of 365 quotes this year</string>
     <string name="biometria_titulo">Open your daily quote</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">Custom PIN</string>
     <string name="bloqueo_toque">Tap only</string>
     <string name="bloqueo_sin_biometria">This phone has no face unlock, fingerprint, or screen lock set up.</string>
-    <string name="bloqueo_ayuda">Every day a quote from the books awaits you, sealed with wax. Choose how to break the seal. Your phone verifies your face and fingerprint: SuRoute never sees or stores your face.</string>
+    <string name="bloqueo_ayuda">Every day a quote from the books awaits you, kept until you open it. Choose how to open it. Your phone verifies your face and fingerprint: SuRoute never sees or stores your face.</string>
     <string name="cambiar_clave">Change PIN</string>
     <string name="mis_frases">My quotes</string>
     <string name="mis_frases_n">Quotes opened: %1$d of 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">Couldn’t do it. Make sure the file is a SuRoute copy.</string>
     <string name="widget_nombre">My quote and habits</string>
     <string name="widget_desc">Today’s quote, your habits and your streak</string>
-    <string name="widget_sellada">🔒 Today’s quote is sealed. Tap to break the seal.</string>
+    <string name="widget_sellada">Your quote for today is waiting. Tap to open it.</string>
     <string name="widget_habitos">%1$d/%2$d habits today</string>
     <string name="coach_crear_meta_mes">Suggested goal for this month</string>
     <string name="coach_crear_meta_anio">Suggested goal for this year</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">Zoom out</string>
     <string name="carta_titulo">Welcome letter</string>
     <string name="carta_para">For you, who decided to climb</string>
-    <string name="carta_romper">Break the seal to read your letter.</string>
+    <string name="carta_romper">Tap the symbol to open your letter.</string>
     <string name="carta_saludo">Dear traveler,</string>
     <string name="carta_p1">If you are reading this, you have already taken the hardest step: you decided to climb.</string>
     <string name="carta_p2">SuRoute is not a to-do list. It is a map to find your summit —what gives your life meaning— and a compass so you don\'t lose it when the fog rolls in.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">Letter to your %1$d self</string>
     <string name="vida_carta_sellada">Sealed. Opens on January 1, %1$d.</string>
     <string name="vida_carta_reescribir">Rewrite it</string>
-    <string name="vida_carta_sello">Wax seal</string>
-    <string name="vida_carta_ayuda_futuro">Write to the person you will be in %1$d. It is sealed with wax and opens on January 1 of that year.</string>
+    <string name="vida_carta_sello">Saved letter</string>
+    <string name="vida_carta_ayuda_futuro">Write to the person you will be in %1$d. It is kept safe and opens on January 1 of that year.</string>
     <string name="vida_carta_ayuda">What you want to tell yourself in %1$d.</string>
     <string name="vida_carta_campo">Your letter</string>
     <string name="vida_carta_ejemplo">Dear me of %1$d…</string>

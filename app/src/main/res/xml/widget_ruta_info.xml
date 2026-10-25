@@ -10,5 +10,5 @@
     android:targetCellHeight="2"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="10800000"
-    android:previewImage="@drawable/logo_sello"
+    android:previewImage="@drawable/ic_launcher_marca"
     android:widgetCategory="home_screen" />

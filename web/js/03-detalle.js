@@ -178,8 +178,8 @@ function prepararCimas() {
   cont.addEventListener("dblclick", e => {
     const c = e.target.closest(".cima"); if (!c || e.target.closest("button")) return;
     const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima);
-    // El sello va fuera de la cima: la cima se redibuja al impulsar y el sello debe terminar de caer
-    const sello = document.createElement("img"); sello.src = LOGO; sello.alt = ""; sello.className = "cima-sello";
+    // El símbolo va fuera de la cima: la cima se redibuja al impulsar y el símbolo debe terminar su animación
+    const sello = document.createElement("span"); sello.className = "simbolo cima-sello"; sello.setAttribute("aria-hidden", "true"); sello.innerHTML = SIMBOLO_SVG;
     sello.style.left = e.clientX + "px"; sello.style.top = e.clientY + "px"; document.body.append(sello);
     sello.addEventListener("animationend", () => sello.remove()); setTimeout(() => sello.remove(), 1500);
     navigator.vibrate?.(12);
@@ -240,7 +240,7 @@ function lineaVida(actual) {
     h += `<button class="lv-anio${a === hoy ? " hoy" : a < hoy ? " vivido" : ""}${a === actual ? " actual" : ""}" data-ir="ruta" data-arg="a:${a}" ${a === actual ? 'aria-current="true"' : ""}
       aria-label="${a}, ${a - nac} años${palabra ? ", " + esc(palabra) : ""}${ms.length ? `, ${ms.length} metas` : ""}">
       ${foto ? `<img src="${esc(foto)}" alt="" loading="lazy">` : ""}<b>${a}</b><small>${a - nac} años</small>
-      ${palabra ? `<em>${esc(palabra)}</em>` : ""}<span class="lv-ejes">${ejes.map(e => `<i style="background:${COLOR_EJE[e] || "#7A4A6B"}"></i>`).join("")}${carta && a > hoy ? `<i class="lv-sello" title="Carta sellada"></i>` : ""}</span></button>`;
+      ${palabra ? `<em>${esc(palabra)}</em>` : ""}<span class="lv-ejes">${ejes.map(e => `<i style="background:${COLOR_EJE[e] || "#7A4A6B"}"></i>`).join("")}${carta && a > hoy ? `<i class="lv-sello" title="Carta guardada"></i>` : ""}</span></button>`;
   }
   return `<div class="lv" role="navigation" aria-label="Tu línea de vida"><button class="lv-flecha" data-acc="lvMover" data-arg="-1" aria-label="Años anteriores">${ic("abajo")}</button>
     <div class="lv-cinta" data-lv="${actual}">${h}</div><button class="lv-flecha der" data-acc="lvMover" data-arg="1" aria-label="Años siguientes">${ic("abajo")}</button></div>`;
@@ -277,8 +277,8 @@ function cumplidosAnio(a) {
 /** Carta a tu yo de ese año: si el año está por venir, queda sellada con lacre hasta el 1 de enero. */
 function cartaAnio(a) {
   const hoy = hoyFecha().getFullYear(), texto = respuesta(claveVida(a, "carta")), futuro = a > hoy, editar = estado.cartaEditar === a;
-  if (futuro && texto && !editar) return hoja(`<div class="carta-sellada"><img src="${LOGO}" alt="Sello de lacre"><div><h3 style="margin:0">Carta a tu yo de ${a}</h3>
-      <p class="suave" style="margin:4px 0 10px">Sellada. Se abre el 1 de enero de ${a}.</p><button class="btn mini" data-acc="cartaEditar" data-arg="${a}">Reescribirla</button></div></div>`);
+  if (futuro && texto && !editar) return hoja(`<div class="carta-sellada">${SIMBOLO("grande")}<div><h3 style="margin:0">Carta a tu yo de ${a}</h3>
+      <p class="suave" style="margin:4px 0 10px">Guardada. Se abre el 1 de enero de ${a}.</p><button class="btn mini" data-acc="cartaEditar" data-arg="${a}">Reescribirla</button></div></div>`);
   if (!futuro && texto && !editar) return hoja(`<h3 style="margin:0 0 6px">${a === hoy ? "La carta que te escribiste para este año" : `Tu carta de ${a}`}</h3>
       <p class="carta-texto">${esc(texto).replace(/\n/g, "<br>")}</p><button class="btn mini" data-acc="cartaEditar" data-arg="${a}">Editar</button>`);
   if (!futuro && !texto && a < hoy) return "";
@@ -963,10 +963,10 @@ DET["frases.f"] = fecha => {
   const d = deIso(fecha), hoy = hoyFecha(), esHoy = d.getTime() === hoy.getTime();
   const abierta = abiertas(d.getFullYear()).has(fraseIndice(d)), fr = Contenido.frases[fraseIndice(d)];
   return cab(avSello(), esHoy ? "Frase de hoy" : `Día ${diaDelAnio(d) + 1} del año`, fechaLarga(d)) + cuerpo(
-    `<div class="hoja sellada ${abierta ? "rota" : ""}" id="tarjetaFrase"><div class="etiqueta">Frase del día</div><img class="lacre" src="${LOGO}" alt="Sello de cera">
+    `<div class="hoja sellada ${abierta ? "rota" : ""}" id="tarjetaFrase"><div class="etiqueta">Frase del día</div>${SIMBOLO("lacre")}
       <div id="contenidoFrase">${abierta ? `<p class="cita aparece">“${esc(fr.t)}”</p><p class="cita-libro aparece">${esc(fr.libro)}</p>`
-        : esHoy ? `<p class="suave" style="margin:18px auto 16px;max-width:36ch">Cada día te espera una frase de los libros, sellada con cera. Este computador está vinculado a tu cuenta, así que el sello se rompe con un toque.</p><button class="btn lleno" data-acc="romper" data-arg="${fecha}">${ic("candado")} Romper el sello</button>`
-        : `<p class="suave" style="margin-top:18px">Este sello no se rompió ese día. Las frases solo se abren el día que les toca.</p>`}</div></div>`, "max-width:640px");
+        : esHoy ? `<p class="suave" style="margin:18px auto 16px;max-width:36ch">Cada día te espera una frase de los libros, guardada hasta que la abras. Ábrela con un toque.</p><button class="btn lleno" data-acc="romper" data-arg="${fecha}">${ic("candado")} Abrir la frase</button>`
+        : `<p class="suave" style="margin-top:18px">Esta frase no se abrió ese día. Las frases solo se abren el día que les toca.</p>`}</div></div>`, "max-width:640px");
 };
 
 /* ---------- Perfil ---------- */

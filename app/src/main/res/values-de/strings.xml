@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">Gehe zu…</string>
     <string name="inicio_accion">Den Schritt von heute gehen</string>
     <string name="frase_dia_n">Zitat des Tages %1$d von 365</string>
-    <string name="frase_sellada_rostro">Brich das Siegel mit deinem Gesicht oder Fingerabdruck, um das heutige Zitat zu lesen.</string>
-    <string name="frase_sellada_clave">Brich das Siegel mit deiner PIN, um das heutige Zitat zu lesen.</string>
-    <string name="frase_sellada_toque">Tippe auf das Siegel, um das heutige Zitat zu öffnen.</string>
-    <string name="romper_sello">Siegel brechen</string>
+    <string name="frase_sellada_rostro">Öffne das Zitat des Tages mit Gesicht oder Fingerabdruck.</string>
+    <string name="frase_sellada_clave">Öffne das Zitat des Tages mit deinem Code.</string>
+    <string name="frase_sellada_toque">Tippe auf das Symbol, um das Zitat des Tages zu öffnen.</string>
+    <string name="romper_sello">Öffnen</string>
     <string name="usar_clave">Meine PIN verwenden</string>
     <string name="frase_contador">Du hast dieses Jahr %1$d von 365 Zitaten geöffnet</string>
     <string name="biometria_titulo">Öffne dein Zitat des Tages</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">Eigene PIN</string>
     <string name="bloqueo_toque">Nur tippen</string>
     <string name="bloqueo_sin_biometria">Auf diesem Telefon sind weder Gesichtsentsperrung noch Fingerabdruck oder Displaysperre eingerichtet.</string>
-    <string name="bloqueo_ayuda">Jeden Tag wartet ein Zitat aus den Büchern auf dich, mit Wachs versiegelt. Wähle, wie du das Siegel brichst. Gesicht und Fingerabdruck prüft dein Telefon: SuRoute sieht oder speichert dein Gesicht nie.</string>
+    <string name="bloqueo_ayuda">Jeden Tag wartet ein Zitat aus den Büchern auf dich, aufbewahrt, bis du es öffnest. Wähle, wie du es öffnest. Gesicht und Fingerabdruck prüft dein Telefon: SuRoute sieht oder speichert dein Gesicht nie.</string>
     <string name="cambiar_clave">PIN ändern</string>
     <string name="mis_frases">Meine Zitate</string>
     <string name="mis_frases_n">Geöffnete Zitate: %1$d von 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">Hat nicht geklappt. Prüfe, ob die Datei eine SuRoute-Kopie ist.</string>
     <string name="widget_nombre">Mein Zitat und meine Gewohnheiten</string>
     <string name="widget_desc">Zitat des Tages, deine Gewohnheiten und deine Serie</string>
-    <string name="widget_sellada">🔒 Dein heutiges Zitat ist versiegelt. Tippe, um das Siegel zu brechen.</string>
+    <string name="widget_sellada">Dein Zitat für heute wartet. Tippe, um es zu öffnen.</string>
     <string name="widget_habitos">%1$d/%2$d Gewohnheiten heute</string>
     <string name="coach_crear_meta_mes">Vorgeschlagenes Monatsziel</string>
     <string name="coach_crear_meta_anio">Vorgeschlagenes Jahresziel</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">Herauszoomen</string>
     <string name="carta_titulo">Willkommensbrief</string>
     <string name="carta_para">Für dich, der du dich entschieden hast aufzusteigen</string>
-    <string name="carta_romper">Brich das Siegel, um deinen Brief zu lesen.</string>
+    <string name="carta_romper">Tippe auf das Symbol, um deinen Brief zu öffnen.</string>
     <string name="carta_saludo">Liebe Wanderin, lieber Wanderer,</string>
     <string name="carta_p1">Wenn du das liest, hast du den schwersten Schritt schon getan: Du hast dich entschieden aufzusteigen.</string>
     <string name="carta_p2">SuRoute ist keine To-do-Liste. Es ist eine Karte, um deinen Gipfel zu finden – das, was deinem Leben Sinn gibt – und ein Kompass, um ihn im Nebel nicht zu verlieren.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">Brief an dein Ich von %1$d</string>
     <string name="vida_carta_sellada">Versiegelt. Öffnet sich am 1. Januar %1$d.</string>
     <string name="vida_carta_reescribir">Neu schreiben</string>
-    <string name="vida_carta_sello">Wachssiegel</string>
-    <string name="vida_carta_ayuda_futuro">Schreib der Person, die du %1$d sein wirst. Er wird versiegelt und öffnet sich am 1. Januar dieses Jahres.</string>
+    <string name="vida_carta_sello">Gespeicherter Brief</string>
+    <string name="vida_carta_ayuda_futuro">Schreib der Person, die du %1$d sein wirst. Er wird aufbewahrt und öffnet sich am 1. Januar dieses Jahres.</string>
     <string name="vida_carta_ayuda">Was du dir %1$d sagen willst.</string>
     <string name="vida_carta_campo">Dein Brief</string>
     <string name="vida_carta_ejemplo">Liebes Ich von %1$d …</string>

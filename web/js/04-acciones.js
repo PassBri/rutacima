@@ -199,11 +199,10 @@ const ACC = {
   romper(el, fecha) {
     const d = deIso(fecha), anio = d.getFullYear();
     const guardar = () => Store.guardar("frases", { dias: [...abiertas(anio), fraseIndice(d)].sort((x, y) => x - y) }, String(anio));
-    const img = $("tarjetaFrase")?.querySelector(".lacre");
-    el.disabled = true;
-    // Misma semilla que la app: el sello de hoy se parte igual en el teléfono y aquí
-    if (img?.complete && img.naturalWidth) romperSello(img, anio * 1000 + fraseIndice(d), () => setTimeout(() => { $("tarjetaFrase")?.classList.add("rota"); setTimeout(guardar, 350); }, 220));
-    else { $("tarjetaFrase")?.classList.add("rota"); setTimeout(guardar, 350); }
+    el.disabled = true; navigator.vibrate?.(10);
+    // El símbolo se abre (el círculo gira y se expande) y la frase aparece; igual que en la app
+    const t = $("tarjetaFrase"); t?.classList.add("abriendo");
+    setTimeout(() => { t?.classList.add("rota"); setTimeout(guardar, 300); }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 560);
   },
   /** Compartir una publicación: la hoja del sistema en el teléfono; en el computador, se copia el texto. */
   async compartirPost(el, id) {

@@ -631,10 +631,10 @@
     <string name="ruta_ir_a">Aller à…</string>
     <string name="inicio_accion">Faire le pas d’aujourd’hui</string>
     <string name="frase_dia_n">Citation du jour %1$d sur 365</string>
-    <string name="frase_sellada_rostro">Brise le sceau avec ton visage ou ton empreinte pour lire la citation du jour.</string>
-    <string name="frase_sellada_clave">Brise le sceau avec ton code PIN pour lire la citation du jour.</string>
-    <string name="frase_sellada_toque">Touche le sceau pour ouvrir la citation du jour.</string>
-    <string name="romper_sello">Briser le sceau</string>
+    <string name="frase_sellada_rostro">Ouvre la citation du jour avec ton visage ou ton empreinte.</string>
+    <string name="frase_sellada_clave">Ouvre la citation du jour avec ton code.</string>
+    <string name="frase_sellada_toque">Touche le symbole pour ouvrir la citation du jour.</string>
+    <string name="romper_sello">Ouvrir</string>
     <string name="usar_clave">Utiliser mon code PIN</string>
     <string name="frase_contador">Tu as ouvert %1$d citations sur 365 cette année</string>
     <string name="biometria_titulo">Ouvre ta citation du jour</string>
@@ -652,7 +652,7 @@
     <string name="bloqueo_clave">Code PIN perso</string>
     <string name="bloqueo_toque">Toucher seulement</string>
     <string name="bloqueo_sin_biometria">Ce téléphone n\'a ni déverrouillage facial, ni empreinte, ni verrouillage d\'écran configuré.</string>
-    <string name="bloqueo_ayuda">Chaque jour, une citation tirée des livres t\'attend, scellée à la cire. Choisis comment briser le sceau. Ton téléphone vérifie ton visage et ton empreinte : SuRoute ne voit ni ne conserve jamais ton visage.</string>
+    <string name="bloqueo_ayuda">Chaque jour, une citation tirée des livres t\'attend, gardée jusqu’à ce que tu l’ouvres. Choisis comment l’ouvrir. Ton téléphone vérifie ton visage et ton empreinte : SuRoute ne voit ni ne conserve jamais ton visage.</string>
     <string name="cambiar_clave">Changer le code PIN</string>
     <string name="mis_frases">Mes citations</string>
     <string name="mis_frases_n">Citations ouvertes : %1$d sur 365</string>
@@ -896,7 +896,7 @@
     <string name="respaldo_error">Impossible. Vérifie que le fichier est une copie SuRoute.</string>
     <string name="widget_nombre">Ma citation et mes habitudes</string>
     <string name="widget_desc">La citation du jour, tes habitudes et ta série</string>
-    <string name="widget_sellada">🔒 Ta citation du jour est scellée. Touche pour briser le sceau.</string>
+    <string name="widget_sellada">Ta citation du jour t\'attend. Touche pour l’ouvrir.</string>
     <string name="widget_habitos">%1$d/%2$d habitudes aujourd’hui</string>
     <string name="coach_crear_meta_mes">Objectif du mois proposé</string>
     <string name="coach_crear_meta_anio">Objectif de l’année proposé</string>
@@ -1138,7 +1138,7 @@
     <string name="brujula_alejar">Dézoomer</string>
     <string name="carta_titulo">Lettre de bienvenue</string>
     <string name="carta_para">Pour toi, qui as décidé de monter</string>
-    <string name="carta_romper">Brise le sceau pour lire ta lettre.</string>
+    <string name="carta_romper">Touche le symbole pour ouvrir ta lettre.</string>
     <string name="carta_saludo">Cher voyageur,</string>
     <string name="carta_p1">Si tu lis ceci, tu as déjà fait le pas le plus difficile : tu as décidé de monter.</string>
     <string name="carta_p2">SuRoute n\'est pas une liste de tâches. C\'est une carte pour trouver ton sommet —ce qui donne un sens à ta vie— et une boussole pour ne pas le perdre quand viendra le brouillard.</string>
@@ -1343,8 +1343,8 @@
     <string name="vida_carta_titulo">Lettre à ton moi de %1$d</string>
     <string name="vida_carta_sellada">Scellée. S’ouvre le 1er janvier %1$d.</string>
     <string name="vida_carta_reescribir">La réécrire</string>
-    <string name="vida_carta_sello">Sceau de cire</string>
-    <string name="vida_carta_ayuda_futuro">Écris à la personne que tu seras en %1$d. Elle est scellée à la cire et s’ouvre le 1er janvier de cette année.</string>
+    <string name="vida_carta_sello">Lettre gardée</string>
+    <string name="vida_carta_ayuda_futuro">Écris à la personne que tu seras en %1$d. Elle est gardée et s’ouvre le 1er janvier de cette année.</string>
     <string name="vida_carta_ayuda">Ce que tu veux te dire en %1$d.</string>
     <string name="vida_carta_campo">Ta lettre</string>
     <string name="vida_carta_ejemplo">Cher moi de %1$d…</string>

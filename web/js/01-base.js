@@ -33,7 +33,10 @@ const MODO_REAL = /^https:\/\//.test(CONFIG.supabaseUrl) && !!CONFIG.supabaseAno
   addEventListener("error", e => { if (e.error || e.message) enviar(e.error?.name || "Error", e.filename, e.lineno, e.error?.stack); });
   addEventListener("unhandledrejection", e => { const r = e.reason; if (r instanceof Error) enviar(r.name, (String(r.stack).match(/\/js\/[^:)\s]+/) || [""])[0], (String(r.stack).match(/:(\d+):\d+/) || [])[1], r.stack); });
 })();
-const LOGO = CONFIG.logo || "sello.png";
+const LOGO = CONFIG.logo || "iconos/simbolo.svg";
+/** El símbolo de SuRoute en un contenedor tonal de Material 3: la única marca de la app (reemplaza al sello de cera). */
+const SIMBOLO_SVG = `<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M41.45 85.53A38 38 0 1 1 58.55 85.53"/><circle cx="50" cy="86.5" r="6.5"/></svg>`;
+const SIMBOLO = (cls = "", etiqueta = "") => `<span class="simbolo ${cls}"${etiqueta ? ` role="img" aria-label="${etiqueta}"` : ` aria-hidden="true"`}>${SIMBOLO_SVG}</span>`;
 /* Logo definitivo de SuRoute (diseno/logo/): el círculo abierto al sur con el punto en el hueco, "el sur en el interior".
  * Va en línea y toma el color del texto (tinta en claro, crema en oscuro). El sello de cera queda para los rituales. */
 const MARCA_SVG = "<path d=\"M41.45 85.53A38 38 0 1 1 58.55 85.53\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.7\"/><circle cx=\"50\" cy=\"86.50\" r=\"3.7\" fill=\"currentColor\"/>";

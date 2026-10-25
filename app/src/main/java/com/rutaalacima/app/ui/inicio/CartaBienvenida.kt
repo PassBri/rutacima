@@ -36,6 +36,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.TouchApp
+import androidx.compose.material.icons.filled.Mail
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -114,14 +115,13 @@ fun CartaBienvenidaScreen(onTerminar: () -> Unit) {
         if (!rota) {
             rota = true
             haptico.performHapticFeedback(HapticFeedbackType.LongPress)
-            SonidoSello.reproducir(ctx)
-            alcance.launch { quiebre.animateTo(1f, tween(1500, easing = LinearEasing)) }
-            alcance.launch { delay(650); abierta = true }
+            alcance.launch { quiebre.animateTo(1f, tween(620, easing = FastOutSlowInEasing)) }
+            alcance.launch { delay(520); abierta = true }
         }
     }
     val parrafos = listOf(R.string.carta_p1, R.string.carta_p2, R.string.carta_p3, R.string.carta_p4, R.string.carta_p5)
 
-    Box(Modifier.fillMaxSize().fondoPapel(), contentAlignment = Alignment.TopCenter) {
+    Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background), contentAlignment = Alignment.TopCenter) {
         Column(
             Modifier.fillMaxSize().verticalScroll(rememberScrollState()).statusBarsPadding().navigationBarsPadding().padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -142,7 +142,7 @@ fun CartaBienvenidaScreen(onTerminar: () -> Unit) {
                                 val descripcion = stringResource(R.string.romper_sello)
                                 SelloDeCera(
                                     progreso = quiebre.value, semilla = 1984L,
-                                    modifier = Modifier.size(92.dp).semantics { contentDescription = descripcion; role = Role.Button }
+                                    modifier = Modifier.size(112.dp).semantics { contentDescription = descripcion; role = Role.Button }
                                         .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) { romper() },
                                 )
                             }
@@ -151,7 +151,7 @@ fun CartaBienvenidaScreen(onTerminar: () -> Unit) {
                     )
                     Spacer(Modifier.height(20.dp))
                     if (!rota) Button(onClick = romper, contentPadding = PaddingValues(horizontal = 24.dp, vertical = 12.dp)) {
-                        Icon(Icons.Filled.TouchApp, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.romper_sello))
+                        Icon(Icons.Filled.Mail, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.romper_sello))
                     }
                 }
             }
@@ -174,36 +174,16 @@ fun CartaBienvenidaScreen(onTerminar: () -> Unit) {
     }
 }
 
-/** El sobre visto por detrás: cuerpo crema, pliegues diagonales abajo y la solapa en V con su sombra. */
+/** Tarjeta de Material 3 con el símbolo de SuRoute (un solo logo): al tocarlo, gira y se abre la carta. */
 @Composable
 private fun Sobre(modifier: Modifier, sello: @Composable () -> Unit, para: String) {
-    Box(
-        modifier
-            .aspectRatio(1.6f)
-            .shadow(10.dp, RoundedCornerShape(6.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-            .drawBehind {
-                val w = size.width; val h = size.height; val punta = h * 0.58f
-                val radio = androidx.compose.ui.geometry.CornerRadius(6.dp.toPx())
-                drawRoundRect(Brush.verticalGradient(listOf(SOBRE_CLARO, SOBRE_OSCURO)), cornerRadius = radio)
-                // Pliegues de las solapas de abajo: de las esquinas inferiores hacia el centro
-                val linea = PLIEGUE.copy(alpha = 0.16f); val grosor = 1.dp.toPx()
-                drawLine(linea, androidx.compose.ui.geometry.Offset(0f, h * 0.38f), androidx.compose.ui.geometry.Offset(w / 2, h), grosor)
-                drawLine(linea, androidx.compose.ui.geometry.Offset(w, h * 0.38f), androidx.compose.ui.geometry.Offset(w / 2, h), grosor)
-                // Solapa en V con una sombra suave debajo
-                val solapa = androidx.compose.ui.graphics.Path().apply { moveTo(0f, 0f); lineTo(w, 0f); lineTo(w / 2, punta); close() }
-                translate(top = 2.dp.toPx()) { drawPath(solapa, PLIEGUE.copy(alpha = 0.10f)) }
-                drawPath(solapa, Brush.verticalGradient(listOf(SOLAPA_CLARA, SOLAPA_OSCURA), endY = punta))
-            },
-    ) {
-        // El sello en la punta de la solapa
-        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Box(Modifier.align(androidx.compose.ui.BiasAlignment(0f, 0.16f))) { sello() }
+    androidx.compose.material3.ElevatedCard(modifier, shape = MaterialTheme.shapes.extraLarge) {
+        Column(Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 36.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(Modifier.size(112.dp), contentAlignment = Alignment.Center) { sello() }
+            Spacer(Modifier.height(18.dp))
+            Text(para, style = MaterialTheme.typography.headlineSmall, fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurface)
         }
-        Text(
-            para, fontFamily = FontFamily.Serif, fontStyle = FontStyle.Italic, style = MaterialTheme.typography.titleMedium,
-            color = Color(0xFF5A4636), textAlign = TextAlign.Center,
-            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 14.dp, start = 16.dp, end = 16.dp),
-        )
     }
 }
 
@@ -214,47 +194,36 @@ private fun Carta(parrafos: List<Int>) {
     Column(
         Modifier
             .widthIn(max = 600.dp).fillMaxWidth()
-            .shadow(8.dp, RoundedCornerShape(2.dp), ambientColor = Papel.Sombra, spotColor = Papel.Sombra)
-            .drawBehind {
-                drawRect(PAPEL_CARTA)
-                // Textura verjurada muy leve
-                var y = 0f; val paso = 4.dp.toPx()
-                while (y < size.height) { drawLine(PLIEGUE.copy(alpha = 0.018f), androidx.compose.ui.geometry.Offset(0f, y), androidx.compose.ui.geometry.Offset(size.width, y), 1f); y += paso }
-                // Los dos pliegues de una carta doblada en tres: una sombra y una luz
-                listOf(1f / 3f, 2f / 3f).forEach { f ->
-                    val py = size.height * f
-                    drawLine(PLIEGUE.copy(alpha = 0.08f), androidx.compose.ui.geometry.Offset(0f, py), androidx.compose.ui.geometry.Offset(size.width, py), 1.dp.toPx())
-                    drawLine(Color.White.copy(alpha = 0.55f), androidx.compose.ui.geometry.Offset(0f, py + 1.dp.toPx()), androidx.compose.ui.geometry.Offset(size.width, py + 1.dp.toPx()), 1.dp.toPx())
-                }
-            }
+            .shadow(3.dp, MaterialTheme.shapes.extraLarge)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow, MaterialTheme.shapes.extraLarge)
             .padding(horizontal = 26.dp, vertical = 32.dp),
     ) {
-        // Membrete: el logo de SuRoute en tinta (el sello de cera queda en el sobre)
+        // Membrete: el símbolo de SuRoute en su contenedor tonal
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            androidx.compose.material3.Icon(androidx.compose.ui.res.painterResource(R.drawable.logo_suroute), null, Modifier.size(44.dp), tint = androidx.compose.ui.graphics.Color(0xFF2B1D17))
+            SelloDeCera(progreso = 0f, semilla = 0L, modifier = Modifier.size(52.dp))
             Spacer(Modifier.height(6.dp))
-            Text(stringResource(R.string.app_name).uppercase() + " · " + stringResource(R.string.lema).uppercase(), fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 3.sp, color = BURDEOS)
+            Text(stringResource(R.string.app_name).uppercase() + " · " + stringResource(R.string.lema).uppercase(), fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 3.sp, color = MaterialTheme.colorScheme.primary)
             Spacer(Modifier.height(14.dp))
-            Box(Modifier.fillMaxWidth().height(1.dp).background(ORO.copy(alpha = 0.45f)))
+            androidx.compose.material3.HorizontalDivider()
         }
         Spacer(Modifier.height(16.dp))
         Text("Floridablanca, $fecha", fontFamily = FontFamily.Serif, fontStyle = FontStyle.Italic, style = MaterialTheme.typography.bodyMedium,
-            color = TINTA.copy(alpha = 0.75f), textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
+            color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.End, modifier = Modifier.fillMaxWidth())
         Spacer(Modifier.height(16.dp))
         Text(stringResource(R.string.carta_saludo), fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.titleLarge, color = TINTA)
+            style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface)
         Spacer(Modifier.height(12.dp))
         parrafos.forEach { p ->
-            Text(stringResource(p), fontFamily = FontFamily.Serif, style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 27.sp), color = TINTA)
+            Text(stringResource(p), fontFamily = FontFamily.Serif, style = MaterialTheme.typography.bodyLarge.copy(lineHeight = 27.sp), color = MaterialTheme.colorScheme.onSurface)
             Spacer(Modifier.height(12.dp))
         }
         Spacer(Modifier.height(6.dp))
         Text(stringResource(R.string.carta_cierre), fontFamily = FontFamily.Serif, fontStyle = FontStyle.Italic,
-            style = MaterialTheme.typography.titleMedium, color = BURDEOS)
+            style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
         Column(Modifier.fillMaxWidth().padding(top = 6.dp), horizontalAlignment = Alignment.End) {
-            Text(stringResource(R.string.carta_firma), fontFamily = FontFamily.Cursive, fontSize = 28.sp, color = Color(0xFF2E2018))
-            Box(Modifier.padding(vertical = 4.dp).width(140.dp).height(1.dp).background(ORO.copy(alpha = 0.7f)))
-            Text(stringResource(R.string.carta_firma_rol), style = MaterialTheme.typography.labelMedium, color = TINTA.copy(alpha = 0.7f))
+            Text(stringResource(R.string.carta_firma), fontFamily = FontFamily.Cursive, fontSize = 28.sp, color = MaterialTheme.colorScheme.onSurface)
+            Box(Modifier.padding(vertical = 4.dp).width(140.dp).height(1.dp).background(MaterialTheme.colorScheme.outlineVariant))
+            Text(stringResource(R.string.carta_firma_rol), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
