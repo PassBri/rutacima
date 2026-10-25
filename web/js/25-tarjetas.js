@@ -56,7 +56,11 @@ ACC.girarCasilla = (el, id) => {
   // El foco pasa a la cara visible, para el teclado y el lector de pantalla
   setTimeout(() => (atras ? t.querySelector(".dorso textarea, .dorso input") : t.querySelector(".cara .casilla-girar"))?.focus({ preventScroll: true }), 60);
 };
-{ const base = ACC.pctCasilla; ACC.pctCasilla = (el, id) => { if (el?.closest?.(".tablero-9, .cumbre-tarjeta, .tablero")) return ACC.editarTarjeta(el, id); base(el, id); }; }
+{ const base = ACC.pctCasilla; ACC.pctCasilla = (el, id) => {
+  // En las tarjetas pequeñas de la rosa, tocar el % pasa a Edición ahí mismo (el estado se cambia en la tarjeta)
+  if (el?.closest?.(".tablero-9")) return ACC.editarTarjeta(el, id);
+  if (el?.closest?.(".cumbre-tarjeta, .tablero") && estado.modoTarjetas !== "edicion") { estado.modoTarjetas = "edicion"; try { localStorage.setItem("rutacima-modo-tarjetas", "edicion"); } catch {} document.documentElement.dataset.modoTarjetas = "edicion"; }
+  base(el, id); }; }
 
 /* ---------- Mover: dejar presionada (dedo) o arrastrar (mouse); las demás se apartan ---------- */
 {
@@ -169,7 +173,16 @@ function slideTarjeta(c, md, atras) {
     </div></div>
   </section>`;
 }
-ACC.editarTarjeta = (el, id) => ACC.verTarjetas(el, id, true);
+/** Editar = cambiar al modo Edición ahí mismo: la tarjeta (y todas) muestran sus campos, sin ventanas emergentes. */
+ACC.editarTarjeta = (el, id) => {
+  const k = String(id), enVisor = el?.closest?.(".visor-t");
+  ACC.modoTarjetas(null, "edicion");
+  if (enVisor) return;
+  const t = document.querySelector(`#detalle .casilla-v[data-casilla="${k}"]`); if (!t) return;
+  estado.giradas.delete(k); ladoTarjeta(t, true);
+  t.scrollIntoView({ block: "center", behavior: pocoMovimiento() ? "auto" : "smooth" });
+  setTimeout(() => t.querySelector(".dorso-edicion textarea, .dorso-edicion input")?.focus({ preventScroll: true }), 380);
+};
 ACC.verTarjetas = (el, id, editar = false) => {
   const { md, lista } = tarjetasEnOrden(); if (!lista.length) return;
   const origen = document.activeElement, texto = estado.modoTarjetas !== "imagen";

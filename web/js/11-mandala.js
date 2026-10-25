@@ -491,7 +491,8 @@ Object.assign(ACC, {
   /** Cierra el visor y baja al editor de lo que se estaba viendo. */
   mdEditarAbajo() {
     const n = estado.mdNivel ?? 0; estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
-    if (n < 2) { pintarDetalle(); const d = Mandala.datos(); return ACC.verTarjetas(null, (n === 0 ? d.cumbre : d.camps.find(Boolean) || d.cumbre)?.id, true); }
+    if (n < 2) { pintarDetalle(); const d = Mandala.datos(); const c = n === 0 ? d.cumbre : d.camps.find(Boolean) || d.cumbre;
+      if (c) return ACC.editarTarjeta(null, c.id); document.getElementById(n === 0 ? "md-s1" : "md-s9")?.scrollIntoView({ block: "start" }); return; }
     estado.md81 = true; pintarDetalle();
     // La página ya queda en su lugar mientras el visor se desvanece: sin saltos ni desplazamientos a la vista
     document.getElementById(n === 0 ? "md-s1" : n === 1 ? "md-s9" : "md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });

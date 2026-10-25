@@ -1222,7 +1222,7 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
       ? `<div class="dorso-edicion"><input class="casilla-apodo" maxlength="32" aria-label="Apodo" placeholder="Apodo" data-resp="apodo|apodo:vision:${k}" value="${esc(apodo)}">
          <textarea class="casilla-frase" aria-label="Frase de la casilla" placeholder="Tu frase" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
          <div class="dorso-pie"><button class="casilla-estado" data-acc="estadoCasilla" data-arg="${k}" title="Toca para cambiar el estado">${est}</button>
-           <button class="dorso-mas" data-acc="editarTarjeta" data-arg="${k}" aria-label="Más opciones de esta tarjeta" title="Abrir en grande para editar todo">${ic("ampliar")}</button>
+           <button class="dorso-mas" data-acc="verTarjetas" data-arg="${k}" aria-label="Ver esta tarjeta en grande" title="Ver en grande">${ic("ampliar")}</button>
            <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Ver la foto" title="Ver la foto">${ic("girar")}</button></div></div>`
       : `<div class="dorso-edicion"><div class="dorso-cab"><span>${foto ? `<label class="btn mini" title="Cambiar la foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")} Foto</label>` : ""}</span>
             <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Volver a la foto" title="Volver a la foto">${ic("girar")}</button></div>
