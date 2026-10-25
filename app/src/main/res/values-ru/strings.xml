@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">Эта неделя</string>
     <string name="ruta_este_mes">Этот месяц</string>
     <string name="ruta_este_anio">Этот год</string>
+    <string name="ruta_vida_puntos">Жизнь в точках</string>
+    <string name="ruta_puntos_sin_fecha">Укажите дату рождения в профиле, чтобы увидеть свою жизнь в точках: одна точка — один год.</string>
     <string name="ruta_ir_a">Перейти к…</string>
     <string name="inicio_accion">Сделать шаг сегодня</string>
     <string name="frase_dia_n">Фраза дня %1$d из 365</string>

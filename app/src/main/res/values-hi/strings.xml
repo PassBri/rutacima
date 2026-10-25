@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">इस सप्ताह</string>
     <string name="ruta_este_mes">इस महीने</string>
     <string name="ruta_este_anio">इस वर्ष</string>
+    <string name="ruta_vida_puntos">बिंदुओं में जीवन</string>
+    <string name="ruta_puntos_sin_fecha">प्रोफ़ाइल में अपनी जन्मतिथि जोड़ें ताकि आप अपना जीवन बिंदुओं में देख सकें, हर साल एक बिंदु।</string>
     <string name="ruta_ir_a">यहाँ जाएँ…</string>
     <string name="inicio_accion">आज का कदम उठाइए</string>
     <string name="frase_dia_n">आज का विचार %1$d / 365</string>

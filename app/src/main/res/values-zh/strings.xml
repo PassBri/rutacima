@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">本周</string>
     <string name="ruta_este_mes">本月</string>
     <string name="ruta_este_anio">今年</string>
+    <string name="ruta_vida_puntos">点点人生</string>
+    <string name="ruta_puntos_sin_fecha">在个人资料中添加出生日期，即可看到你的点点人生：每年一个点。</string>
     <string name="ruta_ir_a">前往…</string>
     <string name="inicio_accion">迈出今天的一步</string>
     <string name="frase_dia_n">每日一句 第 %1$d 句，共 365 句</string>

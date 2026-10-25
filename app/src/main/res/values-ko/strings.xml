@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">이번 주</string>
     <string name="ruta_este_mes">이번 달</string>
     <string name="ruta_este_anio">올해</string>
+    <string name="ruta_vida_puntos">점으로 보는 인생</string>
+    <string name="ruta_puntos_sin_fecha">프로필에 생년월일을 추가하면 1년에 점 하나로 인생을 볼 수 있어요.</string>
     <string name="ruta_ir_a">이동…</string>
     <string name="inicio_accion">오늘의 한 걸음 내딛기</string>
     <string name="frase_dia_n">오늘의 문장 %1$d / 365</string>

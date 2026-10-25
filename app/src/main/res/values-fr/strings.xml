@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">Cette semaine</string>
     <string name="ruta_este_mes">Ce mois-ci</string>
     <string name="ruta_este_anio">Cette année</string>
+    <string name="ruta_vida_puntos">Vie en points</string>
+    <string name="ruta_puntos_sin_fecha">Ajoute ta date de naissance dans Profil pour voir ta vie en points, un point par année.</string>
     <string name="ruta_ir_a">Aller à…</string>
     <string name="inicio_accion">Faire le pas d’aujourd’hui</string>
     <string name="frase_dia_n">Citation du jour %1$d sur 365</string>

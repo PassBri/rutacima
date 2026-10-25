@@ -404,15 +404,6 @@ const DET = {
   vida() {
     const r = recordatorio();
     if (!r) return vacio();
-    const nac = r.nac.getFullYear(), anioHoy = new Date().getFullYear();
-    const conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
-    // Cada fila es una década: a la izquierda, el año en que empieza; el punto dorado es este año
-    let puntos = "";
-    for (let i = 0; i < metaVida(); i++) {
-      const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
-      if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
-      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
-    }
     return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
       lineaVida(hoyFecha().getFullYear()) + esteDia() + corazonAnio(hoyFecha().getFullYear()) +
       `<div class="vida-sec" id="vida-vision"><h2>Cumbre, vision board y Brújula</h2><p class="suave">Los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
@@ -423,8 +414,23 @@ const DET = {
           <div><div class="cifra">${r.quedan.toLocaleString("es")}</div><div class="suave">días hasta los ${metaVida()}</div></div></div></div>
         <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
         <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
-        <p class="frase-vida">${r.frase}</p>`) +
-      hoja(`<h3>Tu vida en puntos</h3><p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. Las banderas marcan años con metas.</p>
+        <p class="frase-vida">${r.frase}</p>`));
+  },
+  /* ---------- Mi ruta: la vida en puntos, un punto por año (opción propia de la lista) ---------- */
+  puntos() {
+    const r = recordatorio();
+    if (!r) return vacio();
+    const nac = r.nac.getFullYear(), anioHoy = new Date().getFullYear();
+    const conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
+    // Cada fila es una década: a la izquierda, el año en que empieza; el punto dorado es este año
+    let puntos = "";
+    for (let i = 0; i < metaVida(); i++) {
+      const a = nac + i, cls = a < anioHoy ? "vivido" : a === anioHoy ? "actual" : "futuro";
+      if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
+      puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
+    }
+    return cab(av(ic("puntos"), "var(--burdeos)"), "Tu vida en puntos", `${esc(perfil().nombre || "Tú")} · ${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
+      hoja(`<p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. Las banderas marcan años con metas.</p>
         <div class="puntos">${puntos}</div>
         <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>
         <p class="suave" style="font-size:13px;margin:4px 0 0">Cada fila es una década: a la izquierda, el año en que empieza.</p>

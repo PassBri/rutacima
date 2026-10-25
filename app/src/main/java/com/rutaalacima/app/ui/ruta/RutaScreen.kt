@@ -1,6 +1,7 @@
 package com.rutaalacima.app.ui.ruta
 
 import androidx.compose.animation.expandVertically
+import androidx.compose.material.icons.filled.Apps
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Close
@@ -130,18 +131,21 @@ fun Post.fecha(): LocalDate = Instant.ofEpochMilli(creadoEn).atZone(ZoneId.syste
 /** Nivel de la cascada de la vida. Se guarda como texto para sobrevivir a la rotación. */
 sealed class Nivel {
     data object Vida : Nivel()
+    /** La vida en puntos: un punto por año (opción propia de Mi ruta). */
+    data object Puntos : Nivel()
     data class Anio(val anio: Int) : Nivel()
     data class Mes(val ym: YearMonth) : Nivel()
     data class Semana(val lunes: LocalDate) : Nivel()
     data class Dia(val fecha: LocalDate) : Nivel()
 
     fun codificar(): String = when (this) {
-        Vida -> "vida"; is Anio -> "anio:$anio"; is Mes -> "mes:$ym"; is Semana -> "semana:$lunes"; is Dia -> "dia:$fecha"
+        Vida -> "vida"; Puntos -> "puntos"; is Anio -> "anio:$anio"; is Mes -> "mes:$ym"; is Semana -> "semana:$lunes"; is Dia -> "dia:$fecha"
     }
 
     /** Nivel superior (para el gesto Atrás). */
     fun arriba(): Nivel? = when (this) {
         Vida -> null
+        Puntos -> Vida
         is Anio -> Vida
         is Mes -> Anio(ym.year)
         is Semana -> Mes(YearMonth.from(lunes.plusDays(3)))
@@ -152,7 +156,7 @@ sealed class Nivel {
         fun decodificar(s: String): Nivel = runCatching {
             val (t, v) = (s.split(':', limit = 2) + "").let { it[0] to it[1] }
             when (t) {
-                "anio" -> Anio(v.toInt()); "mes" -> Mes(YearMonth.parse(v))
+                "puntos" -> Puntos; "anio" -> Anio(v.toInt()); "mes" -> Mes(YearMonth.parse(v))
                 "semana" -> Semana(LocalDate.parse(v)); "dia" -> Dia(LocalDate.parse(v)); else -> Vida
             }
         }.getOrDefault(Vida)
@@ -293,6 +297,7 @@ fun RutaScreen(
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
                     }
+                    Nivel.Puntos -> nivelPuntos(perfil, posts, propositos, ir) { vm.cambiarMeta(it) }
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
@@ -308,6 +313,7 @@ fun RutaScreen(
 private fun SaltosChips(ir: (Nivel) -> Unit) {
     val h = hoy()
     val atajos = listOf(
+        Triple(R.string.ruta_vida_puntos, Icons.Filled.Apps, Nivel.Puntos),
         Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
         Triple(R.string.ruta_esta_semana, Icons.Filled.ViewWeek, Nivel.Semana(h.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))),
         Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),
@@ -331,6 +337,7 @@ private fun Migas(nivel: Nivel, perfil: PerfilEntity, ir: (Nivel) -> Unit) {
         add(stringResource(R.string.ruta_n_anios, meta) to Nivel.Vida)
         when (nivel) {
             Nivel.Vida -> Unit
+            Nivel.Puntos -> add(stringResource(R.string.ruta_vida_puntos) to nivel)
             is Nivel.Anio -> add("${nivel.anio}" to nivel)
             is Nivel.Mes -> { add("${nivel.ym.year}" to Nivel.Anio(nivel.ym.year)); add(nombreMes(nivel.ym.monthValue) to nivel) }
             is Nivel.Semana -> {
@@ -441,6 +448,45 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelVida(
     onAjustes: () -> Unit,
 ) {
     item { RecordatorioDiaCard(perfil, onAjustes) }
+    item {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            SectionTitle(stringResource(R.string.ruta_cumbres), Modifier.weight(1f))
+            OutlinedButton(onClick = { onNuevaMeta(NivelMeta.CINCO_ANIOS) }) {
+                Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.nuevo_proposito))
+            }
+        }
+    }
+    if (propositos.isEmpty()) {
+        item { Text(stringResource(R.string.cascada_vacia_texto), style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant) }
+    }
+    items(propositos, key = { "p${it.id}" }) { p ->
+        val anioMeta = Instant.ofEpochMilli(p.creadoEn).atZone(ZoneId.systemDefault()).year + p.horizonte
+        RutaCard(onClick = { onProposito(p.id) }) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Filled.Flag, null, tint = MaterialTheme.colorScheme.secondary)
+                Spacer(Modifier.width(10.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(p.titulo, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Text(stringResource(R.string.ruta_meta_en, p.horizonte, anioMeta), style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Text("${p.progreso}%", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
+            }
+            ProgressLine(p.progreso / 100f, Modifier.padding(top = 8.dp))
+        }
+    }
+}
+
+// ---------------------------------------------------------------- Vida en puntos (opción propia de Mi ruta)
+
+private fun androidx.compose.foundation.lazy.LazyListScope.nivelPuntos(
+    perfil: PerfilEntity,
+    posts: List<Post>,
+    propositos: List<PropositoEntity>,
+    ir: (Nivel) -> Unit,
+    onMeta: (Int) -> Unit,
+) {
     val anioNac = perfil.anioNacimiento
     if (anioNac != null) {
         val meta = perfil.esperanza()
@@ -491,33 +537,9 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelVida(
             }
         }
     }
-    item {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            SectionTitle(stringResource(R.string.ruta_cumbres), Modifier.weight(1f))
-            OutlinedButton(onClick = { onNuevaMeta(NivelMeta.CINCO_ANIOS) }) {
-                Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.nuevo_proposito))
-            }
-        }
-    }
-    if (propositos.isEmpty()) {
-        item { Text(stringResource(R.string.cascada_vacia_texto), style = MaterialTheme.typography.bodyMedium,
+    if (perfil.anioNacimiento == null) {
+        item { Text(stringResource(R.string.ruta_puntos_sin_fecha), style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant) }
-    }
-    items(propositos, key = { "p${it.id}" }) { p ->
-        val anioMeta = Instant.ofEpochMilli(p.creadoEn).atZone(ZoneId.systemDefault()).year + p.horizonte
-        RutaCard(onClick = { onProposito(p.id) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Flag, null, tint = MaterialTheme.colorScheme.secondary)
-                Spacer(Modifier.width(10.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(p.titulo, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                    Text(stringResource(R.string.ruta_meta_en, p.horizonte, anioMeta), style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                Text("${p.progreso}%", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-            }
-            ProgressLine(p.progreso / 100f, Modifier.padding(top = 8.dp))
-        }
     }
 }
 

@@ -599,6 +599,8 @@
     <string name="ruta_esta_semana">هذا الأسبوع</string>
     <string name="ruta_este_mes">هذا الشهر</string>
     <string name="ruta_este_anio">هذا العام</string>
+    <string name="ruta_vida_puntos">الحياة بالنقاط</string>
+    <string name="ruta_puntos_sin_fecha">أضف تاريخ ميلادك في الملف الشخصي لترى حياتك بالنقاط، نقطة لكل سنة.</string>
     <string name="ruta_ir_a">انتقل إلى…</string>
     <string name="inicio_accion">اخطُ خطوة اليوم</string>
     <string name="frase_dia_n">عبارة اليوم %1$d من 365</string>
