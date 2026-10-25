@@ -536,7 +536,19 @@ private fun AnilloMeta(modifier: Modifier, oro: Color, burdeos: Color) {
     }
 }
 
-/** La vida en puntos: uno por año, 10 por fila. La órbita que gira marca un año con metas a largo plazo. */
+/** El símbolo de SuRoute dibujado: el círculo abierto al sur (hueco de 26°) con el punto en el hueco. */
+@Composable
+fun MarcaAnio(modifier: Modifier, color: Color, grosor: Float = 0.06f, punto: Color = color, puntoGrande: Boolean = false) {
+    androidx.compose.foundation.Canvas(modifier) {
+        val d = size.minDimension; val r = d * 0.38f; val c = androidx.compose.ui.geometry.Offset(size.width / 2, size.height / 2 - d * 0.015f)
+        drawArc(color, startAngle = 90f + 13f, sweepAngle = 334f, useCenter = false,
+            topLeft = androidx.compose.ui.geometry.Offset(c.x - r, c.y - r), size = androidx.compose.ui.geometry.Size(2 * r, 2 * r),
+            style = androidx.compose.ui.graphics.drawscope.Stroke(d * grosor))
+        drawCircle(punto, radius = d * if (puntoGrande) 0.095f else 0.06f, center = androidx.compose.ui.geometry.Offset(c.x, c.y + r))
+    }
+}
+
+/** La vida en puntos: uno por año, 10 por fila; cada punto es el símbolo de SuRoute y el sur se enciende si el año tiene metas. */
 @Composable
 fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, aniosMeta: Set<Int>, onAnio: (Int) -> Unit) {
     val vivido = MaterialTheme.colorScheme.primary
@@ -558,33 +570,22 @@ fun PuntosVida(anioNac: Int, edad: Int, meta: Int, aniosConRecuerdos: Set<Int>, 
                 val pasado = e < edad
                 val actual = e == edad
                 val toque = rememberToque()
-                Box(Modifier.weight(1f).aspectRatio(1f).padding(3.dp), contentAlignment = Alignment.Center) {
-                    Box(
-                        Modifier.fillMaxSize(0.86f)
-                            // Años vividos y con recuerdos flotan sobre el papel; los futuros quedan casi al ras
-                            .flotante(toque, CircleShape, if (pasado || actual || anio in aniosConRecuerdos) 3.dp else 0.5.dp)
-                            .clip(CircleShape)
-                            .clickable(interactionSource = toque, indication = ripple(), onClickLabel = "$anio") { onAnio(anio) }
-                            .semantics { contentDescription = "$anio · $e" }
-                            .background(
-                                when {
-                                    anio in aniosConRecuerdos -> recuerdo
-                                    pasado -> vivido
-                                    else -> futuro
-                                },
-                            )
-                            .then(
-                                when {
-                                    actual -> Modifier.border(2.5.dp, recuerdo, CircleShape)
-                                    !pasado -> Modifier.border(1.dp, borde, CircleShape)
-                                    else -> Modifier
-                                },
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                    }
-                    // Año con metas: una órbita fina que gira despacio alrededor del punto
-                    if (anio in aniosMeta) AnilloMeta(Modifier.matchParentSize(), recuerdo, vivido)
+                // Cada año es el símbolo de SuRoute: el círculo abierto al sur con su punto
+                val color = when {
+                    actual -> recuerdo
+                    anio in aniosConRecuerdos -> recuerdo
+                    pasado -> vivido
+                    else -> borde
+                }
+                Box(
+                    Modifier.weight(1f).aspectRatio(1f).padding(3.dp).clip(CircleShape)
+                        .clickable(interactionSource = toque, indication = ripple(), onClickLabel = "$anio") { onAnio(anio) }
+                        .semantics { contentDescription = "$anio · $e" },
+                    contentAlignment = Alignment.Center,
+                ) {
+                    MarcaAnio(Modifier.fillMaxSize(0.9f), color, grosor = if (actual) 0.085f else if (pasado) 0.07f else 0.045f,
+                        punto = if (anio in aniosMeta) MaterialTheme.colorScheme.secondary else color, puntoGrande = anio in aniosMeta)
+                    if (actual) Text("$e", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                 }
             }
             repeat(10 - fila.size) { Spacer(Modifier.weight(1f)) }
