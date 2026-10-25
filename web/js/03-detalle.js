@@ -1164,12 +1164,11 @@ function avanceCasilla(c, d = window.Mandala ? Mandala.datos() : null) {
   return { pct: estado === "LOGRADA" ? 100 : pct, estado };
 }
 
-/** Tarjeta de una casilla del vision board (también la usa el 9×9 para la cumbre y los campamentos). */
-function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBloque = false) {
-  const color = e => COLOR_EJE[e] || "#6B2A1A";
-    const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
-    const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
-    const edicion = `<div class="casilla-edicion">
+/** Lo que se edita de una casilla: frase, rótulo, estado, metas que la sostienen y más opciones. */
+function edicionCasillaHtml(c, md = window.Mandala ? Mandala.datos() : null) {
+  const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
+  const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
+  return `<div class="casilla-edicion">
         <textarea class="casilla-frase" rows="2" aria-label="Frase de la casilla" placeholder="Escribe la frase de esta casilla" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
         <input class="casilla-rotulo" aria-label="Rótulo" placeholder="Rótulo" ${bind("vision", k, "titulo")} value="${esc(c.titulo)}">
         <div class="casilla-fila">
@@ -1194,6 +1193,15 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
           <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
       </div>`;
+}
+window.edicionCasillaHtml = edicionCasillaHtml;
+
+/** Tarjeta de una casilla del vision board (también la usa el 9×9 para la cumbre y los campamentos). */
+function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBloque = false, opc = {}) {
+  const color = e => COLOR_EJE[e] || "#6B2A1A";
+    const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
+    const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
+    const edicion = edicionCasillaHtml(c, md);
     const pct = `<button class="casilla-pct-btn" data-acc="pctCasilla" data-arg="${k}" title="Ajustar el avance" aria-label="Avance ${av.pct} %. Toca para ajustarlo">${mdAnillo(av.pct, "esquina")}</button>`;
     if (enBloque) return `<div class="hoja casilla-v en-bloque est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">${pct}<label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
         <input type="file" accept="image/*" hidden data-foto-vision="${k}">
@@ -1201,24 +1209,30 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
           : `<span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
       </label>${edicion}</div>`;
     /* La tarjeta tiene dos caras, como una carta: al frente la foto limpia; al girarla, la frase y lo que se edita.
-       Se mueve dejándola presionada (o arrastrando con el mouse) y la foto se abre a pantalla completa. */
-    const girada = estado.giradas?.has(k), apodo = apodoDe("vision", k), nombre = apodo || c.titulo || "";
-    return `<div class="hoja casilla-v giro${girada ? " girada" : ""} est-${av.estado.toLowerCase()}" data-casilla="${k}" style="--c:${color(c.eje)}">
+       El modo Texto (arriba de la Brújula) gira todas a la vez; el botón de cada una la gira sola. */
+    const girada = (estado.modoTarjetas === "texto") !== !!estado.giradas?.has(k), apodo = apodoDe("vision", k), nombre = apodo || c.titulo || "";
+    const compacta = !!opc.compacta, mover = !opc.fija;
+    const dorso = compacta
+      ? `<input class="casilla-apodo" maxlength="32" aria-label="Apodo" placeholder="Apodo" data-resp="apodo|apodo:vision:${k}" value="${esc(apodo)}">
+         <textarea class="casilla-frase" aria-label="Frase de la casilla" placeholder="Tu frase" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
+         <div class="dorso-pie"><button class="casilla-estado" data-acc="estadoCasilla" data-arg="${k}" title="Toca para cambiar el estado">${est}</button>
+           <button class="dorso-mas" data-acc="editarTarjeta" data-arg="${k}" aria-label="Más opciones de esta tarjeta" title="Abrir en grande para editar todo">${ic("ampliar")}</button>
+           <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Ver la foto" title="Ver la foto">${ic("girar")}</button></div>`
+      : `<div class="dorso-cab"><span>${foto ? `<label class="btn mini" title="Cambiar la foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")} Foto</label>` : ""}</span>
+            <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Volver a la foto" title="Volver a la foto">${ic("girar")}</button></div>
+          <input class="casilla-apodo" maxlength="32" aria-label="Apodo de la tarjeta" placeholder="Apodo (opcional)" data-resp="apodo|apodo:vision:${k}" value="${esc(apodo)}">
+          ${edicion}`;
+    return `<div class="hoja casilla-v giro${compacta ? " compacta" : ""}${girada ? " girada" : ""}${opc.clase ? " " + opc.clase : ""} est-${av.estado.toLowerCase()}" data-casilla="${k}" style="--c:${color(c.eje)}">
       <div class="giro-in">
-        <div class="cara" data-mover-casilla="${k}" tabindex="0" role="group" aria-label="${esc(nombre || "Tarjeta")}. Déjala presionada para moverla, o usa las flechas"${girada ? " inert" : ""}>
-          ${foto ? `<button class="cara-foto" data-acc="verTarjetas" data-arg="${k}" aria-label="Ver en pantalla completa"><img src="${esc(foto)}" alt="" draggable="false"></button>`
+        <div class="cara"${mover ? ` data-mover-casilla="${k}" tabindex="0" role="group" aria-label="${esc(nombre || "Tarjeta")}. Déjala presionada para moverla, o usa las flechas"` : ""}${girada ? " inert" : ""}>
+          ${foto ? `<button class="cara-foto" data-acc="verTarjetas" data-arg="${k}" aria-label="Ver ${esc(nombre)} en pantalla completa"><img src="${esc(foto)}" alt="" draggable="false"></button>`
             : `<label class="cara-foto vacia" title="Agregar tu foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">
-               <span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span></label>`}
-          ${pct}
+               ${compacta ? "" : `<span class="casilla-sug">${esc(c.sugerencia)}</span>`}<span class="casilla-btn">${ic("foto")}${compacta ? "" : " Agregar mi foto"}</span></label>`}
+          ${pct}${opc.sobre || ""}
           <div class="cara-pie">${nombre ? `<span class="cara-apodo">${apodo ? "«" + esc(apodo) + "»" : esc(nombre)}</span>` : "<span></span>"}
             <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Girar la tarjeta para ver y editar la frase" title="Girar">${ic("girar")}</button></div>
         </div>
-        <div class="dorso"${girada ? "" : " inert"}>
-          <div class="dorso-cab"><span>${foto ? `<label class="btn mini" title="Cambiar la foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")} Foto</label>` : ""}</span>
-            <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Volver a la foto" title="Volver a la foto">${ic("girar")}</button></div>
-          <input class="casilla-apodo" maxlength="32" aria-label="Apodo de la tarjeta" placeholder="Apodo (opcional)" data-resp="apodo|apodo:vision:${k}" value="${esc(apodo)}">
-          ${edicion}
-        </div>
+        <div class="dorso${compacta ? " compacta" : ""}"${girada ? "" : " inert"}>${dorso}</div>
       </div></div>`;
   }
 window.casillaVisionHtml = casillaVisionHtml;
@@ -1248,5 +1262,8 @@ function visionCompleta() {
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("ia")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
-    (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Deja presionada una tarjeta para moverla y gírala para editar su frase. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
+    (cs.length ? mandalaHtml((() => {
+      const extra = cs.filter(c => c.id !== md?.cumbre?.id && !md?.camps.some(x => x && x.id === c.id));
+      return extra.length ? `<h4 class="tablero-titulo">Más tarjetas</h4><div class="tablero">${extra.map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Deja presionada una de estas tarjetas para moverla.</p>` : "";
+    })()) : ""));
 }

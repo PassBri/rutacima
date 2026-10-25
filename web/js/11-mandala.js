@@ -358,30 +358,40 @@ function mandalaHtml(tableroHtml = "") {
   // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
-    <button data-acc="mdIr" data-arg="md-s1"><b>1</b> Cumbre</button><button data-acc="mdIr" data-arg="md-s9"><b>9</b> Vision board</button><button data-acc="mdIr" data-arg="md-s81"><b>81</b> Brújula 9×9</button>
-    <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" title="Ver en grande: de la cumbre al 9×9 y de vuelta">⛶ Ver en grande</button></nav>`;
+    <button data-acc="mdIr" data-arg="md-s1" aria-label="Cumbre"><b>1</b><span>Cumbre</span></button><button data-acc="mdIr" data-arg="md-s9" aria-label="Vision board"><b>9</b><span>Vision board</span></button><button data-acc="mdIr" data-arg="md-s81" aria-label="Brújula 9×9"><b>81</b><span>Brújula 9×9</span></button>
+    <span class="md-nav-sep"></span>
+    <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "editar", "Texto"]].map(([v, i, n]) =>
+      `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
+    <button class="md-ver-grande" data-acc="verTarjetas" data-arg="" title="Ver en grande: desliza de una tarjeta a otra, gírala y edítala">${ic("ampliar")}<span>Ver en grande</span></button></nav>`;
   const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
-    <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande">⛶</button></div>`;
+    ${n === "81" ? `<button class="md-visor-ic" data-acc="mdVisor" data-arg="2" aria-label="Ver ${t} en grande" title="Ver en grande">⛶</button>` : ""}</div>`;
   const s1 = hoja(cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.") +
-    (d.cumbre ? casillaVisionHtml(d.cumbre, d, true) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
+    (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
-  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Cada uno se edita aquí: foto, frase, estado y avance.") +
-    `<div class="md-nivel9 md-mapa">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
-      const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
-      if (cel.tipo === "CUMBRE") return `<button class="md-tc${fotoC ? " con-foto" : ""}" data-acc="mdIr" data-arg="md-s1" aria-label="Ir a tu cumbre">${fotoC ? `<img src="${esc(fotoC)}" alt="">` : ""}<b>${esc(d.titulo)}</b>${mdAnillo(pctC, "esquina")}</button>`;
-      const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp], foto = mdFoto(c);
-      return `<button class="md-tk${foto ? " con-foto" : ""}" style="--c:${d.color(cel.camp)}" data-acc="${c ? "mandalaBloque" : "crearCampamento"}" data-arg="${c ? Mandala.ANILLO[cel.camp] : cod}" aria-label="${c ? "Abrir los pasos de " : "Agregar "}${esc(Mandala.nombre(cod))}">
-        ${foto ? `<img src="${esc(foto)}" alt="">` : ""}${c ? mdAnillo(mdPct(d, cel.camp), "esquina") : ""}<small>${Mandala.RUMBOS[cel.camp]} · ${esc(Mandala.nombre(cod))}</small><b>${c ? esc(mdNombre(c)) : "+ Agregar"}</b></button>`;
-    }).join("")}</div><p class="suave md-ayuda">Toca un campamento para abrir sus 8 pasos en la Brújula 9×9.</p>` + (tableroHtml || ""));
+  /* El vision board ES la rosa: la cumbre al centro y los 8 campamentos alrededor, cada uno una tarjeta que se gira y se edita ahí mismo. */
+  const rosa = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
+    const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
+    if (cel.tipo === "CUMBRE") return d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { compacta: true, fija: true, clase: "centro" })
+      : `<button class="md-tc" data-acc="mdIr" data-arg="md-s1"><b>${esc(d.titulo)}</b></button>`;
+    const c = d.camps[cel.camp], cod = Mandala.CAMPAMENTOS_FIJOS[cel.camp];
+    const pasos = `<button class="cara-pasos" data-acc="mandalaBloque" data-arg="${Mandala.ANILLO[cel.camp]}" aria-label="Abrir los 8 pasos de ${esc(Mandala.nombre(cod))} en la Brújula" title="Sus 8 pasos">${Mandala.RUMBOS[cel.camp]}</button>`;
+    return c ? casillaVisionHtml(c, d, false, { compacta: true, fija: true, sobre: pasos })
+      : `<button class="tarjeta-libre" style="--c:${d.color(cel.camp)}" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")}<small>${Mandala.RUMBOS[cel.camp]}</small><b>${esc(Mandala.nombre(cod))}</b></button>`;
+  }).join("");
+  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. En modo Texto escribes en cada tarjeta; la letra de rumbo abre sus 8 pasos.") +
+    `<div class="tablero-9">${rosa}</div>` + (tableroHtml || ""));
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
-      <button class="btn mini" data-acc="mdIrCasilla" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
+      <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
     : `<div class="md-bloque-cab">${mdAnillo(pctC, "")}<div><small>Centro · tu cumbre y sus 8 campamentos</small><h4>${esc(d.titulo)}</h4></div></div>`;
-  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. Toca un bloque para escribir sus pasos y avanzar cada día.") +
-    `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie) +
-    hoja(`<div id="md-bloque"></div>${camposBloque}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
-      <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("ia")} Sugerir pasos</button>` : ""}
-      ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
-      ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`);
+  const editorBloque = `<div id="md-bloque"></div><div class="md-bloque-barra"><button class="btn mini" data-acc="md81" data-arg="">${ic("volver")} Los 81</button>
+      <span class="md-minimapa" role="group" aria-label="Cambiar de bloque">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-mini${bl === b ? " elegido" : ""}" data-acc="mandalaBloque" data-arg="${bl}" aria-label="Bloque ${bl + 1}" style="--c:${bl === 4 ? "var(--oro)" : d.color(Mandala.ANILLO.indexOf(bl))}"></button>`).join("")}</span></div>
+    ${camposBloque}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
+    <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("ia")} Sugerir pasos</button>` : ""}
+    ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
+    ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
+  /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
+  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. Toca un bloque y se abre aquí mismo para escribir sus pasos.") +
+    (estado.md81 ? editorBloque : `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>` + pie));
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
   let visor = "";
   if (estado.mdVisor) {
@@ -444,12 +454,14 @@ Object.assign(ACC, {
     if (estado.mdVisor && el?.closest?.(".md-visor")) {
       if (Number(v) === 4 && el.classList.contains("md-bloque")) { ACC.mdNivel(null, "1"); return; }
       estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
-      estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
+      estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; pintarDetalle();
       document.getElementById("md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });   // quieta debajo del visor que se desvanece
       return;
     }
-    estado.mandalaBloque = Number(v); estado.mdPaso = null; pintarDetalle();
-    if (el) requestAnimationFrame(() => document.getElementById("md-bloque")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
+    const yaAbierto = estado.md81; estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; pintarDetalle();
+    // Desde la grilla de 81 se queda en su sitio; desde el vision board sube la Brújula hasta la vista
+    if (el && !el.closest(".md-grilla, .md-bloque-barra, .md-grande") && !yaAbierto || el?.closest?.(".tablero-9"))
+      requestAnimationFrame(() => document.getElementById("md-s81")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
   },
   /** Navegación por secciones: Cumbre (1) · Vision board (9) · Brújula 9×9 (81). */
   /** Desde el bloque abierto, sube a la tarjeta de esa casilla en el vision board. */
@@ -475,10 +487,13 @@ Object.assign(ACC, {
   mdPantalla() { const v = document.querySelector(".md-visor"); if (!v) return; document.fullscreenElement ? document.exitFullscreen?.() : (document.documentElement.requestFullscreen?.() || null); },
   /** Cierra el visor y baja al editor de lo que se estaba viendo. */
   mdEditarAbajo() {
-    const n = estado.mdNivel ?? 0; estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.(); pintarDetalle();
+    const n = estado.mdNivel ?? 0; estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
+    if (n < 2) { pintarDetalle(); const d = Mandala.datos(); return ACC.verTarjetas(null, (n === 0 ? d.cumbre : d.camps.find(Boolean) || d.cumbre)?.id, true); }
+    estado.md81 = true; pintarDetalle();
     // La página ya queda en su lugar mientras el visor se desvanece: sin saltos ni desplazamientos a la vista
     document.getElementById(n === 0 ? "md-s1" : n === 1 ? "md-s9" : "md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });
   },
+  md81(_, v) { estado.md81 = !!v; estado.mdPaso = null; pintarDetalle(); },
   mdPaso(_, v) { estado.mdPaso = v || null; estado.mdCaidaVer = false; pintarDetalle(); },
   mdCaidaVer() { estado.mdCaidaVer = !estado.mdCaidaVer; pintarDetalle(); },
   /** Reconoce una caída: el paso conserva sus jornadas y pide como máximo la dificultad actual. */
