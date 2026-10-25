@@ -185,7 +185,7 @@ private val PESTANAS = listOf(
     Pestana(Rutas.HOY, R.string.tab_hoy, com.rutaalacima.app.ui.components.IconosRuta.Huellas, com.rutaalacima.app.ui.components.IconosRuta.HuellasContorno),
     Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain, Icons.Outlined.Terrain),
     Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata, com.rutaalacima.app.ui.components.IconosRuta.FogataContorno),
-    Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbre, com.rutaalacima.app.ui.components.IconosRuta.LibroCumbreContorno),
+    Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.MapaRuta, com.rutaalacima.app.ui.components.IconosRuta.MapaRutaContorno),
     Pestana(Rutas.PERFIL, R.string.tab_perfil, com.rutaalacima.app.ui.components.IconosRuta.Perfil, com.rutaalacima.app.ui.components.IconosRuta.PerfilContorno),
 )
 
