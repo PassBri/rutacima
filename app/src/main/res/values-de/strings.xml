@@ -1884,4 +1884,25 @@
     <string name="red_listo">Fertig</string>
     <string name="red_omitir">Jetzt nicht</string>
     <string name="red_siguiendo_n">Du folgst %1$d Personen</string>
+    <string name="red_invito">Hat dich jemand eingeladen? Gib den @Benutzernamen ein</string>
+    <string name="red_invito_ok">Du und @%1$s folgt euch jetzt</string>
+    <string name="red_listado_vacio">Hier gibt es noch keine Beiträge. Sei die erste Person!</string>
+    <string name="pub_medios">Mehrere Fotos oder ein Video</string>
+    <string name="pub_medios_ayuda">Bis zu 10 Fotos oder ein Video bis 60 Sekunden.</string>
+    <string name="pub_video_largo">Das Video ist länger als 60 Sekunden. Kürze es und wähle es erneut.</string>
+    <string name="red_editar">Text bearbeiten</string>
+    <string name="red_meta_relacionada">Zugehöriges Ziel</string>
+    <string name="red_reto">Community-Challenge</string>
+    <string name="red_reto_en">%1$d in der Challenge</string>
+    <string name="red_reto_hoy">%1$d haben heute abgehakt</string>
+    <string name="red_reto_mio">Du: %1$d von %2$d Tagen</string>
+    <string name="red_unirme">Mitmachen</string>
+    <string name="red_marcar_hoy">Heute abhaken</string>
+    <string name="red_hoy_cumplido">Heute geschafft</string>
+    <string name="red_salir_reto">Challenge verlassen</string>
+    <string name="red_coach_verificado">Verifizierter Life-Coach</string>
+    <string name="mod_coaches">Coaches</string>
+    <string name="mod_coaches_vacio">Keine Coach-Bewerbungen zu prüfen.</string>
+    <string name="mod_verificar">Verifizieren</string>
+    <string name="mod_no_aprobar">Ablehnen</string>
 </resources>

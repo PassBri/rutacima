@@ -1884,4 +1884,25 @@
     <string name="red_listo">Fatto</string>
     <string name="red_omitir">Non ora</string>
     <string name="red_siguiendo_n">Segui %1$d persone</string>
+    <string name="red_invito">Qualcuno ti ha invitato? Scrivi il suo @utente</string>
+    <string name="red_invito_ok">Ora tu e @%1$s vi seguite</string>
+    <string name="red_listado_vacio">Ancora nessun post qui. Sii la prima persona!</string>
+    <string name="pub_medios">Più foto o un video</string>
+    <string name="pub_medios_ayuda">Fino a 10 foto, o un video fino a 60 secondi.</string>
+    <string name="pub_video_largo">Il video dura più di 60 secondi. Taglialo e sceglilo di nuovo.</string>
+    <string name="red_editar">Modifica testo</string>
+    <string name="red_meta_relacionada">Obiettivo collegato</string>
+    <string name="red_reto">Sfida della comunità</string>
+    <string name="red_reto_en">%1$d nella sfida</string>
+    <string name="red_reto_hoy">%1$d hanno segnato oggi</string>
+    <string name="red_reto_mio">Tu: %1$d di %2$d giorni</string>
+    <string name="red_unirme">Partecipa</string>
+    <string name="red_marcar_hoy">Segna oggi</string>
+    <string name="red_hoy_cumplido">Fatto oggi</string>
+    <string name="red_salir_reto">Esci dalla sfida</string>
+    <string name="red_coach_verificado">Life coach verificato</string>
+    <string name="mod_coaches">Coach</string>
+    <string name="mod_coaches_vacio">Nessuna candidatura di coach da esaminare.</string>
+    <string name="mod_verificar">Verifica</string>
+    <string name="mod_no_aprobar">Non approvare</string>
 </resources>

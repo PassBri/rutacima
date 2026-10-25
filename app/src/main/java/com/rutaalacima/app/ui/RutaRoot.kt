@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui
 
+import kotlinx.coroutines.launch
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -131,6 +132,8 @@ object Rutas {
     const val AVISOS = "avisos"
     const val PERSONAS = "personas"
     const val PERSONA = "persona/{id}"
+    const val LISTADO = "listado/{clave}"
+    fun listado(clave: String) = "listado/${android.net.Uri.encode(clave)}"
     fun persona(id: String) = "persona/${android.net.Uri.encode(id)}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
@@ -346,6 +349,15 @@ private fun AppPrincipal() {
         val salida = androidx.compose.animation.core.CubicBezierEasing(0.3f, 0f, 0.8f, 0.15f)
         val esPestana = { r: String? -> PESTANAS.any { it.ruta == r } }
         val eje = with(androidx.compose.ui.platform.LocalDensity.current) { 30.dp.roundToPx() }
+        val alcanceRed = androidx.compose.runtime.rememberCoroutineScope()
+        // @menciones y #etiquetas dentro de los textos: abren el perfil o la página de la etiqueta
+        val abrirEnlaceRed: (String) -> Unit = { v ->
+            when {
+                v.startsWith("#") -> nav.navigate(Rutas.listado(v))
+                v.startsWith("@") -> alcanceRed.launch { contenedor.red.idDeUsuario(v)?.let { nav.navigate(Rutas.persona(it)) } }
+            }
+        }
+        androidx.compose.runtime.CompositionLocalProvider(com.rutaalacima.app.ui.comunidad.LocalAbrirEnlaceRed provides abrirEnlaceRed) {
         NavHost(
             nav, startDestination = Rutas.RUTA,
             enterTransition = {
@@ -521,6 +533,10 @@ private fun AppPrincipal() {
                 com.rutaalacima.app.ui.comunidad.AvisosScreen(onBack = { nav.popBackStack() }, onPost = { nav.navigate(Rutas.post(it)) },
                     onPersona = { if (it.isNotBlank()) nav.navigate(Rutas.persona(it)) })
             }
+            composable(Rutas.LISTADO, arguments = listOf(navArgument("clave") { type = NavType.StringType })) { e ->
+                com.rutaalacima.app.ui.comunidad.ListadoPublicacionesScreen(clave = e.arguments?.getString("clave").orEmpty(),
+                    onBack = { nav.popBackStack() }, onPost = { nav.navigate(Rutas.post(it)) })
+            }
             composable(Rutas.PERSONAS) {
                 com.rutaalacima.app.ui.comunidad.BuscarPersonasScreen(onBack = { nav.popBackStack() }, onPersona = { nav.navigate(Rutas.persona(it)) })
             }
@@ -606,6 +622,7 @@ private fun AppPrincipal() {
             }
             composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }, onResumen = { nav.navigate(Rutas.resumen(it)) }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
+        }
         }
     }
    }

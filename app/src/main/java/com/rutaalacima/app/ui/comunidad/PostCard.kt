@@ -190,7 +190,7 @@ fun PostCard(
                 }
             }
             if (post.texto.isNotBlank()) {
-                Text(post.texto, style = MaterialTheme.typography.bodyMedium, maxLines = 4, overflow = TextOverflow.Ellipsis,
+                TextoEnlazado(post.texto, style = MaterialTheme.typography.bodyMedium, maxLines = 4,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 10.dp))
             }
         } else {
@@ -227,7 +227,8 @@ fun PostCard(
                     tint = if (guardado) MaterialTheme.colorScheme.secondary else LocalContentColor.current)
             }
             IconButton(onClick = {
-                val texto = listOf(post.metaTitulo, post.texto, "— SuRoute").filter { it.isNotBlank() }.joinToString("\n\n")
+                val enlace = com.rutaalacima.app.data.social.EnlacesRed.publicacion(post)
+                val texto = listOf(post.metaTitulo, post.texto, enlace.ifBlank { "— SuRoute" }).filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }) { Icon(Icons.Outlined.Share, stringResource(R.string.compartir)) }
         }

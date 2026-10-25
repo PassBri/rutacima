@@ -1884,4 +1884,25 @@
     <string name="red_listo">完了</string>
     <string name="red_omitir">今はしない</string>
     <string name="red_siguiendo_n">%1$d人をフォロー中</string>
+    <string name="red_invito">招待してくれた人がいますか？@ユーザー名を入力</string>
+    <string name="red_invito_ok">あなたと@%1$sは相互フォローになりました</string>
+    <string name="red_listado_vacio">まだ投稿はありません。最初の一人になりましょう！</string>
+    <string name="pub_medios">複数の写真または動画</string>
+    <string name="pub_medios_ayuda">写真は最大10枚、動画は60秒まで。</string>
+    <string name="pub_video_largo">動画が60秒を超えています。短くしてから選び直してください。</string>
+    <string name="red_editar">テキストを編集</string>
+    <string name="red_meta_relacionada">関連する目標</string>
+    <string name="red_reto">コミュニティチャレンジ</string>
+    <string name="red_reto_en">%1$d人が参加中</string>
+    <string name="red_reto_hoy">今日%1$d人がチェック</string>
+    <string name="red_reto_mio">あなた：%2$d日中%1$d日</string>
+    <string name="red_unirme">参加する</string>
+    <string name="red_marcar_hoy">今日をチェック</string>
+    <string name="red_hoy_cumplido">今日は達成</string>
+    <string name="red_salir_reto">チャレンジをやめる</string>
+    <string name="red_coach_verificado">認証済みライフコーチ</string>
+    <string name="mod_coaches">コーチ</string>
+    <string name="mod_coaches_vacio">審査待ちのコーチ申請はありません。</string>
+    <string name="mod_verificar">認証する</string>
+    <string name="mod_no_aprobar">承認しない</string>
 </resources>

@@ -109,6 +109,7 @@ fun CimasFeed(
         CimaPagina(
             post = posts[i],
             primera = i == 0,
+            activo = estado.currentPage == i,
             guardado = posts[i].id in guardados,
             onImpulsar = { onImpulsar(posts[i]) },
             onAbrir = { onAbrir(posts[i]) },
@@ -135,7 +136,7 @@ private fun FinDelFeed(onHoy: () -> Unit) {
 
 @Composable
 private fun CimaPagina(
-    post: Post, primera: Boolean, guardado: Boolean,
+    post: Post, primera: Boolean, guardado: Boolean, activo: Boolean = true,
     onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit, onMas: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -161,7 +162,9 @@ private fun CimaPagina(
             },
     ) {
         // Fondo: la foto de borde a borde, o el cielo real del momento en que se publicó con la frase en letra de carta
-        if (post.foto.isNotBlank()) {
+        if (post.media.esCarrusel()) {
+            MediaCarrusel(post.media, activo, Modifier.fillMaxSize())
+        } else if (post.foto.isNotBlank()) {
             val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
             AsyncImage(modelo, androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
                 post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" },
@@ -203,7 +206,8 @@ private fun CimaPagina(
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
                 if (guardado) MaterialTheme.colorScheme.secondary else Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
-                val texto = listOf(post.metaTitulo, post.texto, "— SuRoute").filter { it.isNotBlank() }.joinToString("\n\n")
+                val enlace = com.rutaalacima.app.data.social.EnlacesRed.publicacion(post)
+                val texto = listOf(post.metaTitulo, post.texto, enlace.ifBlank { "— SuRoute" }).filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
             // Más: reportar, bloquear y copiar, siempre a un toque
@@ -215,19 +219,22 @@ private fun CimaPagina(
             Modifier.align(Alignment.BottomStart).fillMaxWidth().padding(start = 16.dp, end = 84.dp, bottom = 20.dp),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
-            Text(
-                post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" } ?: post.autorNombre,
-                color = Color.White, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
-                maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.clickable(onClick = onAutor),
-            )
+            androidx.compose.foundation.layout.Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    post.autorUsuario.takeIf { it.isNotBlank() }?.let { "@$it" } ?: post.autorNombre,
+                    color = Color.White, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false).clickable(onClick = onAutor),
+                )
+                InsigniaCoach(post.autorId)
+            }
             Text(
                 listOfNotNull(post.tipo.texto(), eje?.texto(), haceCuanto(post.creadoEn)).joinToString(" · "),
                 color = Color.White.copy(alpha = 0.78f), style = MaterialTheme.typography.labelMedium, maxLines = 1,
             )
             if (post.foto.isNotBlank() && post.texto.isNotBlank()) {
-                Text(
+                TextoEnlazado(
                     post.texto, color = Color.White, style = MaterialTheme.typography.bodyMedium,
-                    maxLines = if (abierto) 12 else 2, overflow = TextOverflow.Ellipsis,
+                    maxLines = if (abierto) 12 else 2, enlace = Color.White,
                 )
                 if (post.texto.length > 90) Text(
                     stringResource(if (abierto) R.string.cimas_menos else R.string.cimas_mas), color = Color.White, fontWeight = FontWeight.SemiBold,

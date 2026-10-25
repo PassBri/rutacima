@@ -1884,4 +1884,25 @@
     <string name="red_listo">تم</string>
     <string name="red_omitir">ليس الآن</string>
     <string name="red_siguiendo_n">تتابع %1$d أشخاص</string>
+    <string name="red_invito">هل دعاك أحد؟ اكتب @اسم المستخدم</string>
+    <string name="red_invito_ok">أنت و@%1$s تتابعان بعضكما الآن</string>
+    <string name="red_listado_vacio">لا توجد منشورات هنا بعد. كن أول من ينشر!</string>
+    <string name="pub_medios">عدة صور أو فيديو</string>
+    <string name="pub_medios_ayuda">حتى 10 صور، أو فيديو حتى 60 ثانية.</string>
+    <string name="pub_video_largo">الفيديو أطول من 60 ثانية. قصّه واختره مرة أخرى.</string>
+    <string name="red_editar">تعديل النص</string>
+    <string name="red_meta_relacionada">الهدف المرتبط</string>
+    <string name="red_reto">تحدي المجتمع</string>
+    <string name="red_reto_en">%1$d في التحدي</string>
+    <string name="red_reto_hoy">%1$d سجّلوا اليوم</string>
+    <string name="red_reto_mio">أنت: %1$d من %2$d أيام</string>
+    <string name="red_unirme">انضم</string>
+    <string name="red_marcar_hoy">سجّل اليوم</string>
+    <string name="red_hoy_cumplido">تم اليوم</string>
+    <string name="red_salir_reto">مغادرة التحدي</string>
+    <string name="red_coach_verificado">مدرّب حياة موثّق</string>
+    <string name="mod_coaches">المدرّبون</string>
+    <string name="mod_coaches_vacio">لا توجد طلبات مدرّبين للمراجعة.</string>
+    <string name="mod_verificar">توثيق</string>
+    <string name="mod_no_aprobar">رفض</string>
 </resources>

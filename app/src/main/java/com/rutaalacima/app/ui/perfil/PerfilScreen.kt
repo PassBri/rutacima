@@ -187,7 +187,7 @@ fun PerfilScreen(
                     }
                     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                         OutlinedButton(onClick = onAjustes) { Text(stringResource(R.string.perfil_editar)) }
-                        val invitacion = stringResource(R.string.perfil_invitacion, vm.usuario)
+                        val invitacion = stringResource(R.string.perfil_invitacion, vm.usuario).replace("https://suroute.com/descargar.html", com.rutaalacima.app.data.social.EnlacesRed.invitacion(vm.usuario))
                         IconButton(onClick = {
                             ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                                 type = "text/plain"; putExtra(Intent.EXTRA_TEXT, invitacion)

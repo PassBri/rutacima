@@ -85,6 +85,14 @@ class ModeracionViewModel(private val c: AppContainer) : ViewModel() {
 
     init { cargar() }
 
+    /** Postulaciones de coaches de vida por verificar. */
+    var coaches by mutableStateOf<List<com.rutaalacima.app.data.social.CoachPendiente>>(emptyList()); private set
+    fun cargarCoaches() = viewModelScope.launch { coaches = c.red.coachesPorVerificar() }
+    fun verificarCoach(id: String, si: Boolean) = viewModelScope.launch {
+        runCatching { c.red.verificarCoach(id, si) }.onFailure { error = true }
+        coaches = coaches.filter { it.id != id }
+    }
+
     fun cargar() = viewModelScope.launch {
         cargando = true
         runCatching { casos = c.moderacion.pendientes(); historial = c.moderacion.historial(); error = false }.onFailure { error = true }
@@ -133,6 +141,7 @@ fun ModeracionScreen(onBack: () -> Unit) {
             TabRow(selectedTabIndex = pestana, containerColor = Color.Transparent) {
                 Tab(pestana == 0, { pestana = 0 }, text = { Text(stringResource(R.string.mod_pendientes, vm.casos.size)) })
                 Tab(pestana == 1, { pestana = 1 }, text = { Text(stringResource(R.string.mod_historial)) })
+                Tab(pestana == 2, { pestana = 2; vm.cargarCoaches() }, text = { Text(stringResource(R.string.mod_coaches) + if (vm.coaches.isNotEmpty()) " (${vm.coaches.size})" else "") })
             }
             if (vm.error) Text(stringResource(R.string.mod_error), color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
@@ -145,6 +154,22 @@ fun ModeracionScreen(onBack: () -> Unit) {
                     if (pestana == 0) {
                         if (vm.casos.isEmpty() && !vm.cargando) item { Vacio(stringResource(R.string.mod_vacio)) }
                         items(vm.casos, key = { it.tipo.clave + it.objetivo }) { caso -> TarjetaCaso(caso, vm) }
+                    } else if (pestana == 2) {
+                        if (vm.coaches.isEmpty()) item { Vacio(stringResource(R.string.mod_coaches_vacio)) }
+                        items(vm.coaches, key = { it.id }) { c ->
+                            androidx.compose.material3.Card(Modifier.fillMaxWidth()) {
+                                Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    Text(c.nombre, style = MaterialTheme.typography.titleMedium)
+                                    Text("@${c.usuario}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    if (c.especialidad.isNotBlank()) Text(c.especialidad, style = MaterialTheme.typography.bodyMedium)
+                                    if (c.bio.isNotBlank()) Text(c.bio, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                        androidx.compose.material3.Button(onClick = { vm.verificarCoach(c.id, true) }) { Text(stringResource(R.string.mod_verificar)) }
+                                        androidx.compose.material3.OutlinedButton(onClick = { vm.verificarCoach(c.id, false) }) { Text(stringResource(R.string.mod_no_aprobar)) }
+                                    }
+                                }
+                            }
+                        }
                     } else {
                         if (vm.historial.isEmpty() && !vm.cargando) item { Vacio(stringResource(R.string.mod_historial_vacio)) }
                         items(vm.historial) { d -> FilaDecision(d) }

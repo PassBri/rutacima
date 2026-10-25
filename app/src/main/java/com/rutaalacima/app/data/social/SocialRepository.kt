@@ -56,7 +56,22 @@ data class Post(
     val visibilidad: Visibilidad = Visibilidad.PUBLICA,
     /** Brújula de la Cima compartida (JSON); vacío si la publicación no es una. */
     val brujula: String = "",
+    /** Varias fotos o un video (carrusel); vacío si es una sola foto. */
+    val media: List<MediaPost> = emptyList(),
 )
+
+/** Una pieza del carrusel: foto ("img") o video ("vid"), con su ruta local o URL. */
+data class MediaPost(val tipo: String, val url: String) { val esVideo get() = tipo == "vid" }
+
+/** Lee y escribe la lista de medios como JSON [{"t":…,"u":…}]. */
+object MediaJson {
+    fun leer(e: kotlinx.serialization.json.JsonElement?): List<MediaPost> = runCatching {
+        val arr = when (e) { is JsonArray -> e; is kotlinx.serialization.json.JsonPrimitive -> kotlinx.serialization.json.Json.parseToJsonElement(e.content).jsonArray; else -> null } ?: return@runCatching emptyList()
+        arr.mapNotNull { x -> val o = x.jsonObject; val u = o["u"]?.jsonPrimitive?.contentOrNull ?: return@mapNotNull null; MediaPost(o["t"]?.jsonPrimitive?.contentOrNull ?: "img", u) }
+    }.getOrDefault(emptyList())
+    fun leer(s: String): List<MediaPost> = if (s.isBlank()) emptyList() else leer(kotlinx.serialization.json.JsonPrimitive(s))
+    fun json(m: List<MediaPost>): JsonArray = JsonArray(m.map { buildJsonObject { put("t", it.tipo); put("u", it.url) } })
+}
 
 data class Comentario(val id: String, val autor: String, val texto: String, val creadoEn: Long)
 
@@ -87,7 +102,7 @@ class SocialRepository(
         texto = texto, foto = fotoUrl.ifBlank { foto }, eje = eje, anio = anio, metaTitulo = metaTitulo,
         impulsos = impulsos + if (id in impulsados()) 1 else 0, yoImpulse = id in impulsados(),
         creadoEn = creadaEn, propio = true, visibilidad = runCatching { Visibilidad.valueOf(visibilidad) }.getOrDefault(Visibilidad.PUBLICA),
-        brujula = brujula,
+        brujula = brujula, media = MediaJson.leer(media),
     )
 
     fun nombrePropio(): String = prefs.getString("nombre", "").orEmpty().ifBlank { context.getString(R.string.yo) }
@@ -115,9 +130,12 @@ class SocialRepository(
         mes: Int? = null,
         /** Instantánea de la Brújula de la Cima (JSON) para explorarla en la comunidad. */
         brujula: String = "",
+        /** Varias fotos o un video (carrusel). La primera foto queda como portada. */
+        medios: List<Uri> = emptyList(),
     ): PublicacionEntity = withContext(Dispatchers.IO) {
         val id = UUID.randomUUID().toString()
-        val ruta = foto?.let { guardarFoto(it, id) }.orEmpty()
+        val piezas = medios.mapIndexedNotNull { i, u -> runCatching { guardarMedio(u, "$id-$i") }.getOrNull() }
+        val ruta = foto?.let { guardarFoto(it, id) } ?: piezas.firstOrNull { !it.esVideo }?.url.orEmpty()
         val hoy = LocalDate.now()
         // Un recuerdo de otro año (u otro mes) queda fechado a mitad de ese mes para verse en su lugar
         val fecha = if (anio == hoy.year && (mes == null || mes == hoy.monthValue)) null
@@ -125,6 +143,7 @@ class SocialRepository(
         var p = PublicacionEntity(
             id = id, tipo = tipo.name, texto = texto.trim(), foto = ruta, eje = eje,
             anio = anio, visibilidad = visibilidad.name, metaTitulo = metaTitulo, brujula = brujula,
+            media = if (piezas.size > 1 || piezas.any { it.esVideo }) MediaJson.json(piezas).toString() else "",
         ).let { if (fecha != null) it.copy(creadaEn = fecha) else it }
         dao.upsert(p)
         if (enLinea && visibilidad != Visibilidad.PRIVADA) {
@@ -149,14 +168,21 @@ class SocialRepository(
     suspend fun subir(p: PublicacionEntity): PublicacionEntity {
         val uid = supa.sesion.value?.userId ?: return p
         val url = if (p.foto.isNotBlank()) supa.subirFoto("$uid/${p.id}.jpg", File(p.foto).readBytes()) else ""
+        // Carrusel o video: cada pieza se sube con su tipo
+        val media = MediaJson.leer(p.media).mapIndexed { i, m ->
+            if (m.url.startsWith("http")) m
+            else if (m.esVideo) MediaPost("vid", supa.subirArchivo("media", "$uid/${p.id}-$i.mp4", File(m.url).readBytes(), "video/mp4"))
+            else MediaPost("img", supa.subirFoto("$uid/${p.id}-$i.jpg", File(m.url).readBytes()))
+        }
         supa.insert("posts", buildJsonObject {
             put("id", p.id); put("user_id", uid); put("tipo", p.tipo); put("texto", p.texto)
             put("image_url", url); p.eje?.let { put("eje", it) }; put("anio", p.anio)
             put("visibilidad", p.visibilidad); put("meta_titulo", p.metaTitulo)
             // Solo las Brújulas llevan la columna nueva (así lo demás funciona aunque no se haya actualizado la base)
             if (p.brujula.isNotBlank()) runCatching { kotlinx.serialization.json.Json.parseToJsonElement(p.brujula) }.getOrNull()?.let { put("brujula", it) }
+            if (media.isNotEmpty()) put("media", MediaJson.json(media))
         }, devolver = false)
-        val subida = p.copy(remoteId = p.id, fotoUrl = url)
+        val subida = p.copy(remoteId = p.id, fotoUrl = url, media = if (media.isNotEmpty()) MediaJson.json(media).toString() else p.media)
         dao.upsert(subida)
         return subida
     }
@@ -265,6 +291,13 @@ class SocialRepository(
     }
 
     /** Cambia quién ve una publicación propia (en el teléfono y, si ya está en la comunidad, también allá). */
+    /** Editar el texto y la meta de una publicación propia (aquí y en la comunidad). */
+    suspend fun editarTexto(post: Post, texto: String, meta: String) = withContext(Dispatchers.IO) {
+        dao.get(post.id)?.let { dao.upsert(it.copy(texto = texto, metaTitulo = meta)) }
+        if (enLinea) runCatching { supa.actualizar("posts", "id=eq.${post.id}&user_id=eq.${supa.sesion.value!!.userId}", buildJsonObject { put("texto", texto); put("meta_titulo", meta) }) }
+        cache[post.id]?.let { cache[post.id] = it.copy(texto = texto, metaTitulo = meta) }
+    }
+
     suspend fun cambiarVisibilidad(post: Post, v: Visibilidad) = withContext(Dispatchers.IO) {
         val local = dao.get(post.id)
         if (local != null) {
@@ -284,6 +317,16 @@ class SocialRepository(
     }
 
     /** Comprime la foto (máx. 1440 px, JPEG 85) y la guarda en el almacenamiento privado de la app. */
+    /** Copia una foto (achicada) o un video a la carpeta de la app y devuelve la pieza local. */
+    private fun guardarMedio(uri: Uri, id: String): MediaPost {
+        val tipo = context.contentResolver.getType(uri).orEmpty()
+        if (!tipo.startsWith("video/")) return MediaPost("img", guardarFoto(uri, id))
+        val dir = File(context.filesDir, "publicaciones").apply { mkdirs() }
+        val f = File(dir, "$id.mp4")
+        context.contentResolver.openInputStream(uri)?.use { i -> f.outputStream().use { o -> i.copyTo(o) } }
+        return MediaPost("vid", f.absolutePath)
+    }
+
     private fun guardarFoto(uri: Uri, id: String): String {
         val cr = context.contentResolver
         val opciones = BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -318,9 +361,13 @@ class SocialRepository(
     }
 
     /** El muro: [filtro] elige qué publicaciones y [eje] (VOL, MAE…) deja solo las de ese eje. */
-    suspend fun feed(filtro: FiltroFeed, eje: String? = null): List<Post> = withContext(Dispatchers.IO) {
+    /** Publicaciones por página del muro. */
+    val paginaFeed = 30
+
+    suspend fun feed(filtro: FiltroFeed, eje: String? = null, desde: Int = 0): List<Post> = withContext(Dispatchers.IO) {
         val guardados = guardados()
         if (!enLinea) {
+            if (desde > 0) return@withContext emptyList()
             val mias = dao.todas().filter { it.visibilidad != Visibilidad.PRIVADA.name }.map { it.aPost() }
             val todo = (mias + DemoComunidad.posts(context, impulsados())).sortedByDescending { it.creadoEn }
             val r = when (filtro) {
@@ -332,7 +379,7 @@ class SocialRepository(
             return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() }.also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
-        val base = "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=40" +
+        val base = "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=$paginaFeed&offset=$desde" +
             (eje?.let { "&eje=eq.$it" } ?: "")
         val consulta = when (filtro) {
             FiltroFeed.PARA_TI -> base
@@ -355,6 +402,15 @@ class SocialRepository(
         val mios = if (ids.isEmpty()) emptySet() else supa.select("votes", "select=post_id&user_id=eq.$uid&post_id=in.(${ids.joinToString(",")})")
             .jsonArray.mapNotNull { it.jsonObject["post_id"]?.jsonPrimitive?.contentOrNull }.toSet()
         filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.also(::recordar)
+    }
+
+    /** Publicaciones públicas con un filtro extra de PostgREST (etiqueta o eje), para sus páginas. */
+    suspend fun publicasCon(filtro: String, demo: (Post) -> Boolean): List<Post> = withContext(Dispatchers.IO) {
+        if (!enLinea) return@withContext DemoComunidad.posts(context, impulsados()).filter(demo).also(::recordar)
+        val uid = supa.sesion.value!!.userId
+        val filas = supa.select("posts", "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)" +
+            "&visibilidad=eq.PUBLICA&$filtro&order=created_at.desc&limit=60").jsonArray
+        filas.map { filaAPost(it.jsonObject, uid, emptySet()) }.also(::recordar)
     }
 
     /** Publicaciones visibles de una persona (perfil público). */
@@ -398,6 +454,7 @@ class SocialRepository(
             yoImpulse = s("id") in mios, creadoEn = runCatching { Instant.parse(s("created_at")).toEpochMilli() }.getOrDefault(0L),
             propio = s("user_id") == uid, visibilidad = runCatching { Visibilidad.valueOf(s("visibilidad")) }.getOrDefault(Visibilidad.PUBLICA),
             brujula = when (val b = o["brujula"]) { is JsonObject -> b.toString(); is kotlinx.serialization.json.JsonPrimitive -> b.contentOrNull.orEmpty(); else -> "" },
+            media = MediaJson.leer(o["media"]),
         )
     }
 

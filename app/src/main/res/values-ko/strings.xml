@@ -1884,4 +1884,25 @@
     <string name="red_listo">완료</string>
     <string name="red_omitir">나중에</string>
     <string name="red_siguiendo_n">%1$d명을 팔로우 중</string>
+    <string name="red_invito">초대한 사람이 있나요? @사용자명을 입력하세요</string>
+    <string name="red_invito_ok">이제 나와 @%1$s 님이 서로 팔로우해요</string>
+    <string name="red_listado_vacio">아직 게시물이 없어요. 첫 번째가 되어 보세요!</string>
+    <string name="pub_medios">여러 장의 사진 또는 동영상</string>
+    <string name="pub_medios_ayuda">사진은 최대 10장, 동영상은 60초까지.</string>
+    <string name="pub_video_largo">동영상이 60초보다 길어요. 잘라서 다시 선택하세요.</string>
+    <string name="red_editar">텍스트 편집</string>
+    <string name="red_meta_relacionada">관련 목표</string>
+    <string name="red_reto">커뮤니티 챌린지</string>
+    <string name="red_reto_en">%1$d명 참여 중</string>
+    <string name="red_reto_hoy">오늘 %1$d명이 체크</string>
+    <string name="red_reto_mio">나: %2$d일 중 %1$d일</string>
+    <string name="red_unirme">참여하기</string>
+    <string name="red_marcar_hoy">오늘 체크</string>
+    <string name="red_hoy_cumplido">오늘 완료</string>
+    <string name="red_salir_reto">챌린지 나가기</string>
+    <string name="red_coach_verificado">인증된 라이프 코치</string>
+    <string name="mod_coaches">코치</string>
+    <string name="mod_coaches_vacio">검토할 코치 신청이 없어요.</string>
+    <string name="mod_verificar">인증</string>
+    <string name="mod_no_aprobar">승인 안 함</string>
 </resources>

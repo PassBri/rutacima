@@ -1884,4 +1884,25 @@
     <string name="red_listo">完成</string>
     <string name="red_omitir">以后再说</string>
     <string name="red_siguiendo_n">你关注了 %1$d 人</string>
+    <string name="red_invito">有人邀请你吗？输入 TA 的 @用户名</string>
+    <string name="red_invito_ok">你和 @%1$s 已互相关注</string>
+    <string name="red_listado_vacio">这里还没有帖子。成为第一个吧！</string>
+    <string name="pub_medios">多张照片或一段视频</string>
+    <string name="pub_medios_ayuda">最多 10 张照片，或一段不超过 60 秒的视频。</string>
+    <string name="pub_video_largo">视频超过 60 秒。请剪短后重新选择。</string>
+    <string name="red_editar">编辑文字</string>
+    <string name="red_meta_relacionada">相关目标</string>
+    <string name="red_reto">社区挑战</string>
+    <string name="red_reto_en">%1$d 人参加挑战</string>
+    <string name="red_reto_hoy">今天 %1$d 人打卡</string>
+    <string name="red_reto_mio">你：%2$d 天中的 %1$d 天</string>
+    <string name="red_unirme">加入</string>
+    <string name="red_marcar_hoy">今天打卡</string>
+    <string name="red_hoy_cumplido">今天已完成</string>
+    <string name="red_salir_reto">退出挑战</string>
+    <string name="red_coach_verificado">认证人生教练</string>
+    <string name="mod_coaches">教练</string>
+    <string name="mod_coaches_vacio">没有待审核的教练申请。</string>
+    <string name="mod_verificar">认证</string>
+    <string name="mod_no_aprobar">不通过</string>
 </resources>

@@ -31,6 +31,15 @@ data class Persona(
     val bio: String = "", val cumbre: String = "",
 )
 
+/** Un reto del mes, abierto a toda la comunidad, con mi avance. */
+data class Reto(
+    val id: String, val titulo: String, val descripcion: String, val eje: String?, val inicio: java.time.LocalDate, val fin: java.time.LocalDate,
+    val participantes: Int, val marcasHoy: Int, val yoParticipo: Boolean, val misDias: Int, val hoyMarcado: Boolean,
+) { val dias: Int get() = (java.time.temporal.ChronoUnit.DAYS.between(inicio, fin) + 1).toInt().coerceAtLeast(1) }
+
+/** Una postulación de coach de vida por revisar (moderación). */
+data class CoachPendiente(val id: String, val nombre: String, val usuario: String, val bio: String, val especialidad: String)
+
 /** Perfil público: quién es, cuántos la siguen y lo que comparte. */
 data class PerfilPublico(
     val persona: Persona, val seguidores: Int, val siguiendo: Int, val publicaciones: List<Post>,
@@ -167,6 +176,92 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
         }.getOrNull()
     }
 
+    /**
+     * "Para ti": lo reciente con apoyo, de quienes sigo y de mis ejes, con variedad de personas (igual que la web).
+     * Puntaje = apoyo (impulsos y comentarios) que se apaga con las horas × bonos (sigo, mi eje, foto).
+     */
+    suspend fun ordenarParaTi(posts: List<Post>, ejes: Set<String>): List<Post> {
+        val sigo = sigo(); val ahora = System.currentTimeMillis()
+        fun log2(x: Double) = kotlin.math.ln(x) / kotlin.math.ln(2.0)
+        fun puntaje(p: Post): Double {
+            val h = ((ahora - p.creadoEn) / 3_600_000.0).coerceAtLeast(0.0)
+            return (1 + log2(1.0 + p.impulsos) * 1.5 + log2(1.0 + p.comentarios) * 2) / Math.pow(h + 2, 0.75) *
+                (if (p.autorId in sigo) 1.8 else 1.0) * (if (p.eje != null && p.eje in ejes) 1.4 else 1.0) *
+                (if (p.foto.isNotBlank()) 1.15 else 1.0) * (if (p.propio) 0.6 else 1.0)
+        }
+        val resto = posts.sortedByDescending(::puntaje).toMutableList(); val r = mutableListOf<Post>()
+        while (resto.isNotEmpty()) {
+            val i = resto.indexOfFirst { it.autorId != r.lastOrNull()?.autorId }.coerceAtLeast(0)
+            r += resto.removeAt(i)
+        }
+        return r
+    }
+
+    /** El id de una persona por su @usuario (para abrir su perfil desde una mención). */
+    suspend fun idDeUsuario(usuario: String): String? = withContext(Dispatchers.IO) {
+        val u = usuario.removePrefix("@").lowercase()
+        if (!disponible) return@withContext demoPersonas().firstOrNull { it.usuario == u }?.id
+        runCatching { filas(supa.select("profiles", "select=id&username=eq.${cod(u)}")).firstOrNull()?.s("id") }.getOrNull()
+    }
+
+    /** Invitación: quedamos siguiéndonos con quien me invitó. */
+    suspend fun aceptarInvitacion(usuario: String): Boolean = withContext(Dispatchers.IO) {
+        if (!disponible) return@withContext false
+        runCatching { (supa.rpc("aceptar_invitacion", buildJsonObject { put("p_usuario", usuario.removePrefix("@").lowercase().trim()) }) as? JsonPrimitive)?.booleanOrNull == true }.getOrDefault(false)
+    }
+
+    suspend fun etiqueta(tag: String): List<Post> = social.publicasCon("texto=ilike.*${cod("#$tag")}*") { it.texto.contains("#$tag", true) }
+    suspend fun deEje(eje: String): List<Post> = social.publicasCon("eje=eq.$eje") { it.eje == eje }
+
+    // ------------------------------------------------------------------ Retos de la comunidad
+
+    private var retoDemoUnido = false
+    private var retoDemoHoy = false
+    suspend fun retos(): List<Reto> = withContext(Dispatchers.IO) {
+        if (!disponible) {
+            val hoy = java.time.LocalDate.now()
+            return@withContext listOf(Reto("reto-demo", "21 días madrugando", "Levántate a la hora que elegiste y marca el día. Sin culpa si fallas uno: vuelve al siguiente.",
+                "VOL", hoy.minusDays(5), hoy.plusDays(15), 128, 41, retoDemoUnido, if (retoDemoUnido) 2 + (if (retoDemoHoy) 1 else 0) else 0, retoDemoHoy))
+        }
+        runCatching {
+            filas(supa.rpc("retos_activos")).map { o ->
+                fun i(k: String) = (o[k] as? JsonPrimitive)?.contentOrNull?.toIntOrNull() ?: 0
+                fun b(k: String) = (o[k] as? JsonPrimitive)?.booleanOrNull ?: false
+                Reto(o.s("id"), o.s("titulo"), o.s("descripcion"), o.s("eje").ifBlank { null }, java.time.LocalDate.parse(o.s("inicio")), java.time.LocalDate.parse(o.s("fin")),
+                    i("participantes"), i("marcas_hoy"), b("yo_participo"), i("mis_dias"), b("hoy_marcado"))
+            }
+        }.getOrDefault(emptyList())
+    }
+    suspend fun unirseReto(id: String) = withContext(Dispatchers.IO) {
+        if (!disponible) { retoDemoUnido = true; return@withContext }
+        runCatching { supa.insert("reto_participantes", buildJsonObject { put("reto_id", id); put("user_id", yo) }, devolver = false) }
+    }
+    suspend fun marcarReto(id: String) = withContext(Dispatchers.IO) {
+        if (!disponible) { retoDemoHoy = true; return@withContext }
+        runCatching { supa.insert("reto_marcas", buildJsonObject { put("reto_id", id); put("user_id", yo); put("dia", java.time.LocalDate.now().toString()) }, devolver = false) }
+    }
+    suspend fun salirReto(id: String) = withContext(Dispatchers.IO) {
+        if (!disponible) { retoDemoUnido = false; retoDemoHoy = false; return@withContext }
+        runCatching { supa.delete("reto_participantes", "reto_id=eq.$id&user_id=eq.$yo") }
+    }
+
+    // ------------------------------------------------------------------ Coaches verificados
+
+    private var verificadosCache: Set<String>? = null
+    /** Quiénes son coaches de vida verificados (para su insignia). */
+    suspend fun verificados(): Set<String> = withContext(Dispatchers.IO) {
+        verificadosCache ?: (if (!disponible) emptySet() else runCatching {
+            filas(supa.select("coaches", "select=user_id&verificado=eq.true&activo=eq.true")).map { it.s("user_id") }.toSet()
+        }.getOrDefault(emptySet())).also { verificadosCache = it }
+    }
+    suspend fun coachesPorVerificar(): List<CoachPendiente> = withContext(Dispatchers.IO) {
+        runCatching { filas(supa.rpc("coaches_por_verificar")).map { CoachPendiente(it.s("user_id"), it.s("nombre").ifBlank { it.s("username") }, it.s("username"), it.s("bio"), it.s("especialidad")) } }
+            .getOrDefault(emptyList())
+    }
+    suspend fun verificarCoach(id: String, si: Boolean) = withContext(Dispatchers.IO) {
+        supa.rpc("verificar_coach", buildJsonObject { put("p_user", id); put("p_si", si) }); verificadosCache = null
+    }
+
     private fun demoPersonas() = listOf(
         Persona("mateo.valor", "Mateo G.", "mateo.valor", cumbre = "Facturar el doble con mi propio negocio"),
         Persona("sofi.voz", "Sofía L.", "sofi.voz", cumbre = "Hablar en público sin miedo"),
@@ -175,4 +270,12 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
         Persona("luciap", "Lucía P.", "luciap", cumbre = "Levantarme a las 5:00 un año entero"),
         Persona("andres.sube", "Andrés M.", "andres.sube", cumbre = "Una casa con jardín para mi familia"),
     )
+}
+
+
+/** Enlaces públicos con vista previa (función compartir de Supabase). Vacío sin servidor o si no es pública. */
+object EnlacesRed {
+    private val base: String get() = com.rutaalacima.app.BuildConfig.SUPABASE_URL.trimEnd('/').let { if (it.startsWith("https://")) "$it/functions/v1/compartir" else "" }
+    fun publicacion(p: Post): String = if (base.isNotEmpty() && !p.demo && p.visibilidad == Visibilidad.PUBLICA && p.id.length == 36) "$base?p=${p.id}" else ""
+    fun invitacion(usuario: String): String = if (base.isNotEmpty() && usuario.isNotBlank()) "$base?i=${URLEncoder.encode(usuario, "UTF-8")}" else "https://suroute.com/descargar.html"
 }

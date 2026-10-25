@@ -253,6 +253,8 @@ data class PublicacionEntity(
     val impulsos: Int = 0,
     /** Brújula de la Cima compartida (instantánea JSON, ver BrujulaCompartida); vacío si no es una. */
     val brujula: String = "",
+    /** Varias fotos o un video: JSON [{"t":"img"|"vid","u":"ruta o URL"}]; vacío si es una sola foto. */
+    val media: String = "",
 )
 
 /** Comentario local (modo demo o caché). */

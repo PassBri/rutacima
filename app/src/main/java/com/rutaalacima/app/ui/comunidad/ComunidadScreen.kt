@@ -68,6 +68,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.compose.material.icons.filled.Edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Notifications
@@ -100,7 +101,18 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     val enLinea: Boolean get() = c.social.enLinea
     /** Avisos sin leer (la campana). */
     val noLeidos = c.red.noLeidos
-    init { viewModelScope.launch { runCatching { c.red.contarNoLeidos() } } }
+    /** Retos vigentes de la comunidad. */
+    var retos by mutableStateOf<List<com.rutaalacima.app.data.social.Reto>>(emptyList())
+        private set
+    init {
+        viewModelScope.launch { runCatching { c.red.contarNoLeidos() } }
+        viewModelScope.launch { retos = runCatching { c.red.retos() }.getOrDefault(emptyList()) }
+        viewModelScope.launch { InsigniasRed.verificados = runCatching { c.red.verificados() }.getOrDefault(emptySet()) }
+    }
+    private fun recargarRetos() = viewModelScope.launch { retos = c.red.retos() }
+    fun unirseReto(id: String) = viewModelScope.launch { c.red.unirseReto(id); recargarRetos() }
+    fun marcarReto(id: String) = viewModelScope.launch { c.red.marcarReto(id); recargarRetos() }
+    fun salirReto(id: String) = viewModelScope.launch { c.red.salirReto(id); recargarRetos() }
 
     fun elegirEje(e: String?) { eje = e; cargar() }
 
@@ -110,15 +122,42 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         if (filtro == FiltroFeed.GUARDADOS) posts = posts.filter { it.id in guardados }
     }
 
+    /** Quedan más publicaciones en el servidor (se cargan al llegar al final). */
+    var hayMas by mutableStateOf(false)
+        private set
+    private var cargadas = 0
+    private var cargandoMas = false
+    private suspend fun ordenar(f: FiltroFeed, ps: List<Post>): List<Post> {
+        if (f != FiltroFeed.PARA_TI) return ps
+        val ejes = runCatching { c.respuestas.cargar("red")["red:ejes"].orEmpty().split(",").filter { it.isNotBlank() }.toSet() }.getOrDefault(emptySet())
+        return runCatching { c.red.ordenarParaTi(ps, ejes) }.getOrDefault(ps)
+    }
+
     fun cargar(f: FiltroFeed = filtro) {
         filtro = f
         cargando = true
         viewModelScope.launch {
             if (f == FiltroFeed.PARA_TI) launch { tramos = c.social.expedicion(java.time.LocalDate.now().year) }
             runCatching { c.social.feed(f, eje) }
-                .onSuccess { posts = it; error = null }
+                .onSuccess { cargadas = it.size; hayMas = c.social.enLinea && it.size >= c.social.paginaFeed; posts = ordenar(f, it); error = null }
                 .onFailure { error = it.message }
             cargando = false
+        }
+    }
+
+    /** La página siguiente: "Para ti" ordena cada página sin mover lo que ya viste. */
+    fun cargarMas() {
+        if (!hayMas || cargandoMas || cargando) return
+        cargandoMas = true
+        val f = filtro
+        viewModelScope.launch {
+            runCatching { c.social.feed(f, eje, cargadas) }.onSuccess { nuevos ->
+                if (f != filtro) return@onSuccess
+                cargadas += nuevos.size; hayMas = nuevos.size >= c.social.paginaFeed
+                val ids = posts.map { it.id }.toSet()
+                posts = posts + ordenar(f, nuevos.filter { it.id !in ids })
+            }
+            cargandoMas = false
         }
     }
 
@@ -150,6 +189,11 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     fun cambiarVisibilidad(p: Post, v: com.rutaalacima.app.data.social.Visibilidad) {
         posts = posts.map { if (it.id == p.id) it.copy(visibilidad = v) else it }
         viewModelScope.launch { runCatching { c.social.cambiarVisibilidad(p, v) } }
+    }
+
+    fun editar(p: Post, texto: String, meta: String) {
+        posts = posts.map { if (it.id == p.id) it.copy(texto = texto, metaTitulo = meta) else it }
+        viewModelScope.launch { runCatching { c.social.editarTexto(p, texto, meta) } }
     }
 
     fun eliminar(p: Post) {
@@ -195,6 +239,9 @@ fun ComunidadScreen(
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
     val noLeidos by vm.noLeidos.collectAsStateWithLifecycle()
+    // La primera vez: elegir ejes y seguir a algunas personas antes de ver el muro
+    val bienvenida = rutaViewModel { BienvenidaViewModel(it) }
+    if (bienvenida.mostrar == true) { PrimerosPasosComunidad(bienvenida, contentPadding) { vm.cargar() }; return }
     LaunchedEffect(Unit) { vm.cargar() }
     // La Comunidad se abre a pantalla completa (Cimas), como los videos cortos. El muro (lista, filtros
     // por eje, la expedición y los atajos para publicar) queda a un toque, arriba a la izquierda.
@@ -224,8 +271,8 @@ fun ComunidadScreen(
             Box(Modifier.fillMaxSize().background(Color(0xFF060A12)).padding(bottom = contentPadding.calculateBottomPadding())) {
                 when {
                     vm.posts.isNotEmpty() -> {
-                        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = pagina.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size + 1 }
-                        LaunchedEffect(pager) { androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { pagina = it.coerceAtMost(vm.posts.lastIndex) } }
+                        val pager = androidx.compose.foundation.pager.rememberPagerState(initialPage = pagina.coerceIn(0, vm.posts.lastIndex)) { vm.posts.size + if (vm.hayMas) 0 else 1 }
+                        LaunchedEffect(pager) { androidx.compose.runtime.snapshotFlow { pager.currentPage }.collect { pagina = it.coerceAtMost(vm.posts.lastIndex); if (it >= vm.posts.size - 3) vm.cargarMas() } }
                         CimasFeed(
                             posts = vm.posts, estado = pager,
                             onImpulsar = { vm.impulsar(it) },
@@ -260,6 +307,11 @@ fun ComunidadScreen(
             (if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null) 1 else 0)
         lista.scrollToItem(cabecera + i)
         volverA = null
+    }
+    // Al acercarse al final del muro se carga la página siguiente
+    LaunchedEffect(lista) {
+        androidx.compose.runtime.snapshotFlow { lista.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 }
+            .collect { if (it >= lista.layoutInfo.totalItemsCount - 4) vm.cargarMas() }
     }
     // M3: jalar hacia abajo para recargar el muro
     androidx.compose.material3.pulltorefresh.PullToRefreshBox(
@@ -318,6 +370,8 @@ fun ComunidadScreen(
                     Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.cimas_pantalla_completa))
                 }
             }
+            // El reto del mes, abierto a toda la comunidad
+            vm.retos.firstOrNull()?.let { r -> item(key = "reto") { RetoCard(r, { vm.unirseReto(r.id) }, { vm.marcarReto(r.id) }, { vm.salirReto(r.id) }) } }
             // La cumbre de la semana: toda la comunidad sube la misma montaña
             if (vm.filtro == FiltroFeed.PARA_TI && vm.eje == null && vm.posts.isNotEmpty()) {
                 item(key = "cumbre") { CumbreComunidadCard(vm.posts, vm.tramos) }
@@ -449,7 +503,7 @@ private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> 
                             Spacer(Modifier.width(10.dp))
                             Column(Modifier.weight(1f)) {
                                 Text(c.autor, style = MaterialTheme.typography.labelLarge)
-                                Text(c.texto, style = MaterialTheme.typography.bodyMedium)
+                                TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
                             }
                         }
                     }
@@ -473,11 +527,29 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
     var reportando by androidx.compose.runtime.remember { mutableStateOf(false) }
     var bloqueando by androidx.compose.runtime.remember { mutableStateOf(false) }
     var borrando by androidx.compose.runtime.remember { mutableStateOf(false) }
+    var editando by androidx.compose.runtime.remember { mutableStateOf(false) }
     var vis by androidx.compose.runtime.remember(post.id) { mutableStateOf(post.visibilidad) }
     val portapapeles = androidx.compose.ui.platform.LocalClipboardManager.current
     val txtCopiado = stringResource(R.string.texto_copiado)
     val txtReportada = stringResource(R.string.reportada_gracias)
     val txtBloqueado = stringResource(R.string.bloqueado_aviso, post.autorNombre)
+    if (editando) {
+        var texto by androidx.compose.runtime.remember { mutableStateOf(post.texto) }
+        var meta by androidx.compose.runtime.remember { mutableStateOf(post.metaTitulo) }
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = onCerrar,
+            title = { Text(stringResource(R.string.red_editar)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    androidx.compose.material3.OutlinedTextField(texto, { texto = it.take(2200) }, Modifier.fillMaxWidth(), minLines = 3)
+                    androidx.compose.material3.OutlinedTextField(meta, { meta = it.take(120) }, Modifier.fillMaxWidth(), singleLine = true, label = { Text(stringResource(R.string.red_meta_relacionada)) })
+                }
+            },
+            confirmButton = { TextButton(onClick = { if (texto.isNotBlank()) { vm.editar(post, texto.trim(), meta.trim()); onCerrar() } }) { Text(stringResource(R.string.guardar)) } },
+            dismissButton = { TextButton(onClick = onCerrar) { Text(stringResource(R.string.cancelar)) } },
+        )
+        return
+    }
     if (!reportando && !bloqueando && !borrando) androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
         Column(Modifier.fillMaxWidth().padding(bottom = 24.dp)) {
             androidx.compose.material3.ListItem(
@@ -505,6 +577,11 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
                         ) { Text(stringResource(txt), maxLines = 1) }
                     }
                 }
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(stringResource(R.string.red_editar)) },
+                    leadingContent = { Icon(Icons.Filled.Edit, null) },
+                    modifier = Modifier.padding(top = 8.dp).clickable { editando = true },
+                )
                 androidx.compose.material3.ListItem(
                     headlineContent = { Text(stringResource(R.string.borrar_publicacion), color = MaterialTheme.colorScheme.error) },
                     leadingContent = { Icon(Icons.Outlined.Delete, null, tint = MaterialTheme.colorScheme.error) },

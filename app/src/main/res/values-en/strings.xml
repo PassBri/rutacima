@@ -1884,4 +1884,25 @@
     <string name="red_listo">Done</string>
     <string name="red_omitir">Not now</string>
     <string name="red_siguiendo_n">You follow %1$d people</string>
+    <string name="red_invito">Did someone invite you? Type their @username</string>
+    <string name="red_invito_ok">You and @%1$s now follow each other</string>
+    <string name="red_listado_vacio">No posts here yet. Be the first!</string>
+    <string name="pub_medios">Several photos or a video</string>
+    <string name="pub_medios_ayuda">Up to 10 photos, or a video up to 60 seconds.</string>
+    <string name="pub_video_largo">The video is longer than 60 seconds. Trim it and pick it again.</string>
+    <string name="red_editar">Edit text</string>
+    <string name="red_meta_relacionada">Related goal</string>
+    <string name="red_reto">Community challenge</string>
+    <string name="red_reto_en">%1$d in the challenge</string>
+    <string name="red_reto_hoy">%1$d checked in today</string>
+    <string name="red_reto_mio">You: %1$d of %2$d days</string>
+    <string name="red_unirme">Join</string>
+    <string name="red_marcar_hoy">Check in today</string>
+    <string name="red_hoy_cumplido">Done today</string>
+    <string name="red_salir_reto">Leave challenge</string>
+    <string name="red_coach_verificado">Verified life coach</string>
+    <string name="mod_coaches">Coaches</string>
+    <string name="mod_coaches_vacio">No coach applications to review.</string>
+    <string name="mod_verificar">Verify</string>
+    <string name="mod_no_aprobar">Decline</string>
 </resources>

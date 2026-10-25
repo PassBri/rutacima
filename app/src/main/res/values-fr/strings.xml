@@ -1884,4 +1884,25 @@
     <string name="red_listo">Terminé</string>
     <string name="red_omitir">Pas maintenant</string>
     <string name="red_siguiendo_n">Vous suivez %1$d personnes</string>
+    <string name="red_invito">Quelqu’un vous a invité ? Écrivez son @utilisateur</string>
+    <string name="red_invito_ok">Vous et @%1$s vous suivez maintenant</string>
+    <string name="red_listado_vacio">Pas encore de publications ici. Soyez la première personne !</string>
+    <string name="pub_medios">Plusieurs photos ou une vidéo</string>
+    <string name="pub_medios_ayuda">Jusqu’à 10 photos, ou une vidéo de 60 secondes maximum.</string>
+    <string name="pub_video_largo">La vidéo dure plus de 60 secondes. Raccourcissez-la et choisissez-la à nouveau.</string>
+    <string name="red_editar">Modifier le texte</string>
+    <string name="red_meta_relacionada">Objectif lié</string>
+    <string name="red_reto">Défi de la communauté</string>
+    <string name="red_reto_en">%1$d dans le défi</string>
+    <string name="red_reto_hoy">%1$d ont validé aujourd’hui</string>
+    <string name="red_reto_mio">Vous : %1$d sur %2$d jours</string>
+    <string name="red_unirme">Rejoindre</string>
+    <string name="red_marcar_hoy">Valider aujourd’hui</string>
+    <string name="red_hoy_cumplido">Fait aujourd’hui</string>
+    <string name="red_salir_reto">Quitter le défi</string>
+    <string name="red_coach_verificado">Coach de vie vérifié</string>
+    <string name="mod_coaches">Coachs</string>
+    <string name="mod_coaches_vacio">Aucune candidature de coach à examiner.</string>
+    <string name="mod_verificar">Vérifier</string>
+    <string name="mod_no_aprobar">Refuser</string>
 </resources>

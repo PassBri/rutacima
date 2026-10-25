@@ -25,7 +25,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
         CoachMensajeEntity::class,
         VisionCasillaEntity::class,
     ],
-    version = 7,
+    version = 8,
     // El esquema de cada versión queda en app/schemas (lo sube el CI como artefacto "esquemas").
     exportSchema = true,
 )
@@ -80,8 +80,15 @@ abstract class RutaDatabase : RoomDatabase() {
             }
         }
 
+        /** v8: publicaciones con varias fotos o un video (JSON [{"t":"img"|"vid","u":"…"}]). */
+        val MIGRACION_7_8 = object : Migration(7, 8) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE publicaciones ADD COLUMN media TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         /** Todas las migraciones. Al subir la versión: agrega aquí la nueva y su caso en MigracionesTest. */
-        val MIGRACIONES: Array<Migration> get() = arrayOf(MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6, MIGRACION_6_7)
+        val MIGRACIONES: Array<Migration> get() = arrayOf(MIGRACION_3_4, MIGRACION_4_5, MIGRACION_5_6, MIGRACION_6_7, MIGRACION_7_8)
 
         fun build(context: Context, nombre: String = "rutacima.db"): RutaDatabase =
             Room.databaseBuilder(context, RutaDatabase::class.java, nombre)

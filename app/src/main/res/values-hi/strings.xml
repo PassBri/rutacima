@@ -1884,4 +1884,25 @@
     <string name="red_listo">हो गया</string>
     <string name="red_omitir">अभी नहीं</string>
     <string name="red_siguiendo_n">आप %1$d लोगों को फ़ॉलो करते हैं</string>
+    <string name="red_invito">क्या किसी ने आपको बुलाया? उनका @यूज़रनेम लिखें</string>
+    <string name="red_invito_ok">अब आप और @%1$s एक-दूसरे को फ़ॉलो करते हैं</string>
+    <string name="red_listado_vacio">यहाँ अभी कोई पोस्ट नहीं है। पहले बनिए!</string>
+    <string name="pub_medios">कई फ़ोटो या एक वीडियो</string>
+    <string name="pub_medios_ayuda">10 फ़ोटो तक, या 60 सेकंड तक का एक वीडियो।</string>
+    <string name="pub_video_largo">वीडियो 60 सेकंड से लंबा है। उसे छोटा करके फिर से चुनें।</string>
+    <string name="red_editar">टेक्स्ट बदलें</string>
+    <string name="red_meta_relacionada">जुड़ा लक्ष्य</string>
+    <string name="red_reto">समुदाय चुनौती</string>
+    <string name="red_reto_en">चुनौती में %1$d</string>
+    <string name="red_reto_hoy">आज %1$d ने टिक किया</string>
+    <string name="red_reto_mio">आप: %2$d में से %1$d दिन</string>
+    <string name="red_unirme">जुड़ें</string>
+    <string name="red_marcar_hoy">आज टिक करें</string>
+    <string name="red_hoy_cumplido">आज पूरा</string>
+    <string name="red_salir_reto">चुनौती छोड़ें</string>
+    <string name="red_coach_verificado">सत्यापित लाइफ़ कोच</string>
+    <string name="mod_coaches">कोच</string>
+    <string name="mod_coaches_vacio">समीक्षा के लिए कोई कोच आवेदन नहीं।</string>
+    <string name="mod_verificar">सत्यापित करें</string>
+    <string name="mod_no_aprobar">मंज़ूर न करें</string>
 </resources>

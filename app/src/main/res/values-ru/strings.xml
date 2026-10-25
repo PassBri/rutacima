@@ -1884,4 +1884,25 @@
     <string name="red_listo">Готово</string>
     <string name="red_omitir">Не сейчас</string>
     <string name="red_siguiendo_n">Вы подписаны на %1$d человек</string>
+    <string name="red_invito">Вас кто-то пригласил? Введите его @имя_пользователя</string>
+    <string name="red_invito_ok">Теперь вы и @%1$s подписаны друг на друга</string>
+    <string name="red_listado_vacio">Здесь пока нет публикаций. Будьте первым!</string>
+    <string name="pub_medios">Несколько фото или видео</string>
+    <string name="pub_medios_ayuda">До 10 фото или видео до 60 секунд.</string>
+    <string name="pub_video_largo">Видео длиннее 60 секунд. Обрежьте его и выберите снова.</string>
+    <string name="red_editar">Изменить текст</string>
+    <string name="red_meta_relacionada">Связанная цель</string>
+    <string name="red_reto">Вызов сообщества</string>
+    <string name="red_reto_en">%1$d в вызове</string>
+    <string name="red_reto_hoy">%1$d отметились сегодня</string>
+    <string name="red_reto_mio">Вы: %1$d из %2$d дней</string>
+    <string name="red_unirme">Присоединиться</string>
+    <string name="red_marcar_hoy">Отметить сегодня</string>
+    <string name="red_hoy_cumplido">Сегодня выполнено</string>
+    <string name="red_salir_reto">Выйти из вызова</string>
+    <string name="red_coach_verificado">Проверенный лайф-коуч</string>
+    <string name="mod_coaches">Коучи</string>
+    <string name="mod_coaches_vacio">Нет заявок коучей на проверку.</string>
+    <string name="mod_verificar">Подтвердить</string>
+    <string name="mod_no_aprobar">Отклонить</string>
 </resources>

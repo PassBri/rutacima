@@ -27,6 +27,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
@@ -72,6 +73,7 @@ import com.rutaalacima.app.data.social.Aviso
 import com.rutaalacima.app.data.social.PerfilPublico
 import com.rutaalacima.app.data.social.Persona
 import com.rutaalacima.app.ui.components.IconosRuta
+import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.util.haceCuanto
@@ -341,7 +343,10 @@ fun PersonaScreen(id: String, onBack: () -> Unit, onPost: (String) -> Unit, onCh
             item("cab", span = { GridItemSpan(3) }) {
                 Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Avatar(p.persona.nombre, p.persona.avatar, 96)
-                    Text(p.persona.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(p.persona.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                        InsigniaCoach(p.persona.id, 20)
+                    }
                     if (p.meSigue && !p.propio) Text(stringResource(R.string.red_te_sigue), style = MaterialTheme.typography.labelMedium,
                         modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.secondaryContainer).padding(horizontal = 8.dp, vertical = 2.dp))
                     Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
@@ -378,5 +383,191 @@ private fun Cifra(n: Int, etiqueta: Int) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(n.toString(), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         Text(stringResource(etiqueta), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+/* ====================================================================== Primeros pasos */
+
+class BienvenidaViewModel(private val c: AppContainer) : ViewModel() {
+    /** null = aún no se sabe; true = mostrar los primeros pasos. */
+    var mostrar by mutableStateOf<Boolean?>(null)
+        private set
+    var ejes by mutableStateOf<Set<String>>(emptySet())
+        private set
+    var sugeridas by mutableStateOf<List<Persona>>(emptyList())
+        private set
+    var sigo by mutableStateOf<Set<String>>(emptySet())
+        private set
+    init {
+        viewModelScope.launch {
+            val r = c.respuestas.cargar("red")
+            ejes = r["red:ejes"].orEmpty().split(",").filter { it.isNotBlank() }.toSet()
+            mostrar = r["red:inicio"].isNullOrBlank()
+            if (mostrar == true) { sigo = c.red.sigo(); sugeridas = c.red.sugeridas(ejes, 6) }
+        }
+    }
+    fun alternarEje(e: String) = viewModelScope.launch {
+        ejes = if (e in ejes) ejes - e else ejes + e
+        c.respuestas.guardar("red", "red:ejes", ejes.joinToString(","))
+        sugeridas = c.red.sugeridas(ejes, 6)
+    }
+    fun alternarSeguir(id: String) = viewModelScope.launch { val si = id !in sigo; c.red.seguir(id, si); sigo = if (si) sigo + id else sigo - id }
+    var invitoOk by mutableStateOf<String?>(null)
+        private set
+    fun aceptarInvitacion(u: String) = viewModelScope.launch {
+        val limpio = u.trim().removePrefix("@").lowercase()
+        if (limpio.length >= 3 && c.red.aceptarInvitacion(limpio)) { invitoOk = limpio; sigo = c.red.sigo() }
+    }
+    fun terminar(onListo: () -> Unit) = viewModelScope.launch {
+        c.respuestas.guardar("red", "red:inicio", "1")
+        mostrar = false; onListo()
+    }
+}
+
+/** La primera vez en Comunidad: elegir los ejes que mueven a la persona y seguir a algunas personas. */
+@Composable
+fun PrimerosPasosComunidad(vm: BienvenidaViewModel, padding: PaddingValues, onListo: () -> Unit) {
+    LazyColumn(
+        Modifier.fillMaxSize().fondoPapel(),
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 16.dp, bottom = padding.calculateBottomPadding() + 24.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        item("t") {
+            Text(stringResource(R.string.red_bienvenida_t), style = MaterialTheme.typography.headlineSmall)
+            Spacer(Modifier.height(6.dp))
+            Text(stringResource(R.string.red_bienvenida), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        item("ejes") {
+            Column(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(stringResource(R.string.red_tus_ejes), style = MaterialTheme.typography.titleMedium)
+                androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    com.rutaalacima.app.domain.model.Eje.entries.forEach { e ->
+                        val si = e.codigo in vm.ejes
+                        val color = Color(e.color)
+                        androidx.compose.material3.FilterChip(
+                            selected = si, onClick = { vm.alternarEje(e.codigo) },
+                            label = { Text(e.texto()) },
+                            colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = color, selectedLabelColor = Color.White, labelColor = color),
+                        )
+                    }
+                }
+            }
+        }
+        item("personas") {
+            Column(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).padding(vertical = 8.dp)) {
+                Text(stringResource(R.string.red_sugeridas), Modifier.padding(horizontal = 16.dp, vertical = 8.dp), style = MaterialTheme.typography.titleMedium)
+                vm.sugeridas.forEach { p -> FilaPersona(p, p.id in vm.sigo, onClick = { vm.alternarSeguir(p.id) }, onSeguir = { vm.alternarSeguir(p.id) }) }
+                if (vm.sigo.isNotEmpty()) Text(stringResource(R.string.red_siguiendo_n, vm.sigo.size), Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        item("invito") {
+            var quien by rememberSaveable { mutableStateOf("") }
+            Column(Modifier.clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surface).padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(quien, { quien = it }, Modifier.fillMaxWidth(), singleLine = true, label = { Text(stringResource(R.string.red_invito)) },
+                    trailingIcon = { if (quien.trim().length >= 3) androidx.compose.material3.TextButton(onClick = { vm.aceptarInvitacion(quien) }) { Text(stringResource(R.string.red_seguir)) } })
+                vm.invitoOk?.let { Text(stringResource(R.string.red_invito_ok, it), color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.labelLarge) }
+            }
+        }
+        item("botones") {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { vm.terminar(onListo) }, Modifier.fillMaxWidth().height(52.dp)) { Text(stringResource(R.string.red_listo)) }
+                androidx.compose.material3.TextButton(onClick = { vm.terminar(onListo) }, Modifier.fillMaxWidth()) { Text(stringResource(R.string.red_omitir)) }
+            }
+        }
+    }
+}
+
+/* ====================================================================== Etiquetas y ejes */
+
+class ListadoViewModel(private val c: AppContainer, private val clave: String) : ViewModel() {
+    var posts by mutableStateOf<List<com.rutaalacima.app.data.social.Post>?>(null)
+        private set
+    init {
+        viewModelScope.launch {
+            posts = runCatching { if (clave.startsWith("#")) c.red.etiqueta(clave.drop(1)) else c.red.deEje(clave.removePrefix("eje:")) }.getOrDefault(emptyList())
+        }
+    }
+}
+
+/** Las publicaciones de una #etiqueta o de un eje, en cuadrícula. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ListadoPublicacionesScreen(clave: String, onBack: () -> Unit, onPost: (String) -> Unit) {
+    val vm = rutaViewModel(key = "listado-$clave") { ListadoViewModel(it, clave) }
+    val eje = if (clave.startsWith("eje:")) com.rutaalacima.app.domain.model.Eje.entries.firstOrNull { it.codigo == clave.removePrefix("eje:") } else null
+    Scaffold(
+        modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = { Text(eje?.texto() ?: clave) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+            )
+        },
+    ) { padding ->
+        val ps = vm.posts
+        LazyVerticalGrid(GridCells.Fixed(3), Modifier.fillMaxSize(), contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 32.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            if (ps != null && ps.isEmpty()) item("vacio", span = { GridItemSpan(3) }) {
+                Text(stringResource(R.string.red_listado_vacio), Modifier.padding(24.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            items(ps.orEmpty(), key = { it.id }) { post ->
+                Box(Modifier.aspectRatio(0.8f).clickable { onPost(post.id) }.background(MaterialTheme.colorScheme.surfaceVariant)) {
+                    if (post.foto.isNotBlank()) AsyncImage(post.foto, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    else Text(post.texto, Modifier.padding(8.dp), style = MaterialTheme.typography.bodySmall, maxLines = 6, overflow = TextOverflow.Ellipsis)
+                }
+            }
+        }
+    }
+}
+
+/* ====================================================================== Retos e insignias */
+
+/** Quiénes son coaches verificados (se llena al abrir Comunidad); la insignia lo lee. */
+object InsigniasRed { var verificados by mutableStateOf<Set<String>>(emptySet()) }
+
+/** La insignia de coach de vida verificado junto al nombre. */
+@Composable
+fun InsigniaCoach(id: String, tamano: Int = 16) {
+    if (id !in InsigniasRed.verificados) return
+    Box(Modifier.padding(start = 4.dp).size(tamano.dp).clip(CircleShape).background(MaterialTheme.colorScheme.tertiary), contentAlignment = Alignment.Center) {
+        Icon(Icons.Filled.Check, stringResource(R.string.red_coach_verificado), Modifier.size((tamano * 0.7f).dp), tint = MaterialTheme.colorScheme.onTertiary)
+    }
+}
+
+/** El reto del mes: unirse, marcar el día y ver cuántos van. */
+@Composable
+fun RetoCard(r: com.rutaalacima.app.data.social.Reto, onUnirse: () -> Unit, onMarcar: () -> Unit, onSalir: () -> Unit) {
+    val color = com.rutaalacima.app.domain.model.Eje.entries.firstOrNull { it.codigo == r.eje }?.let { Color(it.color) } ?: MaterialTheme.colorScheme.primary
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(color.copy(alpha = 0.1f)).border(1.dp, color.copy(alpha = 0.25f), RoundedCornerShape(20.dp)).padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(color), contentAlignment = Alignment.Center) {
+                Icon(IconosRuta.Metas, null, Modifier.size(22.dp), tint = Color.White)
+            }
+            Column {
+                Text(stringResource(R.string.red_reto), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(r.titulo, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+            }
+        }
+        if (r.descripcion.isNotBlank()) Text(r.descripcion, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 3, overflow = TextOverflow.Ellipsis)
+        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+            Text(stringResource(R.string.red_reto_en, r.participantes), style = MaterialTheme.typography.labelMedium)
+            Text(stringResource(R.string.red_reto_hoy, r.marcasHoy), style = MaterialTheme.typography.labelMedium)
+            if (r.yoParticipo) Text(stringResource(R.string.red_reto_mio, r.misDias, r.dias), style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold)
+        }
+        if (r.yoParticipo) androidx.compose.material3.LinearProgressIndicator(progress = { (r.misDias.toFloat() / r.dias).coerceIn(0f, 1f) }, Modifier.fillMaxWidth(), color = color)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            when {
+                !r.yoParticipo -> Button(onClick = onUnirse) { Text(stringResource(R.string.red_unirme)) }
+                r.hoyMarcado -> Text("✓ " + stringResource(R.string.red_hoy_cumplido), color = color, fontWeight = FontWeight.SemiBold)
+                else -> Button(onClick = onMarcar) { Text(stringResource(R.string.red_marcar_hoy)) }
+            }
+            if (r.yoParticipo) androidx.compose.material3.TextButton(onClick = onSalir) { Text(stringResource(R.string.red_salir_reto)) }
+        }
     }
 }

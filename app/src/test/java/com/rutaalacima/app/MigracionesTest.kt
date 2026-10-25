@@ -27,7 +27,7 @@ import org.robolectric.annotation.Config
 @Config(sdk = [34], application = Application::class)
 class MigracionesTest {
     private val ctx: Context = ApplicationProvider.getApplicationContext()
-    private val VERSION_ACTUAL = 7
+    private val VERSION_ACTUAL = 8
     private val MARCA = "marca-de-prueba"
 
     /** Lo que agregó cada versión: tablas nuevas y columnas nuevas (tabla → columnas). */
@@ -37,6 +37,7 @@ class MigracionesTest {
         5 to Cambios(tablas = setOf("vision_casillas")),
         6 to Cambios(columnas = mapOf("publicaciones" to setOf("brujula"))),
         7 to Cambios(columnas = mapOf("perfil" to setOf("quienSoy", "fotoPerfil", "fotoPerfilUrl", "fotoPortada", "fotoPortadaUrl"))),
+        8 to Cambios(columnas = mapOf("publicaciones" to setOf("media"))),
     )
 
     private lateinit var esquemaActual: List<Pair<String, String>> // (nombre de tabla, CREATE TABLE …)
@@ -111,6 +112,7 @@ class MigracionesTest {
         db.close()
     }
 
+    @Test fun desdeLaVersion7() = migrarYRevisar(7)
     @Test fun desdeLaVersion5() = migrarYRevisar(5)
     @Test fun desdeLaVersion4() = migrarYRevisar(4)
     @Test fun desdeLaVersion3() = migrarYRevisar(3)

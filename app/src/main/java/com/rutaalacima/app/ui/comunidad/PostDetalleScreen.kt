@@ -203,7 +203,7 @@ fun PostDetalleScreen(postId: String, onBack: () -> Unit, onChat: (String) -> Un
                     Spacer(Modifier.width(10.dp))
                     Column {
                         Text(c.autor, style = MaterialTheme.typography.labelLarge)
-                        Text(c.texto, style = MaterialTheme.typography.bodyMedium)
+                        TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
                         Text(haceCuanto(c.creadoEn), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }

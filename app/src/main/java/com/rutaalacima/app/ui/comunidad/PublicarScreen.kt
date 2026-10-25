@@ -1,5 +1,9 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.background
 import com.rutaalacima.app.ui.theme.fondoPapel
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -68,6 +72,8 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
     var tipo by mutableStateOf(runCatching { TipoPost.valueOf(tipoInicial) }.getOrDefault(TipoPost.LOGRO))
     var texto by mutableStateOf("")
     var foto by mutableStateOf<Uri?>(null)
+    /** Varias fotos o un video (carrusel). */
+    var medios by mutableStateOf<List<Uri>>(emptyList())
     var eje by mutableStateOf<Eje?>(null)
     var visibilidad by mutableStateOf(Visibilidad.PUBLICA)
     var meta by mutableStateOf("")
@@ -91,10 +97,10 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
     }
 
     fun publicar(alTerminar: () -> Unit) {
-        if (texto.isBlank() && foto == null) return
+        if (texto.isBlank() && foto == null && medios.isEmpty()) return
         publicando = true
         viewModelScope.launch {
-            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta, anio ?: hoy().year, mes) }
+            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta, anio ?: hoy().year, mes, medios = medios) }
             publicando = false
             alTerminar()
         }
@@ -144,7 +150,7 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
                     if (vm.publicando) CircularProgressIndicator(Modifier.size(22.dp).padding(end = 4.dp), strokeWidth = 2.dp)
-                    else TextButton(onClick = { vm.publicar(onBack) }, enabled = vm.texto.isNotBlank() || vm.foto != null) {
+                    else TextButton(onClick = { vm.publicar(onBack) }, enabled = vm.texto.isNotBlank() || vm.foto != null || vm.medios.isNotEmpty()) {
                         Text(stringResource(R.string.publicar))
                     }
                 },
@@ -192,6 +198,35 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
                     TextButton(onClick = { vm.foto?.let { editando = it } }) { Text(stringResource(R.string.ef_editar)) }
                     TextButton(onClick = { vm.foto = null }) { Text(stringResource(R.string.quitar_foto)) }
                 }
+                // Varias fotos o un video corto: carrusel en Cimas
+                val ctxMedios = androidx.compose.ui.platform.LocalContext.current
+                val videoLargo = stringResource(R.string.pub_video_largo)
+                val elegirMedios = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(10)) { uris ->
+                    if (uris.isEmpty()) return@rememberLauncherForActivityResult
+                    val videos = uris.filter { ctxMedios.contentResolver.getType(it).orEmpty().startsWith("video/") }
+                    val largo = videos.any { u -> runCatching {
+                        android.media.MediaMetadataRetriever().run { setDataSource(ctxMedios, u); val d = extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0; release(); d > 60_500 }
+                    }.getOrDefault(false) }
+                    if (largo) android.widget.Toast.makeText(ctxMedios, videoLargo, android.widget.Toast.LENGTH_LONG).show()
+                    else { vm.medios = if (videos.isNotEmpty()) listOf(videos.first()) else uris; vm.foto = null }
+                }
+                OutlinedButton(onClick = { elegirMedios.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)) }, modifier = Modifier.fillMaxWidth()) {
+                    Icon(Icons.Filled.AddAPhoto, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.pub_medios))
+                }
+                Text(stringResource(R.string.pub_medios_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if (vm.medios.isNotEmpty()) {
+                    androidx.compose.foundation.lazy.LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 8.dp)) {
+                        items(vm.medios.size) { k ->
+                            val u = vm.medios[k]
+                            Box(Modifier.size(72.dp, 90.dp).clip(RoundedCornerShape(10.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
+                                AsyncImage(u, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                                IconButton(onClick = { vm.medios = vm.medios - u }, modifier = Modifier.align(Alignment.TopEnd).size(28.dp)) {
+                                    Icon(Icons.Filled.Close, stringResource(R.string.quitar_foto), tint = androidx.compose.ui.graphics.Color.White)
+                                }
+                            }
+                        }
+                    }
+                }
             }
             item {
                 OutlinedTextField(vm.texto, { vm.texto = it }, label = { Text(stringResource(R.string.que_quieres_compartir)) },
@@ -215,7 +250,7 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
                     color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
             }
             item {
-                Button(onClick = { vm.publicar(onBack) }, modifier = Modifier.fillMaxWidth(), enabled = !vm.publicando && (vm.texto.isNotBlank() || vm.foto != null)) {
+                Button(onClick = { vm.publicar(onBack) }, modifier = Modifier.fillMaxWidth(), enabled = !vm.publicando && (vm.texto.isNotBlank() || vm.foto != null || vm.medios.isNotEmpty())) {
                     Text(stringResource(R.string.publicar))
                 }
             }
