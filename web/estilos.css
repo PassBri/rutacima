@@ -2229,3 +2229,34 @@ html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
 .pv.actual b { font-size: 12px; font-weight: 700; color: #fff; }
 .pv-dec.pasada .pv.vivido { background: color-mix(in srgb, var(--burdeos) 88%, var(--hoja)); }
 @media (max-width: 600px) { .pv-dec { grid-template-columns: 34px repeat(10, minmax(0, 1fr)); padding: 4px 4px; } .pv-hoja { padding: 16px 12px; } .pv.actual b { font-size: 10px; } }
+
+/* ---------- Brújula general y por año ---------- */
+.brujula-anios { display: flex; gap: 8px; margin: 0 0 12px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+.brujula-anios button { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: 99px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); font-size: 14px; white-space: nowrap; flex: none; touch-action: manipulation; }
+.brujula-anios button svg { width: 18px; height: 18px; }
+.brujula-anios button[aria-selected="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); font-weight: 600; }
+.brujula-anios button i { font-style: normal; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 99px; background: color-mix(in srgb, var(--oro) 30%, transparent); font-size: 13px; line-height: 1; }
+@media (hover: hover) and (pointer: fine) { .brujula-anios button:hover { background: color-mix(in srgb, var(--oro) 12%, var(--hoja)); } }
+.brujula-vacia h3 { margin: 0 0 6px; font: 600 20px/1.25 var(--font-titulo); }
+.brujula-vacia > p:first-of-type { margin: 0 0 14px; color: var(--tinta-suave); }
+.brujula-previa { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; aspect-ratio: 1; max-width: 420px; margin: 0 auto 16px; }
+.brujula-previa span { display: flex; flex-direction: column; justify-content: flex-end; gap: 2px; padding: 8px; border-radius: 12px; overflow: hidden; background: color-mix(in srgb, var(--c) 12%, var(--hoja)); border: 1px solid color-mix(in srgb, var(--c) 30%, transparent); min-width: 0; }
+.brujula-previa span.centro { background: color-mix(in srgb, var(--oro) 22%, var(--hoja)); }
+.brujula-previa b { font-size: 12px; line-height: 1.2; color: var(--tinta); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.brujula-previa small { font-size: 10.5px; line-height: 1.25; color: var(--tinta-suave); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.brujula-resumen { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.brujula-resumen span { white-space: nowrap; }
+.brujula-resumen .barra { flex: 1; margin: 0; }
+.brujula-como { margin-top: 10px; }
+.brujula-como > summary { cursor: pointer; font-size: 14px; color: var(--tinta-suave); min-height: 32px; display: flex; align-items: center; }
+.brujula-como[open] > summary { color: var(--tinta); }
+/* La barra de secciones queda opaca: al bajar no se mezcla con los títulos */
+.md-secciones { background: var(--hoja); }
+/* Mapa de calor: "por escribir" con contorno y "escrito" más lleno, para que se distingan de un vistazo */
+html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-grilla .md-paso { background: color-mix(in srgb, var(--c) 5%, var(--hoja)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 28%, transparent); }
+html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-grilla .md-paso.md-escrito { background: color-mix(in srgb, var(--c) 45%, var(--hoja)); box-shadow: none; }
+html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-grilla .md-paso.md-hecho { box-shadow: none; }
+.md-leyenda span:first-child i { background: color-mix(in srgb, var(--burdeos) 5%, var(--hoja)); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--burdeos) 28%, transparent); }
+.md-leyenda span:nth-child(2) i { --n: 45% !important; }
+/* En el mapa de calor, el nombre del campamento no se monta sobre su barrita */
+html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-grilla .md-camp b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 7px; line-height: 1.15; }

@@ -367,7 +367,7 @@ function mandalaHtml(tableroHtml = "") {
     <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" title="Ver en grande: de la cumbre al 9×9 y de vuelta, con + y −">${ic("ampliar")}<span>Ver en grande</span></button></nav>`;
   const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
     <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">⛶</button></div>`;
-  const s1 = hoja(cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.") +
+  const s1 = hoja((estado.brujulaAnio ? cabSec("md-s1", "1", `Mi cumbre de ${estado.brujulaAnio}`, "Lo más grande de este año. Todo lo de abajo la sostiene.") : cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.")) +
     (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
   /* El vision board ES la rosa: la cumbre al centro y los 8 campamentos alrededor, cada uno una tarjeta que se gira y se edita ahí mismo. */
@@ -543,7 +543,7 @@ Object.assign(ACC, {
     const origen = "campamento:" + cod;
     if (!casillasVision().some(c => c.origen === origen)) {
       const p = proponerVision().find(x => x.origen === origen); if (!p) return;
-      await Store.guardar("vision", { id: nuevoId(), orden: ORIGENES_VISION().indexOf(origen), publicacionId: null, ...p });
+      await Store.guardar("vision", conAnio({ id: nuevoId(), orden: ORIGENES_VISION().indexOf(origen), publicacionId: null, ...p }));
     }
     await llenarCampamentosVacios(); pintarDetalle();
   },

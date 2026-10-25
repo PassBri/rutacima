@@ -308,10 +308,17 @@ const ACC = {
     mensajesCoach().forEach(m => Store.borrar("coach", m.id));
   },
   evalEje(el, k) { estado.evalNueva[k] = Number(el.value); el.nextElementSibling.textContent = el.value; },
-  armarVision() { armarVision(); },
+  armarVision(_, v) { armarVision(v === "datos"); },
+  abrirBrujulaAnio(el, a) { ACC.brujulaAnio(el, a); ir("perfil", "vision"); },
+  /** Cambia entre la Brújula general y la de un año (se recuerda en este equipo). */
+  brujulaAnio(_, v) {
+    estado.brujulaAnio = Number(v) || null; estado.md81 = null; estado.mdPaso = null; estado.giradas?.clear?.();
+    try { estado.brujulaAnio ? localStorage.setItem("rutacima-brujula", estado.brujulaAnio) : localStorage.removeItem("rutacima-brujula"); } catch { /* sin almacenamiento */ }
+    pintarDetalle();
+  },
   casillaNueva() {
     const orden = Math.max(-1, ...casillasVision().map(c => c.orden || 0)) + 1;
-    Store.guardar("vision", { id: nuevoId(), orden, titulo: "Nueva casilla", afirmacion: "Escribe aquí tu frase", eje: null, sugerencia: "", busqueda: "", origen: "manual", publicacionId: null });
+    Store.guardar("vision", conAnio({ id: nuevoId(), orden, titulo: "Nueva casilla", afirmacion: "Escribe aquí tu frase", eje: null, sugerencia: "", busqueda: "", origen: "manual", publicacionId: null }));
     // El nuevo campamento llega al 9×9 con sus 8 pasos sugeridos
     Promise.resolve(window.llenarCampamentosVacios?.()).then(() => pintarDetalle());
   },

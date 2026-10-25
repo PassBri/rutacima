@@ -119,12 +119,12 @@ function recuerdosAnio(a, ps) {
 function visionAnio(a) {
   if (!estado.misPosts) cargarMisPosts();
   const ps = (estado.misPosts || []).filter(p => p.tipo === "VISION" && (p.anio ?? new Date(p.creadoEn).getFullYear()) === a);
-  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
+  const cs = casillasDe(a), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
   return hoja(`<div class="album-cab"><h3>Visión de ${a}</h3>
       <label class="btn mini oro">${ic("foto")} Agregar una foto<input type="file" accept="image/*" hidden data-foto-anio="${a}"></label></div>
     <p class="suave" style="margin:6px 0 12px">Pon aquí lo que quieres ver cumplido en ${a}. Solo tú lo ves hasta que decidas compartirlo.</p>
     ${ps.length ? recuerdosAnio(a, ps) : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay fotos para este año." : "Cargando…"}</p>`}
-    <p style="margin:12px 0 0"><button class="btn mini" data-ir="perfil" data-arg="vision">${ic("ia")} Mi vision board${cs.length ? ` · ${conFoto}/${cs.length}` : ""}</button></p>`);
+    <p style="margin:12px 0 0"><button class="btn mini" data-acc="abrirBrujulaAnio" data-arg="${a}">${ic("cima")} ${cs.length ? `Brújula de ${a} · ${conFoto}/${cs.length}` : `Crear la Brújula de ${a}`}</button></p>`);
 }
 async function fotoVisionAnio(a, archivo) {
   if (!archivo) return;
@@ -1071,14 +1071,20 @@ const VISION_CAMP = {
 const ORIGENES_VISION = () => ["cumbre", ...Mandala.CAMPAMENTOS_FIJOS.map(c => "campamento:" + c)];
 /** Igual que VisionBoard.proponer en la app: la cumbre y los 8 campamentos fijos de la Brújula de la Cima. */
 function proponerVision() {
-  const p = perfil(), anio = new Date().getFullYear(), r = [];
-  const cumbre = (p.cumbreFrase || "").trim();
-  r.push({ titulo: "Mi cumbre", afirmacion: cumbre || "Escribe aquí tu cumbre personal", eje: null, sugerencia: "Una foto tuya en un lugar o momento que represente tu cumbre.", busqueda: palabrasClave(cumbre || "cumbre montaña"), origen: "cumbre" });
+  const p = perfil(), delAnio = estado.brujulaAnio || null, anio = delAnio || new Date().getFullYear(), r = [];
+  const general = Mandala.repartir(casillasDe(null)).cumbre;
+  const cumbre = (p.cumbreFrase || general?.afirmacion || "").trim(), palabra = respuesta(claveVida(anio, "palabra")).trim();
+  if (delAnio) r.push({ titulo: palabra ? `${anio}: ${palabra}` : `Mi ${anio}`, afirmacion: palabra ? `En ${anio} vivo el año de ${palabra.toLowerCase()}.` : cumbre ? `En ${anio} doy un tramo hacia: ${cumbre}` : `Escribe aquí la cumbre de tu ${anio}`,
+    eje: null, sugerencia: `Una foto que resuma cómo quieres que se vea tu ${anio}.`, busqueda: palabrasClave(palabra || cumbre || "cumbre montaña"), origen: "cumbre" });
+  else r.push({ titulo: "Mi cumbre", afirmacion: cumbre || "Escribe aquí tu cumbre personal", eje: null, sugerencia: "Una foto tuya en un lugar o momento que represente tu cumbre.", busqueda: palabrasClave(cumbre || "cumbre montaña"), origen: "cumbre" });
   const props = Store.lista("proposito"), metas = Store.lista("meta_anio").filter(x => x.anio === anio);
   Mandala.CAMPAMENTOS_FIJOS.forEach(cod => {
     const [nombre, af, foto] = VISION_CAMP[cod] || [NOMBRE_EJE[cod], VISION_EJES[cod][0], VISION_EJES[cod][1]];
-    const propio = (cod === "CON" ? props.find(x => !x.eje)?.titulo : cod === "CAM" ? null
-      : (props.find(x => x.eje === cod)?.titulo || metas.find(x => x.eje === cod)?.titulo))?.trim() || null;
+    // En la Brújula del año mandan las metas de ese año; en la general, los propósitos
+    const propio = (delAnio
+      ? (cod === "CON" ? metas.find(x => !x.eje)?.titulo : cod === "CAM" ? null : metas.find(x => x.eje === cod)?.titulo || props.find(x => x.eje === cod)?.titulo)
+      : (cod === "CON" ? props.find(x => !x.eje)?.titulo : cod === "CAM" ? null
+        : (props.find(x => x.eje === cod)?.titulo || metas.find(x => x.eje === cod)?.titulo)))?.trim() || null;
     r.push({ titulo: nombre, afirmacion: propio || af, eje: VISION_CAMP[cod] ? null : cod, sugerencia: propio ? `${foto} Relacionada con: ${propio}` : foto,
       busqueda: palabrasClave(propio || foto), origen: "campamento:" + cod });
   });
@@ -1100,32 +1106,48 @@ function visionDesdeIa(texto) {
   }).filter(Boolean).slice(0, VISION_MAX);
   return r.length >= 3 ? r : null;
 }
-const casillasVision = () => Store.lista("vision").sort((a, b) => (a.orden || 0) - (b.orden || 0) || a.id - b.id);
+/* Una Brújula general (la de toda la vida) y una por año. Las casillas del año llevan el año en su origen
+ * ("anio:2026:cumbre", "anio:2026:campamento:TRA"), así viajan igual con la app sin cambiar la base; los pasos van
+ * por casilla (mandala#id#p), de modo que cada Brújula tiene los suyos sin tocar las otras. */
+const BRUJULA_LS = "rutacima-brujula";
+try { const v = Number(localStorage.getItem(BRUJULA_LS)); if (v) estado.brujulaAnio = v; } catch { /* sin almacenamiento */ }
+const anioDeCasilla = c => { const m = /^anio:(\d{4}):/.exec(c.origen || ""); return m ? Number(m[1]) : null; };
+const casillasDe = anio => Store.lista("vision").filter(c => anioDeCasilla(c) === (anio || null))
+  .map(c => anio ? { ...c, origen: c.origen.replace(/^anio:\d{4}:/, ""), anio } : c)
+  .sort((a, b) => (a.orden || 0) - (b.orden || 0) || a.id - b.id);
+const casillasVision = () => casillasDe(estado.brujulaAnio);
+/** Los años que ya tienen Brújula, más este año y el que viene (para planearlo). */
+const aniosBrujula = () => { const h = new Date().getFullYear();
+  return [...new Set([...Store.lista("vision").map(anioDeCasilla).filter(Boolean), h, h + 1, estado.brujulaAnio].filter(Boolean))].sort((a, b) => a - b); };
+const origenEn = o => estado.brujulaAnio ? `anio:${estado.brujulaAnio}:${o || "manual"}` : o;
+const conAnio = r => { const { anio, ...x } = r; return estado.brujulaAnio ? { ...x, origen: origenEn(x.origen) } : x; };
+window.casillasDe = casillasDe; window.aniosBrujula = aniosBrujula; window.conAnio = conAnio; window.anioDeCasilla = anioDeCasilla;
 function fotoDePublicacion(id) {
   if (!id) return null;
   const p = (estado.misPosts || []).find(x => String(x.id) === String(id));
   return p?.foto || null;
 }
 let armandoVision = false, visionConIa = null;
-async function armarVision() {
+async function armarVision(sinIa = false) {
   armandoVision = true; pintarDetalle();
   let propuestas = null;
-  if (Store.nube) {
+  // La del año nace de su palabra y sus metas (sin IA); la general puede armarse con IA o solo con tus datos
+  if (Store.nube && !sinIa && !estado.brujulaAnio) {
     try {
       const { data } = await Store.nube.sb.functions.invoke("coach", { body: { contexto: contextoCoach(), idioma: "es", mensajes: [{ role: "user", content: INSTRUCCION_VISION }] } });
       propuestas = data?.texto ? visionDesdeIa(data.texto) : null;
     } catch (e) { console.warn(e); }
   }
-  visionConIa = !!propuestas;
+  visionConIa = sinIa || estado.brujulaAnio ? null : !!propuestas;
   const local = proponerVision(), actuales = casillasVision();
   const { cumbre, camps } = Mandala.repartir(actuales), ubicadas = [cumbre, ...camps];
   // Las 9 casillas se actualizan en su lugar (conservan su id y sus pasos); las que tienen foto no cambian
   ORIGENES_VISION().forEach((origen, orden) => {
     const p = propuestas?.find(x => x.origen === origen) || local.find(x => x.origen === origen); if (!p) return;
     const ex = ubicadas[orden];
-    if (!ex) Store.guardar("vision", { id: nuevoId(), orden, publicacionId: null, ...p });
-    else if (ex.publicacionId) Store.cambiar("vision", ex.id, { origen });
-    else Store.cambiar("vision", ex.id, { titulo: p.titulo, afirmacion: p.afirmacion, eje: p.eje, sugerencia: p.sugerencia, busqueda: p.busqueda, origen });
+    if (!ex) Store.guardar("vision", conAnio({ id: nuevoId(), orden, publicacionId: null, ...p }));
+    else if (ex.publicacionId) Store.cambiar("vision", ex.id, { origen: origenEn(origen) });
+    else Store.cambiar("vision", ex.id, { titulo: p.titulo, afirmacion: p.afirmacion, eje: p.eje, sugerencia: p.sugerencia, busqueda: p.busqueda, origen: origenEn(origen) });
   });
   const usadas = new Set(ubicadas.filter(Boolean).map(c => c.id));
   actuales.filter(c => !usadas.has(c.id) && !c.publicacionId).forEach(c => Store.borrar("vision", c.id));
@@ -1260,22 +1282,44 @@ DET["perfil.vision"] = () => {
   const tarjeta = c => casillaVisionHtml(c, md);
 
 
-  return cab(av(ic("ia"), "var(--burdeos)"), "Mi cumbre y mi Brújula", cs.length ? `${conFoto} de ${cs.length} casillas con tu foto` : "Ármalo con IA y tus datos",
+  return cab(av(ic("cima"), "var(--burdeos)"), estado.brujulaAnio ? `Mi Brújula de ${estado.brujulaAnio}` : "Mi cumbre y mi Brújula", cs.length ? `${conFoto}/${cs.length} con foto` : "Empieza aquí",
     "") + cuerpo(visionCompleta());
 };
-/** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida. */
+/** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida.
+ * Arriba se elige cuál: la General (toda tu vida) o la de un año. */
+function selectorBrujula() {
+  const a = estado.brujulaAnio || null, hoy = new Date().getFullYear();
+  const chip = (v, t) => `<button role="tab" aria-selected="${(v || null) === a}" data-acc="brujulaAnio" data-arg="${v || ""}">${t}${v && !casillasDe(v).length ? `<i aria-hidden="true">+</i>` : ""}</button>`;
+  return `<div class="brujula-anios" role="tablist" aria-label="Qué Brújula ver">${chip(null, `${ic("cima")}<span>General</span>`)}${aniosBrujula().map(y => chip(y, `<span>${y === hoy ? `${y} · este año` : y}</span>`)).join("")}</div>`;
+}
+function vistaPreviaBrujula() {
+  const ps = proponerVision(), orden = [1, 2, 3, 4, 0, 5, 6, 7, 8];
+  return `<div class="brujula-previa" aria-hidden="true">${orden.map(k => { const p = ps[k]; if (!p) return "<span></span>";
+    const cod = p.origen.split(":")[1]; return `<span class="${k ? "" : "centro"}" style="--c:${k ? (Mandala.COLORES[cod] || COLOR_EJE[cod] || "var(--burdeos)") : "var(--oro)"}"><b>${esc(k ? Mandala.nombre(cod) : p.titulo)}</b><small>${esc(p.afirmacion)}</small></span>`; }).join("")}</div>`;
+}
 function visionCompleta() {
   if (!estado.misPosts) cargarMisPosts();
-  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length;
-  const md = window.Mandala && cs.length ? Mandala.datos() : null;
-  const tarjeta = c => casillaVisionHtml(c, md);
-  return (
-    hoja(`<p style="margin-top:0">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</p>
-      <details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
-        <p>Toca la etiqueta para pasar de <b>Abierta</b> a <b>En camino</b> (empieza en 25 %) y a <b>Lograda</b> (100 %). Toca el % de la esquina para ajustarlo con la barra. En la cumbre y los 8 campamentos también cuentan los pasos del 9×9 (<b>Avancé hoy</b>): el % nunca baja de lo que llevas allí, y la cumbre es el promedio de sus campamentos.</p></details>
-      ${cs.length ? `<div class="barra" style="margin:10px 0"><i style="width:${conFoto / cs.length * 100}%"></i></div>` : ""}
-      <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
-        : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("ia")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
-      ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
-    (cs.length ? mandalaHtml("") : ""));
+  const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length, a = estado.brujulaAnio || null;
+  const ayudaPct = `<details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
+        <p>Toca la etiqueta para pasar de <b>Abierta</b> a <b>En camino</b> (empieza en 25 %) y a <b>Lograda</b> (100 %). Toca el % de la esquina para ajustarlo con la barra. En la cumbre y los 8 campamentos también cuentan los pasos del 9×9 (<b>Avancé hoy</b>): el % nunca baja de lo que llevas allí, y la cumbre es el promedio de sus campamentos.</p></details>`;
+  if (!cs.length) {
+    // Estado vacío que enseña: cómo se verá tu Brújula y dos maneras de empezar (con IA o solo con tus datos)
+    const botones = armandoVision ? `<span class="suave">Armando tu Brújula…</span>` : a
+      ? `<button class="btn lleno" data-acc="armarVision" data-arg="datos">${ic("mas")} Crear la Brújula de ${a}</button>`
+      : `<button class="btn lleno" data-acc="armarVision">${ic("ia")} Armar con IA</button><button class="btn" data-acc="armarVision" data-arg="datos">${ic("editar")} Empezar con mis datos</button>`;
+    return selectorBrujula() + hoja(`<div class="brujula-vacia"><h3>${a ? `Tu Brújula de ${a}` : "Tu Brújula de la Cima"}</h3>
+      <p>${a ? `Nace de tu palabra del año y de tus metas de ${a}: una cumbre para el año y 8 campamentos con sus 64 pasos. Tu Brújula general no cambia.`
+        : "Tu cumbre al centro, 8 campamentos alrededor y 64 pasos pequeños. Así se verá con lo que ya escribiste:"}</p>
+      ${vistaPreviaBrujula()}<div class="botones">${botones}</div>
+      <p class="suave" style="margin:10px 0 0">Después lo llenas con tus fotos: cada imagen es de tu vida, no de un catálogo.</p></div>`);
+  }
+  const rehacer = armandoVision ? `<span class="suave">Armando tu tablero…</span>`
+    : `<button class="btn mini" data-acc="armarVision"${a ? ` data-arg="datos"` : ""}>${ic(a ? "girar" : "ia")} Volver a proponer</button><span class="suave">Solo cambian las casillas que aún no tienen foto.</span>`;
+  return selectorBrujula() +
+    hoja(`<div class="brujula-resumen"><span><b>${conFoto}</b> de ${cs.length} casillas con tu foto</span><div class="barra"><i style="width:${conFoto / cs.length * 100}%"></i></div></div>
+      <details class="brujula-como"><summary>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</summary>
+        <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
+        ${ayudaPct}<div class="botones">${rehacer}</div>
+        ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</details>`) +
+    mandalaHtml("");
 }
