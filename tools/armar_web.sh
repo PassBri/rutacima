@@ -17,7 +17,7 @@ cp web/manifest.webmanifest "$DESTINO/"
 cp -r web/iconos "$DESTINO/iconos"
 sed "s/rutacima-dev/rutacima-${VERSION:0:12}/" web/sw.js > "$DESTINO/sw.js"
 # Documentos legales (Ley 1581 de 2012): centro legal, privacidad, términos, aviso, autorización y normas
-cp web/legal.css web/legal.html web/privacidad.html web/terminos.html web/aviso-privacidad.html web/autorizacion.html web/normas.html "$DESTINO/"
+cp web/descargar.html web/descargar.css web/legal.css web/legal.html web/privacidad.html web/terminos.html web/aviso-privacidad.html web/autorizacion.html web/normas.html "$DESTINO/"
 cp -r web/js "$DESTINO/js"
 # Video de presentación (página web/video.html)
 cp web/video.html "$DESTINO/"

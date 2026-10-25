@@ -15,6 +15,9 @@ async function mostrarVincular() {
   clearInterval(sondeo); clearInterval(renovar);
   const real = !!Store.nube;
   $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">SuRoute Web</div>
+    ${window.INSTALAR?.instalada?.() ? "" : `<div class="v-descarga"><div class="v-descarga-ilus" aria-hidden="true">${ic("pc")}</div>
+      <div><h2>Descarga SuRoute para tu computador</h2><p>Instálala y ábrela en su propia ventana, con su sello en el menú de inicio o en el Dock. También para Android y iPhone.</p></div>
+      <a class="btn lleno v-descarga-btn" id="vDescargar" href="descargar.html">Descargar ${ic("descargar")}</a></div>`}
     <div class="tarjeta-v"><div><h1>Usa SuRoute en tu computador</h1>
       <ol class="pasos"><li>Abre <b>SuRoute</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>SuRoute Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
       <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
@@ -29,6 +32,8 @@ async function mostrarVincular() {
     ${enlacesLegales()}</div></div>`;
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
+  // Con el diálogo del navegador disponible, «Descargar» instala aquí mismo; si no, lleva a la página de descargas
+  $("vDescargar")?.addEventListener("click", e => { if (window.INSTALAR?.aviso) { e.preventDefault(); instalarApp(); } });
   if ($("vCorreo")) { $("vCorreo").onclick = () => mostrarCorreo("entrar"); $("vCrear").onclick = () => mostrarCorreo("crear"); }
   if (!real) { pintarQR("https://github.com/PassBri/suroute"); return; }
   const nuevo = async () => {
@@ -173,7 +178,7 @@ function mostrarCarta(alSeguir) {
     </div>
     <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
     <article class="carta" id="carta" aria-label="Carta de bienvenida a SuRoute" hidden>
-      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>SuRoute · My Summit</span></header>
+      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>SuRoute · Summit Route</span></header>
       <p class="carta-lugar">Floridablanca, ${fecha}</p>
       <h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
       <p class="carta-cierre">${CARTA.cierre}</p>

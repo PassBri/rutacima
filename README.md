@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">SuRoute</h1>
-<p align="center"><i>My Summit</i></p>
+<p align="center"><i>Summit Route</i></p>
 
 <p align="center">
   <b>Tu vida hasta los 120 años, vista año por año y día por día.</b><br>
@@ -591,7 +591,7 @@ el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están 
 - **Papel y pliegues.** La app simula una hoja de papel plegada: grano suave, dobleces, hojas con la esquina doblada
   y sombras en el burdeos del sello, nunca grises. Sigue Material Design 3 (`ui/theme/Papel.kt`).
 - **Botones flotantes.** Los años, meses, semanas y días son botones que flotan y se hunden al tocarlos.
-- **Logo.** El **sello de cera de SuRoute** (con «SuRoute» y «My Summit»), original del autor. Aparece en el ícono, el arranque, la ventana
+- **Logo.** El **sello de cera de SuRoute** (con «SuRoute» y «Summit Route»), original del autor. Aparece en el ícono, el arranque, la ventana
   de inicio, la barra superior y la web.
 - **Archivos.** Los archivos en alta resolución y las vistas previas están en [`diseno/`](diseno).
 

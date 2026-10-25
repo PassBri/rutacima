@@ -226,6 +226,16 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .vincular { position: relative; max-width: 1000px; margin: 0 auto; padding-block: 28px; padding-inline: 19px; height: 100%; overflow-y: auto; }
 .marca { display: flex; align-items: center; gap: 10px; color: #fff; font: 500 15px var(--font-texto); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 28px; }
 .marca img { width: 38px; height: 38px; }
+/* Aviso de descarga sobre la tarjeta del QR, como el de WhatsApp Web */
+.v-descarga { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px; margin-bottom: 16px; padding: 22px 32px;
+  background: var(--hoja); border-radius: 4px; box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 10px 40px rgb(var(--sombra) / .16); }
+.v-descarga-ilus { width: 84px; height: 64px; border-radius: 14px; display: grid; place-items: center; background: var(--burdeos-suave); color: var(--burdeos); }
+.v-descarga-ilus svg { width: 38px; height: 38px; }
+.v-descarga h2 { margin: 0 0 4px; font: 500 20px/1.3 var(--font-titulo); color: var(--tinta); }
+.v-descarga p { margin: 0; color: var(--tinta-suave); font-size: 15px; max-width: 56ch; }
+.v-descarga-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 24px; border-radius: 999px; text-decoration: none; white-space: nowrap; }
+.v-descarga-btn svg { width: 18px; height: 18px; }
+@media (max-width: 760px) { .v-descarga { grid-template-columns: 1fr; padding: 20px; gap: 12px; } .v-descarga-ilus { display: none; } .v-descarga-btn { justify-content: center; } }
 .tarjeta-v { background: var(--hoja); border-radius: 4px; padding: 48px 56px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: start;
   box-shadow: 0 1px 2px rgb(var(--sombra) / .12), 0 10px 40px rgb(var(--sombra) / .16); }
 .tarjeta-v h1 { margin: 0 0 24px; font: 500 30px/1.25 var(--font-titulo); color: var(--tinta); text-wrap: balance; }

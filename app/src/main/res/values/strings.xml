@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">SuRoute</string>
     <!-- Lema de la marca: va igual en todos los idiomas -->
-    <string name="lema" translatable="false">My Summit</string>
+    <string name="lema" translatable="false">Summit Route</string>
     <string name="tab_hoy">Hoy</string>
     <string name="tab_comunidad">Comunidad</string>
     <string name="tab_aprende">Aprende</string>
