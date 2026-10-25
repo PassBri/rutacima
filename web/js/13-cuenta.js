@@ -25,29 +25,36 @@ const mensajeCuenta = e => (ERRORES_CUENTA.find(([r]) => r.test(e?.message || ""
 function mostrarCorreo(modo = "entrar") {
   clearInterval(sondeo); clearInterval(renovar);
   const crear = modo === "crear", olvido = modo === "olvido";
+  const campo = (nombre, etiqueta, attrs, ayuda = "", extra = "") => `<label class="ac-campo${extra ? " con-extra" : ""}">${nombre === "usuario" ? `<b class="ac-prefijo" aria-hidden="true">@</b>` : ""}
+      <input name="${nombre}" placeholder=" " ${attrs}><span>${etiqueta}</span>${extra}</label>${ayuda ? `<small class="ac-ayuda">${ayuda}</small>` : ""}`;
   $("pantallaVincular").innerHTML = `<div class="marca">${marca()}SuRoute Web</div>
-    <div class="tarjeta-v tarjeta-correo"><div>
+    <div class="ac-tarjeta ac-cuenta">
+      <div class="ac-cuenta-cab"><span class="ac-sello">${marca("logo", true)}</span>
       <h1>${crear ? "Crea tu cuenta" : olvido ? "Recupera tu contraseña" : "Entra con tu correo"}</h1>
-      <p class="suave" style="margin-top:-12px">${crear ? "Tu ruta queda guardada en tu cuenta y la abres desde cualquier navegador, también en iPhone."
-        : olvido ? "Te enviamos un enlace para crear una contraseña nueva." : "Usa el mismo correo y contraseña de tu cuenta de SuRoute."}</p>
-      <form class="form form-correo" id="formCorreo" novalidate>
-        ${crear ? `<label class="campo"><span>Usuario</span><div class="con-prefijo"><b>@</b><input name="usuario" autocomplete="off" spellcheck="false" minlength="3" maxlength="30" pattern="[a-z0-9._]{3,30}" required></div><small class="suave">De 3 a 30: letras minúsculas, números, punto o guion bajo.</small></label>
-        <label class="campo"><span>Tu nombre</span><input name="nombre" autocomplete="name" maxlength="60"></label>` : ""}
-        <label class="campo"><span>Correo</span><input name="correo" type="email" autocomplete="email" required></label>
-        ${olvido ? "" : `<label class="campo"><span>Contraseña</span><input name="clave" type="password" autocomplete="${crear ? "new-password" : "current-password"}" minlength="6" required></label>`}
-        ${crear ? casillasLegales() : ""}
+      <p class="ac-sub">${crear ? "Tu ruta queda guardada en tu cuenta y la abres desde cualquier navegador, también en iPhone."
+        : olvido ? "Te enviamos un enlace para crear una contraseña nueva." : "Usa el mismo correo y contraseña de tu cuenta de SuRoute."}</p></div>
+      <form class="ac-form" id="formCorreo" novalidate>
+        ${crear ? campo("usuario", "Usuario", `autocomplete="off" spellcheck="false" autocapitalize="none" minlength="3" maxlength="30" pattern="[a-z0-9._]{3,30}" required`, "De 3 a 30: letras minúsculas, números, punto o guion bajo. Es lo que verá la comunidad.")
+          + campo("nombre", "Tu nombre", `autocomplete="name" maxlength="60"`) : ""}
+        ${campo("correo", "Correo", `type="email" autocomplete="email" inputmode="email" autocapitalize="none" required`)}
+        ${olvido ? "" : campo("clave", "Contraseña", `type="password" autocomplete="${crear ? "new-password" : "current-password"}" minlength="6" required`, crear ? "Al menos 6 caracteres." : "",
+          `<button class="ac-ver" type="button" aria-label="Mostrar contraseña" aria-pressed="false">${ic("ojo")}</button>`)}
+        ${crear ? `<div class="ac-legal">${casillasLegales()}</div>` : ""}
         <p class="form-error" id="correoError" role="alert" aria-live="assertive"></p>
-        <div class="botones"><button class="btn lleno" type="submit">${crear ? "Crear mi cuenta" : olvido ? "Enviar enlace" : "Entrar"}</button>
-          ${!crear && !olvido ? `<button class="btn" type="button" data-modo="olvido">¿Olvidaste tu contraseña?</button>` : ""}</div>
+        <button class="ac-btn lleno ancho" type="submit">${crear ? "Crear mi cuenta" : olvido ? "Enviar enlace" : "Entrar"}</button>
+        ${!crear && !olvido ? `<button class="ac-btn texto ancho" type="button" data-modo="olvido">¿Olvidaste tu contraseña?</button>` : ""}
       </form>
-      <p class="suave v-cambio">${crear ? `¿Ya tienes cuenta? <button class="enlace" type="button" data-modo="entrar">Entra</button>` : `¿Aún no tienes cuenta? <button class="enlace" type="button" data-modo="crear">Créala</button>`}
-        · <button class="enlace" type="button" data-modo="volver">Volver al código QR</button></p>
-    </div></div>`;
+      <div class="ac-cambio"><span>${crear ? "¿Ya tienes cuenta?" : "¿Aún no tienes cuenta?"}</span>
+        <button class="ac-btn tonal" type="button" data-modo="${crear ? "entrar" : "crear"}">${crear ? "Entrar" : "Crear cuenta"}</button></div>
+      <button class="ac-volver" type="button" data-modo="volver">${ic("volver")} Volver al código QR</button>
+    </div>`;
   mostrar("vincular");
   const f = $("formCorreo"), err = $("correoError");
   $("pantallaVincular").querySelectorAll("[data-modo]").forEach(b => b.onclick = () => b.dataset.modo === "volver" ? mostrarVincular() : mostrarCorreo(b.dataset.modo));
   if (crear) f.usuario.oninput = () => { f.usuario.value = f.usuario.value.toLowerCase().replace(/[^a-z0-9._]/g, ""); };
   f.querySelector("input")?.focus();
+  f.querySelector(".ac-ver")?.addEventListener("click", e => { const b = e.currentTarget, ver = b.getAttribute("aria-pressed") !== "true";
+    f.clave.type = ver ? "text" : "password"; b.setAttribute("aria-pressed", ver); b.setAttribute("aria-label", ver ? "Ocultar contraseña" : "Mostrar contraseña"); b.innerHTML = ic(ver ? "ojoNo" : "ojo"); });
   f.onsubmit = async e => {
     e.preventDefault(); err.textContent = "";
     const correo = f.correo.value.trim(), clave = f.clave?.value || "";

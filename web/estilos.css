@@ -2276,3 +2276,91 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .md-secciones button { padding: 6px 10px 6px 6px; gap: 6px; }
 .md-secciones .modo-tarj button { padding: 6px 10px; }
 @media (max-width: 1100px) and (min-width: 700px) { .md-secciones > button[data-acc="mdIr"] span { display: none; } .md-secciones > button[data-acc="mdIr"] { padding: 6px; } }
+
+/* ---------- Acceso (vincular con QR, entrar y crear cuenta): Material 3 sobre el cielo ---------- */
+.ac-tarjeta { background: var(--hoja); border-radius: 28px; padding: 40px 44px; box-shadow: 0 1px 3px rgb(var(--sombra) / .14), 0 16px 48px -8px rgb(var(--sombra) / .24); }
+.ac-vincular { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: center; }
+.ac-tarjeta h1 { margin: 0; font: 500 32px/1.2 var(--font-titulo); color: var(--tinta); text-wrap: balance; }
+.ac-sub { margin: 10px 0 0; color: var(--tinta-suave); font-size: 16px; line-height: 1.5; max-width: 48ch; }
+.ac-pasos { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 16px; }
+.ac-pasos li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: center; font-size: 16px; line-height: 1.45; color: var(--tinta); }
+.ac-pasos li > span { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); color: var(--burdeos); font-weight: 600; font-size: 15px; font-variant-numeric: tabular-nums; }
+.ac-pasos b { font-weight: 600; }
+.ac-qr { display: flex; flex-direction: column; align-items: center; padding: 20px; border-radius: 24px; background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); }
+.ac-qr .qr { width: 232px; height: 232px; border-radius: 16px; border: 0; box-shadow: 0 1px 2px rgb(var(--sombra) / .12); }
+.ac-qr .qr-tiempo { width: 232px; margin-top: 14px; }
+.ac-qr .codigo-txt { font-size: 26px; margin-top: 12px; }
+.ac-nota-qr { margin: 6px 0 0; font-size: 13px; color: var(--tinta-suave); text-align: center; }
+.ac-otras { grid-column: 1 / -1; display: grid; gap: 16px; justify-items: center; padding-top: 8px; }
+.ac-o { display: flex; align-items: center; gap: 14px; width: 100%; font-size: 13px; color: var(--tinta-suave); }
+.ac-o::before, .ac-o::after { content: ""; flex: 1; height: 1px; background: var(--linea); }
+.ac-botones { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.ac-pie { margin: 0; text-align: center; font-size: 13px; line-height: 1.5; color: var(--tinta-suave); max-width: 64ch; }
+/* Botones Material 3: lleno, tonal y de texto, con 48 px de alto */
+.ac-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 0; font: 600 15px/1 var(--font-texto); letter-spacing: .01em; text-decoration: none; cursor: pointer; touch-action: manipulation; transition: background .15s, box-shadow .15s, transform .1s cubic-bezier(.2,0,0,1); }
+.ac-btn svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.ac-btn.lleno { background: var(--burdeos); color: var(--sobre-burdeos, #fff); }
+.ac-btn.tonal { background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); color: var(--burdeos); }
+.ac-btn.texto { background: transparent; color: var(--burdeos); padding: 0 16px; }
+.ac-btn.ancho { width: 100%; }
+.ac-btn:active { transform: scale(.98); }
+.ac-btn:focus-visible { outline: 3px solid var(--oro); outline-offset: 2px; }
+.ac-btn:disabled { opacity: .5; cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .ac-btn.lleno:hover { box-shadow: 0 1px 3px rgb(var(--sombra) / .3); background: color-mix(in srgb, #fff 8%, var(--burdeos)); }
+  .ac-btn.tonal:hover { background: color-mix(in srgb, var(--burdeos) 18%, var(--hoja)); }
+  .ac-btn.texto:hover { background: color-mix(in srgb, var(--burdeos) 8%, transparent); }
+}
+/* Descarga: una franja discreta debajo, no compite con el código */
+.ac-descarga { display: flex; align-items: center; gap: 16px; margin-top: 16px; padding: 14px 16px 14px 20px; border-radius: 20px; background: color-mix(in srgb, var(--hoja) 88%, transparent); box-shadow: 0 1px 2px rgb(var(--sombra) / .1); }
+.ac-descarga-ic { width: 44px; height: 44px; flex: none; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); color: var(--burdeos); }
+.ac-descarga-ic svg { width: 24px; height: 24px; fill: currentColor; }
+.ac-descarga > div { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.ac-descarga b { font-weight: 600; color: var(--tinta); }
+.ac-descarga > div span { font-size: 13px; color: var(--tinta-suave); }
+/* Entrar y crear cuenta: tarjeta angosta y centrada */
+.ac-cuenta { max-width: 460px; margin: 0 auto; padding: 36px 40px 28px; }
+.ac-cuenta-cab { text-align: center; }
+.ac-cuenta-cab .ac-sub { margin-inline: auto; }
+.ac-sello { width: 56px; height: 56px; margin: 0 auto 16px; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); color: var(--tinta); }
+.ac-sello .logo, .ac-sello img { width: 40px; height: 40px; }
+.ac-cuenta h1 { font-size: 28px; }
+.ac-form { display: grid; gap: 14px; margin-top: 28px; }
+.ac-campo { position: relative; display: block; }
+.ac-campo input { width: 100%; height: 56px; box-sizing: border-box; padding: 18px 16px 4px; font: 400 16px/1.2 var(--font-texto); color: var(--tinta); background: var(--hoja); border: 1px solid color-mix(in srgb, var(--tinta) 38%, transparent); border-radius: 12px; outline: none; transition: border-color .15s; }
+.ac-campo > span { position: absolute; left: 16px; top: 18px; font-size: 16px; color: var(--tinta-suave); pointer-events: none; transform-origin: left top; transition: transform .15s cubic-bezier(.2,0,0,1), color .15s; }
+.ac-campo input:focus { border: 2px solid var(--burdeos); padding: 17px 15px 3px; }
+.ac-campo input:focus + span, .ac-campo input:not(:placeholder-shown) + span { transform: translateY(-11px) scale(.75); }
+.ac-campo input:focus + span { color: var(--burdeos); }
+@media (hover: hover) and (pointer: fine) { .ac-campo input:hover:not(:focus) { border-color: var(--tinta); } }
+.ac-prefijo { position: absolute; left: 16px; top: 23px; font-weight: 500; font-size: 16px; color: var(--tinta-suave); pointer-events: none; opacity: 0; transition: opacity .15s; }
+.ac-campo:has(.ac-prefijo) input { padding-left: 32px; }
+.ac-campo:has(.ac-prefijo) input:focus { padding-left: 31px; }
+.ac-campo:has(input:focus) .ac-prefijo, .ac-campo:has(input:not(:placeholder-shown)) .ac-prefijo { opacity: 1; }
+.ac-campo.con-extra input { padding-right: 52px; }
+.ac-ver { position: absolute; right: 4px; top: 4px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--tinta-suave); background: none; border: 0; cursor: pointer; }
+.ac-ver svg { width: 22px; height: 22px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) { .ac-ver:hover { background: color-mix(in srgb, var(--tinta) 8%, transparent); } }
+.ac-ayuda { margin: -8px 16px 0; font-size: 12px; line-height: 1.4; color: var(--tinta-suave); }
+.ac-legal { display: grid; gap: 12px; padding: 14px 16px; border-radius: 16px; background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); }
+.ac-legal .casilla { font-size: 13.5px; }
+.ac-form .form-error { margin: 0; min-height: 0; }
+.ac-form .form-error:empty { display: none; }
+.ac-cambio { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 12px; margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--linea); font-size: 14px; color: var(--tinta-suave); }
+.ac-cambio .ac-btn { min-height: 40px; padding: 0 20px; font-size: 14px; }
+.ac-volver { display: flex; align-items: center; gap: 6px; margin: 14px auto 0; min-height: 40px; padding: 0 12px; border-radius: 999px; background: none; border: 0; color: var(--tinta-suave); font-size: 14px; cursor: pointer; }
+.ac-volver svg { width: 18px; height: 18px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) { .ac-volver:hover { color: var(--tinta); background: color-mix(in srgb, var(--tinta) 6%, transparent); } }
+.vincular:has(.ac-tarjeta) .v-extra { margin-top: 18px; }
+@media (max-width: 760px) {
+  .ac-tarjeta { padding: 28px 20px; border-radius: 24px; }
+  .ac-vincular { grid-template-columns: 1fr; }
+  .ac-tarjeta h1 { font-size: 26px; }
+  .ac-qr { justify-self: stretch; }
+  .ac-botones { flex-direction: column; width: 100%; }
+  .ac-botones .ac-btn { width: 100%; }
+  .ac-descarga { flex-wrap: wrap; }
+  .ac-descarga .ac-btn { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .ac-btn, .ac-campo > span { transition: none; } }
+.ac-campo input:focus-visible { outline: none; }

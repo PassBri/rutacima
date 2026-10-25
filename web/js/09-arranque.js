@@ -15,21 +15,26 @@ async function mostrarVincular() {
   clearInterval(sondeo); clearInterval(renovar);
   const real = !!Store.nube;
   $("pantallaVincular").innerHTML = `<div class="marca">${marca()}SuRoute Web</div>
-    ${window.INSTALAR?.instalada?.() ? "" : `<div class="v-descarga"><div class="v-descarga-ilus" aria-hidden="true">${ic("pc")}</div>
-      <div><h2>Descarga SuRoute para tu computador</h2><p>Instálala y ábrela en su propia ventana, con su sello en el menú de inicio o en el Dock. También para Android y iPhone.</p></div>
-      <a class="btn lleno v-descarga-btn" id="vDescargar" href="descargar.html">Descargar ${ic("descargar")}</a></div>`}
-    <div class="tarjeta-v"><div><h1>Usa SuRoute en tu computador</h1>
-      <ol class="pasos"><li>Abre <b>SuRoute</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>SuRoute Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
-      <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
-    <div><div class="qr" id="qr">${marca("centro logo", true)}<button class="qr-recargar" id="qrRecargar" hidden>${ic("ruta")}<span>Toca para generar un código nuevo</span></button></div>
-      ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
-      <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
-    <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
-      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de SuRoute configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
-      <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div>
-    ${real ? `<div class="v-correo"><span class="suave">¿No tienes un teléfono Android?</span><button class="btn lleno" id="vCorreo">Entrar con mi correo</button><button class="btn" id="vCrear">Crear cuenta</button></div>` : ""}
+    <div class="ac-tarjeta ac-vincular">
+      <div class="ac-texto"><h1>Usa SuRoute en tu computador</h1>
+        <p class="ac-sub">La misma app y la misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas allá aparece aquí.</p>
+        <ol class="ac-pasos"><li><span aria-hidden="true">1</span><div>Abre <b>SuRoute</b> en tu teléfono.</div></li>
+          <li><span aria-hidden="true">2</span><div>Ve a <b>Perfil</b> y toca el ícono del computador <b>SuRoute Web</b>.</div></li>
+          <li><span aria-hidden="true">3</span><div>Toca <b>Escanear código</b> y apunta la cámara a este código.</div></li></ol></div>
+      <div class="ac-qr"><div class="qr" id="qr">${marca("centro logo", true)}<button class="qr-recargar" id="qrRecargar" hidden>${ic("repetir")}<span>Toca para generar un código nuevo</span></button></div>
+        ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
+        <p class="ac-nota-qr" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
+      <div class="ac-otras"><span class="ac-o">o entra de otra forma</span>
+        ${real ? `<div class="ac-botones"><button class="ac-btn lleno" id="vCorreo">${ic("correo")} Entrar con mi correo</button><button class="ac-btn tonal" id="vCrear">${ic("personaMas")} Crear cuenta</button><button class="ac-btn texto" data-acc-v="demo">Ver la demostración</button></div>
+          <p class="ac-pie">Sin teléfono Android, por ejemplo en iPhone, entra con tu correo. El código cambia cada pocos minutos y este computador queda vinculado hasta que lo desvincules.</p>`
+        : `<div class="ac-botones"><button class="ac-btn lleno" data-acc-v="demo">Ver la demostración</button></div>
+          <p class="ac-pie"><span class="pill">Demostración</span> Este sitio todavía no tiene el servidor de SuRoute configurado. Prueba la app con una ruta de ejemplo.</p>`}</div>
+    </div>
+    ${window.INSTALAR?.instalada?.() ? "" : `<div class="ac-descarga"><span class="ac-descarga-ic" aria-hidden="true">${ic("pc")}</span>
+      <div><b>SuRoute para tu computador</b><span>En su propia ventana, con su sello en el menú de inicio o en el Dock. También para Android y iPhone.</span></div>
+      <a class="ac-btn tonal" id="vDescargar" href="descargar.html">${ic("descargar")} Descargar</a></div>`}
     <div class="v-extra"><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
-    ${enlacesLegales()}</div></div>`;
+    ${enlacesLegales()}</div>`;
   mostrar("vincular");
   $("cartaReleer").onclick = () => mostrarCarta(() => mostrarVincular());
   // Con el diálogo del navegador disponible, «Descargar» instala aquí mismo; si no, lleva a la página de descargas
