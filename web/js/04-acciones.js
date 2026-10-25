@@ -494,32 +494,9 @@ function reordenarCasillas(idOrigen, idDestino) {
   pintarDetalle();
   requestAnimationFrame(() => document.querySelector(`[data-mover-casilla="${idOrigen}"]`)?.focus());
 }
-document.addEventListener("pointerdown", e => {
-  const asa = e.target.closest?.("[data-mover-casilla]"); if (!asa || e.button > 0) return;
-  e.preventDefault();
-  const tarjeta = asa.closest(".casilla-v"), id = asa.dataset.moverCasilla, tablero = tarjeta.parentElement;
-  const r = tarjeta.getBoundingClientRect(), dx = e.clientX - r.left, dy = e.clientY - r.top;
-  const fantasma = tarjeta.cloneNode(true); fantasma.classList.add("casilla-fantasma");
-  Object.assign(fantasma.style, { width: r.width + "px", height: r.height + "px", left: r.left + "px", top: r.top + "px" });
-  document.body.appendChild(fantasma); tarjeta.classList.add("arrastrando");
-  let destino = null;
-  const mover = ev => {
-    fantasma.style.left = ev.clientX - dx + "px"; fantasma.style.top = ev.clientY - dy + "px";
-    fantasma.hidden = true; const t = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".casilla-v"); fantasma.hidden = false;
-    const nuevo = t && t.parentElement === tablero && t !== tarjeta ? t : null;
-    if (nuevo !== destino) { destino?.classList.remove("destino"); destino = nuevo; destino?.classList.add("destino"); }
-    const caja = document.querySelector(".cuerpo") || document.scrollingElement;   // desplaza si se acerca al borde
-    if (ev.clientY < 90) caja.scrollBy(0, -12); else if (ev.clientY > innerHeight - 60) caja.scrollBy(0, 12);
-  };
-  const soltar = () => {
-    removeEventListener("pointermove", mover); removeEventListener("pointerup", soltar); removeEventListener("pointercancel", soltar);
-    fantasma.remove(); tarjeta.classList.remove("arrastrando"); destino?.classList.remove("destino");
-    if (destino) reordenarCasillas(id, destino.dataset.casilla);
-  };
-  addEventListener("pointermove", mover); addEventListener("pointerup", soltar); addEventListener("pointercancel", soltar);
-});
+/* Arrastrar con el dedo o el mouse: js/25-tarjetas.js (dejar presionada la tarjeta). */
 document.addEventListener("keydown", e => {
-  const asa = e.target.closest?.("[data-mover-casilla]"); if (!asa) return;
+  const asa = e.target.closest?.("[data-mover-casilla]"); if (!asa || e.target !== asa) return;
   const paso = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key]; if (!paso) return;
   e.preventDefault();
   const cs = casillasVision(), i = cs.findIndex(c => String(c.id) === asa.dataset.moverCasilla), j = i + paso;

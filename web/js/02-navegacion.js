@@ -147,7 +147,7 @@ const LISTAS = {
       h += grupo("Propósitos a largo plazo");
       const ps = c.props.filter(p => coincide(p.titulo)).sort((x, y) => (x.orden || 0) - (y.orden || 0) || x.id - y.id);
       if (!ps.length) h += `<p class="vacio-mini">Todavía no hay propósitos.</p>`;
-      ps.forEach(p => { h += item("p:" + p.id, av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `${p.horizonte || 5} años`, `Prioridad ${p.prioridad || "B"}`); });
+      ps.forEach(p => { h += item("p:" + p.id, av(pctTxt(c.nodoProp(p)), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.titulo), `${p.horizonte || 5} años`, conApodo("p", p.id, `Prioridad ${p.prioridad || "B"}`)); });
     }
     if (f === "todo" || f === "anio") {
       for (const a of (f === "anio" ? [anioHoy] : anios)) {
@@ -155,7 +155,7 @@ const LISTAS = {
         if (!xs.length && f !== "anio") continue;
         h += grupo(`Metas de ${a}`);
         if (!xs.length) h += `<p class="vacio-mini">Sin metas para ${a}.</p>`;
-        xs.forEach(x => { h += item("a:" + x.id, av(pctTxt(c.nodoAnio(x)), COLOR_EJE[x.eje] || "var(--oro)"), esc(x.titulo), x.prioridad || "", ESTADOS.find(e => e[0] === x.estado)?.[1] || ""); });
+        xs.forEach(x => { h += item("a:" + x.id, av(pctTxt(c.nodoAnio(x)), COLOR_EJE[x.eje] || "var(--oro)"), esc(x.titulo), x.prioridad || "", conApodo("a", x.id, ESTADOS.find(e => e[0] === x.estado)?.[1] || "")); });
       }
     }
     if (f === "todo" || f === "mes") {
@@ -163,7 +163,7 @@ const LISTAS = {
       const xs = metasDelMes(hoy.getFullYear(), hoy.getMonth() + 1).filter(x => coincide(x.texto));
       h += grupo(`Metas de ${MESES[hoy.getMonth()]}`);
       if (!xs.length) h += `<p class="vacio-mini">Sin metas este mes.</p>`;
-      xs.forEach(x => { h += item("m:" + x.id, av(pctTxt(avanceMetaMes(x)), COLOR_EJE[x.eje] || "var(--burdeos)"), esc(x.texto), "", `${numeros(x.dias).length} de ${x.objetivoDias || 20} días`); });
+      xs.forEach(x => { h += item("m:" + x.id, av(pctTxt(avanceMetaMes(x)), COLOR_EJE[x.eje] || "var(--burdeos)"), esc(x.texto), "", conApodo("m", x.id, `${numeros(x.dias).length} de ${x.objetivoDias || 20} días`)); });
     }
     return h + `</div>`;
   },

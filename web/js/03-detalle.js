@@ -1169,15 +1169,7 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
   const color = e => COLOR_EJE[e] || "#6B2A1A";
     const foto = fotoDePublicacion(c.publicacionId), k = String(c.id);
     const av = avanceCasilla(c, md), est = ESTADOS_CASILLA.find(x => x[0] === av.estado)[1];
-    return `<div class="hoja casilla-v${enBloque ? " en-bloque" : ""} est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">
-      ${enBloque ? "" : `<button class="casilla-mover" data-mover-casilla="${k}" aria-label="Mover casilla (arrastra o usa las flechas)" title="Arrastra para cambiar el orden">${ic("arrastrar")}</button>`}
-      <button class="casilla-pct-btn" data-acc="pctCasilla" data-arg="${k}" title="Ajustar el avance" aria-label="Avance ${av.pct} %. Toca para ajustarlo">${mdAnillo(av.pct, "esquina")}</button>
-      <label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
-        <input type="file" accept="image/*" hidden data-foto-vision="${k}">
-        ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
-          : `<span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
-      </label>
-      <div class="casilla-edicion">
+    const edicion = `<div class="casilla-edicion">
         <textarea class="casilla-frase" rows="2" aria-label="Frase de la casilla" placeholder="Escribe la frase de esta casilla" ${bind("vision", k, "afirmacion")}>${esc(c.afirmacion)}</textarea>
         <input class="casilla-rotulo" aria-label="Rótulo" placeholder="Rótulo" ${bind("vision", k, "titulo")} value="${esc(c.titulo)}">
         <div class="casilla-fila">
@@ -1201,6 +1193,32 @@ function casillaVisionHtml(c, md = window.Mandala ? Mandala.datos() : null, enBl
         <details class="casilla-mas"><summary>Más opciones</summary>
           ${campo("Qué foto buscar o tomar", area("vision", k, "sugerencia", c.sugerencia))}
           <button class="btn mini peligro" data-acc="borrar" data-arg="vision|${k}">${ic("borrar")} Quitar casilla</button></details>
+      </div>`;
+    const pct = `<button class="casilla-pct-btn" data-acc="pctCasilla" data-arg="${k}" title="Ajustar el avance" aria-label="Avance ${av.pct} %. Toca para ajustarlo">${mdAnillo(av.pct, "esquina")}</button>`;
+    if (enBloque) return `<div class="hoja casilla-v en-bloque est-${av.estado.toLowerCase()}" data-casilla="${k}" style="padding:0;--c:${color(c.eje)}">${pct}<label class="casilla-foto" style="--c:${color(c.eje)}" title="${foto ? "Cambiar la foto" : "Agregar tu foto"}">
+        <input type="file" accept="image/*" hidden data-foto-vision="${k}">
+        ${foto ? `<img src="${esc(foto)}" alt=""><span class="casilla-cambiar">${ic("foto")} Cambiar foto</span>`
+          : `<span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span>`}
+      </label>${edicion}</div>`;
+    /* La tarjeta tiene dos caras, como una carta: al frente la foto limpia; al girarla, la frase y lo que se edita.
+       Se mueve dejándola presionada (o arrastrando con el mouse) y la foto se abre a pantalla completa. */
+    const girada = estado.giradas?.has(k), apodo = apodoDe("vision", k), nombre = apodo || c.titulo || "";
+    return `<div class="hoja casilla-v giro${girada ? " girada" : ""} est-${av.estado.toLowerCase()}" data-casilla="${k}" style="--c:${color(c.eje)}">
+      <div class="giro-in">
+        <div class="cara" data-mover-casilla="${k}" tabindex="0" role="group" aria-label="${esc(nombre || "Tarjeta")}. Déjala presionada para moverla, o usa las flechas"${girada ? " inert" : ""}>
+          ${foto ? `<button class="cara-foto" data-acc="verTarjetas" data-arg="${k}" aria-label="Ver en pantalla completa"><img src="${esc(foto)}" alt="" draggable="false"></button>`
+            : `<label class="cara-foto vacia" title="Agregar tu foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">
+               <span class="casilla-sug">${esc(c.sugerencia)}</span><span class="casilla-btn">${ic("foto")} Agregar mi foto</span></label>`}
+          ${pct}
+          <div class="cara-pie">${nombre ? `<span class="cara-apodo">${apodo ? "«" + esc(apodo) + "»" : esc(nombre)}</span>` : "<span></span>"}
+            <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Girar la tarjeta para ver y editar la frase" title="Girar">${ic("girar")}</button></div>
+        </div>
+        <div class="dorso"${girada ? "" : " inert"}>
+          <div class="dorso-cab"><span>${foto ? `<label class="btn mini" title="Cambiar la foto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")} Foto</label>` : ""}</span>
+            <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Volver a la foto" title="Volver a la foto">${ic("girar")}</button></div>
+          <input class="casilla-apodo" maxlength="32" aria-label="Apodo de la tarjeta" placeholder="Apodo (opcional)" data-resp="apodo|apodo:vision:${k}" value="${esc(apodo)}">
+          ${edicion}
+        </div>
       </div></div>`;
   }
 window.casillaVisionHtml = casillaVisionHtml;
@@ -1230,5 +1248,5 @@ function visionCompleta() {
       <div class="botones">${armandoVision ? `<span class="suave">Armando tu tablero…</span>`
         : `<button class="btn ${cs.length ? "" : "lleno"}" data-acc="armarVision">${ic("ia")} ${cs.length ? "Volver a proponer" : "Armar con IA"}</button>${cs.length ? `<span class="suave">Solo cambian las casillas que aún no tienen foto.</span>` : ""}`}</div>
       ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}`) +
-    (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Arrastra las tarjetas por el ⠿ para ordenarlas. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
+    (cs.length ? mandalaHtml(`<div class="tablero">${cs.filter(c => c.id !== md?.cumbre?.id).map(tarjeta).join("")}</div><p class="suave" style="margin-bottom:0">Deja presionada una tarjeta para moverla y gírala para editar su frase. Tus fotos son publicaciones de visión privadas: solo tú las ves hasta que decidas compartirlas.</p>`) : ""));
 }
