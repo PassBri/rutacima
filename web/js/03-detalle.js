@@ -649,16 +649,22 @@ const misPostsDemo = [];
 /** Lo que reportaste o a quien bloqueaste deja de verse aquí al instante (el servidor también lo filtra). */
 const listaLocal = k => { try { return new Set(JSON.parse(localStorage.getItem("rutacima-" + k) || "[]")); } catch { return new Set(); } };
 function ocultarLocal(k, v) { const s = listaLocal(k); s.add(String(v)); try { localStorage.setItem("rutacima-" + k, JSON.stringify([...s])); } catch {} }
-async function cargarFeed() {
-  if (cargarFeed.activo) return; cargarFeed.activo = true;
+const PAGINA_FEED = 30;
+/** Carga el muro por páginas: [mas] trae la siguiente (al llegar al final) y la agrega abajo. */
+async function cargarFeed(mas = false) {
+  if (cargarFeed.activo) return; if (mas && !estado.feedMas) return; cargarFeed.activo = true;
   await null; // siempre después de dibujar la lista
+  const previos = mas ? estado.feed || [] : [];
   try {
     if (!Store.nube) {
       const todos = [...misPostsDemo.filter(p => p.visibilidad !== "PRIVADA"), ...DEMO_POSTS].sort((a, b) => b.creadoEn - a.creadoEn);
       estado.feed = estado.feedFiltro === "VISION" ? todos.filter(p => p.tipo === "VISION") : estado.feedFiltro === "SIGUIENDO" ? misPostsDemo : todos;
+      if (estado.feedFiltro === "PARA_TI" && window.ordenarParaTi) estado.feed = await ordenarParaTi(estado.feed);
+      estado.feedMas = false;
     } else {
-      const sb = Store.nube.sb, yo = Store.nube.dueno;
-      let q = sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").order("created_at", { ascending: false }).limit(40);
+      const sb = Store.nube.sb, yo = Store.nube.dueno, desde = mas ? estado.feedN || 0 : 0;
+      let q = sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").order("created_at", { ascending: false }).range(desde, desde + PAGINA_FEED - 1);
+      if (estado.feedEje) q = q.eq("eje", estado.feedEje);
       if (estado.feedFiltro === "VISION") q = q.eq("tipo", "VISION");
       if (estado.feedFiltro === "SIGUIENDO") {
         const { data: f } = await sb.from("follows").select("followed_id").eq("follower_id", yo);
@@ -674,12 +680,15 @@ async function cargarFeed() {
         const { data: ex } = await sb.rpc("expedicion", { p_anio: new Date().getFullYear() });
         estado.tramos = ex ? ex.reduce((r, x) => (r[Math.min(51, Math.max(0, x.semana))] += Number(x.puntos) || 0, r), new Array(52).fill(0)) : null;
       } catch { estado.tramos = null; }
-      estado.feed = data.map(p => ({
+      estado.feedN = desde + data.length; estado.feedMas = data.length === PAGINA_FEED;
+      const nuevos = data.map(p => ({
         id: p.id, autorId: p.user_id, autorNombre: p.autor?.nombre || p.autor?.username || "Senderista", autorUsuario: p.autor?.username || "",
         tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad,
         impulsos: p.impulsos?.[0]?.count || 0, comentarios: p.comentarios?.[0]?.count || 0, yoImpulse: mios.has(p.id),
         brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo,
-      }));
+      })).filter(p => !previos.some(x => x.id === p.id));
+      // "Para ti" ordena cada página (lo ya visto no se mueve); los demás van por fecha
+      estado.feed = previos.concat(estado.feedFiltro === "PARA_TI" && window.ordenarParaTi ? await ordenarParaTi(nuevos) : nuevos);
     }
   } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad." + detalleError(e)); }
   finally {

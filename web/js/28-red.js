@@ -164,3 +164,166 @@ function pintarCampanas() {
 setTimeout(() => cargarAvisos(), 1500);
 setInterval(() => { if (Store.nube) cargarAvisos(true); }, 60_000);
 document.addEventListener("visibilitychange", () => { if (!document.hidden && Store.nube) cargarAvisos(true); });
+
+/* ---------- 2. Muro continuo y "Para ti" ordenado ---------- */
+/** A quiénes sigo (una vez por sesión; se actualiza al seguir o dejar de seguir). */
+async function seguidosRed() {
+  if (RED.siguiendo) return RED.siguiendo;
+  if (!Store.nube) { RED.siguiendo = listaLocal("sigo-demo"); return RED.siguiendo; }
+  const { data } = await Store.nube.sb.from("follows").select("followed_id").eq("follower_id", Store.nube.dueno);
+  RED.siguiendo = new Set((data || []).map(x => x.followed_id)); return RED.siguiendo;
+}
+window.seguidosRed = seguidosRed;
+/** Mis ejes para la comunidad (los elijo en los primeros pasos; viajan con la app). */
+const misEjesRed = () => new Set(String(respuesta("red:ejes") || "").split(",").filter(Boolean));
+/**
+ * "Para ti": lo reciente con apoyo, de quienes sigo y de mis ejes, con variedad de personas.
+ * Puntaje = apoyo (impulsos y comentarios) que se apaga con las horas × bonos (sigo, mi eje, foto).
+ */
+async function ordenarParaTi(ps) {
+  const sigo = await seguidosRed(), ejes = misEjesRed(), ahora = Date.now();
+  const puntaje = p => {
+    const h = Math.max(0, (ahora - p.creadoEn) / 36e5);
+    return (1 + Math.log2(1 + (p.impulsos || 0)) * 1.5 + Math.log2(1 + (p.comentarios || 0)) * 2) / Math.pow(h + 2, 0.75)
+      * (sigo.has(p.autorId) ? 1.8 : 1) * (p.eje && ejes.has(p.eje) ? 1.4 : 1) * (p.foto ? 1.15 : 1) * (p.propio ? 0.6 : 1);
+  };
+  const resto = [...ps].sort((a, b) => puntaje(b) - puntaje(a)), r = [];
+  // Variedad: no más de una publicación seguida de la misma persona si hay otras
+  while (resto.length) { const i = resto.findIndex(p => r.at(-1)?.autorId !== p.autorId); r.push(resto.splice(i < 0 ? 0 : i, 1)[0]); }
+  return r;
+}
+window.ordenarParaTi = ordenarParaTi;
+{
+  // Al llegar al final se cargan más (en Cimas, en el muro y en la lista)
+  const feed = DET["comunidad.feed"];
+  DET["comunidad.feed"] = (...a) => {
+    let h = feed(...a);
+    if (estado.feedMas) {
+      h = h.replace(/<article class="cima cima-fin"[\s\S]*?<\/article>/, `<article class="cima cima-cargando" data-mas-feed aria-label="Cargando más"><div class="cima-fondo"></div><span class="cargando-mas">${ic("cima")} Cargando más cimas…</span></article>`);
+      if (estado.vistaCom !== "cimas") h = h.replace(/(<\/div><\/div>)$/, `<div class="mas-feed" data-mas-feed>${ic("cima")} Cargando más…</div>$1`);
+    }
+    return h;
+  };
+  const lista = LISTAS.comunidad;
+  LISTAS.comunidad = (...a) => { const h = lista(...a); return estado.feedMas ? h.replace(/<\/div>$/, `<div class="mas-feed" data-mas-feed>Cargando más…</div></div>`) : h; };
+  const vigia = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { vigia.unobserve(e.target); cargarFeed(true); } }), { rootMargin: "600px 0px" });
+  new MutationObserver(() => document.querySelectorAll("[data-mas-feed]:not([data-visto])").forEach(el => { el.dataset.visto = "1"; vigia.observe(el); }))
+    .observe(document.body, { childList: true, subtree: true });
+  // Cambiar de pestaña (Para ti, Visión, Siguiendo) empieza de nuevo
+  document.addEventListener("click", e => { if (e.target.closest?.("[data-feed]")) { estado.feedN = 0; estado.feedMas = false; } }, true);
+}
+
+/* ---------- 3. Buscar personas y perfiles públicos ---------- */
+const demoPersonas = () => DEMO_POSTS.filter((p, i, a) => a.findIndex(x => x.autorNombre === p.autorNombre) === i)
+  .map(p => ({ id: p.autorId, nombre: p.autorNombre, usuario: p.autorNombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z]+/g, ".").replace(/\.$/, ""), avatar: "", cumbre: p.metaTitulo || "", bio: "" }));
+const filaPersonaHtml = x => `<div class="persona-fila"><button class="persona-abrir" data-ir="comunidad" data-arg="persona:${esc(x.id)}">${avRed(x, "aviso-av")}
+    <span><b>${esc(x.nombre)}</b><small>@${esc(x.usuario)}${x.cumbre ? ` · ${esc(x.cumbre)}` : ""}</small></span></button>${botonSeguir(x.id)}</div>`;
+const botonSeguir = id => { const si = RED.siguiendo?.has(id); return `<button class="btn mini ${si ? "" : "lleno"}" data-acc="seguirPersona" data-arg="${esc(id)}" aria-pressed="${!!si}">${si ? "Siguiendo" : "Seguir"}</button>`; };
+window.botonSeguir = botonSeguir;
+
+async function buscarPersonas(t) {
+  t = t.trim().replace(/^@/, "").replace(/[,()*%]/g, " ").trim();
+  if (t.length < 2) { RED.resultados = null; return pintarResultados(); }
+  RED.buscando = t;
+  let r;
+  if (!Store.nube) r = demoPersonas().filter(x => (x.nombre + " " + x.usuario).toLowerCase().includes(t.toLowerCase()));
+  else {
+    const { data } = await Store.nube.sb.from("profiles").select("id,username,nombre,avatar_url,cumbre").or(`username.ilike.*${t}*,nombre.ilike.*${t}*`).limit(25);
+    r = (data || []).filter(x => x.id !== Store.nube.dueno).map(x => ({ id: x.id, nombre: x.nombre || x.username, usuario: x.username, avatar: x.avatar_url, cumbre: x.cumbre }));
+  }
+  if (RED.buscando !== t) return;
+  RED.resultados = r; pintarResultados();
+}
+/** A quién seguir: quienes publican seguido en mis ejes (y si no alcanza, los más activos), sin los que ya sigo. */
+async function sugeridasRed(cuantas = 8) {
+  const sigo = await seguidosRed();
+  if (!Store.nube) return demoPersonas().filter(x => !sigo.has(x.id)).slice(0, cuantas);
+  const ejes = [...misEjesRed()];
+  let q = Store.nube.sb.from("posts").select("user_id,autor:profiles!posts_user_id_fkey(id,username,nombre,avatar_url,cumbre)").eq("visibilidad", "PUBLICA").order("created_at", { ascending: false }).limit(200);
+  if (ejes.length) q = q.in("eje", ejes);
+  const { data } = await q, cuenta = {};
+  (data || []).forEach(x => cuenta[x.user_id] = (cuenta[x.user_id] || 0) + 1);
+  const vistas = new Set([Store.nube.dueno, ...sigo]);
+  return (data || []).map(x => x.autor).filter(a => a && !vistas.has(a.id) && vistas.add(a.id))
+    .sort((a, b) => cuenta[b.id] - cuenta[a.id]).slice(0, cuantas)
+    .map(a => ({ id: a.id, nombre: a.nombre || a.username, usuario: a.username, avatar: a.avatar_url, cumbre: a.cumbre }));
+}
+window.sugeridasRed = sugeridasRed;
+function pintarResultados() {
+  const caja = document.getElementById("resultadosPersonas"); if (!caja) return;
+  caja.innerHTML = RED.resultados ? (RED.resultados.length ? RED.resultados.map(filaPersonaHtml).join("") : `<p class="suave">No encontramos a nadie con ese nombre.</p>`)
+    : RED.sugeridas?.length ? `<h3 class="aviso-tramo">A quién seguir</h3>${RED.sugeridas.map(filaPersonaHtml).join("")}` : "";
+}
+DET["comunidad.buscar"] = () => {
+  if (!RED.sugeridas) seguidosRed().then(() => sugeridasRed(10)).then(s => { RED.sugeridas = s; pintarResultados(); });
+  requestAnimationFrame(() => { const i = document.getElementById("buscarPersonas"); if (i && document.activeElement !== i) i.focus({ preventScroll: true }); pintarResultados(); });
+  return cab(av(ic("buscar"), "var(--burdeos)"), "Buscar personas", "Por nombre o @usuario") + cuerpo(
+    `<label class="buscador-red">${ic("buscar")}<input id="buscarPersonas" type="search" placeholder="Nombre o @usuario" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search"></label>
+     <div id="resultadosPersonas" class="personas"></div>`, "max-width:640px");
+};
+let esperaBusqueda = null;
+document.addEventListener("input", e => { if (e.target.id !== "buscarPersonas") return; clearTimeout(esperaBusqueda); esperaBusqueda = setTimeout(() => buscarPersonas(e.target.value), 280); });
+
+/** Perfil público: quién es, sus cifras, su cumbre y lo que comparte. */
+async function cargarPersona(id) {
+  (RED.personas ||= {})[id] = { cargando: true };
+  await seguidosRed();
+  let r;
+  if (!Store.nube) {
+    const x = demoPersonas().find(p => p.id === id) || { id, nombre: "Senderista", usuario: "senderista" };
+    r = { ...x, seguidores: 24, siguiendo: 31, meSigue: false, posts: DEMO_POSTS.filter(p => p.autorId === id) };
+  } else {
+    const sb = Store.nube.sb, yo = Store.nube.dueno;
+    const [p, seg, sig, me, ps] = await Promise.all([
+      sb.from("profiles").select("id,username,nombre,avatar_url,bio,cumbre").eq("id", id).maybeSingle(),
+      sb.from("follows").select("*", { count: "exact", head: true }).eq("followed_id", id),
+      sb.from("follows").select("*", { count: "exact", head: true }).eq("follower_id", id),
+      sb.from("follows").select("followed_id").eq("follower_id", id).eq("followed_id", yo),
+      sb.from("posts").select("id,tipo,texto,image_url,eje,meta_titulo,created_at,brujula,impulsos:votes(count),comentarios:comments(count)").eq("user_id", id).order("created_at", { ascending: false }).limit(60),
+    ]);
+    if (!p.data) { RED.personas[id] = { noExiste: true }; return pintarDetalle(); }
+    const x = p.data;
+    r = { id, nombre: x.nombre || x.username, usuario: x.username, avatar: x.avatar_url, bio: x.bio, cumbre: x.cumbre, seguidores: seg.count || 0, siguiendo: sig.count || 0,
+      meSigue: !!me.data?.length, propio: id === yo,
+      posts: (ps.data || []).map(q => ({ id: q.id, autorId: id, autorNombre: x.nombre || x.username, autorUsuario: x.username, tipo: q.tipo, texto: q.texto, foto: q.image_url, eje: q.eje,
+        metaTitulo: q.meta_titulo, brujula: q.brujula, creadoEn: Date.parse(q.created_at), impulsos: q.impulsos?.[0]?.count || 0, comentarios: q.comentarios?.[0]?.count || 0 })) };
+  }
+  RED.personas[id] = r;
+  // Sus publicaciones también abren en Cimas: se suman al muro cargado si no estaban
+  (estado.feed ||= []); r.posts.forEach(p => { if (!estado.feed.some(x => x.id === p.id)) estado.feed.push(p); });
+  if (estado.sel === "persona:" + id) pintarDetalle();
+}
+DET["comunidad.persona"] = id => {
+  const p = RED.personas?.[id];
+  if (!p) { cargarPersona(id); return cab(av(ic("perfil"), "var(--burdeos)"), "Perfil", "Cargando…") + cuerpo(""); }
+  if (p.cargando) return cab(av(ic("perfil"), "var(--burdeos)"), "Perfil", "Cargando…") + cuerpo("");
+  if (p.noExiste) return cab(av(ic("perfil"), "var(--burdeos)"), "Perfil", "") + cuerpo(hoja(`<p>Esta persona ya no está en la comunidad.</p>`));
+  const cifra = (n, t) => `<span><b>${n.toLocaleString("es")}</b><small>${t}</small></span>`;
+  return cab(avRed(p), esc(p.nombre), "@" + esc(p.usuario)) + cuerpo(
+    `<section class="perfil-pub">${avRed(p, "perfil-pub-av")}<h2>${esc(p.nombre)}</h2>${p.meSigue && !p.propio ? `<span class="te-sigue">Te sigue</span>` : ""}
+      <div class="perfil-cifras">${cifra(p.posts.length, "Publicaciones")}${cifra(p.seguidores, "Seguidores")}${cifra(p.siguiendo, "Siguiendo")}</div>
+      ${p.bio ? `<p class="perfil-bio">${esc(p.bio)}</p>` : ""}${p.cumbre ? `<p class="perfil-cumbre">${ic("cima")} ${esc(p.cumbre)}</p>` : ""}
+      ${p.propio ? "" : `<div class="botones">${botonSeguir(p.id).replace("btn mini", "btn")}<button class="btn" data-acc="escribirA" data-arg="${esc(p.id)}|${esc(p.nombre)}">${ic("mensajes")} Mensaje</button></div>`}</section>
+    ${p.posts.length ? `<div class="perfil-grilla">${p.posts.map(q => `<button class="perfil-celda" data-ir="comunidad" data-arg="cima:${esc(q.id)}" aria-label="${esc((q.texto || "").slice(0, 60))}">
+        ${q.foto ? `<img src="${esc(q.foto)}" alt="" loading="lazy">` : `<span>${esc((q.texto || "").slice(0, 90))}</span>`}<small>${ic("impulso")} ${q.impulsos}</small></button>`).join("")}</div>`
+      : `<p class="suave" style="text-align:center">Todavía no comparte publicaciones.</p>`}`, "max-width:720px");
+};
+ACC.seguirPersona = async (el, id) => {
+  await seguidosRed(); const si = !RED.siguiendo.has(id);
+  si ? RED.siguiendo.add(id) : RED.siguiendo.delete(id);
+  document.querySelectorAll(`[data-acc="seguirPersona"][data-arg="${CSS.escape(id)}"]`).forEach(b => { b.textContent = si ? "Siguiendo" : "Seguir"; b.classList.toggle("lleno", !si); b.setAttribute("aria-pressed", si); });
+  const pp = RED.personas?.[id]; if (pp && !pp.cargando) pp.seguidores += si ? 1 : -1;
+  if (!Store.nube) { try { localStorage.setItem("rutacima-sigo-demo", JSON.stringify([...RED.siguiendo])); } catch { /* sin almacenamiento */ } return; }
+  const sb = Store.nube.sb, yo = Store.nube.dueno;
+  const r = si ? await sb.from("follows").upsert({ follower_id: yo, followed_id: id }) : await sb.from("follows").delete().eq("follower_id", yo).eq("followed_id", id);
+  if (r.error) errorNube(r.error);
+};
+{
+  // La persona de una publicación abre su perfil (en Cimas, en el muro y en la publicación)
+  const feed = DET["comunidad.feed"];
+  DET["comunidad.feed"] = (...a) => feed(...a)
+    .replace(/<button class="cima-autor" data-acc="escribirA" data-arg="([^"|]*)\|[^"]*"/g, '<button class="cima-autor" data-ir="comunidad" data-arg="persona:$1"')
+    .replace(/(<button class="cimas-ic" data-sec="mensajes")/, `<button class="cimas-ic" data-ir="comunidad" data-arg="buscar" aria-label="Buscar personas" title="Buscar personas">${ic("buscar")}</button>$1`);
+  const lista = LISTAS.comunidad;
+  LISTAS.comunidad = (...a) => lista(...a).replace(/(<button class="rb campana)/, `<button class="rb" data-ir="comunidad" data-arg="buscar" aria-label="Buscar personas" title="Buscar personas">${ic("buscar")}</button>$1`);
+}

@@ -160,7 +160,7 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
         }
         runCatching {
             val p = filas(supa.select("profiles", "select=id,username,nombre,avatar_url,bio,cumbre&id=eq.$id")).firstOrNull()?.let(::persona) ?: return@runCatching null
-            fun cuenta(filtro: String) = runCatching { filas(supa.select("follows", "select=follower_id&$filtro&limit=1000")).size }.getOrDefault(0)
+            suspend fun cuenta(filtro: String) = runCatching { filas(supa.select("follows", "select=follower_id&$filtro&limit=1000")).size }.getOrDefault(0)
             val loSigo = filas(supa.select("follows", "select=followed_id&follower_id=eq.$yo&followed_id=eq.$id")).isNotEmpty()
             val meSigue = filas(supa.select("follows", "select=followed_id&follower_id=eq.$id&followed_id=eq.$yo")).isNotEmpty()
             PerfilPublico(p, cuenta("followed_id=eq.$id"), cuenta("follower_id=eq.$id"), social.deAutor(id), loSigo, meSigue, id == yo)
