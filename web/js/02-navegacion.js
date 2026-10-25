@@ -100,8 +100,9 @@ const LISTAS = {
     const conMetas = new Map();
     Store.lista("meta_anio").forEach(m => conMetas.set(m.anio, (conMetas.get(m.anio) || 0) + 1));
     const finPlan = (p.anioInicioPlan || anioHoy) + Math.max(5, ...Store.lista("proposito").map(x => x.horizonte || 5)) - 1;
-    if (estado.filtro === "todo" && coincide("camino vida")) h += item("vida", avSello(), "Mi vida", "inicio", "Quién soy, mi cumbre y mi vision board", ic("pin", "i fijado"));
-    if (estado.filtro === "todo" && coincide("mapa de mi vida puntos años")) h += item("puntos", av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", "", `${r.edad} de ${metaVida()} años · un punto por año`);
+    // Mi ruta: el mapa de toda la vida (el tiempo), la visión (cumbre, vision board y Brújula) y cada año
+    if (estado.filtro === "todo" && coincide("mapa de mi vida puntos años")) h += item("puntos", av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", "inicio", `${r.edad} de ${metaVida()} años · un punto por año`, ic("pin", "i fijado"));
+    if (estado.filtro === "todo" && coincide("cumbre brujula vision board")) h += item("vida", av(ic("cumbre"), "var(--burdeos)"), "Cumbre y Brújula", "", "Tu cumbre, tu vision board y los 81 pasos");
     let anios = [];
     for (let a = anioHoy; a <= ultimo; a++) anios.push(a);
     for (let a = anioHoy - 1; a >= nac; a--) anios.push(a);
@@ -219,12 +220,10 @@ const LISTAS = {
   perfil() {
     const p = perfil(), ult = ultimaEvaluacion();
     let h = cabLista("Perfil", { buscar: false }) + `<div class="items">`;
-    h += item("perfil", av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
+    h += item("perfil", p.fotoPerfilUrl || globalThis.mv?.demo?.avatar ? `<span class="avatar" style="padding:0;overflow:hidden"><img src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="" style="width:100%;height:100%;border-radius:50%;object-fit:cover"></span>` : av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), "", esc(Store.nube?.perfil?.username ? "@" + Store.nube.perfil.username : p.cumbreFrase || "Nombre, cumbre y fecha de nacimiento"));
     h += grupo("Mi ascenso");
     h += item("ir-metas", av(ic("metas"), "var(--burdeos)"), "Metas", "", "Propósitos, metas del año y del mes");
     h += item("ejes", av(ic("comunidad"), "var(--burdeos)"), "Mis ejes", ult ? new Date(ult.fecha).toLocaleDateString("es") : "", ult ? "Última evaluación" : "Evalúa tus 6 ejes");
-    const vs = Store.lista("vision");
-    h += item("vision", av(ic("coach"), "var(--burdeos)"), "Mi vision board", vs.length ? `${vs.filter(v => v.publicacionId).length}/${vs.length}` : "", vs.length ? "Llénalo con tus fotos" : "Ármalo con IA y tus datos");
     h += item("publicaciones", av(ic("foto"), "var(--burdeos)"), "Mis publicaciones", "", "Tu diario de vida");
     h += item("ir-frases", av(ic("frases"), "var(--burdeos)"), "Mis frases", "", "Las frases que ya abriste");
     h += grupo("Personas");

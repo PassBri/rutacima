@@ -106,7 +106,7 @@ function abrirApp() {
   // La rutina diaria empieza en el día de hoy (marcar hábitos sin tocar nada antes).
   // Mientras no haya cumbre escrita, se empieza por la ruta.
   // El inicio es Mi vida: la cumbre, el vision board y los años; Hoy está a un toque en la barra
-  ir("ruta", recordatorio() ? "vida" : null);
+  ir("ruta", recordatorio() ? "puntos" : null);
 }
 document.addEventListener("click", e => { if (e.target.closest("[data-acc-v='demo']")) { clearInterval(sondeo); clearInterval(renovar); entrarDemo(); } });
 

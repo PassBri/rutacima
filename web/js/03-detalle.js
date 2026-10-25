@@ -401,11 +401,9 @@ function cierreDia(fecha, ag, campoAg) {
 
 const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
+  /* ---------- Mi ruta: Cumbre y Brújula (la visión de toda la vida) ---------- */
   vida() {
-    // Mi vida es quién eres; el tiempo (recordatorio del día y los años en puntos) está en «Mapa de mi vida».
-    return cab(avSello(), "Mi vida", "Quién soy, mi cumbre y mi vision board") + cuerpo(
-      (window.cabeceraVida ? cabeceraVida() : "") + (window.quienSoy ? quienSoy() : "") +
-      `<div class="vida-sec" id="vida-vision"><h2>Cumbre, vision board y Brújula</h2><p class="suave">Los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
+    return cab(av(ic("cumbre"), "var(--burdeos)"), "Cumbre y Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
       visionCompleta() + (window.visionVida ? visionVida() : ""));
   },
   /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */
@@ -455,7 +453,7 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="vida">Mi vida</button> › <span>${a}</span></div>` + lineaVida(a) +
+      `<div class="migas"><button data-sel="puntos">Mapa de mi vida</button> › <span>${a}</span></div>` + lineaVida(a) +
       `<div class="anio-nav"><button class="btn mini" data-ir="ruta" data-arg="a:${a - 1}" aria-label="Año anterior: ${a - 1}">‹ ${a - 1}</button>
         <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
       corazonAnio(a) + cumbresAnio(a) +
@@ -566,7 +564,7 @@ function detMes(arg) {
   }
   const campoMes = (n, etq) => campo(etq, `<textarea ${bind("mes", clave, n, "", `mes`)}>${esc(b[n] || "")}</textarea>`);
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(
-    `<div class="migas"><button data-sel="vida">Mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
+    `<div class="migas"><button data-sel="puntos">Mapa de mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
     hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
       ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`) +
     hoja(`<div class="etiqueta" style="margin-bottom:8px">Días del mes · toca uno para abrirlo</div><div class="dias" style="max-width:320px">${cal}</div>`) +
@@ -616,7 +614,7 @@ function detDia(fecha) {
   const habitos = habitosDelDia(fecha, marc);
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
-    `<div class="migas"><button data-ir="ruta" data-arg="vida">Mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
+    `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mapa de mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
     planDelDia(fecha, ag, ms) +
@@ -952,8 +950,9 @@ const ultimaEvaluacion = () => Store.lista("ejes").sort((a, b) => b.fecha - a.fe
 Object.assign(DET, {
   "perfil.perfil"() {
     const p = perfil(), r = recordatorio(), anioHoy = new Date().getFullYear();
-    return cab(av(esc((p.nombre || "Y")[0].toUpperCase()), "var(--burdeos)"), esc(p.nombre || "Tu perfil"), r ? `${r.edad} años · camino hacia los ${metaVida()}` : "") + cuerpo(
-      hoja(`<div class="form">${campo("Tu nombre", txt("perfil", 1, "nombre", p.nombre))}
+    return cab(av(ic("perfil"), "var(--burdeos)"), "Mi perfil", "Quién soy, mis fotos y mis datos") + cuerpo(
+      (window.cabeceraVida ? cabeceraVida() : "") + (window.quienSoy ? quienSoy() : "") +
+      hoja(`<h3 style="margin:0 0 12px">Mis datos</h3><div class="form">${campo("Tu nombre", txt("perfil", 1, "nombre", p.nombre))}
         ${Store.nube?.perfil ? campo("Tu usuario (lo ve la comunidad)", `<div class="con-prefijo"><b>@</b><input name="usuarioPerfil" autocomplete="off" spellcheck="false" maxlength="30" value="${esc(Store.nube.perfil.username || "")}" data-acc-change="cambiarUsuario"></div>`) : ""}
         ${campo("Mi cumbre es… (en una frase)", area("perfil", 1, "cumbreFrase", p.cumbreFrase))}
         <div class="form-2">${campo("Año de nacimiento", `<input type="number" min="1900" max="${anioHoy}" ${bind("perfil", 1, "anioNacimiento", "numNulo")} value="${p.anioNacimiento ?? ""}">`)}

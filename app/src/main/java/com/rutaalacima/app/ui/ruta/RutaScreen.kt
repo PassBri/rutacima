@@ -1,7 +1,7 @@
 package com.rutaalacima.app.ui.ruta
 
 import androidx.compose.animation.expandVertically
-import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.filled.Close
@@ -307,7 +307,7 @@ fun RutaScreen(
 private fun SaltosChips(ir: (Nivel) -> Unit) {
     val h = hoy()
     val atajos = listOf(
-        Triple(R.string.ruta_brujula, Icons.Filled.Explore, Nivel.Brujula),
+        Triple(R.string.ruta_brujula, Icons.Filled.Landscape, Nivel.Brujula),
         Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
         Triple(R.string.ruta_esta_semana, Icons.Filled.ViewWeek, Nivel.Semana(h.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))),
         Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),

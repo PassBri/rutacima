@@ -369,7 +369,8 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .opciones button.si { background: var(--oro-suave); border-color: var(--oro); color: var(--burdeos); font-weight: 500; }
 
 /* Comunidad */
-.foto { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; display: block; }
+/* Fotos del muro: en el formato con que se publicaron (cuadrada, 4:5 u horizontal) */
+.foto { width: 100%; height: auto; max-height: min(78vh, 900px); object-fit: cover; border-radius: 6px; display: block; }
 .autor { display: flex; gap: 10px; align-items: center; }
 
 /* Avisos */
@@ -1712,3 +1713,33 @@ label.cargando { opacity: .6; pointer-events: none; }
   .mv-inicial { font-size: 38px; }
 }
 @media (prefers-reduced-motion: reduce) { .mv-btn-portada { transition: none; } }
+
+/* ---------- Editor de fotos (23-editor.js): recortar, girar y filtros ---------- */
+.editor-foto { position: fixed; inset: 0; z-index: 60; background: #0E1418; color: #fff; display: grid;
+  grid-template-rows: auto 1fr auto auto auto auto; gap: 12px; padding: max(12px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  animation: ef-entra .22s cubic-bezier(.2,0,0,1); }
+@keyframes ef-entra { from { opacity: 0; } to { opacity: 1; } }
+.ef-barra { display: flex; align-items: center; gap: 8px; }
+.ef-barra b { flex: 1; font-weight: 500; font-size: 17px; }
+.ef-ic { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgb(255 255 255 / .08); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.ef-ic svg { width: 22px; height: 22px; fill: currentColor; }
+.ef-zona { position: relative; min-height: 0; display: grid; place-items: center; }
+.ef-marco { position: relative; border-radius: 12px; overflow: hidden; touch-action: none; }
+.ef-marco canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+.ef-marco canvas:active { cursor: grabbing; }
+.ef-tercios { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, transparent calc(33.33% - .5px), rgb(255 255 255 / .35) 0 calc(33.33% + .5px), transparent 0 calc(66.66% - .5px), rgb(255 255 255 / .35) 0 calc(66.66% + .5px), transparent 0),
+              linear-gradient(180deg, transparent calc(33.33% - .5px), rgb(255 255 255 / .35) 0 calc(33.33% + .5px), transparent 0 calc(66.66% - .5px), rgb(255 255 255 / .35) 0 calc(66.66% + .5px), transparent 0); }
+.ef-marco.circulo { border-radius: 0; }
+.ef-marco.circulo::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: 50%; box-shadow: 0 0 0 100vmax rgb(0 0 0 / .6); }
+.ef-zoom { width: min(420px, 100%); justify-self: center; accent-color: #F0B3A1; }
+.ef-chips, .ef-filtros { display: flex; gap: 8px; overflow-x: auto; justify-content: center; padding-bottom: 2px; }
+.ef-chips button { min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgb(255 255 255 / .25); background: none; color: #fff; font: inherit; cursor: pointer; white-space: nowrap; }
+.ef-chips button[aria-pressed="true"] { background: #F0B3A1; border-color: #F0B3A1; color: #2B1209; }
+.ef-filtros button { display: grid; justify-items: center; gap: 4px; border: 0; background: none; color: rgb(255 255 255 / .8); font: 12px var(--font-texto); cursor: pointer; padding: 0; }
+.ef-filtros canvas { width: 64px; height: 64px; border-radius: 12px; outline: 2px solid transparent; outline-offset: 2px; }
+.ef-filtros button[aria-pressed="true"] { color: #fff; }
+.ef-filtros button[aria-pressed="true"] canvas { outline-color: #fff; }
+.ef-usar { width: min(420px, 100%); justify-self: center; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; font-size: 16px; }
+.foto-previa { display: block; width: 100%; max-height: 420px; object-fit: contain; border-radius: 10px; margin-top: 10px; background: var(--hoja-2); }
+@media (prefers-reduced-motion: reduce) { .editor-foto { animation: none; } }

@@ -329,6 +329,16 @@ function clic(e) {
 function cambio(e) {
   const el = e.target;
   if (el.dataset.accChange) { ACC[el.dataset.accChange]?.(el, el.dataset.arg || ""); return; }
+  // Foto de una publicación: se abre el editor (formato, recorte, giro y filtro) y se muestra la vista previa
+  if (el.name === "foto" && el.closest('[data-form="publicar"]')) {
+    const archivo = el.files?.[0]; estado.fotoEditada = null; el.parentElement.querySelector(".foto-previa")?.remove();
+    if (archivo && window.editarFoto) editarFoto(archivo, "publicacion", 1440).then(b => {
+      if (!b) { el.value = ""; return; }
+      estado.fotoEditada = b;
+      el.insertAdjacentHTML("afterend", `<img class="foto-previa" src="${URL.createObjectURL(b)}" alt="Vista previa de la foto">`);
+    });
+    return;
+  }
   if (el.dataset.fotoPerfil) { ponerFotoPerfil(el.dataset.fotoPerfil, el.files?.[0]); el.value = ""; return; }
   if (el.dataset.fotoVision) { ponerFotoVision(el.dataset.fotoVision, el.files?.[0]); return; }
   if (el.dataset.fotoAnio) { fotoVisionAnio(el.dataset.fotoAnio, el.files?.[0]); el.value = ""; return; }
@@ -381,7 +391,7 @@ async function enviar(e) {
       const post = { tipo: datos.get("tipo"), eje: datos.get("eje") || null, visibilidad: datos.get("visibilidad"), meta_titulo: datos.get("meta") || "", texto, anio: new Date().getFullYear() };
       try {
         if (Store.nube) {
-          const sb = Store.nube.sb, id = crypto.randomUUID(), foto = datos.get("foto");
+          const sb = Store.nube.sb, id = crypto.randomUUID(), foto = estado.fotoEditada || datos.get("foto");
           let url = "";
           if (foto && foto.size) {
             const ruta = `${Store.nube.dueno}/${id}.jpg`;
@@ -394,7 +404,7 @@ async function enviar(e) {
         } else {
           misPostsDemo.unshift({ id: "mio-" + nuevoId(), autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, metaTitulo: post.meta_titulo, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, demo: false });
         }
-        estado.feed = null; estado.misPosts = null; toast("Publicado"); ir("comunidad", null);
+        estado.feed = null; estado.misPosts = null; estado.fotoEditada = null; toast("Publicado"); ir("comunidad", null);
       } catch (err) { errorNube(err); boton.disabled = false; boton.textContent = "Publicar"; }
     } break;
     default: window.FORMULARIOS?.[f.dataset.form]?.(f, datos, texto);

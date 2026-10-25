@@ -25,11 +25,15 @@ function fotoPerfilDe(tipo) {
 async function ponerFotoPerfil(tipo, archivo) {
   const f = FOTOS_PERFIL[tipo]; if (!f || !archivo) return;
   mv.menu = null;
+  // Primero se edita: recorte con su formato, giro y filtro
+  const editada = window.editarFoto ? await editarFoto(archivo, tipo === "avatar" ? "perfil" : "portada", f.lado) : archivo;
+  if (!editada) return;
+  archivo = editada;
   if (!Store.nube) { mv.demo[tipo] = URL.createObjectURL(archivo); pintarDetalle(); return; }
   toast("Subiendo tu foto…");
   try {
     const sb = Store.nube.sb, ruta = `${Store.nube.dueno}/perfil/${tipo}.jpg`;
-    const blob = await reducirImagen(archivo, f.lado);
+    const blob = archivo.type === "image/jpeg" ? archivo : await reducirImagen(archivo, f.lado);
     const up = await sb.storage.from("media").upload(ruta, blob, { upsert: true, contentType: "image/jpeg" });
     if (up.error) throw up.error;
     const url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl + "?v=" + Date.now();
@@ -71,7 +75,7 @@ function cabeceraVida() {
     <div class="mv-portada">${fondo}${botonFoto("portada", "mv-btn-portada", ic("foto"), "Cambiar portada")}</div>
     <div class="mv-id">
       ${botonFoto("avatar", "mv-avatar", avatar, "Cambiar foto de perfil")}
-      <div class="mv-nombre"><h1>${esc(p.nombre || "Mi vida")}</h1>${r ? `<p>${r.edad} años · día ${r.dia.toLocaleString("es")} de tu vida</p>` : ""}</div>
+      <div class="mv-nombre"><h1>${esc(p.nombre || "Tu nombre")}</h1>${r ? `<p>${r.edad} años · día ${r.dia.toLocaleString("es")} de tu vida</p>` : ""}</div>
     </div>
     ${p.cumbreFrase ? `<p class="mv-cumbre">«${esc(p.cumbreFrase)}»</p>` : ""}
   </section>`;
@@ -95,6 +99,7 @@ Object.assign(ACC, {
   mvQuienCancelar() { mv.editando = false; pintarDetalle(); },
   async mvQuienGuardar() { const v = ($("mvQuien")?.value || "").trim(); mv.editando = false; await Store.cambiar("perfil", 1, { quienSoy: v }, perfil()); },
 });
+window.mv = mv;
 window.cabeceraVida = cabeceraVida;
 window.quienSoy = quienSoy;
 window.ponerFotoPerfil = ponerFotoPerfil;

@@ -91,13 +91,13 @@ fun Avatar(nombre: String, url: String = "", tamano: Int = 40, forma: androidx.c
 fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true, ratio: Float? = 4f / 3f) {
     if (post.foto.isNotBlank() && ratio == null) {
         val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
-        var natural by androidx.compose.runtime.remember(post.foto) { androidx.compose.runtime.mutableFloatStateOf(1f) }
+        val natural = androidx.compose.runtime.remember(post.foto) { androidx.compose.runtime.mutableFloatStateOf(1f) }
         val descripcion = androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
             post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" }
-        AsyncImage(modelo, descripcion, modifier.aspectRatio(natural), contentScale = ContentScale.Crop,
+        AsyncImage(modelo, descripcion, modifier.aspectRatio(natural.floatValue), contentScale = ContentScale.Crop,
             onSuccess = { e ->
                 val d = e.result.drawable
-                if (d.intrinsicHeight > 0) natural = (d.intrinsicWidth.toFloat() / d.intrinsicHeight)
+                if (d.intrinsicHeight > 0) natural.floatValue = (d.intrinsicWidth.toFloat() / d.intrinsicHeight)
                     .coerceIn(com.rutaalacima.app.ui.components.FormatosFoto.MIN, com.rutaalacima.app.ui.components.FormatosFoto.MAX)
             })
         return
