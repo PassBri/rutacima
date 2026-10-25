@@ -1,5 +1,9 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.selection.selectable
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
@@ -310,32 +314,67 @@ fun LazyListScope.deudasNivel(libro: Libro, plata: (Double) -> String, vm: Cuent
             Cifra(stringResource(R.string.cu_libre_en), when { l.all { it.actual <= 0 } -> "✓"; plan.meses != null -> stringResource(R.string.cu_meses_x, "${plan.meses}"); else -> "—" }, Modifier.weight(1f), destacada = true)
         }
     }
+    // Lo que las deudas le hacen a la salud financiera: el ISF hoy y el mismo cálculo sin deudas
+    if (l.isNotEmpty()) item(key = "d-efecto") { EfectoDeudasSalud(libro, plan, plata) }
     item(key = "d-metodo") {
         var extra by remember(d.extra) { mutableStateOf(if (d.extra > 0) Cuentas.numero(d.extra) else "") }
+        val planes = remember(l, d.extra) { Deudas.METODOS.associateWith { Deudas.plan(l, it, d.extra) } }
+        val base = remember(l) { Deudas.plan(l, "minimos", 0.0) }
+        val conFecha = planes.values.filter { it.meses != null }
+        val masRapido = conFecha.minOfOrNull { it.meses!! }; val menosInteres = conFecha.minOfOrNull { it.interes }
+        val vivas = l.any { it.actual > 0 }
         RutaCard {
-            Text(stringResource(R.string.cu_tu_metodo), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.cu_elige_metodo), style = MaterialTheme.typography.titleMedium)
             Text(stringResource(R.string.cu_metodo_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Spacer(Modifier.height(10.dp))
-            SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                listOf("avalancha" to R.string.cu_avalancha, "bola" to R.string.cu_bola).forEachIndexed { i, (m, n) ->
-                    SegmentedButton(selected = d.metodo == m, onClick = { vm.deudaMetodo(m) }, shape = SegmentedButtonDefaults.itemShape(i, 2)) { Text(stringResource(n)) }
+            OutlinedTextField(extra, { extra = it; vm.deudaExtra(kotlin.math.abs(Finanzas.monto(it))) }, label = { Text(stringResource(R.string.cu_extra)) }, singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth().padding(top = 8.dp, bottom = 10.dp))
+            // Cada método es una tarjeta de opción (M3): su idea, cuánto tarda y cuánto cuesta
+            val nombres = mapOf("avalancha" to (R.string.cu_avalancha to R.string.cu_avalancha_d), "bola" to (R.string.cu_bola to R.string.cu_bola_d),
+                "flujo" to (R.string.cu_flujo to R.string.cu_flujo_d), "hibrido" to (R.string.cu_hibrido to R.string.cu_hibrido_d), "propio" to (R.string.cu_propio to R.string.cu_propio_d))
+            Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Deudas.METODOS.forEach { m ->
+                    val (n, idea) = nombres.getValue(m); val p = planes.getValue(m); val sel = d.metodo == m
+                    androidx.compose.material3.OutlinedCard(
+                        modifier = Modifier.fillMaxWidth().selectable(sel, role = androidx.compose.ui.semantics.Role.RadioButton) { vm.deudaMetodo(m) },
+                        colors = androidx.compose.material3.CardDefaults.outlinedCardColors(containerColor = if (sel) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface),
+                        border = androidx.compose.foundation.BorderStroke(if (sel) 2.dp else 1.dp, if (sel) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant),
+                    ) {
+                        Column(Modifier.padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(stringResource(n), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                                if (sel) Icon(Icons.Filled.Check, null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
+                            }
+                            Text(stringResource(idea), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            if (vivas) Text(if (p.meses != null) stringResource(R.string.cu_metodo_res, stringResource(R.string.cu_meses_x, "${p.meses}"), plata(Math.round(p.interes).toDouble()))
+                                else stringResource(R.string.cu_no_baja_corto), style = MaterialTheme.typography.labelLarge)
+                            val sellos = listOfNotNull(R.string.cu_mas_rapido.takeIf { vivas && p.meses != null && p.meses == masRapido },
+                                R.string.cu_menos_interes.takeIf { vivas && p.meses != null && menosInteres != null && kotlin.math.abs(p.interes - menosInteres) < 1 })
+                            if (sellos.isNotEmpty()) Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                sellos.forEach { s -> Text(stringResource(s), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onTertiaryContainer,
+                                    modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.tertiaryContainer).padding(horizontal = 8.dp, vertical = 2.dp)) }
+                            }
+                        }
+                    }
                 }
             }
-            Text(stringResource(if (d.metodo == "bola") R.string.cu_bola_d else R.string.cu_avalancha_d), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 8.dp))
-            OutlinedTextField(extra, { extra = it; vm.deudaExtra(kotlin.math.abs(Finanzas.monto(it))) }, label = { Text(stringResource(R.string.cu_extra)) }, singleLine = true,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth().padding(top = 8.dp))
-            if (l.any { it.actual > 0 }) Column(Modifier.padding(top = 10.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(12.dp)) {
-                if (plan.meses != null) Text(stringResource(R.string.cu_plan_libre, mesesDespues(plan.meses), plan.meses, plata(Math.round(plan.interes).toDouble())), style = MaterialTheme.typography.bodyMedium)
-                else Text(stringResource(R.string.cu_no_baja), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
-                if (otro.meses != null && plan.meses != null && (otro.meses != plan.meses || kotlin.math.abs(otro.interes - plan.interes) > 1))
-                    Text(stringResource(R.string.cu_plan_otro, stringResource(if (d.metodo == "bola") R.string.cu_avalancha else R.string.cu_bola), otro.meses, plata(Math.round(otro.interes).toDouble())),
-                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+            if (vivas) Column(Modifier.padding(top = 10.dp).fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(12.dp)) {
+                if (plan.meses != null) {
+                    Text(stringResource(R.string.cu_plan_libre, mesesDespues(plan.meses), plan.meses, plata(Math.round(plan.interes).toDouble())), style = MaterialTheme.typography.bodyMedium)
+                    when {
+                        base.meses == null -> Text(stringResource(R.string.cu_minimos_nunca), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                        base.meses > plan.meses -> Text(stringResource(R.string.cu_vs_minimos, stringResource(R.string.cu_meses_x, "${base.meses}"), plata(Math.round(base.interes).toDouble()),
+                            plata(Math.round(base.interes - plan.interes).toDouble()), stringResource(R.string.cu_meses_x, "${base.meses - plan.meses}")),
+                            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                    }
+                } else Text(stringResource(R.string.cu_no_baja), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.error)
             }
+            if (vivas && plan.meses != null) GraficaDeudas(plan, base, l.filter { it.actual > 0 }, plata)
         }
     }
     item(key = "d-tit") { SectionTitle(stringResource(R.string.cu_tus_deudas)) }
     if (l.isEmpty()) item(key = "d-vacio") { Text(stringResource(R.string.cu_deudas_ayuda), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-    items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos) }
+    items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos,
+        mover = if (d.metodo == "propio") ({ paso: Int -> vm.deudaMover(h.deuda.id, paso) }) else null) }
     item(key = "d-nueva") { NuevaDeuda(plata) { n, s, t, m, b -> vm.deudaAgregar(n, s, t, m, b) } }
     item(key = "d-nota") { Text(stringResource(R.string.cu_deudas_nota), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
 }
@@ -349,7 +388,7 @@ private fun Cifra(t: String, v: String, modifier: Modifier, destacada: Boolean =
 }
 
 @Composable
-private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> String, vm: CuentasViewModel, avisos: SnackbarHostState) {
+private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> String, vm: CuentasViewModel, avisos: SnackbarHostState, mover: ((Int) -> Unit)? = null) {
     val x = h.deuda
     var pagar by remember { mutableStateOf(false) }
     var editar by remember { mutableStateOf(false) }
@@ -373,6 +412,10 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
         }
         com.rutaalacima.app.ui.components.ProgressLine(if (x.saldo > 0) (h.pagado / x.saldo).toFloat() else 1f, Modifier.padding(top = 8.dp), color = colorTipo(Tipo.ING))
         Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+            if (mover != null) {
+                IconButton(onClick = { mover(-1) }) { Icon(Icons.Filled.KeyboardArrowUp, stringResource(R.string.cu_subir)) }
+                IconButton(onClick = { mover(1) }) { Icon(Icons.Filled.KeyboardArrowDown, stringResource(R.string.cu_bajar)) }
+            }
             Spacer(Modifier.weight(1f))
             IconButton(onClick = {
                 vm.deudaQuitar(x.id)
@@ -688,5 +731,107 @@ private fun VisorRecibo(r: Cuentas.Recibo, vm: CuentasViewModel, onCerrar: () ->
                     ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() }
             }
         }
+    }
+}
+
+
+/** Medidor semicircular de M3 del Índice de Salud Financiera. */
+@Composable
+private fun MedidorIsf(valor: Int?, etiqueta: String, color: androidx.compose.ui.graphics.Color, modifier: Modifier = Modifier) {
+    val pista = MaterialTheme.colorScheme.surfaceContainerHighest
+    val fraccion by androidx.compose.animation.core.animateFloatAsState(((valor ?: 0) / 100f).coerceIn(0f, 1f),
+        androidx.compose.animation.core.tween(600, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "isf")
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.size(width = 150.dp, height = 86.dp), contentAlignment = Alignment.BottomCenter) {
+            androidx.compose.foundation.Canvas(Modifier.matchParentSize()) {
+                val grosor = 10.dp.toPx(); val lado = size.width - grosor
+                val tl = androidx.compose.ui.geometry.Offset(grosor / 2, grosor / 2)
+                val sz = androidx.compose.ui.geometry.Size(lado, lado)
+                val trazo = androidx.compose.ui.graphics.drawscope.Stroke(grosor, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+                drawArc(pista, 180f, 180f, false, tl, sz, style = trazo)
+                drawArc(color, 180f, 180f * fraccion, false, tl, sz, style = trazo)
+            }
+            Text(valor?.toString() ?: "—", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
+        }
+        Text(etiqueta, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+    }
+}
+
+/** Lo que tus deudas le hacen a tu salud financiera: el ISF hoy y libre de deudas, y los indicadores que cambian. */
+@Composable
+private fun EfectoDeudasSalud(libro: Libro, plan: Deudas.Plan, plata: (Double) -> String) {
+    val hoyS = remember(libro) { libro.salud(null) }; val sinS = libro.saludSinDeudas
+    val verde = colorTipo(Tipo.ING)
+    RutaCard {
+        Text(stringResource(R.string.cu_efecto_titulo), style = MaterialTheme.typography.titleMedium)
+        if (hoyS.isf == null || sinS.isf == null) {
+            Text(stringResource(R.string.cu_efecto_sin_ing), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            return@RutaCard
+        }
+        val pts = sinS.isf - hoyS.isf
+        Text(if (pts > 0) stringResource(R.string.cu_efecto_puntos, pts) else stringResource(R.string.cu_efecto_poco),
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 10.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
+            val colorHoy = when (hoyS.nivel) { Salud.Nivel.EXCELENTE, Salud.Nivel.BUENA -> verde; Salud.Nivel.MODERADA -> MaterialTheme.colorScheme.tertiary; else -> MaterialTheme.colorScheme.error }
+            MedidorIsf(hoyS.isf, stringResource(R.string.cu_hoy_con_deudas), colorHoy, Modifier.weight(1f))
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            MedidorIsf(sinS.isf, stringResource(R.string.cu_libre_de_deudas) + (plan.meses?.let { " · " + mesesDespues(it) } ?: ""), verde, Modifier.weight(1f))
+        }
+        fun pct(v: Double?) = if (v == null || v.isInfinite()) "—" else "${Math.round(v * 100)} %"
+        fun ind(clave: String, r: Salud.Resultado) = r.indicadores.firstOrNull { it.clave == clave }?.valor
+        Column(Modifier.padding(top = 10.dp)) {
+            listOf(
+                Triple(R.string.cu_ind_dti, pct(ind("dti", hoyS)), pct(ind("dti", sinS) ?: 0.0)),
+                Triple(R.string.cu_ind_endeuda, pct(ind("endeuda", hoyS)), pct(ind("endeuda", sinS) ?: 0.0)),
+                Triple(R.string.cu_c_cuotas, plata(hoyS.deudaMes), plata(0.0)),
+                Triple(R.string.cu_c_neto, plata(hoyS.neto), plata(sinS.neto)),
+            ).forEach { (t, a, b) ->
+                androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(t), style = MaterialTheme.typography.bodySmall, modifier = Modifier.weight(1f))
+                    Text(a, style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(96.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End)
+                    Text(b, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold, color = verde, modifier = Modifier.width(96.dp), textAlign = androidx.compose.ui.text.style.TextAlign.End)
+                }
+            }
+        }
+    }
+}
+
+/** Así baja tu deuda: el método elegido (área) frente a solo mínimos (punteada), con cada deuda pagada marcada. */
+@Composable
+private fun GraficaDeudas(plan: Deudas.Plan, base: Deudas.Plan, vivas: List<Deudas.Hoy>, plata: (Double) -> String) {
+    val linea = MaterialTheme.colorScheme.primary; val gris = MaterialTheme.colorScheme.onSurfaceVariant; val oro = MaterialTheme.colorScheme.tertiary
+    val fondo = MaterialTheme.colorScheme.surface
+    val n = maxOf(plan.serie.size, minOf(base.serie.size, (plan.serie.size * 2.2).toInt(), 120))
+    val alto = (plan.serie + base.serie.take(n)).maxOrNull()?.coerceAtLeast(1.0) ?: 1.0
+    Column(Modifier.padding(top = 12.dp)) {
+        Text(stringResource(R.string.cu_asi_baja), style = MaterialTheme.typography.titleSmall)
+        Text(plata(alto), style = MaterialTheme.typography.labelSmall, color = gris)
+        androidx.compose.foundation.Canvas(Modifier.fillMaxWidth().height(160.dp).padding(vertical = 6.dp)) {
+            fun x(k: Int) = k / (n - 1).coerceAtLeast(1).toFloat() * size.width
+            fun y(v: Double) = ((1 - v / alto) * size.height).toFloat()
+            fun camino(s: List<Double>) = androidx.compose.ui.graphics.Path().apply { s.take(n).forEachIndexed { k, v -> if (k == 0) moveTo(x(k), y(v)) else lineTo(x(k), y(v)) } }
+            val area = camino(plan.serie).apply { lineTo(x(plan.serie.size - 1), size.height); lineTo(0f, size.height); close() }
+            drawPath(area, androidx.compose.ui.graphics.Brush.verticalGradient(listOf(linea.copy(alpha = 0.3f), linea.copy(alpha = 0.03f))))
+            drawLine(gris.copy(alpha = 0.3f), androidx.compose.ui.geometry.Offset(0f, size.height), androidx.compose.ui.geometry.Offset(size.width, size.height), 1.dp.toPx())
+            drawPath(camino(base.serie), gris.copy(alpha = 0.6f), style = androidx.compose.ui.graphics.drawscope.Stroke(1.5.dp.toPx(),
+                pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(10f, 10f))))
+            drawPath(camino(plan.serie), linea, style = androidx.compose.ui.graphics.drawscope.Stroke(2.5.dp.toPx(), join = androidx.compose.ui.graphics.StrokeJoin.Round))
+            vivas.mapNotNull { plan.fin[it.deuda.id] }.forEach { k ->
+                val c = androidx.compose.ui.geometry.Offset(x(k), y(plan.serie.getOrElse(k) { 0.0 }))
+                drawCircle(fondo, 6.dp.toPx(), c); drawCircle(oro, 4.dp.toPx(), c)
+            }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+            Leyenda(linea, stringResource(R.string.cu_ley_metodo)); Leyenda(gris, stringResource(R.string.cu_ley_minimos)); Leyenda(oro, stringResource(R.string.cu_ley_pagada))
+        }
+    }
+}
+
+@Composable
+private fun Leyenda(color: androidx.compose.ui.graphics.Color, texto: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(Modifier.size(10.dp).clip(CircleShape).background(color)); Spacer(Modifier.width(6.dp))
+        Text(texto, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }

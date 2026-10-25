@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.ui.semantics.role
 import android.animation.ValueAnimator
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -110,8 +112,10 @@ internal data class AccionesTarjeta(
     val onMeta: (String) -> Unit,
 )
 
-/** Imagen · Texto · Edición: grupo de botones conectados de Material 3 Expressive (reemplaza a los segmentos). */
-@OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+/**
+ * Imagen · Texto · Edición: grupo de botones conectados al estilo de Material 3 Expressive, hecho con piezas estables:
+ * los extremos son redondos, los del medio tienen esquinas de 8 dp y el elegido se vuelve píldora con una animación.
+ */
 @Composable
 internal fun SelectorModoTarjetas(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit, modifier: Modifier = Modifier) {
     val opciones = remember {
@@ -119,26 +123,31 @@ internal fun SelectorModoTarjetas(modo: ModoTarjetas, onModo: (ModoTarjetas) -> 
             R.string.vision_modo_texto to Icons.Filled.FormatQuote,
             R.string.vision_modo_edicion to Icons.Outlined.Edit)
     }
-    androidx.compose.foundation.layout.Row(modifier,
-        horizontalArrangement = Arrangement.spacedBy(androidx.compose.material3.ButtonGroupDefaults.ConnectedSpaceBetween)) {
+    androidx.compose.foundation.layout.Row(modifier.selectableGroupCompat(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         opciones.forEachIndexed { i, (etiqueta, icono) ->
             val elegido = modo == ModoTarjetas.entries[i]
-            androidx.compose.material3.ToggleButton(
-                checked = elegido, onCheckedChange = { onModo(ModoTarjetas.entries[i]) },
-                modifier = Modifier.weight(1f).semantics { role = androidx.compose.ui.semantics.Role.RadioButton },
-                shapes = when (i) {
-                    0 -> androidx.compose.material3.ButtonGroupDefaults.connectedLeadingButtonShapes()
-                    opciones.lastIndex -> androidx.compose.material3.ButtonGroupDefaults.connectedTrailingButtonShapes()
-                    else -> androidx.compose.material3.ButtonGroupDefaults.connectedMiddleButtonShapes()
-                },
+            val redondo = 50
+            val interior by androidx.compose.animation.core.animateIntAsState(if (elegido) redondo else 18,
+                androidx.compose.animation.core.spring(stiffness = androidx.compose.animation.core.Spring.StiffnessMediumLow), label = "esquina")
+            val izq = if (i == 0) redondo else interior; val der = if (i == opciones.lastIndex) redondo else interior
+            val forma = androidx.compose.foundation.shape.RoundedCornerShape(topStartPercent = izq, bottomStartPercent = izq, topEndPercent = der, bottomEndPercent = der)
+            androidx.compose.material3.Surface(
+                selected = elegido, onClick = { onModo(ModoTarjetas.entries[i]) }, shape = forma,
+                color = if (elegido) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainerHigh,
+                contentColor = if (elegido) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f).heightIn(min = 40.dp).semantics { role = androidx.compose.ui.semantics.Role.RadioButton },
             ) {
-                Icon(icono, null, Modifier.size(18.dp))
-                androidx.compose.foundation.layout.Spacer(Modifier.size(6.dp))
-                Text(stringResource(etiqueta), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                androidx.compose.foundation.layout.Row(Modifier.padding(horizontal = 10.dp, vertical = 10.dp), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                    Icon(icono, null, Modifier.size(18.dp))
+                    androidx.compose.foundation.layout.Spacer(Modifier.size(6.dp))
+                    Text(stringResource(etiqueta), maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.labelLarge)
+                }
             }
         }
     }
 }
+
+private fun Modifier.selectableGroupCompat() = this.then(Modifier.selectableGroup())
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

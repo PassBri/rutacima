@@ -1,7 +1,6 @@
-@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
-
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -335,14 +334,21 @@ fun ComunidadScreen(
             .collect { if (it >= lista.layoutInfo.totalItemsCount - 4) vm.cargarMas() }
     }
     // M3: jalar hacia abajo para recargar el muro
-    // Deslizar para actualizar con el indicador de carga de Material 3 Expressive (cambia de forma mientras carga)
+    // Deslizar para actualizar con el símbolo de SuRoute como indicador
     val estadoActualizar = androidx.compose.material3.pulltorefresh.rememberPullToRefreshState()
     val actualizando = vm.cargando && vm.posts.isNotEmpty()
     androidx.compose.material3.pulltorefresh.PullToRefreshBox(
         isRefreshing = actualizando, onRefresh = { vm.cargar() }, modifier = Modifier.fillMaxSize(), state = estadoActualizar,
         indicator = {
-            androidx.compose.material3.pulltorefresh.PullToRefreshDefaults.LoadingIndicator(
-                state = estadoActualizar, isRefreshing = actualizando, modifier = Modifier.align(Alignment.TopCenter))
+            // El símbolo de SuRoute baja con el dedo y gira mientras carga (en vez del círculo genérico)
+            val f = estadoActualizar.distanceFraction.coerceIn(0f, 1.4f)
+            if (actualizando || f > 0f) androidx.compose.material3.Surface(
+                shape = androidx.compose.foundation.shape.CircleShape, color = MaterialTheme.colorScheme.surfaceContainerHigh, shadowElevation = 3.dp,
+                modifier = Modifier.align(Alignment.TopCenter).graphicsLayer {
+                    translationY = (if (actualizando) 1f else f) * 64.dp.toPx() - 24.dp.toPx(); alpha = if (actualizando) 1f else f.coerceAtMost(1f)
+                    rotationZ = if (actualizando) 0f else f * 300f
+                },
+            ) { com.rutaalacima.app.ui.components.CargandoMarca(Modifier.padding(8.dp), tamano = 28.dp, color = MaterialTheme.colorScheme.primary) }
         },
     ) {
         LazyColumn(

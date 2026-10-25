@@ -11,6 +11,8 @@ import kotlinx.serialization.json.Json
  */
 object Deudas {
     const val CLAVE = "fin#deudas"
+    /** Avalancha, bola de nieve, flujo de caja, híbrido y mi orden (igual que METODOS_DEUDA en la web). */
+    val METODOS = listOf("avalancha", "bola", "flujo", "hibrido", "propio")
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
 
     @Serializable
@@ -20,7 +22,7 @@ object Deudas {
     data class Datos(val metodo: String = "avalancha", val extra: Double = 0.0, val lista: List<Deuda> = emptyList())
 
     fun leer(v: String?): Datos = if (v.isNullOrBlank()) Datos() else runCatching { json.decodeFromString(Datos.serializer(), v) }.getOrDefault(Datos())
-        .let { it.copy(metodo = if (it.metodo == "bola") "bola" else "avalancha") }
+        .let { it.copy(metodo = if (it.metodo in METODOS) it.metodo else "avalancha") }
     fun escribir(d: Datos): String = if (d.lista.isEmpty() && d.extra == 0.0) "" else json.encodeToString(Datos.serializer(), d)
 
     /** Una deuda con lo pagado (movimientos del libro que la nombran) y lo que se debe hoy. */
@@ -31,26 +33,41 @@ object Deudas {
         return d.lista.map { Hoy(it, pagos[it.id] ?: 0.0) }
     }
 
-    data class Plan(val meses: Int?, val interes: Double, val fin: Map<String, Int?>)
+    /** [serie]: lo que se debe al empezar y al final de cada mes. */
+    data class Plan(val meses: Int?, val interes: Double, val fin: Map<String, Int?>, val serie: List<Double> = emptyList())
 
     /**
-     * Mes a mes: cada deuda suma su interés, se pagan los mínimos y lo que sobra (el extra y los mínimos
-     * de las ya pagadas) va a la deuda que elige el método: avalancha = la de mayor interés; bola de nieve = la más pequeña.
+     * Mes a mes: cada deuda suma su interés, se pagan los mínimos y lo que sobra (el extra y los mínimos de las ya
+     * pagadas) va a la deuda que elige el método. "minimos" paga solo la cuota de cada una, para comparar.
      */
     fun plan(lista: List<Hoy>, metodo: String, extra: Double): Plan {
-        class D(val id: String, var b: Double, val r: Double, val min: Double, var fin: Int? = null)
-        val ds = lista.filter { it.actual > 0.005 }.map { D(it.deuda.id, it.actual, it.deuda.tasa / 100 / 12, it.deuda.minimo) }
+        class D(val id: String, var b: Double, val r: Double, val min: Double, val k: Int, var fin: Int? = null)
+        val ds = lista.filter { it.actual > 0.005 }.mapIndexed { k, h -> D(h.deuda.id, h.actual, h.deuda.tasa / 100 / 12, h.deuda.minimo, k) }
+        val minimos = metodo == "minimos"
+        val extraPos = extra.coerceAtLeast(0.0)
+        fun rapida(d: D) = d.b <= 3 * (d.min + extraPos)
+        val orden: Comparator<D> = when (metodo) {
+            "bola" -> compareBy { it.b }
+            "flujo" -> compareBy<D> { if (it.min > 0) it.b / it.min else Double.MAX_VALUE }.thenByDescending { it.r }
+            "hibrido" -> Comparator { a, b ->
+                val qa = rapida(a); val qb = rapida(b)
+                when { qa && !qb -> -1; qb && !qa -> 1; qa -> a.b.compareTo(b.b); else -> b.r.compareTo(a.r).takeIf { it != 0 } ?: a.b.compareTo(b.b) }
+            }
+            "propio" -> compareBy { it.k }
+            else -> compareByDescending<D> { it.r }.thenBy { it.b }
+        }
         var mes = 0; var interes = 0.0
+        val serie = mutableListOf(ds.sumOf { it.b })
         while (ds.any { it.b > 0.005 } && mes < 600) {
             mes++
             ds.forEach { if (it.b > 0.005) { val i = it.b * it.r; it.b += i; interes += i } }
-            var bolsa = extra.coerceAtLeast(0.0)
-            ds.forEach { if (it.b > 0.005) { val p = minOf(it.min, it.b); it.b -= p; bolsa += it.min - p } else bolsa += it.min }
-            val orden = ds.filter { it.b > 0.005 }.let { l -> if (metodo == "bola") l.sortedBy { it.b } else l.sortedWith(compareByDescending<D> { it.r }.thenBy { it.b }) }
-            for (d in orden) { if (bolsa <= 0.005) break; val p = minOf(bolsa, d.b); d.b -= p; bolsa -= p }
+            var bolsa = if (minimos) 0.0 else extraPos
+            ds.forEach { if (it.b > 0.005) { val p = minOf(it.min, it.b); it.b -= p; if (!minimos) bolsa += it.min - p } else if (!minimos) bolsa += it.min }
+            for (d in ds.filter { it.b > 0.005 }.sortedWith(orden)) { if (bolsa <= 0.005) break; val p = minOf(bolsa, d.b); d.b -= p; bolsa -= p }
             ds.forEach { if (it.b <= 0.005 && it.fin == null) it.fin = mes }
+            serie += ds.sumOf { it.b.coerceAtLeast(0.0) }
         }
-        return Plan(if (ds.none { it.b > 0.005 }) mes else null, interes, ds.associate { it.id to it.fin })
+        return Plan(if (ds.none { it.b > 0.005 }) mes else null, interes, ds.associate { it.id to it.fin }, serie)
     }
 }
 
@@ -92,7 +109,8 @@ object Salud {
      * Las deudas y los activos declarados solo cuentan en el año actual y en el balance general.
      */
     fun de(dias: Map<String, List<Cuentas.Mov>>, anio: Int?, deudas: List<Deudas.Hoy>, activos: List<Patrimonio.Activo>,
-           propias: Map<String, List<Cuentas.Propia>> = emptyMap(), anioActual: Int = java.time.LocalDate.now().year): Resultado {
+           propias: Map<String, List<Cuentas.Propia>> = emptyMap(), anioActual: Int = java.time.LocalDate.now().year,
+           sinDeudas: Boolean = false): Resultado {
         val fechas = dias.keys.sorted()
         val rango = if (anio != null) fechas.filter { it.startsWith("$anio-") }
             else { val ms = fechas.map { it.take(7) }.distinct().takeLast(12).toSet(); fechas.filter { it.take(7) in ms } }
@@ -104,11 +122,14 @@ object Salud {
         val pasivoIng = s.categorias[Cuentas.Tipo.ING to "pasivo"] ?: 0.0
         val fijos = s.mochilas[Cuentas.Mochila.VERDE] ?: 0.0
         val variables = s.mochilas[Cuentas.Mochila.AMARILLA] ?: 0.0
-        val egresos = s.gas + s.aho + s.inv
-        val ds = if (actual) deudas else emptyList()
+        // Sin deudas: no hay saldo ni cuotas, y lo que hoy se va en pagos de deuda queda libre
+        val pagosDeuda = if (sinDeudas) s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0 else 0.0
+        val gas = s.gas - pagosDeuda
+        val egresos = gas + s.aho + s.inv
+        val ds = if (actual && !sinDeudas) deudas else emptyList()
         val pasivos = ds.sumOf { it.actual }
         val buenas = ds.filter { it.deuda.tipo == "buena" }.sumOf { it.actual }
-        val deudaMes = ds.filter { it.actual > 0 }.sumOf { it.deuda.minimo }.takeIf { it > 0 } ?: ((s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0) / meses)
+        val deudaMes = if (sinDeudas) 0.0 else ds.filter { it.actual > 0 }.sumOf { it.deuda.minimo }.takeIf { it > 0 } ?: ((s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0) / meses)
         val totalActivos = (if (actual) activos.sumOf { it.valor } else 0.0) + hasta.construido
         val emergencia = hasta.categorias[Cuentas.Tipo.AHO to "emergencia"] ?: 0.0
         val ing = s.ing
@@ -118,11 +139,11 @@ object Salud {
         val tasaAhorro = r(s.aho, ing)
         val tasaConstruye = r(s.construido, ing)
         val dti = if (ing > 0) deudaMes / (ing / meses) else null
-        val gastoIng = r(s.gas, ing)
+        val gastoIng = r(gas, ing)
         val fondo = if (fijos > 0) emergencia / (fijos / meses) else null
         val endeuda = if (!actual) null else if (pasivos == 0.0) 0.0 else if (totalActivos > 0) pasivos / totalActivos else Double.POSITIVE_INFINITY
         val pasivosRatio = r(pasivoIng, ing)
-        val libertad = r(pasivoIng, s.gas)
+        val libertad = r(pasivoIng, gas)
         val buenasRatio = r(buenas, pasivos)
         val netoIng = if (actual && ing > 0) (totalActivos - pasivos) / (ing / meses * 12) else null
 

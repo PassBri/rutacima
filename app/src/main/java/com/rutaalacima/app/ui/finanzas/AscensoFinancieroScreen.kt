@@ -140,6 +140,8 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val bloqueo get() = respuestas["fin#bloqueo"] == "1"
     val ocultarFuera get() = !publica && respuestas["fin#ocultar"] == "1"
     fun salud(anio: Int?) = com.rutaalacima.app.domain.model.Salud.de(dias, anio, deudas, activos, propias)
+    /** La misma salud financiera sin deudas: para ver cuántos puntos le quitan. */
+    val saludSinDeudas by lazy { com.rutaalacima.app.domain.model.Salud.de(dias, null, deudas, activos, propias, sinDeudas = true) }
     fun movs(fecha: String): List<Mov> = dias[fecha].orEmpty()
     fun suma(prefijo: String): Cuentas.Suma = Cuentas.sumar(dias.filterKeys { it.startsWith(prefijo) }.values.flatten(), propias)
     val total: Cuentas.Suma by lazy { Cuentas.sumar(dias.values.flatten(), propias) }
@@ -239,6 +241,11 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     fun deudaRestaurar(x: com.rutaalacima.app.domain.model.Deudas.Deuda) = deudas { it.copy(lista = it.lista + x) }
     fun deudaMetodo(m: String) = deudas { it.copy(metodo = m) }
     fun deudaExtra(v: Double) = deudas { it.copy(extra = v) }
+    /** Mi orden: sube o baja una deuda en la lista. */
+    fun deudaMover(id: String, paso: Int) = deudas { d ->
+        val l = d.lista.toMutableList(); val k = l.indexOfFirst { it.id == id }; val j = k + paso
+        if (k < 0 || j !in l.indices) d else { java.util.Collections.swap(l, k, j); d.copy(lista = l) }
+    }
     /** Un pago: gasto de hoy en "Pago de deudas" que nombra la deuda (así baja su saldo). */
     fun deudaPagar(x: com.rutaalacima.app.domain.model.Deudas.Deuda, monto: Double, nota: String) = viewModelScope.launch {
         val f = hoy().toString()
