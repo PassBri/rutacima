@@ -2043,7 +2043,7 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 /* Vista con + y −: la cumbre y el vision board también en vertical, sin salirse de la pantalla */
 .md-visor .md-nivel1 { aspect-ratio: 4 / 5; width: min(100%, 420px, calc((100dvh - 170px) * 4 / 5)); max-height: none; }
 .md-visor .md-nivel9 { aspect-ratio: 3 / 4.6; width: min(100%, 560px, calc((100dvh - 170px) * 3 / 4.6)); max-width: none; }
-.md-visor .md-grilla { width: min(100%, calc(100dvh - 170px)); aspect-ratio: 1; }
+.md-visor .md-grilla { width: 100%; max-width: none; height: 100%; aspect-ratio: 1; }
 .md-nivel1 { aspect-ratio: 4 / 5; }
 /* Cumbre y vision board cuadrados (como el 9×9) */
 .tablero-9 .giro-in, .tarjeta-libre, .cumbre-tarjeta .giro-in { aspect-ratio: 1; }
@@ -2067,3 +2067,15 @@ html[data-modo-tarjetas="edicion"] .md-grilla .md-bloque { cursor: default; }
 @media (min-width: 700px) { .visor-t-pie { left: auto; } }
 .visor-t-acciones { right: 16px; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); }
 @media (min-width: 700px) { .visor-t-acciones { right: 24px; } }
+/* Cuadrados de verdad: filas iguales (el contenido no estira la grilla) y la foto de la cumbre cuadrada */
+.md-grilla { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+.md-bloque { grid-template-rows: repeat(3, minmax(0, 1fr)); min-height: 0; aspect-ratio: 1; }
+.md-grilla .md-c { min-height: 0; min-width: 0; }
+.md-impresion { aspect-ratio: 1 !important; height: auto; max-height: 62%; width: auto !important; max-width: 70%; flex: none; }
+.md-visor .md-impresion { height: 62%; }
+.md-impresion img { aspect-ratio: 1; }
+.md-nivel1 { overflow: hidden; }
+.cumbre-tarjeta .giro-in { aspect-ratio: 1 !important; }
+.md-visor .md-nivel1, .md-visor .md-nivel9 { width: min(100%, calc(100dvh - 150px)); max-width: none; }
+.md-visor .md-impresion { height: 50%; }
+.md-nivel1 b { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
