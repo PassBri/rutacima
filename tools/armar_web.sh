@@ -21,6 +21,9 @@ cp web/descargar.html web/descargar.css web/legal.css web/legal.html web/privaci
 cp -r web/js "$DESTINO/js"
 # Video de presentación (página web/video.html)
 cp web/video.html "$DESTINO/"
+# Página de presentación (suroute.com/conoce.html) con sus capturas
+cp web/conoce.html web/conoce.css "$DESTINO/"
+cp -r web/presentacion "$DESTINO/presentacion"
 if [ -d diseno/video ]; then
   mkdir -p "$DESTINO/video"
   cp diseno/video/rutaalacima_presentacion.mp4 diseno/video/portada.jpg "$DESTINO/video/"

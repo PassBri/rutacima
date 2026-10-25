@@ -769,13 +769,12 @@ private fun androidx.compose.foundation.layout.RowScope.IconoBarra(
             Modifier
                 .size(width = 56.dp, height = 32.dp)
                 .graphicsLayer { scaleX = escala; alpha = alfa }
-                .background(colores.secondaryContainer, CircleShape),
+                .background(colores.onSurface.copy(alpha = 0.09f), CircleShape),  // píldora neutra, sin acento de color
         )
         Icon(
             icono, contentDescription = null, modifier = Modifier.size(24.dp),
             tint = when {
-                elegida -> colores.onSecondaryContainer
-                esPublicar -> colores.primary          // la brújula: el único acento de la barra, sin borde ni fondo
+                elegida -> colores.onSurface          // todos iguales: Publicar no lleva acento propio
                 else -> colores.onSurfaceVariant
             },
         )

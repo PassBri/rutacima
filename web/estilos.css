@@ -2521,3 +2521,16 @@ a.carta-releer { text-decoration: none; }
 /* Rendimiento: el navegador no pinta las cimas ni las tarjetas lejos de la pantalla */
 .cima:not(.cima-fin) { content-visibility: auto; contain-intrinsic-size: auto 100dvh; }
 .posts > button, .muro > article { content-visibility: auto; contain-intrinsic-size: auto 260px; }
+/* Riel y barra: todos los botones iguales. Publicar sin aro ni color propio; el activo solo con un fondo neutro sutil */
+.rb-publicar, .riel .rb-publicar { color: var(--tinta-suave); background: none; box-shadow: none; }
+.rb[aria-current="page"] { background: color-mix(in srgb, var(--tinta) 9%, transparent); color: var(--tinta); }
+@media (hover: hover) and (pointer: fine) { .rb-publicar:hover, .riel .rb-publicar:hover { background: color-mix(in srgb, var(--tinta) 6%, transparent); color: var(--tinta); box-shadow: none; } }
+@media (max-width: 900px) {
+  .riel .rb[aria-current="page"] { background: none; color: var(--tinta); }
+  .riel .rb-ic::before { background: color-mix(in srgb, var(--tinta) 9%, transparent); }
+  .app.inmersivo .riel .rb-publicar { color: rgb(255 255 255 / .72); }
+  .app.inmersivo .riel .rb[aria-current="page"] .rb-ic::before { background: rgb(255 255 255 / .14); }
+  .app.inmersivo .riel .rb[aria-current="page"] { background: none; color: #fff; }
+}
+@media (hover: hover) and (pointer: fine) { .rb:hover { background: color-mix(in srgb, var(--tinta) 6%, transparent); color: var(--tinta); } }
+.rb .tip { background: var(--tinta); color: var(--hoja); }
