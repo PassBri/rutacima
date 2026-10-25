@@ -2489,3 +2489,4 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .insignia-coach svg { width: 11px; height: 11px; fill: #fff; }
 .perfil-pub h2 .insignia-coach { width: 20px; height: 20px; }
 .perfil-pub h2 .insignia-coach svg { width: 14px; height: 14px; }
+.volver-cimas { flex: none; margin-left: auto; }

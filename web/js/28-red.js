@@ -772,3 +772,9 @@ ACC.resolverApelacion = async (_, arg) => {
   if (r.error) return errorNube(r.error);
   toast("Apelación resuelta"); RED.apelaciones = null; pintarDetalle();
 };
+
+/* Desde la Brújula compartida se vuelve a Cimas, justo a esa publicación */
+{
+  const bru = DET["comunidad.brujula"];
+  DET["comunidad.brujula"] = id => bru(id).replace(/(<\/div>)(<\/header>)/, `$1<button class="btn mini lleno volver-cimas" data-ir="comunidad" data-arg="cima:${esc(id)}">${ic("volver")} Volver a Cimas</button>$2`);
+}
