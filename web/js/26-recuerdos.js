@@ -19,7 +19,7 @@ ACC.reelAnio = (el, arg) => {
   const p = perfil(), c = cascada(), metas = c.anuales.filter(m => m.anio === a);
   const lograda = metas.filter(m => m.estado === "COMPLETADA" || c.nodoAnio(m) >= 100).length;
   const meses = new Set(fs.map(x => new Date(x.creadoEn).getMonth())).size;
-  const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 4500;
+  const quieto = matchMedia("(prefers-reduced-motion: reduce)").matches, DUR = 1700;   // flashback: rápido, pero se alcanza a ver
   const slides = [...fs.map((x, i) => {
     const f = new Date(x.creadoEn), frase = String(x.metaTitulo || x.texto || "").trim().slice(0, 140);
     return `<figure class="reel-slide" data-i="${i}"><img src="${esc(x.foto)}" alt="${altFoto(x)}" style="--o:${["50% 40%", "40% 55%", "60% 45%"][i % 3]}">
@@ -36,7 +36,9 @@ ACC.reelAnio = (el, arg) => {
   v.className = "reel"; v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true"); v.setAttribute("aria-label", `Recuerdos de ${a}`);
   v.innerHTML = `<div class="reel-escena">
       <div class="reel-barras">${slides.map(() => `<i><b></b></i>`).join("")}</div>
-      <div class="reel-cab"><span>${a}</span><button class="reel-x" data-reel="cerrar" aria-label="Cerrar (Esc)">${ic("cerrar")}</button></div>
+      <div class="reel-cab"><span>${a}</span><span class="reel-ctrl"><button class="reel-x reel-pausa" data-reel="pausa" aria-label="Detener (espacio)" title="Detener (espacio)">${ic("pausa")}</button>
+        <button class="reel-x" data-reel="cerrar" aria-label="Cerrar (Esc)">${ic("cerrar")}</button></span></div>
+      <i class="reel-flash" aria-hidden="true"></i><i class="reel-grano" aria-hidden="true"></i>
       ${slides.join("")}
       <button class="reel-zona izq" data-reel="atras" aria-label="Anterior"></button><button class="reel-zona der" data-reel="siguiente" aria-label="Siguiente"></button>
     </div>`;
@@ -46,6 +48,7 @@ ACC.reelAnio = (el, arg) => {
   const mostrar = n => {
     i = Math.max(0, Math.min(ss.length - 1, n)); usado = 0; t0 = performance.now();
     ss.forEach((s, k) => s.classList.toggle("activa", k === i));
+    if (!quieto) { const f = v.querySelector(".reel-flash"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on"); }
     bs.forEach((b, k) => b.style.transform = `scaleX(${k < i ? 1 : 0})`);
     v.querySelector(".reel-zona.izq").hidden = v.querySelector(".reel-zona.der").hidden = i === ss.length - 1;
   };
@@ -56,7 +59,8 @@ ACC.reelAnio = (el, arg) => {
     } else t0 = ahora - 0;
     raf = requestAnimationFrame(paso);
   };
-  const pausar = si => { if (si === pausa) return; if (si) usado += performance.now() - t0; else t0 = performance.now(); pausa = si; v.classList.toggle("en-pausa", si); };
+  const pausar = si => { if (si === pausa) return; if (si) usado += performance.now() - t0; else t0 = performance.now(); pausa = si; v.classList.toggle("en-pausa", si);
+    const bp = v.querySelector(".reel-pausa"); bp.innerHTML = ic(si ? "play" : "pausa"); bp.setAttribute("aria-label", si ? "Seguir (espacio)" : "Detener (espacio)"); };
   const cerrar = () => { cancelAnimationFrame(raf); removeEventListener("keydown", teclas); v.remove(); document.documentElement.classList.remove("visor-abierto"); el?.focus?.(); };
   const teclas = e => {
     if (e.key === "Escape") cerrar(); else if (e.key === "ArrowRight") mostrar(i + 1); else if (e.key === "ArrowLeft") mostrar(i - 1);
@@ -71,6 +75,7 @@ ACC.reelAnio = (el, arg) => {
     const b = e.target.closest("[data-reel]"); if (!b) return;
     const q = b.dataset.reel;
     if (q === "cerrar") return cerrar();
+    if (q === "pausa") return pausar(!pausa);
     if (q === "siguiente") return mostrar(i + 1);
     if (q === "atras") return mostrar(i - 1);
     if (q === "repetir") return mostrar(0);
