@@ -402,21 +402,13 @@ function cierreDia(fecha, ag, campoAg) {
 const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   vida() {
-    const r = recordatorio();
-    if (!r) return vacio();
-    return cab(avSello(), "Mi vida", `${esc(perfil().nombre || "Tú")} · ${r.edad} años · camino hacia los ${metaVida()}`) + cuerpo(
-      lineaVida(hoyFecha().getFullYear()) + esteDia() + corazonAnio(hoyFecha().getFullYear()) +
+    // Mi vida es quién eres; el tiempo (recordatorio del día y los años en puntos) está en «Mapa de mi vida».
+    return cab(avSello(), "Mi vida", "Quién soy, mi cumbre y mi vision board") + cuerpo(
+      (window.cabeceraVida ? cabeceraVida() : "") + (window.quienSoy ? quienSoy() : "") +
       `<div class="vida-sec" id="vida-vision"><h2>Cumbre, vision board y Brújula</h2><p class="suave">Los 8 campamentos con sus fotos y frases, y los 64 pasos del 9×9. Es el mismo de tu perfil: lo que cambies aquí cambia allá.</p></div>` +
-      visionCompleta() + (window.visionVida ? visionVida() : "") +
-      hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
-        <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
-          <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
-          <div><div class="cifra">${r.quedan.toLocaleString("es")}</div><div class="suave">días hasta los ${metaVida()}</div></div></div></div>
-        <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
-        <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
-        <p class="frase-vida">${r.frase}</p>`));
+      visionCompleta() + (window.visionVida ? visionVida() : ""));
   },
-  /* ---------- Mi ruta: la vida en puntos, un punto por año (opción propia de la lista) ---------- */
+  /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */
   puntos() {
     const r = recordatorio();
     if (!r) return vacio();
@@ -429,7 +421,14 @@ const DET = {
       if (i % 10 === 0) puntos += `<span class="pv-fila${anioHoy >= a && anioHoy < a + 10 ? " esta" : ""}" aria-hidden="true">${a}</span>`;
       puntos += `<button class="pv ${cls}" data-sel="a:${a}" aria-label="${a}, ${i} años" title="${a} · ${i} años">${conMetas.has(a) ? ic("bandera", "bandera") : ""}</button>`;
     }
-    return cab(av(ic("puntos"), "var(--burdeos)"), "Tu vida en puntos", `${esc(perfil().nombre || "Tú")} · ${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
+    return cab(av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", `${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
+      hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
+        <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
+          <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
+          <div><div class="cifra">${r.quedan.toLocaleString("es")}</div><div class="suave">días hasta los ${metaVida()}</div></div></div></div>
+        <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
+        <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
+        <p class="frase-vida">${r.frase}</p>`) + esteDia() +
       hoja(`<p class="suave" style="margin:0 0 16px">Un punto por año. Toca uno para abrirlo mes a mes. Las banderas marcan años con metas.</p>
         <div class="puntos">${puntos}</div>
         <p class="pv-hoy"><i></i>${anioHoy} · ${r.edad} años</p>

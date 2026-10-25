@@ -36,6 +36,8 @@ class AppContainer(context: Context) {
     val contenido = ContentRepository(context)
     val bancos = BancosRepository(context)
     val perfil = PerfilRepository(db)
+    /** Foto de perfil y portada de Mi vida (en el teléfono y, con cuenta, en la nube). */
+    val fotosPerfil by lazy { com.rutaalacima.app.data.FotosPerfil(contexto, perfil, supabase) }
     val respuestas = RespuestasRepository(db)
 
     init {

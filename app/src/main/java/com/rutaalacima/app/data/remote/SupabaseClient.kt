@@ -176,6 +176,16 @@ class SupabaseClient(context: Context) {
         Unit
     }
 
+    /** Cambia algunas columnas de las filas que cumplen [filtro] (PATCH; lo permite el HttpURLConnection de Android). */
+    suspend fun actualizar(tabla: String, filtro: String, cambios: JsonElement) = withContext(Dispatchers.IO) {
+        asegurarSesion()
+        peticion(
+            "PATCH", "/rest/v1/$tabla?$filtro", json.encodeToString(JsonElement.serializer(), cambios).toByteArray(),
+            headers = mapOf("Prefer" to "return=minimal"),
+        )
+        Unit
+    }
+
     /** Llama una función de la base (POST /rest/v1/rpc/nombre). Devuelve JsonNull si no hay cuerpo. */
     suspend fun rpc(nombre: String, args: JsonElement = kotlinx.serialization.json.JsonObject(emptyMap())): JsonElement =
         withContext(Dispatchers.IO) {

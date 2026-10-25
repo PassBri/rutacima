@@ -329,6 +329,7 @@ function clic(e) {
 function cambio(e) {
   const el = e.target;
   if (el.dataset.accChange) { ACC[el.dataset.accChange]?.(el, el.dataset.arg || ""); return; }
+  if (el.dataset.fotoPerfil) { ponerFotoPerfil(el.dataset.fotoPerfil, el.files?.[0]); el.value = ""; return; }
   if (el.dataset.fotoVision) { ponerFotoVision(el.dataset.fotoVision, el.files?.[0]); return; }
   if (el.dataset.fotoAnio) { fotoVisionAnio(el.dataset.fotoAnio, el.files?.[0]); el.value = ""; return; }
   if (el.dataset.resp) { const [wb, clave] = el.dataset.resp.split("|"); responder(wb, clave, el.value.trim() ? el.value : ""); return; }

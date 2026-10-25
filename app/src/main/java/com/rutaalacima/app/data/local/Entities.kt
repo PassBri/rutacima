@@ -24,6 +24,13 @@ data class PerfilEntity(
     val mesNacimiento: Int? = null,
     /** Esperanza de vida elegida por la persona; null = la estimada para su país. */
     val esperanzaVida: Int? = null,
+    /** «Quién soy»: la presentación de la persona en Mi vida (en sus palabras). */
+    val quienSoy: String = "",
+    /** Foto de perfil y foto de portada: ruta local (sin cuenta) y URL pública (con cuenta, la ve también la web). */
+    val fotoPerfil: String = "",
+    val fotoPerfilUrl: String = "",
+    val fotoPortada: String = "",
+    val fotoPortadaUrl: String = "",
 )
 
 /** Respuesta a un campo de un workbook. clave = id del bloque (o id#fila_col en tablas). */

@@ -204,6 +204,10 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
         c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
     }
+    fun ponerFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo, uri: android.net.Uri, alFallar: () -> Unit) =
+        c.appScope.launch { if (!c.fotosPerfil.poner(t, uri)) kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) { alFallar() } }
+    fun quitarFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo) = c.appScope.launch { c.fotosPerfil.quitar(t) }
+    fun guardarQuienSoy(texto: String) = viewModelScope.launch { c.perfil.actualizar { it.copy(quienSoy = texto) } }
     fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
 
@@ -243,6 +247,12 @@ fun RutaScreen(
     val vida by vm.vida.collectAsStateWithLifecycle()
     val dias by vm.dias.collectAsStateWithLifecycle()
     var codigo by rememberSaveable { mutableStateOf("vida") }
+    val ctx = androidx.compose.ui.platform.LocalContext.current
+    val txtFotoError = stringResource(R.string.mv_foto_error)
+    var tipoFoto by rememberSaveable { mutableStateOf(com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL) }
+    val elegirFoto = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> if (uri != null) vm.ponerFoto(tipoFoto, uri) { android.widget.Toast.makeText(ctx, txtFotoError, android.widget.Toast.LENGTH_SHORT).show() } }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
 
@@ -276,10 +286,20 @@ fun RutaScreen(
             ) {
                 when (n) {
                     Nivel.Vida -> {
-                        perfil.anioNacimiento?.let { nac ->
-                            item(key = "linea-vida") { LineaVida(nac, perfil.esperanza(), hoy().year, anuales, posts, vida) { ir(Nivel.Anio(it)) } }
-                            item(key = "corazon-hoy") { CorazonAnio(hoy().year, vida, vm::guardarVida) { vm.anheloAMeta(hoy().year, it) } }
+                        // Mi vida es quién eres: portada, foto, nombre, «Quién soy», tu cumbre y tu vision board.
+                        // El tiempo (los años en puntos y el recordatorio del día) vive en «Mapa de mi vida».
+                        item(key = "mv-cabecera") {
+                            val nac = perfil.anioNacimiento?.let { LocalDate.of(it, perfil.mesNacimiento ?: 1, 1) }
+                            MiVidaCabecera(
+                                perfil,
+                                edad = nac?.let { java.time.Period.between(it, hoy()).years },
+                                diaDeVida = nac?.let { (java.time.temporal.ChronoUnit.DAYS.between(it, hoy()) + 1).toInt() },
+                                onFoto = { t -> tipoFoto = t; elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(
+                                    androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                                onQuitar = { vm.quitarFoto(it) },
+                            )
                         }
+                        item(key = "mv-quien") { QuienSoyCard(perfil.quienSoy) { vm.guardarQuienSoy(it) } }
                         item(key = "vision-vida") {
                             VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
                                 onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
@@ -297,7 +317,7 @@ fun RutaScreen(
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
                     }
-                    Nivel.Puntos -> nivelPuntos(perfil, posts, propositos, ir) { vm.cambiarMeta(it) }
+                    Nivel.Puntos -> nivelPuntos(perfil, posts, propositos, ir, onAjustes) { vm.cambiarMeta(it) }
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
@@ -447,7 +467,6 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelVida(
     onProposito: (Long) -> Unit,
     onAjustes: () -> Unit,
 ) {
-    item { RecordatorioDiaCard(perfil, onAjustes) }
     item {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SectionTitle(stringResource(R.string.ruta_cumbres), Modifier.weight(1f))
@@ -485,8 +504,10 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelPuntos(
     posts: List<Post>,
     propositos: List<PropositoEntity>,
     ir: (Nivel) -> Unit,
+    onAjustes: () -> Unit,
     onMeta: (Int) -> Unit,
 ) {
+    item { RecordatorioDiaCard(perfil, onAjustes) }
     val anioNac = perfil.anioNacimiento
     if (anioNac != null) {
         val meta = perfil.esperanza()
