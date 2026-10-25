@@ -2568,3 +2568,10 @@ a.carta-releer { text-decoration: none; }
 .md-volteo { animation: md-volteo .34s cubic-bezier(.2, 0, 0, 1); }
 @keyframes md-volteo { from { transform: perspective(900px) rotateY(80deg); opacity: .4; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .md-volteo { animation: none; } }
+/* Visor de la Brújula en el teléfono: una sola fila; acercar y alejar quedan en las tarjetas y la flecha */
+@media (max-width: 560px) {
+  .md-visor-barra { flex-wrap: nowrap; gap: 4px; }
+  .md-visor-barra [aria-label="Alejar (−)"], .md-visor-barra [aria-label="Acercar (+)"] { display: none; }
+  .md-visor-barra .btn.mini { padding: 0 10px; }
+  .md-visor-barra .md-migas { display: none; }
+}

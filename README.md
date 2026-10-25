@@ -36,7 +36,7 @@ Ves tu vida como un mapa, **un símbolo de SuRoute por año**, y la bajas en cas
 marcas hoy sube solo hasta tu propósito. Así siempre sabes cuál es tu siguiente paso y cuánto has subido.
 
 <p align="center">
-  <img src="diseno/readme/vitrina.jpg" alt="SuRoute en el computador (Mapa de mi vida) y en el teléfono (Mi perfil)" width="100%">
+  <img src="diseno/readme/vitrina.jpg" alt="SuRoute en el computador (Mapa de mi vida con un símbolo por año) y en el teléfono (Perfil)" width="100%">
 </p>
 
 ## Lo que hace
@@ -74,7 +74,7 @@ de perfil y girando despacio mientras algo carga. La explicación completa está
 ## Capturas
 
 <p align="center">
-  <img src="diseno/readme/capturas.jpg" alt="Capturas en el teléfono: Mapa de mi vida, Comunidad, Ascenso financiero y Aprende" width="100%">
+  <img src="diseno/readme/capturas.jpg" alt="Capturas en el teléfono: Tu vida en años, Cimas de la comunidad, el vision board de la Brújula con tarjetas que giran y un perfil público" width="100%">
 </p>
 
 ## Privacidad
