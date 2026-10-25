@@ -360,7 +360,7 @@ function mandalaHtml(tableroHtml = "") {
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
     <button data-acc="mdIr" data-arg="md-s1" aria-label="Cumbre"><b>1</b><span>Cumbre</span></button><button data-acc="mdIr" data-arg="md-s9" aria-label="Vision board"><b>9</b><span>Vision board</span></button><button data-acc="mdIr" data-arg="md-s81" aria-label="Brújula 9×9"><b>81</b><span>Brújula 9×9</span></button>
     <span class="md-nav-sep"></span>
-    <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "editar", "Texto"]].map(([v, i, n]) =>
+    <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
     <button class="md-ver-grande" data-acc="verTarjetas" data-arg="" title="Ver en grande: desliza de una tarjeta a otra, gírala y edítala">${ic("ampliar")}<span>Ver en grande</span></button></nav>`;
   const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
@@ -378,7 +378,7 @@ function mandalaHtml(tableroHtml = "") {
     return c ? casillaVisionHtml(c, d, false, { compacta: true, fija: true, sobre: pasos })
       : `<button class="tarjeta-libre" style="--c:${d.color(cel.camp)}" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")}<small>${Mandala.RUMBOS[cel.camp]}</small><b>${esc(Mandala.nombre(cod))}</b></button>`;
   }).join("");
-  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. En modo Texto escribes en cada tarjeta; la letra de rumbo abre sus 8 pasos.") +
+  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.") +
     `<div class="tablero-9">${rosa}</div>` + (tableroHtml || ""));
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
       <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)

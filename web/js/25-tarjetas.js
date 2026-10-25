@@ -20,7 +20,7 @@ for (const [det, tipo] of [["metas.p", "p"], ["metas.a", "a"], ["metas.m", "m"]]
 
 /* ---------- Modo Imagen / Texto y girar cada tarjeta ---------- */
 (estado.giradas ||= new Set());
-try { estado.modoTarjetas = localStorage.getItem("rutacima-modo-tarjetas") === "texto" ? "texto" : "imagen"; } catch { estado.modoTarjetas = "imagen"; }
+try { estado.modoTarjetas = ["texto", "edicion"].includes(localStorage.getItem("rutacima-modo-tarjetas")) ? localStorage.getItem("rutacima-modo-tarjetas") : "imagen"; } catch { estado.modoTarjetas = "imagen"; }
 const pocoMovimiento = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 /** Pone una tarjeta de un lado u otro sin volver a pintar la pantalla (así se ve el giro). */
 function ladoTarjeta(t, atras) {
@@ -30,16 +30,18 @@ function ladoTarjeta(t, atras) {
 }
 /** Imagen: todas muestran la foto. Texto: todas muestran lo que se edita. Giran en cascada, una tras otra. */
 ACC.modoTarjetas = (el, v) => {
-  if (estado.modoTarjetas === v) return;
-  estado.modoTarjetas = v; estado.giradas.clear();
+  const antes = estado.modoTarjetas; if (antes === v) return;
+  estado.modoTarjetas = v;
   try { localStorage.setItem("rutacima-modo-tarjetas", v); } catch {}
   document.documentElement.dataset.modoTarjetas = v;
   document.querySelectorAll(".modo-tarj [role=radio]").forEach(b => b.setAttribute("aria-checked", b.dataset.arg === v));
-  const ts = [...document.querySelectorAll("#detalle .casilla-v.giro")];
+  // Entre Texto y Edición solo cambia lo que muestra el dorso; con Imagen de por medio, las tarjetas se giran
+  if ((antes === "imagen") === (v === "imagen")) return;
+  estado.giradas.clear();
+  const ts = [...document.querySelectorAll("#detalle .casilla-v.giro, .visor-t-slide")];
   ts.forEach((t, i) => {
-    const giro = t.querySelector(".giro-in"); if (giro) giro.style.transitionDelay = pocoMovimiento() ? "" : `${Math.min(i, 10) * 35}ms`;
-    ladoTarjeta(t, v === "texto");
-    setTimeout(() => giro && (giro.style.transitionDelay = ""), 900);
+    const giro = t.querySelector(".giro-in") || t; giro.style.setProperty("--retraso", pocoMovimiento() ? "0ms" : `${Math.min(i, 10) * 20}ms`);
+    ladoTarjeta(t, v !== "imagen");
   });
 };
 document.documentElement.dataset.modoTarjetas = estado.modoTarjetas;
@@ -145,14 +147,19 @@ function slideTarjeta(c, md, atras) {
   const k = String(c.id), foto = fotoDePublicacion(c.publicacionId), a = apodoDe("vision", k), pct = avanceCasilla(c, md).pct;
   return `<section class="visor-t-slide${atras ? " girada" : ""}" data-casilla="${k}" style="--c:${COLOR_EJE[c.eje] || "#6B2A1A"}" aria-label="${esc(a || c.titulo || "Tarjeta")}">
     <div class="cara"${atras ? " inert" : ""}>
-      ${foto ? `<img class="visor-t-fondo" src="${esc(foto)}" alt="" aria-hidden="true"><img class="visor-t-foto" src="${esc(foto)}" alt="">`
+      ${foto ? `<img class="visor-t-foto" src="${esc(foto)}" alt="" loading="lazy" decoding="async">`
         : `<label class="visor-t-sinfoto"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")}<span>Agregar mi foto</span><small>${esc(c.sugerencia || "")}</small></label>`}
       <div class="visor-t-pie">${a ? `<span class="visor-t-apodo">«${esc(a)}»</span>` : ""}
         <p class="visor-t-frase">${esc(c.afirmacion || "")}</p>
         <span class="visor-t-meta">${esc(c.titulo || "")}${c.titulo ? " · " : ""}${pct} %</span></div>
       <div class="visor-t-acciones"><button data-acc="girarCasilla" data-arg="${k}" aria-label="Girar y editar esta tarjeta">${ic("girar")}<span>Editar</span></button></div>
     </div>
-    <div class="dorso"${atras ? "" : " inert"}><div class="visor-t-papel">
+    <div class="dorso"${atras ? "" : " inert"}>
+      <div class="visor-t-lectura">${a ? `<span class="visor-t-apodo">«${esc(a)}»</span>` : ""}<p>${esc(c.afirmacion || c.titulo || "")}</p>
+        <span class="visor-t-meta">${esc(c.titulo || "")}${c.titulo ? " · " : ""}${pct} %</span>
+        <div class="visor-t-acciones-lect"><button data-acc="girarCasilla" data-arg="${k}">${ic("girar")}<span>Ver la foto</span></button>
+          <button data-acc="modoTarjetas" data-arg="edicion">${ic("editar")}<span>Editar</span></button></div></div>
+      <div class="visor-t-papel">
       <div class="dorso-cab"><span>${foto ? `<label class="btn mini"><input type="file" accept="image/*" hidden data-foto-vision="${k}">${ic("foto")} Cambiar foto</label>` : ""}</span>
         <button class="casilla-girar" data-acc="girarCasilla" data-arg="${k}" aria-label="Ver la foto" title="Ver la foto">${ic("girar")}</button></div>
       <input class="casilla-apodo" maxlength="32" aria-label="Apodo de la tarjeta" placeholder="Apodo (opcional)" data-resp="apodo|apodo:vision:${k}" value="${esc(a)}">
@@ -163,13 +170,14 @@ function slideTarjeta(c, md, atras) {
 ACC.editarTarjeta = (el, id) => ACC.verTarjetas(el, id, true);
 ACC.verTarjetas = (el, id, editar = false) => {
   const { md, lista } = tarjetasEnOrden(); if (!lista.length) return;
-  const origen = document.activeElement, texto = estado.modoTarjetas === "texto";
-  const atras = c => editar && String(c.id) === String(id) ? true : texto !== estado.giradas.has(String(c.id));
+  const origen = document.activeElement, texto = estado.modoTarjetas !== "imagen";
+  if (editar && estado.modoTarjetas !== "edicion") ACC.modoTarjetas(null, "edicion");
+  const atras = c => editar && String(c.id) === String(id) ? true : (estado.modoTarjetas !== "imagen") !== estado.giradas.has(String(c.id));
   const v = document.createElement("div");
   v.className = "visor-t"; v.setAttribute("role", "dialog"); v.setAttribute("aria-modal", "true"); v.setAttribute("aria-label", "Tus tarjetas en grande");
   v.innerHTML = `<div class="visor-t-lista" tabindex="-1">${lista.map(c => slideTarjeta(c, md, atras(c))).join("")}</div>
     <div class="visor-t-barra"><button class="visor-t-cerrar" aria-label="Cerrar (Esc)">${ic("cerrar")}</button>
-      <span class="modo-tarj oscuro" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "editar", "Texto"]].map(([m, i, n]) =>
+      <span class="modo-tarj oscuro" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([m, i, n]) =>
         `<button role="radio" aria-checked="${estado.modoTarjetas === m}" data-acc="modoTarjetas" data-arg="${m}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
       <span class="visor-t-cuenta" aria-hidden="true"></span></div>`;
   document.body.appendChild(v); document.documentElement.classList.add("visor-abierto");
@@ -195,9 +203,11 @@ ACC.verTarjetas = (el, id, editar = false) => {
     else if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); ir(-1); }
   };
   addEventListener("keydown", teclas);
+  v.onchange = e => cambio(e); v.oninput = e => entrada(e);
   v.addEventListener("click", e => {
     if (e.target.closest(".visor-t-cerrar")) return cerrar();
-    if (e.target.closest("[data-ir], [data-sel]")) return cerrar();   // ir a una meta: se cierra y la página navega
+    if (e.target.closest("button, [data-sel]")) clic(e);
+    if (e.target.closest("[data-ir], [data-sel]")) { cerrar(); return; }   // ir a una meta: se cierra y la página navega
     const acc = e.target.closest("[data-acc]")?.dataset.acc;
     // Lo que cambia el estado o el avance se vuelve a pintar dentro de la tarjeta, sin cerrar el visor
     if (acc && !["girarCasilla", "modoTarjetas"].includes(acc)) setTimeout(() => {
@@ -205,7 +215,6 @@ ACC.verTarjetas = (el, id, editar = false) => {
       const c = sl && casillasVision().find(x => String(x.id) === sl.dataset.casilla); if (!c) return;
       sl.querySelector(".dorso .casilla-edicion")?.replaceWith(Object.assign(document.createElement("div"), { innerHTML: edicionCasillaHtml(c, Mandala.datos()) }).firstElementChild);
     }, 30);
-    if (acc === "modoTarjetas") setTimeout(() => v.querySelectorAll(".visor-t-slide").forEach(sl => ladoTarjeta(sl, estado.modoTarjetas === "texto")), 0);
   });
 };
 
