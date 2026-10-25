@@ -2518,3 +2518,6 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .pv-chip i.ley-meta { color: color-mix(in srgb, var(--tinta) 30%, transparent); } .pv-chip i.ley-meta::after { background: var(--oro); width: 5px; height: 5px; margin-left: -2.5px; }
 .btn.mini.ic-solo { width: 40px; height: 40px; padding: 0; justify-content: center; flex: none; } .det-cab .ic-solo + .ic-solo { margin-left: 4px; }
 a.carta-releer { text-decoration: none; }
+/* Rendimiento: el navegador no pinta las cimas ni las tarjetas lejos de la pantalla */
+.cima:not(.cima-fin) { content-visibility: auto; contain-intrinsic-size: auto 100dvh; }
+.posts > button, .muro > article { content-visibility: auto; contain-intrinsic-size: auto 260px; }

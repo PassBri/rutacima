@@ -169,6 +169,9 @@ function prepararCimas() {
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target; io.unobserve(el); window.Cielo?.pintar(el, new Date(Number(el.dataset.cieloPost)));
+    // Como en los feeds grandes: al ver una cima ya se piden las imágenes de las dos siguientes
+    let sig = el.closest(".cima")?.nextElementSibling;
+    for (let i = 0; i < 2 && sig; i++, sig = sig.nextElementSibling) sig.querySelectorAll('img[loading="lazy"]').forEach(im => { im.loading = "eager"; im.decode?.().catch(() => {}); });
   }), { root: cont, rootMargin: "100% 0px" });
   cont.querySelectorAll("[data-cielo-post]").forEach(el => io.observe(el));
   if (cont.dataset.listo) return; cont.dataset.listo = "1";
