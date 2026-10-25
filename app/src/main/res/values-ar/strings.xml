@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">متابعة</string>
     <string name="rec_detener">إيقاف مؤقت</string>
     <string name="rec_ver_de">مشاهدة ذكريات %1$d</string>
+    <string name="brujula_general">العامة</string>
+    <string name="brujula_este_anio">%1$d · هذا العام</string>
+    <string name="brujula_crear_anio">إنشاء بوصلة %1$d</string>
+    <string name="brujula_anio_intro">تولد من كلمة عامك وأهدافك لعام %1$d: قمة للعام و8 مخيمات بخطواتها الـ64. بوصلتك العامة لا تتغير.</string>
+    <string name="brujula_anio_cumbre">في %1$d أعيش عام %2$s.</string>
+    <string name="brujula_anio_tramo">في %1$d أصعد مرحلة نحو: %2$s</string>
+    <string name="vision_con_mis_datos">ابدأ ببياناتي</string>
+    <string name="brujula_de_anio">بوصلتي لعام %1$d</string>
 </resources>

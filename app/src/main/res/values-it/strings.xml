@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Riprendi</string>
     <string name="rec_detener">Pausa</string>
     <string name="rec_ver_de">Guarda i ricordi del %1$d</string>
+    <string name="brujula_general">Generale</string>
+    <string name="brujula_este_anio">%1$d · quest’anno</string>
+    <string name="brujula_crear_anio">Crea la Bussola del %1$d</string>
+    <string name="brujula_anio_intro">Nasce dalla tua parola dell’anno e dai tuoi obiettivi del %1$d: una cima per l’anno e 8 campi con i loro 64 passi. La tua Bussola generale non cambia.</string>
+    <string name="brujula_anio_cumbre">Nel %1$d vivo l’anno di %2$s.</string>
+    <string name="brujula_anio_tramo">Nel %1$d salgo un tratto verso: %2$s</string>
+    <string name="vision_con_mis_datos">Inizia con i miei dati</string>
+    <string name="brujula_de_anio">La mia Bussola del %1$d</string>
 </resources>

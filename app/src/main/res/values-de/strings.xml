@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Weiter</string>
     <string name="rec_detener">Pause</string>
     <string name="rec_ver_de">Erinnerungen von %1$d ansehen</string>
+    <string name="brujula_general">Allgemein</string>
+    <string name="brujula_este_anio">%1$d · dieses Jahr</string>
+    <string name="brujula_crear_anio">Kompass %1$d erstellen</string>
+    <string name="brujula_anio_intro">Entsteht aus deinem Wort des Jahres und deinen Zielen für %1$d: ein Gipfel für das Jahr und 8 Lager mit ihren 64 Schritten. Dein allgemeiner Kompass bleibt gleich.</string>
+    <string name="brujula_anio_cumbre">%1$d lebe ich das Jahr der %2$s.</string>
+    <string name="brujula_anio_tramo">%1$d steige ich ein Stück weiter Richtung: %2$s</string>
+    <string name="vision_con_mis_datos">Mit meinen Daten beginnen</string>
+    <string name="brujula_de_anio">Mein Kompass %1$d</string>
 </resources>

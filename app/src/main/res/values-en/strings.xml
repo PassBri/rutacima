@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Resume</string>
     <string name="rec_detener">Pause</string>
     <string name="rec_ver_de">Watch the memories of %1$d</string>
+    <string name="brujula_general">General</string>
+    <string name="brujula_este_anio">%1$d · this year</string>
+    <string name="brujula_crear_anio">Create the %1$d Compass</string>
+    <string name="brujula_anio_intro">Born from your word of the year and your %1$d goals: one summit for the year and 8 camps with their 64 steps. Your general Compass stays the same.</string>
+    <string name="brujula_anio_cumbre">In %1$d I live the year of %2$s.</string>
+    <string name="brujula_anio_tramo">In %1$d I climb a stretch toward: %2$s</string>
+    <string name="vision_con_mis_datos">Start with my own data</string>
+    <string name="brujula_de_anio">My %1$d Compass</string>
 </resources>

@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">계속</string>
     <string name="rec_detener">일시정지</string>
     <string name="rec_ver_de">%1$d년의 추억 보기</string>
+    <string name="brujula_general">전체</string>
+    <string name="brujula_este_anio">%1$d · 올해</string>
+    <string name="brujula_crear_anio">%1$d년 나침반 만들기</string>
+    <string name="brujula_anio_intro">올해의 단어와 %1$d년 목표에서 시작해요. 한 해의 정상 하나와 64걸음을 가진 8개의 캠프. 전체 나침반은 그대로예요.</string>
+    <string name="brujula_anio_cumbre">%1$d년, 나는 %2$s의 해를 산다.</string>
+    <string name="brujula_anio_tramo">%1$d년, 나는 여기를 향해 한 구간 오른다: %2$s</string>
+    <string name="vision_con_mis_datos">내 데이터로 시작</string>
+    <string name="brujula_de_anio">나의 %1$d년 나침반</string>
 </resources>

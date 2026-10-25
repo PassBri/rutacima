@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Reprendre</string>
     <string name="rec_detener">Pause</string>
     <string name="rec_ver_de">Voir les souvenirs de %1$d</string>
+    <string name="brujula_general">Générale</string>
+    <string name="brujula_este_anio">%1$d · cette année</string>
+    <string name="brujula_crear_anio">Créer la Boussole %1$d</string>
+    <string name="brujula_anio_intro">Elle naît de votre mot de l’année et de vos objectifs %1$d : un sommet pour l’année et 8 camps avec leurs 64 pas. Votre Boussole générale ne change pas.</string>
+    <string name="brujula_anio_cumbre">En %1$d, je vis l’année de %2$s.</string>
+    <string name="brujula_anio_tramo">En %1$d, je gravis un tronçon vers : %2$s</string>
+    <string name="vision_con_mis_datos">Commencer avec mes données</string>
+    <string name="brujula_de_anio">Ma Boussole %1$d</string>
 </resources>

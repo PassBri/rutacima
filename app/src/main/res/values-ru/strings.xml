@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Продолжить</string>
     <string name="rec_detener">Пауза</string>
     <string name="rec_ver_de">Смотреть воспоминания %1$d года</string>
+    <string name="brujula_general">Общий</string>
+    <string name="brujula_este_anio">%1$d · этот год</string>
+    <string name="brujula_crear_anio">Создать Компас %1$d</string>
+    <string name="brujula_anio_intro">Рождается из вашего слова года и целей на %1$d: одна вершина на год и 8 лагерей с 64 шагами. Ваш общий Компас не меняется.</string>
+    <string name="brujula_anio_cumbre">В %1$d я проживаю год «%2$s».</string>
+    <string name="brujula_anio_tramo">В %1$d я прохожу отрезок к: %2$s</string>
+    <string name="vision_con_mis_datos">Начать с моих данных</string>
+    <string name="brujula_de_anio">Мой Компас %1$d</string>
 </resources>

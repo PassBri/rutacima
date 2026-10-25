@@ -1833,4 +1833,12 @@
     <string name="rec_seguir">Seguir</string>
     <string name="rec_detener">Detener</string>
     <string name="rec_ver_de">Ver los recuerdos de %1$d</string>
+    <string name="brujula_general">General</string>
+    <string name="brujula_este_anio">%1$d · este año</string>
+    <string name="brujula_crear_anio">Crear la Brújula de %1$d</string>
+    <string name="brujula_anio_intro">Nace de tu palabra del año y de tus metas de %1$d: una cumbre para el año y 8 campamentos con sus 64 pasos. Tu Brújula general no cambia.</string>
+    <string name="brujula_anio_cumbre">En %1$d vivo el año de %2$s.</string>
+    <string name="brujula_anio_tramo">En %1$d doy un tramo hacia: %2$s</string>
+    <string name="vision_con_mis_datos">Empezar con mis datos</string>
+    <string name="brujula_de_anio">Mi Brújula de %1$d</string>
 </resources>

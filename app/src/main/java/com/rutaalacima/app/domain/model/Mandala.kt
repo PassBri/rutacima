@@ -118,7 +118,8 @@ object Mandala {
      * campamento fijo toma su casilla ("campamento:VOL"…). Por compatibilidad, una casilla de antes
      * con el mismo eje ocupa el campamento si está libre. Devuelve (cumbre, 8 posiciones o null).
      */
-    fun <T> repartir(casillas: List<T>, origen: (T) -> String, eje: (T) -> String? = { null }): Pair<T?, List<T?>> {
+    fun <T> repartir(casillas: List<T>, origen0: (T) -> String, eje: (T) -> String? = { null }): Pair<T?, List<T?>> {
+        val origen: (T) -> String = { origenBase(origen0(it)) }
         val cumbre = casillas.firstOrNull { origen(it) == "cumbre" }
         val libres = casillas.filter { it !== cumbre }.toMutableList()
         val r = CAMPAMENTOS_FIJOS.map { cod -> libres.firstOrNull { origen(it) == origenCampamento(cod) }?.also { libres.remove(it) } }.toMutableList()
@@ -127,6 +128,15 @@ object Mandala {
         }
         return cumbre to r
     }
+
+    /*
+     * Brújula general y una por año (igual que la web): las casillas de un año llevan el año en su origen
+     * ("anio:2026:cumbre", "anio:2026:campamento:TRA"). Los pasos van por casilla, así cada una tiene los suyos.
+     */
+    private val PREFIJO_ANIO = Regex("^anio:(\\d{4}):")
+    fun anioDeOrigen(origen: String): Int? = PREFIJO_ANIO.find(origen)?.groupValues?.get(1)?.toIntOrNull()
+    fun origenBase(origen: String): String = origen.replace(PREFIJO_ANIO, "")
+    fun origenEnAnio(anio: Int?, origen: String): String = if (anio == null) origenBase(origen) else "anio:$anio:${origenBase(origen)}"
 
     /** Llena solo los pasos vacíos con las sugerencias, sin repetir lo que ya está escrito. */
     fun completar(actuales: List<String>, sugerencias: List<String>): List<String> {

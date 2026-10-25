@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">再開</string>
     <string name="rec_detener">一時停止</string>
     <string name="rec_ver_de">%1$d年の思い出を見る</string>
+    <string name="brujula_general">全体</string>
+    <string name="brujula_este_anio">%1$d年 · 今年</string>
+    <string name="brujula_crear_anio">%1$d年のコンパスを作る</string>
+    <string name="brujula_anio_intro">今年の言葉と%1$d年の目標から生まれます。1年の頂上と8つのキャンプ、64の歩み。全体のコンパスは変わりません。</string>
+    <string name="brujula_anio_cumbre">%1$d年、私は%2$sの年を生きる。</string>
+    <string name="brujula_anio_tramo">%1$d年、私はここへ一区間登る：%2$s</string>
+    <string name="vision_con_mis_datos">自分のデータで始める</string>
+    <string name="brujula_de_anio">%1$d年のコンパス</string>
 </resources>

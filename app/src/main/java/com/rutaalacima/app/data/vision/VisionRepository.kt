@@ -13,7 +13,12 @@ import com.rutaalacima.app.data.social.Visibilidad
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.VisionBoard
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 
 /**
@@ -26,7 +31,24 @@ class VisionRepository(
     private val coach: CoachRepository,
     private val social: SocialRepository,
 ) {
-    val casillas: Flow<List<VisionCasillaEntity>> = db.visionDao().observe()
+    private val preferencias = context.getSharedPreferences("vision", Context.MODE_PRIVATE)
+    private val _anio = MutableStateFlow(preferencias.getInt("brujula_anio", 0).takeIf { it > 0 })
+    /** La Brújula que se ve: null = la General (toda la vida) o la de un año. */
+    val anioActivo: StateFlow<Int?> = _anio.asStateFlow()
+    fun elegirAnio(anio: Int?) {
+        _anio.value = anio
+        preferencias.edit().apply { if (anio == null) remove("brujula_anio") else putInt("brujula_anio", anio) }.apply()
+    }
+    private val todas: Flow<List<VisionCasillaEntity>> = db.visionDao().observe()
+    /** Las casillas de la Brújula elegida (las de los otros años no se mezclan). */
+    val casillas: Flow<List<VisionCasillaEntity>> = combine(todas, _anio) { cs, a -> cs.filter { Mandala.anioDeOrigen(it.origen) == a } }
+    /** Los años con Brújula, más este año y el que viene. */
+    val anios: Flow<List<Int>> = combine(todas, _anio) { cs, a ->
+        val h = LocalDate.now().year
+        (cs.mapNotNull { Mandala.anioDeOrigen(it.origen) } + listOf(h, h + 1) + listOfNotNull(a)).distinct().sorted()
+    }
+    val aniosConBrujula: Flow<Set<Int>> = todas.map { cs -> cs.mapNotNull { Mandala.anioDeOrigen(it.origen) }.toSet() }
+    private suspend fun actualesDelAnio() = db.visionDao().todas().filter { Mandala.anioDeOrigen(it.origen) == _anio.value }
 
     /** Resultado de armar el tablero: true si lo propuso la IA, false si se usaron las reglas sin conexión. */
     /**
@@ -34,14 +56,17 @@ class VisionRepository(
      * se actualizan en su lugar (conservan su id y, con él, los pasos del 9×9); las que ya tienen foto
      * no cambian. Las de antes sin foto que no tienen lugar se quitan.
      */
-    suspend fun armar(): Boolean {
-        val ia = coach.consultar(VisionBoard.instruccionIa())?.let(VisionBoard::desdeIa)
+    suspend fun armar(sinIa: Boolean = false): Boolean {
+        val anio = _anio.value
+        // La del año nace de su palabra y sus metas (sin IA); la general puede armarse con IA o solo con tus datos
+        val ia = if (sinIa || anio != null) null else coach.consultar(VisionBoard.instruccionIa())?.let(VisionBoard::desdeIa)
         val local = propuestaLocal()
-        val actuales = db.visionDao().todas().sortedWith(compareBy({ it.orden }, { it.id })).toMutableList()
+        val actuales = actualesDelAnio().sortedWith(compareBy({ it.orden }, { it.id })).toMutableList()
         val (cumbre, campamentos) = Mandala.repartir(actuales, { it.origen }, { it.eje })
         val ubicadas = listOf(cumbre) + campamentos
-        VisionBoard.ORIGENES.forEachIndexed { orden, origen ->
-            val p = ia?.firstOrNull { it.origen == origen } ?: local.firstOrNull { it.origen == origen } ?: return@forEachIndexed
+        VisionBoard.ORIGENES.forEachIndexed { orden, origen0 ->
+            val origen = Mandala.origenEnAnio(anio, origen0)
+            val p = ia?.firstOrNull { it.origen == origen0 } ?: local.firstOrNull { it.origen == origen0 } ?: return@forEachIndexed
             val existente = ubicadas[orden]
             when {
                 existente == null -> db.visionDao().guardar(
@@ -61,11 +86,11 @@ class VisionRepository(
     /** Crea la casilla de un campamento fijo que falta (con la frase propuesta por el método). */
     suspend fun crearCampamento(codigo: String) {
         val origen = Mandala.origenCampamento(codigo)
-        if (db.visionDao().todas().any { it.origen == origen }) return
+        if (actualesDelAnio().any { Mandala.origenBase(it.origen) == origen }) return
         val p = propuestaLocal().firstOrNull { it.origen == origen } ?: return
         db.visionDao().guardar(
             VisionCasillaEntity(orden = VisionBoard.ORIGENES.indexOf(origen), titulo = p.titulo, afirmacion = p.afirmacion, eje = p.eje,
-                sugerencia = p.sugerencia, busqueda = p.busqueda, origen = origen)
+                sugerencia = p.sugerencia, busqueda = p.busqueda, origen = Mandala.origenEnAnio(_anio.value, origen))
         )
     }
 
@@ -74,12 +99,23 @@ class VisionRepository(
         val inicio = perfil?.anioInicioPlan ?: LocalDate.now().year
         val propositos = db.planificadorDao().observePropositos().first()
             .map { VisionBoard.Proposito(it.id, it.titulo, it.eje, inicio + it.horizonte - 1) }
-        val anio = LocalDate.now().year
+        val delAnio = _anio.value
+        val anio = delAnio ?: LocalDate.now().year
         val metas = db.planificadorDao().observeMetas(anio).first().map { VisionBoard.Meta(it.id, it.titulo, it.eje, it.anio) }
         val debil = db.evaluacionDao().observeUltima().first()?.let { e ->
             VisionBoard.CODIGOS.zip(e.puntajes()).minByOrNull { it.second }?.first
         }
-        return VisionBoard.proponer(perfil?.cumbreFrase.orEmpty(), propositos, metas, debil, textos())
+        val cumbre = perfil?.cumbreFrase.orEmpty()
+        if (delAnio == null) return VisionBoard.proponer(cumbre, propositos, metas, debil, textos())
+        // En la Brújula del año mandan sus metas; la cumbre sale de la palabra del año
+        val palabra = db.respuestaDao().getWorkbook("vida").firstOrNull { it.clave == "vida#$delAnio#palabra" }?.valor?.trim().orEmpty()
+        val frase = when {
+            palabra.isNotEmpty() -> context.getString(R.string.brujula_anio_cumbre, delAnio, palabra.lowercase())
+            cumbre.isNotBlank() -> context.getString(R.string.brujula_anio_tramo, delAnio, cumbre.trim())
+            else -> ""
+        }
+        val r = VisionBoard.proponer(frase, emptyList(), metas, debil, textos())
+        return listOf(r.first().copy(titulo = if (palabra.isNotEmpty()) "$delAnio: $palabra" else "$delAnio")) + r.drop(1)
     }
 
     private fun textos(): VisionBoard.Textos {
@@ -118,10 +154,10 @@ class VisionRepository(
     suspend fun guardar(c: VisionCasillaEntity) { db.visionDao().guardar(c) }
 
     suspend fun nueva(titulo: String, afirmacion: String, sugerencia: String) {
-        val orden = (db.visionDao().todas().maxOfOrNull { it.orden } ?: -1) + 1
+        val orden = (actualesDelAnio().maxOfOrNull { it.orden } ?: -1) + 1
         db.visionDao().guardar(
             VisionCasillaEntity(orden = orden, titulo = titulo, afirmacion = afirmacion, sugerencia = sugerencia,
-                busqueda = VisionBoard.palabras(afirmacion), origen = "manual")
+                busqueda = VisionBoard.palabras(afirmacion), origen = Mandala.origenEnAnio(_anio.value, "manual"))
         )
     }
 

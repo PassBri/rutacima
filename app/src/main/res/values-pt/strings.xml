@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">Continuar</string>
     <string name="rec_detener">Pausar</string>
     <string name="rec_ver_de">Ver as lembranças de %1$d</string>
+    <string name="brujula_general">Geral</string>
+    <string name="brujula_este_anio">%1$d · este ano</string>
+    <string name="brujula_crear_anio">Criar a Bússola de %1$d</string>
+    <string name="brujula_anio_intro">Nasce da sua palavra do ano e das suas metas de %1$d: um cume para o ano e 8 acampamentos com seus 64 passos. Sua Bússola geral não muda.</string>
+    <string name="brujula_anio_cumbre">Em %1$d vivo o ano de %2$s.</string>
+    <string name="brujula_anio_tramo">Em %1$d subo um trecho rumo a: %2$s</string>
+    <string name="vision_con_mis_datos">Começar com meus dados</string>
+    <string name="brujula_de_anio">Minha Bússola de %1$d</string>
 </resources>

@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">जारी रखें</string>
     <string name="rec_detener">रोकें</string>
     <string name="rec_ver_de">%1$d की यादें देखें</string>
+    <string name="brujula_general">सामान्य</string>
+    <string name="brujula_este_anio">%1$d · इस साल</string>
+    <string name="brujula_crear_anio">%1$d का कंपास बनाएँ</string>
+    <string name="brujula_anio_intro">यह आपके साल के शब्द और %1$d के लक्ष्यों से बनता है: साल का एक शिखर और 64 कदमों वाले 8 पड़ाव। आपका सामान्य कंपास नहीं बदलता।</string>
+    <string name="brujula_anio_cumbre">%1$d में मैं %2$s का साल जीता हूँ।</string>
+    <string name="brujula_anio_tramo">%1$d में मैं इस ओर एक पड़ाव चढ़ता हूँ: %2$s</string>
+    <string name="vision_con_mis_datos">अपने डेटा से शुरू करें</string>
+    <string name="brujula_de_anio">मेरा %1$d का कंपास</string>
 </resources>

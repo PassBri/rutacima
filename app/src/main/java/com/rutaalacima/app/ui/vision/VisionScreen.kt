@@ -25,6 +25,16 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.TextButton
+import com.rutaalacima.app.ui.components.IconosRuta
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -123,9 +133,15 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     /** null = sin mensaje; true = lo armó la IA; false = se armó sin IA. */
     var conIa by mutableStateOf<Boolean?>(null)
 
-    fun armar() = viewModelScope.launch {
+    /** La Brújula que se ve: null = la General o la de un año. */
+    val anio = c.vision.anioActivo
+    val anios = c.vision.anios.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+    val aniosConBrujula = c.vision.aniosConBrujula.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
+    fun elegirAnio(a: Int?) { c.vision.elegirAnio(a); conIa = null }
+
+    fun armar(sinIa: Boolean = false) = viewModelScope.launch {
         armando = true
-        conIa = runCatching { c.vision.armar() }.getOrDefault(false)
+        conIa = runCatching { c.vision.armar(sinIa) }.getOrDefault(false).takeIf { !sinIa && c.vision.anioActivo.value == null }
         llenarCampamentosVacios()
         armando = false
     }
@@ -326,6 +342,9 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val vm = rutaViewModel { VisionViewModel(it) }
     val ctx = LocalContext.current
     val casillas by vm.casillas.collectAsStateWithLifecycle()
+    val anioActivo by vm.anio.collectAsStateWithLifecycle()
+    val anios by vm.anios.collectAsStateWithLifecycle()
+    val aniosConBrujula by vm.aniosConBrujula.collectAsStateWithLifecycle()
     var paraFoto by remember { mutableStateOf<VisionCasillaEntity?>(null) }
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     val apodos by vm.apodos.collectAsStateWithLifecycle()
@@ -414,7 +433,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-                title = { Text(stringResource(R.string.vision_titulo)) },
+                title = { Text(anioActivo?.let { stringResource(R.string.brujula_de_anio, it) } ?: stringResource(R.string.vision_titulo)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
             )
         },
@@ -433,37 +452,13 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                     onGrande = { abrirNiveles(0) })
             }
             item(key = "introduccion", span = { GridItemSpan(2) }) {
-                RutaCard {
-                    Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
-                    Spacer(Modifier.height(10.dp))
-                    if (casillas.isNotEmpty()) {
-                        Text(stringResource(R.string.vision_progreso, conFoto, tarjetasVisor.size), style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.primary)
-                        Spacer(Modifier.height(6.dp))
-                        LinearProgressIndicator(progress = { conFoto.toFloat() / tarjetasVisor.size.coerceAtLeast(1) }, modifier = Modifier.fillMaxWidth())
-                        Spacer(Modifier.height(10.dp))
-                    }
-                    if (vm.armando) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
-                            Spacer(Modifier.width(10.dp))
-                            Text(stringResource(R.string.vision_armando))
-                        }
-                    } else if (casillas.isEmpty()) {
-                        Button(onClick = { vm.armar() }, modifier = Modifier.fillMaxWidth()) {
-                            Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vision_armar))
-                        }
-                    } else {
-                        OutlinedButton(onClick = { vm.armar() }, modifier = Modifier.fillMaxWidth()) {
-                            Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vision_rearmar))
-                        }
-                        Text(stringResource(R.string.vision_rearmar_ayuda), style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
-                    if (vm.conIa == false) {
-                        Text(stringResource(R.string.vision_sin_ia), style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    }
+                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    // Arriba se elige cuál Brújula: la General (toda tu vida) o la de un año
+                    SelectorBrujula(anioActivo, anios, aniosConBrujula, onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
+                    IntroduccionVision(
+                        anio = anioActivo, vacia = casillas.isEmpty(), armando = vm.armando, conIa = vm.conIa,
+                        conFoto = conFoto, total = tarjetasVisor.size, onArmar = { vm.armar(it) },
+                    )
                 }
             }
             if (casillas.isNotEmpty()) {
@@ -557,4 +552,74 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
 internal fun colorEje(codigo: String): Color = when (codigo) {
     "VOL" -> Color(0xFF8E3B26); "MAE" -> Color(0xFF5C4A8A); "VOZ" -> Color(0xFF2F6F7A)
     "VAL" -> Color(0xFF6B5530); "EVO" -> Color(0xFF3F7A4A); else -> Color(0xFF6B2A1A)
+}
+
+
+/** General · 2026 · 2027…: la Brújula de toda la vida y una por año. El "+" marca los años aún sin crear. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, onElegir: (Int?) -> Unit) {
+    val hoy = java.time.LocalDate.now().year
+    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        FilterChip(selected = anio == null, onClick = { onElegir(null) }, label = { Text(stringResource(R.string.brujula_general)) },
+            leadingIcon = { Icon(IconosRuta.Cima, null, Modifier.size(18.dp)) })
+        anios.forEach { a ->
+            FilterChip(selected = anio == a, onClick = { onElegir(a) },
+                label = { Text(if (a == hoy) stringResource(R.string.brujula_este_anio, a) else a.toString()) },
+                trailingIcon = if (a !in conBrujula) ({ Icon(Icons.Filled.Add, null, Modifier.size(16.dp)) }) else null)
+        }
+    }
+}
+
+/** Vacía: qué es y dos maneras de empezar. Armada: el avance y, plegado, cómo se arma y "volver a proponer". */
+@Composable
+private fun IntroduccionVision(anio: Int?, vacia: Boolean, armando: Boolean, conIa: Boolean?, conFoto: Int, total: Int, onArmar: (Boolean) -> Unit) {
+    var abierta by rememberSaveable { mutableStateOf(false) }
+    RutaCard {
+        if (vacia) {
+            Text(anio?.let { stringResource(R.string.brujula_de_anio, it) } ?: stringResource(R.string.vision_titulo), style = MaterialTheme.typography.titleLarge)
+            Spacer(Modifier.height(6.dp))
+            Text(anio?.let { stringResource(R.string.brujula_anio_intro, it) } ?: stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(Modifier.height(12.dp))
+        } else {
+            Text(stringResource(R.string.vision_progreso, conFoto, total), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
+            Spacer(Modifier.height(6.dp))
+            LinearProgressIndicator(progress = { conFoto.toFloat() / total.coerceAtLeast(1) }, modifier = Modifier.fillMaxWidth())
+        }
+        when {
+            armando -> Row(verticalAlignment = Alignment.CenterVertically) {
+                CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.dp)
+                Spacer(Modifier.width(10.dp))
+                Text(stringResource(R.string.vision_armando))
+            }
+            vacia && anio != null -> Button(onClick = { onArmar(true) }, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Filled.Add, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.brujula_crear_anio, anio))
+            }
+            vacia -> Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { onArmar(false) }, modifier = Modifier.fillMaxWidth()) {
+                    Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vision_armar))
+                }
+                OutlinedButton(onClick = { onArmar(true) }, modifier = Modifier.fillMaxWidth()) {
+                    Icon(Icons.Filled.Edit, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vision_con_mis_datos))
+                }
+            }
+            else -> {
+                TextButton(onClick = { abierta = !abierta }) {
+                    Text(stringResource(R.string.vision_rearmar)); Spacer(Modifier.width(4.dp))
+                    Icon(if (abierta) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, null)
+                }
+                AnimatedVisibility(abierta) {
+                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        OutlinedButton(onClick = { onArmar(anio != null) }, modifier = Modifier.fillMaxWidth()) {
+                            Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vision_rearmar))
+                        }
+                        Text(stringResource(R.string.vision_rearmar_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+        }
+        if (conIa == false) Text(stringResource(R.string.vision_sin_ia), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
 }

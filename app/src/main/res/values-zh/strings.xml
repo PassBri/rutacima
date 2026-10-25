@@ -1831,4 +1831,12 @@
     <string name="rec_seguir">继续</string>
     <string name="rec_detener">暂停</string>
     <string name="rec_ver_de">观看 %1$d 年的回忆</string>
+    <string name="brujula_general">总览</string>
+    <string name="brujula_este_anio">%1$d · 今年</string>
+    <string name="brujula_crear_anio">创建 %1$d 年指南针</string>
+    <string name="brujula_anio_intro">来自你的年度关键词和 %1$d 年目标：一年一个顶峰，8 个营地和 64 步。你的总指南针保持不变。</string>
+    <string name="brujula_anio_cumbre">%1$d 年，我活出 %2$s 之年。</string>
+    <string name="brujula_anio_tramo">%1$d 年，我向这里再登一段：%2$s</string>
+    <string name="vision_con_mis_datos">用我的资料开始</string>
+    <string name="brujula_de_anio">我的 %1$d 年指南针</string>
 </resources>
