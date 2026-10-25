@@ -451,7 +451,7 @@ fun PrimerosPasosComunidad(vm: BienvenidaViewModel, padding: PaddingValues, onLi
                         val si = e.codigo in vm.ejes
                         val color = Color(e.color)
                         androidx.compose.material3.FilterChip(
-                            selected = si, onClick = { vm.alternarEje(e.codigo) },
+                            selected = si, leadingIcon = if (si) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { vm.alternarEje(e.codigo) },
                             label = { Text(e.texto()) },
                             colors = androidx.compose.material3.FilterChipDefaults.filterChipColors(
                                 selectedContainerColor = color, selectedLabelColor = Color.White, labelColor = color),

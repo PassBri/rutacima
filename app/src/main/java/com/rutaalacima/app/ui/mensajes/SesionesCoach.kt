@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.mensajes
 
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -130,16 +131,16 @@ private fun FormularioSesion(onAgendar: (LocalDate, LocalTime, Int, String, Stri
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(stringResource(R.string.sesiones_dia), style = MaterialTheme.typography.labelLarge)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            (0L..13L).map { hoy.plusDays(it) }.forEach { d -> FilterChip(selected = d == dia, onClick = { dia = d }, label = { Text(d.format(formatoDia)) }) }
+            (0L..13L).map { hoy.plusDays(it) }.forEach { d -> FilterChip(selected = d == dia, leadingIcon = if (d == dia) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { dia = d }, label = { Text(d.format(formatoDia)) }) }
         }
         Text(stringResource(R.string.sesiones_hora), style = MaterialTheme.typography.labelLarge)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             listOf(6, 7, 8, 9, 12, 13, 17, 18, 19, 20, 21).map { LocalTime.of(it, 0) }.forEach { h ->
-                FilterChip(selected = h == hora, onClick = { hora = h }, label = { Text("%02d:00".format(h.hour)) })
+                FilterChip(selected = h == hora, leadingIcon = if (h == hora) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { hora = h }, label = { Text("%02d:00".format(h.hour)) })
             }
         }
         FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            listOf(30, 45, 60, 90).forEach { m -> FilterChip(selected = m == minutos, onClick = { minutos = m }, label = { Text(stringResource(R.string.sesiones_minutos, m)) }) }
+            listOf(30, 45, 60, 90).forEach { m -> FilterChip(selected = m == minutos, leadingIcon = if (m == minutos) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { minutos = m }, label = { Text(stringResource(R.string.sesiones_minutos, m)) }) }
         }
         OutlinedTextField(tema, { tema = it.take(200) }, label = { Text(stringResource(R.string.sesiones_tema)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(enlace, { enlace = it.trim().take(500) }, label = { Text(stringResource(R.string.sesiones_enlace)) },

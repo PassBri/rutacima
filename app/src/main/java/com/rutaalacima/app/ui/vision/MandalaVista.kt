@@ -592,7 +592,7 @@ private fun EditarPaso(
                 Text(stringResource(R.string.brujula_tambien_activa), style = MaterialTheme.typography.labelLarge)
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Mandala.CAMPAMENTOS_FIJOS.filter { it != codigo }.forEach { cod ->
-                        FilterChip(selected = cod in en, onClick = { en = if (cod in en) en - cod else en + cod },
+                        FilterChip(selected = cod in en, leadingIcon = if (cod in en) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { en = if (cod in en) en - cod else en + cod },
                             label = { Text(nombreCodigo(cod)) })
                     }
                 }

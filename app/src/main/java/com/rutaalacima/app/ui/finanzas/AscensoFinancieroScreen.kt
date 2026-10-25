@@ -862,8 +862,8 @@ private fun NuevoMovimiento(plata: (Double) -> String, dia: Int, onAgregar: (Tip
         if (v == 0.0) error = true
         else {
             onAgregar(tipo, v, cat, nota, repite)
-            android.widget.Toast.makeText(ctx, if (repite) ctx.getString(R.string.cu_fijo_quedo, plata(v), dia) else ctx.getString(R.string.cu_anotado, ctx.getString(when (tipo) {
-                Tipo.ING -> R.string.cu_ing1; Tipo.GAS -> R.string.cu_gas1; Tipo.AHO -> R.string.cu_aho1; Tipo.INV -> R.string.cu_inv1 }), plata(v)), android.widget.Toast.LENGTH_SHORT).show()
+            com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (repite) ctx.getString(R.string.cu_fijo_quedo, plata(v), dia) else ctx.getString(R.string.cu_anotado, ctx.getString(when (tipo) {
+                Tipo.ING -> R.string.cu_ing1; Tipo.GAS -> R.string.cu_gas1; Tipo.AHO -> R.string.cu_aho1; Tipo.INV -> R.string.cu_inv1 }), plata(v)))
             monto = ""; nota = ""; error = false; repite = false
         }
     }

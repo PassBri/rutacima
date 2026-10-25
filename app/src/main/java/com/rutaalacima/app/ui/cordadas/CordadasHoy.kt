@@ -1,6 +1,5 @@
 package com.rutaalacima.app.ui.cordadas
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -121,7 +120,7 @@ fun CordadasHoy(onVerTodas: () -> Unit, modifier: Modifier = Modifier) {
                 }
                 val listo = stringResource(R.string.cordadas_hoy_listo)
                 val conMeta = stringResource(R.string.cord_marcado_meta)
-                IconButton(onClick = { vm.marcar(k) { movio -> Toast.makeText(ctx, if (movio) conMeta else listo, Toast.LENGTH_SHORT).show() } }) {
+                IconButton(onClick = { vm.marcar(k) { movio -> com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (movio) conMeta else listo) } }) {
                     Icon(if (k.marqueHoy) Icons.Filled.CheckCircle else Icons.Filled.RadioButtonUnchecked, stringResource(R.string.cordadas_marcar_hoy),
                         tint = if (k.marqueHoy) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline, modifier = Modifier.size(32.dp))
                 }

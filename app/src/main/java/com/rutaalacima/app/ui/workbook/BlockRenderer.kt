@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.workbook
 
+import androidx.compose.material.icons.filled.Check
 import com.rutaalacima.app.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -262,7 +263,7 @@ private fun ChoiceView(b: ChoiceBlock, r: Respuestas, modifier: Modifier) {
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             b.options.forEach { opt ->
                 FilterChip(
-                    selected = actual == opt,
+                    selected = actual == opt, leadingIcon = if (actual == opt) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null, 
                     onClick = { r.fijar(b.id, if (actual == opt) "" else opt) },
                     label = { Text(opt) },
                 )

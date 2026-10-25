@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.material.icons.filled.Check
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -564,7 +565,7 @@ private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, 
         FilterChip(selected = anio == null, onClick = { onElegir(null) }, label = { Text(stringResource(R.string.brujula_general)) },
             leadingIcon = { Icon(IconosRuta.Cima, null, Modifier.size(18.dp)) })
         anios.forEach { a ->
-            FilterChip(selected = anio == a, onClick = { onElegir(a) },
+            FilterChip(selected = anio == a, leadingIcon = if (anio == a) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { onElegir(a) },
                 label = { Text(if (a == hoy) stringResource(R.string.brujula_este_anio, a) else a.toString()) },
                 trailingIcon = if (a !in conBrujula) ({ Icon(Icons.Filled.Add, null, Modifier.size(16.dp)) }) else null)
         }

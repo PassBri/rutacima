@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.components
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -98,7 +100,7 @@ fun <T> ChipSelector(
             opciones.forEach { op ->
                 val c = color?.invoke(op)
                 FilterChip(
-                    selected = op == seleccionado,
+                    selected = op == seleccionado, leadingIcon = if (op == seleccionado) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null, 
                     onClick = { onSelect(op) },
                     label = { Text(etiqueta(op)) },
                     colors = if (c != null) FilterChipDefaults.filterChipColors(
@@ -144,7 +146,7 @@ fun SelectorHorizonte(anios: Int, onCambio: (Int) -> Unit, modifier: Modifier = 
         }
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Vida.HORIZONTES.forEach { h ->
-                FilterChip(selected = h == anios, onClick = { onCambio(h) }, label = { Text(stringResource(R.string.n_anios, h)) })
+                FilterChip(selected = h == anios, leadingIcon = if (h == anios) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { onCambio(h) }, label = { Text(stringResource(R.string.n_anios, h)) })
             }
         }
         Text(stringResource(R.string.horizonte_elige, Vida.HORIZONTE_MIN, Vida.HORIZONTE_MAX), style = MaterialTheme.typography.bodySmall,

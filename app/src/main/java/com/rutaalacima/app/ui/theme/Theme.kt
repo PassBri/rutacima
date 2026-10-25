@@ -210,12 +210,12 @@ object AvisoGlobal {
     }
 }
 
-/** Escala de forma de la app (M3): una sola, usada por todos los componentes. */
+/** Escala de forma de Material 3 (4 · 8 · 12 · 16 · 28 dp): una sola, usada por todos los componentes. */
 val FormasRuta = androidx.compose.material3.Shapes(
-    extraSmall = androidx.compose.foundation.shape.RoundedCornerShape(6.dp),
-    small = androidx.compose.foundation.shape.RoundedCornerShape(10.dp),
-    medium = androidx.compose.foundation.shape.RoundedCornerShape(14.dp),
-    large = androidx.compose.foundation.shape.RoundedCornerShape(18.dp),
+    extraSmall = androidx.compose.foundation.shape.RoundedCornerShape(4.dp),
+    small = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+    medium = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+    large = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
     extraLarge = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
 )
 

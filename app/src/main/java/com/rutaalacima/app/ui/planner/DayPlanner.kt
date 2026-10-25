@@ -2,7 +2,6 @@ package com.rutaalacima.app.ui.planner
 
 import com.rutaalacima.app.R
 import androidx.compose.ui.res.stringResource
-import android.widget.Toast
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Flag
@@ -275,7 +274,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
     val r by vm.resp.collectAsStateWithLifecycle()
     val todas by vm.metasMes.collectAsStateWithLifecycle()
     val ctx = LocalContext.current
-    val aviso: (String) -> Unit = { Toast.makeText(ctx, it, Toast.LENGTH_SHORT).show() }
+    val aviso: (String) -> Unit = { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(it) }
     val f = vm.fecha
     val metas = todas.filter { it.anio == f.year && it.mes == f.monthValue }
     val manana = f.plusDays(1)

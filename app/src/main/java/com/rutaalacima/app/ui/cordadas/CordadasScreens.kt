@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.cordadas
 
+import androidx.compose.material.icons.filled.Check
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -224,12 +225,12 @@ private fun FormularioCordada(ocupado: Boolean, onCrear: (String, String, String
             placeholder = { Text(stringResource(R.string.cordadas_reto_ejemplo)) }, minLines = 2, modifier = Modifier.fillMaxWidth().padding(top = 8.dp))
         Text(stringResource(R.string.cordadas_duracion), style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 10.dp))
         androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            listOf(7, 21, 30, 60, 90).forEach { d -> FilterChip(selected = dias == d, onClick = { dias = d }, label = { Text(stringResource(R.string.cordadas_n_dias, d)) }) }
+            listOf(7, 21, 30, 60, 90).forEach { d -> FilterChip(selected = dias == d, leadingIcon = if (dias == d) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { dias = d }, label = { Text(stringResource(R.string.cordadas_n_dias, d)) }) }
         }
         Text(stringResource(R.string.cordadas_eje), style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 6.dp))
         androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             Eje.entries.forEach { e ->
-                FilterChip(selected = eje == e.codigo, onClick = { eje = if (eje == e.codigo) null else e.codigo }, label = { Text(stringResource(Textos.nombre(e))) })
+                FilterChip(selected = eje == e.codigo, leadingIcon = if (eje == e.codigo) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { eje = if (eje == e.codigo) null else e.codigo }, label = { Text(stringResource(Textos.nombre(e))) })
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
@@ -295,7 +296,7 @@ fun CordadaScreen(id: String, onBack: () -> Unit) {
     val c = vm.cordada
     val ctx = LocalContext.current
     val conMeta = stringResource(R.string.cord_marcado_meta)
-    LaunchedEffect(vm.movio) { if (vm.movio) { android.widget.Toast.makeText(ctx, conMeta, android.widget.Toast.LENGTH_SHORT).show(); vm.movio = false } }
+    LaunchedEffect(vm.movio) { if (vm.movio) { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(conMeta); vm.movio = false } }
     var menu by remember { mutableStateOf(false) }
     val hoy = LocalDate.now()
     Scaffold(

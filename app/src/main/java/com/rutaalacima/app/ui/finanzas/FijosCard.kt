@@ -1,6 +1,5 @@
 package com.rutaalacima.app.ui.finanzas
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -84,7 +83,7 @@ fun FijosCard(libro: Libro, ym: YearMonth?, plata: (Double) -> String, vm: Cuent
                         }
                         Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
                         val parado = stringResource(R.string.cu_fijo_parado)
-                        IconButton(onClick = { vm.fijoParar(x.id); Toast.makeText(ctx, parado, Toast.LENGTH_SHORT).show() }) {
+                        IconButton(onClick = { vm.fijoParar(x.id); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(parado) }) {
                             Icon(Icons.Filled.Close, stringResource(R.string.cu_fijo_parar), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
@@ -124,7 +123,7 @@ private fun EditarFijo(x: Fijos.Fijo, plata: (Double) -> String, vm: CuentasView
         confirmButton = {
             TextButton(enabled = ok, onClick = {
                 vm.fijoEditar(x.id, nota.trim(), d!!, v)
-                if (v != x.m) { Toast.makeText(ctx, ctx.getString(R.string.cu_fijo_monto_desde, nombreMes(hoy().monthValue), plata(v)), Toast.LENGTH_SHORT).show() }
+                if (v != x.m) { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(R.string.cu_fijo_monto_desde, nombreMes(hoy().monthValue), plata(v))) }
                 onCerrar()
             }) { Text(stringResource(R.string.guardar)) }
         },

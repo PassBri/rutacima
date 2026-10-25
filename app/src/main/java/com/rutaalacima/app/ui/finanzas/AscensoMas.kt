@@ -3,7 +3,6 @@ package com.rutaalacima.app.ui.finanzas
 import android.graphics.Bitmap
 import android.graphics.pdf.PdfRenderer
 import android.os.ParcelFileDescriptor
-import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -394,7 +393,7 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
             } },
             confirmButton = { TextButton(enabled = v > 0, onClick = {
                 vm.deudaPagar(x, v, ctx.getString(R.string.cu_pago_de, x.nombre)); pagar = false
-                Toast.makeText(ctx, if (v >= h.actual - 0.005) ctx.getString(R.string.cu_quedo_pagada, x.nombre) else ctx.getString(R.string.cu_pago_anotado, plata(v)), Toast.LENGTH_SHORT).show()
+                com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (v >= h.actual - 0.005) ctx.getString(R.string.cu_quedo_pagada, x.nombre) else ctx.getString(R.string.cu_pago_anotado, plata(v)))
             }) { Text(stringResource(R.string.cu_pagar)) } },
             dismissButton = { TextButton(onClick = { pagar = false }) { Text(stringResource(R.string.cancelar)) } })
     }
@@ -565,7 +564,7 @@ fun PrivacidadCard(libro: Libro, vm: CuentasViewModel) {
             val sinBloqueo = stringResource(R.string.cu_sin_bloqueo_tel)
             Capa(Icons.Filled.Fingerprint, R.string.cu_capa_bloqueo, R.string.cu_capa_bloqueo_d) {
                 Switch(libro.bloqueo, { si ->
-                    if (si && !Bloqueo.biometriaDisponible(ctx) && !Bloqueo.tieneClave(ctx)) Toast.makeText(ctx, sinBloqueo, Toast.LENGTH_LONG).show()
+                    if (si && !Bloqueo.biometriaDisponible(ctx) && !Bloqueo.tieneClave(ctx)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueo)
                     else { vm.bloqueo(si); if (si) vm.abiertoHasta = System.currentTimeMillis() + 5 * 60_000 }
                 })
             }
@@ -617,7 +616,7 @@ fun NuevaCategoriaDialogo(tipoInicial: Tipo, onCerrar: () -> Unit, onCreada: (St
             }
         } },
         confirmButton = { TextButton(enabled = nombre.isNotBlank(), onClick = {
-            vm.crearCategoria(tipo, nombre, verde)?.let { c -> Toast.makeText(ctx, ctx.getString(R.string.cu_categoria_creada, nombre.trim()), Toast.LENGTH_SHORT).show(); onCreada(c) }
+            vm.crearCategoria(tipo, nombre, verde)?.let { c -> com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(R.string.cu_categoria_creada, nombre.trim())); onCreada(c) }
         }) { Text(stringResource(R.string.cu_crear)) } },
         dismissButton = { TextButton(onClick = onCerrar) { Text(stringResource(R.string.cancelar)) } })
 }
@@ -632,7 +631,7 @@ fun RecibosMovimiento(x: Mov, fecha: String, vm: CuentasViewModel) {
     var viendo by remember { mutableStateOf<Cuentas.Recibo?>(null) }
     val guardado = stringResource(R.string.cu_recibo_guardado); val fallo = stringResource(R.string.cu_recibo_error)
     val elegir = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) { subiendo = true; vm.agregarRecibo(fecha, x, uri) { ok -> subiendo = false; Toast.makeText(ctx, if (ok) guardado else fallo, Toast.LENGTH_SHORT).show() } }
+        if (uri != null) { subiendo = true; vm.agregarRecibo(fecha, x, uri) { ok -> subiendo = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) guardado else fallo) } }
     }
     val actual = vm.libro.value.movs(fecha).firstOrNull { it.id == x.id } ?: x
     Column {

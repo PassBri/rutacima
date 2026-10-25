@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.moderacion
 
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -305,7 +306,7 @@ private fun DialogoSuspender(levantar: Boolean, onConfirmar: (Int, String) -> Un
             if (!levantar) Column {
                 FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     opciones.forEach { d ->
-                        FilterChip(selected = dias == d, onClick = { dias = d },
+                        FilterChip(selected = dias == d, leadingIcon = if (dias == d) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { dias = d },
                             label = { Text(if (d < 0) stringResource(R.string.mod_permanente) else stringResource(R.string.mod_dias, d)) })
                     }
                 }

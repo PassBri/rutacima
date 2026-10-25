@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.graphics.Color
@@ -440,7 +441,7 @@ private fun Filtros(vm: ComunidadViewModel) {
         }
         // Explorar por eje: como los temas de Instagram o Pinterest, pero con los 6 ejes del método
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            FilterChip(selected = vm.eje == null, onClick = { vm.elegirEje(null) }, label = { Text(stringResource(R.string.todos_los_ejes)) })
+            FilterChip(selected = vm.eje == null, leadingIcon = if (vm.eje == null) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { vm.elegirEje(null) }, label = { Text(stringResource(R.string.todos_los_ejes)) })
             Eje.entries.forEach { e ->
                 FilterChip(
                     selected = vm.eje == e.codigo, onClick = { vm.elegirEje(if (vm.eje == e.codigo) null else e.codigo) },

@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.components
 
+import androidx.compose.material.icons.filled.Check
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -203,7 +204,7 @@ fun EditorFoto(
                 if (formatos.size > 1) {
                     Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         formatos.forEachIndexed { i, fo ->
-                            FilterChip(selected = i == formato, onClick = { formato = i; zoom = 1f; desp = Offset.Zero },
+                            FilterChip(selected = i == formato, leadingIcon = if (i == formato) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { formato = i; zoom = 1f; desp = Offset.Zero },
                                 label = { Text(stringResource(fo.nombre)) })
                         }
                     }

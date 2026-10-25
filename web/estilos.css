@@ -2575,3 +2575,41 @@ a.carta-releer { text-decoration: none; }
   .md-visor-barra .btn.mini { padding: 0 10px; }
   .md-visor-barra .md-migas { display: none; }
 }
+
+/* ===== Material 3 (m3.material.io): tokens y ajustes de sistema ===== */
+:root {
+  /* Movimiento: curvas y duraciones de M3 */
+  --md-easing-standard: cubic-bezier(.2, 0, 0, 1);
+  --md-easing-emph-decel: cubic-bezier(.05, .7, .1, 1);
+  --md-easing-emph-accel: cubic-bezier(.3, 0, .8, .15);
+  --md-dur-short2: 100ms; --md-dur-short4: 200ms; --md-dur-medium2: 300ms; --md-dur-long2: 500ms;
+  /* Forma: escala de esquinas de M3 */
+  --md-shape-xs: 4px; --md-shape-sm: 8px; --md-shape-md: 12px; --md-shape-lg: 16px; --md-shape-xl: 28px;
+  /* Capas de estado: hover 8 %, foco y presión 10 % */
+  --md-state-hover: 8%; --md-state-press: 10%;
+}
+/* Indicador de foco de M3: 3 px, separado 2 px del componente */
+:focus-visible { outline: 3px solid var(--oro); outline-offset: 2px; }
+/* Botones: alto mínimo de M3 (40 px; los pequeños 32 px) y capa de estado al presionar */
+.btn { min-height: 40px; }
+.btn.mini { min-height: 32px; }
+.btn, .chip, .item, .rb { -webkit-tap-highlight-color: transparent; }
+.btn:active, .chip:active, .item:active { background-image: linear-gradient(color-mix(in srgb, currentColor var(--md-state-press), transparent) 0 0); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover, .chip:hover { background-image: linear-gradient(color-mix(in srgb, currentColor var(--md-state-hover), transparent) 0 0); }
+}
+/* Chips de filtro de M3: 32 px de alto y esquinas de 8 px; el elegido lleva su marca */
+.chip { min-height: 32px; display: inline-flex; align-items: center; gap: 6px; border-radius: var(--md-shape-sm); }
+.chip[aria-pressed="true"]::before { content: ""; width: 14px; height: 14px; flex: none; margin-left: -2px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center / contain no-repeat; }
+/* Snackbar de M3: superficie inversa, esquinas de 4 px, 48 px de alto y entrada desde abajo */
+.toast { border-radius: var(--md-shape-xs); min-height: 48px; display: flex; align-items: center; padding: 6px 16px; line-height: 1.35;
+  animation: md-snackbar var(--md-dur-short4) var(--md-easing-emph-decel); }
+.toast[hidden] { display: none; }
+@keyframes md-snackbar { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translateX(-50%); } }
+/* En el teléfono el snackbar va encima de la barra de navegación y ocupa el ancho, como en M3 */
+@media (max-width: 900px) {
+  .toast { left: 12px; right: 12px; transform: none; max-width: none; bottom: calc(56px + 12px + env(safe-area-inset-bottom, 0px)); justify-content: space-between; }
+  @keyframes md-snackbar { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+}

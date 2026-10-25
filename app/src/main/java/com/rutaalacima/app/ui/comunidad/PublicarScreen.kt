@@ -207,7 +207,7 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
                     val largo = videos.any { u -> runCatching {
                         android.media.MediaMetadataRetriever().run { setDataSource(ctxMedios, u); val d = extractMetadata(android.media.MediaMetadataRetriever.METADATA_KEY_DURATION)?.toLongOrNull() ?: 0; release(); d > 60_500 }
                     }.getOrDefault(false) }
-                    if (largo) android.widget.Toast.makeText(ctxMedios, videoLargo, android.widget.Toast.LENGTH_LONG).show()
+                    if (largo) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(videoLargo)
                     else { vm.medios = if (videos.isNotEmpty()) listOf(videos.first()) else uris; vm.foto = null }
                 }
                 OutlinedButton(onClick = { elegirMedios.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)) }, modifier = Modifier.fillMaxWidth()) {

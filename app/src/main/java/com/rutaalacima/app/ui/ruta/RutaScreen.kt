@@ -759,7 +759,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
         val ctx = androidx.compose.ui.platform.LocalContext.current
         SinPasoMes(ym, anuales, mensuales) { a ->
             vm.crearPasoMes(a, ym)
-            android.widget.Toast.makeText(ctx, ctx.getString(R.string.paso_mes_creado), android.widget.Toast.LENGTH_SHORT).show()
+            com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(R.string.paso_mes_creado))
         }
     }
     item(key = "finanzas-$ym") { com.rutaalacima.app.ui.finanzas.ResumenCuentasMes(ym) }
