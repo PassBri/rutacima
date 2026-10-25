@@ -1,4 +1,4 @@
-/* Rutaalacima Web · Moderación: revisar reportes, mantener, ocultar o eliminar, suspender cuentas.
+/* SuRoute Web · Moderación: revisar reportes, mantener, ocultar o eliminar, suspender cuentas.
    Solo aparece para las cuentas nombradas en la tabla moderadores (ver supabase/schema.sql).
    También muestra a quien tiene la cuenta suspendida hasta cuándo y por qué. */
 // var (no const): la lista del perfil puede pintarse antes de que cargue este archivo

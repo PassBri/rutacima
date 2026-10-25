@@ -57,7 +57,7 @@ import kotlin.math.sin
  * momento, estrellas de noche, la línea del horizonte con marcas cada 15°, el arco que recorre el sol
  * hoy, el sol y la luna (con su fase) en su lugar real con un anillo fino, los planetas visibles con
  * su nombre, y abajo la cordillera saliendo de un mar de nubes. Se actualiza cada minuto.
- * Es el mismo cielo de Rutaalacima Web (web/js/10-cielo.js).
+ * Es el mismo cielo de SuRoute Web (web/js/10-cielo.js).
  *
  * [horizonte] es la altura del horizonte (0..1 desde arriba): más arriba si va texto encima.
  * [lectura] muestra la hora y la altura del sol arriba a la izquierda.

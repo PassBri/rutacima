@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         recibirEnlace(intent)
         // Regreso sin culpa: recuerda el último día que se abrió la app
         com.rutaalacima.app.ui.hoy.CaminoViewModel.registrarApertura(this)
-        // Rutaalacima Web: mientras la app está abierta, trae lo que se marcó en el computador cada minuto
+        // SuRoute Web: mientras la app está abierta, trae lo que se marcó en el computador cada minuto
         val web = (application as RutaApp).container.web
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         recibirEnlace(intent)
     }
 
-    /** Código QR de Rutaalacima Web escaneado con la cámara del teléfono: rutacima://vincular?codigo=… */
+    /** Código QR de SuRoute Web escaneado con la cámara del teléfono: rutacima://vincular?codigo=… */
     private fun recibirEnlace(intent: Intent?) {
         // Notificación de un mensaje, una solicitud o el coach de vida: abre esa pantalla
         intent?.getStringExtra(com.rutaalacima.app.notificaciones.AvisosMensajes.EXTRA_IR_A)?.let {

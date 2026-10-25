@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Arma Rutaalacima Web listo para publicar (GitHub Pages o cualquier hosting estático).
+# Arma SuRoute Web listo para publicar (GitHub Pages o cualquier hosting estático).
 #   bash tools/armar_web.sh _site
 # Opcional: SUPABASE_URL y SUPABASE_ANON_KEY en el entorno para conectarla a tu servidor.
 # Sin ellas, la web abre en modo demostración.
@@ -53,5 +53,5 @@ sed -i "s|src=\"js/\([0-9a-z-]*\)\.js\"|src=\"js/\1.js?v=$VERSION\"|g; s|href=\"
 
 # GitHub Pages: servir los archivos tal cual (sin Jekyll)
 touch "$DESTINO/.nojekyll"
-echo "Rutaalacima Web lista en $DESTINO ($(du -sh "$DESTINO" | cut -f1))"
+echo "SuRoute Web lista en $DESTINO ($(du -sh "$DESTINO" | cut -f1))"
 if [ -n "${SUPABASE_URL:-}" ]; then echo "Conectada a $SUPABASE_URL"; else echo "Sin servidor configurado: abrirá en modo demostración"; fi

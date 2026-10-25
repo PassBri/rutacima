@@ -1,10 +1,10 @@
-/* Rutaalacima Web · service worker: permite instalarla como app (también en iPhone) y abre rápido.
+/* SuRoute Web · service worker: permite instalarla como app (también en iPhone) y abre rápido.
    - Páginas: primero la red; sin conexión, la última copia.
    - Estilos, scripts, íconos, guías y frases: la copia guardada al instante y se actualiza por detrás.
    - Nunca toca Supabase (cuenta, datos, coach) ni los audios. */
 const VERSION = "rutacima-dev"; // tools/armar_web.sh lo cambia en cada publicación
 const BASE = ["./", "index.html", "estilos.css", "config.js", "sello.png", "manifest.webmanifest",
-  "iconos/icono-192.png", "iconos/icono-512.png", "iconos/apple-touch-icon.png"];
+  "iconos/favicon.png", "iconos/icono-192.png", "iconos/icono-512.png", "iconos/apple-touch-icon.png"];
 const CDN = ["cdn.jsdelivr.net", "cdnjs.cloudflare.com", "fonts.googleapis.com", "fonts.gstatic.com"];
 
 self.addEventListener("install", e => {

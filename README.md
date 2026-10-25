@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="diseno/logo_rutacima.png" alt="Sello de cera de Ruta a la Cima" width="200">
+  <img src="diseno/sello_cera_suroute.png" alt="Sello de cera de SuRoute" width="200">
 </p>
 
-<h1 align="center">Rutaalacima</h1>
+<h1 align="center">SuRoute</h1>
+<p align="center"><i>My Summit</i></p>
 
 <p align="center">
   <b>Tu vida hasta los 120 años, vista año por año y día por día.</b><br>
@@ -18,14 +19,14 @@
 </p>
 
 <p align="center">
-  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir Rutaalacima Web</b></a>
+  <a href="https://passbri.github.io/rutacima/"><b>🌐 Abrir SuRoute Web</b></a>
   &nbsp;·&nbsp; la misma app en tu computador<br>
   <a href="https://github.com/PassBri/rutacima/releases/tag/apk-reciente"><b>📱 Descargar el APK más reciente</b></a>
 </p>
 
 <p align="center">
   <a href="https://passbri.github.io/rutacima/video.html">
-    <img src="diseno/video/vista_previa.gif" alt="Video de presentación de Rutaalacima: el sello, tu vida en puntos, el método, la app y la web" width="720">
+    <img src="diseno/video/vista_previa.gif" alt="Video de presentación de SuRoute: el sello, tu vida en puntos, el método, la app y la web" width="720">
   </a><br>
   <a href="https://passbri.github.io/rutacima/video.html"><b>▶ Ver el video de presentación</b></a> (55 s, con sonido)
   &nbsp;·&nbsp; <a href="diseno/video/rutaalacima_presentacion.mp4">descargar MP4</a>
@@ -37,10 +38,10 @@
 
 ## Contenido
 
-1. [Qué es Rutaalacima](#qué-es-rutaalacima)
+1. [Qué es SuRoute](#qué-es-suroute)
 2. [El método en la app](#el-método-en-la-app)
 3. [Recorrido por la app](#recorrido-por-la-app)
-4. [Rutaalacima Web](#rutaalacima-web)
+4. [SuRoute Web](#suroute-web)
 5. [Privacidad y seguridad](#privacidad-y-seguridad)
 6. [Diseño](#diseño)
 7. [Instalar y ejecutar](#instalar-y-ejecutar)
@@ -50,9 +51,9 @@
 
 ---
 
-## Qué es Rutaalacima
+## Qué es SuRoute
 
-Rutaalacima convierte el método **Ruta a la Cima** en una app para el día a día. Muestra tu vida como un camino
+SuRoute convierte el método **Ruta a la Cima** en una app para el día a día. Muestra tu vida como un camino
 de puntos, **un punto por año hasta los 100 o 120**, y la baja en cascada a meses, semanas y días. Así ves
 cómo lo que haces hoy suma a tu propósito a los años que tú elijas.
 
@@ -64,10 +65,10 @@ Incluye:
 - un **coach con inteligencia artificial** que conoce tus metas y tu avance;
 - **365 frases** de los libros, una por día, **selladas con cera** y que abres con tu rostro, tu huella o tu clave;
 - una **comunidad** para compartir logros, evidencias y tu vision board;
-- **Rutaalacima Web**, la misma app en el computador, con tu misma cuenta.
+- **SuRoute Web**, la misma app en el computador, con tu misma cuenta.
 
 <p align="center">
-  <img src="diseno/Rutaalacima_papel_blanco.png" alt="Vistas previas del diseño de Rutaalacima en papel blanco" width="860"><br>
+  <img src="diseno/Rutaalacima_papel_blanco.png" alt="Vistas previas del diseño de SuRoute en papel blanco" width="860"><br>
   <sub>Vistas previas del diseño (papel antiguo y papel blanco, frase sellada y un mes).</sub>
 </p>
 
@@ -214,7 +215,7 @@ Una bitácora para compartir el ascenso, con un formato propio (no es una copia 
   frase como cita destacada.
 - **Cinco tipos:** logro, evidencia, visión (vision board), meta y reflexión.
 - **Quién la ve:** pública, solo seguidores o solo yo.
-- **Interacción:** **impulsos** (el voto de Rutaalacima), comentarios y seguir a otras personas.
+- **Interacción:** **impulsos** (el voto de SuRoute), comentarios y seguir a otras personas.
 - **Explorar por eje:** debajo de los filtros, una fila con los 6 ejes para ver solo las publicaciones de Voluntad,
   Maestría, Voz, Valor, Evolución o Trascendencia.
 - **Guardados:** el marcador de cada publicación la guarda en el filtro *Guardados*, para volver a lo que te inspira.
@@ -310,7 +311,7 @@ Sugerencias rápidas: *ayúdame a definir mi cumbre*, *divide mi meta anual en p
 
 **Coach de vida** (ícono del senderista arriba en Perfil, o desde el coach IA): una persona real que te acompaña.
 
-- **Directorio de coaches verificados.** Solo aparecen los que el equipo de Rutaalacima revisó.
+- **Directorio de coaches verificados.** Solo aparecen los que el equipo de SuRoute revisó.
 - **Pides que sea tu coach** y él o ella acepta. Desde ese momento chatean sin solicitudes.
 - **Compartir mi avance** es un interruptor tuyo: tu coach ve tu cumbre, propósitos, metas con su avance, hábitos de
   los últimos 7 días, ejes y vision board. Nunca tus respuestas de los libros ni tus notas. Lo apagas y deja de verlo.
@@ -392,7 +393,7 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
   altura en milímetros, la dificultad actual, los pasos esperados esta semana, los días para el próximo ajuste y si
   vas adelante o atrás del ritmo. Las reglas están en `domain/model/MetodoCima.kt` (con pruebas) y en la web.
 - **Carta de bienvenida:** la primera vez, la app (y la página de inicio de la web) muestra una carta antigua en
-  pergamino, doblada y cerrada con el sello de cera de Rutaalacima. Al romper el sello —con el mismo quiebre de la
+  pergamino, doblada y cerrada con el sello de cera de SuRoute. Al romper el sello —con el mismo quiebre de la
   frase del día— la carta se despliega con un mensaje del fundador. Se relee desde el perfil (y en la web, desde la
   pantalla de vincular).
 - **Ejes:** evaluación del 1 al 10, radar comparado e historial.
@@ -412,7 +413,7 @@ Herramientas que funcionan cuando las usas, no cuando las guardas:
 - **Mi perfil:** nombre, cumbre, fecha de nacimiento y meta de vida (60 a 120 años). La app muestra como
   referencia la esperanza de vida estimada de tu país.
 - **Cuenta** para la comunidad, el coach y la web.
-- **Rutaalacima Web.**
+- **SuRoute Web.**
 - **Avisos de mensajes**, encendidos o apagados.
 - **Copia de seguridad:** exporta toda tu ruta, también tu diario de vida, a un archivo y restáurala en otro
   teléfono, sin cuenta. Restaurar suma lo del archivo a lo que ya tienes; un archivo parcial (por ejemplo, solo la
@@ -430,7 +431,7 @@ lectores de pantalla y movimiento reducido en la web si el sistema lo pide.
 **Idiomas de la interfaz:** español, inglés, portugués, francés, alemán, italiano, chino, japonés, coreano, árabe,
 hindi y ruso. El contenido de las guías está en español (la app lo avisa en Aprende).
 
-## Rutaalacima Web
+## SuRoute Web
 
 **La misma app en el computador**, al estilo de WhatsApp Web, con tu misma cuenta y los mismos datos:
 
@@ -455,7 +456,7 @@ muestra la web o escribes sus 8 letras. Como en WhatsApp Web, el código se renu
 muestra el tiempo) y, si nadie lo escanea en 5 minutos, se detiene hasta que tocas para pedir uno nuevo. El computador queda vinculado hasta que lo desvincules desde el teléfono
 o cierres la sesión en la web.
 
-**Instalable como app (PWA).** Rutaalacima Web se instala desde el navegador: en Android y en el computador con
+**Instalable como app (PWA).** SuRoute Web se instala desde el navegador: en Android y en el computador con
 el botón *Instalar*; en iPhone y iPad desde Safari, con *Compartir › Agregar a pantalla de inicio*, y en Mac con Safari, con
 *Archivo › Agregar al Dock* (la web muestra los pasos en los dos casos). En Windows, con Chrome o Edge. Queda con el sello entre las apps y se abre a pantalla completa. El service worker (`web/sw.js`)
 guarda la página, los estilos, los scripts, las guías y las frases para abrir rápido incluso sin conexión; nunca
@@ -469,9 +470,9 @@ confirmación y de recuperación vuelvan a la web, en Supabase › Authenticatio
 *Site URL* `https://passbri.github.io/rutacima/` (y agrégala en *Redirect URLs*).
 
 <p align="center">
-  <img src="diseno/web_vincular.png" alt="Rutaalacima Web: pantalla para vincular con código QR" width="720"><br><br>
-  <img src="diseno/web_mi_ruta.png" alt="Rutaalacima Web: Mi ruta" width="720"><br>
-  <sub>Rutaalacima Web: vincular con código QR, y Mi ruta con tu vida en puntos.</sub>
+  <img src="diseno/web_vincular.png" alt="SuRoute Web: pantalla para vincular con código QR" width="720"><br><br>
+  <img src="diseno/web_mi_ruta.png" alt="SuRoute Web: Mi ruta" width="720"><br>
+  <sub>SuRoute Web: vincular con código QR, y Mi ruta con tu vida en puntos.</sub>
 </p>
 
 **Cómo se mantiene al día:**
@@ -485,7 +486,7 @@ confirmación y de recuperación vuelvan a la web, en Supabase › Authenticatio
 ## Plan Cumbre
 
 **El método completo es gratis y lo esencial nunca se cobra**: guías, ejes, metas, Brújula, comunidad, mensajes,
-cordadas, Rutaalacima Web (la única opción en iPhone) y respaldar, exportar o eliminar tus datos. El Plan Cumbre
+cordadas, SuRoute Web (la única opción en iPhone) y respaldar, exportar o eliminar tus datos. El Plan Cumbre
 suma lo que cuesta sostener o es un extra: muchos más mensajes con el coach IA, audiolibros completos y el cierre
 de año guiado.
 
@@ -561,7 +562,7 @@ de año guiado.
 
 ### Documentos legales y protección de datos
 
-Rutaalacima cumple la **Ley 1581 de 2012** de Colombia (habeas data), el **Decreto 1377 de 2013** (compilado en
+SuRoute cumple la **Ley 1581 de 2012** de Colombia (habeas data), el **Decreto 1377 de 2013** (compilado en
 el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están en `web/` y se publican con la web:
 
 | Documento | Archivo | Para qué |
@@ -590,13 +591,13 @@ el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están 
 - **Papel y pliegues.** La app simula una hoja de papel plegada: grano suave, dobleces, hojas con la esquina doblada
   y sombras en el burdeos del sello, nunca grises. Sigue Material Design 3 (`ui/theme/Papel.kt`).
 - **Botones flotantes.** Los años, meses, semanas y días son botones que flotan y se hunden al tocarlos.
-- **Logo.** El **sello de cera de Ruta a la Cima**, original del autor. Aparece en el ícono, el arranque, la ventana
+- **Logo.** El **sello de cera de SuRoute** (con «SuRoute» y «My Summit»), original del autor. Aparece en el ícono, el arranque, la ventana
   de inicio, la barra superior y la web.
 - **Archivos.** Los archivos en alta resolución y las vistas previas están en [`diseno/`](diseno).
 
 <p align="center">
   <img src="diseno/Rutaalacima_inicio.png" alt="Ventana de inicio" width="360">
-  <img src="diseno/Rutaalacima_logos.png" alt="Logos e íconos de Rutaalacima" width="500">
+  <img src="diseno/Rutaalacima_logos.png" alt="Logos e íconos de SuRoute" width="500">
 </p>
 
 **Video de presentación.** Hecho con código en [Remotion](https://www.remotion.dev): el proyecto está en
@@ -637,7 +638,7 @@ ofusca con R8.
 
 ## Servidor, coach IA y web
 
-Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el coach y la web.
+SuRoute usa [Supabase](https://supabase.com) para las cuentas, la comunidad, el coach y la web.
 
 1. **Base de datos.** Crea un proyecto y, en **SQL Editor**, ejecuta completo [`supabase/schema.sql`](supabase/schema.sql).
    Crea:
@@ -672,7 +673,7 @@ Rutaalacima usa [Supabase](https://supabase.com) para las cuentas, la comunidad,
    - Para conectarla a tu servidor: **Settings › Secrets and variables › Actions › Variables** y crea
      `RUTACIMA_SUPABASE_URL` y `RUTACIMA_SUPABASE_ANON_KEY`. Sin ellas abre en modo demostración.
    - Cada vez que cambias algo en `web/`, la guías o las frases y lo subes a `main`, se publica sola en
-     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar Rutaalacima Web › Run workflow**.
+     `https://passbri.github.io/rutacima/`. También puedes publicarla a mano en **Actions › Publicar SuRoute Web › Run workflow**.
    - Para probarla antes en tu computador: `bash tools/armar_web.sh _site` y `python3 -m http.server -d _site 8000`.
 7. **Verificar coaches.** Las postulaciones llegan a **Table Editor › coaches** con `verificado = false`. Revisa la
    ficha y cambia `verificado` a `true` para que aparezca en el directorio. Los reportes (de conversaciones y de
@@ -714,7 +715,7 @@ app/src/main/
 │   ├── data/social/         ← comunidad (con modo demostración)
 │   ├── data/coach/          ← coach IA y modo guía
 │   ├── data/frases/         ← frase del día y frases abiertas
-│   ├── data/web/            ← Rutaalacima Web: vincular un computador y sincronizar
+│   ├── data/web/            ← SuRoute Web: vincular un computador y sincronizar
 │   ├── seguridad/           ← sello: rostro, huella o clave
 │   ├── data/audio/          ← audiolibros: grabaciones, voz del teléfono y reproductor
 │   ├── notificaciones/      ← recordatorio diario y avisos de mensajes
@@ -722,7 +723,7 @@ app/src/main/
 │   └── ui/                  ← pantallas en Compose (ruta, hoy, metas, comunidad, aprende, perfil, web…)
 └── res/values*/strings.xml  ← textos en 12 idiomas
 supabase/                    ← schema.sql y la función "coach"
-web/                         ← Rutaalacima Web: index.html, estilos.css, config.js y los documentos legales
+web/                         ← SuRoute Web: index.html, estilos.css, config.js y los documentos legales
 web/js/                      ← la web por partes: 01-base … 09-arranque (se cargan en orden)
 diseno/                      ← logo, vistas previas, las 365 frases y el video de presentación
 video/                       ← el video de presentación hecho con Remotion (código de las escenas)
@@ -761,7 +762,7 @@ python3 tools/bancos.py
 
 **Próximos pasos:**
 
-- Rutaalacima Web en los 12 idiomas (hoy está en español).
+- SuRoute Web en los 12 idiomas (hoy está en español).
 - Traducción del contenido de las guías.
 - Exportar a PDF.
 - Avisos al instante con notificaciones push (hoy se revisan cada 15 minutos).

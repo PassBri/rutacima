@@ -14,15 +14,15 @@ let sondeo = null, renovar = null;
 async function mostrarVincular() {
   clearInterval(sondeo); clearInterval(renovar);
   const real = !!Store.nube;
-  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">Rutaalacima Web</div>
-    <div class="tarjeta-v"><div><h1>Usa Rutaalacima en tu computador</h1>
-      <ol class="pasos"><li>Abre <b>Rutaalacima</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>Rutaalacima Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
+  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">SuRoute Web</div>
+    <div class="tarjeta-v"><div><h1>Usa SuRoute en tu computador</h1>
+      <ol class="pasos"><li>Abre <b>SuRoute</b> en tu teléfono.</li><li>Ve a <b>Perfil</b> y toca el ícono del computador (<b>SuRoute Web</b>).</li><li>Toca <b>Escanear código</b> y apunta tu teléfono a este código.</li></ol>
       <p class="suave" style="margin-top:22px;max-width:46ch">Es la misma app, con tu misma cuenta: lo que hagas aquí aparece en tu teléfono, y lo que hagas en el teléfono aparece aquí.</p></div>
     <div><div class="qr" id="qr"><img class="centro" src="${LOGO}" alt=""><button class="qr-recargar" id="qrRecargar" hidden>${ic("ruta")}<span>Toca para generar un código nuevo</span></button></div>
       ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
       <p class="suave" style="text-align:center;font-size:13px;margin:8px 0 0" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
     <div class="v-pie">${real ? `<span class="suave">El código cambia cada pocos minutos. Este computador queda vinculado hasta que lo desvincules.</span>`
-      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de Rutaalacima configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
+      : `<span><span class="pill">Demostración</span> <span class="suave">Este sitio todavía no tiene el servidor de SuRoute configurado. Prueba la app con una ruta de ejemplo.</span></span>`}
       <button class="btn ${real ? "" : "lleno"}" data-acc-v="demo">Ver la demostración</button></div>
     ${real ? `<div class="v-correo"><span class="suave">¿No tienes un teléfono Android?</span><button class="btn lleno" id="vCorreo">Entrar con mi correo</button><button class="btn" id="vCrear">Crear cuenta</button></div>` : ""}
     <div class="v-extra"><button class="carta-releer" id="cartaReleer">${ic("candado")} Leer la carta de bienvenida</button>
@@ -152,12 +152,12 @@ const CARTA = {
   saludo: "Querido caminante:",
   parrafos: [
     "Si estás leyendo esto, ya diste el paso más difícil: decidiste subir.",
-    "Ruta a la Cima no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.",
+    "SuRoute no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.",
     "Aquí no se corre: se asciende. Un paso cada día, una jornada a la vez, con tu voluntad, tu maestría, tu voz, tu valor, tu evolución y la huella que dejarás en otros.",
     "Habrá caídas. Son parte del camino, no su final. Y no subirás solo: una cordada entera camina contigo.",
     "Guarda esta carta. El día que llegues arriba, vuelve a leerla.",
   ],
-  cierre: "Nos vemos en la cima.", firma: "Brian Suárez", rol: "Fundador de Ruta a la Cima",
+  cierre: "Nos vemos en la cima.", firma: "Brian Suárez", rol: "Fundador de SuRoute",
 };
 const cartaLeida = () => { try { return localStorage.getItem("rutacima-carta") === "1"; } catch { return false; } };
 function mostrarCarta(alSeguir) {
@@ -172,8 +172,8 @@ function mostrarCarta(alSeguir) {
       <p class="sobre-para">${CARTA.para}</p>
     </div>
     <div class="carta-sellada" id="cartaSellada"><button class="btn lleno" id="cartaRomper">${ic("candado")} Romper el sello</button></div>
-    <article class="carta" id="carta" aria-label="Carta de bienvenida a Ruta a la Cima" hidden>
-      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>Ruta a la Cima</span></header>
+    <article class="carta" id="carta" aria-label="Carta de bienvenida a SuRoute" hidden>
+      <header class="carta-membrete"><img src="${LOGO}" alt=""><span>SuRoute · My Summit</span></header>
       <p class="carta-lugar">Floridablanca, ${fecha}</p>
       <h2>${CARTA.saludo}</h2>${CARTA.parrafos.map(t => `<p>${t}</p>`).join("")}
       <p class="carta-cierre">${CARTA.cierre}</p>
@@ -215,7 +215,7 @@ async function iniciar() {
     console.error(e);
     Store.nube = null;
     const det = String(e?.message || e?.error_description || e?.msg || e || "").slice(0, 160);
-    mostrarCarga("No se pudo conectar con el servidor de Rutaalacima. Revisa tu conexión y recarga." + (det ? ` (Detalle: ${det}${e?.code ? " · " + e.code : ""})` : ""));
+    mostrarCarga("No se pudo conectar con el servidor de SuRoute. Revisa tu conexión y recarga." + (det ? ` (Detalle: ${det}${e?.code ? " · " + e.code : ""})` : ""));
   }
 }
 iniciar();

@@ -312,8 +312,8 @@ DET["mensajes.coachvida"] = () => {
   h += `<div class="etiqueta">Ser coach de vida</div>`;
   const fi = cv.ficha;
   h += hoja(fi?.verificado ? `<p style="margin:0">Eres coach verificado. Las personas pueden pedirte que las acompañes desde el directorio.</p>`
-    : fi ? `<p style="margin:0">Tu postulación está en revisión. Aparecerás en el directorio cuando el equipo de Rutaalacima la verifique.</p>`
-    : `<form class="form" data-form="postular"><p style="margin:0">Si acompañas personas profesionalmente, postúlate. Tu ficha aparecerá en el directorio cuando el equipo de Rutaalacima la verifique.</p>
+    : fi ? `<p style="margin:0">Tu postulación está en revisión. Aparecerás en el directorio cuando el equipo de SuRoute la verifique.</p>`
+    : `<form class="form" data-form="postular"><p style="margin:0">Si acompañas personas profesionalmente, postúlate. Tu ficha aparecerá en el directorio cuando el equipo de SuRoute la verifique.</p>
         ${campo("Especialidad", `<input type="text" name="especialidad" maxlength="120" required placeholder="Hábitos, carrera, finanzas…">`)}
         ${campo("Cómo acompañas", `<textarea name="texto" maxlength="1200" required></textarea>`)}
         <div class="botones"><button class="btn lleno" type="submit">Enviar postulación</button></div></form>`);

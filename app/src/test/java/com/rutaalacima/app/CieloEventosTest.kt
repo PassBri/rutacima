@@ -11,7 +11,7 @@ import java.io.File
 import java.time.Instant
 
 /**
- * Los eventos del cielo de la app deben ser los mismos de Rutaalacima Web. Los valores esperados
+ * Los eventos del cielo de la app deben ser los mismos de SuRoute Web. Los valores esperados
  * salen de web/js/10-cielo.js con los mismos datos (tools/cielo/generar.js).
  */
 class CieloEventosTest {

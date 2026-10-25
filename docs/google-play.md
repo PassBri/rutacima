@@ -1,4 +1,4 @@
-# Publicar Rutaalacima en Google Play
+# Publicar SuRoute en Google Play
 
 Guía para llenar Play Console con respuestas que coinciden con lo que la app hace de verdad y con la
 [política de privacidad](https://passbri.github.io/rutacima/privacidad.html). Si cambia algo en la app
@@ -38,7 +38,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 | ¿Recopila o comparte datos de usuario? | Sí |
 | ¿Todos los datos están cifrados en tránsito? | Sí (HTTPS) |
 | ¿Ofrece una forma de pedir que se borren los datos? | Sí (en la app, en la web y por correo) |
-| ¿Se comparten datos con terceros? | **No**. Supabase, Anthropic y GitHub actúan como proveedores de servicio por cuenta de Rutaalacima, lo que Google no considera "compartir" |
+| ¿Se comparten datos con terceros? | **No**. Supabase, Anthropic y GitHub actúan como proveedores de servicio por cuenta de SuRoute, lo que Google no considera "compartir" |
 
 **Datos recopilados.** Todo es *opcional* (la app funciona completa sin cuenta), salvo donde se indica.
 
@@ -59,7 +59,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 
 ## 4. Ficha de la tienda (español)
 
-**Nombre:** Rutaalacima
+**Nombre:** SuRoute
 
 **Descripción breve (80 caracteres como máximo):**
 
@@ -67,7 +67,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 
 **Descripción completa:**
 
-> Rutaalacima es un método para descubrir tu cumbre personal —eso que le da sentido a tu vida— y subirla un paso cada día.
+> SuRoute es un método para descubrir tu cumbre personal —eso que le da sentido a tu vida— y subirla un paso cada día.
 >
 > TU RUTA
 > • Las guías del método Ruta a la Cima, con tus respuestas guardadas en tu teléfono.
@@ -86,7 +86,7 @@ Guía para llenar Play Console con respuestas que coinciden con lo que la app ha
 > • Sin publicidad y sin venta de datos.
 > • Elimina tu cuenta cuando quieras.
 >
-> También en tu computador con Rutaalacima Web.
+> También en tu computador con SuRoute Web.
 
 **Gráficos que pide Play:**
 

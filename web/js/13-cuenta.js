@@ -1,4 +1,4 @@
-/* Rutaalacima Web · Cuenta con correo y contraseña (sin teléfono Android, por ejemplo en iPhone),
+/* SuRoute Web · Cuenta con correo y contraseña (sin teléfono Android, por ejemplo en iPhone),
    recuperar la contraseña y la autorización de tratamiento de datos (Ley 1581 de 2012). */
 const LEGAL_VERSION = "1.0"; // igual a Legal.VERSION de la app
 const BASE_LEGAL = /github\.io$|^localhost|^127\./.test(location.hostname) ? "" : "https://passbri.github.io/rutacima/";
@@ -25,11 +25,11 @@ const mensajeCuenta = e => (ERRORES_CUENTA.find(([r]) => r.test(e?.message || ""
 function mostrarCorreo(modo = "entrar") {
   clearInterval(sondeo); clearInterval(renovar);
   const crear = modo === "crear", olvido = modo === "olvido";
-  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">Rutaalacima Web</div>
+  $("pantallaVincular").innerHTML = `<div class="marca"><img src="${LOGO}" alt="">SuRoute Web</div>
     <div class="tarjeta-v tarjeta-correo"><div>
       <h1>${crear ? "Crea tu cuenta" : olvido ? "Recupera tu contraseña" : "Entra con tu correo"}</h1>
       <p class="suave" style="margin-top:-12px">${crear ? "Tu ruta queda guardada en tu cuenta y la abres desde cualquier navegador, también en iPhone."
-        : olvido ? "Te enviamos un enlace para crear una contraseña nueva." : "Usa el mismo correo y contraseña de tu cuenta de Rutaalacima."}</p>
+        : olvido ? "Te enviamos un enlace para crear una contraseña nueva." : "Usa el mismo correo y contraseña de tu cuenta de SuRoute."}</p>
       <form class="form form-correo" id="formCorreo" novalidate>
         ${crear ? `<label class="campo"><span>Usuario</span><div class="con-prefijo"><b>@</b><input name="usuario" autocomplete="off" spellcheck="false" minlength="3" maxlength="30" pattern="[a-z0-9._]{3,30}" required></div><small class="suave">De 3 a 30: letras minúsculas, números, punto o guion bajo.</small></label>
         <label class="campo"><span>Tu nombre</span><input name="nombre" autocomplete="name" maxlength="60"></label>` : ""}
@@ -99,7 +99,7 @@ async function revisarAutorizacion() {
     if (error || data?.length) return; // sin tabla todavía o ya aceptada
   } catch { return; }
   ventanaCuenta(`<h3 style="margin-top:0">Tus datos, con tu permiso</h3>
-    <p>Publicamos los documentos legales de Rutaalacima. Para seguir usando tu cuenta, léelos y acepta la autorización. ${enlaceLegal("legal.html", "Leer los documentos")}</p>
+    <p>Publicamos los documentos legales de SuRoute. Para seguir usando tu cuenta, léelos y acepta la autorización. ${enlaceLegal("legal.html", "Leer los documentos")}</p>
     <form class="form" id="formAutorizacion">${casillasLegales()}<p class="form-error" id="autorizacionError" role="alert"></p>
       <div class="botones"><button class="btn lleno" type="submit">Acepto y autorizo</button><button class="btn" type="button" id="autorizacionLuego">Ahora no</button></div></form>`, v => {
     const f = v.querySelector("#formAutorizacion");

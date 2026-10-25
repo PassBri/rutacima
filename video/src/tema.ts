@@ -1,7 +1,7 @@
 import {loadFont} from '@remotion/fonts';
 import {staticFile} from 'remotion';
 
-// Colores de Rutaalacima: papel, tinta y el burdeos del sello de cera.
+// Colores de SuRoute: papel, tinta y el burdeos del sello de cera.
 export const C = {
 	fondo: '#F7F3EE',
 	hoja: '#FFFFFF',

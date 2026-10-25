@@ -1,5 +1,5 @@
 -- =====================================================================
--- Rutaalacima · Esquema de Supabase (comunidad + coach de IA)
+-- SuRoute · Esquema de Supabase (comunidad + coach de IA)
 -- Ejecuta este archivo completo en: Supabase › SQL Editor › New query › Run
 -- =====================================================================
 
@@ -18,7 +18,7 @@ create table if not exists public.profiles (
 create or replace function public.crear_perfil() returns trigger
 language plpgsql security definer set search_path = public as $$
 begin
-  -- Los computadores de Rutaalacima Web entran como usuarios anónimos: no tienen perfil propio.
+  -- Los computadores de SuRoute Web entran como usuarios anónimos: no tienen perfil propio.
   if coalesce(new.is_anonymous, false) then return new; end if;
   insert into public.profiles (id, username, nombre)
   values (
@@ -153,7 +153,7 @@ create policy "borrar mis fotos" on storage.objects for delete
   using (bucket_id = 'media' and (storage.foldername(name))[1] = auth.uid()::text);
 
 -- =====================================================================
--- Rutaalacima Web: vincular un computador y compartir tu ruta
+-- SuRoute Web: vincular un computador y compartir tu ruta
 -- Requisito: Authentication › Sign In / Providers › "Allow anonymous sign-ins" activado.
 -- La web entra como usuario anónimo, muestra un código y el teléfono (con tu cuenta)
 -- lo aprueba. Desde ese momento la web lee y escribe tu ruta como un dispositivo vinculado.

@@ -12,7 +12,7 @@ import kotlin.math.tan
 
 /**
  * El cielo real de este momento: dónde están el sol, la luna y los planetas visibles, y qué fase
- * tiene la luna. Es la misma matemática de Rutaalacima Web (web/js/10-cielo.js) para que el cielo
+ * tiene la luna. Es la misma matemática de SuRoute Web (web/js/10-cielo.js) para que el cielo
  * del teléfono y el del computador coincidan: SunCalc (Vladimir Agafonkin, BSD) para sol y luna, y
  * los elementos keplerianos aproximados de JPL (Standish, válidos 1800–2050) para los planetas.
  *

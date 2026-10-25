@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pantalla de inicio del sistema: el sello de cera de Ruta a la Cima centrado (zona visible 2/3). -->
+<!-- Pantalla de inicio del sistema: el sello de cera de SuRoute (sin textos, para que se vea nítido) centrado (zona visible 2/3). -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:width="288dp" android:height="288dp">
         <shape android:shape="rectangle"><solid android:color="@android:color/transparent" /></shape>
     </item>
     <item android:width="184dp" android:height="184dp" android:gravity="center"
-        android:drawable="@drawable/logo_sello" />
+        android:drawable="@drawable/logo_sello_limpio" />
 </layer-list>

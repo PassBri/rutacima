@@ -1,4 +1,4 @@
-/* Rutaalacima Web · instalarla como app (PWA). En Android y en el computador, el navegador ofrece
+/* SuRoute Web · instalarla como app (PWA). En Android y en el computador, el navegador ofrece
    instalarla con un botón; en iPhone y iPad se hace desde Safari: Compartir › Agregar a pantalla de inicio.
    Se avisa una sola vez (se puede cerrar) y queda siempre en Perfil › Instalar la app. */
 P.compartirIos = "M16 5l-1.42 1.42-1.59-1.59V16h-1.98V4.83L9.42 6.42 8 5l4-4 4 4zm4 5v11c0 1.1-.9 2-2 2H6c-1.11 0-2-.9-2-2V10c0-1.11.89-2 2-2h3v2H6v11h12V10h-3V8h3c1.1 0 2 .89 2 2z";
@@ -22,7 +22,7 @@ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.
 }
 
 addEventListener("beforeinstallprompt", e => { e.preventDefault(); INSTALAR.aviso = e; programarAvisoInstalar(); if (estado.sec === "perfil") pintarLista(); });
-addEventListener("appinstalled", () => { INSTALAR.aviso = null; document.getElementById("avisoInstalar")?.remove(); toast("¡Listo! Rutaalacima quedó instalada."); });
+addEventListener("appinstalled", () => { INSTALAR.aviso = null; document.getElementById("avisoInstalar")?.remove(); toast("¡Listo! SuRoute quedó instalada."); });
 
 /** Instalar: en Android/computador abre el diálogo del navegador; en iPhone muestra los pasos. */
 async function instalarApp() {
@@ -34,10 +34,10 @@ async function instalarApp() {
     return;
   }
   if (INSTALAR.macSafari()) {
-    ventanaCuenta(`<h3 style="margin-top:0">Instala Rutaalacima en tu Mac</h3>
+    ventanaCuenta(`<h3 style="margin-top:0">Instala SuRoute en tu Mac</h3>
       <ol class="pasos-instalar">
         <li><span class="paso-ic">${ic("agregarInicio")}</span><span>En la barra de menús de Safari, abre <b>Archivo</b> y elige <b>Agregar al Dock</b>.</span></li>
-        <li><span class="paso-ic"><img src="iconos/apple-touch-icon.png" alt=""></span><span>Toca <b>Agregar</b>. Rutaalacima quedará en el Dock y en Aplicaciones, y se abrirá en su propia ventana.</span></li>
+        <li><span class="paso-ic"><img src="iconos/apple-touch-icon.png" alt=""></span><span>Toca <b>Agregar</b>. SuRoute quedará en el Dock y en Aplicaciones, y se abrirá en su propia ventana.</span></li>
       </ol>
       <p class="suave" style="font-size:13px">Necesitas macOS Sonoma o posterior. Con Chrome o Edge también puedes instalarla desde el ícono de la barra de direcciones.</p>
       <div class="botones"><button class="btn lleno" type="button" id="instalarListo">Entendido</button></div>`, v => {
@@ -45,11 +45,11 @@ async function instalarApp() {
     });
     return;
   }
-  ventanaCuenta(`<h3 style="margin-top:0">Instala Rutaalacima en tu ${/iPad/.test(navigator.userAgent) ? "iPad" : "iPhone"}</h3>
+  ventanaCuenta(`<h3 style="margin-top:0">Instala SuRoute en tu ${/iPad/.test(navigator.userAgent) ? "iPad" : "iPhone"}</h3>
     <ol class="pasos-instalar">
       <li><span class="paso-ic">${ic("compartirIos")}</span><span>Abre esta página en <b>Safari</b> y toca <b>Compartir</b> (abajo o arriba de la pantalla).</span></li>
       <li><span class="paso-ic">${ic("agregarInicio")}</span><span>Desliza y elige <b>Agregar a pantalla de inicio</b>.</span></li>
-      <li><span class="paso-ic"><img src="iconos/apple-touch-icon.png" alt=""></span><span>Toca <b>Agregar</b>. Rutaalacima aparecerá con su sello entre tus apps y se abrirá a pantalla completa.</span></li>
+      <li><span class="paso-ic"><img src="iconos/apple-touch-icon.png" alt=""></span><span>Toca <b>Agregar</b>. SuRoute aparecerá con su sello entre tus apps y se abrirá a pantalla completa.</span></li>
     </ol>
     <p class="suave" style="font-size:13px">Tu cuenta y tu ruta son las mismas: entra con tu correo.</p>
     <div class="botones"><button class="btn lleno" type="button" id="instalarListo">Entendido</button></div>`, v => {
@@ -72,7 +72,7 @@ function programarAvisoInstalar() {
     programarAvisoInstalar.mostrado = true;      // una vez por visita: si se fue sola, no vuelve hasta la próxima
     const a = document.createElement("div");
     a.id = "avisoInstalar"; a.className = "aviso-instalar"; a.setAttribute("role", "region"); a.setAttribute("aria-label", "Instalar la app");
-    a.innerHTML = `<img src="iconos/apple-touch-icon.png" alt=""><div><b>Instala Rutaalacima</b><span>Ábrela desde tu pantalla de inicio, como una app.</span></div>
+    a.innerHTML = `<img src="iconos/apple-touch-icon.png" alt=""><div><b>Instala SuRoute</b><span>Ábrela desde tu pantalla de inicio, como una app.</span></div>
       <button class="btn mini lleno" type="button" id="avisoInstalarSi">Instalar</button><button class="aviso-cerrar" type="button" aria-label="Cerrar" id="avisoInstalarNo">×</button>`;
     document.body.append(a);
     $("avisoInstalarSi").onclick = instalarApp;

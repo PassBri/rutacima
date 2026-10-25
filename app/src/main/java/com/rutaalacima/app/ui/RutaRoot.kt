@@ -241,7 +241,7 @@ private fun AppPrincipal() {
     // Cuentas que aún no aceptan la autorización de tratamiento de datos vigente (Ley 1581)
     com.rutaalacima.app.ui.legal.AutorizacionPendiente()
 
-    // Código QR de Rutaalacima Web escaneado con la cámara: abrir la pantalla para confirmarlo
+    // Código QR de SuRoute Web escaneado con la cámara: abrir la pantalla para confirmarlo
     val contenedor = (androidx.compose.ui.platform.LocalContext.current.applicationContext as com.rutaalacima.app.RutaApp).container
     val codigoWeb by contenedor.web.codigoPendiente.collectAsStateWithLifecycle()
     // Al tocar una notificación de mensajes: ir directo a esa conversación

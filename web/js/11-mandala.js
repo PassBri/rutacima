@@ -659,7 +659,7 @@ async function imagenMandala() {
   texto(`${d.escritos} de 64 pasos escritos · ${d.hechos} ${d.hechos === 1 ? "ganado" : "ganados"}`, 40, pie, 1000, 30, "#2B1E18", 700, 1);
   texto(`Tu montaña: ${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm`, 40, pie + 44, 1000, 26, "#6B2A1A", 400, 1);
   g.fillStyle = "#6B2A1A"; g.fillRect(0, H - 64, W, 64);
-  texto("Ruta a la Cima · Método Cima 9×52", 40, H - 50, 1000, 26, "#fff", "700s", 1, true);
+  texto("SuRoute · Método Cima 9×52", 40, H - 50, 1000, 26, "#fff", "700s", 1, true);
   return await new Promise((res, rej) => cv.toBlob(b => b ? res(b) : rej(new Error("imagen")), "image/jpeg", 0.9));
 }
 window.imagenMandala = imagenMandala;

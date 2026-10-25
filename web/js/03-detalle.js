@@ -137,7 +137,7 @@ const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
 /** El momento del día para el arte (0 amanecer, 1 día, 2 atardecer, 3 noche), según la hora local. */
 const momentoAhora = () => { const h = new Date().getHours(); return h >= 5 && h < 8 ? 0 : h >= 8 && h < 17 ? 1 : h >= 17 && h < 19 ? 2 : 3; };
 function vacio() {
-  return `<div class="vacio"><div class="vacio-arte" aria-hidden="true">${window.Arte ? Arte.cordillera("rutaalacima-bienvenida", momentoAhora()) : ""}</div><div><img src="${LOGO}" alt="Sello de Rutaalacima"><h2>Rutaalacima Web</h2>
+  return `<div class="vacio"><div class="vacio-arte" aria-hidden="true">${window.Arte ? Arte.cordillera("rutaalacima-bienvenida", momentoAhora()) : ""}</div><div><img src="${LOGO}" alt="Sello de SuRoute"><h2>SuRoute Web</h2>
     <p>La misma app de tu teléfono, en pantalla grande. Elige un año de tu ruta, tu día de hoy o una de tus metas.</p>
     <p class="pie suave">${ic("candado")} ${Store.nube ? "Conectada a tu cuenta: lo que cambies aquí aparece en tu teléfono." : "Demostración: los cambios se quedan en esta pestaña."}</p></div></div>`;
 }
@@ -901,10 +901,10 @@ DET.coach = () => {
   const ms = mensajesCoach();
   const sugs = ["Ayúdame a definir mi cumbre", "Divide mi meta anual en pasos", "Perdí la motivación", "Planea mi semana", "¿Qué eje debo trabajar?"];
   let ultimoDia = "";
-  return cab(av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", coachEscribiendo ? "escribiendo…" : "Conoce tus metas, tus ejes y tu avance",
+  return cab(av(ic("coach"), "var(--burdeos)"), "Coach SuRoute", coachEscribiendo ? "escribiendo…" : "Conoce tus metas, tus ejes y tu avance",
     ms.length ? `<button class="btn mini" data-acc="borrarCoach">Nueva conversación</button>` : "") +
     `<div class="det-cuerpo abajo"><div class="chat">
-      <div class="burbuja el">¡Hola! Soy tu coach de Rutaalacima. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</div>
+      <div class="burbuja el">¡Hola! Soy tu coach de SuRoute. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</div>
       ${ms.map(m => { const d = new Date(m.creadoEn).toLocaleDateString("es", { day: "numeric", month: "long" }); const sep = d !== ultimoDia ? `<span class="fecha-sep">${d}</span>` : ""; ultimoDia = d;
         if (m.rol === "user") return sep + `<div class="burbuja yo">${esc(m.texto)}<span class="h">${horaDe(m.creadoEn)}</span></div>`;
         const [texto, accion] = separarAccion(m.texto), creada = listaLocal("coach-creadas").has(String(m.id));
@@ -980,11 +980,11 @@ Object.assign(DET, {
         ? (Store.nube.directa
           ? `<h3>Conectado con tu correo</h3><p>Entraste como ${esc(Store.nube.correo || "")}${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Tu ruta se guarda en tu cuenta: ábrela desde cualquier navegador, en el computador o en el teléfono, entrando con tu correo.</p>
              <div class="botones"><button class="btn" data-acc="cambiarClaveWeb">Cambiar contraseña</button><button class="btn peligro" data-acc="salir">Cerrar sesión</button></div>`
-          : `<h3>Conectado a tu cuenta</h3><p>Rutaalacima Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
-           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › Rutaalacima Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`)
+          : `<h3>Conectado a tu cuenta</h3><p>SuRoute Web usa los mismos datos que tu teléfono${Store.nube.perfil?.username ? ` (@${esc(Store.nube.perfil.username)})` : ""}. Lo que cambies aquí aparece en la app, y lo que hagas en la app aparece aquí.</p>
+           <p class="suave">Para desvincular este computador desde el teléfono: Perfil › SuRoute Web.</p><div class="botones"><button class="btn peligro" data-acc="salir">Cerrar sesión en este computador</button></div>`)
           + `<h3 style="margin-top:28px">Eliminar mi cuenta</h3><p class="suave">Se borran para siempre tu perfil, publicaciones, comentarios, mensajes, tu ruta en la nube y los computadores vinculados. Lo guardado en tu teléfono se queda ahí.</p>
            <div class="botones"><button class="btn peligro" data-acc="eliminarCuenta">Eliminar mi cuenta</button></div>`
-        : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre Rutaalacima Web con el servidor configurado y vincúlala desde la app: Perfil › Rutaalacima Web › Escanear código.</p>
+        : `<h3>Estás en la demostración</h3><p>Es una ruta de ejemplo y los cambios se quedan en esta pestaña. Para usar tu ruta real, abre SuRoute Web con el servidor configurado y vincúlala desde la app: Perfil › SuRoute Web › Escanear código.</p>
            <div class="botones"><button class="btn" data-acc="salir">Volver a la pantalla de inicio</button></div>`) +
         (globalThis.avisoSuspension?.() || "") + enlacesLegales(), "max-width:640px");
   },

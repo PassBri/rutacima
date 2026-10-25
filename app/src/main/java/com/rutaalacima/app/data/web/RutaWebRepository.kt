@@ -61,7 +61,7 @@ data class EstadoWeb(
 )
 
 /**
- * Rutaalacima Web: vincular un computador (código QR) y mantener la ruta del teléfono
+ * SuRoute Web: vincular un computador (código QR) y mantener la ruta del teléfono
  * sincronizada con la nube (tabla ruta_datos de Supabase), para que la web y el teléfono
  * trabajen sobre lo mismo. Las reglas de quién gana están en [Sincronia].
  *

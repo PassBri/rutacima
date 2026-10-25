@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import java.security.MessageDigest
 
 /**
- * Reglas para sincronizar la ruta del teléfono con Rutaalacima Web (sin Android: se prueba con JUnit).
+ * Reglas para sincronizar la ruta del teléfono con SuRoute Web (sin Android: se prueba con JUnit).
  *
  * Cada cosa (perfil, una meta, un día del checklist…) es un documento JSON con una clave
  * "tipo/clave". En cada sincronización se comparan tres versiones:
@@ -75,7 +75,7 @@ object Sincronia {
     fun leerRespaldo(texto: String): Map<String, String> {
         val raiz = runCatching { Json.parseToJsonElement(texto) as JsonObject }.getOrNull()
             ?: throw IllegalArgumentException("no es JSON")
-        require((raiz["formato"] as? JsonPrimitive)?.content == FORMATO_RESPALDO) { "no es un respaldo de Rutaalacima" }
+        require((raiz["formato"] as? JsonPrimitive)?.content == FORMATO_RESPALDO) { "no es un respaldo de SuRoute" }
         val docs = raiz["documentos"] as? JsonObject ?: throw IllegalArgumentException("sin documentos")
         return docs.filter { (k, v) -> tipoDe(k) in TIPOS_RESPALDO && k.contains('/') && v is JsonObject }.mapValues { canonico(it.value) }
     }

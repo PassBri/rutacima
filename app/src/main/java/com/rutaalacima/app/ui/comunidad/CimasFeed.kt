@@ -203,7 +203,7 @@ private fun CimaPagina(
             Accion(if (guardado) Icons.Filled.Bookmark else Icons.Outlined.BookmarkBorder, "", stringResource(R.string.guardar),
                 if (guardado) MaterialTheme.colorScheme.secondary else Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
-                val texto = listOf(post.metaTitulo, post.texto, "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
+                val texto = listOf(post.metaTitulo, post.texto, "— SuRoute").filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
             // Más: reportar, bloquear y copiar, siempre a un toque

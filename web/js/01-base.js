@@ -1,4 +1,4 @@
-/* Rutaalacima Web: la misma app del teléfono en el computador.
+/* SuRoute Web: la misma app del teléfono en el computador.
  *
  * Los datos son los mismos que guarda la app (cada fila de su base Room como un documento
  * JSON con los mismos campos) y viven en la tabla ruta_datos de Supabase. El teléfono y la web

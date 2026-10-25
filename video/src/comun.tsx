@@ -50,7 +50,7 @@ export const Apoyo: React.FC<{children: React.ReactNode; style?: React.CSSProper
 	<div style={{fontFamily: TEXTO, fontSize: 48, lineHeight: 1.35, color: C.suave, textWrap: 'balance', ...style}}>{children}</div>
 );
 
-/** Teléfono con una captura real de Rutaalacima. */
+/** Teléfono con una captura real de SuRoute. */
 export const Telefono: React.FC<{src?: string; children?: React.ReactNode; alto?: number; style?: React.CSSProperties}> = ({src, children, alto = 880, style}) => {
 	const ancho = (alto * 390) / 844;
 	const borde = alto * 0.022;

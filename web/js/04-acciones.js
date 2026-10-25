@@ -212,7 +212,7 @@ const ACC = {
   /** Compartir una publicación: la hoja del sistema en el teléfono; en el computador, se copia el texto. */
   async compartirPost(el, id) {
     const p = (estado.feed || []).find(x => String(x.id) === id); if (!p) return;
-    const texto = [p.metaTitulo, p.texto, "— Rutaalacima"].filter(Boolean).join("\n\n");
+    const texto = [p.metaTitulo, p.texto, "— SuRoute"].filter(Boolean).join("\n\n");
     try { if (navigator.share) { await navigator.share({ text: texto }); return; } } catch { return; }
     try { await navigator.clipboard.writeText(texto); toast("Copiado: pégalo donde quieras compartirlo."); } catch {}
   },

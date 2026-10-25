@@ -95,7 +95,7 @@ private val BURDEOS = Color(0xFF6B2A1A)
 private val ORO = Color(0xFFB8862F)
 
 /**
- * Carta de bienvenida. Primero un sobre cerrado, con la solapa en V y el sello de cera de Rutaalacima en
+ * Carta de bienvenida. Primero un sobre cerrado, con la solapa en V y el sello de cera de SuRoute en
  * la punta; al romper el sello (un toque, con el mismo quiebre que la frase del día) el sobre se va y sale
  * la carta: papel marfil doblado en tres, con membrete, lugar y fecha, saludo, el mensaje del fundador y
  * su firma.
@@ -233,7 +233,7 @@ private fun Carta(parrafos: List<Int>) {
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             androidx.compose.foundation.Image(androidx.compose.ui.res.painterResource(R.drawable.logo_sello), null, Modifier.size(44.dp))
             Spacer(Modifier.height(6.dp))
-            Text("RUTA A LA CIMA", fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 3.sp, color = BURDEOS)
+            Text(stringResource(R.string.app_name).uppercase() + " · " + stringResource(R.string.lema).uppercase(), fontFamily = FontFamily.Serif, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 3.sp, color = BURDEOS)
             Spacer(Modifier.height(14.dp))
             Box(Modifier.fillMaxWidth().height(1.dp).background(ORO.copy(alpha = 0.45f)))
         }

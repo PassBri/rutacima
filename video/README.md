@@ -1,4 +1,4 @@
-# Video de presentación de Rutaalacima
+# Video de presentación de SuRoute
 
 El video ([`diseno/video/rutaalacima_presentacion.mp4`](../diseno/video/rutaalacima_presentacion.mp4), 55 s, 1920 × 1080)
 está hecho con código, con [Remotion](https://www.remotion.dev) y su skill oficial para agentes
@@ -9,17 +9,17 @@ generarlo igual.
 
 | # | Escena | Archivo |
 |---|---|---|
-| 1 | El sello cae y aparece Rutaalacima | `src/escenas/Apertura.tsx` |
+| 1 | El sello cae y aparece SuRoute | `src/escenas/Apertura.tsx` |
 | 2 | Tu vida hasta los 120 años, en puntos | `src/escenas/Vida.tsx` |
 | 3 | 7 fases × 6 ejes sobre la montaña | `src/escenas/Metodo.tsx` |
 | 4 | Metas en cascada (anillos) | `src/escenas/Cascada.tsx` |
 | 5 | Recorrido por la app: Mi ruta, Hoy, Metas, Aprende y Coach | `src/escenas/Recorrido.tsx` |
 | 6 | Comunidad, cordadas y coach de vida | `src/escenas/Comunidad.tsx` |
 | 7 | La frase sellada: el sello se parte | `src/escenas/FraseSellada.tsx` |
-| 8 | Rutaalacima Web | `src/escenas/Web.tsx` |
+| 8 | SuRoute Web | `src/escenas/Web.tsx` |
 | 9 | Cierre: «Tu cumbre te espera» | `src/escenas/Cierre.tsx` |
 
-Las pantallas (`public/caps/`) son capturas reales de Rutaalacima Web en modo demostración. La música
+Las pantallas (`public/caps/`) son capturas reales de SuRoute Web en modo demostración. La música
 (`public/musica.mp3`) es original, generada para este video.
 
 ## Editar y volver a generar

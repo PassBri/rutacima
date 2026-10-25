@@ -217,7 +217,7 @@ interface CoachDao {
     suspend fun borrarTodo()
 }
 
-/** Lecturas y escrituras en bloque para sincronizar con Rutaalacima Web. */
+/** Lecturas y escrituras en bloque para sincronizar con SuRoute Web. */
 @Dao
 interface SincroniaDao {
     @Query("SELECT * FROM perfil") suspend fun perfiles(): List<PerfilEntity>

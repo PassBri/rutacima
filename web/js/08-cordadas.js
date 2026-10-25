@@ -9,7 +9,7 @@ const LETRAS_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 const diaCordada = c => Math.round((hoyFecha() - deIso(c.inicio)) / DIA_MS) + 1;
 const cordadaTerminada = c => diaCordada(c) > c.dias;
 const etapaCordada = c => cordadaTerminada(c) ? "Reto terminado" : `Día ${Math.max(1, diaCordada(c))} de ${c.dias}`;
-const invitacionCordada = c => `Únete a mi cordada en Rutaalacima: «${c.reto}». Código: ${c.codigo}`;
+const invitacionCordada = c => `Únete a mi cordada en SuRoute: «${c.reto}». Código: ${c.codigo}`;
 /** Fechas del reto desde el inicio hasta hoy (o hasta el último día, si ya terminó). */
 function diasCordada(c) {
   const xs = [], d = deIso(c.inicio), fin = Math.min(Math.max(1, diaCordada(c)), c.dias);

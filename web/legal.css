@@ -1,4 +1,4 @@
-/* Documentos legales de Rutaalacima: hoja de papel, legible en teléfono y con modo oscuro. */
+/* Documentos legales de SuRoute: hoja de papel, legible en teléfono y con modo oscuro. */
 :root { --fondo: #F7F2EA; --hoja: #FFFFFF; --tinta: #2B1D16; --suave: #6B5B52; --linea: #E8DED4; --burdeos: #6B2A1A; --oro: #B8862F; color-scheme: light; }
 @media (prefers-color-scheme: dark) { :root { --fondo: #17110D; --hoja: #241B16; --tinta: #F1E8DF; --suave: #BBA99C; --linea: #3A2D25; --burdeos: #F0B3A1; --oro: #E0B566; color-scheme: dark; } }
 * { box-sizing: border-box; }

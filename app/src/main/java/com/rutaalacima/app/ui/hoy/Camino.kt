@@ -434,7 +434,7 @@ fun RevisionScreen(tipo: Revision.Tipo, dia: LocalDate, onBack: () -> Unit) {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = { vm.terminar(clave); onBack() }) { Text(stringResource(R.string.revision_terminar)) }
                     TextButton(onClick = {
-                        val texto = listOf(titulo, txtCompartir, guardadas[0], "— Rutaalacima").filter { it.isNotBlank() }.joinToString("\n\n")
+                        val texto = listOf(titulo, txtCompartir, guardadas[0], "— SuRoute").filter { it.isNotBlank() }.joinToString("\n\n")
                         ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
                     }) {
                         Icon(Icons.Filled.Share, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.revision_compartir))

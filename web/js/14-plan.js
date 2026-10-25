@@ -1,4 +1,4 @@
-/* Rutaalacima Web · Plan Cumbre (los cobros aún no están activos): qué incluye, precio de referencia
+/* SuRoute Web · Plan Cumbre (los cobros aún no están activos): qué incluye, precio de referencia
    y "Avísame cuando esté disponible". Igual que PlanScreen.kt y Planes.kt de la app. */
 var PLAN = { estado: null, cargando: false, error: false };
 const PLAN_PRECIO = { mes: CONFIG.planPrecioMes || "$14.900", anio: CONFIG.planPrecioAnio || "$119.000" };
@@ -7,13 +7,13 @@ const PLAN_BENEFICIOS = [
   ["Guías, ejes, metas y hábitos", true, true],
   ["Brújula de la Cima y vision board", true, true],
   ["Comunidad, mensajes y cordadas", true, true],
-  ["Rutaalacima Web, también en iPhone", true, true],
+  ["SuRoute Web, también en iPhone", true, true],
   ["Respaldo, exportar y eliminar tus datos", true, true],
   ["Coach con IA", true, false, "Algunos mensajes al día", "Muchos más mensajes al día"],
   ["Audiolibros completos", false, false],
   ["Cierre de año guiado", false, false],
 ];
-const ORIGEN_PLAN = { regalo: "Es un regalo de Rutaalacima.", institucion: "Lo tienes por tu institución.", piloto: "Eres parte del programa piloto." };
+const ORIGEN_PLAN = { regalo: "Es un regalo de SuRoute.", institucion: "Lo tienes por tu institución.", piloto: "Eres parte del programa piloto." };
 
 async function cargarPlan() {
   if (PLAN.cargando) return; PLAN.cargando = true;
@@ -40,7 +40,7 @@ DET["perfil.plan"] = () => {
   else accion = `<button class="btn lleno" data-acc="avisamePlan">Avísame cuando esté disponible</button>`;
   const hasta = cumbre && e.hasta ? new Date(e.hasta).toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" }) : "";
   return cab(av(ic("cumbre"), "var(--burdeos)"), "Plan Cumbre", "Qué incluye y cuánto cuesta") + cuerpo(
-    hoja(`<div class="plan-intro">${ic("cumbre")}<h2>Plan Cumbre</h2><p>Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener Rutaalacima.</p></div>`) +
+    hoja(`<div class="plan-intro">${ic("cumbre")}<h2>Plan Cumbre</h2><p>Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener SuRoute.</p></div>`) +
     hoja(cumbre ? `<h3 style="margin:0;color:var(--burdeos)">Tienes el Plan Cumbre hasta el ${esc(hasta)}</h3>${ORIGEN_PLAN[e.origen] ? `<p class="suave" style="margin:4px 0 0">${ORIGEN_PLAN[e.origen]}</p>` : ""}`
       : `<h3 style="margin:0">Tu plan: Gratis</h3><p class="suave" style="margin:4px 0 0">Mientras tanto, todo sigue abierto para todos.</p>`) +
     hoja(`<div class="plan-fila plan-cab"><span></span><span class="plan-celda">Gratis</span><span class="plan-celda si">Cumbre</span></div>${filas}`) +

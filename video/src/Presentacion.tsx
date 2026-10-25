@@ -16,7 +16,7 @@ import './tema';
 
 export const T = 15;
 
-/** Video de presentación de Rutaalacima (55 s). */
+/** Video de presentación de SuRoute (55 s). */
 export const Presentacion: React.FC = () => {
 	const {fps, durationInFrames} = useVideoConfig();
 	return (

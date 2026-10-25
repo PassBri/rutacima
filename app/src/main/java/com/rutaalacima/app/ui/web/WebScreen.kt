@@ -111,7 +111,7 @@ class WebViewModel(c: AppContainer) : ViewModel() {
 }
 
 /**
- * Rutaalacima Web: la misma app en el computador. Desde aquí se abre la web, se vincula un
+ * SuRoute Web: la misma app en el computador. Desde aquí se abre la web, se vincula un
  * computador escaneando su código QR y se ven los computadores vinculados.
  */
 @OptIn(ExperimentalMaterial3Api::class)

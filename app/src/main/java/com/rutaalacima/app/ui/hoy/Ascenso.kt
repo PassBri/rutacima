@@ -318,7 +318,7 @@ fun ResumenAnioScreen(anio: Int, onBack: () -> Unit, onPublicar: (String, String
                             val resumen = stringResource(R.string.resumen_texto, anio, d.diasConHabitos, d.habitos, d.mejorRacha, d.metasMesCumplidas + d.metasAnioCumplidas)
                             Spacer(Modifier.height(8.dp))
                             Button(onClick = {
-                                ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "$resumen\n\n— Rutaalacima"), null))
+                                ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "$resumen\n\n— SuRoute"), null))
                             }, colors = ButtonDefaults.buttonColors(containerColor = h.tinta, contentColor = h.fondo)) {
                                 Icon(Icons.Outlined.Share, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.resumen_compartir))
                             }

@@ -7,7 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * El cielo de la app debe ser el mismo de Rutaalacima Web. Los valores esperados salen de
+ * El cielo de la app debe ser el mismo de SuRoute Web. Los valores esperados salen de
  * web/js/10-cielo.js para el 12 de octubre de 2026 a las 20:30 en Bogotá (latitud 7.1, longitud -75).
  */
 class AstronomiaTest {

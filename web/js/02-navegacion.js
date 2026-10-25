@@ -16,7 +16,7 @@ function pintarRiel() {
   prepararDeslizarRiel();
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
-    `<img class="sello" src="${LOGO}" alt="Rutaalacima">` +
+    `<img class="sello" src="${LOGO}" alt="SuRoute">` +
     SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("brujula")}</span><span class="tip">Publicar</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
@@ -196,7 +196,7 @@ const LISTAS = {
   coach() {
     const ms = mensajesCoach(), u = ms[ms.length - 1];
     let h = cabLista("Coach", { buscar: false }) + `<div class="items">`;
-    h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach Rutaalacima", u ? horaDe(u.creadoEn) : "", esc(u ? separarAccion(u.texto)[0] : "Pregúntame por tu ruta"));
+    h += item("coach", av(ic("coach"), "var(--burdeos)"), "Coach SuRoute", u ? horaDe(u.creadoEn) : "", esc(u ? separarAccion(u.texto)[0] : "Pregúntame por tu ruta"));
     // Los atajos van como sugerencias dentro de la conversación (no repetidos aquí).
     return h + `</div>`;
   },

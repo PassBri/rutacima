@@ -4,11 +4,11 @@ import kotlin.math.abs
 import kotlin.math.max
 
 /**
- * Mandala 9×9 de Rutaalacima, adaptado del Mandala Chart (Mandal-Art) de Hiroaki Matsumura, el
+ * Mandala 9×9 de SuRoute, adaptado del Mandala Chart (Mandal-Art) de Hiroaki Matsumura, el
  * método que Takashi Harada enseñaba y con el que Shohei Ohtani planeó su carrera a los 16 años:
  * una meta en el centro, 8 metas de apoyo alrededor y 8 acciones para cada una (64 acciones).
  *
- * En Rutaalacima se mezcla con el vision board:
+ * En SuRoute se mezcla con el vision board:
  *  - Centro: la cumbre (la casilla "Mi cumbre" del vision board o la frase de la cumbre).
  *  - 8 campamentos: las otras casillas del vision board, con su foto. Cada campamento se repite en
  *    el bloque central y en el centro de su propio bloque, igual que en el método original.

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Rutaalacima</string>
+    <string name="app_name">SuRoute</string>
+    <!-- Lema de la marca: va igual en todos los idiomas -->
+    <string name="lema" translatable="false">My Summit</string>
     <string name="tab_hoy">Hoy</string>
     <string name="tab_comunidad">Comunidad</string>
     <string name="tab_aprende">Aprende</string>
@@ -131,7 +133,7 @@
     <string name="coach_sin_ia">Modo guía (sin conexión a la IA)</string>
     <string name="borrar_conversacion">Borrar conversación</string>
     <string name="escribe_al_coach">Escribe al coach…</string>
-    <string name="coach_bienvenida">¡Hola! Soy tu coach de Rutaalacima. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</string>
+    <string name="coach_bienvenida">¡Hola! Soy tu coach de SuRoute. Conozco tus metas, tus ejes y tu avance. Cuéntame qué quieres lograr o en qué te sientes atascado y te ayudo a dar el siguiente paso.</string>
     <string name="coach_local_motivacion">La motivación va y viene; los sistemas se quedan. Hoy no necesitas ganas, necesitas un paso de 2 minutos. Elige la acción más pequeña de tu meta del mes y hazla ahora. Luego márcala en Hoy: ver el avance enciende de nuevo el fuego.</string>
     <string name="coach_local_rendirse">Antes de abandonar, abre el bono Anti-abandono: casi siempre no hay que dejar la montaña, sino cambiar la ruta. Pregúntate: ¿esta meta todavía me acerca a mi cumbre? Si la respuesta es sí, reduce el tamaño del paso, no la meta.</string>
     <string name="coach_local_perdido">Perderse en la niebla es parte del viaje. Abre el Kit de Emergencia y elige el protocolo que describe cómo te sientes. Después vuelve a tu cumbre en una frase y decide solo el próximo paso.</string>
@@ -484,7 +486,7 @@
     <string name="ya_tengo_cuenta">Ya tengo cuenta</string>
     <string name="no_tengo_cuenta">No tengo cuenta, crear una</string>
     <string name="acerca_de">Acerca de</string>
-    <string name="acerca_texto">Rutaalacima %1$s · Tu ruta de metas a largo plazo, anuales, mensuales y diarias, basada en el método Ruta a la Cima.</string>
+    <string name="acerca_texto">SuRoute %1$s · Tu ruta de metas a largo plazo, anuales, mensuales y diarias, basada en el método Ruta a la Cima.</string>
     <string name="publicaciones">Publicaciones</string>
     <string name="metas_cumplidas">Metas cumplidas</string>
     <string name="perfil_tab_publicaciones">Publicaciones</string>
@@ -514,7 +516,7 @@
     <string name="lectura">Lectura</string>
     <string name="onb_bienvenida">Bienvenido, senderista.</string>
     <string name="onb_cita">Hay un momento en la vida en que sientes un llamado silencioso.</string>
-    <string name="onb_texto">Tu Cumbre Personal no es un punto geográfico ni una simple meta. Es un estado donde todas tus dimensiones convergen: tu voluntad, tu maestría, tu voz, tu capacidad de crear valor, tu evolución y tu conexión con lo trascendente. Rutaalacima te ayuda a llegar paso a paso: de tu propósito a 5 años a lo que haces hoy.</string>
+    <string name="onb_texto">Tu Cumbre Personal no es un punto geográfico ni una simple meta. Es un estado donde todas tus dimensiones convergen: tu voluntad, tu maestría, tu voz, tu capacidad de crear valor, tu evolución y tu conexión con lo trascendente. SuRoute te ayuda a llegar paso a paso: de tu propósito a 5 años a lo que haces hoy.</string>
     <string name="onb_comenzar">Comenzar el ascenso</string>
     <string name="onb_quien">¿Quién emprende este viaje?</string>
     <string name="onb_cumbre_frase">Tu Cumbre Personal en una frase (puedes escribirla después):</string>
@@ -623,19 +625,19 @@
     <string name="bloqueo_clave">Clave propia</string>
     <string name="bloqueo_toque">Solo tocar</string>
     <string name="bloqueo_sin_biometria">Este teléfono no tiene rostro, huella ni bloqueo de pantalla configurados.</string>
-    <string name="bloqueo_ayuda">Cada día te espera una frase de los libros, sellada con cera. Elige cómo romper el sello. El rostro y la huella los verifica tu teléfono: Rutaalacima nunca ve ni guarda tu cara.</string>
+    <string name="bloqueo_ayuda">Cada día te espera una frase de los libros, sellada con cera. Elige cómo romper el sello. El rostro y la huella los verifica tu teléfono: SuRoute nunca ve ni guarda tu cara.</string>
     <string name="cambiar_clave">Cambiar clave</string>
     <string name="mis_frases">Mis frases</string>
     <string name="mis_frases_n">Frases abiertas: %1$d de 365</string>
     <string name="frases_vacio">Aún no has abierto ninguna frase este año. Mañana te espera otra.</string>
     <string name="recordatorio_frase_sellada">Tu frase del día te espera sellada. Ábrela con tu rostro o tu clave.</string>
     <string name="estilo_blanco">Papel blanco</string>
-    <string name="web_titulo">Rutaalacima Web</string>
+    <string name="web_titulo">SuRoute Web</string>
     <string name="web_intro">La misma app en tu computador, con tu misma cuenta: lo que hagas en un lado aparece en el otro.</string>
-    <string name="web_abrir">Abrir Rutaalacima Web</string>
+    <string name="web_abrir">Abrir SuRoute Web</string>
     <string name="web_abrir_o_vincular">Abrir o vincular la web</string>
     <string name="web_vincular">Vincular un computador</string>
-    <string name="web_vincular_pasos">En el computador abre Rutaalacima Web y escanea con el teléfono el código que aparece.</string>
+    <string name="web_vincular_pasos">En el computador abre SuRoute Web y escanea con el teléfono el código que aparece.</string>
     <string name="web_escanear">Escanear código</string>
     <string name="web_escribir_codigo">Escribir el código</string>
     <string name="web_codigo">Código de 8 letras</string>
@@ -653,15 +655,15 @@
     <string name="web_sincronizado">Sincronizado %1$s</string>
     <string name="web_sincronizando">Sincronizando…</string>
     <string name="web_sin_sincronizar">Aún no se ha sincronizado.</string>
-    <string name="web_sin_servidor">Para usar la web con tus datos hace falta configurar el servidor de Rutaalacima (ver README).</string>
-    <string name="web_sin_cuenta">Para vincular un computador, inicia sesión en tu cuenta de Rutaalacima.</string>
+    <string name="web_sin_servidor">Para usar la web con tus datos hace falta configurar el servidor de SuRoute (ver README).</string>
+    <string name="web_sin_cuenta">Para vincular un computador, inicia sesión en tu cuenta de SuRoute.</string>
     <string name="web_ir_cuenta">Ir a mi cuenta</string>
     <string name="web_privacidad">Mientras tengas la web vinculada, tu ruta se guarda en tu cuenta para que el computador la vea. Las publicaciones privadas también suben, pero solo tú las ves.</string>
     <string name="web_borrar">Dejar de compartir y borrar de la nube</string>
     <string name="web_borrar_texto">Se desvinculan todos los computadores y tu ruta se borra de la nube. En tu teléfono sigue completa.</string>
     <string name="web_borrar_si">Borrar de la nube</string>
     <string name="web_borrado">Listo. Tu ruta se borró de la nube y sigue completa en tu teléfono.</string>
-    <string name="web_codigo_invalido">Ese código no es de Rutaalacima. Escanea el que aparece en Rutaalacima Web.</string>
+    <string name="web_codigo_invalido">Ese código no es de SuRoute. Escanea el que aparece en SuRoute Web.</string>
     <string name="web_escaner_no">No se pudo abrir el escáner. Escribe el código que aparece en la web.</string>
     <string name="vision_titulo">Mi vision board</string>
     <string name="vision_abrir">Armar mi vision board</string>
@@ -745,7 +747,7 @@
     <string name="coach_vida_solicitar">Pedir que sea mi coach</string>
     <string name="coach_vida_preguntar">Preguntar</string>
     <string name="coach_vida_ser_coach">Ser coach de vida</string>
-    <string name="coach_vida_ser_coach_texto">Si acompañas personas profesionalmente, postúlate. Tu ficha aparecerá en el directorio cuando el equipo de Rutaalacima la verifique.</string>
+    <string name="coach_vida_ser_coach_texto">Si acompañas personas profesionalmente, postúlate. Tu ficha aparecerá en el directorio cuando el equipo de SuRoute la verifique.</string>
     <string name="coach_vida_especialidad">Especialidad (p. ej. hábitos, carrera, finanzas)</string>
     <string name="coach_vida_bio">Cuéntale a las personas cómo acompañas</string>
     <string name="coach_vida_postular">Enviar postulación</string>
@@ -864,7 +866,7 @@
     <string name="respaldo_restaurar">Restaurar una copia</string>
     <string name="respaldo_guardado">Copia guardada.</string>
     <string name="respaldo_restaurado">Listo: se restauraron %1$d elementos (lo que ya tenías se conserva).</string>
-    <string name="respaldo_error">No se pudo. Revisa que el archivo sea una copia de Rutaalacima.</string>
+    <string name="respaldo_error">No se pudo. Revisa que el archivo sea una copia de SuRoute.</string>
     <string name="widget_nombre">Mi frase y mis hábitos</string>
     <string name="widget_desc">La frase del día, tus hábitos de hoy y tu racha</string>
     <string name="widget_sellada">🔒 Tu frase de hoy espera sellada. Toca para romper el sello.</string>
@@ -913,7 +915,7 @@
     <string name="cordadas_animo">Escribe algo para tu cordada</string>
     <string name="cordadas_companeros">Compañeros de cordada (%1$d)</string>
     <string name="cordadas_invitar">Invita con este código (máximo 6 personas):</string>
-    <string name="cordadas_invitacion">Únete a mi cordada en Rutaalacima: «%1$s». Código: %2$s</string>
+    <string name="cordadas_invitacion">Únete a mi cordada en SuRoute: «%1$s». Código: %2$s</string>
     <string name="cordadas_muro">Muro de la cordada</string>
     <string name="cordadas_muro_vacio">Nadie ha escrito todavía. Un «¡vamos!» a tiempo ayuda más de lo que crees.</string>
     <string name="cordadas_yo">Tú</string>
@@ -981,7 +983,7 @@
     <string name="resumen_compartir">Compartir mi año</string>
     <string name="resumen_publicar">Publicar en la comunidad</string>
     <string name="resumen_vacio">Todavía no hay suficiente para tu resumen: marca tus hábitos unos días y vuelve.</string>
-    <string name="resumen_texto">Mi %1$d en Ruta a la Cima: %2$d días con hábitos, %3$d hábitos cumplidos, mejor racha de %4$d días y %5$d metas cumplidas.</string>
+    <string name="resumen_texto">Mi %1$d en SuRoute: %2$d días con hábitos, %3$d hábitos cumplidos, mejor racha de %4$d días y %5$d metas cumplidas.</string>
     <string name="agua_resumen">%1$d de 8 vasos · %2$s L</string>
     <string name="agua_cumplida">¡Meta de agua cumplida!</string>
     <string name="agua_sumar">Un vaso más</string>
@@ -1047,7 +1049,7 @@
     <string name="mandala_compartido">Tu 9×9 ya está en la comunidad</string>
     <string name="mandala_no_compartido">No se pudo compartir. Inténtalo de nuevo.</string>
     <string name="mandala_imagen_etiqueta">Mi Brújula de la Cima 9×9</string>
-    <string name="mandala_imagen_marca">Ruta a la Cima · Método Cima 9×52</string>
+    <string name="mandala_imagen_marca">SuRoute · Método Cima 9×52</string>
     <string name="mandala_casillas_titulo">Las 9 casillas del centro</string>
     <string name="brujula_titulo">Brújula de la Cima 9×9</string>
     <string name="brujula_con">Confluencia</string>
@@ -1112,13 +1114,13 @@
     <string name="carta_romper">Rompe el sello para leer tu carta.</string>
     <string name="carta_saludo">Querido caminante:</string>
     <string name="carta_p1">Si estás leyendo esto, ya diste el paso más difícil: decidiste subir.</string>
-    <string name="carta_p2">Ruta a la Cima no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.</string>
+    <string name="carta_p2">SuRoute no es una lista de tareas. Es un mapa para encontrar tu cumbre —eso que le da sentido a tu vida— y una brújula para no perderla cuando llegue la niebla.</string>
     <string name="carta_p3">Aquí no se corre: se asciende. Un paso cada día, una jornada a la vez, con tu voluntad, tu maestría, tu voz, tu valor, tu evolución y la huella que dejarás en otros.</string>
     <string name="carta_p4">Habrá caídas. Son parte del camino, no su final. Y no subirás solo: una cordada entera camina contigo.</string>
     <string name="carta_p5">Guarda esta carta. El día que llegues arriba, vuelve a leerla.</string>
     <string name="carta_cierre">Nos vemos en la cima.</string>
     <string name="carta_firma">Brian Suárez</string>
-    <string name="carta_firma_rol">Fundador de Ruta a la Cima</string>
+    <string name="carta_firma_rol">Fundador de SuRoute</string>
     <string name="carta_empezar">Empezar mi ascenso</string>
     <string name="brujula_compartir_ayuda2">Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale:</string>
     <string name="brujula_compartir_pasos">Mis 64 pasos</string>
@@ -1140,7 +1142,7 @@
     <string name="registro_edad">Tengo 18 años o más, o tengo entre 14 y 17 y cuento con la autorización de mi representante legal.</string>
     <string name="registro_leer">Leer los documentos</string>
     <string name="legal_pendiente_titulo">Tus datos, con tu permiso</string>
-    <string name="legal_pendiente_texto">Publicamos los documentos legales de Rutaalacima: política de privacidad, términos, aviso de privacidad, autorización de tratamiento y normas de la comunidad. Para seguir usando tu cuenta, léelos y acepta la autorización.</string>
+    <string name="legal_pendiente_texto">Publicamos los documentos legales de SuRoute: política de privacidad, términos, aviso de privacidad, autorización de tratamiento y normas de la comunidad. Para seguir usando tu cuenta, léelos y acepta la autorización.</string>
     <string name="legal_aceptar">Acepto y autorizo</string>
     <string name="legal_ahora_no">Ahora no</string>
     <string name="legal_error">No se pudo guardar. Revisa tu conexión e inténtalo de nuevo.</string>
@@ -1189,18 +1191,18 @@
     <string name="diag_ayuda">Si la app se cierra por un error, envía qué falló (versión, modelo del teléfono y la línea del código), sin tu cuenta ni tu contenido. Nos ayuda a arreglarlo.</string>
     <string name="foto_de">Foto de %1$s</string>
     <string name="foto_reportada">Imagen reportada</string>
-    <string name="plan_sub">Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener Rutaalacima.</string>
+    <string name="plan_sub">Todo el método sigue gratis. El Plan Cumbre es para quien quiere ir más lejos y, de paso, ayuda a sostener SuRoute.</string>
     <string name="plan_gratis">Gratis</string>
     <string name="plan_cumbre">Cumbre</string>
     <string name="plan_tu_gratis">Tu plan: Gratis</string>
     <string name="plan_tu_cumbre">Tienes el Plan Cumbre hasta el %1$s</string>
-    <string name="plan_origen_regalo">Es un regalo de Rutaalacima.</string>
+    <string name="plan_origen_regalo">Es un regalo de SuRoute.</string>
     <string name="plan_origen_institucion">Lo tienes por tu institución.</string>
     <string name="plan_origen_piloto">Eres parte del programa piloto.</string>
     <string name="plan_b_metodo">Guías, ejes, metas y hábitos</string>
     <string name="plan_b_brujula">Brújula de la Cima y vision board</string>
     <string name="plan_b_comunidad">Comunidad, mensajes y cordadas</string>
-    <string name="plan_b_web">Rutaalacima Web, también en iPhone</string>
+    <string name="plan_b_web">SuRoute Web, también en iPhone</string>
     <string name="plan_b_datos">Respaldo, exportar y eliminar tus datos</string>
     <string name="plan_b_coach">Coach con IA</string>
     <string name="plan_b_coach_gratis">Algunos mensajes al día</string>

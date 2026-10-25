@@ -6,7 +6,7 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 /**
- * Método Cima 9×52: el modelo propio de Rutaalacima.
+ * Método Cima 9×52: el modelo propio de SuRoute.
  *
  * Une tres ideas:
  *  1. La cuadrícula 9×9 (Mandala Chart): la cumbre al centro, 8 campamentos y 64 pasos ([Mandala]).

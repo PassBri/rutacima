@@ -12,7 +12,7 @@ export const Web: React.FC = () => {
 	return (
 		<Papel>
 			<div style={{position: 'absolute', left: 140, top: 250, width: 640}}>
-				<Rotulo style={a}>Rutaalacima Web</Rotulo>
+				<Rotulo style={a}>SuRoute Web</Rotulo>
 				<Titular style={{marginTop: 24, fontSize: 88, ...b}}>La misma app en tu computador</Titular>
 				<Apoyo style={{marginTop: 30, ...c}}>Escanea un código y tus datos aparecen en los dos lados.</Apoyo>
 			</div>

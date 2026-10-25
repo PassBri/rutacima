@@ -25,7 +25,7 @@ export const Apertura: React.FC = () => {
 						}}
 					/>
 				</div>
-				<div style={{fontFamily: TITULO, fontWeight: 700, fontSize: 150, color: C.burdeos, letterSpacing: -2, ...titulo}}>Rutaalacima</div>
+				<div style={{fontFamily: TITULO, fontWeight: 700, fontSize: 150, color: C.burdeos, letterSpacing: -2, ...titulo}}>SuRoute</div>
 				<div style={{fontFamily: TEXTO, fontSize: 52, color: C.suave, marginTop: -20, ...sub}}>La app del método <b style={{color: C.tinta, fontWeight: 500}}>Ruta a la Cima</b></div>
 			</AbsoluteFill>
 		</Papel>
