@@ -45,6 +45,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -89,6 +90,9 @@ class PerfilViewModel(private val c: AppContainer) : ViewModel() {
     val cascada: StateFlow<Cascada?> = estado(c.cascada.cascada, null)
     val usuario: String = c.social.usuarioPropio()
     val frasesAbiertas: StateFlow<Set<Int>> = c.frases.desbloqueadas
+    fun ponerFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo, bytes: ByteArray) = c.appScope.launch { c.fotosPerfil.ponerBytes(t, bytes) }
+    fun quitarFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo) = c.appScope.launch { c.fotosPerfil.quitar(t) }
+    fun guardarQuienSoy(texto: String) = viewModelScope.launch { c.perfil.actualizar { it.copy(quienSoy = texto) } }
 }
 
 /** Perfil: quién soy, mi cumbre, mis publicaciones, mi vida por años, mi vision board y mis ejes. */
@@ -109,6 +113,22 @@ fun PerfilScreen(
     val eval by vm.evaluacion.collectAsStateWithLifecycle()
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
+    // Foto de perfil y portada: elegir → editar (recortar, girar, filtro) → guardar
+    var tipoFoto by rememberSaveable { mutableStateOf(com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL) }
+    var editando by remember { mutableStateOf<android.net.Uri?>(null) }
+    val elegirFoto = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
+    ) { uri -> if (uri != null) editando = uri }
+    editando?.let { uri ->
+        val perfilFoto = tipoFoto == com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL
+        com.rutaalacima.app.ui.components.EditorFoto(
+            uri,
+            formatos = if (perfilFoto) com.rutaalacima.app.ui.components.FormatosFoto.PERFIL else com.rutaalacima.app.ui.components.FormatosFoto.PORTADA,
+            ladoMax = tipoFoto.ladoMax,
+            onListo = { bytes -> vm.ponerFoto(tipoFoto, bytes); editando = null },
+            onCancelar = { editando = null },
+        )
+    }
     // Calendario de vida: década, año y mes seleccionados
     var anioSel by rememberSaveable { mutableStateOf<Int?>(hoy().year) }
     var mesSel by rememberSaveable { mutableStateOf<Int?>(null) }
@@ -122,71 +142,50 @@ fun PerfilScreen(
         contentPadding = PaddingValues(top = contentPadding.calculateTopPadding(), bottom = contentPadding.calculateBottomPadding() + 24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        // Portada + avatar
+        // Perfil como una página personal: portada, foto, nombre, edad, la cumbre y «Quién soy»
         item {
-            MontanaArte("perfil-${perfil.nombre}", Modifier.fillMaxWidth().height(110.dp), paleta = 2)
-            Row(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                Avatar(perfil.nombre.ifBlank { "R" }, tamano = 76)
-                Spacer(Modifier.width(16.dp))
-                Row(Modifier.weight(1f), horizontalArrangement = Arrangement.SpaceEvenly) {
+            Column(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
+                val nac = perfil.anioNacimiento?.let { java.time.LocalDate.of(it, perfil.mesNacimiento ?: 1, 1) }
+                val hoyF = java.time.LocalDate.now()
+                com.rutaalacima.app.ui.ruta.MiVidaCabecera(
+                    perfil,
+                    edad = nac?.let { java.time.Period.between(it, hoyF).years },
+                    diaDeVida = nac?.let { (java.time.temporal.ChronoUnit.DAYS.between(it, hoyF) + 1).toInt() },
+                    onFoto = { t -> tipoFoto = t; elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(
+                        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+                    onQuitar = { vm.quitarFoto(it) },
+                )
+                val abiertas by vm.frasesAbiertas.collectAsStateWithLifecycle()
+                Row(Modifier.fillMaxWidth().padding(top = 12.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
                     Dato(posts.size, stringResource(R.string.publicaciones))
                     Dato(logros, stringResource(R.string.logros))
                     Dato(metasCumplidas, stringResource(R.string.metas_cumplidas))
                 }
-            }
-            Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                val abiertas by vm.frasesAbiertas.collectAsStateWithLifecycle()
-                Text(perfil.nombre.ifBlank { stringResource(R.string.senderista) }, style = MaterialTheme.typography.titleLarge)
-                androidx.compose.material3.TextButton(onClick = onFrases, contentPadding = PaddingValues(0.dp)) {
-                    Icon(Icons.Filled.FormatQuote, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
-                    Spacer(Modifier.width(6.dp))
-                    Text(stringResource(R.string.mis_frases_n, abiertas.size), style = MaterialTheme.typography.labelLarge)
-                }
-                if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (perfil.cumbreFrase.isNotBlank()) Row(Modifier.padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Filled.Terrain, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
-                    Spacer(Modifier.width(6.dp))
-                    Text(perfil.cumbreFrase, style = MaterialTheme.typography.bodyMedium)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                    else Spacer(Modifier.weight(1f))
+                    androidx.compose.material3.TextButton(onClick = onFrases) {
+                        Icon(Icons.Filled.FormatQuote, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
+                        Spacer(Modifier.width(6.dp))
+                        Text(stringResource(R.string.mis_frases_n, abiertas.size), style = MaterialTheme.typography.labelLarge)
+                    }
                 }
             }
         }
+        item { Box(Modifier.padding(horizontal = 16.dp)) { com.rutaalacima.app.ui.ruta.QuienSoyCard(perfil.quienSoy) { vm.guardarQuienSoy(it) } } }
         // Accesos agrupados: tu ascenso, las personas que te acompañan y lo demás
         // Si la cuenta está suspendida, la persona lo ve aquí con el motivo y cómo pedir revisión
         item { com.rutaalacima.app.ui.moderacion.AvisoSuspension(Modifier.padding(horizontal = 16.dp)) }
         item { AccesosPerfil(onIrA) }
         item {
             TabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {
-                listOf(R.string.perfil_tab_publicaciones, R.string.perfil_tab_vida, R.string.perfil_tab_vision, R.string.perfil_tab_ejes)
+                listOf(R.string.perfil_tab_publicaciones, R.string.perfil_tab_ejes)
                     .forEachIndexed { i, t -> Tab(selected = tab == i, onClick = { tab = i }, text = { Text(stringResource(t), maxLines = 1) }) }
             }
         }
         when (tab) {
             0 -> cuadricula(posts, onAbrirPost, vacio = R.string.sin_publicaciones) { onPublicar("LOGRO") }
-            1 -> calendarioVida(
-                perfil, posts, anioSel, mesSel,
-                onSeleccion = { a, m -> if (a == anioSel && m == null && mesSel == null) anioSel = null else { anioSel = a; mesSel = m } },
-                onAbrir = onAbrirPost, onPublicar = onPublicar, onAjustes = onAjustes,
-                onMeta = { vm.cambiarMeta(it) },
-                onRecuerdo = { a, m -> onIrA(com.rutaalacima.app.ui.Rutas.publicar("LOGRO", anio = a, mes = m)) },
-                onAlbum = { onIrA(com.rutaalacima.app.ui.Rutas.album(it)) },
-            )
-            2 -> {
-                item {
-                    Text(stringResource(R.string.vision_board_texto), style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp))
-                }
-                item {
-                    androidx.compose.material3.Button(onClick = onVision, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
-                        Icon(Icons.Filled.AutoAwesome, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.vision_abrir))
-                    }
-                }
-                cuadricula(posts.filter { it.tipo == TipoPost.VISION }, onAbrirPost, vacio = R.string.vision_vacia) { onPublicar("VISION") }
-                item {
-                    OutlinedButton(onClick = { onPublicar("VISION") }, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
-                        Icon(Icons.Filled.Add, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.agregar_vision))
-                    }
-                }
-            }
             else -> item {
                 Column(Modifier.padding(horizontal = 16.dp)) {
                     val e = eval

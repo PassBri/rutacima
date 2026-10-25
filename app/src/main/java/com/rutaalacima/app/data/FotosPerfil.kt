@@ -27,6 +27,11 @@ class FotosPerfil(
     /** Guarda la foto elegida. Devuelve false si no se pudo leer la imagen. */
     suspend fun poner(tipo: Tipo, uri: Uri): Boolean = withContext(Dispatchers.IO) {
         val bytes = comprimir(uri, tipo.ladoMax) ?: return@withContext false
+        ponerBytes(tipo, bytes)
+    }
+
+    /** Guarda la foto ya editada (recortada y con su filtro) que entrega el editor de fotos. */
+    suspend fun ponerBytes(tipo: Tipo, bytes: ByteArray): Boolean = withContext(Dispatchers.IO) {
         val dir = File(context.filesDir, "media").apply { mkdirs() }
         val f = File(dir, "${tipo.archivo}-${System.currentTimeMillis()}.jpg").apply { writeBytes(bytes) }
         val uid = supa.sesion.value?.userId

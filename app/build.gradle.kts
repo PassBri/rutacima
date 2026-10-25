@@ -112,6 +112,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.exifinterface)
     // Formas de Material 3 Expressive (polígonos redondeados y morph): el mismo motor de MaterialShapes
     implementation(libs.androidx.graphics.shapes)
     implementation(libs.androidx.navigation.compose)

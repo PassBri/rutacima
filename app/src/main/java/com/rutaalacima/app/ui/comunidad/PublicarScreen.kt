@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -110,7 +111,22 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
         if (textoInicial != null && vm.texto.isBlank()) vm.texto = textoInicial
         if (anioInicial != null) { vm.anio = anioInicial; vm.mes = mesInicial }
     }
-    val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) vm.foto = uri }
+    // Elegir → editar (formato cuadrado, vertical 4:5 u horizontal; recorte, giro y filtro) → usar
+    val ctxPub = androidx.compose.ui.platform.LocalContext.current
+    var editando by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf<android.net.Uri?>(null) }
+    var proporcion by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableFloatStateOf(1f) }
+    val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri -> if (uri != null) editando = uri }
+    editando?.let { uri ->
+        com.rutaalacima.app.ui.components.EditorFoto(uri, com.rutaalacima.app.ui.components.FormatosFoto.PUBLICACION, ladoMax = 1440,
+            onListo = { bytes ->
+                val f = java.io.File(ctxPub.cacheDir, "editada-${System.currentTimeMillis()}.jpg").apply { writeBytes(bytes) }
+                android.graphics.BitmapFactory.Options().apply { inJustDecodeBounds = true }.also { o ->
+                    android.graphics.BitmapFactory.decodeFile(f.absolutePath, o); if (o.outHeight > 0) proporcion = o.outWidth.toFloat() / o.outHeight
+                }
+                vm.foto = android.net.Uri.fromFile(f); editando = null
+            },
+            onCancelar = { editando = null })
+    }
 
     Scaffold(
         modifier = Modifier.fondoPapel(),
@@ -156,7 +172,7 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
             item {
                 val forma = RoundedCornerShape(20.dp)
                 Box(
-                    Modifier.fillMaxWidth().aspectRatio(1f).clip(forma)
+                    Modifier.fillMaxWidth().aspectRatio(if (vm.foto != null) proporcion else 1f).clip(forma)
                         .border(1.dp, MaterialTheme.colorScheme.outlineVariant, forma)
                         .clickable { elegirFoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
                     contentAlignment = Alignment.Center,
@@ -172,7 +188,10 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
                         }
                     }
                 }
-                if (vm.foto != null) TextButton(onClick = { vm.foto = null }) { Text(stringResource(R.string.quitar_foto)) }
+                if (vm.foto != null) Row {
+                    TextButton(onClick = { vm.foto?.let { editando = it } }) { Text(stringResource(R.string.ef_editar)) }
+                    TextButton(onClick = { vm.foto = null }) { Text(stringResource(R.string.quitar_foto)) }
+                }
             }
             item {
                 OutlinedTextField(vm.texto, { vm.texto = it }, label = { Text(stringResource(R.string.que_quieres_compartir)) },

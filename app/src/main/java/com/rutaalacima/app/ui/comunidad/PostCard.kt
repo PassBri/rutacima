@@ -83,11 +83,26 @@ fun Avatar(nombre: String, url: String = "", tamano: Int = 40, forma: androidx.c
 }
 
 /**
- * Imagen de la publicación. Formato propio de SuRoute: horizontal 4:3 (la "postal de cumbre"),
- * distinto del cuadrado/vertical de otras redes. Sin foto, se dibuja un paisaje vectorial.
+ * Imagen de la publicación. Con [ratio] null (el muro) se respeta el formato con que se publicó:
+ * cuadrada, vertical 4:5 u horizontal hasta 1,91:1 (las más largas se recortan a esos bordes).
+ * Sin foto, se dibuja un paisaje vectorial (postal 4:3).
  */
 @Composable
-fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true, ratio: Float = 4f / 3f) {
+fun PostImagen(post: Post, modifier: Modifier = Modifier, conTexto: Boolean = true, ratio: Float? = 4f / 3f) {
+    if (post.foto.isNotBlank() && ratio == null) {
+        val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
+        var natural by androidx.compose.runtime.remember(post.foto) { androidx.compose.runtime.mutableFloatStateOf(1f) }
+        val descripcion = androidx.compose.ui.res.stringResource(R.string.foto_de, post.autorNombre) +
+            post.metaTitulo.ifBlank { post.texto }.take(120).let { if (it.isBlank()) "" else ": $it" }
+        AsyncImage(modelo, descripcion, modifier.aspectRatio(natural), contentScale = ContentScale.Crop,
+            onSuccess = { e ->
+                val d = e.result.drawable
+                if (d.intrinsicHeight > 0) natural = (d.intrinsicWidth.toFloat() / d.intrinsicHeight)
+                    .coerceIn(com.rutaalacima.app.ui.components.FormatosFoto.MIN, com.rutaalacima.app.ui.components.FormatosFoto.MAX)
+            })
+        return
+    }
+    val ratio = ratio ?: (4f / 3f)
     if (post.foto.isNotBlank()) {
         val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
         // Para lectores de pantalla: de quién es la foto y, si hay, lo que dice la publicación
@@ -160,7 +175,7 @@ fun PostCard(
         } else if (post.foto.isNotBlank()) {
             // Postal 4:3 con margen, la meta y el eje sobre un degradado
             Box(Modifier.padding(horizontal = 12.dp).clip(RoundedCornerShape(18.dp))) {
-                PostImagen(post, Modifier.fillMaxWidth())
+                PostImagen(post, Modifier.fillMaxWidth(), ratio = null)
                 Row(
                     Modifier.align(Alignment.BottomStart).fillMaxWidth()
                         .background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xAA000000))))

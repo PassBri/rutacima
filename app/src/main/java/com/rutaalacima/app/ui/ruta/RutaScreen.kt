@@ -131,21 +131,21 @@ fun Post.fecha(): LocalDate = Instant.ofEpochMilli(creadoEn).atZone(ZoneId.syste
 /** Nivel de la cascada de la vida. Se guarda como texto para sobrevivir a la rotación. */
 sealed class Nivel {
     data object Vida : Nivel()
-    /** La vida en puntos: un punto por año (opción propia de Mi ruta). */
-    data object Puntos : Nivel()
+    /** Cumbre, vision board y Brújula 9×9: la visión de toda la vida (opción propia de Mi ruta). */
+    data object Brujula : Nivel()
     data class Anio(val anio: Int) : Nivel()
     data class Mes(val ym: YearMonth) : Nivel()
     data class Semana(val lunes: LocalDate) : Nivel()
     data class Dia(val fecha: LocalDate) : Nivel()
 
     fun codificar(): String = when (this) {
-        Vida -> "vida"; Puntos -> "puntos"; is Anio -> "anio:$anio"; is Mes -> "mes:$ym"; is Semana -> "semana:$lunes"; is Dia -> "dia:$fecha"
+        Vida -> "vida"; Brujula -> "brujula"; is Anio -> "anio:$anio"; is Mes -> "mes:$ym"; is Semana -> "semana:$lunes"; is Dia -> "dia:$fecha"
     }
 
     /** Nivel superior (para el gesto Atrás). */
     fun arriba(): Nivel? = when (this) {
         Vida -> null
-        Puntos -> Vida
+        Brujula -> Vida
         is Anio -> Vida
         is Mes -> Anio(ym.year)
         is Semana -> Mes(YearMonth.from(lunes.plusDays(3)))
@@ -156,7 +156,7 @@ sealed class Nivel {
         fun decodificar(s: String): Nivel = runCatching {
             val (t, v) = (s.split(':', limit = 2) + "").let { it[0] to it[1] }
             when (t) {
-                "puntos" -> Puntos; "anio" -> Anio(v.toInt()); "mes" -> Mes(YearMonth.parse(v))
+                "brujula" -> Brujula; "anio" -> Anio(v.toInt()); "mes" -> Mes(YearMonth.parse(v))
                 "semana" -> Semana(LocalDate.parse(v)); "dia" -> Dia(LocalDate.parse(v)); else -> Vida
             }
         }.getOrDefault(Vida)
@@ -204,10 +204,6 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
         c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
     }
-    fun ponerFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo, uri: android.net.Uri, alFallar: () -> Unit) =
-        c.appScope.launch { if (!c.fotosPerfil.poner(t, uri)) kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Main) { alFallar() } }
-    fun quitarFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo) = c.appScope.launch { c.fotosPerfil.quitar(t) }
-    fun guardarQuienSoy(texto: String) = viewModelScope.launch { c.perfil.actualizar { it.copy(quienSoy = texto) } }
     fun armarVision() { if (armando) return; armando = true; viewModelScope.launch { runCatching { c.vision.armar() }; armando = false } }
 }
 
@@ -247,12 +243,6 @@ fun RutaScreen(
     val vida by vm.vida.collectAsStateWithLifecycle()
     val dias by vm.dias.collectAsStateWithLifecycle()
     var codigo by rememberSaveable { mutableStateOf("vida") }
-    val ctx = androidx.compose.ui.platform.LocalContext.current
-    val txtFotoError = stringResource(R.string.mv_foto_error)
-    var tipoFoto by rememberSaveable { mutableStateOf(com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL) }
-    val elegirFoto = androidx.activity.compose.rememberLauncherForActivityResult(
-        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia(),
-    ) { uri -> if (uri != null) vm.ponerFoto(tipoFoto, uri) { android.widget.Toast.makeText(ctx, txtFotoError, android.widget.Toast.LENGTH_SHORT).show() } }
     val nivel = Nivel.decodificar(codigo)
     val ir: (Nivel) -> Unit = { codigo = it.codificar() }
 
@@ -285,26 +275,11 @@ fun RutaScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 when (n) {
-                    Nivel.Vida -> {
-                        // Mi vida es quién eres: portada, foto, nombre, «Quién soy», tu cumbre y tu vision board.
-                        // El tiempo (los años en puntos y el recordatorio del día) vive en «Mapa de mi vida».
-                        item(key = "mv-cabecera") {
-                            val nac = perfil.anioNacimiento?.let { LocalDate.of(it, perfil.mesNacimiento ?: 1, 1) }
-                            MiVidaCabecera(
-                                perfil,
-                                edad = nac?.let { java.time.Period.between(it, hoy()).years },
-                                diaDeVida = nac?.let { (java.time.temporal.ChronoUnit.DAYS.between(it, hoy()) + 1).toInt() },
-                                onFoto = { t -> tipoFoto = t; elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(
-                                    androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly)) },
-                                onQuitar = { vm.quitarFoto(it) },
-                            )
-                        }
-                        item(key = "mv-quien") { QuienSoyCard(perfil.quienSoy) { vm.guardarQuienSoy(it) } }
-                        item(key = "vision-vida") {
-                            VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
-                                onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
-                        }
-                        nivelVida(perfil, posts, propositos, ir, { vm.cambiarMeta(it) }, onNuevaMeta, onProposito, onAjustes)
+                    // La raíz de Mi ruta es el mapa de la vida (el tiempo); la visión tiene su propia opción
+                    Nivel.Vida -> nivelMapa(perfil, posts, propositos, ir, onAjustes) { vm.cambiarMeta(it) }
+                    Nivel.Brujula -> item(key = "vision-vida") {
+                        VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
+                            onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
                     }
                     is Nivel.Anio -> {
                         perfil.anioNacimiento?.let { nac -> item(key = "linea-${n.anio}") { LineaVida(nac, perfil.esperanza(), n.anio, anuales, posts, vida) { ir(Nivel.Anio(it)) } } }
@@ -317,7 +292,6 @@ fun RutaScreen(
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
                     }
-                    Nivel.Puntos -> nivelPuntos(perfil, posts, propositos, ir, onAjustes) { vm.cambiarMeta(it) }
                     is Nivel.Mes -> nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
@@ -333,7 +307,7 @@ fun RutaScreen(
 private fun SaltosChips(ir: (Nivel) -> Unit) {
     val h = hoy()
     val atajos = listOf(
-        Triple(R.string.ruta_vida_puntos, Icons.Filled.Apps, Nivel.Puntos),
+        Triple(R.string.ruta_brujula, Icons.Filled.Explore, Nivel.Brujula),
         Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
         Triple(R.string.ruta_esta_semana, Icons.Filled.ViewWeek, Nivel.Semana(h.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))),
         Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),
@@ -354,10 +328,10 @@ private fun SaltosChips(ir: (Nivel) -> Unit) {
 private fun Migas(nivel: Nivel, perfil: PerfilEntity, ir: (Nivel) -> Unit) {
     val meta = perfil.esperanza()
     val pasos = buildList<Pair<String, Nivel>> {
-        add(stringResource(R.string.ruta_n_anios, meta) to Nivel.Vida)
+        add(stringResource(R.string.ruta_vida_puntos) to Nivel.Vida)
         when (nivel) {
             Nivel.Vida -> Unit
-            Nivel.Puntos -> add(stringResource(R.string.ruta_vida_puntos) to nivel)
+            Nivel.Brujula -> add(stringResource(R.string.ruta_brujula) to nivel)
             is Nivel.Anio -> add("${nivel.anio}" to nivel)
             is Nivel.Mes -> { add("${nivel.ym.year}" to Nivel.Anio(nivel.ym.year)); add(nombreMes(nivel.ym.monthValue) to nivel) }
             is Nivel.Semana -> {
@@ -457,49 +431,9 @@ fun fraseRecordatorio(i: Int): Int = when (i) {
 
 // ---------------------------------------------------------------- Nivel 1: Vida (los puntos)
 
-private fun androidx.compose.foundation.lazy.LazyListScope.nivelVida(
-    perfil: PerfilEntity,
-    posts: List<Post>,
-    propositos: List<PropositoEntity>,
-    ir: (Nivel) -> Unit,
-    onMeta: (Int) -> Unit,
-    onNuevaMeta: (NivelMeta) -> Unit,
-    onProposito: (Long) -> Unit,
-    onAjustes: () -> Unit,
-) {
-    item {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            SectionTitle(stringResource(R.string.ruta_cumbres), Modifier.weight(1f))
-            OutlinedButton(onClick = { onNuevaMeta(NivelMeta.CINCO_ANIOS) }) {
-                Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.nuevo_proposito))
-            }
-        }
-    }
-    if (propositos.isEmpty()) {
-        item { Text(stringResource(R.string.cascada_vacia_texto), style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant) }
-    }
-    items(propositos, key = { "p${it.id}" }) { p ->
-        val anioMeta = Instant.ofEpochMilli(p.creadoEn).atZone(ZoneId.systemDefault()).year + p.horizonte
-        RutaCard(onClick = { onProposito(p.id) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Flag, null, tint = MaterialTheme.colorScheme.secondary)
-                Spacer(Modifier.width(10.dp))
-                Column(Modifier.weight(1f)) {
-                    Text(p.titulo, style = MaterialTheme.typography.titleMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                    Text(stringResource(R.string.ruta_meta_en, p.horizonte, anioMeta), style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-                Text("${p.progreso}%", style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.primary)
-            }
-            ProgressLine(p.progreso / 100f, Modifier.padding(top = 8.dp))
-        }
-    }
-}
+// ---------------------------------------------------------------- Mapa de mi vida (raíz de Mi ruta)
 
-// ---------------------------------------------------------------- Vida en puntos (opción propia de Mi ruta)
-
-private fun androidx.compose.foundation.lazy.LazyListScope.nivelPuntos(
+private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
     perfil: PerfilEntity,
     posts: List<Post>,
     propositos: List<PropositoEntity>,
