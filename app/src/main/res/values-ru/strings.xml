@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">Написать %1$s</string>
     <string name="borrar_publicacion">Удалить публикацию</string>
     <string name="borrar_publicacion_q">Удалить эту публикацию? Это нельзя отменить.</string>
-    <string name="mochila_titulo">Твой рюкзак</string>
+    <string name="mochila_titulo">Твоё снаряжение</string>
     <string name="mochila_sub">Снаряжение путника</string>
     <string name="mochila_intro">Каждый путник берёт в дорогу всё нужное. Здесь инструменты метода: открывай их, когда строишь цели, подводишь итоги месяца или когда трудно продолжать. Всё, что ты напишешь, сохранится.</string>
     <string name="mochila_aprende">Инструменты метода для пути</string>
-    <string name="mochila_de_tu">Из твоего рюкзака</string>
+    <string name="mochila_de_tu">Из твоего снаряжения</string>
     <string name="mochila_g_metas">Чтобы наметить цели</string>
     <string name="mochila_g_metas_d">Открывай, когда пишешь предназначение или цель на год.</string>
     <string name="mochila_g_dias">Чтобы планировать дни</string>

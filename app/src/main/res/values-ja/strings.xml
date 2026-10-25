@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">%1$s さんにメッセージ</string>
     <string name="borrar_publicacion">投稿を削除</string>
     <string name="borrar_publicacion_q">この投稿を削除しますか？元に戻せません。</string>
-    <string name="mochila_titulo">あなたのリュック</string>
+    <string name="mochila_titulo">あなたの装備</string>
     <string name="mochila_sub">登山者の道具</string>
     <string name="mochila_intro">登山者は道に必要なものを背負っています。ここにあるのはメソッドの道具です。目標を立てるとき、月を締めくくるとき、続けるのがつらいときに開いてください。書いた内容は保存されます。</string>
     <string name="mochila_aprende">道のためのメソッドの道具</string>
-    <string name="mochila_de_tu">リュックから</string>
+    <string name="mochila_de_tu">装備から</string>
     <string name="mochila_g_metas">目標を描くために</string>
     <string name="mochila_g_metas_d">目的や今年の目標を書くときに開きましょう。</string>
     <string name="mochila_g_dias">毎日を計画するために</string>

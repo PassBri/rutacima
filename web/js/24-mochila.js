@@ -27,7 +27,7 @@ function avanceBono(id) {
 }
 
 LISTAS.mochila = function () {
-  let h = cabLista("Tu mochila", { buscar: false }) + `<div class="items">`;
+  let h = cabLista("Tu equipo", { buscar: false }) + `<div class="items">`;
   if (!Contenido.indice) { Contenido.cargarIndice(); return h + `<p class="vacio-mini">Abriendo tu mochila…</p></div>`; }
   MOCHILA.forEach(([g, , xs]) => {
     h += grupo(g);
@@ -38,7 +38,7 @@ LISTAS.mochila = function () {
 
 DET["mochila.inicio"] = () => {
   if (!Contenido.indice) Contenido.cargarIndice();
-  return cab(av(ic("mochila"), "var(--burdeos)"), "Tu mochila", "Las herramientas del senderista") + cuerpo(
+  return cab(av(ic("mochila"), "var(--burdeos)"), "Tu equipo", "Las herramientas del senderista") + cuerpo(
     hoja(`<p style="margin:0">Todo senderista lleva lo necesario para el camino. Aquí están las herramientas del método:
       ábrelas mientras construyes tus metas, cuando cierres el mes o cuando te cueste seguir. Lo que escribas en ellas se guarda.</p>`) +
     MOCHILA.map(([g, d, xs]) => hoja(`<h3 style="margin-bottom:2px">${g}</h3><p class="suave" style="margin-top:0">${d}</p>
@@ -51,7 +51,7 @@ DET["mochila.wb"] = id => DET["aprende.wb"](id);
 /** «De tu mochila»: las herramientas que sirven en este momento, a un toque (por ejemplo, al trazar una meta). */
 function deTuMochila(ids = MOCHILA_METAS) {
   if (!Contenido.indice) { Contenido.cargarIndice(); return ""; }
-  return `<div class="mochila-fila"><span>${ic("mochila")} De tu mochila</span>${ids.filter(tituloBono).map(id =>
+  return `<div class="mochila-fila"><span>${ic("mochila")} De tu equipo</span>${ids.filter(tituloBono).map(id =>
     `<button class="chip" data-ir="mochila" data-arg="wb:${id}">${esc(tituloBono(id))}</button>`).join("")}</div>`;
 }
 window.deTuMochila = deTuMochila;

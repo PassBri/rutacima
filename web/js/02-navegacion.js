@@ -7,7 +7,7 @@
  * muestra Hoy · Mi ruta · Publicar · Comunidad · Aprende · Perfil. */
 const SECCIONES = [
   ["hoy", "Hoy"], ["ruta", "Mi ruta"], ["metas", "Metas"], ["comunidad", "Comunidad"],
-  ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Mochila"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["perfil", "Perfil"],
+  ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Equipo"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["perfil", "Perfil"],
 ];
 /** En el teléfono la barra es igual a la de la app: solo íconos (5 secciones y Publicar con brújula en
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.
@@ -75,7 +75,7 @@ document.addEventListener("focusout", () => setTimeout(() => { if (detallePendie
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {
-  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Mochila">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
+  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
   return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1><span style="display:flex;gap:4px;align-items:center">${atajos}${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</span></div>
     ${buscar ? `<label class="buscar">${ic("buscar")}<input id="busq" type="search" placeholder="Buscar" value="${esc(estado.busqueda)}" aria-label="Buscar"></label>` : ""}
     ${chips.length ? `<div class="chips">${chips.map(([k, n]) => `<button class="chip" data-filtro="${k}" aria-pressed="${estado.filtro === k}">${n}</button>`).join("")}</div>` : ""}</div>`;
@@ -188,7 +188,7 @@ const LISTAS = {
     const CAT = { ruta: "Tu ruta", finanzas: "Inteligencia financiera", herramientas: "Herramientas", bonos: "Bonos", lecturas: "Lecturas", facilitador: "Facilitadores" };
     let h = cabLista("Aprende", { chips: [["todo", "Todo"], ["ruta", "Ruta"], ["finanzas", "Finanzas"], ["herramientas", "Herramientas"], ["lecturas", "Lecturas"]] }) + `<div class="items">`;
     // Los bonos viven en la mochila: herramientas para usar mientras construyes tus metas
-    if (estado.filtro === "todo" && !estado.busqueda) h += `<button class="item" data-sec="mochila">${av(ic("mochila"), "var(--oro)")}<span class="txt"><span class="t1"><span>Tu mochila</span><span class="hora"></span></span><span class="t2"><span>Las herramientas del método para el camino</span></span></span></button>`;
+    if (estado.filtro === "todo" && !estado.busqueda) h += `<button class="item" data-sec="mochila">${av(ic("mochila"), "var(--oro)")}<span class="txt"><span class="t1"><span>Tu equipo</span><span class="hora"></span></span><span class="t2"><span>Las herramientas del método para el camino</span></span></span></button>`;
     if (!Contenido.indice) { Contenido.cargarIndice(); return h + `<p class="vacio-mini">Cargando las guías…</p></div>`; }
     const resp = Store.lista("respuesta");
     let g = "";

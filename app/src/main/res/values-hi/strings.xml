@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">%1$s को संदेश भेजें</string>
     <string name="borrar_publicacion">पोस्ट हटाएँ</string>
     <string name="borrar_publicacion_q">यह पोस्ट हटाएँ? इसे वापस नहीं किया जा सकता।</string>
-    <string name="mochila_titulo">आपका बैग</string>
+    <string name="mochila_titulo">आपके उपकरण</string>
     <string name="mochila_sub">पर्वतारोही के औज़ार</string>
     <string name="mochila_intro">हर पर्वतारोही रास्ते के लिए ज़रूरी चीज़ें साथ रखता है। ये विधि के औज़ार हैं: लक्ष्य बनाते समय, महीना बंद करते समय या जब आगे बढ़ना मुश्किल हो, इन्हें खोलें। आप जो लिखेंगे वह सहेजा जाएगा।</string>
     <string name="mochila_aprende">रास्ते के लिए विधि के औज़ार</string>
-    <string name="mochila_de_tu">आपके बैग से</string>
+    <string name="mochila_de_tu">आपके उपकरणों से</string>
     <string name="mochila_g_metas">अपने लक्ष्य बनाने के लिए</string>
     <string name="mochila_g_metas_d">कोई उद्देश्य या साल का लक्ष्य लिखते समय खोलें।</string>
     <string name="mochila_g_dias">अपने दिनों की योजना के लिए</string>

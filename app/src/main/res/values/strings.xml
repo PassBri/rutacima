@@ -1739,11 +1739,11 @@
     <string name="enviar_mensaje_a">Enviar mensaje a %1$s</string>
     <string name="borrar_publicacion">Borrar publicación</string>
     <string name="borrar_publicacion_q">¿Borrar esta publicación? No se puede deshacer.</string>
-    <string name="mochila_titulo">Tu mochila</string>
+    <string name="mochila_titulo">Tu equipo</string>
     <string name="mochila_sub">Las herramientas del senderista</string>
     <string name="mochila_intro">Todo senderista lleva lo necesario para el camino. Aquí están las herramientas del método: ábrelas mientras construyes tus metas, cuando cierres el mes o cuando te cueste seguir. Lo que escribas en ellas se guarda.</string>
     <string name="mochila_aprende">Las herramientas del método para el camino</string>
-    <string name="mochila_de_tu">De tu mochila</string>
+    <string name="mochila_de_tu">De tu equipo</string>
     <string name="mochila_g_metas">Para trazar tus metas</string>
     <string name="mochila_g_metas_d">Ábrelas mientras escribes un propósito o una meta del año.</string>
     <string name="mochila_g_dias">Para planear tus días</string>

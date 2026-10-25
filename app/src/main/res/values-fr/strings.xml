@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">Envoyer un message à %1$s</string>
     <string name="borrar_publicacion">Supprimer la publication</string>
     <string name="borrar_publicacion_q">Supprimer cette publication ? Action irréversible.</string>
-    <string name="mochila_titulo">Ton sac à dos</string>
+    <string name="mochila_titulo">Ton équipement</string>
     <string name="mochila_sub">Les outils du randonneur</string>
     <string name="mochila_intro">Tout randonneur emporte le nécessaire pour le chemin. Voici les outils de la méthode : ouvre-les en construisant tes objectifs, en clôturant le mois ou quand il est difficile de continuer. Ce que tu y écris est enregistré.</string>
     <string name="mochila_aprende">Les outils de la méthode pour le chemin</string>
-    <string name="mochila_de_tu">De ton sac à dos</string>
+    <string name="mochila_de_tu">De ton équipement</string>
     <string name="mochila_g_metas">Pour tracer tes objectifs</string>
     <string name="mochila_g_metas_d">Ouvre-les en écrivant un but ou un objectif de l’année.</string>
     <string name="mochila_g_dias">Pour planifier tes journées</string>

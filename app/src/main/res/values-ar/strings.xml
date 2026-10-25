@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">أرسل رسالة إلى %1$s</string>
     <string name="borrar_publicacion">حذف المنشور</string>
     <string name="borrar_publicacion_q">هل تريد حذف هذا المنشور؟ لا يمكن التراجع.</string>
-    <string name="mochila_titulo">حقيبتك</string>
+    <string name="mochila_titulo">معداتك</string>
     <string name="mochila_sub">أدوات المتنزّه</string>
     <string name="mochila_intro">كل متنزّه يحمل ما يحتاجه الطريق. هذه أدوات المنهج: افتحها وأنت تبني أهدافك، أو عند إغلاق الشهر، أو حين يصعب عليك الاستمرار. ما تكتبه فيها يُحفظ.</string>
     <string name="mochila_aprende">أدوات المنهج للطريق</string>
-    <string name="mochila_de_tu">من حقيبتك</string>
+    <string name="mochila_de_tu">من معداتك</string>
     <string name="mochila_g_metas">لرسم أهدافك</string>
     <string name="mochila_g_metas_d">افتحها وأنت تكتب غاية أو هدفًا للسنة.</string>
     <string name="mochila_g_dias">لتخطيط أيامك</string>

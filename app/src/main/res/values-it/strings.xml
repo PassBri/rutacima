@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">Invia un messaggio a %1$s</string>
     <string name="borrar_publicacion">Elimina post</string>
     <string name="borrar_publicacion_q">Eliminare questo post? Non si può annullare.</string>
-    <string name="mochila_titulo">Il tuo zaino</string>
+    <string name="mochila_titulo">La tua attrezzatura</string>
     <string name="mochila_sub">Gli strumenti dell’escursionista</string>
     <string name="mochila_intro">Ogni escursionista porta il necessario per il cammino. Ecco gli strumenti del metodo: aprili mentre costruisci i tuoi obiettivi, quando chiudi il mese o quando è difficile continuare. Ciò che scrivi resta salvato.</string>
     <string name="mochila_aprende">Gli strumenti del metodo per il cammino</string>
-    <string name="mochila_de_tu">Dal tuo zaino</string>
+    <string name="mochila_de_tu">Dalla tua attrezzatura</string>
     <string name="mochila_g_metas">Per tracciare i tuoi obiettivi</string>
     <string name="mochila_g_metas_d">Aprili mentre scrivi uno scopo o un obiettivo dell’anno.</string>
     <string name="mochila_g_dias">Per pianificare i tuoi giorni</string>

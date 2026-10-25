@@ -1737,11 +1737,11 @@
     <string name="enviar_mensaje_a">Enviar mensagem para %1$s</string>
     <string name="borrar_publicacion">Excluir publicação</string>
     <string name="borrar_publicacion_q">Excluir esta publicação? Não é possível desfazer.</string>
-    <string name="mochila_titulo">Sua mochila</string>
+    <string name="mochila_titulo">Seu equipamento</string>
     <string name="mochila_sub">As ferramentas do trilheiro</string>
     <string name="mochila_intro">Todo trilheiro leva o necessário para o caminho. Aqui estão as ferramentas do método: abra-as enquanto constrói suas metas, ao fechar o mês ou quando for difícil continuar. O que você escrever nelas fica salvo.</string>
     <string name="mochila_aprende">As ferramentas do método para o caminho</string>
-    <string name="mochila_de_tu">Da sua mochila</string>
+    <string name="mochila_de_tu">Do seu equipamento</string>
     <string name="mochila_g_metas">Para traçar suas metas</string>
     <string name="mochila_g_metas_d">Abra-as enquanto escreve um propósito ou uma meta do ano.</string>
     <string name="mochila_g_dias">Para planejar seus dias</string>
