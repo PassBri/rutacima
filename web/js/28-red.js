@@ -361,3 +361,89 @@ Object.assign(ACC, {
     estado.feed = null; estado.feedN = 0; estado.vistaCom = "cimas"; ir("comunidad", "feed");
   },
 });
+
+/* ---------- 5. Enlaces públicos, invitaciones, menciones, etiquetas y páginas por eje ---------- */
+/** Texto con @menciones y #etiquetas tocables (escapado primero). */
+function enlazarTexto(t) {
+  return esc(t || "")
+    .replace(/(^|[\s(])@([a-z0-9._]{3,30})/gi, (m, a, u) => `${a}<button class="mencion" data-acc="verUsuario" data-arg="${u.toLowerCase()}">@${u}</button>`)
+    .replace(/(^|[\s(])#([\p{L}\p{N}_]{2,40})/gu, (m, a, h) => `${a}<button class="mencion" data-ir="comunidad" data-arg="etiqueta:${h}">#${h}</button>`);
+}
+window.enlazarTexto = enlazarTexto;
+const baseFunciones = () => /^https:\/\//.test(CONFIG.supabaseUrl) ? CONFIG.supabaseUrl.replace(/\/$/, "") + "/functions/v1/compartir" : "";
+/** Enlace público con vista previa (solo publicaciones públicas y reales). */
+const enlacePublico = p => p && !p.demo && Store.nube && (p.visibilidad || "PUBLICA") === "PUBLICA" && baseFunciones() ? `${baseFunciones()}?p=${encodeURIComponent(p.id)}` : "";
+const enlaceInvitacion = u => u && baseFunciones() ? `${baseFunciones()}?i=${encodeURIComponent(u)}` : "";
+window.enlacePublico = enlacePublico; window.enlaceInvitacion = enlaceInvitacion;
+ACC.compartirPost = async (el, id) => {
+  const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p) return;
+  const url = enlacePublico(p), texto = [p.metaTitulo, p.texto].filter(Boolean).join("\n\n") || "Una cima en SuRoute";
+  try { if (navigator.share) { await navigator.share(url ? { title: "SuRoute", text: texto, url } : { text: texto + "\n\n— SuRoute" }); return; } } catch { return; }
+  try { await navigator.clipboard.writeText(url ? `${texto}\n${url}` : `${texto}\n\n— SuRoute`); toast(url ? "Enlace copiado: al pegarlo se verá con su foto." : "Copiado: pégalo donde quieras compartirlo."); } catch { /* sin portapapeles */ }
+};
+ACC.verUsuario = async (_, usuario) => {
+  if (!Store.nube) { const x = demoPersonas().find(p => p.usuario === usuario); if (x) ir("comunidad", "persona:" + x.id); else toast("@" + usuario + " no está en la comunidad de ejemplo."); return; }
+  const { data } = await Store.nube.sb.from("profiles").select("id").eq("username", usuario).maybeSingle();
+  if (data) ir("comunidad", "persona:" + data.id); else toast(`No encontramos a @${usuario}.`);
+};
+/** Abrir una publicación que llegó por enlace (#p=id): se trae y se muestra en Cimas. */
+async function abrirPostEnlazado(id) {
+  if (!(estado.feed || []).some(x => String(x.id) === id) && Store.nube) {
+    const { data: q } = await Store.nube.sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").eq("id", id).maybeSingle();
+    if (!q) { toast("Esa publicación ya no está disponible."); return; }
+    (estado.feed ||= []).unshift({ id: q.id, autorId: q.user_id, autorNombre: q.autor?.nombre || q.autor?.username || "Senderista", autorUsuario: q.autor?.username || "", tipo: q.tipo, eje: q.eje,
+      texto: q.texto, foto: q.image_url, metaTitulo: q.meta_titulo, visibilidad: q.visibilidad, impulsos: q.impulsos?.[0]?.count || 0, comentarios: q.comentarios?.[0]?.count || 0,
+      brujula: q.brujula || null, creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno });
+  }
+  estado.vistaCom = "cimas"; ir("comunidad", "cima:" + id);
+}
+/** Lista de publicaciones (etiqueta o eje) como cuadrícula que abre en Cimas. */
+async function cargarListado(clave, consulta, demo) {
+  (RED.listados ||= {})[clave] = { cargando: true };
+  let ps;
+  if (!Store.nube) ps = demo();
+  else {
+    const { data } = await consulta(Store.nube.sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)")
+      .eq("visibilidad", "PUBLICA").order("created_at", { ascending: false }).limit(60));
+    ps = (data || []).map(q => ({ id: q.id, autorId: q.user_id, autorNombre: q.autor?.nombre || q.autor?.username || "Senderista", autorUsuario: q.autor?.username || "", tipo: q.tipo, eje: q.eje,
+      texto: q.texto, foto: q.image_url, metaTitulo: q.meta_titulo, impulsos: q.impulsos?.[0]?.count || 0, comentarios: q.comentarios?.[0]?.count || 0, brujula: q.brujula || null,
+      creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno }));
+  }
+  (estado.feed ||= []); ps.forEach(p => { if (!estado.feed.some(x => x.id === p.id)) estado.feed.push(p); });
+  RED.listados[clave] = ps; pintarDetalle();
+}
+const grillaPosts = ps => ps.length ? `<div class="perfil-grilla">${ps.map(q => `<button class="perfil-celda" data-ir="comunidad" data-arg="cima:${esc(q.id)}">
+    ${q.foto ? `<img src="${esc(q.foto)}" alt="" loading="lazy">` : `<span>${esc((q.texto || "").slice(0, 90))}</span>`}<small>${ic("impulso")} ${q.impulsos}</small></button>`).join("")}</div>`
+  : `<p class="suave" style="text-align:center">Aún no hay publicaciones aquí. ¡Sé la primera persona!</p>`;
+DET["comunidad.etiqueta"] = tag => {
+  const k = "#" + tag.toLowerCase(), ps = RED.listados?.[k];
+  if (!ps) cargarListado(k, q => q.ilike("texto", `%#${tag}%`), () => DEMO_POSTS.filter(p => p.texto.toLowerCase().includes(k)));
+  return cab(av("#", "var(--burdeos)"), "#" + esc(tag), ps && !ps.cargando ? `${ps.length} ${ps.length === 1 ? "publicación" : "publicaciones"}` : "Cargando…",
+    `<button class="btn mini lleno" data-ir="comunidad" data-arg="publicar">${ic("publicar")} Publicar</button>`) + cuerpo(ps && !ps.cargando ? grillaPosts(ps) : "", "max-width:720px");
+};
+DET["comunidad.eje"] = cod => {
+  const k = "eje:" + cod, ps = RED.listados?.[k], nombre = NOMBRE_EJE[cod] || cod, ejes = misEjesRed();
+  if (!ps) cargarListado(k, q => q.eq("eje", cod), () => DEMO_POSTS.filter(p => p.eje === cod));
+  return cab(av(ic("ejes"), COLOR_EJE[cod] || "var(--burdeos)"), esc(nombre), ps && !ps.cargando ? `${ps.length} ${ps.length === 1 ? "publicación" : "publicaciones"} del eje` : "Cargando…",
+    `<button class="btn mini ${ejes.has(cod) ? "" : "lleno"}" data-acc="ejeFavorito" data-arg="${cod}">${ejes.has(cod) ? "En tus ejes" : "Agregar a mis ejes"}</button>`) +
+    cuerpo(`<div class="pp-ejes">${EJES.map(([c, n]) => `<button class="pp-eje" data-ir="comunidad" data-arg="eje:${c}" aria-pressed="${c === cod}" style="--c:${COLOR_EJE[c]}">${esc(n)}</button>`).join("")}</div>` +
+      (ps && !ps.cargando ? grillaPosts(ps) : ""), "max-width:720px");
+};
+ACC.ejeFavorito = (_, cod) => { const s = misEjesRed(); s.has(cod) ? s.delete(cod) : s.add(cod); responder("red", "red:ejes", [...s].join(",")); pintarDetalle(); };
+{
+  // El enlace de invitación (?invita=usuario) se recuerda hasta tener cuenta; entonces quedan siguiéndose
+  const q = new URLSearchParams(location.search), inv = (q.get("invita") || "").toLowerCase().replace(/[^a-z0-9._]/g, "");
+  if (inv) { try { localStorage.setItem("rutacima-invita", inv); } catch { /* sin almacenamiento */ } }
+  const postEnlace = (location.hash.match(/^#p=([0-9a-f-]{36})$/i) || [])[1];
+  const vigilar = setInterval(async () => {
+    if ($("pantallaApp")?.hidden !== false) return;
+    clearInterval(vigilar);
+    let pend = null; try { pend = localStorage.getItem("rutacima-invita"); } catch { /* sin almacenamiento */ }
+    if (pend && Store.nube) {
+      const r = await Store.nube.sb.rpc("aceptar_invitacion", { p_usuario: pend });
+      try { localStorage.removeItem("rutacima-invita"); } catch { /* sin almacenamiento */ }
+      if (!r.error && r.data) { RED.siguiendo = null; toast(`Ahora tú y @${pend} se siguen. ¡A subir juntos!`); }
+    }
+    if (postEnlace) { history.replaceState(null, "", location.pathname + location.search); abrirPostEnlazado(postEnlace); }
+  }, 800);
+}

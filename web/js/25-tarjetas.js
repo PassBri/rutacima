@@ -273,8 +273,8 @@ async function cargarCifrasPerfil() {
 }
 ACC.pestanaPerfil = (el, v) => { estado.pestanaPerfil = v; pintarDetalle(); };
 ACC.invitarAmigos = async () => {
-  const u = Store.nube?.perfil?.username, url = "https://suroute.com/descargar.html";
-  const texto = `Estoy subiendo a mi cumbre en SuRoute${u ? ` (@${u})` : ""}. Sígueme y subamos juntos:`;
+  const u = Store.nube?.perfil?.username, url = window.enlaceInvitacion?.(u) || "https://suroute.com/descargar.html";
+  const texto = `Estoy subiendo a mi cumbre en SuRoute${u ? ` (@${u})` : ""}. Crea tu cuenta con este enlace y quedamos siguiéndonos:`;
   try { if (navigator.share) return await navigator.share({ title: "SuRoute", text: texto, url }); } catch { return; }
   try { await navigator.clipboard.writeText(`${texto} ${url}`); toast("Invitación copiada: pégala en tu chat"); } catch { toast(url); }
 };

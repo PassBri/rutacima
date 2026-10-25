@@ -111,3 +111,37 @@ language sql security definer set search_path = public as $$
   update public.profiles set avisos = coalesce(p_avisos, '{}'::jsonb) where id = public.yo();
 $$;
 grant execute on function public.mis_avisos(jsonb) to anon, authenticated;
+
+-- ---------- 5. Menciones e invitaciones ----------
+-- @usuario en una publicación o un comentario avisa a esa persona
+create or replace function public.aviso_menciones() returns trigger language plpgsql security definer set search_path = public as $$
+declare u text; dest uuid; post uuid;
+begin
+  post := case when tg_table_name = 'posts' then new.id else new.post_id end;
+  if tg_table_name = 'posts' and new.visibilidad = 'PRIVADA' then return new; end if;
+  for u in select distinct lower(m[1]) from regexp_matches(coalesce(new.texto, ''), '(?:^|[^a-z0-9._])@([a-z0-9._]{3,30})', 'gi') as m loop
+    select id into dest from public.profiles where username = u;
+    if dest is not null then
+      perform public.notificar(dest, new.user_id, 'MENCION', post, case when tg_table_name = 'comments' then new.id else null end, new.texto);
+    end if;
+  end loop;
+  return new;
+end $$;
+drop trigger if exists aviso_menciones on public.posts;
+create trigger aviso_menciones after insert on public.posts for each row execute function public.aviso_menciones();
+drop trigger if exists aviso_menciones on public.comments;
+create trigger aviso_menciones after insert on public.comments for each row execute function public.aviso_menciones();
+
+-- Invitación personal: quien crea su cuenta con el enlace de alguien queda siguiéndose con esa persona
+create or replace function public.aceptar_invitacion(p_usuario text) returns boolean
+language plpgsql security definer set search_path = public as $$
+declare yo uuid := public.yo(); otro uuid;
+begin
+  select id into otro from public.profiles where username = lower(p_usuario);
+  if yo is null or otro is null or otro = yo then return false; end if;
+  if public.bloqueados(yo, otro) then return false; end if;
+  insert into public.follows (follower_id, followed_id) values (yo, otro) on conflict do nothing;
+  insert into public.follows (follower_id, followed_id) values (otro, yo) on conflict do nothing;
+  return true;
+end $$;
+grant execute on function public.aceptar_invitacion(text) to anon, authenticated;

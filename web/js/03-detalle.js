@@ -746,7 +746,7 @@ Object.assign(DET, {
         ${p0Demo(ps)}
         <div class="cimas" tabindex="0" aria-label="Cimas: desliza para ver la siguiente">${ps.length ? ps.map((p, i) => `<article class="cima" data-cima="${esc(p.id)}" aria-label="Publicación de ${esc(p.autorNombre)}">
           <div class="cima-fondo">${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
-            : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${esc(p.texto)}”</p>`}</div>
+            : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${enlazarTexto(p.texto)}”</p>`}</div>
           <div class="cima-acciones">
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
             <button data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${ic("impulso")}<b>${num(p.impulsos)}</b></button>
@@ -755,8 +755,8 @@ Object.assign(DET, {
             <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
             <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones">${ic("masH")}</button></div>
           <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
-            <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], NOMBRE_EJE[p.eje], hace(p.creadoEn)].filter(Boolean).join(" · ")}</span>
-            ${p.foto && p.texto ? `<p class="cima-texto">${esc(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
+            <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], hace(p.creadoEn)].filter(Boolean).join(" · ")}${p.eje ? ` · <button class="cima-eje" data-ir="comunidad" data-arg="eje:${p.eje}">${esc(NOMBRE_EJE[p.eje])}</button>` : ""}</span>
+            ${p.foto && p.texto ? `<p class="cima-texto">${enlazarTexto(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
             ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
             ${p.brujula && window.leerBrujula?.(p.brujula) ? `<button class="cima-explorar" data-ir="comunidad" data-arg="brujula:${esc(p.id)}">${ic("cima")} Explorar su Brújula 1 · 9 · 81</button>` : ""}
             ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("") +

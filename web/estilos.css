@@ -2449,3 +2449,6 @@ html[data-modo-tarjetas="imagen"] :is(#md-s81 ~ .md-grilla-caja, .md-visor) .md-
 .pp-eje[aria-pressed="true"] { background: var(--c); color: #fff; border-color: var(--c); }
 .pp-botones { justify-content: center; }
 .aviso-av { flex: none; }
+.mencion { display: inline; padding: 0; color: var(--burdeos); font: inherit; font-weight: 600; background: none; border: 0; cursor: pointer; }
+.cima .mencion, .cima-eje { color: #fff; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.cima-eje { display: inline; padding: 0; font: inherit; background: none; border: 0; cursor: pointer; pointer-events: auto; }

@@ -38,7 +38,7 @@ globalThis.cargarComentarios = async function (p) {
 const avatarCom = c => c.avatar ? `<img class="com-av" src="${esc(c.avatar)}" alt="">`
   : `<span class="com-av">${esc((c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase())}</span>`;
 const filaCom = (c, hija = false) => `<div class="com${hija ? " hija" : ""}" data-com="${esc(c.id)}">${avatarCom(c)}
-    <div class="com-cuerpo"><span class="com-quien">${esc(c.autor)}</span><p>${esc(c.texto)}</p>
+    <div class="com-cuerpo"><span class="com-quien">${esc(c.autor)}</span><p>${enlazarTexto(c.texto)}</p>
       <div class="com-pie"><span>${hace(c.creadoEn)}</span><button data-acc="responderCom" data-arg="${esc(c.parentId || c.id)}|${esc(c.autor)}">Responder</button></div></div>
     <button class="com-ban" data-acc="banderaCom" data-arg="${esc(c.id)}" aria-pressed="${!!c.yoLike}" aria-label="Me gusta, ${c.likes || 0}">${ic("impulso")}<b>${c.likes || ""}</b></button></div>`;
 /** La lista: comentarios principales y, debajo de cada uno, sus respuestas plegadas. */
