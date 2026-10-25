@@ -1,14 +1,10 @@
 package com.rutaalacima.app.ui.perfil
 
-import androidx.compose.material.icons.filled.FormatQuote
-import kotlinx.coroutines.launch
-import com.rutaalacima.app.util.hoy
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.filled.Terrain
+import android.content.Intent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,47 +13,57 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PhotoLibrary
-import androidx.compose.material.icons.filled.Drafts
-import androidx.compose.material.icons.filled.Gavel
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Diversity3
-import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.EventRepeat
-import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Flag
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Gavel
+import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.filled.LocalFireDepartment
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PersonAdd
+import androidx.compose.material.icons.filled.PhotoLibrary
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Terrain
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.GridOn
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.rutaalacima.app.AppContainer
@@ -68,27 +74,52 @@ import com.rutaalacima.app.data.local.PerfilEntity
 import com.rutaalacima.app.data.local.puntajes
 import com.rutaalacima.app.data.local.total
 import com.rutaalacima.app.data.social.Post
-import com.rutaalacima.app.data.social.TipoPost
-import com.rutaalacima.app.ui.comunidad.Avatar
-import com.rutaalacima.app.ui.i18n.Textos
-import com.rutaalacima.app.ui.comunidad.PostImagen
-import com.rutaalacima.app.ui.comunidad.TipoBadge
-import com.rutaalacima.app.ui.components.MontanaArte
+import com.rutaalacima.app.data.social.Visibilidad
+import com.rutaalacima.app.ui.components.IconosRuta
 import com.rutaalacima.app.ui.components.RadarEjes
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
+import com.rutaalacima.app.ui.comunidad.Avatar
+import com.rutaalacima.app.ui.comunidad.PostImagen
+import com.rutaalacima.app.ui.i18n.Textos
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 class PerfilViewModel(private val c: AppContainer) : ViewModel() {
+    val sesion = c.supabase.sesion
+    var siguiendo by mutableStateOf<Int?>(null)
+        private set
+    var seguidores by mutableStateOf<Int?>(null)
+        private set
+    var impulsos by mutableStateOf<Int?>(null)
+        private set
+    var guardadas by mutableStateOf<List<Post>>(emptyList())
+        private set
+    private var cargaSocial: Job? = null
+    fun cargarSocial() {
+        cargaSocial?.cancel()
+        cargaSocial = viewModelScope.launch {
+            val siguiendoRemoto = async { c.social.contarSiguiendo() }
+            val seguidoresRemoto = async { c.social.contarSeguidores() }
+            val impulsosRemoto = async { c.social.contarImpulsos() }
+            val guardadasRemoto = async { runCatching { c.social.publicacionesPorIds(c.social.guardados()) }.getOrDefault(emptyList()) }
+            siguiendo = siguiendoRemoto.await()
+            seguidores = seguidoresRemoto.await()
+            impulsos = impulsosRemoto.await()
+            guardadas = guardadasRemoto.await()
+        }
+    }
     fun cambiarMeta(anios: Int) = viewModelScope.launch { c.perfil.actualizar { it.copy(esperanzaVida = anios) } }
     private fun <T> estado(f: kotlinx.coroutines.flow.Flow<T>, i: T) = f.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), i)
     val perfil: StateFlow<PerfilEntity> = estado(c.perfil.perfil, PerfilEntity())
     val posts: StateFlow<List<Post>> = estado(c.social.misPublicaciones, emptyList())
     val evaluacion: StateFlow<EvaluacionEjesEntity?> = estado(c.ejes.ultima, null)
     val cascada: StateFlow<Cascada?> = estado(c.cascada.cascada, null)
-    val usuario: String = c.social.usuarioPropio()
+    val usuario: String get() = c.social.usuarioPropio()
     val frasesAbiertas: StateFlow<Set<Int>> = c.frases.desbloqueadas
     fun ponerFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo, bytes: ByteArray) = c.appScope.launch { c.fotosPerfil.ponerBytes(t, bytes) }
     fun quitarFoto(t: com.rutaalacima.app.data.FotosPerfil.Tipo) = c.appScope.launch { c.fotosPerfil.quitar(t) }
@@ -109,10 +140,16 @@ fun PerfilScreen(
 ) {
     val vm = rutaViewModel { PerfilViewModel(it) }
     val perfil by vm.perfil.collectAsStateWithLifecycle()
+    val ctx = LocalContext.current
+    val sesion by vm.sesion.collectAsStateWithLifecycle()
     val posts by vm.posts.collectAsStateWithLifecycle()
     val eval by vm.evaluacion.collectAsStateWithLifecycle()
-    val cascada by vm.cascada.collectAsStateWithLifecycle()
     var tab by rememberSaveable { mutableIntStateOf(0) }
+    LaunchedEffect(posts, tab) { vm.cargarSocial() }
+    LifecycleResumeEffect(sesion?.userId) {
+        vm.cargarSocial()
+        onPauseOrDispose { }
+    }
     // Foto de perfil y portada: elegir → editar (recortar, girar, filtro) → guardar
     var tipoFoto by rememberSaveable { mutableStateOf(com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL) }
     var editando by remember { mutableStateOf<android.net.Uri?>(null) }
@@ -129,47 +166,38 @@ fun PerfilScreen(
             onCancelar = { editando = null },
         )
     }
-    // Calendario de vida: década, año y mes seleccionados
-    var anioSel by rememberSaveable { mutableStateOf<Int?>(hoy().year) }
-    var mesSel by rememberSaveable { mutableStateOf<Int?>(null) }
-    val logros = posts.count { it.tipo == TipoPost.LOGRO }
-    val metasCumplidas = cascada?.let { c ->
-        (c.propositos.flatMap { it.anios } + c.aniosSueltos).count { it.avance >= 1f } +
-            (c.propositos.flatMap { p -> p.anios.flatMap { it.meses } } + c.aniosSueltos.flatMap { it.meses } + c.mesesSueltos).count { it.avance >= 1f }
-    } ?: 0
-
     LazyColumn(
         contentPadding = PaddingValues(top = contentPadding.calculateTopPadding(), bottom = contentPadding.calculateBottomPadding() + 24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        // Perfil como una página personal: portada, foto, nombre, edad, la cumbre y «Quién soy»
+        // Cabecera centrada con la identidad y las cifras sociales.
         item {
             Column(Modifier.padding(horizontal = 16.dp).padding(top = 8.dp)) {
-                val nac = perfil.anioNacimiento?.let { java.time.LocalDate.of(it, perfil.mesNacimiento ?: 1, 1) }
-                val hoyF = java.time.LocalDate.now()
-                com.rutaalacima.app.ui.ruta.MiVidaCabecera(
-                    perfil,
-                    edad = nac?.let { java.time.Period.between(it, hoyF).years },
-                    diaDeVida = nac?.let { (java.time.temporal.ChronoUnit.DAYS.between(it, hoyF) + 1).toInt() },
-                    onFoto = { t -> tipoFoto = t; elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(
-                        androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly)) },
-                    onQuitar = { vm.quitarFoto(it) },
-                )
-                val abiertas by vm.frasesAbiertas.collectAsStateWithLifecycle()
-                Row(Modifier.fillMaxWidth().padding(top = 12.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    Dato(posts.size, stringResource(R.string.publicaciones))
-                    Dato(logros, stringResource(R.string.logros))
-                    Dato(metasCumplidas, stringResource(R.string.metas_cumplidas))
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                    else Spacer(Modifier.weight(1f))
-                    androidx.compose.material3.TextButton(onClick = onFrases) {
-                        Icon(Icons.Filled.FormatQuote, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.secondary)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.mis_frases_n, abiertas.size), style = MaterialTheme.typography.labelLarge)
+                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Box(Modifier.clip(androidx.compose.foundation.shape.CircleShape).clickable {
+                        tipoFoto = com.rutaalacima.app.data.FotosPerfil.Tipo.PERFIL
+                        elegirFoto.launch(androidx.activity.result.PickVisualMediaRequest(androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    }.semantics { contentDescription = ctx.getString(R.string.mv_cambiar_foto) }) {
+                        Avatar(perfil.nombre, perfil.fotoPerfilUrl.ifBlank { perfil.fotoPerfil }, tamano = 96)
                     }
+                    Text(perfil.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    if (vm.usuario.isNotBlank()) Text("@${vm.usuario}", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Row(Modifier.fillMaxWidth().padding(vertical = 10.dp), horizontalArrangement = Arrangement.SpaceEvenly) {
+                        Dato(if (sesion == null) null else vm.siguiendo, stringResource(R.string.filtro_siguiendo))
+                        Dato(if (sesion == null) null else vm.seguidores, stringResource(R.string.visibilidad_seguidores))
+                        Dato(if (sesion == null) null else vm.impulsos, stringResource(R.string.perfil_impulsos))
+                    }
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        OutlinedButton(onClick = onAjustes) { Text(stringResource(R.string.perfil_editar)) }
+                        val invitacion = stringResource(R.string.perfil_invitacion, vm.usuario)
+                        IconButton(onClick = {
+                            ctx.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                                type = "text/plain"; putExtra(Intent.EXTRA_TEXT, invitacion)
+                            }, null))
+                        }) { Icon(Icons.Filled.PersonAdd, stringResource(R.string.perfil_invitar)) }
+                    }
+                    if (perfil.cumbreFrase.isNotBlank()) Text(perfil.cumbreFrase, style = MaterialTheme.typography.bodyMedium,
+                        textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -180,12 +208,23 @@ fun PerfilScreen(
         item { AccesosPerfil(onIrA) }
         item {
             TabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {
-                listOf(R.string.perfil_tab_publicaciones, R.string.perfil_tab_ejes)
-                    .forEachIndexed { i, t -> Tab(selected = tab == i, onClick = { tab = i }, text = { Text(stringResource(t), maxLines = 1) }) }
+                val pestañas = listOf(
+                    R.string.perfil_tab_publicaciones to Icons.Outlined.GridOn,
+                    R.string.perfil_privadas to Icons.Outlined.Lock,
+                    R.string.perfil_guardadas to Icons.Outlined.BookmarkBorder,
+                    R.string.perfil_tab_ejes to IconosRuta.Ejes,
+                )
+                pestañas.forEachIndexed { i, (titulo, icono) ->
+                    val descripcion = stringResource(titulo)
+                    Tab(selected = tab == i, onClick = { tab = i }, modifier = Modifier.semantics { contentDescription = descripcion },
+                        icon = { Icon(icono, null) })
+                }
             }
         }
         when (tab) {
-            0 -> cuadricula(posts, onAbrirPost, vacio = R.string.sin_publicaciones) { onPublicar("LOGRO") }
+            0 -> cuadricula(posts.filter { it.visibilidad != Visibilidad.PRIVADA }, onAbrirPost, vacio = R.string.sin_publicaciones) { onPublicar("LOGRO") }
+            1 -> cuadricula(posts.filter { it.visibilidad == Visibilidad.PRIVADA }, onAbrirPost, privada = true, vacio = R.string.perfil_privadas_vacio) { onPublicar("LOGRO") }
+            2 -> cuadricula(vm.guardadas, onAbrirPost, vacio = R.string.perfil_guardadas_vacio) {}
             else -> item {
                 Column(Modifier.padding(horizontal = 16.dp)) {
                     val e = eval
@@ -205,18 +244,19 @@ fun PerfilScreen(
 }
 
 @Composable
-private fun Dato(n: Int, etiqueta: String) {
+private fun Dato(n: Int?, etiqueta: String) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("$n", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+        Text(n?.let { java.text.NumberFormat.getIntegerInstance().format(it) } ?: stringResource(R.string.perfil_sin_cifra), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text(etiqueta, style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.Center)
     }
 }
 
-/** Cuadrícula de bitácora: 2 columnas, fichas 4:5 redondeadas con el tipo de publicación. */
+/** Rejilla de tres columnas con fotos verticales y el indicador de cada pestaña. */
 private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
     posts: List<Post>,
     onAbrir: (String) -> Unit,
-    columnas: Int = 2,
+    columnas: Int = 3,
+    privada: Boolean = false,
     vacio: Int,
     onCrear: () -> Unit,
 ) {
@@ -229,11 +269,14 @@ private fun androidx.compose.foundation.lazy.LazyListScope.cuadricula(
         return
     }
     items(posts.chunked(columnas)) { fila ->
-        Row(Modifier.padding(horizontal = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             fila.forEach { p ->
-                Box(Modifier.weight(1f).clip(RoundedCornerShape(18.dp)).clickable { onAbrir(p.id) }) {
-                    PostImagen(p, Modifier.fillMaxWidth(), conTexto = true, ratio = 4f / 5f)
-                    Box(Modifier.align(Alignment.TopStart).padding(8.dp)) { TipoBadge(p.tipo) }
+                Box(Modifier.weight(1f).aspectRatio(9f / 16f).clickable { onAbrir(p.id) }) {
+                    PostImagen(p, Modifier.fillMaxWidth(), conTexto = true, ratio = 9f / 16f)
+                    Box(Modifier.align(Alignment.BottomStart).padding(4.dp).background(Color.Black.copy(alpha = .55f), RoundedCornerShape(4.dp)).padding(3.dp)) {
+                        if (privada) Icon(Icons.Filled.Lock, stringResource(R.string.perfil_privadas), tint = Color.White, modifier = Modifier.size(16.dp))
+                        else Text(stringResource(R.string.perfil_impulsos_n, p.impulsos), color = Color.White, style = MaterialTheme.typography.labelSmall)
+                    }
                 }
             }
             repeat(columnas - fila.size) { Spacer(Modifier.weight(1f)) }

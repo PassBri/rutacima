@@ -274,11 +274,13 @@ private fun MetaMensualCard(meta: MetaMensualEntity, ym: YearMonth, vm: MesViewM
             Column(Modifier.weight(1f)) {
                 Text(meta.texto, style = MaterialTheme.typography.titleSmall,
                     textDecoration = if (meta.cumplida) TextDecoration.LineThrough else null)
+                com.rutaalacima.app.ui.components.ApodoLista("m", meta.id)
                 Text(stringResource(R.string.n_de_dias, marcados.size, dias), style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             IconButton(onClick = { vm.eliminarMeta(meta) }) { Icon(Icons.Outlined.Delete, stringResource(R.string.eliminar_meta)) }
         }
+        com.rutaalacima.app.ui.components.ApodoField("m", meta.id)
         Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             for (d in 1..dias) {
                 val hecho = d in marcados

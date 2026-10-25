@@ -41,6 +41,7 @@ class PlannerViewModel(private val c: AppContainer) : ViewModel() {
 
 /** Edición de un propósito (id = 0 para uno nuevo) y su plan de acción. */
 class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewModel() {
+    var apodo by mutableStateOf("")
     var proposito by mutableStateOf(PropositoEntity(titulo = ""))
         private set
     var id by mutableStateOf(idInicial)
@@ -65,10 +66,13 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
         if (idInicial != 0L) {
             viewModelScope.launch {
                 c.planificador.proposito(idInicial).first()?.let { proposito = it }
+                apodo = c.respuestas.cargar("apodo")["apodo:p:$idInicial"].orEmpty()
                 cargado = true
             }
         }
     }
+
+    fun editarApodo(texto: String) { apodo = texto.take(32); guardado = false }
 
     fun editar(transform: (PropositoEntity) -> PropositoEntity) {
         proposito = transform(proposito)
@@ -84,6 +88,7 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
                 proposito = proposito.copy(id = nuevoId)
                 idFlow.value = nuevoId
             }
+            c.respuestas.guardar("apodo", "apodo:p:$id", apodo.trim())
             guardado = true
             onDone?.invoke()
         }

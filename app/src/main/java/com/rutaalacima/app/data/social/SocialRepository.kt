@@ -218,6 +218,52 @@ class SocialRepository(
         filas.map { filaAPost(it.jsonObject, uid, emptySet()) }.also(::recordar)
     }
 
+    /** Página a página para no truncar las cifras al límite de filas de PostgREST. */
+    private suspend fun filasSociales(tabla: String, consulta: String): List<kotlinx.serialization.json.JsonElement> {
+        val filas = mutableListOf<kotlinx.serialization.json.JsonElement>()
+        do {
+            val pagina = supa.select(tabla, "$consulta&limit=500&offset=${filas.size}").jsonArray
+            filas.addAll(pagina)
+        } while (pagina.size == 500)
+        return filas
+    }
+
+    /** Conteos del servidor; null sin sesión o cuando la consulta falla. */
+    suspend fun contarSiguiendo(): Int? = contarRelacion("follower_id", "followed_id")
+    suspend fun contarSeguidores(): Int? = contarRelacion("followed_id", "follower_id")
+
+    private suspend fun contarRelacion(filtro: String, columna: String): Int? = withContext(Dispatchers.IO) {
+        val uid = supa.sesion.value?.userId ?: return@withContext null
+        runCatching { filasSociales("follows", "select=$columna&$filtro=eq.$uid&order=follower_id,followed_id").size }.getOrNull()
+    }
+
+    suspend fun contarImpulsos(): Int? = withContext(Dispatchers.IO) {
+        val uid = supa.sesion.value?.userId ?: return@withContext null
+        runCatching {
+            val ids = filasSociales("posts", "select=id&user_id=eq.$uid&order=id")
+                .mapNotNull { it.jsonObject["id"]?.jsonPrimitive?.contentOrNull }
+            ids.chunked(100).sumOf { lote ->
+                filasSociales("votes", "select=post_id&post_id=in.(${lote.joinToString(",")})&order=post_id,user_id").size
+            }
+        }.getOrNull()
+    }
+
+    /** Recupera también guardadas que aún no se han visto en este proceso. */
+    suspend fun publicacionesPorIds(ids: Set<String>): List<Post> = withContext(Dispatchers.IO) {
+        val locales = dao.todas().map { it.aPost() }.associateBy { it.id }
+        val ejemplos = if (enLinea) emptyMap() else DemoComunidad.posts(context, impulsados()).associateBy { it.id }
+        val conocidas = ids.mapNotNull { locales[it] ?: cache[it] ?: ejemplos[it] }.associateBy { it.id }.toMutableMap()
+        if (enLinea) {
+            val remotos = ids.filter { it.matches(Regex("[0-9a-fA-F-]{36}")) }
+            remotos.chunked(100).forEach { lote ->
+                val filas = supa.select("posts", "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&id=in.(${lote.joinToString(",")})").jsonArray
+                filas.map { filaAPost(it.jsonObject, supa.sesion.value?.userId.orEmpty(), impulsados()) }
+                    .forEach { conocidas[it.id] = it }
+            }
+        }
+        conocidas.values.sortedByDescending { it.creadoEn }.also(::recordar)
+    }
+
     /** Cambia quién ve una publicación propia (en el teléfono y, si ya está en la comunidad, también allá). */
     suspend fun cambiarVisibilidad(post: Post, v: Visibilidad) = withContext(Dispatchers.IO) {
         val local = dao.get(post.id)

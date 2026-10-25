@@ -1,57 +1,29 @@
 package com.rutaalacima.app.ui.vision
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
-import com.rutaalacima.app.ui.theme.fondoPapel
-import com.rutaalacima.app.domain.model.VisionBoard
-import com.rutaalacima.app.domain.model.BrujulaCompartida
-import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.Dialog
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.Switch
-import androidx.compose.material.icons.filled.Landscape
-import com.rutaalacima.app.ui.theme.hojaPapel
-import androidx.compose.material3.Surface
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.animation.AnimatedVisibility
 import androidx.activity.compose.BackHandler
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.togetherWith
 import androidx.compose.animation.AnimatedContent
-import com.rutaalacima.app.domain.model.Travesia
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.material3.FilterChip
-import androidx.compose.material.icons.filled.Hub
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -61,66 +33,83 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.filled.GridView
+import androidx.compose.material.icons.filled.Hub
+import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.filled.OpenInFull
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.data.social.Visibilidad
+import com.rutaalacima.app.domain.model.BrujulaCompartida
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.MetodoCima
+import com.rutaalacima.app.domain.model.Travesia
+import com.rutaalacima.app.domain.model.VisionBoard
+import com.rutaalacima.app.ui.theme.fondoPapel
+import com.rutaalacima.app.ui.theme.hojaPapel
 import java.io.File
 import java.text.NumberFormat
 import java.time.LocalDate
-import kotlin.math.PI
-import kotlin.math.cos
 import kotlin.math.sin
 
 /** Lo que se lee en un campamento: la frase de la casilla (el rótulo suele ser genérico, como "Meta 2026"). */
@@ -200,6 +189,9 @@ class DatosMandala(
 @Composable
 fun MandalaSeccion(
     datos: DatosMandala,
+    modoTexto: Boolean,
+    bloqueAbierto: Int?,
+    onBloque: (Int?) -> Unit,
     onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String) -> Unit,
     onAvanzar: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit,
@@ -216,14 +208,28 @@ fun MandalaSeccion(
     /** Abre de una vez la pregunta de con quién compartir (desde "Compartir" en Mi vida). */
     abrirCompartir: Boolean = false,
 ) {
-    var bloque by rememberSaveable { mutableStateOf(4) }
+    BackHandler(enabled = bloqueAbierto != null) { onBloque(null) }
     var editando by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var preguntarCompartir by rememberSaveable { mutableStateOf(abrirCompartir && datos.campamentos.isNotEmpty()) }
     val pr = datos.progreso
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(stringResource(R.string.brujula_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
-        BrujulaZoom(datos, bloque) { bloque = it }
+        if (bloqueAbierto == null) Cuadricula(datos, 4, modoTexto = modoTexto, onBloque = { onBloque(it) })
+        else {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                TextButton(onClick = { onBloque(null) }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, null, Modifier.size(18.dp))
+                    Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.vision_los_81))
+                }
+                MiniMapaBloques(datos, bloqueAbierto) { onBloque(it) }
+            }
+            key(bloqueAbierto) {
+                Bloque(datos, bloqueAbierto, onElegirBloque = { onBloque(it) }, onPaso = { i, p -> editando = i to p },
+                    onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento, modoTexto = modoTexto,
+                    onTextoPaso = { i, p, texto -> datos.casilla(i)?.let { onPaso(it.casilla, p, texto) } })
+            }
+        }
         Text(stringResource(R.string.mandala_progreso, pr.escritos, pr.hechos), style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.primary)
         LinearProgressIndicator(progress = { pr.fraccion }, modifier = Modifier.fillMaxWidth())
@@ -238,10 +244,6 @@ fun MandalaSeccion(
             Text(stringResource(if (compartiendo) R.string.mandala_compartiendo else R.string.mandala_compartir))
         }
         RitmoCima(datos.ritmo)
-        Text(stringResource(R.string.mandala_toca_bloque), style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-        Bloque(datos, bloque, onElegirBloque = { bloque = it }, onPaso = { i, p -> editando = i to p },
-            onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento)
         CierreAnio(datos, onCierre = onCierre, onNuevaMontana = onNuevaMontana, onGuia = onGuia, ocupado = compartiendo)
     }
     editando?.let { (i, p) ->
@@ -261,7 +263,7 @@ fun MandalaSeccion(
                 editando = null
             },
             onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
-            onCancelar = { editando = null },
+            onCancelar = { editando = null }, mostrarFoto = !modoTexto,
         ) }
     }
     if (preguntarCompartir) {
@@ -296,11 +298,29 @@ fun MandalaSeccion(
     }
 }
 
+@Composable
+private fun MiniMapaBloques(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Unit) {
+    Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+        repeat(3) { fila -> Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+            repeat(3) { columna ->
+                val bloque = fila * 3 + columna
+                val camp = Mandala.ANILLO.indexOf(bloque)
+                val color = if (camp < 0) MaterialTheme.colorScheme.secondary else datos.color(camp)
+                val descripcion = stringResource(R.string.vision_bloque_numero, bloque + 1)
+                Box(Modifier.size(20.dp).clip(RoundedCornerShape(4.dp))
+                    .background(color.copy(alpha = if (bloque == elegido) 1f else .35f))
+                    .border(if (bloque == elegido) 2.dp else 0.dp, MaterialTheme.colorScheme.onSurface, RoundedCornerShape(4.dp))
+                    .semantics { contentDescription = descripcion }.clickable { onBloque(bloque) })
+            }
+        } }
+    }
+}
+
 private fun modeloFoto(f: String): Any = if (f.startsWith("http")) f else File(f)
 
-/** La cuadrícula completa de 9×9, con los bloques marcados. Tocar un bloque lo abre abajo. */
+/** La cuadrícula completa de 9×9. Su editor sustituye la grilla en el mismo lugar. */
 @Composable
-private fun Cuadricula(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Unit) {
+private fun Cuadricula(datos: DatosMandala, elegido: Int, modoTexto: Boolean = false, onBloque: (Int) -> Unit) {
     val linea = MaterialTheme.colorScheme.outline
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp))) {
@@ -313,7 +333,7 @@ private fun Cuadricula(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Uni
                     Box(
                         Modifier.size(lado).clickable { onBloque(b) }.border(0.5.dp, linea.copy(alpha = 0.35f)),
                         contentAlignment = Alignment.Center,
-                    ) { CeldaPlana(datos, cel, vacio, chica = true) }
+                    ) { CeldaPlana(datos, cel, vacio, chica = true, modoTexto = modoTexto) }
                 }
             }
         }
@@ -346,24 +366,25 @@ private fun Cuadricula(datos: DatosMandala, elegido: Int, onBloque: (Int) -> Uni
 
 /** El contenido de una celda: la cumbre, un campamento (con su foto) o un paso. */
 @Composable
-private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, chica: Boolean) {
+private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, chica: Boolean, modoTexto: Boolean = false) {
     val tam = if (chica) 7.sp else 12.sp
     val alto = if (chica) 3 else 5
     when (cel.tipo) {
         Mandala.Tipo.CUMBRE -> {
-            Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(NIEVE, ORO))), contentAlignment = Alignment.Center) {
-                datos.cumbre?.foto?.let { AsyncImage(modeloFoto(it), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
-                if (datos.cumbre?.foto != null) Box(Modifier.fillMaxSize().background(Color(0x66000000)))
+            val foto = datos.cumbre?.foto?.takeUnless { modoTexto }
+            Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceContainerHigh), contentAlignment = Alignment.Center) {
+                foto?.let { AsyncImage(modeloFoto(it), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
+                if (foto != null) Box(Modifier.fillMaxSize().background(Color(0x66000000)))
                 Text(datos.tituloCumbre.ifBlank { stringResource(R.string.mandala_cumbre) }, fontSize = tam, lineHeight = tam,
                     fontWeight = FontWeight.Black, textAlign = TextAlign.Center, maxLines = alto, overflow = TextOverflow.Ellipsis,
-                    color = if (datos.cumbre?.foto != null) Color.White else Color(0xFF3A1A10), modifier = Modifier.padding(2.dp))
+                    color = if (foto != null) Color.White else MaterialTheme.colorScheme.onSurface, modifier = Modifier.padding(2.dp))
             }
         }
         Mandala.Tipo.CAMPAMENTO -> {
             val cv = datos.casilla(cel.campamento)
             val color = datos.color(cel.campamento)
             Box(Modifier.fillMaxSize().background(if (cv != null) color else vacio), contentAlignment = Alignment.Center) {
-                cv?.foto?.let {
+                cv?.foto?.takeUnless { modoTexto }?.let {
                     AsyncImage(modeloFoto(it), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     Box(Modifier.fillMaxSize().background(color.copy(alpha = 0.55f)))
                 }
@@ -380,13 +401,15 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                 Mandala.EstadoPaso.ESCRITO -> color.copy(alpha = 0.14f)
                 Mandala.EstadoPaso.HECHO -> color.copy(alpha = 0.42f)
             }
-            val evidencia = datos.fotoPaso(cel.campamento, cel.paso)
+            val evidencia = datos.fotoPaso(cel.campamento, cel.paso)?.takeUnless { modoTexto }
             Box(Modifier.fillMaxSize().background(fondo), contentAlignment = Alignment.Center) {
                 // Paso ganado con foto: la evidencia ocupa la casilla (de la visión a la evidencia)
                 if (evidencia != null) {
                     AsyncImage(modeloFoto(evidencia), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     if (!chica) Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xCC1D120D)))))
                 }
+                if (chica && evidencia == null) Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam,
+                    maxLines = 3, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(2.dp), color = MaterialTheme.colorScheme.onSurface)
                 if (!chica) Column(Modifier.fillMaxSize().padding(4.dp), verticalArrangement = Arrangement.SpaceBetween) {
                     Text("${cel.paso + 1} · ${nombreFase(cel.paso)}", fontSize = 9.sp, lineHeight = 10.sp, fontWeight = FontWeight.Bold,
                         color = if (evidencia != null) Color.White else color, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -417,6 +440,8 @@ private fun Bloque(
     onElegirBloque: (Int) -> Unit, onPaso: (Int, Int) -> Unit,
     onSugerir: (VisionCasillaEntity) -> Unit, onAgregarCampamento: (String) -> Unit,
     soloLectura: Boolean = false,
+    modoTexto: Boolean = false,
+    onTextoPaso: ((Int, Int, String) -> Unit)? = null,
 ) {
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     val campamento = Mandala.ANILLO.indexOf(bloque)          // −1 en el bloque central
@@ -448,7 +473,22 @@ private fun Bloque(
                             else -> { {} }
                         }
                         Box(Modifier.size(lado).padding(2.dp).clip(RoundedCornerShape(10.dp)).clickable(onClick = accion), contentAlignment = Alignment.Center) {
-                            CeldaPlana(datos, cel, vacio, chica = false)
+                            if (cel.tipo == Mandala.Tipo.PASO && cv != null && onTextoPaso != null && !soloLectura) {
+                                Column(Modifier.fillMaxSize().background(datos.color(campamento).copy(alpha = .08f)).padding(3.dp)) {
+                                    if (!modoTexto) datos.fotoPaso(campamento, cel.paso)?.let {
+                                        AsyncImage(modeloFoto(it), null, Modifier.fillMaxWidth().height(lado / 3), contentScale = ContentScale.Crop)
+                                    }
+                                    Text(stringResource(R.string.brujula_paso_fase, cel.paso + 1, nombreFase(cel.paso)),
+                                        fontSize = 8.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, color = datos.color(campamento))
+                                    CampoTarjetaTexto(datos.paso(campamento, cel.paso), stringResource(R.string.vision_frase),
+                                        { onTextoPaso(campamento, cel.paso, it) }, Modifier.fillMaxWidth().weight(1f), compacto = true)
+                                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                                        IconButton(onClick = { onPaso(campamento, cel.paso) }, modifier = Modifier.size(22.dp)) {
+                                            Icon(Icons.Filled.OpenInFull, stringResource(R.string.vision_paso_detalle), Modifier.size(13.dp))
+                                        }
+                                    }
+                                }
+                            } else CeldaPlana(datos, cel, vacio, chica = false, modoTexto = modoTexto)
                         }
                     }
                 }
@@ -501,6 +541,7 @@ private fun EditarPaso(
     codigo: String, enlaces: List<String>, diasQuieto: Int?, niebla: Boolean, caida: String?,
     onEvidencia: () -> Unit, onCaida: (String) -> Unit, onGuia: (String) -> Unit,
     onGuardar: (String, String, String, List<String>) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
+    mostrarFoto: Boolean = true,
 ) {
     var t by remember { mutableStateOf(texto) }
     var en by remember { mutableStateOf(enlaces) }
@@ -531,7 +572,7 @@ private fun EditarPaso(
                         Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                     }
                     // Kit de Evidencias: la foto real reemplaza a la visión en el borde del 9×9
-                    if (foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(4f / 3f).clip(RoundedCornerShape(12.dp)),
+                    if (mostrarFoto && foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(4f / 3f).clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Crop)
                     OutlinedButton(onClick = onEvidencia, modifier = Modifier.fillMaxWidth()) {
                         Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))

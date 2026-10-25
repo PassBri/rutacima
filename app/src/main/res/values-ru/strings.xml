@@ -1757,4 +1757,43 @@
     <string name="mochila_u_cierre">Обзор месяца, пункт за пунктом</string>
     <string name="mochila_u_evidencias">Сделай прогресс видимым</string>
     <string name="mochila_u_anti">Протоколы, чтобы вернуться без чувства вины</string>
+
+    <!-- Tarjetas, apodos y perfil social -->
+    <string name="apodo_opcional">Короткое имя (необязательно)</string>
+    <string name="apodo_ejemplo">Короткое вдохновляющее имя · например, Операция Феникс</string>
+    <string name="tarjeta_cambiar_foto">Изменить фото</string>
+    <string name="tarjeta_volver_foto">Вернуться к фото</string>
+    <string name="tarjeta_girar">Перевернуть карточку для просмотра и изменения фразы</string>
+    <string name="tarjeta_abierta">Открыта</string>
+    <string name="tarjeta_camino">В процессе</string>
+    <string name="tarjeta_lograda">Достигнута</string>
+    <string name="perfil_impulsos">Поддержки</string>
+    <string name="perfil_editar">Изменить профиль</string>
+    <string name="perfil_invitar">Пригласить друзей</string>
+    <string name="perfil_privadas">Личные</string>
+    <string name="perfil_guardadas">Сохранённые</string>
+    <string name="perfil_privadas_vacio">Здесь появятся публикации только для вас.</string>
+    <string name="perfil_guardadas_vacio">Сохраняйте публикации сообщества, чтобы находить их здесь.</string>
+    <string name="perfil_invitacion">Я поднимаюсь к своей вершине в SuRoute (@%1$s). Подпишись, и будем подниматься вместе: https://suroute.com/descargar.html</string>
+    <string name="apodo_entre_comillas">«%1$s»</string>
+    <string name="tarjeta_pct">%1$d %%</string>
+    <string name="tarjeta_rotulo_pct">%1$s · %2$d %%</string>
+    <string name="tarjeta_contador">%1$d / %2$d</string>
+    <string name="perfil_sin_cifra">–</string>
+    <string name="perfil_impulsos_n">%1$d</string>
+
+    <!-- Vista global Imagen / Texto y rosa de la cumbre -->
+    <string name="vision_modo_imagen">Фото</string>
+    <string name="vision_modo_texto">Текст</string>
+    <string name="vision_seccion_cumbre">1 · Моя личная вершина</string>
+    <string name="vision_seccion_rosa">9 · Моя доска желаний</string>
+    <string name="vision_ver_grande">Открыть на весь экран</string>
+    <string name="vision_mas_tarjetas">Другие карточки</string>
+    <string name="vision_metas_sostienen">Поддерживающие цели</string>
+    <string name="vision_los_81">Все 81</string>
+    <string name="vision_bloque_numero">Блок %1$d</string>
+    <string name="vision_quitar_foto">Убрать фото</string>
+    <string name="vision_paso_detalle">Изменить шаг и его подтверждения</string>
+    <string name="vision_nivel_numero">%1$d</string>
+    <string name="vision_campamento_libre">+ %1$s</string>
 </resources>

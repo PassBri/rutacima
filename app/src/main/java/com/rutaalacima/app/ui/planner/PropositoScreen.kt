@@ -96,6 +96,7 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit, onAnio: (Int) -> Unit
                 OutlinedTextField(p.titulo, { v -> vm.editar { it.copy(titulo = v) } }, label = { Text(stringResource(R.string.proposito_n_anios, p.horizonte)) },
                     modifier = Modifier.fillMaxWidth(), textStyle = MaterialTheme.typography.titleMedium)
             }
+            item { com.rutaalacima.app.ui.components.CampoApodo(vm.apodo, vm::editarApodo) }
             item {
                 SelectorHorizonte(p.horizonte, { sel -> vm.editar { it.copy(horizonte = sel) } })
             }

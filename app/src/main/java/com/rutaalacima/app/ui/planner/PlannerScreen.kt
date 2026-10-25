@@ -138,6 +138,7 @@ private fun PropositoCard(p: PropositoEntity, onClick: () -> Unit) {
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(p.titulo, style = MaterialTheme.typography.titleMedium)
+                com.rutaalacima.app.ui.components.ApodoLista("p", p.id)
                 Spacer(Modifier.height(4.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                     PrioridadBadge(prioridad)
@@ -177,12 +178,12 @@ private fun SelectorAnio(anios: List<Int>, actual: Int, onSelect: (Int) -> Unit)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp, onAbrirMes: (Int, Int) -> Unit, onNueva: () -> Unit) {
+internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp, onAbrirMes: (Int, Int) -> Unit, onNueva: () -> Unit, anioInicial: Int? = null) {
     val perfil by vm.perfil.collectAsStateWithLifecycle()
     val todas by vm.metas.collectAsStateWithLifecycle()
     val propositos by vm.propositos.collectAsStateWithLifecycle()
     val anios = aniosDelPlan(perfil.anioInicioPlan, propositos.maxOfOrNull { it.horizonte } ?: 5)
-    var anio by rememberSaveable { mutableIntStateOf(-1) }
+    var anio by rememberSaveable(anioInicial) { mutableIntStateOf(anioInicial ?: -1) }
     val anioSel = if (anio in anios) anio else anios.first()
     var editando by remember { mutableStateOf<MetaAnualEntity?>(null) }
     var leyenda by remember { mutableStateOf(false) }
@@ -269,6 +270,7 @@ private fun MetaCard(m: MetaAnualEntity, propositos: List<PropositoEntity>, onCl
             Spacer(Modifier.width(8.dp))
             Text(m.titulo, style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
         }
+        com.rutaalacima.app.ui.components.ApodoLista("a", m.id)
         propositos.firstOrNull { it.id == m.propositoId }?.let {
             Text(stringResource(R.string.proposito_x, it.titulo), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
@@ -308,6 +310,7 @@ private fun MetaEditor(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Text(stringResource(if (inicial.id == 0L) R.string.nueva_meta else R.string.editar_meta) + " · ${inicial.anio}", style = MaterialTheme.typography.titleLarge)
+        if (m.id != 0L) com.rutaalacima.app.ui.components.ApodoField("a", m.id)
         OutlinedTextField(m.titulo, { m = m.copy(titulo = it) }, label = { Text(stringResource(R.string.actividad_meta)) }, modifier = Modifier.fillMaxWidth())
         OutlinedTextField(m.subMetas, { m = m.copy(subMetas = it) }, label = { Text(stringResource(R.string.submetas_ayuda)) },
             modifier = Modifier.fillMaxWidth(), minLines = 3)

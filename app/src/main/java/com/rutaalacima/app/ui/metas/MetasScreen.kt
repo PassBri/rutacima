@@ -112,7 +112,7 @@ fun MetasScreen(
             )
             1 -> DayPlannerTab(agenda, bottom)
             2 -> MonthPlannerTab(mes, bottom) { fecha -> agenda.abrir(fecha); tab = 1 }
-            3 -> MetasTab(vm, bottom, onAbrirMes = { a, m -> mes.ir(YearMonth.of(a, m)); tab = 2 }, onNueva = { onNuevaMeta(NivelMeta.ANIO) })
+            3 -> MetasTab(vm, bottom, onAbrirMes = { a, m -> mes.ir(YearMonth.of(a, m)); tab = 2 }, onNueva = { onNuevaMeta(NivelMeta.ANIO) }, anioInicial = fechaInicial?.year)
             4 -> PropositosTab(vm, bottom, onOpenProposito, onNuevo = { onNuevaMeta(NivelMeta.CINCO_ANIOS) })
             else -> BalanceTab(vm, bottom, onOpenWorkbook)
         }
@@ -169,6 +169,7 @@ private fun CascadaTab(
         }
         items(c.propositos, key = { "p${it.proposito.id}" }) { n ->
             RutaCard(onClick = { onOpenProposito(n.proposito.id) }) {
+                com.rutaalacima.app.ui.components.ApodoLista("p", n.proposito.id)
                 Encabezado(
                     nivel = stringResource(R.string.proposito_n_anios, n.proposito.horizonte), titulo = n.proposito.titulo,
                     eje = Eje.fromCodigo(n.proposito.eje), avance = n.avance, automatico = n.automatico,
@@ -204,6 +205,7 @@ private fun Rama(content: @Composable () -> Unit) {
 @Composable
 private fun NodoAnioView(a: NodoAnio, onAbrirAnio: () -> Unit, onAbrirMes: (YearMonth) -> Unit) {
     Column(Modifier.fillMaxWidth()) {
+        com.rutaalacima.app.ui.components.ApodoLista("a", a.meta.id)
         Box(Modifier.fillMaxWidth()) {
             Column {
                 Encabezado(
@@ -218,6 +220,7 @@ private fun NodoAnioView(a: NodoAnio, onAbrirAnio: () -> Unit, onAbrirMes: (Year
 
 @Composable
 private fun NodoMesView(m: NodoMes, onAbrirMes: (YearMonth) -> Unit) {
+    com.rutaalacima.app.ui.components.ApodoLista("m", m.meta.id)
     Encabezado(
         nivel = "${nombreMes(m.meta.mes)} ${m.meta.anio}", titulo = m.meta.texto,
         eje = Eje.fromCodigo(m.meta.eje), avance = m.avance, automatico = true,

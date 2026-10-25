@@ -1757,4 +1757,43 @@
     <string name="mochila_u_cierre">月の振り返りを一つずつ</string>
     <string name="mochila_u_evidencias">進歩を目に見える形に</string>
     <string name="mochila_u_anti">罪悪感なく道に戻るための手順</string>
+
+    <!-- Tarjetas, apodos y perfil social -->
+    <string name="apodo_opcional">ニックネーム（任意）</string>
+    <string name="apodo_ejemplo">励みになる短い名前 · 例：フェニックス作戦</string>
+    <string name="tarjeta_cambiar_foto">写真を変更</string>
+    <string name="tarjeta_volver_foto">写真に戻る</string>
+    <string name="tarjeta_girar">カードを裏返してフレーズを表示・編集</string>
+    <string name="tarjeta_abierta">未開始</string>
+    <string name="tarjeta_camino">進行中</string>
+    <string name="tarjeta_lograda">達成</string>
+    <string name="perfil_impulsos">応援</string>
+    <string name="perfil_editar">プロフィールを編集</string>
+    <string name="perfil_invitar">友達を招待</string>
+    <string name="perfil_privadas">非公開</string>
+    <string name="perfil_guardadas">保存済み</string>
+    <string name="perfil_privadas_vacio">自分だけに公開した投稿がここに表示されます。</string>
+    <string name="perfil_guardadas_vacio">コミュニティの投稿を保存すると、ここに表示されます。</string>
+    <string name="perfil_invitacion">SuRoute で自分の頂上を目指しています（@%1$s）。フォローして、一緒に登りましょう：https://suroute.com/descargar.html</string>
+    <string name="apodo_entre_comillas">«%1$s»</string>
+    <string name="tarjeta_pct">%1$d %%</string>
+    <string name="tarjeta_rotulo_pct">%1$s · %2$d %%</string>
+    <string name="tarjeta_contador">%1$d / %2$d</string>
+    <string name="perfil_sin_cifra">–</string>
+    <string name="perfil_impulsos_n">%1$d</string>
+
+    <!-- Vista global Imagen / Texto y rosa de la cumbre -->
+    <string name="vision_modo_imagen">画像</string>
+    <string name="vision_modo_texto">テキスト</string>
+    <string name="vision_seccion_cumbre">1 · 私の頂上</string>
+    <string name="vision_seccion_rosa">9 · 私のビジョンボード</string>
+    <string name="vision_ver_grande">大きく表示</string>
+    <string name="vision_mas_tarjetas">その他のカード</string>
+    <string name="vision_metas_sostienen">支える目標</string>
+    <string name="vision_los_81">全81マス</string>
+    <string name="vision_bloque_numero">ブロック%1$d</string>
+    <string name="vision_quitar_foto">写真を削除</string>
+    <string name="vision_paso_detalle">ステップと証拠を編集</string>
+    <string name="vision_nivel_numero">%1$d</string>
+    <string name="vision_campamento_libre">+ %1$s</string>
 </resources>

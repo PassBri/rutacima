@@ -1,37 +1,36 @@
 package com.rutaalacima.app.ui.vision
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
+import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AutoAwesome
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -48,32 +47,38 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.material3.SegmentedButton
-import androidx.compose.material3.SegmentedButtonDefaults
-import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import coil.compose.AsyncImage
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
+import com.rutaalacima.app.data.Cascada
 import com.rutaalacima.app.data.local.VisionCasillaEntity
+import com.rutaalacima.app.data.social.TipoPost
+import com.rutaalacima.app.data.social.Visibilidad
 import com.rutaalacima.app.domain.model.BrujulaCompartida
 import com.rutaalacima.app.domain.model.Mandala
 import com.rutaalacima.app.domain.model.MetodoCima
@@ -81,21 +86,17 @@ import com.rutaalacima.app.domain.model.Travesia
 import com.rutaalacima.app.domain.model.VisionBoard
 import com.rutaalacima.app.ui.components.RutaCard
 import com.rutaalacima.app.ui.components.rutaViewModel
-import com.rutaalacima.app.ui.theme.FormaHoja
 import com.rutaalacima.app.ui.theme.fondoPapel
-import com.rutaalacima.app.ui.theme.hojaPapel
+import kotlin.math.roundToInt
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.Dispatchers
-import com.rutaalacima.app.data.social.Visibilidad
-import com.rutaalacima.app.data.social.TipoPost
-import androidx.compose.runtime.LaunchedEffect
-import java.io.File
 
 /** Una casilla con la foto que la llena (ruta local o URL), si ya la tiene. */
 data class CasillaVista(val casilla: VisionCasillaEntity, val foto: String?)
@@ -105,6 +106,39 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         val fotos = posts.associate { it.id to it.foto }
         cs.map { CasillaVista(it, it.publicacionId?.let { id -> fotos[id] }?.takeIf { f -> f.isNotBlank() }) }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    private val preferencias = c.contexto.getSharedPreferences("vision", Context.MODE_PRIVATE)
+    var modoTexto by mutableStateOf(preferencias.getBoolean("modo_texto", false))
+        private set
+    fun cambiarModo(texto: Boolean) { modoTexto = texto; preferencias.edit().putBoolean("modo_texto", texto).apply() }
+    private val edicion = Mutex()
+    internal fun editarCampo(id: Long, campo: CampoTarjeta, texto: String) = viewModelScope.launch {
+        edicion.lock()
+        try {
+            val actual = c.vision.casillas.first().firstOrNull { it.id == id } ?: return@launch
+            c.vision.guardar(when (campo) {
+                CampoTarjeta.FRASE -> actual.copy(afirmacion = texto, busqueda = VisionBoard.palabras(texto))
+                CampoTarjeta.ROTULO -> actual.copy(titulo = texto)
+                CampoTarjeta.SUGERENCIA -> actual.copy(sugerencia = texto)
+                CampoTarjeta.QUITAR_FOTO -> actual.copy(publicacionId = null)
+            })
+        } finally { edicion.unlock() }
+    }
+    val cascada = c.cascada.cascada.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+    val apodos = c.respuestas.observar("apodo").stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    val estados = c.respuestas.observar("vision").stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    fun guardarApodo(id: Long, texto: String) = viewModelScope.launch { c.respuestas.guardar("apodo", "apodo:vision:$id", texto.trim()) }
+    fun guardarPorcentaje(id: Long, pct: Int) = viewModelScope.launch {
+        c.respuestas.guardar("vision", "vision:pct:$id", pct.toString())
+        c.respuestas.guardar("vision", "vision:estado:$id", if (pct >= 100) "LOGRADA" else if (pct > 0) "CAMINO" else "ABIERTA")
+    }
+    fun guardarOrden(lista: List<CasillaVista>) = viewModelScope.launch {
+        edicion.lock()
+        try {
+            val actuales = c.vision.casillas.first().associateBy { it.id }
+            lista.forEachIndexed { i, cv -> actuales[cv.casilla.id]?.let { if (it.orden != i) c.vision.guardar(it.copy(orden = i)) } }
+        } finally { edicion.unlock() }
+    }
 
     var armando by mutableStateOf(false)
     /** null = sin mensaje; true = lo armó la IA; false = se armó sin IA. */
@@ -274,7 +308,11 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         campamentos.filterNotNull().mapNotNull { id -> todas.firstOrNull { it.id == id } }.forEach { llenarPasos(it, r2) }
     }
 
-    fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch { c.vision.ponerFoto(cv, uri) }
+    fun ponerFoto(cv: VisionCasillaEntity, uri: Uri) = c.appScope.launch {
+        edicion.lock()
+        try { c.vision.casillas.first().firstOrNull { it.id == cv.id }?.let { c.vision.ponerFoto(it, uri) } }
+        finally { edicion.unlock() }
+    }
     fun guardar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.guardar(cv) }
     fun nueva(t: String, a: String, s: String) = viewModelScope.launch { c.vision.nueva(t, a, s); llenarCampamentosVacios() }
     fun crearCampamento(codigo: String) = viewModelScope.launch { c.vision.crearCampamento(codigo); llenarCampamentosVacios() }
@@ -295,7 +333,10 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveSoltar(casilla.id, paso), soltar)
         c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveLlevar(casilla.id, paso), llevar)
     }
-    fun borrar(cv: VisionCasillaEntity) = viewModelScope.launch { c.vision.borrar(cv) }
+    fun borrar(cv: VisionCasillaEntity) = viewModelScope.launch {
+        edicion.lock()
+        try { c.vision.borrar(cv) } finally { edicion.unlock() }
+    }
 }
 
 /**
@@ -304,12 +345,81 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: Boolean = false) {
+fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: Boolean = false, onIrA: (String) -> Unit = {}) {
     val vm = rutaViewModel { VisionViewModel(it) }
     val ctx = LocalContext.current
     val casillas by vm.casillas.collectAsStateWithLifecycle()
     var paraFoto by remember { mutableStateOf<VisionCasillaEntity?>(null) }
-    var editando by remember { mutableStateOf<VisionCasillaEntity?>(null) }
+    val cascada by vm.cascada.collectAsStateWithLifecycle()
+    val apodos by vm.apodos.collectAsStateWithLifecycle()
+    val estados by vm.estados.collectAsStateWithLifecycle()
+    var giradas by rememberSaveable { mutableStateOf(listOf<Long>()) }
+    var visor by rememberSaveable { mutableStateOf<Long?>(null) }
+    var bloqueAbierto by rememberSaveable { mutableStateOf<Int?>(null) }
+    var cambioModo by remember { mutableStateOf(0) }
+    fun cambiarModo(texto: Boolean) {
+        if (texto != vm.modoTexto) { giradas = emptyList(); cambioModo++; vm.cambiarModo(texto) }
+    }
+    fun girar(id: Long) { giradas = if (id in giradas) giradas - id else giradas + id }
+    fun abrirVisor(id: Long, editar: Boolean = false) {
+        if (editar && !(vm.modoTexto xor (id in giradas))) girar(id)
+        visor = id
+    }
+    var orden by remember { mutableStateOf(listOf<Long>()) }
+    var arrastrada by remember { mutableStateOf<Long?>(null) }
+    var origenArrastre by remember { mutableStateOf(Offset.Zero) }
+    var desplazamiento by remember { mutableStateOf(Offset.Zero) }
+    var dedo by remember { mutableStateOf(Offset.Zero) }
+    val gridState = rememberLazyGridState()
+    val haptica = LocalHapticFeedback.current
+    val pasoScroll = with(LocalDensity.current) { 10.dp.toPx() }
+    val scope = rememberCoroutineScope()
+    val casillasActuales by rememberUpdatedState(casillas)
+    LaunchedEffect(casillas.map { it.casilla.id }) { orden = casillas.sortedWith(compareBy({ it.casilla.origen != "cumbre" }, { it.casilla.orden })).map { it.casilla.id } }
+    val ordenadas = orden.mapNotNull { id -> casillas.firstOrNull { it.casilla.id == id } }
+    val (cumbre, campamentos) = Mandala.repartir(casillas, { it.casilla.origen }, { it.casilla.eje })
+    val fijas = (listOfNotNull(cumbre) + campamentos.filterNotNull()).map { it.casilla.id }.toSet()
+    val extras = ordenadas.filter { it.casilla.id !in fijas }
+    val tarjetasVisor = listOfNotNull(cumbre) + campamentos.filterNotNull() + extras
+    val extrasActuales by rememberUpdatedState(extras.map { it.casilla.id }.toSet())
+    val indiceBrujula = if (extras.isEmpty()) 4 else 5 + extras.size
+    fun irSeccion(indice: Int) { scope.launch { gridState.scrollToItem(indice) } }
+    fun terminarArrastre() {
+        if (arrastrada != null) {
+            val actuales = casillasActuales
+            val (cima, camps) = Mandala.repartir(actuales, { it.casilla.origen }, { it.casilla.eje })
+            val fijasActuales = listOfNotNull(cima) + camps.filterNotNull()
+            val idsFijos = fijasActuales.map { it.casilla.id }.toSet()
+            vm.guardarOrden(fijasActuales + orden.filter { it !in idsFijos }.mapNotNull { id -> actuales.firstOrNull { it.casilla.id == id } })
+        }
+        arrastrada = null; desplazamiento = Offset.Zero
+    }
+
+    fun intercambiarBajoDedo() {
+        val id = arrastrada ?: return
+        val destino = gridState.layoutInfo.visibleItemsInfo.firstOrNull {
+            it.key is Long && it.key != id && dedo.x >= it.offset.x && dedo.x < it.offset.x + it.size.width &&
+                dedo.y >= it.offset.y && dedo.y < it.offset.y + it.size.height
+        }?.key as? Long
+        if (destino != null && destino in extrasActuales) {
+            val lista = orden.toMutableList(); val desde = lista.indexOf(id); val hasta = lista.indexOf(destino)
+            if (desde >= 0 && hasta >= 0) { java.util.Collections.swap(lista, desde, hasta); orden = lista }
+        }
+    }
+    LaunchedEffect(arrastrada) {
+        while (arrastrada != null) {
+            withFrameMillis { }
+            val info = gridState.layoutInfo
+            val margen = (info.viewportEndOffset - info.viewportStartOffset) * .12f
+            val scroll = when {
+                dedo.y < info.viewportStartOffset + margen -> -pasoScroll
+                dedo.y > info.viewportEndOffset - margen -> pasoScroll
+                else -> 0f
+            }
+            if (scroll != 0f) { gridState.scrollBy(scroll); intercambiarBajoDedo() }
+        }
+    }
+
     var creando by remember { mutableStateOf(false) }
     val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         val c = paraFoto
@@ -334,6 +444,20 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
         paraEvidencia = null
     }
 
+    val acciones = AccionesTarjeta(
+        onFoto = ::pedirFoto, onCampo = vm::editarCampo, onApodo = vm::guardarApodo,
+        onPorcentaje = vm::guardarPorcentaje, onBorrar = { cv -> vm.borrar(cv); if (visor == cv.id) visor = null }, onIdeas = ::ideas,
+        onMeta = { visor = null; onIrA(it) },
+    )
+    val pintarTarjeta: @Composable (CasillaVista, Boolean, Boolean, Modifier, Int, String?, (() -> Unit)?) -> Unit = { cv, compacta, grande, modificador, indice, rumbo, onPasos ->
+        val id = cv.casilla.id
+        TarjetaVision(cv, apodos["apodo:vision:$id"].orEmpty(), vm.modoTexto xor (id in giradas),
+            cambioModo, indice, porcentajeCasilla(cv.casilla, casillas, pasos, estados, cascada),
+            acciones, onGirar = { girar(id) }, onVer = { abrirVisor(id) }, onAmpliar = { abrirVisor(id, true) },
+            compacta = compacta, cumbre = grande, rumbo = rumbo, onPasos = onPasos,
+            metas = metasSostienen(cv.casilla, casillas, cascada), apodosMetas = apodos, modifier = modificador)
+    }
+
     Scaffold(
         modifier = Modifier.fondoPapel(),
         containerColor = Color.Transparent,
@@ -350,12 +474,18 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
+            state = gridState,
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 8.dp, bottom = 32.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            item(span = { GridItemSpan(2) }) {
+            item(key = "navegacion", span = { GridItemSpan(2) }) {
+                NavegacionVision(vm.modoTexto, ::cambiarModo, casillas.isNotEmpty(),
+                    onSeccion = { irSeccion(when (it) { 0 -> 2; 1 -> 3; else -> indiceBrujula }) },
+                    onGrande = { tarjetasVisor.firstOrNull()?.let { abrirVisor(it.casilla.id) } })
+            }
+            item(key = "introduccion", span = { GridItemSpan(2) }) {
                 RutaCard {
                     Text(stringResource(R.string.vision_intro), style = MaterialTheme.typography.bodyMedium)
                     Spacer(Modifier.height(10.dp))
@@ -389,7 +519,70 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                     }
                 }
             }
-            if (casillas.isNotEmpty()) item(span = { GridItemSpan(2) }) {
+            if (casillas.isNotEmpty()) {
+                item(key = "cumbre", span = { GridItemSpan(2) }) {
+                    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(stringResource(R.string.vision_seccion_cumbre), style = MaterialTheme.typography.titleLarge)
+                        cumbre?.let { pintarTarjeta(it, false, true, Modifier.widthIn(max = 400.dp), 0, null, null) }
+                            ?: Text(cumbreFrase, style = MaterialTheme.typography.headlineSmall)
+                    }
+                }
+                item(key = "rosa", span = { GridItemSpan(2) }) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(stringResource(R.string.vision_seccion_rosa), style = MaterialTheme.typography.titleLarge)
+                        RosaVision(cumbre, campamentos, onCrear = vm::crearCampamento) { cv, indice, rumbo, modificador ->
+                            pintarTarjeta(cv, true, false, modificador, indice + 1, rumbo,
+                                rumbo?.let { _ -> {
+                                    val camp = campamentos.indexOfFirst { it?.casilla?.id == cv.casilla.id }
+                                    bloqueAbierto = Mandala.bloqueDe(camp); irSeccion(indiceBrujula)
+                                } })
+                        }
+                    }
+                }
+            }
+            if (extras.isNotEmpty()) item(key = "extras", span = { GridItemSpan(2) }) {
+                Text(stringResource(R.string.vision_mas_tarjetas), style = MaterialTheme.typography.titleMedium)
+            }
+            items(extras, key = { it.casilla.id }) { cv ->
+                val id = cv.casilla.id
+                val moviendo = arrastrada == id
+                val actual = gridState.layoutInfo.visibleItemsInfo.firstOrNull { it.key == id }?.offset ?: IntOffset.Zero
+                pintarTarjeta(cv, false, false,
+                    Modifier.animateItem(placementSpec = if (moviendo) null else tween(220))
+                        .zIndex(if (moviendo) 20f else 0f)
+                        .graphicsLayer {
+                            if (moviendo) {
+                                translationX = origenArrastre.x + desplazamiento.x - actual.x
+                                translationY = origenArrastre.y + desplazamiento.y - actual.y
+                                scaleX = 1.04f; scaleY = 1.04f
+                            }
+                            shadowElevation = (if (moviendo) 22.dp else 2.dp).toPx()
+                            shape = RoundedCornerShape(16.dp)
+                        }
+                        .pointerInput(id) {
+                            detectDragGesturesAfterLongPress(
+                                onDragStart = { local ->
+                                    if (cv.casilla.origen != "cumbre") {
+                                        arrastrada = id
+                                        val info = gridState.layoutInfo.visibleItemsInfo.firstOrNull { it.key == id }
+                                        origenArrastre = Offset(info?.offset?.x?.toFloat() ?: 0f, info?.offset?.y?.toFloat() ?: 0f)
+                                        desplazamiento = Offset.Zero; dedo = origenArrastre + local
+                                        haptica.performHapticFeedback(HapticFeedbackType.LongPress)
+                                    }
+                                },
+                                onDragEnd = { terminarArrastre() }, onDragCancel = { terminarArrastre() },
+                                onDrag = { change, delta ->
+                                    if (arrastrada == id) {
+                                        change.consume(); desplazamiento += delta
+                                        dedo += delta
+                                        intercambiarBajoDedo()
+                                    }
+                                },
+                            )
+                        }, extras.indexOfFirst { it.casilla.id == id } + 10, null, null,
+                )
+            }
+            if (casillas.isNotEmpty()) item(key = "brujula", span = { GridItemSpan(2) }) {
                 val (cumbre, campamentos) = Mandala.repartir(casillas, { it.casilla.origen }, { it.casilla.eje })
                 val datos = DatosMandala(cumbre, cumbreFrase, campamentos, pasos, fotos)
                 val nf = java.text.NumberFormat.getIntegerInstance()
@@ -403,6 +596,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 RutaCard {
                     MandalaSeccion(
                         datos,
+                        modoTexto = vm.modoTexto, bloqueAbierto = bloqueAbierto, onBloque = { bloqueAbierto = it },
                         onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
                         onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentos.map { it?.casilla?.id }) },
                         onSugerir = { vm.sugerirPasos(it) },
@@ -423,12 +617,6 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                     )
                 }
             }
-            if (casillas.isNotEmpty()) item(span = { GridItemSpan(2) }) {
-                Text(stringResource(R.string.mandala_casillas_titulo), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-            }
-            items(casillas, key = { it.casilla.id }) { cv ->
-                Casilla(cv, onFoto = { pedirFoto(cv.casilla) }, onIdeas = { ideas(cv.casilla) }, onEditar = { editando = cv.casilla })
-            }
             if (casillas.isNotEmpty()) {
                 item(span = { GridItemSpan(2) }) {
                     Text(stringResource(R.string.vision_foto_privada), style = MaterialTheme.typography.bodySmall,
@@ -445,13 +633,11 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
         }
     }
 
-    editando?.let { c ->
-        EditarCasilla(
-            titulo = c.titulo, afirmacion = c.afirmacion, sugerencia = c.sugerencia,
-            onGuardar = { t, a, s -> vm.guardar(c.copy(titulo = t, afirmacion = a, sugerencia = s, busqueda = VisionBoard.palabras(a))); editando = null },
-            onBorrar = { vm.borrar(c); editando = null },
-            onCancelar = { editando = null },
-        )
+    visor?.let { id ->
+        if (tarjetasVisor.isNotEmpty()) VisorTarjetas(tarjetasVisor, id, apodos, vm.modoTexto, ::cambiarModo,
+            giradas, cambioModo, onGirar = ::girar, acciones = acciones,
+            porcentaje = { porcentajeCasilla(it, casillas, pasos, estados, cascada) },
+            metas = { metasSostienen(it, casillas, cascada) }, onCerrar = { visor = null })
     }
     if (creando) {
         EditarCasilla(
@@ -463,48 +649,41 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     }
 }
 
-@Composable
-private fun Casilla(cv: CasillaVista, onFoto: () -> Unit, onIdeas: () -> Unit, onEditar: () -> Unit) {
-    val c = cv.casilla
-    val color = c.eje?.let(::colorEje) ?: MaterialTheme.colorScheme.primary
-    val forma = remember { FormaHoja() }
-    Column(Modifier.fillMaxWidth().hojaPapel().clip(forma)) {
-        Box(Modifier.fillMaxWidth().aspectRatio(4f / 5f).clickable(onClick = onFoto)) {
-            if (cv.foto != null) {
-                val modelo: Any = if (cv.foto.startsWith("http")) cv.foto else File(cv.foto)
-                AsyncImage(modelo, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xCC1D120D)))))
-                Text(
-                    c.afirmacion, color = Color.White, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.BottomStart).padding(12.dp), maxLines = 4, overflow = TextOverflow.Ellipsis,
-                )
-            } else {
-                Column(
-                    Modifier.fillMaxSize().background(color.copy(alpha = 0.10f)).padding(12.dp),
-                    verticalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(c.afirmacion, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = color,
-                        maxLines = 4, overflow = TextOverflow.Ellipsis)
-                    Text(c.sugerencia, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 5, overflow = TextOverflow.Ellipsis)
-                    Row(
-                        Modifier.clip(RoundedCornerShape(50)).background(color).padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(Icons.Filled.AddAPhoto, null, tint = Color.White, modifier = Modifier.size(16.dp))
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.vision_agregar_foto), color = Color.White, style = MaterialTheme.typography.labelMedium)
-                    }
-                }
-            }
-        }
-        Row(Modifier.fillMaxWidth().padding(start = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(c.titulo, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (cv.foto == null) IconButton(onClick = onIdeas) { Icon(Icons.Filled.Search, stringResource(R.string.vision_ideas)) }
-            IconButton(onClick = onEditar) { Icon(Icons.Filled.Edit, stringResource(R.string.vision_editar)) }
-        }
+private fun porcentajeCasilla(
+    c: VisionCasillaEntity, todas: List<CasillaVista>, pasos: Map<String, String>,
+    estados: Map<String, String>, cascada: Cascada?,
+): Int {
+    fun manual(cs: VisionCasillaEntity, base: Float): Float =
+        if (estados["vision:estado:${cs.id}"] == "LOGRADA") 100f
+        else maxOf(base, estados["vision:pct:${cs.id}"]?.toFloatOrNull() ?: 0f)
+    val (cumbre, campamentos) = Mandala.repartir(todas, { it.casilla.origen }, { it.casilla.eje })
+    val ids = campamentos.map { it?.casilla?.id }
+    val dificultad = MetodoCima.calcular(MetodoCima.pasosDe(ids, pasos), java.time.LocalDate.now()).dificultad
+    val hoy = java.time.LocalDate.now()
+    fun metas(codigo: String): Float {
+        val datos = cascada ?: return 0f
+        if (codigo == "CAM") return 0f
+        fun pertenece(eje: String?) = if (codigo == "CON") eje.isNullOrBlank() else eje == codigo
+        val anuales = datos.propositos.flatMap { p -> p.anios.map { it to (it.meta.eje ?: p.proposito.eje) } } +
+            datos.aniosSueltos.map { it to it.meta.eje }
+        val valores = anuales.filter { (a, eje) -> a.meta.anio == hoy.year && pertenece(eje) }.map { it.first.avance } +
+            datos.mesesSueltos.filter { it.meta.metaAnualId == null && it.meta.anio == hoy.year && it.meta.mes == hoy.monthValue && pertenece(it.meta.eje) }.map { it.avance }
+        return if (valores.isEmpty()) 0f else valores.average().toFloat() * 100f
     }
+    fun campamento(i: Int): Float {
+        val cs = campamentos[i]?.casilla ?: return 0f
+        val base = (0 until Mandala.PASOS).sumOf { paso ->
+            MetodoCima.avance(MetodoCima.leer(cs.id, paso, pasos), dificultad).toDouble()
+        }.toFloat() * 100f / Mandala.PASOS
+        return manual(cs, maxOf(base, metas(Mandala.CAMPAMENTOS_FIJOS[i])))
+    }
+    val i = campamentos.indexOfFirst { it?.casilla?.id == c.id }
+    val base = when {
+        cumbre?.casilla?.id == c.id -> campamentos.indices.map(::campamento).average().toFloat()
+        i >= 0 -> campamento(i)
+        else -> 0f
+    }
+    return manual(c, base).roundToInt().coerceIn(0, 100)
 }
 
 internal fun colorEje(codigo: String): Color = when (codigo) {
