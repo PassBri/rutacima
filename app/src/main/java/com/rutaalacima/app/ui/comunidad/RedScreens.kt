@@ -1,0 +1,382 @@
+package com.rutaalacima.app.ui.comunidad
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import coil.compose.AsyncImage
+import com.rutaalacima.app.AppContainer
+import com.rutaalacima.app.R
+import com.rutaalacima.app.data.social.Aviso
+import com.rutaalacima.app.data.social.PerfilPublico
+import com.rutaalacima.app.data.social.Persona
+import com.rutaalacima.app.ui.components.IconosRuta
+import com.rutaalacima.app.ui.components.rutaViewModel
+import com.rutaalacima.app.ui.theme.fondoPapel
+import com.rutaalacima.app.util.haceCuanto
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+/* ====================================================================== Avisos */
+
+/** Avisos juntos: "Diana y 3 más · le dieron impulso a tu publicación". */
+data class GrupoAvisos(val tipo: String, val actores: List<Aviso>, val primero: Aviso)
+
+fun agruparAvisos(lista: List<Aviso>): List<GrupoAvisos> {
+    val r = mutableListOf<GrupoAvisos>()
+    for (a in lista) {
+        val i = r.indexOfFirst { g -> a.tipo in setOf("IMPULSO", "LIKE_COMENTARIO", "SEGUIDOR") && g.tipo == a.tipo && g.primero.postId == a.postId &&
+            g.primero.leida == a.leida && kotlin.math.abs(g.primero.creadoEn - a.creadoEn) < 2 * 86_400_000L }
+        if (i >= 0) r[i] = r[i].copy(actores = r[i].actores + a) else r += GrupoAvisos(a.tipo, listOf(a), a)
+    }
+    return r
+}
+
+class AvisosViewModel(private val c: AppContainer) : ViewModel() {
+    var avisos by mutableStateOf<List<Aviso>?>(null)
+        private set
+    var sigo by mutableStateOf<Set<String>>(emptySet())
+        private set
+    var prefs by mutableStateOf<Map<String, Boolean>>(emptyMap())
+        private set
+    init { cargar() }
+    fun cargar() = viewModelScope.launch {
+        avisos = c.red.avisos(); sigo = c.red.sigo()
+        if (avisos.orEmpty().any { !it.leida }) c.red.marcarLeidos()
+    }
+    fun cargarPrefs() = viewModelScope.launch { prefs = c.red.preferencias() }
+    fun cambiarPref(tipo: String, si: Boolean) = viewModelScope.launch { prefs = prefs + (tipo to si); runCatching { c.red.guardarPreferencias(prefs) } }
+    fun seguir(id: String) = viewModelScope.launch { c.red.seguir(id, true); sigo = sigo + id }
+}
+
+private val ICONO_AVISO: Map<String, ImageVector> by lazy {
+    mapOf("IMPULSO" to IconosRuta.Banderin, "LIKE_COMENTARIO" to IconosRuta.Banderin, "COMENTARIO" to IconosRuta.Radio,
+        "RESPUESTA" to IconosRuta.Radio, "SEGUIDOR" to IconosRuta.Perfil, "MENCION" to IconosRuta.Radio)
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AvisosScreen(onBack: () -> Unit, onPost: (String) -> Unit, onPersona: (String) -> Unit) {
+    val vm = rutaViewModel { AvisosViewModel(it) }
+    var ajustes by rememberSaveable { mutableStateOf(false) }
+    Scaffold(
+        modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = { Text(stringResource(R.string.red_avisos)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+                actions = { IconButton(onClick = { ajustes = !ajustes; if (ajustes) vm.cargarPrefs() }) { Icon(Icons.Filled.Settings, stringResource(R.string.red_que_recibir)) } },
+            )
+        },
+    ) { padding ->
+        val lista = vm.avisos
+        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 32.dp)) {
+            if (ajustes) item("prefs") { PreferenciasAvisos(vm.prefs, vm::cambiarPref) }
+            when {
+                lista == null -> item("cargando") { Text("…", Modifier.padding(24.dp)) }
+                lista.isEmpty() -> item("vacio") {
+                    Column(Modifier.fillMaxWidth().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Icon(Icons.Filled.Notifications, null, Modifier.size(48.dp), tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+                        Text(stringResource(R.string.red_avisos_vacio_t), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.red_avisos_vacio), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                else -> {
+                    val ahora = System.currentTimeMillis()
+                    val grupos = agruparAvisos(lista).groupBy { g ->
+                        val d = ahora - g.primero.creadoEn
+                        if (d < 86_400_000L) R.string.red_hoy else if (d < 7 * 86_400_000L) R.string.red_semana else R.string.red_antes
+                    }
+                    grupos.forEach { (tramo, gs) ->
+                        item("t$tramo") {
+                            Text(stringResource(tramo), Modifier.padding(start = 20.dp, top = 16.dp, bottom = 4.dp),
+                                style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        items(gs, key = { "a${it.primero.id}" }) { g ->
+                            FilaAviso(g, g.primero.actorId in vm.sigo,
+                                onClick = { if (g.tipo == "SEGUIDOR" || g.primero.postId == null) onPersona(g.primero.actorId) else onPost(g.primero.postId) },
+                                onSeguir = { vm.seguir(g.primero.actorId) })
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FilaAviso(g: GrupoAvisos, loSigo: Boolean, onClick: () -> Unit, onSeguir: () -> Unit) {
+    val a = g.primero
+    val nombres = when (g.actores.size) {
+        1 -> a.actorNombre
+        2 -> stringResource(R.string.red_dos, a.actorNombre, g.actores[1].actorNombre)
+        else -> stringResource(R.string.red_varios, a.actorNombre, g.actores.size - 1)
+    }
+    val muchos = g.actores.size > 1
+    val accion = stringResource(when (g.tipo) {
+        "IMPULSO" -> if (muchos) R.string.red_a_impulso_pl else R.string.red_a_impulso
+        "COMENTARIO" -> R.string.red_a_comentario
+        "RESPUESTA" -> R.string.red_a_respuesta
+        "SEGUIDOR" -> if (muchos) R.string.red_a_seguidor_pl else R.string.red_a_seguidor
+        "LIKE_COMENTARIO" -> if (muchos) R.string.red_a_like_com_pl else R.string.red_a_like_com
+        else -> R.string.red_a_mencion
+    })
+    ListItem(
+        modifier = Modifier.clickable(onClick = onClick).padding(horizontal = 8.dp).clip(RoundedCornerShape(16.dp)),
+        colors = ListItemDefaults.colors(containerColor = if (a.leida) Color.Transparent else MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)),
+        leadingContent = {
+            Box(Modifier.size(52.dp)) {
+                Avatar(a.actorNombre, a.actorAvatar, 48)
+                Box(Modifier.align(Alignment.BottomEnd).offset(4.dp, 4.dp).size(22.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary)
+                    .border(2.dp, MaterialTheme.colorScheme.surface, CircleShape), contentAlignment = Alignment.Center) {
+                    Icon(ICONO_AVISO[g.tipo] ?: IconosRuta.Banderin, null, Modifier.size(12.dp), tint = MaterialTheme.colorScheme.onPrimary)
+                }
+            }
+        },
+        headlineContent = { Text(nombres, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        supportingContent = {
+            Column {
+                Text(if (a.texto.isNotBlank() && g.tipo in setOf("COMENTARIO", "RESPUESTA", "MENCION")) "$accion: “${a.texto}”" else accion, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text(haceCuanto(a.creadoEn), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        },
+        trailingContent = when {
+            a.foto.isNotBlank() -> ({ AsyncImage(a.foto, null, Modifier.size(48.dp).clip(RoundedCornerShape(10.dp)), contentScale = ContentScale.Crop) })
+            g.tipo == "SEGUIDOR" && !loSigo && a.actorId.isNotBlank() -> ({ Button(onClick = onSeguir) { Text(stringResource(R.string.red_seguir)) } })
+            else -> null
+        },
+    )
+}
+
+@Composable
+private fun PreferenciasAvisos(prefs: Map<String, Boolean>, onCambiar: (String, Boolean) -> Unit) {
+    val tipos = listOf("IMPULSO" to R.string.red_p_impulso, "COMENTARIO" to R.string.red_p_comentario, "RESPUESTA" to R.string.red_p_respuesta,
+        "SEGUIDOR" to R.string.red_p_seguidor, "LIKE_COMENTARIO" to R.string.red_p_like_com, "MENCION" to R.string.red_p_mencion)
+    Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp).clip(RoundedCornerShape(20.dp)).background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)).padding(8.dp)) {
+        Text(stringResource(R.string.red_que_recibir), Modifier.padding(12.dp), style = MaterialTheme.typography.titleMedium)
+        tipos.forEach { (k, n) ->
+            Row(Modifier.fillMaxWidth().clickable { onCambiar(k, prefs[k] == false) }.padding(horizontal = 12.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(n), Modifier.weight(1f))
+                Switch(checked = prefs[k] != false, onCheckedChange = { onCambiar(k, it) })
+            }
+        }
+    }
+}
+
+/* ====================================================================== Buscar personas */
+
+class PersonasViewModel(private val c: AppContainer) : ViewModel() {
+    var resultados by mutableStateOf<List<Persona>>(emptyList())
+        private set
+    var sugeridas by mutableStateOf<List<Persona>>(emptyList())
+        private set
+    var sigo by mutableStateOf<Set<String>>(emptySet())
+        private set
+    var buscando by mutableStateOf(false)
+        private set
+    private var trabajo: Job? = null
+    init { viewModelScope.launch { sigo = c.red.sigo(); sugeridas = c.red.sugeridas(cuantas = 12) } }
+    fun buscar(t: String) {
+        trabajo?.cancel()
+        trabajo = viewModelScope.launch { delay(300); buscando = true; resultados = c.red.buscar(t); buscando = false }
+    }
+    fun alternar(id: String) = viewModelScope.launch { val si = id !in sigo; c.red.seguir(id, si); sigo = if (si) sigo + id else sigo - id }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BuscarPersonasScreen(onBack: () -> Unit, onPersona: (String) -> Unit) {
+    val vm = rutaViewModel { PersonasViewModel(it) }
+    var texto by rememberSaveable { mutableStateOf("") }
+    Scaffold(
+        modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = { Text(stringResource(R.string.red_buscar)) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+            )
+        },
+    ) { padding ->
+        LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 32.dp)) {
+            item("campo") {
+                OutlinedTextField(
+                    texto, { texto = it; vm.buscar(it) }, Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                    placeholder = { Text(stringResource(R.string.red_buscar_hint)) }, singleLine = true, shape = RoundedCornerShape(28.dp),
+                    leadingIcon = { Icon(Icons.Filled.Search, null) },
+                    trailingIcon = if (texto.isNotEmpty()) ({ IconButton(onClick = { texto = ""; vm.buscar("") }) { Icon(Icons.Filled.Close, null) } }) else null,
+                )
+            }
+            val lista = if (texto.trim().length >= 2) vm.resultados else vm.sugeridas
+            if (texto.trim().length < 2 && lista.isNotEmpty()) item("sug") {
+                Text(stringResource(R.string.red_sugeridas), Modifier.padding(start = 20.dp, top = 12.dp, bottom = 4.dp), style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            if (texto.trim().length >= 2 && !vm.buscando && lista.isEmpty()) item("nada") {
+                Text(stringResource(R.string.red_sin_resultados), Modifier.padding(24.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            items(lista, key = { it.id }) { p -> FilaPersona(p, p.id in vm.sigo, { onPersona(p.id) }, { vm.alternar(p.id) }) }
+        }
+    }
+}
+
+@Composable
+fun FilaPersona(p: Persona, loSigo: Boolean, onClick: () -> Unit, onSeguir: () -> Unit) {
+    ListItem(
+        modifier = Modifier.clickable(onClick = onClick),
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+        leadingContent = { Avatar(p.nombre, p.avatar, 48) },
+        headlineContent = { Text(p.nombre, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        supportingContent = { Text(if (p.cumbre.isNotBlank()) "@${p.usuario} · ${p.cumbre}" else "@${p.usuario}", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        trailingContent = {
+            if (loSigo) OutlinedButton(onClick = onSeguir) { Text(stringResource(R.string.red_siguiendo)) }
+            else Button(onClick = onSeguir) { Text(stringResource(R.string.red_seguir)) }
+        },
+    )
+}
+
+/* ====================================================================== Perfil público */
+
+class PersonaViewModel(private val c: AppContainer, private val id: String) : ViewModel() {
+    var perfil by mutableStateOf<PerfilPublico?>(null)
+        private set
+    var cargado by mutableStateOf(false)
+        private set
+    init { viewModelScope.launch { perfil = c.red.perfil(id); cargado = true } }
+    fun escribir(onChat: (String) -> Unit) = viewModelScope.launch { runCatching { c.mensajes.abrirCon(id) }.onSuccess(onChat) }
+    fun alternar() = viewModelScope.launch {
+        val p = perfil ?: return@launch
+        c.red.seguir(id, !p.loSigo)
+        perfil = p.copy(loSigo = !p.loSigo, seguidores = p.seguidores + if (p.loSigo) -1 else 1)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PersonaScreen(id: String, onBack: () -> Unit, onPost: (String) -> Unit, onChat: (String) -> Unit, onDiario: (String, String) -> Unit) {
+    val vm = rutaViewModel(key = "persona-$id") { PersonaViewModel(it, id) }
+    val p = vm.perfil
+    Scaffold(
+        modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+                title = { Text(p?.persona?.usuario?.let { "@$it" }.orEmpty()) },
+                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+            )
+        },
+    ) { padding ->
+        if (p == null) {
+            Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { if (vm.cargado) Text(stringResource(R.string.red_sin_resultados)) }
+            return@Scaffold
+        }
+        LazyVerticalGrid(
+            GridCells.Fixed(3), Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(top = padding.calculateTopPadding(), bottom = 32.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp), verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            item("cab", span = { GridItemSpan(3) }) {
+                Column(Modifier.fillMaxWidth().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                    Avatar(p.persona.nombre, p.persona.avatar, 96)
+                    Text(p.persona.nombre, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
+                    if (p.meSigue && !p.propio) Text(stringResource(R.string.red_te_sigue), style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.secondaryContainer).padding(horizontal = 8.dp, vertical = 2.dp))
+                    Row(horizontalArrangement = Arrangement.spacedBy(28.dp)) {
+                        Cifra(p.publicaciones.size, R.string.red_publicaciones); Cifra(p.seguidores, R.string.red_seguidores); Cifra(p.siguiendo, R.string.red_siguiendo)
+                    }
+                    if (p.persona.bio.isNotBlank()) Text(p.persona.bio, style = MaterialTheme.typography.bodyMedium)
+                    if (p.persona.cumbre.isNotBlank()) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Icon(IconosRuta.Cima, null, Modifier.size(16.dp), tint = MaterialTheme.colorScheme.primary)
+                        Text(p.persona.cumbre, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+                    }
+                    if (!p.propio) Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        if (p.loSigo) OutlinedButton(onClick = vm::alternar) { Text(stringResource(R.string.red_siguiendo)) }
+                        else Button(onClick = vm::alternar) { Text(stringResource(R.string.red_seguir)) }
+                        FilledTonalButton(onClick = { vm.escribir(onChat) }) { Text(stringResource(R.string.red_mensaje)) }
+                        FilledTonalButton(onClick = { onDiario(p.persona.id, p.persona.nombre) }) { Text(stringResource(R.string.red_diario)) }
+                    }
+                }
+            }
+            if (p.publicaciones.isEmpty()) item("vacio", span = { GridItemSpan(3) }) {
+                Text(stringResource(R.string.red_sin_publicaciones), Modifier.padding(24.dp), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            items(p.publicaciones, key = { it.id }) { post ->
+                Box(Modifier.aspectRatio(0.8f).clickable { onPost(post.id) }.background(MaterialTheme.colorScheme.surfaceVariant)) {
+                    if (post.foto.isNotBlank()) AsyncImage(post.foto, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    else Text(post.texto, Modifier.padding(8.dp), style = MaterialTheme.typography.bodySmall, maxLines = 6, overflow = TextOverflow.Ellipsis)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun Cifra(n: Int, etiqueta: Int) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(n.toString(), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+        Text(stringResource(etiqueta), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}

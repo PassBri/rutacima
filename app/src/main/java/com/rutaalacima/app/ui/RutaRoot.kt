@@ -128,6 +128,10 @@ object Rutas {
     const val NUEVA_META = "nueva_meta/{nivel}?eje={eje}&anio={anio}&padre={padre}"
     const val PUBLICAR = "publicar/{tipo}?meta={meta}&texto={texto}&anio={anio}&mes={mes}"
     const val POST = "post/{id}"
+    const val AVISOS = "avisos"
+    const val PERSONAS = "personas"
+    const val PERSONA = "persona/{id}"
+    fun persona(id: String) = "persona/${android.net.Uri.encode(id)}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
     const val WEB = "web"
@@ -410,11 +414,13 @@ private fun AppPrincipal() {
                     onAbrirPost = { nav.navigate(Rutas.post(it)) },
                     onPublicar = { nav.navigate(Rutas.publicar(it)) },
                     onCuenta = { nav.navigate(Rutas.AJUSTES) },
-                    onAutor = { id, nombre -> nav.navigate(Rutas.diarioDe(id, nombre)) },
+                    onAutor = { id, _ -> nav.navigate(Rutas.persona(id)) },
                     onCordadas = { nav.navigate(Rutas.CORDADAS) },
                     onMensajes = { nav.navigate(Rutas.MENSAJES) },
                     onHoy = { nav.irAPestana(Rutas.HOY) },
                     onChat = { nav.navigate(Rutas.chat(it)) },
+                    onAvisos = { nav.navigate(Rutas.AVISOS) },
+                    onBuscar = { nav.navigate(Rutas.PERSONAS) },
                 )
             }
             composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook, onMochila = { nav.navigate(Rutas.MOCHILA) }) }
@@ -509,6 +515,20 @@ private fun AppPrincipal() {
                     postId = e.arguments?.getString("id").orEmpty(),
                     onBack = { nav.popBackStack() },
                     onChat = { nav.navigate(Rutas.chat(it)) },
+                )
+            }
+            composable(Rutas.AVISOS) {
+                com.rutaalacima.app.ui.comunidad.AvisosScreen(onBack = { nav.popBackStack() }, onPost = { nav.navigate(Rutas.post(it)) },
+                    onPersona = { if (it.isNotBlank()) nav.navigate(Rutas.persona(it)) })
+            }
+            composable(Rutas.PERSONAS) {
+                com.rutaalacima.app.ui.comunidad.BuscarPersonasScreen(onBack = { nav.popBackStack() }, onPersona = { nav.navigate(Rutas.persona(it)) })
+            }
+            composable(Rutas.PERSONA, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->
+                com.rutaalacima.app.ui.comunidad.PersonaScreen(
+                    id = e.arguments?.getString("id").orEmpty(), onBack = { nav.popBackStack() },
+                    onPost = { nav.navigate(Rutas.post(it)) }, onChat = { nav.navigate(Rutas.chat(it)) },
+                    onDiario = { id, nombre -> nav.navigate(Rutas.diarioDe(id, nombre)) },
                 )
             }
             composable(Rutas.AJUSTES) {

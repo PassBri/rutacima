@@ -68,6 +68,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Notifications
 import com.rutaalacima.app.AppContainer
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.social.FiltroFeed
@@ -95,6 +98,9 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     var error by mutableStateOf<String?>(null)
         private set
     val enLinea: Boolean get() = c.social.enLinea
+    /** Avisos sin leer (la campana). */
+    val noLeidos = c.red.noLeidos
+    init { viewModelScope.launch { runCatching { c.red.contarNoLeidos() } } }
 
     fun elegirEje(e: String?) { eje = e; cargar() }
 
@@ -184,8 +190,11 @@ fun ComunidadScreen(
     onMensajes: () -> Unit = {},
     onHoy: () -> Unit = {},
     onChat: (String) -> Unit = {},
+    onAvisos: () -> Unit = {},
+    onBuscar: () -> Unit = {},
 ) {
     val vm = rutaViewModel { ComunidadViewModel(it) }
+    val noLeidos by vm.noLeidos.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) { vm.cargar() }
     // La Comunidad se abre a pantalla completa (Cimas), como los videos cortos. El muro (lista, filtros
     // por eje, la expedición y los atajos para publicar) queda a un toque, arriba a la izquierda.
@@ -236,7 +245,7 @@ fun ComunidadScreen(
                         modifier = Modifier.align(Alignment.Center).padding(24.dp),
                     )
                 }
-                PestanasCimas(vm, onMuro = { volverA = pagina; enMuro = true }, onCordadas = onCordadas, onMensajes = onMensajes, onCuenta = onCuenta)
+                PestanasCimas(vm, onMuro = { volverA = pagina; enMuro = true }, onCordadas = onCordadas, onMensajes = onMensajes, onCuenta = onCuenta, noLeidos = noLeidos, onAvisos = onAvisos)
             }
             comentandoEn?.let { p -> HojaComentarios(vm, p, onCerrar = { comentandoEn = null }, onAbrirDetalle = { comentandoEn = null; onAbrirPost(p.id) }) }
             opcionesDe?.let { p -> HojaOpciones(vm, p, onChat = onChat, onCerrar = { opcionesDe = null }) }
@@ -302,6 +311,8 @@ fun ComunidadScreen(
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.weight(1f)) { Filtros(vm) }
+                    androidx.compose.material3.IconButton(onClick = onBuscar) { Icon(Icons.Filled.Search, stringResource(R.string.red_buscar)) }
+                    Campana(noLeidos, onAvisos, MaterialTheme.colorScheme.onSurface)
                 }
                 androidx.compose.material3.FilledTonalButton(onClick = { enMuro = false }, modifier = Modifier.padding(top = 8.dp)) {
                     Icon(Icons.Filled.Landscape, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.cimas_pantalla_completa))
@@ -375,7 +386,7 @@ private fun Filtros(vm: ComunidadViewModel) {
  * subrayado dorado fino, y las cordadas y los mensajes a la derecha. Todo sobre un velo para leerse.
  */
 @Composable
-private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas: () -> Unit, onMensajes: () -> Unit, onCuenta: () -> Unit) {
+private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas: () -> Unit, onMensajes: () -> Unit, onCuenta: () -> Unit, noLeidos: Int = 0, onAvisos: () -> Unit = {}) {
     Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 4.dp, vertical = 4.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             androidx.compose.material3.IconButton(onClick = onMuro) {
@@ -397,6 +408,7 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
                 }
             }
             androidx.compose.material3.IconButton(onClick = onCordadas) { Icon(Icons.Filled.Diversity3, stringResource(R.string.cordadas), tint = Color.White) }
+            Campana(noLeidos, onAvisos, Color.White)
             androidx.compose.material3.IconButton(onClick = onMensajes) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, stringResource(R.string.mensajes), tint = Color.White) }
         }
         if (!vm.enLinea) {
@@ -526,4 +538,15 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
     )
     if (reportando) DialogoReportar(onReportar = { motivo -> vm.reportar(post, motivo); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtReportada) }, onCerrar = { reportando = false; onCerrar() })
     if (bloqueando) DialogoBloquear(post.autorNombre, onBloquear = { vm.bloquear(post); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(txtBloqueado) }, onCerrar = { bloqueando = false; onCerrar() })
+}
+
+
+/** La campana de avisos con el número de nuevos. */
+@Composable
+private fun Campana(noLeidos: Int, onClick: () -> Unit, color: Color) {
+    androidx.compose.material3.IconButton(onClick = onClick) {
+        androidx.compose.material3.BadgedBox(badge = { if (noLeidos > 0) androidx.compose.material3.Badge { Text(if (noLeidos > 99) "99+" else noLeidos.toString()) } }) {
+            Icon(Icons.Filled.Notifications, stringResource(R.string.red_avisos), tint = color)
+        }
+    }
 }

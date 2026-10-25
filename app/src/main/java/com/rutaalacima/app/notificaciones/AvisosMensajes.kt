@@ -81,6 +81,7 @@ object AvisosMensajes {
         }
         val pendientes = runCatching { repo.acompanamientos() }.getOrDefault(emptyList())
             .filter { it.rol == "coach" && it.estado == "solicitado" }.map { it.id to it.otroNombre }
+        runCatching { avisarComunidad(c) }
         val nuevos = Avisos.nuevos(convs, avisados, pendientes, coachAvisados, repo.conversacionAbierta)
 
         // Lo primero que se guarda: aunque el sistema no deje notificar, no se repiten
@@ -117,6 +118,39 @@ object AvisosMensajes {
             runCatching { nm.notify(a.clave.hashCode(), n) }
         }
     }
+}
+
+/** Avisos de la comunidad (impulsos, comentarios, respuestas, seguidores, menciones): uno solo que los resume. */
+private suspend fun avisarComunidad(c: Context) {
+    val red = (c.applicationContext as RutaApp).container.red
+    if (!red.disponible) return
+    val p = c.getSharedPreferences("avisos_mensajes", Context.MODE_PRIVATE)
+    val ultimo = p.getLong("ultimo_aviso_social", 0L)
+    val nuevos = red.avisos().filter { !it.leida && it.id > ultimo }
+    if (nuevos.isEmpty()) return
+    p.edit().putLong("ultimo_aviso_social", nuevos.maxOf { it.id }).apply()
+    if (!Recordatorios.puedeNotificar(c)) return
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        c.getSystemService(NotificationManager::class.java)
+            .createNotificationChannel(NotificationChannel("comunidad", c.getString(R.string.red_canal), NotificationManager.IMPORTANCE_DEFAULT))
+    }
+    val a = nuevos.first()
+    val accion = c.getString(when (a.tipo) {
+        "IMPULSO" -> R.string.red_a_impulso; "COMENTARIO" -> R.string.red_a_comentario; "RESPUESTA" -> R.string.red_a_respuesta
+        "SEGUIDOR" -> R.string.red_a_seguidor; "LIKE_COMENTARIO" -> R.string.red_a_like_com; else -> R.string.red_a_mencion
+    })
+    val titulo = if (nuevos.size > 1) c.getString(R.string.red_n_nuevos, nuevos.size) else a.actorNombre
+    val texto = if (nuevos.size > 1) "${a.actorNombre}: $accion" else if (a.texto.isNotBlank()) "$accion: ${a.texto}" else accion
+    val abrir = PendingIntent.getActivity(
+        c, "avisos".hashCode(),
+        Intent(c, MainActivity::class.java).putExtra(AvisosMensajes.EXTRA_IR_A, "avisos").addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP),
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+    )
+    val n = NotificationCompat.Builder(c, "comunidad")
+        .setSmallIcon(R.drawable.ic_notificacion).setContentTitle(titulo).setContentText(texto)
+        .setStyle(NotificationCompat.BigTextStyle().bigText(texto)).setCategory(NotificationCompat.CATEGORY_SOCIAL)
+        .setAutoCancel(true).setContentIntent(abrir).build()
+    runCatching { NotificationManagerCompat.from(c).notify("comunidad".hashCode(), n) }
 }
 
 class AvisosWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {

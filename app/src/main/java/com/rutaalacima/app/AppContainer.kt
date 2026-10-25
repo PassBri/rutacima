@@ -62,6 +62,8 @@ class AppContainer(context: Context) {
     /** SuRoute Web: vincular un computador y compartir la ruta con la cuenta. */
     val web = com.rutaalacima.app.data.web.RutaWebRepository(context, db, supabase, frases, social)
 
+    /** Avisos, personas, perfiles públicos y sugerencias de la comunidad. */
+    val red = com.rutaalacima.app.data.social.RedRepository(context, supabase, social)
     /** Mensajes 1 a 1 y coaches de vida. */
     val mensajes = com.rutaalacima.app.data.social.MensajesRepository(supabase)
     /** Moderación de la comunidad: reportes, decisiones y suspensiones (solo moderadores). */

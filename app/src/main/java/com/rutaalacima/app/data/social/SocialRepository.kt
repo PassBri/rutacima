@@ -357,6 +357,18 @@ class SocialRepository(
         filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.also(::recordar)
     }
 
+    /** Publicaciones visibles de una persona (perfil público). */
+    suspend fun deAutor(autorId: String, limite: Int = 60): List<Post> = withContext(Dispatchers.IO) {
+        if (!enLinea) return@withContext DemoComunidad.posts(context, impulsados()).filter { it.autorId == autorId }.also(::recordar)
+        val uid = supa.sesion.value!!.userId
+        val filas = supa.select("posts", "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)" +
+            "&user_id=eq.$autorId&order=created_at.desc&limit=$limite").jsonArray
+        val ids = filas.mapNotNull { it.jsonObject["id"]?.jsonPrimitive?.contentOrNull }
+        val mios = if (ids.isEmpty()) emptySet() else supa.select("votes", "select=post_id&user_id=eq.$uid&post_id=in.(${ids.joinToString(",")})")
+            .jsonArray.mapNotNull { it.jsonObject["post_id"]?.jsonPrimitive?.contentOrNull }.toSet()
+        filas.map { filaAPost(it.jsonObject, uid, mios) }.also(::recordar)
+    }
+
     /** Puntos de la expedición de la comunidad por tramo del año, sumados en el servidor (null sin cuenta). */
     suspend fun expedicion(anio: Int): List<Long>? = withContext(Dispatchers.IO) {
         if (!enLinea) return@withContext null
