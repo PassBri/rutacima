@@ -425,6 +425,7 @@ class BienvenidaViewModel(private val c: AppContainer) : ViewModel() {
 }
 
 /** La primera vez en Comunidad: elegir los ejes que mueven a la persona y seguir a algunas personas. */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun PrimerosPasosComunidad(vm: BienvenidaViewModel, padding: PaddingValues, onListo: () -> Unit) {
     LazyColumn(

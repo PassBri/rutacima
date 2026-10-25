@@ -657,3 +657,118 @@ ACC.verificarCoach = async (_, arg) => {
   if (r.error) return errorNube(r.error);
   toast(si ? "Coach verificado" : "Postulación no aprobada"); RED.porVerificar = null; RED.verificados = null; cargarVerificados(); pintarDetalle();
 };
+
+/* ---------- 7. Seguridad ---------- */
+Object.assign(ACC, {
+  /** Silenciar: dejo de ver a esa persona y sus avisos, sin bloquearla; no se entera. */
+  async silenciar(el, arg) {
+    const [id, nombre] = String(arg).split("|"); cerrarHoja?.();
+    ocultarLocal("silenciados", id);
+    estado.feed = (estado.feed || []).filter(p => String(p.autorId) !== id);
+    if (Store.nube && !id.startsWith("demo")) { const r = await Store.nube.sb.from("silencios").upsert({ quien: Store.nube.dueno, a_quien: id }); if (r.error) errorNube(r.error); }
+    toast(`Silenciaste a ${nombre || "esta persona"}. Puedes deshacerlo en Privacidad.`, { accion: "Deshacer", alHacer: () => ACC.desilenciar(null, id) });
+    pintarDetalle();
+  },
+  async desilenciar(_, id) {
+    const s = listaLocal("silenciados"); s.delete(String(id)); try { localStorage.setItem("rutacima-silenciados", JSON.stringify([...s])); } catch { /* sin almacenamiento */ }
+    if (Store.nube) await Store.nube.sb.from("silencios").delete().eq("quien", Store.nube.dueno).eq("a_quien", id);
+    estado.feed = null; RED.privacidad = null; pintarDetalle();
+  },
+  async ocultarCom(_, id) {
+    const p = estado.post, c = p?.comentariosLista?.find(x => String(x.id) === String(id)); if (!c) return;
+    const r = await Store.nube?.sb.rpc("ocultar_comentario", { p_comment: id, p_si: !c.ocultoAutor });
+    if (r?.error) return errorNube(r.error);
+    c.ocultoAutor = !c.ocultoAutor; toast(c.ocultoAutor ? "Comentario oculto: solo tú y quien lo escribió lo ven." : "Comentario visible de nuevo.");
+    document.querySelector("#hojaInferior .com-lista") ? pintarHojaComentarios(p) : pintarDetalle();
+  },
+  async reglaComentarios(_, regla) {
+    RED.privacidad = { ...(RED.privacidad || {}), comentarios_de: regla }; pintarDetalle();
+    if (Store.nube) { const r = await Store.nube.sb.rpc("mis_comentarios_de", { p_regla: regla }); if (r.error) errorNube(r.error); }
+  },
+  async soyMenor(el) {
+    const si = el.checked; RED.privacidad = { ...(RED.privacidad || {}), menor: si };
+    if (Store.nube) { const r = await Store.nube.sb.rpc("mi_edad_menor", { p_si: si }); if (r.error) errorNube(r.error); }
+    toast(si ? "Listo: lo que publiques llegará solo a tus seguidores y solo te escribirán quienes sigues." : "Listo.");
+  },
+});
+async function cargarPrivacidad() {
+  RED.privacidad = { comentarios_de: "TODOS", menor: false, silenciados: [] };
+  if (Store.nube) {
+    const sb = Store.nube.sb, [p, s] = await Promise.all([
+      sb.from("profiles").select("comentarios_de,menor").eq("id", Store.nube.dueno).maybeSingle(),
+      sb.from("silencios").select("a_quien,persona:profiles!silencios_a_quien_fkey(nombre,username)").eq("quien", Store.nube.dueno),
+    ]);
+    RED.privacidad = { comentarios_de: p.data?.comentarios_de || "TODOS", menor: !!p.data?.menor,
+      silenciados: (s.data || []).map(x => ({ id: x.a_quien, nombre: x.persona?.nombre || x.persona?.username || "Persona" })) };
+  } else RED.privacidad.silenciados = [...listaLocal("silenciados")].map(id => ({ id, nombre: demoPersonas().find(x => x.id === id)?.nombre || "Persona" }));
+  if (estado.sel === "privacidad") pintarDetalle();
+}
+DET["comunidad.privacidad"] = () => {
+  if (!RED.privacidad) cargarPrivacidad();
+  const p = RED.privacidad || { comentarios_de: "TODOS", silenciados: [] };
+  const regla = [["TODOS", "Todos"], ["SIGUEN", "Personas que sigo"], ["NADIE", "Nadie"]];
+  return cab(av(ic("candado"), "var(--burdeos)"), "Privacidad y seguridad", "Tú decides quién participa contigo") + cuerpo(
+    hoja(`<h3 style="margin:0 0 4px">Quién puede comentar tus publicaciones</h3><p class="suave" style="margin:0 0 12px;font-size:14px">También puedes ocultar un comentario desde la lista de comentarios.</p>
+      <div class="segmentos" role="group" aria-label="Quién puede comentar" style="grid-template-columns:repeat(3,1fr)">${regla.map(([k, n]) => `<button data-acc="reglaComentarios" data-arg="${k}" aria-pressed="${p.comentarios_de === k}">${n}</button>`).join("")}</div>`) +
+    hoja(`<label class="interruptor"><span><b>Tengo entre 14 y 17 años</b><br><small class="suave">Lo que publiques llega solo a tus seguidores y solo te escriben las personas que sigues.</small></span>
+      <input type="checkbox" role="switch" data-acc-change="soyMenor" ${p.menor ? "checked" : ""}></label>`) +
+    hoja(`<h3 style="margin:0 0 8px">Personas silenciadas</h3>${p.silenciados?.length ? p.silenciados.map(x => `<div class="persona-fila"><span style="flex:1">${esc(x.nombre)}</span><button class="btn mini" data-acc="desilenciar" data-arg="${esc(x.id)}">Dejar de silenciar</button></div>`).join("")
+      : `<p class="suave" style="margin:0">No has silenciado a nadie. Desde los tres puntos de una publicación puedes silenciar a alguien sin bloquearlo.</p>`}`) +
+    hoja(`<p style="margin:0">Reportar y bloquear están siempre en los tres puntos de cada publicación y en cada conversación. Cuando reportas, te avisamos lo que decidió la moderación.</p>`), "max-width:640px");
+};
+{
+  // "Silenciar" en las opciones de una publicación de otra persona
+  const mas = ACC.masCima;
+  ACC.masCima = (el, id) => {
+    mas(el, id);
+    const p = (estado.feed || []).find(x => String(x.id) === id) || estado.post; if (!p || p.propio) return;
+    const lista = document.querySelector("#hojaInferior .hoja-lista");
+    lista?.querySelector('[data-acc="bloquearAutor"], [data-acc="bloquearHoja"], .peligro')?.insertAdjacentHTML("beforebegin",
+      `<button data-acc="silenciar" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}">${ic("ojoNo")}<span>Silenciar a ${esc(p.autorNombre)}</span></button>`);
+  };
+  // Privacidad desde Avisos
+  const av0 = DET["comunidad.avisos"];
+  DET["comunidad.avisos"] = () => av0().replace(/(<button class="btn mini" data-acc="prefsAvisos")/, `<button class="btn mini" data-ir="comunidad" data-arg="privacidad">${ic("candado")} Privacidad</button>$1`);
+}
+
+/** Apelar una suspensión (se muestra junto al aviso de suspensión). */
+function formularioApelacion() {
+  if (!RED.apelacion) { RED.apelacion = { cargando: true }; Store.nube?.sb.from("apelaciones").select("estado,respuesta,creado").eq("user_id", Store.nube.dueno).order("creado", { ascending: false }).limit(1)
+    .then(({ data }) => { RED.apelacion = data?.[0] || {}; pintarDetalle(); }); }
+  const a = RED.apelacion;
+  if (a.cargando) return "";
+  if (a.estado === "pendiente") return hoja(`<p style="margin:0">${ic("campana")} Tu apelación está en revisión. Te avisaremos la decisión.</p>`);
+  return hoja(`<h3 style="margin:0 0 6px">¿Crees que es un error? Apela</h3><form class="form" id="formApelar">
+    ${campo("Cuéntanos qué pasó", `<textarea name="texto" minlength="10" maxlength="1500" rows="4" required></textarea>`)}
+    <div class="botones"><button class="btn lleno" type="submit">Enviar apelación</button></div></form>${a.estado === "rechazada" && a.respuesta ? `<p class="suave">Última respuesta: ${esc(a.respuesta)}</p>` : ""}`);
+}
+window.formularioApelacion = formularioApelacion;
+document.addEventListener("submit", async e => {
+  if (e.target.id !== "formApelar") return; e.preventDefault();
+  const r = await Store.nube.sb.from("apelaciones").insert({ user_id: Store.nube.dueno, texto: e.target.texto.value.trim() });
+  if (r.error) return errorNube(r.error);
+  RED.apelacion = { estado: "pendiente" }; toast("Apelación enviada. La moderación la revisará."); pintarDetalle();
+});
+{
+  // Moderación: pestaña de apelaciones
+  const mod = DET["perfil.moderacion"];
+  if (mod) DET["perfil.moderacion"] = () => {
+    const pest = window.MOD?.pestana;
+    let h = mod().replace(/(<button class="btn mini" data-acc="recargarMod")/, `<button role="tab" aria-selected="${pest === "apelaciones"}" data-acc="pestanaMod" data-arg="apelaciones">Apelaciones${RED.apelaciones?.length ? ` (${RED.apelaciones.length})` : ""}</button>$1`);
+    if (pest === "apelaciones") {
+      if (!RED.apelaciones) { RED.apelaciones = []; Store.nube.sb.from("apelaciones").select("id,texto,creado,user_id,persona:profiles!apelaciones_user_id_fkey(nombre,username)").eq("estado", "pendiente").order("creado")
+        .then(({ data }) => { RED.apelaciones = data || []; pintarDetalle(); }); }
+      const lista = RED.apelaciones.length ? RED.apelaciones.map(a => hoja(`<b>${esc(a.persona?.nombre || a.persona?.username || "Persona")}</b> <span class="suave">@${esc(a.persona?.username || "")} · ${fechaMod(a.creado)}</span>
+          <p style="margin:8px 0">${esc(a.texto)}</p><div class="botones"><button class="btn lleno" data-acc="resolverApelacion" data-arg="${a.id}|1">Aceptar y levantar la suspensión</button><button class="btn" data-acc="resolverApelacion" data-arg="${a.id}|">Mantener la suspensión</button></div>`)).join("")
+        : hoja(`<p class="vacio-mini">No hay apelaciones por revisar.</p>`);
+      h = h.replace(/(role="tablist">[\s\S]*?<\/div>)[\s\S]*$/, `$1${lista}</div></div>`);
+    }
+    return h;
+  };
+}
+ACC.resolverApelacion = async (_, arg) => {
+  const [id, si] = arg.split("|"), respuesta = si ? "" : (prompt("Respuesta para la persona (opcional):") || "");
+  const r = await Store.nube.sb.rpc("resolver_apelacion", { p_id: Number(id), p_aceptar: !!si, p_respuesta: respuesta });
+  if (r.error) return errorNube(r.error);
+  toast("Apelación resuelta"); RED.apelaciones = null; pintarDetalle();
+};

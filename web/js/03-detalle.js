@@ -692,8 +692,8 @@ async function cargarFeed(mas = false) {
     }
   } catch (e) { console.error(e); estado.feed = []; toast("No se pudo cargar la comunidad." + detalleError(e)); }
   finally {
-    const ocultos = listaLocal("ocultos"), bloqueados = listaLocal("bloqueados");
-    if (estado.feed) estado.feed = estado.feed.filter(p => !ocultos.has(String(p.id)) && !bloqueados.has(String(p.autorId)));
+    const ocultos = listaLocal("ocultos"), bloqueados = listaLocal("bloqueados"), silenciados = listaLocal("silenciados");
+    if (estado.feed) estado.feed = estado.feed.filter(p => !ocultos.has(String(p.id)) && !bloqueados.has(String(p.autorId)) && !silenciados.has(String(p.autorId)));
     cargarFeed.activo = false; if (estado.sec === "comunidad" || estado.sec === "perfil") { pintarLista(); if (!enEdicion()) pintarDetalle(); } }
 }
 function postal(p, mini = false) {

@@ -18,7 +18,7 @@ globalThis.cargarComentarios = async function (p) {
       .map(c => ({ ...c, yoLike: !!estado.likesDemo?.has(c.id) }));
   } else {
     const sb = Store.nube.sb, yo = Store.nube.dueno;
-    let r = await sb.from("comments").select("id,texto,created_at,user_id,parent_id,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)").eq("post_id", p.id).order("created_at");
+    let r = await sb.from("comments").select("id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)").eq("post_id", p.id).order("created_at");
     const completo = !r.error;
     if (r.error) r = await sb.from("comments").select("id,texto,created_at,user_id,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url)").eq("post_id", p.id).order("created_at");
     const lista = r.data || [];
@@ -29,7 +29,7 @@ globalThis.cargarComentarios = async function (p) {
     }
     estado.comCompletos = completo;
     p.comentariosLista = lista.map(c => ({ id: c.id, autor: c.autor?.nombre || c.autor?.username || "", usuario: c.autor?.username || "", avatar: c.autor?.avatar_url || "",
-      texto: c.texto, creadoEn: Date.parse(c.created_at), parentId: c.parent_id || null, likes: c.likes?.[0]?.count || 0, yoLike: mios.has(c.id), propio: c.user_id === yo }));
+      texto: c.texto, creadoEn: Date.parse(c.created_at), parentId: c.parent_id || null, ocultoAutor: !!c.oculto_autor, likes: c.likes?.[0]?.count || 0, yoLike: mios.has(c.id), propio: c.user_id === yo }));
   }
   p.comentarios = p.comentariosLista.length;
   if (estado.sel === "post:" + p.id && !enEdicion()) pintarDetalle();
@@ -39,7 +39,7 @@ const avatarCom = c => c.avatar ? `<img class="com-av" src="${esc(c.avatar)}" al
   : `<span class="com-av">${esc((c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase())}</span>`;
 const filaCom = (c, hija = false) => `<div class="com${hija ? " hija" : ""}" data-com="${esc(c.id)}">${avatarCom(c)}
     <div class="com-cuerpo"><span class="com-quien">${esc(c.autor)}</span><p>${enlazarTexto(c.texto)}</p>
-      <div class="com-pie"><span>${hace(c.creadoEn)}</span><button data-acc="responderCom" data-arg="${esc(c.parentId || c.id)}|${esc(c.autor)}">Responder</button></div></div>
+      <div class="com-pie"><span>${hace(c.creadoEn)}</span><button data-acc="responderCom" data-arg="${esc(c.parentId || c.id)}|${esc(c.autor)}">Responder</button>${estado.post?.propio && !c.propio && !String(c.id).startsWith("d") ? `<button data-acc="ocultarCom" data-arg="${esc(c.id)}">${c.ocultoAutor ? "Mostrar" : "Ocultar"}</button>` : ""}</div></div>
     <button class="com-ban" data-acc="banderaCom" data-arg="${esc(c.id)}" aria-pressed="${!!c.yoLike}" aria-label="Me gusta, ${c.likes || 0}">${ic("impulso")}<b>${c.likes || ""}</b></button></div>`;
 /** La lista: comentarios principales y, debajo de cada uno, sus respuestas plegadas. */
 function listaComentariosHtml(p) {
