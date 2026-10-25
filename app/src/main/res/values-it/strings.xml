@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">Modifica</string>
     <string name="vision_ver_foto">Vedi la foto</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">Ingrandisci</string>
+    <string name="brujula_ver_nivel">Vedi %1$s in grande</string>
+    <string name="brujula_paso_campamento">Passo %1$d di %2$s</string>
+    <string name="brujula_ayuda_81">Tocca un blocco per aprire i suoi passi. Usa +, − o il percorso di navigazione per cambiare livello.</string>
+    <string name="brujula_edicion_81_ayuda">Scrivi direttamente nelle caselle. Usa +, − o il percorso di navigazione per cambiare livello.</string>
 </resources>

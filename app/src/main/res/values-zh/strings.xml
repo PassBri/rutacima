@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">编辑</string>
     <string name="vision_ver_foto">查看照片</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">放大</string>
+    <string name="brujula_ver_nivel">全屏查看%1$s</string>
+    <string name="brujula_paso_campamento">%2$s的第%1$d步</string>
+    <string name="brujula_ayuda_81">点按区块查看步骤。使用+、−或导航路径切换层级。</string>
+    <string name="brujula_edicion_81_ayuda">直接在格子中填写。使用+、−或导航路径切换层级。</string>
 </resources>

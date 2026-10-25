@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">편집</string>
     <string name="vision_ver_foto">사진 보기</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">확대</string>
+    <string name="brujula_ver_nivel">%1$s 크게 보기</string>
+    <string name="brujula_paso_campamento">%2$s의 %1$d단계</string>
+    <string name="brujula_ayuda_81">블록을 눌러 단계를 여세요. +, − 또는 탐색 경로로 보기를 바꿀 수 있어요.</string>
+    <string name="brujula_edicion_81_ayuda">칸에 직접 입력하세요. +, − 또는 탐색 경로로 보기를 바꿀 수 있어요.</string>
 </resources>

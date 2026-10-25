@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">Edição</string>
     <string name="vision_ver_foto">Ver a foto</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">Aproximar</string>
+    <string name="brujula_ver_nivel">Ver %1$s em tela cheia</string>
+    <string name="brujula_paso_campamento">Passo %1$d de %2$s</string>
+    <string name="brujula_ayuda_81">Toque em um bloco para abrir seus passos. Use +, − ou o caminho de navegação para mudar de nível.</string>
+    <string name="brujula_edicion_81_ayuda">Escreva diretamente nas células. Use +, − ou o caminho de navegação para mudar de nível.</string>
 </resources>

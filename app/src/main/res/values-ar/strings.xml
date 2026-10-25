@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">تحرير</string>
     <string name="vision_ver_foto">عرض الصورة</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">تكبير</string>
+    <string name="brujula_ver_nivel">عرض %1$s بحجم كبير</string>
+    <string name="brujula_paso_campamento">الخطوة %1$d من %2$s</string>
+    <string name="brujula_ayuda_81">اضغط على مجموعة لفتح خطواتها. استخدم + أو − أو مسار التنقل لتغيير المستوى.</string>
+    <string name="brujula_edicion_81_ayuda">اكتب مباشرة في الخانات. استخدم + أو − أو مسار التنقل لتغيير المستوى.</string>
 </resources>

@@ -37,10 +37,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.key
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -332,11 +332,13 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val estados by vm.estados.collectAsStateWithLifecycle()
     var giradas by rememberSaveable { mutableStateOf(listOf<Long>()) }
     var visor by rememberSaveable { mutableStateOf<Long?>(null) }
+    var visorNivel by rememberSaveable { mutableStateOf<Int?>(null) }
     var bloqueAbierto by rememberSaveable { mutableStateOf<Int?>(null) }
     var cambioModo by remember { mutableStateOf(0) }
     fun cambiarModo(nuevo: ModoTarjetas) {
         if (nuevo != vm.modo) {
             if (nuevo.muestraDorso != vm.modo.muestraDorso) { giradas = emptyList(); cambioModo++ }
+            if (nuevo == ModoTarjetas.EDICION) bloqueAbierto = null
             vm.cambiarModo(nuevo)
         }
     }
@@ -347,8 +349,10 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     }
     fun abrirVisor(id: Long, editar: Boolean = false) {
         if (editar) editarTarjeta(id)
+        visorNivel = null
         visor = id
     }
+    fun abrirNiveles(nivel: Int) { visor = null; visorNivel = nivel }
     val gridState = rememberLazyGridState()
     val scope = rememberCoroutineScope()
     val reparto = remember(casillas) { Mandala.repartir(casillas, { it.casilla.origen }, { it.casilla.eje }) }
@@ -387,6 +391,9 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val datos = remember(reparto, cumbreFrase, pasos, fotosDePasos, hoy) { DatosMandala(cumbre, cumbreFrase, campamentos, pasos, fotosDePasos) }
     val metasVision = remember(cumbre?.casilla?.id, campamentoIds, cascada, hoy) { calcularMetasVision(cumbre, campamentos, cascada, hoy) }
     val porcentajes = remember(datos, estados, metasVision) { porcentajesVision(datos, estados, metasVision.avancePorCodigo) }
+    val guardarPaso: (VisionCasillaEntity, Int, String) -> Unit = remember(vm) {
+        { casilla, paso, texto -> vm.guardarPaso(casilla, paso, texto) }
+    }
     val acciones = remember(vm, elegirFoto, ctx, onIrA) { AccionesTarjeta(
         onFoto = ::pedirFoto, onCampo = vm::editarCampo, onApodo = vm::guardarApodo,
         onPorcentaje = vm::guardarPorcentaje, onBorrar = { cv -> vm.borrar(cv); if (visor == cv.id) visor = null }, onIdeas = ::ideas,
@@ -423,7 +430,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             item(key = "navegacion", span = { GridItemSpan(2) }) {
                 NavegacionVision(vm.modo, ::cambiarModo, casillas.isNotEmpty(),
                     onSeccion = { irSeccion(when (it) { 0 -> 2; 1 -> 3; else -> 4 }) },
-                    onGrande = { tarjetasVisor.firstOrNull()?.let { abrirVisor(it.casilla.id) } })
+                    onGrande = { abrirNiveles(0) })
             }
             item(key = "introduccion", span = { GridItemSpan(2) }) {
                 RutaCard {
@@ -462,19 +469,20 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             if (casillas.isNotEmpty()) {
                 item(key = "cumbre", span = { GridItemSpan(2) }) {
                     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.vision_seccion_cumbre), style = MaterialTheme.typography.titleLarge)
+                        CabeceraSeccionVision(stringResource(R.string.vision_seccion_cumbre)) { abrirNiveles(0) }
                         cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.widthIn(max = 400.dp), 0, null, null) } }
                             ?: Text(cumbreFrase, style = MaterialTheme.typography.headlineSmall)
                     }
                 }
                 item(key = "rosa", span = { GridItemSpan(2) }) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Text(stringResource(R.string.vision_seccion_rosa), style = MaterialTheme.typography.titleLarge)
+                        CabeceraSeccionVision(stringResource(R.string.vision_seccion_rosa)) { abrirNiveles(1) }
                         RosaVision(cumbre, campamentos, onCrear = vm::crearCampamento) { cv, indice, rumbo, modificador ->
                             pintarTarjeta(cv, true, false, modificador, indice + 1, rumbo,
                                 rumbo?.let { _ -> {
                                     val camp = campamentos.indexOfFirst { it?.casilla?.id == cv.casilla.id }
-                                    bloqueAbierto = Mandala.bloqueDe(camp); irSeccion(4)
+                                    if (vm.modo != ModoTarjetas.EDICION) bloqueAbierto = Mandala.bloqueDe(camp)
+                                    irSeccion(4)
                                 } })
                         }
                     }
@@ -492,8 +500,9 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 RutaCard {
                     MandalaSeccion(
                         datos,
-                        modoTexto = vm.modo == ModoTarjetas.TEXTO, bloqueAbierto = bloqueAbierto, onBloque = { bloqueAbierto = it },
-                        onPaso = { cs, p, t -> vm.guardarPaso(cs, p, t) },
+                        modoTexto = vm.modo == ModoTarjetas.TEXTO, modoEdicion = vm.modo == ModoTarjetas.EDICION,
+                        onVerGrande = { abrirNiveles(2) }, bloqueAbierto = bloqueAbierto, onBloque = { bloqueAbierto = it },
+                        onPaso = guardarPaso,
                         onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentoIds) },
                         onSugerir = { vm.sugerirPasos(it) },
                         onAgregarCampamento = { vm.crearCampamento(it) },
@@ -529,6 +538,15 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
         }
     }
 
+    visorNivel?.let { nivel ->
+        VisorNivelesBrujula(datos, nivel, bloqueAbierto ?: 4, vm.modo, ::cambiarModo,
+            onPaso = guardarPaso,
+            onAbrirBloque = { bloque ->
+                visorNivel = null
+                if (vm.modo != ModoTarjetas.EDICION) bloqueAbierto = bloque
+                irSeccion(4)
+            }, onCerrar = { visorNivel = null })
+    }
     visor?.let { id ->
         if (tarjetasVisor.isNotEmpty()) VisorTarjetas(tarjetasVisor, id, apodos, vm.modo, ::cambiarModo,
             giradas, cambioModo, onGirar = ::girar, onEditar = ::editarTarjeta, acciones = acciones,

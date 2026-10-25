@@ -16,7 +16,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,6 +48,7 @@ import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -96,8 +96,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil.request.ImageRequest
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.data.social.Visibilidad
@@ -190,6 +190,8 @@ class DatosMandala(
 fun MandalaSeccion(
     datos: DatosMandala,
     modoTexto: Boolean,
+    modoEdicion: Boolean,
+    onVerGrande: () -> Unit,
     bloqueAbierto: Int?,
     onBloque: (Int?) -> Unit,
     onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String) -> Unit,
@@ -208,15 +210,16 @@ fun MandalaSeccion(
     /** Abre de una vez la pregunta de con quién compartir (desde "Compartir" en Mi vida). */
     abrirCompartir: Boolean = false,
 ) {
-    BackHandler(enabled = bloqueAbierto != null) { onBloque(null) }
+    BackHandler(enabled = bloqueAbierto != null && !modoEdicion) { onBloque(null) }
     var editando by remember { mutableStateOf<Pair<Int, Int>?>(null) }
     var preguntarCompartir by rememberSaveable { mutableStateOf(abrirCompartir && datos.campamentos.isNotEmpty()) }
     val pr = datos.progreso
     val nieblas = remember(datos, LocalDate.now()) { datos.enNiebla }
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(stringResource(R.string.brujula_titulo), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+        CabeceraSeccionVision(stringResource(R.string.brujula_titulo), onVerGrande)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
-        if (bloqueAbierto == null) Cuadricula(datos, 4, modoTexto = modoTexto, onBloque = { onBloque(it) })
+        if (modoEdicion || bloqueAbierto == null) Cuadricula(datos, bloqueAbierto ?: 4, modoTexto = modoTexto,
+            modoEdicion = modoEdicion, onPaso = onPaso, onBloque = { onBloque(it) })
         else {
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                 TextButton(onClick = { onBloque(null) }) {
@@ -318,47 +321,64 @@ private fun MiniMapaBloques(datos: DatosMandala, elegido: Int, onBloque: (Int) -
 }
 
 @Composable
-private fun modeloFoto(f: String, lado: Dp = 400.dp): ImageRequest = solicitudFotoVision(f, lado)
+private fun modeloFoto(f: String, lado: Dp = 400.dp, alto: Dp = lado): ImageRequest = solicitudFotoVision(f, lado, alto)
 
 /** La cuadrícula completa de 9×9. Su editor sustituye la grilla en el mismo lugar. */
 @Composable
-private fun Cuadricula(datos: DatosMandala, elegido: Int, modoTexto: Boolean = false, onBloque: (Int) -> Unit) {
+internal fun Cuadricula(
+    datos: DatosMandala, elegido: Int, modoTexto: Boolean = false,
+    modoEdicion: Boolean = false,
+    onPaso: ((VisionCasillaEntity, Int, String) -> Unit)? = null,
+    onBloque: (Int) -> Unit,
+) {
     val linea = MaterialTheme.colorScheme.outline
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp))) {
-        val lado: Dp = maxWidth / Mandala.LADO
+        val ancho = maxWidth / Mandala.LADO
+        val alto = ancho
         Column {
             for (f in 0 until Mandala.LADO) Row {
                 for (col in 0 until Mandala.LADO) {
                     val cel = Mandala.celda(f, col)
-                    val b = (f / 3) * 3 + col / 3
-                    Box(
-                        Modifier.size(lado).clickable { onBloque(b) }.border(0.5.dp, linea.copy(alpha = 0.35f)),
-                        contentAlignment = Alignment.Center,
-                    ) { CeldaPlana(datos, cel, vacio, chica = true, modoTexto = modoTexto, ladoFoto = lado) }
+                    val bloque = (f / 3) * 3 + col / 3
+                    val cv = if (cel.tipo == Mandala.Tipo.PASO) datos.casilla(cel.campamento) else null
+                    key(f, col, cv?.casilla?.id) {
+                        Box(Modifier.width(ancho).height(alto)
+                            .then(if (modoEdicion) Modifier else Modifier.clickable { onBloque(bloque) })
+                            .border(0.5.dp, linea.copy(alpha = .35f)), contentAlignment = Alignment.Center) {
+                            if (modoEdicion && cv != null && onPaso != null) {
+                                CampoTarjetaTexto(datos.paso(cel.campamento, cel.paso),
+                                    stringResource(R.string.brujula_paso_campamento, cel.paso + 1, nombreCampamento(cv)),
+                                    { onPaso(cv.casilla, cel.paso, it) },
+                                    Modifier.fillMaxSize(), compacto = true, centrado = true, tamano = 9.sp,
+                                    placeholder = stringResource(R.string.vision_nivel_numero, cel.paso + 1))
+                            } else CeldaPlana(datos, cel, vacio, chica = true, modoTexto = modoTexto, ladoFoto = ancho, altoFoto = alto)
+                        }
+                    }
                 }
             }
         }
-        // Bordes gruesos de los bloques y el bloque elegido
         Canvas(Modifier.fillMaxSize()) {
-            val t = size.width / 3
+            val bx = size.width / 3
+            val by = size.height / 3
             for (k in 0..3) {
-                drawLine(linea, Offset(k * t, 0f), Offset(k * t, size.height), strokeWidth = 2.dp.toPx())
-                drawLine(linea, Offset(0f, k * t), Offset(size.width, k * t), strokeWidth = 2.dp.toPx())
+                drawLine(linea, Offset(k * bx, 0f), Offset(k * bx, size.height), strokeWidth = 2.dp.toPx())
+                drawLine(linea, Offset(0f, k * by), Offset(size.width, k * by), strokeWidth = 2.dp.toPx())
             }
-            drawRect(ORO, topLeft = Offset((elegido % 3) * t, (elegido / 3) * t), size = androidx.compose.ui.geometry.Size(t, t),
+            drawRect(ORO, topLeft = Offset((elegido % 3) * bx, (elegido / 3) * by), size = androidx.compose.ui.geometry.Size(bx, by),
                 style = Stroke(width = 3.dp.toPx()))
-            // Líneas de confluencia: del paso al centro de cada campamento que también activa
-            val c = size.width / Mandala.LADO
+            // Se conservan las confluencias, ajustadas a las celdas verticales.
+            val cx = size.width / Mandala.LADO
+            val cy = size.height / Mandala.LADO
             val con = colorCampamento("CON")
-            // Solo las de los pasos ganados: así el mapa no se llena de líneas
             Mandala.CELDAS.filter { it.tipo == Mandala.Tipo.PASO && datos.estado(it.campamento, it.paso) == Mandala.EstadoPaso.HECHO }.forEach { cel ->
                 datos.enlaces(cel.campamento, cel.paso).forEach { cod ->
                     val b = Mandala.bloqueDe(Mandala.CAMPAMENTOS_FIJOS.indexOf(cod))
-                    val desde = Offset((cel.col + 0.5f) * c, (cel.fila + 0.5f) * c)
-                    val hasta = Offset(((b % 3) * 3 + 1.5f) * c, ((b / 3) * 3 + 1.5f) * c)
+                    val desde = Offset((cel.col + .5f) * cx, (cel.fila + .5f) * cy)
+                    val hasta = Offset(((b % 3) * 3 + 1.5f) * cx, ((b / 3) * 3 + 1.5f) * cy)
                     val ganado = datos.estado(cel.campamento, cel.paso) == Mandala.EstadoPaso.HECHO
-                    drawLine(con.copy(alpha = if (ganado) 0.85f else 0.35f), desde, hasta, strokeWidth = (if (ganado) 2.5f else 1.5f).dp.toPx(),
+                    drawLine(con.copy(alpha = if (ganado) .85f else .35f), desde, hasta,
+                        strokeWidth = (if (ganado) 2.5f else 1.5f).dp.toPx(),
                         pathEffect = if (ganado) null else androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(6f, 6f)))
                 }
             }
@@ -368,14 +388,14 @@ private fun Cuadricula(datos: DatosMandala, elegido: Int, modoTexto: Boolean = f
 
 /** El contenido de una celda: la cumbre, un campamento (con su foto) o un paso. */
 @Composable
-private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, chica: Boolean, modoTexto: Boolean = false, ladoFoto: Dp = 128.dp) {
+private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, chica: Boolean, modoTexto: Boolean = false, ladoFoto: Dp = 128.dp, altoFoto: Dp = ladoFoto) {
     val tam = if (chica) 7.sp else 12.sp
     val alto = if (chica) 3 else 5
     when (cel.tipo) {
         Mandala.Tipo.CUMBRE -> {
             val foto = datos.cumbre?.foto?.takeUnless { modoTexto }
             Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surfaceContainerHigh), contentAlignment = Alignment.Center) {
-                foto?.let { AsyncImage(modeloFoto(it, ladoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
+                foto?.let { AsyncImage(modeloFoto(it, ladoFoto, altoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop) }
                 if (foto != null) Box(Modifier.fillMaxSize().background(Color(0x66000000)))
                 Text(datos.tituloCumbre.ifBlank { stringResource(R.string.mandala_cumbre) }, fontSize = tam, lineHeight = tam,
                     fontWeight = FontWeight.Black, textAlign = TextAlign.Center, maxLines = alto, overflow = TextOverflow.Ellipsis,
@@ -387,7 +407,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
             val color = datos.color(cel.campamento)
             Box(Modifier.fillMaxSize().background(if (cv != null) color else vacio), contentAlignment = Alignment.Center) {
                 cv?.foto?.takeUnless { modoTexto }?.let {
-                    AsyncImage(modeloFoto(it, ladoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    AsyncImage(modeloFoto(it, ladoFoto, altoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     Box(Modifier.fillMaxSize().background(color.copy(alpha = 0.55f)))
                 }
                 Text(cv?.let { nombreCampamento(it) } ?: ("+ " + nombreCodigo(datos.codigo(cel.campamento))), fontSize = tam, lineHeight = tam, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
@@ -407,7 +427,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
             Box(Modifier.fillMaxSize().background(fondo), contentAlignment = Alignment.Center) {
                 // Paso ganado con foto: la evidencia ocupa la casilla (de la visión a la evidencia)
                 if (evidencia != null) {
-                    AsyncImage(modeloFoto(evidencia, ladoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                    AsyncImage(modeloFoto(evidencia, ladoFoto, altoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     if (!chica) Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xCC1D120D)))))
                 }
                 if (chica && evidencia == null) Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam,
@@ -459,7 +479,8 @@ private fun Bloque(
             style = MaterialTheme.typography.labelLarge, color = datos.color(campamento),
         )
         BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {
-            val lado = maxWidth / 3
+            val ancho = maxWidth / 3
+            val alto = ancho
             Column {
                 for (f in 0 until 3) Row {
                     for (col in 0 until 3) {
@@ -474,11 +495,11 @@ private fun Bloque(
                             cel.tipo == Mandala.Tipo.CAMPAMENTO -> { { onElegirBloque(4) } }
                             else -> { {} }
                         }
-                        Box(Modifier.size(lado).padding(2.dp).clip(RoundedCornerShape(10.dp)).clickable(onClick = accion), contentAlignment = Alignment.Center) {
+                        Box(Modifier.width(ancho).height(alto).padding(2.dp).clip(RoundedCornerShape(10.dp)).clickable(onClick = accion), contentAlignment = Alignment.Center) {
                             if (cel.tipo == Mandala.Tipo.PASO && cv != null && onTextoPaso != null && !soloLectura) {
                                 Column(Modifier.fillMaxSize().background(datos.color(campamento).copy(alpha = .08f)).padding(3.dp)) {
                                     if (!modoTexto) datos.fotoPaso(campamento, cel.paso)?.let {
-                                        AsyncImage(modeloFoto(it, lado), null, Modifier.fillMaxWidth().height(lado / 3), contentScale = ContentScale.Crop)
+                                        AsyncImage(modeloFoto(it, ancho, alto / 3), null, Modifier.fillMaxWidth().height(alto / 3), contentScale = ContentScale.Crop)
                                     }
                                     Text(stringResource(R.string.brujula_paso_fase, cel.paso + 1, nombreFase(cel.paso)),
                                         fontSize = 8.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, color = datos.color(campamento))
@@ -490,7 +511,7 @@ private fun Bloque(
                                         }
                                     }
                                 }
-                            } else CeldaPlana(datos, cel, vacio, chica = false, modoTexto = modoTexto, ladoFoto = lado)
+                            } else CeldaPlana(datos, cel, vacio, chica = false, modoTexto = modoTexto, ladoFoto = ancho, altoFoto = alto)
                         }
                     }
                 }
@@ -574,7 +595,7 @@ private fun EditarPaso(
                         Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                     }
                     // Kit de Evidencias: la foto real reemplaza a la visión en el borde del 9×9
-                    if (mostrarFoto && foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(4f / 3f).clip(RoundedCornerShape(12.dp)),
+                    if (mostrarFoto && foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp)),
                         contentScale = ContentScale.Crop)
                     OutlinedButton(onClick = onEvidencia, modifier = Modifier.fillMaxWidth()) {
                         Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
@@ -714,6 +735,10 @@ private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Uni
             Text(listOf("1", "9", "81")[nivel], style = MaterialTheme.typography.titleMedium, fontFamily = FontFamily.Serif,
                 fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 6.dp))
         }
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            IconButton(onClick = { ir(nivel - 1) }, enabled = nivel > 0) { Icon(Icons.Filled.Remove, stringResource(R.string.brujula_alejar)) }
+            IconButton(onClick = { ir(nivel + 1) }, enabled = nivel < 2) { Icon(Icons.Filled.Add, stringResource(R.string.brujula_acercar)) }
+        }
         // La hoja de papel donde vive la Brújula
         Box(Modifier.fillMaxWidth().hojaPapel(color = Color(0xFFFFFCF6), elevacion = 4.dp).padding(14.dp)) {
             AnimatedContent(
@@ -727,11 +752,12 @@ private fun BrujulaZoom(datos: DatosMandala, bloque: Int, onBloque: (Int) -> Uni
                 },
                 label = "brujula",
             ) { n ->
-                when (n) {
-                    0 -> NivelCumbre(datos, Modifier.combinedClickable(onClick = { ir(1) }, onDoubleClick = { ir(1) }))
-                    1 -> NivelVision(datos, onCentro = { ir(2) }, onCampamento = { i -> onBloque(Mandala.bloqueDe(i)); ir(2) })
-                    else -> Cuadricula(datos, bloque) { b -> if (b == 4 && bloque == 4) ir(0) else onBloque(b) }
-                }
+                LienzoNivelBrujula(datos, n, bloque,
+                    onNivel = ::ir,
+                    onBloque = { b ->
+                        if (n == 1) { onBloque(b); ir(2) }
+                        else if (b == 4 && bloque == 4) ir(0) else onBloque(b)
+                    })
             }
         }
         Text(
@@ -746,15 +772,15 @@ private val BURDEOS = Color(0xFF6B2A1A)
 
 /** Nivel 1: la cumbre personal en papel. Con foto, la foto va enmarcada como una impresión. */
 @Composable
-private fun NivelCumbre(datos: DatosMandala, modifier: Modifier) {
-    val foto = datos.cumbre?.foto
+internal fun NivelCumbre(datos: DatosMandala, modifier: Modifier, modoTexto: Boolean = false) {
+    val foto = datos.cumbre?.foto?.takeUnless { modoTexto }
     Column(
         modifier.fillMaxWidth().aspectRatio(1f).background(Brush.verticalGradient(listOf(Color(0xFFFFFCF6), Color(0xFFF5EBDC))))
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
     ) {
         if (foto != null) {
-            Box(Modifier.weight(1f, fill = false).aspectRatio(4f / 3f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(8.dp)) {
+            Box(Modifier.weight(1f, fill = false).aspectRatio(1f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(8.dp)) {
                 AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize().clip(RoundedCornerShape(3.dp)), contentScale = ContentScale.Crop)
             }
             Spacer(Modifier.height(16.dp))
@@ -778,16 +804,17 @@ private fun NivelCumbre(datos: DatosMandala, modifier: Modifier) {
 
 /** Nivel 9: el vision board en tarjetas de papel; cada campamento lleva el color de su eje como borde. */
 @Composable
-private fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento: (Int) -> Unit) {
+internal fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento: (Int) -> Unit, modoTexto: Boolean = false) {
     BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f)) {
-        val lado = maxWidth / 3
+        val ancho = maxWidth / 3
+        val alto = ancho
         Column {
             for (f in 0 until 3) Row {
                 for (col in 0 until 3) {
                     val cel = Mandala.celda(3 + f, 3 + col)
-                    Box(Modifier.size(lado).padding(5.dp)) {
-                        if (cel.tipo == Mandala.Tipo.CUMBRE) TarjetaCumbre(datos, onCentro)
-                        else TarjetaCampamento(datos, cel.campamento) { onCampamento(cel.campamento) }
+                    Box(Modifier.width(ancho).height(alto).padding(5.dp)) {
+                        if (cel.tipo == Mandala.Tipo.CUMBRE) TarjetaCumbre(datos, onCentro, modoTexto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp))
+                        else TarjetaCampamento(datos, cel.campamento, modoTexto, (ancho - 10.dp).coerceAtLeast(1.dp), (alto - 10.dp).coerceAtLeast(1.dp)) { onCampamento(cel.campamento) }
                     }
                 }
             }
@@ -796,13 +823,13 @@ private fun NivelVision(datos: DatosMandala, onCentro: () -> Unit, onCampamento:
 }
 
 @Composable
-private fun TarjetaCumbre(datos: DatosMandala, onClick: () -> Unit) {
-    val foto = datos.cumbre?.foto
+private fun TarjetaCumbre(datos: DatosMandala, onClick: () -> Unit, modoTexto: Boolean = false, anchoFoto: Dp = 400.dp, altoFoto: Dp = anchoFoto) {
+    val foto = datos.cumbre?.foto?.takeUnless { modoTexto }
     Surface(onClick = onClick, shape = RoundedCornerShape(20.dp), color = Color(0xFFFFFAF0), shadowElevation = 3.dp,
         border = androidx.compose.foundation.BorderStroke(2.dp, ORO), modifier = Modifier.fillMaxSize()) {
         Box(contentAlignment = Alignment.Center) {
             if (foto != null) {
-                AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                AsyncImage(modeloFoto(foto, anchoFoto, altoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color.Transparent, Color(0xB31D120D)))))
             }
             Text(datos.tituloCumbre, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Bold, fontSize = 13.sp, lineHeight = 15.sp,
@@ -813,15 +840,15 @@ private fun TarjetaCumbre(datos: DatosMandala, onClick: () -> Unit) {
 }
 
 @Composable
-private fun TarjetaCampamento(datos: DatosMandala, i: Int, onClick: () -> Unit) {
+private fun TarjetaCampamento(datos: DatosMandala, i: Int, modoTexto: Boolean = false, anchoFoto: Dp = 400.dp, altoFoto: Dp = anchoFoto, onClick: () -> Unit) {
     val cv = datos.casilla(i)
     val color = datos.color(i)
-    val foto = cv?.foto
+    val foto = cv?.foto?.takeUnless { modoTexto }
     val ganados = (0 until Mandala.PASOS).count { datos.estado(i, it) == Mandala.EstadoPaso.HECHO }
     Surface(onClick = onClick, shape = RoundedCornerShape(16.dp), color = Color.White, shadowElevation = 2.dp, modifier = Modifier.fillMaxSize()) {
         Box {
             if (foto != null) {
-                AsyncImage(modeloFoto(foto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                AsyncImage(modeloFoto(foto, anchoFoto, altoFoto), null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                 Box(Modifier.fillMaxSize().background(Brush.verticalGradient(listOf(Color(0x33000000), Color(0xCC1D120D)))))
             }
             // Cinta del color del eje, como el borde de una ficha
@@ -881,7 +908,7 @@ fun BrujulaEnMuro(json: String, autor: String, modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         if (inst.fotoCumbre.isNotBlank()) {
-            Box(Modifier.fillMaxWidth(0.7f).aspectRatio(4f / 3f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(6.dp)) {
+            Box(Modifier.fillMaxWidth(0.7f).aspectRatio(1f).shadow(3.dp, RoundedCornerShape(6.dp)).background(Color.White).padding(6.dp)) {
                 AsyncImage(modeloFoto(inst.fotoCumbre), null, Modifier.fillMaxSize().clip(RoundedCornerShape(3.dp)), contentScale = ContentScale.Crop)
             }
         } else Icon(Icons.Filled.Landscape, null, tint = ORO, modifier = Modifier.size(36.dp))

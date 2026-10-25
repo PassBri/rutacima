@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -73,10 +74,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -150,7 +151,7 @@ internal fun RosaVision(
     cumbre: CasillaVista?, campamentos: List<CasillaVista?>, onCrear: (String) -> Unit,
     tarjeta: @Composable (CasillaVista, Int, String?, Modifier) -> Unit,
 ) {
-    Column(Modifier.widthIn(max = 560.dp).fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(Modifier.widthIn(max = 560.dp).fillMaxWidth().aspectRatio(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         repeat(3) { fila ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 repeat(3) { columna ->
@@ -164,7 +165,7 @@ internal fun RosaVision(
                         else {
                             val codigo = if (centro) null else Mandala.CAMPAMENTOS_FIJOS[celda.campamento]
                             val color = codigo?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary
-                            Box(modificador.aspectRatio(3f / 4.6f).clip(forma).background(color.copy(alpha = .06f))
+                            Box(modificador.aspectRatio(1f).clip(forma).background(color.copy(alpha = .06f))
                                 .clickable(enabled = codigo != null) { codigo?.let(onCrear) }, contentAlignment = Alignment.Center) {
                                 Canvas(Modifier.fillMaxSize()) {
                                     drawRoundRect(color.copy(alpha = .6f), cornerRadius = androidx.compose.ui.geometry.CornerRadius(12.dp.toPx()),
@@ -210,8 +211,7 @@ internal fun TarjetaVision(
     val angulo = anguloTarjeta(cv.casilla.id, girada, generacion, indice)
     val dorso by remember(angulo) { derivedStateOf { angulo.value > 90f } }
     val forma = RoundedCornerShape(if (compacta) 12.dp else 16.dp)
-    val ratio = if (compacta) 3f / 4.6f else if (cumbre) 4f / 5f else 9f / 16f
-    Box(modifier.fillMaxWidth().aspectRatio(ratio).graphicsLayer {
+    Box(modifier.fillMaxWidth().aspectRatio(1f).graphicsLayer {
         rotationY = angulo.value; cameraDistance = 12f * density
     }.clip(forma).background(MaterialTheme.colorScheme.surface)) {
         if (dorso) {
@@ -275,16 +275,17 @@ private fun DorsoLectura(
 internal fun CampoTarjetaTexto(
     valor: String, etiqueta: String, onCambio: (String) -> Unit, modifier: Modifier = Modifier,
     compacto: Boolean = false, unaLinea: Boolean = false, maximo: Int = Int.MAX_VALUE,
+    centrado: Boolean = false, tamano: androidx.compose.ui.unit.TextUnit = 11.sp, placeholder: String = etiqueta,
 ) {
     var texto by remember { mutableStateOf(valor) }
     var enfocado by remember { mutableStateOf(false) }
     LaunchedEffect(valor, enfocado) { if (!enfocado) texto = valor }
     val campo = modifier.onFocusChanged { enfocado = it.isFocused }.semantics { contentDescription = etiqueta }
     if (compacto) BasicTextField(texto, { texto = it.take(maximo); onCambio(texto) },
-        modifier = campo.clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow).padding(4.dp),
-        singleLine = unaLinea, textStyle = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurface, fontSize = 11.sp, lineHeight = 14.sp),
+        modifier = campo.clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow).padding(if (centrado) 1.dp else 4.dp),
+        singleLine = unaLinea, textStyle = MaterialTheme.typography.bodySmall.copy(color = MaterialTheme.colorScheme.onSurface, fontSize = tamano, lineHeight = tamano * 1.25f, textAlign = if (centrado) androidx.compose.ui.text.style.TextAlign.Center else androidx.compose.ui.text.style.TextAlign.Start),
         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-        decorationBox = { entrada -> Box { if (texto.isEmpty()) Text(etiqueta, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant); entrada() } })
+        decorationBox = { entrada -> Box(contentAlignment = if (centrado) Alignment.Center else Alignment.TopStart) { if (texto.isEmpty()) Text(placeholder, style = MaterialTheme.typography.labelSmall.copy(fontSize = tamano), color = MaterialTheme.colorScheme.onSurfaceVariant); entrada() } })
     else OutlinedTextField(texto, { texto = it.take(maximo); onCambio(texto) }, modifier = campo,
         label = { Text(etiqueta) }, singleLine = unaLinea, minLines = if (unaLinea) 1 else 2)
 }
@@ -294,8 +295,6 @@ private fun DorsoCompacto(cv: CasillaVista, apodo: String, porcentaje: Int, acci
     onGirar: () -> Unit, onAmpliar: () -> Unit, modifier: Modifier) {
     val id = cv.casilla.id
     Column(modifier.padding(5.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
-        CampoTarjetaTexto(apodo, stringResource(R.string.apodo_opcional), { acciones.onApodo(id, it.trim()) },
-            Modifier.fillMaxWidth().height(28.dp), compacto = true, unaLinea = true, maximo = 32)
         CampoTarjetaTexto(cv.casilla.afirmacion, stringResource(R.string.vision_frase), { acciones.onCampo(id, CampoTarjeta.FRASE, it) },
             Modifier.fillMaxWidth().weight(1f), compacto = true)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -303,9 +302,7 @@ private fun DorsoCompacto(cv: CasillaVista, apodo: String, porcentaje: Int, acci
             IconButton(onClick = onAmpliar, modifier = Modifier.size(26.dp)) {
                 Icon(Icons.Filled.OpenInFull, stringResource(R.string.vision_ver_grande), Modifier.size(15.dp))
             }
-            IconButton(onClick = onGirar, modifier = Modifier.size(26.dp)) {
-                Icon(Icons.Filled.Autorenew, stringResource(R.string.tarjeta_volver_foto), Modifier.size(15.dp))
-            }
+
         }
     }
 }
@@ -360,7 +357,7 @@ private fun FrenteTarjeta(cv: CasillaVista, apodo: String, porcentaje: Int, acci
     val foto = cv.foto
     Box(Modifier.fillMaxSize()) {
         if (foto != null) {
-            AsyncImage(solicitudFotoVision(foto, if (compacta) 200.dp else 400.dp, if (compacta) 307.dp else 500.dp), cv.casilla.titulo,
+            AsyncImage(solicitudFotoVision(foto, if (compacta) 200.dp else 400.dp), cv.casilla.titulo,
                 Modifier.fillMaxSize().clickable(onClick = onVer), contentScale = ContentScale.Crop)
             Box(Modifier.align(Alignment.BottomCenter).fillMaxWidth().height(if (compacta) 70.dp else 110.dp)
                 .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = .65f)))))
@@ -416,24 +413,27 @@ internal fun VisorTarjetas(
                             { onGirar(c.id) }, { onEditar(c.id) },
                             Modifier.fillMaxSize().graphicsLayer { rotationY = 180f }, pantallaCompleta = true)
                     } else {
-                        val foto = cv.foto
-                        if (foto != null) {
-                            val configuracion = LocalConfiguration.current
-                            AsyncImage(solicitudFotoVision(foto, configuracion.screenWidthDp.dp, configuracion.screenHeightDp.dp),
-                                c.titulo, Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                        }
-                        else Column(Modifier.fillMaxSize().background(c.eje?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary)
-                            .clickable { acciones.onFoto(c) }.safeDrawingPadding().padding(24.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                            Icon(Icons.Filled.AddAPhoto, null, tint = Color.White, modifier = Modifier.size(40.dp))
-                            Text(stringResource(R.string.vision_agregar_foto), color = Color.White)
-                            Text(c.sugerencia, color = Color.White, style = MaterialTheme.typography.bodyMedium)
-                        }
-                        Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = .8f))))
-                            .safeDrawingPadding().padding(top = 50.dp, bottom = 20.dp, start = 18.dp, end = 18.dp)) {
-                            apodos["apodo:vision:${c.id}"]?.takeIf { it.isNotBlank() }?.let { Text(stringResource(R.string.apodo_entre_comillas, it), color = Color.White, style = MaterialTheme.typography.titleSmall) }
-                            Text(c.afirmacion, style = MaterialTheme.typography.headlineSmall, color = Color.White)
-                            Text(stringResource(R.string.tarjeta_rotulo_pct, c.titulo, porcentaje), color = Color.White)
-                            TextButton(onClick = { onEditar(c.id) }, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.editar), color = Color.White) }
+                        BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding().padding(top = 116.dp, bottom = 16.dp, start = 16.dp, end = 16.dp)) {
+                            val ladoFoto = minOf(maxWidth, maxHeight * .6f, 560.dp)
+                            Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()), horizontalAlignment = Alignment.CenterHorizontally) {
+                                val foto = cv.foto
+                                Box(Modifier.size(ladoFoto).aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {
+                                    if (foto != null) AsyncImage(solicitudFotoVision(foto, ladoFoto), c.titulo,
+                                        Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                                    else Column(Modifier.fillMaxSize().background(c.eje?.let(::colorCampamento) ?: MaterialTheme.colorScheme.primary)
+                                        .clickable { acciones.onFoto(c) }.padding(16.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                                        Icon(Icons.Filled.AddAPhoto, null, tint = Color.White, modifier = Modifier.size(32.dp))
+                                        Text(stringResource(R.string.vision_agregar_foto), color = Color.White)
+                                        Text(c.sugerencia, color = Color.White, style = MaterialTheme.typography.bodySmall)
+                                    }
+                                }
+                                Column(Modifier.widthIn(max = 560.dp).fillMaxWidth().padding(top = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                    apodos["apodo:vision:${c.id}"]?.takeIf { it.isNotBlank() }?.let { Text(stringResource(R.string.apodo_entre_comillas, it), color = Color.White, style = MaterialTheme.typography.titleSmall) }
+                                    Text(c.afirmacion, style = MaterialTheme.typography.headlineSmall, color = Color.White)
+                                    Text(stringResource(R.string.tarjeta_rotulo_pct, c.titulo, porcentaje), color = Color.White)
+                                    TextButton(onClick = { onEditar(c.id) }, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.editar), color = Color.White) }
+                                }
+                            }
                         }
                     }
                 }

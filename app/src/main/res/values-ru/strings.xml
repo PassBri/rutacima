@@ -1801,4 +1801,11 @@
     <string name="vision_modo_edicion">Правка</string>
     <string name="vision_ver_foto">Посмотреть фото</string>
     <string name="vision_estado_porcentaje">%1$s · %2$d %%</string>
+
+    <!-- Visor de niveles y edición directa de los 81 -->
+    <string name="brujula_acercar">Приблизить</string>
+    <string name="brujula_ver_nivel">Открыть %1$s на весь экран</string>
+    <string name="brujula_paso_campamento">Шаг %1$d: %2$s</string>
+    <string name="brujula_ayuda_81">Нажмите на блок, чтобы открыть его шаги. Меняйте уровень с помощью +, − или навигационной цепочки.</string>
+    <string name="brujula_edicion_81_ayuda">Пишите прямо в ячейках. Меняйте уровень с помощью +, − или навигационной цепочки.</string>
 </resources>
