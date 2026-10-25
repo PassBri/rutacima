@@ -327,3 +327,37 @@ ACC.seguirPersona = async (el, id) => {
   const lista = LISTAS.comunidad;
   LISTAS.comunidad = (...a) => lista(...a).replace(/(<button class="rb campana)/, `<button class="rb" data-ir="comunidad" data-arg="buscar" aria-label="Buscar personas" title="Buscar personas">${ic("buscar")}</button>$1`);
 }
+
+/* ---------- 4. Primeros pasos en Comunidad ---------- */
+const primerosPasosHechos = () => !!respuesta("red:inicio");
+{
+  // La primera vez que se entra a Comunidad: elegir ejes y seguir a algunas personas
+  const ir0 = ir;
+  globalThis.ir = (sec, sel = null) => {
+    if (sec === "comunidad" && (sel === "feed" || sel === null) && !primerosPasosHechos() && Store.lista("respuesta").length) sel = "bienvenida";
+    return ir0(sec, sel);
+  };
+}
+DET["comunidad.bienvenida"] = () => {
+  const ejes = estado.ejesRed ||= misEjesRed();
+  if (!RED.bienvenida) { RED.bienvenida = []; seguidosRed().then(() => sugeridasRed(6)).then(s => { RED.bienvenida = s; if (estado.sel === "bienvenida") pintarDetalle(); }); }
+  const sigo = RED.bienvenida.filter(x => RED.siguiendo?.has(x.id)).length;
+  return cab(av(ic("comunidad"), "var(--burdeos)"), "Bienvenido a la comunidad", "Dos pasos para llenar tu muro") + cuerpo(
+    hoja(`<h3 class="pp-t"><span>1</span>Elige los ejes que más te mueven</h3>
+      <div class="pp-ejes">${EJES.map(([c, n]) => `<button class="pp-eje" data-acc="ejeRed" data-arg="${c}" aria-pressed="${ejes.has(c)}" style="--c:${COLOR_EJE[c]}">${ejes.has(c) ? ic("check") : ""}${esc(n)}</button>`).join("")}</div>`) +
+    hoja(`<h3 class="pp-t"><span>2</span>Sigue a algunas personas${sigo ? ` <small>· sigues a ${sigo}</small>` : ""}</h3>
+      <div class="personas">${RED.bienvenida.length ? RED.bienvenida.map(filaPersonaHtml).join("") : `<p class="suave">Buscando personas que suben en tus ejes…</p>`}</div>`) +
+    `<div class="botones pp-botones"><button class="btn lleno" data-acc="terminarBienvenida" data-arg="1">${ic("check")} Listo, ver mi muro</button><button class="btn" data-acc="terminarBienvenida" data-arg="">Ahora no</button></div>`, "max-width:640px");
+};
+Object.assign(ACC, {
+  ejeRed(_, c) {
+    const s = estado.ejesRed ||= misEjesRed(); s.has(c) ? s.delete(c) : s.add(c);
+    RED.bienvenida = null; pintarDetalle();   // las sugerencias siguen a los ejes elegidos
+    responder("red", "red:ejes", [...s].join(","));
+  },
+  terminarBienvenida() {
+    responder("red", "red:inicio", "1");
+    if (estado.ejesRed) responder("red", "red:ejes", [...estado.ejesRed].join(","));
+    estado.feed = null; estado.feedN = 0; estado.vistaCom = "cimas"; ir("comunidad", "feed");
+  },
+});
