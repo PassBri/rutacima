@@ -18,7 +18,7 @@ const esc = (s: string) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&
 const corto = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s);
 
 function pagina(o: { titulo: string; texto: string; imagen?: string; destino: string; boton: string; autor?: string; url: string }) {
-  const img = o.imagen || `${SITIO}/web/iconos/compartir.png`;
+  const img = o.imagen || `${SITIO}/iconos/compartir.png`;
   return `<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(o.titulo)} · SuRoute</title>
@@ -58,13 +58,13 @@ Deno.serve(async (req) => {
       // deno-lint-ignore no-explicit-any
       const a = (p as any).autor ?? {};
       html = pagina({ titulo: p.meta_titulo || `${a.nombre || a.username || "Alguien"} sube su montaña`, texto: p.texto, imagen: p.image_url || undefined,
-        autor: `${a.nombre || ""}${a.username ? " · @" + a.username : ""}`, destino: `${SITIO}/web/#p=${id}`, boton: "Abrir en SuRoute", url: req.url });
-    } else html = pagina({ titulo: "Una cima en SuRoute", texto: "Esta publicación es privada o ya no está disponible.", destino: `${SITIO}/web/`, boton: "Conocer SuRoute", url: req.url });
+        autor: `${a.nombre || ""}${a.username ? " · @" + a.username : ""}`, destino: `${SITIO}/#p=${id}`, boton: "Abrir en SuRoute", url: req.url });
+    } else html = pagina({ titulo: "Una cima en SuRoute", texto: "Esta publicación es privada o ya no está disponible.", destino: `${SITIO}/`, boton: "Conocer SuRoute", url: req.url });
   } else if (invita) {
     const { data: x } = await db.from("profiles").select("nombre,username,cumbre,avatar_url").eq("username", invita).maybeSingle();
     const nombre = x?.nombre || x?.username || "Alguien";
     html = pagina({ titulo: `${nombre} te invita a subir con SuRoute`, texto: x?.cumbre ? `Su cumbre: ${x.cumbre}\n\nCrea tu cuenta y quedan siguiéndose para darse ánimo en cada paso.` : "Crea tu cuenta y quedan siguiéndose para darse ánimo en cada paso.",
-      imagen: x?.avatar_url || undefined, destino: `${SITIO}/web/?invita=${encodeURIComponent(invita)}`, boton: "Crear mi cuenta", url: req.url });
-  } else html = pagina({ titulo: "SuRoute · Summit Route", texto: "Tu vida es la montaña, cada día es un paso y la cumbre es tu propósito.", destino: `${SITIO}/web/`, boton: "Abrir SuRoute", url: req.url });
+      imagen: x?.avatar_url || undefined, destino: `${SITIO}/?invita=${encodeURIComponent(invita)}`, boton: "Crear mi cuenta", url: req.url });
+  } else html = pagina({ titulo: "SuRoute · Summit Route", texto: "Tu vida es la montaña, cada día es un paso y la cumbre es tu propósito.", destino: `${SITIO}/`, boton: "Abrir SuRoute", url: req.url });
   return new Response(html, { headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=300" } });
 });
