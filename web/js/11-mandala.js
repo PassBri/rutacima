@@ -801,8 +801,18 @@ DET["comunidad.brujula"] = id => {
   return cab(av(ic("ruta"), "var(--burdeos)"), `Brújula de ${esc(p.autorNombre || "la comunidad")}`, b.fecha ? `Así iba el ${esc(b.fecha)}` : "Brújula de la Cima") + cuerpo(
     hoja(`<nav class="md-barra"><button class="md-atras" data-acc="vbNivel" data-arg="${nivel - 1}" ${nivel ? "" : "hidden"} aria-label="Alejar">${ic("volver")}</button>
       <span class="md-migas">${migas}</span><span class="md-num">${["1", "9", "81"][nivel]}</span></nav>
-      <div class="md-zoom md-papel">${vista}</div>`) + grande, "max-width:720px");
+      <div class="md-zoom md-papel">${vista}</div>`) + grande + siguenPublicaciones(id), "max-width:720px");
 };
+/** Debajo de una Brújula compartida la comunidad continúa: las publicaciones que siguen en el muro. */
+function siguenPublicaciones(id) {
+  const ps = (estado.feed || []).filter(x => !x.oculto), i = ps.findIndex(x => String(x.id) === String(id));
+  const resto = [...ps.slice(i + 1), ...ps.slice(0, Math.max(0, i))];
+  if (!resto.length) return "";
+  return `<section class="vb-siguen" aria-label="Más publicaciones"><h3>Sigue explorando</h3>${resto.map(x => `<article class="hoja vb-pub">
+      <span class="vb-quien"><b>${esc(x.autorNombre || "")}</b>${x.autorUsuario ? " @" + esc(x.autorUsuario) : ""} · ${hace(x.creadoEn)}</span>
+      ${x.brujula && leerBrujula(x.brujula) ? brujulaMuro(x) : `<button data-ir="comunidad" data-arg="post:${esc(x.id)}" style="text-align:left;padding:0;border:0;background:none">${postal(x)}</button>`}
+      ${x.texto && !x.brujula ? `<p style="margin:0">${esc(String(x.texto).slice(0, 220))}</p>` : ""}</article>`).join("")}</section>`;
+}
 Object.assign(ACC, {
   vbNivel(_, v) { const n = Math.max(0, Math.min(2, Number(v))), a = estado.vbNivel ?? 0; if (n === a || Date.now() - (estado.vbEn || 0) < 400) return;
     estado.vbAnim = n > a ? "acercar" : "alejar"; estado.vbNivel = n; estado.vbEn = Date.now(); pintarDetalle(); },
