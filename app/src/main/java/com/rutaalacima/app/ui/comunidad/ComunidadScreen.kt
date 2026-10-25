@@ -31,7 +31,6 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.ui.semantics.heading
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.filled.Diversity3
-import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.foundation.lazy.LazyColumn
@@ -398,7 +397,7 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
                 }
             }
             androidx.compose.material3.IconButton(onClick = onCordadas) { Icon(Icons.Filled.Diversity3, stringResource(R.string.cordadas), tint = Color.White) }
-            androidx.compose.material3.IconButton(onClick = onMensajes) { Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes), tint = Color.White) }
+            androidx.compose.material3.IconButton(onClick = onMensajes) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, stringResource(R.string.mensajes), tint = Color.White) }
         }
         if (!vm.enLinea) {
             Text(
@@ -502,7 +501,7 @@ private fun HojaOpciones(vm: ComunidadViewModel, post: Post, onChat: (String) ->
             } else {
                 if (!post.demo) androidx.compose.material3.ListItem(
                     headlineContent = { Text(stringResource(R.string.enviar_mensaje_a, post.autorNombre)) },
-                    leadingContent = { Icon(Icons.AutoMirrored.Filled.Chat, null) },
+                    leadingContent = { Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, null) },
                     modifier = Modifier.clickable { vm.escribir(post, onChat); onCerrar() },
                 )
                 androidx.compose.material3.ListItem(

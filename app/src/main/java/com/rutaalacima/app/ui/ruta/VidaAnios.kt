@@ -27,7 +27,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -187,7 +186,7 @@ fun CumplidosAnio(anio: Int, metas: List<MetaAnualEntity>, posts: List<Post>, on
         Text(stringResource(R.string.vida_cumplidos, anio), style = MaterialTheme.typography.titleMedium)
         logradas.forEach { m ->
             Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Flag, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
+                Icon(com.rutaalacima.app.ui.components.IconosRuta.Metas, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp))
                 Text(m.titulo, style = MaterialTheme.typography.bodyMedium)
             }
         }

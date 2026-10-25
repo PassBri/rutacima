@@ -66,7 +66,7 @@ fun SelectorMetaCordada(actual: String, metas: List<MetaMensualEntity>, onElegir
     Column {
         Box {
             TextButton(onClick = { abierto = true }) {
-                Icon(if (elegida != null) Icons.Filled.Flag else Icons.Outlined.Flag, null, Modifier.size(18.dp))
+                Icon(if (elegida != null) Icons.Filled.Flag else com.rutaalacima.app.ui.components.IconosRuta.MetasContorno, null, Modifier.size(18.dp))
                 Text("  " + (elegida?.texto ?: stringResource(R.string.meta_que_mueve)), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             DropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {

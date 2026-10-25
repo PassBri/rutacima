@@ -29,10 +29,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
-import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
@@ -292,13 +290,13 @@ private fun AppPrincipal() {
                                 Icon(Icons.Filled.Diversity3, stringResource(R.string.cordadas))
                             }
                             IconButton(onClick = { nav.navigate(Rutas.MENSAJES) }) {
-                                Icon(Icons.AutoMirrored.Filled.Chat, stringResource(R.string.mensajes))
+                                Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, stringResource(R.string.mensajes))
                             }
                         }
                         // Ascenso financiero: el libro de cuentas, a un toque desde Mi ruta y Hoy
                         if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
                             IconButton(onClick = { nav.navigate(Rutas.finanzas(if (pestana.ruta == Rutas.HOY) "d:" + java.time.LocalDate.now() else null)) }) {
-                                Icon(Icons.Filled.AttachMoney, stringResource(R.string.cu_titulo))
+                                Icon(com.rutaalacima.app.ui.components.IconosRuta.Finanzas, stringResource(R.string.cu_titulo))
                             }
                         }
                         // Tu mochila: las herramientas del método, a un toque mientras construyes tus metas

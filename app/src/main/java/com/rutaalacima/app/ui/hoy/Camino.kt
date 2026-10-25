@@ -21,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.EventRepeat
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.WbTwilight
@@ -176,7 +175,7 @@ fun PrimerPasoCard(onIrA: (String) -> Unit) {
     val total = Paso.entries.size
     RutaCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Filled.Flag, null, tint = MaterialTheme.colorScheme.secondary)
+            Icon(com.rutaalacima.app.ui.components.IconosRuta.Metas, null, tint = MaterialTheme.colorScheme.secondary)
             Spacer(Modifier.width(8.dp))
             Text(stringResource(R.string.paso_de_hoy, hechos + 1, total), style = MaterialTheme.typography.labelLarge,
                 color = MaterialTheme.colorScheme.secondary, modifier = Modifier.weight(1f))

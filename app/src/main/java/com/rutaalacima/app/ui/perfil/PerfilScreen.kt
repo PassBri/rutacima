@@ -18,12 +18,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.Drafts
 import androidx.compose.material.icons.filled.EventRepeat
-import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.LocalFireDepartment
@@ -296,7 +294,7 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
     data class Acceso(val texto: Int, val icono: androidx.compose.ui.graphics.vector.ImageVector, val ruta: String)
     val grupos = listOf(
         R.string.perfil_grupo_ascenso to listOf(
-            Acceso(R.string.metas, Icons.Filled.Flag, com.rutaalacima.app.ui.Rutas.planificador(0)),
+            Acceso(R.string.metas, com.rutaalacima.app.ui.components.IconosRuta.Metas, com.rutaalacima.app.ui.Rutas.planificador(0)),
             Acceso(R.string.constancia_titulo, Icons.Filled.LocalFireDepartment, com.rutaalacima.app.ui.Rutas.CONSTANCIA),
             Acceso(R.string.diario_titulo, Icons.Filled.PhotoLibrary, com.rutaalacima.app.ui.Rutas.DIARIO),
             Acceso(R.string.carta_titulo, Icons.Filled.Drafts, com.rutaalacima.app.ui.Rutas.CARTA),
@@ -304,7 +302,7 @@ private fun AccesosPerfil(onIrA: (String) -> Unit) {
                 com.rutaalacima.app.ui.Rutas.revision(com.rutaalacima.app.domain.model.Revision.Tipo.SEMANA, java.time.LocalDate.now())),
         ),
         R.string.perfil_grupo_personas to listOf(
-            Acceso(R.string.mensajes, Icons.AutoMirrored.Filled.Chat, com.rutaalacima.app.ui.Rutas.MENSAJES),
+            Acceso(R.string.mensajes, com.rutaalacima.app.ui.components.IconosRuta.Radio, com.rutaalacima.app.ui.Rutas.MENSAJES),
             Acceso(R.string.coach_vida, Icons.Filled.Hiking, com.rutaalacima.app.ui.Rutas.COACH_VIDA),
             Acceso(R.string.cordadas, Icons.Filled.Diversity3, com.rutaalacima.app.ui.Rutas.CORDADAS),
         ),

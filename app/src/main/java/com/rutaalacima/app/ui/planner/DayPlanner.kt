@@ -447,7 +447,7 @@ private fun SelectorMeta(actual: String, metas: List<MetaMensualEntity>, onElegi
     var abierto by remember { mutableStateOf(false) }
     Box {
         IconButton(onClick = { abierto = true }) {
-            Icon(if (actual.isNotBlank()) Icons.Filled.Flag else Icons.Outlined.Flag, stringResource(R.string.meta_que_mueve),
+            Icon(if (actual.isNotBlank()) Icons.Filled.Flag else com.rutaalacima.app.ui.components.IconosRuta.MetasContorno, stringResource(R.string.meta_que_mueve),
                 tint = if (actual.isNotBlank()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
         }
         DropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {
