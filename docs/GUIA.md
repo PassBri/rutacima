@@ -527,8 +527,12 @@ el Decreto 1074 de 2015) y los requisitos de Google Play. Los documentos están 
 - **Papel y pliegues.** La app simula una hoja de papel plegada: grano suave, dobleces, hojas con la esquina doblada
   y sombras en el burdeos del sello, nunca grises. Sigue Material Design 3 (`ui/theme/Papel.kt`).
 - **Botones flotantes.** Los años, meses, semanas y días son botones que flotan y se hunden al tocarlos.
-- **Logo.** El **sello de cera de SuRoute** (con «SuRoute» y «Summit Route»), original del autor. Aparece en el ícono, el arranque, la ventana
-  de inicio, la barra superior y la web.
+- **Logo.** Un círculo con la montaña dibujada en curvas de nivel, la ruta que sube con sus puntos y la bandera en la
+  cumbre; debajo, **SUROUTE.** y **SUMMIT ROUTE** en Montserrat. Un solo color (tinta sobre papel, crema sobre noche)
+  y una versión de trazo grueso para tamaños pequeños. Está en el ícono, el arranque, las barras, el widget, la web, el
+  favicon y la tarjeta para compartir. Los archivos están en [`diseno/logo/`](../diseno/logo).
+- **Sello de cera.** Se conserva para los rituales: el sobre de la carta de bienvenida, la frase sellada del día, el
+  impulso en la comunidad y las cartas a tu yo futuro.
 - **Archivos.** Los archivos en alta resolución y las vistas previas están en [`diseno/`](diseno).
 
 <p align="center">
