@@ -212,11 +212,11 @@ section { padding: clamp(64px, 9vw, 120px) max(20px, calc((100% - var(--ancho)) 
 .cel::before, .cel::after { content: ""; position: absolute; right: -3px; width: 3px; border-radius: 0 2px 2px 0; background: #1C232A; }
 .cel::before { top: 110px; height: 64px; } .cel::after { top: 190px; height: 40px; }
 .cel-pantalla { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; }
-.cel-pantalla video { position: absolute; left: 0; top: 0; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; cursor: pointer; }
+.cel-pantalla video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; cursor: pointer; }
 .cel-isla { position: absolute; top: 10px; left: 50%; width: 96px; height: 26px; margin-left: -48px; border-radius: 20px; background: #000; z-index: 3; }
 .cel-ui { position: absolute; inset: 0; pointer-events: none; color: #fff; z-index: 2;
-  background: linear-gradient(to bottom, rgb(0 0 0 / .32), transparent 10%, transparent 64%, rgb(0 0 0 / .55) 84%, #000 86%); }
-.cel-ui svg { filter: drop-shadow(0 1px 2px rgb(0 0 0 / .45)); }
+  background: linear-gradient(to bottom, rgb(0 0 0 / .22), transparent 9%), linear-gradient(to right, transparent 74%, rgb(0 0 0 / .22)), linear-gradient(to bottom, transparent 62%, rgb(0 0 0 / .45) 78%, rgb(0 0 0 / .72) 94%); }
+.cel-ui svg { filter: drop-shadow(0 1px 3px rgb(0 0 0 / .6)); }
 .cel-top { display: none; position: absolute; top: 40px; left: 0; right: 0; display: flex; justify-content: center; gap: 18px; font: 500 14px/1 var(--font-texto); }
 .cel-top span { opacity: .75; } .cel-top b { font-weight: 700; border-bottom: 2px solid #fff; padding-bottom: 5px; }
 .cel-acciones { position: absolute; right: 8px; bottom: 150px; display: grid; gap: 14px; justify-items: center; }
@@ -241,7 +241,8 @@ section { padding: clamp(64px, 9vw, 120px) max(20px, calc((100% - var(--ancho)) 
 .cel-sonido:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 @media (max-width: 760px) { .video-corto { flex-direction: column; gap: 28px; text-align: center; } .cel { width: min(82vw, 330px); } }
 @media (prefers-reduced-motion: reduce) { .cel-musica i { animation: none; } }
-.cel-nav { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; display: flex; justify-content: space-around; align-items: center; background: #000; z-index: 3; }
+.cel-nav { position: absolute; left: 0; right: 0; bottom: 0; height: 56px; padding-bottom: 6px; display: flex; justify-content: space-around; align-items: center; background: linear-gradient(to bottom, rgb(0 0 0 / .25), rgb(0 0 0 / .6)); z-index: 3; }
+.cel-nav::after { content: ""; position: absolute; bottom: 5px; left: 50%; width: 110px; height: 4px; margin-left: -55px; border-radius: 2px; background: rgb(255 255 255 / .85); }
 .cel-nav svg { width: 22px; height: 22px; fill: #fff; opacity: .9; }
 .cel-nav .mas { width: 40px; height: 26px; border-radius: 8px; background: #fff; display: grid; place-items: center; box-shadow: -3px 0 0 #9EC1D6, 3px 0 0 #F0B3A1; }
 .cel-nav .mas svg { width: 18px; height: 18px; fill: #000; opacity: 1; }
