@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">Expense-to-income</string>
     <string name="cu_ind_gasto_d">Fixed and variable expenses ÷ income.</string>
     <string name="cu_ind_fondo">Emergency fund</string>
-    <string name="cu_ind_fondo_d">Months of fixed expenses covered. Ideal: 3 to 6.</string>
+    <string name="cu_ind_fondo_d">Months of fixed expenses covered by your emergency savings plus your cash and accounts. Ideal: 3 to 6.</string>
     <string name="cu_ind_endeuda">Debt ratio</string>
     <string name="cu_ind_endeuda_d">Liabilities ÷ assets. Under 30 %: optimal; over 50 %: high risk.</string>
     <string name="cu_ind_pasivos">Passive ÷ total income</string>

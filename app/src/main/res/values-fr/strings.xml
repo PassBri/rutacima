@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">Rapport dépenses ÷ revenus</string>
     <string name="cu_ind_gasto_d">Dépenses fixes et variables ÷ revenus.</string>
     <string name="cu_ind_fondo">Fonds d’urgence</string>
-    <string name="cu_ind_fondo_d">Mois de dépenses fixes couverts. Idéal : 3 à 6.</string>
+    <string name="cu_ind_fondo_d">Mois de dépenses fixes couverts par votre épargne de secours et vos liquidités et comptes. Idéal : de 3 à 6.</string>
     <string name="cu_ind_endeuda">Taux d’endettement</string>
     <string name="cu_ind_endeuda_d">Passifs ÷ actifs. Moins de 30 % : optimal ; plus de 50 % : risque élevé.</string>
     <string name="cu_ind_pasivos">Revenus passifs ÷ revenus</string>

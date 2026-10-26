@@ -1548,7 +1548,7 @@
     <string name="cu_ind_gasto">Relación gasto ÷ ingreso</string>
     <string name="cu_ind_gasto_d">Gastos fijos y variables ÷ ingresos.</string>
     <string name="cu_ind_fondo">Fondo de emergencia</string>
-    <string name="cu_ind_fondo_d">Meses de gastos fijos cubiertos. Ideal: de 3 a 6.</string>
+    <string name="cu_ind_fondo_d">Meses de gastos fijos que cubren tu ahorro de emergencia y tu efectivo y cuentas. Ideal: de 3 a 6.</string>
     <string name="cu_ind_endeuda">Índice de endeudamiento</string>
     <string name="cu_ind_endeuda_d">Pasivos ÷ activos. Menos del 30 %: óptimo; más del 50 %: riesgo alto.</string>
     <string name="cu_ind_pasivos">Ingresos pasivos ÷ ingresos</string>

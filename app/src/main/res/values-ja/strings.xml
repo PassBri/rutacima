@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">支出対収入比</string>
     <string name="cu_ind_gasto_d">固定費と変動費 ÷ 収入。</string>
     <string name="cu_ind_fondo">緊急資金</string>
-    <string name="cu_ind_fondo_d">固定費を何か月まかなえるか。目安：3〜6か月。</string>
+    <string name="cu_ind_fondo_d">緊急用の貯蓄と現金・口座でまかなえる固定費の月数。理想は3〜6か月。</string>
     <string name="cu_ind_endeuda">負債比率</string>
     <string name="cu_ind_endeuda_d">負債 ÷ 資産。30 % 未満は最適、50 % 超は高リスク。</string>
     <string name="cu_ind_pasivos">不労所得 ÷ 収入</string>

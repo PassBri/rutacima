@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">지출 대비 수입</string>
     <string name="cu_ind_gasto_d">고정·변동 지출 ÷ 수입.</string>
     <string name="cu_ind_fondo">비상금</string>
-    <string name="cu_ind_fondo_d">고정 지출을 감당하는 개월 수. 권장: 3~6개월.</string>
+    <string name="cu_ind_fondo_d">비상 저축과 현금·계좌로 감당할 수 있는 고정 지출 개월 수. 이상적: 3~6개월.</string>
     <string name="cu_ind_endeuda">부채 비율</string>
     <string name="cu_ind_endeuda_d">부채 ÷ 자산. 30 % 미만 최적, 50 % 초과 고위험.</string>
     <string name="cu_ind_pasivos">수동 소득 ÷ 수입</string>

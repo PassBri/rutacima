@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">Ausgaben ÷ Einnahmen</string>
     <string name="cu_ind_gasto_d">Fixe und variable Ausgaben ÷ Einnahmen.</string>
     <string name="cu_ind_fondo">Notgroschen</string>
-    <string name="cu_ind_fondo_d">Gedeckte Monate Fixkosten. Ideal: 3 bis 6.</string>
+    <string name="cu_ind_fondo_d">Monate fester Ausgaben, die dein Notgroschen und dein Bargeld und deine Konten decken. Ideal: 3 bis 6.</string>
     <string name="cu_ind_endeuda">Verschuldungsgrad</string>
     <string name="cu_ind_endeuda_d">Schulden ÷ Vermögen. Unter 30 %: optimal; über 50 %: hohes Risiko.</string>
     <string name="cu_ind_pasivos">Passives ÷ Gesamteinkommen</string>

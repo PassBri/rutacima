@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">Расходы ÷ доходы</string>
     <string name="cu_ind_gasto_d">Постоянные и переменные расходы ÷ доходы.</string>
     <string name="cu_ind_fondo">Резервный фонд</string>
-    <string name="cu_ind_fondo_d">Сколько месяцев постоянных расходов покрыто. Норма: 3–6.</string>
+    <string name="cu_ind_fondo_d">Сколько месяцев постоянных расходов покрывают резервный фонд, наличные и счета. Идеально: от 3 до 6.</string>
     <string name="cu_ind_endeuda">Коэффициент задолженности</string>
     <string name="cu_ind_endeuda_d">Пассивы ÷ активы. До 30 % — отлично; выше 50 % — высокий риск.</string>
     <string name="cu_ind_pasivos">Пассивный доход ÷ доходы</string>

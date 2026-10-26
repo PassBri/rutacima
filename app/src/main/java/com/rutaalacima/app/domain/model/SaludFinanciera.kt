@@ -141,7 +141,8 @@ object Salud {
         val buenas = ds.filter { it.deuda.tipo == "buena" }.sumOf { it.actual }
         val deudaMes = if (sinDeudas) 0.0 else maxOf(ds.filter { it.actual > 0 }.sumOf { it.deuda.minimo }, (s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0) / meses)   // lo pagado de verdad, o las cuotas mínimas si son más
         val totalActivos = (if (actual) activos.sumOf { it.valor } else 0.0) + hasta.construido
-        val emergencia = hasta.categorias[Cuentas.Tipo.AHO to "emergencia"] ?: 0.0
+        // Fondo de emergencia: el ahorro de «Emergencia» más el efectivo y las cuentas que la persona declara en Activos
+        val emergencia = (hasta.categorias[Cuentas.Tipo.AHO to "emergencia"] ?: 0.0) + (if (actual) activos.filter { it.tipo == "liquidez" }.sumOf { it.valor } else 0.0)
         val ing = s.ing
         fun r(a: Double, b: Double) = if (b > 0) a / b else null
         val flujo = r(ing - egresos, ing)

@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">支出收入比</string>
     <string name="cu_ind_gasto_d">固定和可变支出 ÷ 收入。</string>
     <string name="cu_ind_fondo">应急基金</string>
-    <string name="cu_ind_fondo_d">可覆盖固定支出的月数。理想：3 到 6 个月。</string>
+    <string name="cu_ind_fondo_d">应急储蓄加上现金和账户能覆盖的固定支出月数。理想：3 到 6 个月。</string>
     <string name="cu_ind_endeuda">负债率</string>
     <string name="cu_ind_endeuda_d">负债 ÷ 资产。低于 30 % 最佳，高于 50 % 风险高。</string>
     <string name="cu_ind_pasivos">被动收入 ÷ 总收入</string>

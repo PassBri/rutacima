@@ -123,7 +123,9 @@ function saludDe(pref, { sinDeudas = false } = {}) {
   const deudaMes = sinDeudas ? 0 : Math.max(deudas.filter(x => x.actual > 0).reduce((a, x) => a + (Number(x.minimo) || 0), 0), mes(s.cat["gas:deudas"] || 0));
   const declarados = actual ? activosDatos().reduce((a, x) => a + (Number(x.valor) || 0), 0) : 0;
   const activos = declarados + hasta.construido, neto = activos - pasivos;
-  const emergencia = hasta.cat["aho:emergencia"] || 0, fondo = mes(fijos) > 0 ? emergencia / mes(fijos) : null;
+  // Fondo de emergencia: el ahorro de «Emergencia» más el efectivo y las cuentas declarados en Activos
+  const liquidos = actual ? activosDatos().filter(x => x.tipo === "liquidez").reduce((a, x) => a + (Number(x.valor) || 0), 0) : 0;
+  const emergencia = (hasta.cat["aho:emergencia"] || 0) + liquidos, fondo = mes(fijos) > 0 ? emergencia / mes(fijos) : null;
   const r = {
     nMeses, s, activos, declarados, pasivos, neto, deudaMes, mesesLista: [...new Set(rango.map(f => f.slice(0, 7)))].sort(),
     filas: [["Ingresos activos (trabajo, negocio, ventas)", ingAct], ["Ingresos pasivos (rentas, intereses)", pasivoIng], ["Ingresos totales", s.ing, true],
@@ -152,7 +154,7 @@ function saludDe(pref, { sinDeudas = false } = {}) {
     ["Ahorro + inversión ÷ ingresos", r.tasaConstruye, pct, est(r.tasaConstruye, 0.2, 0.1), "Regla 80/20: al menos el 20 % para tu futuro (mochila roja)."],
     ["Deuda ÷ ingreso (DTI)", r.dti, pct, est(r.dti, 0.3, 0.4, true), "Cuotas mensuales de deuda ÷ ingreso mensual. Ideal: menos del 30 %."],
     ["Relación gasto ÷ ingreso", r.gastoIng, pct, est(r.gastoIng, 0.7, 0.9, true), "Gastos fijos y variables ÷ ingresos."],
-    ["Fondo de emergencia", r.fondo, v => num(v) + " meses", est(r.fondo, 3, 1), "Meses de gastos fijos cubiertos. Ideal: de 3 a 6."],
+    ["Fondo de emergencia", r.fondo, v => num(v) + " meses", est(r.fondo, 3, 1), "Meses de gastos fijos que cubren tu ahorro de emergencia y tu efectivo y cuentas. Ideal: de 3 a 6."],
     ["Índice de endeudamiento", r.endeuda, v => Number.isFinite(v) ? pct(v) : "Sin activos", est(r.endeuda, 0.3, 0.5, true), "Pasivos ÷ activos. Menos del 30 %: óptimo; más del 50 %: riesgo alto."],
     ["Ingresos pasivos ÷ ingresos", r.pasivosRatio, pct, est(r.pasivosRatio, 0.2, 0.05), "Qué parte de tu dinero llega sin tu tiempo."],
     ["Índice de libertad financiera", r.libertad, num, est(r.libertad, 1, 0.25), "Ingresos pasivos ÷ gastos. En 1, tus rentas pagan tu vida."],

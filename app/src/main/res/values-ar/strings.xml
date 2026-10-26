@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">نسبة المصروف ÷ الدخل</string>
     <string name="cu_ind_gasto_d">المصروفات الثابتة والمتغيرة ÷ الدخل.</string>
     <string name="cu_ind_fondo">صندوق الطوارئ</string>
-    <string name="cu_ind_fondo_d">عدد أشهر المصروفات الثابتة المغطاة. المثالي: 3 إلى 6.</string>
+    <string name="cu_ind_fondo_d">أشهر المصاريف الثابتة التي يغطيها ادخار الطوارئ ونقدك وحساباتك. المثالي: من 3 إلى 6.</string>
     <string name="cu_ind_endeuda">مؤشر المديونية</string>
     <string name="cu_ind_endeuda_d">الالتزامات ÷ الأصول. أقل من 30 %: مثالي؛ أكثر من 50 %: خطر مرتفع.</string>
     <string name="cu_ind_pasivos">الدخل السلبي ÷ الدخل</string>

@@ -1546,7 +1546,7 @@
     <string name="cu_ind_gasto">Relação despesa ÷ receita</string>
     <string name="cu_ind_gasto_d">Despesas fixas e variáveis ÷ receitas.</string>
     <string name="cu_ind_fondo">Reserva de emergência</string>
-    <string name="cu_ind_fondo_d">Meses de despesas fixas cobertos. Ideal: de 3 a 6.</string>
+    <string name="cu_ind_fondo_d">Meses de gastos fixos cobertos pela sua poupança de emergência e pelo seu dinheiro e contas. Ideal: de 3 a 6.</string>
     <string name="cu_ind_endeuda">Índice de endividamento</string>
     <string name="cu_ind_endeuda_d">Passivos ÷ ativos. Menos de 30 %: ótimo; mais de 50 %: risco alto.</string>
     <string name="cu_ind_pasivos">Renda passiva ÷ receitas</string>
