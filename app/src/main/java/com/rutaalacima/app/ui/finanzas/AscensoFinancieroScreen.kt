@@ -342,8 +342,8 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     // ---------------------------------------------------------------- Recibos
     private val dirRecibos get() = java.io.File(c.contexto.filesDir, "recibos").apply { mkdirs() }
     /** Guarda el recibo: en el depósito privado de la cuenta si hay sesión; si no, en el teléfono. */
-    fun agregarRecibo(f: String, x: Mov, uri: android.net.Uri, alTerminar: (Boolean) -> Unit) = viewModelScope.launch {
-        val ok = runCatching {
+    /** Sube una foto o PDF a la carpeta privada (o lo guarda en el teléfono sin cuenta) y devuelve su ficha. */
+    private suspend fun subirArchivo(uri: android.net.Uri): Cuentas.Recibo {
             val cr = c.contexto.contentResolver
             val tipo = cr.getType(uri) ?: "image/jpeg"
             require(tipo.startsWith("image/") || tipo == "application/pdf")
@@ -355,7 +355,11 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
             val sesion = c.supabase.sesion.value
             val ruta = if (sesion != null && c.supabase.configurado) "${sesion.userId}/$id.$ext".also { c.supabase.subirPrivado("recibos", it, bytes, tipo) }
                 else "local:$id.$ext".also { kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { java.io.File(dirRecibos, it.removePrefix("local:")).writeBytes(bytes) } }
-            val recibo = Cuentas.Recibo(id, nom.take(80), tipo, ruta)
+            return Cuentas.Recibo(id, nom.take(80), tipo, ruta)
+    }
+    fun agregarRecibo(f: String, x: Mov, uri: android.net.Uri, alTerminar: (Boolean) -> Unit) = viewModelScope.launch {
+        val ok = runCatching {
+            val recibo = subirArchivo(uri)
             if (x.virtual) guardar(f, guardados(f) + x.copy(id = "m" + System.currentTimeMillis(), fx = x.fx, r = listOf(recibo)))   // el fijo de este mes queda propio, con su recibo
             else guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r + recibo) else it })
         }.isSuccess
@@ -365,6 +369,27 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r.filter { y -> y.id != r.id }) else it })
         if (r.ruta.startsWith("local:")) java.io.File(dirRecibos, r.ruta.removePrefix("local:")).delete() else c.supabase.borrarArchivo("recibos", r.ruta)
     }
+    private fun borrarArchivo(r: Cuentas.Recibo) { if (r.ruta.startsWith("local:")) java.io.File(dirRecibos, r.ruta.removePrefix("local:")).delete() else viewModelScope.launch { runCatching { c.supabase.borrarArchivo("recibos", r.ruta) } } }
+    /** Documentos de un activo o de un pasivo (escritura, extracto, contrato). */
+    fun adjuntarActivo(id: String, uri: android.net.Uri, alTerminar: (Boolean) -> Unit) = viewModelScope.launch {
+        val r = runCatching { subirArchivo(uri) }.getOrNull()
+        if (r != null) activos { l -> l.map { if (it.id == id) it.copy(r = it.r + r) else it } }
+        alTerminar(r != null)
+    }
+    fun adjuntarDeuda(id: String, uri: android.net.Uri, alTerminar: (Boolean) -> Unit) = viewModelScope.launch {
+        val r = runCatching { subirArchivo(uri) }.getOrNull()
+        if (r != null) deudaCambiar(id) { it.copy(r = it.r + r) }
+        alTerminar(r != null)
+    }
+    fun quitarDocActivo(id: String, r: Cuentas.Recibo) { activos { l -> l.map { if (it.id == id) it.copy(r = it.r.filter { y -> y.id != r.id }) else it } }; borrarArchivo(r) }
+    fun quitarDocDeuda(id: String, r: Cuentas.Recibo) { deudaCambiar(id) { it.copy(r = it.r.filter { y -> y.id != r.id }) }; borrarArchivo(r) }
+    /** Sube o baja un activo en la lista (el asa para ordenar). */
+    fun activoMover(id: String, paso: Int) = activos { l0 ->
+        val l = l0.toMutableList(); val k = l.indexOfFirst { it.id == id }; val j = k + paso
+        if (k < 0 || j !in l.indices) l0 else { java.util.Collections.swap(l, k, j); l }
+    }
+    fun activoRestaurar(x: com.rutaalacima.app.domain.model.Patrimonio.Activo) = activos { it + x }
+
     /** El archivo del recibo en el teléfono (lo descarga si está en la nube). */
     suspend fun archivoRecibo(r: Cuentas.Recibo): java.io.File? = runCatching {
         if (r.ruta.startsWith("local:")) java.io.File(dirRecibos, r.ruta.removePrefix("local:")).takeIf { it.exists() }

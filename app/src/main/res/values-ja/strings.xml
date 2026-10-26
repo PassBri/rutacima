@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">%2$s%1$d日に複製しました</string>
     <string name="cu_duplicados_mes">%2$sに複製しました：%1$d件</string>
     <string name="cu_duplicar_nada">%1$sにはすでにすべてあります</string>
+    <string name="cu_documentos">書類</string>
+    <string name="cu_documentos_n">書類（%1$d）</string>
+    <string name="cu_documentos_vacio">まだ書類はありません。登記、明細、契約書を追加していつでも見られるようにしましょう。</string>
+    <string name="cu_doc_guardado">書類を保存しました</string>
+    <string name="cu_editar_pasivo">負債を編集</string>
+    <string name="cu_quitar_pasivo">負債を削除</string>
+    <string name="cu_pasivo">負債</string>
+    <string name="cu_saldo_hoy">今日の残高</string>
+    <string name="cu_pasivo_ej">クレジットカード、給与天引きローン、借入…</string>
+    <string name="cu_pasivo_agregado">負債を追加しました：金利と返済額は「借金から抜け出す」で入力してください</string>
+    <string name="cu_pasivo_ayuda">良い借金は生み出します（事業、学び、住まい）。悪い借金はただコストです。金利と返済額は「借金から抜け出す」で入力します。</string>
+    <string name="cu_quitado_n">%1$s を削除しました</string>
+    <string name="cu_mala_c">悪い</string>
+    <string name="cu_buena_c">良い</string>
+    <string name="cu_c_promedio_n">月平均（%1$dか月）</string>
+    <string name="cu_c_total_n">合計（%1$dか月）</string>
 </resources>

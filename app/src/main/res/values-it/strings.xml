@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">Copiato al %1$d %2$s</string>
     <string name="cu_duplicados_mes">Copiati a %2$s: %1$d movimenti</string>
     <string name="cu_duplicar_nada">Era già tutto in %1$s</string>
+    <string name="cu_documentos">Documenti</string>
+    <string name="cu_documentos_n">Documenti (%1$d)</string>
+    <string name="cu_documentos_vacio">Ancora nessun documento. Aggiungi l\'atto, l\'estratto o il contratto per averlo a portata di mano.</string>
+    <string name="cu_doc_guardado">Documento salvato</string>
+    <string name="cu_editar_pasivo">Modifica passività</string>
+    <string name="cu_quitar_pasivo">Rimuovi passività</string>
+    <string name="cu_pasivo">Passività</string>
+    <string name="cu_saldo_hoy">Saldo oggi</string>
+    <string name="cu_pasivo_ej">Carta, prestito su stipendio, mutuo…</string>
+    <string name="cu_pasivo_agregado">Passività aggiunta: completa tasso e rata in Uscire dai debiti</string>
+    <string name="cu_pasivo_ayuda">Un debito buono produce (attività, studio, casa); uno cattivo costa soltanto. Tasso e rata si completano in Uscire dai debiti.</string>
+    <string name="cu_quitado_n">%1$s rimosso</string>
+    <string name="cu_mala_c">Cattivo</string>
+    <string name="cu_buena_c">Buono</string>
+    <string name="cu_c_promedio_n">Media mensile (%1$d mesi)</string>
+    <string name="cu_c_total_n">Totale (%1$d mesi)</string>
 </resources>

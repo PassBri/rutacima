@@ -1,5 +1,10 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.material.icons.filled.DragIndicator
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material.icons.automirrored.filled.TrendingDown
@@ -265,7 +270,7 @@ fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> S
                 Triple(R.string.cu_inv, r.suma.inv, false), Triple(R.string.cu_c_egresos, r.egresos, true), Triple(R.string.cu_c_flujo, r.flujoNeto, true),
             )
             Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)) {
-                FilaEstado(stringResource(R.string.cu_c_concepto), stringResource(R.string.cu_c_mensual), anio?.let { "$it" } ?: stringResource(R.string.cu_12_meses), cabecera = true)
+                FilaEstado(stringResource(R.string.cu_c_concepto), stringResource(R.string.cu_c_promedio_n, r.meses), anio?.let { "$it" } ?: stringResource(R.string.cu_c_total_n, r.meses), cabecera = true)
                 filas.forEach { (n, v, fuerte) -> FilaEstado(stringResource(n), plata(Math.round(r.mensual(v)).toDouble()), plata(v), fuerte = fuerte, negativo = v < 0) }
                 FilaEstado(stringResource(R.string.cu_c_cuotas), plata(r.deudaMes), "")
                 if (r.actual) {
@@ -580,37 +585,154 @@ fun LazyListScope.patrimonioNivel(libro: Libro, plata: (Double) -> String, ir: (
             }
         }
     }
-    items(libro.activos, key = { "act-${it.id}" }) { a -> FilaActivo(a, plata, vm) }
     item(key = "p-nuevo") { NuevoActivo { n, t, v -> vm.activoAgregar(n, t, v) } }
+    items(libro.activos, key = { "act-${it.id}" }) { a -> FilaActivo(a, libro.activos.size, plata, vm) }
     item(key = "p-pas") {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SectionTitle(stringResource(R.string.cu_lo_que_debes), Modifier.weight(1f))
             TextButton(onClick = { ir(NivelCuentas.DeudasN) }) { Text(stringResource(R.string.cu_deudas)) }
         }
     }
+    item(key = "p-pas-ayuda") { Text(stringResource(R.string.cu_pasivo_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+    item(key = "p-pas-nuevo") { NuevoPasivo { n, buena, v -> vm.deudaAgregar(n, v, 0.0, 0.0, buena) } }
     if (libro.deudas.isEmpty()) item(key = "p-pas-vacio") { Text(stringResource(R.string.cu_sin_deudas_anotadas), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-    items(libro.deudas, key = { "pas-${it.deuda.id}" }) { h ->
-        Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+    items(libro.deudas, key = { "pas-${it.deuda.id}" }) { h -> FilaPasivo(h, libro.deudas.size, plata, vm) }
+}
+
+/** El asa para ordenar, como en las filas del día: se arrastra arriba o abajo; con lector de pantalla, Subir y Bajar. */
+@Composable
+private fun AsaOrden(onMover: (Int) -> Unit) {
+    val paso = with(androidx.compose.ui.platform.LocalDensity.current) { 56.dp.toPx() }
+    var acumulado by remember { mutableStateOf(0f) }
+    val subir = stringResource(R.string.cu_subir); val bajar = stringResource(R.string.cu_bajar)
+    Icon(Icons.Filled.DragIndicator, stringResource(R.string.cu_ordenar),
+        Modifier.padding(end = 4.dp).size(24.dp)
+            .pointerInput(Unit) {
+                detectVerticalDragGestures(onDragEnd = { acumulado = 0f }, onDragCancel = { acumulado = 0f }) { cambio, d ->
+                    cambio.consume(); acumulado += d
+                    if (acumulado > paso) { acumulado -= paso; onMover(1) }
+                    if (acumulado < -paso) { acumulado += paso; onMover(-1) }
+                }
+            }
+            .semantics { customActions = listOf(
+                androidx.compose.ui.semantics.CustomAccessibilityAction(subir) { onMover(-1); true },
+                androidx.compose.ui.semantics.CustomAccessibilityAction(bajar) { onMover(1); true }) },
+        tint = MaterialTheme.colorScheme.onSurfaceVariant)
+}
+
+/** Botón de documentos (con cuántos hay) que abre la lista para ver, agregar o quitar. */
+@Composable
+private fun BotonDocumentos(docs: List<Cuentas.Recibo>, sub: String, vm: CuentasViewModel, onAgregar: (android.net.Uri, (Boolean) -> Unit) -> Unit, onQuitar: (Cuentas.Recibo) -> Unit) {
+    var abierto by remember { mutableStateOf(false) }
+    IconButton(onClick = { abierto = true }) {
+        androidx.compose.material3.BadgedBox(badge = { if (docs.isNotEmpty()) androidx.compose.material3.Badge { Text("${docs.size}") } }) {
+            Icon(Icons.Filled.AttachFile, stringResource(R.string.cu_documentos_n, docs.size), tint = if (docs.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+    if (abierto) {
+        var subiendo by remember { mutableStateOf(false) }
+        var viendo by remember { mutableStateOf<Cuentas.Recibo?>(null) }
+        val guardado = stringResource(R.string.cu_doc_guardado); val fallo = stringResource(R.string.cu_recibo_error)
+        val elegir = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) { subiendo = true; onAgregar(uri) { ok -> subiendo = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) guardado else fallo) } }
+        }
+        AlertDialog(onDismissRequest = { abierto = false }, title = { Text(stringResource(R.string.cu_documentos)) },
+            text = { Column {
+                Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                if (docs.isEmpty()) Text(stringResource(R.string.cu_documentos_vacio), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
+                docs.forEach { r ->
+                    Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).clickable { viendo = r }.padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(if (r.tipo == "application/pdf") Icons.Filled.PictureAsPdf else Icons.Filled.Image, null, tint = MaterialTheme.colorScheme.primary)
+                        Spacer(Modifier.width(8.dp))
+                        Text(r.nom, Modifier.weight(1f), style = MaterialTheme.typography.bodySmall, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        IconButton(onClick = { onQuitar(r) }) { Icon(Icons.Filled.Delete, stringResource(R.string.cu_quitar_recibo), Modifier.size(20.dp)) }
+                    }
+                }
+                if (subiendo) CircularProgressIndicator(Modifier.size(24.dp).padding(4.dp))
+                else TextButton(onClick = { elegir.launch(arrayOf("image/*", "application/pdf")) }) {
+                    Icon(Icons.Filled.AttachFile, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.cu_agregar_recibo))
+                }
+                Text(stringResource(R.string.cu_recibos_privados), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            } },
+            confirmButton = { TextButton(onClick = { abierto = false }) { Text(stringResource(R.string.cu_listo)) } })
+        viendo?.let { r -> VisorRecibo(r, vm) { viendo = null } }
+    }
+}
+
+/** Un pasivo: se toca para editar (nombre, tipo y saldo de hoy), con documentos, asa para ordenar y quitar. */
+@Composable
+private fun FilaPasivo(h: com.rutaalacima.app.domain.model.Deudas.Hoy, n: Int, plata: (Double) -> String, vm: CuentasViewModel) {
+    val x = h.deuda
+    var editar by remember { mutableStateOf(false) }
+    val quitado = stringResource(R.string.cu_quitado_n, x.nombre); val deshacer = stringResource(R.string.cu_deshacer)
+    RutaCard(onClick = { editar = true }) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            if (n > 1) AsaOrden { vm.deudaMover(x.id, it) }
             Column(Modifier.weight(1f)) {
-                Text(h.deuda.nombre, style = MaterialTheme.typography.bodyMedium)
-                Text(stringResource(if (h.deuda.tipo == "buena") R.string.cu_buena_d else R.string.cu_mala_d), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(x.nombre, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(stringResource(if (x.tipo == "buena") R.string.cu_buena_d else R.string.cu_mala_d), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Text(plata(h.actual), fontWeight = FontWeight.SemiBold)
+            BotonDocumentos(x.r, "${x.nombre} · ${plata(h.actual)}", vm, { u, cb -> vm.adjuntarDeuda(x.id, u, cb) }) { vm.quitarDocDeuda(x.id, it) }
+            IconButton(onClick = { vm.deudaQuitar(x.id); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(quitado, deshacer) { vm.deudaRestaurar(x) } }) {
+                Icon(Icons.Filled.Delete, stringResource(R.string.cu_quitar_pasivo), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
+    }
+    if (editar) {
+        var nombre by remember { mutableStateOf(x.nombre) }; var saldo by remember { mutableStateOf(Cuentas.numero(h.actual)) }; var buena by remember { mutableStateOf(x.tipo == "buena") }
+        AlertDialog(onDismissRequest = { editar = false }, title = { Text(stringResource(R.string.cu_editar_pasivo)) },
+            text = { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedTextField(nombre, { nombre = it.take(60) }, label = { Text(stringResource(R.string.cu_pasivo)) }, singleLine = true)
+                OutlinedTextField(saldo, { saldo = it }, label = { Text(stringResource(R.string.cu_saldo_hoy)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
+                SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                    SegmentedButton(selected = !buena, onClick = { buena = false }, shape = SegmentedButtonDefaults.itemShape(0, 2)) { Text(stringResource(R.string.cu_mala_c)) }
+                    SegmentedButton(selected = buena, onClick = { buena = true }, shape = SegmentedButtonDefaults.itemShape(1, 2)) { Text(stringResource(R.string.cu_buena_c)) }
+                }
+                Text(stringResource(R.string.cu_pasivo_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            } },
+            // El saldo de hoy es lo que se debía menos lo pagado: al cambiarlo se ajusta lo que se debía
+            confirmButton = { TextButton(onClick = {
+                val v = kotlin.math.abs(Finanzas.monto(saldo))
+                vm.deudaCambiar(x.id) { it.copy(nombre = nombre.trim().ifBlank { x.nombre }, saldo = v + h.pagado, tipo = if (buena) "buena" else "mala") }; editar = false
+            }) { Text(stringResource(R.string.guardar)) } },
+            dismissButton = { TextButton(onClick = { editar = false }) { Text(stringResource(R.string.cancelar)) } })
     }
 }
 
 @Composable
-private fun FilaActivo(a: Patrimonio.Activo, plata: (Double) -> String, vm: CuentasViewModel) {
+private fun NuevoPasivo(onAgregar: (String, Boolean, Double) -> Unit) {
+    var nombre by remember { mutableStateOf("") }; var valor by remember { mutableStateOf("") }; var buena by remember { mutableStateOf(false) }
+    val v = kotlin.math.abs(Finanzas.monto(valor))
+    val listo = stringResource(R.string.cu_pasivo_agregado)
+    RutaCard {
+        OutlinedTextField(nombre, { nombre = it.take(60) }, label = { Text(stringResource(R.string.cu_pasivo)) }, placeholder = { Text(stringResource(R.string.cu_pasivo_ej)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+        OutlinedTextField(valor, { valor = it }, label = { Text(stringResource(R.string.cu_saldo_hoy)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.fillMaxWidth().padding(top = 6.dp))
+        SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(top = 8.dp)) {
+            SegmentedButton(selected = !buena, onClick = { buena = false }, shape = SegmentedButtonDefaults.itemShape(0, 2)) { Text(stringResource(R.string.cu_mala_c)) }
+            SegmentedButton(selected = buena, onClick = { buena = true }, shape = SegmentedButtonDefaults.itemShape(1, 2)) { Text(stringResource(R.string.cu_buena_c)) }
+        }
+        Button(enabled = nombre.isNotBlank() && v > 0, onClick = { onAgregar(nombre, buena, v); nombre = ""; valor = ""; buena = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo) },
+            modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) { Text(stringResource(R.string.cu_agregar)) }
+    }
+}
+
+@Composable
+private fun FilaActivo(a: Patrimonio.Activo, n: Int, plata: (Double) -> String, vm: CuentasViewModel) {
     var editar by remember { mutableStateOf(false) }
+    val quitado = stringResource(R.string.cu_quitado_n, a.nombre); val deshacer = stringResource(R.string.cu_deshacer)
     RutaCard(onClick = { editar = true }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
+            if (n > 1) AsaOrden { vm.activoMover(a.id, it) }
             Column(Modifier.weight(1f)) {
-                Text(a.nombre, style = MaterialTheme.typography.bodyMedium)
-                Text(nombreTipoActivo(a.tipo), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(a.nombre, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(nombreTipoActivo(a.tipo), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             Text(plata(a.valor), fontWeight = FontWeight.SemiBold)
-            IconButton(onClick = { vm.activoQuitar(a.id) }) { Icon(Icons.Filled.Delete, stringResource(R.string.cu_quitar_activo), tint = MaterialTheme.colorScheme.onSurfaceVariant) }
+            BotonDocumentos(a.r, "${a.nombre} · ${plata(a.valor)}", vm, { u, cb -> vm.adjuntarActivo(a.id, u, cb) }) { vm.quitarDocActivo(a.id, it) }
+            IconButton(onClick = { vm.activoQuitar(a.id); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(quitado, deshacer) { vm.activoRestaurar(a) } }) {
+                Icon(Icons.Filled.Delete, stringResource(R.string.cu_quitar_activo), tint = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
     }
     if (editar) {

@@ -357,12 +357,12 @@ window.ascResumenMes = function (a, m) {
 /* ---------- Ordenar las filas del día: arrastrar el asa (mouse o dedo) o con las flechas del teclado ---------- */
 {
   let arr = null;
-  const filas = tb => [...tb.querySelectorAll("tr[data-mov]")];
+  const filas = tb => [...tb.querySelectorAll("tr[data-mov]")];   // los de un día, los activos o los pasivos
   document.addEventListener("pointerdown", e => {
     const asa = e.target.closest?.(".asc-asa"); if (!asa || e.button > 0) return;
     const tr = asa.closest("tr"), tb = tr.parentElement;
     e.preventDefault(); asa.setPointerCapture?.(e.pointerId);
-    arr = { asa, tr, tb, f: asa.dataset.dia, y0: e.clientY, antes: filas(tb).map(x => x.dataset.mov).join() };
+    arr = { asa, tr, tb, f: asa.dataset.orden || "dia:" + asa.dataset.dia, y0: e.clientY, antes: filas(tb).map(x => x.dataset.mov).join() };
     tr.classList.add("arrastrando"); document.body.classList.add("ordenando");
   });
   document.addEventListener("pointermove", e => {
@@ -386,7 +386,7 @@ window.ascResumenMes = function (a, m) {
     const { tr, tb, f, antes } = arr; arr = null;
     tr.style.transform = ""; tr.classList.remove("arrastrando"); document.body.classList.remove("ordenando");
     const ids = filas(tb).map(x => x.dataset.mov);
-    if (ids.join() !== antes) guardarOrdenDia(f, ids);
+    if (ids.join() !== antes) guardarOrden(f, ids);
   };
   document.addEventListener("pointerup", soltar); document.addEventListener("pointercancel", soltar);
   document.addEventListener("keydown", e => {
@@ -395,7 +395,7 @@ window.ascResumenMes = function (a, m) {
     e.preventDefault();
     const tb = asa.closest("tbody"), ids = filas(tb).map(x => x.dataset.mov), i = ids.indexOf(asa.dataset.moverMov), j = i + paso;
     if (j < 0 || j >= ids.length) return;
-    [ids[i], ids[j]] = [ids[j], ids[i]]; guardarOrdenDia(asa.dataset.dia, ids);
+    [ids[i], ids[j]] = [ids[j], ids[i]]; guardarOrden(asa.dataset.orden || "dia:" + asa.dataset.dia, ids);
     requestAnimationFrame(() => document.querySelector(`.asc-asa[data-mover-mov="${CSS.escape(ids[j])}"]`)?.focus());
   });
 }

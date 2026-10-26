@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">%1$d %2$s में कॉपी किया</string>
     <string name="cu_duplicados_mes">%2$s में कॉपी किए: %1$d लेनदेन</string>
     <string name="cu_duplicar_nada">%1$s में सब पहले से था</string>
+    <string name="cu_documentos">दस्तावेज़</string>
+    <string name="cu_documentos_n">दस्तावेज़ (%1$d)</string>
+    <string name="cu_documentos_vacio">अभी कोई दस्तावेज़ नहीं। विलेख, स्टेटमेंट या अनुबंध जोड़ें ताकि वह हाथ में रहे।</string>
+    <string name="cu_doc_guardado">दस्तावेज़ सहेजा गया</string>
+    <string name="cu_editar_pasivo">देनदारी संपादित करें</string>
+    <string name="cu_quitar_pasivo">देनदारी हटाएँ</string>
+    <string name="cu_pasivo">देनदारी</string>
+    <string name="cu_saldo_hoy">आज का बकाया</string>
+    <string name="cu_pasivo_ej">क्रेडिट कार्ड, वेतन ऋण, कर्ज़…</string>
+    <string name="cu_pasivo_agregado">देनदारी जोड़ी गई: ब्याज दर और किस्त कर्ज़ से बाहर निकलें में भरें</string>
+    <string name="cu_pasivo_ayuda">अच्छा कर्ज़ कमाता है (व्यवसाय, पढ़ाई, घर); बुरा कर्ज़ सिर्फ़ खर्च कराता है। ब्याज दर और किस्त कर्ज़ से बाहर निकलें में भरें।</string>
+    <string name="cu_quitado_n">%1$s हटाया गया</string>
+    <string name="cu_mala_c">बुरा</string>
+    <string name="cu_buena_c">अच्छा</string>
+    <string name="cu_c_promedio_n">मासिक औसत (%1$d महीने)</string>
+    <string name="cu_c_total_n">कुल (%1$d महीने)</string>
 </resources>

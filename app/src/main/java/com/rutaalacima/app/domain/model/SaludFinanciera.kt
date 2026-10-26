@@ -16,7 +16,8 @@ object Deudas {
     private val json = Json { ignoreUnknownKeys = true; encodeDefaults = true }
 
     @Serializable
-    data class Deuda(val id: String, val nombre: String, val saldo: Double, val tasa: Double = 0.0, val minimo: Double = 0.0, val tipo: String = "mala")
+    data class Deuda(val id: String, val nombre: String, val saldo: Double, val tasa: Double = 0.0, val minimo: Double = 0.0, val tipo: String = "mala",
+                     val r: List<Cuentas.Recibo> = emptyList())   // r: documentos (extracto, contrato)
 
     @Serializable
     data class Datos(val metodo: String = "avalancha", val extra: Double = 0.0, val lista: List<Deuda> = emptyList())
@@ -86,7 +87,7 @@ object Patrimonio {
     val TIPOS = listOf("liquidez", "inversion", "bienes", "negocio", "otro")
 
     @Serializable
-    data class Activo(val id: String, val nombre: String, val tipo: String = "otro", val valor: Double = 0.0)
+    data class Activo(val id: String, val nombre: String, val tipo: String = "otro", val valor: Double = 0.0, val r: List<Cuentas.Recibo> = emptyList())   // r: documentos (escritura, extracto)
 
     private val ser = ListSerializer(Activo.serializer())
     fun leer(v: String?): List<Activo> = if (v.isNullOrBlank()) emptyList() else runCatching { json.decodeFromString(ser, v) }.getOrDefault(emptyList())
@@ -138,7 +139,7 @@ object Salud {
         val ds = if (actual && !sinDeudas) deudas else emptyList()
         val pasivos = ds.sumOf { it.actual }
         val buenas = ds.filter { it.deuda.tipo == "buena" }.sumOf { it.actual }
-        val deudaMes = if (sinDeudas) 0.0 else ds.filter { it.actual > 0 }.sumOf { it.deuda.minimo }.takeIf { it > 0 } ?: ((s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0) / meses)
+        val deudaMes = if (sinDeudas) 0.0 else maxOf(ds.filter { it.actual > 0 }.sumOf { it.deuda.minimo }, (s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0) / meses)   // lo pagado de verdad, o las cuotas mínimas si son más
         val totalActivos = (if (actual) activos.sumOf { it.valor } else 0.0) + hasta.construido
         val emergencia = hasta.categorias[Cuentas.Tipo.AHO to "emergencia"] ?: 0.0
         val ing = s.ing

@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">%2$s %1$d일로 복사했습니다</string>
     <string name="cu_duplicados_mes">%2$s로 복사: %1$d건</string>
     <string name="cu_duplicar_nada">%1$s에 이미 모두 있습니다</string>
+    <string name="cu_documentos">문서</string>
+    <string name="cu_documentos_n">문서 (%1$d)</string>
+    <string name="cu_documentos_vacio">아직 문서가 없습니다. 등기, 명세서, 계약서를 추가해 두세요.</string>
+    <string name="cu_doc_guardado">문서를 저장했습니다</string>
+    <string name="cu_editar_pasivo">부채 편집</string>
+    <string name="cu_quitar_pasivo">부채 삭제</string>
+    <string name="cu_pasivo">부채</string>
+    <string name="cu_saldo_hoy">오늘 잔액</string>
+    <string name="cu_pasivo_ej">신용카드, 급여 대출, 대출…</string>
+    <string name="cu_pasivo_agregado">부채를 추가했습니다: 이자율과 상환액은 빚에서 벗어나기에서 입력하세요</string>
+    <string name="cu_pasivo_ayuda">좋은 빚은 수익을 냅니다(사업, 공부, 집). 나쁜 빚은 비용만 듭니다. 이자율과 상환액은 빚에서 벗어나기에서 입력합니다.</string>
+    <string name="cu_quitado_n">%1$s 삭제됨</string>
+    <string name="cu_mala_c">나쁨</string>
+    <string name="cu_buena_c">좋음</string>
+    <string name="cu_c_promedio_n">월평균 (%1$d개월)</string>
+    <string name="cu_c_total_n">합계 (%1$d개월)</string>
 </resources>

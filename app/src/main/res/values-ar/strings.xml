@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">نُسخ إلى %1$d %2$s</string>
     <string name="cu_duplicados_mes">نُسخت إلى %2$s: %1$d حركة</string>
     <string name="cu_duplicar_nada">كل شيء موجود بالفعل في %1$s</string>
+    <string name="cu_documentos">المستندات</string>
+    <string name="cu_documentos_n">المستندات (%1$d)</string>
+    <string name="cu_documentos_vacio">لا توجد مستندات بعد. أضف سند الملكية أو كشف الحساب أو العقد ليكون في متناولك.</string>
+    <string name="cu_doc_guardado">حُفظ المستند</string>
+    <string name="cu_editar_pasivo">تعديل الالتزام</string>
+    <string name="cu_quitar_pasivo">إزالة الالتزام</string>
+    <string name="cu_pasivo">التزام</string>
+    <string name="cu_saldo_hoy">الرصيد اليوم</string>
+    <string name="cu_pasivo_ej">بطاقة ائتمان، قرض على الراتب، قرض…</string>
+    <string name="cu_pasivo_agregado">أُضيف الالتزام: أكمل الفائدة والقسط في الخروج من الديون</string>
+    <string name="cu_pasivo_ayuda">الدين الجيد ينتج (عمل، دراسة، سكن)؛ والسيئ يكلّف فقط. تُكمَل الفائدة والقسط في الخروج من الديون.</string>
+    <string name="cu_quitado_n">أُزيل %1$s</string>
+    <string name="cu_mala_c">سيئ</string>
+    <string name="cu_buena_c">جيد</string>
+    <string name="cu_c_promedio_n">المتوسط الشهري (%1$d أشهر)</string>
+    <string name="cu_c_total_n">الإجمالي (%1$d أشهر)</string>
 </resources>

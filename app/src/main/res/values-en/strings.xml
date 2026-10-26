@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">Copied to %2$s %1$d</string>
     <string name="cu_duplicados_mes">Copied to %2$s: %1$d entries</string>
     <string name="cu_duplicar_nada">Everything was already in %1$s</string>
+    <string name="cu_documentos">Documents</string>
+    <string name="cu_documentos_n">Documents (%1$d)</string>
+    <string name="cu_documentos_vacio">No documents yet. Add the deed, statement or contract to keep it at hand.</string>
+    <string name="cu_doc_guardado">Document saved</string>
+    <string name="cu_editar_pasivo">Edit liability</string>
+    <string name="cu_quitar_pasivo">Remove liability</string>
+    <string name="cu_pasivo">Liability</string>
+    <string name="cu_saldo_hoy">Balance today</string>
+    <string name="cu_pasivo_ej">Credit card, payroll loan, loan…</string>
+    <string name="cu_pasivo_agregado">Liability added: complete its rate and payment in Get out of debt</string>
+    <string name="cu_pasivo_ayuda">A good debt produces (business, education, home); a bad one only costs. Rate and payment are completed in Get out of debt.</string>
+    <string name="cu_quitado_n">%1$s removed</string>
+    <string name="cu_mala_c">Bad</string>
+    <string name="cu_buena_c">Good</string>
+    <string name="cu_c_promedio_n">Monthly average (%1$d months)</string>
+    <string name="cu_c_total_n">Total (%1$d months)</string>
 </resources>

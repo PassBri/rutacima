@@ -2030,4 +2030,20 @@
     <string name="cu_duplicado">Copiado al %1$d de %2$s</string>
     <string name="cu_duplicados_mes">Copiados a %2$s: %1$d movimientos</string>
     <string name="cu_duplicar_nada">Todo ya estaba en %1$s</string>
+    <string name="cu_documentos">Documentos</string>
+    <string name="cu_documentos_n">Documentos (%1$d)</string>
+    <string name="cu_documentos_vacio">Aún no hay documentos. Agrega la escritura, el extracto o el contrato para tenerlo a mano.</string>
+    <string name="cu_doc_guardado">Documento guardado</string>
+    <string name="cu_editar_pasivo">Editar pasivo</string>
+    <string name="cu_quitar_pasivo">Quitar pasivo</string>
+    <string name="cu_pasivo">Pasivo</string>
+    <string name="cu_saldo_hoy">Saldo hoy</string>
+    <string name="cu_pasivo_ej">Tarjeta, crédito de libranza, préstamo…</string>
+    <string name="cu_pasivo_agregado">Pasivo agregado: completa su tasa y cuota en Salir de deudas</string>
+    <string name="cu_pasivo_ayuda">Una deuda buena produce (negocio, estudio, vivienda); una mala solo cuesta. La tasa y la cuota se completan en Salir de deudas.</string>
+    <string name="cu_quitado_n">%1$s quitado</string>
+    <string name="cu_mala_c">Mala</string>
+    <string name="cu_buena_c">Buena</string>
+    <string name="cu_c_promedio_n">Promedio mensual (%1$d meses)</string>
+    <string name="cu_c_total_n">Total (%1$d meses)</string>
 </resources>

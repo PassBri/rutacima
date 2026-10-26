@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">Copié au %1$d %2$s</string>
     <string name="cu_duplicados_mes">Copiés en %2$s : %1$d mouvements</string>
     <string name="cu_duplicar_nada">Tout était déjà en %1$s</string>
+    <string name="cu_documentos">Documents</string>
+    <string name="cu_documentos_n">Documents (%1$d)</string>
+    <string name="cu_documentos_vacio">Aucun document. Ajoutez l\'acte, le relevé ou le contrat pour l\'avoir sous la main.</string>
+    <string name="cu_doc_guardado">Document enregistré</string>
+    <string name="cu_editar_pasivo">Modifier le passif</string>
+    <string name="cu_quitar_pasivo">Retirer le passif</string>
+    <string name="cu_pasivo">Passif</string>
+    <string name="cu_saldo_hoy">Solde aujourd\'hui</string>
+    <string name="cu_pasivo_ej">Carte, crédit sur salaire, prêt…</string>
+    <string name="cu_pasivo_agregado">Passif ajouté : complétez son taux et sa mensualité dans Sortir des dettes</string>
+    <string name="cu_pasivo_ayuda">Une bonne dette produit (entreprise, études, logement) ; une mauvaise ne fait que coûter. Taux et mensualité se complètent dans Sortir des dettes.</string>
+    <string name="cu_quitado_n">%1$s retiré</string>
+    <string name="cu_mala_c">Mauvaise</string>
+    <string name="cu_buena_c">Bonne</string>
+    <string name="cu_c_promedio_n">Moyenne mensuelle (%1$d mois)</string>
+    <string name="cu_c_total_n">Total (%1$d mois)</string>
 </resources>

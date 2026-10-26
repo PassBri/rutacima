@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">Kopiert auf %1$d. %2$s</string>
     <string name="cu_duplicados_mes">In %2$s kopiert: %1$d Buchungen</string>
     <string name="cu_duplicar_nada">Alles war schon im %1$s</string>
+    <string name="cu_documentos">Dokumente</string>
+    <string name="cu_documentos_n">Dokumente (%1$d)</string>
+    <string name="cu_documentos_vacio">Noch keine Dokumente. Füge Urkunde, Auszug oder Vertrag hinzu, um sie griffbereit zu haben.</string>
+    <string name="cu_doc_guardado">Dokument gespeichert</string>
+    <string name="cu_editar_pasivo">Verbindlichkeit bearbeiten</string>
+    <string name="cu_quitar_pasivo">Verbindlichkeit entfernen</string>
+    <string name="cu_pasivo">Verbindlichkeit</string>
+    <string name="cu_saldo_hoy">Saldo heute</string>
+    <string name="cu_pasivo_ej">Kreditkarte, Lohnkredit, Darlehen…</string>
+    <string name="cu_pasivo_agregado">Verbindlichkeit hinzugefügt: Zins und Rate unter Raus aus den Schulden ergänzen</string>
+    <string name="cu_pasivo_ayuda">Gute Schulden bringen etwas (Geschäft, Studium, Wohnung); schlechte kosten nur. Zins und Rate ergänzt du unter Raus aus den Schulden.</string>
+    <string name="cu_quitado_n">%1$s entfernt</string>
+    <string name="cu_mala_c">Schlecht</string>
+    <string name="cu_buena_c">Gut</string>
+    <string name="cu_c_promedio_n">Monatsdurchschnitt (%1$d Monate)</string>
+    <string name="cu_c_total_n">Gesamt (%1$d Monate)</string>
 </resources>

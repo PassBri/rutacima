@@ -2028,4 +2028,20 @@
     <string name="cu_duplicado">Скопировано на %1$d (%2$s)</string>
     <string name="cu_duplicados_mes">Скопировано в %2$s: %1$d операций</string>
     <string name="cu_duplicar_nada">В месяце %1$s уже всё есть</string>
+    <string name="cu_documentos">Документы</string>
+    <string name="cu_documentos_n">Документы (%1$d)</string>
+    <string name="cu_documentos_vacio">Документов пока нет. Добавьте свидетельство, выписку или договор, чтобы они были под рукой.</string>
+    <string name="cu_doc_guardado">Документ сохранён</string>
+    <string name="cu_editar_pasivo">Изменить обязательство</string>
+    <string name="cu_quitar_pasivo">Удалить обязательство</string>
+    <string name="cu_pasivo">Обязательство</string>
+    <string name="cu_saldo_hoy">Остаток сегодня</string>
+    <string name="cu_pasivo_ej">Карта, зарплатный кредит, заём…</string>
+    <string name="cu_pasivo_agregado">Обязательство добавлено: укажите ставку и платёж в разделе «Выйти из долгов»</string>
+    <string name="cu_pasivo_ayuda">Хороший долг приносит доход (бизнес, учёба, жильё); плохой только стоит денег. Ставку и платёж укажите в разделе «Выйти из долгов».</string>
+    <string name="cu_quitado_n">%1$s удалено</string>
+    <string name="cu_mala_c">Плохой</string>
+    <string name="cu_buena_c">Хороший</string>
+    <string name="cu_c_promedio_n">В среднем за месяц (%1$d мес.)</string>
+    <string name="cu_c_total_n">Итого (%1$d мес.)</string>
 </resources>

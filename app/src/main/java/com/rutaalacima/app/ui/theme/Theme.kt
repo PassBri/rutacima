@@ -208,6 +208,13 @@ object AvisoGlobal {
             host.showSnackbar(texto, withDismissAction = true, duration = androidx.compose.material3.SnackbarDuration.Long)
         }
     }
+    /** Con una acción (por ejemplo, Deshacer). */
+    fun mostrar(texto: String, accion: String, alHacer: () -> Unit) {
+        alcance.launch {
+            host.currentSnackbarData?.dismiss()
+            if (host.showSnackbar(texto, accion, withDismissAction = true, duration = androidx.compose.material3.SnackbarDuration.Long) == androidx.compose.material3.SnackbarResult.ActionPerformed) alHacer()
+        }
+    }
 }
 
 /** Escala de forma de Material 3 (4 · 8 · 12 · 16 · 28 dp): una sola, usada por todos los componentes. */

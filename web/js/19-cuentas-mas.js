@@ -119,7 +119,8 @@ function saludDe(pref, { sinDeudas = false } = {}) {
   const pagosDeuda = sinDeudas ? (s.cat["gas:deudas"] || 0) : 0;
   const fijos = s.mochila.verde, variables = s.mochila.amarilla, gastos = s.gas - pagosDeuda, egresos = s.gas + s.aho + s.inv - pagosDeuda;
   const deudas = actual && !sinDeudas ? deudasHoy() : [], pasivos = deudas.reduce((a, x) => a + x.actual, 0), buenas = deudas.filter(x => x.tipo === "buena").reduce((a, x) => a + x.actual, 0);
-  const deudaMes = sinDeudas ? 0 : deudas.filter(x => x.actual > 0).reduce((a, x) => a + (Number(x.minimo) || 0), 0) || mes(s.cat["gas:deudas"] || 0);
+  // Cuotas de deuda al mes: lo que de verdad se paga (pagos anotados en «Pago de deudas»), o las cuotas mínimas si son más
+  const deudaMes = sinDeudas ? 0 : Math.max(deudas.filter(x => x.actual > 0).reduce((a, x) => a + (Number(x.minimo) || 0), 0), mes(s.cat["gas:deudas"] || 0));
   const declarados = actual ? activosDatos().reduce((a, x) => a + (Number(x.valor) || 0), 0) : 0;
   const activos = declarados + hasta.construido, neto = activos - pasivos;
   const emergencia = hasta.cat["aho:emergencia"] || 0, fondo = mes(fijos) > 0 ? emergencia / mes(fijos) : null;
@@ -256,7 +257,7 @@ function saludHoja(pref) {
     ${actual && (r.activos || r.pasivos) ? `<section class="sal-card">${balanceBarras(r)}</section>` : ""}
     ${(() => { const l = lineaMeses(pref, r); return l ? `<section class="sal-card">${l}</section>` : ""; })()}
     <section class="sal-card"><details class="salud-detalle"><summary>Ver el estado de cuentas en cifras</summary>
-    <div class="asc-tabla"><table class="salud-tabla"><thead><tr><th>Concepto</th><th class="num">Mensual (promedio)</th><th class="num">${pref ? "En " + pref.slice(0, 4) : "12 meses"}</th></tr></thead><tbody>
+    <div class="asc-tabla"><table class="salud-tabla"><thead><tr><th>Concepto</th><th class="num">Promedio mensual (${r.nMeses} ${r.nMeses === 1 ? "mes" : "meses"})</th><th class="num">${pref ? "Total " + pref.slice(0, 4) : `Total (${r.nMeses} ${r.nMeses === 1 ? "mes" : "meses"})`}</th></tr></thead><tbody>
       ${r.filas.map(([n, v, fuerte]) => `<tr class="${fuerte ? "fuerte" : ""}"><th scope="row">${n}</th><td class="num${v < 0 ? " neg" : ""}">${m(v)}</td><td class="num${v < 0 ? " neg" : ""}">${plata(v)}</td></tr>`).join("")}
       <tr><th scope="row">Cuotas de deuda al mes</th><td class="num">${plata(r.deudaMes)}</td><td class="num"></td></tr>
       ${actual ? `<tr class="fuerte"><th scope="row">Activos totales</th><td class="num"></td><td class="num">${plata(r.activos)}</td></tr>
@@ -309,38 +310,79 @@ DET["finanzas.salud"] = arg => {
 })();
 
 /* ---------- Pantalla: patrimonio (activos y pasivos) ---------- */
+const TIPOS_PASIVO = [["mala", "Mala (solo cuesta)"], ["buena", "Buena (produce)"]];
+/** Una fila editable como las del día: asa para ordenar, campos que se cambian ahí mismo, documentos y quitar. */
+function filaPatrimonio(dest, x, n, tipos, valor, acc) {
+  return `<tr data-mov="${esc(x.id)}"><td class="asa-col">${n > 1 ? `<button type="button" class="asc-asa" data-mover-mov="${esc(x.id)}" data-orden="${dest}" aria-label="Arrastrar para cambiar el orden (o usa las flechas)" title="Arrastrar para cambiar el orden">${ic("arrastrar")}</button>` : ""}</td>
+    <td><input value="${esc(x.nombre)}" maxlength="60" data-acc-change="${acc}" data-arg="${x.id}|nombre" aria-label="Nombre"></td>
+    <td><select data-acc-change="${acc}" data-arg="${x.id}|tipo" aria-label="Tipo">${tipos.map(([k, t]) => `<option value="${k}" ${k === x.tipo ? "selected" : ""}>${t}</option>`).join("")}</select></td>
+    <td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(valor))}" data-acc-change="${acc}" data-arg="${x.id}|valor" aria-label="Valor de ${esc(x.nombre)}"></td>
+    <td class="acc-mov"><button class="rb${x.r?.length ? " con" : ""}" data-acc="patAdjuntos" data-arg="${dest === "activos" ? "act" : "deu"}:${x.id}" aria-label="Documentos (${x.r?.length || 0})" title="Documentos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button><button class="rb" data-acc="${dest === "activos" ? "activoQuitar" : "deudaQuitar"}" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button></td></tr>`;
+}
+const formPatrimonio = (form, nombre, ph, tipos) => `<form class="asc-nuevo" data-form="${form}" style="margin-top:12px"><div class="asc-fila-nueva">
+  <label class="campo"><span>${nombre}</span><input name="texto" maxlength="60" autocomplete="off" placeholder="${ph}" required></label>
+  <label class="campo"><span>Tipo</span><select name="tipo">${tipos.map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select></label>
+  <label class="campo"><span>${form === "activoNuevo" ? "Valor hoy" : "Saldo hoy"}</span><input name="valor" inputmode="decimal" autocomplete="off" placeholder="${plata(0)}" required></label>
+  <button class="btn lleno" type="submit">Agregar</button></div></form>`;
 DET["finanzas.patrimonio"] = () => {
   if (finBloqueado()) return pantallaBloqueo();
   const l = activosDatos(), led = sumar(diasConMovs().flatMap(movsDe)).construido, deudas = deudasHoy();
   const act = l.reduce((a, x) => a + (Number(x.valor) || 0), 0) + led, pas = deudas.reduce((a, x) => a + x.actual, 0);
+  const cabeza = (n, v) => `<thead><tr><th class="asa-col"><span class="oculto">Ordenar</span></th><th>${n}</th><th>Tipo</th><th class="num">${v}</th><th><span class="oculto">Documentos y quitar</span></th></tr></thead>`;
   return cab(av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "Ascenso financiero · tu patrimonio neto", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], ["Activos y pasivos", ""]]) +
     `<div class="asc-cifras"><div class="asc-cifra c-ing"><span>Activos totales</span><b>${plata(act)}</b></div><div class="asc-cifra c-gas"><span>Pasivos totales</span><b>${plata(pas)}</b></div><div class="asc-cifra c-disp"><span>Patrimonio neto</span><b class="${act - pas < 0 ? "neg" : ""}">${plata(act - pas)}</b></div></div>` +
     hoja(`<h3 style="margin:0 0 4px">Lo que tienes</h3><p class="suave" style="margin:0 0 10px">Un activo pone dinero en tu bolsillo o guarda valor: cuentas, inversiones, tu casa, tu negocio. Escribe su valor de hoy.</p>
-      <div class="asc-tabla"><table><thead><tr><th>Activo</th><th>Tipo</th><th class="num">Valor hoy</th><th></th></tr></thead><tbody>
-        <tr><th scope="row">Ahorro e inversión del libro de cuentas</th><td class="suave">Se suma solo</td><td class="num">${plata(led)}</td><td></td></tr>
-        ${l.map(x => `<tr><th scope="row"><input value="${esc(x.nombre)}" data-acc-change="activoCampo" data-arg="${x.id}|nombre" aria-label="Nombre"></th>
-          <td><select data-acc-change="activoCampo" data-arg="${x.id}|tipo" aria-label="Tipo">${TIPOS_ACTIVO.map(([k, n]) => `<option value="${k}" ${k === x.tipo ? "selected" : ""}>${n}</option>`).join("")}</select></td>
-          <td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.valor) || 0))}" data-acc-change="activoCampo" data-arg="${x.id}|valor" aria-label="Valor de ${esc(x.nombre)}"></td>
-          <td><button class="rb" data-acc="activoQuitar" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button></td></tr>`).join("")}
-      </tbody></table></div>
-      <form class="asc-nuevo" data-form="activoNuevo" style="margin-top:12px"><div class="asc-fila-nueva">
-        <label class="campo"><span>Activo</span><input name="texto" maxlength="60" placeholder="Casa, carro, cuenta de ahorros…" required></label>
-        <label class="campo"><span>Tipo</span><select name="tipo">${TIPOS_ACTIVO.map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select></label>
-        <label class="campo"><span>Valor hoy</span><input name="valor" inputmode="decimal" placeholder="${plata(0)}" required></label>
-        <button class="btn lleno" type="submit">Agregar</button></div></form>`) +
+      ${formPatrimonio("activoNuevo", "Activo", "Casa, carro, cuenta de ahorros…", TIPOS_ACTIVO)}
+      <div class="asc-tabla" style="margin-top:14px"><table class="asc-movs asc-pat">${cabeza("Activo", "Valor hoy")}<tbody>
+        ${l.map(x => filaPatrimonio("activos", x, l.length, TIPOS_ACTIVO, Number(x.valor) || 0, "activoCampo")).join("")}
+        <tr class="fija"><td></td><th scope="row" class="pat-nom">Ahorro e inversión del libro de cuentas</th><td class="suave">Se suma solo</td><td class="num">${plata(led)}</td><td></td></tr>
+      </tbody><tfoot><tr><th colspan="3" scope="row">Activos totales</th><td class="num">${plata(act)}</td><td></td></tr></tfoot></table></div>`) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Lo que debes</h3><button class="btn mini" data-sel="deudas">${ic("deuda")} Salir de deudas</button></div>
-      ${deudas.length ? `<div class="asc-tabla"><table><thead><tr><th>Pasivo</th><th>Tipo</th><th class="num">Saldo hoy</th></tr></thead><tbody>${deudas.map(x => `<tr><th scope="row">${esc(x.nombre)}</th><td>${x.tipo === "buena" ? "Buena (produce)" : "Mala (solo cuesta)"}</td><td class="num">${plata(x.actual)}</td></tr>`).join("")}</tbody></table></div>`
-        : `<p class="suave" style="margin:8px 0 0">Sin deudas anotadas.</p>`}`), "max-width:980px");
+      <p class="suave" style="margin:4px 0 10px">Una deuda buena produce (negocio, estudio, vivienda); una mala solo cuesta. La tasa y la cuota mínima se completan en Salir de deudas.</p>
+      ${formPatrimonio("pasivoNuevo", "Pasivo", "Tarjeta, crédito de libranza, préstamo…", TIPOS_PASIVO)}
+      ${deudas.length ? `<div class="asc-tabla" style="margin-top:14px"><table class="asc-movs asc-pat">${cabeza("Pasivo", "Saldo hoy")}<tbody>
+        ${deudas.map(x => filaPatrimonio("deudas", x, deudas.length, TIPOS_PASIVO, x.actual, "pasivoCampo")).join("")}
+      </tbody><tfoot><tr><th colspan="3" scope="row">Pasivos totales</th><td class="num">${plata(pas)}</td><td></td></tr></tfoot></table></div>`
+        : `<p class="suave" style="margin:12px 0 0">Sin deudas anotadas.</p>`}`), "max-width:980px");
+};
+/** Guarda el orden que la persona eligió al arrastrar: los de un día, los activos o los pasivos. */
+window.guardarOrden = function (dest, ids) {
+  if (dest.startsWith("dia:")) return guardarOrdenDia(dest.slice(4), ids);
+  const pos = new Map(ids.map((id, i) => [id, i])), ord = l => [...l].sort((a, b) => (pos.get(a.id) ?? 1e6) - (pos.get(b.id) ?? 1e6));
+  if (dest === "activos") guardarActivos(ord(activosDatos()));
+  else if (dest === "deudas") { const d = deudasDatos(); d.lista = ord(d.lista); guardarDeudas(d); }
 };
 Object.assign(ACC, {
-  activoCampo(el, arg) { const [id, k] = arg.split("|"), l = activosDatos(), x = l.find(y => y.id === id); if (!x) return; x[k] = k === "valor" ? Math.abs(montoFin(el.value)) : el.value.trim().slice(0, 60); guardarActivos(l); },
+  activoCampo(el, arg) {
+    const [id, k] = arg.split("|"), l = activosDatos(), x = l.find(y => y.id === id); if (!x) return;
+    if (k === "valor") { const v = Math.abs(montoFin(el.value)); if (!v) { toast("Escribe un valor mayor que cero"); pintarDetalle(); return; } x.valor = v; }
+    else if (k === "nombre") { if (!el.value.trim()) { pintarDetalle(); return; } x.nombre = el.value.trim().slice(0, 60); }
+    else x.tipo = el.value;
+    guardarActivos(l);
+  },
   activoQuitar(_, id) { const l = activosDatos(), x = l.find(y => y.id === id); guardarActivos(l.filter(y => y.id !== id)); if (x) toast(`${x.nombre} quitado`, { accion: "Deshacer", alHacer: () => guardarActivos([...activosDatos(), x]) }); },
+  /** El saldo de hoy es lo que se debía menos lo pagado: al cambiarlo se ajusta lo que se debía. */
+  pasivoCampo(el, arg) {
+    const [id, k] = arg.split("|"), d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return;
+    if (k === "valor") { const v = Math.abs(montoFin(el.value)); x.saldo = v + pagadoDe(id); }
+    else if (k === "nombre") { if (!el.value.trim()) { pintarDetalle(); return; } x.nombre = el.value.trim().slice(0, 60); }
+    else x.tipo = el.value === "buena" ? "buena" : "mala";
+    guardarDeudas(d);
+  },
+  patAdjuntos(_, clave) { abrirRecibos(clave); },
 });
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   activoNuevo(form, datos, texto) {
     const v = Math.abs(montoFin(datos.get("valor"))); if (!texto || !v) { toast("Escribe el activo y su valor"); return; }
-    guardarActivos([...activosDatos(), { id: "a" + nuevoId(), nombre: texto.slice(0, 60), tipo: datos.get("tipo") || "otro", valor: v }]); form.reset(); toast("Activo agregado");
+    guardarActivos([...activosDatos(), { id: "a" + nuevoId(), nombre: texto.slice(0, 60), tipo: datos.get("tipo") || "otro", valor: v }]); form.reset(); toast("Activo agregado"); pintarDetalle();
+    setTimeout(() => document.querySelector('[data-form="activoNuevo"] [name="texto"]')?.focus(), 50);
+  },
+  pasivoNuevo(form, datos, texto) {
+    const saldo = Math.abs(montoFin(datos.get("valor"))); if (!texto || !saldo) { toast("Escribe el pasivo y su saldo"); return; }
+    const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: 0, minimo: 0, tipo: datos.get("tipo") === "buena" ? "buena" : "mala" });
+    guardarDeudas(d); form.reset(); toast("Pasivo agregado: completa su tasa y cuota en Salir de deudas"); pintarDetalle();
+    setTimeout(() => document.querySelector('[data-form="pasivoNuevo"] [name="texto"]')?.focus(), 50);
   },
 });
 
@@ -397,7 +439,17 @@ async function prepararArchivo(f) {
     return new File([b], f.name.replace(/\.\w+$/, "") + ".jpg", { type: "image/jpeg" });
   } catch { return f; }
 }
-async function subirRecibo(fecha, movId, archivo) {
+/** Dónde se guardan los adjuntos: un movimiento del día ("mov:fecha|id"), un activo ("act:id") o un pasivo ("deu:id"). */
+function adjuntoDe(clave) {
+  const [k, resto] = [clave.slice(0, 3), clave.slice(4)];
+  if (k === "act") return { x: () => activosDatos().find(y => y.id === resto), sub: x => `${esc(x.nombre)} · ${plata(Number(x.valor) || 0)}`, titulo: "Documentos",
+    cambiar: fn => { const l = activosDatos(), y = l.find(z => z.id === resto); if (y) { fn(y); guardarActivos(l); } } };
+  if (k === "deu") return { x: () => deudasHoy().find(y => y.id === resto), sub: x => `${esc(x.nombre)} · ${plata(x.actual)}`, titulo: "Documentos",
+    cambiar: fn => { const d = deudasDatos(), y = d.lista.find(z => z.id === resto); if (y) { fn(y); guardarDeudas(d); } } };
+  const [fecha, id] = resto.split("|");
+  return { x: () => movsDe(fecha).find(y => y.id === id), sub: x => `${esc(x.n || catDe(x.t, x.c)?.[1] || "")} · ${plata(x.m)}`, titulo: "Recibos", cambiar: fn => cambiarMov(resto, fn) };
+}
+async function subirRecibo(clave, archivo) {
   if (!/^image\/|application\/pdf/.test(archivo.type)) { toast("Solo fotos o PDF"); return; }
   if (archivo.size > 15e6) { toast("El archivo pesa más de 15 MB"); return; }
   const f = await prepararArchivo(archivo), id = "r" + nuevoId(), ext = f.type === "application/pdf" ? "pdf" : (f.type.split("/")[1] || "jpg").replace("jpeg", "jpg");
@@ -407,8 +459,8 @@ async function subirRecibo(fecha, movId, archivo) {
     const up = await Store.nube.sb.storage.from("recibos").upload(ruta, f, { contentType: f.type, upsert: false });
     if (up.error) { errorNube(up.error); return; }
   } else { ruta = `local:${id}.${ext}`; await IDB.poner(ruta, f); }
-  cambiarMov(`${fecha}|${movId}`, x => { x.r = [...(x.r || []), { id, nom: String(archivo.name || "recibo").slice(0, 80), tipo: f.type, ruta }]; });
-  toast("Recibo guardado");
+  adjuntoDe(clave).cambiar(x => { x.r = [...(x.r || []), { id, nom: String(archivo.name || "recibo").slice(0, 80), tipo: f.type, ruta }]; });
+  toast("Archivo guardado");
 }
 async function urlRecibo(r) {
   if (r.ruta.startsWith("local:")) { const b = await IDB.leer(r.ruta); return b ? URL.createObjectURL(b) : null; }
@@ -417,27 +469,27 @@ async function urlRecibo(r) {
   if (error) { errorNube(error); return null; }
   return data.signedUrl;
 }
-async function abrirRecibos(fecha, movId) {
-  const x = movsDe(fecha).find(y => y.id === movId); if (!x) return;
+async function abrirRecibos(clave) {
+  const o = adjuntoDe(clave), x = o.x(); if (!x) return;
   const rs = x.r || [];
-  const v = ventanaCuenta(`<h3 style="margin-top:0">Recibos</h3><p class="suave" style="margin-top:0">${esc(x.n || catDe(x.t, x.c)?.[1] || "")} · ${plata(x.m)}</p>
+  const v = ventanaCuenta(`<h3 style="margin-top:0">${o.titulo}</h3><p class="suave" style="margin-top:0">${o.sub(x)}</p>
     <div class="recibos">${rs.map(r => `<div class="recibo" data-ruta="${esc(r.ruta)}"><span class="recibo-vista">${r.tipo === "application/pdf" ? ic("pdf") : ic("foto")}</span><span class="recibo-nom">${esc(r.nom)}</span>
-      <button class="btn mini" data-ver="${esc(r.id)}">Ver</button><button class="rb" data-quitar="${esc(r.id)}" aria-label="Quitar ${esc(r.nom)}">${ic("borrar")}</button></div>`).join("") || `<p class="suave">Aún no hay recibos. Agrega la foto de la factura o el PDF para tener todo a mano.</p>`}</div>
+      <button class="btn mini" data-ver="${esc(r.id)}">Ver</button><button class="rb" data-quitar="${esc(r.id)}" aria-label="Quitar ${esc(r.nom)}">${ic("borrar")}</button></div>`).join("") || `<p class="suave">${o.titulo === "Recibos" ? "Aún no hay recibos. Agrega la foto de la factura o el PDF para tener todo a mano." : "Aún no hay documentos. Agrega la escritura, el extracto o el contrato para tener todo a mano."}</p>`}</div>
     <label class="btn lleno" style="display:inline-flex;gap:6px;align-items:center;cursor:pointer">${ic("adjunto")} Agregar foto o PDF<input type="file" accept="image/*,application/pdf" capture="environment" hidden></label>
     <p class="suave" style="font-size:12.5px">${Store.nube ? "Se guardan en tu carpeta privada; solo tú puedes abrirlos." : "En la demostración se guardan solo en este navegador."}</p>
     <div class="botones"><button class="btn" type="button" data-cerrar>Listo</button></div>`, v => {
     v.querySelector("[data-cerrar]").onclick = () => v.remove();
-    v.querySelector("input[type=file]").onchange = async e => { const a = e.target.files?.[0]; if (!a) return; e.target.closest("label").classList.add("cargando"); await subirRecibo(fecha, movId, a); v.remove(); abrirRecibos(fecha, movId); };
+    v.querySelector("input[type=file]").onchange = async e => { const a = e.target.files?.[0]; if (!a) return; e.target.closest("label").classList.add("cargando"); await subirRecibo(clave, a); v.remove(); abrirRecibos(clave); };
     v.querySelectorAll("[data-ver]").forEach(b => b.onclick = async () => {
-      const r = rs.find(y => y.id === b.dataset.ver), url = r && await urlRecibo(r); if (!url) { toast("No se pudo abrir el recibo"); return; }
+      const r = rs.find(y => y.id === b.dataset.ver), url = r && await urlRecibo(r); if (!url) { toast("No se pudo abrir el archivo"); return; }
       const fila = b.closest(".recibo"); fila.querySelector(".recibo-vista").innerHTML = r.tipo === "application/pdf" ? ic("pdf") : `<img src="${url}" alt="${esc(r.nom)}">`;
       window.open(url, "_blank", "noopener");
     });
     v.querySelectorAll("[data-quitar]").forEach(b => b.onclick = async () => {
       const r = rs.find(y => y.id === b.dataset.quitar); if (!r) return;
-      cambiarMov(`${fecha}|${movId}`, y => { y.r = (y.r || []).filter(z => z.id !== r.id); });
+      o.cambiar(y => { y.r = (y.r || []).filter(z => z.id !== r.id); });
       if (r.ruta.startsWith("local:")) IDB.quitar(r.ruta); else Store.nube?.sb.storage.from("recibos").remove([r.ruta]);
-      toast("Recibo quitado"); v.remove(); abrirRecibos(fecha, movId);
+      toast("Archivo quitado"); v.remove(); abrirRecibos(clave);
     });
   });
 }
@@ -633,8 +685,8 @@ Object.assign(ACC, {
   ascRecibos(_, arg) {
     const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id);
     // Un fijo del mes pasa a ser movimiento propio de ese mes para poder llevar su recibo
-    if (x?.virtual) { const propio = cambiarMov(arg, () => {}); if (propio) return abrirRecibos(f, propio.id); }
-    abrirRecibos(f, id);
+    if (x?.virtual) { const propio = cambiarMov(arg, () => {}); if (propio) return abrirRecibos(`mov:${f}|${propio.id}`); }
+    abrirRecibos("mov:" + arg);
   },
 });
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
