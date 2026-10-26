@@ -128,7 +128,7 @@ function avisarNavegador(nuevos) {
   if (!("Notification" in window) || Notification.permission !== "granted") return;
   const g = agruparAvisos(nuevos)[0]; if (!g) return;
   const txt = fraseAviso(g).replace(/<[^>]+>/g, "");
-  try { const n = new Notification("SuRoute", { body: nuevos.length > 1 ? `${txt} y ${nuevos.length - 1} avisos más` : txt, icon: "iconos/icono-192.png", tag: "suroute-avisos" });
+  try { const n = new Notification("SuRoute", { body: nuevos.length > 1 ? `${txt} y ${nuevos.length - 1} avisos más` : txt, icon: "iconos/suroute-192.png", tag: "suroute-avisos" });
     n.onclick = () => { window.focus(); ir("comunidad", "avisos"); n.close(); }; } catch { /* algunos navegadores no lo permiten */ }
 }
 /** La campana: en el riel del computador, en la lista de Comunidad y arriba de Cimas. */
