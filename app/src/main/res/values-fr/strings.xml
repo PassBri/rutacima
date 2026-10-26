@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">Sur l’ordinateur, ouvre SuRoute Web et scanne avec ton téléphone le code affiché.</string>
     <string name="web_escanear">Scanner le code</string>
     <string name="web_escribir_codigo">Saisir le code</string>
-    <string name="web_codigo">Code à 8 caractères</string>
+    <string name="web_codigo">Les trois mots ou le code</string>
     <string name="web_confirmar_titulo">Associer cet ordinateur ?</string>
     <string name="web_confirmar_texto">L’ordinateur avec le code %1$s aura tout ton parcours : il pourra le voir et le modifier comme sur ton téléphone. N’associe que des ordinateurs à toi ou de confiance ; tu peux le dissocier à tout moment.</string>
     <string name="web_vincular_si">Associer</string>
-    <string name="web_vinculado">C’est fait : %1$s est associé.</string>
+    <string name="web_vinculado">Trouvé : %1$s fait maintenant partie de votre cordée.</string>
     <string name="web_error_vincular">Association impossible. Le code expire au bout de 5 minutes : génère-en un nouveau sur le web et réessaie.</string>
     <string name="web_error_sincronizar">Synchronisation impossible. Vérifie ta connexion ; une nouvelle tentative se fera automatiquement.</string>
     <string name="web_dispositivos">Ordinateurs associés</string>

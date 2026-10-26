@@ -269,21 +269,27 @@ create policy "ver mis dispositivos" on public.dispositivos for select using (us
 drop policy if exists "desvincular" on public.dispositivos;
 create policy "desvincular" on public.dispositivos for delete using (user_id = auth.uid() or web_uid = auth.uid());
 
--- La web pide un código (8 caracteres, sin letras confusas como O/0 o I/1).
+-- La web pide un código de cordada: SUR + 5 caracteres que guardan dos palabras de montaña y un número
+-- (ver 2026-10-27-codigo-cordada.sql). Sin letras confusas como O/0 o I/1.
 create or replace function public.crear_vinculo(nombre text default 'Navegador') returns text
 language plpgsql security definer set search_path = public, extensions as $$
 declare
   alfabeto constant text := 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  c text;
+  c text; v bigint;
 begin
   if auth.uid() is null then raise exception 'Sin sesión'; end if;
   delete from public.vinculos where web_uid = auth.uid() or expira < now();
   loop
+    -- palabra 1 (0–127), palabra 2 (0–127) y número (10–99)
+    v := ((get_byte(gen_random_bytes(1), 0) % 128) * 128 + (get_byte(gen_random_bytes(1), 0) % 128)) * 90
+         + ((get_byte(gen_random_bytes(1), 0) * 256 + get_byte(gen_random_bytes(1), 0)) % 90);
     c := '';
-    for i in 1..8 loop
-      c := c || substr(alfabeto, 1 + (get_byte(gen_random_bytes(1), 0) % 32), 1);
+    for i in 1..5 loop
+      c := substr(alfabeto, 1 + (v % 32)::int, 1) || c;
+      v := v / 32;
     end loop;
-    exit when not exists (select 1 from public.vinculos v where v.codigo = c);
+    c := 'SUR' || c;
+    exit when not exists (select 1 from public.vinculos x where x.codigo = c);
   end loop;
   insert into public.vinculos (codigo, web_uid, nombre) values (c, auth.uid(), left(coalesce(nombre, 'Navegador'), 60));
   return c;

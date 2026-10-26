@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">컴퓨터에서 SuRoute Web을 열고 나타나는 코드를 휴대폰으로 스캔하세요.</string>
     <string name="web_escanear">코드 스캔</string>
     <string name="web_escribir_codigo">코드 입력</string>
-    <string name="web_codigo">8자리 코드</string>
+    <string name="web_codigo">세 단어 또는 코드</string>
     <string name="web_confirmar_titulo">이 컴퓨터를 연결할까요?</string>
     <string name="web_confirmar_texto">코드 %1$s의 컴퓨터가 당신의 경로 전체를 휴대폰처럼 보고 바꿀 수 있게 돼요. 본인 것이거나 믿을 수 있는 컴퓨터만 연결하세요. 언제든 연결을 해제할 수 있어요.</string>
     <string name="web_vincular_si">연결</string>
-    <string name="web_vinculado">완료: %1$s이(가) 연결됐어요.</string>
+    <string name="web_vinculado">찾았어요: 이제 %1$s이(가) 당신의 자일 파티에 있습니다.</string>
     <string name="web_error_vincular">연결하지 못했어요. 코드는 5분 후 만료돼요. 웹에서 새 코드를 만들고 다시 시도하세요.</string>
     <string name="web_error_sincronizar">동기화하지 못했어요. 연결을 확인하세요. 자동으로 다시 시도해요.</string>
     <string name="web_dispositivos">연결된 컴퓨터</string>

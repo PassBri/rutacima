@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">कंप्यूटर पर SuRoute Web खोलें और दिखने वाला कोड फ़ोन से स्कैन करें।</string>
     <string name="web_escanear">कोड स्कैन करें</string>
     <string name="web_escribir_codigo">कोड लिखें</string>
-    <string name="web_codigo">8 अक्षरों का कोड</string>
+    <string name="web_codigo">तीन शब्द या कोड</string>
     <string name="web_confirmar_titulo">यह कंप्यूटर लिंक करें?</string>
     <string name="web_confirmar_texto">कोड %1$s वाले कंप्यूटर को आपका पूरा मार्ग मिलेगा: वह इसे फ़ोन की तरह देख और बदल सकेगा। केवल अपने या भरोसेमंद कंप्यूटर लिंक करें; आप कभी भी लिंक हटा सकते हैं।</string>
     <string name="web_vincular_si">लिंक करें</string>
-    <string name="web_vinculado">हो गया: %1$s लिंक हो गया।</string>
+    <string name="web_vinculado">मिल गए: %1$s अब आपकी टोली में है।</string>
     <string name="web_error_vincular">लिंक नहीं हो सका। कोड 5 मिनट में समाप्त हो जाता है: वेब पर नया कोड बनाएँ और फिर से कोशिश करें।</string>
     <string name="web_error_sincronizar">सिंक नहीं हो सका। अपना कनेक्शन जाँचें; यह अपने आप फिर कोशिश करेगा।</string>
     <string name="web_dispositivos">लिंक किए गए कंप्यूटर</string>

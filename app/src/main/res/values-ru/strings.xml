@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">Открой SuRoute Web на компьютере и отсканируй телефоном появившийся код.</string>
     <string name="web_escanear">Сканировать код</string>
     <string name="web_escribir_codigo">Ввести код</string>
-    <string name="web_codigo">Код из 8 символов</string>
+    <string name="web_codigo">Три слова или код</string>
     <string name="web_confirmar_titulo">Привязать этот компьютер?</string>
     <string name="web_confirmar_texto">Компьютер с кодом %1$s получит весь твой путь: сможет видеть и менять его, как на телефоне. Привязывай только свои или надёжные компьютеры; отвязать можно в любой момент.</string>
     <string name="web_vincular_si">Привязать</string>
-    <string name="web_vinculado">Готово: %1$s привязан.</string>
+    <string name="web_vinculado">Нашли: %1$s теперь в вашей связке.</string>
     <string name="web_error_vincular">Не удалось привязать. Код действует 5 минут: создай новый в веб-версии и попробуй снова.</string>
     <string name="web_error_sincronizar">Не удалось синхронизировать. Проверь подключение; попытка повторится сама.</string>
     <string name="web_dispositivos">Привязанные компьютеры</string>

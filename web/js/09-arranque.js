@@ -21,9 +21,13 @@ async function mostrarVincular() {
         <ol class="ac-pasos"><li><span aria-hidden="true">1</span><div>Abre <b>SuRoute</b> en tu teléfono.</div></li>
           <li><span aria-hidden="true">2</span><div>Ve a <b>Perfil</b> y toca el ícono del computador <b>SuRoute Web</b>.</div></li>
           <li><span aria-hidden="true">3</span><div>Toca <b>Escanear código</b> y apunta la cámara a este código.</div></li></ol></div>
-      <div class="ac-qr"><div class="qr" id="qr">${marca("centro logo", true)}<button class="qr-recargar" id="qrRecargar" hidden>${ic("repetir")}<span>Toca para generar un código nuevo</span></button></div>
+      <div class="ac-qr"><div class="sello-cumbre" id="sello">
+          <span class="baliza" aria-hidden="true"></span><span class="baliza b2" aria-hidden="true"></span>
+          <svg class="sello-aro" viewBox="0 0 100 100" aria-hidden="true"><path pathLength="100" d="M41.45 85.53A38 38 0 1 1 58.55 85.53"/><circle cx="50" cy="86.5" r="3.4"/></svg>
+          <div class="qr" id="qr">${marca("centro logo", true)}<button class="qr-recargar" id="qrRecargar" hidden>${ic("repetir")}<span>Toca para generar un código nuevo</span></button></div>
+          <div class="sello-ok" aria-live="polite"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V3h1.6v1h12.4l-2.6 4.6L19 13.2H6.6V21Z"/></svg><b>Te encontramos</b><span>Abriendo tu ruta…</span></div></div>
         ${real ? `<div class="qr-tiempo" aria-hidden="true"><i id="qrBarra"></i></div>` : ""}<div class="codigo-txt" id="codigoTxt">${real ? "· · · ·" : ""}</div>
-        <p class="ac-nota-qr" id="qrNota">${real ? "¿Sin cámara? Escribe este código en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
+        <p class="ac-nota-qr" id="qrNota">${real ? "¿Sin cámara? Escribe estas palabras en la app." : "Código de muestra: abre el proyecto en GitHub"}</p></div>
       <div class="ac-otras"><span class="ac-o">o entra de otra forma</span>
         ${real ? `<div class="ac-botones"><button class="ac-btn lleno" id="vCorreo">${ic("correo")} Entrar con mi correo</button><button class="ac-btn tonal" id="vCrear">${ic("personaMas")} Crear cuenta</button><button class="ac-btn texto" data-acc-v="demo">Ver la demostración</button></div>
           <p class="ac-pie">Sin teléfono Android, por ejemplo en iPhone, entra con tu correo. El código cambia cada pocos minutos y este computador queda vinculado hasta que lo desvincules.</p>`
@@ -45,7 +49,9 @@ async function mostrarVincular() {
     try {
       const c = await Store.nube.crearCodigo();
       pintarQR(`rutacima://vincular?codigo=${c}`);
-      $("codigoTxt").textContent = `${c.slice(0, 4)}-${c.slice(4)}`;
+      const pal = CORDADA.palabras(c);
+      $("codigoTxt").textContent = pal ? pal.join(" · ") : `${c.slice(0, 4)}-${c.slice(4)}`;
+      $("codigoTxt").classList.toggle("palabras", !!pal);
     } catch (e) { console.error(e); $("qrNota").textContent = "No se pudo crear el código. Revisa tu conexión y recarga la página."; }
   };
   // Como en WhatsApp: el código cambia solo cada minuto (con una barra que se vacía) y, si nadie lo
@@ -63,14 +69,14 @@ async function mostrarVincular() {
     if (quedan <= 0) { if (++vueltas >= VUELTAS) return pausar(); quedan = VIDA; nuevo(); }
   };
   $("qrRecargar").onclick = async () => {
-    $("qr").classList.remove("vencido"); $("qrRecargar").hidden = true; $("qrNota").textContent = "¿Sin cámara? Escribe este código en la app.";
+    $("qr").classList.remove("vencido"); $("qrRecargar").hidden = true; $("qrNota").textContent = "¿Sin cámara? Escribe estas palabras en la app.";
     vueltas = 0; quedan = VIDA; const barra = $("qrBarra"); if (barra) barra.style.transform = "scaleX(1)";
     await nuevo(); clearInterval(renovar); renovar = setInterval(reloj, 1000);
   };
   await nuevo();
   renovar = setInterval(reloj, 1000);
   sondeo = setInterval(async () => {
-    try { if (await Store.nube.vinculo()) { clearInterval(sondeo); clearInterval(renovar); entrarReal(); } } catch {}
+    try { if (await Store.nube.vinculo()) { clearInterval(sondeo); clearInterval(renovar); encontrado(); } } catch {}
   }, 2500);
 }
 function pintarQR(texto) {
@@ -79,6 +85,36 @@ function pintarQR(texto) {
     const q = qrcode(0, "H"); q.addData(texto); q.make();
     const img = document.createElement("img"); img.className = "codigo"; img.alt = "Código QR para vincular"; img.src = q.createDataURL(8, 0); box.prepend(img);
   } catch { box.insertAdjacentHTML("afterbegin", `<p class="suave codigo">Código QR no disponible</p>`); }
+}
+
+/** Código de cordada: el código SUR+5 guarda dos palabras de montaña y un número (igual que la app y el servidor). */
+const CORDADA = (() => {
+  const ALF = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  const P = ["andes","cumbre","nevado","cóndor","glaciar","sendero","cordada","brújula","piolet","crampón","mochila","refugio","collado","ladera","valle","cresta","arista","cornisa","morrena","páramo","frailejón","laguna","cascada","quebrada","volcán","cráter","granito","basalto","cuarzo","risco","pico","cerro","loma","colina","meseta","altiplano","puna","pradera","bosque","roble","pino","cedro","aliso","musgo","liquen","helecho","orquídea","puma","llama","alpaca","guanaco","águila","halcón","colibrí","venado","zorro","oso","tapir","trucha","río","arroyo","manantial","fuente","niebla","nube","lluvia","nieve","granizo","viento","brisa","aurora","alba","ocaso","luna","estrella","cometa","sol","cielo","horizonte","mapa","ruta","huella","paso","bastón","linterna","carpa","fogata","cantimplora","cuerda","mosquetón","arnés","casco","bota","polaina","anclaje","vivac","campamento","bandera","hito","baliza","mirador","puente","portillo","abra","desfiladero","garganta","terraza","sabana","selva","jaguar","tundra","escarcha","hielo","serac","grieta","avalancha","ventisca","tormenta","trueno","relámpago","arcoíris","rocío","lirio","romero","tomillo","salvia","eucalipto","picacho"];
+  const norm = w => w.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const N = P.map(norm);
+  return {
+    palabras(c) {
+      if (!/^SUR[A-Z2-9]{5}$/.test(c || "")) return null;
+      let v = 0; for (const ch of c.slice(3)) v = v * 32 + ALF.indexOf(ch);
+      const n = v % 90 + 10, r = Math.floor(v / 90);
+      return Math.floor(r / 128) < 128 ? [P[Math.floor(r / 128)], P[r % 128], String(n)] : null;
+    },
+    codigo(texto) {
+      const t = norm(texto).split(/[^a-z0-9]+/).filter(Boolean);
+      const w = t.filter(x => N.includes(x)), num = t.find(x => /^\d{2}$/.test(x));
+      if (w.length !== 2 || !num) return null;
+      let v = (N.indexOf(w[0]) * 128 + N.indexOf(w[1])) * 90 + (Number(num) - 10), s = "";
+      for (let i = 0; i < 5; i++) { s = ALF[v % 32] + s; v = Math.floor(v / 32); }
+      return "SUR" + s;
+    },
+  };
+})();
+/** Baliza encontrada: se detienen los pulsos, el aro se vuelve a trazar, el punto cae y se planta la bandera. */
+function encontrado() {
+  const s = $("sello"); if (!s) return entrarReal();
+  s.classList.add("encontrado");
+  setTimeout(entrarReal, matchMedia("(prefers-reduced-motion: reduce)").matches ? 500 : 1500);
 }
 
 async function entrarReal() {

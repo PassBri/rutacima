@@ -2872,3 +2872,31 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 .energia button.si { background: transparent; }
 @media (hover: hover) and (pointer: fine) { .energia button:hover { background: color-mix(in srgb, var(--oro) 10%, transparent); } }
 .vasos-pie b { color: color-mix(in srgb, #2E7D9A 70%, var(--tinta)); }
+
+/* ---------- Sello de cumbre: el QR dentro del aro del símbolo, latiendo como una baliza ---------- */
+.sello-cumbre { position: relative; width: 300px; height: 300px; display: grid; place-items: center; }
+.sello-cumbre .qr, .ac-qr .sello-cumbre .qr { width: 188px; height: 188px; padding: 6px; border-radius: 14px; z-index: 1; transition: opacity .35s cubic-bezier(.2,0,0,1), transform .35s cubic-bezier(.2,0,0,1); }
+.sello-cumbre .qr .centro { width: 50px; height: 50px; }
+.sello-aro { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.sello-aro path { fill: none; stroke: var(--burdeos); stroke-width: 2.6; stroke-dasharray: 100; stroke-dashoffset: 0; }
+.sello-aro circle { fill: var(--burdeos); }
+.baliza { position: absolute; inset: 12px; border-radius: 50%; border: 2px solid var(--burdeos); opacity: 0; animation: baliza 2.8s cubic-bezier(.2,0,0,1) infinite; }
+.baliza.b2 { animation-delay: 1.4s; }
+@keyframes baliza { 0% { transform: scale(.92); opacity: .45; } 100% { transform: scale(1.22); opacity: 0; } }
+.sello-ok { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 4px; opacity: 0; pointer-events: none; z-index: 2; }
+.sello-ok svg { width: 56px; height: 56px; fill: var(--burdeos); transform: translateY(30px) scale(.6); transform-origin: 20% 100%; }
+.sello-ok b { font: 700 24px/1.2 var(--font-titulo); color: var(--tinta); }
+.sello-ok span { font-size: 14px; color: var(--tinta-suave); }
+.codigo-txt.palabras { font-size: 22px; letter-spacing: .02em; text-transform: lowercase; }
+.ac-qr .codigo-txt.palabras { font-size: 22px; }
+/* Encontrado: la baliza se apaga, el aro se traza de nuevo, el punto cae y se planta la bandera */
+.sello-cumbre.encontrado .baliza { animation: none; opacity: 0; }
+.sello-cumbre.encontrado .qr { opacity: 0; transform: scale(.9); }
+.sello-cumbre.encontrado .sello-aro path { animation: sello-traza .7s cubic-bezier(.65,0,.35,1) both; }
+.sello-cumbre.encontrado .sello-aro circle { animation: sello-cae .4s cubic-bezier(.3,0,.2,1) .6s both; }
+.sello-cumbre.encontrado .sello-ok { opacity: 1; transition: opacity .3s .55s; }
+.sello-cumbre.encontrado .sello-ok svg { transform: none; transition: transform .45s cubic-bezier(.2,0,0,1) .75s; }
+@keyframes sello-traza { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes sello-cae { from { transform: translateY(-60px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (max-width: 700px) { .sello-cumbre { width: 270px; height: 270px; } .sello-cumbre .qr, .ac-qr .sello-cumbre .qr { width: 170px; height: 170px; } }
+@media (prefers-reduced-motion: reduce) { .baliza { animation: none; opacity: .25; transform: scale(1.06); } .sello-cumbre.encontrado * { animation: none !important; transition: none !important; } }

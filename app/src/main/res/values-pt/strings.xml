@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">No computador, abra o SuRoute Web e escaneie com o celular o código que aparece.</string>
     <string name="web_escanear">Escanear código</string>
     <string name="web_escribir_codigo">Digitar o código</string>
-    <string name="web_codigo">Código de 8 caracteres</string>
+    <string name="web_codigo">As três palavras ou o código</string>
     <string name="web_confirmar_titulo">Vincular este computador?</string>
     <string name="web_confirmar_texto">O computador com o código %1$s terá sua rota completa: poderá vê-la e alterá-la como no seu celular. Vincule só computadores seus ou de confiança; você pode desvincular quando quiser.</string>
     <string name="web_vincular_si">Vincular</string>
-    <string name="web_vinculado">Pronto: %1$s foi vinculado.</string>
+    <string name="web_vinculado">Encontramos você: %1$s já está na sua cordada.</string>
     <string name="web_error_vincular">Não foi possível vincular. O código vence em 5 minutos: gere um novo na web e tente de novo.</string>
     <string name="web_error_sincronizar">Não foi possível sincronizar. Verifique sua conexão; vai tentar de novo sozinho.</string>
     <string name="web_dispositivos">Computadores vinculados</string>

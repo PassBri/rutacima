@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">Öffne SuRoute Web auf dem Computer und scanne den angezeigten Code mit dem Handy.</string>
     <string name="web_escanear">Code scannen</string>
     <string name="web_escribir_codigo">Code eingeben</string>
-    <string name="web_codigo">8-stelliger Code</string>
+    <string name="web_codigo">Die drei Wörter oder der Code</string>
     <string name="web_confirmar_titulo">Diesen Computer verknüpfen?</string>
     <string name="web_confirmar_texto">Der Computer mit dem Code %1$s erhält deinen ganzen Weg: Er kann ihn sehen und ändern wie dein Handy. Verknüpfe nur eigene oder vertrauenswürdige Computer; du kannst die Verknüpfung jederzeit lösen.</string>
     <string name="web_vincular_si">Verknüpfen</string>
-    <string name="web_vinculado">Fertig: %1$s ist verknüpft.</string>
+    <string name="web_vinculado">Gefunden: %1$s ist jetzt in deiner Seilschaft.</string>
     <string name="web_error_vincular">Verknüpfen fehlgeschlagen. Der Code läuft nach 5 Minuten ab: Erzeuge im Web einen neuen und versuche es erneut.</string>
     <string name="web_error_sincronizar">Synchronisierung fehlgeschlagen. Prüfe deine Verbindung; es wird automatisch erneut versucht.</string>
     <string name="web_dispositivos">Verknüpfte Computer</string>

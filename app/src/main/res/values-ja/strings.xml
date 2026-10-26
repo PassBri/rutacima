@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">パソコンで SuRoute Web を開き、表示されたコードをスマホでスキャンします。</string>
     <string name="web_escanear">コードをスキャン</string>
     <string name="web_escribir_codigo">コードを入力</string>
-    <string name="web_codigo">8文字のコード</string>
+    <string name="web_codigo">3つの言葉またはコード</string>
     <string name="web_confirmar_titulo">このパソコンをリンクしますか？</string>
     <string name="web_confirmar_texto">コード %1$s のパソコンはあなたのルートすべてを、スマホと同じように見て変更できます。自分のものか信頼できるパソコンだけをリンクしてください。いつでも解除できます。</string>
     <string name="web_vincular_si">リンク</string>
-    <string name="web_vinculado">完了：%1$s をリンクしました。</string>
+    <string name="web_vinculado">見つけました：%1$s があなたのザイルパーティーに加わりました。</string>
     <string name="web_error_vincular">リンクできませんでした。コードの有効期限は5分です。Web で新しいコードを出して、もう一度お試しください。</string>
     <string name="web_error_sincronizar">同期できませんでした。接続を確認してください。自動でもう一度試します。</string>
     <string name="web_dispositivos">リンク済みのパソコン</string>

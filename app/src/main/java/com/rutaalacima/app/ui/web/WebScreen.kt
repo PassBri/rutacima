@@ -273,10 +273,11 @@ fun WebScreen(onBack: () -> Unit, onCuenta: () -> Unit) {
             title = { Text(stringResource(R.string.web_escribir_codigo)) },
             text = {
                 OutlinedTextField(
-                    texto, { texto = it.uppercase().take(9) }, singleLine = true,
+                    texto, { texto = it.take(48) }, singleLine = true,
                     label = { Text(stringResource(R.string.web_codigo)) },
-                    placeholder = { Text("K7P4-QX9M") },
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters),
+                    placeholder = { Text("cóndor nevado 42") },
+                    supportingText = { codigo?.let { Text(Sincronia.codigoLegible(it)) } },
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.None, autoCorrectEnabled = false),
                 )
             },
             confirmButton = {

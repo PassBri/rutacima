@@ -201,3 +201,12 @@ section { padding: clamp(64px, 9vw, 120px) max(20px, calc((100% - var(--ancho)) 
 /* Video de presentación */
 .video { text-align: center; padding-top: 0; }
 .video video { width: min(100%, 960px); height: auto; aspect-ratio: 16 / 9; border-radius: 28px; background: #F4EDE1; box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 24px 48px -16px rgb(var(--sombra) / .3); }
+
+/* Video vertical de 20 s junto a su texto */
+.video-corto { display: flex; gap: 48px; align-items: center; justify-content: center; margin: 56px auto 0; max-width: 960px; text-align: left; }
+.video-corto video { width: 320px; height: auto; aspect-ratio: 9 / 16; border-radius: 28px; background: #F4EDE1; flex: none;
+  box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 24px 48px -16px rgb(var(--sombra) / .3); }
+.video-corto-texto { max-width: 420px; }
+.video-corto-texto h3 { font: 700 32px/1.15 var(--font-titulo); margin: 0 0 12px; }
+.video-corto-texto p { margin: 0 0 12px; color: var(--tinta-suave); line-height: 1.55; }
+@media (max-width: 760px) { .video-corto { flex-direction: column; gap: 24px; text-align: center; } .video-corto video { width: min(78vw, 340px); } }

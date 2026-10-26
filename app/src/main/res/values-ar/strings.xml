@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">افتح SuRoute Web على الحاسوب وامسح الرمز الظاهر بهاتفك.</string>
     <string name="web_escanear">مسح الرمز</string>
     <string name="web_escribir_codigo">كتابة الرمز</string>
-    <string name="web_codigo">رمز من 8 خانات</string>
+    <string name="web_codigo">الكلمات الثلاث أو الرمز</string>
     <string name="web_confirmar_titulo">هل تريد ربط هذا الحاسوب؟</string>
     <string name="web_confirmar_texto">سيحصل الحاسوب صاحب الرمز %1$s على مسارك كاملًا: يمكنه رؤيته وتعديله كما في هاتفك. اربط فقط حواسيبك أو الموثوقة؛ ويمكنك إلغاء الربط متى شئت.</string>
     <string name="web_vincular_si">ربط</string>
-    <string name="web_vinculado">تم: ارتبط %1$s.</string>
+    <string name="web_vinculado">وجدناك: أصبح %1$s ضمن فريقك.</string>
     <string name="web_error_vincular">تعذّر الربط. تنتهي صلاحية الرمز بعد 5 دقائق: أنشئ رمزًا جديدًا في الويب وحاول مرة أخرى.</string>
     <string name="web_error_sincronizar">تعذّرت المزامنة. تحقّق من اتصالك؛ ستُعاد المحاولة تلقائيًا.</string>
     <string name="web_dispositivos">الحواسيب المرتبطة</string>

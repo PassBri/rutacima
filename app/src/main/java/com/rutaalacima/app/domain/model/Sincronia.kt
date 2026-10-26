@@ -29,13 +29,14 @@ object Sincronia {
      * "k7p4-qx9m" o "K7P4 QX9M". Devuelve null si no es un código válido.
      */
     fun codigoDeVinculo(texto: String): String? {
+        Cordada.codigo(texto)?.let { return it }
         val crudo = texto.substringAfter("codigo=", texto).substringBefore('&')
         val c = crudo.uppercase().filter { it.isLetterOrDigit() }
         return c.takeIf { it.length == 8 && it.all { ch -> ch in ALFABETO } }
     }
 
-    /** "K7P4QX9M" → "K7P4-QX9M" para mostrarlo. */
-    fun codigoLegible(c: String) = if (c.length == 8) c.take(4) + "-" + c.drop(4) else c
+    /** "SURABB8W" → "cóndor · nevado · 42"; los códigos antiguos, "K7P4-QX9M". */
+    fun codigoLegible(c: String) = Cordada.palabras(c)?.joinToString(" · ") ?: if (c.length == 8) c.take(4) + "-" + c.drop(4) else c
 
     /** Todo lo que se sincroniza (igual que la lista de supabase/schema.sql). */
     val TIPOS = setOf(
@@ -216,5 +217,52 @@ object Sincronia {
         is JsonArray -> e.mapNotNull { (it as? JsonPrimitive)?.content }
         is JsonPrimitive -> if (e.isString) e.content.split(',').map { it.trim() } else listOf(e.content)
         else -> emptyList()
+    }
+}
+
+/**
+ * Código de cordada: los códigos SUR + 5 caracteres guardan dos palabras de montaña y un número
+ * («cóndor · nevado · 42»), igual que la web (09-arranque.js) y el servidor (2026-10-27-codigo-cordada.sql).
+ */
+object Cordada {
+    private const val ALF = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+    val PALABRAS = listOf(
+        "andes", "cumbre", "nevado", "cóndor", "glaciar", "sendero", "cordada", "brújula",
+        "piolet", "crampón", "mochila", "refugio", "collado", "ladera", "valle", "cresta",
+        "arista", "cornisa", "morrena", "páramo", "frailejón", "laguna", "cascada", "quebrada",
+        "volcán", "cráter", "granito", "basalto", "cuarzo", "risco", "pico", "cerro",
+        "loma", "colina", "meseta", "altiplano", "puna", "pradera", "bosque", "roble",
+        "pino", "cedro", "aliso", "musgo", "liquen", "helecho", "orquídea", "puma",
+        "llama", "alpaca", "guanaco", "águila", "halcón", "colibrí", "venado", "zorro",
+        "oso", "tapir", "trucha", "río", "arroyo", "manantial", "fuente", "niebla",
+        "nube", "lluvia", "nieve", "granizo", "viento", "brisa", "aurora", "alba",
+        "ocaso", "luna", "estrella", "cometa", "sol", "cielo", "horizonte", "mapa",
+        "ruta", "huella", "paso", "bastón", "linterna", "carpa", "fogata", "cantimplora",
+        "cuerda", "mosquetón", "arnés", "casco", "bota", "polaina", "anclaje", "vivac",
+        "campamento", "bandera", "hito", "baliza", "mirador", "puente", "portillo", "abra",
+        "desfiladero", "garganta", "terraza", "sabana", "selva", "jaguar", "tundra", "escarcha",
+        "hielo", "serac", "grieta", "avalancha", "ventisca", "tormenta", "trueno", "relámpago",
+        "arcoíris", "rocío", "lirio", "romero", "tomillo", "salvia", "eucalipto", "picacho"
+    )
+    private fun norm(w: String) = java.text.Normalizer.normalize(w, java.text.Normalizer.Form.NFD).replace(Regex("\\p{Mn}+"), "").lowercase()
+    private val NORM = PALABRAS.map(::norm)
+
+    fun palabras(c: String): List<String>? {
+        if (!Regex("^SUR[A-Z2-9]{5}$").matches(c)) return null
+        var v = 0L
+        for (ch in c.drop(3)) { val i = ALF.indexOf(ch); if (i < 0) return null; v = v * 32 + i }
+        val n = v % 90 + 10; val r = v / 90
+        if (r / 128 >= 128) return null
+        return listOf(PALABRAS[(r / 128).toInt()], PALABRAS[(r % 128).toInt()], n.toString())
+    }
+
+    fun codigo(texto: String): String? {
+        val t = norm(texto).split(Regex("[^a-z0-9]+")).filter { it.isNotEmpty() }
+        val w = t.filter { it in NORM }; val num = t.firstOrNull { Regex("^\\d{2}$").matches(it) } ?: return null
+        if (w.size != 2) return null
+        var v = (NORM.indexOf(w[0]) * 128L + NORM.indexOf(w[1])) * 90 + (num.toInt() - 10)
+        val sb = StringBuilder()
+        repeat(5) { sb.insert(0, ALF[(v % 32).toInt()]); v /= 32 }
+        return "SUR$sb"
     }
 }

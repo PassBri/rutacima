@@ -138,4 +138,16 @@ class RespaldoTest {
     @org.junit.Test(expected = IllegalArgumentException::class) fun noAceptaOtroArchivo() {
         com.rutaalacima.app.domain.model.Sincronia.leerRespaldo("""{"hola":1}""")
     }
+
+    @Test
+    fun codigoDeCordada_igualQueLaWeb() {
+        // Mismo resultado que CORDADA.codigo("cóndor nevado 42") en web/js/09-arranque.js
+        assertEquals("SURABB8W", com.rutaalacima.app.domain.model.Cordada.codigo("Cóndor · NEVADO · 42"))
+        assertEquals(listOf("cóndor", "nevado", "42"), com.rutaalacima.app.domain.model.Cordada.palabras("SURABB8W"))
+        assertEquals("SURABB8W", Sincronia.codigoDeVinculo("condor nevado 42"))
+        assertEquals("SURABB8W", Sincronia.codigoDeVinculo("rutacima://vincular?codigo=SURABB8W"))
+        assertEquals("cóndor · nevado · 42", Sincronia.codigoLegible("SURABB8W"))
+        assertEquals("K7P4-QX9M", Sincronia.codigoLegible("K7P4QX9M"))
+        assertEquals(null, com.rutaalacima.app.domain.model.Cordada.codigo("cóndor 42"))
+    }
 }

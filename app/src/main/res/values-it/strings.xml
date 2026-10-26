@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">Sul computer apri SuRoute Web e scansiona con il telefono il codice che appare.</string>
     <string name="web_escanear">Scansiona codice</string>
     <string name="web_escribir_codigo">Scrivi il codice</string>
-    <string name="web_codigo">Codice di 8 caratteri</string>
+    <string name="web_codigo">Le tre parole o il codice</string>
     <string name="web_confirmar_titulo">Collegare questo computer?</string>
     <string name="web_confirmar_texto">Il computer con il codice %1$s avrà tutto il tuo percorso: potrà vederlo e modificarlo come sul telefono. Collega solo computer tuoi o di fiducia; puoi scollegarlo quando vuoi.</string>
     <string name="web_vincular_si">Collega</string>
-    <string name="web_vinculado">Fatto: %1$s è collegato.</string>
+    <string name="web_vinculado">Trovato: %1$s ora è nella tua cordata.</string>
     <string name="web_error_vincular">Impossibile collegare. Il codice scade dopo 5 minuti: generane uno nuovo sul web e riprova.</string>
     <string name="web_error_sincronizar">Sincronizzazione non riuscita. Controlla la connessione; riproverà da solo.</string>
     <string name="web_dispositivos">Computer collegati</string>

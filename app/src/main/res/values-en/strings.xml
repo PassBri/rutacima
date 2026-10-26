@@ -667,11 +667,11 @@
     <string name="web_vincular_pasos">Open SuRoute Web on the computer and scan the code it shows with your phone.</string>
     <string name="web_escanear">Scan code</string>
     <string name="web_escribir_codigo">Type the code</string>
-    <string name="web_codigo">8-character code</string>
+    <string name="web_codigo">The three words or the code</string>
     <string name="web_confirmar_titulo">Link this computer?</string>
     <string name="web_confirmar_texto">The computer with code %1$s will get your whole path: it can see and change it just like your phone. Only link computers that are yours or that you trust; you can unlink it anytime.</string>
     <string name="web_vincular_si">Link</string>
-    <string name="web_vinculado">Done: %1$s is now linked.</string>
+    <string name="web_vinculado">Found you: %1$s is now on your rope team.</string>
     <string name="web_error_vincular">Couldn’t link. Codes expire after 5 minutes: get a new one on the web and try again.</string>
     <string name="web_error_sincronizar">Couldn’t sync. Check your connection; it will try again on its own.</string>
     <string name="web_dispositivos">Linked computers</string>
