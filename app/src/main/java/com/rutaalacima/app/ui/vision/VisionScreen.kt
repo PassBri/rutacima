@@ -385,7 +385,9 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val (cumbre, campamentos) = reparto
     // Solo se presentan las nueve posiciones fijas. Las demás entidades se conservan.
     val tarjetasVisor = remember(reparto) { listOfNotNull(cumbre) + campamentos.filterNotNull() }
-    fun irSeccion(indice: Int) { scope.launch { gridState.scrollToItem(indice) } }
+    // 1 · 9 · 81 en una sola página: se muestra una capa a la vez en el mismo lugar (sin hacer scroll)
+    var capa by rememberSaveable { mutableStateOf(9) }
+    fun irSeccion(indice: Int) { capa = when (indice) { 2 -> 1; 3 -> 9; 4 -> 81; else -> capa }; scope.launch { gridState.scrollToItem(2) } }
     val elegirFoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         val c = paraFoto
         if (uri != null && c != null) vm.ponerFoto(c, uri)
@@ -456,7 +458,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             item(key = "navegacion", span = { GridItemSpan(2) }) {
                 NavegacionVision(vm.modo, ::cambiarModo, casillas.isNotEmpty(),
                     onSeccion = { irSeccion(when (it) { 0 -> 2; 1 -> 3; else -> 4 }) },
-                    onGrande = { abrirNiveles(0) })
+                    onGrande = { abrirNiveles(0) }, seccion = when (capa) { 1 -> 0; 9 -> 1; else -> 2 })
             }
             item(key = "introduccion", span = { GridItemSpan(2) }) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -469,14 +471,14 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 }
             }
             if (casillas.isNotEmpty()) {
-                item(key = "cumbre", span = { GridItemSpan(2) }) {
+                if (capa == 1) item(key = "cumbre", span = { GridItemSpan(2) }) {
                     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         CabeceraSeccionVision(stringResource(R.string.vision_seccion_cumbre)) { abrirNiveles(0) }
                         cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.widthIn(max = 400.dp), 0, null, null) } }
                             ?: Text(cumbreFrase, style = MaterialTheme.typography.headlineSmall)
                     }
                 }
-                item(key = "rosa", span = { GridItemSpan(2) }) {
+                if (capa == 9) item(key = "rosa", span = { GridItemSpan(2) }) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         val idsRosa = (listOfNotNull(cumbre) + campamentos.filterNotNull()).map { it.casilla.id }
                         val todasAtras = idsRosa.isNotEmpty() && idsRosa.all { vm.modo.muestraDorso xor (it in giradas) }
@@ -495,7 +497,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                     }
                 }
             }
-            if (casillas.isNotEmpty()) item(key = "brujula", span = { GridItemSpan(2) }) {
+            if (casillas.isNotEmpty() && capa == 81) item(key = "brujula", span = { GridItemSpan(2) }) {
                 val nf = java.text.NumberFormat.getIntegerInstance()
                 val cierreTitulo = stringResource(R.string.brujula_cierre_post, java.time.LocalDate.now().year)
                 val textos = MandalaImagen.Textos(
