@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">पाठ</string>
     <string name="md81_ver_imagenes">तस्वीरें</string>
     <string name="vision_girar_todas">सभी कार्ड पलटें</string>
+    <string name="brujula_elegir_anio">वर्ष चुनें</string>
+    <string name="brujula_sin">कोई कम्पास नहीं</string>
+    <string name="brujula_crear_su">इसका कम्पास बनाएँ</string>
+    <string name="brujula_cumbres_creadas">बनाए गए शिखर</string>
 </resources>

@@ -2324,4 +2324,8 @@
     <string name="md81_ver_texto">Texto</string>
     <string name="md81_ver_imagenes">Imágenes</string>
     <string name="vision_girar_todas">Girar todas las tarjetas</string>
+    <string name="brujula_elegir_anio">Elegir año</string>
+    <string name="brujula_sin">Sin Brújula</string>
+    <string name="brujula_crear_su">Crear su Brújula</string>
+    <string name="brujula_cumbres_creadas">Cumbres creadas</string>
 </resources>

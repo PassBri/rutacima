@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">Text</string>
     <string name="md81_ver_imagenes">Bilder</string>
     <string name="vision_girar_todas">Alle Karten umdrehen</string>
+    <string name="brujula_elegir_anio">Jahr wählen</string>
+    <string name="brujula_sin">Kein Kompass</string>
+    <string name="brujula_crear_su">Kompass erstellen</string>
+    <string name="brujula_cumbres_creadas">Erstellte Gipfel</string>
 </resources>

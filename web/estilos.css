@@ -3416,3 +3416,30 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .md-girar-todas svg { transition: transform .6s cubic-bezier(.2, 0, 0, 1); }
 .md-girar-todas[aria-pressed="true"] svg { transform: rotate(180deg); }
 .md-sec-cab .md-girar-todas { margin-right: 6px; }
+
+/* Qué Brújula ver: General o el menú de años con las cumbres creadas (Material 3) */
+.brujula-sel { display: flex; gap: 8px; align-items: flex-start; margin: 0 0 14px; flex-wrap: wrap; }
+.brujula-sel .bs-general, .bs-menu > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 22px; border: 1px solid var(--linea);
+  background: var(--hoja); color: var(--tinta); font: inherit; font-size: 14px; cursor: pointer; touch-action: manipulation; list-style: none; }
+.bs-menu > summary::-webkit-details-marker { display: none; }
+.brujula-sel svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
+.brujula-sel .bs-general[aria-selected="true"], .bs-menu > summary.activo { background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); }
+.bs-menu > summary span { max-width: min(52vw, 360px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .bs-menu > summary b { font-weight: 600; }
+.bs-menu[open] > summary > svg:last-child { transform: rotate(180deg); }
+.bs-menu { position: relative; }
+.bs-panel { position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; width: min(380px, 86vw); max-height: 420px; overflow-y: auto; padding: 8px; border-radius: 16px;
+  background: var(--hoja); border: 1px solid var(--linea); box-shadow: 0 12px 32px -12px rgb(var(--sombra) / .35); animation: bs-abre .18s cubic-bezier(.2, 0, 0, 1); }
+@keyframes bs-abre { from { opacity: 0; transform: translateY(-4px); } }
+.bs-tit { margin: 8px 10px 4px; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--tinta-suave); }
+.bs-anio { width: 100%; display: grid; grid-template-columns: 52px 1fr auto auto; gap: 10px; align-items: center; min-height: 48px; padding: 6px 10px; border: 0; border-radius: 12px; background: none; color: var(--tinta); font: inherit; text-align: left; cursor: pointer; }
+.bs-anio b { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bs-anio span { font-size: 13.5px; color: var(--tinta-suave); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bs-anio.creada span { color: var(--tinta); }
+.bs-anio em { font-style: normal; font-size: 11.5px; padding: 2px 8px; border-radius: 10px; background: color-mix(in srgb, var(--oro) 22%, transparent); }
+.bs-anio svg { width: 18px; height: 18px; fill: var(--tinta-suave); } .bs-anio.creada svg { fill: var(--ok); }
+.bs-anio[aria-checked="true"] { background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); }
+@media (hover: hover) and (pointer: fine) { .bs-anio:hover, .brujula-sel .bs-general:hover, .bs-menu > summary:hover { background: color-mix(in srgb, var(--tinta) 5%, var(--hoja)); } }
+/* La vista previa de una Brújula vacía, ordenada: nombre arriba, frase debajo */
+.brujula-previa span { justify-content: flex-start; padding: 10px; }
+.brujula-previa b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.brujula-previa small { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 11.5px; line-height: 1.35; color: var(--tinta-suave); margin-top: 4px; }

@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">テキスト</string>
     <string name="md81_ver_imagenes">画像</string>
     <string name="vision_girar_todas">すべてのカードを裏返す</string>
+    <string name="brujula_elegir_anio">年を選ぶ</string>
+    <string name="brujula_sin">コンパスなし</string>
+    <string name="brujula_crear_su">コンパスを作る</string>
+    <string name="brujula_cumbres_creadas">作成した頂上</string>
 </resources>

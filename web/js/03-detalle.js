@@ -1176,6 +1176,10 @@ function fotoDePublicacion(id) {
 }
 let armandoVision = false, visionConIa = null;
 async function armarVision(sinIa = false) {
+  try { await armarVisionIn(sinIa); } catch (e) { console.error(e); toast("No se pudo armar la Brújula." + detalleError(e)); }
+  finally { armandoVision = false; pintarDetalle(); }
+}
+async function armarVisionIn(sinIa) {
   armandoVision = true; pintarDetalle();
   let propuestas = null;
   // La del año nace de su palabra y sus metas (sin IA); la general puede armarse con IA o solo con tus datos
@@ -1334,10 +1338,23 @@ DET["perfil.vision"] = () => {
 };
 /** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida.
  * Arriba se elige cuál: la General (toda tu vida) o la de un año. */
+/** Qué Brújula ver: la General o la de un año. Un botón abre el menú de años con la cumbre de cada uno. */
 function selectorBrujula() {
   const a = estado.brujulaAnio || null, hoy = new Date().getFullYear();
-  const chip = (v, t) => `<button role="tab" aria-selected="${(v || null) === a}" data-acc="brujulaAnio" data-arg="${v || ""}">${t}${v && !casillasDe(v).length ? `<i aria-hidden="true">+</i>` : ""}</button>`;
-  return `<div class="brujula-anios" role="tablist" aria-label="Qué Brújula ver">${chip(null, `${ic("cima")}<span>General</span>`)}${aniosBrujula().map(y => chip(y, `<span>${y === hoy ? `${y} · este año` : y}</span>`)).join("")}</div>`;
+  const cumbreDe = y => { const cs = casillasDe(y); if (!cs.length) return null; const { cumbre } = Mandala.repartir(cs); return cumbre?.titulo || cs[0]?.titulo || "Brújula creada"; };
+  const creados = aniosBrujula().filter(y => casillasDe(y).length);
+  const desde = Math.min(hoy - 2, ...creados), hasta = Math.max(hoy + 6, ...creados);
+  const anios = []; for (let y = desde; y <= hasta; y++) anios.push(y);
+  const fila = y => { const c = cumbreDe(y); return `<button type="button" role="menuitemradio" aria-checked="${y === a}" class="bs-anio${c ? " creada" : ""}${y === hoy ? " hoy" : ""}" data-acc="brujulaAnio" data-arg="${y}">
+      <b>${y}</b><span>${c ? esc(c) : y < hoy ? "Sin Brújula" : "Crear su Brújula"}</span>${y === hoy ? `<em>este año</em>` : ""}${c ? ic("check") : ic("mas")}</button>`; };
+  const actual = a ? cumbreDe(a) : null;
+  return `<div class="brujula-sel">
+    <button type="button" role="tab" class="bs-general" aria-selected="${!a}" data-acc="brujulaAnio" data-arg="">${ic("cima")}<span>General</span></button>
+    <details class="bs-menu"><summary role="button" aria-label="Elegir año" class="${a ? "activo" : ""}">${ic("hoy")}<span>${a ? `<b>${a}</b>${actual ? ` · ${esc(actual)}` : " · sin crear"}` : "Elegir año"}</span>${ic("abajo")}</summary>
+      <div class="bs-panel" role="menu">
+        ${creados.length ? `<p class="bs-tit">Cumbres creadas</p>${creados.map(fila).join("")}` : ""}
+        <p class="bs-tit">${creados.length ? "Otros años" : "Elige un año para crear su Brújula"}</p>${anios.filter(y => !creados.includes(y)).map(fila).join("")}
+      </div></details></div>`;
 }
 function vistaPreviaBrujula() {
   const ps = proponerVision(), orden = [1, 2, 3, 4, 0, 5, 6, 7, 8];
@@ -1370,3 +1387,6 @@ function visionCompleta() {
         ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</details>`) +
     mandalaHtml("");
 }
+/* El menú de años de la Brújula se cierra al tocar fuera o con Escape */
+document.addEventListener("pointerdown", e => { document.querySelectorAll(".bs-menu[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".bs-menu[open]").forEach(d => { d.open = false; }); });

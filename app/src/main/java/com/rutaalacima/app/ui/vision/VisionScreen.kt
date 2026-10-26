@@ -1,5 +1,8 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.foundation.background
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import android.content.Context
 import android.content.Intent
@@ -16,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -138,6 +142,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     val anio = c.vision.anioActivo
     val anios = c.vision.anios.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val aniosConBrujula = c.vision.aniosConBrujula.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
+    val cumbresPorAnio = c.vision.cumbresPorAnio.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
     fun elegirAnio(a: Int?) { c.vision.elegirAnio(a); conIa = null }
 
     fun armar(sinIa: Boolean = false) = viewModelScope.launch {
@@ -346,6 +351,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val anioActivo by vm.anio.collectAsStateWithLifecycle()
     val anios by vm.anios.collectAsStateWithLifecycle()
     val aniosConBrujula by vm.aniosConBrujula.collectAsStateWithLifecycle()
+    val cumbresPorAnio by vm.cumbresPorAnio.collectAsStateWithLifecycle()
     var paraFoto by remember { mutableStateOf<VisionCasillaEntity?>(null) }
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     val apodos by vm.apodos.collectAsStateWithLifecycle()
@@ -455,7 +461,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             item(key = "introduccion", span = { GridItemSpan(2) }) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     // Arriba se elige cuál Brújula: la General (toda tu vida) o la de un año
-                    SelectorBrujula(anioActivo, anios, aniosConBrujula, onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
+                    SelectorBrujula(anioActivo, anios, aniosConBrujula, cumbresPorAnio, onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
                     IntroduccionVision(
                         anio = anioActivo, vacia = casillas.isEmpty(), armando = vm.armando, conIa = vm.conIa,
                         conFoto = conFoto, total = tarjetasVisor.size, onArmar = { vm.armar(it) },
@@ -564,15 +570,46 @@ internal fun colorEje(codigo: String): Color = when (codigo) {
 /** General · 2026 · 2027…: la Brújula de toda la vida y una por año. El "+" marca los años aún sin crear. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, onElegir: (Int?) -> Unit) {
+private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, cumbres: Map<Int, String>, onElegir: (Int?) -> Unit) {
+    // General o un año: el botón de año abre un menú con la cumbre de cada año creado (igual que la web)
     val hoy = java.time.LocalDate.now().year
-    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    var abierto by remember { mutableStateOf(false) }
+    val creados = conBrujula.sorted()
+    val rango = ((minOf(hoy - 2, creados.minOrNull() ?: hoy))..(maxOf(hoy + 6, creados.maxOrNull() ?: hoy))).toList()
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
         FilterChip(selected = anio == null, onClick = { onElegir(null) }, label = { Text(stringResource(R.string.brujula_general)) },
             leadingIcon = { Icon(IconosRuta.Cima, null, Modifier.size(18.dp)) })
-        anios.forEach { a ->
-            FilterChip(selected = anio == a, leadingIcon = if (anio == a) { { androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.Check, null, androidx.compose.ui.Modifier.size(androidx.compose.material3.FilterChipDefaults.IconSize)) } } else null,  onClick = { onElegir(a) },
-                label = { Text(if (a == hoy) stringResource(R.string.brujula_este_anio, a) else a.toString()) },
-                trailingIcon = if (a !in conBrujula) ({ Icon(Icons.Filled.Add, null, Modifier.size(16.dp)) }) else null)
+        Box {
+            FilterChip(selected = anio != null, onClick = { abierto = true },
+                label = { Text(anio?.let { a -> cumbres[a]?.let { "$a · $it" } ?: "$a" } ?: stringResource(R.string.brujula_elegir_anio), maxLines = 1,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 220.dp)) },
+                leadingIcon = { Icon(Icons.Filled.CalendarMonth, null, Modifier.size(18.dp)) },
+                trailingIcon = { Icon(Icons.Filled.ArrowDropDown, null) })
+            androidx.compose.material3.DropdownMenu(abierto, { abierto = false }, Modifier.widthIn(min = 260.dp)) {
+                @Composable fun fila(y: Int) {
+                    val c = cumbres[y]
+                    androidx.compose.material3.DropdownMenuItem(
+                        text = {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("$y", style = MaterialTheme.typography.titleSmall, modifier = Modifier.width(52.dp))
+                                Text(c ?: stringResource(if (y < hoy) R.string.brujula_sin else R.string.brujula_crear_su),
+                                    style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                    color = if (c != null) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f, fill = false))
+                            }
+                        },
+                        trailingIcon = { Icon(if (c != null) Icons.Filled.Check else Icons.Filled.Add, null, Modifier.size(18.dp)) },
+                        onClick = { abierto = false; onElegir(y) },
+                        modifier = if (y == anio) Modifier.background(MaterialTheme.colorScheme.secondaryContainer) else Modifier,
+                    )
+                }
+                if (creados.isNotEmpty()) {
+                    Text(stringResource(R.string.brujula_cumbres_creadas), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp))
+                    creados.forEach { fila(it) }
+                    androidx.compose.material3.HorizontalDivider(Modifier.padding(vertical = 4.dp))
+                }
+                rango.filter { it !in conBrujula }.forEach { fila(it) }
+            }
         }
     }
 }

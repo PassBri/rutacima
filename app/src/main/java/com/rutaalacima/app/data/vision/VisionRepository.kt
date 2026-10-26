@@ -48,6 +48,12 @@ class VisionRepository(
         (cs.mapNotNull { Mandala.anioDeOrigen(it.origen) } + listOf(h, h + 1) + listOfNotNull(a)).distinct().sorted()
     }
     val aniosConBrujula: Flow<Set<Int>> = todas.map { cs -> cs.mapNotNull { Mandala.anioDeOrigen(it.origen) }.toSet() }
+    /** La cumbre de cada año que ya tiene Brújula (para el menú de años). */
+    val cumbresPorAnio: Flow<Map<Int, String>> = todas.map { cs ->
+        cs.groupBy { Mandala.anioDeOrigen(it.origen) }.mapNotNull { (a, l) ->
+            a?.let { it to (runCatching { Mandala.repartir(l, { x -> x.origen }, { x -> x.eje }).first?.titulo }.getOrNull() ?: l.first().titulo) }
+        }.toMap()
+    }
     private suspend fun actualesDelAnio() = db.visionDao().todas().filter { Mandala.anioDeOrigen(it.origen) == _anio.value }
 
     /** Resultado de armar el tablero: true si lo propuso la IA, false si se usaron las reglas sin conexión. */

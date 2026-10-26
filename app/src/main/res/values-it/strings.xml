@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">Testo</string>
     <string name="md81_ver_imagenes">Immagini</string>
     <string name="vision_girar_todas">Gira tutte le carte</string>
+    <string name="brujula_elegir_anio">Scegli anno</string>
+    <string name="brujula_sin">Senza Bussola</string>
+    <string name="brujula_crear_su">Crea la sua Bussola</string>
+    <string name="brujula_cumbres_creadas">Vette create</string>
 </resources>

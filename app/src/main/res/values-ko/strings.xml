@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">텍스트</string>
     <string name="md81_ver_imagenes">이미지</string>
     <string name="vision_girar_todas">모든 카드 뒤집기</string>
+    <string name="brujula_elegir_anio">연도 선택</string>
+    <string name="brujula_sin">나침반 없음</string>
+    <string name="brujula_crear_su">나침반 만들기</string>
+    <string name="brujula_cumbres_creadas">만든 정상</string>
 </resources>

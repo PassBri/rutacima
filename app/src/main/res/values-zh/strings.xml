@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">文字</string>
     <string name="md81_ver_imagenes">图片</string>
     <string name="vision_girar_todas">翻转所有卡片</string>
+    <string name="brujula_elegir_anio">选择年份</string>
+    <string name="brujula_sin">无指南针</string>
+    <string name="brujula_crear_su">创建指南针</string>
+    <string name="brujula_cumbres_creadas">已创建的山顶</string>
 </resources>

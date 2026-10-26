@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">Texto</string>
     <string name="md81_ver_imagenes">Imagens</string>
     <string name="vision_girar_todas">Virar todos os cartões</string>
+    <string name="brujula_elegir_anio">Escolher ano</string>
+    <string name="brujula_sin">Sem Bússola</string>
+    <string name="brujula_crear_su">Criar sua Bússola</string>
+    <string name="brujula_cumbres_creadas">Cumes criados</string>
 </resources>

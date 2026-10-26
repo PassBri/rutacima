@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">Text</string>
     <string name="md81_ver_imagenes">Images</string>
     <string name="vision_girar_todas">Flip all cards</string>
+    <string name="brujula_elegir_anio">Choose year</string>
+    <string name="brujula_sin">No Compass</string>
+    <string name="brujula_crear_su">Create its Compass</string>
+    <string name="brujula_cumbres_creadas">Summits created</string>
 </resources>

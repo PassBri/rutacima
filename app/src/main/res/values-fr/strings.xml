@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">Texte</string>
     <string name="md81_ver_imagenes">Images</string>
     <string name="vision_girar_todas">Retourner toutes les cartes</string>
+    <string name="brujula_elegir_anio">Choisir l\'année</string>
+    <string name="brujula_sin">Sans Boussole</string>
+    <string name="brujula_crear_su">Créer sa Boussole</string>
+    <string name="brujula_cumbres_creadas">Sommets créés</string>
 </resources>

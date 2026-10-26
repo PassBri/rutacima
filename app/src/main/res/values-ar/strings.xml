@@ -2322,4 +2322,8 @@
     <string name="md81_ver_texto">نص</string>
     <string name="md81_ver_imagenes">صور</string>
     <string name="vision_girar_todas">اقلب كل البطاقات</string>
+    <string name="brujula_elegir_anio">اختر السنة</string>
+    <string name="brujula_sin">بلا بوصلة</string>
+    <string name="brujula_crear_su">أنشئ بوصلتها</string>
+    <string name="brujula_cumbres_creadas">القمم المنشأة</string>
 </resources>
