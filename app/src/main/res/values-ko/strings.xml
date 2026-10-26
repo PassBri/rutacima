@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">아래로</string>
     <string name="cu_col_hoy">오늘</string>
     <string name="cu_col_indicador">지표</string>
+    <string name="cu_pagas_mes">월 상환액</string>
+    <string name="cu_pago_desglose">최소 %1$s + 추가 %2$s</string>
+    <string name="cu_su_minimo">최소 상환액</string>
+    <string name="cu_la_eliminas">상환 완료</string>
+    <string name="cu_impacto">최소 상환만 할 때보다 %1$s 빨리, 이자는 %2$s 적게.</string>
+    <string name="cu_impacto_nunca">최소 상환만으로는 끝나지 않아요: 내 계획이면 끝낼 수 있어요.</string>
+    <string name="cu_impacto_igual">최소 상환으로는 %1$s에 끝나요.</string>
 </resources>

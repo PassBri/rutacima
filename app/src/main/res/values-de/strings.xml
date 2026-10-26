@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">Nach unten</string>
     <string name="cu_col_hoy">Heute</string>
     <string name="cu_col_indicador">Kennzahl</string>
+    <string name="cu_pagas_mes">Du zahlst monatlich</string>
+    <string name="cu_pago_desglose">Mindestrate %1$s + %2$s extra</string>
+    <string name="cu_su_minimo">ihre Mindestrate</string>
+    <string name="cu_la_eliminas">Getilgt im</string>
+    <string name="cu_impacto">%1$s früher und %2$s weniger Zinsen als nur mit ihrer Mindestrate.</string>
+    <string name="cu_impacto_nunca">Nur mit der Mindestrate würdest du sie nie tilgen: mit deinem Plan schon.</string>
+    <string name="cu_impacto_igual">Mit ihrer Mindestrate endet sie im %1$s.</string>
 </resources>

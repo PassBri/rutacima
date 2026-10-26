@@ -13,8 +13,8 @@
  * ====================================================================== */
 const GR = { gran: "m", tipo: "linea", rango: "1A", series: ["saldo", "ing", "gas"], sma: false, salud: true, tabla: false };
 const GR_SERIES = [
-  ["saldo", "Saldo acumulado", "--tinta"], ["patr", "Patrimonio construido", "--oro"], ["ing", "Ingresos", "--v-fijos"],
-  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["disp", "Disponible", "--burdeos"],
+  ["saldo", "Saldo acumulado", "--burdeos"], ["patr", "Patrimonio construido", "--oro"], ["ing", "Ingresos", "--v-fijos"],
+  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["disp", "Disponible", "--tinta"],
 ];
 const GR_PCT = [["flujo", "Flujo neto", "--v-fijos"], ["constr", "Ahorro + inversión", "--v-ahorro"], ["gastoP", "Gasto ÷ ingreso", "--v-variables"]];
 const GR_RANGOS = [["1M", "1M", "d", 31], ["3M", "3M", "d", 92], ["6M", "6M", "s", 26], ["1A", "1A", "m", 12], ["5A", "5A", "m", 60], ["todo", "Todo", "m", 0]];
@@ -58,6 +58,7 @@ function graficaAscenso() {
       <span class="gr-sep" aria-hidden="true"></span>
       <button class="gr-chip" data-acc="grSma" aria-pressed="${GR.sma}"><i class="gr-i-sma"></i>Media móvil</button>
       <button class="gr-chip" data-acc="grSalud" aria-pressed="${GR.salud}"><i class="gr-i-salud"></i>Salud financiera %</button></div>
+    <div class="gr-kpis" id="grKpis" aria-live="polite"></div>
     <div class="gr-caja" id="grCaja"><canvas id="grLienzo" tabindex="0" role="img" aria-label="Gráfica del ascenso financiero"></canvas><div class="gr-tip" hidden></div></div>
     <div class="gr-pie"><span id="grRangoTxt" class="suave"></span><button class="enlace" data-acc="grTabla">${GR.tabla ? "Ocultar la tabla" : "Ver en tabla"}</button></div>
     <div id="grTabla"></div>`, "gr-hoja");
@@ -159,8 +160,8 @@ function grDibujar() {
   const [pt, pb] = g.principal, y = v => pt + (hi - v) / (hi - lo) * (pb - pt);
   // cuadrícula y eje derecho
   x.font = fuente; x.textBaseline = "middle"; x.lineWidth = 1;
-  grTicks(lo, hi, 5).forEach(v => { x.strokeStyle = v === 0 ? suave : linea; x.globalAlpha = v === 0 ? 0.6 : 1; x.beginPath(); x.moveTo(g.L, Math.round(y(v)) + 0.5); x.lineTo(g.W - g.R, Math.round(y(v)) + 0.5); x.stroke(); x.globalAlpha = 1;
-    x.fillStyle = suave; x.textAlign = "left"; x.fillText(grCompacto(v), g.W - g.R + 8, y(v)); });
+  grTicks(lo, hi, 5).forEach(v => { x.strokeStyle = v === 0 ? suave : linea; x.globalAlpha = v === 0 ? 0.6 : 1; x.setLineDash(v === 0 ? [] : [2, 4]); x.beginPath(); x.moveTo(g.L, Math.round(y(v)) + 0.5); x.lineTo(g.W - g.R, Math.round(y(v)) + 0.5); x.stroke(); x.globalAlpha = 1;
+    x.fillStyle = suave; x.textAlign = "left"; x.fillText(grCompacto(v), g.W - g.R + 8, y(v)); }); x.setLineDash([]); x.globalAlpha = 1;
   // barras agrupadas (o áreas y líneas)
   const flujos = series.filter(k => ["ing", "gas", "aho", "inv", "disp"].includes(k)), acumulados = series.filter(k => ["saldo", "patr"].includes(k));
   if (GR.tipo === "barras" && flujos.length) {
@@ -171,12 +172,29 @@ function grDibujar() {
   const dibujarLinea = (k, area) => {
     const c = grColor(GR_SERIES.find(s => s[0] === k)[2]);
     x.beginPath(); vis.forEach((b, i) => i ? x.lineTo(cx(i), y(b[k])) : x.moveTo(cx(i), y(b[k])));
-    if (area) { x.save(); x.lineTo(cx(n - 1), y(Math.max(lo, 0))); x.lineTo(cx(0), y(Math.max(lo, 0))); x.closePath(); x.globalAlpha = 0.14; x.fillStyle = c; x.fill(); x.restore();
+    if (area) { x.save(); x.lineTo(cx(n - 1), y(Math.max(lo, 0))); x.lineTo(cx(0), y(Math.max(lo, 0))); x.closePath();
+      // La cordillera de tu dinero: degradado del color de la serie hacia el papel
+      const gr = x.createLinearGradient(0, pt, 0, y(Math.max(lo, 0))); gr.addColorStop(0, c + "55"); gr.addColorStop(1, c + "05");
+      x.fillStyle = /^#[0-9a-f]{6}$/i.test(c) ? gr : c; if (!/^#[0-9a-f]{6}$/i.test(c)) x.globalAlpha = 0.14; x.fill(); x.restore();
       x.beginPath(); vis.forEach((b, i) => i ? x.lineTo(cx(i), y(b[k])) : x.moveTo(cx(i), y(b[k]))); }
     x.strokeStyle = c; x.lineWidth = 2; x.lineJoin = "round"; x.stroke();
   };
   if (GR.tipo !== "barras") flujos.forEach(k => dibujarLinea(k, GR.tipo === "area"));
-  acumulados.forEach(k => dibujarLinea(k, GR.tipo === "area" && k === "saldo"));
+  acumulados.forEach(k => dibujarLinea(k, k === "saldo" && GR.tipo !== "barras"));
+  // La cumbre del periodo: una bandera en el saldo más alto; y el punto de hoy con su halo
+  if (series.includes("saldo") && n > 2 && !velas) {
+    let im = 0; vis.forEach((b, i) => { if (b.saldo > vis[im].saldo) im = i; });
+    const px = cx(im), py = y(vis[im].saldo), oro = grColor("--oro");
+    if (vis[im].saldo > 0) {
+      x.strokeStyle = oro; x.lineWidth = 1.5; x.beginPath(); x.moveTo(px, py - 4); x.lineTo(px, py - 24); x.stroke();
+      x.fillStyle = oro; x.beginPath(); x.moveTo(px, py - 24); x.lineTo(px + 11, py - 20); x.lineTo(px, py - 16); x.closePath(); x.fill();
+      x.font = "600 11px Roboto, system-ui, sans-serif"; x.textAlign = px > g.W - g.R - 90 ? "right" : "left"; x.textBaseline = "alphabetic"; x.fillStyle = tinta;
+      x.fillText("Cumbre " + grCompacto(vis[im].saldo), px + (x.textAlign === "right" ? -6 : 14), Math.max(12, py - 18)); x.font = fuente;
+    }
+    if (i1 === datos.length - 1) { const hx = cx(n - 1), hy = y(vis[n - 1].saldo), c0 = grColor("--burdeos");
+      x.globalAlpha = 0.18; x.fillStyle = c0; x.beginPath(); x.arc(hx, hy, 10, 0, 7); x.fill(); x.globalAlpha = 1;
+      x.beginPath(); x.arc(hx, hy, 4.5, 0, 7); x.fillStyle = c0; x.fill(); x.lineWidth = 2; x.strokeStyle = fondo; x.stroke(); }
+  }
   // velas del saldo acumulado: sube = hueca y verde, baja = llena y roja (se distinguen sin color)
   if (velas) {
     const sube = grColor("--st-ok"), baja = grColor("--st-bajo"), bw = Math.max(1, Math.min(18, paso * 0.66));
@@ -199,7 +217,10 @@ function grDibujar() {
     const [qt, qb] = g.pct, pv = vis.flatMap(b => GR_PCT.map(([k]) => b[k]).filter(v => v != null));
     let plo = Math.min(0, ...pv), phi = Math.max(0.3, ...pv); plo = Math.max(plo, -1); phi = Math.min(phi, 1.5);
     const py = v => qt + (phi - Math.max(plo, Math.min(phi, v))) / (phi - plo) * (qb - qt);
+    // Zona sana: desde el 20 % hacia arriba, la meta de ahorro + inversión
+    x.fillStyle = grColor("--ok"); x.globalAlpha = 0.08; x.fillRect(g.L, py(phi), g.W - g.R - g.L, py(0.2) - py(phi)); x.globalAlpha = 1;
     x.fillStyle = suave; x.textAlign = "left"; x.fillText("Salud %", g.L, qt - 6);
+    x.fillStyle = grColor("--ok"); x.textAlign = "right"; x.fillText("Zona sana", g.W - g.R - 6, py(0.2) - 7); x.textAlign = "left";
     [plo, 0, 0.2, phi].filter((v, i, a) => a.indexOf(v) === i).forEach(v => { x.strokeStyle = linea; x.lineWidth = 1; if (v === 0.2) { x.setLineDash([4, 4]); x.strokeStyle = suave; }
       x.beginPath(); x.moveTo(g.L, Math.round(py(v)) + 0.5); x.lineTo(g.W - g.R, Math.round(py(v)) + 0.5); x.stroke(); x.setLineDash([]);
       x.fillStyle = suave; x.fillText(Math.round(v * 100) + " %", g.W - g.R + 8, py(v)); });
@@ -226,6 +247,11 @@ function grDibujar() {
       tip.hidden = false; const izq = cx(i) > g.W / 2; tip.style.left = izq ? "" : (cx(i) + 14) + "px"; tip.style.right = izq ? (g.W - cx(i) + 14) + "px" : "";
     }
   } else if (tip) tip.hidden = true;
+  const kp = document.getElementById("grKpis");
+  if (kp) { const ini = vis[0].o, fin = vis[n - 1].saldo, dif = fin - ini, cumbre = vis.reduce((m, b) => b.h > m.h ? b : m, vis[0]);
+    kp.innerHTML = `<div><span>Saldo al cierre</span><b>${plata(fin)}</b></div>
+      <div class="${dif >= 0 ? "sube" : "baja"}"><span>Cambio en el periodo</span><b>${dif >= 0 ? "▲" : "▼"} ${plata(Math.abs(dif))}${ini > 0 ? ` <small>${dif >= 0 ? "+" : "−"}${Math.abs(Math.round(dif / ini * 100))} %</small>` : ""}</b></div>
+      <div><span>Cumbre</span><b>${plata(cumbre.h)}</b><small>${esc(cumbre.largo)}</small></div>`; }
   const t = document.getElementById("grRangoTxt"); if (t) t.textContent = `${vis[0].largo} — ${vis[n - 1].largo} · ${n} ${({ d: "días", s: "semanas", m: "meses", a: "años" })[GR.gran]}`;
   cv.setAttribute("aria-label", `Gráfica del ascenso de ${vis[0].largo} a ${vis[n - 1].largo}. Saldo acumulado al final: ${plata(vis[n - 1].saldo)}. Usa las flechas para moverte y más o menos para ampliar.`);
 }

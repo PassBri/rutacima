@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">Giù</string>
     <string name="cu_col_hoy">Oggi</string>
     <string name="cu_col_indicador">Indicatore</string>
+    <string name="cu_pagas_mes">Paghi al mese</string>
+    <string name="cu_pago_desglose">minimo %1$s + %2$s extra</string>
+    <string name="cu_su_minimo">il suo minimo</string>
+    <string name="cu_la_eliminas">La chiudi a</string>
+    <string name="cu_impacto">%1$s prima e %2$s di interessi in meno rispetto al solo minimo.</string>
+    <string name="cu_impacto_nunca">Con il solo minimo non la finiresti mai: con il tuo piano sì.</string>
+    <string name="cu_impacto_igual">Pagando il minimo finisce a %1$s.</string>
 </resources>

@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">Вниз</string>
     <string name="cu_col_hoy">Сегодня</string>
     <string name="cu_col_indicador">Показатель</string>
+    <string name="cu_pagas_mes">Платишь в месяц</string>
+    <string name="cu_pago_desglose">минимум %1$s + %2$s сверху</string>
+    <string name="cu_su_minimo">его минимум</string>
+    <string name="cu_la_eliminas">Погасишь в</string>
+    <string name="cu_impacto">На %1$s раньше и на %2$s меньше процентов, чем платя только минимум.</string>
+    <string name="cu_impacto_nunca">Платя только минимум, ты его никогда не погасишь: с твоим планом погасишь.</string>
+    <string name="cu_impacto_igual">Платя минимум, закончишь в %1$s.</string>
 </resources>

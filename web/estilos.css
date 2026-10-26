@@ -2710,3 +2710,46 @@ a.carta-releer { text-decoration: none; }
 .asc-deudas input { width: 72px; } .asc-deudas th[scope=row] { min-width: 160px; }
 .deuda-tiempo { min-width: 104px; }
 @media (max-width: 700px) { .deuda-nueva label:first-child { grid-column: 1 / -1; } }
+/* ===== Gráfica del ascenso: Material 3 y la cordillera de tu dinero ===== */
+.gr-grupo { border: 0; border-radius: 0; overflow: visible; gap: 2px; }
+.gr-b { border: 0 !important; border-radius: var(--md-shape-sm); background: var(--hoja-2); color: var(--tinta); min-height: 36px; padding: 6px 12px;
+  transition: border-radius .3s var(--md-easing-emph-decel), background .2s, color .2s; }
+.gr-b:first-child { border-radius: 99px var(--md-shape-sm) var(--md-shape-sm) 99px; }
+.gr-b:last-child { border-radius: var(--md-shape-sm) 99px 99px var(--md-shape-sm); }
+.gr-b:only-child { border-radius: 99px; }
+.gr-b[aria-pressed="true"] { border-radius: 99px; background: var(--burdeos); color: var(--sobre-burdeos); }
+.gr-chip { border-radius: var(--md-shape-sm); min-height: 32px; padding: 4px 12px; color: var(--tinta); }
+.gr-chip[aria-pressed="true"] { background: var(--burdeos-suave); border-color: transparent; color: var(--burdeos); }
+.gr-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 4px 0 10px; }
+.gr-kpis > div { padding: 10px 12px; border-radius: var(--md-shape-md); background: var(--hoja-2); display: grid; gap: 2px; min-width: 0; }
+.gr-kpis span { font-size: 12px; color: var(--tinta-suave); }
+.gr-kpis b { font: 600 17px/1.25 var(--font-texto); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gr-kpis b small { font-size: 12px; font-weight: 500; }
+.gr-kpis > div > small { font-size: 11.5px; color: var(--tinta-suave); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gr-kpis .sube b { color: var(--ok); } .gr-kpis .baja b { color: var(--burdeos); }
+.gr-tip { border-radius: var(--md-shape-md); border: 0; background: var(--hoja); box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 6px 18px rgb(var(--sombra) / .16); padding: 10px 12px; }
+@media (max-width: 560px) { .gr-kpis { grid-template-columns: 1fr 1fr; } .gr-kpis > div:last-child { grid-column: 1 / -1; } }
+.pago-mes b { display: block; font-weight: 600; } .pago-mes small { display: block; font-size: 11.5px; color: var(--ok); }
+.deuda-tiempo .impacto { display: block; font-size: 11.5px; color: var(--ok); margin-top: 2px; line-height: 1.3; }
+.deuda-tiempo .impacto.suave { color: var(--tinta-suave); }
+/* Cada deuda en su tarjeta (M3): cuánto pagas al mes, cuándo la eliminas y el impacto de tu plan */
+.deudas-tarjetas { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.deuda-t { border: 1px solid var(--linea); border-radius: var(--md-shape-md); padding: 14px; display: grid; gap: 10px; background: var(--hoja); }
+.deuda-t.pagada { background: color-mix(in srgb, var(--ok) 6%, var(--hoja)); }
+.deuda-t header { display: flex; align-items: center; gap: 10px; }
+.deuda-t .dt-nombre { flex: 1; min-width: 0; display: grid; } .deuda-t .dt-nombre b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.deuda-t .dt-nombre small { font-size: 12px; color: var(--ok); }
+.deuda-t .dt-saldo { text-align: right; display: grid; } .deuda-t .dt-saldo span, .dt-plan span { font-size: 12px; color: var(--tinta-suave); }
+.deuda-t .dt-saldo b { font-variant-numeric: tabular-nums; }
+.dt-plan { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dt-plan > div { display: grid; gap: 2px; padding: 10px; border-radius: var(--md-shape-sm); background: var(--hoja-2); align-content: start; }
+.dt-plan b { font-size: 16px; font-variant-numeric: tabular-nums; } .dt-plan small { font-size: 11.5px; color: var(--tinta-suave); }
+.dt-plan .linea-tiempo { display: block; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--tinta) 8%, transparent); margin-top: 6px; overflow: hidden; }
+.dt-plan .linea-tiempo i { display: block; height: 100%; border-radius: 3px; background: var(--burdeos); }
+.dt-impacto { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: 13px; line-height: 1.4; color: var(--tinta); padding: 8px 10px; border-radius: var(--md-shape-sm); background: color-mix(in srgb, var(--ok) 10%, transparent); }
+.dt-impacto svg { width: 18px; height: 18px; flex: none; fill: var(--ok); margin-top: 1px; }
+.dt-campos { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+.dt-campos label { display: grid; gap: 4px; font-size: 12px; color: var(--tinta-suave); }
+.dt-campos input { width: 104px; height: 40px; padding: 0 10px; border: 1px solid var(--linea); border-radius: var(--md-shape-xs); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 15px; }
+.dt-campos .dt-input { display: inline-flex; align-items: center; gap: 4px; color: var(--tinta); } .dt-campos .dt-input input { width: 70px; }
+.dt-acciones { margin-left: auto; display: flex; align-items: center; gap: 4px; }

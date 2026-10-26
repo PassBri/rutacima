@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">Move down</string>
     <string name="cu_col_hoy">Today</string>
     <string name="cu_col_indicador">Indicator</string>
+    <string name="cu_pagas_mes">You pay each month</string>
+    <string name="cu_pago_desglose">minimum %1$s + %2$s extra</string>
+    <string name="cu_su_minimo">its minimum</string>
+    <string name="cu_la_eliminas">Paid off in</string>
+    <string name="cu_impacto">%1$s sooner and %2$s less interest than paying only its minimum.</string>
+    <string name="cu_impacto_nunca">With only its minimum you would never finish it: with your plan you do.</string>
+    <string name="cu_impacto_igual">Paying its minimum it ends in %1$s.</string>
 </resources>

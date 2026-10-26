@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.material.icons.automirrored.filled.TrendingDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.foundation.selection.selectableGroup
@@ -373,7 +374,7 @@ fun LazyListScope.deudasNivel(libro: Libro, plata: (Double) -> String, vm: Cuent
     }
     item(key = "d-tit") { SectionTitle(stringResource(R.string.cu_tus_deudas)) }
     if (l.isEmpty()) item(key = "d-vacio") { Text(stringResource(R.string.cu_deudas_ayuda), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
-    items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos,
+    items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos, plan = plan,
         mover = if (d.metodo == "propio") ({ paso: Int -> vm.deudaMover(h.deuda.id, paso) }) else null) }
     item(key = "d-nueva") { NuevaDeuda(plata) { n, s, t, m, b -> vm.deudaAgregar(n, s, t, m, b) } }
     item(key = "d-nota") { Text(stringResource(R.string.cu_deudas_nota), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
@@ -388,7 +389,7 @@ private fun Cifra(t: String, v: String, modifier: Modifier, destacada: Boolean =
 }
 
 @Composable
-private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> String, vm: CuentasViewModel, avisos: SnackbarHostState, mover: ((Int) -> Unit)? = null) {
+private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> String, vm: CuentasViewModel, avisos: SnackbarHostState, plan: Deudas.Plan? = null, mover: ((Int) -> Unit)? = null) {
     val x = h.deuda
     var pagar by remember { mutableStateOf(false) }
     var editar by remember { mutableStateOf(false) }
@@ -411,6 +412,36 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
             }
         }
         com.rutaalacima.app.ui.components.ProgressLine(if (x.saldo > 0) (h.pagado / x.saldo).toFloat() else 1f, Modifier.padding(top = 8.dp), color = colorTipo(Tipo.ING))
+        // Cuánto le pagas al mes y el impacto de tu plan frente a pagarle solo su mínimo
+        if (plan != null && h.actual > 0) {
+            val pago = plan.pagoMes[x.id] ?: 0.0; val extraMes = (pago - x.minimo).coerceAtLeast(0.0)
+            val sola = remember(h.actual, x.tasa, x.minimo) { Deudas.plan(listOf(h), "minimos", 0.0) }
+            Row(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(10.dp)) {
+                    Text(stringResource(R.string.cu_pagas_mes), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(plata(Math.round(pago).toDouble()), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    Text(if (extraMes > 0.5) stringResource(R.string.cu_pago_desglose, plata(x.minimo), plata(Math.round(extraMes).toDouble())) else stringResource(R.string.cu_su_minimo),
+                        style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(10.dp)) {
+                    Text(stringResource(R.string.cu_la_eliminas), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(fin?.let { mesesDespues(it) } ?: "—", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                    if (fin != null && plan.meses != null) com.rutaalacima.app.ui.components.ProgressLine(fin / plan.meses.toFloat(), Modifier.padding(top = 6.dp))
+                }
+            }
+            val impacto = when {
+                fin == null -> null
+                sola.meses == null -> stringResource(R.string.cu_impacto_nunca)
+                sola.meses > fin -> stringResource(R.string.cu_impacto, stringResource(R.string.cu_meses_x, "${sola.meses - fin}"),
+                    plata(Math.round((sola.interes - (plan.interesDe[x.id] ?: 0.0)).coerceAtLeast(0.0)).toDouble()))
+                else -> stringResource(R.string.cu_impacto_igual, stringResource(R.string.cu_meses_x, "${sola.meses}"))
+            }
+            if (impacto != null) Row(Modifier.padding(top = 8.dp).fillMaxWidth().clip(RoundedCornerShape(8.dp)).background(colorTipo(Tipo.ING).copy(alpha = 0.10f)).padding(10.dp),
+                verticalAlignment = Alignment.Top) {
+                Icon(Icons.AutoMirrored.Filled.TrendingDown, null, Modifier.size(18.dp), tint = colorTipo(Tipo.ING)); Spacer(Modifier.width(8.dp))
+                Text(impacto, style = MaterialTheme.typography.bodySmall)
+            }
+        }
         Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
             if (mover != null) {
                 IconButton(onClick = { mover(-1) }) { Icon(Icons.Filled.KeyboardArrowUp, stringResource(R.string.cu_subir)) }

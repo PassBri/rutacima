@@ -64,19 +64,21 @@ function planDeudas(lista, metodo, extra) {
     hibrido: (a, b) => { const q = d => d.b <= 3 * (d.min + Math.max(0, extra)); return (q(b) - q(a)) || (q(a) ? a.b - b.b : b.r - a.r || a.b - b.b); },
     propio: (a, b) => a.k - b.k,
   }[metodo] || ((a, b) => b.r - a.r);
-  let mes = 0, interes = 0; const serie = [total()];
+  let mes = 0, interes = 0; const serie = [total()], pago1 = {}, intDe = {};
   while (ds.some(d => d.b > 0.005) && mes < 600) {
     mes++;
-    ds.forEach(d => { if (d.b > 0.005) { const i = d.b * d.r; d.b += i; interes += i; } });
+    ds.forEach(d => { if (d.b > 0.005) { const i = d.b * d.r; d.b += i; interes += i; intDe[d.id] = (intDe[d.id] || 0) + i; } });
+    const antes = mes === 1 ? Object.fromEntries(ds.map(d => [d.id, d.b])) : null;
     // Solo mínimos: cada deuda paga su cuota y nada más; con un método, lo que sobra rueda a la siguiente
     let bolsa = minimos ? 0 : Math.max(0, extra);
     ds.forEach(d => { if (d.b > 0.005) { const p = Math.min(d.min, d.b); d.b -= p; if (!minimos) bolsa += d.min - p; } else if (!minimos) bolsa += d.min; });
     for (const d of ds.filter(d => d.b > 0.005).sort(ordenar)) { if (bolsa <= 0.005) break; const p = Math.min(bolsa, d.b); d.b -= p; bolsa -= p; }
+    if (antes) ds.forEach(d => { pago1[d.id] = antes[d.id] - d.b; });
     ds.forEach(d => { if (d.b <= 0.005 && !d.fin) d.fin = mes; });
     serie.push(total());
   }
   const libre = !ds.some(d => d.b > 0.005);
-  return { meses: libre ? mes : null, interes, serie, fin: Object.fromEntries(ds.map(d => [d.id, d.fin || null])) };
+  return { meses: libre ? mes : null, interes, serie, pago1, intDe, fin: Object.fromEntries(ds.map(d => [d.id, d.fin || null])) };
 }
 const mesesDespues = n => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + n); return `${MESES[d.getMonth()]} de ${d.getFullYear()}`; };
 
@@ -483,14 +485,23 @@ DET["finanzas.deudas"] = () => {
         : `<p class="neg"><b>Con estos pagos la deuda no baja:</b> los intereses son mayores que los mínimos. Sube el pago extra o renegocia la tasa.</p>`}</div>
         ${plan.meses ? graficaDeudas(plan, base, vivas) : ""}` : ""}`) +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Tus deudas</h3>${d.metodo === "propio" ? `<span class="suave" style="font-size:13px">Ordénalas con las flechas</span>` : ""}</div>
-      ${lista.length ? `<div class="asc-tabla"><table class="asc-deudas"><thead><tr><th>Deuda</th><th class="num">Saldo hoy</th><th class="num">Interés anual</th><th class="num">Mínimo</th><th>Cuándo termina</th><th></th></tr></thead><tbody>
-        ${lista.map((x, k) => { const i = orden.indexOf(x), fin = plan.fin[x.id], ancho = plan.meses && fin ? fin / plan.meses * 100 : 0;
-          return `<tr><th scope="row">${i >= 0 ? `<span class="orden">${i + 1}</span>` : `<span class="orden ok">${ic("check")}</span>`}${esc(x.nombre)}${x.tipo === "buena" ? ` <small class="suave">· buena</small>` : ""}<div class="barra-deuda" title="Pagado"><i style="width:${x.saldo ? Math.min(100, x.pagado / x.saldo * 100) : 100}%"></i></div></th>
-            <td class="num">${plata(x.actual)}</td><td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.tasa) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|tasa" aria-label="Interés anual de ${esc(x.nombre)}"> %</td>
-            <td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.minimo) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|minimo" aria-label="Pago mínimo de ${esc(x.nombre)}"></td>
-            <td class="deuda-tiempo">${x.actual <= 0 ? "Pagada" : fin ? `<span class="linea-tiempo"><i style="width:${Math.max(4, ancho)}%"></i></span><span>${fechaFin(fin)}</span>` : "—"}</td>
-            <td class="acciones-deuda">${d.metodo === "propio" ? `<button class="rb" data-acc="deudaMover" data-arg="${x.id}|-1" ${k ? "" : "disabled"} aria-label="Subir ${esc(x.nombre)}">${ic("arriba")}</button><button class="rb" data-acc="deudaMover" data-arg="${x.id}|1" ${k < lista.length - 1 ? "" : "disabled"} aria-label="Bajar ${esc(x.nombre)}">${ic("abajo")}</button>` : ""}${x.actual > 0 ? `<button class="btn mini lleno" data-acc="deudaPagar" data-arg="${x.id}">Pagar</button>` : ""}<button class="rb" data-acc="deudaQuitar" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button></td></tr>`; }).join("")}
-      </tbody></table></div>` : `<p class="suave">Anota cada deuda con lo que debes hoy, su interés anual y su pago mínimo. El plan se arma solo.</p>`}
+      ${lista.length ? `<div class="deudas-tarjetas">${lista.map((x, k) => { const i = orden.indexOf(x), fin = plan.fin[x.id], ancho = plan.meses && fin ? fin / plan.meses * 100 : 0;
+          // Impacto: esta deuda pagando solo su mínimo frente a lo que le toca con tu método
+          const sola = x.actual > 0 ? planDeudas([x], "minimos", 0) : null, pagoMes = plan.pago1?.[x.id] || 0, extraMes = Math.max(0, pagoMes - (Number(x.minimo) || 0));
+          const ahorroInt = sola && fin ? Math.max(0, sola.interes - (plan.intDe?.[x.id] || 0)) : 0, mesesAntes = sola && fin && sola.meses != null ? sola.meses - fin : 0;
+          const impacto = !sola || !fin ? "" : sola.meses == null ? `Con solo su mínimo nunca la terminarías: con tu plan sí.`
+            : mesesAntes > 0 ? `<b>${duracion(mesesAntes)} antes</b> y <b>${plata(Math.round(ahorroInt))}</b> menos en intereses que pagando solo su mínimo.` : `Pagando su mínimo termina en ${duracion(sola.meses)}.`;
+          return `<article class="deuda-t${x.actual <= 0 ? " pagada" : ""}">
+            <header>${i >= 0 ? `<span class="orden">${i + 1}</span>` : `<span class="orden ok">${ic("check")}</span>`}<div class="dt-nombre"><b>${esc(x.nombre)}</b>${x.tipo === "buena" ? `<small>Buena · produce</small>` : ""}</div>
+              <div class="dt-saldo"><span>Debes hoy</span><b>${plata(x.actual)}</b></div></header>
+            <div class="barra-deuda" title="Pagado ${plata(x.pagado)}"><i style="width:${x.saldo ? Math.min(100, x.pagado / x.saldo * 100) : 100}%"></i></div>
+            ${x.actual > 0 ? `<div class="dt-plan"><div><span>Pagas al mes</span><b>${plata(Math.round(pagoMes))}</b>${extraMes > 0.5 ? `<small>mínimo ${plata(Number(x.minimo) || 0)} + ${plata(Math.round(extraMes))} extra</small>` : `<small>su mínimo</small>`}</div>
+              <div><span>La eliminas en</span><b>${fin ? fechaFin(fin) : "Sin fecha"}</b>${fin ? `<span class="linea-tiempo"><i style="width:${Math.max(4, ancho)}%"></i></span>` : ""}</div></div>
+              ${impacto ? `<p class="dt-impacto">${ic("grafica")}<span>${impacto}</span></p>` : ""}` : `<p class="dt-impacto">${ic("check")}<span>Pagada. Su cuota ya trabaja para las demás.</span></p>`}
+            <div class="dt-campos"><label><span>Interés anual</span><span class="dt-input"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.tasa) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|tasa" aria-label="Interés anual de ${esc(x.nombre)}"> %</span></label>
+              <label><span>Pago mínimo</span><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.minimo) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|minimo" aria-label="Pago mínimo de ${esc(x.nombre)}"></label>
+              <div class="dt-acciones">${d.metodo === "propio" ? `<button class="rb" data-acc="deudaMover" data-arg="${x.id}|-1" ${k ? "" : "disabled"} aria-label="Subir ${esc(x.nombre)}">${ic("arriba")}</button><button class="rb" data-acc="deudaMover" data-arg="${x.id}|1" ${k < lista.length - 1 ? "" : "disabled"} aria-label="Bajar ${esc(x.nombre)}">${ic("abajo")}</button>` : ""}<button class="rb" data-acc="deudaQuitar" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button>${x.actual > 0 ? `<button class="btn lleno" data-acc="deudaPagar" data-arg="${x.id}">Pagar</button>` : ""}</div></div>
+          </article>`; }).join("")}</div>` : `<p class="suave">Anota cada deuda con lo que debes hoy, su interés anual y su pago mínimo. El plan se arma solo.</p>`}
       <form class="asc-nuevo" data-form="deudaNueva" style="margin-top:14px"><div class="asc-fila-nueva deuda-nueva">
         <label class="campo"><span>Deuda</span><input name="texto" maxlength="60" placeholder="Tarjeta de crédito" required></label>
         <label class="campo"><span>Debes hoy</span><input name="saldo" inputmode="decimal" placeholder="${plata(1000000)}" required></label>

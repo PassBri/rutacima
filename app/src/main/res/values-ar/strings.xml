@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">لأسفل</string>
     <string name="cu_col_hoy">اليوم</string>
     <string name="cu_col_indicador">المؤشر</string>
+    <string name="cu_pagas_mes">تدفع شهريًا</string>
+    <string name="cu_pago_desglose">الحد الأدنى %1$s + %2$s إضافي</string>
+    <string name="cu_su_minimo">حده الأدنى</string>
+    <string name="cu_la_eliminas">تسدده في</string>
+    <string name="cu_impacto">أسرع بـ %1$s وفوائد أقل بـ %2$s من دفع الحد الأدنى فقط.</string>
+    <string name="cu_impacto_nunca">بالحد الأدنى فقط لن تنهيه أبدًا: بخطتك ستنهيه.</string>
+    <string name="cu_impacto_igual">بدفع الحد الأدنى ينتهي في %1$s.</string>
 </resources>

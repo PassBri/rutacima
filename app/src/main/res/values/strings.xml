@@ -1951,4 +1951,11 @@
     <string name="cu_bajar">Bajar</string>
     <string name="cu_col_hoy">Hoy</string>
     <string name="cu_col_indicador">Indicador</string>
+    <string name="cu_pagas_mes">Pagas al mes</string>
+    <string name="cu_pago_desglose">mínimo %1$s + %2$s extra</string>
+    <string name="cu_su_minimo">su mínimo</string>
+    <string name="cu_la_eliminas">La eliminas en</string>
+    <string name="cu_impacto">%1$s antes y %2$s menos en intereses que pagando solo su mínimo.</string>
+    <string name="cu_impacto_nunca">Con solo su mínimo nunca la terminarías: con tu plan sí.</string>
+    <string name="cu_impacto_igual">Pagando su mínimo termina en %1$s.</string>
 </resources>

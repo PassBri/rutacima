@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">नीचे</string>
     <string name="cu_col_hoy">आज</string>
     <string name="cu_col_indicador">सूचक</string>
+    <string name="cu_pagas_mes">हर महीने भुगतान</string>
+    <string name="cu_pago_desglose">न्यूनतम %1$s + %2$s अतिरिक्त</string>
+    <string name="cu_su_minimo">उसका न्यूनतम</string>
+    <string name="cu_la_eliminas">चुकता होगा</string>
+    <string name="cu_impacto">सिर्फ़ न्यूनतम भुगतान से %1$s पहले और %2$s कम ब्याज।</string>
+    <string name="cu_impacto_nunca">सिर्फ़ न्यूनतम से यह कभी खत्म नहीं होगा: आपकी योजना से होगा।</string>
+    <string name="cu_impacto_igual">न्यूनतम भुगतान से यह %1$s में खत्म होगा।</string>
 </resources>

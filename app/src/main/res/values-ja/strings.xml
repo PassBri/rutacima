@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">下へ</string>
     <string name="cu_col_hoy">今日</string>
     <string name="cu_col_indicador">指標</string>
+    <string name="cu_pagas_mes">毎月の返済</string>
+    <string name="cu_pago_desglose">最低 %1$s + 追加 %2$s</string>
+    <string name="cu_su_minimo">最低返済</string>
+    <string name="cu_la_eliminas">完済</string>
+    <string name="cu_impacto">最低返済だけより %1$s 早く、利息は %2$s 少なくなります。</string>
+    <string name="cu_impacto_nunca">最低返済だけでは終わりません。あなたの計画なら完済できます。</string>
+    <string name="cu_impacto_igual">最低返済だと %1$s に完済します。</string>
 </resources>

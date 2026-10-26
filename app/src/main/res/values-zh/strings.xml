@@ -1949,4 +1949,11 @@
     <string name="cu_bajar">下移</string>
     <string name="cu_col_hoy">今天</string>
     <string name="cu_col_indicador">指标</string>
+    <string name="cu_pagas_mes">每月还款</string>
+    <string name="cu_pago_desglose">最低 %1$s + 额外 %2$s</string>
+    <string name="cu_su_minimo">最低还款</string>
+    <string name="cu_la_eliminas">还清时间</string>
+    <string name="cu_impacto">比只还最低额提前 %1$s，少付利息 %2$s。</string>
+    <string name="cu_impacto_nunca">只还最低额永远还不完：按你的计划可以还清。</string>
+    <string name="cu_impacto_igual">只还最低额将在 %1$s 还清。</string>
 </resources>
