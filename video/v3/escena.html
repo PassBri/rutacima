@@ -1,0 +1,92 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><style>
+html,body{margin:0;width:1280px;height:720px;overflow:hidden;background:#F4EDE1;font-family:Inter,"Roboto",system-ui,sans-serif;color:#2B1D17}
+.mont{position:absolute;left:0;right:0;bottom:0;width:1280px;height:260px}
+#texto{position:absolute;left:96px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center}
+#texto small{font-size:15px;letter-spacing:.18em;text-transform:uppercase;color:#86683A;font-weight:600;margin-bottom:14px}
+#texto h1{margin:0;font:600 54px/1.1 Lora,Georgia,serif;letter-spacing:-.01em}
+#texto p{margin:18px 0 0;font-size:22px;line-height:1.45;color:#5A4636;max-width:30ch}
+#tel{position:absolute;left:838px;top:24px;width:302px;height:653px;border-radius:44px;background:#15191C;padding:10px;box-shadow:0 30px 60px -18px rgb(40 30 20/.45)}
+#pant{position:absolute;left:10px;top:10px;width:302px;height:653px;border-radius:34px;overflow:hidden;background:#fff}
+.capa{position:absolute;inset:0;background-size:302px auto;background-repeat:no-repeat}
+.larga{position:absolute;inset:0}
+.larga div{position:absolute;left:0;right:0;background-size:302px auto;background-repeat:no-repeat}
+#guia{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;z-index:8;filter:drop-shadow(0 3px 8px rgb(0 0 0/.35))}
+#guia svg{width:100%;height:100%;overflow:visible}
+#onda{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;border:2px solid #6B2A1A;z-index:7;opacity:0}
+#velo{position:absolute;inset:0;background:#F4EDE1;display:grid;place-items:center;z-index:10}
+#marca{display:grid;justify-items:center;gap:22px}
+#marca svg{width:160px;height:160px;overflow:visible}
+#marca b{font:500 54px/1 Montserrat,Inter,sans-serif;letter-spacing:.06em}
+#marca span{font-size:20px;letter-spacing:.32em;color:#5A4636}
+#marca em{font:500 26px/1.3 Lora,Georgia,serif;color:#6B2A1A;font-style:normal}
+</style></head><body>
+<svg class="mont" viewBox="0 0 1280 260" preserveAspectRatio="none"><path id="m1" d="M0 260V170l140-70 100 34 160-110 120 80 90-40 180 120 130-80 150 96 120-50 90 40v70z" fill="#EBE1CF"/><path id="m2" d="M0 260V210l170-50 150 40 180-70 170 62 150-34 170 50 160-40 130 34v58z" fill="#E3D5BE"/></svg>
+<div id="texto"><small id="eti"></small><h1 id="tit"></h1><p id="sub"></p></div>
+<div id="tel"><div id="pant"></div></div>
+<div id="onda"></div>
+<div id="guia"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="rgb(255 255 255 / .92)"/><path d="M41.45 85.53A38 38 0 1 1 58.55 85.53" transform="translate(50 50) scale(.62) translate(-50 -48.5)" fill="none" stroke="#6B2A1A" stroke-width="7"/><circle cx="50" cy="73.6" r="5.5" fill="#6B2A1A"/></svg></div>
+<div id="velo"><div id="marca"><svg viewBox="0 0 100 100"><path id="aro" d="M41.45 85.53A38 38 0 1 1 58.55 85.53" fill="none" stroke="#2B1D17" stroke-width="2.7" stroke-dasharray="240" stroke-dashoffset="240"/><circle id="punto" cx="50" cy="86.5" r="3.7" fill="#6B2A1A" opacity="0"/></svg><b id="wm">SUROUTE.</b><span id="lema">SUMMIT ROUTE</span><em id="cta"></em></div></div>
+<script>
+const $ = id => document.getElementById(id);
+const IMG = n => `url("pantallas/${n}.png")`;
+const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const ease = x => { x = cl(x); return 1 - Math.pow(1 - x, 3); };            // salida suave
+const io = x => { x = cl(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const K = 302 / 390;                                                      // css de la app → pantalla del teléfono
+// Escenas: inicio, fin, rótulo
+const E = window.ESCENAS;
+function rotulo(t) {
+  const s = E.find(e => t >= e.a && t < e.b) || E[E.length - 1];
+  const op = Math.min(seg(t, s.a + .1, s.a + .6), 1 - seg(t, s.b - .45, s.b - .05));
+  $("eti").textContent = s.eti || ""; $("tit").textContent = s.tit || ""; $("sub").textContent = s.sub || "";
+  $("texto").style.opacity = s.eti ? op : 0; $("texto").style.transform = `translateY(${(1 - ease(seg(t, s.a + .1, s.a + .7))) * 14}px)`;
+}
+// Pantalla del teléfono: una o dos capas que se cruzan, o una pantalla larga con desplazamiento
+function capa(id) { let el = $(id); if (!el) { el = document.createElement("div"); el.id = id; el.className = "capa"; $("pant").append(el); } return el; }
+function larga(n, scroll, op = 1) {
+  let el = $("L_" + n); if (!el) { el = document.createElement("div"); el.id = "L_" + n; el.className = "larga";
+    el.innerHTML = `<div class="c"></div><div class="m"></div><div class="n"></div>`; $("pant").append(el);
+    const [c, m, nv] = el.children; const cab = 84 * K, nav = 57 * K;
+    for (const d of [c, m, nv]) d.style.backgroundImage = IMG(n);
+    c.style.cssText += `;top:0;height:${cab}px;background-position:0 0;z-index:2`; m.style.cssText += `;top:${cab}px;bottom:${nav}px`;
+    nv.style.cssText += `;bottom:0;height:${nav}px;background-position:0 100%;z-index:2`; el.dataset.cab = cab; }
+  el.style.opacity = op; el.children[1].style.backgroundPosition = `0 ${-(Number(el.dataset.cab) + scroll * K)}px`;
+}
+function pantalla(t) {
+  [...$("pant").children].forEach(c => c.style.opacity = 0);
+  for (const p of E.pantallas) {
+    const op = Math.min(seg(t, p.a, p.a + (p.entra ?? .35)), p.b == null ? 1 : 1 - seg(t, p.b, p.b + .35));
+    if (op <= 0) continue;
+    if (p.larga) larga(p.img, p.scroll(t), op);
+    else { const c = capa("I_" + p.img); c.style.backgroundImage = IMG(p.img); c.style.opacity = op;
+      c.style.transform = p.mov ? p.mov(t) : ""; c.style.zIndex = p.z || 1; }
+  }
+}
+// El guía: el símbolo de SuRoute se mueve por el teléfono y toca lo importante
+function guia(t) {
+  const g = $("guia"), o = $("onda"); let x = null, y = null, tap = 0;
+  for (const m of E.guia) { if (t >= m.a && t <= m.b) { const k = io(seg(t, m.a, m.b)); x = m.x0 + (m.x1 - m.x0) * k; y = m.y0 + (m.y1 - m.y0) * k; tap = m.tap ? seg(t, m.b - .01, m.b) : 0; break; }
+    if (t > m.b) { x = m.x1; y = m.y1; } }
+  let tocar = null; for (const m of E.guia) if (m.tap && t >= m.b && t < m.b + .6) tocar = { k: (t - m.b) / .6, x: m.x1, y: m.y1 };
+  const visible = E.guiaVisible(t);
+  g.style.opacity = visible; o.style.opacity = 0;
+  if (x == null) { g.style.opacity = 0; return; }
+  const px = 848 + x * K, py = 34 + y * K; let s = 1;
+  if (tocar) { s = 1 - .18 * Math.sin(Math.PI * cl(tocar.k * 2)); o.style.opacity = (1 - tocar.k) * .9 * visible; o.style.left = px + "px"; o.style.top = py + "px"; o.style.transform = `scale(${1 + tocar.k * 1.6})`; }
+  g.style.left = px + "px"; g.style.top = py + "px"; g.style.transform = `scale(${s}) rotate(${Math.sin(t * 2) * 6}deg)`;
+}
+function velo(t) {
+  const v = $("velo"); let op = 0, k = 0, cta = "";
+  if (t < E.introFin) { op = 1 - seg(t, E.introFin - .5, E.introFin); k = t; }
+  else if (t >= E.outro) { op = seg(t, E.outro, E.outro + .5); k = t - E.outro; cta = "Empieza tu ascenso hoy · suroute.com"; }
+  v.style.opacity = op; v.style.display = op > 0 ? "grid" : "none"; if (!op) return;
+  $("aro").setAttribute("stroke-dashoffset", 240 * (1 - io(seg(k, .2, 1.5))));
+  const pk = seg(k, 1.35, 1.75); $("punto").setAttribute("opacity", cl(pk * 3)); $("punto").setAttribute("cy", 70 + 16.5 * ease(pk) + (pk > .7 ? Math.sin((pk - .7) * 20) * 1.2 * (1 - pk) : 0));
+  for (const [id, a] of [["wm", 1.6], ["lema", 1.9], ["cta", 2.3]]) { const e = seg(k, a, a + .5); $(id).style.opacity = e; $(id).style.transform = `translateY(${(1 - ease(e)) * 12}px)`; }
+  $("cta").textContent = cta;
+}
+function telefono(t) { const e = ease(seg(t, E.introFin - .4, E.introFin + .5)); $("tel").style.transform = `translateY(${(1 - e) * 60}px)`; $("tel").style.opacity = e;
+  $("m1").style.transform = `translateX(${-t * 3}px)`; $("m2").style.transform = `translateX(${-t * 6}px)`; }
+window.render = t => { rotulo(t); pantalla(t); guia(t); velo(t); telefono(t); };
+</script></body></html>

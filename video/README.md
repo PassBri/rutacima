@@ -1,5 +1,20 @@
 # Video de presentación de SuRoute
 
+## Versión actual (v3): `diseno/video/suroute_presentacion.mp4`
+
+61 s, 1280 × 720, 30 fps. Las pantallas son capturas reales de la web en modo demostración
+(`v3/pantallas/`). `v3/escena.html` dibuja cada cuadro a partir del tiempo y `v3/config.js` define
+las escenas, el recorrido del símbolo guía y cuándo entra cada frase de la voz. La música es la de
+`public/musica.mp3`, alargada sin cambiar el tono.
+
+```bash
+node v3/render.js "$PWD/v3"           # cuadros a 30 fps en v3/cuadros/
+python3 v3/sonido.py <carpeta>        # mezcla: voz, música, ambiente y efectos; luego loudnorm -16 LUFS
+ffmpeg -framerate 30 -i v3/cuadros/f%05d.jpg -i mezcla_n.wav -c:v libx264 -crf 20 -pix_fmt yuv420p -c:a aac suroute_presentacion.mp4
+```
+
+## Versión anterior (Remotion)
+
 El video ([`diseno/video/rutaalacima_presentacion.mp4`](../diseno/video/rutaalacima_presentacion.mp4), 55 s, 1920 × 1080)
 está hecho con código, con [Remotion](https://www.remotion.dev) y su skill oficial para agentes
 ([remotion-dev/skills](https://github.com/remotion-dev/skills)). Así se puede cambiar un texto o una pantalla y volver a

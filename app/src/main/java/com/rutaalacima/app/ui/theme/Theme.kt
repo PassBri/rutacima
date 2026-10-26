@@ -17,20 +17,20 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 /**
- * Identidad visual tomada de los workbooks: sello de lacre burdeos, franja dorada,
- * papel kraft/crema y tipografía Georgia (serif) para la lectura.
+ * Identidad de SuRoute (igual que web/estilos.css): burdeos del símbolo como acento único,
+ * oro viejo solo para momentos de cima, papel blanco y tinta grafito.
  */
 object Marca {
-    val Burdeos = Color(0xFF5A0C08)
-    val BurdeosClaro = Color(0xFF8A1C14)
-    val Oro = Color(0xFFC9A033)
-    val OroClaro = Color(0xFFD5B65F)
-    val OroPalido = Color(0xFFF5EED9)
+    val Burdeos = Color(0xFF6B2A1A)
+    val BurdeosClaro = Color(0xFFF3E3DC)
+    val Oro = Color(0xFF86683A)
+    val OroClaro = Color(0xFFC9AE84)
+    val OroPalido = Color(0xFFF6EAD3)
     val Kraft = Color(0xFFD69A6B)
     val Crema = Color(0xFFFBF7EE)
-    val TintaCafe = Color(0xFF2B0A05)
-    val Noche = Color(0xFF1C1210)
-    val NocheSuperficie = Color(0xFF2A1D19)
+    val TintaCafe = Color(0xFF1D2427)
+    val Noche = Color(0xFF0A0E12)
+    val NocheSuperficie = Color(0xFF12181D)
 }
 
 /** Estilos de papel de la app. Se eligen en Ajustes. */

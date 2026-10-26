@@ -70,10 +70,10 @@ class WidgetRuta : GlanceAppWidget() {
     }
 }
 
-private val Papel = Color(0xFFFBF6EE)
-private val Tinta = Color(0xFF2B1D16)
-private val Suave = Color(0xFF6B5B52)
-private val Oro = Color(0xFFB8862F)
+private val Papel = Color(0xFFFFFFFF)
+private val Tinta = Color(0xFF1D2427)
+private val Suave = Color(0xFF5A666B)
+private val Oro = Color(0xFF86683A)
 private val Burdeos = Color(0xFF6B2A1A)
 
 @Composable

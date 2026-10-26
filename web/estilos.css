@@ -245,7 +245,7 @@ svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
 .pasos b { font-weight: 500; }
 .qr { width: 264px; height: 264px; position: relative; display: grid; place-items: center; background: #fff; border-radius: 8px; border: 1px solid var(--linea); padding: 8px; }
 .qr canvas, .qr img.codigo { width: 100%; height: 100%; image-rendering: pixelated; }
-.qr .centro { position: absolute; width: 64px; height: 64px; background: #fff; border-radius: 50%; padding: 4px; color: #2B1D17; box-sizing: border-box; }
+.qr .centro { position: absolute; width: 64px; height: 64px; background: #fff; border-radius: 50%; padding: 4px; color: #6B2A1A; box-sizing: border-box; }
 .v-pie { border-top: 1px solid var(--linea); margin-top: 32px; padding-top: 22px; grid-column: 1 / -1; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 .pill { display: inline-block; padding: 2px 10px; border-radius: 99px; background: var(--oro-suave); color: var(--burdeos); font-size: 12px; font-weight: 700; letter-spacing: .04em; vertical-align: middle; }
 
@@ -878,7 +878,7 @@ a.btn { text-decoration: none; }
 @keyframes carta-sale { from { transform: translateY(40px) scaleY(.96); opacity: 0; } to { transform: none; opacity: 1; } }
 .carta-membrete { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-bottom: 14px; margin-bottom: 18px;
   border-bottom: 1px solid rgb(184 134 47 / .45); }
-.carta-membrete img, .carta-membrete .logo { width: 44px; height: 44px; color: #2B1D17; }
+.carta-membrete img, .carta-membrete .logo { width: 44px; height: 44px; color: var(--burdeos); }
 .carta-membrete span { font: 600 12px/1 var(--font-titulo); letter-spacing: .28em; text-transform: uppercase; color: #6B2A1A; }
 .carta-lugar { margin: 0 0 18px; text-align: right; font: italic 400 15px/1.4 var(--font-titulo); color: rgb(58 42 32 / .75); }
 .carta h2 { font: 700 23px/1.3 var(--font-titulo); margin: 0 0 14px; color: #3A2A20; }
@@ -2549,12 +2549,12 @@ a.carta-releer { text-decoration: none; }
 .md-giro { position: relative; display: grid; min-width: 0; }
 .md-giro > .md-nivel1, .md-giro > .md-tc, .md-giro > .md-tk { width: 100%; height: 100%; }
 .md-giro-1 { max-width: 560px; width: 100%; margin: 0 auto; }
-.md-girar { position: absolute; right: 6px; bottom: 6px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / .9); color: #2B1D17; border: 1px solid rgb(0 0 0 / .08); box-shadow: 0 1px 3px rgb(0 0 0 / .18); touch-action: manipulation; }
+.md-girar { position: absolute; right: 6px; bottom: 6px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: rgb(255 255 255 / .9); color: #1D2427; border: 1px solid rgb(0 0 0 / .08); box-shadow: 0 1px 3px rgb(0 0 0 / .18); touch-action: manipulation; }
 .md-girar svg { width: 18px; height: 18px; fill: currentColor; }
 .md-giro-1 .md-girar { right: 14px; bottom: 14px; width: 40px; height: 40px; }
-.md-girar[aria-pressed="true"] { background: #2B1D17; color: #fff; }
+.md-girar[aria-pressed="true"] { background: #1D2427; color: #fff; }
 .md-visor-ic[aria-pressed="true"] { background: color-mix(in srgb, var(--tinta) 12%, transparent); }
-.md-reverso { background: #FBF8F3 !important; color: #2B1D17; }
+.md-reverso { background: #FBF8F3 !important; color: #1D2427; }
 .md-reverso small { color: var(--c, #6B2A1A); }
 .md-rev-lista { list-style: none; margin: 4px 0 0; padding: 0; width: min(100%, 380px); display: grid; gap: 6px; text-align: left; font-size: 14px; }
 .md-rev-lista li { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid rgb(0 0 0 / .08); padding-bottom: 4px; }

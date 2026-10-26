@@ -93,7 +93,7 @@ private val PAPEL_CARTA = Color(0xFFFBF6EC)
 private val PLIEGUE = Color(0xFF5A4228)
 private val TINTA = Color(0xFF3A2A20)
 private val BURDEOS = Color(0xFF6B2A1A)
-private val ORO = Color(0xFFB8862F)
+private val ORO = Color(0xFF86683A)
 
 /**
  * Carta de bienvenida. Primero un sobre cerrado, con la solapa en V y el sello de cera de SuRoute en
