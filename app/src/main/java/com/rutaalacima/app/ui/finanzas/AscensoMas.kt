@@ -708,9 +708,11 @@ fun RecibosMovimiento(x: Mov, fecha: String, vm: CuentasViewModel) {
     var viendo by remember { mutableStateOf<Cuentas.Recibo?>(null) }
     val guardado = stringResource(R.string.cu_recibo_guardado); val fallo = stringResource(R.string.cu_recibo_error)
     val elegir = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) { subiendo = true; vm.agregarRecibo(fecha, x, uri) { ok -> subiendo = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) guardado else fallo) } }
+        if (uri != null) { subiendo = true; vm.agregarRecibo(fecha, actual, uri) { ok -> subiendo = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (ok) guardado else fallo) } }
     }
-    val actual = vm.libro.value.movs(fecha).firstOrNull { it.id == x.id } ?: x
+    // Un fijo del mes (virtual) que recibe un recibo pasa a ser movimiento propio de ese mes: se busca por su fijo
+    val movs = vm.libro.value.movs(fecha)
+    val actual = movs.firstOrNull { it.id == x.id } ?: movs.firstOrNull { x.fx != null && it.fx == x.fx && !it.virtual } ?: x
     Column {
         Text(stringResource(R.string.cu_recibos), style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(top = 4.dp))
         actual.r.forEach { r ->

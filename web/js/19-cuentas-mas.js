@@ -611,7 +611,12 @@ Object.assign(ACC, {
       };
     });
   },
-  ascRecibos(_, arg) { const [f, id] = arg.split("|"); abrirRecibos(f, id); },
+  ascRecibos(_, arg) {
+    const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id);
+    // Un fijo del mes pasa a ser movimiento propio de ese mes para poder llevar su recibo
+    if (x?.virtual) { const propio = cambiarMov(arg, () => {}); if (propio) return abrirRecibos(f, propio.id); }
+    abrirRecibos(f, id);
+  },
 });
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   async ascPin(form, datos, texto) {

@@ -305,7 +305,9 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
             val sesion = c.supabase.sesion.value
             val ruta = if (sesion != null && c.supabase.configurado) "${sesion.userId}/$id.$ext".also { c.supabase.subirPrivado("recibos", it, bytes, tipo) }
                 else "local:$id.$ext".also { kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) { java.io.File(dirRecibos, it.removePrefix("local:")).writeBytes(bytes) } }
-            guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r + Cuentas.Recibo(id, nom.take(80), tipo, ruta)) else it })
+            val recibo = Cuentas.Recibo(id, nom.take(80), tipo, ruta)
+            if (x.virtual) guardar(f, guardados(f) + x.copy(id = "m" + System.currentTimeMillis(), fx = x.fx, r = listOf(recibo)))   // el fijo de este mes queda propio, con su recibo
+            else guardar(f, guardados(f).map { if (it.id == x.id) it.copy(r = it.r + recibo) else it })
         }.isSuccess
         alTerminar(ok)
     }
@@ -1006,7 +1008,7 @@ private fun EditarMovimiento(x: Mov, fecha: String, plata: (Double) -> String, v
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), supportingText = { Text(plata(v)) }, modifier = Modifier.fillMaxWidth())
                 SelectorCategoria(t, cat, Modifier.fillMaxWidth()) { cat = it }
                 OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
-                if (x.agenda == null && !x.virtual) RecibosMovimiento(x, fecha, vm)
+                if (x.agenda == null) RecibosMovimiento(x, fecha, vm)
             }
         },
         confirmButton = { TextButton(onClick = { onGuardar(x.copy(m = v, c = cat, n = nota.trim())) }, enabled = v > 0) { Text(stringResource(R.string.guardar)) } },

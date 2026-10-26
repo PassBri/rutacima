@@ -206,7 +206,7 @@ DET["finanzas.d"] = f => {
           <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
-          <td class="acc-mov">${x.ag || x.virtual ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
           : `<tr><td colspan="6" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
@@ -247,7 +247,9 @@ function cambiarMov(arg, cambio) {
   if (x.ag) { Store.cambiar("agenda", f, { [x.ag]: "" }, BASES.agenda(f)); x.id = "m" + nuevoId(); delete x.ag; }   // pasa al libro de cuentas
   if (x.virtual) { x.id = "m" + nuevoId(); delete x.virtual; }                                                  // un fijo cambiado solo este mes
   cambio(x); guardarMovs(f, xs.filter(y => (!y.ag && !y.virtual) || y === x));
+  return x;
 }
+window.cambiarMov = cambiarMov;
 Object.assign(ACC, {
   ascOjo() { estado.ascOculto = !estado.ascOculto; pintarDetalle(); pintarLista(); },
   aprendeFinanzas() { ir("aprende"); estado.filtro = "finanzas"; pintarLista(); },
