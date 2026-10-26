@@ -311,10 +311,17 @@ fun RutaScreen(
                         nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
+                        item(key = "bien-anio-${n.anio}") { com.rutaalacima.app.ui.bienestar.BienestarAnioCard(n.anio) { ir(Nivel.Mes(it)) } }
                     }
-                    is Nivel.Mes -> nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
+                    is Nivel.Mes -> {
+                        nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
+                        item(key = "bien-mes-${n.ym}") { com.rutaalacima.app.ui.bienestar.BienestarMesCard(n.ym) { ir(Nivel.Dia(it)) } }
+                    }
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
-                    is Nivel.Dia -> nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
+                    is Nivel.Dia -> {
+                        nivelDia(n.fecha, perfil, mensuales, anuales, propositos, dias, checks, vm, onPlanificador, onKit, onPublicar)
+                        item(key = "bien-dia-${n.fecha}") { com.rutaalacima.app.ui.bienestar.BienestarDiaCard(n.fecha) }
+                    }
                 }
             }
         }

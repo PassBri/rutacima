@@ -82,6 +82,47 @@ object Bienestar {
         return Patrones(l.size, cuenta, emo, causas, sueno)
     }
 
+    /** Puntaje de un día (0 a 1) y cuántos de los 6 hábitos se cumplieron; null si no hay nada anotado. */
+    data class Puntaje(val puntaje: Double, val cumplidos: Int, val pilares: Map<String, Double?>)
+    fun puntaje(d: Dia, agua: Int): Puntaje? {
+        val p = pilares(d, agua); val v = p.values.filterNotNull()
+        if (v.isEmpty()) return null
+        return Puntaje(v.sum() / PILARES.size, v.count { it >= 0.99 }, p)
+    }
+
+    /** El acumulado de bienestar de unas fechas (igual que statsBien de la web). */
+    data class Acumulado(
+        val dias: Int, val registrados: Int, val conClima: Int, val clima: Map<String, Int>, val dominante: String?,
+        val emociones: List<Pair<String, Int>>, val causas: List<Pair<String, Int>>, val herramientas: Int,
+        val suenoProm: Double?, val mov: Int, val fyvProm: Double?, val aguaProm: Double?, val aire: Int, val pant: Int,
+        val indice: Int?, val conDatos: Int, val metas: Map<String, Int>,
+    )
+    fun acumulado(fechas: List<LocalDate>, dias: Map<LocalDate, Dia>, agua: Map<LocalDate, Int>): Acumulado {
+        val clima = CLIMAS.associateWith { 0 }.toMutableMap(); val emo = HashMap<String, Int>(); val causas = HashMap<String, Int>()
+        val metas = PILARES.associateWith { 0 }.toMutableMap()
+        var herr = 0; var mov = 0; var aire = 0; var pant = 0; var registrados = 0
+        val sueno = ArrayList<Double>(); val fyv = ArrayList<Int>(); val aguas = ArrayList<Int>(); val puntajes = ArrayList<Double>()
+        fechas.forEach { f ->
+            val d = dias[f] ?: Dia(); val a = agua[f] ?: 0; val p = puntaje(d, a)
+            d.clima?.let { clima[it] = (clima[it] ?: 0) + 1 }
+            d.emo?.let { emo[it] = (emo[it] ?: 0) + 1 }
+            if (d.clima == "tormenta" || d.clima == "niebla") d.causas.forEach { causas[it] = (causas[it] ?: 0) + 1 }
+            herr += d.herr.size
+            d.sueno?.let(sueno::add); mov += d.mov ?: 0; d.fyv?.let(fyv::add); if (a > 0) aguas += a
+            aire += d.aire ?: 0; if (d.pant == true) pant++
+            if (p != null) { puntajes += p.puntaje; p.pilares.forEach { (k, v) -> if (v != null && v >= 0.99) metas[k] = (metas[k] ?: 0) + 1 } }
+            if (d.clima != null || p != null) registrados++
+        }
+        val conClima = clima.values.sum()
+        return Acumulado(
+            fechas.size, registrados, conClima, clima, if (conClima > 0) clima.maxByOrNull { it.value }?.key else null,
+            emo.entries.sortedByDescending { it.value }.take(4).map { it.key to it.value },
+            causas.entries.sortedByDescending { it.value }.take(3).map { it.key to it.value }, herr,
+            sueno.takeIf { it.isNotEmpty() }?.average(), mov, fyv.takeIf { it.isNotEmpty() }?.average(), aguas.takeIf { it.isNotEmpty() }?.average(),
+            aire, pant, if (puntajes.isEmpty()) null else Math.round(puntajes.average() * 100).toInt(), puntajes.size, metas,
+        )
+    }
+
     /** La práctica de la semana (0 a 4): rota los cinco componentes de Goleman. */
     fun practica(hoy: LocalDate) = hoy.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR) % 5
 }

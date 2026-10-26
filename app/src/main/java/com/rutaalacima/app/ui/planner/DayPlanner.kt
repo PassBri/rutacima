@@ -409,6 +409,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         if (d.metas.isNotBlank()) item { CampoDia(stringResource(R.string.metas), d.metas, 3) { v -> vm.editar { it.copy(metas = v) } } }
         if (d.pendientes.isNotBlank()) item { CampoDia(stringResource(R.string.pendientes), d.pendientes, 3) { v -> vm.editar { it.copy(pendientes = v) } } }
         // Control financiero: los movimientos del día en Ascenso financiero (igual que en la web)
+        item(key = "bienestar-$f") { com.rutaalacima.app.ui.bienestar.BienestarDiaCard(f) }
         item(key = "cuentas") { com.rutaalacima.app.ui.finanzas.ResumenCuentasDia(f) }
     }
 }

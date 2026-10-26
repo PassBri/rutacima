@@ -194,6 +194,7 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
             }
         }
 
+        item(key = "bienestar-$ym") { com.rutaalacima.app.ui.bienestar.BienestarMesCard(ym, onDia = onAbrirDia) }
         if (m != null) {
             item { SectionTitle(stringResource(R.string.actividades_notas)) }
             item { CampoMes(stringResource(R.string.actividades), m.actividades) { v -> vm.editar { it.copy(actividades = v) } } }

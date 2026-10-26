@@ -201,6 +201,8 @@ fun HoyScreen(
 
         // La acción principal del día: marcar los hábitos aquí mismo, un eje a la vez
         item { HabitosHoy(checks, onAlternar = { vm.alternarHabito(it) }, onVerKit = { onIrA(Rutas.KIT) }) }
+        // Bienestar del día: clima interior y vida saludable, se controlan todos los días
+        item(key = "bienestar-hoy") { com.rutaalacima.app.ui.bienestar.BienestarDiaCard(java.time.LocalDate.now()) }
         // Tus cordadas activas: marcar el día sin salir de Hoy (cuenta también en la meta unida)
         item(key = "cordadas-hoy") { com.rutaalacima.app.ui.cordadas.CordadasHoy(onVerTodas = { onIrA(Rutas.CORDADAS) }) }
 
