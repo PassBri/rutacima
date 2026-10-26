@@ -33,6 +33,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.Diversity3
+import androidx.compose.material.icons.filled.SelfImprovement
 import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.Groups
@@ -122,6 +123,7 @@ object Rutas {
     const val KIT = "kit"
     const val EJES = "ejes"
     /** Ascenso financiero: el libro de cuentas; nivel "b", "a:2026", "m:2026-10" o "d:2026-10-24". */
+    const val BIENESTAR = "bienestar"
     const val FINANZAS = "finanzas?nivel={nivel}"
     fun finanzas(nivel: String? = null) = "finanzas" + (nivel?.let { "?nivel=" + android.net.Uri.encode(it) } ?: "")
     const val COACH = "coach"
@@ -306,6 +308,12 @@ private fun AppPrincipal() {
                         if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
                             IconButton(onClick = { nav.navigate(Rutas.finanzas(if (pestana.ruta == Rutas.HOY) "d:" + java.time.LocalDate.now() else null)) }) {
                                 Icon(com.rutaalacima.app.ui.components.IconosRuta.Finanzas, stringResource(R.string.cu_titulo))
+                            }
+                        }
+                        // Bienestar: el clima interior y la vida saludable, a un toque desde Mi ruta y Hoy
+                        if (pestana.ruta == Rutas.RUTA || pestana.ruta == Rutas.HOY) {
+                            IconButton(onClick = { nav.navigate(Rutas.BIENESTAR) }) {
+                                Icon(Icons.Filled.SelfImprovement, stringResource(R.string.bi_titulo))
                             }
                         }
                         // Tu mochila: las herramientas del método, a un toque mientras construyes tus metas
@@ -632,6 +640,7 @@ private fun AppPrincipal() {
                 )
             }
             composable(Rutas.CONSTANCIA) { com.rutaalacima.app.ui.hoy.ConstanciaScreen(onBack = { nav.popBackStack() }, onResumen = { nav.navigate(Rutas.resumen(it)) }) }
+            composable(Rutas.BIENESTAR) { com.rutaalacima.app.ui.bienestar.BienestarScreen(onBack = { nav.popBackStack() }) }
             composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
         }
         }
