@@ -58,9 +58,8 @@ object IconosRuta {
     val LibroCumbreContorno: ImageVector by lazy { icono("LibroCumbreContorno", LIBRO_CONTORNO, true) }
     // Cumbre y Brújula (y Plan Cumbre): la montaña con la bandera en la cima
     val Cima: ImageVector by lazy { icono("Cima", CIMA, true) }
-    // Coach: un brote con una chispa (la naturaleza que crece y el aprendizaje guiado)
-    // Coach: un brote dentro de un diálogo (la conversación que te hace crecer)
-    val Coach: ImageVector by lazy { icono("Coach", "M4 4.5h16a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5v-3.5H4A1.5 1.5 0 0 1 2.5 16V6A1.5 1.5 0 0 1 4 4.5z M11.3 10.4h1.4V15h-1.4z M11.9 11.6c-.2-2-1.6-3.3-3.7-3.3 0 2.1 1.4 3.3 3.7 3.3z M12.1 10.5c0-2.1 1.4-3.4 3.7-3.4 0 2.1-1.4 3.4-3.7 3.4z", true) }
+    // Coach: un diálogo con la cumbre dentro (la conversación que te habla de tu meta)
+    val Coach: ImageVector by lazy { icono("Coach", "M4 3.5h16A1.5 1.5 0 0 1 21.5 5v11A1.5 1.5 0 0 1 20 17.5h-9.5L6 21v-3.5H4A1.5 1.5 0 0 1 2.5 16V5A1.5 1.5 0 0 1 4 3.5ZM6.4 14.2L10.4 8.4L12.6 11.4L14.2 9.4L17.6 14.2Z", true) }
     // Perfil: account_circle de Material Symbols (la referencia de Material 3 para el perfil)
     val Perfil: ImageVector by lazy { icono("Perfil", PERFIL, true, PathFillType.NonZero) }
     val PerfilContorno: ImageVector by lazy { icono("PerfilContorno", PERFIL_CONTORNO, true, PathFillType.EvenOdd) }
