@@ -11,7 +11,7 @@
  *    doble toque restablece. Crucero con lectura de cada periodo y vista de tabla.
  * Un solo eje de dinero (a la derecha, como en bolsa); los porcentajes van en su propio panel.
  * ====================================================================== */
-const GR = { gran: "m", tipo: "linea", rango: "1A", series: ["saldo", "ing", "gas"], sma: false, salud: true, tabla: false };
+const GR = { gran: "m", tipo: "linea", rango: "1A", series: ["saldo", "ing", "gas"], sma: false, salud: true, tabla: false, grande: false };
 const GR_SERIES = [
   ["saldo", "Saldo acumulado", "--burdeos"], ["patr", "Patrimonio construido", "--oro"], ["ing", "Ingresos", "--v-fijos"],
   ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["disp", "Disponible", "--tinta"],
@@ -47,7 +47,8 @@ function datosGrafica(gran) {
 function graficaAscenso() {
   if (!diasConMovs().length) return "";
   const b = (acc, arg, txt, on, extra = "") => `<button class="gr-b" data-acc="${acc}" data-arg="${arg}" aria-pressed="${on}" ${extra}>${txt}</button>`;
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Gráfica del ascenso</h3><span class="suave" style="font-size:13px">Amplía con la rueda o pellizcando · arrastra para moverte</span></div>
+  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Gráfica del ascenso</h3><span class="suave gr-ayuda" style="font-size:13px">Amplía con la rueda o pellizcando · arrastra para moverte</span>
+      <button class="btn mini ic-solo gr-grande-btn" data-acc="grGrande" aria-pressed="${GR.grande}" aria-label="${GR.grande ? "Salir de pantalla completa" : "Ver en pantalla completa para analizar"}" title="${GR.grande ? "Salir (Esc)" : "Pantalla completa"}">${ic(GR.grande ? "cerrar" : "pantallaCompleta")}</button></div>
     <div class="gr-barra" role="toolbar" aria-label="Opciones de la gráfica">
       <div class="gr-grupo" aria-label="Rango">${GR_RANGOS.map(([k, t]) => b("grRango", k, t, GR.rango === k)).join("")}</div>
       <div class="gr-grupo" aria-label="Periodo">${GR_GRAN.map(([k, t]) => b("grGran", k, t, GR.gran === k)).join("")}</div>
@@ -61,7 +62,7 @@ function graficaAscenso() {
     <div class="gr-kpis" id="grKpis" aria-live="polite"></div>
     <div class="gr-caja" id="grCaja"><canvas id="grLienzo" tabindex="0" role="img" aria-label="Gráfica del ascenso financiero"></canvas><div class="gr-tip" hidden></div></div>
     <div class="gr-pie"><span id="grRangoTxt" class="suave"></span><button class="enlace" data-acc="grTabla">${GR.tabla ? "Ocultar la tabla" : "Ver en tabla"}</button></div>
-    <div id="grTabla"></div>`, "gr-hoja");
+    <div id="grTabla"></div>`, "gr-hoja" + (GR.grande ? " gr-grande" : ""));
 }
 window.graficaAscenso = graficaAscenso;
 /** En el balance: un acceso de una línea; la gráfica vive en su propia pantalla. */
@@ -113,7 +114,8 @@ function grMover(k) {
 const grMarcarRango = () => document.querySelectorAll('[data-acc="grRango"]').forEach(b => b.setAttribute("aria-pressed", b.dataset.arg === GR.rango));
 
 function grGeometria(cv) {
-  const W = cv.clientWidth, salud = GR.salud, H = salud ? 360 : 280, R = 64, L = 8, T = 10, xAlto = 22, pctAlto = salud ? 86 : 0, gap = salud ? 14 : 0;
+  const alto = GR.grande ? Math.max(380, innerHeight - (cv.getBoundingClientRect().top || 260) - 70) : 0;
+  const W = cv.clientWidth, salud = GR.salud, H = GR.grande ? alto : salud ? 360 : 280, R = 64, L = 8, T = 10, xAlto = 22, pctAlto = salud ? (GR.grande ? Math.round(alto * 0.24) : 86) : 0, gap = salud ? 14 : 0;
   return { W, H, L, R, T, principal: [T, H - xAlto - pctAlto - gap], pct: salud ? [H - xAlto - pctAlto, H - xAlto] : null, xAlto };
 }
 function grEnlazar(cv) {
@@ -278,6 +280,12 @@ const grRepintar = () => { const h = document.querySelector(".gr-hoja"); if (!h)
 Object.assign(ACC, {
   grRango(_, k) { GR.rango = k; const r = GR_RANGOS.find(x => x[0] === k); GR.gran = r[2] === "s" ? "s" : r[2]; if (k === "todo") GR.gran = grEstado.datos.length > 0 && datosGrafica("m").length > 60 ? "a" : "m"; grRepintar(); },
   grGran(_, k) { GR.gran = k; GR.rango = GR.rango || "todo"; grRepintar(); },
+  /** Pantalla completa para analizar: la gráfica ocupa toda la ventana; Esc o el botón la cierran. */
+  grGrande() {
+    GR.grande = !GR.grande; document.body.classList.toggle("gr-pantalla", GR.grande); const [i0, i1] = grRepintar() || [];
+    if (i1 > i0) { grEstado.i0 = i0; grEstado.i1 = i1; requestAnimationFrame(() => { grDibujar(); grTabla(); }); }
+    document.querySelector(".gr-hoja")?.focus?.();
+  },
   grTipo(_, k) { GR.tipo = k; if (k === "velas" && !GR.series.includes("saldo")) GR.series.push("saldo"); grRepintar(); },
   grSerie(_, k) { GR.series = GR.series.includes(k) ? GR.series.filter(x => x !== k) : [...GR.series, k]; if (!GR.series.length) GR.series = ["saldo"]; grRepintar(); },
   grSma() { GR.sma = !GR.sma; grRepintar(); },
@@ -287,3 +295,8 @@ Object.assign(ACC, {
 });
 // Cada vez que se pinta el balance, el lienzo se prepara (y conserva la ventana si solo cambió una opción)
 new MutationObserver(() => { const cv = document.getElementById("grLienzo"); if (cv && !cv.dataset.listo) grIniciar(); }).observe(document.body, { childList: true, subtree: true });
+
+/* Esc sale de la pantalla completa; al cambiar el tamaño de la ventana se redibuja */
+addEventListener("keydown", e => { if (e.key === "Escape" && GR.grande && document.querySelector(".gr-grande")) { e.preventDefault(); ACC.grGrande(); } });
+addEventListener("resize", () => { if (document.getElementById("grLienzo")) grDibujar(); });
+new MutationObserver(() => { if (GR.grande && !document.querySelector(".gr-grande")) { GR.grande = false; document.body.classList.remove("gr-pantalla"); } }).observe(document.body, { childList: true, subtree: true });

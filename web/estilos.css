@@ -2753,3 +2753,33 @@ a.carta-releer { text-decoration: none; }
 .dt-campos input { width: 104px; height: 40px; padding: 0 10px; border: 1px solid var(--linea); border-radius: var(--md-shape-xs); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 15px; }
 .dt-campos .dt-input { display: inline-flex; align-items: center; gap: 4px; color: var(--tinta); } .dt-campos .dt-input input { width: 70px; }
 .dt-acciones { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+/* Gráfica del ascenso en pantalla completa: para analizar con calma */
+.gr-hoja .cab-lista-btn { align-items: center; gap: 12px; }
+.gr-hoja .gr-ayuda { margin-left: auto; }
+.gr-hoja.gr-grande { position: fixed; inset: 0; z-index: 400; background: var(--hoja); margin: 0; border-radius: 0; overflow: auto; max-width: none;
+  padding: max(16px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+  animation: gr-entra .3s var(--md-easing-emph-decel); }
+@keyframes gr-entra { from { opacity: 0; transform: scale(.98); } }
+.gr-grande .gr-kpis { grid-template-columns: repeat(3, minmax(0, 240px)); }
+@media (max-width: 560px) { .gr-hoja .gr-ayuda { display: none; } .gr-grande .gr-kpis { grid-template-columns: 1fr 1fr; } }
+/* Así se aplica el método */
+.sub-h { margin: 14px 0 8px; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--tinta-suave); }
+.ataque { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+.ataque li { display: flex; gap: 12px; align-items: flex-start; position: relative; padding: 0 0 14px; }
+.ataque li:not(:last-child)::before { content: ""; position: absolute; left: 12px; top: 26px; bottom: 2px; width: 2px; background: color-mix(in srgb, var(--burdeos) 25%, transparent); }
+.ataque .orden { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--burdeos); color: var(--sobre-burdeos); font-size: 13px; font-weight: 600; }
+.ataque li div { display: grid; } .ataque small { font-size: 12.5px; color: var(--tinta-suave); }
+.este-mes { display: grid; gap: 0; border: 1px solid var(--linea); border-radius: var(--md-shape-md); overflow: hidden; }
+.este-mes > div { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 10px 14px; border-top: 1px solid var(--linea); font-variant-numeric: tabular-nums; }
+.este-mes > div:first-child { border-top: 0; }
+.este-mes .foco { background: var(--burdeos-suave); }
+.este-mes .foco i { font-style: normal; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--md-shape-sm); background: var(--burdeos); color: var(--sobre-burdeos); margin-left: 6px; }
+.este-mes .total { background: var(--hoja-2); font-weight: 600; }
+.calendario-deudas { margin-top: 14px; }
+.calendario-deudas summary { cursor: pointer; font-weight: 600; padding: 8px 0; color: var(--burdeos); }
+.calendario-deudas td.extra { background: color-mix(in srgb, var(--burdeos) 10%, transparent); font-weight: 600; }
+.calendario-deudas td.fin { color: var(--ok); font-weight: 700; }
+.calendario-deudas th[scope=row] { white-space: nowrap; font-weight: 500; }
+.ley-extra { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--burdeos) 20%, transparent); vertical-align: -2px; }
+body.gr-pantalla .riel, body.gr-pantalla .lista, body.gr-pantalla .det-cab { visibility: hidden; }
+body.gr-pantalla .gr-grande { visibility: visible; }

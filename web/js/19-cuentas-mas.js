@@ -64,21 +64,24 @@ function planDeudas(lista, metodo, extra) {
     hibrido: (a, b) => { const q = d => d.b <= 3 * (d.min + Math.max(0, extra)); return (q(b) - q(a)) || (q(a) ? a.b - b.b : b.r - a.r || a.b - b.b); },
     propio: (a, b) => a.k - b.k,
   }[metodo] || ((a, b) => b.r - a.r);
-  let mes = 0, interes = 0; const serie = [total()], pago1 = {}, intDe = {};
+  let mes = 0, interes = 0; const serie = [total()], pago1 = {}, intDe = {}, pagos = [];
   while (ds.some(d => d.b > 0.005) && mes < 600) {
     mes++;
     ds.forEach(d => { if (d.b > 0.005) { const i = d.b * d.r; d.b += i; interes += i; intDe[d.id] = (intDe[d.id] || 0) + i; } });
+    const prev = Object.fromEntries(ds.map(d => [d.id, d.b]));
     const antes = mes === 1 ? Object.fromEntries(ds.map(d => [d.id, d.b])) : null;
     // Solo mínimos: cada deuda paga su cuota y nada más; con un método, lo que sobra rueda a la siguiente
     let bolsa = minimos ? 0 : Math.max(0, extra);
     ds.forEach(d => { if (d.b > 0.005) { const p = Math.min(d.min, d.b); d.b -= p; if (!minimos) bolsa += d.min - p; } else if (!minimos) bolsa += d.min; });
     for (const d of ds.filter(d => d.b > 0.005).sort(ordenar)) { if (bolsa <= 0.005) break; const p = Math.min(bolsa, d.b); d.b -= p; bolsa -= p; }
     if (antes) ds.forEach(d => { pago1[d.id] = antes[d.id] - d.b; });
+    // Lo que recibe cada deuda este mes (para el calendario mes a mes), con su interés ya sumado
+    if (mes <= 120) pagos.push({ por: Object.fromEntries(ds.map(d => [d.id, Math.max(0, (prev[d.id] ?? 0) - d.b)])), saldo: total() });
     ds.forEach(d => { if (d.b <= 0.005 && !d.fin) d.fin = mes; });
     serie.push(total());
   }
   const libre = !ds.some(d => d.b > 0.005);
-  return { meses: libre ? mes : null, interes, serie, pago1, intDe, fin: Object.fromEntries(ds.map(d => [d.id, d.fin || null])) };
+  return { meses: libre ? mes : null, interes, serie, pago1, intDe, pagos, fin: Object.fromEntries(ds.map(d => [d.id, d.fin || null])) };
 }
 const mesesDespues = n => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + n); return `${MESES[d.getMonth()]} de ${d.getFullYear()}`; };
 
@@ -443,6 +446,38 @@ function graficaDeudas(plan, base, lista) {
     <text class="tope" x="${W - 8}" y="${y(alto) - 2}" text-anchor="end">${plata(Math.round(alto))}</text></svg>
     <figcaption><span><i class="ley-metodo"></i>Tu método</span><span><i class="ley-base"></i>Solo mínimos</span><span><i class="ley-hito"></i>Deuda pagada</span></figcaption></figure>`;
 }
+/**
+ * Así se aplica el método: el orden en que atacas tus deudas (y por qué), qué pagas este mes a cada una
+ * y el calendario mes a mes con lo que recibe cada deuda y lo que debes al final de cada mes.
+ */
+function aplicarMetodo(d, plan, vivas, fechaFin) {
+  const nombre = (METODOS_DEUDA.find(m => m[0] === d.metodo) || [])[1] || "";
+  const porque = x => { const t = Number(x.tasa) || 0, mn = Number(x.minimo) || 0;
+    return { avalancha: `${t.toLocaleString(ascLocale)} % de interés`, bola: `saldo de ${plata(x.actual)}`,
+      flujo: mn ? `${(x.actual / mn).toLocaleString(ascLocale, { maximumFractionDigits: 1 })} meses de cuota (saldo ÷ mínimo)` : "sin mínimo",
+      hibrido: x.actual <= 3 * (mn + d.extra) ? "se cierra en 3 meses o menos" : `${t.toLocaleString(ascLocale)} % de interés`, propio: "tu orden" }[d.metodo] || ""; };
+  const orden = vivas.slice().sort((a, b) => (plan.fin[a.id] || 1e9) - (plan.fin[b.id] || 1e9));
+  const mes1 = plan.pagos[0]?.por || {}, foco = orden.find(x => (mes1[x.id] || 0) > (Number(x.minimo) || 0) + 0.5);
+  const totalMes = orden.reduce((a, x) => a + (mes1[x.id] || 0), 0);
+  const filas = plan.pagos.slice(0, Math.min(plan.pagos.length, estado.deudasTodo ? 120 : 12));
+  const corto = s => s.length > 14 ? s.slice(0, 13) + "…" : s;
+  return hoja(`<h3 style="margin:0 0 4px">Así se aplica ${esc(nombre)}</h3>
+    <p class="suave" style="margin:0 0 12px">Pagas el mínimo de todas y lo extra va a una sola. Cuando esa termina, todo lo que le pagabas pasa a la siguiente: la bola crece.</p>
+    <h4 class="sub-h">El orden de ataque</h4>
+    <ol class="ataque">${orden.map((x, i) => `<li><span class="orden">${i + 1}</span><div><b>${esc(x.nombre)}</b><small>${porque(x)} · la eliminas en ${fechaFin(plan.fin[x.id])}</small></div></li>`).join("")}</ol>
+    <h4 class="sub-h">Este mes pagas así</h4>
+    <div class="este-mes">${orden.map(x => { const v = mes1[x.id] || 0, extra = v - (Number(x.minimo) || 0) > 0.5;
+      return `<div class="${extra ? "foco" : ""}"><span>${esc(x.nombre)}${extra ? ` <i>Recibe el extra</i>` : ""}</span><b>${plata(Math.round(v))}</b></div>`; }).join("")}
+      <div class="total"><span>Total del mes</span><b>${plata(Math.round(totalMes))}</b></div></div>
+    ${foco ? `<p class="suave" style="margin:8px 0 0;font-size:13px">Todo lo que puedes pagar de más va a <b>${esc(foco.nombre)}</b>; a las demás, solo su mínimo.</p>` : ""}
+    <details class="calendario-deudas"${estado.deudasCal ? " open" : ""}><summary data-acc="deudasCal">Mes a mes: qué recibe cada deuda</summary>
+      <div class="asc-tabla"><table><thead><tr><th>Mes</th>${orden.map(x => `<th class="num" title="${esc(x.nombre)}">${esc(corto(x.nombre))}</th>`).join("")}<th class="num">Debes al final</th></tr></thead><tbody>
+      ${filas.map((f, k) => `<tr><th scope="row">${fechaFin(k + 1)}</th>${orden.map(x => { const v = f.por[x.id] || 0, fin = plan.fin[x.id] === k + 1, extra = v - (Number(x.minimo) || 0) > 0.5;
+        return `<td class="num${fin ? " fin" : extra ? " extra" : ""}">${v > 0.5 ? plata(Math.round(v)) : "—"}${fin ? " ✓" : ""}</td>`; }).join("")}<td class="num">${plata(Math.round(f.saldo))}</td></tr>`).join("")}
+      </tbody></table></div>
+      ${plan.pagos.length > 12 ? `<button class="btn mini" data-acc="deudasTodo">${estado.deudasTodo ? "Ver solo 12 meses" : `Ver los ${Math.min(plan.pagos.length, 120)} meses`}</button>` : ""}
+      <p class="suave" style="font-size:12.5px;margin:8px 0 0"><span class="ley-extra"></span> recibe el extra · ✓ la eliminas ese mes</p></details>`);
+}
 DET["finanzas.deudas"] = () => {
   if (finBloqueado()) return pantallaBloqueo();
   const d = deudasDatos(), lista = deudasHoy(), total = lista.reduce((a, x) => a + x.actual, 0), pagado = lista.reduce((a, x) => a + x.pagado, 0);
@@ -484,6 +519,7 @@ DET["finanzas.deudas"] = () => {
           ${base.meses == null || base.meses > plan.meses ? `<p class="suave">Pagando solo los mínimos ${base.meses ? `tardarías ${duracion(base.meses)} y pagarías ${plata(Math.round(base.interes))}` : "la deuda no se acabaría"}: con tu método ${base.meses ? `ahorras <b>${plata(Math.round(base.interes - plan.interes))}</b> y <b>${duracion(base.meses - plan.meses)}</b>` : "sí sales"}.</p>` : ""}`
         : `<p class="neg"><b>Con estos pagos la deuda no baja:</b> los intereses son mayores que los mínimos. Sube el pago extra o renegocia la tasa.</p>`}</div>
         ${plan.meses ? graficaDeudas(plan, base, vivas) : ""}` : ""}`) +
+    (vivas.length && plan.meses ? aplicarMetodo(d, plan, vivas, fechaFin) : "") +
     hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Tus deudas</h3>${d.metodo === "propio" ? `<span class="suave" style="font-size:13px">Ordénalas con las flechas</span>` : ""}</div>
       ${lista.length ? `<div class="deudas-tarjetas">${lista.map((x, k) => { const i = orden.indexOf(x), fin = plan.fin[x.id], ancho = plan.meses && fin ? fin / plan.meses * 100 : 0;
           // Impacto: esta deuda pagando solo su mínimo frente a lo que le toca con tu método
@@ -515,6 +551,8 @@ DET["finanzas.deudas"] = () => {
 /* ---------- Acciones ---------- */
 Object.assign(ACC, {
   deudaMetodo(_, m) { const d = deudasDatos(); d.metodo = m; guardarDeudas(d); },
+  deudasCal(el) { setTimeout(() => { estado.deudasCal = el.closest("details")?.open; }, 0); },
+  deudasTodo() { estado.deudasTodo = !estado.deudasTodo; estado.deudasCal = true; pintarDetalle(); },
   deudaMover(_, arg) { const [id, s] = arg.split("|"), d = deudasDatos(), k = d.lista.findIndex(y => y.id === id), j = k + Number(s);
     if (k < 0 || j < 0 || j >= d.lista.length) return; [d.lista[k], d.lista[j]] = [d.lista[j], d.lista[k]]; guardarDeudas(d); },
   deudaExtra(el) { const d = deudasDatos(); d.extra = Math.abs(montoFin(el.value)); guardarDeudas(d); },
