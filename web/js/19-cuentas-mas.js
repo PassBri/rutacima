@@ -181,14 +181,15 @@ function barraPeso(r) {
     <ul class="peso-ley">${partes.map(([k, n, v]) => `<li><i class="seg-${k}"></i><span>${n}</span><b>${pctT(v / s.ing)}</b><small>${plata(Math.round(v / r.nMeses))}/mes</small></li>`).join("")}</ul></figure>`;
 }
 function medidor(x) {
-  if (x.max == null || !Number.isFinite(x.v)) return `<div class="med"><div class="med-cab"><b>${x.nombre}</b><span class="med-val">${x.valor}</span>${chipEst(x.estado)}</div><p class="med-ayuda">${x.ayuda}</p></div>`;
+  const cab = `<header class="med-cab"><b>${x.nombre}</b>${chipEst(x.estado)}</header><div class="med-val">${x.valor}</div>`;
+  if (x.max == null || !Number.isFinite(x.v)) return `<article class="med e-${x.estado}">${cab}<p class="med-ayuda">${x.ayuda}</p></article>`;
   const p = v => Math.max(0, Math.min(100, v / x.max * 100)), meta = p(x.meta), meta2 = x.meta2 ? p(x.meta2) : null;
   // La zona buena del riel: a la derecha de la meta si más es mejor, a la izquierda si menos es mejor
   const zona = x.alto ? `left:${meta}%;right:${meta2 != null ? 100 - meta2 : 0}%` : `left:0;right:${100 - meta}%`;
-  return `<div class="med e-${x.estado}"><div class="med-cab"><b>${x.nombre}</b><span class="med-val">${x.valor}</span>${chipEst(x.estado)}</div>
+  return `<article class="med e-${x.estado}">${cab}
     <div class="med-riel" role="img" aria-label="${esc(x.nombre)}: ${esc(x.valor)}; meta ${esc(x.metaTxt)}; ${EST_SALUD[x.estado][0]}"><span class="med-zona" style="${zona}"></span><span class="med-fill" style="width:${p(x.v)}%"></span>
       <span class="med-meta" style="left:${meta}%"></span>${meta2 != null ? `<span class="med-meta" style="left:${meta2}%"></span>` : ""}${x.v > x.max ? `<span class="med-mas" aria-hidden="true">›</span>` : ""}</div>
-    <p class="med-ayuda">${x.ayuda} <span class="med-metatxt">Meta: ${x.metaTxt}</span></p></div>`;
+    <p class="med-ayuda">${x.ayuda}</p><p class="med-metatxt">Meta: ${x.metaTxt}</p></article>`;
 }
 const chipEst = e => e === "na" ? "" : `<span class="chip-est e-${e}"><i aria-hidden="true">${EST_SALUD[e][1]}</i>${EST_SALUD[e][0]}</span>`;
 function balanceBarras(r) {
@@ -222,28 +223,46 @@ function lineaMeses(pref, r) {
       <div class="lm-meses">${datos.map((d, i) => `<span style="left:${(x(i) / W * 100).toFixed(1)}%">${etq(d.m)}</span>`).join("")}</div>
       <div class="lm-tip" hidden></div></div></figure>`;
 }
+/** Los indicadores, agrupados como se leen: el flujo del mes, el futuro, las deudas y la libertad. */
+const GRUPOS_SALUD = [
+  ["Tu flujo de dinero", "plata", ["Porcentaje de flujo neto", "Índice de liquidez", "Relación gasto ÷ ingreso"]],
+  ["Construir tu futuro", "metas", ["Tasa de ahorro", "Ahorro + inversión ÷ ingresos", "Fondo de emergencia"]],
+  ["Deudas", "deuda", ["Deuda ÷ ingreso (DTI)", "Índice de endeudamiento", "Pasivos buenos ÷ pasivos"]],
+  ["Libertad y patrimonio", "cima", ["Ingresos pasivos ÷ ingresos", "Índice de libertad financiera", "Patrimonio neto ÷ ingresos anuales"]],
+];
 function saludHoja(pref) {
   const r = saludDe(pref);
   if (!r.s.n) return "";
   const periodo = pref ? `en ${pref.slice(0, 4)}` : "en tus últimos 12 meses", actual = !pref || pref.startsWith(String(new Date().getFullYear()));
   const m = v => plata(Math.round(v / r.nMeses));
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Cómo está tu salud financiera</h3>${publicaFin() ? `<button class="btn mini" data-acc="ascCompartir" data-arg="${pref}">${ic("publicar")} Compartir mi avance</button>` : ""}</div>
-    ${r.isf != null ? `<div class="salud-cab"><div class="salud-anillo" style="--p:${r.isf}" role="img" aria-label="Índice de Salud Financiera ${r.isf} %"><b>${r.isf}</b><small>ISF %</small></div>
-      <div class="salud-nivel"><b class="salud-etq e-${r.nivel[2]}">${r.nivel[0]}</b><p class="suave" style="margin:2px 0 8px">${r.nivel[1]}</p>
-        <div class="isf-escala" aria-label="Escala del índice">${[["Riesgo", 0, 20], ["Moderada", 20, 50], ["Buena", 50, 80], ["Excelente", 80, 100]].map(([n, a, b]) => `<span class="${r.isf >= a && (r.isf < b || b === 100) ? "aqui" : ""}" style="flex:${b - a}">${n}</span>`).join("")}<i style="left:${r.isf}%"></i></div>
-        <p class="suave" style="margin:6px 0 0;font-size:12.5px">Índice de Salud Financiera ${periodo}.</p></div></div>` : ""}
-    ${barraPeso(r)}
-    <div class="medidores">${r.ind.map(medidor).join("")}</div>
-    ${actual ? balanceBarras(r) : ""}
-    ${lineaMeses(pref, r)}
-    <details class="salud-detalle"><summary>Ver el estado de cuentas en cifras</summary>
+  const cuenta = e => r.ind.filter(x => x.estado === e).length;
+  const nivelK = r.isf == null ? "" : r.isf >= 80 ? "excelente" : r.isf >= 50 ? "buena" : r.isf >= 20 ? "moderada" : "riesgo";
+  const usados = new Set();
+  const grupos = GRUPOS_SALUD.map(([t, icono, nombres]) => {
+    const xs = nombres.map(n => r.ind.find(x => x.nombre === n)).filter(Boolean); xs.forEach(x => usados.add(x));
+    return xs.length ? `<section class="sal-grupo"><h4>${ic(icono)}${t}</h4><div class="sal-inds">${xs.map(medidor).join("")}</div></section>` : "";
+  }).join("");
+  const otros = r.ind.filter(x => !usados.has(x));
+  return `<section class="sal-hero niv-${nivelK}">
+      <div class="cab-lista-btn sal-hero-cab"><h3>Cómo está tu salud financiera</h3>${publicaFin() ? `<button class="btn mini tonal" data-acc="ascCompartir" data-arg="${pref}">${ic("publicar")} Compartir mi avance</button>` : ""}</div>
+      ${r.isf != null ? `<div class="salud-cab"><div class="salud-anillo" style="--p:${r.isf}" role="img" aria-label="Índice de Salud Financiera ${r.isf} %"><b>${r.isf}</b><small>ISF %</small></div>
+        <div class="salud-nivel"><span class="sal-nivel-chip">${r.nivel[0]}</span><p class="sal-nivel-txt">${r.nivel[1]}</p>
+          <div class="isf-escala" aria-label="Escala del índice">${[["Riesgo", 0, 20], ["Moderada", 20, 50], ["Buena", 50, 80], ["Excelente", 80, 100]].map(([n, a, b]) => `<span class="${r.isf >= a && (r.isf < b || b === 100) ? "aqui" : ""}" style="flex:${b - a}">${n}</span>`).join("")}<i style="left:${r.isf}%"></i></div>
+          <p class="suave sal-periodo">Índice de Salud Financiera ${periodo}.</p>
+          <div class="sal-resumen">${[["ok", "en meta"], ["medio", "en atención"], ["bajo", "por mejorar"]].filter(([e]) => cuenta(e)).map(([e, t]) => `<span class="sal-cuenta e-${e}"><i aria-hidden="true">${EST_SALUD[e][1]}</i><b>${cuenta(e)}</b> ${t}</span>`).join("")}</div></div></div>` : ""}
+    </section>
+    <section class="sal-card">${barraPeso(r)}</section>
+    ${grupos}${otros.length ? `<section class="sal-grupo"><h4>${ic("salud")}Otros</h4><div class="sal-inds">${otros.map(medidor).join("")}</div></section>` : ""}
+    ${actual && (r.activos || r.pasivos) ? `<section class="sal-card">${balanceBarras(r)}</section>` : ""}
+    ${(() => { const l = lineaMeses(pref, r); return l ? `<section class="sal-card">${l}</section>` : ""; })()}
+    <section class="sal-card"><details class="salud-detalle"><summary>Ver el estado de cuentas en cifras</summary>
     <div class="asc-tabla"><table class="salud-tabla"><thead><tr><th>Concepto</th><th class="num">Mensual (promedio)</th><th class="num">${pref ? "En " + pref.slice(0, 4) : "12 meses"}</th></tr></thead><tbody>
       ${r.filas.map(([n, v, fuerte]) => `<tr class="${fuerte ? "fuerte" : ""}"><th scope="row">${n}</th><td class="num${v < 0 ? " neg" : ""}">${m(v)}</td><td class="num${v < 0 ? " neg" : ""}">${plata(v)}</td></tr>`).join("")}
       <tr><th scope="row">Cuotas de deuda al mes</th><td class="num">${plata(r.deudaMes)}</td><td class="num"></td></tr>
       ${actual ? `<tr class="fuerte"><th scope="row">Activos totales</th><td class="num"></td><td class="num">${plata(r.activos)}</td></tr>
       <tr><th scope="row">Pasivos totales</th><td class="num"></td><td class="num">${plata(r.pasivos)}</td></tr>
       <tr class="fuerte"><th scope="row">Patrimonio neto</th><td class="num"></td><td class="num${r.neto < 0 ? " neg" : ""}">${plata(r.neto)}</td></tr>` : ""}
-    </tbody></table></div></details>`);
+    </tbody></table></div></details></section>`;
 }
 /* Resumen de una línea en el balance y en el año: la salud completa vive en su propia pantalla */
 function saludResumen(pref) {

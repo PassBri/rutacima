@@ -2919,3 +2919,49 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 .asc-movs tr.arrastrando { position: relative; z-index: 2; background: var(--hoja); box-shadow: 0 8px 24px rgb(var(--sombra, 24 38 48) / .22); }
 .asc-movs tr.arrastrando .asc-asa { cursor: grabbing; color: var(--burdeos); }
 body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: none; }
+
+/* ---------- Salud financiera con Material 3: héroe tonal, tarjetas por grupo e indicadores en tarjetas ---------- */
+.sal-hero { --niv: var(--burdeos); position: relative; padding: 20px 22px; border-radius: 28px; margin: 4px 0 16px;
+  background: color-mix(in srgb, var(--niv) 9%, var(--hoja)); border: 1px solid color-mix(in srgb, var(--niv) 18%, transparent); }
+.sal-hero.niv-excelente { --niv: var(--st-ok); } .sal-hero.niv-buena { --niv: #2E7D52; } .sal-hero.niv-moderada { --niv: #B7791F; } .sal-hero.niv-riesgo { --niv: var(--st-bajo); }
+.sal-hero-cab h3 { margin: 0; font: 500 18px/1.3 var(--font-texto); }
+.sal-hero .salud-cab { gap: 22px; margin: 14px 0 0; align-items: center; }
+.sal-hero .salud-anillo { width: 132px; height: 132px; box-shadow: 0 1px 2px rgb(var(--sombra, 24 38 48) / .08);
+  background: radial-gradient(closest-side, var(--hoja) 80%, transparent 81% 100%), conic-gradient(var(--niv) calc(var(--p) * 1%), color-mix(in srgb, var(--niv) 14%, var(--hoja-2)) 0); }
+.sal-hero .salud-anillo b { font: 600 40px/1 var(--font-titulo); color: var(--tinta); }
+.sal-hero .salud-anillo small { font-size: 12px; letter-spacing: .04em; margin-top: 2px; }
+.sal-nivel-chip { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border-radius: 8px; font: 600 15px/1 var(--font-texto);
+  background: var(--niv); color: #fff; }
+.sal-nivel-txt { margin: 8px 0 10px; font-size: 15px; color: var(--tinta); }
+.sal-hero .isf-escala span { border-top-width: 6px; border-radius: 2px; }
+.sal-hero .isf-escala span.aqui { border-top-color: var(--niv); }
+.sal-hero .isf-escala i { top: -6px; height: 14px; width: 3px; border-radius: 2px; }
+.sal-periodo { margin: 8px 0 0; font-size: 12.5px; }
+.sal-resumen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.sal-cuenta { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px 0 6px; border-radius: 8px; font-size: 13px; color: var(--tinta);
+  background: var(--hoja); border: 1px solid var(--linea); }
+.sal-cuenta i { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; font-style: normal; font-size: 11px; color: #fff; }
+.sal-cuenta.e-ok i { background: var(--st-ok); } .sal-cuenta.e-medio i { background: var(--st-medio); color: #0b0b0b; } .sal-cuenta.e-bajo i { background: var(--st-bajo); }
+.sal-card { padding: 18px 20px; border-radius: 24px; background: var(--hoja); margin: 0 0 16px; box-shadow: 0 1px 2px rgb(var(--sombra, 24 38 48) / .08); }
+.sal-card .viz { margin: 0; }
+.sal-card .viz figcaption { font: 500 16px/1.3 var(--font-texto); margin-bottom: 12px; }
+.sal-card .peso-barra { height: 28px; gap: 3px; } .sal-card .peso-barra span:first-child { border-radius: 14px 4px 4px 14px; } .sal-card .peso-barra span:last-child { border-radius: 4px 14px 14px 4px; }
+.sal-grupo { margin: 0 0 18px; }
+.sal-grupo h4 { display: flex; align-items: center; gap: 8px; margin: 6px 4px 10px; font: 500 14px/1.2 var(--font-texto); letter-spacing: .01em; color: var(--tinta-suave); }
+.sal-grupo h4 svg { width: 18px; height: 18px; fill: currentColor; }
+.sal-inds { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.sal-inds .med { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 16px; background: var(--hoja);
+  border: 1px solid var(--linea); transition: box-shadow .2s cubic-bezier(.2,0,0,1); }
+@media (hover: hover) and (pointer: fine) { .sal-inds .med:hover { box-shadow: 0 2px 8px rgb(var(--sombra, 24 38 48) / .12); } }
+.sal-inds .med-cab { display: flex; align-items: flex-start; gap: 8px; }
+.sal-inds .med-cab b { flex: 1; font: 500 14px/1.3 var(--font-texto); color: var(--tinta-suave); }
+.sal-inds .med-val { font: 600 30px/1.05 var(--font-titulo); color: var(--tinta); font-variant-numeric: tabular-nums; }
+.sal-inds .med.e-ok .med-val { color: color-mix(in srgb, var(--st-ok) 70%, var(--tinta)); }
+.sal-inds .med.e-bajo .med-val { color: color-mix(in srgb, var(--st-bajo) 80%, var(--tinta)); }
+.sal-inds .med-riel { height: 8px; border-radius: 4px; margin: 4px 0 2px; }
+.sal-inds .med-fill { top: 0; bottom: 0; border-radius: 4px; }
+.sal-inds .med-meta { top: -5px; bottom: -5px; width: 3px; border-radius: 2px; }
+.sal-inds .med-ayuda { font-size: 13px; }
+.sal-inds .med-metatxt { margin: auto 0 0; font-size: 12.5px; font-weight: 600; color: var(--tinta); }
+.sal-inds .chip-est { height: 24px; padding: 0 10px 0 4px; border-radius: 8px; font-size: 12px; background: transparent; border: 1px solid var(--linea); white-space: nowrap; }
+@media (max-width: 640px) { .sal-hero .salud-cab { flex-direction: column; align-items: flex-start; } .sal-hero { padding: 18px; } }
