@@ -64,42 +64,29 @@ import androidx.compose.ui.window.PopupProperties
 object ClimaIconos {
     val REACCIONES = listOf("sol", "tormenta", "niebla", "valle", "cumbre")
     val COLOR = mapOf(
-        "sol" to Color(0xFFE3A93B), "tormenta" to Color(0xFF7E8FA3), "niebla" to Color(0xFFB9C1C9),
-        "valle" to Color(0xFF6FA07A), "cumbre" to Color(0xFFC0473A),
+        "sol" to Color(0xFFE8A317), "tormenta" to Color(0xFFE0662A), "niebla" to Color(0xFF7A8896),
+        "valle" to Color(0xFF3E8A5A), "cumbre" to Color(0xFFC0473A),
     )
 
-    /** Trazos de 48×48: (d, relleno, trazo, grosor). */
-    private class T(val d: String, val relleno: Long? = null, val trazo: Long? = null, val grosor: Float = 0f)
-    private val TRAZOS = mapOf(
-        "sol" to listOf(
-            T("M31 3v3M31 22v3M20 14h3M39 14h3M23.5 6.5l2 2M36.5 19.5l2 2M38.5 6.5l-2 2", trazo = 0xFFE3A93B, grosor = 2.2f),
-            T("M25 14a6 6 0 1 0 12 0a6 6 0 1 0-12 0", 0xFFE3A93B), T("M3 43L18 21l8 11 5-6 14 17z", 0xFF8A6A48),
-            T("M18 21l4.5 6.5-3-1-3 2-2.5-1.5z", 0xFFF4EFE6),
-        ),
-        "tormenta" to listOf(
-            T("M12 22a8 8 0 0 1 15-4 6 6 0 0 1 9 5 5 5 0 0 1-1 10H13a6 6 0 0 1-1-11z", 0xFF6B7888),
-            T("M25 26l-4 8h5l-3 8 9-11h-5l3-5z", 0xFFF0C043), T("M14 37l-2 4M36 37l-2 4", trazo = 0xFF8FB0D3, grosor = 2.2f),
-        ),
-        "niebla" to listOf(T("M6 36l13-18 8 10 5-5 10 13z", 0xFF6F7B88), T("M6 26h20M14 32h28M8 40h30", trazo = 0xFFBCC4CC, grosor = 3f)),
-        "valle" to listOf(
-            T("M18 26a6 6 0 1 0 12 0a6 6 0 1 0-12 0", 0xFFE8B26A), T("M2 30l12-12 10 12 10-12 12 12v14H2z", 0xFF4E7B57),
-            T("M2 38c8-4 14 2 22-1s14-2 22 0v8H2z", 0xFF8DB894),
-        ),
-        "cumbre" to listOf(T("M6 44c4-5 16-5 20 0z", 0xFF8A6A48), T("M16 6v36", trazo = 0xFFE9E2D3, grosor = 3f), T("M17 7h20l-5 6 5 6H17z", 0xFFC0473A)),
+    /** Material 3 Expressive: forma de color (48×48) + símbolo de Material Rounded relleno (960×960) en blanco. */
+    private class F(val forma: String, val color: Long, val simbolo: String)
+    private val FORMAS = mapOf(
+        "sol" to F("M47.2 24.0 L47.0 25.2 46.3 26.3 45.4 27.4 44.3 28.3 43.2 29.2 42.3 29.9 41.6 30.8 41.2 31.7 41.1 32.7 41.2 33.9 41.4 35.3 41.5 36.7 41.5 38.1 41.1 39.4 40.4 40.4 39.4 41.1 38.1 41.5 36.7 41.5 35.3 41.4 34.0 41.2 32.7 41.1 31.7 41.2 30.8 41.6 29.9 42.3 29.2 43.2 28.3 44.3 27.4 45.4 26.3 46.3 25.2 47.0 24.0 47.2 22.8 47.0 21.7 46.3 20.6 45.4 19.7 44.3 18.8 43.2 18.1 42.3 17.2 41.6 16.3 41.2 15.3 41.1 14.1 41.2 12.7 41.4 11.3 41.5 9.9 41.5 8.6 41.1 7.6 40.4 6.9 39.4 6.5 38.1 6.5 36.7 6.6 35.3 6.8 33.9 6.9 32.7 6.8 31.7 6.4 30.8 5.7 29.9 4.8 29.2 3.7 28.3 2.6 27.4 1.7 26.3 1.0 25.2 0.8 24.0 1.0 22.8 1.7 21.7 2.6 20.6 3.7 19.7 4.8 18.8 5.7 18.1 6.4 17.2 6.8 16.3 6.9 15.3 6.8 14.1 6.6 12.7 6.5 11.3 6.5 9.9 6.9 8.6 7.6 7.6 8.6 6.9 9.9 6.5 11.3 6.5 12.7 6.6 14.0 6.8 15.3 6.9 16.3 6.8 17.2 6.4 18.1 5.7 18.8 4.8 19.7 3.7 20.6 2.6 21.7 1.7 22.8 1.0 24.0 0.8 25.2 1.0 26.3 1.7 27.4 2.6 28.3 3.7 29.2 4.8 29.9 5.7 30.8 6.4 31.7 6.8 32.7 6.9 34.0 6.8 35.3 6.6 36.7 6.5 38.1 6.5 39.4 6.9 40.4 7.6 41.1 8.6 41.5 9.9 41.5 11.3 41.4 12.7 41.2 14.1 41.1 15.3 41.2 16.3 41.6 17.2 42.3 18.1 43.2 18.8 44.3 19.7 45.4 20.6 46.3 21.7 47.0 22.8z", 0xFFE8A317, "M458.5-778.63Q450-787.25 450-800v-90q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v90q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63ZM685-685q-9-9-9-21.1 0-12.1 9-20.9l63-64q9.07-9 21.53-9 12.47 0 21.47 9 9 9 9 21t-9 21l-64 64q-9 9-21 9t-21-9Zm115 235q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32 8.62-8.5 21.37-8.5h90q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5h-90ZM458.5-48.63Q450-57.25 450-70v-90q0-12.75 8.68-21.38 8.67-8.62 21.5-8.62 12.82 0 21.32 8.62 8.5 8.63 8.5 21.38v90q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63ZM233-685l-64-63q-9-8.87-9-21.43 0-12.57 9.39-21.57 8.61-9 20.61-9t21 9l64 64q9 9 9 21t-9 21q-9.27 8-21.64 8-12.36 0-20.36-8Zm516 516-64-64q-9-8.8-9-20.9 0-12.1 9-21.1 8.25-8 20.63-8 12.37 0 21.37 8l65 63q9 9 8.63 21.6-.37 12.61-8.53 21.5-8.89 8.9-21.5 8.9-12.6 0-21.6-9ZM70-450q-12.75 0-21.37-8.68-8.63-8.67-8.63-21.5 0-12.82 8.63-21.32Q57.25-510 70-510h90q12.75 0 21.38 8.68 8.62 8.67 8.62 21.5 0 12.82-8.62 21.32-8.63 8.5-21.38 8.5H70Zm99 280.61q-9-8.61-9-20.61t9-21l64-64q8.25-8 20.63-8 12.37 0 21.37 8.25 9 9 9 21.37 0 12.38-9 21.38l-63 63q-8.87 9-21.43 9-12.57 0-21.57-9.39ZM310-310q-70-70-70-170t70-170q70-70 170-70t170 70q70 70 70 170t-70 170q-70 70-170 70t-170-70Z"),
+        "tormenta" to F("M14 2h20a12 12 0 0 1 12 12v20a12 12 0 0 1-12 12H14A12 12 0 0 1 2 34V14A12 12 0 0 1 14 2z", 0xFFE0662A, "M360-360H217q-18 0-26.5-16t2.5-31l338-488q8-11 20-15t24 1q12 5 19 16t5 24l-39 309h176q19 0 27 17t-4 32L388-66q-8 10-20.5 13T344-55q-11-5-17.5-16T322-95l38-265Z"),
+        "niebla" to F("M2 24A22 22 0 0 1 46 24v12a10 10 0 0 1-10 10H12A10 10 0 0 1 2 36z", 0xFF7A8896, "M720-205q-14 0-24.5-10.5T685-240q0-14 10.5-24.5T720-275q14 0 24.5 10.5T755-240q0 14-10.5 24.5T720-205ZM280-80q-14 0-24.5-10.5T245-115q0-14 10.5-24.5T280-150q14 0 24.5 10.5T315-115q0 14-10.5 24.5T280-80Zm-40-125q-14 0-24.5-10.5T205-240q0-14 10.5-24.5T240-275h360q14 0 24.5 10.5T635-240q0 14-10.5 24.5T600-205H240ZM400-80q-14 0-24.5-10.5T365-115q0-14 10.5-24.5T400-150h280q14 0 24.5 10.5T715-115q0 14-10.5 24.5T680-80H400ZM290-340q-87 0-148.5-61.5T80-550q0-79 56.5-141T277-759q32-56 84.5-88.5T480-880q91 0 152.5 57.5T708-680q79 4 125.5 53.5T880-510q0 70-49.5 120T710-340H290Z"),
+        "valle" to F("M2 24A22 22 0 0 1 24 2A22 22 0 0 1 46 24A22 22 0 0 1 24 46H8a6 6 0 0 1-6-6z", 0xFF3E8A5A, "m76-288 180-240q5-6 11-9t13-3q7 0 13 3t11 9l162 216q5 6 11 9t13 3q19 0 27-16.5t-3-31.5L411-485q-6-8-6-18t6-18l125-167q5-6 11-9t13-3q7 0 13 3t11 9l300 400q11 15 3 31.5T860-240H100q-19 0-27-16.5t3-31.5Z"),
+        "cumbre" to F("M8 2h16A22 22 0 0 1 46 24A22 22 0 0 1 24 46A22 22 0 0 1 2 24V8a6 6 0 0 1 6-6z", 0xFFC0473A, "M260-429v279q0 12.75-8.68 21.37-8.67 8.63-21.5 8.63-12.82 0-21.32-8.63-8.5-8.62-8.5-21.37v-620q0-12.75 8.63-21.38Q217.25-800 230-800h289q10.5 0 18.75 6.5T548-776l14 62h208q12.75 0 21.38 8.62Q800-696.75 800-684v310q0 12.75-8.62 21.37Q782.75-344 770-344H568q-10.5 0-18.75-6T539-367l-14-62H260Z"),
     )
     private val cache = HashMap<String, ImageVector>()
 
     fun vector(k: String): ImageVector = cache.getOrPut(k) {
-        val b = ImageVector.Builder("clima_$k", 48.dp, 48.dp, 48f, 48f)
-        TRAZOS[k].orEmpty().forEach { t ->
-            b.addPath(
-                pathData = PathParser().parsePathString(t.d).toNodes(),
-                fill = t.relleno?.let { SolidColor(Color(it)) },
-                stroke = t.trazo?.let { SolidColor(Color(it)) }, strokeLineWidth = t.grosor,
-                strokeLineCap = if (t.trazo != null) StrokeCap.Round else StrokeCap.Butt,
-            )
-        }
-        b.build()
+        val f = FORMAS[k] ?: FORMAS.getValue("sol")
+        ImageVector.Builder("clima_$k", 48.dp, 48.dp, 48f, 48f)
+            .addPath(PathParser().parsePathString(f.forma).toNodes(), fill = SolidColor(Color(f.color)))
+            .addGroup(scaleX = 0.02708f, scaleY = 0.02708f, translationX = 11f, translationY = 37f)
+            .addPath(PathParser().parsePathString(f.simbolo).toNodes(), fill = SolidColor(Color.White))
+            .clearGroup()
+            .build()
     }
 
     fun nombreReaccion(ctx: android.content.Context, k: String): String {
@@ -142,7 +129,6 @@ fun BotonClima(climas: Map<String, Int>, miClima: String?, onElegir: (String?) -
         ) {
             Box(Modifier.size(tamano).scale(pop.value), contentAlignment = Alignment.Center) {
                 Canvas(Modifier.size(tamano).graphicsLayer { rotationZ = -120f * (1f - giro.value); alpha = giro.value }) {
-                    drawCircle(Color(0x52060A12))
                     val g = 3.5.dp.toPx(); val r = Size(size.width - g, size.height - g); val o = Offset(g / 2, g / 2)
                     if (total == 0) drawArc(Color.White.copy(alpha = 0.35f), 0f, 360f, false, o, r, style = Stroke(g))
                     else {
@@ -153,7 +139,7 @@ fun BotonClima(climas: Map<String, Int>, miClima: String?, onElegir: (String?) -
                         }
                     }
                 }
-                ClimaIcono(dom ?: "sol", Modifier.size(tamano * 0.6f), apagado = dom == null)
+                ClimaIcono(dom ?: "sol", Modifier.size(tamano * 0.68f), apagado = dom == null)
             }
             Text(if (total > 0) contarCorto(total) else "", color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
         }

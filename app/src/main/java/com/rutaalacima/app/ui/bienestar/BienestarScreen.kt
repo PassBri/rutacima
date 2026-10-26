@@ -156,9 +156,7 @@ private fun ClimaHoy(datos: DatosBienestar, vm: BienestarViewModel) {
                         Column(Modifier.weight(1f).clip(RoundedCornerShape(16.dp)).background(if (sel) col.copy(alpha = 0.12f) else MaterialTheme.colorScheme.surface)
                             .border(if (sel) 2.dp else 1.dp, if (sel) col else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp))
                             .clickable { vm.cambiar { x -> if (x.clima == k) x else x.copy(clima = k, emo = null, int = x.int ?: 3, t = System.currentTimeMillis()) } }.padding(12.dp)) {
-                            Box(Modifier.size(44.dp).clip(RoundedCornerShape(12.dp)).background(col.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
-                                com.rutaalacima.app.ui.components.ClimaIcono(k, Modifier.size(32.dp))
-                            }
+                            com.rutaalacima.app.ui.components.ClimaIcono(k, Modifier.size(40.dp))
                             Text(ctxStr(ctx, "bi_clima_$k"), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 6.dp))
                             Text(ctxStr(ctx, "bi_clima_${k}_d"), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }

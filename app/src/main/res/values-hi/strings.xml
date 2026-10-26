@@ -2275,7 +2275,7 @@
     <string name="bi_c_9">अन्य</string>
     <string name="cl_titulo">इसने कैसा मौसम छोड़ा?</string>
     <string name="cl_r_sol">रोशन करता है</string>
-    <string name="cl_r_tormenta">झकझोरता है</string>
+    <string name="cl_r_tormenta">प्रेरित करता है</string>
     <string name="cl_r_niebla">जुड़ाव लगता है</string>
     <string name="cl_r_valle">सुकून देता है</string>
     <string name="cl_r_cumbre">चढ़ने की प्रेरणा</string>

@@ -3223,3 +3223,10 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .clima-btn.en-lista .cb-aro { -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px)); }
 .bien-clima .bc-ic svg.clima-ic { width: 32px; height: 32px; fill: none; }
 @media (prefers-reduced-motion: reduce) { .clima-btn .cb-aro, .clima-btn .cb-circ, .clima-btn .clima-ic, .clima-abanico button { animation: none !important; } }
+/* Climas M3 Expressive: la forma de color ya es el contenedor */
+.clima-btn .cb-circ { background: transparent; }
+.clima-btn .cb-circ .clima-ic { width: 34px; height: 34px; }
+.clima-btn.en-lista .cb-circ { background: transparent; }
+.clima-btn.en-lista .cb-circ .clima-ic { width: 26px; height: 26px; }
+.bien-clima .bc-ic:has(.clima-ic) { background: transparent; width: 44px; height: 44px; }
+.bien-clima .bc-ic svg.clima-ic { width: 40px; height: 40px; }
