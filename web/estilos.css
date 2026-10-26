@@ -3447,3 +3447,38 @@ html:not([data-modo-tarjetas="edicion"]) .md-flip .cara-texto .md-grilla .md-pas
 /* En Edición, la cara de adelante se escribe y la de atrás muestra solo las imágenes */
 .md-flip .cara-imagen .md-grilla .md-t81 { display: none !important; }
 html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { padding: 0; }
+
+/* El vision board es una brújula: esfera con marcas, rosa de 8 puntas y rumbos (N, NE, E…) alrededor */
+.rosa-brujula { position: relative; max-width: 680px; margin: 8px auto 4px; padding: 0; aspect-ratio: 1; display: grid; place-items: center; }
+.rb-esfera { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.rb-aro { fill: color-mix(in srgb, var(--oro) 6%, var(--hoja)); stroke: color-mix(in srgb, var(--tinta) 22%, transparent); stroke-width: .5; }
+.rb-aro2 { fill: none; stroke: color-mix(in srgb, var(--oro) 45%, transparent); stroke-width: .35; stroke-dasharray: .6 .9; }
+.rb-esfera line { stroke: color-mix(in srgb, var(--tinta) 30%, transparent); stroke-width: .3; } .rb-esfera line.m-mayor { stroke: color-mix(in srgb, var(--tinta) 55%, transparent); stroke-width: .5; }
+.rb-p1 { fill: color-mix(in srgb, var(--burdeos) 13%, transparent); stroke: color-mix(in srgb, var(--burdeos) 28%, transparent); stroke-width: .25; }
+.rb-p2 { fill: color-mix(in srgb, var(--oro) 14%, transparent); stroke: color-mix(in srgb, var(--oro) 30%, transparent); stroke-width: .2; }
+.rb-eje { fill: var(--oro); }
+.rb-rumbo { position: absolute; z-index: 2; translate: -50% -50%; min-width: 30px; height: 26px; padding: 0 7px; border-radius: 13px; display: grid; place-items: center;
+  background: var(--hoja); border: 1px solid color-mix(in srgb, var(--tinta) 18%, transparent); font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--tinta-suave);
+  box-shadow: 0 2px 6px -3px rgb(var(--sombra) / .3); }
+.rb-rumbo.norte { background: var(--burdeos); border-color: var(--burdeos); color: #fff; }
+.rosa-brujula .tablero-9 { position: relative; z-index: 1; width: 80%; max-width: none; margin: 0; }
+.rosa-brujula .tablero-9 > * { box-shadow: 0 6px 16px -10px rgb(var(--sombra) / .45); }
+.rosa-brujula .tablero-9 > .centro, .rosa-brujula .tablero-9 > :nth-child(5) { box-shadow: 0 0 0 2px var(--oro), 0 10px 24px -10px rgb(var(--sombra) / .5); }
+@media (max-width: 600px) { .rosa-brujula .tablero-9 { width: 84%; gap: 6px; } .rb-rumbo { min-width: 24px; height: 22px; font-size: 10px; padding: 0 5px; } }
+
+/* 1 · 9 · 81 en una sola página: una capa a la vez, del tamaño de la pantalla (sin scroll) */
+.md-pila { scroll-margin-top: 72px; }
+.md-capa[hidden] { display: none !important; }
+.md-capa.entra-dentro { animation: md-dentro .38s cubic-bezier(.2, 0, 0, 1); }
+.md-capa.entra-fuera { animation: md-fuera .38s cubic-bezier(.2, 0, 0, 1); }
+@keyframes md-dentro { from { opacity: 0; transform: scale(.94); } }
+@keyframes md-fuera { from { opacity: 0; transform: scale(1.05); } }
+.md-secciones button[aria-selected="true"] { background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); font-weight: 600; }
+.md-secciones button[aria-selected="false"] b { background: color-mix(in srgb, var(--tinta) 14%, var(--hoja)); color: var(--tinta); }
+/* Lo principal de cada capa cabe en la pantalla */
+.md-capa .rosa-brujula { width: min(100%, 680px, calc(100dvh - 300px)); min-width: min(100%, 340px); }
+.md-capa[data-capa="81"] .md-grilla-caja .md-grilla { max-width: min(640px, calc(100dvh - 320px)); min-width: min(100%, 340px); }
+.md-capa[data-capa="81"] .md-flip-in { max-width: min(640px, calc(100dvh - 320px)); min-width: min(100%, 340px); margin: 0 auto; }
+.md-capa[data-capa="1"] .cumbre-tarjeta { max-width: min(420px, calc(100dvh - 360px)); min-width: min(100%, 280px); margin-left: auto; margin-right: auto; }
+@media (max-width: 600px) { .rosa-brujula .tablero-9 { width: 92%; } .md-capa .rosa-brujula { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .md-capa.entra-dentro, .md-capa.entra-fuera { animation: none; } }

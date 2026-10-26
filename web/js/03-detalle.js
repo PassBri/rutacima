@@ -432,7 +432,7 @@ const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   /* ---------- Mi ruta: Cumbre y Brújula (la visión de toda la vida) ---------- */
   vida() {
-    return cab(av(ic("cima"), "var(--burdeos)"), "Cumbre y Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
+    return cab(av(ic("brujula"), "var(--burdeos)"), "Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
       visionCompleta() + (window.visionVida ? visionVida() : ""));
   },
   /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */
@@ -1333,7 +1333,7 @@ DET["perfil.vision"] = () => {
   const tarjeta = c => casillaVisionHtml(c, md);
 
 
-  return cab(av(ic("cima"), "var(--burdeos)"), estado.brujulaAnio ? `Mi Brújula de ${estado.brujulaAnio}` : "Mi cumbre y mi Brújula", cs.length ? `${conFoto}/${cs.length} con foto` : "Empieza aquí",
+  return cab(av(ic("cima"), "var(--burdeos)"), estado.brujulaAnio ? `Mi Brújula de ${estado.brujulaAnio}` : "Mi Brújula", cs.length ? `${conFoto}/${cs.length} con foto` : "Empieza aquí",
     "") + cuerpo(visionCompleta());
 };
 /** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida.

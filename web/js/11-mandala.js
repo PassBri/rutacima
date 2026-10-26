@@ -360,7 +360,7 @@ function mandalaHtml(tableroHtml = "") {
   // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
-    <button data-acc="mdIr" data-arg="md-s1" aria-label="Cumbre"><b>1</b><span>Cumbre</span></button><button data-acc="mdIr" data-arg="md-s9" aria-label="Vision board"><b>9</b><span>Vision board</span></button><button data-acc="mdIr" data-arg="md-s81" aria-label="Brújula 9×9"><b>81</b><span>Brújula 9×9</span></button>
+    ${[[1, "Cumbre"], [9, "Vision board"], [81, "Brújula 9×9"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
@@ -382,7 +382,7 @@ function mandalaHtml(tableroHtml = "") {
   }).join("");
   const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.",
     `<button class="md-visor-ic md-girar-todas" data-acc="girarTodasVision" aria-label="Girar todas las tarjetas" title="Girar todas las tarjetas">${ic("girar")}</button>`) +
-    `<div class="tablero-9">${rosa}</div>` + (tableroHtml || ""));
+    rosaBrujula(`<div class="tablero-9">${rosa}</div>`) + (tableroHtml || ""));
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
       <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
     : `<div class="md-bloque-cab">${mdAnillo(pctC, "")}<div><small>Centro · tu cumbre y sus 8 campamentos</small><h4>${esc(d.titulo)}</h4></div></div>`;
@@ -453,7 +453,10 @@ function mandalaHtml(tableroHtml = "") {
       <p class="md-visor-ayuda">${ayuda}</p></div>`;
   }
   montarVisor(visor);
-  return nav + s1 + s9 + s81 + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
+  /* 1 → 9 → 81 en una sola página: una capa a la vez en el mismo lugar, como acercar la brújula (sin hacer scroll) */
+  const nv = mdCapaActual();
+  const capa = (n, html) => `<section class="md-capa${n === nv ? " activa" : ""}" data-capa="${n}"${n === nv ? "" : " hidden"}>${html}</section>`;
+  return nav + `<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div>` + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
 }
 
 
@@ -476,19 +479,20 @@ Object.assign(ACC, {
     if (estado.mdVisor && el?.closest?.(".md-visor")) {
       if (Number(v) === 4 && el.classList.contains("md-bloque")) { ACC.mdNivel(null, "1"); return; }
       estado.mdVisor = false; if (document.fullscreenElement) document.exitFullscreen?.();
-      estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; pintarDetalle();
+      estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; mdCapaGuardar(81); pintarDetalle();
       document.getElementById("md-bloque")?.scrollIntoView({ behavior: "auto", block: "start" });   // quieta debajo del visor que se desvanece
       return;
     }
-    const yaAbierto = estado.md81; estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; pintarDetalle();
+    const yaAbierto = estado.md81; estado.mandalaBloque = Number(v); estado.mdPaso = null; estado.md81 = true; mdCapaGuardar(81); pintarDetalle();
     // Desde la grilla de 81 se queda en su sitio; desde el vision board sube la Brújula hasta la vista
     if (el && !el.closest(".md-grilla, .md-bloque-barra, .md-grande") && !yaAbierto || el?.closest?.(".tablero-9"))
       requestAnimationFrame(() => document.getElementById("md-s81")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
   },
   /** Navegación por secciones: Cumbre (1) · Vision board (9) · Brújula 9×9 (81). */
   /** Desde el bloque abierto, sube a la tarjeta de esa casilla en el vision board. */
-  mdIrCasilla(_, id) { const t = document.querySelector(`.casilla-v[data-casilla="${id}"]:not(.en-bloque)`); t?.scrollIntoView({ behavior: "smooth", block: "center" }); t?.classList.add("resalta"); setTimeout(() => t?.classList.remove("resalta"), 1600); },
-  mdIr(_, id) { document.getElementById(id)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); },
+  mdIrCasilla(_, id) { if (document.querySelector(".md-pila")) mdCapa(9); const t = document.querySelector(`.casilla-v[data-casilla="${id}"]:not(.en-bloque)`); t?.scrollIntoView({ behavior: "smooth", block: "center" }); t?.classList.add("resalta"); setTimeout(() => t?.classList.remove("resalta"), 1600); },
+  mdIr(_, id) { const n = Number(String(id).replace("md-s", "")); if ([1, 9, 81].includes(n) && document.querySelector(".md-pila")) return mdCapa(n);
+    document.getElementById(id)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }); },
   /** Cambia de nivel de zoom; ignora el segundo clic de un doble clic para no saltarse un nivel. */
   /** Gira una tarjeta del visor (c, t0…t7, t4) o todas a la vez. */
   mdGirar(_, k) {
@@ -987,3 +991,45 @@ ACC.girarTodasVision = el => {
   });
   el.setAttribute("aria-pressed", String(atras));
 };
+
+/** El vision board es una brújula: la esfera con sus marcas, la rosa de 8 puntas y los rumbos alrededor (Material 3). */
+function rosaBrujula(tablero) {
+  let marcas = "";
+  for (let i = 0; i < 72; i++) { const a = i * 5 * Math.PI / 180, l = i % 9 === 0 ? 3.2 : i % 3 === 0 ? 2 : 1.1, r = 48.6;
+    marcas += `<line x1="${(50 + r * Math.sin(a)).toFixed(2)}" y1="${(50 - r * Math.cos(a)).toFixed(2)}" x2="${(50 + (r - l) * Math.sin(a)).toFixed(2)}" y2="${(50 - (r - l) * Math.cos(a)).toFixed(2)}" class="${i % 9 === 0 ? "m-mayor" : ""}"/>`; }
+  const punta = (ang, largo, ancho) => { const a = ang * Math.PI / 180, b = (ang + 90) * Math.PI / 180, f = n => n.toFixed(2);
+    return `M50 50L${f(50 + ancho * Math.sin(b))} ${f(50 - ancho * Math.cos(b))}L${f(50 + largo * Math.sin(a))} ${f(50 - largo * Math.cos(a))}L${f(50 - ancho * Math.sin(b))} ${f(50 + ancho * Math.cos(b))}Z`; };
+  const estrella = [0, 90, 180, 270].map(g => `<path class="rb-p1" d="${punta(g, 47, 4.2)}"/>`).join("") + [45, 135, 225, 315].map(g => `<path class="rb-p2" d="${punta(g, 38, 3)}"/>`).join("");
+  // Los 4 puntos cardinales en la esfera; cada tarjeta ya lleva su rumbo (NO, NE, SO, SE…)
+  const rumbos = [["N", 50, 2.6], ["E", 97.4, 50], ["S", 50, 97.4], ["O", 2.6, 50]];
+  return `<div class="rosa-brujula">
+    <svg class="rb-esfera" viewBox="0 0 100 100" aria-hidden="true"><circle class="rb-aro" cx="50" cy="50" r="49.3"/><circle class="rb-aro2" cx="50" cy="50" r="44.5"/>${marcas}${estrella}<circle class="rb-eje" cx="50" cy="50" r="1.6"/></svg>
+    ${rumbos.map(([t, x, y]) => `<span class="rb-rumbo${t === "N" ? " norte" : ""}" style="left:${x}%;top:${y}%" aria-hidden="true">${t}</span>`).join("")}
+    ${tablero}</div>`;
+}
+
+/* ---------- Capas 1 · 9 · 81 en una sola página ---------- */
+function mdCapaActual() {
+  if (!estado.mdCapa) { try { estado.mdCapa = Number(localStorage.getItem("suroute-md-capa")) || 9; } catch { estado.mdCapa = 9; } }
+  return [1, 9, 81].includes(estado.mdCapa) ? estado.mdCapa : 9;
+}
+function mdCapaGuardar(n) { estado.mdCapa = n; try { localStorage.setItem("suroute-md-capa", String(n)); } catch {} }
+/** Cambia de capa sin redibujar: la nueva entra como si se acercara (más adentro) o se alejara (más afuera) la brújula. */
+function mdCapa(n) {
+  const antes = mdCapaActual(); mdCapaGuardar(n);
+  const pila = document.querySelector(".md-pila"); if (!pila) return pintarDetalle();
+  pila.querySelectorAll(".md-capa").forEach(c => { const si = Number(c.dataset.capa) === n; c.hidden = !si; c.classList.toggle("activa", si);
+    c.classList.remove("entra-dentro", "entra-fuera"); if (si && antes !== n && !pocoMovimiento?.()) { void c.offsetWidth; c.classList.add(n > antes ? "entra-dentro" : "entra-fuera"); } });
+  document.querySelectorAll("[data-capa-btn]").forEach(b => b.setAttribute("aria-selected", String(Number(b.dataset.capaBtn) === n)));
+  // Que la capa quede a la vista bajo la barra (sin desplazar si ya lo está)
+  const r = pila.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .4) pila.scrollIntoView({ block: "start", behavior: "auto" });
+  navigator.vibrate?.(6);
+}
+window.mdCapa = mdCapa;
+/* Teclado: + acerca (1 → 9 → 81) y − aleja, cuando no se está escribiendo */
+document.addEventListener("keydown", e => {
+  if (!document.querySelector(".md-pila") || estado.mdVisor || /INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "") || e.ctrlKey || e.metaKey) return;
+  const orden = [1, 9, 81], i = orden.indexOf(mdCapaActual());
+  if ((e.key === "+" || e.key === "=") && i < 2) { e.preventDefault(); mdCapa(orden[i + 1]); }
+  if ((e.key === "-" || e.key === "_") && i > 0) { e.preventDefault(); mdCapa(orden[i - 1]); }
+});
