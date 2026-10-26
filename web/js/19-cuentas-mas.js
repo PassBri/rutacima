@@ -319,6 +319,17 @@ function filaPatrimonio(dest, x, n, tipos, valor, acc) {
     <td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(valor))}" data-acc-change="${acc}" data-arg="${x.id}|valor" aria-label="Valor de ${esc(x.nombre)}"></td>
     <td class="acc-mov"><button class="rb${x.r?.length ? " con" : ""}" data-acc="patAdjuntos" data-arg="${dest === "activos" ? "act" : "deu"}:${x.id}" aria-label="Documentos (${x.r?.length || 0})" title="Documentos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button><button class="rb" data-acc="${dest === "activos" ? "activoQuitar" : "deudaQuitar"}" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button></td></tr>`;
 }
+/** El nombre y el valor de un activo o pasivo nuevo. Si se escribieron al revés (el número en el nombre
+ *  y el texto en el valor), se acomodan solos; si falta algo, se dice qué. */
+function nombreYValor(nombre, valor, que) {
+  const esNum = t => /\d/.test(t || "") && /^[\s$\d.,']+$/.test(t || "");
+  nombre = String(nombre || "").trim(); valor = String(valor || "").trim();
+  if (!esNum(valor) && esNum(nombre)) [nombre, valor] = [valor, nombre];
+  const v = Math.abs(montoFin(valor));
+  if (!nombre) toast(`Escribe el nombre del ${que}`);
+  else if (!v) toast(`Escribe ${que === "activo" ? "su valor" : "su saldo"} en números (ejemplo: 50.000.000)`);
+  return [nombre, v];
+}
 const formPatrimonio = (form, nombre, ph, tipos) => `<form class="asc-nuevo" data-form="${form}" style="margin-top:12px"><div class="asc-fila-nueva">
   <label class="campo"><span>${nombre}</span><input name="texto" maxlength="60" autocomplete="off" placeholder="${ph}" required></label>
   <label class="campo"><span>Tipo</span><select name="tipo">${tipos.map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select></label>
@@ -373,13 +384,13 @@ Object.assign(ACC, {
   patAdjuntos(_, clave) { abrirRecibos(clave); },
 });
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
-  activoNuevo(form, datos, texto) {
-    const v = Math.abs(montoFin(datos.get("valor"))); if (!texto || !v) { toast("Escribe el activo y su valor"); return; }
+  activoNuevo(form, datos, texto0) {
+    const [texto, v] = nombreYValor(texto0, datos.get("valor"), "activo"); if (!texto || !v) return;
     guardarActivos([...activosDatos(), { id: "a" + nuevoId(), nombre: texto.slice(0, 60), tipo: datos.get("tipo") || "otro", valor: v }]); form.reset(); toast("Activo agregado"); pintarDetalle();
     setTimeout(() => document.querySelector('[data-form="activoNuevo"] [name="texto"]')?.focus(), 50);
   },
-  pasivoNuevo(form, datos, texto) {
-    const saldo = Math.abs(montoFin(datos.get("valor"))); if (!texto || !saldo) { toast("Escribe el pasivo y su saldo"); return; }
+  pasivoNuevo(form, datos, texto0) {
+    const [texto, saldo] = nombreYValor(texto0, datos.get("valor"), "pasivo"); if (!texto || !saldo) return;
     const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: 0, minimo: 0, tipo: datos.get("tipo") === "buena" ? "buena" : "mala" });
     guardarDeudas(d); form.reset(); toast("Pasivo agregado: completa su tasa y cuota en Salir de deudas"); pintarDetalle();
     setTimeout(() => document.querySelector('[data-form="pasivoNuevo"] [name="texto"]')?.focus(), 50);

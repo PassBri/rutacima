@@ -700,10 +700,17 @@ private fun FilaPasivo(h: com.rutaalacima.app.domain.model.Deudas.Hoy, n: Int, p
     }
 }
 
+/** El nombre y el valor de un activo o pasivo nuevo; si se escribieron al revés (el número en el nombre), se acomodan solos. */
+private fun nombreYValor(nombre: String, valor: String): Pair<String, Double> {
+    fun esNum(t: String) = t.any { it.isDigit() } && t.all { it.isDigit() || it in " $.,'" }
+    val (n, v) = if (!esNum(valor.trim()) && esNum(nombre.trim())) valor to nombre else nombre to valor
+    return n.trim() to kotlin.math.abs(Finanzas.monto(v))
+}
+
 @Composable
 private fun NuevoPasivo(onAgregar: (String, Boolean, Double) -> Unit) {
     var nombre by remember { mutableStateOf("") }; var valor by remember { mutableStateOf("") }; var buena by remember { mutableStateOf(false) }
-    val v = kotlin.math.abs(Finanzas.monto(valor))
+    val (nom, v) = nombreYValor(nombre, valor)
     val listo = stringResource(R.string.cu_pasivo_agregado)
     RutaCard {
         OutlinedTextField(nombre, { nombre = it.take(60) }, label = { Text(stringResource(R.string.cu_pasivo)) }, placeholder = { Text(stringResource(R.string.cu_pasivo_ej)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
@@ -712,7 +719,7 @@ private fun NuevoPasivo(onAgregar: (String, Boolean, Double) -> Unit) {
             SegmentedButton(selected = !buena, onClick = { buena = false }, shape = SegmentedButtonDefaults.itemShape(0, 2)) { Text(stringResource(R.string.cu_mala_c)) }
             SegmentedButton(selected = buena, onClick = { buena = true }, shape = SegmentedButtonDefaults.itemShape(1, 2)) { Text(stringResource(R.string.cu_buena_c)) }
         }
-        Button(enabled = nombre.isNotBlank() && v > 0, onClick = { onAgregar(nombre, buena, v); nombre = ""; valor = ""; buena = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo) },
+        Button(enabled = nom.isNotBlank() && v > 0, onClick = { onAgregar(nom, buena, v); nombre = ""; valor = ""; buena = false; com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo) },
             modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) { Text(stringResource(R.string.cu_agregar)) }
     }
 }
@@ -765,14 +772,14 @@ private fun SelectorTipoActivo(actual: String, onElegir: (String) -> Unit) {
 @Composable
 private fun NuevoActivo(onAgregar: (String, String, Double) -> Unit) {
     var nombre by remember { mutableStateOf("") }; var valor by remember { mutableStateOf("") }; var tipo by remember { mutableStateOf("bienes") }
-    val v = kotlin.math.abs(Finanzas.monto(valor))
+    val (nom, v) = nombreYValor(nombre, valor)
     RutaCard {
         OutlinedTextField(nombre, { nombre = it.take(60) }, label = { Text(stringResource(R.string.cu_activo)) }, placeholder = { Text(stringResource(R.string.cu_activo_ej)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 6.dp)) {
             OutlinedTextField(valor, { valor = it }, label = { Text(stringResource(R.string.cu_valor_hoy)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal), modifier = Modifier.weight(1f))
             Box(Modifier.weight(1.2f)) { SelectorTipoActivo(tipo) { tipo = it } }
         }
-        Button(enabled = nombre.isNotBlank() && v > 0, onClick = { onAgregar(nombre, tipo, v); nombre = ""; valor = "" }, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) { Text(stringResource(R.string.cu_agregar)) }
+        Button(enabled = nom.isNotBlank() && v > 0, onClick = { onAgregar(nom, tipo, v); nombre = ""; valor = "" }, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) { Text(stringResource(R.string.cu_agregar)) }
     }
 }
 
