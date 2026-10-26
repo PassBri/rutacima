@@ -2317,4 +2317,8 @@
     <string name="energia_n3">ふつう</string>
     <string name="energia_n4">良い</string>
     <string name="energia_n5">絶好調</string>
+    <string name="md81_texto">テキストのステップ</string>
+    <string name="md81_imagenes">あなたの画像</string>
+    <string name="md81_ver_texto">テキスト</string>
+    <string name="md81_ver_imagenes">画像</string>
 </resources>

@@ -2317,4 +2317,8 @@
     <string name="energia_n3">Обычная</string>
     <string name="energia_n4">Хорошая</string>
     <string name="energia_n5">На максимуме</string>
+    <string name="md81_texto">Твои шаги текстом</string>
+    <string name="md81_imagenes">Твои изображения</string>
+    <string name="md81_ver_texto">Текст</string>
+    <string name="md81_ver_imagenes">Изображения</string>
 </resources>

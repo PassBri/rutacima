@@ -393,7 +393,12 @@ function mandalaHtml(tableroHtml = "") {
     ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
   const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.") +
-    (estado.md81 ? editorBloque : `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>
+    (estado.md81 ? editorBloque : (estado.modoTarjetas === "edicion" ? `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>`
+      /* La tarjeta del 9×9 gira completa: adelante el texto limpio, detrás las imágenes (fotos de visión y de evidencia) */
+      : `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-barra"><span>${estado.md81Girada ? "Tus imágenes" : "Tus pasos en texto"}</span><button class="md-flip-btn" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Ver el texto" : "Ver las imágenes"}">${ic("girar")}<span>${estado.md81Girada ? "Texto" : "Imágenes"}</span></button></div><div class="md-flip-in">
+          <div class="md-cara cara-texto" aria-hidden="${!!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div>
+          <div class="md-cara cara-imagen" aria-hidden="${!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div></div>
+</div>`) + `
       <p class="md-leyenda"><span><i style="--n:7%"></i>Por escribir</span><span><i style="--n:30%"></i>Escrito</span><span><i style="--n:100%"></i>Ganado ✓</span></p>` + pie));
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
   let visor = "";
@@ -955,3 +960,16 @@ Object.assign(ACC, {
   compartirVision() { estado.mdCompartir = true; if (!document.querySelector(".md-secciones")) ir("perfil", "vision"); else pintarDetalle(); requestAnimationFrame(() => document.querySelector(".md-compartir")?.scrollIntoView({ block: "center" })); },
 });
 window.visionVida = visionVida;
+
+/* Girar la tarjeta del 9×9 sin redibujar (la animación se ve completa) */
+ACC.md81Girar = el => {
+  estado.md81Girada = !estado.md81Girada;
+  const caja = el.closest(".md-flip"); if (!caja) return pintarDetalle();
+  caja.classList.toggle("girada", estado.md81Girada);
+  caja.querySelector(".cara-texto")?.setAttribute("aria-hidden", String(estado.md81Girada));
+  caja.querySelector(".cara-imagen")?.setAttribute("aria-hidden", String(!estado.md81Girada));
+  el.setAttribute("aria-pressed", String(estado.md81Girada));
+  el.setAttribute("aria-label", estado.md81Girada ? "Ver el texto" : "Ver las imágenes");
+  el.querySelector("span").textContent = estado.md81Girada ? "Texto" : "Imágenes";
+  const t = caja.querySelector(".md-flip-barra > span"); if (t) t.textContent = estado.md81Girada ? "Tus imágenes" : "Tus pasos en texto";
+};

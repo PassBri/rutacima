@@ -2317,4 +2317,8 @@
     <string name="energia_n3">सामान्य</string>
     <string name="energia_n4">अच्छी</string>
     <string name="energia_n5">पूरी</string>
+    <string name="md81_texto">आपके कदम लिखित में</string>
+    <string name="md81_imagenes">आपकी तस्वीरें</string>
+    <string name="md81_ver_texto">पाठ</string>
+    <string name="md81_ver_imagenes">तस्वीरें</string>
 </resources>

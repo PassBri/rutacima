@@ -2317,4 +2317,8 @@
     <string name="energia_n3">보통</string>
     <string name="energia_n4">좋음</string>
     <string name="energia_n5">최고</string>
+    <string name="md81_texto">텍스트로 본 단계</string>
+    <string name="md81_imagenes">나의 이미지</string>
+    <string name="md81_ver_texto">텍스트</string>
+    <string name="md81_ver_imagenes">이미지</string>
 </resources>

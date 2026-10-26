@@ -2317,4 +2317,8 @@
     <string name="energia_n3">正常</string>
     <string name="energia_n4">良好</string>
     <string name="energia_n5">满格</string>
+    <string name="md81_texto">文字版步骤</string>
+    <string name="md81_imagenes">你的图片</string>
+    <string name="md81_ver_texto">文字</string>
+    <string name="md81_ver_imagenes">图片</string>
 </resources>

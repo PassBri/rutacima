@@ -2317,4 +2317,8 @@
     <string name="energia_n3">Normal</string>
     <string name="energia_n4">Gut</string>
     <string name="energia_n5">Voll da</string>
+    <string name="md81_texto">Deine Schritte als Text</string>
+    <string name="md81_imagenes">Deine Bilder</string>
+    <string name="md81_ver_texto">Text</string>
+    <string name="md81_ver_imagenes">Bilder</string>
 </resources>

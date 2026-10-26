@@ -3391,3 +3391,25 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 }
 @media (prefers-reduced-motion: reduce) { .energia2 button, .energia2 .e2-monte, .sec-dia { transition: none; } }
 .bien-volver-fila { padding: 0 16px 10px; } .bien-volver-fila .btn svg { width: 18px; height: 18px; }
+
+/* Brújula 9×9: la tarjeta gira completa. Adelante el texto limpio; detrás, las imágenes */
+.md-flip { perspective: 2000px; }
+.md-flip-in { position: relative; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.2, 0, 0, 1); }
+.md-flip.girada .md-flip-in { transform: rotateY(180deg); }
+.md-cara { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.md-cara.cara-imagen { position: absolute; inset: 0; transform: rotateY(180deg); }
+.md-cara[aria-hidden="true"] { pointer-events: none; }
+.md-flip .md-cara .md-grilla { margin-top: 0; }
+/* Cara de texto: sin fotos, con las palabras en tinta */
+.md-flip .cara-texto .md-grilla .md-c img { display: none !important; }
+.md-flip .cara-texto .md-grilla .md-paso .t { display: block !important; opacity: 1 !important; color: var(--tinta) !important; text-shadow: none !important; }
+.md-flip .cara-texto .md-grilla .md-paso.md-hecho .t { color: #fff !important; }
+/* Cara de imágenes: las fotos completas, sin texto encima */
+.md-flip .cara-imagen .md-grilla .md-c img { display: block !important; opacity: 1 !important; }
+.md-flip .cara-imagen .md-grilla .md-paso .t, .md-flip .cara-imagen .md-grilla .md-enlace, .md-flip .cara-imagen .md-grilla .md-niebla { display: none !important; }
+.md-flip-barra { display: flex; align-items: center; justify-content: space-between; gap: 8px; max-width: 640px; margin: 0 auto 10px; } .md-flip-barra > span { font-size: 13px; color: var(--tinta-suave); }
+.md-flip-btn { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px 0 10px; border-radius: 18px;
+  background: var(--hoja); color: var(--tinta); border: 1px solid var(--linea); box-shadow: 0 4px 12px -6px rgb(var(--sombra) / .35); font: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer; touch-action: manipulation; }
+.md-flip-btn svg { width: 18px; height: 18px; fill: currentColor; transition: transform .5s cubic-bezier(.2, 0, 0, 1); }
+.md-flip.girada .md-flip-btn svg { transform: rotate(180deg); }
+@media (prefers-reduced-motion: reduce) { .md-flip-in { transition: opacity .2s; } }

@@ -2317,4 +2317,8 @@
     <string name="energia_n3">عادية</string>
     <string name="energia_n4">جيدة</string>
     <string name="energia_n5">في القمة</string>
+    <string name="md81_texto">خطواتك نصًا</string>
+    <string name="md81_imagenes">صورك</string>
+    <string name="md81_ver_texto">نص</string>
+    <string name="md81_ver_imagenes">صور</string>
 </resources>
