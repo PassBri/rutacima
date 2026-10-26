@@ -150,4 +150,12 @@ class RespaldoTest {
         assertEquals("K7P4-QX9M", Sincronia.codigoLegible("K7P4QX9M"))
         assertEquals(null, com.rutaalacima.app.domain.model.Cordada.codigo("cóndor 42"))
     }
+
+    @Test
+    fun respuestaGanaLaMasReciente() {
+        val telefono = """{"actualizadoEn":100,"clave":"fin#mov#2026-01-01","valor":"[1]","workbookId":"finanzas"}"""
+        val web = """{"actualizadoEn":200,"clave":"fin#mov#2026-01-01","valor":"[1,2]","workbookId":"finanzas"}"""
+        assertTrue(Sincronia.fusionar("respuesta/fin#mov#2026-01-01", telefono, web).contains("[1,2]"))
+        assertTrue(Sincronia.fusionar("respuesta/fin#mov#2026-01-01", web, telefono).contains("[1,2]"))
+    }
 }

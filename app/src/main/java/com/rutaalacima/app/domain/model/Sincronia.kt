@@ -189,9 +189,16 @@ object Sincronia {
      * listas de lo marcado ("marcados" del checklist, "dias" de metas y frases), "cumplida"
      * queda en true si lo está en alguno, y el resto de campos se toma del teléfono.
      */
-    fun fusionar(@Suppress("UNUSED_PARAMETER") clave: String, local: String, remoto: String): String {
+    fun fusionar(clave: String, local: String, remoto: String): String {
         val l = Json.parseToJsonElement(local) as? JsonObject ?: return local
         val r = Json.parseToJsonElement(remoto) as? JsonObject ?: return local
+        // Una respuesta (por ejemplo, los movimientos de un día en Ascenso financiero) es un solo texto:
+        // gana la versión escrita más tarde, para que lo anotado en la web no se pierda con la copia del teléfono.
+        if (tipoDe(clave) == "respuesta") {
+            val tl = (l["actualizadoEn"] as? JsonPrimitive)?.content?.toLongOrNull() ?: 0L
+            val tr = (r["actualizadoEn"] as? JsonPrimitive)?.content?.toLongOrNull() ?: 0L
+            return canonico(if (tr > tl) r else l)
+        }
         val res = l.toMutableMap()
         val orden = compareBy<String>({ it.toIntOrNull() ?: Int.MAX_VALUE }, { it })
         for (campo in listOf("marcados", "dias")) {

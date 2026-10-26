@@ -971,10 +971,7 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
         Column(Modifier.weight(1f)) {
             Text(nombreCategoria(t, x.c), style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (nota.isNotBlank()) Text(nota, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-            if (x.fx != null) Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.Repeat, null, Modifier.size(13.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(Modifier.width(4.dp))
-                Text(stringResource(if (x.prog) R.string.cu_fijo_programado else if (x.virtual) R.string.cu_fijo_marca else R.string.cu_fijo_cambiado), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-            }
+
         }
         if (x.r.isNotEmpty()) Icon(Icons.Filled.AttachFile, stringResource(R.string.cu_recibos_n, x.r.size), Modifier.size(18.dp).padding(end = 2.dp), tint = MaterialTheme.colorScheme.primary)
         Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold,
@@ -982,7 +979,7 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
         // Se repite cada mes: marcarlo lo vuelve fijo desde este mes; desmarcarlo lo deja solo hasta este mes
         if (x.agenda == null) {
             val dia = fecha.takeLast(2).toInt()
-            val etiqueta = stringResource(R.string.cu_repite_dia, dia)
+            val etiqueta = stringResource(R.string.cu_repite_dia, dia) + if (x.prog) " · " + stringResource(R.string.cu_fijo_programado) else ""
             androidx.compose.material3.Checkbox(x.fx != null, { vm.repetir(fecha, x, it) }, Modifier.semantics { contentDescription = etiqueta })
         }
         IconButton(onClick = {
