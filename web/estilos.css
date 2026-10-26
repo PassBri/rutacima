@@ -2972,19 +2972,14 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .asc-pat .pat-nom { font-weight: 600; text-align: start; }
 .asc-pat tr.fija > * { color: var(--tinta-suave); }
 .asc-pat tfoot th, .asc-pat tfoot td { font-weight: 600; }
-/* Tamaño de la pantalla: ampliar para trabajar con más espacio o volver al normal (esquina superior derecha) */
-.tam-ventana { position: absolute; top: 0; right: 28px; z-index: 5; display: flex; gap: 2px; padding: 1px; border-radius: 999px; background: rgb(10 16 24 / .38); }
-.tam-ventana button { width: 26px; height: 26px; border: 0; border-radius: 999px; background: transparent; color: rgb(255 255 255 / .8); display: grid; place-items: center; cursor: pointer; padding: 0; }
-.tam-ventana svg { width: 15px; height: 15px; fill: currentColor; }
-.tam-ventana button[aria-pressed="true"] { background: rgb(255 255 255 / .92); color: #1D2427; cursor: default; }
-@media (hover: hover) and (pointer: fine) { .tam-ventana button[aria-pressed="false"]:hover { background: rgb(255 255 255 / .24); color: #fff; } }
-.tam-ventana button:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
-.ventana.amplia { max-width: none; padding: 28px 8px 8px; }
+/* Tamaño de la pantalla: ampliar o volver al normal, al final de la cabecera del detalle */
+.tam-cab { display: flex; gap: 2px; margin-left: 2px; padding-left: 6px; border-left: 1px solid var(--linea); }
+.tam-cab .rb[aria-pressed="true"] { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 10%, transparent); }
+.ventana.amplia { max-width: none; padding: 8px; }
 .ventana.amplia .app { border-radius: 12px; }
-.ventana.amplia .tam-ventana { right: 8px; }
 .ventana.amplia .det-cuerpo > .ancho:not([style*="max-width"]) { max-width: 1180px; }
 .ventana.amplia .det-cuerpo > .ancho[style*="max-width:9"], .ventana.amplia .det-cuerpo > .ancho[style*="max-width:11"] { max-width: 1500px !important; }
-@media (max-width: 900px) { .tam-ventana { display: none; } .ventana.amplia { padding: 0; } }
+@media (max-width: 900px) { .tam-cab { display: none; } .ventana.amplia { padding: 0; } }
 /* Activos y pasivos: columnas fijas para que todo quepa */
 .asc-pat { table-layout: fixed; width: 100%; }
 .asc-pat th:nth-child(1) { width: 36px; } .asc-pat th:nth-child(3) { width: 30%; } .asc-pat th:nth-child(4) { width: 22%; } .asc-pat th:nth-child(5) { width: 96px; }

@@ -68,22 +68,18 @@
 <section id="pantallaVincular" class="vincular" hidden></section>
 <div id="pantallaCarga" class="cargando" hidden></div>
 <div id="pantallaApp" class="ventana" hidden>
-  <div class="tam-ventana" role="group" aria-label="Tamaño de la pantalla">
-    <button type="button" data-tam="amplia" aria-pressed="false" title="Ampliar la pantalla" aria-label="Ampliar la pantalla"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10z"/></svg></button>
-    <button type="button" data-tam="normal" aria-pressed="true" title="Volver al tamaño normal" aria-label="Volver al tamaño normal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 3.41 16.71 8.7 20 12h-8V4l3.29 3.29L20.59 2 22 3.41zM3.41 22l5.29-5.29L12 20v-8H4l3.29 3.29L2 20.59 3.41 22z"/></svg></button>
-  </div>
   <script>
   /* Ampliar la pantalla para trabajar con más espacio, o volver al tamaño normal (se recuerda) */
   (function () {
     var v = document.getElementById("pantallaApp");
     function poner(t, guardar) {
       v.classList.toggle("amplia", t === "amplia");
-      v.querySelectorAll("[data-tam]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.tam === t)); });
+      document.querySelectorAll("[data-tam]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.tam === t)); });
       if (guardar) try { localStorage.setItem("suroute-tam", t); } catch (e) {}
     }
     var t = "normal"; try { t = localStorage.getItem("suroute-tam") || "normal"; } catch (e) {}
     poner(t, false);
-    v.querySelector(".tam-ventana").addEventListener("click", function (e) { var b = e.target.closest("[data-tam]"); if (b) poner(b.dataset.tam, true); });
+    document.addEventListener("click", function (e) { var b = e.target.closest && e.target.closest("[data-tam]"); if (b) poner(b.dataset.tam, true); });
   })();
   </script>
   <div class="app" id="app">

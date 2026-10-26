@@ -2,8 +2,11 @@
 /* ======================================================================
  * Detalle
  * ====================================================================== */
+/** Ampliar la pantalla o volver al tamaño normal: van al final de la cabecera, junto a sus acciones (el ojo, por ejemplo). */
+const tamBotones = () => { const amplia = document.getElementById("pantallaApp")?.classList.contains("amplia");
+  return `<span class="tam-cab" role="group" aria-label="Tamaño de la pantalla"><button type="button" class="rb" data-tam="amplia" aria-pressed="${!!amplia}" title="Ampliar la pantalla" aria-label="Ampliar la pantalla">${ic("ampliar")}</button><button type="button" class="rb" data-tam="normal" aria-pressed="${!amplia}" title="Volver al tamaño normal" aria-label="Volver al tamaño normal">${ic("reducir")}</button></span>`; };
 const cab = (avatar, titulo, sub, acciones = "") =>
-  `<header class="det-cab"><button class="rb volver" data-acc="volver" aria-label="Volver">${ic("volver")}</button>${avatar}<div class="txt"><h2>${titulo}</h2><p>${sub}</p></div>${acciones}</header>`;
+  `<header class="det-cab"><button class="rb volver" data-acc="volver" aria-label="Volver">${ic("volver")}</button>${avatar}<div class="txt"><h2>${titulo}</h2><p>${sub}</p></div>${acciones}${tamBotones()}</header>`;
 const cuerpo = (html, ancho = "") => `<div class="det-cuerpo"><div class="ancho" style="gap:18px;${ancho}">${html}</div></div>`;
 /** Texto alternativo de una foto de publicación (lectores de pantalla). */
 const altFoto = p => esc(`Foto de ${p.autorNombre || "la comunidad"}${(p.metaTitulo || p.texto) ? ": " + String(p.metaTitulo || p.texto).slice(0, 120) : ""}`);

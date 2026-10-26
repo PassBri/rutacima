@@ -49,7 +49,13 @@ function plata(v, { signo = false } = {}) {
   return signo && v > 0 ? "+" + s : s;
 }
 /** El número sin símbolo, con los separadores de tu idioma (para editar en la tabla). */
-const numAsc = v => new Intl.NumberFormat(ascLocale, { maximumFractionDigits: 2 }).format(v);
+const numAsc = v => estado.ascOculto ? "•••••" : new Intl.NumberFormat(ascLocale, { maximumFractionDigits: 2 }).format(v);
+/* Con los montos ocultos (el ojo), los campos de cifras se ven con puntos y no se pueden cambiar hasta mostrarlos */
+document.addEventListener("focusin", e => {
+  const i = e.target; if (!estado.ascOculto || !i.matches?.("input") || !String(i.value).includes("•")) return;
+  i.readOnly = true; toast("Toca el ojo para mostrar los montos y poder cambiarlos");
+});
+document.addEventListener("change", e => { if (estado.ascOculto && String(e.target.value || "").includes("•")) e.stopImmediatePropagation(); }, true);
 const nombreMoneda = c => { try { return new Intl.DisplayNames([ascLocale], { type: "currency" }).of(c); } catch { return c; } };
 
 /** Movimientos guardados de un día. */
