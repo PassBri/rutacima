@@ -3,6 +3,8 @@ package com.rutaalacima.app
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -39,7 +41,12 @@ class MainActivity : AppCompatActivity() {
         }
         setContent {
             RutaTheme {
-                RutaRoot()
+                // La apertura cubre la app mientras arranca; al girar la pantalla no se repite
+                var intro by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(true) }
+                androidx.compose.foundation.layout.Box {
+                    RutaRoot()
+                    if (intro) com.rutaalacima.app.ui.inicio.IntroSuRoute(onFin = { intro = false })
+                }
             }
         }
     }

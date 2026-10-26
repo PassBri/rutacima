@@ -2808,3 +2808,43 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 @keyframes im-latido { from { transform: scale(.7); fill: transparent; } }
 @keyframes im-cae { from { transform: translateY(-36px); } }
 @media (prefers-reduced-motion: reduce) { [aria-pressed="true"] > .impulso-marca * { animation: none !important; } }
+
+/* ---------- Apertura de SuRoute ---------- */
+.intro-suroute { position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; background: var(--fondo); color: var(--tinta);
+  animation: in-fuera .5s cubic-bezier(.2, 0, 0, 1) 4.3s forwards; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+.intro-suroute.salir { animation: in-fuera .25s cubic-bezier(.2, 0, 0, 1) forwards; }
+.in-centro { display: grid; justify-items: center; gap: 0; }
+.in-simbolo { width: 112px; height: 112px; overflow: visible; animation: in-crece .5s cubic-bezier(.2, 0, 0, 1) 4.3s forwards; }
+.in-aro { fill: none; stroke: var(--burdeos); stroke-width: 5; stroke-dasharray: 100; stroke-dashoffset: 100; animation: in-traza 1s cubic-bezier(.65, 0, .35, 1) .15s forwards; }
+.in-punto { fill: var(--burdeos); opacity: 0; transform: translateY(-80px); animation: in-cae .45s cubic-bezier(.3, 0, .2, 1) 1s forwards; }
+.in-marca { margin: 18px 0 0; font: 700 34px/1 var(--font-titulo, Georgia, serif); letter-spacing: -.01em; opacity: 0; animation: in-sube .5s cubic-bezier(.2, 0, 0, 1) 1.35s forwards; }
+.in-lema { margin: 8px 0 0; font: 500 11px/1 var(--font-texto, system-ui, sans-serif); letter-spacing: .32em; text-transform: uppercase; color: var(--oro); opacity: 0; animation: in-sube .5s cubic-bezier(.2, 0, 0, 1) 1.55s forwards; }
+.in-pasos { position: relative; height: 24px; width: 260px; margin-top: 30px; }
+.in-pasos span { position: absolute; inset: 0; text-align: center; font: 400 17px/24px var(--font-texto, system-ui, sans-serif); color: var(--tinta-suave); opacity: 0; }
+.in-pasos span:nth-child(1) { animation: in-paso .75s cubic-bezier(.2, 0, 0, 1) 2.05s; }
+.in-pasos span:nth-child(2) { animation: in-paso .75s cubic-bezier(.2, 0, 0, 1) 2.8s; }
+.in-pasos span:nth-child(3) { animation: in-paso-queda .75s cubic-bezier(.2, 0, 0, 1) 3.55s forwards; }
+.in-cordillera { width: 260px; height: 60px; margin-top: 14px; overflow: visible; }
+.in-cresta { fill: none; stroke: var(--linea); stroke-width: 1.5; stroke-linejoin: round; stroke-dasharray: 100; stroke-dashoffset: 100; animation: in-traza 1.2s cubic-bezier(.2, 0, 0, 1) 1.9s forwards; }
+.in-andante { fill: var(--oro); offset-path: path("M0 56L40 40L62 48L104 22L128 34L170 8"); offset-distance: 0%; offset-rotate: 0deg; opacity: 0;
+  animation: in-camina 2.2s cubic-bezier(.45, 0, .25, 1) 2.05s forwards; }
+.in-saltar { position: absolute; bottom: calc(28px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; margin: 0; text-align: center; font: 400 12px var(--font-texto, system-ui, sans-serif); color: var(--tinta-suave); opacity: 0; animation: in-sube .4s ease 1.8s forwards; }
+@keyframes in-traza { to { stroke-dashoffset: 0; } }
+@keyframes in-cae { 0% { opacity: 0; transform: translateY(-80px); } 30% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+@keyframes in-sube { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes in-paso { 0% { opacity: 0; transform: translateY(8px); } 25%, 75% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-6px); } }
+@keyframes in-paso-queda { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: none; } }
+@keyframes in-camina { 0% { opacity: 0; offset-distance: 0%; } 10% { opacity: 1; } 100% { opacity: 1; offset-distance: 100%; } }
+@keyframes in-fuera { to { opacity: 0; visibility: hidden; } }
+@keyframes in-crece { to { transform: scale(1.08); } }
+/* Versión corta (desde la segunda vez): solo el símbolo */
+.intro-suroute.corta { animation-delay: .95s; }
+.intro-suroute.corta .in-aro { animation-duration: .55s; animation-delay: 0s; }
+.intro-suroute.corta .in-punto { animation-duration: .3s; animation-delay: .45s; }
+.intro-suroute.corta .in-simbolo { animation-delay: .95s; }
+.intro-suroute.corta :is(.in-marca, .in-lema, .in-pasos, .in-cordillera, .in-saltar) { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .intro-suroute, .intro-suroute.corta { animation: in-fuera .3s linear .7s forwards; }
+  .intro-suroute * { animation: none !important; opacity: 1 !important; transform: none !important; stroke-dashoffset: 0 !important; }
+  .in-pasos, .in-cordillera, .in-saltar { display: none; }
+}
