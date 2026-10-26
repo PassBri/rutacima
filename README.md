@@ -46,6 +46,13 @@ marcas hoy sube solo hasta tu propósito. Así siempre sabes cuál es tu siguien
 </p>
 <p align="center"><sub><a href="https://suroute.com/conoce.html#video">Ver el video completo</a> · <a href="diseno/video/suroute_presentacion.mp4">Descargar el MP4</a></sub></p>
 
+### Video de lanzamiento · 20 s, vertical
+
+<p align="center">
+  <a href="diseno/video/suroute_lanzamiento.mp4"><img src="diseno/readme/lanzamiento.gif" alt="Video de lanzamiento vertical de SuRoute: Hoy, tu vida en años, la Brújula de la Cima, el impulso en Cimas y la gráfica del ascenso, guiados por el símbolo" width="300"></a>
+</p>
+<p align="center"><sub><a href="diseno/video/suroute_lanzamiento.mp4">Ver el video con sonido (MP4)</a> · Para Reels, TikTok y Shorts</sub></p>
+
 ## Lo que hace
 
 <p align="center">
