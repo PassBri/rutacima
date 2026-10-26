@@ -864,68 +864,104 @@ function informeFinanciero() {
     const r = saludDe(""), dd = deudasDatos(), lista = deudasHoy(), plan = planDeudas(lista, dd.metodo, dd.extra), act = activosDatos();
     const led = sumar(diasConMovs().flatMap(movsDe)).construido, hoyD = hoyFecha(), meses = r.mesesLista || [];
     const nomMes = ym => `${MESES[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
-    const periodo = meses.length ? `${nomMes(meses[0])} a ${nomMes(meses.at(-1))} (${meses.length} ${meses.length === 1 ? "mes" : "meses"})` : "Sin movimientos";
-    const est = { ok: "Bien", medio: "Atención", bajo: "Por mejorar", na: "—" };
-    const fila = (a, b, c = "", cls = "") => `<tr class="${cls}"><th>${a}</th><td>${b}</td>${c !== null ? `<td>${c}</td>` : ""}</tr>`;
-    const cats = Object.entries(r.s.cat).filter(([k]) => k.startsWith("gas:")).sort((a, b) => b[1] - a[1]);
-    const totGas = cats.reduce((a, [, v]) => a + v, 0) || 1;
+    const periodo = meses.length ? `${mayus(nomMes(meses[0]))} – ${nomMes(meses.at(-1))} · ${meses.length} ${meses.length === 1 ? "mes" : "meses"}` : "Sin movimientos";
+    const fecha = hoyD.toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" });
+    const EST = { ok: ["Bien", "#1E7B4A", "#E3F2E9"], medio: ["Atención", "#8A5A00", "#FBEFD8"], bajo: ["Por mejorar", "#B3261E", "#FBE4E2"], na: ["—", "#5A666B", "#EEF1F2"] };
+    const pill = e => `<span class="pill" style="color:${EST[e][1]};background:${EST[e][2]}">${EST[e][0]}</span>`;
+    const flujo = r.filas.at(-1)[1], egresos = r.s.ing - flujo;
+    const nivelColor = r.isf == null ? "#5A666B" : r.isf >= 80 ? "#1E7B4A" : r.isf >= 50 ? "#2E7D52" : r.isf >= 20 ? "#B7791F" : "#B3261E";
+    const L = 2 * Math.PI * 52, anillo = `<svg viewBox="0 0 120 120" class="anillo"><circle cx="60" cy="60" r="52" fill="none" stroke="#EEF1F2" stroke-width="12"/>
+      <circle cx="60" cy="60" r="52" fill="none" stroke="${nivelColor}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${L * (r.isf || 0) / 100} ${L}" transform="rotate(-90 60 60)"/>
+      <text x="60" y="62" text-anchor="middle" class="anillo-n">${r.isf ?? "—"}</text><text x="60" y="82" text-anchor="middle" class="anillo-t">ISF %</text></svg>`;
+    const porNombre = Object.fromEntries(r.ind.map(x => [x.nombre, x]));
+    const buenos = r.ind.filter(x => x.estado === "ok"), malos = r.ind.filter(x => x.estado === "bajo" || x.estado === "medio").sort((a, b) => (a.estado === "bajo" ? 0 : 1) - (b.estado === "bajo" ? 0 : 1));
+    const vivas = lista.filter(x => x.actual > 0);
+    const claves = [
+      buenos.length ? `<b>Fortaleza:</b> ${buenos.slice(0, 2).map(x => `${x.nombre.toLowerCase()} (${x.valor})`).join(" y ")}.` : "",
+      malos.length ? `<b>Prioridad:</b> ${malos[0].nombre.toLowerCase()} (${malos[0].valor}, meta ${malos[0].metaTxt || "—"}).` : "<b>Todo en meta:</b> sigue así y sube tu inversión.",
+      vivas.length ? (plan.meses ? `<b>Deudas:</b> debes ${plata(r.pasivos)}; con tu plan quedas libre en ${mesesDespues(plan.meses)}.` : `<b>Deudas:</b> con los pagos actuales la deuda no baja.`) : "<b>Deudas:</b> no tienes deudas activas.",
+    ].filter(Boolean);
+    // Mes a mes: ingresos y egresos (barras) y lo que quedó libre
+    const mm = meses.map(ym => { const t = totalesDe(ym + "-"); return { ym, ing: t.ing, egr: t.gas + t.aho + t.inv, disp: t.disp }; });
+    const tope = Math.max(1, ...mm.map(x => Math.max(x.ing, x.egr))), W = 640, H = 120, bw = Math.min(22, (W - 40) / Math.max(1, mm.length) / 2.6);
+    const barras = mm.length ? `<svg viewBox="0 0 ${W} ${H + 24}" class="graf">${[0, .5, 1].map(f => `<line x1="0" x2="${W}" y1="${10 + (1 - f) * H}" y2="${10 + (1 - f) * H}" stroke="#EEF1F2"/>`).join("")}
+      ${mm.map((x, i) => { const cx = 20 + (i + .5) * (W - 40) / mm.length, h1 = x.ing / tope * H, h2 = x.egr / tope * H;
+        return `<rect x="${cx - bw - 1}" y="${10 + H - h1}" width="${bw}" height="${h1}" rx="3" fill="#3E5868"/><rect x="${cx + 1}" y="${10 + H - h2}" width="${bw}" height="${h2}" rx="3" fill="#C9AE84"/>
+          <text x="${cx}" y="${H + 24}" text-anchor="middle" class="eje">${MES_C[Number(x.ym.slice(5, 7)) - 1]}</text>`; }).join("")}</svg>
+      <div class="leyenda"><span><i style="background:#3E5868"></i>Ingresos</span><span><i style="background:#C9AE84"></i>Egresos (gastos, ahorro e inversión)</span></div>` : "";
+    const cats = Object.entries(r.s.cat).filter(([k]) => k.startsWith("gas:")).sort((a, b) => b[1] - a[1]), totGas = cats.reduce((a, [, v]) => a + v, 0) || 1;
     const metodo = (METODOS_DEUDA.find(m => m[0] === dd.metodo) || [])[1] || dd.metodo;
-    const malos = r.ind.filter(x => x.estado === "bajo" || x.estado === "medio");
-    const nombre = esc(perfil?.()?.nombre || "");
-    const css = `*{box-sizing:border-box}body{font:14px/1.5 Roboto,system-ui,sans-serif;color:#1D2427;margin:0;background:#EEF1F2}
-      .hoja{max-width:860px;margin:24px auto;background:#fff;padding:40px 48px;border-radius:12px}
-      header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #6B2A1A;padding-bottom:14px;margin-bottom:8px}
-      h1{font:600 26px "Roboto Serif",Georgia,serif;margin:0;color:#6B2A1A}h2{font:600 18px "Roboto Serif",Georgia,serif;color:#6B2A1A;margin:28px 0 8px;break-after:avoid}
-      .suave{color:#5A666B}.marca{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#86683A}
-      .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.kpi{border:1px solid #DCE2E4;border-radius:10px;padding:10px 12px}
-      .kpi span{display:block;font-size:12px;color:#5A666B}.kpi b{font-size:18px;font-variant-numeric:tabular-nums}
-      table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-variant-numeric:tabular-nums;break-inside:auto}
-      th,td{padding:6px 8px;border-bottom:1px solid #EEF1F2;text-align:left;vertical-align:top}td{text-align:right}
-      thead th{font-size:12px;color:#5A666B;font-weight:500;background:#fff}tr.total th,tr.total td{font-weight:700;border-top:1px solid #DCE2E4}
-      .neg{color:#B3261E}.e-ok{color:#0C7A0C}.e-medio{color:#9A6A00}.e-bajo{color:#B3261E}
-      .isf{display:flex;gap:18px;align-items:center;padding:14px 16px;border-radius:12px;background:#F3E3DC}
-      .isf b{font:600 40px "Roboto Serif",Georgia,serif;color:#6B2A1A}.deuda{border:1px solid #DCE2E4;border-radius:10px;padding:10px 14px;margin:8px 0;break-inside:avoid}
-      ul{padding-left:20px}li{margin:4px 0}.pie{margin-top:28px;font-size:12px;color:#5A666B;border-top:1px solid #DCE2E4;padding-top:10px}
-      .barra{height:8px;border-radius:4px;background:#EEF1F2;overflow:hidden}.barra i{display:block;height:100%;background:#3E5868}
-      .acciones{position:sticky;top:0;display:flex;gap:8px;justify-content:center;padding:10px;background:#EEF1F2}
-      .acciones button{font:500 14px Roboto,sans-serif;padding:10px 18px;border-radius:20px;border:0;background:#6B2A1A;color:#fff;cursor:pointer}
-      .acciones button.sec{background:#fff;color:#6B2A1A;border:1px solid #DCE2E4}
-      @media print{body{background:#fff}.hoja{margin:0;padding:0;max-width:none;border-radius:0}.acciones{display:none}@page{margin:16mm 14mm}}`;
+    const nombre = esc(perfil()?.nombre || "");
+    const logo = new URL("iconos/logo-horizontal-crema.svg", location.href).href, simbolo = new URL("iconos/simbolo.svg", location.href).href;
+    let sec = 0; const h2 = t => `<h2><span>${String(++sec).padStart(2, "0")}</span>${t}</h2>`;
+    const tabla = (cab, filas, cls = "") => `<table class="${cls}"><thead><tr>${cab.map((c, i) => `<th${i ? ' class="n"' : ""}>${c}</th>`).join("")}</tr></thead><tbody>${filas.join("")}</tbody></table>`;
+    const tr = (cels, cls = "") => `<tr class="${cls}">${cels.map((c, i) => i ? `<td class="n">${c}</td>` : `<th>${c}</th>`).join("")}</tr>`;
+    const css = `@import url("https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,500;8..144,600&family=Roboto:wght@400;500;700&display=swap");
+      *{box-sizing:border-box}body{font:13.5px/1.55 Roboto,system-ui,sans-serif;color:#1D2427;margin:0;background:#E6EAEC;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      .doc{max-width:900px;margin:24px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 40px -12px rgb(0 0 0/.25)}
+      .banda{background:#6B2A1A;color:#F3EDE0;padding:22px 44px;display:flex;align-items:center;justify-content:space-between}
+      .banda img{height:46px}.banda .meta{text-align:right;font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+      .portada{padding:30px 44px 8px;display:grid;grid-template-columns:1fr auto;gap:8px 24px;align-items:end;border-bottom:1px solid #DCE2E4}
+      h1{font:600 30px/1.15 "Roboto Serif",Georgia,serif;margin:0;color:#1D2427}.sub{color:#5A666B;margin:6px 0 18px}
+      .cuerpo{padding:8px 44px 36px}
+      h2{display:flex;align-items:baseline;gap:12px;font:600 19px "Roboto Serif",Georgia,serif;color:#6B2A1A;margin:34px 0 12px;break-after:avoid}
+      h2 span{font:500 12px Roboto,sans-serif;color:#86683A;letter-spacing:.1em}
+      .resumen{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:center;margin-top:22px}
+      .anillo{width:170px;height:170px}.anillo-n{font:600 34px "Roboto Serif",Georgia,serif;fill:#1D2427}.anillo-t{font:500 11px Roboto,sans-serif;fill:#5A666B;letter-spacing:.08em}
+      .nivel{display:inline-block;padding:4px 12px;border-radius:999px;color:#fff;font-weight:700;font-size:13px}
+      .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}.kpi{border-radius:10px;background:#F5F7F8;padding:10px 12px}
+      .kpi span{display:block;font-size:11.5px;color:#5A666B}.kpi b{font-size:17px;font-variant-numeric:tabular-nums}
+      .claves{margin:18px 0 0;padding:14px 18px;border-left:3px solid #86683A;background:#FBF8F2;border-radius:0 10px 10px 0}.claves p{margin:4px 0}
+      .grupo{margin:14px 0 6px;font:600 12px Roboto,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#5A666B}
+      table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}th,td{padding:8px 10px;border-bottom:1px solid #EEF1F2;text-align:left;vertical-align:top}
+      thead th{font:500 11.5px Roboto,sans-serif;color:#5A666B;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #DCE2E4}
+      .n{text-align:right;white-space:nowrap}table.ind{table-layout:fixed}table.ind th:nth-child(2),table.ind td:nth-child(2){width:96px}table.ind th:nth-child(3),table.ind td:nth-child(3){width:96px}table.ind th:nth-child(4),table.ind td:nth-child(4){width:120px}tr.total th,tr.total td{font-weight:700;background:#F5F7F8}
+      td.ayuda,small{color:#5A666B;font-size:12px;font-weight:400}.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+      .neg{color:#B3261E}.acciones-lista{counter-reset:a;display:grid;gap:8px;padding:0;margin:0;list-style:none}
+      .acciones-lista li{counter-increment:a;display:grid;grid-template-columns:28px 1fr;gap:10px;padding:10px 12px;border:1px solid #EEF1F2;border-radius:10px;break-inside:avoid}
+      .acciones-lista li::before{content:counter(a);width:28px;height:28px;border-radius:50%;background:#6B2A1A;color:#fff;display:grid;place-items:center;font-weight:700;font-size:13px}
+      .graf{width:100%;height:auto}.eje{font:11px Roboto,sans-serif;fill:#5A666B}.leyenda{display:flex;gap:18px;font-size:12px;color:#5A666B;margin:4px 0 10px}.leyenda i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+      .barra{height:8px;border-radius:4px;background:#EEF1F2;overflow:hidden;min-width:120px}.barra i{display:block;height:100%;border-radius:4px;background:#3E5868}
+      .dos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+      .deuda{border:1px solid #DCE2E4;border-radius:12px;padding:14px 16px;margin:10px 0;break-inside:avoid}.deuda header{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+      .deuda header b{font-size:15px}.deuda .mini{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.deuda .mini div{background:#F5F7F8;border-radius:8px;padding:8px 10px}
+      .deuda .mini span{display:block;font-size:11px;color:#5A666B}.deuda .mini b{font-size:14px}.deuda p{margin:6px 0 0;font-size:12.5px}
+      .nota{margin-top:30px;padding-top:12px;border-top:1px solid #DCE2E4;font-size:11.5px;color:#5A666B;display:flex;gap:10px;align-items:center}.nota img{width:20px;height:20px;opacity:.7}
+      .barra-acc{position:sticky;top:0;z-index:2;display:flex;gap:8px;justify-content:center;padding:12px;background:#E6EAEC}
+      .barra-acc button{font:500 14px Roboto,sans-serif;padding:10px 20px;border-radius:999px;border:0;background:#6B2A1A;color:#fff;cursor:pointer}.barra-acc button.sec{background:#fff;color:#6B2A1A}
+      @media (max-width:700px){.banda,.portada,.cuerpo{padding-left:18px;padding-right:18px}.resumen{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.dos{grid-template-columns:1fr}.deuda .mini{grid-template-columns:1fr 1fr}}
+      @media print{body{background:#fff}.doc{margin:0;max-width:none;border-radius:0;box-shadow:none}.barra-acc{display:none}@page{size:A4;margin:12mm 0 14mm}
+        .banda{padding:16px 14mm}.portada,.cuerpo{padding-left:14mm;padding-right:14mm}h2{break-after:avoid}table,.claves{break-inside:auto}tr{break-inside:avoid}
+        .resumen{grid-template-columns:150px 1fr}.anillo{width:140px;height:140px}.kpis{grid-template-columns:1fr 1fr}.kpi b{font-size:15px}.deuda .mini b{font-size:13px}}`;
+    const grupos = GRUPOS_SALUD.map(([t, , nombres]) => { const xs = nombres.map(n => porNombre[n]).filter(Boolean); return !xs.length ? "" :
+      `<div class="grupo">${t}</div>` + tabla(["Indicador", "Valor", "Meta", "Estado"], xs.map(x => tr([`${x.nombre}<br><small>${x.ayuda}</small>`, x.valor, x.metaTxt || "—", pill(x.estado)])), "ind"); }).join("");
     const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
       <title>Análisis financiero · SuRoute · ${iso(hoyD)}</title><style>${css}</style></head><body>
-      <div class="acciones"><button onclick="print()">Guardar como PDF o imprimir</button><button class="sec" onclick="close()">Cerrar</button></div>
-      <div class="hoja"><header><div><div class="marca">SuRoute · Ascenso financiero</div><h1>Análisis financiero completo</h1>
-        <div class="suave">${nombre ? nombre + " · " : ""}Periodo: ${periodo}</div></div><div class="suave">${hoyD.toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" })}</div></header>
-      <div class="kpis"><div class="kpi"><span>Ingresos</span><b>${plata(r.s.ing)}</b></div><div class="kpi"><span>Egresos</span><b>${plata(r.s.ing - (r.filas.at(-1)[1]))}</b></div>
-        <div class="kpi"><span>Flujo neto</span><b class="${r.filas.at(-1)[1] < 0 ? "neg" : ""}">${plata(r.filas.at(-1)[1])}</b></div><div class="kpi"><span>Patrimonio neto</span><b class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</b></div></div>
-      <h2>Salud financiera</h2>
-      ${r.isf != null ? `<div class="isf"><b>${r.isf} %</b><div><strong>${r.nivel[0]}</strong><br><span class="suave">${r.nivel[1]}</span></div></div>` : `<p class="suave">Anota tus ingresos para calcular el índice.</p>`}
-      <table><thead><tr><th>Indicador</th><th style="text-align:right">Valor</th><th style="text-align:right">Meta</th><th style="text-align:right">Estado</th></tr></thead><tbody>
-        ${r.ind.map(x => `<tr><th>${x.nombre}<br><small class="suave">${x.ayuda}</small></th><td>${x.valor}</td><td>${x.metaTxt || ""}</td><td class="e-${x.estado}">${est[x.estado] || ""}</td></tr>`).join("")}</tbody></table>
-      <h2>Qué hacer ahora</h2>
-      ${malos.length ? `<ul>${malos.map(x => `<li><b>${x.nombre}</b> (${x.valor}): ${RECOMIENDA[x.nombre] || x.ayuda}</li>`).join("")}</ul>` : `<p>Todos tus indicadores están en su meta. Sigue igual y sube tu inversión.</p>`}
-      <h2>Estado de cuentas</h2>
-      <table><thead><tr><th>Concepto</th><th style="text-align:right">Promedio mensual</th><th style="text-align:right">Total del periodo</th></tr></thead><tbody>
-        ${r.filas.map(([n, v, f]) => fila(n, plata(Math.round(v / (r.nMeses || 1))), plata(v), f ? "total" : "")).join("")}
-        ${fila("Cuotas de deuda al mes", plata(Math.round(r.deudaMes)), "")}</tbody></table>
-      ${cats.length ? `<h2>En qué se va tu dinero</h2><table><thead><tr><th>Categoría</th><th style="text-align:right">Total</th><th style="text-align:right">% del gasto</th></tr></thead><tbody>
-        ${cats.slice(0, 12).map(([k, v]) => { const [t, c] = k.split(":"); return fila(esc(catDe(t, c)?.[1] || c), plata(v), Math.round(v / totGas * 100) + " %"); }).join("")}</tbody></table>` : ""}
-      <h2>Activos y pasivos</h2>
-      <table><thead><tr><th>Activo</th><th style="text-align:right">Tipo</th><th style="text-align:right">Valor hoy</th></tr></thead><tbody>
-        ${act.map(x => fila(esc(x.nombre), (TIPOS_ACTIVO.find(t => t[0] === x.tipo) || [, ""])[1], plata(Number(x.valor) || 0))).join("")}
-        ${fila("Ahorro e inversión del libro de cuentas", "Se suma solo", plata(led))}${fila("Activos totales", "", plata(r.activos), "total")}</tbody></table>
-      <table><thead><tr><th>Pasivo</th><th style="text-align:right">Tipo</th><th style="text-align:right">Saldo hoy</th></tr></thead><tbody>
-        ${lista.map(x => fila(esc(x.nombre), x.tipo === "buena" ? "Buena (produce)" : "Mala (solo cuesta)", plata(x.actual))).join("") || fila("Sin deudas", "", "")}
-        ${fila("Pasivos totales", "", plata(r.pasivos), "total")}${fila("Patrimonio neto", "", `<span class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</span>`, "total")}</tbody></table>
-      ${lista.length ? `<h2>Tus deudas</h2>
-        <p>Método: <b>${metodo}</b>${dd.extra ? ` con ${plata(dd.extra)} extra al mes` : ""}. ${lista.some(x => x.actual > 0) ? (plan.meses ? `Quedas libre en <b>${mesesDespues(plan.meses)}</b> y pagas cerca de ${plata(Math.round(plan.interes))} en intereses.` : "Con estos pagos la deuda no baja: sube el pago o renegocia la tasa.") : "¡Sin deudas!"}</p>
-        ${lista.map(x => { const a = x.avance, fin = plan.fin[x.id];
-          return `<div class="deuda"><strong>${esc(x.nombre)}</strong> <span class="suave">· ${x.tipo === "buena" ? "buena" : "mala"} · interés ${Number(x.tasa) || 0} % anual · cuota ${plata(x.minimo || 0)}${x.cuotaAuto ? " (de tus pagos)" : ""}</span>
-            <table><tbody>${fila("Debes hoy", plata(x.actual), null)}${a ? fila("Cuotas", `${a.k} de ${a.n} · faltan ${a.faltan}${a.faltan ? ` · terminas en ${a.fin}` : ""}`, null) + fila("Has pagado", `${plata(Math.round(a.pagadoTotal))}: ${plata(Math.round(a.capital))} a capital y ${plata(Math.round(a.intereses))} a intereses`, null) + (a.prestado ? fila(a.estimado ? "Prestado (estimado)" : "Prestado", plata(Math.round(a.prestado)), null) : "") : ""}
-              ${x.actual > 0 ? fila("Con tu plan la eliminas en", fin ? mesesDespues(fin) : "Sin fecha", null) : ""}</tbody></table>
-            ${a ? `<div class="barra"><i style="width:${a.k / a.n * 100}%"></i></div>` : ""}</div>`; }).join("")}` : ""}
-      <p class="pie">Generado por SuRoute con los datos de tu libro de cuentas. Los indicadores siguen la serie «Ruta a la Cima». Este análisis es una guía para decidir; no reemplaza la asesoría de un profesional financiero.</p>
-      </div></body></html>`;
+      <div class="barra-acc"><button onclick="print()">Guardar como PDF o imprimir</button><button class="sec" onclick="close()">Cerrar</button></div>
+      <div class="doc">
+      <div class="banda"><img src="${logo}" alt="SuRoute · Summit Route"><div class="meta">Análisis financiero<br>${fecha}</div></div>
+      <div class="portada"><div><h1>Análisis financiero completo</h1><div class="sub">${nombre ? `<b>${nombre}</b> · ` : ""}${periodo}</div></div></div>
+      <div class="cuerpo">
+        <div class="resumen">${anillo}<div>${r.nivel ? `<span class="nivel" style="background:${nivelColor}">${r.nivel[0]}</span><p style="margin:8px 0 0">${r.nivel[1]}</p>` : `<p class="sub">Anota tus ingresos para calcular el índice.</p>`}
+          <div class="kpis"><div class="kpi"><span>Ingresos</span><b>${plata(r.s.ing)}</b></div><div class="kpi"><span>Egresos</span><b>${plata(egresos)}</b></div>
+            <div class="kpi"><span>Flujo neto</span><b class="${flujo < 0 ? "neg" : ""}">${plata(flujo)}</b></div><div class="kpi"><span>Patrimonio neto</span><b class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</b></div></div></div></div>
+        <div class="claves">${claves.map(c => `<p>${c}</p>`).join("")}</div>
+        ${h2("Salud financiera")}${grupos}
+        ${h2("Qué hacer ahora")}${malos.length ? `<ol class="acciones-lista">${malos.map(x => `<li><div><b>${x.nombre}</b> · ${x.valor} ${pill(x.estado)}<br>${RECOMIENDA[x.nombre] || x.ayuda}</div></li>`).join("")}</ol>` : `<p>Todos tus indicadores están en su meta. Sigue igual y sube tu inversión.</p>`}
+        ${h2("Estado de cuentas")}${tabla(["Concepto", `Promedio mensual`, `Total (${r.nMeses} ${r.nMeses === 1 ? "mes" : "meses"})`], [...r.filas.map(([n, v, f]) => tr([n, plata(Math.round(v / (r.nMeses || 1))), plata(v)], f ? "total" : "")), tr(["Cuotas de deuda al mes", plata(Math.round(r.deudaMes)), ""])])}
+        ${mm.length > 1 ? h2("Mes a mes") + barras + tabla(["Mes", "Ingresos", "Egresos", "Libre"], mm.map(x => tr([mayus(nomMes(x.ym)), plata(x.ing), plata(x.egr), `<span class="${x.disp < 0 ? "neg" : ""}">${plata(x.disp)}</span>`]))) : ""}
+        ${cats.length ? h2("En qué se va tu dinero") + tabla(["Categoría", "Total", "% del gasto", ""], cats.slice(0, 12).map(([k, v]) => { const [t, c] = k.split(":"), p = v / totGas * 100;
+          return tr([esc(catDe(t, c)?.[1] || c), plata(v), Math.round(p) + " %", `<div class="barra"><i style="width:${Math.max(2, p)}%"></i></div>`]); })) : ""}
+        ${h2("Activos y pasivos")}<div class="dos"><div>${tabla(["Lo que tienes", "Valor hoy"], [...act.map(x => tr([`${esc(x.nombre)}<br><small>${(TIPOS_ACTIVO.find(t => t[0] === x.tipo) || [, ""])[1]}</small>`, plata(Number(x.valor) || 0)])), tr(["Ahorro e inversión del libro<br><small>Se suma solo</small>", plata(led)]), tr(["Activos totales", plata(r.activos)], "total")])}</div>
+          <div>${tabla(["Lo que debes", "Saldo hoy"], [...(lista.length ? lista.map(x => tr([`${esc(x.nombre)}<br><small>${x.tipo === "buena" ? "Buena · produce" : "Mala · solo cuesta"}</small>`, plata(x.actual)])) : [tr(["Sin deudas", ""])]), tr(["Pasivos totales", plata(r.pasivos)], "total"), tr(["Patrimonio neto", `<span class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</span>`], "total")])}</div></div>
+        ${lista.length ? h2("Tus deudas") + `<p>Método <b>${metodo}</b>${dd.extra ? ` con ${plata(dd.extra)} extra al mes` : ""}. ${vivas.length ? (plan.meses ? `Quedas libre en <b>${mesesDespues(plan.meses)}</b> y pagas cerca de <b>${plata(Math.round(plan.interes))}</b> en intereses.` : "Con estos pagos la deuda no baja: sube el pago o renegocia la tasa.") : "¡Sin deudas!"}</p>` +
+          lista.map(x => { const a = x.avance, fin = plan.fin[x.id];
+            return `<div class="deuda"><header><b>${esc(x.nombre)}</b><small>${x.tipo === "buena" ? "Buena · produce" : "Mala · solo cuesta"} · interés ${Number(x.tasa) || 0} % anual</small></header>
+              <div class="mini"><div><span>Debes hoy</span><b>${plata(x.actual)}</b></div><div><span>Cuota</span><b>${plata(x.minimo || 0)}</b></div>
+                <div><span>Cuotas</span><b>${a ? `${a.k} de ${a.n}` : "—"}</b></div><div><span>${x.actual > 0 ? "Libre en" : "Estado"}</span><b>${x.actual > 0 ? (fin ? mesesDespues(fin) : "Sin fecha") : "Pagada"}</b></div></div>
+              ${a ? `<div class="barra"><i style="width:${a.k / a.n * 100}%;background:#1E7B4A"></i></div>${x.minimo ? `<p>Has pagado <b>${plata(Math.round(a.pagadoTotal))}</b>: ${plata(Math.round(a.capital))} a capital y ${plata(Math.round(a.intereses))} a intereses${a.faltan ? `. Faltan ${a.faltan} cuotas (terminas en ${a.fin})` : ""}.${a.estimado ? ` <small>Prestado estimado: ${plata(Math.round(a.prestado))}.</small>` : ""}</p>` : ""}` : ""}</div>`; }).join("") : ""}
+        <div class="nota"><img src="${simbolo}" alt="">Generado por SuRoute con los datos de tu libro de cuentas · método Ruta a la Cima. Este análisis es una guía para decidir; no reemplaza la asesoría de un profesional financiero.</div>
+      </div></div></body></html>`;
     return html;
   } finally { estado.ascOculto = oculto; }
 }
