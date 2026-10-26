@@ -3128,3 +3128,62 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .calendario-deudas td.num b { display: block; font-weight: 600; }
 .calendario-deudas td.num small { display: block; font-size: 11.5px; line-height: 1.35; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
 .calendario-deudas td.num small.cal-cuota { color: var(--tinta); font-weight: 500; }
+
+/* ===================== Bienestar: clima interior y vida saludable (Material 3) ===================== */
+.bien-medidor { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.bien-clima { --c: var(--ok); display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 12px; align-items: center; text-align: left; padding: 14px 16px; border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; cursor: pointer; transition: background .2s cubic-bezier(.2,0,0,1), border-color .2s; }
+.bien-clima .bc-ic { grid-row: span 2; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 16%, transparent); }
+.bien-clima .bc-ic svg { width: 22px; height: 22px; fill: var(--c); }
+.bien-clima b { font-size: 15px; font-weight: 600; } .bien-clima small { color: var(--tinta-suave); font-size: 12.5px; }
+.bien-clima.si { border-color: var(--c); background: color-mix(in srgb, var(--c) 10%, var(--hoja)); box-shadow: inset 0 0 0 1px var(--c); }
+@media (hover: hover) and (pointer: fine) { .bien-clima:not(.si):hover { background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); } }
+.bien-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.bien-chips .chip { --c: var(--burdeos); border-radius: 8px; padding: 7px 12px; border: 1px solid color-mix(in srgb, var(--tinta) 22%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 14px; cursor: pointer; }
+.bien-chips .chip.si { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--hoja)); font-weight: 600; }
+.bien-chips .chip.si::before { content: "✓ "; }
+.bien-int { display: flex; gap: 8px; }
+.bien-int button { --c: var(--burdeos); width: 44px; height: 44px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--tinta) 22%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; font-weight: 600; cursor: pointer; }
+.bien-int button.si { background: var(--c); border-color: var(--c); color: #fff; }
+.bien-herr { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.bien-h { display: grid; gap: 4px; text-align: left; padding: 12px 14px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; cursor: pointer; }
+.bien-h small { color: var(--tinta-suave); font-size: 12.5px; line-height: 1.4; }
+.bien-h.si { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 10%, var(--hoja)); } .bien-h.si b::after { content: " ✓"; color: var(--ok); }
+.bien-apoyo { display: flex; gap: 12px; align-items: flex-start; } .bien-apoyo > svg { width: 28px; height: 28px; fill: var(--burdeos); flex: none; }
+.bien-apoyo p { margin: 4px 0 0; line-height: 1.5; } .bien-apoyo-hoja { border-color: var(--burdeos) !important; background: var(--burdeos-suave) !important; }
+.bien-punto { display: block; width: 18px; height: 18px; border-radius: 50%; }
+.bien-indice { display: flex; gap: 16px; align-items: center; margin-bottom: 14px; }
+.bi-n { width: 84px; height: 84px; border-radius: 50%; display: grid; place-content: center; text-align: center; background: color-mix(in srgb, var(--ok) 14%, transparent); flex: none; }
+.bi-n b { font: 600 30px/1 var(--font-titulo); color: var(--ok); } .bi-n span { font-size: 12px; color: var(--tinta-suave); }
+.bien-pilares { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.bp { display: grid; gap: 6px; padding: 12px 14px; border-radius: 12px; background: color-mix(in srgb, var(--tinta) 5%, var(--hoja)); }
+.bp span { font-weight: 500; font-size: 14px; } .bp small { color: var(--tinta-suave); font-size: 12px; }
+.bp .barra { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--tinta) 10%, transparent); overflow: hidden; } .bp .barra i { display: block; height: 100%; border-radius: 4px; background: var(--ok); }
+.bp.e-medio .barra i { background: #C98A12; } .bp.e-bajo .barra i { background: var(--burdeos); }
+.bien-hoy { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.bh { display: grid; gap: 8px; align-content: start; padding: 14px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--tinta) 12%, transparent); }
+.bh > span { font-weight: 500; } .bh small { color: var(--tinta-suave); font-size: 12px; } .bh-agua { grid-column: 1 / -1; }
+.bien-paso { display: flex; align-items: center; gap: 10px; } .bien-paso b { min-width: 72px; text-align: center; font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.bien-paso .rb { width: 40px; height: 40px; border: 1px solid color-mix(in srgb, var(--tinta) 22%, transparent); font-size: 20px; }
+.bien-porciones { display: flex; gap: 6px; } .bien-porciones button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--ok) 50%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; cursor: pointer; }
+.bien-porciones button.si { background: var(--ok); color: #fff; border-color: var(--ok); }
+.bien-si { display: flex; gap: 8px; align-items: center; } .bien-si input { width: 20px; height: 20px; accent-color: var(--ok); }
+.bien-cal { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+.bien-cal .bc { aspect-ratio: 1; border-radius: 10px; background: color-mix(in srgb, var(--c) 80%, transparent); display: grid; place-items: center; }
+.bien-cal .bc i { font-style: normal; font-size: 12px; color: #fff; font-weight: 600; } .bien-cal .bc.vacio { background: color-mix(in srgb, var(--tinta) 6%, transparent); } .bien-cal .bc.vacio i { color: var(--tinta-suave); }
+.bien-ley { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 12.5px; color: var(--tinta-suave); } .bien-ley i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+.bien-reparto { display: grid; gap: 8px; margin-bottom: 8px; } .bien-reparto > div { display: grid; grid-template-columns: 130px 1fr 30px; gap: 10px; align-items: center; font-size: 14px; }
+.bien-reparto .barra { height: 10px; border-radius: 5px; background: color-mix(in srgb, var(--tinta) 8%, transparent); overflow: hidden; } .bien-reparto .barra i { display: block; height: 100%; border-radius: 5px; }
+.bien-resp { display: grid; justify-items: center; gap: 14px; text-align: center; padding: 10px 0; }
+.br-caja { --lado: 0; position: relative; width: 200px; height: 200px; border-radius: 28px; border: 3px solid color-mix(in srgb, var(--ok) 35%, transparent); display: grid; place-items: center; }
+.br-caja b { font: 500 18px var(--font-texto); }
+.br-punto { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: var(--ok); left: -10px; bottom: -10px; transition: left 4s linear, bottom 4s linear; }
+.br-caja.activa[data-fase="0"] .br-punto { left: -10px; bottom: calc(100% - 8px); }
+.br-caja.activa[data-fase="1"] .br-punto { left: calc(100% - 8px); bottom: calc(100% - 8px); }
+.br-caja.activa[data-fase="2"] .br-punto { left: calc(100% - 8px); bottom: -10px; }
+.br-caja.activa[data-fase="3"] .br-punto { left: -10px; bottom: -10px; }
+@media (prefers-reduced-motion: reduce) { .br-punto { transition: none; } }
+.bien-practica small { color: var(--oro); text-transform: uppercase; letter-spacing: .08em; font-size: 12px; font-weight: 600; } .bien-practica h3 { margin: 4px 0 6px; font-size: 20px; } .bien-practica p { margin: 0; font-size: 15.5px; line-height: 1.55; }
+.bien-goleman { margin: 0; padding-left: 22px; display: grid; gap: 8px; } .bien-goleman li { line-height: 1.45; } .bien-goleman li b { display: block; } .bien-goleman li span { color: var(--tinta-suave); font-size: 13.5px; }
+.bien-goleman li.actual b { color: var(--ok); } .bien-goleman li.actual b::after { content: " · esta semana"; font-weight: 400; font-size: 12.5px; }
+@media (max-width: 600px) { .bien-medidor { grid-template-columns: 1fr; } .bien-cal { grid-template-columns: repeat(7, 1fr); } }

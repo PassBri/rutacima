@@ -7,12 +7,12 @@
  * muestra Hoy · Mi ruta · Publicar · Comunidad · Aprende · Perfil. */
 const SECCIONES = [
   ["hoy", "Hoy"], ["ruta", "Mi ruta"], ["metas", "Metas"], ["comunidad", "Comunidad"],
-  ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Equipo"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["perfil", "Perfil"],
+  ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Equipo"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["bienestar", "Bienestar"], ["perfil", "Perfil"],
 ];
 /** En el teléfono la barra es igual a la de la app: solo íconos (5 secciones y Publicar con brújula en
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
-const SOLO_PC = new Set(["metas", "mochila", "coach", "mensajes", "frases", "finanzas"]);
+const SOLO_PC = new Set(["metas", "mochila", "coach", "mensajes", "frases", "finanzas", "bienestar"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "cimas" };
 
 function pintarRiel() {
@@ -82,7 +82,7 @@ document.addEventListener("focusout", () => setTimeout(pintarSiPendiente, 0));
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {
-  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
+  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec !== "bienestar" ? `<button class="rb" data-sec="bienestar" aria-label="Bienestar">${ic("bienestar")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
   return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1><span style="display:flex;gap:4px;align-items:center">${atajos}${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</span></div>
     ${buscar ? `<label class="buscar">${ic("buscar")}<input id="busq" type="search" placeholder="Buscar" value="${esc(estado.busqueda)}" aria-label="Buscar"></label>` : ""}
     ${chips.length ? `<div class="chips">${chips.map(([k, n]) => `<button class="chip" data-filtro="${k}" aria-pressed="${estado.filtro === k}">${n}</button>`).join("")}</div>` : ""}</div>`;

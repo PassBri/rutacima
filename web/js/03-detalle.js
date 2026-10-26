@@ -153,7 +153,7 @@ function pintarDetalle() {
   const s = estado.sec, v = estado.sel;
   $("detalle").dataset.sec = s || "";          // para el estilo de cada sección (por ejemplo, Material 3 en finanzas)
   let h;
-  if (v === null) h = s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "mensajes" ? vacioMensajes() : s === "mochila" ? (estado.sel = "inicio", DET["mochila.inicio"]()) : vacio();
+  if (v === null) h = s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "bienestar" ? (estado.sel = "hoy", DET["bienestar.hoy"]()) : s === "mensajes" ? vacioMensajes() : s === "mochila" ? (estado.sel = "inicio", DET["mochila.inicio"]()) : vacio();
   else {
     const [t, ...resto] = String(v).split(":"); const arg = resto.join(":");
     const f = DET[`${s}.${t}`] || DET[t];
