@@ -190,24 +190,34 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         val d = LocalDate.parse(f); val ym = YearMonth.from(d).plusMonths(1)
         return ym.atDay(minOf(d.dayOfMonth, ym.lengthOfMonth())).toString()
     }
-    /** Copia un movimiento al mismo día del mes siguiente (sin recibos). Devuelve la fecha de la copia. */
-    fun duplicar(f: String, x: Mov): String {
-        val g = mesSiguiente(f)
-        viewModelScope.launch { guardar(g, guardados(g) + Mov("m" + System.currentTimeMillis(), x.t, x.m, x.c, x.n)) }
-        return g
+    /** Copia un movimiento al mismo día del mes siguiente (sin recibos). Un fijo no se duplica: su fila del mes
+     *  siguiente queda igual a la de este mes. Devuelve la fecha de la copia y si ya estaba igual. */
+    private suspend fun duplicarUno(f: String, x: Mov): Pair<String, Boolean> {
+        val igual = { a: Mov, b: Mov -> a.t == b.t && a.m == b.m && a.c == b.c && a.n == b.n }
+        val ym2 = YearMonth.from(LocalDate.parse(f)).plusMonths(1); val ym2s = ym2.toString()
+        val fijo = x.fx?.let { id -> libro.value.fijos.firstOrNull { it.id == id } }
+        if (fijo != null && ym2s >= fijo.desde && (fijo.hasta.isEmpty() || ym2s <= fijo.hasta)) {
+            val g = com.rutaalacima.app.domain.model.Fijos.fecha(fijo, ym2).toString()
+            val ya = libro.value.movs(g).firstOrNull { it.fx == fijo.id }
+            if (ya != null && igual(ya, x)) return g to true
+            if (ym2s in fijo.saltar) c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE,
+                com.rutaalacima.app.domain.model.Fijos.escribir(com.rutaalacima.app.domain.model.Fijos.saltar(libro.value.fijos, fijo.id, ym2s, false)))   // si ese mes se había quitado, vuelve
+            val otros = guardados(g).filter { it.fx != fijo.id }
+            val comoElFijo = x.m == fijo.m && x.c == fijo.c && x.n == fijo.n
+            guardar(g, if (comoElFijo) otros else otros + Mov("m" + System.nanoTime(), x.t, x.m, x.c, x.n, fx = fijo.id))
+            return g to false
+        }
+        val g = mesSiguiente(f); val ya = guardados(g)
+        if (ya.any { igual(it, x) }) return g to true
+        guardar(g, ya + Mov("m" + System.nanoTime(), x.t, x.m, x.c, x.n))
+        return g to false
     }
-    /** Copia los movimientos del mes al siguiente, cada uno en su mismo día. Los fijos no: ya se repiten solos.
+    fun duplicar(f: String, x: Mov, listo: (String, Boolean) -> Unit) = viewModelScope.launch { val (g, ya) = duplicarUno(f, x); listo(g, ya) }
+    /** Copia todo el mes al siguiente, cada movimiento en su mismo día; los fijos quedan iguales a los de este mes.
      *  Lo que ya está igual en el mes siguiente no se copia otra vez. */
     fun duplicarMes(ym: YearMonth, listo: (Int) -> Unit) = viewModelScope.launch {
-        var n = 0; var k = System.currentTimeMillis()
-        libro.value.dias.filterKeys { it.startsWith(ym.toString()) }.toSortedMap().forEach { (f, xs) ->
-            val copias = xs.filter { it.fx == null && !it.virtual && !it.prog }
-            if (copias.isEmpty()) return@forEach
-            val g = mesSiguiente(f); val ya = guardados(g)
-            val nuevos = copias.filter { c -> ya.none { it.t == c.t && it.m == c.m && it.c == c.c && it.n == c.n } }
-                .map { Mov("m" + (k++), it.t, it.m, it.c, it.n) }
-            if (nuevos.isNotEmpty()) { guardar(g, ya + nuevos); n += nuevos.size }
-        }
+        var n = 0
+        (1..ym.lengthOfMonth()).forEach { d -> val f = ym.atDay(d).toString(); libro.value.movs(f).forEach { x -> if (!duplicarUno(f, x).second) n++ } }
         listo(n)
     }
 
@@ -905,7 +915,7 @@ private fun LazyListScope.mes(ym: YearMonth, libro: Libro, plata: (Double) -> St
                 }
             }
             // Duplicar el mes al siguiente: los movimientos que no son fijos, cada uno en su mismo día
-            val propios = libro.dias.filterKeys { it.startsWith(ym.toString()) }.values.flatten().count { it.fx == null && !it.virtual && !it.prog }
+            val propios = (libro.dias.keys + libro.programados.keys).count { it.startsWith(ym.toString()) }
             if (propios > 0) {
                 val ctxM = androidx.compose.ui.platform.LocalContext.current
                 val siguiente = mesFrase(ym.plusMonths(1).monthValue)
@@ -1112,12 +1122,13 @@ private fun EditarMovimiento(x: Mov, fecha: String, plata: (Double) -> String, v
                 SelectorCategoria(t, cat, Modifier.fillMaxWidth()) { cat = it }
                 OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
                 if (x.agenda == null) RecibosMovimiento(x, fecha, vm)
-                if (x.fx == null) {
+                run {
                     val ctxD = androidx.compose.ui.platform.LocalContext.current
                     TextButton(onClick = {
-                        val g = vm.duplicar(fecha, x.copy(m = v.takeIf { it > 0 } ?: x.m, c = cat, n = nota.trim()))
-                        val d = LocalDate.parse(g)
-                        com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctxD.getString(R.string.cu_duplicado, d.dayOfMonth, mesFrase(d.monthValue)))
+                        vm.duplicar(fecha, x.copy(m = v.takeIf { it > 0 } ?: x.m, c = cat, n = nota.trim())) { g, ya ->
+                            val d = LocalDate.parse(g)
+                            com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctxD.getString(if (ya) R.string.cu_duplicado_igual else R.string.cu_duplicado, d.dayOfMonth, mesFrase(d.monthValue)))
+                        }
                         onCerrar()
                     }) { Icon(Icons.Filled.ContentCopy, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.cu_duplicar)) }
                 }

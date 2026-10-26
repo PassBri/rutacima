@@ -221,7 +221,7 @@ DET["finanzas.d"] = f => {
           <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
-          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}${x.fx ? "" : `<button class="rb" data-acc="ascDuplicar" data-arg="${f}|${x.id}" aria-label="Duplicar al mes siguiente" title="Duplicar al mes siguiente">${ic("copiar")}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}${`<button class="rb" data-acc="ascDuplicar" data-arg="${f}|${x.id}" aria-label="Duplicar al mes siguiente" title="Duplicar al mes siguiente">${ic("copiar")}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
           : `<tr><td colspan="7" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="4" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
@@ -265,18 +265,43 @@ function cambiarMov(arg, cambio) {
   return x;
 }
 window.cambiarMov = cambiarMov;
+/** Para deshacer una duplicación: lo guardado del libro (días y fijos) antes de copiar. */
+const respuestas2 = () => { const r = { [FIJOS]: respuesta(FIJOS) }; diasConMovs().forEach(f => { r[claveMov(f)] = respuesta(claveMov(f)); }); return r; };
+function restaurar2(antes) {
+  diasConMovs().forEach(f => { if (!(claveMov(f) in antes) && respuesta(claveMov(f))) responder(ASC.WB, claveMov(f), ""); });
+  Object.entries(antes).forEach(([k, v]) => { if (respuesta(k) !== (v || "")) responder(ASC.WB, k, v || ""); });
+  pintarDetalle();
+}
 /** El mismo día del mes siguiente (o su último día, si ese mes es más corto). */
 function diaMesSiguiente(f) {
   const a = Number(f.slice(0, 4)), m = Number(f.slice(5, 7)), d = Number(f.slice(8)), a2 = m === 12 ? a + 1 : a, m2 = m === 12 ? 1 : m + 1;
   return `${ymDe(a2, m2)}-${String(Math.min(d, new Date(a2, m2, 0).getDate())).padStart(2, "0")}`;
 }
-/** Los movimientos del mes que se pueden duplicar: los anotados a mano (los fijos ya se repiten solos). */
+/** Todos los movimientos del mes, en orden: los anotados, los fijos (también los programados) y los del registro de antes. */
 function movsPropiosMes(ym) {
   const n = new Date(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)), 0).getDate(), r = [];
-  for (let d = 1; d <= n; d++) { const f = `${ym}-${String(d).padStart(2, "0")}`; movsDe(f).forEach(x => { if (!x.fx && !x.virtual && !x.prog) r.push([f, x]); }); }
+  for (let d = 1; d <= n; d++) { const f = `${ym}-${String(d).padStart(2, "0")}`; movsDe(f).forEach(x => r.push([f, x])); }
   return r;
 }
 const copiaMov = x => ({ id: "m" + nuevoId(), t: x.t, m: x.m, c: x.c, n: x.n || "" });
+/** Copia un movimiento al mismo día del mes siguiente. Un fijo no se duplica: su fila del mes siguiente
+ *  queda igual a la de este mes (monto, categoría y concepto). Devuelve [fecha, "nuevo" | "igual"]. */
+function duplicarUno(f, x) {
+  const fijo = x.fx && fijosDatos().find(y => y.id === x.fx), ym2 = ymMas(f.slice(0, 7), 1);
+  if (fijo && ym2 >= fijo.desde && (!fijo.hasta || ym2 <= fijo.hasta)) {
+    const g = fechaFijo(fijo, ym2), ya = movsDe(g).find(y => y.fx === x.fx);
+    if (ya && mismoMov(ya, x)) return [g, "igual"];
+    if ((fijo.saltar || []).includes(ym2)) saltarFijo(x.fx, ym2, false);       // si ese mes se había quitado, vuelve
+    const iguales = Number(x.m) === Number(fijo.m) && x.c === fijo.c && (x.n || "") === (fijo.n || "");
+    const otros = movsGuardados(g).filter(y => y.fx !== x.fx);
+    guardarMovs(g, iguales ? otros : [...otros, { ...copiaMov(x), fx: x.fx }]);   // igual al fijo: basta con el fijo
+    return [g, "nuevo"];
+  }
+  const g = diaMesSiguiente(f), ya = movsGuardados(g);
+  if (ya.some(y => mismoMov(x, y))) return [g, "igual"];
+  guardarMovs(g, [...ya, copiaMov(x)]);
+  return [g, "nuevo"];
+}
 const mismoMov = (a, b) => a.t === b.t && Number(a.m) === Number(b.m) && a.c === b.c && (a.n || "") === (b.n || "");
 Object.assign(ACC, {
   ascOjo() { estado.ascOculto = !estado.ascOculto; pintarDetalle(); pintarLista(); },
@@ -303,21 +328,17 @@ Object.assign(ACC, {
   },
   ascDuplicar(_, arg) {
     const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id); if (!x) return;
-    const g = diaMesSiguiente(f), c = copiaMov(x), dg = deIso(g);
-    guardarMovs(g, [...movsGuardados(g), c]);
-    toast(`Copiado al ${dg.getDate()} de ${MESES[dg.getMonth()]}`, { accion: "Ver", alHacer: () => elegir("d:" + g) });
+    const antes = respuestas2(), [g, r] = duplicarUno(f, x), dg = deIso(g);
+    toast(r === "igual" ? `Ya estaba igual el ${dg.getDate()} de ${MESES[dg.getMonth()]}` : `Copiado al ${dg.getDate()} de ${MESES[dg.getMonth()]}`,
+      r === "igual" ? { accion: "Ver", alHacer: () => elegir("d:" + g) } : { accion: "Deshacer", alHacer: () => restaurar2(antes) });
+    pintarDetalle();
   },
   ascDuplicarMes(_, ym) {
-    const hechos = [];
-    const porDia = {}; movsPropiosMes(ym).forEach(([f, x]) => (porDia[diaMesSiguiente(f)] ||= []).push(x));
-    Object.entries(porDia).forEach(([g, xs]) => {
-      const ya = movsGuardados(g), nuevos = xs.filter(x => !ya.some(y => mismoMov(x, y))).map(copiaMov);
-      if (nuevos.length) { guardarMovs(g, [...ya, ...nuevos]); hechos.push([g, nuevos.map(y => y.id)]); }
-    });
-    const m2 = MESES[Number(ym.slice(5, 7)) % 12], n = hechos.reduce((s, [, ids]) => s + ids.length, 0);
-    if (!n) { toast(`Todo ya estaba en ${m2}`); return; }
-    toast(`Copiados a ${m2}: ${n} ${n === 1 ? "movimiento" : "movimientos"}`, { accion: "Deshacer", alHacer: () =>
-      hechos.forEach(([g, ids]) => guardarMovs(g, movsGuardados(g).filter(y => !ids.includes(y.id)))) });
+    const antes = respuestas2(); let nuevos = 0, iguales = 0;
+    movsPropiosMes(ym).forEach(([f, x]) => { const [, r] = duplicarUno(f, x); if (r === "nuevo") nuevos++; else iguales++; });
+    const m2 = MESES[Number(ym.slice(5, 7)) % 12];
+    if (!nuevos) { toast(`Todo ya estaba igual en ${m2}`); return; }
+    toast(`Copiados a ${m2}: ${nuevos} ${nuevos === 1 ? "movimiento" : "movimientos"}${iguales ? ` (${iguales} ya estaban)` : ""}`, { accion: "Deshacer", alHacer: () => restaurar2(antes) });
     pintarDetalle();
   },
   ascMonedaElegir(el) { responder(ASC.WB, "fin#moneda", el.value); toast(`Tus cuentas quedan en ${nombreMoneda(el.value)}`); },

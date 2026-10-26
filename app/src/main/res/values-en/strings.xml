@@ -2044,4 +2044,5 @@
     <string name="cu_buena_c">Good</string>
     <string name="cu_c_promedio_n">Monthly average (%1$d months)</string>
     <string name="cu_c_total_n">Total (%1$d months)</string>
+    <string name="cu_duplicado_igual">Already the same on %2$s %1$d</string>
 </resources>

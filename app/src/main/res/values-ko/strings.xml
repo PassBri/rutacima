@@ -2044,4 +2044,5 @@
     <string name="cu_buena_c">좋음</string>
     <string name="cu_c_promedio_n">월평균 (%1$d개월)</string>
     <string name="cu_c_total_n">합계 (%1$d개월)</string>
+    <string name="cu_duplicado_igual">%2$s %1$d일에 이미 같습니다</string>
 </resources>

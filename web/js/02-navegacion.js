@@ -71,7 +71,14 @@ function refrescar() {
   pintarRiel(); pintarLista();
   if (enEdicion()) detallePendiente = true; else pintarDetalle();
 }
-document.addEventListener("focusout", () => setTimeout(() => { if (detallePendiente && !enEdicion()) { detallePendiente = false; pintarDetalle(); } }, 0));
+/* Al pasar de un campo a un botón (por ejemplo, de «Valor hoy» a «Agregar»), el detalle no se redibuja
+ * mientras el dedo o el mouse siguen abajo: si lo hiciera, borraría lo escrito y el clic se perdería. */
+let punteroAbajo = false;
+const pintarSiPendiente = () => { if (detallePendiente && !enEdicion() && !punteroAbajo) { detallePendiente = false; pintarDetalle(); } };
+document.addEventListener("pointerdown", () => { punteroAbajo = true; }, true);
+const soltarPuntero = () => { punteroAbajo = false; setTimeout(pintarSiPendiente, 0); };   // después del clic
+document.addEventListener("pointerup", soltarPuntero, true); document.addEventListener("pointercancel", soltarPuntero, true);
+document.addEventListener("focusout", () => setTimeout(pintarSiPendiente, 0));
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {

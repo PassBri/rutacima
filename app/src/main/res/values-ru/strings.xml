@@ -2044,4 +2044,5 @@
     <string name="cu_buena_c">Хороший</string>
     <string name="cu_c_promedio_n">В среднем за месяц (%1$d мес.)</string>
     <string name="cu_c_total_n">Итого (%1$d мес.)</string>
+    <string name="cu_duplicado_igual">%1$d (%2$s) уже так же</string>
 </resources>
