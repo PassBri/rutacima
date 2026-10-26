@@ -2016,8 +2016,6 @@
     <string name="usuario_error">ユーザー名を変更できませんでした。接続を確認してください。</string>
     <string name="cu_fijo_programado">予定 · その日が来たら計上</string>
     <string name="cu_ordenar">ドラッグして並べ替え</string>
-    <string name="cu_subir">上へ</string>
-    <string name="cu_bajar">下へ</string>
     <string name="cu_g_flujo">お金の流れ</string>
     <string name="cu_g_futuro">未来をつくる</string>
     <string name="cu_g_deudas">借金</string>

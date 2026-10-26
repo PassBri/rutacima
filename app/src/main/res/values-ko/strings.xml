@@ -2016,8 +2016,6 @@
     <string name="usuario_error">사용자명을 바꾸지 못했습니다. 연결을 확인하세요.</string>
     <string name="cu_fijo_programado">예정 · 그날이 되면 반영</string>
     <string name="cu_ordenar">끌어서 순서 바꾸기</string>
-    <string name="cu_subir">위로</string>
-    <string name="cu_bajar">아래로</string>
     <string name="cu_g_flujo">현금 흐름</string>
     <string name="cu_g_futuro">미래 만들기</string>
     <string name="cu_g_deudas">부채</string>

@@ -2016,8 +2016,6 @@
     <string name="usuario_error">无法更改用户名，请检查网络连接。</string>
     <string name="cu_fijo_programado">已计划 · 到那天才计入</string>
     <string name="cu_ordenar">拖动以调整顺序</string>
-    <string name="cu_subir">上移</string>
-    <string name="cu_bajar">下移</string>
     <string name="cu_g_flujo">你的现金流</string>
     <string name="cu_g_futuro">建设你的未来</string>
     <string name="cu_g_deudas">债务</string>

@@ -2016,8 +2016,6 @@
     <string name="usuario_error">Impossibile cambiare l\'utente. Verifica la connessione.</string>
     <string name="cu_fijo_programado">Programmato · conta quando arriva il giorno</string>
     <string name="cu_ordenar">Trascina per riordinare</string>
-    <string name="cu_subir">Sposta su</string>
-    <string name="cu_bajar">Sposta giù</string>
     <string name="cu_g_flujo">Il tuo flusso di denaro</string>
     <string name="cu_g_futuro">Costruire il tuo futuro</string>
     <string name="cu_g_deudas">Debiti</string>

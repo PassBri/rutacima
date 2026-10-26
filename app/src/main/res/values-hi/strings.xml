@@ -2016,8 +2016,6 @@
     <string name="usuario_error">यूज़रनेम नहीं बदल सका। अपना कनेक्शन देखें।</string>
     <string name="cu_fijo_programado">निर्धारित · उस दिन आने पर गिना जाएगा</string>
     <string name="cu_ordenar">क्रम बदलने के लिए खींचें</string>
-    <string name="cu_subir">ऊपर ले जाएँ</string>
-    <string name="cu_bajar">नीचे ले जाएँ</string>
     <string name="cu_g_flujo">आपका धन प्रवाह</string>
     <string name="cu_g_futuro">अपना भविष्य बनाना</string>
     <string name="cu_g_deudas">कर्ज़</string>

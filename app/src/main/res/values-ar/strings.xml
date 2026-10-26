@@ -2016,8 +2016,6 @@
     <string name="usuario_error">تعذر تغيير اسم المستخدم. تحقق من اتصالك.</string>
     <string name="cu_fijo_programado">مجدول · يُحتسب عند حلول يومه</string>
     <string name="cu_ordenar">اسحب لتغيير الترتيب</string>
-    <string name="cu_subir">إلى الأعلى</string>
-    <string name="cu_bajar">إلى الأسفل</string>
     <string name="cu_g_flujo">تدفقك المالي</string>
     <string name="cu_g_futuro">بناء مستقبلك</string>
     <string name="cu_g_deudas">الديون</string>

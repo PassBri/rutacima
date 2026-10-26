@@ -2016,8 +2016,6 @@
     <string name="usuario_error">Benutzername konnte nicht geändert werden. Prüfe deine Verbindung.</string>
     <string name="cu_fijo_programado">Geplant · zählt, wenn der Tag kommt</string>
     <string name="cu_ordenar">Ziehen zum Umsortieren</string>
-    <string name="cu_subir">Nach oben</string>
-    <string name="cu_bajar">Nach unten</string>
     <string name="cu_g_flujo">Dein Geldfluss</string>
     <string name="cu_g_futuro">Deine Zukunft aufbauen</string>
     <string name="cu_g_deudas">Schulden</string>
