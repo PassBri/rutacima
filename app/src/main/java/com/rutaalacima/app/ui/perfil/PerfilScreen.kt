@@ -203,6 +203,7 @@ fun PerfilScreen(
         // Accesos agrupados: tu ascenso, las personas que te acompañan y lo demás
         // Si la cuenta está suspendida, la persona lo ve aquí con el motivo y cómo pedir revisión
         item { com.rutaalacima.app.ui.moderacion.AvisoSuspension(Modifier.padding(horizontal = 16.dp)) }
+        item { AvisoUsuario(Modifier.padding(horizontal = 16.dp)) }
         item { AccesosPerfil(onIrA) }
         item {
             TabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {

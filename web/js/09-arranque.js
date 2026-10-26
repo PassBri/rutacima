@@ -100,6 +100,7 @@ async function entrarReal() {
     abrirApp();
     if (!filas.length) toast(Store.nube.directa ? "¡Bienvenido! Empieza por tu perfil y tu cumbre." : "Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");
     globalThis.revisarAutorizacion?.();
+    setTimeout(() => globalThis.revisarUsuario?.(), 1200);
     setTimeout(() => globalThis.primeraCumbre?.(), 600);
   } catch (e) { console.error(e); mostrarCarga("No se pudo cargar tu ruta. Revisa tu conexión y recarga la página."); }
 }

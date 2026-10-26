@@ -232,7 +232,7 @@ async function buscarPersonas(t) {
     r = (data || []).filter(x => x.id !== Store.nube.dueno).map(x => ({ id: x.id, nombre: x.nombre || x.username, usuario: x.username, avatar: x.avatar_url, cumbre: x.cumbre }));
   }
   if (RED.buscando !== t) return;
-  RED.resultados = r; pintarResultados();
+  RED.resultados = typeof ordenarPorUsuario === "function" ? ordenarPorUsuario(r, t) : r; pintarResultados();
 }
 /** A quién seguir: quienes publican seguido en mis ejes (y si no alcanza, los más activos), sin los que ya sigo. */
 async function sugeridasRed(cuantas = 8) {

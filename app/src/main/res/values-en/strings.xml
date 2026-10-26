@@ -2004,4 +2004,14 @@
     <string name="intro_2">Take today\'s step</string>
     <string name="intro_3">Climb together</string>
     <string name="intro_saltar">Tap to skip</string>
+    <string name="usuario_titulo">Your @username</string>
+    <string name="usuario_explica">It\'s your unique name on SuRoute: it\'s how friends find you and message you.</string>
+    <string name="usuario_correo_aviso">Right now it looks like your email, and the whole community would see it.</string>
+    <string name="usuario_formato">3 to 30 lowercase letters, numbers, dot or underscore.</string>
+    <string name="usuario_no_correo">Don\'t use your email: pick a short name.</string>
+    <string name="usuario_ocupado">@%1$s is taken. Try another.</string>
+    <string name="usuario_libre">@%1$s is available.</string>
+    <string name="usuario_guardado">You\'re now @%1$s</string>
+    <string name="usuario_elegir">Choose my @username</string>
+    <string name="usuario_error">Couldn\'t change your username. Check your connection.</string>
 </resources>

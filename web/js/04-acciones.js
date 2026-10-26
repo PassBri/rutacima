@@ -32,7 +32,7 @@ const ACC = {
     if (!/^[a-z0-9._]{3,30}$/.test(u)) { toast("El usuario debe tener de 3 a 30 letras minúsculas, números, punto o guion bajo."); el.value = antes; return; }
     if (pareceCorreo(u, Store.nube.correo)) { toast("No uses tu correo como usuario: toda la comunidad lo vería."); el.value = antes; return; }
     const { error } = await Store.nube.sb.from("profiles").update({ username: u }).eq("id", Store.nube.dueno);
-    if (error) { el.value = antes; toast(/duplicate|unique/i.test(error.message) ? "Ese usuario ya existe. Prueba con otro." : "No se pudo cambiar el usuario." + detalleError(error)); return; }
+    if (error) { el.value = antes; toast(/duplicate|unique/i.test(error.message) ? "Ese usuario ya existe. Prueba con otro." : /usuario_no_valido/.test(error.message) ? "Ese usuario no es válido: usa de 3 a 30 letras minúsculas, números, punto o guion bajo, y que no sea tu correo." : "No se pudo cambiar el usuario." + detalleError(error)); return; }
     Store.nube.perfil.username = u; estado.feed = null; toast("Ahora eres @" + u); pintarLista?.();
   },
   /** Quita la foto de una casilla del vision board (la publicación privada se conserva en el diario). */
@@ -256,7 +256,7 @@ const ACC = {
   },
   /** "más" / "menos" en el texto de una cima */
   masTexto(el) { const pie = el.closest(".cima-pie"); const abierto = pie.classList.toggle("abierto"); el.textContent = abierto ? "menos" : "más"; el.setAttribute("aria-expanded", abierto); },
-  impulsarId(el, id) { const p = (estado.feed || []).find(x => String(x.id) === id); if (p) { estado.post = p; ACC.impulsar(); } },
+  impulsarId(el, id) { const p = (estado.feed || []).find(x => String(x.id) === id); if (p) { if (!p.yoImpulse) { estado.recienImpulso = p.id; setTimeout(() => { if (estado.recienImpulso === p.id) estado.recienImpulso = null; }, 1200); } estado.post = p; ACC.impulsar(); } },
   async impulsar() {
     const p = estado.post; if (!p) return;
     p.yoImpulse = !p.yoImpulse; p.impulsos += p.yoImpulse ? 1 : -1; refrescar();

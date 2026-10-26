@@ -318,6 +318,13 @@ fun AjustesScreen(onBack: () -> Unit, onFrases: () -> Unit = {}, onWeb: () -> Un
                         !vm.servidor -> Text(stringResource(R.string.servidor_no_configurado), style = MaterialTheme.typography.bodyMedium)
                         s != null -> {
                             Text(stringResource(R.string.sesion_iniciada, s.email), style = MaterialTheme.typography.bodyLarge)
+                            // Mi @usuario: único y personal; así me encuentran para escribirme
+                            val uvm = com.rutaalacima.app.ui.components.rutaViewModel { UsuarioViewModel(it) }
+                            if (uvm.actual.isNotBlank()) Text("@" + uvm.actual, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(top = 8.dp))
+                            Text(stringResource(R.string.usuario_explica) + if (uvm.pareceCorreo) " " + stringResource(R.string.usuario_correo_aviso) else "",
+                                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 6.dp))
+                            EditorUsuario(uvm)
                             TextButton(onClick = vm::salir) { Text(stringResource(R.string.cerrar_sesion)) }
                             var confirmar by remember { mutableStateOf(false) }
                             TextButton(onClick = { confirmar = true }, enabled = !vm.cargando) {

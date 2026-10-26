@@ -16,6 +16,7 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.put
+import kotlinx.serialization.json.jsonPrimitive
 import java.net.URLEncoder
 import java.time.Instant
 
@@ -131,7 +132,43 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
         runCatching {
             filas(supa.select("profiles", "select=id,username,nombre,avatar_url,bio,cumbre&or=(username.ilike.*${cod(t)}*,nombre.ilike.*${cod(t)}*)&limit=25"))
                 .map(::persona).filter { it.id != yo }
+                .sortedBy { when { it.usuario == t.lowercase() -> 0; it.usuario.startsWith(t.lowercase()) -> 1; else -> 2 } }
         }.getOrDefault(emptyList())
+    }
+
+    // ------------------------------------------------------------------ Mi @usuario (único y personal)
+
+    /** Mi @usuario según el servidor (también lo guarda en el teléfono). */
+    suspend fun miUsuario(): String = withContext(Dispatchers.IO) {
+        if (!disponible) return@withContext social.usuarioPropio()
+        runCatching { filas(supa.select("profiles", "select=username&id=eq.$yo")).firstOrNull()?.s("username").orEmpty() }
+            .getOrDefault("").also { if (it.isNotBlank()) social.guardarIdentidad(social.nombrePropio(), it) }.ifBlank { social.usuarioPropio() }
+    }
+
+    /** null si está libre; si no, el motivo: "formato", "correo" u "ocupado". */
+    suspend fun problemaUsuario(u: String, correo: String): String? = withContext(Dispatchers.IO) {
+        when {
+            !Regex("^[a-z0-9._]{3,30}$").matches(u) -> "formato"
+            pareceCorreo(u, correo) -> "correo"
+            disponible && runCatching { supa.rpc("usuario_disponible", buildJsonObject { put("u", u) }).jsonPrimitive.booleanOrNull == false }.getOrDefault(false) -> "ocupado"
+            else -> null
+        }
+    }
+
+    suspend fun cambiarUsuario(u: String) = withContext(Dispatchers.IO) {
+        supa.rpc("cambiar_usuario", buildJsonObject { put("u", u) })
+        social.guardarIdentidad(social.nombrePropio(), u)
+    }
+
+    companion object {
+        /** El @usuario no puede ser el correo: toda la comunidad lo vería (igual que pareceCorreo de la web). */
+        fun pareceCorreo(u: String, correo: String = ""): Boolean {
+            val c = correo.lowercase(); val local = c.substringBefore("@").replace(Regex("[^a-z0-9._]"), "")
+            return Regex("(gmail|hotmail|outlook|yahoo|icloud|live)(\\.|$)").containsMatchIn(u) || Regex("\\.(com|net|org|es|edu|co)$").containsMatchIn(u) ||
+                (c.isNotEmpty() && u == c.replace(Regex("[^a-z0-9._]"), "")) ||
+                (local.length >= 3 && u.startsWith(local) && u.length > local.length + 3 && "." in u.substring(local.length))
+        }
+        fun pendiente(u: String, correo: String) = u.isBlank() || u.startsWith("senderista_") || pareceCorreo(u, correo)
     }
 
     /** A quiénes sigo. */

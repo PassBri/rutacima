@@ -201,6 +201,7 @@ fun ContactosScreen(onBack: () -> Unit, onChat: (String) -> Unit, onPersona: (St
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item("sub") { Text(stringResource(R.string.contactos_sub), color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium) }
+            item("usuario") { com.rutaalacima.app.ui.perfil.AvisoUsuario() }
             item("buscar") {
                 OutlinedTextField(
                     texto, { texto = it; vm.buscar(it) }, Modifier.fillMaxWidth(),

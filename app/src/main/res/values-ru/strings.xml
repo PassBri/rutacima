@@ -2004,4 +2004,14 @@
     <string name="intro_2">Сделайте шаг сегодня</string>
     <string name="intro_3">Поднимайтесь вместе</string>
     <string name="intro_saltar">Нажмите, чтобы пропустить</string>
+    <string name="usuario_titulo">Ваш @никнейм</string>
+    <string name="usuario_explica">Ваше уникальное имя в SuRoute: по нему друзья находят вас и пишут вам.</string>
+    <string name="usuario_correo_aviso">Сейчас он похож на вашу почту, и её увидит всё сообщество.</string>
+    <string name="usuario_formato">От 3 до 30 строчных букв, цифр, точки или подчёркивания.</string>
+    <string name="usuario_no_correo">Не используйте почту: выберите короткое имя.</string>
+    <string name="usuario_ocupado">@%1$s уже занят. Попробуйте другой.</string>
+    <string name="usuario_libre">@%1$s свободен.</string>
+    <string name="usuario_guardado">Теперь вы @%1$s</string>
+    <string name="usuario_elegir">Выбрать мой @никнейм</string>
+    <string name="usuario_error">Не удалось сменить никнейм. Проверьте подключение.</string>
 </resources>

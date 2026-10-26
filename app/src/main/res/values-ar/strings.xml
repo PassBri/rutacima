@@ -2004,4 +2004,14 @@
     <string name="intro_2">اخطُ خطوة اليوم</string>
     <string name="intro_3">اصعد مع رفاقك</string>
     <string name="intro_saltar">المس للتخطي</string>
+    <string name="usuario_titulo">‎@اسم المستخدم</string>
+    <string name="usuario_explica">اسمك الفريد في SuRoute: به يجدك أصدقاؤك ويراسلونك.</string>
+    <string name="usuario_correo_aviso">يشبه الآن بريدك الإلكتروني وسيراه المجتمع كله.</string>
+    <string name="usuario_formato">من 3 إلى 30 حرفًا صغيرًا أو أرقامًا أو نقطة أو شرطة سفلية.</string>
+    <string name="usuario_no_correo">لا تستخدم بريدك: اختر اسمًا قصيرًا.</string>
+    <string name="usuario_ocupado">‎@%1$s مستخدم بالفعل. جرّب اسمًا آخر.</string>
+    <string name="usuario_libre">‎@%1$s متاح.</string>
+    <string name="usuario_guardado">أصبحت ‎@%1$s</string>
+    <string name="usuario_elegir">اختيار ‎@اسم المستخدم</string>
+    <string name="usuario_error">تعذر تغيير اسم المستخدم. تحقق من اتصالك.</string>
 </resources>

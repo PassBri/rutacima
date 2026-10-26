@@ -188,7 +188,7 @@ private fun CimaPagina(
             visible = sello, modifier = Modifier.align(Alignment.Center),
             enter = scaleIn(tween(220), initialScale = 1.6f) + fadeIn(tween(160)), exit = scaleOut(tween(420), targetScale = 0.9f) + fadeOut(tween(420)),
         ) {
-            com.rutaalacima.app.ui.components.SelloDeCera(0f, 0L, Modifier.size(120.dp))
+            com.rutaalacima.app.ui.components.ImpulsoMarca(true, tamano = 120.dp)
         }
 
         // Derecha: autor y acciones
@@ -200,11 +200,19 @@ private fun CimaPagina(
             Box(Modifier.clip(CircleShape).clickable(onClick = onAutor).padding(2.dp).semantics { contentDescription = post.autorNombre }) {
                 com.rutaalacima.app.ui.components.AroMarca(46.dp, Color.White.copy(alpha = 0.92f)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
             }
-            Accion(if (post.yoImpulse) com.rutaalacima.app.ui.components.IconosRuta.Banderin else com.rutaalacima.app.ui.components.IconosRuta.BanderinContorno, contar(post.impulsos),
-                stringResource(R.string.impulsar), if (post.yoImpulse) MaterialTheme.colorScheme.secondary else Color.White, onImpulsar)
+            // Impulsar: el corazón dentro del símbolo de SuRoute
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onImpulsar).padding(2.dp)
+                    .semantics { contentDescription = "${'$'}{context.getString(R.string.impulsar)}, ${'$'}{contar(post.impulsos)}" },
+            ) {
+                com.rutaalacima.app.ui.components.ImpulsoMarca(post.yoImpulse, tamano = 50.dp)
+                Spacer(Modifier.height(1.dp))
+                Text(contar(post.impulsos), color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
+            }
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
-                if (guardado) MaterialTheme.colorScheme.secondary else Color.White, onGuardar)
+                Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
                 val enlace = com.rutaalacima.app.data.social.EnlacesRed.publicacion(post)
                 val texto = listOf(post.metaTitulo, post.texto, enlace.ifBlank { "— SuRoute" }).filter { it.isNotBlank() }.joinToString("\n\n")
@@ -280,10 +288,10 @@ private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte
         modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(2.dp)
             .semantics { contentDescription = if (texto.isEmpty()) descripcion else "$descripcion, $texto" },
     ) {
-        Box(
-            Modifier.size(48.dp).clip(CircleShape).background(Color(0x40060A12)).border(1.dp, Color.White.copy(alpha = 0.24f), CircleShape),
-            contentAlignment = Alignment.Center,
-        ) { Icon(icono, null, tint = tinte, modifier = Modifier.size(26.dp)) }
+        // Sin círculos de color: íconos blancos limpios con una sombra suave para leerse sobre cualquier foto
+        Box(Modifier.size(48.dp).background(Brush.radialGradient(listOf(Color(0x40000000), Color.Transparent)), CircleShape), contentAlignment = Alignment.Center) {
+            Icon(icono, null, tint = tinte, modifier = Modifier.size(28.dp))
+        }
         if (texto.isNotEmpty()) {
             Spacer(Modifier.height(3.dp))
             Text(texto, color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)

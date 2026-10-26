@@ -2004,4 +2004,14 @@
     <string name="intro_2">今日の一歩を踏み出そう</string>
     <string name="intro_3">仲間と登ろう</string>
     <string name="intro_saltar">タップでスキップ</string>
+    <string name="usuario_titulo">あなたの @ユーザー名</string>
+    <string name="usuario_explica">SuRoute でのあなただけの名前です。友だちはこれであなたを見つけ、メッセージを送ります。</string>
+    <string name="usuario_correo_aviso">今はメールアドレスに似ていて、コミュニティ全体に見えてしまいます。</string>
+    <string name="usuario_formato">3〜30 文字の小文字、数字、ドット、アンダースコア。</string>
+    <string name="usuario_no_correo">メールアドレスは使わず、短い名前を選んでください。</string>
+    <string name="usuario_ocupado">@%1$s は使われています。別の名前を試してください。</string>
+    <string name="usuario_libre">@%1$s は使えます。</string>
+    <string name="usuario_guardado">あなたは @%1$s になりました</string>
+    <string name="usuario_elegir">@ユーザー名を選ぶ</string>
+    <string name="usuario_error">ユーザー名を変更できませんでした。接続を確認してください。</string>
 </resources>

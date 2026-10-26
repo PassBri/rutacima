@@ -2004,4 +2004,14 @@
     <string name="intro_2">迈出今天的一步</string>
     <string name="intro_3">结伴攀登</string>
     <string name="intro_saltar">轻触跳过</string>
+    <string name="usuario_titulo">你的 @用户名</string>
+    <string name="usuario_explica">这是你在 SuRoute 的唯一名称：朋友靠它找到你并给你发消息。</string>
+    <string name="usuario_correo_aviso">它现在像你的邮箱，整个社区都会看到。</string>
+    <string name="usuario_formato">3 到 30 个小写字母、数字、点或下划线。</string>
+    <string name="usuario_no_correo">不要使用邮箱：选一个简短的名字。</string>
+    <string name="usuario_ocupado">@%1$s 已被占用，换一个试试。</string>
+    <string name="usuario_libre">@%1$s 可以使用。</string>
+    <string name="usuario_guardado">你现在是 @%1$s</string>
+    <string name="usuario_elegir">选择我的 @用户名</string>
+    <string name="usuario_error">无法更改用户名，请检查网络连接。</string>
 </resources>

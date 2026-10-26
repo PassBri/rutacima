@@ -2789,3 +2789,22 @@ body.gr-pantalla .gr-grande { visibility: visible; }
 .ct-et svg { width: 18px; height: 18px; fill: var(--burdeos); flex: none; }
 a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align-items: center; }
 .chip svg { width: 16px; height: 16px; fill: currentColor; margin-inline-end: 6px; }
+
+/* Cimas: acciones limpias en blanco, sin círculos de color. Impulsar = corazón dentro del símbolo */
+.cima-acciones button svg { background: none; border: 0; padding: 10px; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .55)); fill: #fff; }
+.cima-acciones button[aria-pressed="true"] svg { background: none; color: #fff; }
+.cima-acciones .mochila-btn[aria-pressed="true"], .cima-acciones [data-acc="guardarPost"][aria-pressed="true"] { color: #fff; }
+.cima-acciones b { text-shadow: 0 1px 3px rgb(0 0 0 / .6); }
+.cima-acciones .cima-impulso svg { width: 50px; height: 50px; padding: 0; fill: none; }
+.impulso-marca .im-aro { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
+.impulso-marca .im-punto { fill: #F0B3A1; }
+.impulso-marca .im-corazon { fill: rgb(255 255 255 / .08); stroke: #fff; stroke-width: 1.9; stroke-linejoin: round; transform-box: fill-box; transform-origin: center; }
+[aria-pressed="true"] > .impulso-marca .im-aro { stroke: #F0B3A1; }
+.recien[aria-pressed="true"] > .impulso-marca .im-aro { animation: im-trazo .42s cubic-bezier(.2, 0, 0, 1); }
+[aria-pressed="true"] > .impulso-marca .im-corazon { fill: #F0B3A1; stroke: #F0B3A1; }
+.recien[aria-pressed="true"] > .impulso-marca .im-corazon { animation: im-latido .5s cubic-bezier(.2, 0, 0, 1) .2s backwards; }
+.recien[aria-pressed="true"] > .impulso-marca .im-punto { animation: im-cae .42s cubic-bezier(.2, 0, 0, 1); }
+@keyframes im-trazo { from { stroke-dashoffset: 100; } }
+@keyframes im-latido { from { transform: scale(.7); fill: transparent; } }
+@keyframes im-cae { from { transform: translateY(-36px); } }
+@media (prefers-reduced-motion: reduce) { [aria-pressed="true"] > .impulso-marca * { animation: none !important; } }

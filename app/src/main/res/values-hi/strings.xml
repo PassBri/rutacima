@@ -2004,4 +2004,14 @@
     <string name="intro_2">आज का कदम उठाएँ</string>
     <string name="intro_3">साथ मिलकर चढ़ें</string>
     <string name="intro_saltar">छोड़ने के लिए टैप करें</string>
+    <string name="usuario_titulo">आपका @यूज़रनेम</string>
+    <string name="usuario_explica">यह SuRoute पर आपका अनोखा नाम है: इसी से दोस्त आपको ढूँढते और संदेश भेजते हैं।</string>
+    <string name="usuario_correo_aviso">अभी यह आपके ईमेल जैसा दिखता है और पूरा समुदाय इसे देख सकता है।</string>
+    <string name="usuario_formato">3 से 30 छोटे अक्षर, अंक, बिंदु या अंडरस्कोर।</string>
+    <string name="usuario_no_correo">अपना ईमेल न लें: कोई छोटा नाम चुनें।</string>
+    <string name="usuario_ocupado">@%1$s पहले से है। कोई और आज़माएँ।</string>
+    <string name="usuario_libre">@%1$s उपलब्ध है।</string>
+    <string name="usuario_guardado">अब आप @%1$s हैं</string>
+    <string name="usuario_elegir">मेरा @यूज़रनेम चुनें</string>
+    <string name="usuario_error">यूज़रनेम नहीं बदल सका। अपना कनेक्शन देखें।</string>
 </resources>

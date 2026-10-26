@@ -2004,4 +2004,14 @@
     <string name="intro_2">Dê o passo de hoje</string>
     <string name="intro_3">Suba acompanhado</string>
     <string name="intro_saltar">Toque para pular</string>
+    <string name="usuario_titulo">Seu @usuário</string>
+    <string name="usuario_explica">É seu nome único no SuRoute: é assim que seus amigos encontram você e escrevem.</string>
+    <string name="usuario_correo_aviso">Agora ele parece seu e-mail e toda a comunidade o veria.</string>
+    <string name="usuario_formato">De 3 a 30 letras minúsculas, números, ponto ou sublinhado.</string>
+    <string name="usuario_no_correo">Não use seu e-mail: escolha um nome curto.</string>
+    <string name="usuario_ocupado">@%1$s já existe. Tente outro.</string>
+    <string name="usuario_libre">@%1$s está livre.</string>
+    <string name="usuario_guardado">Agora você é @%1$s</string>
+    <string name="usuario_elegir">Escolher meu @usuário</string>
+    <string name="usuario_error">Não foi possível mudar o usuário. Confira sua conexão.</string>
 </resources>

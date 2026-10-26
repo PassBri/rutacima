@@ -44,7 +44,7 @@ async function buscarContacto(t) {
     r = (data || []).filter(x => x.id !== Store.nube.dueno).map(x => ({ id: x.id, nombre: x.nombre || x.username, usuario: x.username, avatar: x.avatar_url, cumbre: x.cumbre }));
   }
   if (CT.buscando !== t) return;
-  CT.resultados = r; pintarContactos();
+  CT.resultados = ordenarPorUsuario(r, t); pintarContactos();
 }
 let esperaContacto = null;
 document.addEventListener("input", e => { if (e.target.id !== "buscarContacto") return; clearTimeout(esperaContacto); esperaContacto = setTimeout(() => buscarContacto(e.target.value), 280); });
@@ -53,7 +53,11 @@ DET["mensajes.contactos"] = () => {
   if (CT.encontrable == null) cargarEncontrable();
   const { texto, url } = textoInvitacion(), msg = encodeURIComponent(`${texto} ${url}`);
   const red = (nombre, href) => `<a class="chip" href="${href}" target="_blank" rel="noopener">${nombre}</a>`;
-  let h = `<label class="buscador-red">${ic("buscar")}<input id="buscarContacto" type="search" placeholder="Nombre o @usuario" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" aria-label="Buscar en SuRoute"></label>
+  const miU = Store.nube?.perfil?.username;
+  let h = !Store.nube ? "" : usuarioPendiente()
+    ? `<div class="aviso" style="margin:0 0 12px;flex-wrap:wrap"><span style="flex:1;min-width:220px">Elige tu @usuario: es tu nombre único y así te encuentran para escribirte.</span><button class="btn mini lleno" data-acc="elegirUsuario">Elegir mi @usuario</button></div>`
+    : `<p class="suave" style="margin:0 0 12px">Te encuentran como <b style="color:var(--burdeos)">@${esc(miU)}</b>. Compártelo para que te escriban.</p>`;
+  h += `<label class="buscador-red">${ic("buscar")}<input id="buscarContacto" type="search" placeholder="Busca por @usuario o nombre" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search" aria-label="Buscar en SuRoute"></label>
     <div id="resultadosContacto" class="personas"></div>`;
 
   // Contactos del teléfono
@@ -111,6 +115,7 @@ Object.assign(ACC, {
     CT.invitar = contactos.filter(c => !ya.has(c) && (c.tel || c.correo));
     pintarDetalle();
   },
+  elegirUsuario() { revisarUsuario.hecho = false; revisarUsuario(); },
   async copiarInvitacionRed() {
     const { texto, url } = textoInvitacion();
     toast(await copiarTexto(`${texto} ${url}`) ? "Enlace copiado: pégalo en Instagram, TikTok o donde quieras" : url);
@@ -125,3 +130,35 @@ async function enviarEncontrable(f, datos) {
   }, activo ? "Listo: tus contactos podrán encontrarte" : "Ya no aparecerás al buscar en agendas");
   pintarDetalle();
 }
+
+/* ---------- @usuario: único y personal, para que te encuentren ---------- */
+const usuarioPendiente = () => { const u = Store.nube?.perfil?.username || ""; return !!Store.nube?.dueno && (!u || /^senderista_/.test(u) || pareceCorreo(u, Store.nube.correo)); };
+/** Si el @usuario es el correo o el automático, se pide uno propio (una vez por sesión). */
+async function revisarUsuario() {
+  if (!usuarioPendiente() || revisarUsuario.hecho) return;
+  if (document.getElementById("ventanaCuenta")) return setTimeout(revisarUsuario, 1500);
+  revisarUsuario.hecho = true;
+  const actual = Store.nube.perfil?.username || "";
+  ventanaCuenta(`<h3 style="margin-top:0">Elige tu @usuario</h3>
+    <p>Es tu nombre único en SuRoute: así te encuentran tus amigos y te escriben.${pareceCorreo(actual, Store.nube.correo) ? " Ahora mismo se parece a tu correo y toda la comunidad lo vería." : ""}</p>
+    <form class="form" id="formUsuario"><label class="buscador-red" style="height:52px">@<input name="u" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="30" placeholder="brian.suarez" aria-label="Tu @usuario"></label>
+      <p class="suave" id="usuarioEstado" style="font-size:13px;min-height:18px;margin:6px 4px">De 3 a 30 letras minúsculas, números, punto o guion bajo.</p>
+      <div class="botones"><button class="btn lleno" type="submit">Guardar</button><button class="btn" type="button" id="usuarioLuego">Ahora no</button></div></form>`, v => {
+    const f = v.querySelector("#formUsuario"), est = v.querySelector("#usuarioEstado"); let espera;
+    v.querySelector("#usuarioLuego").onclick = () => v.remove();
+    f.u.oninput = () => {
+      f.u.value = f.u.value.toLowerCase().replace(/[^a-z0-9._]/g, ""); clearTimeout(espera);
+      const u = f.u.value;
+      if (!/^[a-z0-9._]{3,30}$/.test(u)) { est.textContent = "De 3 a 30 letras minúsculas, números, punto o guion bajo."; return; }
+      if (pareceCorreo(u, Store.nube.correo)) { est.textContent = "No uses tu correo: elige un nombre corto."; return; }
+      espera = setTimeout(async () => {
+        const { data } = await Store.nube.sb.rpc("usuario_disponible", { u }).catch(() => ({}));
+        if (f.u.value === u) est.textContent = data === false ? `@${u} ya existe. Prueba con otro.` : data ? `@${u} está libre.` : "";
+      }, 350);
+    };
+    f.onsubmit = async e => { e.preventDefault(); await ACC.cambiarUsuario(f.u); if (Store.nube.perfil?.username === f.u.value) { v.remove(); pintarDetalle(); } };
+  });
+}
+globalThis.revisarUsuario = revisarUsuario;
+/** Primero quien coincide exacto con el @usuario, luego quien empieza igual. */
+const ordenarPorUsuario = (lista, t) => { t = t.toLowerCase(); const p = x => x.usuario === t ? 0 : x.usuario?.startsWith(t) ? 1 : 2; return [...lista].sort((a, b) => p(a) - p(b)); };
