@@ -202,11 +202,46 @@ section { padding: clamp(64px, 9vw, 120px) max(20px, calc((100% - var(--ancho)) 
 .video { text-align: center; padding-top: 0; }
 .video video { width: min(100%, 960px); height: auto; aspect-ratio: 16 / 9; border-radius: 28px; background: #F4EDE1; box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 24px 48px -16px rgb(var(--sombra) / .3); }
 
-/* Video vertical de 20 s junto a su texto */
-.video-corto { display: flex; gap: 48px; align-items: center; justify-content: center; margin: 56px auto 0; max-width: 960px; text-align: left; }
-.video-corto video { width: 320px; height: auto; aspect-ratio: 9 / 16; border-radius: 28px; background: #F4EDE1; flex: none;
-  box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 24px 48px -16px rgb(var(--sombra) / .3); }
+/* Video vertical de 20 s dentro de un teléfono, como en las apps de videos cortos */
+.video-corto { display: flex; gap: 56px; align-items: center; justify-content: center; margin: 64px auto 0; max-width: 980px; text-align: left; }
 .video-corto-texto { max-width: 420px; }
 .video-corto-texto h3 { font: 700 32px/1.15 var(--font-titulo); margin: 0 0 12px; }
 .video-corto-texto p { margin: 0 0 12px; color: var(--tinta-suave); line-height: 1.55; }
-@media (max-width: 760px) { .video-corto { flex-direction: column; gap: 24px; text-align: center; } .video-corto video { width: min(78vw, 340px); } }
+.cel { margin: 0; flex: none; text-align: left; width: 340px; aspect-ratio: 9 / 19.2; padding: 12px; border-radius: 54px; background: #0B0F14;
+  box-shadow: inset 0 0 0 2px #2A3138, 0 2px 4px rgb(var(--sombra) / .2), 0 40px 70px -24px rgb(var(--sombra) / .45); position: relative; }
+.cel::before, .cel::after { content: ""; position: absolute; right: -3px; width: 3px; border-radius: 0 2px 2px 0; background: #1C232A; }
+.cel::before { top: 110px; height: 64px; } .cel::after { top: 190px; height: 40px; }
+.cel-pantalla { position: relative; width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; }
+.cel-pantalla video { position: absolute; left: 0; top: 0; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; cursor: pointer; }
+.cel-isla { position: absolute; top: 10px; left: 50%; width: 96px; height: 26px; margin-left: -48px; border-radius: 20px; background: #000; z-index: 3; }
+.cel-ui { position: absolute; inset: 0; pointer-events: none; color: #fff; z-index: 2;
+  background: linear-gradient(to bottom, rgb(0 0 0 / .32), transparent 10%, transparent 64%, rgb(0 0 0 / .55) 84%, #000 86%); }
+.cel-ui svg { filter: drop-shadow(0 1px 2px rgb(0 0 0 / .45)); }
+.cel-top { display: none; position: absolute; top: 40px; left: 0; right: 0; display: flex; justify-content: center; gap: 18px; font: 500 14px/1 var(--font-texto); }
+.cel-top span { opacity: .75; } .cel-top b { font-weight: 700; border-bottom: 2px solid #fff; padding-bottom: 5px; }
+.cel-acciones { position: absolute; right: 8px; bottom: 150px; display: grid; gap: 14px; justify-items: center; }
+.cel-acciones > span { display: grid; justify-items: center; gap: 2px; }
+.cel-acciones svg { width: 30px; height: 30px; fill: #fff; }
+.cel-acciones .cel-imp { width: 38px; height: 38px; fill: none; color: #9EC1D6; }
+.cel-acciones small { font: 600 11px/1 var(--font-texto); text-shadow: 0 1px 2px rgb(0 0 0 / .6); }
+.cel-av svg { width: 42px; height: 42px; border-radius: 50%; box-shadow: 0 0 0 2px #fff; }
+.cel-pie { position: absolute; left: 14px; right: 64px; bottom: 72px; text-shadow: 0 1px 3px rgb(0 0 0 / .6); }
+.cel-pie b { font: 700 14px/1 var(--font-texto); }
+.cel-pie p { margin: 6px 0 8px; font: 400 13px/1.35 var(--font-texto); color: #fff; }
+.cel-musica { display: flex; align-items: center; gap: 6px; font: 500 12px/1 var(--font-texto); overflow: hidden; }
+.cel-musica svg { width: 14px; height: 14px; fill: #fff; flex: none; }
+.cel-musica > span { overflow: hidden; white-space: nowrap; mask-image: linear-gradient(to right, transparent, #000 10%, #000 85%, transparent); }
+.cel-musica i { display: inline-block; font-style: normal; animation: cel-cinta 9s linear infinite; }
+@keyframes cel-cinta { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.cel-sonido { position: absolute; top: 12px; left: 18px; width: 32px; height: 32px; padding: 0; justify-content: center; z-index: 4; display: flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px 0 8px;
+  border-radius: 17px; border: 0; background: rgb(0 0 0 / .5); color: #fff; font: 500 12px/1 var(--font-texto); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.cel-sonido svg { width: 18px; height: 18px; fill: currentColor; }
+.cel-sonido span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+@media (hover: hover) and (pointer: fine) { .cel-sonido:hover { background: rgb(0 0 0 / .68); } }
+.cel-sonido:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (max-width: 760px) { .video-corto { flex-direction: column; gap: 28px; text-align: center; } .cel { width: min(82vw, 330px); } }
+@media (prefers-reduced-motion: reduce) { .cel-musica i { animation: none; } }
+.cel-nav { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; display: flex; justify-content: space-around; align-items: center; background: #000; z-index: 3; }
+.cel-nav svg { width: 22px; height: 22px; fill: #fff; opacity: .9; }
+.cel-nav .mas { width: 40px; height: 26px; border-radius: 8px; background: #fff; display: grid; place-items: center; box-shadow: -3px 0 0 #9EC1D6, 3px 0 0 #F0B3A1; }
+.cel-nav .mas svg { width: 18px; height: 18px; fill: #000; opacity: 1; }
