@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Cada nova renda passiva aproxima o dia em que suas rendas pagam sua vida.</string>
     <string name="cu_rec_buenas">A maioria das suas dívidas só custa. Feche-as primeiro.</string>
     <string name="cu_rec_netoing">Cada real que vai para poupança, investimento ou para pagar dívidas aumenta seu patrimônio.</string>
+    <string name="cu_pago_cancela">Com este pagamento a dívida fica em $0.</string>
+    <string name="cu_pago_efecto_plazo">Você deve %1$s. Com a mesma parcela termina %2$d parcelas antes: restam %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Você deve %1$s. Sua parcela cai de %2$s para %3$s e termina na mesma data.</string>
+    <string name="cu_pago_efecto_interes">Deste pagamento, cerca de %1$s vão para juros e %2$s para o capital. Fica devendo %3$s.</string>
+    <string name="cu_pago_efecto_saldo">Fica devendo %1$s.</string>
+    <string name="cu_op_cuota">Parcela do mês ou pagamento mínimo</string>
+    <string name="cu_op_plazo">Amortização · reduzir o prazo</string>
+    <string name="cu_op_nueva">Amortização · reduzir a parcela</string>
+    <string name="cu_op_total">Pagamento total</string>
+    <string name="cu_abono_de">Amortização %1$s</string>
 </resources>

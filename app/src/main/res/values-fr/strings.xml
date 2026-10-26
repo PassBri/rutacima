@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Chaque revenu passif vous rapproche du jour où vos rentes paient votre vie.</string>
     <string name="cu_rec_buenas">La plupart de vos dettes ne font que coûter. Fermez-les d\'abord.</string>
     <string name="cu_rec_netoing">Chaque euro mis en épargne, en investissement ou en remboursement fait grandir votre patrimoine.</string>
+    <string name="cu_pago_cancela">Avec ce paiement, la dette passe à 0 $.</string>
+    <string name="cu_pago_efecto_plazo">Vous devez %1$s. Avec la même mensualité, vous finissez %2$d échéances plus tôt : il en reste %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Vous devez %1$s. Votre mensualité passe de %2$s à %3$s et la date de fin reste la même.</string>
+    <string name="cu_pago_efecto_interes">Sur ce paiement, environ %1$s vont aux intérêts et %2$s au capital. Il vous reste %3$s à payer.</string>
+    <string name="cu_pago_efecto_saldo">Il vous reste %1$s à payer.</string>
+    <string name="cu_op_cuota">Mensualité ou paiement minimum</string>
+    <string name="cu_op_plazo">Remboursement anticipé · réduire la durée</string>
+    <string name="cu_op_nueva">Remboursement anticipé · réduire la mensualité</string>
+    <string name="cu_op_total">Paiement total</string>
+    <string name="cu_abono_de">Remboursement anticipé %1$s</string>
 </resources>

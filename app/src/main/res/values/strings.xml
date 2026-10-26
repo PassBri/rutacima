@@ -2091,4 +2091,14 @@
     <string name="cu_rec_libertad">Cada ingreso pasivo nuevo te acerca a que tus rentas paguen tu vida.</string>
     <string name="cu_rec_buenas">La mayoría de tus deudas solo cuestan. Ciérralas primero.</string>
     <string name="cu_rec_netoing">Cada peso que pasa a ahorro, inversión o a bajar deudas hace crecer tu patrimonio.</string>
+    <string name="cu_pago_cancela">Con este pago la deuda queda en $0.</string>
+    <string name="cu_pago_efecto_plazo">Debes %1$s. Con la misma cuota terminas %2$d cuotas antes: te quedan %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Debes %1$s. Tu cuota baja de %2$s a %3$s y terminas en la misma fecha.</string>
+    <string name="cu_pago_efecto_interes">De este pago, unos %1$s van a intereses y %2$s a capital. Quedas debiendo %3$s.</string>
+    <string name="cu_pago_efecto_saldo">Quedas debiendo %1$s.</string>
+    <string name="cu_op_cuota">Cuota del mes o pago mínimo</string>
+    <string name="cu_op_plazo">Abono a capital · reducir el plazo</string>
+    <string name="cu_op_nueva">Abono a capital · reducir la cuota</string>
+    <string name="cu_op_total">Pago total</string>
+    <string name="cu_abono_de">Abono a capital %1$s</string>
 </resources>

@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">새 수동 소득은 수익으로 생활하는 날을 앞당깁니다.</string>
     <string name="cu_rec_buenas">대부분의 빚은 비용만 듭니다. 먼저 갚으세요.</string>
     <string name="cu_rec_netoing">저축·투자·상환으로 가는 돈이 순자산을 키웁니다.</string>
+    <string name="cu_pago_cancela">이번 상환으로 빚이 0이 됩니다.</string>
+    <string name="cu_pago_efecto_plazo">남은 빚 %1$s. 같은 상환액으로 %2$d회 일찍 끝납니다: %3$d회 남음.</string>
+    <string name="cu_pago_efecto_cuota">남은 빚 %1$s. 상환액이 %2$s에서 %3$s로 줄고 종료일은 같습니다.</string>
+    <string name="cu_pago_efecto_interes">이번 상환 중 약 %1$s는 이자, %2$s는 원금입니다. 남은 빚 %3$s.</string>
+    <string name="cu_pago_efecto_saldo">남은 빚 %1$s.</string>
+    <string name="cu_op_cuota">이번 달 상환액 또는 최소 결제</string>
+    <string name="cu_op_plazo">원금 추가 상환 · 기간 단축</string>
+    <string name="cu_op_nueva">원금 추가 상환 · 상환액 감소</string>
+    <string name="cu_op_total">전액 상환</string>
+    <string name="cu_abono_de">원금 추가 상환 %1$s</string>
 </resources>

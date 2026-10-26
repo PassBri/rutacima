@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">हर नई निष्क्रिय आय आपको उस दिन के करीब लाती है जब आय आपका जीवन चलाएगी।</string>
     <string name="cu_rec_buenas">आपके ज़्यादातर कर्ज़ सिर्फ़ खर्च कराते हैं। पहले उन्हें चुकाएँ।</string>
     <string name="cu_rec_netoing">बचत, निवेश या कर्ज़ चुकाने में गया हर रुपया आपकी संपत्ति बढ़ाता है।</string>
+    <string name="cu_pago_cancela">इस भुगतान से कर्ज़ शून्य हो जाएगा।</string>
+    <string name="cu_pago_efecto_plazo">बकाया %1$s। उसी किस्त से %2$d किस्तें पहले खत्म: %3$d बाकी।</string>
+    <string name="cu_pago_efecto_cuota">बकाया %1$s। किस्त %2$s से घटकर %3$s, अंतिम तारीख वही।</string>
+    <string name="cu_pago_efecto_interes">इस भुगतान में से लगभग %1$s ब्याज और %2$s मूलधन में। बकाया %3$s।</string>
+    <string name="cu_pago_efecto_saldo">बकाया %1$s।</string>
+    <string name="cu_op_cuota">इस महीने की किस्त या न्यूनतम भुगतान</string>
+    <string name="cu_op_plazo">मूलधन में अतिरिक्त भुगतान · अवधि घटाएँ</string>
+    <string name="cu_op_nueva">मूलधन में अतिरिक्त भुगतान · किस्त घटाएँ</string>
+    <string name="cu_op_total">पूरा भुगतान</string>
+    <string name="cu_abono_de">मूलधन में अतिरिक्त भुगतान %1$s</string>
 </resources>

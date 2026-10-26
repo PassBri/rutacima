@@ -28,7 +28,9 @@ object Cuentas {
     /** r: recibos; d: la deuda que paga este movimiento (Salir de deudas). */
     @Serializable
     data class Mov(val id: String, val t: String, val m: Double, val c: String = "otro", val n: String = "",
-                   val r: List<Recibo> = emptyList(), val d: String? = null, val fx: String? = null) {
+                   val r: List<Recibo> = emptyList(), val d: String? = null, val fx: String? = null,
+                   /** De un pago de deuda: lo que fue a capital (baja el saldo) y si fue abono a capital ("plazo", "cuota" o "total"). */
+                   val cap: Double? = null, val ab: String? = null) {
         /** Si viene del control financiero de antes: el campo de la agenda ("ingresos"…). */
         @kotlinx.serialization.Transient var agenda: String? = null
         /** Si es un fijo del mes que aún no se ha cambiado a mano (fx = el fijo; ver Fijos). */

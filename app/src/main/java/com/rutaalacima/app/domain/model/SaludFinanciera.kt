@@ -40,6 +40,18 @@ object Deudas {
     data class Avance(val n: Int, val k: Int, val pagadoTotal: Double, val capital: Double, val intereses: Double, val prestado: Double, val estimado: Boolean) {
         val faltan get() = n - k
     }
+    /** Cuántas cuotas faltan con este saldo y esta cuota (null si la cuota no alcanza ni para los intereses). */
+    fun cuotasRestantes(saldo: Double, cuota: Double, tasaAnual: Double): Int? {
+        val r = tasaAnual / 100 / 12
+        if (cuota <= 0) return null
+        return if (r > 0) { if (cuota <= saldo * r) null else Math.ceil(-Math.log(1 - saldo * r / cuota) / Math.log(1 + r)).toInt() } else Math.ceil(saldo / cuota).toInt()
+    }
+    /** La cuota para pagar este saldo en n cuotas. */
+    fun cuotaPara(saldo: Double, n: Int, tasaAnual: Double): Double? {
+        val r = tasaAnual / 100 / 12
+        if (n <= 0) return null
+        return if (r > 0) saldo * r / (1 - Math.pow(1 + r, -n.toDouble())) else saldo / n
+    }
     fun avance(x: Deuda, actual: Double, mesesPagados: Int): Avance? {
         if (x.cuotas <= 0) return null
         val n = x.cuotas; val k = minOf(n, x.pagadas + mesesPagados); val c = x.minimo; val r = x.tasa / 100 / 12
@@ -57,11 +69,11 @@ object Deudas {
         val pagos = dias.filterKeys { it <= hoy }.flatMap { (f, xs) -> xs.filter { it.d != null && !it.prog }.map { f to it } }
         return d.lista.map { x ->
             val mios = pagos.filter { it.second.d == x.id }
-            val pagado = mios.filter { (f, m) -> x.desde.isEmpty() || f > x.desde || (f == x.desde && ts(m.id) > x.desdeT) }.sumOf { it.second.m }
+            val pagado = mios.filter { (f, m) -> x.desde.isEmpty() || f > x.desde || (f == x.desde && ts(m.id) > x.desdeT) }.sumOf { it.second.cap ?: it.second.m }   // lo que fue a capital
             val cuota = if (x.minimo > 0) 0.0 else mios.groupBy { it.first.take(7) }.maxByOrNull { it.key }?.value?.sumOf { it.second.m } ?: 0.0
             val efectiva = if (x.minimo > 0) x else x.copy(minimo = cuota)
             val actual = (x.saldo - pagado).coerceAtLeast(0.0)
-            val mesesDespues = mios.filter { (f, m) -> x.pagadasF.isEmpty() || f > x.pagadasF || (f == x.pagadasF && ts(m.id) > x.pagadasT) }.map { it.first.take(7) }.toSet().size
+            val mesesDespues = mios.filter { (f, m) -> m.ab == null && (x.pagadasF.isEmpty() || f > x.pagadasF || (f == x.pagadasF && ts(m.id) > x.pagadasT)) }.map { it.first.take(7) }.toSet().size
             Hoy(efectiva, pagado, x.minimo <= 0 && cuota > 0, mios.size, x.minimo, avance(efectiva, actual, mesesDespues))
         }
     }

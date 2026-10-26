@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Ogni nuova entrata passiva ti avvicina a una vita pagata dalle rendite.</string>
     <string name="cu_rec_buenas">La maggior parte dei tuoi debiti costa soltanto. Chiudili per primi.</string>
     <string name="cu_rec_netoing">Ogni euro destinato a risparmio, investimenti o debiti fa crescere il tuo patrimonio.</string>
+    <string name="cu_pago_cancela">Con questo pagamento il debito arriva a 0.</string>
+    <string name="cu_pago_efecto_plazo">Devi %1$s. Con la stessa rata finisci %2$d rate prima: ne restano %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Devi %1$s. La rata scende da %2$s a %3$s e la data di fine resta uguale.</string>
+    <string name="cu_pago_efecto_interes">Di questo pagamento, circa %1$s vanno agli interessi e %2$s al capitale. Resti debitore di %3$s.</string>
+    <string name="cu_pago_efecto_saldo">Resti debitore di %1$s.</string>
+    <string name="cu_op_cuota">Rata del mese o pagamento minimo</string>
+    <string name="cu_op_plazo">Estinzione parziale · ridurre la durata</string>
+    <string name="cu_op_nueva">Estinzione parziale · ridurre la rata</string>
+    <string name="cu_op_total">Pagamento totale</string>
+    <string name="cu_abono_de">Estinzione parziale %1$s</string>
 </resources>

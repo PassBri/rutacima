@@ -60,7 +60,8 @@ const tsMov = x => Number(String(x.id || "").replace(/\D/g, "")) || 0;
 const cuentaParaSaldo = (deuda, f, x) => !deuda.desde || f > deuda.desde || (f === deuda.desde && tsMov(x) > (Number(deuda.desdeT) || 0));
 function pagadoDe(id, pagos = pagosDeDeudas()) {
   const deuda = deudasDatos().lista.find(y => y.id === id) || {};
-  return pagos.reduce((s, [f, x]) => s + (x.d === id && cuentaParaSaldo(deuda, f, x) ? Number(x.m) || 0 : 0), 0);
+  // Lo que baja el saldo: lo que fue a capital (cap) si se anotó; si no, todo el pago
+  return pagos.reduce((s, [f, x]) => s + (x.d === id && cuentaParaSaldo(deuda, f, x) ? Number(x.cap ?? x.m) || 0 : 0), 0);
 }
 function cuotaVinculada(id, pagos = pagosDeDeudas()) {
   const porMes = {}; pagos.forEach(([f, x]) => { if (x.d === id) porMes[f.slice(0, 7)] = (porMes[f.slice(0, 7)] || 0) + (Number(x.m) || 0); });
@@ -81,7 +82,7 @@ function deudasHoy() {
  */
 function avanceCredito(x, pagos) {
   const n = Math.round(Number(x.cuotas) || 0); if (!n) return null;
-  const meses = new Set(pagos.filter(([f, y]) => y.d === x.id && (!x.pagadasF || f > x.pagadasF || (f === x.pagadasF && tsMov(y) > (Number(x.pagadasT) || 0)))).map(([f]) => f.slice(0, 7)));
+  const meses = new Set(pagos.filter(([f, y]) => y.d === x.id && !y.ab && (!x.pagadasF || f > x.pagadasF || (f === x.pagadasF && tsMov(y) > (Number(x.pagadasT) || 0)))).map(([f]) => f.slice(0, 7)));
   const k = Math.min(n, Math.round(Number(x.pagadas) || 0) + meses.size), c = Number(x.minimo) || 0, r = (Number(x.tasa) || 0) / 100 / 12;
   const prestado = Number(x.prestado) || (c ? (r ? c * (1 - Math.pow(1 + r, -n)) / r : c * n) : 0);
   // Capital pagado: con el monto prestado escrito, lo prestado menos lo que se debe hoy; si es estimado, la tabla de amortización
@@ -755,16 +756,57 @@ Object.assign(ACC, {
     guardarDeudas(d); },
   deudaQuitar(_, id) { const d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return; d.lista = d.lista.filter(y => y.id !== id); guardarDeudas(d);
     toast(`${x.nombre} quitada`, { accion: "Deshacer", alHacer: () => { const e = deudasDatos(); e.lista.push(x); guardarDeudas(e); } }); },
+  /** Pagar una deuda con las opciones de los bancos: la cuota (o pago mínimo), el pago total, un abono
+   *  extraordinario a capital que reduce el plazo o la cuota, u otro valor. */
   deudaPagar(_, id) {
     const x = deudasHoy().find(y => y.id === id); if (!x) return;
-    const v = ventanaCuenta(`<h3 style="margin-top:0">Pagar ${esc(x.nombre)}</h3><p class="suave">Debes hoy ${plata(x.actual)}. El pago se anota en tu libro de cuentas de hoy.</p>
-      <form class="form" id="pagoDeuda">${campo("Monto del pago", `<input name="monto" inputmode="decimal" value="${esc(numAsc(Math.min(x.actual, Number(x.minimo) || x.actual)))}" required>`)}
+    const r = (Number(x.tasa) || 0) / 100 / 12, interes = Math.round(x.actual * r), c = Number(x.minimo) || 0;
+    const nResto = (B, cuota) => !cuota ? null : r ? (cuota <= B * r ? null : Math.ceil(-Math.log(1 - B * r / cuota) / Math.log(1 + r))) : Math.ceil(B / cuota);
+    const cuotaPara = (B, n) => !n ? null : r ? B * r / (1 - Math.pow(1 + r, -n)) : B / n;
+    // Las cuotas que faltan según el saldo, la cuota y la tasa (así el antes y el después se comparan igual)
+    const restan = nResto(x.actual, c) ?? (x.avance ? x.avance.faltan : null);
+    const opciones = [
+      ["cuota", c ? "Cuota del mes o pago mínimo" : "Pago del mes", c ? `${plata(c)}${r ? ` · unos ${plata(interes)} van a intereses` : ""}` : "Escribe el valor"],
+      ["abono-plazo", "Abono a capital · reducir el plazo", "Pagas la misma cuota y terminas antes"],
+      ["abono-cuota", "Abono a capital · reducir la cuota", "Terminas en la misma fecha con una cuota menor"],
+      ["total", "Pago total", `Cancelas la deuda: ${plata(x.actual)}`],
+    ];
+    const v = ventanaCuenta(`<h3 style="margin-top:0">Pagar ${esc(x.nombre)}</h3><p class="suave" style="margin-top:0">Debes hoy ${plata(x.actual)}${c ? ` · cuota ${plata(c)}` : ""}${restan ? ` · con esta cuota te faltan unas ${restan} ${restan === 1 ? "cuota" : "cuotas"}` : ""}. El pago se anota en tu libro de cuentas de hoy.</p>
+      <form class="form" id="pagoDeuda"><div class="pago-opciones" role="radiogroup" aria-label="Tipo de pago">${opciones.map(([k, t, d], i) => `<label class="pago-op"><input type="radio" name="tipo" value="${k}" ${i === 0 ? "checked" : ""}><span><b>${t}</b><small>${d}</small></span></label>`).join("")}</div>
+      ${campo("Monto del pago", `<input name="monto" inputmode="decimal" value="${esc(numAsc(Math.min(x.actual, c || x.actual)))}" required>`)}
+      <p class="pago-efecto suave"></p>
+      ${r ? "" : `<p class="suave" style="font-size:12.5px">Escribe el interés anual de esta deuda para ver cuánto va a capital y cuánto a intereses.</p>`}
       <div class="botones"><button class="btn" type="button" data-cerrar>Cancelar</button><button class="btn lleno" type="submit">Pagar</button></div></form>`, v => {
+      const form = v.querySelector("#pagoDeuda"), monto = form.querySelector('[name="monto"]'), efecto = v.querySelector(".pago-efecto");
+      const tipo = () => form.querySelector('[name="tipo"]:checked').value;
+      const calcular = () => {
+        const t = tipo(), m = Math.min(x.actual + interes, Math.abs(montoFin(monto.value)));
+        const abono = t.startsWith("abono") || t === "total", cap = Math.min(x.actual, abono ? m : Math.max(0, m - interes)), B = x.actual - cap;
+        let txt = "", cambios = {};
+        if (!m) txt = "";
+        else if (B <= 0.5) txt = `<b>Con este pago la deuda queda en $0.</b>`;
+        else if (t === "abono-plazo") { const n2 = nResto(B, c); txt = n2 != null && restan ? `Debes ${plata(B)}. Con la misma cuota terminas <b>${Math.max(0, restan - n2)} ${restan - n2 === 1 ? "cuota" : "cuotas"} antes</b>: te quedan ${n2}.` : `Debes ${plata(B)}. Todo el abono va a capital.`; cambios = { plazo: n2 }; }
+        else if (t === "abono-cuota") { const c2 = cuotaPara(B, restan); txt = c2 ? `Debes ${plata(B)}. Tu cuota baja de ${plata(c)} a <b>${plata(Math.round(c2))}</b> y terminas en la misma fecha.` : `Debes ${plata(B)}. Escribe la cuota y el número de cuotas para calcular la nueva cuota.`; cambios = { cuota: c2 }; }
+        else txt = `${r ? `De este pago, unos ${plata(Math.min(m, interes))} van a intereses y ${plata(cap)} a capital. ` : ""}Quedas debiendo ${plata(B)}.`;
+        efecto.innerHTML = txt; return { t, m, cap, B, cambios };
+      };
+      form.querySelectorAll('[name="tipo"]').forEach(i => i.onchange = () => {
+        const t = tipo(); if (t === "total") monto.value = numAsc(x.actual); else if (t === "cuota") monto.value = numAsc(Math.min(x.actual, c || x.actual)); else { monto.value = ""; monto.focus(); }
+        calcular();
+      });
+      monto.oninput = calcular; calcular();
       v.querySelector("[data-cerrar]").onclick = () => v.remove();
-      v.querySelector("#pagoDeuda").onsubmit = e => {
-        e.preventDefault(); const m = Math.min(x.actual, Math.abs(montoFin(new FormData(e.target).get("monto")))); if (!m) return;
-        const f = iso(hoyFecha()); guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t: "gas", m, c: "deudas", n: "Pago " + x.nombre, d: x.id }]);
-        v.remove(); toast(m >= x.actual - 0.005 ? `¡${x.nombre} quedó pagada!` : `Pago de ${plata(m)} anotado`);
+      form.onsubmit = e => {
+        e.preventDefault(); const { t, m, cap, B, cambios } = calcular(); if (!m) return;
+        const f = iso(hoyFecha()), ab = t === "abono-plazo" ? "plazo" : t === "abono-cuota" ? "cuota" : t === "total" ? "total" : "";
+        const nombre = (t.startsWith("abono") ? "Abono a capital " : "Pago ") + x.nombre;
+        guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t: "gas", m, c: "deudas", n: nombre, d: x.id, cap: Math.round(cap), ...(ab ? { ab } : {}) }]);
+        // Lo que cambia en el crédito: la cuota nueva o el número de cuotas
+        const d = deudasDatos(), dx = d.lista.find(y => y.id === id);
+        if (dx && t === "abono-cuota" && cambios.cuota) dx.minimo = Math.round(cambios.cuota);
+        if (dx && t === "abono-plazo" && cambios.plazo != null && x.avance && restan) dx.cuotas = Math.max(x.avance.k, x.avance.n - (restan - cambios.plazo));
+        if (dx && (t === "abono-cuota" || t === "abono-plazo")) guardarDeudas(d);
+        v.remove(); toast(B <= 0.5 ? `¡${x.nombre} quedó pagada!` : t === "abono-cuota" && cambios.cuota ? `Abono anotado: tu cuota nueva es ${plata(Math.round(cambios.cuota))}` : t === "abono-plazo" && cambios.plazo != null ? `Abono anotado: te quedan ${cambios.plazo} cuotas` : `Pago de ${plata(m)} anotado`);
       };
     });
   },

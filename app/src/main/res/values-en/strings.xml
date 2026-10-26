@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Each new passive income brings you closer to your rents paying for your life.</string>
     <string name="cu_rec_buenas">Most of your debts only cost. Close them first.</string>
     <string name="cu_rec_netoing">Every peso that goes to savings, investing or paying debt grows your net worth.</string>
+    <string name="cu_pago_cancela">With this payment the debt is $0.</string>
+    <string name="cu_pago_efecto_plazo">You owe %1$s. With the same installment you finish %2$d installments sooner: %3$d left.</string>
+    <string name="cu_pago_efecto_cuota">You owe %1$s. Your installment drops from %2$s to %3$s and you finish on the same date.</string>
+    <string name="cu_pago_efecto_interes">Of this payment, about %1$s goes to interest and %2$s to principal. You still owe %3$s.</string>
+    <string name="cu_pago_efecto_saldo">You still owe %1$s.</string>
+    <string name="cu_op_cuota">Monthly installment or minimum payment</string>
+    <string name="cu_op_plazo">Extra principal payment · shorten the term</string>
+    <string name="cu_op_nueva">Extra principal payment · lower the installment</string>
+    <string name="cu_op_total">Full payment</string>
+    <string name="cu_abono_de">Extra principal payment %1$s</string>
 </resources>

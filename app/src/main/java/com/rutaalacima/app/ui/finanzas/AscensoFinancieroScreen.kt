@@ -381,9 +381,11 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         if (k < 0 || j !in l.indices) d else { java.util.Collections.swap(l, k, j); d.copy(lista = l) }
     }
     /** Un pago: gasto de hoy en "Pago de deudas" que nombra la deuda (así baja su saldo). */
-    fun deudaPagar(x: com.rutaalacima.app.domain.model.Deudas.Deuda, monto: Double, nota: String) = viewModelScope.launch {
+    fun deudaPagar(x: com.rutaalacima.app.domain.model.Deudas.Deuda, monto: Double, nota: String, cap: Double? = null, ab: String? = null,
+                   cambio: ((com.rutaalacima.app.domain.model.Deudas.Deuda) -> com.rutaalacima.app.domain.model.Deudas.Deuda)? = null) = viewModelScope.launch {
         val f = hoy().toString()
-        guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), "gas", monto, "deudas", nota, d = x.id))
+        guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), "gas", monto, "deudas", nota, d = x.id, cap = cap, ab = ab))
+        if (cambio != null) deudaCambiar(x.id, cambio)   // abono a capital: la cuota nueva o el número de cuotas
     }
 
     // ---------------------------------------------------------------- Activos

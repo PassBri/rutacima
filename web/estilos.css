@@ -3007,3 +3007,11 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .dt-sub { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
 .dt-sub select { border: 0; background: transparent; color: var(--ok); font: inherit; font-size: 12px; padding: 0; margin-left: -2px; cursor: pointer; max-width: 100%; }
 .dt-sub small { font-size: 12px; color: var(--ok); }
+/* Pagar una deuda: las opciones de los bancos */
+.pago-opciones { display: grid; gap: 6px; margin-bottom: 12px; }
+.pago-op { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--linea); border-radius: 12px; cursor: pointer; }
+.pago-op:has(input:checked) { border-color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 6%, transparent); }
+.pago-op input { margin-top: 3px; accent-color: var(--burdeos); }
+.pago-op span { display: grid; gap: 1px; } .pago-op small { color: var(--tinta-suave); font-size: 12.5px; }
+.pago-efecto { min-height: 1.4em; font-size: 13.5px; margin: 4px 0 0; }
+.pago-efecto b { color: var(--tinta); }

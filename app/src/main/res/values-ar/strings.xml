@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">كل دخل سلبي جديد يقربك من أن تدفع عوائدك تكاليف حياتك.</string>
     <string name="cu_rec_buenas">معظم ديونك تكلّف فقط. سدّدها أولًا.</string>
     <string name="cu_rec_netoing">كل مبلغ يذهب للادخار أو الاستثمار أو سداد الدين ينمّي ثروتك.</string>
+    <string name="cu_pago_cancela">بهذه الدفعة يصبح الدين صفرًا.</string>
+    <string name="cu_pago_efecto_plazo">عليك %1$s. بنفس القسط تنتهي قبل %2$d أقساط: يتبقى %3$d.</string>
+    <string name="cu_pago_efecto_cuota">عليك %1$s. ينخفض قسطك من %2$s إلى %3$s وتنتهي في الموعد نفسه.</string>
+    <string name="cu_pago_efecto_interes">من هذه الدفعة نحو %1$s للفوائد و%2$s لأصل الدين. يتبقى عليك %3$s.</string>
+    <string name="cu_pago_efecto_saldo">يتبقى عليك %1$s.</string>
+    <string name="cu_op_cuota">قسط الشهر أو الحد الأدنى</string>
+    <string name="cu_op_plazo">سداد مبكر لأصل الدين · تقصير المدة</string>
+    <string name="cu_op_nueva">سداد مبكر لأصل الدين · خفض القسط</string>
+    <string name="cu_op_total">السداد الكامل</string>
+    <string name="cu_abono_de">سداد مبكر لأصل الدين %1$s</string>
 </resources>

@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">每一笔新的被动收入，都让你更接近靠收益生活。</string>
     <string name="cu_rec_buenas">你的大多数债务只会花钱。先还清它们。</string>
     <string name="cu_rec_netoing">每一笔存款、投资或还债都会让你的净资产增长。</string>
+    <string name="cu_pago_cancela">这笔还款后债务清零。</string>
+    <string name="cu_pago_efecto_plazo">你还欠 %1$s。月供不变，提前 %2$d 期还清：还剩 %3$d 期。</string>
+    <string name="cu_pago_efecto_cuota">你还欠 %1$s。月供从 %2$s 降到 %3$s，结束日期不变。</string>
+    <string name="cu_pago_efecto_interes">这笔还款中约 %1$s 付利息，%2$s 还本金。还欠 %3$s。</string>
+    <string name="cu_pago_efecto_saldo">还欠 %1$s。</string>
+    <string name="cu_op_cuota">本月月供或最低还款</string>
+    <string name="cu_op_plazo">提前还本 · 缩短期限</string>
+    <string name="cu_op_nueva">提前还本 · 降低月供</string>
+    <string name="cu_op_total">全额还款</string>
+    <string name="cu_abono_de">提前还本 %1$s</string>
 </resources>

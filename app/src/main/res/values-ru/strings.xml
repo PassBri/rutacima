@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Каждый новый пассивный доход приближает жизнь на доход от капитала.</string>
     <string name="cu_rec_buenas">Большинство ваших долгов только стоят денег. Закройте их первыми.</string>
     <string name="cu_rec_netoing">Каждый рубль на сбережения, инвестиции или погашение долгов увеличивает капитал.</string>
+    <string name="cu_pago_cancela">После этого платежа долг будет погашен.</string>
+    <string name="cu_pago_efecto_plazo">Остаток %1$s. С тем же платежом закончите на %2$d платежей раньше: осталось %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Остаток %1$s. Платёж снизится с %2$s до %3$s, срок не изменится.</string>
+    <string name="cu_pago_efecto_interes">Из этого платежа около %1$s пойдёт на проценты и %2$s на основной долг. Остаток %3$s.</string>
+    <string name="cu_pago_efecto_saldo">Остаток %1$s.</string>
+    <string name="cu_op_cuota">Ежемесячный или минимальный платёж</string>
+    <string name="cu_op_plazo">Досрочное погашение · сократить срок</string>
+    <string name="cu_op_nueva">Досрочное погашение · уменьшить платёж</string>
+    <string name="cu_op_total">Полное погашение</string>
+    <string name="cu_abono_de">Досрочное погашение %1$s</string>
 </resources>

@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">新しい不労所得が増えるほど、収益で暮らせる日に近づきます。</string>
     <string name="cu_rec_buenas">借金の多くはコストだけです。まずそれを返しましょう。</string>
     <string name="cu_rec_netoing">貯蓄・投資・返済に回すお金が純資産を増やします。</string>
+    <string name="cu_pago_cancela">この支払いで残高は0になります。</string>
+    <string name="cu_pago_efecto_plazo">残高 %1$s。同じ返済額で %2$d 回早く完済：残り %3$d 回。</string>
+    <string name="cu_pago_efecto_cuota">残高 %1$s。返済額が %2$s から %3$s に下がり、完済日は変わりません。</string>
+    <string name="cu_pago_efecto_interes">この支払いのうち約 %1$s が利息、%2$s が元金です。残高 %3$s。</string>
+    <string name="cu_pago_efecto_saldo">残高 %1$s。</string>
+    <string name="cu_op_cuota">今月の返済額または最低支払額</string>
+    <string name="cu_op_plazo">繰上げ返済 · 期間短縮</string>
+    <string name="cu_op_nueva">繰上げ返済 · 返済額軽減</string>
+    <string name="cu_op_total">一括返済</string>
+    <string name="cu_abono_de">繰上げ返済 %1$s</string>
 </resources>

@@ -2089,4 +2089,14 @@
     <string name="cu_rec_libertad">Jedes neue passive Einkommen bringt dich dem Ziel näher, dass Erträge dein Leben zahlen.</string>
     <string name="cu_rec_buenas">Die meisten deiner Schulden kosten nur. Tilge sie zuerst.</string>
     <string name="cu_rec_netoing">Jeder Euro für Sparen, Investieren oder Tilgen lässt dein Vermögen wachsen.</string>
+    <string name="cu_pago_cancela">Mit dieser Zahlung ist die Schuld bei 0.</string>
+    <string name="cu_pago_efecto_plazo">Du schuldest %1$s. Mit gleicher Rate bist du %2$d Raten früher fertig: noch %3$d.</string>
+    <string name="cu_pago_efecto_cuota">Du schuldest %1$s. Deine Rate sinkt von %2$s auf %3$s, das Enddatum bleibt.</string>
+    <string name="cu_pago_efecto_interes">Von dieser Zahlung gehen etwa %1$s an Zinsen und %2$s in die Tilgung. Du schuldest noch %3$s.</string>
+    <string name="cu_pago_efecto_saldo">Du schuldest noch %1$s.</string>
+    <string name="cu_op_cuota">Monatsrate oder Mindestzahlung</string>
+    <string name="cu_op_plazo">Sondertilgung · Laufzeit verkürzen</string>
+    <string name="cu_op_nueva">Sondertilgung · Rate senken</string>
+    <string name="cu_op_total">Gesamtzahlung</string>
+    <string name="cu_abono_de">Sondertilgung %1$s</string>
 </resources>

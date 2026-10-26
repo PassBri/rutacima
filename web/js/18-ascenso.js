@@ -84,7 +84,8 @@ function guardarOrdenDia(f, ids) {
   responder(ASC.WB, claveOrden(f), JSON.stringify(ids.map(id => por.get(id)).filter(Boolean).map(llaveOrden)));
 }
 function guardarMovs(f, xs) {
-  const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}) }));
+  const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx, cap, ab }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}),
+    ...(cap != null ? { cap: Math.round(Number(cap) * 100) / 100 } : {}), ...(ab ? { ab } : {}) }));   // cap: lo que bajó la deuda; ab: abono a capital
   return responder(ASC.WB, claveMov(f), l.length ? JSON.stringify(l) : "");
 }
 const catDe = (t, c) => (window.categorias ? categorias(t) : ASC.CAT[t] || []).find(x => x[0] === c) || ASC.CAT[t]?.at(-1);

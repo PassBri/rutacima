@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -515,18 +516,52 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
         }
     }
     if (pagar) {
-        var monto by remember { mutableStateOf(Cuentas.numero(minOf(h.actual, x.minimo.takeIf { it > 0 } ?: h.actual))) }
+        // Las opciones de los bancos: la cuota o pago mínimo, un abono a capital que reduce el plazo o la cuota, o el pago total
+        val c = x.minimo; val r = x.tasa / 100 / 12; val interes = Math.round(h.actual * r).toDouble()
+        val restan = Deudas.cuotasRestantes(h.actual, c, x.tasa) ?: h.avance?.faltan
+        var tipo by remember { mutableStateOf("cuota") }
+        var monto by remember { mutableStateOf(Cuentas.numero(minOf(h.actual, c.takeIf { it > 0 } ?: h.actual))) }
         val ctx = LocalContext.current
-        val v = minOf(h.actual, kotlin.math.abs(Finanzas.monto(monto)))
+        val m = minOf(h.actual + interes, kotlin.math.abs(Finanzas.monto(monto)))
+        val abono = tipo != "cuota"
+        val cap = minOf(h.actual, if (abono) m else (m - interes).coerceAtLeast(0.0)); val b = h.actual - cap
+        val plazoNuevo = if (tipo == "plazo") Deudas.cuotasRestantes(b, c, x.tasa) else null
+        val cuotaNueva = if (tipo == "nueva") restan?.let { Deudas.cuotaPara(b, it, x.tasa) } else null
+        val efecto = when {
+            m <= 0 -> ""
+            b <= 0.5 -> ctx.getString(R.string.cu_pago_cancela)
+            tipo == "plazo" && plazoNuevo != null && restan != null -> ctx.getString(R.string.cu_pago_efecto_plazo, plata(b), (restan - plazoNuevo).coerceAtLeast(0), plazoNuevo)
+            tipo == "nueva" && cuotaNueva != null -> ctx.getString(R.string.cu_pago_efecto_cuota, plata(b), plata(c), plata(Math.round(cuotaNueva).toDouble()))
+            r > 0 && !abono -> ctx.getString(R.string.cu_pago_efecto_interes, plata(minOf(m, interes)), plata(cap), plata(b))
+            else -> ctx.getString(R.string.cu_pago_efecto_saldo, plata(b))
+        }
+        val opciones = listOf("cuota" to R.string.cu_op_cuota, "plazo" to R.string.cu_op_plazo, "nueva" to R.string.cu_op_nueva, "total" to R.string.cu_op_total)
         AlertDialog(onDismissRequest = { pagar = false }, title = { Text(stringResource(R.string.cu_pagar_x, x.nombre)) },
-            text = { Column {
+            text = { Column(Modifier.verticalScroll(rememberScrollState())) {
                 Text(stringResource(R.string.cu_pagar_ayuda, plata(h.actual)), style = MaterialTheme.typography.bodySmall)
+                opciones.forEach { (k, t) ->
+                    Row(Modifier.fillMaxWidth().padding(top = 6.dp).clip(RoundedCornerShape(12.dp))
+                        .border(1.dp, if (tipo == k) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(12.dp))
+                        .clickable { tipo = k; monto = when (k) { "total" -> Cuentas.numero(h.actual); "cuota" -> Cuentas.numero(minOf(h.actual, c.takeIf { it > 0 } ?: h.actual)); else -> "" } }
+                        .padding(horizontal = 8.dp, vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        androidx.compose.material3.RadioButton(tipo == k, null)
+                        Text(stringResource(t), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(start = 6.dp))
+                    }
+                }
                 OutlinedTextField(monto, { monto = it }, label = { Text(stringResource(R.string.cu_monto)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    supportingText = { Text(plata(v)) }, modifier = Modifier.padding(top = 8.dp))
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth())
+                if (efecto.isNotEmpty()) Text(efecto, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 6.dp))
             } },
-            confirmButton = { TextButton(enabled = v > 0, onClick = {
-                vm.deudaPagar(x, v, ctx.getString(R.string.cu_pago_de, x.nombre)); pagar = false
-                com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (v >= h.actual - 0.005) ctx.getString(R.string.cu_quedo_pagada, x.nombre) else ctx.getString(R.string.cu_pago_anotado, plata(v)))
+            confirmButton = { TextButton(enabled = m > 0, onClick = {
+                val ab = when (tipo) { "plazo" -> "plazo"; "nueva" -> "cuota"; "total" -> "total"; else -> null }
+                val nota = ctx.getString(if (tipo == "plazo" || tipo == "nueva") R.string.cu_abono_de else R.string.cu_pago_de, x.nombre)
+                val cambio: ((Deudas.Deuda) -> Deudas.Deuda)? = when {
+                    tipo == "nueva" && cuotaNueva != null -> { d -> d.copy(minimo = Math.round(cuotaNueva).toDouble()) }
+                    tipo == "plazo" && plazoNuevo != null && restan != null && h.avance != null -> { d -> d.copy(cuotas = maxOf(h.avance.k, h.avance.n - (restan - plazoNuevo))) }
+                    else -> null
+                }
+                vm.deudaPagar(x, m, nota, cap = Math.round(cap).toDouble(), ab = ab, cambio = cambio); pagar = false
+                com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (b <= 0.5) ctx.getString(R.string.cu_quedo_pagada, x.nombre) else ctx.getString(R.string.cu_pago_anotado, plata(m)))
             }) { Text(stringResource(R.string.cu_pagar)) } },
             dismissButton = { TextButton(onClick = { pagar = false }) { Text(stringResource(R.string.cancelar)) } })
     }
