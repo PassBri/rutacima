@@ -2841,11 +2841,12 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 @keyframes in-camina { 0% { opacity: 0; offset-distance: 0%; } 10% { opacity: 1; } 100% { opacity: 1; offset-distance: 100%; } }
 @keyframes in-fuera { to { opacity: 0; visibility: hidden; } }
 @keyframes in-crece { to { transform: scale(1.08); } }
-/* Versión corta (desde la segunda vez): solo el símbolo */
-.intro-suroute.corta { animation-delay: .95s; }
-.intro-suroute.corta .in-aro { animation-duration: .55s; animation-delay: 0s; }
-.intro-suroute.corta .in-punto { animation-duration: .3s; animation-delay: .45s; }
-.intro-suroute.corta .in-simbolo { animation-delay: .95s; }
+/* Versión corta (desde la segunda vez): el símbolo ya dibujado, nítido, y se va enseguida (no se vuelve a trazar) */
+.intro-suroute.corta { animation: in-fuera .28s cubic-bezier(.2, 0, 0, 1) .32s forwards; }
+.intro-suroute.corta .in-aro { animation: none; stroke-dashoffset: 0; }
+.intro-suroute.corta .in-punto { animation: none; opacity: 1; transform: none; }
+.intro-suroute.corta .in-simbolo { width: 96px; height: 96px; animation: in-corta .6s cubic-bezier(.2, 0, 0, 1) both; }
+@keyframes in-corta { 0% { transform: scale(.92); opacity: 0; } 35% { transform: none; opacity: 1; } 100% { transform: scale(1.04); opacity: 1; } }
 .intro-suroute.corta :is(.in-marca, .in-lema, .in-pasos, .in-cordillera, .in-saltar) { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .intro-suroute, .intro-suroute.corta { animation: in-fuera .3s linear .7s forwards; }

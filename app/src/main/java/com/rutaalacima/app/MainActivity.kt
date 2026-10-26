@@ -21,7 +21,12 @@ import com.rutaalacima.app.ui.theme.RutaTheme
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // Pantalla de inicio del sistema con el sello (debe ir antes de super.onCreate)
-        installSplashScreen()
+        val splash = installSplashScreen()
+        // Desde la segunda vez la apertura es la del sistema: el símbolo sale con una salida suave (sin repetirlo en Compose)
+        splash.setOnExitAnimationListener { vista ->
+            vista.iconView.animate().scaleX(1.06f).scaleY(1.06f).alpha(0f).setDuration(220).start()
+            vista.view.animate().alpha(0f).setDuration(260).withEndAction { vista.remove() }.start()
+        }
         com.rutaalacima.app.ui.theme.EstiloActual.cargar(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,7 +47,9 @@ class MainActivity : AppCompatActivity() {
         setContent {
             RutaTheme {
                 // La apertura cubre la app mientras arranca; al girar la pantalla no se repite
-                var intro by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(true) }
+                // Solo la primera vez: la apertura completa (cuenta qué es SuRoute). Después, el arranque es inmediato.
+                val primeraVez = androidx.compose.runtime.remember { !getSharedPreferences("apertura", MODE_PRIVATE).getBoolean("vista", false) }
+                var intro by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(primeraVez) }
                 androidx.compose.foundation.layout.Box {
                     RutaRoot()
                     if (intro) com.rutaalacima.app.ui.inicio.IntroSuRoute(onFin = { intro = false })

@@ -60,7 +60,7 @@
   el.addEventListener("click", salir);
   addEventListener("keydown", function (e) { if (e.key === "Escape" || e.key === "Enter" || e.key === " ") salir(); }, { once: true });
   el.addEventListener("animationend", function (e) { if (e.target === el) fin(); });
-  setTimeout(fin, 6000);
+  setTimeout(fin, el.classList.contains("corta") ? 900 : 6000);
 })();
 </script>
 <div class="franja" aria-hidden="true"></div>
