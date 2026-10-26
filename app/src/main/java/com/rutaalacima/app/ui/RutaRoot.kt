@@ -142,6 +142,7 @@ object Rutas {
     const val VISION = "vision"
     const val VISION_COMPARTIR = "vision?compartir={compartir}"
     const val MENSAJES = "mensajes"
+    const val CONTACTOS = "contactos"
     const val CHAT = "chat/{id}"
     const val COACH_VIDA = "coach_vida"
     const val ACOMPANADO = "acompanado/{id}/{nombre}"
@@ -565,6 +566,14 @@ private fun AppPrincipal() {
                     onAbrir = { nav.navigate(Rutas.chat(it)) },
                     onCuenta = { nav.navigate(Rutas.AJUSTES) },
                     onCoachVida = { nav.navigate(Rutas.COACH_VIDA) },
+                    onContactos = { nav.navigate(Rutas.CONTACTOS) },
+                )
+            }
+            composable(Rutas.CONTACTOS) {
+                com.rutaalacima.app.ui.mensajes.ContactosScreen(
+                    onBack = { nav.popBackStack() },
+                    onChat = { nav.navigate(Rutas.chat(it)) },
+                    onPersona = { nav.navigate(Rutas.persona(it)) },
                 )
             }
             composable(Rutas.CHAT, arguments = listOf(navArgument("id") { type = NavType.StringType })) { e ->

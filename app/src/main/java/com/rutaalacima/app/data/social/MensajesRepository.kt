@@ -97,6 +97,25 @@ class MensajesRepository(private val supa: SupabaseClient) {
         }, devolver = false)
     }
 
+    // ------------------------------------------------------------------ Contactos
+    // Solo viajan huellas SHA-256 ("suroute|tel|3001234567"); ver supabase/2026-10-27-contactos.sql.
+
+    /** ¿Mis contactos pueden encontrarme? */
+    suspend fun soyEncontrable(): Boolean = runCatching { supa.rpc("soy_encontrable").jsonPrimitive.booleanOrNull ?: false }.getOrDefault(false)
+
+    suspend fun hacermeEncontrable(activo: Boolean, telefono: String) {
+        val tel = Huella.tel(telefono)
+        supa.rpc("hacerme_encontrable", buildJsonObject {
+            put("activo", activo); put("tel_hash", if (activo && tel != null) Huella.de("tel", tel) else null)
+        })
+    }
+
+    /** Recibe huellas de la agenda y devuelve (huella, persona) de quienes ya están en SuRoute. */
+    suspend fun encontrarContactos(huellas: List<String>): List<Pair<String, Persona>> =
+        filas(supa.rpc("encontrar_contactos", buildJsonObject {
+            put("hashes", kotlinx.serialization.json.JsonArray(huellas.take(3000).map { JsonPrimitive(it) }))
+        })).map { o -> o.s("hash") to Persona(o.s("id"), o.s("nombre").ifBlank { o.s("username") }, o.s("username"), o.s("avatar_url"), cumbre = o.s("cumbre")) }
+
     /** Abre (o crea) la conversación con otra persona y devuelve su id. */
     suspend fun abrirCon(otro: String): String =
         supa.rpc("abrir_conversacion", buildJsonObject { put("otro", otro) }).jsonPrimitive.content
@@ -155,4 +174,13 @@ class MensajesRepository(private val supa: SupabaseClient) {
             .associate { "${it.s("tipo")}/${it.s("clave")}" to it["datos"]!!.jsonObject }
         return ResumenCoach.desde(docs, LocalDate.now())
     }
+}
+
+/** Huellas de contactos: iguales a las de la web (29-contactos.js) y a las del servidor. */
+object Huella {
+    /** Últimos 10 dígitos (así coinciden +57 300… y 300…). */
+    fun tel(t: String): String? = t.filter { it.isDigit() }.takeIf { it.length >= 7 }?.takeLast(10)
+    fun correo(c: String): String? = c.trim().lowercase().takeIf { "@" in it }
+    fun de(tipo: String, valor: String): String =
+        java.security.MessageDigest.getInstance("SHA-256").digest("suroute|$tipo|$valor".toByteArray()).joinToString("") { "%02x".format(it) }
 }

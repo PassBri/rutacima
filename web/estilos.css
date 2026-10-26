@@ -2783,3 +2783,9 @@ a.carta-releer { text-decoration: none; }
 .ley-extra { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--burdeos) 20%, transparent); vertical-align: -2px; }
 body.gr-pantalla .riel, body.gr-pantalla .lista, body.gr-pantalla .det-cab { visibility: hidden; }
 body.gr-pantalla .gr-grande { visibility: visible; }
+
+/* Agregar contactos */
+.ct-et { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; }
+.ct-et svg { width: 18px; height: 18px; fill: var(--burdeos); flex: none; }
+a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align-items: center; }
+.chip svg { width: 16px; height: 16px; fill: currentColor; margin-inline-end: 6px; }

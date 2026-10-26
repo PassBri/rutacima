@@ -25,6 +25,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Hiking
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -85,7 +86,7 @@ class MensajesViewModel(c: AppContainer) : ViewModel() {
 /** Mensajes: mis conversaciones 1 a 1 y las solicitudes que me llegaron. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MensajesScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -> Unit, onCoachVida: () -> Unit) {
+fun MensajesScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -> Unit, onCoachVida: () -> Unit, onContactos: () -> Unit = {}) {
     val vm = rutaViewModel { MensajesViewModel(it) }
     LaunchedEffect(Unit) { while (true) { vm.cargar(); delay(15_000) } }
     Scaffold(
@@ -96,7 +97,10 @@ fun MensajesScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(stringResource(R.string.mensajes)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
-                actions = { IconButton(onClick = onCoachVida) { Icon(Icons.Filled.Hiking, stringResource(R.string.coach_vida)) } },
+                actions = {
+                    IconButton(onClick = onContactos) { Icon(Icons.Filled.PersonAdd, stringResource(R.string.contactos_titulo)) }
+                    IconButton(onClick = onCoachVida) { Icon(Icons.Filled.Hiking, stringResource(R.string.coach_vida)) }
+                },
             )
         },
     ) { padding ->
@@ -126,7 +130,7 @@ fun MensajesScreen(onBack: () -> Unit, onAbrir: (String) -> Unit, onCuenta: () -
                 item {
                     com.rutaalacima.app.ui.components.EstadoVacio(
                         semilla = "mensajes", titulo = stringResource(R.string.vacio_mensajes_titulo), texto = stringResource(R.string.mensajes_vacio),
-                        accion = stringResource(R.string.coach_vida), onAccion = onCoachVida, modifier = Modifier.padding(top = 8.dp),
+                        accion = stringResource(R.string.contactos_titulo), onAccion = onContactos, modifier = Modifier.padding(top = 8.dp),
                     )
                 }
             }

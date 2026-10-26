@@ -220,7 +220,8 @@ setInterval(() => { if (Store.nube && estado.sec !== "mensajes" && !document.hid
 
 /* ---------- Lista ---------- */
 LISTAS.mensajes = function () {
-  let h = cabLista("Mensajes", { buscar: true }) + `<div class="items">`;
+  let h = cabLista("Mensajes", { buscar: true, nuevo: ["contactos", "Agregar contactos"] }) + `<div class="items">`;
+  h += item("contactos", av(ic("personaMas"), "var(--burdeos)"), "Agregar contactos", "", "De tu teléfono, de otras redes o por @usuario");
   const mio = MS.cv?.acomps.find(a => a.rol === "usuario");
   h += item("coachvida", av(ic("cumbre"), "var(--burdeos)"), "Coach de vida", "", mio ? `Tu coach: ${esc(mio.otroNombre)}` : "Una persona que te acompaña en tu ascenso");
   const activas = (CK.lista || []).filter(c => !cordadaTerminada(c));
@@ -237,7 +238,7 @@ LISTAS.mensajes = function () {
   const sol = vis.filter(c => c.solicitudParaMi), resto = vis.filter(c => !c.solicitudParaMi);
   if (sol.length) { h += grupo("Solicitudes"); sol.forEach(c => h += fila(c)); h += grupo("Conversaciones"); }
   resto.forEach(c => h += fila(c));
-  if (!MS.convs.length) h += `<p class="vacio-mini">Aún no tienes conversaciones. Escríbele a alguien desde una publicación de la comunidad o pregúntale a un coach de vida.</p>`;
+  if (!MS.convs.length) h += `<p class="vacio-mini">Aún no tienes conversaciones. Agrega a tus contactos, escríbele a alguien desde la comunidad o pregúntale a un coach de vida.</p>`;
   return h + `</div>`;
 };
 
