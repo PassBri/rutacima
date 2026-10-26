@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">比只还最低额提前 %1$s，少付利息 %2$s。</string>
     <string name="cu_impacto_nunca">只还最低额永远还不完：按你的计划可以还清。</string>
     <string name="cu_impacto_igual">只还最低额将在 %1$s 还清。</string>
+    <string name="cu_asi_aplica">%1$s 的执行方式</string>
+    <string name="cu_aplica_ayuda">所有债务都还最低额，额外的钱只给一笔。还清后，原来付给它的钱转到下一笔：雪球越滚越大。</string>
+    <string name="cu_orden_ataque">进攻顺序</string>
+    <string name="cu_este_mes">本月这样还</string>
+    <string name="cu_recibe_extra">获得额外还款</string>
+    <string name="cu_total_mes">本月合计</string>
+    <string name="cu_extra_a">你能多还的钱都给 %1$s；其他只还最低额。</string>
+    <string name="cu_debes_final">月末仍欠</string>
+    <string name="cu_ver_meses">查看全部 %1$d 个月</string>
+    <string name="cu_ver_12">只看 12 个月</string>
+    <string name="cu_porque_interes">利率 %1$s%%</string>
+    <string name="cu_porque_saldo">余额 %1$s</string>
+    <string name="cu_porque_flujo">%1$s 个月的还款（余额 ÷ 最低额）</string>
+    <string name="cu_porque_rapida">3 个月内可还清</string>
+    <string name="cu_porque_orden">你的顺序</string>
+    <string name="cu_eliminas_en">%1$s 还清</string>
+    <string name="gr_pantalla">全屏</string>
+    <string name="gr_salir">退出全屏</string>
+    <string name="cu_mes">月份</string>
 </resources>

@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">На %1$s раньше и на %2$s меньше процентов, чем платя только минимум.</string>
     <string name="cu_impacto_nunca">Платя только минимум, ты его никогда не погасишь: с твоим планом погасишь.</string>
     <string name="cu_impacto_igual">Платя минимум, закончишь в %1$s.</string>
+    <string name="cu_asi_aplica">Как работает %1$s</string>
+    <string name="cu_aplica_ayuda">Ты платишь минимум по всем, а сверх того — только по одному долгу. Когда он закрыт, всё, что ты платил по нему, идёт к следующему: снежный ком растёт.</string>
+    <string name="cu_orden_ataque">Порядок атаки</string>
+    <string name="cu_este_mes">В этом месяце платишь так</string>
+    <string name="cu_recibe_extra">Получает сверх минимума</string>
+    <string name="cu_total_mes">Итого за месяц</string>
+    <string name="cu_extra_a">Всё, что можешь заплатить сверху, идёт на %1$s; остальным — только минимум.</string>
+    <string name="cu_debes_final">Остаток в конце</string>
+    <string name="cu_ver_meses">Показать все %1$d мес.</string>
+    <string name="cu_ver_12">Показать только 12 мес.</string>
+    <string name="cu_porque_interes">%1$s %% годовых</string>
+    <string name="cu_porque_saldo">остаток %1$s</string>
+    <string name="cu_porque_flujo">%1$s мес. платежей (остаток ÷ минимум)</string>
+    <string name="cu_porque_rapida">закрывается за 3 месяца или быстрее</string>
+    <string name="cu_porque_orden">твой порядок</string>
+    <string name="cu_eliminas_en">погасишь в %1$s</string>
+    <string name="gr_pantalla">Во весь экран</string>
+    <string name="gr_salir">Выйти из полноэкранного режима</string>
+    <string name="cu_mes">Месяц</string>
 </resources>

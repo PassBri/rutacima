@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">%1$s plus tôt et %2$s d’intérêts en moins qu’en payant seulement son minimum.</string>
     <string name="cu_impacto_nunca">Avec seulement son minimum tu ne la finirais jamais : avec ton plan, si.</string>
     <string name="cu_impacto_igual">En payant son minimum elle se termine en %1$s.</string>
+    <string name="cu_asi_aplica">Comment s’applique %1$s</string>
+    <string name="cu_aplica_ayuda">Tu paies le minimum partout et le surplus va à une seule dette. Quand elle est soldée, tout ce que tu lui versais passe à la suivante : la boule grossit.</string>
+    <string name="cu_orden_ataque">L’ordre d’attaque</string>
+    <string name="cu_este_mes">Ce mois-ci tu paies ainsi</string>
+    <string name="cu_recibe_extra">Reçoit le surplus</string>
+    <string name="cu_total_mes">Total du mois</string>
+    <string name="cu_extra_a">Tout ce que tu peux payer en plus va à %1$s ; les autres, seulement leur minimum.</string>
+    <string name="cu_debes_final">Tu dois à la fin</string>
+    <string name="cu_ver_meses">Voir les %1$d mois</string>
+    <string name="cu_ver_12">Voir seulement 12 mois</string>
+    <string name="cu_porque_interes">%1$s %% d’intérêt</string>
+    <string name="cu_porque_saldo">solde de %1$s</string>
+    <string name="cu_porque_flujo">%1$s mois de mensualités (solde ÷ minimum)</string>
+    <string name="cu_porque_rapida">se solde en 3 mois ou moins</string>
+    <string name="cu_porque_orden">ton ordre</string>
+    <string name="cu_eliminas_en">soldée en %1$s</string>
+    <string name="gr_pantalla">Plein écran</string>
+    <string name="gr_salir">Quitter le plein écran</string>
+    <string name="cu_mes">Mois</string>
 </resources>

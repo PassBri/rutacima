@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">%1$s prima e %2$s di interessi in meno rispetto al solo minimo.</string>
     <string name="cu_impacto_nunca">Con il solo minimo non la finiresti mai: con il tuo piano sì.</string>
     <string name="cu_impacto_igual">Pagando il minimo finisce a %1$s.</string>
+    <string name="cu_asi_aplica">Così si applica %1$s</string>
+    <string name="cu_aplica_ayuda">Paghi il minimo su tutti e l’extra va a uno solo. Quando finisce, tutto ciò che gli pagavi passa al successivo: la palla cresce.</string>
+    <string name="cu_orden_ataque">L’ordine di attacco</string>
+    <string name="cu_este_mes">Questo mese paghi così</string>
+    <string name="cu_recibe_extra">Riceve l’extra</string>
+    <string name="cu_total_mes">Totale del mese</string>
+    <string name="cu_extra_a">Tutto ciò che puoi pagare in più va a %1$s; agli altri solo il minimo.</string>
+    <string name="cu_debes_final">Devi alla fine</string>
+    <string name="cu_ver_meses">Vedi tutti i %1$d mesi</string>
+    <string name="cu_ver_12">Vedi solo 12 mesi</string>
+    <string name="cu_porque_interes">%1$s %% di interesse</string>
+    <string name="cu_porque_saldo">saldo di %1$s</string>
+    <string name="cu_porque_flujo">%1$s mesi di rata (saldo ÷ minimo)</string>
+    <string name="cu_porque_rapida">si chiude in 3 mesi o meno</string>
+    <string name="cu_porque_orden">il tuo ordine</string>
+    <string name="cu_eliminas_en">lo chiudi a %1$s</string>
+    <string name="gr_pantalla">Schermo intero</string>
+    <string name="gr_salir">Esci dallo schermo intero</string>
+    <string name="cu_mes">Mese</string>
 </resources>

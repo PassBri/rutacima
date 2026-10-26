@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">أسرع بـ %1$s وفوائد أقل بـ %2$s من دفع الحد الأدنى فقط.</string>
     <string name="cu_impacto_nunca">بالحد الأدنى فقط لن تنهيه أبدًا: بخطتك ستنهيه.</string>
     <string name="cu_impacto_igual">بدفع الحد الأدنى ينتهي في %1$s.</string>
+    <string name="cu_asi_aplica">هكذا تُطبَّق %1$s</string>
+    <string name="cu_aplica_ayuda">تدفع الحد الأدنى في كل الديون ويذهب المبلغ الإضافي إلى دين واحد. عندما ينتهي، ينتقل كل ما كنت تدفعه له إلى التالي: تكبر الكرة.</string>
+    <string name="cu_orden_ataque">ترتيب الهجوم</string>
+    <string name="cu_este_mes">هذا الشهر تدفع هكذا</string>
+    <string name="cu_recibe_extra">يتلقى الإضافي</string>
+    <string name="cu_total_mes">مجموع الشهر</string>
+    <string name="cu_extra_a">كل ما يمكنك دفعه زيادةً يذهب إلى %1$s؛ والبقية الحد الأدنى فقط.</string>
+    <string name="cu_debes_final">المتبقي في النهاية</string>
+    <string name="cu_ver_meses">عرض الأشهر الـ %1$d</string>
+    <string name="cu_ver_12">عرض 12 شهرًا فقط</string>
+    <string name="cu_porque_interes">فائدة %1$s%%</string>
+    <string name="cu_porque_saldo">رصيد %1$s</string>
+    <string name="cu_porque_flujo">%1$s أشهر من الأقساط (الرصيد ÷ الحد الأدنى)</string>
+    <string name="cu_porque_rapida">يُغلق خلال 3 أشهر أو أقل</string>
+    <string name="cu_porque_orden">ترتيبك</string>
+    <string name="cu_eliminas_en">تسدده في %1$s</string>
+    <string name="gr_pantalla">ملء الشاشة</string>
+    <string name="gr_salir">الخروج من ملء الشاشة</string>
+    <string name="cu_mes">الشهر</string>
 </resources>

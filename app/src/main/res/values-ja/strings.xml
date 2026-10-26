@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">最低返済だけより %1$s 早く、利息は %2$s 少なくなります。</string>
     <string name="cu_impacto_nunca">最低返済だけでは終わりません。あなたの計画なら完済できます。</string>
     <string name="cu_impacto_igual">最低返済だと %1$s に完済します。</string>
+    <string name="cu_asi_aplica">%1$s の進め方</string>
+    <string name="cu_aplica_ayuda">すべて最低返済をし、追加分は一つだけに。完済したら、そこへの支払いを次へ回します。雪だるまが大きくなります。</string>
+    <string name="cu_orden_ataque">攻める順番</string>
+    <string name="cu_este_mes">今月の支払い</string>
+    <string name="cu_recibe_extra">追加分を受け取る</string>
+    <string name="cu_total_mes">今月の合計</string>
+    <string name="cu_extra_a">追加で払える分はすべて %1$s へ。ほかは最低返済のみ。</string>
+    <string name="cu_debes_final">月末の残高</string>
+    <string name="cu_ver_meses">%1$d か月すべて見る</string>
+    <string name="cu_ver_12">12 か月だけ見る</string>
+    <string name="cu_porque_interes">金利 %1$s%%</string>
+    <string name="cu_porque_saldo">残高 %1$s</string>
+    <string name="cu_porque_flujo">%1$s か月分（残高 ÷ 最低返済）</string>
+    <string name="cu_porque_rapida">3 か月以内に完済</string>
+    <string name="cu_porque_orden">自分の順番</string>
+    <string name="cu_eliminas_en">%1$s に完済</string>
+    <string name="gr_pantalla">全画面</string>
+    <string name="gr_salir">全画面を終了</string>
+    <string name="cu_mes">月</string>
 </resources>

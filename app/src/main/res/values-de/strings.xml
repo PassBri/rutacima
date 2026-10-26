@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">%1$s früher und %2$s weniger Zinsen als nur mit ihrer Mindestrate.</string>
     <string name="cu_impacto_nunca">Nur mit der Mindestrate würdest du sie nie tilgen: mit deinem Plan schon.</string>
     <string name="cu_impacto_igual">Mit ihrer Mindestrate endet sie im %1$s.</string>
+    <string name="cu_asi_aplica">So wirkt %1$s</string>
+    <string name="cu_aplica_ayuda">Du zahlst überall die Mindestrate, das Extra geht an eine einzige Schuld. Ist sie getilgt, wandert alles, was du ihr gezahlt hast, zur nächsten: der Schneeball wächst.</string>
+    <string name="cu_orden_ataque">Die Reihenfolge</string>
+    <string name="cu_este_mes">Diesen Monat zahlst du so</string>
+    <string name="cu_recibe_extra">Bekommt das Extra</string>
+    <string name="cu_total_mes">Summe des Monats</string>
+    <string name="cu_extra_a">Alles, was du extra zahlen kannst, geht an %1$s; die anderen bekommen nur ihre Mindestrate.</string>
+    <string name="cu_debes_final">Du schuldest am Ende</string>
+    <string name="cu_ver_meses">Alle %1$d Monate anzeigen</string>
+    <string name="cu_ver_12">Nur 12 Monate anzeigen</string>
+    <string name="cu_porque_interes">%1$s %% Zinsen</string>
+    <string name="cu_porque_saldo">Saldo von %1$s</string>
+    <string name="cu_porque_flujo">%1$s Monatsraten (Saldo ÷ Mindestrate)</string>
+    <string name="cu_porque_rapida">in 3 Monaten oder weniger getilgt</string>
+    <string name="cu_porque_orden">deine Reihenfolge</string>
+    <string name="cu_eliminas_en">getilgt im %1$s</string>
+    <string name="gr_pantalla">Vollbild</string>
+    <string name="gr_salir">Vollbild beenden</string>
+    <string name="cu_mes">Monat</string>
 </resources>

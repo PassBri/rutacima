@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">최소 상환만 할 때보다 %1$s 빨리, 이자는 %2$s 적게.</string>
     <string name="cu_impacto_nunca">최소 상환만으로는 끝나지 않아요: 내 계획이면 끝낼 수 있어요.</string>
     <string name="cu_impacto_igual">최소 상환으로는 %1$s에 끝나요.</string>
+    <string name="cu_asi_aplica">%1$s 적용 방식</string>
+    <string name="cu_aplica_ayuda">모든 빚에 최소 상환을 하고 추가금은 하나에만 넣어요. 그 빚이 끝나면 내던 돈이 다음 빚으로 넘어가요: 눈덩이가 커져요.</string>
+    <string name="cu_orden_ataque">공략 순서</string>
+    <string name="cu_este_mes">이번 달 상환</string>
+    <string name="cu_recibe_extra">추가금 받음</string>
+    <string name="cu_total_mes">이번 달 합계</string>
+    <string name="cu_extra_a">더 낼 수 있는 돈은 모두 %1$s에; 나머지는 최소 상환만.</string>
+    <string name="cu_debes_final">월말 잔액</string>
+    <string name="cu_ver_meses">%1$d개월 모두 보기</string>
+    <string name="cu_ver_12">12개월만 보기</string>
+    <string name="cu_porque_interes">이자 %1$s%%</string>
+    <string name="cu_porque_saldo">잔액 %1$s</string>
+    <string name="cu_porque_flujo">%1$s개월분 상환(잔액 ÷ 최소)</string>
+    <string name="cu_porque_rapida">3개월 이내 상환</string>
+    <string name="cu_porque_orden">내 순서</string>
+    <string name="cu_eliminas_en">%1$s 상환</string>
+    <string name="gr_pantalla">전체 화면</string>
+    <string name="gr_salir">전체 화면 나가기</string>
+    <string name="cu_mes">월</string>
 </resources>

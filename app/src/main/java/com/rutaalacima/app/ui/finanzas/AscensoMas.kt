@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material.icons.automirrored.filled.TrendingDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -372,6 +374,7 @@ fun LazyListScope.deudasNivel(libro: Libro, plata: (Double) -> String, vm: Cuent
             if (vivas && plan.meses != null) GraficaDeudas(plan, base, l.filter { it.actual > 0 }, plata)
         }
     }
+    if (l.any { it.actual > 0 } && plan.meses != null) item(key = "d-aplica") { AplicarMetodo(d, plan, l.filter { it.actual > 0 }, plata) }
     item(key = "d-tit") { SectionTitle(stringResource(R.string.cu_tus_deudas)) }
     if (l.isEmpty()) item(key = "d-vacio") { Text(stringResource(R.string.cu_deudas_ayuda), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
     items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos, plan = plan,
@@ -864,5 +867,95 @@ private fun Leyenda(color: androidx.compose.ui.graphics.Color, texto: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(10.dp).clip(CircleShape).background(color)); Spacer(Modifier.width(6.dp))
         Text(texto, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+
+/**
+ * Así se aplica el método: el orden en que atacas tus deudas (y por qué), qué pagas este mes a cada una
+ * y el calendario mes a mes con lo que recibe cada deuda (igual que la web).
+ */
+@Composable
+private fun AplicarMetodo(d: Deudas.Datos, plan: Deudas.Plan, vivas: List<Deudas.Hoy>, plata: (Double) -> String) {
+    val nombre = stringResource(when (d.metodo) { "bola" -> R.string.cu_bola; "flujo" -> R.string.cu_flujo; "hibrido" -> R.string.cu_hibrido; "propio" -> R.string.cu_propio; else -> R.string.cu_avalancha })
+    val orden = vivas.sortedBy { plan.fin[it.deuda.id] ?: Int.MAX_VALUE }
+    val mes1 = plan.pagos.firstOrNull()?.first.orEmpty()
+    val foco = orden.firstOrNull { (mes1[it.deuda.id] ?: 0.0) > it.deuda.minimo + 0.5 }
+    var abierto by remember { mutableStateOf(false) }; var todo by remember { mutableStateOf(false) }
+    fun num1(v: Double) = java.text.NumberFormat.getNumberInstance().apply { maximumFractionDigits = 1 }.format(v)
+    @Composable fun porque(h: Deudas.Hoy): String { val x = h.deuda
+        return when (d.metodo) {
+            "bola" -> stringResource(R.string.cu_porque_saldo, plata(h.actual))
+            "flujo" -> if (x.minimo > 0) stringResource(R.string.cu_porque_flujo, num1(h.actual / x.minimo)) else "—"
+            "hibrido" -> if (h.actual <= 3 * (x.minimo + d.extra)) stringResource(R.string.cu_porque_rapida) else stringResource(R.string.cu_porque_interes, num1(x.tasa))
+            "propio" -> stringResource(R.string.cu_porque_orden)
+            else -> stringResource(R.string.cu_porque_interes, num1(x.tasa))
+        } }
+    RutaCard {
+        Text(stringResource(R.string.cu_asi_aplica, nombre), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.cu_aplica_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        Text(stringResource(R.string.cu_orden_ataque), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 12.dp, bottom = 6.dp))
+        orden.forEachIndexed { i, h ->
+            Row(Modifier.padding(bottom = 10.dp), verticalAlignment = Alignment.Top) {
+                Box(Modifier.size(26.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primary), contentAlignment = Alignment.Center) {
+                    Text("${i + 1}", style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimary)
+                }
+                Spacer(Modifier.width(10.dp))
+                Column {
+                    Text(h.deuda.nombre, style = MaterialTheme.typography.titleSmall)
+                    Text(porque(h) + " · " + stringResource(R.string.cu_eliminas_en, plan.fin[h.deuda.id]?.let { mesesDespues(it) } ?: "—"),
+                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+        Text(stringResource(R.string.cu_este_mes), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp, bottom = 6.dp))
+        androidx.compose.material3.OutlinedCard(Modifier.fillMaxWidth()) {
+            orden.forEachIndexed { i, h ->
+                val v = mes1[h.deuda.id] ?: 0.0; val extra = v - h.deuda.minimo > 0.5
+                if (i > 0) androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                Row(Modifier.fillMaxWidth().background(if (extra) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent).padding(horizontal = 14.dp, vertical = 10.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(h.deuda.nombre, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    if (extra) Text(stringResource(R.string.cu_recibe_extra), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onPrimary,
+                        modifier = Modifier.padding(end = 8.dp).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.primary).padding(horizontal = 8.dp, vertical = 2.dp))
+                    Text(plata(Math.round(v).toDouble()), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                }
+            }
+            androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            Row(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceContainer).padding(horizontal = 14.dp, vertical = 10.dp)) {
+                Text(stringResource(R.string.cu_total_mes), style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
+                Text(plata(Math.round(orden.sumOf { mes1[it.deuda.id] ?: 0.0 }).toDouble()), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+            }
+        }
+        if (foco != null) Text(stringResource(R.string.cu_extra_a, foco.deuda.nombre), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+        // Calendario mes a mes (plegable)
+        androidx.compose.material3.TextButton(onClick = { abierto = !abierto }, modifier = Modifier.padding(top = 4.dp)) {
+            Icon(if (abierto) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.cu_mes_a_mes))
+        }
+        if (abierto) {
+            val filas = plan.pagos.take(if (todo) 120 else 12)
+            Column(Modifier.horizontalScroll(rememberScrollState())) {
+                Row(Modifier.padding(vertical = 6.dp)) {
+                    Text(stringResource(R.string.cu_mes), style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(76.dp))
+                    orden.forEach { Text(it.deuda.nombre, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.End, modifier = Modifier.width(92.dp)) }
+                    Text(stringResource(R.string.cu_debes_final), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End, modifier = Modifier.width(104.dp))
+                }
+                filas.forEachIndexed { k, (por, saldo) ->
+                    androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.width((76 + 92 * orden.size + 104).dp))
+                    Row(Modifier.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(mesesDespues(k + 1), style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(76.dp))
+                        orden.forEach { h -> val v = por[h.deuda.id] ?: 0.0; val fin = plan.fin[h.deuda.id] == k + 1; val extra = v - h.deuda.minimo > 0.5
+                            Text((if (v > 0.5) plata(Math.round(v).toDouble()) else "—") + if (fin) " ✓" else "", style = MaterialTheme.typography.bodySmall,
+                                fontWeight = if (extra || fin) FontWeight.SemiBold else FontWeight.Normal, textAlign = TextAlign.End,
+                                color = if (fin) colorTipo(Tipo.ING) else MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.width(92.dp).background(if (extra && !fin) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent).padding(horizontal = 4.dp)) }
+                        Text(plata(Math.round(saldo).toDouble()), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.End, modifier = Modifier.width(104.dp))
+                    }
+                }
+            }
+            if (plan.pagos.size > 12) androidx.compose.material3.TextButton(onClick = { todo = !todo }) {
+                Text(if (todo) stringResource(R.string.cu_ver_12) else stringResource(R.string.cu_ver_meses, minOf(plan.pagos.size, 120)))
+            }
+        }
     }
 }

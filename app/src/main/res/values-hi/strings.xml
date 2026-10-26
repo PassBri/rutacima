@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">सिर्फ़ न्यूनतम भुगतान से %1$s पहले और %2$s कम ब्याज।</string>
     <string name="cu_impacto_nunca">सिर्फ़ न्यूनतम से यह कभी खत्म नहीं होगा: आपकी योजना से होगा।</string>
     <string name="cu_impacto_igual">न्यूनतम भुगतान से यह %1$s में खत्म होगा।</string>
+    <string name="cu_asi_aplica">%1$s ऐसे लागू होता है</string>
+    <string name="cu_aplica_ayuda">सभी कर्ज़ों पर न्यूनतम भरें और अतिरिक्त एक पर। वह खत्म हो तो उसकी पूरी किस्त अगले पर जाती है: गेंद बड़ी होती है।</string>
+    <string name="cu_orden_ataque">हमले का क्रम</string>
+    <string name="cu_este_mes">इस महीने ऐसे भरें</string>
+    <string name="cu_recibe_extra">अतिरिक्त पाता है</string>
+    <string name="cu_total_mes">महीने का कुल</string>
+    <string name="cu_extra_a">जितना ज़्यादा भर सकें, सब %1$s पर; बाकी पर सिर्फ़ न्यूनतम।</string>
+    <string name="cu_debes_final">अंत में बकाया</string>
+    <string name="cu_ver_meses">सभी %1$d महीने देखें</string>
+    <string name="cu_ver_12">सिर्फ़ 12 महीने देखें</string>
+    <string name="cu_porque_interes">%1$s%% ब्याज</string>
+    <string name="cu_porque_saldo">बकाया %1$s</string>
+    <string name="cu_porque_flujo">%1$s महीनों की किस्त (बकाया ÷ न्यूनतम)</string>
+    <string name="cu_porque_rapida">3 महीने या कम में बंद</string>
+    <string name="cu_porque_orden">आपका क्रम</string>
+    <string name="cu_eliminas_en">%1$s में चुकता</string>
+    <string name="gr_pantalla">पूर्ण स्क्रीन</string>
+    <string name="gr_salir">पूर्ण स्क्रीन से बाहर</string>
+    <string name="cu_mes">महीना</string>
 </resources>

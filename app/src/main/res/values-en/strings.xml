@@ -1956,4 +1956,23 @@
     <string name="cu_impacto">%1$s sooner and %2$s less interest than paying only its minimum.</string>
     <string name="cu_impacto_nunca">With only its minimum you would never finish it: with your plan you do.</string>
     <string name="cu_impacto_igual">Paying its minimum it ends in %1$s.</string>
+    <string name="cu_asi_aplica">How %1$s works for you</string>
+    <string name="cu_aplica_ayuda">You pay the minimum on all of them and the extra goes to one. When it ends, everything you paid it moves to the next: the snowball grows.</string>
+    <string name="cu_orden_ataque">Order of attack</string>
+    <string name="cu_este_mes">This month you pay</string>
+    <string name="cu_recibe_extra">Gets the extra</string>
+    <string name="cu_total_mes">Monthly total</string>
+    <string name="cu_extra_a">Everything extra you can pay goes to %1$s; the others get only their minimum.</string>
+    <string name="cu_debes_final">You owe at the end</string>
+    <string name="cu_ver_meses">See all %1$d months</string>
+    <string name="cu_ver_12">See only 12 months</string>
+    <string name="cu_porque_interes">%1$s %% interest</string>
+    <string name="cu_porque_saldo">balance of %1$s</string>
+    <string name="cu_porque_flujo">%1$s months of payments (balance ÷ minimum)</string>
+    <string name="cu_porque_rapida">closes in 3 months or less</string>
+    <string name="cu_porque_orden">your order</string>
+    <string name="cu_eliminas_en">paid off in %1$s</string>
+    <string name="gr_pantalla">Full screen</string>
+    <string name="gr_salir">Exit full screen</string>
+    <string name="cu_mes">Month</string>
 </resources>

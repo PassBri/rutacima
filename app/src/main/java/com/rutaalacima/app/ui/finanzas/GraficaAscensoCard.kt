@@ -1,5 +1,10 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.filled.CloseFullscreen
+import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -127,8 +132,18 @@ private fun etqLarga(p: GraficaAscenso.Periodo, g: Gran): String {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
+fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String, enPantalla: Boolean = false, onCerrar: () -> Unit = {}) {
     if (libro.dias.isEmpty()) return
+    // Pantalla completa para analizar: la misma gráfica en un diálogo que ocupa toda la pantalla
+    var pantalla by rememberSaveable { mutableStateOf(false) }
+    if (pantalla && !enPantalla) androidx.compose.ui.window.Dialog(onDismissRequest = { pantalla = false },
+        properties = androidx.compose.ui.window.DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
+        androidx.compose.material3.Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
+            androidx.compose.foundation.layout.Box(Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(rememberScrollState()).padding(8.dp)) {
+                GraficaAscensoCard(libro, plata, enPantalla = true, onCerrar = { pantalla = false })
+            }
+        }
+    }
     var gran by rememberSaveable { mutableStateOf(Gran.M) }
     var tipo by rememberSaveable { mutableIntStateOf(0) }            // 0 línea, 1 área, 2 barras, 3 velas
     var rango by rememberSaveable { mutableIntStateOf(3) }           // índice en RANGOS; -1 = ventana propia
@@ -169,8 +184,16 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
     val selP = datos[sel.coerceIn(0, n - 1)]
 
     RutaCard {
-        Text(stringResource(R.string.gr_titulo), style = MaterialTheme.typography.titleMedium)
-        Text(stringResource(R.string.gr_ayuda), style = MaterialTheme.typography.bodySmall, color = suave)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(stringResource(R.string.gr_titulo), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.gr_ayuda), style = MaterialTheme.typography.bodySmall, color = suave)
+            }
+            androidx.compose.material3.FilledTonalIconButton(onClick = { if (enPantalla) onCerrar() else pantalla = true }) {
+                androidx.compose.material3.Icon(if (enPantalla) androidx.compose.material.icons.Icons.Filled.CloseFullscreen else androidx.compose.material.icons.Icons.Filled.OpenInFull,
+                    stringResource(if (enPantalla) R.string.gr_salir else R.string.gr_pantalla))
+            }
+        }
         // Rango, periodo y tipo
         Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
             SingleChoiceSegmentedButtonRow {
@@ -230,7 +253,8 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
                 }
             }
         }
-        val alto = if (salud) 330.dp else 250.dp
+        val alto = if (enPantalla) (androidx.compose.ui.platform.LocalConfiguration.current.screenHeightDp.dp - 230.dp).coerceAtLeast(320.dp)
+            else if (salud) 330.dp else 250.dp
         val desc = "${etqLarga(vis.first(), gran)} — ${etqLarga(vis.last(), gran)}: ${stringResource(R.string.gr_saldo)} ${plata(vis.last().saldo)}"
         Canvas(Modifier.fillMaxWidth().padding(top = 10.dp).height(alto).semantics { contentDescription = desc }
             .pointerInput(datos) {

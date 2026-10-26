@@ -35,7 +35,9 @@ object Deudas {
 
     /** [serie]: lo que se debe al empezar y al final de cada mes. */
     data class Plan(val meses: Int?, val interes: Double, val fin: Map<String, Int?>, val serie: List<Double> = emptyList(),
-                    val pagoMes: Map<String, Double> = emptyMap(), val interesDe: Map<String, Double> = emptyMap())
+                    val pagoMes: Map<String, Double> = emptyMap(), val interesDe: Map<String, Double> = emptyMap(),
+                    /** Lo que recibe cada deuda mes a mes (hasta 120 meses) y lo que se debe al final de cada mes. */
+                    val pagos: List<Pair<Map<String, Double>, Double>> = emptyList())
 
     /**
      * Mes a mes: cada deuda suma su interés, se pagan los mínimos y lo que sobra (el extra y los mínimos de las ya
@@ -60,18 +62,21 @@ object Deudas {
         var mes = 0; var interes = 0.0
         val serie = mutableListOf(ds.sumOf { it.b })
         val pago1 = mutableMapOf<String, Double>(); val intDe = mutableMapOf<String, Double>()
+        val pagos = mutableListOf<Pair<Map<String, Double>, Double>>()
         while (ds.any { it.b > 0.005 } && mes < 600) {
             mes++
             ds.forEach { if (it.b > 0.005) { val i = it.b * it.r; it.b += i; interes += i; intDe[it.id] = (intDe[it.id] ?: 0.0) + i } }
             val antes = if (mes == 1) ds.associate { it.id to it.b } else null
+            val previo = ds.associate { it.id to it.b }
             var bolsa = if (minimos) 0.0 else extraPos
             ds.forEach { if (it.b > 0.005) { val p = minOf(it.min, it.b); it.b -= p; if (!minimos) bolsa += it.min - p } else if (!minimos) bolsa += it.min }
             for (d in ds.filter { it.b > 0.005 }.sortedWith(orden)) { if (bolsa <= 0.005) break; val p = minOf(bolsa, d.b); d.b -= p; bolsa -= p }
             antes?.let { a -> ds.forEach { pago1[it.id] = (a[it.id] ?: 0.0) - it.b } }
+            if (mes <= 120) pagos += ds.associate { it.id to ((previo[it.id] ?: 0.0) - it.b).coerceAtLeast(0.0) } to ds.sumOf { it.b.coerceAtLeast(0.0) }
             ds.forEach { if (it.b <= 0.005 && it.fin == null) it.fin = mes }
             serie += ds.sumOf { it.b.coerceAtLeast(0.0) }
         }
-        return Plan(if (ds.none { it.b > 0.005 }) mes else null, interes, ds.associate { it.id to it.fin }, serie, pago1, intDe)
+        return Plan(if (ds.none { it.b > 0.005 }) mes else null, interes, ds.associate { it.id to it.fin }, serie, pago1, intDe, pagos)
     }
 }
 
