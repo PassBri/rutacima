@@ -12,6 +12,8 @@ const SECCIONES = [
 /** En el teléfono la barra es igual a la de la app: solo íconos (5 secciones y Publicar con brújula en
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
+/** Bienestar vive en cada día (Mi ruta › día, mes y año); su pantalla de herramientas se abre desde allí. */
+const OCULTAS_RIEL = new Set(["bienestar"]);
 const SOLO_PC = new Set(["metas", "mochila", "coach", "mensajes", "frases", "finanzas", "bienestar"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "cimas" };
 
@@ -20,7 +22,7 @@ function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
     marca("sello logo", true) +
-    SECCIONES.map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("brujula")}</span><span class="tip">Publicar</span></button>` : "") +
+    SECCIONES.filter(([k]) => !OCULTAS_RIEL.has(k)).map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("brujula")}</span><span class="tip">Publicar</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Apariencia">${ic("tema")}<span class="tip">Apariencia</span></button>
@@ -82,7 +84,7 @@ document.addEventListener("focusout", () => setTimeout(pintarSiPendiente, 0));
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {
-  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec !== "bienestar" ? `<button class="rb" data-sec="bienestar" aria-label="Bienestar">${ic("bienestar")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
+  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
   return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1><span style="display:flex;gap:4px;align-items:center">${atajos}${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</span></div>
     ${buscar ? `<label class="buscar">${ic("buscar")}<input id="busq" type="search" placeholder="Buscar" value="${esc(estado.busqueda)}" aria-label="Buscar"></label>` : ""}
     ${chips.length ? `<div class="chips">${chips.map(([k, n]) => `<button class="chip" data-filtro="${k}" aria-pressed="${estado.filtro === k}">${n}</button>`).join("")}</div>` : ""}</div>`;

@@ -2309,4 +2309,7 @@
     <string name="ba_pant">बिना स्क्रीन की रातें</string>
     <string name="ba_aire_h">%1$d घंटे खुली हवा में</string>
     <string name="ba_mes_a_mes">महीने दर महीने</string>
+    <string name="bd_respirar">एक मिनट साँस</string>
+    <string name="bd_practica">इस हफ़्ते का अभ्यास</string>
+    <string name="bd_patrones">आपके पैटर्न</string>
 </resources>

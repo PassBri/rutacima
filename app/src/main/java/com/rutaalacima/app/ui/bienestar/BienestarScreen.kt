@@ -113,10 +113,10 @@ private fun ctxStr(ctx: android.content.Context, n: String, def: String = n) = c
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BienestarScreen(onBack: () -> Unit) {
+fun BienestarScreen(onBack: () -> Unit, tabInicial: Int = 0) {
     val vm = rutaViewModel { BienestarViewModel(it) }
     val datos by vm.datos.collectAsState()
-    var pestana by rememberSaveable { mutableIntStateOf(0) }
+    var pestana by rememberSaveable { mutableIntStateOf(tabInicial) }
     val pestanas = listOf(R.string.bi_p_clima, R.string.bi_p_salud, R.string.bi_p_mes, R.string.bi_p_respirar, R.string.bi_p_practica)
     Scaffold(topBar = {
         TopAppBar(title = { Text(stringResource(R.string.bi_titulo)) },

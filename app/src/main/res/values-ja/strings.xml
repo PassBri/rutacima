@@ -2309,4 +2309,7 @@
     <string name="ba_pant">画面なしの夜</string>
     <string name="ba_aire_h">屋外 %1$d 時間</string>
     <string name="ba_mes_a_mes">月ごと</string>
+    <string name="bd_respirar">1分間の呼吸</string>
+    <string name="bd_practica">今週の練習</string>
+    <string name="bd_patrones">あなたのパターン</string>
 </resources>

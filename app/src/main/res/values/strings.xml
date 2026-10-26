@@ -2311,4 +2311,7 @@
     <string name="ba_pant">Noches sin pantallas</string>
     <string name="ba_aire_h">%1$d h al aire libre</string>
     <string name="ba_mes_a_mes">Mes a mes</string>
+    <string name="bd_respirar">Respirar un minuto</string>
+    <string name="bd_practica">Práctica de la semana</string>
+    <string name="bd_patrones">Tus patrones</string>
 </resources>

@@ -2309,4 +2309,7 @@
     <string name="ba_pant">不看屏幕的夜晚</string>
     <string name="ba_aire_h">户外 %1$d 小时</string>
     <string name="ba_mes_a_mes">逐月</string>
+    <string name="bd_respirar">呼吸一分钟</string>
+    <string name="bd_practica">本周练习</string>
+    <string name="bd_patrones">你的规律</string>
 </resources>

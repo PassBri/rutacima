@@ -2309,4 +2309,7 @@
     <string name="ba_pant">Ночей без экранов</string>
     <string name="ba_aire_h">%1$d ч на воздухе</string>
     <string name="ba_mes_a_mes">По месяцам</string>
+    <string name="bd_respirar">Подышать минуту</string>
+    <string name="bd_practica">Практика недели</string>
+    <string name="bd_patrones">Твои закономерности</string>
 </resources>

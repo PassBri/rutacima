@@ -2309,4 +2309,7 @@
     <string name="ba_pant">ليالٍ بلا شاشات</string>
     <string name="ba_aire_h">%1$d ساعات في الهواء الطلق</string>
     <string name="ba_mes_a_mes">شهرًا بشهر</string>
+    <string name="bd_respirar">تنفّس دقيقة</string>
+    <string name="bd_practica">ممارسة الأسبوع</string>
+    <string name="bd_patrones">أنماطك</string>
 </resources>

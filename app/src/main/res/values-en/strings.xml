@@ -2309,4 +2309,7 @@
     <string name="ba_pant">Nights without screens</string>
     <string name="ba_aire_h">%1$d h outdoors</string>
     <string name="ba_mes_a_mes">Month by month</string>
+    <string name="bd_respirar">Breathe for a minute</string>
+    <string name="bd_practica">Practice of the week</string>
+    <string name="bd_patrones">Your patterns</string>
 </resources>

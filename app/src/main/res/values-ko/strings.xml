@@ -2309,4 +2309,7 @@
     <string name="ba_pant">화면 없는 밤</string>
     <string name="ba_aire_h">야외 %1$d시간</string>
     <string name="ba_mes_a_mes">월별</string>
+    <string name="bd_respirar">1분 호흡</string>
+    <string name="bd_practica">이번 주 연습</string>
+    <string name="bd_patrones">나의 패턴</string>
 </resources>

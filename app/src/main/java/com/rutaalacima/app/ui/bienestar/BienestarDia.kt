@@ -83,6 +83,9 @@ import java.util.Locale
  * el mes y el año muestran el acumulado. Mismos datos de Bienestar ("bien#aaaa-mm-dd") y el agua de la agenda.
  */
 
+/** Abre las herramientas de Bienestar (pestaña: 2 tu mes, 3 respirar, 4 práctica); lo conecta RutaRoot. */
+object NavBienestar { var abrir: ((Int) -> Unit)? = null }
+
 private val VERDE = Color(0xFF2E7D52)
 private val COLOR = mapOf("sol" to Color(0xFFE8A317), "tormenta" to Color(0xFFE0662A), "niebla" to Color(0xFF7A8896), "valle" to Color(0xFF3E8A5A))
 private fun txt(ctx: android.content.Context, n: String, def: String = n) = ctx.resources.getIdentifier(n, "string", ctx.packageName).let { if (it != 0) ctx.getString(it) else def }
@@ -246,6 +249,13 @@ fun BienestarDiaCard(fecha: LocalDate, modifier: Modifier = Modifier) {
                     Text(stringResource(R.string.bi_meta_pant), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Switch(d.pant == true, { v -> cambiar { x -> x.copy(pant = v) } })
+            }
+        }
+        // Las herramientas que no son del día: respirar, la práctica de la semana y los patrones
+        FlowRow(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf(R.string.bd_respirar to 3, R.string.bd_practica to 4, R.string.bd_patrones to 2).forEach { (t, tab) ->
+                androidx.compose.material3.AssistChip(onClick = { NavBienestar.abrir?.invoke(tab) }, label = { Text(stringResource(t)) },
+                    leadingIcon = { Icon(Icons.Filled.SelfImprovement, null, Modifier.size(18.dp)) })
             }
         }
     }

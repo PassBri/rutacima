@@ -2309,4 +2309,7 @@
     <string name="ba_pant">Notti senza schermi</string>
     <string name="ba_aire_h">%1$d h all\'aria aperta</string>
     <string name="ba_mes_a_mes">Mese per mese</string>
+    <string name="bd_respirar">Respirare un minuto</string>
+    <string name="bd_practica">Pratica della settimana</string>
+    <string name="bd_patrones">I tuoi schemi</string>
 </resources>

@@ -2309,4 +2309,7 @@
     <string name="ba_pant">Nächte ohne Bildschirm</string>
     <string name="ba_aire_h">%1$d h draußen</string>
     <string name="ba_mes_a_mes">Monat für Monat</string>
+    <string name="bd_respirar">Eine Minute atmen</string>
+    <string name="bd_practica">Übung der Woche</string>
+    <string name="bd_patrones">Deine Muster</string>
 </resources>
