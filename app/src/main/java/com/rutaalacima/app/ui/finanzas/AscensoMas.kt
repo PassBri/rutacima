@@ -425,7 +425,7 @@ fun LazyListScope.deudasNivel(libro: Libro, plata: (Double) -> String, vm: Cuent
 }
 
 @Composable
-private fun Cifra(t: String, v: String, modifier: Modifier, destacada: Boolean = false) {
+internal fun Cifra(t: String, v: String, modifier: Modifier, destacada: Boolean = false) {
     Column(modifier.clip(RoundedCornerShape(14.dp)).background(if (destacada) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.55f) else MaterialTheme.colorScheme.surfaceContainerLow).padding(12.dp)) {
         Text(t, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
         Text(v, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -1220,18 +1220,27 @@ private fun AplicarMetodo(d: Deudas.Datos, plan: Deudas.Plan, vivas: List<Deudas
             Column(Modifier.horizontalScroll(rememberScrollState())) {
                 Row(Modifier.padding(vertical = 6.dp)) {
                     Text(stringResource(R.string.cu_mes), style = MaterialTheme.typography.labelSmall, modifier = Modifier.width(76.dp))
-                    orden.forEach { Text(it.deuda.nombre, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.End, modifier = Modifier.width(92.dp)) }
+                    orden.forEach { Text(it.deuda.nombre, style = MaterialTheme.typography.labelSmall, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.End, modifier = Modifier.width(132.dp)) }
                     Text(stringResource(R.string.cu_debes_final), style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End, modifier = Modifier.width(104.dp))
                 }
+                val nCuota = orden.associate { it.deuda.id to (it.avance?.k ?: 0) }.toMutableMap()   // el número de cuota sigue desde las ya pagadas
                 filas.forEachIndexed { k, (por, saldo) ->
-                    androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.width((76 + 92 * orden.size + 104).dp))
+                    androidx.compose.material3.HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.width((76 + 132 * orden.size + 104).dp))
                     Row(Modifier.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(mesesDespues(k + 1), style = MaterialTheme.typography.bodySmall, modifier = Modifier.width(76.dp))
                         orden.forEach { h -> val v = por[h.deuda.id] ?: 0.0; val fin = plan.fin[h.deuda.id] == k + 1; val extra = v - h.deuda.minimo > 0.5
-                            Text((if (v > 0.5) plata(Math.round(v).toDouble()) else "—") + if (fin) " ✓" else "", style = MaterialTheme.typography.bodySmall,
-                                fontWeight = if (extra || fin) FontWeight.SemiBold else FontWeight.Normal, textAlign = TextAlign.End,
-                                color = if (fin) colorTipo(Tipo.ING) else MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.width(92.dp).background(if (extra && !fin) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent).padding(horizontal = 4.dp)) }
+                            if (v > 0.5) nCuota[h.deuda.id] = (nCuota[h.deuda.id] ?: 0) + 1
+                            val i = minOf(v, plan.interesMes.getOrNull(k)?.get(h.deuda.id) ?: 0.0); val cap = (v - i).coerceAtLeast(0.0)
+                            Column(Modifier.width(132.dp).background(if (extra && !fin) MaterialTheme.colorScheme.primaryContainer else androidx.compose.ui.graphics.Color.Transparent).padding(horizontal = 4.dp),
+                                horizontalAlignment = Alignment.End) {
+                                Text((if (v > 0.5) plata(Math.round(v).toDouble()) else "—") + if (fin) " ✓" else "", style = MaterialTheme.typography.bodySmall,
+                                    fontWeight = if (extra || fin) FontWeight.SemiBold else FontWeight.Normal, color = if (fin) colorTipo(Tipo.ING) else MaterialTheme.colorScheme.onSurface)
+                                if (v > 0.5) {
+                                    Text(stringResource(R.string.cu_cuota_n, nCuota[h.deuda.id] ?: 0) + (h.avance?.let { " / ${it.n}" } ?: ""), style = MaterialTheme.typography.labelSmall)
+                                    Text(stringResource(R.string.cu_cal_capital, plata(Math.round(cap).toDouble())), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                    Text(stringResource(R.string.cu_cal_interes, plata(Math.round(i).toDouble())), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                                }
+                            } }
                         Text(plata(Math.round(saldo).toDouble()), style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.End, modifier = Modifier.width(104.dp))
                     }
                 }

@@ -143,6 +143,8 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val propias: Map<String, List<Cuentas.Propia>> by lazy { Cuentas.leerPropias(respuestas["fin#cats"]) }
     val deudasDatos: com.rutaalacima.app.domain.model.Deudas.Datos by lazy { com.rutaalacima.app.domain.model.Deudas.leer(respuestas[com.rutaalacima.app.domain.model.Deudas.CLAVE]) }
     val deudas: List<com.rutaalacima.app.domain.model.Deudas.Hoy> by lazy { com.rutaalacima.app.domain.model.Deudas.hoy(deudasDatos, dias, hoy().toString()) }
+    val metasDatos: List<com.rutaalacima.app.domain.model.MetasFin.Meta> by lazy { com.rutaalacima.app.domain.model.MetasFin.leer(respuestas[com.rutaalacima.app.domain.model.MetasFin.CLAVE]) }
+    val metas: List<com.rutaalacima.app.domain.model.MetasFin.Hoy> by lazy { com.rutaalacima.app.domain.model.MetasFin.hoy(metasDatos, dias, hoy()) }
     val activos: List<com.rutaalacima.app.domain.model.Patrimonio.Activo> by lazy { com.rutaalacima.app.domain.model.Patrimonio.leer(respuestas[com.rutaalacima.app.domain.model.Patrimonio.CLAVE]) }
     val fijos: List<com.rutaalacima.app.domain.model.Fijos.Fijo> by lazy { com.rutaalacima.app.domain.model.Fijos.leer(respuestas[com.rutaalacima.app.domain.model.Fijos.CLAVE]) }
     val publica get() = respuestas["fin#visibilidad"] == "publica"
@@ -395,6 +397,21 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     fun activoCambiar(x: com.rutaalacima.app.domain.model.Patrimonio.Activo) = activos { l -> l.map { if (it.id == x.id) x else it } }
     fun activoQuitar(id: String) = activos { l -> l.filter { it.id != id } }
 
+    // ---------------------------------------------------------------- Metas financieras
+    private fun metas(cambio: (List<com.rutaalacima.app.domain.model.MetasFin.Meta>) -> List<com.rutaalacima.app.domain.model.MetasFin.Meta>) =
+        poner(com.rutaalacima.app.domain.model.MetasFin.CLAVE, com.rutaalacima.app.domain.model.MetasFin.escribir(cambio(libro.value.metasDatos)))
+    fun metaAgregar(tipo: String, nombre: String, objetivo: Double, fecha: String, inicial: Double) = metas {
+        it + com.rutaalacima.app.domain.model.MetasFin.Meta("g" + System.currentTimeMillis(), tipo, nombre.trim().take(60), objetivo, fecha, inicial, YearMonth.from(hoy()).toString())
+    }
+    fun metaCambiar(id: String, cambio: (com.rutaalacima.app.domain.model.MetasFin.Meta) -> com.rutaalacima.app.domain.model.MetasFin.Meta) = metas { l -> l.map { if (it.id == id) cambio(it) else it } }
+    fun metaQuitar(id: String) = metas { l -> l.filter { it.id != id } }
+    fun metaRestaurar(x: com.rutaalacima.app.domain.model.MetasFin.Meta) = metas { it + x }
+    /** Aportar (ahorro de hoy para la meta) o retirar (ahorro negativo: vuelve al disponible). */
+    fun metaMover(x: com.rutaalacima.app.domain.model.MetasFin.Meta, monto: Double, retirar: Boolean, nota: String) = viewModelScope.launch {
+        val f = hoy().toString()
+        guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), "aho", if (retirar) -monto else monto, com.rutaalacima.app.domain.model.MetasFin.categoria(x.tipo), nota, meta = x.id))
+    }
+
     // ---------------------------------------------------------------- Privacidad
     fun visibilidad(publica: Boolean) = poner("fin#visibilidad", if (publica) "publica" else "")
     fun bloqueo(si: Boolean) = poner("fin#bloqueo", if (si) "1" else "")
@@ -485,14 +502,15 @@ sealed interface NivelCuentas {
     data object PatrimonioN : NivelCuentas
     data class SaludN(val a: Int?) : NivelCuentas
     data object GraficaN : NivelCuentas
+    data object MetasN : NivelCuentas
 
-    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a"; GraficaN -> "grafica" }
-    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN, GraficaN -> Balance }
+    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a"; GraficaN -> "grafica"; MetasN -> "metasfin" }
+    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN, GraficaN, MetasN -> Balance }
 
     companion object {
         fun de(c: String?): NivelCuentas = runCatching {
             val (t, v) = (c ?: "b").split(":", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); "grafica" -> GraficaN; else -> Balance }
+            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); "grafica" -> GraficaN; "metasfin" -> MetasN; else -> Balance }
         }.getOrDefault(Balance)
     }
 }
@@ -616,6 +634,7 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         is NivelCuentas.Dia -> dia(n.f, libro, plata, ir, vm, avisos)
                         NivelCuentas.DeudasN -> deudasNivel(libro, plata, vm, avisos)
                         NivelCuentas.PatrimonioN -> patrimonioNivel(libro, plata, ir, vm)
+                        NivelCuentas.MetasN -> metasFinNivel(libro, plata, vm)
                         is NivelCuentas.SaludN -> saludNivel(n.a, libro, plata, ir)
                         NivelCuentas.GraficaN -> item(key = "grafica-sola") { if (libro.dias.isEmpty()) RutaCard { Text(stringResource(R.string.gr_vacia), style = MaterialTheme.typography.bodyMedium) } else GraficaAscensoCard(libro, plata) }
                     }
@@ -637,6 +656,7 @@ private fun Migas(n: NivelCuentas, ir: (NivelCuentas) -> Unit) {
             is NivelCuentas.Dia -> { add("${n.f.year}" to NivelCuentas.Anio(n.f.year)); add(nombreMes(n.f.monthValue) to NivelCuentas.Mes(YearMonth.from(n.f))); add("${n.f.dayOfMonth}" to n) }
             NivelCuentas.DeudasN -> add(stringResource(R.string.cu_deudas) to n)
             NivelCuentas.PatrimonioN -> add(stringResource(R.string.cu_patrimonio_titulo) to n)
+            NivelCuentas.MetasN -> add(stringResource(R.string.mf_titulo) to n)
             is NivelCuentas.SaludN -> add(stringResource(R.string.cu_salud) to n)
             NivelCuentas.GraficaN -> add(stringResource(R.string.gr_titulo) to n)
             else -> {}
@@ -906,6 +926,7 @@ private fun LazyListScope.balance(libro: Libro, plata: (Double) -> String, ir: (
                 style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
+    item(key = "metasfin") { MetasFinResumen(libro, plata) { ir(NivelCuentas.MetasN) } }
     item(key = "deudas") { DeudasResumen(libro, plata) { ir(NivelCuentas.DeudasN) } }
     item(key = "fijos") { FijosCard(libro, null, plata, vm) }
     item(key = "mochilas") { MochilasCard(t, plata) }
