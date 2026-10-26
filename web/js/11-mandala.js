@@ -365,8 +365,10 @@ function mandalaHtml(tableroHtml = "") {
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
     <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
-  const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
-    ${extra}<button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div>`;
+  /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
+     (girar, pantalla completa e información). La explicación vive en el botón de información, para dar todo el espacio a la brújula. */
+  const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><div class="msc-tit"><span class="md-sec-n">${n}</span><h3>${t}</h3></div>
+    <div class="msc-fab">${extra}<details class="msc-info"><summary class="md-visor-ic" aria-label="Qué es ${esc(t)}" title="Qué es">${ic("info")}</summary><p>${sub}</p></details><button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div></div>`;
   const s1 = hoja((estado.brujulaAnio ? cabSec("md-s1", "1", `Mi cumbre de ${estado.brujulaAnio}`, "Lo más grande de este año. Todo lo de abajo la sostiene.") : cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.")) +
     (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
@@ -981,7 +983,7 @@ ACC.md81Girar = el => {
 
 /* Vision board: el ícono de girar de arriba gira todas las tarjetas, en cascada (una tras otra) */
 ACC.girarTodasVision = el => {
-  const ts = [...document.querySelectorAll("#md-s9 ~ .tablero-9 .casilla-v.giro")]; if (!ts.length) return;
+  const ts = [...document.querySelectorAll(".rosa-brujula .tablero-9 .casilla-v.giro, #md-s9 ~ .tablero-9 .casilla-v.giro")]; if (!ts.length) return;
   const atras = ts.some(t => !t.classList.contains("girada"));
   ts.forEach((t, i) => {
     const k = t.dataset.casilla, enModo = estado.modoTarjetas !== "imagen";

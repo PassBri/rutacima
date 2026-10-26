@@ -3482,3 +3482,29 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
 .md-capa[data-capa="1"] .cumbre-tarjeta { max-width: min(420px, calc(100dvh - 360px)); min-width: min(100%, 280px); margin-left: auto; margin-right: auto; }
 @media (max-width: 600px) { .rosa-brujula .tablero-9 { width: 92%; } .md-capa .rosa-brujula { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .md-capa.entra-dentro, .md-capa.entra-fuera { animation: none; } }
+
+/* Capas 1 · 9 · 81: título como etiqueta y botones flotantes en columna a la derecha; la explicación en el botón de información */
+.md-pila .md-sec-cab { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin: 0 0 8px; }
+.md-pila .md-sec-cab > div { flex: none; }
+.msc-tit { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px 0 4px; border-radius: 18px; background: var(--hoja); border: 1px solid var(--linea); }
+.msc-tit .md-sec-n { width: 28px; height: 28px; min-width: 28px; font-size: 12px; }
+.msc-tit h3 { margin: 0; font: 600 15px/1.2 var(--font-titulo); white-space: nowrap; }
+.msc-fab { display: flex; gap: 8px; align-items: center; }
+.msc-fab .md-visor-ic, .msc-info > summary { width: 44px; height: 44px; border-radius: 50%; background: var(--hoja); border: 1px solid var(--linea); box-shadow: 0 4px 12px -6px rgb(var(--sombra) / .35); display: grid; place-items: center; margin: 0; cursor: pointer; }
+.msc-fab .md-girar-todas { margin-right: 0; }
+.msc-info { position: relative; } .msc-info > summary { list-style: none; } .msc-info > summary::-webkit-details-marker { display: none; }
+.msc-info > summary svg { width: 20px; height: 20px; fill: var(--tinta-suave); }
+.msc-info[open] > summary { background: color-mix(in srgb, var(--burdeos) 12%, var(--hoja)); }
+.msc-info > p { position: absolute; z-index: 30; top: 0; right: calc(100% + 10px); width: min(300px, 70vw); margin: 0; padding: 12px 14px; border-radius: 14px; background: var(--hoja); border: 1px solid var(--linea);
+  box-shadow: 0 12px 28px -12px rgb(var(--sombra) / .4); font-size: 13.5px; line-height: 1.5; color: var(--tinta); animation: bs-abre .18s cubic-bezier(.2, 0, 0, 1); }
+@media (min-width: 701px) {
+  .md-capa > .hoja { position: relative; padding-top: 14px; }
+  .md-pila .md-sec-cab { position: absolute; z-index: 6; top: 14px; left: 16px; right: 14px; pointer-events: none; }
+  .md-pila .md-sec-cab > * { pointer-events: auto; }
+  .msc-fab { flex-direction: column; }
+  .md-capa .rosa-brujula { width: min(100% - 120px, 820px, calc(100dvh - 230px)); min-width: min(100%, 360px); margin-top: 0; }
+  .md-capa[data-capa="81"] .md-grilla-caja .md-grilla, .md-capa[data-capa="81"] .md-flip-in { max-width: min(100% - 120px, 760px, calc(100dvh - 210px)); }
+  .md-capa[data-capa="1"] .cumbre-tarjeta { max-width: min(460px, calc(100dvh - 300px)); }
+  .md-capa[data-capa="81"] .md-grilla-caja, .md-capa[data-capa="1"] .cumbre-tarjeta { margin-top: 4px; }
+}
+@media (max-width: 700px) { .msc-info > p { right: 0; top: calc(100% + 8px); } .msc-tit h3 { white-space: normal; } }
