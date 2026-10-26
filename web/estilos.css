@@ -3401,9 +3401,9 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .md-cara[aria-hidden="true"] { pointer-events: none; }
 .md-flip .md-cara .md-grilla { margin-top: 0; }
 /* Cara de texto: sin fotos, con las palabras en tinta */
-.md-flip .cara-texto .md-grilla .md-c img { display: none !important; }
-.md-flip .cara-texto .md-grilla .md-paso .t { display: block !important; opacity: 1 !important; color: var(--tinta) !important; text-shadow: none !important; }
-.md-flip .cara-texto .md-grilla .md-paso.md-hecho .t { color: #fff !important; }
+html:not([data-modo-tarjetas="edicion"]) .md-flip .cara-texto .md-grilla .md-c img { display: none !important; }
+html:not([data-modo-tarjetas="edicion"]) .md-flip .cara-texto .md-grilla .md-paso .t { display: block !important; opacity: 1 !important; color: var(--tinta) !important; text-shadow: none !important; }
+html:not([data-modo-tarjetas="edicion"]) .md-flip .cara-texto .md-grilla .md-paso.md-hecho .t { color: #fff !important; }
 /* Cara de imágenes: las fotos completas, sin texto encima */
 .md-flip .cara-imagen .md-grilla .md-c img { display: block !important; opacity: 1 !important; }
 .md-flip .cara-imagen .md-grilla .md-paso .t, .md-flip .cara-imagen .md-grilla .md-enlace, .md-flip .cara-imagen .md-grilla .md-niebla { display: none !important; }
@@ -3443,3 +3443,7 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .brujula-previa span { justify-content: flex-start; padding: 10px; }
 .brujula-previa b { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .brujula-previa small { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 11.5px; line-height: 1.35; color: var(--tinta-suave); margin-top: 4px; }
+
+/* En Edición, la cara de adelante se escribe y la de atrás muestra solo las imágenes */
+.md-flip .cara-imagen .md-grilla .md-t81 { display: none !important; }
+html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { padding: 0; }

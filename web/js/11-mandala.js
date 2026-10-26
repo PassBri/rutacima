@@ -394,10 +394,10 @@ function mandalaHtml(tableroHtml = "") {
     ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
   const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.",
-    !estado.md81 && estado.modoTarjetas !== "edicion" ? `<button class="md-visor-ic md-girar-todas" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Girar al texto" : "Girar a las imágenes"}" title="Girar la tarjeta">${ic("girar")}</button>` : "") +
-    (estado.md81 ? editorBloque : (estado.modoTarjetas === "edicion" ? `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>`
-      /* La tarjeta del 9×9 gira completa: adelante el texto limpio, detrás las imágenes (fotos de visión y de evidencia) */
-      : `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-in">
+    !estado.md81 ? `<button class="md-visor-ic md-girar-todas" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Girar al texto" : "Girar a las imágenes"}" title="Girar la tarjeta">${ic("girar")}</button>` : "") +
+    (estado.md81 ? editorBloque : (
+      /* La tarjeta del 9×9 gira completa en cualquier modo: adelante el texto (o la edición), detrás las imágenes */
+      `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-in">
           <div class="md-cara cara-texto" aria-hidden="${!!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div>
           <div class="md-cara cara-imagen" aria-hidden="${!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div></div>
 </div>`) + `
