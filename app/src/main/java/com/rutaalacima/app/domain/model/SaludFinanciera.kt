@@ -19,7 +19,9 @@ object Deudas {
     data class Deuda(val id: String, val nombre: String, val saldo: Double, val tasa: Double = 0.0, val minimo: Double = 0.0, val tipo: String = "mala",
                      val r: List<Cuentas.Recibo> = emptyList(),   // r: documentos (extracto, contrato)
                      /** El saldo es el de esta fecha (y hora): solo los pagos posteriores lo bajan. Vacío: cuentan todos. */
-                     val desde: String = "", val desdeT: Long = 0)
+                     val desde: String = "", val desdeT: Long = 0,
+                     /** Crédito por cuotas: cuántas tiene, cuántas llevaba en [pagadasF] y el monto prestado (0: se estima). */
+                     val cuotas: Int = 0, val pagadas: Int = 0, val pagadasF: String = "", val pagadasT: Long = 0, val prestado: Double = 0.0)
 
     @Serializable
     data class Datos(val metodo: String = "avalancha", val extra: Double = 0.0, val lista: List<Deuda> = emptyList())
@@ -30,8 +32,23 @@ object Deudas {
 
     /** Una deuda con lo pagado (movimientos del libro que la nombran) y lo que se debe hoy. [deuda].minimo es su cuota:
      *  la escrita o, si no hay, lo que se le pagó el último mes con pagos anotados ([cuotaAuto]). */
-    data class Hoy(val deuda: Deuda, val pagado: Double, val cuotaAuto: Boolean = false, val nPagos: Int = 0, val minimoPropio: Double = deuda.minimo) {
+    data class Hoy(val deuda: Deuda, val pagado: Double, val cuotaAuto: Boolean = false, val nPagos: Int = 0, val minimoPropio: Double = deuda.minimo,
+                   val avance: Avance? = null) {
         val actual get() = (deuda.saldo - pagado).coerceAtLeast(0.0)
+    }
+    /** Cuota [k] de [n]: lo pagado y cuánto fue a capital y a intereses (igual que avanceCredito en la web). */
+    data class Avance(val n: Int, val k: Int, val pagadoTotal: Double, val capital: Double, val intereses: Double, val prestado: Double, val estimado: Boolean) {
+        val faltan get() = n - k
+    }
+    fun avance(x: Deuda, actual: Double, mesesPagados: Int): Avance? {
+        if (x.cuotas <= 0) return null
+        val n = x.cuotas; val k = minOf(n, x.pagadas + mesesPagados); val c = x.minimo; val r = x.tasa / 100 / 12
+        val prestado = if (x.prestado > 0) x.prestado else if (c <= 0) 0.0 else if (r > 0) c * (1 - Math.pow(1 + r, -n.toDouble())) / r else c * n
+        // Capital pagado: con el monto prestado escrito, lo prestado menos lo que se debe hoy; si es estimado, la tabla de amortización
+        val saldoK = if (r > 0) prestado * Math.pow(1 + r, k.toDouble()) - c * (Math.pow(1 + r, k.toDouble()) - 1) / r else prestado - c * k
+        val pagado = k * c
+        val capital = if (prestado > 0) (prestado - if (x.prestado > 0) actual else saldoK).coerceIn(0.0, pagado) else 0.0
+        return Avance(n, k, pagado, capital, (pagado - capital).coerceAtLeast(0.0), prestado, x.prestado <= 0)
     }
     private fun ts(id: String) = id.filter { it.isDigit() }.take(15).toLongOrNull() ?: 0L
 
@@ -42,7 +59,10 @@ object Deudas {
             val mios = pagos.filter { it.second.d == x.id }
             val pagado = mios.filter { (f, m) -> x.desde.isEmpty() || f > x.desde || (f == x.desde && ts(m.id) > x.desdeT) }.sumOf { it.second.m }
             val cuota = if (x.minimo > 0) 0.0 else mios.groupBy { it.first.take(7) }.maxByOrNull { it.key }?.value?.sumOf { it.second.m } ?: 0.0
-            Hoy(if (x.minimo > 0) x else x.copy(minimo = cuota), pagado, x.minimo <= 0 && cuota > 0, mios.size, x.minimo)
+            val efectiva = if (x.minimo > 0) x else x.copy(minimo = cuota)
+            val actual = (x.saldo - pagado).coerceAtLeast(0.0)
+            val mesesDespues = mios.filter { (f, m) -> x.pagadasF.isEmpty() || f > x.pagadasF || (f == x.pagadasF && ts(m.id) > x.pagadasT) }.map { it.first.take(7) }.toSet().size
+            Hoy(efectiva, pagado, x.minimo <= 0 && cuota > 0, mios.size, x.minimo, avance(efectiva, actual, mesesDespues))
         }
     }
 

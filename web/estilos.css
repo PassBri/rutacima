@@ -2992,3 +2992,12 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .dt-nombre small + small::before { content: " · "; }
 .asc-movs select.paga-deuda { display: block; margin-top: 4px; min-width: 0; width: 100%; font-size: 12.5px; padding: 3px 6px; color: var(--tinta-suave); }
 .asc-movs select.paga-deuda.sin { color: var(--burdeos); }
+/* Avance de un crédito por cuotas: cuota k de n, lo que falta y cuánto fue a capital y a intereses */
+.dt-cuotas { display: grid; gap: 6px; padding: 10px 12px; border-radius: var(--md-shape-sm); border: 1px solid var(--linea); }
+.dt-cuotas-cab { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; justify-content: space-between; }
+.dt-cuotas-cab b { font-size: 15px; font-variant-numeric: tabular-nums; } .dt-cuotas-cab span { font-size: 12.5px; color: var(--tinta-suave); }
+.dt-cuotas .linea-tiempo { display: block; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--tinta) 8%, transparent); overflow: hidden; }
+.dt-cuotas .linea-tiempo i { display: block; height: 100%; border-radius: 3px; background: var(--ok); }
+.dt-cuotas p { margin: 0; font-size: 13px; line-height: 1.45; font-variant-numeric: tabular-nums; } .dt-cuotas small { display: block; color: var(--tinta-suave); font-size: 11.5px; }
+.dt-sin-cuotas { margin: 0; font-size: 12.5px; }
+.dt-campos input[inputmode="numeric"] { width: 84px; }

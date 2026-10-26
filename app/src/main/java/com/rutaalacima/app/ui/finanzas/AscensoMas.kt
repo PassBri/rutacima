@@ -485,6 +485,22 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
                 Text(impacto, style = MaterialTheme.typography.bodySmall)
             }
         }
+        // Crédito por cuotas: cuota k de n, cuántas faltan y cuánto fue a capital y a intereses
+        val av = h.avance
+        if (av != null) Column(Modifier.padding(top = 8.dp).fillMaxWidth().clip(RoundedCornerShape(8.dp))
+            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp)).padding(10.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.cu_cuota_k_n, av.k, av.n), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                Text(if (av.faltan > 0) stringResource(R.string.cu_faltan_cuotas, av.faltan, mesesDespues(av.faltan)) else stringResource(R.string.cu_todas_pagadas),
+                    style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            com.rutaalacima.app.ui.components.ProgressLine(av.k / av.n.toFloat(), Modifier.padding(vertical = 6.dp), color = colorTipo(Tipo.ING))
+            if (x.minimo > 0) {
+                Text(stringResource(R.string.cu_has_pagado, plata(Math.round(av.pagadoTotal).toDouble()), plata(Math.round(av.capital).toDouble()), plata(Math.round(av.intereses).toDouble()), plata(h.actual)),
+                    style = MaterialTheme.typography.bodySmall)
+                if (av.estimado) Text(stringResource(R.string.cu_prestado_estimado, plata(Math.round(av.prestado).toDouble())), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        } else if (h.actual > 0) Text(stringResource(R.string.cu_cuotas_ayuda), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
         Row(Modifier.padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
             if (mover != null) {
                 IconButton(onClick = { mover(-1) }) { Icon(Icons.Filled.KeyboardArrowUp, stringResource(R.string.cu_subir)) }
@@ -516,18 +532,33 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
     }
     if (editar) {
         var tasa by remember { mutableStateOf(Cuentas.numero(x.tasa)) }
-        var minimo by remember { mutableStateOf(Cuentas.numero(x.minimo)) }
+        var minimo by remember { mutableStateOf(if (h.minimoPropio > 0) Cuentas.numero(h.minimoPropio) else "") }
         var saldo by remember { mutableStateOf(Cuentas.numero(x.saldo)) }
+        var cuotas by remember { mutableStateOf(if (x.cuotas > 0) "${x.cuotas}" else "") }
+        var pagadas by remember { mutableStateOf(h.avance?.k?.toString() ?: if (x.pagadas > 0) "${x.pagadas}" else "") }
+        var prestado by remember { mutableStateOf(if (x.prestado > 0) Cuentas.numero(x.prestado) else "") }
         var buena by remember { mutableStateOf(x.tipo == "buena") }
         AlertDialog(onDismissRequest = { editar = false }, title = { Text(x.nombre) },
             text = { Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedTextField(saldo, { saldo = it }, label = { Text(stringResource(R.string.cu_saldo_inicial)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
                 OutlinedTextField(tasa, { tasa = it }, label = { Text(stringResource(R.string.cu_interes_anual)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
-                OutlinedTextField(minimo, { minimo = it }, label = { Text(stringResource(R.string.cu_minimo)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
+                OutlinedTextField(minimo, { minimo = it }, label = { Text(stringResource(R.string.cu_minimo)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    placeholder = { if (h.cuotaAuto) Text(Cuentas.numero(x.minimo)) })
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedTextField(cuotas, { cuotas = it.filter(Char::isDigit).take(4) }, label = { Text(stringResource(R.string.cu_n_cuotas)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f))
+                    OutlinedTextField(pagadas, { pagadas = it.filter(Char::isDigit).take(4) }, label = { Text(stringResource(R.string.cu_pagadas_hoy)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), modifier = Modifier.weight(1f))
+                }
+                OutlinedTextField(prestado, { prestado = it }, label = { Text(stringResource(R.string.cu_monto_prestado)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
                 Row(verticalAlignment = Alignment.CenterVertically) { Text(stringResource(R.string.cu_deuda_buena), Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium); Switch(buena, { buena = it }) }
             } },
             confirmButton = { TextButton(onClick = {
-                vm.deudaCambiar(x.id) { it.copy(saldo = kotlin.math.abs(Finanzas.monto(saldo)), tasa = kotlin.math.abs(Finanzas.monto(tasa)), minimo = kotlin.math.abs(Finanzas.monto(minimo)), tipo = if (buena) "buena" else "mala") }
+                val pg = pagadas.toIntOrNull() ?: 0
+                val cambioPagadas = pg != (h.avance?.k ?: x.pagadas)
+                vm.deudaCambiar(x.id) { it.copy(saldo = kotlin.math.abs(Finanzas.monto(saldo)), tasa = kotlin.math.abs(Finanzas.monto(tasa)), minimo = kotlin.math.abs(Finanzas.monto(minimo)), tipo = if (buena) "buena" else "mala",
+                    cuotas = cuotas.toIntOrNull() ?: 0, prestado = kotlin.math.abs(Finanzas.monto(prestado)),
+                    // las cuotas pagadas se cuentan desde hoy; las siguientes se suman solas con los pagos anotados
+                    pagadas = if (cambioPagadas) pg else it.pagadas, pagadasF = if (cambioPagadas) java.time.LocalDate.now().toString() else it.pagadasF,
+                    pagadasT = if (cambioPagadas) System.currentTimeMillis() else it.pagadasT) }
                 editar = false }) { Text(stringResource(R.string.guardar)) } },
             dismissButton = { TextButton(onClick = { editar = false }) { Text(stringResource(R.string.cancelar)) } })
     }

@@ -201,7 +201,7 @@ document.addEventListener("keydown", e => {
   e.preventDefault(); e.shiftKey ? ACC.ascRehacer() : ACC.ascDeshacer();
 });
 const histAsc = () => `<button class="rb" data-acc="ascDeshacer" ${HIST.atras.length ? "" : "disabled"} aria-label="Deshacer el último cambio" title="Deshacer el último cambio (Ctrl+Z)">${ic("deshacer")}</button><button class="rb" data-acc="ascRehacer" ${HIST.adelante.length ? "" : "disabled"} aria-label="Rehacer" title="Rehacer (Ctrl+Shift+Z)">${ic("rehacer")}</button>`;
-const ojoAsc = () => histAsc() + `<button class="rb" data-acc="ascOjo" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>`;
+const ojoAsc = () => histAsc() + `<button class="rb" data-acc="ascInforme" aria-label="Descargar el análisis financiero completo" title="Descargar el análisis financiero completo">${ic("descargar")}</button><button class="rb" data-acc="ascOjo" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>`;
 DET["finanzas.b"] = () => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
   const dias = diasConMovs(), hoyA = new Date().getFullYear();

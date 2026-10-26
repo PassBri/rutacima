@@ -43,6 +43,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.ContentCopy
@@ -582,6 +583,12 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         }
                         IconButton(onClick = { vm.rehacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(rehecho) } }, enabled = vm.puedeRehacer) {
                             Icon(Icons.AutoMirrored.Filled.Redo, stringResource(R.string.cu_rehacer))
+                        }
+                    }
+                    if (!bloqueado) {
+                        val ctxI = androidx.compose.ui.platform.LocalContext.current; val listoPdf = stringResource(R.string.cu_informe_pdf)
+                        IconButton(onClick = { InformeFinanciero.imprimir(ctxI, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoPdf) }) {
+                            Icon(Icons.Filled.Download, stringResource(R.string.cu_informe))
                         }
                     }
                     if (!bloqueado) IconButton(onClick = { vm.oculto = !vm.oculto }) {

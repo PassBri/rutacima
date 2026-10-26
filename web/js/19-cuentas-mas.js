@@ -70,8 +70,25 @@ const saldoHoy = (x, pagos) => Math.max(0, (Number(x.saldo) || 0) - pagadoDe(x.i
 function deudasHoy() {
   const pagos = pagosDeDeudas();
   return deudasDatos().lista.map(x => { const propio = Number(x.minimo) || 0, cuota = propio ? 0 : cuotaVinculada(x.id, pagos);
-    return { ...x, minimoPropio: propio, minimo: propio || cuota, cuotaAuto: !propio && cuota > 0, pagado: pagadoDe(x.id, pagos), actual: saldoHoy(x, pagos),
-      nPagos: pagos.filter(([, y]) => y.d === x.id).length }; });
+    const h = { ...x, minimoPropio: propio, minimo: propio || cuota, cuotaAuto: !propio && cuota > 0, pagado: pagadoDe(x.id, pagos), actual: saldoHoy(x, pagos),
+      nPagos: pagos.filter(([, y]) => y.d === x.id).length };
+    h.avance = avanceCredito(h, pagos); return h; });
+}
+/**
+ * El avance de un crédito por cuotas: cuántas lleva (las que escribió la persona más los meses con pagos anotados
+ * después), cuántas faltan y en qué mes termina, y de lo pagado cuánto fue a capital y cuánto a intereses.
+ * El monto prestado, si no se escribió, sale de la cuota, la tasa y el número de cuotas (amortización francesa).
+ */
+function avanceCredito(x, pagos) {
+  const n = Math.round(Number(x.cuotas) || 0); if (!n) return null;
+  const meses = new Set(pagos.filter(([f, y]) => y.d === x.id && (!x.pagadasF || f > x.pagadasF || (f === x.pagadasF && tsMov(y) > (Number(x.pagadasT) || 0)))).map(([f]) => f.slice(0, 7)));
+  const k = Math.min(n, Math.round(Number(x.pagadas) || 0) + meses.size), c = Number(x.minimo) || 0, r = (Number(x.tasa) || 0) / 100 / 12;
+  const prestado = Number(x.prestado) || (c ? (r ? c * (1 - Math.pow(1 + r, -n)) / r : c * n) : 0);
+  // Capital pagado: con el monto prestado escrito, lo prestado menos lo que se debe hoy; si es estimado, la tabla de amortización
+  const saldoK = r ? prestado * Math.pow(1 + r, k) - c * (Math.pow(1 + r, k) - 1) / r : prestado - c * k;
+  const pagadoTotal = k * c, capital = prestado ? Math.min(pagadoTotal, Math.max(0, prestado - (Number(x.prestado) ? x.actual : saldoK))) : 0, intereses = Math.max(0, pagadoTotal - capital);
+  const faltan = n - k, d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + faltan);
+  return { n, k, faltan, fin: `${MESES[d.getMonth()]} de ${d.getFullYear()}`, pagadoTotal, capital, intereses, prestado, estimado: !Number(x.prestado) };
 }
 /** El saldo de hoy pasa a ser el punto de partida: los pagos de antes ya no lo vuelven a bajar. */
 function fijarSaldo(x, v = saldoHoy(x)) { x.saldo = Math.max(0, v); x.desde = iso(hoyFecha()); x.desdeT = nuevoId(); }
@@ -644,8 +661,15 @@ DET["finanzas.deudas"] = () => {
             ${x.actual > 0 ? `<div class="dt-plan"><div><span>Pagas al mes</span><b>${plata(Math.round(pagoMes))}</b>${extraMes > 0.5 ? `<small>mínimo ${plata(Number(x.minimo) || 0)} + ${plata(Math.round(extraMes))} extra</small>` : `<small>${x.cuotaAuto ? "su cuota (de tus pagos anotados)" : "su mínimo"}</small>`}</div>
               <div><span>La eliminas en</span><b>${fin ? fechaFin(fin) : "Sin fecha"}</b>${fin ? `<span class="linea-tiempo"><i style="width:${Math.max(4, ancho)}%"></i></span>` : ""}</div></div>
               ${impacto ? `<p class="dt-impacto">${ic("grafica")}<span>${impacto}</span></p>` : ""}` : `<p class="dt-impacto">${ic("check")}<span>Pagada. Su cuota ya trabaja para las demás.</span></p>`}
+            ${x.avance ? `<div class="dt-cuotas"><div class="dt-cuotas-cab"><b>Cuota ${x.avance.k} de ${x.avance.n}</b><span>${x.avance.faltan ? `faltan ${x.avance.faltan} · terminas en ${x.avance.fin}` : "¡todas pagadas!"}</span></div>
+              <span class="linea-tiempo"><i style="width:${Math.max(3, x.avance.k / x.avance.n * 100)}%"></i></span>
+              ${x.minimo ? `<p>Has pagado <b>${plata(Math.round(x.avance.pagadoTotal))}</b>: ${plata(Math.round(x.avance.capital))} a capital y ${plata(Math.round(x.avance.intereses))} a intereses. Debes <b>${plata(x.actual)}</b>.${x.avance.estimado ? ` <small>Prestado estimado: ${plata(Math.round(x.avance.prestado))} (con la cuota, la tasa y el plazo).</small>` : ""}</p>` : `<p class="suave">Escribe la cuota para ver cuánto va a capital y cuánto a intereses.</p>`}</div>`
+              : x.actual > 0 ? `<p class="suave dt-sin-cuotas">Escribe cuántas cuotas tiene el crédito y cuántas llevas para ver cuántas te faltan y cuánto has pagado a capital e intereses.</p>` : ""}
             <div class="dt-campos"><label><span>Interés anual</span><span class="dt-input"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.tasa) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|tasa" aria-label="Interés anual de ${esc(x.nombre)}"> %</span></label>
               <label><span>Pago mínimo</span><input class="num" inputmode="decimal" value="${x.minimoPropio ? esc(numAsc(x.minimoPropio)) : ""}" placeholder="${x.cuotaAuto ? esc(numAsc(x.minimo)) : "0"}" data-acc-change="deudaCampo" data-arg="${x.id}|minimo" aria-label="Pago mínimo de ${esc(x.nombre)}"></label>
+              <label><span>N.º de cuotas</span><input class="num" inputmode="numeric" value="${x.cuotas ? esc(String(x.cuotas)) : ""}" placeholder="—" data-acc-change="deudaCampo" data-arg="${x.id}|cuotas" aria-label="Número de cuotas del crédito ${esc(x.nombre)}"></label>
+              <label><span>Pagadas hoy</span><input class="num" inputmode="numeric" value="${x.avance ? esc(String(x.avance.k)) : x.pagadas ? esc(String(x.pagadas)) : ""}" placeholder="—" data-acc-change="deudaCampo" data-arg="${x.id}|pagadas" aria-label="Cuotas pagadas hasta hoy de ${esc(x.nombre)}"></label>
+              <label><span>Monto prestado</span><input class="num" inputmode="decimal" value="${x.prestado ? esc(numAsc(x.prestado)) : ""}" placeholder="opcional" data-acc-change="deudaCampo" data-arg="${x.id}|prestado" aria-label="Monto prestado de ${esc(x.nombre)}"></label>
               <div class="dt-acciones">${d.metodo === "propio" ? `<button class="rb" data-acc="deudaMover" data-arg="${x.id}|-1" ${k ? "" : "disabled"} aria-label="Subir ${esc(x.nombre)}">${ic("arriba")}</button><button class="rb" data-acc="deudaMover" data-arg="${x.id}|1" ${k < lista.length - 1 ? "" : "disabled"} aria-label="Bajar ${esc(x.nombre)}">${ic("abajo")}</button>` : ""}<button class="rb" data-acc="deudaQuitar" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button>${x.actual > 0 ? `<button class="btn lleno" data-acc="deudaPagar" data-arg="${x.id}">Pagar</button>` : ""}</div></div>
           </article>`; }).join("")}</div>` : `<p class="suave">Anota cada deuda con lo que debes hoy, su interés anual y su pago mínimo. El plan se arma solo.</p>`}
       <form class="asc-nuevo" data-form="deudaNueva" style="margin-top:14px"><div class="asc-fila-nueva deuda-nueva">
@@ -724,7 +748,10 @@ Object.assign(ACC, {
   deudaMover(_, arg) { const [id, s] = arg.split("|"), d = deudasDatos(), k = d.lista.findIndex(y => y.id === id), j = k + Number(s);
     if (k < 0 || j < 0 || j >= d.lista.length) return; [d.lista[k], d.lista[j]] = [d.lista[j], d.lista[k]]; guardarDeudas(d); },
   deudaExtra(el) { const d = deudasDatos(); d.extra = Math.abs(montoFin(el.value)); guardarDeudas(d); },
-  deudaCampo(el, arg) { const [id, k] = arg.split("|"), d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return; x[k] = Math.abs(montoFin(el.value)); guardarDeudas(d); },
+  deudaCampo(el, arg) { const [id, k] = arg.split("|"), d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return;
+    x[k] = k === "cuotas" || k === "pagadas" ? Math.round(Math.abs(montoFin(el.value))) : Math.abs(montoFin(el.value));
+    if (k === "pagadas") { x.pagadasF = iso(hoyFecha()); x.pagadasT = nuevoId(); }      // las de hoy en adelante se suman solas con los pagos anotados
+    guardarDeudas(d); },
   deudaQuitar(_, id) { const d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return; d.lista = d.lista.filter(y => y.id !== id); guardarDeudas(d);
     toast(`${x.nombre} quitada`, { accion: "Deshacer", alHacer: () => { const e = deudasDatos(); e.lista.push(x); guardarDeudas(e); } }); },
   deudaPagar(_, id) {
@@ -811,3 +838,104 @@ function deudasResumen() {
 window.finBloqueado = finBloqueado; window.ocultarFuera = ocultarFuera;
 
 window.saludDe = saludDe;
+
+/* ---------- Análisis financiero completo: un informe para descargar (PDF desde «Imprimir») ----------
+ * Junta todo: resumen, Índice de Salud Financiera e indicadores con su meta, estado de cuentas, en qué se va
+ * el dinero, activos y pasivos, cada deuda (cuotas, capital e intereses), el plan para salir de deudas y
+ * recomendaciones según los indicadores que están por mejorar. Se arma en una página aparte lista para guardar. */
+const RECOMIENDA = {
+  "Porcentaje de flujo neto": "Te queda poco libre de lo que entra. Revisa la mochila amarilla (gastos variables) y fija un tope por categoría.",
+  "Índice de liquidez": "Sale más de lo que entra. Antes de ahorrar más, corta gastos variables hasta que los ingresos cubran todo.",
+  "Tasa de ahorro": "Págate primero: separa al menos el 10 % el día que te pagan, antes de gastar.",
+  "Ahorro + inversión ÷ ingresos": "Apunta a la regla 80/20: el 20 % de cada ingreso para tu futuro (ahorro e inversión).",
+  "Deuda ÷ ingreso (DTI)": "Tus cuotas pesan mucho sobre tu ingreso. No tomes deudas nuevas y usa el plan de Salir de deudas para cerrar primero las más caras.",
+  "Relación gasto ÷ ingreso": "Tus gastos se llevan casi todo el ingreso. Busca bajar los fijos que se puedan renegociar (planes, seguros, servicios).",
+  "Fondo de emergencia": "Arma un fondo de emergencia de 3 a 6 meses de gastos fijos en una cuenta aparte (categoría «Emergencia» o un activo «Efectivo y cuentas»).",
+  "Índice de endeudamiento": "Debes una parte grande de lo que tienes. Prioriza bajar deudas malas antes de comprar a crédito.",
+  "Ingresos pasivos ÷ ingresos": "Empieza a construir ingresos que no dependan de tu tiempo: rentas, dividendos, un negocio.",
+  "Índice de libertad financiera": "Cada ingreso pasivo nuevo te acerca a que tus rentas paguen tu vida.",
+  "Pasivos buenos ÷ pasivos": "La mayoría de tus deudas solo cuestan. Ciérralas primero; las buenas son las que producen.",
+  "Patrimonio neto ÷ ingresos anuales": "Tu patrimonio aún es bajo frente a lo que ganas: cada peso que pasa a ahorro, inversión o a bajar deudas lo hace crecer.",
+};
+function informeFinanciero() {
+  const oculto = estado.ascOculto; estado.ascOculto = false;
+  try {
+    const r = saludDe(""), dd = deudasDatos(), lista = deudasHoy(), plan = planDeudas(lista, dd.metodo, dd.extra), act = activosDatos();
+    const led = sumar(diasConMovs().flatMap(movsDe)).construido, hoyD = hoyFecha(), meses = r.mesesLista || [];
+    const nomMes = ym => `${MESES[Number(ym.slice(5, 7)) - 1]} ${ym.slice(0, 4)}`;
+    const periodo = meses.length ? `${nomMes(meses[0])} a ${nomMes(meses.at(-1))} (${meses.length} ${meses.length === 1 ? "mes" : "meses"})` : "Sin movimientos";
+    const est = { ok: "Bien", medio: "Atención", bajo: "Por mejorar", na: "—" };
+    const fila = (a, b, c = "", cls = "") => `<tr class="${cls}"><th>${a}</th><td>${b}</td>${c !== null ? `<td>${c}</td>` : ""}</tr>`;
+    const cats = Object.entries(r.s.cat).filter(([k]) => k.startsWith("gas:")).sort((a, b) => b[1] - a[1]);
+    const totGas = cats.reduce((a, [, v]) => a + v, 0) || 1;
+    const metodo = (METODOS_DEUDA.find(m => m[0] === dd.metodo) || [])[1] || dd.metodo;
+    const malos = r.ind.filter(x => x.estado === "bajo" || x.estado === "medio");
+    const nombre = esc(perfil?.()?.nombre || "");
+    const css = `*{box-sizing:border-box}body{font:14px/1.5 Roboto,system-ui,sans-serif;color:#1D2427;margin:0;background:#EEF1F2}
+      .hoja{max-width:860px;margin:24px auto;background:#fff;padding:40px 48px;border-radius:12px}
+      header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #6B2A1A;padding-bottom:14px;margin-bottom:8px}
+      h1{font:600 26px "Roboto Serif",Georgia,serif;margin:0;color:#6B2A1A}h2{font:600 18px "Roboto Serif",Georgia,serif;color:#6B2A1A;margin:28px 0 8px;break-after:avoid}
+      .suave{color:#5A666B}.marca{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#86683A}
+      .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}.kpi{border:1px solid #DCE2E4;border-radius:10px;padding:10px 12px}
+      .kpi span{display:block;font-size:12px;color:#5A666B}.kpi b{font-size:18px;font-variant-numeric:tabular-nums}
+      table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-variant-numeric:tabular-nums;break-inside:auto}
+      th,td{padding:6px 8px;border-bottom:1px solid #EEF1F2;text-align:left;vertical-align:top}td{text-align:right}
+      thead th{font-size:12px;color:#5A666B;font-weight:500;background:#fff}tr.total th,tr.total td{font-weight:700;border-top:1px solid #DCE2E4}
+      .neg{color:#B3261E}.e-ok{color:#0C7A0C}.e-medio{color:#9A6A00}.e-bajo{color:#B3261E}
+      .isf{display:flex;gap:18px;align-items:center;padding:14px 16px;border-radius:12px;background:#F3E3DC}
+      .isf b{font:600 40px "Roboto Serif",Georgia,serif;color:#6B2A1A}.deuda{border:1px solid #DCE2E4;border-radius:10px;padding:10px 14px;margin:8px 0;break-inside:avoid}
+      ul{padding-left:20px}li{margin:4px 0}.pie{margin-top:28px;font-size:12px;color:#5A666B;border-top:1px solid #DCE2E4;padding-top:10px}
+      .barra{height:8px;border-radius:4px;background:#EEF1F2;overflow:hidden}.barra i{display:block;height:100%;background:#3E5868}
+      .acciones{position:sticky;top:0;display:flex;gap:8px;justify-content:center;padding:10px;background:#EEF1F2}
+      .acciones button{font:500 14px Roboto,sans-serif;padding:10px 18px;border-radius:20px;border:0;background:#6B2A1A;color:#fff;cursor:pointer}
+      .acciones button.sec{background:#fff;color:#6B2A1A;border:1px solid #DCE2E4}
+      @media print{body{background:#fff}.hoja{margin:0;padding:0;max-width:none;border-radius:0}.acciones{display:none}@page{margin:16mm 14mm}}`;
+    const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Análisis financiero · SuRoute · ${iso(hoyD)}</title><style>${css}</style></head><body>
+      <div class="acciones"><button onclick="print()">Guardar como PDF o imprimir</button><button class="sec" onclick="close()">Cerrar</button></div>
+      <div class="hoja"><header><div><div class="marca">SuRoute · Ascenso financiero</div><h1>Análisis financiero completo</h1>
+        <div class="suave">${nombre ? nombre + " · " : ""}Periodo: ${periodo}</div></div><div class="suave">${hoyD.toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" })}</div></header>
+      <div class="kpis"><div class="kpi"><span>Ingresos</span><b>${plata(r.s.ing)}</b></div><div class="kpi"><span>Egresos</span><b>${plata(r.s.ing - (r.filas.at(-1)[1]))}</b></div>
+        <div class="kpi"><span>Flujo neto</span><b class="${r.filas.at(-1)[1] < 0 ? "neg" : ""}">${plata(r.filas.at(-1)[1])}</b></div><div class="kpi"><span>Patrimonio neto</span><b class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</b></div></div>
+      <h2>Salud financiera</h2>
+      ${r.isf != null ? `<div class="isf"><b>${r.isf} %</b><div><strong>${r.nivel[0]}</strong><br><span class="suave">${r.nivel[1]}</span></div></div>` : `<p class="suave">Anota tus ingresos para calcular el índice.</p>`}
+      <table><thead><tr><th>Indicador</th><th style="text-align:right">Valor</th><th style="text-align:right">Meta</th><th style="text-align:right">Estado</th></tr></thead><tbody>
+        ${r.ind.map(x => `<tr><th>${x.nombre}<br><small class="suave">${x.ayuda}</small></th><td>${x.valor}</td><td>${x.metaTxt || ""}</td><td class="e-${x.estado}">${est[x.estado] || ""}</td></tr>`).join("")}</tbody></table>
+      <h2>Qué hacer ahora</h2>
+      ${malos.length ? `<ul>${malos.map(x => `<li><b>${x.nombre}</b> (${x.valor}): ${RECOMIENDA[x.nombre] || x.ayuda}</li>`).join("")}</ul>` : `<p>Todos tus indicadores están en su meta. Sigue igual y sube tu inversión.</p>`}
+      <h2>Estado de cuentas</h2>
+      <table><thead><tr><th>Concepto</th><th style="text-align:right">Promedio mensual</th><th style="text-align:right">Total del periodo</th></tr></thead><tbody>
+        ${r.filas.map(([n, v, f]) => fila(n, plata(Math.round(v / (r.nMeses || 1))), plata(v), f ? "total" : "")).join("")}
+        ${fila("Cuotas de deuda al mes", plata(Math.round(r.deudaMes)), "")}</tbody></table>
+      ${cats.length ? `<h2>En qué se va tu dinero</h2><table><thead><tr><th>Categoría</th><th style="text-align:right">Total</th><th style="text-align:right">% del gasto</th></tr></thead><tbody>
+        ${cats.slice(0, 12).map(([k, v]) => { const [t, c] = k.split(":"); return fila(esc(catDe(t, c)?.[1] || c), plata(v), Math.round(v / totGas * 100) + " %"); }).join("")}</tbody></table>` : ""}
+      <h2>Activos y pasivos</h2>
+      <table><thead><tr><th>Activo</th><th style="text-align:right">Tipo</th><th style="text-align:right">Valor hoy</th></tr></thead><tbody>
+        ${act.map(x => fila(esc(x.nombre), (TIPOS_ACTIVO.find(t => t[0] === x.tipo) || [, ""])[1], plata(Number(x.valor) || 0))).join("")}
+        ${fila("Ahorro e inversión del libro de cuentas", "Se suma solo", plata(led))}${fila("Activos totales", "", plata(r.activos), "total")}</tbody></table>
+      <table><thead><tr><th>Pasivo</th><th style="text-align:right">Tipo</th><th style="text-align:right">Saldo hoy</th></tr></thead><tbody>
+        ${lista.map(x => fila(esc(x.nombre), x.tipo === "buena" ? "Buena (produce)" : "Mala (solo cuesta)", plata(x.actual))).join("") || fila("Sin deudas", "", "")}
+        ${fila("Pasivos totales", "", plata(r.pasivos), "total")}${fila("Patrimonio neto", "", `<span class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</span>`, "total")}</tbody></table>
+      ${lista.length ? `<h2>Tus deudas</h2>
+        <p>Método: <b>${metodo}</b>${dd.extra ? ` con ${plata(dd.extra)} extra al mes` : ""}. ${lista.some(x => x.actual > 0) ? (plan.meses ? `Quedas libre en <b>${mesesDespues(plan.meses)}</b> y pagas cerca de ${plata(Math.round(plan.interes))} en intereses.` : "Con estos pagos la deuda no baja: sube el pago o renegocia la tasa.") : "¡Sin deudas!"}</p>
+        ${lista.map(x => { const a = x.avance, fin = plan.fin[x.id];
+          return `<div class="deuda"><strong>${esc(x.nombre)}</strong> <span class="suave">· ${x.tipo === "buena" ? "buena" : "mala"} · interés ${Number(x.tasa) || 0} % anual · cuota ${plata(x.minimo || 0)}${x.cuotaAuto ? " (de tus pagos)" : ""}</span>
+            <table><tbody>${fila("Debes hoy", plata(x.actual), null)}${a ? fila("Cuotas", `${a.k} de ${a.n} · faltan ${a.faltan}${a.faltan ? ` · terminas en ${a.fin}` : ""}`, null) + fila("Has pagado", `${plata(Math.round(a.pagadoTotal))}: ${plata(Math.round(a.capital))} a capital y ${plata(Math.round(a.intereses))} a intereses`, null) + (a.prestado ? fila(a.estimado ? "Prestado (estimado)" : "Prestado", plata(Math.round(a.prestado)), null) : "") : ""}
+              ${x.actual > 0 ? fila("Con tu plan la eliminas en", fin ? mesesDespues(fin) : "Sin fecha", null) : ""}</tbody></table>
+            ${a ? `<div class="barra"><i style="width:${a.k / a.n * 100}%"></i></div>` : ""}</div>`; }).join("")}` : ""}
+      <p class="pie">Generado por SuRoute con los datos de tu libro de cuentas. Los indicadores siguen la serie «Ruta a la Cima». Este análisis es una guía para decidir; no reemplaza la asesoría de un profesional financiero.</p>
+      </div></body></html>`;
+    return html;
+  } finally { estado.ascOculto = oculto; }
+}
+Object.assign(ACC, {
+  ascInforme() {
+    const html = informeFinanciero(), w = window.open("", "_blank");
+    if (!w) {   // si el navegador bloquea la ventana, se descarga el archivo
+      const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(new Blob([html], { type: "text/html" })), download: `analisis-financiero-${iso(hoyFecha())}.html` });
+      a.click(); toast("Análisis descargado: ábrelo y elige «Guardar como PDF»"); return;
+    }
+    w.document.open(); w.document.write(html); w.document.close();
+    toast("Análisis listo: usa «Guardar como PDF» para descargarlo");
+  },
+});
