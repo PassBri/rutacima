@@ -58,6 +58,9 @@ data class Post(
     val brujula: String = "",
     /** Varias fotos o un video (carrusel); vacío si es una sola foto. */
     val media: List<MediaPost> = emptyList(),
+    /** Reacción "¿Qué clima te deja?": cuántas personas dejaron cada clima y el mío. */
+    val climas: Map<String, Int> = emptyMap(),
+    val miClima: String? = null,
 )
 
 /** Una pieza del carrusel: foto ("img") o video ("vid"), con su ruta local o URL. */
@@ -381,7 +384,7 @@ class SocialRepository(
                 FiltroFeed.PARA_TI -> todo
                 FiltroFeed.GUARDADOS -> todo.filter { it.id in guardados }
             }
-            return@withContext r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() && it.autorId !in silenciadosLocales() }.also(::recordar)
+            return@withContext conClimas(r.filter { (eje == null || it.eje == eje) && it.id !in ocultosLocales() && it.autorId !in bloqueadosLocales() && it.autorId !in silenciadosLocales() }, null).also(::recordar)
         }
         val uid = supa.sesion.value!!.userId
         val base = "select=*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)&order=created_at.desc&limit=$paginaFeed&offset=$desde" +
@@ -407,7 +410,7 @@ class SocialRepository(
         val mios = if (ids.isEmpty()) emptySet() else supa.select("votes", "select=post_id&user_id=eq.$uid&post_id=in.(${ids.joinToString(",")})")
             .jsonArray.mapNotNull { it.jsonObject["post_id"]?.jsonPrimitive?.contentOrNull }.toSet()
         val silenciados = silenciadosLocales()
-        filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.filter { it.autorId !in silenciados }.also(::recordar)
+        conClimas(filas.map { f -> filaAPost(f.jsonObject, uid, mios) }.filter { it.autorId !in silenciados }, uid).also(::recordar)
     }
 
     /** Publicaciones públicas con un filtro extra de PostgREST (etiqueta o eje), para sus páginas. */
@@ -465,6 +468,51 @@ class SocialRepository(
     }
 
     // ------------------------------------------------------------------ Interacción
+
+    /** Climas guardados en este teléfono (sin cuenta o en publicaciones de ejemplo): id → clima. */
+    private fun climasLocales(): Map<String, String> = prefs.getString("climas", "").orEmpty().split(";")
+        .mapNotNull { it.split("=").takeIf { p -> p.size == 2 }?.let { p -> p[0] to p[1] } }.toMap()
+
+    /** Conteos de ejemplo estables por publicación (los mismos que la web). */
+    private fun climasDemo(id: String): MutableMap<String, Int> {
+        var h = 0L; id.forEach { h = (h * 31 + it.code) and 0xFFFFFFFFL }
+        return com.rutaalacima.app.ui.components.ClimaIconos.REACCIONES.withIndex()
+            .associate { (i, k) -> k to ((h shr (i * 3)) % (if (i == 0 || i == 4) 9 else 5)).toInt() }.toMutableMap()
+    }
+
+    /** Agrega los climas de la comunidad (tabla post_climas) y el mío a cada publicación. */
+    private suspend fun conClimas(posts: List<Post>, uid: String?): List<Post> {
+        val locales = climasLocales()
+        val base = posts.map { p ->
+            if (uid != null && !p.demo) p.copy(climas = emptyMap(), miClima = null)
+            else { val m = climasDemo(p.id); val mio = locales[p.id]; if (mio != null) m[mio] = (m[mio] ?: 0) + 1; p.copy(climas = m, miClima = mio) }
+        }
+        val ids = base.filter { !it.demo && it.id.matches(Regex("[0-9a-fA-F-]{36}")) }.map { it.id }
+        if (uid == null || ids.isEmpty()) return base
+        val filas = runCatching { supa.select("post_climas", "select=post_id,user_id,clima&post_id=in.(${ids.joinToString(",")})").jsonArray }.getOrNull() ?: return base
+        val cuenta = HashMap<String, MutableMap<String, Int>>(); val mios = HashMap<String, String>()
+        filas.forEach { f ->
+            val o = f.jsonObject
+            val pid = o["post_id"]?.jsonPrimitive?.contentOrNull ?: return@forEach
+            val c = o["clima"]?.jsonPrimitive?.contentOrNull ?: return@forEach
+            cuenta.getOrPut(pid) { HashMap() }.merge(c, 1) { a, b -> a + b }
+            if (o["user_id"]?.jsonPrimitive?.contentOrNull == uid) mios[pid] = c
+        }
+        return base.map { p -> if (p.demo) p else p.copy(climas = cuenta[p.id].orEmpty(), miClima = mios[p.id]) }
+    }
+
+    /** Deja, cambia o quita (null) mi clima en una publicación. */
+    suspend fun reaccionarClima(post: Post, clima: String?) = withContext(Dispatchers.IO) {
+        if (enLinea && !post.demo) {
+            val uid = supa.sesion.value!!.userId
+            if (clima == null) supa.delete("post_climas", "post_id=eq.${post.id}&user_id=eq.$uid")
+            else supa.upsert("post_climas", buildJsonObject { put("post_id", post.id); put("user_id", uid); put("clima", clima) })
+        } else {
+            val m = climasLocales().toMutableMap()
+            if (clima == null) m.remove(post.id) else m[post.id] = clima
+            prefs.edit().putString("climas", m.entries.joinToString(";") { "${it.key}=${it.value}" }).apply()
+        }
+    }
 
     /** Da o quita un "impulso" (el voto de SuRoute). */
     suspend fun impulsar(post: Post) = withContext(Dispatchers.IO) {

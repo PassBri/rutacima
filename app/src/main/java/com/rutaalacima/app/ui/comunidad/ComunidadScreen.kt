@@ -232,6 +232,16 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
         viewModelScope.launch { runCatching { c.social.bloquear(p) } }
     }
 
+    /** Clima optimista: el anillo cambia al instante y luego se guarda. */
+    fun clima(p: Post, k: String?) {
+        val m = p.climas.toMutableMap()
+        p.miClima?.let { m[it] = ((m[it] ?: 0) - 1).coerceAtLeast(0) }
+        k?.let { m[it] = (m[it] ?: 0) + 1 }
+        posts = posts.map { if (it.id == p.id) it.copy(climas = m, miClima = k) else it }
+        c.social.recordar(posts)
+        viewModelScope.launch { runCatching { c.social.reaccionarClima(p, k) } }
+    }
+
     /** Impulso optimista: se ve al instante y luego se confirma con el servidor. */
     fun impulsar(p: Post) {
         posts = posts.map { if (it.id == p.id) it.copy(yoImpulse = !p.yoImpulse, impulsos = p.impulsos + if (p.yoImpulse) -1 else 1) else it }
@@ -297,6 +307,7 @@ fun ComunidadScreen(
                             posts = vm.posts, estado = pager,
                             onImpulsar = { vm.impulsar(it) },
                             onAbrir = { comentandoEn = it; vm.cargarComentarios(it) },
+                            onClima = { p, k -> vm.clima(p, k) },
                             modifier = Modifier.fillMaxSize(),
                             guardados = vm.guardados, onGuardar = { vm.alternarGuardado(it) },
                             onAutor = { onAutor(it.autorId, it.autorNombre) },

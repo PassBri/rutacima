@@ -2273,4 +2273,10 @@
     <string name="bi_c_7">Sonno</string>
     <string name="bi_c_8">Io stesso</string>
     <string name="bi_c_9">Altro</string>
+    <string name="cl_titulo">Che clima ti lascia?</string>
+    <string name="cl_r_sol">Mi illumina</string>
+    <string name="cl_r_tormenta">Mi scuote</string>
+    <string name="cl_r_niebla">Mi ci ritrovo</string>
+    <string name="cl_r_valle">Mi calma</string>
+    <string name="cl_r_cumbre">Mi spinge a salire</string>
 </resources>

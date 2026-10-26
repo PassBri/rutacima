@@ -2273,4 +2273,10 @@
     <string name="bi_c_7">Sommeil</string>
     <string name="bi_c_8">Moi-même</string>
     <string name="bi_c_9">Autre</string>
+    <string name="cl_titulo">Quelle météo ça te laisse ?</string>
+    <string name="cl_r_sol">M\'illumine</string>
+    <string name="cl_r_tormenta">Me secoue</string>
+    <string name="cl_r_niebla">Je m\'identifie</string>
+    <string name="cl_r_valle">M\'apaise</string>
+    <string name="cl_r_cumbre">Me pousse à grimper</string>
 </resources>

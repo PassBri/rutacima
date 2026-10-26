@@ -87,7 +87,7 @@ DET["bienestar.hoy"] = () => {
   return cab(av(ic("bienestar"), "var(--ok)"), "Tu clima de hoy", "Bienestar · inteligencia emocional", "") + cuerpo(
     hoja(`<h3 style="margin:0 0 4px">¿Cómo está tu clima interior?</h3><p class="suave" style="margin:0 0 12px">Elige según tu energía y si lo que sientes es agradable o no. No hay climas buenos ni malos: todos dicen algo.</p>
       <div class="bien-medidor">${Object.entries(CLIMAS).map(([k, c]) => `<button type="button" class="bien-clima${b.clima === k ? " si" : ""}" style="--c:${c.c}" data-acc="bienClima" data-arg="${k}" aria-pressed="${b.clima === k}">
-        <span class="bc-ic">${ic({ sol: "cielo360", tormenta: "reportar", niebla: "cima", valle: "hoy" }[k])}</span><b>${c.n}</b><small>${c.d}</small></button>`).join("")}</div>`) +
+        <span class="bc-ic">${window.climaSvg ? climaSvg(k) : ""}</span><b>${c.n}</b><small>${c.d}</small></button>`).join("")}</div>`) +
     (cl ? hoja(`<h3 style="margin:0 0 4px">Ponle nombre</h3><p class="suave" style="margin:0 0 10px">Nombrar con precisión lo que sientes es el primer paso para manejarlo.</p>
       <div class="bien-chips">${cl.e.map(e => `<button type="button" class="chip${b.emo === e ? " si" : ""}" style="--c:${cl.c}" data-acc="bienEmo" data-arg="${e}" aria-pressed="${b.emo === e}">${e}</button>`).join("")}</div>
       <div class="campo" style="margin-top:14px"><span>¿Qué tan fuerte? ${b.int ? `<b>${b.int} de 5</b>` : ""}</span><div class="bien-int" role="group" aria-label="Intensidad">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${(b.int || 0) >= n ? "si" : ""}" style="--c:${cl.c}" data-acc="bienInt" data-arg="${n}" aria-label="Intensidad ${n} de 5">${n}</button>`).join("")}</div></div>

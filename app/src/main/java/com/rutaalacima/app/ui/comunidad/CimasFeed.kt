@@ -97,6 +97,8 @@ fun CimasFeed(
     onMas: (Post) -> Unit = {},
     /** Al final del feed: una página que cierra ("Ya viste lo nuevo") y lleva a dar el paso de hoy. */
     onFin: (() -> Unit)? = null,
+    /** "¿Qué clima te deja?": deja, cambia o quita (null) el clima. */
+    onClima: (Post, String?) -> Unit = { _, _ -> },
 ) {
     VerticalPager(
         state = estado,
@@ -116,6 +118,7 @@ fun CimasFeed(
             onGuardar = { onGuardar(posts[i]) },
             onAutor = { onAutor(posts[i]) },
             onMas = { onMas(posts[i]) },
+            onClima = { k -> onClima(posts[i], k) },
         )
     }
 }
@@ -138,6 +141,7 @@ private fun FinDelFeed(onHoy: () -> Unit) {
 private fun CimaPagina(
     post: Post, primera: Boolean, guardado: Boolean, activo: Boolean = true,
     onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit, onMas: () -> Unit,
+    onClima: (String?) -> Unit = {},
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -210,6 +214,8 @@ private fun CimaPagina(
                 Spacer(Modifier.height(1.dp))
                 Text(contar(post.impulsos), color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
             }
+            // ¿Qué clima te deja? El anillo de cielo con el clima que más dejó la comunidad
+            com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima)
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
                 if (guardado) com.rutaalacima.app.ui.components.AzulAltura else Color.White, onGuardar)

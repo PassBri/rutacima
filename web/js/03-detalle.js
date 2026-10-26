@@ -671,6 +671,7 @@ async function cargarFeed(mas = false) {
       estado.feed = estado.feedFiltro === "VISION" ? todos.filter(p => p.tipo === "VISION") : estado.feedFiltro === "SIGUIENDO" ? misPostsDemo : todos;
       if (estado.feedFiltro === "PARA_TI" && window.ordenarParaTi) estado.feed = await ordenarParaTi(estado.feed);
       estado.feedMas = false;
+      if (window.cargarClimas) await cargarClimas(estado.feed);
     } else {
       const sb = Store.nube.sb, yo = Store.nube.dueno, desde = mas ? estado.feedN || 0 : 0;
       let q = sb.from("posts").select("*,autor:profiles!posts_user_id_fkey(username,nombre,avatar_url),impulsos:votes(count),comentarios:comments(count)").order("created_at", { ascending: false }).range(desde, desde + PAGINA_FEED - 1);
@@ -697,6 +698,7 @@ async function cargarFeed(mas = false) {
         impulsos: p.impulsos?.[0]?.count || 0, comentarios: p.comentarios?.[0]?.count || 0, yoImpulse: mios.has(p.id),
         brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo, media: Array.isArray(p.media) ? p.media : [],
       })).filter(p => !previos.some(x => x.id === p.id));
+      if (window.cargarClimas) await cargarClimas(nuevos);
       // "Para ti" ordena cada página (lo ya visto no se mueve); los demás van por fecha
       estado.feed = previos.concat(estado.feedFiltro === "PARA_TI" && window.ordenarParaTi ? await ordenarParaTi(nuevos) : nuevos);
     }
@@ -762,6 +764,7 @@ Object.assign(DET, {
           <div class="cima-acciones">
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
             <button class="cima-impulso${estado.recienImpulso === p.id ? " recien" : ""}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${IMPULSO_SVG}<b>${num(p.impulsos)}</b></button>
+            ${globalThis.botonClima ? botonClima(p) : ""}
             <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
             ${globalThis.botonMochila ? botonMochila(p) : ""}
             <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
@@ -784,7 +787,7 @@ Object.assign(DET, {
         ${p.brujula && window.leerBrujula?.(p.brujula) ? brujulaMuro(p)
           : `<button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}
         ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}`}
-        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>
+        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>${globalThis.botonClima ? botonClima(p, true) : ""}
           <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button>${globalThis.botonMochila ? botonMochila(p).replace("<button ", '<button class="btn mochila-btn" ') : ""}</div></article>`).join("") : vacioFeed),
       "max-width:600px");
   },

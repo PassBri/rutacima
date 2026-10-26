@@ -2273,4 +2273,10 @@
     <string name="bi_c_7">睡眠</string>
     <string name="bi_c_8">自分自身</string>
     <string name="bi_c_9">その他</string>
+    <string name="cl_titulo">どんな天気が残った？</string>
+    <string name="cl_r_sol">明るくなる</string>
+    <string name="cl_r_tormenta">揺さぶられる</string>
+    <string name="cl_r_niebla">共感する</string>
+    <string name="cl_r_valle">落ち着く</string>
+    <string name="cl_r_cumbre">登る力になる</string>
 </resources>
