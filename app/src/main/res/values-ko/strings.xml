@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">나의 이미지</string>
     <string name="md81_ver_texto">텍스트</string>
     <string name="md81_ver_imagenes">이미지</string>
+    <string name="vision_girar_todas">모든 카드 뒤집기</string>
 </resources>

@@ -472,7 +472,12 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 }
                 item(key = "rosa", span = { GridItemSpan(2) }) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        CabeceraSeccionVision(stringResource(R.string.vision_seccion_rosa)) { abrirNiveles(1) }
+                        val idsRosa = (listOfNotNull(cumbre) + campamentos.filterNotNull()).map { it.casilla.id }
+                        val todasAtras = idsRosa.isNotEmpty() && idsRosa.all { vm.modo.muestraDorso xor (it in giradas) }
+                        CabeceraSeccionVision(stringResource(R.string.vision_seccion_rosa), girada = todasAtras, onGirar = {
+                            val atras = !todasAtras
+                            giradas = giradas.filterNot { it in idsRosa } + if (atras != vm.modo.muestraDorso) idsRosa else emptyList()
+                        }) { abrirNiveles(1) }
                         RosaVision(cumbre, campamentos, onCrear = vm::crearCampamento) { cv, indice, rumbo, modificador ->
                             pintarTarjeta(cv, true, false, modificador, indice + 1, rumbo,
                                 rumbo?.let { _ -> {

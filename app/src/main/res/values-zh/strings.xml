@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">你的图片</string>
     <string name="md81_ver_texto">文字</string>
     <string name="md81_ver_imagenes">图片</string>
+    <string name="vision_girar_todas">翻转所有卡片</string>
 </resources>

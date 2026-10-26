@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">आपकी तस्वीरें</string>
     <string name="md81_ver_texto">पाठ</string>
     <string name="md81_ver_imagenes">तस्वीरें</string>
+    <string name="vision_girar_todas">सभी कार्ड पलटें</string>
 </resources>

@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">あなたの画像</string>
     <string name="md81_ver_texto">テキスト</string>
     <string name="md81_ver_imagenes">画像</string>
+    <string name="vision_girar_todas">すべてのカードを裏返す</string>
 </resources>

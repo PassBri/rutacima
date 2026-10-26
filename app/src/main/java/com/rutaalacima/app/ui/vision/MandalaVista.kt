@@ -218,23 +218,18 @@ fun MandalaSeccion(
     val pr = datos.progreso
     val nieblas = remember(datos, LocalDate.now()) { datos.enNiebla }
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        CabeceraSeccionVision(stringResource(R.string.brujula_titulo), onVerGrande)
+        // El 9×9 gira completo: adelante el texto limpio, detrás las imágenes (igual que la web)
+        var girada81 by rememberSaveable { mutableStateOf(false) }
+        CabeceraSeccionVision(stringResource(R.string.brujula_titulo),
+            onGirar = if (!modoEdicion && bloqueAbierto == null) ({ girada81 = !girada81 }) else null, girada = girada81, onGrande = onVerGrande)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
         if (modoEdicion) Cuadricula(datos, bloqueAbierto ?: 4, modoTexto = modoTexto,
             modoEdicion = true, tonal = false, onPaso = onPaso, onBloque = { onBloque(it) })
         else if (bloqueAbierto == null) {
             // La tarjeta del 9×9 gira completa: adelante el texto limpio, detrás las imágenes (igual que la web)
-            var girada by rememberSaveable { mutableStateOf(false) }
+            val girada = girada81
             val giro by androidx.compose.animation.core.animateFloatAsState(if (girada) 180f else 0f,
                 androidx.compose.animation.core.tween(750, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "giro81")
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(stringResource(if (girada) R.string.md81_imagenes else R.string.md81_texto), style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-                androidx.compose.material3.FilledTonalButton(onClick = { girada = !girada }) {
-                    Icon(Icons.Filled.Autorenew, null, Modifier.size(18.dp).graphicsLayer { rotationZ = giro })
-                    Spacer(Modifier.width(6.dp)); Text(stringResource(if (girada) R.string.md81_ver_texto else R.string.md81_ver_imagenes))
-                }
-            }
             val dens = androidx.compose.ui.platform.LocalDensity.current.density
             Box(Modifier.graphicsLayer { rotationY = giro; cameraDistance = 18f * dens }) {
                 if (giro <= 90f) Cuadricula(datos, 4, modoTexto = true, modoEdicion = false, tonal = false, onPaso = onPaso, onBloque = { onBloque(it) })

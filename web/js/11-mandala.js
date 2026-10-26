@@ -365,8 +365,8 @@ function mandalaHtml(tableroHtml = "") {
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
     <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
-  const cabSec = (id, n, t, sub) => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
-    <button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div>`;
+  const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><span class="md-sec-n">${n}</span><div><h3>${t}</h3><p class="suave">${sub}</p></div>
+    ${extra}<button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div>`;
   const s1 = hoja((estado.brujulaAnio ? cabSec("md-s1", "1", `Mi cumbre de ${estado.brujulaAnio}`, "Lo más grande de este año. Todo lo de abajo la sostiene.") : cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.")) +
     (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
     mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
@@ -380,7 +380,8 @@ function mandalaHtml(tableroHtml = "") {
     return c ? casillaVisionHtml(c, d, false, { compacta: true, fija: true, sobre: pasos })
       : `<button class="tarjeta-libre" style="--c:${d.color(cel.camp)}" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")}<small>${Mandala.RUMBOS[cel.camp]}</small><b>${esc(Mandala.nombre(cod))}</b></button>`;
   }).join("");
-  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.") +
+  const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.",
+    `<button class="md-visor-ic md-girar-todas" data-acc="girarTodasVision" aria-label="Girar todas las tarjetas" title="Girar todas las tarjetas">${ic("girar")}</button>`) +
     `<div class="tablero-9">${rosa}</div>` + (tableroHtml || ""));
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
       <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
@@ -392,10 +393,11 @@ function mandalaHtml(tableroHtml = "") {
     ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
     ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
-  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.") +
+  const s81 = hoja(cabSec("md-s81", "81", "Brújula 9×9", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.",
+    !estado.md81 && estado.modoTarjetas !== "edicion" ? `<button class="md-visor-ic md-girar-todas" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Girar al texto" : "Girar a las imágenes"}" title="Girar la tarjeta">${ic("girar")}</button>` : "") +
     (estado.md81 ? editorBloque : (estado.modoTarjetas === "edicion" ? `<div class="md-grilla-caja"><div class="md-grilla">${grilla}</div>${svg}</div>`
       /* La tarjeta del 9×9 gira completa: adelante el texto limpio, detrás las imágenes (fotos de visión y de evidencia) */
-      : `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-barra"><span>${estado.md81Girada ? "Tus imágenes" : "Tus pasos en texto"}</span><button class="md-flip-btn" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Ver el texto" : "Ver las imágenes"}">${ic("girar")}<span>${estado.md81Girada ? "Texto" : "Imágenes"}</span></button></div><div class="md-flip-in">
+      : `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-in">
           <div class="md-cara cara-texto" aria-hidden="${!!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div>
           <div class="md-cara cara-imagen" aria-hidden="${!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div></div>
 </div>`) + `
@@ -964,12 +966,24 @@ window.visionVida = visionVida;
 /* Girar la tarjeta del 9×9 sin redibujar (la animación se ve completa) */
 ACC.md81Girar = el => {
   estado.md81Girada = !estado.md81Girada;
-  const caja = el.closest(".md-flip"); if (!caja) return pintarDetalle();
+  const caja = document.querySelector("#md-s81 ~ .md-flip"); if (!caja) return pintarDetalle();
   caja.classList.toggle("girada", estado.md81Girada);
   caja.querySelector(".cara-texto")?.setAttribute("aria-hidden", String(estado.md81Girada));
   caja.querySelector(".cara-imagen")?.setAttribute("aria-hidden", String(!estado.md81Girada));
   el.setAttribute("aria-pressed", String(estado.md81Girada));
   el.setAttribute("aria-label", estado.md81Girada ? "Ver el texto" : "Ver las imágenes");
-  el.querySelector("span").textContent = estado.md81Girada ? "Texto" : "Imágenes";
-  const t = caja.querySelector(".md-flip-barra > span"); if (t) t.textContent = estado.md81Girada ? "Tus imágenes" : "Tus pasos en texto";
+  el.setAttribute("aria-label", estado.md81Girada ? "Girar al texto" : "Girar a las imágenes");
+};
+
+/* Vision board: el ícono de girar de arriba gira todas las tarjetas, en cascada (una tras otra) */
+ACC.girarTodasVision = el => {
+  const ts = [...document.querySelectorAll("#md-s9 ~ .tablero-9 .casilla-v.giro")]; if (!ts.length) return;
+  const atras = ts.some(t => !t.classList.contains("girada"));
+  ts.forEach((t, i) => {
+    const k = t.dataset.casilla, enModo = estado.modoTarjetas !== "imagen";
+    if (k) { if (atras !== enModo) estado.giradas.add(k); else estado.giradas.delete(k); }
+    const giro = t.querySelector(".giro-in") || t; giro.style.setProperty("--retraso", pocoMovimiento() ? "0ms" : `${Math.min(i, 10) * 45}ms`);
+    ladoTarjeta(t, atras);
+  });
+  el.setAttribute("aria-pressed", String(atras));
 };

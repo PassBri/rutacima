@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">Твои изображения</string>
     <string name="md81_ver_texto">Текст</string>
     <string name="md81_ver_imagenes">Изображения</string>
+    <string name="vision_girar_todas">Перевернуть все карточки</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.material.icons.filled.Autorenew
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -60,9 +62,16 @@ import com.rutaalacima.app.data.local.VisionCasillaEntity
 import com.rutaalacima.app.domain.model.Mandala
 
 @Composable
-internal fun CabeceraSeccionVision(titulo: String, onGrande: () -> Unit) {
+internal fun CabeceraSeccionVision(titulo: String, onGirar: (() -> Unit)? = null, girada: Boolean = false, onGrande: () -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Text(titulo, Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+        // Girar: gira todas las tarjetas de la sección a la vez (igual que la web)
+        if (onGirar != null) {
+            val giro by androidx.compose.animation.core.animateFloatAsState(if (girada) 180f else 0f, androidx.compose.animation.core.tween(600), label = "girarTodas")
+            IconButton(onClick = onGirar) {
+                Icon(Icons.Filled.Autorenew, stringResource(R.string.vision_girar_todas), Modifier.graphicsLayer { rotationZ = giro })
+            }
+        }
         IconButton(onClick = onGrande) {
             Icon(Icons.Filled.OpenInFull, stringResource(R.string.brujula_ver_nivel, titulo))
         }

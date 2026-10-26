@@ -2321,4 +2321,5 @@
     <string name="md81_imagenes">Tes images</string>
     <string name="md81_ver_texto">Texte</string>
     <string name="md81_ver_imagenes">Images</string>
+    <string name="vision_girar_todas">Retourner toutes les cartes</string>
 </resources>

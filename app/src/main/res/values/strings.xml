@@ -2323,4 +2323,5 @@
     <string name="md81_imagenes">Tus imágenes</string>
     <string name="md81_ver_texto">Texto</string>
     <string name="md81_ver_imagenes">Imágenes</string>
+    <string name="vision_girar_todas">Girar todas las tarjetas</string>
 </resources>

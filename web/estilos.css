@@ -3413,3 +3413,6 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .md-flip-btn svg { width: 18px; height: 18px; fill: currentColor; transition: transform .5s cubic-bezier(.2, 0, 0, 1); }
 .md-flip.girada .md-flip-btn svg { transform: rotate(180deg); }
 @media (prefers-reduced-motion: reduce) { .md-flip-in { transition: opacity .2s; } }
+.md-girar-todas svg { transition: transform .6s cubic-bezier(.2, 0, 0, 1); }
+.md-girar-todas[aria-pressed="true"] svg { transform: rotate(180deg); }
+.md-sec-cab .md-girar-todas { margin-right: 6px; }
