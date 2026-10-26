@@ -45,10 +45,36 @@ function deudasDatos() {
   catch { return { metodo: "avalancha", extra: 0, lista: [] }; }
 }
 const guardarDeudas = d => responder(ASC.WB, "fin#deudas", d.lista.length || d.extra ? JSON.stringify(d) : "");
-/** Lo pagado a una deuda: los movimientos del libro que la nombran (d). */
-function pagadoDe(id) { let s = 0; diasConMovs().forEach(f => movsGuardados(f).forEach(x => { if (x.d === id) s += Number(x.m) || 0; })); return s; }
-const saldoHoy = x => Math.max(0, (Number(x.saldo) || 0) - pagadoDe(x.id));
-function deudasHoy() { return deudasDatos().lista.map(x => ({ ...x, pagado: pagadoDe(x.id), actual: saldoHoy(x) })); }
+/* ---------- Pagos de cada deuda ----------
+ * Un movimiento del libro paga una deuda cuando la nombra (d): los anotados con «Pagar», los que la persona
+ * marca en el día o en «Tus pagos de deudas» y los fijos marcados (cada mes). El saldo de una deuda es el de
+ * la fecha en que se anotó o se corrigió (desde): solo los pagos posteriores lo bajan, así los pagos viejos que
+ * ya estaban descontados en el extracto no se restan dos veces. Su cuota, si no se escribió, es lo que se le
+ * pagó el último mes con pagos anotados. */
+function pagosDeDeudas() {
+  const hoyI = iso(hoyFecha()), r = [];
+  diasConMovs().forEach(f => { if (f <= hoyI) movsDe(f).forEach(x => { if (x.t === "gas" && !x.prog) r.push([f, x]); }); });
+  return r;
+}
+const tsMov = x => Number(String(x.id || "").replace(/\D/g, "")) || 0;
+const cuentaParaSaldo = (deuda, f, x) => !deuda.desde || f > deuda.desde || (f === deuda.desde && tsMov(x) > (Number(deuda.desdeT) || 0));
+function pagadoDe(id, pagos = pagosDeDeudas()) {
+  const deuda = deudasDatos().lista.find(y => y.id === id) || {};
+  return pagos.reduce((s, [f, x]) => s + (x.d === id && cuentaParaSaldo(deuda, f, x) ? Number(x.m) || 0 : 0), 0);
+}
+function cuotaVinculada(id, pagos = pagosDeDeudas()) {
+  const porMes = {}; pagos.forEach(([f, x]) => { if (x.d === id) porMes[f.slice(0, 7)] = (porMes[f.slice(0, 7)] || 0) + (Number(x.m) || 0); });
+  const ult = Object.keys(porMes).sort().at(-1); return ult ? porMes[ult] : 0;
+}
+const saldoHoy = (x, pagos) => Math.max(0, (Number(x.saldo) || 0) - pagadoDe(x.id, pagos));
+function deudasHoy() {
+  const pagos = pagosDeDeudas();
+  return deudasDatos().lista.map(x => { const propio = Number(x.minimo) || 0, cuota = propio ? 0 : cuotaVinculada(x.id, pagos);
+    return { ...x, minimoPropio: propio, minimo: propio || cuota, cuotaAuto: !propio && cuota > 0, pagado: pagadoDe(x.id, pagos), actual: saldoHoy(x, pagos),
+      nPagos: pagos.filter(([, y]) => y.d === x.id).length }; });
+}
+/** El saldo de hoy pasa a ser el punto de partida: los pagos de antes ya no lo vuelven a bajar. */
+function fijarSaldo(x, v = saldoHoy(x)) { x.saldo = Math.max(0, v); x.desde = iso(hoyFecha()); x.desdeT = nuevoId(); }
 
 /**
  * El plan mes a mes: cada deuda suma su interés, se pagan los mínimos y todo lo que sobra (el extra y
@@ -378,7 +404,7 @@ Object.assign(ACC, {
   /** El saldo de hoy es lo que se debía menos lo pagado: al cambiarlo se ajusta lo que se debía. */
   pasivoCampo(el, arg) {
     const [id, k] = arg.split("|"), d = deudasDatos(), x = d.lista.find(y => y.id === id); if (!x) return;
-    if (k === "valor") { const v = Math.abs(montoFin(el.value)); x.saldo = v + pagadoDe(id); }
+    if (k === "valor") fijarSaldo(x, Math.abs(montoFin(el.value)));
     else if (k === "nombre") { if (!el.value.trim()) { pintarDetalle(); return; } x.nombre = el.value.trim().slice(0, 60); }
     else x.tipo = el.value === "buena" ? "buena" : "mala";
     guardarDeudas(d);
@@ -393,7 +419,7 @@ window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   },
   pasivoNuevo(form, datos, texto0) {
     const [texto, saldo] = nombreYValor(texto0, datos.get("valor"), "pasivo"); if (!texto || !saldo) return;
-    const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: 0, minimo: 0, tipo: datos.get("tipo") === "buena" ? "buena" : "mala" });
+    const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: 0, minimo: 0, tipo: datos.get("tipo") === "buena" ? "buena" : "mala", desde: iso(hoyFecha()), desdeT: nuevoId() });
     guardarDeudas(d); form.reset(); toast("Pasivo agregado: completa su tasa y cuota en Salir de deudas"); pintarDetalle();
     setTimeout(() => document.querySelector('[data-form="pasivoNuevo"] [name="texto"]')?.focus(), 50);
   },
@@ -612,14 +638,14 @@ DET["finanzas.deudas"] = () => {
           const impacto = !sola || !fin ? "" : sola.meses == null ? `Con solo su mínimo nunca la terminarías: con tu plan sí.`
             : mesesAntes > 0 ? `<b>${duracion(mesesAntes)} antes</b> y <b>${plata(Math.round(ahorroInt))}</b> menos en intereses que pagando solo su mínimo.` : `Pagando su mínimo termina en ${duracion(sola.meses)}.`;
           return `<article class="deuda-t${x.actual <= 0 ? " pagada" : ""}">
-            <header>${i >= 0 ? `<span class="orden">${i + 1}</span>` : `<span class="orden ok">${ic("check")}</span>`}<div class="dt-nombre"><b>${esc(x.nombre)}</b>${x.tipo === "buena" ? `<small>Buena · produce</small>` : ""}</div>
+            <header>${i >= 0 ? `<span class="orden">${i + 1}</span>` : `<span class="orden ok">${ic("check")}</span>`}<div class="dt-nombre"><b>${esc(x.nombre)}</b>${[x.tipo === "buena" ? "Buena · produce" : "", x.nPagos ? `${x.nPagos} ${x.nPagos === 1 ? "pago anotado" : "pagos anotados"}` : ""].filter(Boolean).map(t => `<small>${t}</small>`).join("")}</div>
               <div class="dt-saldo"><span>Debes hoy</span><b>${plata(x.actual)}</b></div></header>
             <div class="barra-deuda" title="Pagado ${plata(x.pagado)}"><i style="width:${x.saldo ? Math.min(100, x.pagado / x.saldo * 100) : 100}%"></i></div>
-            ${x.actual > 0 ? `<div class="dt-plan"><div><span>Pagas al mes</span><b>${plata(Math.round(pagoMes))}</b>${extraMes > 0.5 ? `<small>mínimo ${plata(Number(x.minimo) || 0)} + ${plata(Math.round(extraMes))} extra</small>` : `<small>su mínimo</small>`}</div>
+            ${x.actual > 0 ? `<div class="dt-plan"><div><span>Pagas al mes</span><b>${plata(Math.round(pagoMes))}</b>${extraMes > 0.5 ? `<small>mínimo ${plata(Number(x.minimo) || 0)} + ${plata(Math.round(extraMes))} extra</small>` : `<small>${x.cuotaAuto ? "su cuota (de tus pagos anotados)" : "su mínimo"}</small>`}</div>
               <div><span>La eliminas en</span><b>${fin ? fechaFin(fin) : "Sin fecha"}</b>${fin ? `<span class="linea-tiempo"><i style="width:${Math.max(4, ancho)}%"></i></span>` : ""}</div></div>
               ${impacto ? `<p class="dt-impacto">${ic("grafica")}<span>${impacto}</span></p>` : ""}` : `<p class="dt-impacto">${ic("check")}<span>Pagada. Su cuota ya trabaja para las demás.</span></p>`}
             <div class="dt-campos"><label><span>Interés anual</span><span class="dt-input"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.tasa) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|tasa" aria-label="Interés anual de ${esc(x.nombre)}"> %</span></label>
-              <label><span>Pago mínimo</span><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.minimo) || 0))}" data-acc-change="deudaCampo" data-arg="${x.id}|minimo" aria-label="Pago mínimo de ${esc(x.nombre)}"></label>
+              <label><span>Pago mínimo</span><input class="num" inputmode="decimal" value="${x.minimoPropio ? esc(numAsc(x.minimoPropio)) : ""}" placeholder="${x.cuotaAuto ? esc(numAsc(x.minimo)) : "0"}" data-acc-change="deudaCampo" data-arg="${x.id}|minimo" aria-label="Pago mínimo de ${esc(x.nombre)}"></label>
               <div class="dt-acciones">${d.metodo === "propio" ? `<button class="rb" data-acc="deudaMover" data-arg="${x.id}|-1" ${k ? "" : "disabled"} aria-label="Subir ${esc(x.nombre)}">${ic("arriba")}</button><button class="rb" data-acc="deudaMover" data-arg="${x.id}|1" ${k < lista.length - 1 ? "" : "disabled"} aria-label="Bajar ${esc(x.nombre)}">${ic("abajo")}</button>` : ""}<button class="rb" data-acc="deudaQuitar" data-arg="${x.id}" aria-label="Quitar ${esc(x.nombre)}">${ic("borrar")}</button>${x.actual > 0 ? `<button class="btn lleno" data-acc="deudaPagar" data-arg="${x.id}">Pagar</button>` : ""}</div></div>
           </article>`; }).join("")}</div>` : `<p class="suave">Anota cada deuda con lo que debes hoy, su interés anual y su pago mínimo. El plan se arma solo.</p>`}
       <form class="asc-nuevo" data-form="deudaNueva" style="margin-top:14px"><div class="asc-fila-nueva deuda-nueva">
@@ -629,11 +655,69 @@ DET["finanzas.deudas"] = () => {
         <label class="campo"><span>Pago mínimo</span><input name="minimo" inputmode="decimal" placeholder="${plata(80000)}"></label>
         <label class="campo"><span>Tipo</span><select name="tipo"><option value="mala">Mala · solo cuesta</option><option value="buena">Buena · produce (negocio, estudio, vivienda)</option></select></label>
         <button class="btn lleno" type="submit">Agregar</button></div></form>`) +
+    (lista.length ? pagosDeudasHoja(lista) : "") +
     `<p class="suave" style="font-size:13px">Cada pago se anota en el libro de cuentas de hoy como gasto en "Pago de deudas" y baja el saldo. Lee más en la guía <button class="enlace" data-acc="aprendeFinanzas">Cargas financieras</button>.</p>`, "max-width:980px");
 };
 
+/* ---------- Tus pagos de deudas: identificar a qué deuda va cada cuota anotada en el libro ---------- */
+const normPago = t => String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+/** Los pagos agrupados: un fijo (todos sus meses) o un mismo concepto. Solo los de la categoría «Pago de deudas»
+ *  o los que ya nombran una deuda. */
+function gruposPagos() {
+  const g = new Map();
+  pagosDeDeudas().forEach(([f, x]) => {
+    if (x.c !== "deudas" && !x.d) return;
+    const k = x.fx ? "fx:" + x.fx : "n:" + normPago(x.n);
+    const e = g.get(k) || { k, nombre: x.n || "Pago de deudas", n: 0, ultimo: 0, fecha: "", ds: new Set(), fijo: !!x.fx };
+    e.n++; if (f >= e.fecha) { e.fecha = f; e.ultimo = Number(x.m) || 0; } e.ds.add(x.d || ""); g.set(k, e);
+  });
+  return [...g.values()].sort((a, b) => b.fecha.localeCompare(a.fecha));
+}
+/** La deuda que más se parece al concepto (solo si hay una sola que coincide). */
+function deudaSugerida(nombre, lista) {
+  const comunes = new Set(["libranza", "credito", "tarjeta", "banco", "pago", "cuota", "prestamo", "de", "del", "la", "el", "tc", "sa", "s.a."]);
+  const pal = t => normPago(t).split(/[^a-z0-9]+/).filter(w => w.length > 2 && !comunes.has(w));
+  const n = new Set(pal(nombre)), c = lista.filter(x => pal(x.nombre).some(w => n.has(w)));
+  return c.length === 1 ? c[0].id : "";
+}
+function pagosDeudasHoja(lista) {
+  const gs = gruposPagos(); if (!gs.length) return "";
+  const sin = gs.filter(e => e.ds.has("")).length;
+  return hoja(`<h3 style="margin:0 0 4px">Tus pagos de deudas</h3>
+    <p class="suave" style="margin:0 0 10px">Las cuotas que anotas en el libro (categoría «Pago de deudas»). Dile a cada una qué deuda paga: así su cuota entra al plan y los pagos de ahora en adelante bajan lo que debes.${sin ? ` <b>${sin} ${sin === 1 ? "sin identificar" : "sin identificar"}.</b>` : ""}</p>
+    <div class="asc-tabla"><table class="pagos-deudas"><thead><tr><th>Concepto</th><th class="num">Pagos</th><th class="num">Último</th><th>¿Qué deuda paga?</th></tr></thead><tbody>
+      ${gs.map(e => { const actual = e.ds.size === 1 ? [...e.ds][0] : "", sug = actual ? "" : deudaSugerida(e.nombre, lista);
+        return `<tr class="${actual ? "" : "sin-deuda"}"><th scope="row">${esc(e.nombre)}${e.fijo ? ` <span class="pildora">Cada mes</span>` : ""}</th><td class="num">${e.n}</td><td class="num">${plata(e.ultimo)}</td>
+          <td><select data-acc-change="deudaVincular" data-arg="${esc(e.k)}" aria-label="Deuda que paga ${esc(e.nombre)}"><option value="">${e.ds.size > 1 ? "Varias…" : "Sin identificar"}</option>${lista.map(x => `<option value="${x.id}" ${actual === x.id ? "selected" : ""}>${esc(x.nombre)}${sug === x.id ? " (sugerida)" : ""}</option>`).join("")}</select></td></tr>`; }).join("")}
+    </tbody></table></div>`);
+}
+/** Asigna una deuda a todos los pagos de un grupo (y al fijo, para los meses que vienen). */
+function vincularPagos(k, idDeuda) {
+  const d = deudasDatos(), deuda = d.lista.find(x => x.id === idDeuda);
+  if (deuda && !deuda.desde) { fijarSaldo(deuda); guardarDeudas(d); }      // lo que debe hoy queda como punto de partida
+  let n = 0;
+  if (k.startsWith("fx:")) {
+    const fx = k.slice(3), l = fijosDatos(), fijo = l.find(x => x.id === fx);
+    if (fijo) { if (idDeuda) fijo.d = idDeuda; else delete fijo.d; guardarFijos(l); }
+  }
+  diasConMovs(true).forEach(f => {
+    const xs = movsGuardados(f); let cambio = false;
+    xs.forEach(x => { const es = k.startsWith("fx:") ? x.fx === k.slice(3) : (x.c === "deudas" || x.d) && "n:" + normPago(x.n) === k;
+      if (es) { if (idDeuda) x.d = idDeuda; else delete x.d; cambio = true; n++; } });
+    if (cambio) guardarMovs(f, xs);
+  });
+  return n;
+}
+
 /* ---------- Acciones ---------- */
 Object.assign(ACC, {
+  deudaVincular(el, k) {
+    const id = el.value, nombre = deudasDatos().lista.find(x => x.id === id)?.nombre;
+    vincularPagos(k, id);
+    const c = id ? cuotaVinculada(id) : 0;
+    toast(id ? `Estos pagos van a ${nombre}${c ? `: su cuota al mes queda en ${plata(c)}` : ""}` : "Pagos sin deuda asignada");
+    pintarDetalle();
+  },
   deudaMetodo(_, m) { const d = deudasDatos(); d.metodo = m; guardarDeudas(d); },
   deudasCal(el) { setTimeout(() => { estado.deudasCal = el.closest("details")?.open; }, 0); },
   deudasTodo() { estado.deudasTodo = !estado.deudasTodo; estado.deudasCal = true; pintarDetalle(); },
@@ -712,7 +796,7 @@ window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   },
   deudaNueva(form, datos, texto) {
     const saldo = Math.abs(montoFin(datos.get("saldo"))); if (!texto || !saldo) { toast("Escribe el nombre y lo que debes"); return; }
-    const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: Math.abs(montoFin(datos.get("tasa"))), minimo: Math.abs(montoFin(datos.get("minimo"))), tipo: datos.get("tipo") === "buena" ? "buena" : "mala" });
+    const d = deudasDatos(); d.lista.push({ id: "d" + nuevoId(), nombre: texto.slice(0, 60), saldo, tasa: Math.abs(montoFin(datos.get("tasa"))), minimo: Math.abs(montoFin(datos.get("minimo"))), tipo: datos.get("tipo") === "buena" ? "buena" : "mala", desde: iso(hoyFecha()), desdeT: nuevoId() });
     guardarDeudas(d); form.reset(); toast("Deuda agregada al plan");
   },
 });

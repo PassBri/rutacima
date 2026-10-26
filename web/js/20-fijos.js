@@ -25,7 +25,7 @@ const activoEn = (x, ym) => ym >= x.desde && (!x.hasta || ym <= x.hasta) && !(x.
 window.fijosEn = f => {
   const ym = f.slice(0, 7), prog = f > iso(hoyFecha());
   return fijosDatos().filter(x => activoEn(x, ym) && fechaFijo(x, ym) === f)
-    .map(x => ({ id: "fx-" + x.id, t: x.t, m: Number(x.m), c: x.c, n: x.n || "", fx: x.id, virtual: true, ...(prog ? { prog: true } : {}) }));
+    .map(x => ({ id: "fx-" + x.id, t: x.t, m: Number(x.m), c: x.c, n: x.n || "", fx: x.id, virtual: true, ...(x.d ? { d: x.d } : {}), ...(prog ? { prog: true } : {}) }));
 };
 /** Las fechas en que aparece algún fijo: hasta hoy, o con [programados] hasta diciembre de este año. */
 window.fechasFijos = (programados = false) => {

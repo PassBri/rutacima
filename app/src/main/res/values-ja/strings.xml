@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">変更をやり直しました</string>
     <string name="cu_deshacer_ultimo">直前の変更を元に戻す</string>
     <string name="cu_rehacer">やり直す</string>
+    <string name="cu_pagos_deudas">借金の返済</string>
+    <string name="cu_pagos_deudas_ayuda">帳簿に記録した返済（「借金返済」カテゴリ）。それぞれがどの借金の返済かを選ぶと、返済額が計画に入り、これからの返済で残高が減ります。</string>
+    <string name="cu_pagos_n">%1$d件 · 最新 %2$s</string>
+    <string name="cu_sin_identificar">未設定</string>
+    <string name="cu_pagos_van">この返済は %1$s へ</string>
+    <string name="cu_su_cuota">返済額（記録した返済から）</string>
 </resources>

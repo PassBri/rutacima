@@ -17,7 +17,9 @@ object Deudas {
 
     @Serializable
     data class Deuda(val id: String, val nombre: String, val saldo: Double, val tasa: Double = 0.0, val minimo: Double = 0.0, val tipo: String = "mala",
-                     val r: List<Cuentas.Recibo> = emptyList())   // r: documentos (extracto, contrato)
+                     val r: List<Cuentas.Recibo> = emptyList(),   // r: documentos (extracto, contrato)
+                     /** El saldo es el de esta fecha (y hora): solo los pagos posteriores lo bajan. Vacío: cuentan todos. */
+                     val desde: String = "", val desdeT: Long = 0)
 
     @Serializable
     data class Datos(val metodo: String = "avalancha", val extra: Double = 0.0, val lista: List<Deuda> = emptyList())
@@ -26,12 +28,22 @@ object Deudas {
         .let { it.copy(metodo = if (it.metodo in METODOS) it.metodo else "avalancha") }
     fun escribir(d: Datos): String = if (d.lista.isEmpty() && d.extra == 0.0) "" else json.encodeToString(Datos.serializer(), d)
 
-    /** Una deuda con lo pagado (movimientos del libro que la nombran) y lo que se debe hoy. */
-    data class Hoy(val deuda: Deuda, val pagado: Double) { val actual get() = (deuda.saldo - pagado).coerceAtLeast(0.0) }
+    /** Una deuda con lo pagado (movimientos del libro que la nombran) y lo que se debe hoy. [deuda].minimo es su cuota:
+     *  la escrita o, si no hay, lo que se le pagó el último mes con pagos anotados ([cuotaAuto]). */
+    data class Hoy(val deuda: Deuda, val pagado: Double, val cuotaAuto: Boolean = false, val nPagos: Int = 0, val minimoPropio: Double = deuda.minimo) {
+        val actual get() = (deuda.saldo - pagado).coerceAtLeast(0.0)
+    }
+    private fun ts(id: String) = id.filter { it.isDigit() }.take(15).toLongOrNull() ?: 0L
 
-    fun hoy(d: Datos, movs: Collection<Cuentas.Mov>): List<Hoy> {
-        val pagos = movs.filter { it.d != null }.groupBy { it.d }.mapValues { e -> e.value.sumOf { it.m } }
-        return d.lista.map { Hoy(it, pagos[it.id] ?: 0.0) }
+    /** Igual que la web: un pago baja el saldo si es posterior a la fecha del saldo ([Deuda.desde]). */
+    fun hoy(d: Datos, dias: Map<String, List<Cuentas.Mov>>, hoy: String): List<Hoy> {
+        val pagos = dias.filterKeys { it <= hoy }.flatMap { (f, xs) -> xs.filter { it.d != null && !it.prog }.map { f to it } }
+        return d.lista.map { x ->
+            val mios = pagos.filter { it.second.d == x.id }
+            val pagado = mios.filter { (f, m) -> x.desde.isEmpty() || f > x.desde || (f == x.desde && ts(m.id) > x.desdeT) }.sumOf { it.second.m }
+            val cuota = if (x.minimo > 0) 0.0 else mios.groupBy { it.first.take(7) }.maxByOrNull { it.key }?.value?.sumOf { it.second.m } ?: 0.0
+            Hoy(if (x.minimo > 0) x else x.copy(minimo = cuota), pagado, x.minimo <= 0 && cuota > 0, mios.size, x.minimo)
+        }
     }
 
     /** [serie]: lo que se debe al empezar y al final de cada mes. */

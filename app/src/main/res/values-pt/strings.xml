@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Alteração refeita</string>
     <string name="cu_deshacer_ultimo">Desfazer a última alteração</string>
     <string name="cu_rehacer">Refazer</string>
+    <string name="cu_pagos_deudas">Seus pagamentos de dívidas</string>
+    <string name="cu_pagos_deudas_ayuda">As parcelas que você anota no livro (categoria «Pagamento de dívidas»). Diga a cada uma qual dívida paga: a parcela entra no plano e os pagamentos daqui em diante baixam o que você deve.</string>
+    <string name="cu_pagos_n">%1$d pagamentos · último %2$s</string>
+    <string name="cu_sin_identificar">Sem identificar</string>
+    <string name="cu_pagos_van">Estes pagamentos vão para %1$s</string>
+    <string name="cu_su_cuota">sua parcela (dos pagamentos anotados)</string>
 </resources>

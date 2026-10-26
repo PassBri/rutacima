@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">변경을 다시 실행했습니다</string>
     <string name="cu_deshacer_ultimo">마지막 변경 취소</string>
     <string name="cu_rehacer">다시 실행</string>
+    <string name="cu_pagos_deudas">부채 상환 내역</string>
+    <string name="cu_pagos_deudas_ayuda">장부에 기록한 상환금(‘부채 상환’ 카테고리). 각각 어떤 부채를 갚는지 지정하면 상환액이 계획에 들어가고 앞으로의 상환이 잔액을 줄입니다.</string>
+    <string name="cu_pagos_n">%1$d건 · 최근 %2$s</string>
+    <string name="cu_sin_identificar">미지정</string>
+    <string name="cu_pagos_van">이 상환은 %1$s 로</string>
+    <string name="cu_su_cuota">상환액(기록한 상환 기준)</string>
 </resources>

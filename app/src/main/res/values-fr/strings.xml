@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Modification rétablie</string>
     <string name="cu_deshacer_ultimo">Annuler la dernière modification</string>
     <string name="cu_rehacer">Rétablir</string>
+    <string name="cu_pagos_deudas">Vos paiements de dettes</string>
+    <string name="cu_pagos_deudas_ayuda">Les mensualités notées dans le livre (catégorie « Paiement de dettes »). Indiquez la dette que chacune paie : sa mensualité entre dans le plan et les paiements à venir baissent ce que vous devez.</string>
+    <string name="cu_pagos_n">%1$d paiements · dernier %2$s</string>
+    <string name="cu_sin_identificar">Non identifié</string>
+    <string name="cu_pagos_van">Ces paiements vont à %1$s</string>
+    <string name="cu_su_cuota">sa mensualité (selon vos paiements notés)</string>
 </resources>

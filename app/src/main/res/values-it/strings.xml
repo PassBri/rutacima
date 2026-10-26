@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Modifica ripristinata</string>
     <string name="cu_deshacer_ultimo">Annulla l\'ultima modifica</string>
     <string name="cu_rehacer">Ripeti</string>
+    <string name="cu_pagos_deudas">I tuoi pagamenti dei debiti</string>
+    <string name="cu_pagos_deudas_ayuda">Le rate che annoti nel libro (categoria «Pagamento debiti»). Indica quale debito paga ognuna: la rata entra nel piano e i pagamenti da ora in poi riducono ciò che devi.</string>
+    <string name="cu_pagos_n">%1$d pagamenti · ultimo %2$s</string>
+    <string name="cu_sin_identificar">Non identificato</string>
+    <string name="cu_pagos_van">Questi pagamenti vanno a %1$s</string>
+    <string name="cu_su_cuota">la sua rata (dai pagamenti annotati)</string>
 </resources>

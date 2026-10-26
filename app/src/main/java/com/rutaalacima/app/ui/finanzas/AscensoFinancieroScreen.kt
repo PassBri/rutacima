@@ -141,7 +141,7 @@ import java.util.Locale
 data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: String = Cuentas.moneda(null), val respuestas: Map<String, String> = emptyMap()) {
     val propias: Map<String, List<Cuentas.Propia>> by lazy { Cuentas.leerPropias(respuestas["fin#cats"]) }
     val deudasDatos: com.rutaalacima.app.domain.model.Deudas.Datos by lazy { com.rutaalacima.app.domain.model.Deudas.leer(respuestas[com.rutaalacima.app.domain.model.Deudas.CLAVE]) }
-    val deudas: List<com.rutaalacima.app.domain.model.Deudas.Hoy> by lazy { com.rutaalacima.app.domain.model.Deudas.hoy(deudasDatos, dias.values.flatten()) }
+    val deudas: List<com.rutaalacima.app.domain.model.Deudas.Hoy> by lazy { com.rutaalacima.app.domain.model.Deudas.hoy(deudasDatos, dias, hoy().toString()) }
     val activos: List<com.rutaalacima.app.domain.model.Patrimonio.Activo> by lazy { com.rutaalacima.app.domain.model.Patrimonio.leer(respuestas[com.rutaalacima.app.domain.model.Patrimonio.CLAVE]) }
     val fijos: List<com.rutaalacima.app.domain.model.Fijos.Fijo> by lazy { com.rutaalacima.app.domain.model.Fijos.leer(respuestas[com.rutaalacima.app.domain.model.Fijos.CLAVE]) }
     val publica get() = respuestas["fin#visibilidad"] == "publica"
@@ -348,9 +348,28 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     private fun deudas(cambio: (com.rutaalacima.app.domain.model.Deudas.Datos) -> com.rutaalacima.app.domain.model.Deudas.Datos) =
         poner(com.rutaalacima.app.domain.model.Deudas.CLAVE, com.rutaalacima.app.domain.model.Deudas.escribir(cambio(libro.value.deudasDatos)))
     fun deudaAgregar(nombre: String, saldo: Double, tasa: Double, minimo: Double, buena: Boolean) =
-        deudas { it.copy(lista = it.lista + com.rutaalacima.app.domain.model.Deudas.Deuda("d" + System.currentTimeMillis(), nombre.trim().take(60), saldo, tasa, minimo, if (buena) "buena" else "mala")) }
+        deudas { it.copy(lista = it.lista + com.rutaalacima.app.domain.model.Deudas.Deuda("d" + System.currentTimeMillis(), nombre.trim().take(60), saldo, tasa, minimo, if (buena) "buena" else "mala",
+            desde = hoy().toString(), desdeT = System.currentTimeMillis())) }
     fun deudaCambiar(id: String, cambio: (com.rutaalacima.app.domain.model.Deudas.Deuda) -> com.rutaalacima.app.domain.model.Deudas.Deuda) =
         deudas { d -> d.copy(lista = d.lista.map { if (it.id == id) cambio(it) else it }) }
+    /** El saldo de hoy pasa a ser el punto de partida: los pagos de antes ya no lo vuelven a bajar. */
+    fun deudaSaldo(id: String, v: Double) = deudaCambiar(id) { it.copy(saldo = v, desde = hoy().toString(), desdeT = System.currentTimeMillis()) }
+    /** Dice a qué deuda va un grupo de pagos ("fx:<fijo>" o "n:<concepto>"): a todos sus movimientos y al fijo (los meses que vienen). */
+    fun vincularPagos(k: String, idDeuda: String?, listo: (Int) -> Unit = {}) = viewModelScope.launch {
+        val l0 = libro.value
+        l0.deudas.firstOrNull { it.deuda.id == idDeuda }?.let { h -> if (h.deuda.desde.isEmpty()) deudaSaldo(h.deuda.id, h.actual) }
+        if (k.startsWith("fx:")) { val fx = k.removePrefix("fx:"); fijos { l -> l.map { if (it.id == fx) it.copy(d = idDeuda) else it } } }
+        var n = 0
+        (l0.dias.keys + l0.programados.keys).forEach { f ->
+            val xs = guardados(f); var cambio = false
+            val nuevos = xs.map { x ->
+                val es = if (k.startsWith("fx:")) x.fx == k.removePrefix("fx:") else (x.c == "deudas" || x.d != null) && "n:" + normPago(x.n) == k
+                if (es) { cambio = true; n++; x.copy(d = idDeuda) } else x
+            }
+            if (cambio) guardar(f, nuevos)
+        }
+        listo(n)
+    }
     fun deudaQuitar(id: String) = deudas { d -> d.copy(lista = d.lista.filter { it.id != id }) }
     fun deudaRestaurar(x: com.rutaalacima.app.domain.model.Deudas.Deuda) = deudas { it.copy(lista = it.lista + x) }
     fun deudaMetodo(m: String) = deudas { it.copy(metodo = m) }
@@ -447,6 +466,9 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         guardadoPres = c.appScope.launch { kotlinx.coroutines.delay(500); c.respuestas.guardar(Finanzas.WB, Finanzas.clavePresupuesto(ym.year, ym.monthValue), v.trim()) }
     }
 }
+
+/** Un concepto de pago normalizado (sin tildes ni mayúsculas) para agrupar las cuotas iguales, como en la web. */
+fun normPago(t: String): String = java.text.Normalizer.normalize(t.lowercase(), java.text.Normalizer.Form.NFD).replace(Regex("\\p{Mn}+"), "").replace(Regex("\\s+"), " ").trim()
 
 // ====================================================================== Niveles
 

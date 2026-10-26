@@ -245,7 +245,7 @@ DET["finanzas.m"] = arg => {
 DET["finanzas.d"] = f => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
   const d = deIso(f), a = d.getFullYear(), m = d.getMonth() + 1, ym = ymDe(a, m), movs = movsDe(f), s = sumar(movs), mes = totalesDe(ym + "-");
-  const tipo = estado.ascTipo || "gas";
+  const tipo = estado.ascTipo || "gas", deudasLista = window.deudasDatos ? deudasDatos().lista : [];
   const opc = t => categorias(t).map(([c, n]) => `<option value="${c}" ${c === estado.ascCatNueva ? "selected" : ""}>${esc(n)}</option>`).join("");
   return cab(avAsc(), `${d.getDate()} de ${MESES[m - 1]}`, mayus(d.toLocaleDateString("es", { weekday: "long" })) + ` · ${a}`, ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), "m:" + ym], [String(d.getDate()), ""]]) +
@@ -262,7 +262,7 @@ DET["finanzas.d"] = f => {
       <div class="asc-tabla"><table class="asc-movs"><thead><tr><th class="asa-col"><span class="oculto">Ordenar</span></th><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th class="cada-mes" title="Se repite cada mes">${ic("repetir")}<span class="oculto">Se repite cada mes</span></th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
         ${movs.length ? movs.map(x => `<tr class="t-${x.t}${x.prog ? " prog" : ""}" data-mov="${esc(x.id)}"><td class="asa-col">${movs.length > 1 ? `<button type="button" class="asc-asa" data-mover-mov="${esc(x.id)}" data-dia="${f}" aria-label="Arrastrar para cambiar el orden (o usa las flechas)" title="Arrastrar para cambiar el orden">${ic("arrastrar")}</button>` : ""}</td><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
           <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
-          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
+          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.t === "gas" && (x.c === "deudas" || x.d) && !x.ag && deudasLista.length ? `<select class="paga-deuda${x.d ? "" : " sin"}" data-acc-change="ascDeudaDe" data-arg="${f}|${x.id}" aria-label="Deuda que paga"><option value="">¿Qué deuda paga?</option>${deudasLista.map(y => `<option value="${y.id}" ${x.d === y.id ? "selected" : ""}>Paga: ${esc(y.nombre)}</option>`).join("")}</select>` : ""}</td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
           <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}${`<button class="rb" data-acc="ascDuplicar" data-arg="${f}|${x.id}" aria-label="Duplicar al mes siguiente" title="Duplicar al mes siguiente">${ic("copiar")}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
@@ -352,6 +352,12 @@ Object.assign(ACC, {
   aprendeFinanzas() { ir("aprende"); estado.filtro = "finanzas"; pintarLista(); },
   ascTipo(_, t) { estado.ascTipo = t; pintarDetalle(); document.querySelector('.asc-nuevo [name="monto"]')?.focus(); },
   ascCat(el, arg) { cambiarMov(arg, x => { x.c = el.value; }); },
+  /** Marca qué deuda paga este movimiento (si es un fijo, también en los demás meses). */
+  ascDeudaDe(el, arg) {
+    const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id); if (!x) return;
+    if (x.fx) vincularPagos("fx:" + x.fx, el.value); else { const dd = deudasDatos(), deuda = dd.lista.find(y => y.id === el.value); if (deuda && !deuda.desde) { fijarSaldo(deuda); guardarDeudas(dd); } cambiarMov(arg, y => { if (el.value) y.d = el.value; else delete y.d; }); }
+    toast(el.value ? `Pago de ${deudasDatos().lista.find(y => y.id === el.value)?.nombre}${x.fx ? " (cada mes)" : ""}` : "Sin deuda asignada"); pintarDetalle();
+  },
   ascNota(el, arg) { cambiarMov(arg, x => { x.n = el.value.trim(); }); },
   ascRepite(el, arg) {
     const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id), dia = Number(f.slice(8)); if (!x) return;

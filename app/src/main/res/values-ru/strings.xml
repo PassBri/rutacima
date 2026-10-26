@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Изменение возвращено</string>
     <string name="cu_deshacer_ultimo">Отменить последнее изменение</string>
     <string name="cu_rehacer">Повторить</string>
+    <string name="cu_pagos_deudas">Ваши платежи по долгам</string>
+    <string name="cu_pagos_deudas_ayuda">Платежи, записанные в книге (категория «Погашение долгов»). Укажите, какой долг гасит каждый: платёж войдёт в план, а будущие платежи уменьшат долг.</string>
+    <string name="cu_pagos_n">%1$d платежей · последний %2$s</string>
+    <string name="cu_sin_identificar">Не указан</string>
+    <string name="cu_pagos_van">Эти платежи идут в %1$s</string>
+    <string name="cu_su_cuota">его платёж (по записанным платежам)</string>
 </resources>

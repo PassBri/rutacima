@@ -2986,3 +2986,9 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .asc-pat td select { min-width: 0; width: 100%; }
 .asc-pat td.num input { width: 100%; }
 .rb:disabled { opacity: .38; cursor: default; pointer-events: none; }
+/* Tus pagos de deudas: las cuotas sin deuda asignada se notan */
+.pagos-deudas tr.sin-deuda th { color: var(--burdeos); }
+.pagos-deudas td select { min-width: 180px; width: 100%; }
+.dt-nombre small + small::before { content: " · "; }
+.asc-movs select.paga-deuda { display: block; margin-top: 4px; min-width: 0; width: 100%; font-size: 12.5px; padding: 3px 6px; color: var(--tinta-suave); }
+.asc-movs select.paga-deuda.sin { color: var(--burdeos); }

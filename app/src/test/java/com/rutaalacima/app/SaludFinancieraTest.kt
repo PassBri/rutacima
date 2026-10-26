@@ -23,7 +23,7 @@ class SaludFinancieraTest {
         Deudas.Deuda("d1", "Tarjeta", 8_000_000.0, 28.0, 400_000.0), Deudas.Deuda("d2", "Hipoteca", 239_131_130.0, 12.0, 4_592_653.0, "buena")))
 
     @Test fun indicadoresComoLaHoja() {
-        val r = Salud.de(dias, 2026, Deudas.hoy(datos, emptyList()), listOf(Patrimonio.Activo("a", "Casa", "bienes", 350_000_000.0)), anioActual = 2026)
+        val r = Salud.de(dias, 2026, Deudas.hoy(datos, emptyMap(), "2026-12-31"), listOf(Patrimonio.Activo("a", "Casa", "bienes", 350_000_000.0)), anioActual = 2026)
         fun v(k: String) = r.indicadores.first { it.clave == k }.valor
         assertEquals(1.30, v("liquidez"), 0.01)
         assertEquals(0.0314, v("ahorro"), 0.0005)
@@ -35,7 +35,7 @@ class SaludFinancieraTest {
     }
 
     @Test fun planDeDeudas() {
-        val p = Deudas.plan(Deudas.hoy(datos, emptyList()), "bola", 500_000.0)
+        val p = Deudas.plan(Deudas.hoy(datos, emptyMap(), "2026-12-31"), "bola", 500_000.0)
         assertTrue(p.meses!! in 50..80)
         assertTrue(p.fin.getValue("d1")!! < p.fin.getValue("d2")!!)
         // Sin extra y mínimo menor que el interés: nunca se paga
@@ -44,8 +44,19 @@ class SaludFinancieraTest {
     }
 
     @Test fun losPagosBajanElSaldo() {
-        val h = Deudas.hoy(datos, listOf(Mov("m", "gas", 400_000.0, "deudas", d = "d1")))
+        val h = Deudas.hoy(datos, mapOf("2026-05-01" to listOf(Mov("m", "gas", 400_000.0, "deudas", d = "d1"))), "2026-12-31")
         assertEquals(7_600_000.0, h.first { it.deuda.id == "d1" }.actual, 0.0)
+    }
+
+    @Test fun losPagosViejosNoBajanUnSaldoNuevoYDanLaCuota() {
+        // El saldo se anotó el 26 de octubre: los pagos de antes ya estaban en el extracto
+        val d = Deudas.Datos(lista = listOf(Deudas.Deuda("b", "LIBRANZA BBVA", 82_885_315.0, desde = "2026-10-26", desdeT = 5)))
+        val dias = (1..10).associate { m -> "2026-%02d-01".format(m) to listOf(Mov("fx-f1", "gas", 1_508_279.0, "deudas", d = "b", fx = "f1")) } +
+            mapOf("2026-10-27" to listOf(Mov("m9", "gas", 100_000.0, "deudas", d = "b")))
+        val h = Deudas.hoy(d, dias, "2026-10-31").single()
+        assertEquals(82_785_315.0, h.actual, 0.0)
+        assertEquals(1_608_279.0, h.deuda.minimo, 0.0)   // el último mes con pagos
+        assertTrue(h.cuotaAuto)
     }
 
     @Test fun categoriasPropias() {

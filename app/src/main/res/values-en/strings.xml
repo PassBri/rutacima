@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Change redone</string>
     <string name="cu_deshacer_ultimo">Undo last change</string>
     <string name="cu_rehacer">Redo</string>
+    <string name="cu_pagos_deudas">Your debt payments</string>
+    <string name="cu_pagos_deudas_ayuda">The installments you record in the book («Debt payments» category). Tell each one which debt it pays: its installment joins the plan and payments from now on lower what you owe.</string>
+    <string name="cu_pagos_n">%1$d payments · last %2$s</string>
+    <string name="cu_sin_identificar">Not identified</string>
+    <string name="cu_pagos_van">These payments go to %1$s</string>
+    <string name="cu_su_cuota">its installment (from your recorded payments)</string>
 </resources>

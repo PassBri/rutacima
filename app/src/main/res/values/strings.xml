@@ -2051,4 +2051,10 @@
     <string name="cu_rehecho">Cambio rehecho</string>
     <string name="cu_deshacer_ultimo">Deshacer el último cambio</string>
     <string name="cu_rehacer">Rehacer</string>
+    <string name="cu_pagos_deudas">Tus pagos de deudas</string>
+    <string name="cu_pagos_deudas_ayuda">Las cuotas que anotas en el libro (categoría «Pago de deudas»). Dile a cada una qué deuda paga: así su cuota entra al plan y los pagos de ahora en adelante bajan lo que debes.</string>
+    <string name="cu_pagos_n">%1$d pagos · último %2$s</string>
+    <string name="cu_sin_identificar">Sin identificar</string>
+    <string name="cu_pagos_van">Estos pagos van a %1$s</string>
+    <string name="cu_su_cuota">su cuota (de tus pagos anotados)</string>
 </resources>

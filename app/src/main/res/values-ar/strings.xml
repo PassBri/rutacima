@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">تمت إعادة التغيير</string>
     <string name="cu_deshacer_ultimo">التراجع عن آخر تغيير</string>
     <string name="cu_rehacer">إعادة</string>
+    <string name="cu_pagos_deudas">مدفوعات ديونك</string>
+    <string name="cu_pagos_deudas_ayuda">الأقساط التي تسجلها في الدفتر (فئة «سداد الديون»). حدّد لكل قسط الدين الذي يسدده: يدخل القسط في الخطة وتخفض المدفوعات القادمة ما تدين به.</string>
+    <string name="cu_pagos_n">%1$d دفعات · آخرها %2$s</string>
+    <string name="cu_sin_identificar">غير محدد</string>
+    <string name="cu_pagos_van">هذه المدفوعات لـ %1$s</string>
+    <string name="cu_su_cuota">قسطه (من مدفوعاتك المسجلة)</string>
 </resources>

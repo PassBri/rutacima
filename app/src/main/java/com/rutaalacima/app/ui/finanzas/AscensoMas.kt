@@ -33,6 +33,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -418,6 +419,7 @@ fun LazyListScope.deudasNivel(libro: Libro, plata: (Double) -> String, vm: Cuent
     items(l, key = { "deuda-${it.deuda.id}" }) { h -> FilaDeuda(h, orden.indexOf(h), plan.fin[h.deuda.id], plata, vm, avisos, plan = plan,
         mover = if (d.metodo == "propio") ({ paso: Int -> vm.deudaMover(h.deuda.id, paso) }) else null) }
     item(key = "d-nueva") { NuevaDeuda(plata) { n, s, t, m, b -> vm.deudaAgregar(n, s, t, m, b) } }
+    if (l.isNotEmpty()) item(key = "d-pagos") { PagosDeDeudas(libro, plata, vm) }
     item(key = "d-nota") { Text(stringResource(R.string.cu_deudas_nota), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
 }
 
@@ -461,7 +463,7 @@ private fun FilaDeuda(h: Deudas.Hoy, orden: Int, fin: Int?, plata: (Double) -> S
                 Column(Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(10.dp)) {
                     Text(stringResource(R.string.cu_pagas_mes), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(plata(Math.round(pago).toDouble()), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                    Text(if (extraMes > 0.5) stringResource(R.string.cu_pago_desglose, plata(x.minimo), plata(Math.round(extraMes).toDouble())) else stringResource(R.string.cu_su_minimo),
+                    Text(if (extraMes > 0.5) stringResource(R.string.cu_pago_desglose, plata(x.minimo), plata(Math.round(extraMes).toDouble())) else stringResource(if (h.cuotaAuto) R.string.cu_su_cuota else R.string.cu_su_minimo),
                         style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Column(Modifier.weight(1f).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceContainer).padding(10.dp)) {
@@ -599,6 +601,51 @@ fun LazyListScope.patrimonioNivel(libro: Libro, plata: (Double) -> String, ir: (
     items(libro.deudas, key = { "pas-${it.deuda.id}" }) { h -> FilaPasivo(h, libro.deudas.size, plata, vm) }
 }
 
+/** Tus pagos de deudas: las cuotas anotadas en el libro (categoría «Pago de deudas»), agrupadas por fijo o por concepto,
+ *  para decir a qué deuda va cada una. Así su cuota entra al plan y los pagos de ahora en adelante bajan el saldo. */
+@Composable
+private fun PagosDeDeudas(libro: Libro, plata: (Double) -> String, vm: CuentasViewModel) {
+    data class Grupo(val k: String, val nombre: String, val n: Int, val ultimo: Double, val fecha: String, val ds: Set<String?>, val fijo: Boolean)
+    val hoyS = java.time.LocalDate.now().toString()
+    val grupos = remember(libro) {
+        libro.dias.filterKeys { it <= hoyS }.flatMap { (f, xs) -> xs.filter { it.t == "gas" && !it.prog && (it.c == "deudas" || it.d != null) && it.agenda == null }.map { f to it } }
+            .groupBy { (_, x) -> if (x.fx != null) "fx:${x.fx}" else "n:" + normPago(x.n) }
+            .map { (k, v) -> val u = v.maxBy { it.first }; Grupo(k, u.second.n.ifBlank { "—" }, v.size, u.second.m, u.first, v.map { it.second.d }.toSet(), u.second.fx != null) }
+            .sortedByDescending { it.fecha }
+    }
+    if (grupos.isEmpty()) return
+    val deudas = libro.deudasDatos.lista
+    val ctx = LocalContext.current
+    RutaCard {
+        Text(stringResource(R.string.cu_pagos_deudas), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.cu_pagos_deudas_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        grupos.forEach { g ->
+            val actual = g.ds.singleOrNull()
+            var abierto by remember { mutableStateOf(false) }
+            Row(Modifier.fillMaxWidth().padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(g.nombre, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        color = if (actual == null) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.cu_pagos_n, g.n, plata(g.ultimo)) + if (g.fijo) " · " + stringResource(R.string.cu_cada_mes) else "",
+                        style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Box {
+                    androidx.compose.material3.OutlinedButton(onClick = { abierto = true }) {
+                        Text(deudas.firstOrNull { it.id == actual }?.nombre ?: stringResource(R.string.cu_sin_identificar), maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 150.dp))
+                    }
+                    androidx.compose.material3.DropdownMenu(abierto, { abierto = false }) {
+                        androidx.compose.material3.DropdownMenuItem(text = { Text(stringResource(R.string.cu_sin_identificar)) }, onClick = { abierto = false; vm.vincularPagos(g.k, null) })
+                        deudas.forEach { x -> androidx.compose.material3.DropdownMenuItem(text = { Text(x.nombre) }, onClick = {
+                            abierto = false
+                            vm.vincularPagos(g.k, x.id) { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(R.string.cu_pagos_van, x.nombre)) }
+                        }) }
+                    }
+                }
+            }
+        }
+    }
+}
+
 /** El asa para ordenar, como en las filas del día: se arrastra arriba o abajo; con lector de pantalla, Subir y Bajar. */
 @Composable
 private fun AsaOrden(onMover: (Int) -> Unit) {
@@ -694,7 +741,7 @@ private fun FilaPasivo(h: com.rutaalacima.app.domain.model.Deudas.Hoy, n: Int, p
             // El saldo de hoy es lo que se debía menos lo pagado: al cambiarlo se ajusta lo que se debía
             confirmButton = { TextButton(onClick = {
                 val v = kotlin.math.abs(Finanzas.monto(saldo))
-                vm.deudaCambiar(x.id) { it.copy(nombre = nombre.trim().ifBlank { x.nombre }, saldo = v + h.pagado, tipo = if (buena) "buena" else "mala") }; editar = false
+                vm.deudaCambiar(x.id) { it.copy(nombre = nombre.trim().ifBlank { x.nombre }, saldo = v, desde = java.time.LocalDate.now().toString(), desdeT = System.currentTimeMillis(), tipo = if (buena) "buena" else "mala") }; editar = false
             }) { Text(stringResource(R.string.guardar)) } },
             dismissButton = { TextButton(onClick = { editar = false }) { Text(stringResource(R.string.cancelar)) } })
     }

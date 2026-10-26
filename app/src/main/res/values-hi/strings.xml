@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">बदलाव फिर से किया गया</string>
     <string name="cu_deshacer_ultimo">आख़िरी बदलाव पूर्ववत करें</string>
     <string name="cu_rehacer">फिर से करें</string>
+    <string name="cu_pagos_deudas">आपके कर्ज़ भुगतान</string>
+    <string name="cu_pagos_deudas_ayuda">बही में दर्ज किस्तें («कर्ज़ भुगतान» श्रेणी)। हर किस्त किस कर्ज़ की है, बताइए: किस्त योजना में जुड़ेगी और आगे के भुगतान बकाया घटाएँगे।</string>
+    <string name="cu_pagos_n">%1$d भुगतान · पिछला %2$s</string>
+    <string name="cu_sin_identificar">पहचाना नहीं</string>
+    <string name="cu_pagos_van">ये भुगतान %1$s के लिए</string>
+    <string name="cu_su_cuota">इसकी किस्त (दर्ज भुगतानों से)</string>
 </resources>

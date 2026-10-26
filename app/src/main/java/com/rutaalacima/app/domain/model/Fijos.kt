@@ -18,7 +18,9 @@ object Fijos {
 
     @Serializable
     data class Fijo(val id: String, val t: String, val m: Double, val c: String = "otro", val n: String = "", val dia: Int = 1,
-                    val desde: String, val hasta: String = "", val saltar: List<String> = emptyList())
+                    val desde: String, val hasta: String = "", val saltar: List<String> = emptyList(),
+                    /** La deuda que paga cada mes (Salir de deudas), si es una cuota. */
+                    val d: String? = null)
 
     private val ser = ListSerializer(Fijo.serializer())
     fun leer(v: String?): List<Fijo> = if (v.isNullOrBlank()) emptyList()
@@ -42,7 +44,7 @@ object Fijos {
             while (ym <= fin && n++ < 600) {
                 val f = fecha(x, ym)
                 if (activoEn(x, ym.toString()) && (programados || !f.isAfter(hoy)))
-                    r.getOrPut(f.toString()) { mutableListOf() } += Cuentas.Mov("fx-${x.id}", x.t, x.m, x.c, x.n, fx = x.id).also { it.virtual = true; it.prog = f.isAfter(hoy) }
+                    r.getOrPut(f.toString()) { mutableListOf() } += Cuentas.Mov("fx-${x.id}", x.t, x.m, x.c, x.n, d = x.d, fx = x.id).also { it.virtual = true; it.prog = f.isAfter(hoy) }
                 ym = ym.plusMonths(1)
             }
         }

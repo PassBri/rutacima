@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">已重做更改</string>
     <string name="cu_deshacer_ultimo">撤销上一次更改</string>
     <string name="cu_rehacer">重做</string>
+    <string name="cu_pagos_deudas">你的还款</string>
+    <string name="cu_pagos_deudas_ayuda">你在账本中记录的分期（“还债”类别）。告诉每笔它还的是哪笔债务：月供会进入计划，今后的还款会减少你的欠款。</string>
+    <string name="cu_pagos_n">%1$d 笔 · 最近 %2$s</string>
+    <string name="cu_sin_identificar">未识别</string>
+    <string name="cu_pagos_van">这些还款归入 %1$s</string>
+    <string name="cu_su_cuota">月供（来自已记录的还款）</string>
 </resources>

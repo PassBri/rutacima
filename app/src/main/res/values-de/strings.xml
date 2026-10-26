@@ -2049,4 +2049,10 @@
     <string name="cu_rehecho">Änderung wiederhergestellt</string>
     <string name="cu_deshacer_ultimo">Letzte Änderung rückgängig machen</string>
     <string name="cu_rehacer">Wiederholen</string>
+    <string name="cu_pagos_deudas">Deine Schuldenzahlungen</string>
+    <string name="cu_pagos_deudas_ayuda">Die Raten, die du im Buch notierst (Kategorie «Schuldenzahlung»). Sag bei jeder, welche Schuld sie zahlt: Die Rate fließt in den Plan, und künftige Zahlungen senken, was du schuldest.</string>
+    <string name="cu_pagos_n">%1$d Zahlungen · zuletzt %2$s</string>
+    <string name="cu_sin_identificar">Nicht zugeordnet</string>
+    <string name="cu_pagos_van">Diese Zahlungen gehen an %1$s</string>
+    <string name="cu_su_cuota">ihre Rate (aus deinen notierten Zahlungen)</string>
 </resources>
