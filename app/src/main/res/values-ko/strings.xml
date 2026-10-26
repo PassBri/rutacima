@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">목표 달성 %1$d</string>
     <string name="cu_cuenta_medio">주의 %1$d</string>
     <string name="cu_cuenta_bajo">개선 필요 %1$d</string>
+    <string name="cu_duplicar">다음 달로 복제</string>
+    <string name="cu_duplicar_mes">이번 달을 다음 달로 복제</string>
+    <string name="cu_duplicado">%2$s %1$d일로 복사했습니다</string>
+    <string name="cu_duplicados_mes">%2$s로 복사: %1$d건</string>
+    <string name="cu_duplicar_nada">%1$s에 이미 모두 있습니다</string>
 </resources>

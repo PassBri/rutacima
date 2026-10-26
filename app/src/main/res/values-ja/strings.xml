@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">目標達成 %1$d</string>
     <string name="cu_cuenta_medio">注意 %1$d</string>
     <string name="cu_cuenta_bajo">改善が必要 %1$d</string>
+    <string name="cu_duplicar">翌月に複製</string>
+    <string name="cu_duplicar_mes">今月を翌月に複製</string>
+    <string name="cu_duplicado">%2$s%1$d日に複製しました</string>
+    <string name="cu_duplicados_mes">%2$sに複製しました：%1$d件</string>
+    <string name="cu_duplicar_nada">%1$sにはすでにすべてあります</string>
 </resources>

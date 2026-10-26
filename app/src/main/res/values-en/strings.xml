@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d on target</string>
     <string name="cu_cuenta_medio">%1$d need attention</string>
     <string name="cu_cuenta_bajo">%1$d to improve</string>
+    <string name="cu_duplicar">Duplicate to next month</string>
+    <string name="cu_duplicar_mes">Duplicate this month to the next</string>
+    <string name="cu_duplicado">Copied to %2$s %1$d</string>
+    <string name="cu_duplicados_mes">Copied to %2$s: %1$d entries</string>
+    <string name="cu_duplicar_nada">Everything was already in %1$s</string>
 </resources>

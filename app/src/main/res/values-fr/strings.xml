@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d atteints</string>
     <string name="cu_cuenta_medio">%1$d à surveiller</string>
     <string name="cu_cuenta_bajo">%1$d à améliorer</string>
+    <string name="cu_duplicar">Dupliquer au mois suivant</string>
+    <string name="cu_duplicar_mes">Dupliquer ce mois au suivant</string>
+    <string name="cu_duplicado">Copié au %1$d %2$s</string>
+    <string name="cu_duplicados_mes">Copiés en %2$s : %1$d mouvements</string>
+    <string name="cu_duplicar_nada">Tout était déjà en %1$s</string>
 </resources>

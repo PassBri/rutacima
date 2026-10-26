@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d im Ziel</string>
     <string name="cu_cuenta_medio">%1$d beachten</string>
     <string name="cu_cuenta_bajo">%1$d verbessern</string>
+    <string name="cu_duplicar">In den nächsten Monat kopieren</string>
+    <string name="cu_duplicar_mes">Monat in den nächsten kopieren</string>
+    <string name="cu_duplicado">Kopiert auf %1$d. %2$s</string>
+    <string name="cu_duplicados_mes">In %2$s kopiert: %1$d Buchungen</string>
+    <string name="cu_duplicar_nada">Alles war schon im %1$s</string>
 </resources>

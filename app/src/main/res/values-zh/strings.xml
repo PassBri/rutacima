@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d 项达标</string>
     <string name="cu_cuenta_medio">%1$d 项需关注</string>
     <string name="cu_cuenta_bajo">%1$d 项待改进</string>
+    <string name="cu_duplicar">复制到下个月</string>
+    <string name="cu_duplicar_mes">将本月复制到下个月</string>
+    <string name="cu_duplicado">已复制到%2$s%1$d日</string>
+    <string name="cu_duplicados_mes">已复制到%2$s：%1$d 笔</string>
+    <string name="cu_duplicar_nada">%1$s 里已经都有了</string>
 </resources>

@@ -194,7 +194,7 @@ DET["finanzas.m"] = arg => {
     migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), ""]]) + navPeriodo("m:" + ant, "m:" + sig, `${mayus(MESES[m - 1])} ${a}`) + cifras(t) +
     hoja(`<h3 style="margin:0 0 8px">Presupuesto de gastos</h3>${campo("Lo máximo que quieres gastar este mes", `<input type="text" inputmode="decimal" data-resp="${FIN_WB}|${claveFinPresupuesto(ym)}" value="${esc(respuesta(claveFinPresupuesto(ym)))}" placeholder="Ej. ${plata(1500000)}">`)}
       ${uso != null ? `<div class="fin-pres"><div class="barra"><i style="width:${Math.min(100, uso * 100)}%;${uso > 1 ? "background:var(--peligro, #B3261E)" : ""}"></i></div><span class="suave">Gastaste ${plata(t.gas)} de ${plata(pres)}${uso > 1 ? " · te pasaste " + plata(t.gas - pres) : " · te quedan " + plata(pres - t.gas)}</span></div>` : ""}`) +
-    hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Día a día</h3><button class="btn mini lleno" data-sel="d:${hoyI.startsWith(ym) ? hoyI : ym + "-01"}">${ic("mas")} Registrar</button></div>
+    hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Día a día</h3><span class="botones-mini">${movsPropiosMes(ym).length ? `<button class="btn mini" data-acc="ascDuplicarMes" data-arg="${ym}" title="Copia los movimientos de ${MESES[m - 1]} al mismo día de ${MESES[m % 12]}; los fijos ya se repiten solos">${ic("copiar")} Duplicar al mes siguiente</button>` : ""}<button class="btn mini lleno" data-sel="d:${hoyI.startsWith(ym) ? hoyI : ym + "-01"}">${ic("mas")} Registrar</button></span></div>
       ${filas.length ? grafica(filas) + tablaPeriodos(filas, "Día", t) : `<p class="suave">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`) +
     fijosHoja(ym) + mochilas(t) + porCategoria(t), "max-width:980px");
 };
@@ -221,7 +221,7 @@ DET["finanzas.d"] = f => {
           <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
-          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
+          <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}${x.fx ? "" : `<button class="rb" data-acc="ascDuplicar" data-arg="${f}|${x.id}" aria-label="Duplicar al mes siguiente" title="Duplicar al mes siguiente">${ic("copiar")}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
           : `<tr><td colspan="7" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="4" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
@@ -265,6 +265,19 @@ function cambiarMov(arg, cambio) {
   return x;
 }
 window.cambiarMov = cambiarMov;
+/** El mismo día del mes siguiente (o su último día, si ese mes es más corto). */
+function diaMesSiguiente(f) {
+  const a = Number(f.slice(0, 4)), m = Number(f.slice(5, 7)), d = Number(f.slice(8)), a2 = m === 12 ? a + 1 : a, m2 = m === 12 ? 1 : m + 1;
+  return `${ymDe(a2, m2)}-${String(Math.min(d, new Date(a2, m2, 0).getDate())).padStart(2, "0")}`;
+}
+/** Los movimientos del mes que se pueden duplicar: los anotados a mano (los fijos ya se repiten solos). */
+function movsPropiosMes(ym) {
+  const n = new Date(Number(ym.slice(0, 4)), Number(ym.slice(5, 7)), 0).getDate(), r = [];
+  for (let d = 1; d <= n; d++) { const f = `${ym}-${String(d).padStart(2, "0")}`; movsDe(f).forEach(x => { if (!x.fx && !x.virtual && !x.prog) r.push([f, x]); }); }
+  return r;
+}
+const copiaMov = x => ({ id: "m" + nuevoId(), t: x.t, m: x.m, c: x.c, n: x.n || "" });
+const mismoMov = (a, b) => a.t === b.t && Number(a.m) === Number(b.m) && a.c === b.c && (a.n || "") === (b.n || "");
 Object.assign(ACC, {
   ascOjo() { estado.ascOculto = !estado.ascOculto; pintarDetalle(); pintarLista(); },
   aprendeFinanzas() { ir("aprende"); estado.filtro = "finanzas"; pintarLista(); },
@@ -287,6 +300,25 @@ Object.assign(ACC, {
     toast(x.fx ? "Quitado solo este mes; sigue fijo los demás" : "Movimiento quitado", { accion: "Deshacer", alHacer: () => {
       if (x.fx) saltarFijo(x.fx, f.slice(0, 7), false);
       if (x.ag) Store.cambiar("agenda", f, { [x.ag]: String(x.m) }, BASES.agenda(f)); else if (!x.virtual) guardarMovs(f, [...movsGuardados(f), x]); } });
+  },
+  ascDuplicar(_, arg) {
+    const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id); if (!x) return;
+    const g = diaMesSiguiente(f), c = copiaMov(x), dg = deIso(g);
+    guardarMovs(g, [...movsGuardados(g), c]);
+    toast(`Copiado al ${dg.getDate()} de ${MESES[dg.getMonth()]}`, { accion: "Ver", alHacer: () => elegir("d:" + g) });
+  },
+  ascDuplicarMes(_, ym) {
+    const hechos = [];
+    const porDia = {}; movsPropiosMes(ym).forEach(([f, x]) => (porDia[diaMesSiguiente(f)] ||= []).push(x));
+    Object.entries(porDia).forEach(([g, xs]) => {
+      const ya = movsGuardados(g), nuevos = xs.filter(x => !ya.some(y => mismoMov(x, y))).map(copiaMov);
+      if (nuevos.length) { guardarMovs(g, [...ya, ...nuevos]); hechos.push([g, nuevos.map(y => y.id)]); }
+    });
+    const m2 = MESES[Number(ym.slice(5, 7)) % 12], n = hechos.reduce((s, [, ids]) => s + ids.length, 0);
+    if (!n) { toast(`Todo ya estaba en ${m2}`); return; }
+    toast(`Copiados a ${m2}: ${n} ${n === 1 ? "movimiento" : "movimientos"}`, { accion: "Deshacer", alHacer: () =>
+      hechos.forEach(([g, ids]) => guardarMovs(g, movsGuardados(g).filter(y => !ids.includes(y.id)))) });
+    pintarDetalle();
   },
   ascMonedaElegir(el) { responder(ASC.WB, "fin#moneda", el.value); toast(`Tus cuentas quedan en ${nombreMoneda(el.value)}`); },
 });

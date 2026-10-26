@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d लक्ष्य पर</string>
     <string name="cu_cuenta_medio">%1$d पर ध्यान दें</string>
     <string name="cu_cuenta_bajo">%1$d में सुधार करें</string>
+    <string name="cu_duplicar">अगले महीने में दोहराएँ</string>
+    <string name="cu_duplicar_mes">इस महीने को अगले में दोहराएँ</string>
+    <string name="cu_duplicado">%1$d %2$s में कॉपी किया</string>
+    <string name="cu_duplicados_mes">%2$s में कॉपी किए: %1$d लेनदेन</string>
+    <string name="cu_duplicar_nada">%1$s में सब पहले से था</string>
 </resources>

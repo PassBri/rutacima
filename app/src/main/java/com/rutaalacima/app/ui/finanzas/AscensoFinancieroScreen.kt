@@ -43,6 +43,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.filled.Delete
@@ -182,6 +183,32 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     fun agregar(f: String, t: Tipo, monto: Double, cat: String, nota: String, repite: Boolean = false) = viewModelScope.launch {
         if (repite) fijos { it + com.rutaalacima.app.domain.model.Fijos.Fijo("f" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim(), f.takeLast(2).toInt(), f.take(7)) }
         else guardar(f, guardados(f) + Mov("m" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim()))
+    }
+
+    /** El mismo día del mes siguiente (o su último día, si ese mes es más corto). */
+    private fun mesSiguiente(f: String): String {
+        val d = LocalDate.parse(f); val ym = YearMonth.from(d).plusMonths(1)
+        return ym.atDay(minOf(d.dayOfMonth, ym.lengthOfMonth())).toString()
+    }
+    /** Copia un movimiento al mismo día del mes siguiente (sin recibos). Devuelve la fecha de la copia. */
+    fun duplicar(f: String, x: Mov): String {
+        val g = mesSiguiente(f)
+        viewModelScope.launch { guardar(g, guardados(g) + Mov("m" + System.currentTimeMillis(), x.t, x.m, x.c, x.n)) }
+        return g
+    }
+    /** Copia los movimientos del mes al siguiente, cada uno en su mismo día. Los fijos no: ya se repiten solos.
+     *  Lo que ya está igual en el mes siguiente no se copia otra vez. */
+    fun duplicarMes(ym: YearMonth, listo: (Int) -> Unit) = viewModelScope.launch {
+        var n = 0; var k = System.currentTimeMillis()
+        libro.value.dias.filterKeys { it.startsWith(ym.toString()) }.toSortedMap().forEach { (f, xs) ->
+            val copias = xs.filter { it.fx == null && !it.virtual && !it.prog }
+            if (copias.isEmpty()) return@forEach
+            val g = mesSiguiente(f); val ya = guardados(g)
+            val nuevos = copias.filter { c -> ya.none { it.t == c.t && it.m == c.m && it.c == c.c && it.n == c.n } }
+                .map { Mov("m" + (k++), it.t, it.m, it.c, it.n) }
+            if (nuevos.isNotEmpty()) { guardar(g, ya + nuevos); n += nuevos.size }
+        }
+        listo(n)
     }
 
     // ---------------------------------------------------------------- Fijos de cada mes
@@ -852,6 +879,17 @@ private fun LazyListScope.mes(ym: YearMonth, libro: Libro, plata: (Double) -> St
                     Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(4.dp)); Text(stringResource(R.string.cu_registrar))
                 }
             }
+            // Duplicar el mes al siguiente: los movimientos que no son fijos, cada uno en su mismo día
+            val propios = libro.dias.filterKeys { it.startsWith(ym.toString()) }.values.flatten().count { it.fx == null && !it.virtual && !it.prog }
+            if (propios > 0) {
+                val ctxM = androidx.compose.ui.platform.LocalContext.current
+                val siguiente = mesFrase(ym.plusMonths(1).monthValue)
+                TextButton(onClick = { vm.duplicarMes(ym) { n ->
+                    com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (n > 0) ctxM.getString(R.string.cu_duplicados_mes, n, siguiente) else ctxM.getString(R.string.cu_duplicar_nada, siguiente))
+                } }, modifier = Modifier.padding(top = 4.dp)) {
+                    Icon(Icons.Filled.ContentCopy, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.cu_duplicar_mes))
+                }
+            }
             Spacer(Modifier.height(10.dp))
             if (filas.isEmpty()) Text(stringResource(R.string.cu_sin_movs_mes, mesFrase(ym.monthValue)), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             else {
@@ -1049,6 +1087,15 @@ private fun EditarMovimiento(x: Mov, fecha: String, plata: (Double) -> String, v
                 SelectorCategoria(t, cat, Modifier.fillMaxWidth()) { cat = it }
                 OutlinedTextField(nota, { nota = it.take(120) }, label = { Text(stringResource(R.string.cu_concepto)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
                 if (x.agenda == null) RecibosMovimiento(x, fecha, vm)
+                if (x.fx == null) {
+                    val ctxD = androidx.compose.ui.platform.LocalContext.current
+                    TextButton(onClick = {
+                        val g = vm.duplicar(fecha, x.copy(m = v.takeIf { it > 0 } ?: x.m, c = cat, n = nota.trim()))
+                        val d = LocalDate.parse(g)
+                        com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctxD.getString(R.string.cu_duplicado, d.dayOfMonth, mesFrase(d.monthValue)))
+                        onCerrar()
+                    }) { Icon(Icons.Filled.ContentCopy, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.cu_duplicar)) }
+                }
             }
         },
         confirmButton = { TextButton(onClick = { onGuardar(x.copy(m = v, c = cat, n = nota.trim())) }, enabled = v > 0) { Text(stringResource(R.string.guardar)) } },

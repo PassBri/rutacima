@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d ضمن الهدف</string>
     <string name="cu_cuenta_medio">%1$d تحتاج انتباهًا</string>
     <string name="cu_cuenta_bajo">%1$d للتحسين</string>
+    <string name="cu_duplicar">تكرار في الشهر التالي</string>
+    <string name="cu_duplicar_mes">تكرار هذا الشهر في التالي</string>
+    <string name="cu_duplicado">نُسخ إلى %1$d %2$s</string>
+    <string name="cu_duplicados_mes">نُسخت إلى %2$s: %1$d حركة</string>
+    <string name="cu_duplicar_nada">كل شيء موجود بالفعل في %1$s</string>
 </resources>

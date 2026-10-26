@@ -2025,4 +2025,9 @@
     <string name="cu_cuenta_ok">%1$d en meta</string>
     <string name="cu_cuenta_medio">%1$d en atención</string>
     <string name="cu_cuenta_bajo">%1$d por mejorar</string>
+    <string name="cu_duplicar">Duplicar al mes siguiente</string>
+    <string name="cu_duplicar_mes">Duplicar el mes al siguiente</string>
+    <string name="cu_duplicado">Copiado al %1$d de %2$s</string>
+    <string name="cu_duplicados_mes">Copiados a %2$s: %1$d movimientos</string>
+    <string name="cu_duplicar_nada">Todo ya estaba en %1$s</string>
 </resources>

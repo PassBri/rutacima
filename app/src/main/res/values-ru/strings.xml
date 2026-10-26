@@ -2023,4 +2023,9 @@
     <string name="cu_cuenta_ok">%1$d в норме</string>
     <string name="cu_cuenta_medio">%1$d требуют внимания</string>
     <string name="cu_cuenta_bajo">%1$d улучшить</string>
+    <string name="cu_duplicar">Повторить в следующем месяце</string>
+    <string name="cu_duplicar_mes">Повторить месяц в следующем</string>
+    <string name="cu_duplicado">Скопировано на %1$d (%2$s)</string>
+    <string name="cu_duplicados_mes">Скопировано в %2$s: %1$d операций</string>
+    <string name="cu_duplicar_nada">В месяце %1$s уже всё есть</string>
 </resources>
