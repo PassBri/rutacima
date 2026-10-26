@@ -212,7 +212,7 @@ private fun CimaPagina(
             }
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
-                Color.White, onGuardar)
+                if (guardado) com.rutaalacima.app.ui.components.AzulAltura else Color.White, onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
                 val enlace = com.rutaalacima.app.data.social.EnlacesRed.publicacion(post)
                 val texto = listOf(post.metaTitulo, post.texto, enlace.ifBlank { "— SuRoute" }).filter { it.isNotBlank() }.joinToString("\n\n")

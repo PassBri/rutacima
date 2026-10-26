@@ -23,8 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-/** Rosa de la marca sobre fondos oscuros (el burdeos del modo oscuro). */
-val RosaMarca = Color(0xFFF0B3A1)
+/** Azul de altura claro: el acento de las acciones de Cimas al tocarlas (se lee sobre fotos y cielos oscuros). */
+val AzulAltura = Color(0xFF9EC1D6)
 
 private val corazon = PathParser().parsePathString(
     "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z",
@@ -32,11 +32,11 @@ private val corazon = PathParser().parsePathString(
 
 /**
  * Impulsar: un corazón dentro del símbolo de SuRoute.
- * Sin impulso: aro y corazón de contorno blanco, con el punto en rosa.
- * Al impulsar: el aro se vuelve a trazar desde el punto, el punto cae y el corazón se llena de rosa.
+ * Sin impulso: aro, punto y corazón de contorno en blanco.
+ * Al impulsar: todo pasa a azul de altura; el aro se vuelve a trazar, el punto cae y el corazón se llena.
  */
 @Composable
-fun ImpulsoMarca(activo: Boolean, modifier: Modifier = Modifier, tamano: Dp = 48.dp, base: Color = Color.White, acento: Color = RosaMarca) {
+fun ImpulsoMarca(activo: Boolean, modifier: Modifier = Modifier, tamano: Dp = 48.dp, base: Color = Color.White, acento: Color = AzulAltura) {
     val sinAnimar = android.provider.Settings.Global.getFloat(LocalContext.current.contentResolver, android.provider.Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
     val trazo = remember { Animatable(1f) }
     val lleno = remember { Animatable(if (activo) 1f else 0f) }
@@ -59,9 +59,9 @@ fun ImpulsoMarca(activo: Boolean, modifier: Modifier = Modifier, tamano: Dp = 48
         val caja = Size(radio * 2, radio * 2); val esquina = Offset(c.x - radio, c.y - radio)
         drawArc(colorAro, 90f + abertura, barrido, false, esquina, caja, style = Stroke(grosor, cap = StrokeCap.Round))
         drawArc(colorAro, 90f - abertura, -barrido, false, esquina, caja, style = Stroke(grosor, cap = StrokeCap.Round))
-        // Punto: siempre en rosa; al impulsar cae desde arriba hasta el hueco
+        // Punto: blanco; al impulsar se vuelve azul y cae desde arriba hasta el hueco
         val caida = if (activo) (1f - trazo.value) * radio * 2f else 0f
-        drawCircle(acento, d * 0.06f, Offset(c.x, c.y + radio - caida))
+        drawCircle(if (activo) acento else base, d * 0.06f, Offset(c.x, c.y + radio - caida))
         // Corazón: contorno o lleno, con un leve latido al llenarse
         val lado = d * 0.46f
         val latido = if (activo) 0.82f + 0.18f * lleno.value else 1f

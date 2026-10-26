@@ -219,7 +219,7 @@
     <string name="intencion_dia">आज का संकल्प</string>
     <string name="prioridad_1_hoy">आज मेरी नंबर 1 प्राथमिकता</string>
     <string name="agua_vasos">पानी (गिलास)</string>
-    <string name="vaso_n">गिलास %1$d</string>
+    <string name="vaso_n">बोतल %1$d</string>
     <string name="planifique_dia">अपना दिन प्लान करें</string>
     <string name="ver_horario_corto">सिर्फ़ 5:00 – 22:00 दिखाएँ</string>
     <string name="ver_24_horas">पूरे 24 घंटे दिखाएँ</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">समुदाय में पोस्ट करें</string>
     <string name="resumen_vacio">सारांश के लिए अभी पर्याप्त नहीं है: कुछ दिन अपनी आदतें दर्ज करें और लौटें।</string>
     <string name="resumen_texto">SuRoute पर मेरा %1$d: आदतों वाले %2$d दिन, %3$d पूरी आदतें, %4$d दिनों की सबसे लंबी गिनती और %5$d पूरे लक्ष्य।</string>
-    <string name="agua_resumen">8 में से %1$d गिलास · %2$s लीटर</string>
+    <string name="agua_resumen">8 में से %1$d बोतलें · %2$s लीटर</string>
     <string name="agua_cumplida">पानी का लक्ष्य पूरा!</string>
     <string name="agua_sumar">एक गिलास और</string>
     <string name="agua_quitar">एक गिलास कम</string>

@@ -219,7 +219,7 @@
     <string name="intencion_dia">今日意图</string>
     <string name="prioridad_1_hoy">我今天的第一要务</string>
     <string name="agua_vasos">喝水（杯）</string>
-    <string name="vaso_n">第 %1$d 杯</string>
+    <string name="vaso_n">第 %1$d 个水壶</string>
     <string name="planifique_dia">规划你的一天</string>
     <string name="ver_horario_corto">只看 5:00 – 22:00</string>
     <string name="ver_24_horas">查看 24 小时</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">发布到社区</string>
     <string name="resumen_vacio">总结的数据还不够：先打卡几天习惯再回来吧。</string>
     <string name="resumen_texto">我在 SuRoute 的 %1$d：%2$d 天打卡，完成 %3$d 个习惯，最长连续 %4$d 天，达成 %5$d 个目标。</string>
-    <string name="agua_resumen">8 杯中的 %1$d 杯 · %2$s 升</string>
+    <string name="agua_resumen">8 个水壶中的 %1$d 个 · %2$s 升</string>
     <string name="agua_cumplida">饮水目标完成！</string>
     <string name="agua_sumar">再来一杯</string>
     <string name="agua_quitar">少一杯</string>

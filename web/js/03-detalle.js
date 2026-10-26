@@ -28,17 +28,18 @@ function selectorHorizonte(tipo, clave, anios) {
     <div class="atajos">${HORIZONTES.map(h => `<button type="button" class="chip" aria-pressed="${h === anios}" data-acc="horizonte" data-arg="${arg}|=${h}">${h}</button>`).join("")}</div>
   </div>`;
 }
-/** Ocho vasos que se llenan con una ola al tocarlos (250 ml cada uno); más y menos para no apuntar al vaso. */
+/** Ocho cantimploras de senderista que se llenan con una ola al tocarlas (250 ml cada una); más y menos para no apuntar. */
 function vasosDeAgua(fecha, n) {
-  const vaso = i => `<button class="vaso${i <= n ? " lleno" : ""}" data-acc="agua" data-arg="${fecha}|${i === n ? i - 1 : i}" aria-label="Vaso ${i}" aria-pressed="${i <= n}">
-    <svg viewBox="0 0 36 50" aria-hidden="true"><defs><clipPath id="v-${fecha}-${i}"><path d="M2 3h32l-4 44H6z"/></clipPath></defs>
-      <path d="M2 3h32l-4 44H6z" class="vaso-fondo"/><g clip-path="url(#v-${fecha}-${i})"><g class="vaso-agua"><path class="ola" d="M-36 8 q9 -5 18 0 t18 0 t18 0 t18 0 t18 0 V60 H-36z"/></g></g>
-      <path d="M2 3h32l-4 44H6z" class="vaso-borde"/></svg></button>`;
+  const vaso = i => `<button class="vaso${i <= n ? " lleno" : ""}" data-acc="agua" data-arg="${fecha}|${i === n ? i - 1 : i}" aria-label="Cantimplora ${i}" aria-pressed="${i <= n}">
+    <svg viewBox="0 0 36 46" aria-hidden="true"><defs><clipPath id="v-${fecha}-${i}"><circle cx="18" cy="29" r="15.3"/></clipPath></defs>
+      <rect class="vaso-tapa" x="12.5" y="1" width="11" height="5.5" rx="1.6"/><rect class="vaso-cuello" x="15" y="6" width="6" height="8"/>
+      <circle cx="18" cy="29" r="16" class="vaso-fondo"/><g clip-path="url(#v-${fecha}-${i})"><g class="vaso-agua"><path class="ola" d="M-36 12 q9 -5 18 0 t18 0 t18 0 t18 0 t18 0 V60 H-36z"/></g></g>
+      <circle cx="18" cy="29" r="12.5" class="vaso-costura"/><circle cx="18" cy="29" r="16" class="vaso-borde"/></svg></button>`;
   const litros = (n * 0.25).toLocaleString("es", { maximumFractionDigits: 2 });
-  return `<div class="vasos" role="group" aria-label="Vasos de agua">${[1, 2, 3, 4, 5, 6, 7, 8].map(vaso).join("")}</div>
-    <div class="vasos-pie"><b>${n} de 8 vasos · ${litros} L</b>${n >= 8 ? `<span>¡Meta de agua cumplida!</span>` : ""}
-      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n - 1}" ${n <= 0 ? "disabled" : ""} aria-label="Un vaso menos">−</button>
-      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n + 1}" ${n >= 8 ? "disabled" : ""} aria-label="Un vaso más">+</button></div>`;
+  return `<div class="vasos" role="group" aria-label="Agua del día">${[1, 2, 3, 4, 5, 6, 7, 8].map(vaso).join("")}</div>
+    <div class="vasos-pie"><b>${n} de 8 cantimploras · ${litros} L</b>${n >= 8 ? `<span>¡Meta de agua cumplida!</span>` : ""}
+      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n - 1}" ${n <= 0 ? "disabled" : ""} aria-label="Una cantimplora menos">−</button>
+      <button class="btn mini" data-acc="agua" data-arg="${fecha}|${n + 1}" ${n >= 8 ? "disabled" : ""} aria-label="Una cantimplora más">+</button></div>`;
 }
 /** La expedición de la comunidad (igual que Expedicion.kt en la app): una montaña de 8.848.000 mm por año
  * para todos. Cada semana es un tramo y su dificultad se ajusta con los puntos del tramo anterior, como
@@ -394,8 +395,8 @@ function planDelDia(fecha, ag, ms) {
 function cierreDia(fecha, ag, campoAg) {
   const man = sumarDias(fecha, 1), topM = topDe(man), d = deIso(man), msM = metasDelMes(d.getFullYear(), d.getMonth() + 1), p = pendientesDe(fecha);
   return hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
-      <div class="form-2">${campo("Energía", `<div class="energia">${[1, 2, 3, 4, 5].map(n => `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n}"></button>`).join("")}</div>`)}
-        <div class="campo"><span>Vasos de agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
+      <div class="form-2">${campo("Energía", `<div class="energia" role="group" aria-label="Energía: cinco cumbres">${[1, 2, 3, 4, 5].map(n => { const y = 30 - (11 + 3.6 * (n - 1)); return `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n} de 5" aria-pressed="${(ag.energia || 0) >= n}"><svg viewBox="0 0 30 30" aria-hidden="true"><path class="e-monte" d="M3 28L15 ${y}L27 28Z"/><path class="e-nieve" d="M15 ${y}L${15 + 12 * .28} ${y + (28 - y) * .28}L15 ${y + (28 - y) * .2}L${15 - 12 * .28} ${y + (28 - y) * .28}Z"/></svg></button>`; }).join("")}</div>`)}
+        <div class="campo"><span>Agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
       ${campoAg("notas", "Notas")}</div>
     <div class="etiqueta" style="margin:16px 0 6px">Mañana · tus 3 cumbres</div>
     <p class="suave" style="margin:0 0 8px;font-size:13px">Escríbelas antes de dormir: mañana empiezas sin decidir.</p>

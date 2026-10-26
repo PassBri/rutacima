@@ -194,7 +194,7 @@
     <string name="opcion_a">選択肢A</string>
     <string name="opcion_b">選択肢B</string>
     <string name="decision_a_tomar">決めること</string>
-    <string name="energia">元気が出る</string>
+    <string name="energia">エネルギー</string>
     <string name="drena">消耗する</string>
     <string name="neutro">どちらでもない</string>
     <string name="matriz_gana">「%1$s」のほうが得点が高いです(%2$d対%3$d)。たいていは、こちらがベストな選択です。</string>
@@ -219,7 +219,7 @@
     <string name="intencion_dia">今日の意図</string>
     <string name="prioridad_1_hoy">今日の最優先事項</string>
     <string name="agua_vasos">水(杯数)</string>
-    <string name="vaso_n">%1$d杯目</string>
+    <string name="vaso_n">水筒 %1$d</string>
     <string name="planifique_dia">1日を計画する</string>
     <string name="ver_horario_corto">5:00〜22:00のみ表示</string>
     <string name="ver_24_horas">24時間表示</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">コミュニティに投稿</string>
     <string name="resumen_vacio">まだ振り返るには足りません。数日習慣を記録してから戻ってきてください。</string>
     <string name="resumen_texto">SuRouteでの%1$d年：習慣を記録した日%2$d日、達成した習慣%3$d、最長ストリーク%4$d日、達成した目標%5$d。</string>
-    <string name="agua_resumen">8杯中%1$d杯 · %2$s L</string>
+    <string name="agua_resumen">水筒 8 本中 %1$d 本 · %2$s L</string>
     <string name="agua_cumplida">水分補給の目標達成！</string>
     <string name="agua_sumar">もう1杯</string>
     <string name="agua_quitar">1杯減らす</string>

@@ -219,7 +219,7 @@
     <string name="intencion_dia">Намерение дня</string>
     <string name="prioridad_1_hoy">Мой приоритет №1 сегодня</string>
     <string name="agua_vasos">Вода (стаканы)</string>
-    <string name="vaso_n">Стакан %1$d</string>
+    <string name="vaso_n">Фляга %1$d</string>
     <string name="planifique_dia">Спланируй свой день</string>
     <string name="ver_horario_corto">Показать только 5:00 – 22:00</string>
     <string name="ver_24_horas">Показать все 24 часа</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">Опубликовать в сообществе</string>
     <string name="resumen_vacio">Пока данных мало: отмечай привычки несколько дней и возвращайся.</string>
     <string name="resumen_texto">Мой %1$d в SuRoute: %2$d дней с привычками, %3$d выполненных привычек, лучшая серия %4$d дней и %5$d достигнутых целей.</string>
-    <string name="agua_resumen">%1$d из 8 стаканов · %2$s л</string>
+    <string name="agua_resumen">%1$d из 8 фляг · %2$s л</string>
     <string name="agua_cumplida">Цель по воде выполнена!</string>
     <string name="agua_sumar">Ещё стакан</string>
     <string name="agua_quitar">На стакан меньше</string>

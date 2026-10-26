@@ -381,7 +381,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         item {
             RutaCard {
                 Text(stringResource(R.string.energia), style = MaterialTheme.typography.labelLarge)
-                Circulos(total = 5, valor = d.energia, color = MaterialTheme.colorScheme.secondary) { n -> vm.editar { it.copy(energia = n) } }
+                com.rutaalacima.app.ui.components.NivelEnergia(d.energia, { n -> vm.editar { it.copy(energia = n) } })
                 Spacer(Modifier.height(8.dp))
                 Text(stringResource(R.string.agua_vasos), style = MaterialTheme.typography.labelLarge)
                 Spacer(Modifier.height(6.dp))

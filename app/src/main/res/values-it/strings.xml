@@ -219,7 +219,7 @@
     <string name="intencion_dia">Intenzione del giorno</string>
     <string name="prioridad_1_hoy">La mia priorità n. 1 di oggi</string>
     <string name="agua_vasos">Acqua (bicchieri)</string>
-    <string name="vaso_n">Bicchiere %1$d</string>
+    <string name="vaso_n">Borraccia %1$d</string>
     <string name="planifique_dia">Pianifica la tua giornata</string>
     <string name="ver_horario_corto">Mostra solo 5:00 – 22:00</string>
     <string name="ver_24_horas">Mostra le 24 ore</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">Pubblica nella comunità</string>
     <string name="resumen_vacio">Non c’è ancora abbastanza per il tuo riepilogo: segna le abitudini per qualche giorno e torna.</string>
     <string name="resumen_texto">Il mio %1$d su SuRoute: %2$d giorni con abitudini, %3$d abitudini compiute, serie migliore di %4$d giorni e %5$d obiettivi raggiunti.</string>
-    <string name="agua_resumen">%1$d di 8 bicchieri · %2$s L</string>
+    <string name="agua_resumen">%1$d di 8 borracce · %2$s L</string>
     <string name="agua_cumplida">Obiettivo acqua raggiunto!</string>
     <string name="agua_sumar">Un bicchiere in più</string>
     <string name="agua_quitar">Un bicchiere in meno</string>

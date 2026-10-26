@@ -219,7 +219,7 @@
     <string name="intencion_dia">오늘의 다짐</string>
     <string name="prioridad_1_hoy">오늘의 최우선 과제</string>
     <string name="agua_vasos">물 (잔)</string>
-    <string name="vaso_n">%1$d번째 잔</string>
+    <string name="vaso_n">%1$d번째 수통</string>
     <string name="planifique_dia">하루 계획하기</string>
     <string name="ver_horario_corto">5:00 – 22:00만 보기</string>
     <string name="ver_24_horas">24시간 보기</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">커뮤니티에 게시</string>
     <string name="resumen_vacio">아직 요약할 내용이 부족해요. 며칠 습관을 기록하고 다시 오세요.</string>
     <string name="resumen_texto">SuRoute에서의 %1$d년: 습관 기록 %2$d일, 완료한 습관 %3$d개, 최장 연속 %4$d일, 달성한 목표 %5$d개.</string>
-    <string name="agua_resumen">8잔 중 %1$d잔 · %2$s L</string>
+    <string name="agua_resumen">수통 8개 중 %1$d개 · %2$s L</string>
     <string name="agua_cumplida">물 마시기 목표 달성!</string>
     <string name="agua_sumar">한 잔 더</string>
     <string name="agua_quitar">한 잔 빼기</string>

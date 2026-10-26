@@ -219,7 +219,7 @@
     <string name="intencion_dia">Intention du jour</string>
     <string name="prioridad_1_hoy">Ma priorité n°1 aujourd\'hui</string>
     <string name="agua_vasos">Eau (verres)</string>
-    <string name="vaso_n">Verre %1$d</string>
+    <string name="vaso_n">Gourde %1$d</string>
     <string name="planifique_dia">Planifie ta journée</string>
     <string name="ver_horario_corto">Voir seulement 5h00 – 22h00</string>
     <string name="ver_24_horas">Voir les 24 heures</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">Publier dans la communauté</string>
     <string name="resumen_vacio">Pas encore assez pour ton bilan : coche tes habitudes quelques jours et reviens.</string>
     <string name="resumen_texto">Mon %1$d sur SuRoute : %2$d jours avec des habitudes, %3$d habitudes accomplies, une meilleure série de %4$d jours et %5$d objectifs atteints.</string>
-    <string name="agua_resumen">%1$d verres sur 8 · %2$s L</string>
+    <string name="agua_resumen">%1$d gourdes sur 8 · %2$s L</string>
     <string name="agua_cumplida">Objectif d’eau atteint !</string>
     <string name="agua_sumar">Un verre de plus</string>
     <string name="agua_quitar">Un verre de moins</string>

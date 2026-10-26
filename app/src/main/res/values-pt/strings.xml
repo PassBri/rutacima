@@ -219,7 +219,7 @@
     <string name="intencion_dia">Intenção do dia</string>
     <string name="prioridad_1_hoy">Minha prioridade #1 hoje</string>
     <string name="agua_vasos">Água (copos)</string>
-    <string name="vaso_n">Copo %1$d</string>
+    <string name="vaso_n">Cantil %1$d</string>
     <string name="planifique_dia">Planeje seu dia</string>
     <string name="ver_horario_corto">Ver só 5:00 – 22:00</string>
     <string name="ver_24_horas">Ver as 24 horas</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">Publicar na comunidade</string>
     <string name="resumen_vacio">Ainda não há o suficiente para o seu resumo: marque seus hábitos por alguns dias e volte.</string>
     <string name="resumen_texto">Meu %1$d na SuRoute: %2$d dias com hábitos, %3$d hábitos cumpridos, melhor sequência de %4$d dias e %5$d metas cumpridas.</string>
-    <string name="agua_resumen">%1$d de 8 copos · %2$s L</string>
+    <string name="agua_resumen">%1$d de 8 cantis · %2$s L</string>
     <string name="agua_cumplida">Meta de água cumprida!</string>
     <string name="agua_sumar">Mais um copo</string>
     <string name="agua_quitar">Um copo a menos</string>

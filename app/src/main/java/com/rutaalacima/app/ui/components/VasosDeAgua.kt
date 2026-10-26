@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -69,7 +70,7 @@ fun VasosDeAgua(vasos: Int, onCambio: (Int) -> Unit, modifier: Modifier = Modifi
         0f, 1f, infiniteRepeatable(tween(2200, easing = LinearEasing), RepeatMode.Restart), label = "fase",
     )
     Column(modifier) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        Row(Modifier.fillMaxWidth().widthIn(max = 280.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             for (i in 1..meta) {
                 val nivel by animateFloatAsState(
                     if (i <= vasos) 1f else 0f,
@@ -78,7 +79,7 @@ fun VasosDeAgua(vasos: Int, onCambio: (Int) -> Unit, modifier: Modifier = Modifi
                 val desc = stringResource(R.string.vaso_n, i)
                 Vaso(
                     nivel, ola,
-                    Modifier.weight(1f).aspectRatio(0.72f).clip(RoundedCornerShape(6.dp))
+                    Modifier.weight(1f).aspectRatio(0.78f).clip(RoundedCornerShape(6.dp))
                         // Tocar el último vaso lleno lo vacía; tocar otro llena hasta ahí
                         .clickable(role = Role.Button) { cambiar(if (vasos == i) i - 1 else i) }
                         .semantics { contentDescription = desc; stateDescription = if (i <= vasos) "✓" else "" },
@@ -103,38 +104,74 @@ fun VasosDeAgua(vasos: Int, onCambio: (Int) -> Unit, modifier: Modifier = Modifi
     }
 }
 
-/** Un vaso: contorno de vaso (más ancho arriba) y el agua con su ola subiendo hasta [nivel]. */
+/** Una cantimplora de senderista: tapa, cuello y cuerpo redondo con su funda; el agua sube con una ola hasta [nivel]. */
 @Composable
 private fun Vaso(nivel: Float, ola: Float, modifier: Modifier) {
     val borde = MaterialTheme.colorScheme.outline
     val vacio = MaterialTheme.colorScheme.surfaceContainerHighest
+    val tapa = MaterialTheme.colorScheme.onSurfaceVariant
     Canvas(modifier) {
         val w = size.width; val h = size.height
-        val inset = w * 0.14f
-        val vaso = Path().apply {
-            moveTo(w * 0.04f, h * 0.06f); lineTo(w * 0.96f, h * 0.06f)
-            lineTo(w - inset, h * 0.96f); lineTo(inset, h * 0.96f); close()
-        }
-        drawPath(vaso, vacio)
-        clipPath(vaso) {
+        val r = w * 0.46f
+        val c = Offset(w / 2f, h - r - h * 0.02f)
+        val cuerpo = Path().apply { addOval(androidx.compose.ui.geometry.Rect(c, r)) }
+        // Tapa y cuello
+        drawRoundRect(tapa, Offset(w * 0.34f, h * 0.01f), androidx.compose.ui.geometry.Size(w * 0.32f, h * 0.11f), androidx.compose.ui.geometry.CornerRadius(w * 0.05f))
+        drawRect(borde, Offset(w * 0.4f, h * 0.11f), androidx.compose.ui.geometry.Size(w * 0.2f, c.y - r - h * 0.11f + 2f))
+        drawPath(cuerpo, vacio)
+        clipPath(cuerpo) {
             val n = nivel.coerceIn(0f, 1.08f)
             if (n > 0.001f) {
-                val sup = h * 0.96f - (h * 0.88f) * n.coerceAtMost(1f)
+                val alto = r * 2f; val fondo = c.y + r
+                val sup = fondo - alto * n.coerceAtMost(1f)
                 val amp = h * 0.035f * (1f - (n - 1f).coerceAtLeast(0f) * 10f).coerceIn(0.3f, 1f)
                 val agua = Path().apply {
                     moveTo(0f, h)
                     var x = 0f
-                    while (x <= w) {
-                        lineTo(x, sup + sin((x / w + ola) * 2f * PI.toFloat()) * amp)
-                        x += w / 16f
-                    }
+                    while (x <= w) { lineTo(x, sup + sin((x / w + ola) * 2f * PI.toFloat()) * amp); x += w / 16f }
                     lineTo(w, h); close()
                 }
                 drawPath(agua, Agua.copy(alpha = 0.85f))
-                // Brillo del vidrio
-                drawLine(Color.White.copy(alpha = 0.35f), Offset(w * 0.24f, h * 0.18f), Offset(w * 0.3f, h * 0.8f), strokeWidth = w * 0.06f)
             }
         }
-        drawPath(vaso, borde, style = Stroke(width = 1.5.dp.toPx()))
+        // Funda: costura interior y la correa que cruza
+        drawCircle(borde.copy(alpha = 0.5f), r * 0.78f, c, style = Stroke(width = 1.dp.toPx(), pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(3f, 3f))))
+        drawPath(cuerpo, borde, style = Stroke(width = 1.5.dp.toPx()))
+    }
+}
+
+/** Nivel de energía como altitud: cinco cumbres que crecen; se encienden hasta la elegida. */
+@Composable
+fun NivelEnergia(valor: Int, onChange: (Int) -> Unit, color: Color = MaterialTheme.colorScheme.secondary, total: Int = 5) {
+    val vacio = MaterialTheme.colorScheme.outline
+    val nieve = MaterialTheme.colorScheme.surface
+    val nombre = stringResource(R.string.energia)
+    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.Bottom) {
+        for (i in 1..total) {
+            val lleno = i <= valor
+            Canvas(
+                Modifier.size(width = 34.dp, height = 34.dp).clip(RoundedCornerShape(8.dp))
+                    .clickable(role = Role.Button) { onChange(if (valor == i) i - 1 else i) }
+                    .semantics { contentDescription = "$nombre $i/$total"; stateDescription = if (lleno) "✓" else "" },
+            ) {
+                val w = size.width; val h = size.height
+                val alto = h * (0.36f + 0.12f * (i - 1))
+                val pico = Offset(w / 2f, h * 0.94f - alto)
+                val monte = Path().apply { moveTo(w * 0.1f, h * 0.94f); lineTo(pico.x, pico.y); lineTo(w * 0.9f, h * 0.94f); close() }
+                if (lleno) {
+                    drawPath(monte, color)
+                    // Nieve en la cumbre
+                    val k = 0.28f
+                    val nieveP = Path().apply {
+                        moveTo(pico.x, pico.y)
+                        lineTo(pico.x + (w * 0.4f) * k, pico.y + alto * k)
+                        lineTo(pico.x, pico.y + alto * k * 0.7f)
+                        lineTo(pico.x - (w * 0.4f) * k, pico.y + alto * k)
+                        close()
+                    }
+                    drawPath(nieveP, nieve)
+                } else drawPath(monte, vacio, style = Stroke(width = 1.5.dp.toPx(), join = androidx.compose.ui.graphics.StrokeJoin.Round))
+            }
+        }
     }
 }

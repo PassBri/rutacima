@@ -219,7 +219,7 @@
     <string name="intencion_dia">Tagesabsicht</string>
     <string name="prioridad_1_hoy">Meine Priorität Nr. 1 heute</string>
     <string name="agua_vasos">Wasser (Gläser)</string>
-    <string name="vaso_n">Glas %1$d</string>
+    <string name="vaso_n">Feldflasche %1$d</string>
     <string name="planifique_dia">Plane deinen Tag</string>
     <string name="ver_horario_corto">Nur 5:00 – 22:00 anzeigen</string>
     <string name="ver_24_horas">24 Stunden anzeigen</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">In der Community posten</string>
     <string name="resumen_vacio">Für deinen Rückblick reicht es noch nicht: hake ein paar Tage deine Gewohnheiten ab und komm wieder.</string>
     <string name="resumen_texto">Mein %1$d auf SuRoute: %2$d Tage mit Gewohnheiten, %3$d erledigte Gewohnheiten, beste Serie %4$d Tage und %5$d erreichte Ziele.</string>
-    <string name="agua_resumen">%1$d von 8 Gläsern · %2$s L</string>
+    <string name="agua_resumen">%1$d von 8 Feldflaschen · %2$s L</string>
     <string name="agua_cumplida">Wasserziel erreicht!</string>
     <string name="agua_sumar">Noch ein Glas</string>
     <string name="agua_quitar">Ein Glas weniger</string>

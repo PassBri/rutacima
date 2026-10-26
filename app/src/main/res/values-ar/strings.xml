@@ -219,7 +219,7 @@
     <string name="intencion_dia">نيّة اليوم</string>
     <string name="prioridad_1_hoy">أولويتي الأولى اليوم</string>
     <string name="agua_vasos">الماء (أكواب)</string>
-    <string name="vaso_n">الكوب %1$d</string>
+    <string name="vaso_n">المطرة %1$d</string>
     <string name="planifique_dia">خطّط ليومك</string>
     <string name="ver_horario_corto">عرض 5:00 – 22:00 فقط</string>
     <string name="ver_24_horas">عرض الـ24 ساعة</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">انشر في المجتمع</string>
     <string name="resumen_vacio">لا يوجد ما يكفي لملخصك بعد: سجّل عاداتك بضعة أيام ثم عد.</string>
     <string name="resumen_texto">عامي %1$d في SuRoute: %2$d يومًا مع عادات، %3$d عادة منجزة، أفضل سلسلة %4$d يومًا و%5$d أهداف منجزة.</string>
-    <string name="agua_resumen">%1$d من 8 أكواب · %2$s لتر</string>
+    <string name="agua_resumen">%1$d من 8 مطرات · %2$s لتر</string>
     <string name="agua_cumplida">تحقق هدف شرب الماء!</string>
     <string name="agua_sumar">كوب آخر</string>
     <string name="agua_quitar">كوب أقل</string>

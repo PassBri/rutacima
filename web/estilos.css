@@ -2793,15 +2793,19 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 /* Cimas: acciones limpias en blanco, sin círculos de color. Impulsar = corazón dentro del símbolo */
 .cima-acciones button svg { background: none; border: 0; padding: 10px; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .55)); fill: #fff; }
 .cima-acciones button[aria-pressed="true"] svg { background: none; color: #fff; }
-.cima-acciones .mochila-btn[aria-pressed="true"], .cima-acciones [data-acc="guardarPost"][aria-pressed="true"] { color: #fff; }
+/* Al tocar: azul de altura (claro, para leerse sobre fotos y cielos oscuros) */
+.cima-acciones { --altura: #9EC1D6; }
+.cima-acciones button[aria-pressed="true"]:not(.cima-impulso) svg, .cima-acciones .mochila-btn[aria-pressed="true"] svg { fill: var(--altura); }
+.cima-acciones .mochila-btn[aria-pressed="true"], .cima-acciones [data-acc="guardarPost"][aria-pressed="true"] { color: var(--altura); }
 .cima-acciones b { text-shadow: 0 1px 3px rgb(0 0 0 / .6); }
 .cima-acciones .cima-impulso svg { width: 50px; height: 50px; padding: 0; fill: none; }
 .impulso-marca .im-aro { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: 0; }
-.impulso-marca .im-punto { fill: #F0B3A1; }
+.impulso-marca .im-punto { fill: #fff; }
 .impulso-marca .im-corazon { fill: rgb(255 255 255 / .08); stroke: #fff; stroke-width: 1.9; stroke-linejoin: round; transform-box: fill-box; transform-origin: center; }
-[aria-pressed="true"] > .impulso-marca .im-aro { stroke: #F0B3A1; }
+[aria-pressed="true"] > .impulso-marca .im-aro { stroke: #9EC1D6; }
+[aria-pressed="true"] > .impulso-marca .im-punto { fill: #9EC1D6; }
 .recien[aria-pressed="true"] > .impulso-marca .im-aro { animation: im-trazo .42s cubic-bezier(.2, 0, 0, 1); }
-[aria-pressed="true"] > .impulso-marca .im-corazon { fill: #F0B3A1; stroke: #F0B3A1; }
+[aria-pressed="true"] > .impulso-marca .im-corazon { fill: #9EC1D6; stroke: #9EC1D6; }
 .recien[aria-pressed="true"] > .impulso-marca .im-corazon { animation: im-latido .5s cubic-bezier(.2, 0, 0, 1) .2s backwards; }
 .recien[aria-pressed="true"] > .impulso-marca .im-punto { animation: im-cae .42s cubic-bezier(.2, 0, 0, 1); }
 @keyframes im-trazo { from { stroke-dashoffset: 100; } }
@@ -2848,3 +2852,23 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
   .intro-suroute * { animation: none !important; opacity: 1 !important; transform: none !important; stroke-dashoffset: 0 !important; }
   .in-pasos, .in-cordillera, .in-saltar { display: none; }
 }
+
+/* Agua: cantimploras de senderista, más pequeñas */
+.vasos { max-width: 260px; gap: 5px; }
+.vaso { aspect-ratio: 36 / 46; border-radius: 8px; }
+.vaso-fondo { fill: var(--hoja-2); }
+.vaso-tapa { fill: var(--tinta-suave); }
+.vaso-cuello { fill: var(--linea); }
+.vaso-costura { fill: none; stroke: var(--tinta-suave); stroke-opacity: .45; stroke-width: 1; stroke-dasharray: 2.5 2.5; }
+.vaso-agua { transform: translateY(40px); }
+/* Energía: cinco cumbres que crecen; se encienden hasta la elegida */
+.energia { gap: 4px; align-items: flex-end; }
+.energia button { width: 36px; height: 36px; border: 0; border-radius: 8px; background: transparent; padding: 2px; display: grid; place-items: center; }
+.energia button svg { width: 100%; height: 100%; }
+.energia .e-monte { fill: none; stroke: var(--tinta-suave); stroke-width: 1.5; stroke-linejoin: round; transition: fill .2s cubic-bezier(.2,0,0,1); }
+.energia .e-nieve { fill: transparent; }
+.energia button.si .e-monte { fill: var(--oro); stroke: var(--oro); }
+.energia button.si .e-nieve { fill: var(--hoja); }
+.energia button.si { background: transparent; }
+@media (hover: hover) and (pointer: fine) { .energia button:hover { background: color-mix(in srgb, var(--oro) 10%, transparent); } }
+.vasos-pie b { color: color-mix(in srgb, #2E7D9A 70%, var(--tinta)); }

@@ -194,7 +194,7 @@
     <string name="opcion_a">Option A</string>
     <string name="opcion_b">Option B</string>
     <string name="decision_a_tomar">Decision to make</string>
-    <string name="energia">Energizes</string>
+    <string name="energia">Energy</string>
     <string name="drena">Drains</string>
     <string name="neutro">Neutral</string>
     <string name="matriz_gana">“%1$s” scores more points (%2$d vs %3$d). It\'s usually the better option.</string>
@@ -219,7 +219,7 @@
     <string name="intencion_dia">Intention of the day</string>
     <string name="prioridad_1_hoy">My #1 priority today</string>
     <string name="agua_vasos">Water (glasses)</string>
-    <string name="vaso_n">Glass %1$d</string>
+    <string name="vaso_n">Canteen %1$d</string>
     <string name="planifique_dia">Plan your day</string>
     <string name="ver_horario_corto">Show only 5:00 AM – 10:00 PM</string>
     <string name="ver_24_horas">Show all 24 hours</string>
@@ -1011,7 +1011,7 @@
     <string name="resumen_publicar">Post to the community</string>
     <string name="resumen_vacio">There isn’t enough for your summary yet: check your habits for a few days and come back.</string>
     <string name="resumen_texto">My %1$d on SuRoute: %2$d days with habits, %3$d habits completed, a best streak of %4$d days and %5$d goals completed.</string>
-    <string name="agua_resumen">%1$d of 8 glasses · %2$s L</string>
+    <string name="agua_resumen">%1$d of 8 canteens · %2$s L</string>
     <string name="agua_cumplida">Water goal reached!</string>
     <string name="agua_sumar">One more glass</string>
     <string name="agua_quitar">One glass less</string>
