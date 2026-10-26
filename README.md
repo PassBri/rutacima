@@ -39,6 +39,13 @@ marcas hoy sube solo hasta tu propósito. Así siempre sabes cuál es tu siguien
   <img src="diseno/readme/vitrina.jpg" alt="SuRoute en el computador (Mapa de mi vida con un símbolo por año) y en el teléfono (Perfil)" width="100%">
 </p>
 
+## Mira SuRoute
+
+<p align="center">
+  <a href="https://suroute.com/conoce.html#video"><img src="diseno/readme/video.gif" alt="Video de SuRoute: tu vida en años, la Brújula de la Cima con tarjetas que giran, Cimas, la gráfica del ascenso y Salir de deudas" width="100%"></a>
+</p>
+<p align="center"><sub><a href="https://suroute.com/conoce.html#video">Ver el video completo</a> · <a href="diseno/video/suroute_presentacion.mp4">Descargar el MP4</a></sub></p>
+
 ## Lo que hace
 
 <p align="center">

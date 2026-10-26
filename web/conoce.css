@@ -197,3 +197,7 @@ section { padding: clamp(64px, 9vw, 120px) max(20px, calc((100% - var(--ancho)) 
   .portada-visual { height: 400px; }
   .portada-visual .telefono { width: 190px; }
 }
+
+/* Video de presentación */
+.video { text-align: center; padding-top: 0; }
+.video video { width: min(100%, 960px); height: auto; aspect-ratio: 16 / 9; border-radius: 28px; background: #F4EDE1; box-shadow: 0 1px 2px rgb(var(--sombra) / .14), 0 24px 48px -16px rgb(var(--sombra) / .3); }

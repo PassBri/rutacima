@@ -27,6 +27,7 @@ cp -r web/presentacion "$DESTINO/presentacion"
 if [ -d diseno/video ]; then
   mkdir -p "$DESTINO/video"
   cp diseno/video/rutaalacima_presentacion.mp4 diseno/video/portada.jpg "$DESTINO/video/"
+  cp diseno/video/suroute_presentacion.mp4 diseno/video/suroute_portada.jpg "$DESTINO/video/"
 fi
 # Las 24 guías y las 365 frases (las mismas de la app)
 cp -r app/src/main/assets/content "$DESTINO/assets/content"
