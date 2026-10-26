@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.finanzas
 
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
@@ -996,7 +997,7 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
         Icon(Icons.Filled.DragIndicator, ordenar,
             Modifier.padding(end = 6.dp).size(24.dp)
                 .pointerInput(x.id) {
-                    androidx.compose.foundation.gestures.detectVerticalDragGestures(onDragEnd = { acumulado = 0f }, onDragCancel = { acumulado = 0f }) { cambio, d ->
+                    detectVerticalDragGestures(onDragEnd = { acumulado = 0f }, onDragCancel = { acumulado = 0f }) { cambio, d ->
                         cambio.consume(); acumulado += d
                         if (acumulado > paso) { acumulado -= paso; vm.mover(fecha, x, 1) }
                         if (acumulado < -paso) { acumulado += paso; vm.mover(fecha, x, -1) }
