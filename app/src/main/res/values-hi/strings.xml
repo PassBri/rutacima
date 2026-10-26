@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">क्रम बदलने के लिए खींचें</string>
     <string name="cu_subir">ऊपर ले जाएँ</string>
     <string name="cu_bajar">नीचे ले जाएँ</string>
+    <string name="cu_g_flujo">आपका धन प्रवाह</string>
+    <string name="cu_g_futuro">अपना भविष्य बनाना</string>
+    <string name="cu_g_deudas">कर्ज़</string>
+    <string name="cu_g_libertad">स्वतंत्रता और संपत्ति</string>
+    <string name="cu_cuenta_ok">%1$d लक्ष्य पर</string>
+    <string name="cu_cuenta_medio">%1$d पर ध्यान दें</string>
+    <string name="cu_cuenta_bajo">%1$d में सुधार करें</string>
 </resources>

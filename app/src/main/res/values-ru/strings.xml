@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">Перетащите, чтобы изменить порядок</string>
     <string name="cu_subir">Выше</string>
     <string name="cu_bajar">Ниже</string>
+    <string name="cu_g_flujo">Ваш денежный поток</string>
+    <string name="cu_g_futuro">Строим будущее</string>
+    <string name="cu_g_deudas">Долги</string>
+    <string name="cu_g_libertad">Свобода и капитал</string>
+    <string name="cu_cuenta_ok">%1$d в норме</string>
+    <string name="cu_cuenta_medio">%1$d требуют внимания</string>
+    <string name="cu_cuenta_bajo">%1$d улучшить</string>
 </resources>

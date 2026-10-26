@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">Arraste para reordenar</string>
     <string name="cu_subir">Subir</string>
     <string name="cu_bajar">Descer</string>
+    <string name="cu_g_flujo">Seu fluxo de dinheiro</string>
+    <string name="cu_g_futuro">Construir seu futuro</string>
+    <string name="cu_g_deudas">Dívidas</string>
+    <string name="cu_g_libertad">Liberdade e patrimônio</string>
+    <string name="cu_cuenta_ok">%1$d na meta</string>
+    <string name="cu_cuenta_medio">%1$d em atenção</string>
+    <string name="cu_cuenta_bajo">%1$d a melhorar</string>
 </resources>

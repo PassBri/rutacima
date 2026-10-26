@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">Trascina per riordinare</string>
     <string name="cu_subir">Sposta su</string>
     <string name="cu_bajar">Sposta giù</string>
+    <string name="cu_g_flujo">Il tuo flusso di denaro</string>
+    <string name="cu_g_futuro">Costruire il tuo futuro</string>
+    <string name="cu_g_deudas">Debiti</string>
+    <string name="cu_g_libertad">Libertà e patrimonio</string>
+    <string name="cu_cuenta_ok">%1$d in obiettivo</string>
+    <string name="cu_cuenta_medio">%1$d da tenere d\'occhio</string>
+    <string name="cu_cuenta_bajo">%1$d da migliorare</string>
 </resources>

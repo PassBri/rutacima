@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">拖动以调整顺序</string>
     <string name="cu_subir">上移</string>
     <string name="cu_bajar">下移</string>
+    <string name="cu_g_flujo">你的现金流</string>
+    <string name="cu_g_futuro">建设你的未来</string>
+    <string name="cu_g_deudas">债务</string>
+    <string name="cu_g_libertad">自由与净资产</string>
+    <string name="cu_cuenta_ok">%1$d 项达标</string>
+    <string name="cu_cuenta_medio">%1$d 项需关注</string>
+    <string name="cu_cuenta_bajo">%1$d 项待改进</string>
 </resources>

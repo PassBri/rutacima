@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">끌어서 순서 바꾸기</string>
     <string name="cu_subir">위로</string>
     <string name="cu_bajar">아래로</string>
+    <string name="cu_g_flujo">현금 흐름</string>
+    <string name="cu_g_futuro">미래 만들기</string>
+    <string name="cu_g_deudas">부채</string>
+    <string name="cu_g_libertad">자유와 순자산</string>
+    <string name="cu_cuenta_ok">목표 달성 %1$d</string>
+    <string name="cu_cuenta_medio">주의 %1$d</string>
+    <string name="cu_cuenta_bajo">개선 필요 %1$d</string>
 </resources>

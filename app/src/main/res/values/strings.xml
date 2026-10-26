@@ -2020,4 +2020,11 @@
     <string name="cu_ordenar">Arrastra para cambiar el orden</string>
     <string name="cu_subir">Subir</string>
     <string name="cu_bajar">Bajar</string>
+    <string name="cu_g_flujo">Tu flujo de dinero</string>
+    <string name="cu_g_futuro">Construir tu futuro</string>
+    <string name="cu_g_deudas">Deudas</string>
+    <string name="cu_g_libertad">Libertad y patrimonio</string>
+    <string name="cu_cuenta_ok">%1$d en meta</string>
+    <string name="cu_cuenta_medio">%1$d en atención</string>
+    <string name="cu_cuenta_bajo">%1$d por mejorar</string>
 </resources>

@@ -2,6 +2,7 @@ package com.rutaalacima.app.ui.finanzas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.horizontalScroll
@@ -118,14 +119,20 @@ private fun metaTexto(k: String, e: Escala) = when (k) {
 
 /** El estado con ícono y palabra: Bien, Atención, Por mejorar. */
 @Composable
-fun ChipEstado(e: Salud.Estado) {
+fun ChipEstado(e: Salud.Estado, soloIcono: Boolean = false) {
     if (e == Salud.Estado.NA) return
     val (icono, txt) = when (e) {
         Salud.Estado.OK -> Icons.Filled.Check to R.string.cu_est_ok
         Salud.Estado.MEDIO -> Icons.Filled.PriorityHigh to R.string.cu_est_medio
         else -> Icons.Filled.Close to R.string.cu_est_bajo
     }
-    Row(Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(start = 2.dp, end = 8.dp, top = 2.dp, bottom = 2.dp),
+    if (soloIcono) {
+        Box(Modifier.size(20.dp).clip(CircleShape).background(colorSt(e)), contentAlignment = Alignment.Center) {
+            Icon(icono, null, Modifier.size(13.dp), tint = if (e == Salud.Estado.MEDIO) Color(0xFF0B0B0B) else Color.White)
+        }
+        return
+    }
+    Row(Modifier.clip(RoundedCornerShape(8.dp)).border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp)).padding(start = 4.dp, end = 10.dp, top = 3.dp, bottom = 3.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(16.dp).clip(CircleShape).background(colorSt(e)), contentAlignment = Alignment.Center) {
             Icon(icono, null, Modifier.size(11.dp), tint = if (e == Salud.Estado.MEDIO) Color(0xFF0B0B0B) else Color.White)
@@ -201,14 +208,16 @@ fun BarraPeso(r: Salud.Resultado, plata: (Double) -> String) {
 @Composable
 fun Medidor(i: Salud.Indicador, nombre: String, ayuda: String, valor: String) {
     val e = ESCALAS[i.clave]
-    Column(Modifier.fillMaxWidth().padding(top = 16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(nombre, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
-            Spacer(Modifier.width(8.dp))
-            Text(valor, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+    val colorValor = when (i.estado) { Salud.Estado.OK -> ST_OK; Salud.Estado.BAJO -> ST_BAJO; else -> MaterialTheme.colorScheme.onSurface }
+    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.surfaceContainerLowest)
+        .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(16.dp)).padding(16.dp)) {
+        Row(verticalAlignment = Alignment.Top) {
+            Text(nombre, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.width(8.dp))
             ChipEstado(i.estado)
         }
+        Text(valor, Modifier.padding(top = 6.dp), style = MaterialTheme.typography.headlineMedium.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif),
+            fontWeight = FontWeight.SemiBold, color = colorValor)
         if (e != null && i.valor.isFinite()) {
             val pista = MaterialTheme.colorScheme.surfaceContainerHighest
             val zona = ST_OK.copy(alpha = if (oscuro()) 0.22f else 0.16f)

@@ -173,12 +173,24 @@ fun colorEstado(e: Salud.Estado) = when (e) {
 }
 
 /** Salud financiera: el Índice (ISF) con su escala, cada peso que entra, los medidores, lo que tienes y debes, mes a mes y las cifras. */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> String) {
     if (r.suma.n == 0) return
     val ctx = LocalContext.current
     var cifras by remember { mutableStateOf(false) }
-    RutaCard {
+    val periodo = anio?.let { "$it" } ?: stringResource(R.string.cu_ultimos_12).lowercase()
+    // Color del nivel (el mismo de la web): excelente, buena, moderada o riesgo
+    val nivelColor = when (r.nivel) {
+        Salud.Nivel.EXCELENTE -> ST_OK; Salud.Nivel.BUENA -> androidx.compose.ui.graphics.Color(0xFF2E7D52)
+        Salud.Nivel.MODERADA -> androidx.compose.ui.graphics.Color(0xFFB7791F); Salud.Nivel.RIESGO -> ST_BAJO; null -> MaterialTheme.colorScheme.primary
+    }
+    Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
+    // Tarjeta principal tonal: el ISF grande, el nivel, la escala y cuántos indicadores van en meta
+    androidx.compose.material3.Surface(
+        shape = RoundedCornerShape(28.dp), color = nivelColor.copy(alpha = if (oscuro()) 0.16f else 0.09f),
+        border = androidx.compose.foundation.BorderStroke(1.dp, nivelColor.copy(alpha = 0.2f)), modifier = Modifier.fillMaxWidth(),
+    ) { Column(Modifier.padding(20.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.cu_salud), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
             if (libro.publica) {
@@ -188,41 +200,61 @@ fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> S
                 }
             }
         }
-        val periodo = anio?.let { "$it" } ?: stringResource(R.string.cu_ultimos_12).lowercase()
         r.isf?.let { isf ->
-            val (nom, desc, est) = when (r.nivel!!) {
-                Salud.Nivel.EXCELENTE -> Triple(R.string.cu_nivel_excelente, R.string.cu_nivel_excelente_d, Salud.Estado.OK)
-                Salud.Nivel.BUENA -> Triple(R.string.cu_nivel_buena, R.string.cu_nivel_buena_d, Salud.Estado.OK)
-                Salud.Nivel.MODERADA -> Triple(R.string.cu_nivel_moderada, R.string.cu_nivel_moderada_d, Salud.Estado.MEDIO)
-                Salud.Nivel.RIESGO -> Triple(R.string.cu_nivel_riesgo, R.string.cu_nivel_riesgo_d, Salud.Estado.BAJO)
+            val (nom, desc) = when (r.nivel!!) {
+                Salud.Nivel.EXCELENTE -> R.string.cu_nivel_excelente to R.string.cu_nivel_excelente_d
+                Salud.Nivel.BUENA -> R.string.cu_nivel_buena to R.string.cu_nivel_buena_d
+                Salud.Nivel.MODERADA -> R.string.cu_nivel_moderada to R.string.cu_nivel_moderada_d
+                Salud.Nivel.RIESGO -> R.string.cu_nivel_riesgo to R.string.cu_nivel_riesgo_d
             }
             Row(Modifier.padding(top = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(84.dp), contentAlignment = Alignment.Center) {
-                    val pista = MaterialTheme.colorScheme.surfaceContainerHighest; val color = MaterialTheme.colorScheme.primary
+                Box(Modifier.size(116.dp), contentAlignment = Alignment.Center) {
+                    val pista = nivelColor.copy(alpha = 0.16f); val fondo = MaterialTheme.colorScheme.surface
                     androidx.compose.foundation.Canvas(Modifier.fillMaxSize()) {
-                        val g = 9.dp.toPx()
-                        drawArc(pista, 0f, 360f, false, style = androidx.compose.ui.graphics.drawscope.Stroke(g))
-                        drawArc(color, -90f, 360f * isf / 100f, false, style = androidx.compose.ui.graphics.drawscope.Stroke(g, cap = androidx.compose.ui.graphics.StrokeCap.Round))
+                        val g = 12.dp.toPx()
+                        drawCircle(fondo, size.minDimension / 2f - g / 2f)
+                        drawArc(pista, 0f, 360f, false, topLeft = androidx.compose.ui.geometry.Offset(g / 2, g / 2), size = androidx.compose.ui.geometry.Size(size.width - g, size.height - g), style = androidx.compose.ui.graphics.drawscope.Stroke(g))
+                        drawArc(nivelColor, -90f, 360f * isf / 100f, false, topLeft = androidx.compose.ui.geometry.Offset(g / 2, g / 2), size = androidx.compose.ui.geometry.Size(size.width - g, size.height - g), style = androidx.compose.ui.graphics.drawscope.Stroke(g, cap = androidx.compose.ui.graphics.StrokeCap.Round))
                     }
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("$isf", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+                        Text("$isf", style = MaterialTheme.typography.displaySmall.copy(fontFamily = androidx.compose.ui.text.font.FontFamily.Serif), fontWeight = FontWeight.SemiBold)
                         Text("ISF %", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
-                Spacer(Modifier.width(14.dp))
+                Spacer(Modifier.width(16.dp))
                 Column(Modifier.weight(1f)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(nom), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                        Spacer(Modifier.width(8.dp)); ChipEstado(est)
-                    }
-                    Text(stringResource(desc), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(nom), Modifier.clip(RoundedCornerShape(8.dp)).background(nivelColor).padding(horizontal = 12.dp, vertical = 5.dp),
+                        style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold, color = androidx.compose.ui.graphics.Color.White)
+                    Text(stringResource(desc), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 8.dp))
                     EscalaIsf(isf)
                 }
             }
-            Text(stringResource(R.string.cu_isf_periodo, periodo), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+            Text(stringResource(R.string.cu_isf_periodo, periodo), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+            androidx.compose.foundation.layout.FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf(Salud.Estado.OK to R.string.cu_cuenta_ok, Salud.Estado.MEDIO to R.string.cu_cuenta_medio, Salud.Estado.BAJO to R.string.cu_cuenta_bajo).forEach { (e, t) ->
+                    val n = r.indicadores.count { it.estado == e }
+                    if (n > 0) Row(Modifier.clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surface).padding(horizontal = 8.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        ChipEstado(e, soloIcono = true); Spacer(Modifier.width(6.dp))
+                        Text(stringResource(t, n), style = MaterialTheme.typography.labelLarge)
+                    }
+                }
+            }
         }
-        BarraPeso(r, plata)
-        r.indicadores.forEach { i -> val (n, d) = nombreIndicador(i.clave); Medidor(i, n, d, valorIndicador(i)) }
+    } }
+    RutaCard { BarraPeso(r, plata) }
+    // Los indicadores en tarjetas, agrupados como se leen
+    val grupos = listOf(
+        R.string.cu_g_flujo to listOf("flujo", "liquidez", "gasto"), R.string.cu_g_futuro to listOf("ahorro", "construye", "fondo"),
+        R.string.cu_g_deudas to listOf("dti", "endeuda", "buenas"), R.string.cu_g_libertad to listOf("pasivos", "libertad", "netoing"),
+    )
+    grupos.forEach { (titulo, claves) ->
+        val xs = claves.mapNotNull { k -> r.indicadores.firstOrNull { it.clave == k } }
+        if (xs.isNotEmpty()) {
+            Text(stringResource(titulo), style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 4.dp, top = 4.dp))
+            xs.forEach { i -> val (n, d) = nombreIndicador(i.clave); Medidor(i, n, d, valorIndicador(i)) }
+        }
+    }
+    RutaCard {
         if (r.actual) BalanceBarras(r, plata)
         LineaMeses(anio, libro)
         VerCifras(cifras) { cifras = !cifras }
@@ -243,6 +275,7 @@ fun SaludCard(r: Salud.Resultado, anio: Int?, libro: Libro, plata: (Double) -> S
                 }
             }
         }
+    }
     }
 }
 

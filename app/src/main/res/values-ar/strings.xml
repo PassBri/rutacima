@@ -2018,4 +2018,11 @@
     <string name="cu_ordenar">اسحب لتغيير الترتيب</string>
     <string name="cu_subir">إلى الأعلى</string>
     <string name="cu_bajar">إلى الأسفل</string>
+    <string name="cu_g_flujo">تدفقك المالي</string>
+    <string name="cu_g_futuro">بناء مستقبلك</string>
+    <string name="cu_g_deudas">الديون</string>
+    <string name="cu_g_libertad">الحرية وصافي الثروة</string>
+    <string name="cu_cuenta_ok">%1$d ضمن الهدف</string>
+    <string name="cu_cuenta_medio">%1$d تحتاج انتباهًا</string>
+    <string name="cu_cuenta_bajo">%1$d للتحسين</string>
 </resources>
