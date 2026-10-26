@@ -4,7 +4,7 @@
    - Nunca toca Supabase (cuenta, datos, coach) ni los audios. */
 const VERSION = "rutacima-dev"; // tools/armar_web.sh lo cambia en cada publicación
 const BASE = ["./", "index.html", "estilos.css", "config.js", "iconos/simbolo.svg", "manifest.webmanifest",
-  "iconos/favicon.png", "iconos/icono-192.png", "iconos/icono-512.png", "iconos/apple-touch-icon.png"];
+  "iconos/favicon.svg", "iconos/favicon.png", "iconos/icono-192.png", "iconos/icono-512.png", "iconos/apple-touch-icon.png"];
 const CDN = ["cdn.jsdelivr.net", "cdnjs.cloudflare.com", "fonts.googleapis.com", "fonts.gstatic.com"];
 
 self.addEventListener("install", e => {
