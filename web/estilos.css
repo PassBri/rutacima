@@ -3230,3 +3230,79 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .clima-btn.en-lista .cb-circ .clima-ic { width: 26px; height: 26px; }
 .bien-clima .bc-ic:has(.clima-ic) { background: transparent; width: 44px; height: 44px; }
 .bien-clima .bc-ic svg.clima-ic { width: 40px; height: 40px; }
+
+/* ---------- Bienestar en el día, el mes y el año (33-bienestar-dia.js) · Material 3 ---------- */
+.bien-dia, .bien-mes, .bien-anio { display: grid; gap: 12px; }
+.bd-cab { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
+.bd-cab h3 { margin: 0; } .bd-cab p { margin: 2px 0 0; font-size: 13.5px; }
+.bd-ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--ok) 16%, transparent); }
+.bd-ic svg { width: 22px; height: 22px; fill: var(--ok); }
+.bd-anillo { --p: 0; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; grid-template-columns: auto auto; align-content: center; justify-content: center; gap: 1px;
+  background: radial-gradient(closest-side, var(--hoja) 78%, transparent 80%), conic-gradient(var(--ok) calc(var(--p) * 360deg), color-mix(in srgb, var(--tinta) 10%, transparent) 0); }
+.bd-anillo b { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; } .bd-anillo small { font-size: 11px; color: var(--tinta-suave); align-self: end; padding-bottom: 2px; }
+.bd-anillo.grande { width: 64px; height: 64px; } .bd-anillo.grande b { font-size: 20px; }
+.bd-sub { margin: 6px 0 0; font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--tinta-suave); }
+.bd-climas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.bd-clima { --c: var(--ok); display: grid; justify-items: center; gap: 6px; padding: 10px 4px 8px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent);
+  background: var(--hoja); color: var(--tinta); font: inherit; font-size: 12.5px; line-height: 1.2; text-align: center; cursor: pointer; touch-action: manipulation;
+  transition: background .16s cubic-bezier(.2,0,0,1), border-color .16s; }
+.bd-clima svg { width: 36px; height: 36px; transition: transform .2s cubic-bezier(.2,0,0,1); }
+.bd-clima.si { border-color: var(--c); background: color-mix(in srgb, var(--c) 14%, var(--hoja)); font-weight: 600; box-shadow: inset 0 0 0 1px var(--c); }
+.bd-clima:active svg { transform: scale(.92); }
+@media (hover: hover) and (pointer: fine) { .bd-clima:not(.si):hover { background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); } }
+.bd-detalle { display: grid; gap: 12px; padding: 12px; border-radius: 16px; background: color-mix(in srgb, var(--tinta) 3.5%, var(--hoja)); }
+.bd-int { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; } .bd-int > span { font-size: 13.5px; color: var(--tinta-suave); }
+.bd-int .bien-int button { width: 40px; height: 40px; }
+.bd-mas summary { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 14px; font-weight: 500; color: var(--tinta); list-style: none; min-height: 40px; }
+.bd-mas summary::-webkit-details-marker { display: none; } .bd-mas summary svg { width: 18px; height: 18px; fill: currentColor; transition: transform .2s; } .bd-mas[open] summary svg { transform: rotate(180deg); }
+.bd-herr { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.bd-h { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--tinta) 22%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 13.5px; cursor: pointer; }
+.bd-h svg { width: 16px; height: 16px; fill: currentColor; } .bd-h.si { background: color-mix(in srgb, var(--ok) 16%, var(--hoja)); border-color: transparent; font-weight: 600; }
+.bd-mas textarea { width: 100%; font: inherit; font-size: 16px; }
+.bd-apoyo { padding: 12px; border-radius: 16px; background: var(--burdeos-suave); }
+.bd-habitos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.bd-h-it { display: grid; gap: 4px; padding: 10px 12px; border-radius: 16px; background: color-mix(in srgb, var(--tinta) 3.5%, var(--hoja)); border: 1px solid transparent; }
+.bd-h-it > small { color: var(--tinta-suave); font-size: 12px; }
+.bd-h-it.ok { background: color-mix(in srgb, var(--ok) 12%, var(--hoja)); } .bd-h-it.ok > small::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+.bd-h-it.medio { border-color: color-mix(in srgb, var(--oro) 45%, transparent); }
+.bd-paso { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; } .bd-paso > span { font-size: 14px; font-weight: 500; }
+.bd-ctrl { display: flex; align-items: center; gap: 6px; } .bd-ctrl b, .bd-agua { min-width: 58px; text-align: center; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bd-ctrl b small, .bd-agua small { font-size: 12px; font-weight: 400; color: var(--tinta-suave); }
+.bd-ctrl .rb { width: 36px; height: 36px; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--tinta) 22%, transparent); background: var(--hoja); color: var(--tinta); font-size: 18px; cursor: pointer; touch-action: manipulation; }
+.bd-h-it .bien-porciones button { width: 32px; height: 32px; }
+.bd-sw input { appearance: none; -webkit-appearance: none; width: 52px; height: 32px; border-radius: 16px; background: color-mix(in srgb, var(--tinta) 14%, var(--hoja)); border: 2px solid color-mix(in srgb, var(--tinta) 40%, transparent); position: relative; cursor: pointer; flex: none; transition: background .2s; }
+.bd-sw input::after { content: ""; position: absolute; top: 50%; left: 6px; width: 16px; height: 16px; border-radius: 50%; background: color-mix(in srgb, var(--tinta) 55%, transparent); translate: 0 -50%; transition: left .2s cubic-bezier(.2,0,0,1), width .2s, height .2s; }
+.bd-sw input:checked { background: var(--ok); border-color: var(--ok); } .bd-sw input:checked::after { left: 24px; width: 22px; height: 22px; background: #fff; }
+.bd-pie { display: flex; flex-wrap: wrap; gap: 8px; }
+.bm-kpis { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.bm-kpi { display: grid; gap: 2px; align-content: start; padding: 12px; border-radius: 16px; background: color-mix(in srgb, var(--tinta) 3.5%, var(--hoja)); }
+.bm-kpi b { font-size: 20px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.2; } .bm-kpi b svg { width: 30px; height: 30px; display: block; }
+.bm-kpi span { font-size: 13px; color: var(--tinta); } .bm-kpi small { font-size: 12px; color: var(--tinta-suave); }
+.bm-cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 420px; }
+.bm-dsem { font-style: normal; font-size: 11px; text-align: center; color: var(--tinta-suave); } .bm-vacio { display: block; }
+.bm-d { position: relative; aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--tinta) 5%, transparent); color: var(--tinta-suave); font: inherit; font-size: 12px; cursor: pointer; padding: 0; }
+.bm-d.con { background: color-mix(in srgb, var(--c) 16%, var(--hoja)); } .bm-d svg { width: 72%; height: 72%; }
+.bm-d.hoy { box-shadow: inset 0 0 0 2px var(--burdeos); }
+.bm-d em { position: absolute; left: 18%; right: 18%; bottom: 3px; height: 3px; border-radius: 2px; background: color-mix(in srgb, var(--tinta) 12%, transparent); overflow: hidden; }
+.bm-d em::after { content: ""; position: absolute; inset: 0; width: calc(var(--p) * 100%); background: var(--ok); border-radius: 2px; }
+.bm-barra { display: flex; gap: 2px; border-radius: 6px; overflow: hidden; } .bm-barra i { display: block; } .bm-barra.vacia { background: color-mix(in srgb, var(--tinta) 6%, transparent); }
+.bm-txt { margin: 0; font-size: 14px; line-height: 1.5; }
+.bm-pilares { display: grid; gap: 8px; } .bm-pilares > div { display: grid; grid-template-columns: 150px 1fr 44px; gap: 10px; align-items: center; font-size: 13.5px; }
+.bm-pilares .barra { height: 8px; border-radius: 4px; background: color-mix(in srgb, var(--tinta) 8%, transparent); overflow: hidden; } .bm-pilares .barra i { display: block; height: 100%; border-radius: 4px; background: var(--ok); }
+.bm-pilares b { text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ba-meses { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
+.ba-mes { display: grid; gap: 4px; justify-items: stretch; text-align: center; padding: 6px 2px; border-radius: 12px; background: none; border: 0; color: var(--tinta); font: inherit; cursor: pointer; }
+.ba-mes:disabled { opacity: .4; cursor: default; }
+.ba-col { height: 72px; display: flex; align-items: flex-end; justify-content: center; } .ba-col i { width: 60%; max-width: 22px; border-radius: 6px 6px 3px 3px; background: var(--ok); }
+.ba-mes b { font-size: 12px; font-weight: 600; min-height: 15px; font-variant-numeric: tabular-nums; } .ba-mes small { font-size: 11px; color: var(--tinta-suave); }
+@media (hover: hover) and (pointer: fine) { .ba-mes:not(:disabled):hover, .bm-d:hover { background: color-mix(in srgb, var(--tinta) 6%, transparent); } }
+@media (max-width: 600px) {
+  .bd-climas { grid-template-columns: repeat(2, 1fr); } .bd-clima { grid-template-columns: auto 1fr; justify-items: start; align-items: center; text-align: left; padding: 8px 10px; }
+  .bd-clima svg { width: 32px; height: 32px; }
+  .ba-meses { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 12px; } .bm-pilares > div { grid-template-columns: 110px 1fr 40px; }
+  .bd-habitos { grid-template-columns: 1fr; }
+}
+/* Contador de cada clima en el abanico */
+.clima-abanico .ca-ic { position: relative; display: block; }
+.clima-abanico .ca-n { position: absolute; top: -5px; right: -10px; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #1D2433; border: 1px solid rgb(255 255 255 / .3);
+  color: #fff; font-style: normal; font-size: 10.5px; font-weight: 600; line-height: 16px; text-align: center; font-variant-numeric: tabular-nums; }

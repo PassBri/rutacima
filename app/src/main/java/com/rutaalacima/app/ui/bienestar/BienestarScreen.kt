@@ -101,7 +101,7 @@ class BienestarViewModel(private val c: AppContainer) : ViewModel() {
     fun agua(n: Int) = viewModelScope.launch { val d = c.agenda.dia(hoy); c.agenda.guardar(d.copy(agua = n.coerceIn(0, 8))) }
 }
 
-private val COLOR_CLIMA = mapOf("sol" to Color(0xFFC98A12), "tormenta" to Color(0xFFB3261E), "niebla" to Color(0xFF3E5868), "valle" to Color(0xFF2E7D52))
+private val COLOR_CLIMA = mapOf("sol" to Color(0xFFE8A317), "tormenta" to Color(0xFFE0662A), "niebla" to Color(0xFF7A8896), "valle" to Color(0xFF3E8A5A))
 private fun ctxStr(ctx: android.content.Context, n: String, def: String = n) = ctx.resources.getIdentifier(n, "string", ctx.packageName).let { if (it != 0) ctx.getString(it) else def }
 
 /** El nombre de una emoción o causa en el idioma de la app (se guardan con su clave de la web). */

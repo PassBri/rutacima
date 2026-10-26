@@ -12,10 +12,10 @@
  * ====================================================================== */
 const BIEN_WB = "bienestar";
 const CLIMAS = {
-  sol: { n: "Sol en la cumbre", d: "Energía alta · agradable", c: "#C98A12", e: ["Alegre", "Entusiasmado", "Motivado", "Orgulloso", "Esperanzado", "Inspirado"] },
-  tormenta: { n: "Tormenta", d: "Energía alta · desagradable", c: "#B3261E", e: ["Enojado", "Ansioso", "Frustrado", "Estresado", "Preocupado", "Irritado"] },
-  niebla: { n: "Niebla", d: "Energía baja · desagradable", c: "#3E5868", e: ["Triste", "Cansado", "Desanimado", "Solo", "Aburrido", "Agotado"] },
-  valle: { n: "Valle en calma", d: "Energía baja · agradable", c: "#2E7D52", e: ["Tranquilo", "Agradecido", "Relajado", "Satisfecho", "En paz", "Seguro"] },
+  sol: { n: "Sol en la cumbre", d: "Energía alta · agradable", c: "#E8A317", e: ["Alegre", "Entusiasmado", "Motivado", "Orgulloso", "Esperanzado", "Inspirado"] },
+  tormenta: { n: "Tormenta", d: "Energía alta · desagradable", c: "#E0662A", e: ["Enojado", "Ansioso", "Frustrado", "Estresado", "Preocupado", "Irritado"] },
+  niebla: { n: "Niebla", d: "Energía baja · desagradable", c: "#7A8896", e: ["Triste", "Cansado", "Desanimado", "Solo", "Aburrido", "Agotado"] },
+  valle: { n: "Valle en calma", d: "Energía baja · agradable", c: "#3E8A5A", e: ["Tranquilo", "Agradecido", "Relajado", "Satisfecho", "En paz", "Seguro"] },
 };
 const CAUSAS = ["Trabajo", "Familia", "Pareja", "Amistades", "Salud", "Dinero", "Estudio", "Sueño", "Yo mismo", "Otra"];
 const HERRAMIENTAS = [
@@ -148,16 +148,19 @@ DET["bienestar.practica"] = () => { const k = semanaIso(hoyFecha()) % 5, [n, d] 
       <p class="suave" style="margin:10px 0 0">Cada semana cambia la práctica. Repetirla en días buenos y malos es lo que la vuelve hábito.</p>`), "max-width:860px"); };
 
 let respTimer = null;
+/** La fecha del bienestar que se edita: la del día abierto (tarjeta del día) o hoy. */
+const fBien = el => el?.closest?.("[data-bien-f]")?.dataset.bienF || iso(hoyFecha());
+const repintarBien = () => { pintarDetalle(); pintarLista(); };
 Object.assign(ACC, {
-  bienClima(_, k) { guardarBien(iso(hoyFecha()), d => { if (d.clima !== k) { d.clima = k; delete d.emo; d.int = d.int || 3; } d.t = Date.now(); }); pintarDetalle(); pintarLista(); },
-  bienEmo(_, e) { guardarBien(iso(hoyFecha()), d => { d.emo = d.emo === e ? undefined : e; }); pintarDetalle(); pintarLista(); },
-  bienInt(_, n) { guardarBien(iso(hoyFecha()), d => { d.int = Number(n); }); pintarDetalle(); },
-  bienCausa(_, c) { guardarBien(iso(hoyFecha()), d => { const l = new Set(d.causas || []); l.has(c) ? l.delete(c) : l.add(c); d.causas = [...l]; }); pintarDetalle(); },
-  bienNota(el) { guardarBien(iso(hoyFecha()), d => { d.nota = el.value.trim().slice(0, 600); }); },
-  bienHerr(_, k) { guardarBien(iso(hoyFecha()), d => { const l = new Set(d.herr || []); l.has(k) ? l.delete(k) : l.add(k); d.herr = [...l]; }); pintarDetalle(); },
-  bienRespirar() { guardarBien(iso(hoyFecha()), d => { const l = new Set(d.herr || []); l.add("caja"); d.herr = [...l]; }); elegir("respirar"); setTimeout(() => ACC.bienRespirarEmpezar(), 300); },
-  bienValor(_, arg) { const [k, v] = arg.split("|"); guardarBien(iso(hoyFecha()), d => { d[k] = Math.max(0, Number(v)); }); pintarDetalle(); pintarLista(); },
-  bienPant(el) { guardarBien(iso(hoyFecha()), d => { d.pant = el.checked; }); pintarDetalle(); pintarLista(); },
+  bienClima(el, k) { guardarBien(fBien(el), d => { if (d.clima !== k) { d.clima = k; delete d.emo; d.int = d.int || 3; } else if (el?.closest?.("[data-bien-f]")) { delete d.clima; delete d.emo; delete d.int; } d.t = Date.now(); }); repintarBien(); },
+  bienEmo(el, e) { guardarBien(fBien(el), d => { d.emo = d.emo === e ? undefined : e; }); repintarBien(); },
+  bienInt(el, n) { guardarBien(fBien(el), d => { d.int = Number(n); }); pintarDetalle(); },
+  bienCausa(el, c) { guardarBien(fBien(el), d => { const l = new Set(d.causas || []); l.has(c) ? l.delete(c) : l.add(c); d.causas = [...l]; }); pintarDetalle(); },
+  bienNota(el) { guardarBien(fBien(el), d => { d.nota = el.value.trim().slice(0, 600); }); },
+  bienHerr(el, k) { guardarBien(fBien(el), d => { const l = new Set(d.herr || []); l.has(k) ? l.delete(k) : l.add(k); d.herr = [...l]; }); pintarDetalle(); },
+  bienRespirar(el) { guardarBien(fBien(el), d => { const l = new Set(d.herr || []); l.add("caja"); d.herr = [...l]; }); if (estado.sec !== "bienestar") { ir("bienestar", "respirar"); } else elegir("respirar"); setTimeout(() => ACC.bienRespirarEmpezar(), 300); },
+  bienValor(el, arg) { const [k, v] = arg.split("|"); guardarBien(fBien(el), d => { d[k] = Math.max(0, Number(v)); }); repintarBien(); },
+  bienPant(el) { guardarBien(fBien(el), d => { d.pant = el.checked; }); repintarBien(); },
   bienRespirarEmpezar() {
     const caja = $("brCaja"), fase = $("brFase"), boton = $("brBoton"); if (!caja) return;
     clearInterval(respTimer); const fases = ["Inhala", "Sostén", "Exhala", "Sostén"]; let t = 0;
