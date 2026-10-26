@@ -30,23 +30,37 @@ object Fijos {
     fun fecha(x: Fijo, ym: YearMonth): LocalDate = ym.atDay(x.dia.coerceIn(1, ym.lengthOfMonth()))
     fun activoEn(x: Fijo, ym: String) = ym >= x.desde && (x.hasta.isEmpty() || ym <= x.hasta) && ym !in x.saltar
 
-    /** Los movimientos virtuales de los fijos, por fecha, hasta hoy. */
-    fun virtuales(l: List<Fijo>, hoy: LocalDate): Map<String, List<Cuentas.Mov>> {
+    /** Los movimientos virtuales de los fijos, por fecha: hasta hoy, o con [programados] hasta diciembre de este año
+     *  (los de días que aún no llegan quedan marcados como programados: no cuentan en las sumas). */
+    fun virtuales(l: List<Fijo>, hoy: LocalDate, programados: Boolean = false): Map<String, List<Cuentas.Mov>> {
         val r = mutableMapOf<String, MutableList<Cuentas.Mov>>()
-        val hoyYm = YearMonth.from(hoy)
+        val tope = if (programados) YearMonth.of(hoy.year, 12) else YearMonth.from(hoy)
         l.forEach { x ->
             var ym = runCatching { YearMonth.parse(x.desde) }.getOrNull() ?: return@forEach
-            val fin = if (x.hasta.isNotEmpty()) minOf(runCatching { YearMonth.parse(x.hasta) }.getOrDefault(hoyYm), hoyYm) else hoyYm
+            val fin = if (x.hasta.isNotEmpty()) minOf(runCatching { YearMonth.parse(x.hasta) }.getOrDefault(tope), tope) else tope
             var n = 0
             while (ym <= fin && n++ < 600) {
                 val f = fecha(x, ym)
-                if (activoEn(x, ym.toString()) && !f.isAfter(hoy))
-                    r.getOrPut(f.toString()) { mutableListOf() } += Cuentas.Mov("fx-${x.id}", x.t, x.m, x.c, x.n, fx = x.id).also { it.virtual = true }
+                if (activoEn(x, ym.toString()) && (programados || !f.isAfter(hoy)))
+                    r.getOrPut(f.toString()) { mutableListOf() } += Cuentas.Mov("fx-${x.id}", x.t, x.m, x.c, x.n, fx = x.id).also { it.virtual = true; it.prog = f.isAfter(hoy) }
                 ym = ym.plusMonths(1)
             }
         }
         return r
     }
+
+    /** Los fijos programados de los días que aún no llegan (hasta diciembre), sin los que ya se cambiaron a mano. */
+    fun programados(dias: Map<String, List<Cuentas.Mov>>, l: List<Fijo>, hoy: LocalDate): Map<String, List<Cuentas.Mov>> =
+        virtuales(l, hoy, programados = true).filterKeys { it > hoy.toString() }
+            .mapValues { (f, vs) -> vs.filter { v -> dias[f].orEmpty().none { it.fx == v.fx } } }.filterValues { it.isNotEmpty() }
+
+    /** Marcar «se repite cada mes» en un movimiento ya anotado el día [f]: nace un fijo desde ese mes. */
+    fun desdeMovimiento(x: Cuentas.Mov, f: LocalDate, id: String): Fijo =
+        Fijo(id, x.t, x.m, x.c, x.n, f.dayOfMonth, YearMonth.from(f).toString())
+
+    /** Desmarcarlo en el mes [ym]: deja de repetirse desde el mes siguiente (si nació ese mes, desaparece). */
+    fun dejarDesde(l: List<Fijo>, id: String, ym: YearMonth): List<Fijo> =
+        l.mapNotNull { if (it.id != id) it else if (it.desde >= ym.toString()) null else it.copy(hasta = ym.minusMonths(1).toString()) }
 
     /** Une los fijos con lo guardado: el fijo no aparece el día que ya se cambió a mano (mismo fx). */
     fun unir(dias: Map<String, List<Cuentas.Mov>>, l: List<Fijo>, hoy: LocalDate): Map<String, List<Cuentas.Mov>> {

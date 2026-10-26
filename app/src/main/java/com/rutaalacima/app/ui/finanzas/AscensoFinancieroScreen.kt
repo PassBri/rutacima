@@ -142,7 +142,9 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     fun salud(anio: Int?) = com.rutaalacima.app.domain.model.Salud.de(dias, anio, deudas, activos, propias)
     /** La misma salud financiera sin deudas: para ver cuántos puntos le quitan. */
     val saludSinDeudas by lazy { com.rutaalacima.app.domain.model.Salud.de(dias, null, deudas, activos, propias, sinDeudas = true) }
-    fun movs(fecha: String): List<Mov> = dias[fecha].orEmpty()
+    /** Fijos programados de los días que aún no llegan (hasta diciembre): se ven y se cambian, no suman. */
+    val programados: Map<String, List<Mov>> by lazy { com.rutaalacima.app.domain.model.Fijos.programados(dias, fijos, hoy()) }
+    fun movs(fecha: String): List<Mov> = programados[fecha].orEmpty() + dias[fecha].orEmpty()
     fun suma(prefijo: String): Cuentas.Suma = Cuentas.sumar(dias.filterKeys { it.startsWith(prefijo) }.values.flatten(), propias)
     val total: Cuentas.Suma by lazy { Cuentas.sumar(dias.values.flatten(), propias) }
     val anios: List<Int> get() = (dias.keys.mapNotNull { it.take(4).toIntOrNull() } + hoy().year).distinct().sorted()
@@ -155,6 +157,8 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         agendas.forEach { a -> Cuentas.deAgenda(a.ingresos, a.gastos, a.ahorro, a.inversion).takeIf { it.isNotEmpty() }?.let { dias.getOrPut(a.fecha) { mutableListOf() } += it } }
         r.forEach { (k, v) -> if (k.startsWith(Cuentas.PREFIJO)) Cuentas.leer(v).takeIf { it.isNotEmpty() }?.let { dias.getOrPut(k.removePrefix(Cuentas.PREFIJO)) { mutableListOf() } += it } }
         val validos = dias.filterKeys { runCatching { LocalDate.parse(it) }.isSuccess }
+        val hoyS = hoy().toString()
+        validos.forEach { (f, xs) -> if (f > hoyS) xs.forEach { if (it.fx != null) it.prog = true } }   // un fijo cambiado en un mes que no llega
         Libro(com.rutaalacima.app.domain.model.Fijos.unir(validos, com.rutaalacima.app.domain.model.Fijos.leer(r[com.rutaalacima.app.domain.model.Fijos.CLAVE]), hoy()), Cuentas.moneda(r[Cuentas.CLAVE_MONEDA]), r)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, Libro())
 
@@ -180,6 +184,23 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         if (despues.any { it.id == nuevoId }) antes.firstOrNull { it.id == id }?.let { x ->
             val f = com.rutaalacima.app.domain.model.Fijos.fecha(x, YearMonth.from(hoy())).toString()
             val g = guardados(f); if (g.any { it.fx == id }) guardar(f, g.map { if (it.fx == id) it.copy(fx = nuevoId) else it })
+        }
+    }
+    /** La casilla «se repite cada mes» de un movimiento ya anotado. */
+    fun repetir(f: String, x: Mov, si: Boolean) = viewModelScope.launch {
+        val dia = LocalDate.parse(f)
+        val l = libro.value.fijos
+        if (si) {
+            val nuevo = com.rutaalacima.app.domain.model.Fijos.desdeMovimiento(x, dia, "f" + System.currentTimeMillis())
+            c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(l + nuevo))
+            if (!x.virtual && x.agenda == null) guardar(f, guardados(f).filter { it.id != x.id })   // este mes lo pone el fijo
+        } else {
+            val fx = x.fx ?: return@launch
+            // Este mes queda como movimiento propio y deja de repetirse desde el mes siguiente
+            if (x.virtual) guardar(f, guardados(f) + x.copy(id = "m" + System.currentTimeMillis(), fx = null))
+            else guardar(f, guardados(f).map { if (it.id == x.id) it.copy(fx = null) else it })
+            c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE,
+                com.rutaalacima.app.domain.model.Fijos.escribir(com.rutaalacima.app.domain.model.Fijos.dejarDesde(l, fx, YearMonth.from(dia))))
         }
     }
     fun fijoParar(id: String) = fijos { com.rutaalacima.app.domain.model.Fijos.parar(it, id, hoy()) }
@@ -770,7 +791,7 @@ private fun LazyListScope.anio(a: Int, libro: Libro, plata: (Double) -> String, 
 
 private fun LazyListScope.mes(ym: YearMonth, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, vm: CuentasViewModel) {
     val hoyF = hoy()
-    val fechas = (libro.dias.keys.filter { it.startsWith("$ym-") } + if (YearMonth.from(hoyF) == ym) listOf(hoyF.toString()) else emptyList()).distinct().sorted()
+    val fechas = ((libro.dias.keys + libro.programados.keys).filter { it.startsWith("$ym-") } + if (YearMonth.from(hoyF) == ym) listOf(hoyF.toString()) else emptyList()).distinct().sorted()
     val filas = fechas.map { f -> val d = LocalDate.parse(f)
         FilaPeriodo("${d.dayOfMonth} · ${d.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())}", "${d.dayOfMonth}", Cuentas.sumar(libro.movs(f)), NivelCuentas.Dia(d), d == hoyF) }
     val t = libro.suma("$ym-")
@@ -952,11 +973,18 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
             if (nota.isNotBlank()) Text(nota, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
             if (x.fx != null) Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.Repeat, null, Modifier.size(13.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant); Spacer(Modifier.width(4.dp))
-                Text(stringResource(if (x.virtual) R.string.cu_fijo_marca else R.string.cu_fijo_cambiado), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(stringResource(if (x.prog) R.string.cu_fijo_programado else if (x.virtual) R.string.cu_fijo_marca else R.string.cu_fijo_cambiado), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
         if (x.r.isNotEmpty()) Icon(Icons.Filled.AttachFile, stringResource(R.string.cu_recibos_n, x.r.size), Modifier.size(18.dp).padding(end = 2.dp), tint = MaterialTheme.colorScheme.primary)
-        Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+        Text(plata(x.m), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold,
+            color = if (x.prog) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface)
+        // Se repite cada mes: marcarlo lo vuelve fijo desde este mes; desmarcarlo lo deja solo hasta este mes
+        if (x.agenda == null) {
+            val dia = fecha.takeLast(2).toInt()
+            val etiqueta = stringResource(R.string.cu_repite_dia, dia)
+            androidx.compose.material3.Checkbox(x.fx != null, { vm.repetir(fecha, x, it) }, Modifier.semantics { contentDescription = etiqueta })
+        }
         IconButton(onClick = {
             vm.borrar(fecha, x)
             alcance.launch { if (avisos.showSnackbar(quitado, deshacer, withDismissAction = true) == SnackbarResult.ActionPerformed) vm.deshacerBorrado(fecha, x) }

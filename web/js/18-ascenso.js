@@ -59,7 +59,8 @@ function movsDe(f) {
   const ag = Store.get("agenda", f) || {}, viejos = [["ingresos", "ing", "otro"], ["gastos", "gas", "otro"], ["ahorro", "aho", "otro"], ["inversion", "inv", "otro"]]
     .map(([k, t, c]) => ({ id: "ag-" + k, t, c, m: Math.abs(montoFin(ag[k])), n: "Registro del día", ag: k })).filter(x => x.m);
   const g = movsGuardados(f), fijos = (window.fijosEn?.(f) || []).filter(v => !g.some(y => y.fx === v.fx));   // los fijos del mes que no se cambiaron a mano
-  return [...viejos, ...fijos, ...g];
+  const futuro = f > iso(hoyFecha());
+  return [...viejos, ...fijos, ...g.map(y => futuro && y.fx ? { ...y, prog: true } : y)];   // un fijo cambiado en un mes que no llega: programado
 }
 function guardarMovs(f, xs) {
   const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}) }));
@@ -72,6 +73,7 @@ const mochilaDe = x => x.t === "gas" ? (catDe("gas", x.c)?.[2] || "amarilla") : 
 function sumar(movs) {
   const s = { ing: 0, gas: 0, aho: 0, inv: 0, n: 0, mochila: { verde: 0, amarilla: 0, roja: 0 }, cat: {} };
   movs.forEach(x => {
+    if (x.prog) return;                                  // programado: cuenta cuando llegue su día
     const m = Number(x.m) || 0; s[x.t] += m; s.n++;
     const mo = mochilaDe(x); if (mo) s.mochila[mo] += m;
     const k = x.t + ":" + x.c; s.cat[k] = (s.cat[k] || 0) + m;
@@ -82,11 +84,11 @@ function sumar(movs) {
   return s;
 }
 /** Todos los días con movimientos (de la respuesta o del control de antes). */
-function diasConMovs() {
+function diasConMovs(programados = false) {
   const set = new Set();
   Store.lista("respuesta").forEach(r => { if (r.clave.startsWith("fin#mov#") && r.valor) set.add(r.clave.slice(8)); });
   Store.lista("agenda").forEach(a => { if (a.fecha && ["ingresos", "gastos", "ahorro", "inversion"].some(k => montoFin(a[k]))) set.add(a.fecha); });
-  (window.fechasFijos?.() || []).forEach(f => set.add(f));
+  (window.fechasFijos?.(programados) || []).forEach(f => set.add(f));
   return [...set].filter(f => /^\d{4}-\d{2}-\d{2}$/.test(f)).sort();
 }
 const totalesDe = pref => sumar(diasConMovs().filter(f => f.startsWith(pref)).flatMap(movsDe));
@@ -168,7 +170,7 @@ DET["finanzas.a"] = arg => {
 DET["finanzas.m"] = arg => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
   const [a, m] = arg.split("-").map(Number), ym = ymDe(a, m), hoyI = iso(hoyFecha());
-  const dias = new Set(diasConMovs().filter(f => f.startsWith(ym)));
+  const dias = new Set(diasConMovs(true).filter(f => f.startsWith(ym)));
   if (hoyI.startsWith(ym)) dias.add(hoyI);
   const filas = [...dias].sort().map(f => { const d = deIso(f); return { etq: `${d.getDate()} · ${d.toLocaleDateString("es", { weekday: "short" })}`, corto: String(d.getDate()), sel: "d:" + f, s: sumar(movsDe(f)), actual: f === hoyI }; });
   const t = totalesDe(ym + "-"), pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym)))), uso = pres ? t.gas / pres : null;
@@ -198,14 +200,15 @@ DET["finanzas.d"] = f => {
           <button class="btn lleno" type="submit">Agregar</button>
         </div>
         <label class="asc-repite"><input type="checkbox" name="repite"> ${ic("repetir")} Se repite cada mes el día ${d.getDate()} <span class="suave">(arriendo, salario, internet…)</span></label></form>
-      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
-        ${movs.length ? movs.map(x => `<tr class="t-${x.t}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
+      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th class="cada-mes" title="Se repite cada mes">${ic("repetir")}<span class="oculto">Se repite cada mes</span></th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
+        ${movs.length ? movs.map(x => `<tr class="t-${x.t}${x.prog ? " prog" : ""}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
           <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
-          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.fx ? `<small class="fijo-marca" title="Se repite cada mes">${ic("repetir")} Fijo cada mes${x.virtual ? "" : " · cambiado este mes"}</small>` : ""}</td>
+          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.fx ? `<small class="fijo-marca" title="Se repite cada mes">${ic("repetir")} ${x.prog ? "Programado · cuenta el día que llegue" : "Fijo cada mes"}${x.virtual ? "" : " · cambiado este mes"}</small>` : ""}</td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
+          <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}" title="Se repite cada mes el día ${d.getDate()}">`}</td>
           <td class="acc-mov">${x.ag || x.virtual ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
-          : `<tr><td colspan="5" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
-      </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td></tr></tfoot>` : ""}</table></div>`) +
+          : `<tr><td colspan="6" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
+      </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
     `<button class="hoja asc-sube" data-sel="m:${ym}"><span>Así va ${MESES[m - 1]}</span><b class="${mes.disp < 0 ? "neg" : ""}">${plata(mes.disp)} disponible</b><small>Entró ${plata(mes.ing)} · salió ${plata(mes.gas + mes.aho + mes.inv)}</small>${ic("der")}</button>`, "max-width:980px");
 };
@@ -251,6 +254,13 @@ Object.assign(ACC, {
   ascTipo(_, t) { estado.ascTipo = t; pintarDetalle(); document.querySelector('.asc-nuevo [name="monto"]')?.focus(); },
   ascCat(el, arg) { cambiarMov(arg, x => { x.c = el.value; }); },
   ascNota(el, arg) { cambiarMov(arg, x => { x.n = el.value.trim(); }); },
+  ascRepite(el, arg) {
+    const [f, id] = arg.split("|"), x = movsDe(f).find(y => y.id === id), dia = Number(f.slice(8)); if (!x) return;
+    if (x.ag) { el.checked = false; return; }
+    if (el.checked) { repetirMov(f, x, true); toast(`Se repite cada mes el día ${dia}: aparece en los demás meses y puedes cambiarlo en cualquiera`); }
+    else { repetirMov(f, x, false); toast("Ya no se repite desde el próximo mes; este mes queda anotado"); }
+    pintarDetalle();
+  },
   ascMonto(el, arg) { const v = Math.abs(montoFin(el.value)); if (!v) { toast("Escribe un monto mayor que cero"); pintarDetalle(); return; } cambiarMov(arg, x => { x.m = v; }); },
   ascBorrar(_, arg) {
     const [f, id] = arg.split("|"), xs = movsDe(f), x = xs.find(y => y.id === id); if (!x) return;

@@ -33,6 +33,8 @@ object Cuentas {
         @kotlinx.serialization.Transient var agenda: String? = null
         /** Si es un fijo del mes que aún no se ha cambiado a mano (fx = el fijo; ver Fijos). */
         @kotlinx.serialization.Transient var virtual: Boolean = false
+        /** De un fijo en un día que aún no llega: se ve y se puede cambiar, pero no cuenta en las sumas hasta su día. */
+        @kotlinx.serialization.Transient var prog: Boolean = false
     }
 
     enum class Tipo(val codigo: String) { ING("ing"), GAS("gas"), AHO("aho"), INV("inv");
@@ -106,7 +108,8 @@ object Cuentas {
         fun de(t: Tipo) = when (t) { Tipo.ING -> ing; Tipo.GAS -> gas; Tipo.AHO -> aho; Tipo.INV -> inv }
     }
 
-    fun sumar(movs: List<Mov>, propias: Map<String, List<Propia>> = emptyMap()): Suma {
+    fun sumar(todos: List<Mov>, propias: Map<String, List<Propia>> = emptyMap()): Suma {
+        val movs = todos.filter { !it.prog }                  // los programados cuentan cuando llega su día
         var s = Suma()
         val moch = mutableMapOf<Mochila, Double>(); val cat = mutableMapOf<Pair<Tipo, String>, Double>()
         movs.forEach { x ->

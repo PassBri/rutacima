@@ -125,13 +125,23 @@ async function entrarReal() {
     filas.forEach(f => Store.poner(f.tipo, f.clave, f.datos));
     let t = null;
     Store.nube.escuchar(ev => {
+      const doc = ev.eventType === "DELETE" ? ev.old : ev.new;
+      if (doc?.tipo && Store.ocupado(doc.tipo, doc.clave)) return;   // es el eco de lo que acabas de escribir aquí
       if (ev.eventType === "DELETE") Store.quitar(ev.old.tipo, ev.old.clave);
       else Store.poner(ev.new.tipo, ev.new.clave, ev.new.datos);
       clearTimeout(t); t = setTimeout(refrescar, 250);
     });
     // Respaldo por si se pierde algún aviso en vivo
     setInterval(async () => {
-      try { const fs = await Store.nube.cargarTodo(); Store.datos = {}; fs.forEach(f => Store.poner(f.tipo, f.clave, f.datos)); refrescar(); } catch {}
+      try {
+        const fs = await Store.nube.cargarTodo(), antes = Store.datos;
+        Store.datos = {}; fs.forEach(f => Store.poner(f.tipo, f.clave, f.datos));
+        // Lo que se está guardando ahora mismo se queda como lo tienes aquí
+        Object.keys(Store.ult).forEach(k => { const [tipo, ...c] = k.split("|"), clave = c.join("|");
+          if (!Store.ocupado(tipo, clave)) return; const v = antes[tipo]?.get(clave);
+          if (v === undefined) Store.quitar(tipo, clave); else Store.poner(tipo, clave, v); });
+        refrescar();
+      } catch {}
     }, 120000);
     abrirApp();
     if (!filas.length) toast(Store.nube.directa ? "¡Bienvenido! Empieza por tu perfil y tu cumbre." : "Tu cuenta aún no tiene datos: abre la app en el teléfono para que se sincronice.");

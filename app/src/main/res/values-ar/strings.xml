@@ -2014,4 +2014,5 @@
     <string name="usuario_guardado">أصبحت ‎@%1$s</string>
     <string name="usuario_elegir">اختيار ‎@اسم المستخدم</string>
     <string name="usuario_error">تعذر تغيير اسم المستخدم. تحقق من اتصالك.</string>
+    <string name="cu_fijo_programado">مجدول · يُحتسب عند حلول يومه</string>
 </resources>

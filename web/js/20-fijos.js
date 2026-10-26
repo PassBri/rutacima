@@ -20,21 +20,38 @@ const diasDelMes = ym => { const [a, m] = ym.split("-").map(Number); return new 
 const fechaFijo = (x, ym) => `${ym}-${String(Math.min(Number(x.dia) || 1, diasDelMes(ym))).padStart(2, "0")}`;
 const activoEn = (x, ym) => ym >= x.desde && (!x.hasta || ym <= x.hasta) && !(x.saltar || []).includes(ym);
 
-/** Los fijos que caen ese día (como movimientos virtuales). */
+/** Los fijos que caen ese día (como movimientos virtuales). Los de días que aún no llegan quedan
+ *  «programados»: se ven y se pueden cambiar, pero no cuentan en las sumas hasta que llega su día. */
 window.fijosEn = f => {
-  if (f > iso(hoyFecha())) return [];
-  const ym = f.slice(0, 7);
+  const ym = f.slice(0, 7), prog = f > iso(hoyFecha());
   return fijosDatos().filter(x => activoEn(x, ym) && fechaFijo(x, ym) === f)
-    .map(x => ({ id: "fx-" + x.id, t: x.t, m: Number(x.m), c: x.c, n: x.n || "", fx: x.id, virtual: true }));
+    .map(x => ({ id: "fx-" + x.id, t: x.t, m: Number(x.m), c: x.c, n: x.n || "", fx: x.id, virtual: true, ...(prog ? { prog: true } : {}) }));
 };
-/** Todas las fechas en que aparece algún fijo, hasta hoy. */
-window.fechasFijos = () => {
-  const hoyI = iso(hoyFecha()), hoyYm = hoyI.slice(0, 7), r = [];
+/** Las fechas en que aparece algún fijo: hasta hoy, o con [programados] hasta diciembre de este año. */
+window.fechasFijos = (programados = false) => {
+  const hoyI = iso(hoyFecha()), hoyYm = hoyI.slice(0, 7), tope = programados ? hoyI.slice(0, 4) + "-12" : hoyYm, r = [];
   fijosDatos().forEach(x => {
-    const fin = x.hasta && x.hasta < hoyYm ? x.hasta : hoyYm;
-    for (let ym = x.desde, n = 0; ym <= fin && n < 600; ym = ymMas(ym, 1), n++) { if (!activoEn(x, ym)) continue; const f = fechaFijo(x, ym); if (f <= hoyI) r.push(f); }
+    const fin = x.hasta && x.hasta < tope ? x.hasta : tope;
+    for (let ym = x.desde, n = 0; ym <= fin && n < 600; ym = ymMas(ym, 1), n++) { if (!activoEn(x, ym)) continue; const f = fechaFijo(x, ym); if (programados || f <= hoyI) r.push(f); }
   });
   return r;
+};
+/** Marcar o desmarcar «se repite cada mes» en un movimiento ya anotado. */
+window.repetirMov = (f, x, si) => {
+  const ym = f.slice(0, 7), dia = Number(f.slice(8)), l = fijosDatos();
+  if (si) {
+    const nuevo = { id: "f" + nuevoId(), t: x.t, m: Number(x.m), c: x.c || "otro", n: x.n || "", dia, desde: ym, hasta: "", saltar: [] };
+    guardarFijos([...l, nuevo]);
+    guardarMovs(f, movsGuardados(f).filter(y => y.id !== x.id));          // este mes lo pone el fijo
+    return nuevo.id;
+  }
+  const fx = l.find(y => y.id === x.fx); if (!fx) return;
+  // Deja de repetirse desde el mes siguiente; este mes queda como movimiento propio
+  if (x.virtual) guardarMovs(f, [...movsGuardados(f), { id: "m" + nuevoId(), t: x.t, m: x.m, c: x.c, n: x.n }]);
+  else guardarMovs(f, movsGuardados(f).map(y => y.id === x.id ? (({ fx: _, ...r }) => r)(y) : y));
+  if (fx.desde >= ym) l.splice(l.indexOf(fx), 1); else fx.hasta = ymMas(ym, -1);
+  if (fx.desde < ym) { fx.hasta = ymMas(ym, -1); }
+  guardarFijos(l);
 };
 /** Al quitar un movimiento que vino de un fijo: ese mes se salta. */
 window.saltarFijo = (fx, ym, si = true) => {

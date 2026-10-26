@@ -267,8 +267,20 @@ const Store = {
   /** Guarda un documento completo (local al instante, en la nube después). */
   async guardar(tipo, obj, clave = (CLAVE[tipo] || (() => ""))(obj)) {
     this.poner(tipo, clave, obj); this.avisar();
-    if (this.nube) try { await this.nube.guardar(tipo, clave, obj); } catch (e) { errorNube(e); }
+    // Se sube la versión más reciente, en orden: si anotas varias cosas seguidas, ninguna se pierde
+    if (this.nube) return this.subir(tipo, clave, () => { const v = this.get(tipo, clave); return v === undefined ? null : this.nube.guardar(tipo, String(clave), v); });
   },
+  /* Escrituras en curso por documento: una cola en orden y la hora de la última escritura local.
+     Mientras un documento tiene escrituras en curso (o acaba de tenerlas), los avisos en vivo y la recarga
+     de respaldo no lo pisan con una versión vieja (el eco de una escritura anterior). */
+  cola: {}, pend: {}, ult: {},
+  subir(tipo, clave, fn) {
+    const k = tipo + "|" + clave; this.ult[k] = Date.now(); this.pend[k] = (this.pend[k] || 0) + 1;
+    const p = (this.cola[k] || Promise.resolve()).catch(() => {}).then(fn).catch(e => errorNube(e))
+      .finally(() => { this.pend[k]--; this.ult[k] = Date.now(); if (this.cola[k] === p) delete this.cola[k]; });
+    return (this.cola[k] = p);
+  },
+  ocupado(tipo, clave) { const k = tipo + "|" + clave; return (this.pend[k] || 0) > 0 || Date.now() - (this.ult[k] || 0) < 5000; },
   /** Cambia algunos campos de un documento existente (o lo crea desde [base]). */
   async cambiar(tipo, clave, cambios, base = {}) {
     const actual = this.get(tipo, clave) || base;
@@ -276,7 +288,7 @@ const Store = {
   },
   async borrar(tipo, clave) {
     this.quitar(tipo, clave); this.avisar();
-    if (this.nube) try { await this.nube.borrar(tipo, String(clave)); } catch (e) { errorNube(e); }
+    if (this.nube) return this.subir(tipo, clave, () => this.get(tipo, clave) === undefined ? this.nube.borrar(tipo, String(clave)) : this.nube.guardar(tipo, String(clave), this.get(tipo, clave)));
   },
 };
 /** ¿El usuario es el correo (con o sin la @)? Un @usuario así deja el correo a la vista de todos. */

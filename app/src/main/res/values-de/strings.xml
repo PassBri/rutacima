@@ -2014,4 +2014,5 @@
     <string name="usuario_guardado">Du bist jetzt @%1$s</string>
     <string name="usuario_elegir">Meinen @Benutzernamen wählen</string>
     <string name="usuario_error">Benutzername konnte nicht geändert werden. Prüfe deine Verbindung.</string>
+    <string name="cu_fijo_programado">Geplant · zählt, wenn der Tag kommt</string>
 </resources>

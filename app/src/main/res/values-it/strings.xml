@@ -2014,4 +2014,5 @@
     <string name="usuario_guardado">Ora sei @%1$s</string>
     <string name="usuario_elegir">Scegli il mio @utente</string>
     <string name="usuario_error">Impossibile cambiare l\'utente. Verifica la connessione.</string>
+    <string name="cu_fijo_programado">Programmato · conta quando arriva il giorno</string>
 </resources>

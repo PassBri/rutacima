@@ -2014,4 +2014,5 @@
     <string name="usuario_guardado">अब आप @%1$s हैं</string>
     <string name="usuario_elegir">मेरा @यूज़रनेम चुनें</string>
     <string name="usuario_error">यूज़रनेम नहीं बदल सका। अपना कनेक्शन देखें।</string>
+    <string name="cu_fijo_programado">निर्धारित · उस दिन आने पर गिना जाएगा</string>
 </resources>

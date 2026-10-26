@@ -2014,4 +2014,5 @@
     <string name="usuario_guardado">你现在是 @%1$s</string>
     <string name="usuario_elegir">选择我的 @用户名</string>
     <string name="usuario_error">无法更改用户名，请检查网络连接。</string>
+    <string name="cu_fijo_programado">已计划 · 到那天才计入</string>
 </resources>

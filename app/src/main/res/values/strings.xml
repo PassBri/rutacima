@@ -2016,4 +2016,5 @@
     <string name="usuario_guardado">Ahora eres @%1$s</string>
     <string name="usuario_elegir">Elegir mi @usuario</string>
     <string name="usuario_error">No se pudo cambiar el usuario. Revisa tu conexión.</string>
+    <string name="cu_fijo_programado">Programado · cuenta el día que llegue</string>
 </resources>

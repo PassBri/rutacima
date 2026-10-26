@@ -2900,3 +2900,12 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 @keyframes sello-cae { from { transform: translateY(-60px); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (max-width: 700px) { .sello-cumbre { width: 270px; height: 270px; } .sello-cumbre .qr, .ac-qr .sello-cumbre .qr { width: 170px; height: 170px; } }
 @media (prefers-reduced-motion: reduce) { .baliza { animation: none; opacity: .25; transform: scale(1.06); } .sello-cumbre.encontrado * { animation: none !important; transition: none !important; } }
+
+/* Movimientos: casilla «se repite cada mes» en cada fila y fijos programados de los meses que vienen */
+.asc-movs .cada-mes { width: 44px; text-align: center; }
+.asc-movs th.cada-mes svg { width: 16px; height: 16px; fill: var(--tinta-suave); vertical-align: middle; }
+.asc-movs td.cada-mes input { width: 20px; height: 20px; accent-color: var(--burdeos); cursor: pointer; }
+.asc-movs tr.prog td { color: var(--tinta-suave); }
+.asc-movs tr.prog td > :not(.fijo-marca) { opacity: .8; }
+.asc-movs tr.prog .pildora { opacity: .7; }
+.asc-movs td select { min-width: 140px; }
