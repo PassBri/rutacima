@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">月均（%1$d 个月）</string>
     <string name="cu_c_total_n">合计（%1$d 个月）</string>
     <string name="cu_duplicado_igual">%2$s%1$d日已经相同</string>
+    <string name="cu_deshecho">已撤销更改</string>
+    <string name="cu_rehecho">已重做更改</string>
+    <string name="cu_deshacer_ultimo">撤销上一次更改</string>
+    <string name="cu_rehacer">重做</string>
 </resources>

@@ -2990,3 +2990,4 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .asc-pat th:nth-child(1) { width: 36px; } .asc-pat th:nth-child(3) { width: 30%; } .asc-pat th:nth-child(4) { width: 22%; } .asc-pat th:nth-child(5) { width: 96px; }
 .asc-pat td select { min-width: 0; width: 100%; }
 .asc-pat td.num input { width: 100%; }
+.rb:disabled { opacity: .38; cursor: default; pointer-events: none; }

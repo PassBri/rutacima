@@ -584,7 +584,7 @@ DET["finanzas.deudas"] = () => {
       <tr><th scope="row">Índice de endeudamiento</th><td class="num">${Number.isFinite(hoyS.endeuda) ? pctF(hoyS.endeuda) : "Sin activos"}</td><td class="num">${pctF(sinS.endeuda)}</td></tr>
       <tr><th scope="row">Cuotas de deuda al mes</th><td class="num">${plata(Math.round(hoyS.deudaMes))}</td><td class="num">${plata(0)}</td></tr>
       <tr><th scope="row">Patrimonio neto</th><td class="num">${plata(Math.round(hoyS.neto))}</td><td class="num">${plata(Math.round(sinS.neto))}</td></tr></tbody></table></div>`}`);
-  return cab(av(ic("deuda"), "var(--ok)"), "Salir de deudas", "Ascenso financiero · tu plan para quedar libre") + cuerpo(
+  return cab(av(ic("deuda"), "var(--ok)"), "Salir de deudas", "Ascenso financiero · tu plan para quedar libre", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], ["Salir de deudas", ""]]) +
     (lista.length ? `<div class="asc-cifras"><div class="asc-cifra c-gas"><span>Debes hoy</span><b>${plata(total)}</b></div><div class="asc-cifra c-ing"><span>Ya pagaste</span><b>${plata(pagado)}</b></div>
       <div class="asc-cifra c-disp"><span>Libre de deudas</span><b>${total === 0 ? "¡Ya!" : plan.meses ? fechaFin(plan.meses) : "Sin fecha"}</b></div></div>` : "") +

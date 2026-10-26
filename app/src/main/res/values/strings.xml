@@ -2047,4 +2047,8 @@
     <string name="cu_c_promedio_n">Promedio mensual (%1$d meses)</string>
     <string name="cu_c_total_n">Total (%1$d meses)</string>
     <string name="cu_duplicado_igual">Ya estaba igual el %1$d de %2$s</string>
+    <string name="cu_deshecho">Cambio deshecho</string>
+    <string name="cu_rehecho">Cambio rehecho</string>
+    <string name="cu_deshacer_ultimo">Deshacer el último cambio</string>
+    <string name="cu_rehacer">Rehacer</string>
 </resources>

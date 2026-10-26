@@ -43,6 +43,8 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Repeat
 import androidx.compose.foundation.selection.toggleable
@@ -177,8 +179,39 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         Libro(com.rutaalacima.app.domain.model.Fijos.unir(validos, com.rutaalacima.app.domain.model.Fijos.leer(r[com.rutaalacima.app.domain.model.Fijos.CLAVE]), hoy()), Cuentas.moneda(r[Cuentas.CLAVE_MONEDA]), r)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, Libro())
 
+    // ---------------------------------------------------------------- Deshacer y rehacer
+    /** Cada cambio del libro guarda cómo estaba antes; los hechos casi a la vez (un mismo toque) son un solo paso. */
+    private class Paso(val cambios: MutableMap<String, String>)
+    private val atras = ArrayDeque<Paso>(); private val adelante = ArrayDeque<Paso>()
+    private var ultimo = 0L; private var aplicando = false
+    var puedeDeshacer by mutableStateOf(false); private set
+    var puedeRehacer by mutableStateOf(false); private set
+    private fun actualizarHist() { puedeDeshacer = atras.isNotEmpty(); puedeRehacer = adelante.isNotEmpty() }
+    private suspend fun escribir(clave: String, v: String) {
+        if (!aplicando && clave.startsWith("fin#") && clave != "fin#bloqueo") {
+            val antes = libro.value.respuestas[clave].orEmpty()
+            if (antes != v) {
+                val ahora = System.currentTimeMillis()
+                val paso = atras.lastOrNull()
+                if (paso != null && ahora - ultimo < 600) paso.cambios.putIfAbsent(clave, antes)
+                else { atras.addLast(Paso(mutableMapOf(clave to antes))); if (atras.size > 60) atras.removeFirst() }
+                ultimo = ahora; adelante.clear(); actualizarHist()
+            }
+        }
+        c.respuestas.guardar(Cuentas.WB, clave, v)
+    }
+    private suspend fun aplicar(desde: ArrayDeque<Paso>, hacia: ArrayDeque<Paso>): Boolean {
+        val paso = desde.removeLastOrNull() ?: return false
+        val inverso = Paso(paso.cambios.keys.associateWith { libro.value.respuestas[it].orEmpty() }.toMutableMap())
+        aplicando = true
+        try { paso.cambios.forEach { (k, v) -> c.respuestas.guardar(Cuentas.WB, k, v) } } finally { aplicando = false }
+        hacia.addLast(inverso); actualizarHist(); return true
+    }
+    fun deshacer(listo: (Boolean) -> Unit) = viewModelScope.launch { listo(aplicar(atras, adelante)) }
+    fun rehacer(listo: (Boolean) -> Unit) = viewModelScope.launch { listo(aplicar(adelante, atras)) }
+
     private suspend fun guardados(f: String) = Cuentas.leer(c.respuestas.cargar(Cuentas.WB)[Cuentas.claveDia(f)])
-    private suspend fun guardar(f: String, xs: List<Mov>) = c.respuestas.guardar(Cuentas.WB, Cuentas.claveDia(f), Cuentas.escribir(xs))
+    private suspend fun guardar(f: String, xs: List<Mov>) = escribir(Cuentas.claveDia(f), Cuentas.escribir(xs))
 
     fun agregar(f: String, t: Tipo, monto: Double, cat: String, nota: String, repite: Boolean = false) = viewModelScope.launch {
         if (repite) fijos { it + com.rutaalacima.app.domain.model.Fijos.Fijo("f" + System.currentTimeMillis(), t.codigo, monto, cat, nota.trim(), f.takeLast(2).toInt(), f.take(7)) }
@@ -200,7 +233,7 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
             val g = com.rutaalacima.app.domain.model.Fijos.fecha(fijo, ym2).toString()
             val ya = libro.value.movs(g).firstOrNull { it.fx == fijo.id }
             if (ya != null && igual(ya, x)) return g to true
-            if (ym2s in fijo.saltar) c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE,
+            if (ym2s in fijo.saltar) escribir(com.rutaalacima.app.domain.model.Fijos.CLAVE,
                 com.rutaalacima.app.domain.model.Fijos.escribir(com.rutaalacima.app.domain.model.Fijos.saltar(libro.value.fijos, fijo.id, ym2s, false)))   // si ese mes se había quitado, vuelve
             val otros = guardados(g).filter { it.fx != fijo.id }
             val comoElFijo = x.m == fijo.m && x.c == fijo.c && x.n == fijo.n
@@ -231,7 +264,7 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         val antes = libro.value.fijos.map { if (it.id == id) it.copy(n = n, dia = dia) else it }
         val cambia = antes.firstOrNull { it.id == id }?.m != v
         val despues = if (cambia) com.rutaalacima.app.domain.model.Fijos.cambiarMonto(antes, id, v, hoy(), nuevoId) else antes
-        c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(despues))
+        escribir(com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(despues))
         if (despues.any { it.id == nuevoId }) antes.firstOrNull { it.id == id }?.let { x ->
             val f = com.rutaalacima.app.domain.model.Fijos.fecha(x, YearMonth.from(hoy())).toString()
             val g = guardados(f); if (g.any { it.fx == id }) guardar(f, g.map { if (it.fx == id) it.copy(fx = nuevoId) else it })
@@ -243,7 +276,7 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         val i = ids.indexOf(llaveOrden(x)); val j = i + paso
         if (i < 0 || j !in ids.indices) return@launch
         ids[i] = ids[j].also { ids[j] = ids[i] }
-        c.respuestas.guardar(Cuentas.WB, "fin#orden#$f", kotlinx.serialization.json.JsonArray(ids.map { kotlinx.serialization.json.JsonPrimitive(it) }).toString())
+        escribir("fin#orden#$f", kotlinx.serialization.json.JsonArray(ids.map { kotlinx.serialization.json.JsonPrimitive(it) }).toString())
     }
 
     /** La casilla «se repite cada mes» de un movimiento ya anotado. */
@@ -252,14 +285,14 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         val l = libro.value.fijos
         if (si) {
             val nuevo = com.rutaalacima.app.domain.model.Fijos.desdeMovimiento(x, dia, "f" + System.currentTimeMillis())
-            c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(l + nuevo))
+            escribir(com.rutaalacima.app.domain.model.Fijos.CLAVE, com.rutaalacima.app.domain.model.Fijos.escribir(l + nuevo))
             if (!x.virtual && x.agenda == null) guardar(f, guardados(f).filter { it.id != x.id })   // este mes lo pone el fijo
         } else {
             val fx = x.fx ?: return@launch
             // Este mes queda como movimiento propio y deja de repetirse desde el mes siguiente
             if (x.virtual) guardar(f, guardados(f) + x.copy(id = "m" + System.currentTimeMillis(), fx = null))
             else guardar(f, guardados(f).map { if (it.id == x.id) it.copy(fx = null) else it })
-            c.respuestas.guardar(Cuentas.WB, com.rutaalacima.app.domain.model.Fijos.CLAVE,
+            escribir(com.rutaalacima.app.domain.model.Fijos.CLAVE,
                 com.rutaalacima.app.domain.model.Fijos.escribir(com.rutaalacima.app.domain.model.Fijos.dejarDesde(l, fx, YearMonth.from(dia))))
         }
     }
@@ -297,8 +330,8 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
         c.agenda.guardar(when (campo) { "ingresos" -> d.copy(ingresos = ""); "gastos" -> d.copy(gastos = ""); "ahorro" -> d.copy(ahorro = ""); else -> d.copy(inversion = "") })
     }
 
-    fun elegirMoneda(m: String) = viewModelScope.launch { c.respuestas.guardar(Cuentas.WB, Cuentas.CLAVE_MONEDA, m) }
-    private fun poner(clave: String, v: String) = viewModelScope.launch { c.respuestas.guardar(Cuentas.WB, clave, v) }
+    fun elegirMoneda(m: String) = viewModelScope.launch { escribir(Cuentas.CLAVE_MONEDA, m) }
+    private fun poner(clave: String, v: String) = viewModelScope.launch { escribir(clave, v) }
 
     // ---------------------------------------------------------------- Categorías propias
     fun crearCategoria(t: Tipo, nombre: String, verde: Boolean): String? {
@@ -520,6 +553,15 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                 title = { Text(stringResource(R.string.cu_titulo)) },
                 navigationIcon = { IconButton(onClick = { nivel.arriba()?.let(ir) ?: onBack() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
+                    if (!bloqueado) {
+                        val deshecho = stringResource(R.string.cu_deshecho); val rehecho = stringResource(R.string.cu_rehecho)
+                        IconButton(onClick = { vm.deshacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(deshecho) } }, enabled = vm.puedeDeshacer) {
+                            Icon(Icons.AutoMirrored.Filled.Undo, stringResource(R.string.cu_deshacer_ultimo))
+                        }
+                        IconButton(onClick = { vm.rehacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(rehecho) } }, enabled = vm.puedeRehacer) {
+                            Icon(Icons.AutoMirrored.Filled.Redo, stringResource(R.string.cu_rehacer))
+                        }
+                    }
                     if (!bloqueado) IconButton(onClick = { vm.oculto = !vm.oculto }) {
                         Icon(if (vm.oculto) Icons.Filled.VisibilityOff else Icons.Filled.Visibility, stringResource(if (vm.oculto) R.string.cu_mostrar_montos else R.string.cu_ocultar_montos))
                     }

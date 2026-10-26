@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">मासिक औसत (%1$d महीने)</string>
     <string name="cu_c_total_n">कुल (%1$d महीने)</string>
     <string name="cu_duplicado_igual">%1$d %2$s को पहले से वही था</string>
+    <string name="cu_deshecho">बदलाव पूर्ववत किया गया</string>
+    <string name="cu_rehecho">बदलाव फिर से किया गया</string>
+    <string name="cu_deshacer_ultimo">आख़िरी बदलाव पूर्ववत करें</string>
+    <string name="cu_rehacer">फिर से करें</string>
 </resources>

@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">Moyenne mensuelle (%1$d mois)</string>
     <string name="cu_c_total_n">Total (%1$d mois)</string>
     <string name="cu_duplicado_igual">Déjà identique le %1$d %2$s</string>
+    <string name="cu_deshecho">Modification annulée</string>
+    <string name="cu_rehecho">Modification rétablie</string>
+    <string name="cu_deshacer_ultimo">Annuler la dernière modification</string>
+    <string name="cu_rehacer">Rétablir</string>
 </resources>

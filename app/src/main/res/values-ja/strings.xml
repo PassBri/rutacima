@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">月平均（%1$dか月）</string>
     <string name="cu_c_total_n">合計（%1$dか月）</string>
     <string name="cu_duplicado_igual">%2$s%1$d日はすでに同じです</string>
+    <string name="cu_deshecho">変更を元に戻しました</string>
+    <string name="cu_rehecho">変更をやり直しました</string>
+    <string name="cu_deshacer_ultimo">直前の変更を元に戻す</string>
+    <string name="cu_rehacer">やり直す</string>
 </resources>

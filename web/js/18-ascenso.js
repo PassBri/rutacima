@@ -157,7 +157,45 @@ const avAsc = () => av(ic("finanzas"), "var(--ok)");
 const ymDe = (a, m) => `${a}-${String(m).padStart(2, "0")}`;
 
 /* ---------- Pantallas ---------- */
-const ojoAsc = () => `<button class="rb" data-acc="ascOjo" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>`;
+/* ---------- Deshacer y rehacer en Ascenso financiero ----------
+ * Cada cambio del libro (movimientos, fijos, deudas, activos, categorías…) guarda cómo estaba antes.
+ * Los cambios hechos casi a la vez (un mismo clic) son un solo paso. Se recuerdan los últimos 60 en
+ * este navegador, así se puede volver atrás aunque el aviso de «Deshacer» ya se haya ido. */
+const HIST = { atras: [], adelante: [], aplicando: false, ultimo: 0 };
+try { const h = JSON.parse(localStorage.getItem("suroute-fin-hist") || "{}"); HIST.atras = h.atras || []; HIST.adelante = h.adelante || []; } catch {}
+const guardarHist = () => { try { localStorage.setItem("suroute-fin-hist", JSON.stringify({ atras: HIST.atras.slice(-60), adelante: HIST.adelante.slice(-60) })); } catch {} };
+{
+  const base = responder;
+  responder = function (wb, clave, valor) {
+    if (wb === ASC.WB && String(clave).startsWith("fin#") && !HIST.aplicando && clave !== "fin#pin" && clave !== "fin#bloqueo") {
+      const antes = respuesta(clave) || "", despues = valor ? String(valor) : "";
+      if (antes !== despues) {
+        const ahora = Date.now(), paso = HIST.atras.at(-1);
+        if (paso && ahora - HIST.ultimo < 600) { if (!paso.c.some(x => x.k === clave)) paso.c.push({ k: clave, a: antes }); }
+        else HIST.atras.push({ t: ahora, c: [{ k: clave, a: antes }] });
+        HIST.ultimo = ahora; HIST.adelante = []; if (HIST.atras.length > 60) HIST.atras.shift(); guardarHist();
+      }
+    }
+    return base.apply(this, arguments);
+  };
+}
+const queCambio = paso => { const k = paso.c.map(x => x.k);
+  return k.some(x => x === "fin#deudas") ? "deudas" : k.some(x => x === "fin#activos") ? "activos" : k.some(x => x === "fin#fijos") ? "fijos" : k.some(x => x.startsWith("fin#mov#")) ? "movimientos" : "cambio"; };
+function moverHist(desde, hacia, nombre) {
+  const paso = desde.pop(); if (!paso) { toast(nombre === "deshacer" ? "No hay nada para deshacer" : "No hay nada para rehacer"); return; }
+  HIST.aplicando = true;
+  const inverso = { t: Date.now(), c: paso.c.map(x => ({ k: x.k, a: respuesta(x.k) || "" })) };
+  try { [...paso.c].reverse().forEach(x => responder(ASC.WB, x.k, x.a)); } finally { HIST.aplicando = false; }
+  hacia.push(inverso); guardarHist();
+  toast(`${nombre === "deshacer" ? "Deshecho" : "Rehecho"}: ${queCambio(paso)}`); pintarDetalle(); pintarLista();
+}
+Object.assign(ACC, { ascDeshacer() { moverHist(HIST.atras, HIST.adelante, "deshacer"); }, ascRehacer() { moverHist(HIST.adelante, HIST.atras, "rehacer"); } });
+document.addEventListener("keydown", e => {
+  if (estado.sec !== "finanzas" || !(e.ctrlKey || e.metaKey) || e.key.toLowerCase() !== "z" || e.target.closest?.("input, textarea, select, [contenteditable]")) return;
+  e.preventDefault(); e.shiftKey ? ACC.ascRehacer() : ACC.ascDeshacer();
+});
+const histAsc = () => `<button class="rb" data-acc="ascDeshacer" ${HIST.atras.length ? "" : "disabled"} aria-label="Deshacer el último cambio" title="Deshacer el último cambio (Ctrl+Z)">${ic("deshacer")}</button><button class="rb" data-acc="ascRehacer" ${HIST.adelante.length ? "" : "disabled"} aria-label="Rehacer" title="Rehacer (Ctrl+Shift+Z)">${ic("rehacer")}</button>`;
+const ojoAsc = () => histAsc() + `<button class="rb" data-acc="ascOjo" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>`;
 DET["finanzas.b"] = () => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
   const dias = diasConMovs(), hoyA = new Date().getFullYear();

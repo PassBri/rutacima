@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">В среднем за месяц (%1$d мес.)</string>
     <string name="cu_c_total_n">Итого (%1$d мес.)</string>
     <string name="cu_duplicado_igual">%1$d (%2$s) уже так же</string>
+    <string name="cu_deshecho">Изменение отменено</string>
+    <string name="cu_rehecho">Изменение возвращено</string>
+    <string name="cu_deshacer_ultimo">Отменить последнее изменение</string>
+    <string name="cu_rehacer">Повторить</string>
 </resources>

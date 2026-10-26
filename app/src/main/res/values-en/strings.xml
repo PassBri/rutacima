@@ -2045,4 +2045,8 @@
     <string name="cu_c_promedio_n">Monthly average (%1$d months)</string>
     <string name="cu_c_total_n">Total (%1$d months)</string>
     <string name="cu_duplicado_igual">Already the same on %2$s %1$d</string>
+    <string name="cu_deshecho">Change undone</string>
+    <string name="cu_rehecho">Change redone</string>
+    <string name="cu_deshacer_ultimo">Undo last change</string>
+    <string name="cu_rehacer">Redo</string>
 </resources>
