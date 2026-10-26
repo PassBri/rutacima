@@ -2973,8 +2973,6 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .asc-pat tr.fija > * { color: var(--tinta-suave); }
 .asc-pat tfoot th, .asc-pat tfoot td { font-weight: 600; }
 /* Tamaño de la pantalla: ampliar o volver al normal, al final de la cabecera del detalle */
-.tam-cab { display: flex; gap: 2px; margin-left: 2px; padding-left: 6px; border-left: 1px solid var(--linea); }
-.tam-cab .rb[aria-pressed="true"] { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 10%, transparent); }
 .ventana.amplia { max-width: none; padding: 8px; }
 .ventana.amplia .app { border-radius: 12px; }
 .ventana.amplia .det-cuerpo > .ancho:not([style*="max-width"]) { max-width: 1180px; }

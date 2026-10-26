@@ -74,7 +74,11 @@
     var v = document.getElementById("pantallaApp");
     function poner(t, guardar) {
       v.classList.toggle("amplia", t === "amplia");
-      document.querySelectorAll("[data-tam]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.tam === t)); });
+      // el botón cambia de ícono y de nombre sin redibujar la pantalla
+      if (typeof ic === "function") document.querySelectorAll(".tam-cab").forEach(function (b) {
+        var amplia = t === "amplia", txt = amplia ? "Volver al tamaño normal" : "Ampliar la pantalla";
+        b.dataset.tam = amplia ? "normal" : "amplia"; b.title = txt; b.setAttribute("aria-label", txt); b.innerHTML = ic(amplia ? "salirPantalla" : "pantallaCompleta");
+      });
       if (guardar) try { localStorage.setItem("suroute-tam", t); } catch (e) {}
     }
     var t = "normal"; try { t = localStorage.getItem("suroute-tam") || "normal"; } catch (e) {}
