@@ -3015,3 +3015,73 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .pago-op span { display: grid; gap: 1px; } .pago-op small { color: var(--tinta-suave); font-size: 12.5px; }
 .pago-efecto { min-height: 1.4em; font-size: 13.5px; margin: 4px 0 0; }
 .pago-efecto b { color: var(--tinta); }
+
+/* =====================================================================
+ * Ascenso financiero en Material 3 (solo lo visual; todo funciona igual)
+ * Superficies con forma 16, tarjetas de cifras tonales, tablas de datos con filas de 48 px,
+ * campos delineados con foco de 2 px, botones segmentados, chips de 8 px y estados al pasar.
+ * ===================================================================== */
+#detalle[data-sec="finanzas"] {
+  --m3-borde: color-mix(in srgb, var(--tinta) 14%, transparent);
+  --m3-borde-fuerte: color-mix(in srgb, var(--tinta) 32%, transparent);
+  --m3-sup: color-mix(in srgb, var(--tinta) 3%, var(--hoja));
+  --m3-sup-2: color-mix(in srgb, var(--tinta) 6%, var(--hoja));
+  --m3-tono: color-mix(in srgb, var(--burdeos) 10%, var(--hoja));
+  --m3-curva: cubic-bezier(.2, 0, 0, 1);
+}
+/* Superficies: tarjetas delineadas, forma 16 y títulos «title medium» */
+#detalle[data-sec="finanzas"] .hoja { border-radius: 16px; padding: 20px 22px; border-color: var(--m3-borde); box-shadow: none; }
+#detalle[data-sec="finanzas"] .hoja h3 { font-family: var(--font-texto); font-size: 16px; font-weight: 500; letter-spacing: .01em; }
+#detalle[data-sec="finanzas"] .hoja > .suave, #detalle[data-sec="finanzas"] .hoja p.suave { font-size: 13.5px; line-height: 1.5; }
+/* Cifras: tarjetas tonales (surface container) con la cifra en «headline small» */
+#detalle[data-sec="finanzas"] .asc-cifras { gap: 12px; }
+#detalle[data-sec="finanzas"] .asc-cifra { border-radius: 16px; padding: 14px 16px; border: 0; background: var(--m3-sup-2); gap: 4px; transition: background .2s var(--m3-curva); }
+#detalle[data-sec="finanzas"] .asc-cifra.c-disp { background: var(--m3-tono); }
+#detalle[data-sec="finanzas"] .asc-cifra span { font-size: 12.5px; font-weight: 500; letter-spacing: .02em; }
+#detalle[data-sec="finanzas"] .asc-cifra b { font-size: clamp(16px, 1.4vw, 22px); font-weight: 500; letter-spacing: -.01em; white-space: nowrap; overflow-wrap: normal; }
+/* Tablas de datos: contenedor delineado, encabezado limpio, filas de 48 px y estado al pasar */
+#detalle[data-sec="finanzas"] .asc-tabla { border-radius: 12px; border-color: var(--m3-borde); }
+#detalle[data-sec="finanzas"] .asc-tabla th, #detalle[data-sec="finanzas"] .asc-tabla td { padding: 12px 14px; border-bottom-color: var(--m3-borde); vertical-align: middle; }
+#detalle[data-sec="finanzas"] .asc-tabla thead th { background: var(--hoja); font-size: 12px; font-weight: 500; letter-spacing: .03em; border-bottom-color: var(--m3-borde-fuerte); }
+#detalle[data-sec="finanzas"] .asc-tabla tfoot th, #detalle[data-sec="finanzas"] .asc-tabla tfoot td { background: var(--m3-sup-2); }
+#detalle[data-sec="finanzas"] .asc-tabla tbody tr { transition: background .15s var(--m3-curva); }
+@media (hover: hover) and (pointer: fine) {
+  #detalle[data-sec="finanzas"] .asc-tabla tbody tr:hover { background: var(--m3-sup); }
+  #detalle[data-sec="finanzas"] .asc-tabla tbody tr[data-sel]:hover th { color: var(--burdeos); }
+}
+/* Campos delineados (outlined text field): 48 px, forma 8, foco de 2 px en el color principal */
+#detalle[data-sec="finanzas"] .campo input, #detalle[data-sec="finanzas"] .campo select,
+#detalle[data-sec="finanzas"] .dt-campos input, #detalle[data-sec="finanzas"] .asc-nuevo input, #detalle[data-sec="finanzas"] .asc-nuevo select {
+  min-height: 48px; border-radius: 8px; border: 1px solid var(--m3-borde-fuerte); background: var(--hoja); font-size: 15px; transition: border-color .15s var(--m3-curva), box-shadow .15s var(--m3-curva); }
+#detalle[data-sec="finanzas"] .campo input:focus, #detalle[data-sec="finanzas"] .campo select:focus,
+#detalle[data-sec="finanzas"] .dt-campos input:focus, #detalle[data-sec="finanzas"] .asc-nuevo input:focus, #detalle[data-sec="finanzas"] .asc-nuevo select:focus {
+  outline: none; border-color: var(--burdeos); box-shadow: inset 0 0 0 1px var(--burdeos); }
+#detalle[data-sec="finanzas"] .campo > span, #detalle[data-sec="finanzas"] .dt-campos label > span { font-size: 12.5px; font-weight: 500; letter-spacing: .02em; }
+/* Edición en la fila (como en las tablas de Material): sin borde hasta pasar o enfocar */
+#detalle[data-sec="finanzas"] .asc-tabla td input, #detalle[data-sec="finanzas"] .asc-tabla td select {
+  border: 1px solid transparent; border-radius: 8px; background: transparent; min-height: 36px; padding: 4px 8px; transition: border-color .15s var(--m3-curva), background .15s var(--m3-curva); }
+@media (hover: hover) and (pointer: fine) { #detalle[data-sec="finanzas"] .asc-tabla td input:hover, #detalle[data-sec="finanzas"] .asc-tabla td select:hover { border-color: var(--m3-borde-fuerte); background: var(--hoja); } }
+#detalle[data-sec="finanzas"] .asc-tabla td input:focus, #detalle[data-sec="finanzas"] .asc-tabla td select:focus { outline: none; border-color: var(--burdeos); box-shadow: inset 0 0 0 1px var(--burdeos); background: var(--hoja); }
+#detalle[data-sec="finanzas"] .asc-tabla td select.paga-deuda { min-height: 28px; }
+/* Botones segmentados: forma completa, 40 px y la marca ✓ en el elegido */
+#detalle[data-sec="finanzas"] .seg { border-radius: 999px; border: 1px solid var(--m3-borde-fuerte); overflow: hidden; background: transparent; }
+#detalle[data-sec="finanzas"] .seg-b { min-height: 40px; font-weight: 500; letter-spacing: .01em; border-radius: 0; transition: background .2s var(--m3-curva); }
+#detalle[data-sec="finanzas"] .seg-b + .seg-b { border-left: 1px solid var(--m3-borde-fuerte); }
+#detalle[data-sec="finanzas"] .seg-b[aria-checked="true"] { background: var(--m3-tono); color: var(--tinta); }
+#detalle[data-sec="finanzas"] .seg-b[aria-checked="true"]::before { content: "✓"; margin-right: 6px; font-weight: 700; }
+/* Chips: forma 8 */
+#detalle[data-sec="finanzas"] .pildora { border-radius: 8px; padding: 3px 10px; font-weight: 500; }
+/* Botones: forma completa y estado al pasar */
+#detalle[data-sec="finanzas"] .btn { border-radius: 999px; letter-spacing: .01em; }
+#detalle[data-sec="finanzas"] .btn.mini { min-height: 36px; }
+#detalle[data-sec="finanzas"] .rb { border-radius: 999px; }
+/* Salir de deudas: tarjetas delineadas, mosaicos tonales y métodos como tarjetas seleccionables */
+#detalle[data-sec="finanzas"] .deuda-t { border-radius: 16px; border-color: var(--m3-borde); padding: 16px; }
+#detalle[data-sec="finanzas"] .dt-plan > div { border-radius: 12px; background: var(--m3-sup-2); }
+#detalle[data-sec="finanzas"] .dt-impacto, #detalle[data-sec="finanzas"] .dt-cuotas { border-radius: 12px; }
+#detalle[data-sec="finanzas"] .metodo-deuda { border-radius: 16px; border: 1px solid var(--m3-borde); transition: border-color .2s var(--m3-curva), background .2s var(--m3-curva); }
+#detalle[data-sec="finanzas"] .metodo-deuda[aria-checked="true"] { border-color: var(--burdeos); background: var(--m3-tono); box-shadow: inset 0 0 0 1px var(--burdeos); }
+@media (hover: hover) and (pointer: fine) { #detalle[data-sec="finanzas"] .metodo-deuda[aria-checked="false"]:hover { background: var(--m3-sup); } }
+/* Navegación de periodo y migas */
+#detalle[data-sec="finanzas"] .asc-nav b { font-family: var(--font-texto); font-weight: 500; font-size: 17px; }
+#detalle[data-sec="finanzas"] .asc-sube { border-radius: 16px; }
