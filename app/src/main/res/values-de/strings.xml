@@ -2200,12 +2200,12 @@
     <string name="bi_indice">Index gesundes Leben</string>
     <string name="bi_indice_d">Die letzten 7 Tage, mit den WHO-Zielen. Serie: %1$d Tage mit 4 von 6 Gewohnheiten. Ein schwacher Tag löscht deinen Weg nicht.</string>
     <string name="bi_pil_sueno">Schlaf</string>
-    <string name="bi_pil_mov">Bewegung</string>
+    <string name="bi_pil_mov">Körperliche Aktivität</string>
     <string name="bi_pil_fyv">Obst und Gemüse</string>
     <string name="bi_pil_agua">Wasser</string>
     <string name="bi_pil_aire">Draußen und Sonne</string>
     <string name="bi_pil_pant">Keine Bildschirme vorm Schlafen</string>
-    <string name="bi_mov_semana">Bewegung diese Woche: %1$d von 150 Minuten</string>
+    <string name="bi_mov_semana">Körperliche Aktivität diese Woche: %1$d von 150 Minuten</string>
     <string name="bi_hoy">Heute</string>
     <string name="bi_meta_sueno">Ziel: 7 bis 9 Stunden</string>
     <string name="bi_meta_mov">Gehen zählt. Ziel: 150 Min pro Woche</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">Wohlbefinden %1$d</string>
     <string name="ba_registrados">%1$d Tage erfasst. Tippe auf einen Monat.</string>
     <string name="ba_clima">Wetter des Jahres</string>
-    <string name="ba_mov">Bewegung im Jahr</string>
+    <string name="ba_mov">Körperliche Aktivität im Jahr</string>
     <string name="ba_pant">Nächte ohne Bildschirm</string>
     <string name="ba_aire_h">%1$d h draußen</string>
     <string name="ba_mes_a_mes">Monat für Monat</string>

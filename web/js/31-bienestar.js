@@ -33,7 +33,7 @@ const GOLEMAN = [
   ["Habilidades sociales", "Agradece o reconoce algo concreto a una persona cada día, en voz alta o por escrito."],
 ];
 const SALUD_PILARES = [
-  ["sueno", "Sueño", "7 a 9 h", "horas"], ["mov", "Movimiento", "150 min por semana", "min"], ["fyv", "Frutas y verduras", "5 porciones", "porciones"],
+  ["sueno", "Sueño", "7 a 9 h", "horas"], ["mov", "Actividad física", "150 min por semana", "min"], ["fyv", "Frutas y verduras", "5 porciones", "porciones"],
   ["agua", "Agua", "8 cantimploras", "cantimploras"], ["aire", "Aire libre y sol", "20 min", "min"], ["pant", "Sin pantallas al dormir", "1 h antes", ""],
 ];
 const claveBien = f => `bien#${f}`;
@@ -73,7 +73,7 @@ LISTAS.bienestar = () => {
   const hoyI = iso(hoyFecha()), b = bienDia(hoyI), is = indiceSaludable(), [gn] = GOLEMAN[semanaIso(hoyFecha()) % 5];
   let h = cabLista("Bienestar", { buscar: false }) + `<div class="items">`;
   h += item("hoy", av(b.clima ? `<span class="bien-punto" style="background:${CLIMAS[b.clima].c}"></span>` : ic("bienestar"), "var(--ok)"), "Tu clima de hoy", "", b.clima ? `${CLIMAS[b.clima].n}${b.emo ? " · " + b.emo : ""}` : "¿Cómo está tu clima interior?");
-  h += item("habitos", av(ic("hoy"), "var(--ok)"), "Vida saludable", "", is.indice != null ? `Índice ${is.indice} % · racha de ${is.racha} ${is.racha === 1 ? "día" : "días"}` : "Sueño, movimiento, alimentación y más");
+  h += item("habitos", av(ic("hoy"), "var(--ok)"), "Vida saludable", "", is.indice != null ? `Índice ${is.indice} % · racha de ${is.racha} ${is.racha === 1 ? "día" : "días"}` : "Sueño, actividad física, alimentación y más");
   h += item("clima", av(ic("grafica"), "var(--ok)"), "Tu clima del mes", "", "Lo que se repite en tus emociones");
   h += item("respirar", av(ic("bienestar"), "var(--ok)"), "Respirar un minuto", "", "Respiración en caja guiada");
   h += item("practica", av(ic("aprende"), "var(--ok)"), "Práctica de la semana", "", gn);
@@ -110,7 +110,7 @@ DET["bienestar.habitos"] = () => {
       <div class="bien-pilares">${SALUD_PILARES.map(([k, n, meta]) => `<div class="bp e-${nivelP(is.pil[k])}"><span>${n}</span><div class="barra"><i style="width:${Math.round((is.pil[k] || 0) * 100)}%"></i></div><small>${k === "mov" ? `${is.movSem} de 150 min esta semana` : `Meta: ${meta}`}</small></div>`).join("")}</div>`) +
     hoja(`<h3 style="margin:0 0 12px">Hoy</h3><div class="bien-hoy">
       <div class="bh"><span>Sueño anoche</span>${paso("sueno", b.sueno, 0, 14, .5, "h")}<small>Meta: 7 a 9 horas</small></div>
-      <div class="bh"><span>Movimiento</span>${paso("mov", b.mov, 0, 600, 10, "min")}<small>Caminar cuenta. Meta: 150 min a la semana</small></div>
+      <div class="bh"><span>Actividad física</span>${paso("mov", b.mov, 0, 600, 10, "min")}<small>Caminar cuenta. Meta: 150 min a la semana</small></div>
       <div class="bh"><span>Frutas y verduras</span><div class="bien-porciones">${[1, 2, 3, 4, 5, 6].map(n => `<button type="button" class="${(b.fyv || 0) >= n ? "si" : ""}" data-acc="bienValor" data-arg="fyv|${(b.fyv || 0) === n ? n - 1 : n}" aria-label="${n} porciones">${n}</button>`).join("")}</div><small>Meta: 5 porciones (un puño cada una)</small></div>
       <div class="bh"><span>Aire libre y sol</span>${paso("aire", b.aire, 0, 600, 10, "min")}<small>Meta: 20 minutos</small></div>
       <div class="bh"><span>Sin pantallas antes de dormir</span><label class="bien-si"><input type="checkbox" ${b.pant ? "checked" : ""} data-acc-change="bienPant"> La última hora sin celular ni TV</label><small>Ayuda a dormir mejor</small></div>

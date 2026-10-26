@@ -2200,12 +2200,12 @@
     <string name="bi_indice">건강한 생활 지수</string>
     <string name="bi_indice_d">최근 7일, WHO 목표 기준. 연속: 6개 중 4개를 지킨 날 %1$d일. 하루 부진해도 걸어온 길은 지워지지 않습니다.</string>
     <string name="bi_pil_sueno">수면</string>
-    <string name="bi_pil_mov">움직임</string>
+    <string name="bi_pil_mov">신체 활동</string>
     <string name="bi_pil_fyv">과일과 채소</string>
     <string name="bi_pil_agua">물</string>
     <string name="bi_pil_aire">야외와 햇빛</string>
     <string name="bi_pil_pant">잠들기 전 화면 끄기</string>
-    <string name="bi_mov_semana">이번 주 움직임: 150분 중 %1$d분</string>
+    <string name="bi_mov_semana">이번 주 신체 활동: 150분 중 %1$d분</string>
     <string name="bi_hoy">오늘</string>
     <string name="bi_meta_sueno">목표: 7~9시간</string>
     <string name="bi_meta_mov">걷기도 포함. 목표: 주 150분</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">%1$d년 웰빙</string>
     <string name="ba_registrados">%1$d일 기록. 달을 눌러 보세요.</string>
     <string name="ba_clima">올해의 날씨</string>
-    <string name="ba_mov">올해 움직임</string>
+    <string name="ba_mov">올해 신체 활동</string>
     <string name="ba_pant">화면 없는 밤</string>
     <string name="ba_aire_h">야외 %1$d시간</string>
     <string name="ba_mes_a_mes">월별</string>

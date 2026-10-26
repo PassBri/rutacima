@@ -2200,12 +2200,12 @@
     <string name="bi_indice">Индекс здоровой жизни</string>
     <string name="bi_indice_d">Последние 7 дней по целям ВОЗ. Серия: %1$d дн. с 4 из 6 привычек. Один слабый день не стирает твой путь.</string>
     <string name="bi_pil_sueno">Сон</string>
-    <string name="bi_pil_mov">Движение</string>
+    <string name="bi_pil_mov">Физическая активность</string>
     <string name="bi_pil_fyv">Фрукты и овощи</string>
     <string name="bi_pil_agua">Вода</string>
     <string name="bi_pil_aire">Свежий воздух и солнце</string>
     <string name="bi_pil_pant">Без экранов перед сном</string>
-    <string name="bi_mov_semana">Движение за неделю: %1$d из 150 минут</string>
+    <string name="bi_mov_semana">Физическая активность за неделю: %1$d из 150 минут</string>
     <string name="bi_hoy">Сегодня</string>
     <string name="bi_meta_sueno">Цель: 7–9 часов</string>
     <string name="bi_meta_mov">Ходьба тоже считается. Цель: 150 мин в неделю</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">Благополучие %1$d</string>
     <string name="ba_registrados">Отмечено %1$d дн. Нажми месяц, чтобы открыть.</string>
     <string name="ba_clima">Погода года</string>
-    <string name="ba_mov">Движение за год</string>
+    <string name="ba_mov">Физическая активность за год</string>
     <string name="ba_pant">Ночей без экранов</string>
     <string name="ba_aire_h">%1$d ч на воздухе</string>
     <string name="ba_mes_a_mes">По месяцам</string>

@@ -2200,12 +2200,12 @@
     <string name="bi_indice">مؤشر الحياة الصحية</string>
     <string name="bi_indice_d">آخر 7 أيام وفق أهداف منظمة الصحة العالمية. السلسلة: %1$d أيام بتحقيق 4 من 6 عادات. يوم ضعيف لا يمحو طريقك.</string>
     <string name="bi_pil_sueno">النوم</string>
-    <string name="bi_pil_mov">الحركة</string>
+    <string name="bi_pil_mov">النشاط البدني</string>
     <string name="bi_pil_fyv">الفواكه والخضروات</string>
     <string name="bi_pil_agua">الماء</string>
     <string name="bi_pil_aire">الهواء الطلق والشمس</string>
     <string name="bi_pil_pant">بلا شاشات قبل النوم</string>
-    <string name="bi_mov_semana">الحركة هذا الأسبوع: %1$d من 150 دقيقة</string>
+    <string name="bi_mov_semana">النشاط البدني هذا الأسبوع: %1$d من 150 دقيقة</string>
     <string name="bi_hoy">اليوم</string>
     <string name="bi_meta_sueno">الهدف: 7 إلى 9 ساعات</string>
     <string name="bi_meta_mov">المشي يُحتسب. الهدف: 150 دقيقة أسبوعيًا</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">رفاه %1$d</string>
     <string name="ba_registrados">%1$d يومًا مسجلًا. اضغط على شهر لفتحه.</string>
     <string name="ba_clima">طقس العام</string>
-    <string name="ba_mov">الحركة خلال العام</string>
+    <string name="ba_mov">النشاط البدني خلال العام</string>
     <string name="ba_pant">ليالٍ بلا شاشات</string>
     <string name="ba_aire_h">%1$d ساعات في الهواء الطلق</string>
     <string name="ba_mes_a_mes">شهرًا بشهر</string>

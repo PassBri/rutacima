@@ -2200,12 +2200,12 @@
     <string name="bi_indice">Indice de vie saine</string>
     <string name="bi_indice_d">Les 7 derniers jours, avec les objectifs de l\'OMS. Série : %1$d jours avec 4 habitudes sur 6. Un jour faible n\'efface pas ton chemin.</string>
     <string name="bi_pil_sueno">Sommeil</string>
-    <string name="bi_pil_mov">Mouvement</string>
+    <string name="bi_pil_mov">Activité physique</string>
     <string name="bi_pil_fyv">Fruits et légumes</string>
     <string name="bi_pil_agua">Eau</string>
     <string name="bi_pil_aire">Plein air et soleil</string>
     <string name="bi_pil_pant">Sans écrans au coucher</string>
-    <string name="bi_mov_semana">Mouvement cette semaine : %1$d sur 150 minutes</string>
+    <string name="bi_mov_semana">Activité physique cette semaine : %1$d sur 150 minutes</string>
     <string name="bi_hoy">Aujourd\'hui</string>
     <string name="bi_meta_sueno">Objectif : 7 à 9 heures</string>
     <string name="bi_meta_mov">Marcher compte. Objectif : 150 min par semaine</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">Bien-être en %1$d</string>
     <string name="ba_registrados">%1$d jours notés. Touche un mois pour l\'ouvrir.</string>
     <string name="ba_clima">Météo de l\'année</string>
-    <string name="ba_mov">Mouvement dans l\'année</string>
+    <string name="ba_mov">Activité physique dans l\'année</string>
     <string name="ba_pant">Nuits sans écrans</string>
     <string name="ba_aire_h">%1$d h en plein air</string>
     <string name="ba_mes_a_mes">Mois par mois</string>

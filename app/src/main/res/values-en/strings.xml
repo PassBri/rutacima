@@ -2200,12 +2200,12 @@
     <string name="bi_indice">Healthy living index</string>
     <string name="bi_indice_d">The last 7 days, with WHO targets. Streak: %1$d days with 4 of 6 habits met. A slow day doesn\'t erase your path.</string>
     <string name="bi_pil_sueno">Sleep</string>
-    <string name="bi_pil_mov">Movement</string>
+    <string name="bi_pil_mov">Physical activity</string>
     <string name="bi_pil_fyv">Fruit and vegetables</string>
     <string name="bi_pil_agua">Water</string>
     <string name="bi_pil_aire">Outdoors and sun</string>
     <string name="bi_pil_pant">No screens at bedtime</string>
-    <string name="bi_mov_semana">Movement this week: %1$d of 150 minutes</string>
+    <string name="bi_mov_semana">Physical activity this week: %1$d of 150 minutes</string>
     <string name="bi_hoy">Today</string>
     <string name="bi_meta_sueno">Target: 7 to 9 hours</string>
     <string name="bi_meta_mov">Walking counts. Target: 150 min a week</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">Wellbeing in %1$d</string>
     <string name="ba_registrados">%1$d days logged. Tap a month to open it.</string>
     <string name="ba_clima">Weather of the year</string>
-    <string name="ba_mov">Movement this year</string>
+    <string name="ba_mov">Physical activity this year</string>
     <string name="ba_pant">Nights without screens</string>
     <string name="ba_aire_h">%1$d h outdoors</string>
     <string name="ba_mes_a_mes">Month by month</string>

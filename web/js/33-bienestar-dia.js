@@ -74,7 +74,7 @@ function bienHojaDia(fecha) {
     <h4 class="bd-sub">Vida saludable</h4>
     <div class="bd-habitos">
       <div class="bd-h-it${estadoP("sueno")}">${paso("sueno", b.sueno, 14, .5, "h", "Sueño")}<small>Meta 7 a 9 h</small></div>
-      <div class="bd-h-it${estadoP("mov")}">${paso("mov", b.mov, 600, 10, "min", "Movimiento")}<small>Meta 30 min al día</small></div>
+      <div class="bd-h-it${estadoP("mov")}">${paso("mov", b.mov, 600, 10, "min", "Actividad física")}<small>Meta 30 min al día</small></div>
       <div class="bd-h-it${estadoP("fyv")}"><div class="bd-paso"><span>Frutas y verduras</span><div class="bien-porciones">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${(b.fyv || 0) >= n ? "si" : ""}" data-acc="bienValor" data-arg="fyv|${(b.fyv || 0) === n ? n - 1 : n}" aria-label="${n} porciones">${n}</button>`).join("")}</div></div><small>Meta 5 porciones</small></div>
       <div class="bd-h-it${estadoP("aire")}">${paso("aire", b.aire, 600, 10, "min", "Aire libre")}<small>Meta 20 min</small></div>
       <div class="bd-h-it${estadoP("agua")}"><div class="bd-paso"><span>Agua</span><b class="bd-agua">${agua}<small> de 8</small></b></div><small>Se anota en las cantimploras del día</small></div>
@@ -113,7 +113,7 @@ function bienResumenMes(a, m) {
     ${vacio ? "" : `<div class="bm-kpis">
       ${kpi(s.dominante ? climaSvg(s.dominante) : "—", "Clima que más se repitió", s.dominante ? CLIMAS[s.dominante].n : "")}
       ${kpi(num1(s.suenoProm) + (s.suenoProm != null ? " h" : ""), "Sueño promedio", `${s.metas.sueno} noches de 7 h o más`)}
-      ${kpi(s.mov.toLocaleString("es") + " min", "Movimiento", `${num1(s.mov / Math.max(1, fechas.length) * 7)} min por semana`)}
+      ${kpi(s.mov.toLocaleString("es") + " min", "Actividad física", `${num1(s.mov / Math.max(1, fechas.length) * 7)} min por semana`)}
       ${kpi(num1(s.fyvProm), "Porciones de frutas y verduras al día", `${s.metas.fyv} días con 5`)}
       ${kpi(num1(s.aguaProm), "Cantimploras al día", `${s.metas.agua} días con 8`)}
       ${kpi(s.aire.toLocaleString("es") + " min", "Aire libre y sol", `${s.pant} noches sin pantallas`)}
@@ -143,7 +143,7 @@ function bienResumenAnio(a) {
     <div class="bm-kpis">
       ${kpi(s.dominante ? climaSvg(s.dominante) : "—", "Clima del año", s.dominante ? CLIMAS[s.dominante].n : "")}
       ${kpi(num1(s.suenoProm) + (s.suenoProm != null ? " h" : ""), "Sueño promedio", `${s.metas.sueno} noches de 7 h o más`)}
-      ${kpi(Math.round(s.mov / 60).toLocaleString("es") + " h", "Movimiento en el año", `${s.mov.toLocaleString("es")} min`)}
+      ${kpi(Math.round(s.mov / 60).toLocaleString("es") + " h", "Actividad física en el año", `${s.mov.toLocaleString("es")} min`)}
       ${kpi(s.pant.toLocaleString("es"), "Noches sin pantallas", `${Math.round(s.aire / 60).toLocaleString("es")} h al aire libre`)}
     </div>
     <h4 class="bd-sub">Mes a mes</h4>

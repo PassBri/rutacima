@@ -2200,12 +2200,12 @@
     <string name="bi_indice">Indice di vita sana</string>
     <string name="bi_indice_d">Gli ultimi 7 giorni, con gli obiettivi dell\'OMS. Serie: %1$d giorni con 4 abitudini su 6. Un giorno storto non cancella il tuo cammino.</string>
     <string name="bi_pil_sueno">Sonno</string>
-    <string name="bi_pil_mov">Movimento</string>
+    <string name="bi_pil_mov">Attività fisica</string>
     <string name="bi_pil_fyv">Frutta e verdura</string>
     <string name="bi_pil_agua">Acqua</string>
     <string name="bi_pil_aire">Aria aperta e sole</string>
     <string name="bi_pil_pant">Niente schermi prima di dormire</string>
-    <string name="bi_mov_semana">Movimento questa settimana: %1$d su 150 minuti</string>
+    <string name="bi_mov_semana">Attività fisica questa settimana: %1$d su 150 minuti</string>
     <string name="bi_hoy">Oggi</string>
     <string name="bi_meta_sueno">Obiettivo: 7-9 ore</string>
     <string name="bi_meta_mov">Camminare conta. Obiettivo: 150 min a settimana</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">Benessere del %1$d</string>
     <string name="ba_registrados">%1$d giorni registrati. Tocca un mese per aprirlo.</string>
     <string name="ba_clima">Clima dell\'anno</string>
-    <string name="ba_mov">Movimento nell\'anno</string>
+    <string name="ba_mov">Attività fisica nell\'anno</string>
     <string name="ba_pant">Notti senza schermi</string>
     <string name="ba_aire_h">%1$d h all\'aria aperta</string>
     <string name="ba_mes_a_mes">Mese per mese</string>

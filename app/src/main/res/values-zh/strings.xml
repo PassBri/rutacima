@@ -2200,12 +2200,12 @@
     <string name="bi_indice">健康生活指数</string>
     <string name="bi_indice_d">最近 7 天，参照世卫组织目标。连续：%1$d 天达成 6 项中的 4 项。一天状态不好不会抹去你的路。</string>
     <string name="bi_pil_sueno">睡眠</string>
-    <string name="bi_pil_mov">运动</string>
+    <string name="bi_pil_mov">体育活动</string>
     <string name="bi_pil_fyv">水果和蔬菜</string>
     <string name="bi_pil_agua">饮水</string>
     <string name="bi_pil_aire">户外与阳光</string>
     <string name="bi_pil_pant">睡前不看屏幕</string>
-    <string name="bi_mov_semana">本周运动：%1$d / 150 分钟</string>
+    <string name="bi_mov_semana">本周体育活动：%1$d / 150 分钟</string>
     <string name="bi_hoy">今天</string>
     <string name="bi_meta_sueno">目标：7 到 9 小时</string>
     <string name="bi_meta_mov">步行也算。目标：每周 150 分钟</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">%1$d 年身心健康</string>
     <string name="ba_registrados">已记录 %1$d 天。点击月份查看。</string>
     <string name="ba_clima">年度天气</string>
-    <string name="ba_mov">全年运动</string>
+    <string name="ba_mov">全年体育活动</string>
     <string name="ba_pant">不看屏幕的夜晚</string>
     <string name="ba_aire_h">户外 %1$d 小时</string>
     <string name="ba_mes_a_mes">逐月</string>

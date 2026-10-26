@@ -2202,12 +2202,12 @@
     <string name="bi_indice">Índice de vida saludable</string>
     <string name="bi_indice_d">Los últimos 7 días, con las metas de la OMS. Racha: %1$d días con 4 de 6 hábitos cumplidos. Un día flojo no borra tu camino.</string>
     <string name="bi_pil_sueno">Sueño</string>
-    <string name="bi_pil_mov">Movimiento</string>
+    <string name="bi_pil_mov">Actividad física</string>
     <string name="bi_pil_fyv">Frutas y verduras</string>
     <string name="bi_pil_agua">Agua</string>
     <string name="bi_pil_aire">Aire libre y sol</string>
     <string name="bi_pil_pant">Sin pantallas al dormir</string>
-    <string name="bi_mov_semana">Movimiento esta semana: %1$d de 150 minutos</string>
+    <string name="bi_mov_semana">Actividad física esta semana: %1$d de 150 minutos</string>
     <string name="bi_hoy">Hoy</string>
     <string name="bi_meta_sueno">Meta: 7 a 9 horas</string>
     <string name="bi_meta_mov">Caminar cuenta. Meta: 150 min a la semana</string>
@@ -2307,7 +2307,7 @@
     <string name="ba_titulo">Bienestar de %1$d</string>
     <string name="ba_registrados">%1$d días registrados. Toca un mes para verlo.</string>
     <string name="ba_clima">Clima del año</string>
-    <string name="ba_mov">Movimiento en el año</string>
+    <string name="ba_mov">Actividad física en el año</string>
     <string name="ba_pant">Noches sin pantallas</string>
     <string name="ba_aire_h">%1$d h al aire libre</string>
     <string name="ba_mes_a_mes">Mes a mes</string>

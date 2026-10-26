@@ -2200,12 +2200,12 @@
     <string name="bi_indice">健康な暮らし指数</string>
     <string name="bi_indice_d">直近7日間、WHOの目標で計算。連続：6つ中4つを達成した日が %1$d 日。調子の悪い日があっても、歩んだ道は消えません。</string>
     <string name="bi_pil_sueno">睡眠</string>
-    <string name="bi_pil_mov">運動</string>
+    <string name="bi_pil_mov">身体活動</string>
     <string name="bi_pil_fyv">果物と野菜</string>
     <string name="bi_pil_agua">水</string>
     <string name="bi_pil_aire">屋外と日光</string>
     <string name="bi_pil_pant">寝る前の画面オフ</string>
-    <string name="bi_mov_semana">今週の運動：150分中 %1$d 分</string>
+    <string name="bi_mov_semana">今週の身体活動：150分中 %1$d 分</string>
     <string name="bi_hoy">今日</string>
     <string name="bi_meta_sueno">目標：7〜9時間</string>
     <string name="bi_meta_mov">歩くのも運動。目標：週150分</string>
@@ -2305,7 +2305,7 @@
     <string name="ba_titulo">%1$d 年のウェルビーイング</string>
     <string name="ba_registrados">%1$d 日記録。月をタップして開きます。</string>
     <string name="ba_clima">今年の天気</string>
-    <string name="ba_mov">今年の運動</string>
+    <string name="ba_mov">今年の身体活動</string>
     <string name="ba_pant">画面なしの夜</string>
     <string name="ba_aire_h">屋外 %1$d 時間</string>
     <string name="ba_mes_a_mes">月ごと</string>
