@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">1분 호흡</string>
     <string name="bd_practica">이번 주 연습</string>
     <string name="bd_patrones">나의 패턴</string>
+    <string name="energia_n1">지침</string>
+    <string name="energia_n2">낮음</string>
+    <string name="energia_n3">보통</string>
+    <string name="energia_n4">좋음</string>
+    <string name="energia_n5">최고</string>
 </resources>

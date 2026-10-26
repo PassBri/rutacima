@@ -3306,3 +3306,86 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 .clima-abanico .ca-ic { position: relative; display: block; }
 .clima-abanico .ca-n { position: absolute; top: -5px; right: -10px; min-width: 18px; padding: 0 5px; border-radius: 9px; background: #1D2433; border: 1px solid rgb(255 255 255 / .3);
   color: #fff; font-style: normal; font-size: 10.5px; font-weight: 600; line-height: 16px; text-align: center; font-variant-numeric: tabular-nums; }
+
+/* ======================================================================
+ * El día con Material 3: secciones separadas, cabecera con ícono tonal, índice de secciones,
+ * campos de texto delineados y la energía con cordilleras. (03-detalle.js, cabSec y seccionDia)
+ * ====================================================================== */
+.sec-cab { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin: -2px 0 14px; }
+.sec-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 11%, var(--hoja)); }
+.sec-ic svg { width: 22px; height: 22px; fill: var(--burdeos); }
+.sec-tx h3 { margin: 0; font-size: 18px; font-weight: 600; letter-spacing: -.005em; line-height: 1.3; }
+.sec-tx p { margin: 2px 0 0; font-size: 13.5px; line-height: 1.45; color: var(--tinta-suave); }
+.sec-acc { display: flex; align-items: center; gap: 8px; }
+.sec-badge { min-width: 32px; height: 26px; padding: 0 10px; border-radius: 13px; display: inline-grid; place-items: center; background: color-mix(in srgb, var(--tinta) 7%, var(--hoja)); font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.sec-div { height: 1px; background: var(--linea); margin: 16px -20px 14px; }
+.sec-sub { display: grid; gap: 2px; margin-bottom: 8px; } .sec-sub b { font-size: 15px; font-weight: 600; } .sec-sub span { font-size: 13px; color: var(--tinta-suave); }
+.bien-dia .sec-ic { background: color-mix(in srgb, var(--ok) 14%, var(--hoja)); } .bien-dia .sec-ic svg { fill: var(--ok); }
+#sd-finanzas .sec-ic { background: color-mix(in srgb, var(--oro) 16%, var(--hoja)); } #sd-finanzas .sec-ic svg { fill: var(--oro); }
+.sec-dia { scroll-margin-top: 72px; border-radius: 20px; padding: 20px 20px 22px; transition: box-shadow .4s cubic-bezier(.2,0,0,1); }
+.sec-dia.sd-foco { box-shadow: 0 0 0 2px var(--oro), 0 8px 24px -12px rgb(var(--sombra) / .2); }
+.sec-dia + .sec-dia { margin-top: 4px; }
+.sec-dia .hab-lectura { margin-top: 0; }
+.bien-dia .bd-sub:first-of-type { margin-top: 0; }
+
+/* Índice del día: chips que llevan a cada sección, fijos arriba al desplazarse */
+.dia-indice { position: sticky; top: 0; z-index: 3; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 10px 2px; margin: -6px 0 -4px;
+  background: linear-gradient(var(--fondo) 70%, transparent); -webkit-mask: linear-gradient(90deg, #000 92%, transparent); mask: linear-gradient(90deg, #000 92%, transparent); }
+.dia-indice::-webkit-scrollbar { display: none; }
+.dia-indice .chip { flex: none; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px 0 10px; border-radius: 8px; border: 1px solid color-mix(in srgb, var(--tinta) 18%, transparent);
+  background: var(--hoja); color: var(--tinta); font: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer; touch-action: manipulation; }
+.dia-indice .chip svg { width: 18px; height: 18px; fill: var(--tinta-suave); }
+@media (hover: hover) and (pointer: fine) { .dia-indice .chip:hover { background: color-mix(in srgb, var(--tinta) 5%, var(--hoja)); } }
+
+/* Campos de texto delineados (M3 outlined) dentro del día */
+.sec-dia .campo > span, .campo-m3 > span { font-size: 12.5px; font-weight: 500; letter-spacing: .02em; color: var(--tinta-suave); }
+.sec-dia .campo input, .sec-dia .campo textarea, .campo-m3 textarea { border: 1px solid color-mix(in srgb, var(--tinta) 26%, transparent); border-radius: 12px; padding: 12px 14px; background: var(--hoja); font-size: 15px; line-height: 1.5;
+  transition: border-color .16s, box-shadow .16s; }
+.sec-dia .campo textarea { min-height: 84px; }
+.sec-dia .campo input:hover, .sec-dia .campo textarea:hover, .campo-m3 textarea:hover { border-color: color-mix(in srgb, var(--tinta) 45%, transparent); }
+.sec-dia .campo input:focus, .sec-dia .campo textarea:focus, .campo-m3 textarea:focus { outline: none; border-color: var(--burdeos); box-shadow: inset 0 0 0 1px var(--burdeos); }
+.campo-m3 { display: grid; gap: 6px; margin-top: 12px; }
+.campo-m3 textarea { width: 100%; min-height: 88px; resize: vertical; color: var(--tinta); font: inherit; font-size: 16px; }
+.bd-mas textarea { width: 100%; }
+.bd-detalle .bien-chips + .bien-chips, .bd-mas .bien-chips { margin-top: 8px; }
+.bd-mas summary { border-top: 1px solid var(--linea); margin-top: 4px; padding-top: 4px; }
+
+/* Plan y actividades: filas limpias con la hora en una píldora */
+.sec-dia .acts { gap: 0; border: 1px solid var(--linea); border-radius: 14px; overflow: hidden; }
+.sec-dia .act { grid-template-columns: 62px 28px 1fr minmax(0, 190px); padding: 4px 12px; min-height: 48px; border-bottom: 1px solid var(--linea); gap: 10px; }
+.sec-dia .act:last-child { border-bottom: 0; }
+.sec-dia .act-h { justify-self: start; padding: 3px 8px; border-radius: 8px; background: color-mix(in srgb, var(--tinta) 5%, transparent); font-size: 12px; font-weight: 500; }
+.sec-dia .act.ahora { background: color-mix(in srgb, var(--burdeos) 7%, var(--hoja)); border-radius: 0; }
+.sec-dia .act.ahora .act-h { background: var(--burdeos); color: #fff; }
+.sec-dia .act-t { border-bottom: 0; padding: 8px 4px; }
+.sec-dia .act-t:focus { box-shadow: inset 0 -2px 0 var(--burdeos); }
+.sec-dia .act select, .sec-dia .top select { border-radius: 8px; padding: 6px 8px; }
+.sec-dia .tops { gap: 8px; }
+.sec-dia .top { border: 1px solid var(--linea); border-radius: 14px; padding: 6px 12px; min-height: 52px; background: var(--hoja); }
+.sec-dia .top-t { border-bottom: 0 !important; }
+.sec-dia .top:focus-within { border-color: var(--burdeos); box-shadow: inset 0 0 0 1px var(--burdeos); }
+
+/* Metas del mes y hábitos: filas con área táctil cómoda */
+#sd-metas .check { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--linea); margin-top: 8px; }
+#sd-metas .check:has(input:checked) { background: color-mix(in srgb, var(--ok) 8%, var(--hoja)); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+
+/* Energía: cinco cordilleras que crecen, de la niebla al sol en la cumbre */
+.energia2 { display: flex; gap: 8px; }
+.energia2 button { --c: var(--oro); width: 52px; height: 52px; padding: 4px; border-radius: 16px; border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent); background: var(--hoja);
+  display: grid; place-items: center; cursor: pointer; touch-action: manipulation; transition: background .2s cubic-bezier(.2,0,0,1), border-color .2s, transform .16s; }
+.energia2 svg { width: 100%; height: 100%; overflow: visible; }
+.energia2 .e2-monte { fill: color-mix(in srgb, var(--tinta) 13%, transparent); transition: fill .25s cubic-bezier(.2,0,0,1); }
+.energia2 .e2-nieve { fill: transparent; transition: fill .25s; }
+.energia2 button.si { background: color-mix(in srgb, var(--c) 12%, var(--hoja)); border-color: color-mix(in srgb, var(--c) 45%, transparent); }
+.energia2 button.si .e2-monte { fill: var(--c); } .energia2 button.si .e2-nieve { fill: #fff; }
+.energia2 button.actual { border-color: var(--c); box-shadow: inset 0 0 0 1px var(--c); }
+.energia2 button:active { transform: scale(.94); }
+@media (hover: hover) and (pointer: fine) { .energia2 button:not(.si):hover .e2-monte { fill: color-mix(in srgb, var(--c) 40%, transparent); } }
+.energia2-txt { margin: 8px 0 0; font-size: 13px; color: var(--tinta-suave); } .energia2-txt b { font-weight: 600; }
+@media (max-width: 600px) {
+  .sec-dia { padding: 16px 14px 18px; border-radius: 18px; } .sec-div { margin: 14px -14px 12px; }
+  .sec-cab { gap: 12px; } .sec-ic { width: 40px; height: 40px; border-radius: 12px; }
+  .sec-dia .act { grid-template-columns: 56px 26px 1fr; } .sec-dia .act select { grid-column: 3; }
+  .energia2 button { width: 48px; height: 48px; }
+}
+@media (prefers-reduced-motion: reduce) { .energia2 button, .energia2 .e2-monte, .sec-dia { transition: none; } }

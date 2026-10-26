@@ -227,9 +227,8 @@ function selectorMetaCordada(c) {
 function cordadasHoy() {
   if (!CK.lista || Date.now() - CK.listaEn > 60000) cargarCordadas();
   const xs = (CK.lista || []).filter(c => !cordadaTerminada(c)); if (!xs.length) return "";
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Tus cordadas</h3><button class="btn mini" data-ir="mensajes" data-arg="cordadas">Ver todas</button></div>
-    <p class="suave" style="margin:4px 0 10px">Tu grupo sube contigo: marca tu día y ellos lo ven.</p>
-    ${xs.map(c => `<div class="cord-hoy"><div><b>${esc(c.nombre)}</b><span class="suave">${esc(c.reto)} · ${etapaCordada(c)}</span></div>${botonMarcar(c)}</div>`).join("")}`);
+  return `<section class="hoja sec-dia" id="sd-cordadas" data-sd="cordadas">` + cabSec("cordada", "Tus cordadas", "Tu grupo sube contigo: marca tu día y ellos lo ven.", `<button class="btn mini" data-ir="mensajes" data-arg="cordadas">Ver todas</button>`) + (`
+    ${xs.map(c => `<div class="cord-hoy"><div><b>${esc(c.nombre)}</b><span class="suave">${esc(c.reto)} · ${etapaCordada(c)}</span></div>${botonMarcar(c)}</div>`).join("")}`) + `</section>`;
 }
 window.cordadasHoy = cordadasHoy;
 

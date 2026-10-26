@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Eine Minute atmen</string>
     <string name="bd_practica">Übung der Woche</string>
     <string name="bd_patrones">Deine Muster</string>
+    <string name="energia_n1">Erschöpft</string>
+    <string name="energia_n2">Niedrig</string>
+    <string name="energia_n3">Normal</string>
+    <string name="energia_n4">Gut</string>
+    <string name="energia_n5">Voll da</string>
 </resources>

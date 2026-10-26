@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Respirer une minute</string>
     <string name="bd_practica">Pratique de la semaine</string>
     <string name="bd_patrones">Tes tendances</string>
+    <string name="energia_n1">Épuisé</string>
+    <string name="energia_n2">Basse</string>
+    <string name="energia_n3">Normale</string>
+    <string name="energia_n4">Bonne</string>
+    <string name="energia_n5">À fond</string>
 </resources>

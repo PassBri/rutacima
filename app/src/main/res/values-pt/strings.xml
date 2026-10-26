@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Respirar um minuto</string>
     <string name="bd_practica">Prática da semana</string>
     <string name="bd_patrones">Seus padrões</string>
+    <string name="energia_n1">Esgotado</string>
+    <string name="energia_n2">Baixa</string>
+    <string name="energia_n3">Normal</string>
+    <string name="energia_n4">Boa</string>
+    <string name="energia_n5">A mil</string>
 </resources>

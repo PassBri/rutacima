@@ -13,6 +13,10 @@ const cuerpo = (html, ancho = "") => `<div class="det-cuerpo"><div class="ancho"
 /** Texto alternativo de una foto de publicación (lectores de pantalla). */
 const altFoto = p => esc(`Foto de ${p.autorNombre || "la comunidad"}${(p.metaTitulo || p.texto) ? ": " + String(p.metaTitulo || p.texto).slice(0, 120) : ""}`);
 const hoja = (html, clase = "") => `<div class="hoja ${clase}">${html}</div>`;
+/** Cabecera de sección (Material 3): ícono en contenedor tonal, título, texto de apoyo y una acción a la derecha. */
+const cabSec = (icono, titulo, sub = "", accion = "") => `<header class="sec-cab"><span class="sec-ic">${ic(icono)}</span><div class="sec-tx"><h3>${titulo}</h3>${sub ? `<p>${sub}</p>` : ""}</div>${accion ? `<div class="sec-acc">${accion}</div>` : ""}</header>`;
+/** Una sección del día con su ancla para el índice de arriba. */
+const seccionDia = (id, html, clase = "") => `<section class="hoja sec-dia ${clase}" id="sd-${id}" data-sd="${id}">${html}</section>`;
 const campo = (etq, control) => `<label class="campo"><span>${etq}</span>${control}</label>`;
 /** Control enlazado a un campo de un documento: se guarda al salir del campo. */
 const bind = (tipo, clave, campoN, conv = "") => `data-bind="${tipo}|${esc(clave)}|${campoN}|${conv}"`;
@@ -356,9 +360,9 @@ function actividadesDia(fecha, ag, ms) {
       <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
       ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}" ${String(x.id) === meta ? "selected" : ""}>${esc(x.texto)}</option>`).join("")}</select>` : `<span></span>`}</div>`;
   };
-  return hoja(`<h3 style="margin:0">Actividades del día</h3>
-    <p class="suave" style="margin:4px 0 10px">Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.</p>
-    <div class="acts">${horas.map(fila).join("")}</div>`);
+  const llenas = Object.values(hor).filter(Boolean).length;
+  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.", llenas ? `<span class="sec-badge">${llenas}</span>` : "") +
+    `<div class="acts">${horas.map(fila).join("")}</div>`);
 }
 
 
@@ -391,21 +395,35 @@ function filaTop(fecha, i, x, ms, editable) {
 function planDelDia(fecha, ag, ms) {
   const top = topDe(fecha), hoyF = iso(hoyFecha()), ayer = sumarDias(fecha, -1), p = pendientesDe(ayer);
   const traer = fecha === hoyF && (p.top.length || p.acts.length) && !respuesta(`dia#${fecha}#traido`);
-  return hoja(`<h3 style="margin:0 0 4px">Plan del día</h3><p class="suave" style="margin:0 0 12px">Pocas cosas, en orden: empieza por la 1 y no pases a la siguiente hasta terminarla. Únelas a una meta del mes para que cuenten allá.</p>
+  return seccionDia("plan", cabSec("bandera", "Plan del día", "Pocas cosas, en orden: empieza por la 1 y no pases a la siguiente hasta terminarla. Únelas a una meta del mes para que cuenten allá.") + `
     ${campo("Intención del día", `<input type="text" ${bind("agenda", fecha, "intencion", "", "agenda")} value="${esc(ag.intencion || "")}" placeholder="Hoy quiero…">`)}
     <div class="etiqueta" style="margin:12px 0 6px">Las 3 cumbres de hoy</div>
     <div class="tops">${[0, 1, 2].map(i => filaTop(fecha, i, top[i], ms, true)).join("")}</div>
     ${traer ? `<div class="traer"><span>Ayer quedaron ${p.top.length + p.acts.length} pendientes.</span><button class="btn mini oro" data-acc="traerPendientes" data-arg="${fecha}">Traerlos a hoy</button><button class="btn mini" data-acc="traerNo" data-arg="${fecha}">Soltarlos</button></div>` : ""}`);
 }
+/** Energía del día: cinco cordilleras que crecen, de la niebla (agotado) al sol en la cumbre (a tope). Igual que la app. */
+const ENERGIA = [["Agotado", "#7A8896"], ["Baja", "#6F8FA0"], ["Normal", "#3E8A5A"], ["Buena", "#C98A12"], ["A tope", "#E8A317"]];
+function montePath(n) {
+  const ph = 8 + 5 * n, b = 34, y = b - ph;
+  const f = v => +v.toFixed(1);
+  return { monte: `M3 ${b}L12 ${f(b - .6 * ph)}L16.5 ${f(b - .45 * ph)}L24 ${y}L37 ${b}Z`,
+    nieve: `M24 ${y}L${f(24 + 13 * .3)} ${f(y + ph * .3)}L25.4 ${f(y + ph * .22)}L23.4 ${f(y + ph * .3)}L${f(24 - 7.5 * .3)} ${f(y + .55 * ph * .3)}Z` };
+}
+function energiaMontes(fecha, v) {
+  return `<div class="energia2" role="radiogroup" aria-label="Energía del día">${ENERGIA.map(([n, c], i) => { const k = i + 1, m = montePath(k), si = v >= k;
+    return `<button type="button" role="radio" class="${si ? "si" : ""}${v === k ? " actual" : ""}" style="--c:${c}" data-acc="energia" data-arg="${fecha}|${k}" aria-checked="${v === k}" aria-label="Energía ${k} de 5: ${n}" title="${n}">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><path class="e2-monte" d="${m.monte}"/><path class="e2-nieve" d="${m.nieve}"/></svg></button>`; }).join("")}</div>
+    <p class="energia2-txt">${v ? `<b style="color:${ENERGIA[v - 1][1]}">${ENERGIA[v - 1][0]}</b> · ${v} de 5` : "Toca la cordillera que se parece a tu energía de hoy."}</p>`;
+}
 /** El cierre: lo que salió, y las 3 cumbres de mañana escritas antes de dormir (Ivy Lee). */
 function cierreDia(fecha, ag, campoAg) {
   const man = sumarDias(fecha, 1), topM = topDe(man), d = deIso(man), msM = metasDelMes(d.getFullYear(), d.getMonth() + 1), p = pendientesDe(fecha);
-  return hoja(`<h3>Cierre del día</h3><div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
-      <div class="form-2">${campo("Energía", `<div class="energia" role="group" aria-label="Energía: cinco cumbres">${[1, 2, 3, 4, 5].map(n => { const y = 30 - (11 + 3.6 * (n - 1)); return `<button class="${(ag.energia || 0) >= n ? "si" : ""}" data-acc="energia" data-arg="${fecha}|${n}" aria-label="Energía ${n} de 5" aria-pressed="${(ag.energia || 0) >= n}"><svg viewBox="0 0 30 30" aria-hidden="true"><path class="e-monte" d="M3 28L15 ${y}L27 28Z"/><path class="e-nieve" d="M15 ${y}L${15 + 12 * .28} ${y + (28 - y) * .28}L15 ${y + (28 - y) * .2}L${15 - 12 * .28} ${y + (28 - y) * .28}Z"/></svg></button>`; }).join("")}</div>`)}
+  return seccionDia("cierre", cabSec("tema", "Cierre del día", "Lo que salió hoy y las 3 cumbres de mañana, antes de dormir.") + `<div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
+      <div class="form-2">${campo("Energía", energiaMontes(fecha, ag.energia || 0))}
         <div class="campo"><span>Agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
       ${campoAg("notas", "Notas")}</div>
-    <div class="etiqueta" style="margin:16px 0 6px">Mañana · tus 3 cumbres</div>
-    <p class="suave" style="margin:0 0 8px;font-size:13px">Escríbelas antes de dormir: mañana empiezas sin decidir.</p>
+    <div class="sec-div"></div>
+    <div class="sec-sub"><b>Mañana · tus 3 cumbres</b><span>Escríbelas antes de dormir: mañana empiezas sin decidir.</span></div>
     <div class="tops">${[0, 1, 2].map(i => filaTop(man, i, topM[i], msM, false)).join("")}</div>
     ${p.top.length || p.acts.length ? `<div class="botones" style="margin-top:8px"><button class="btn mini" data-acc="pasarAManana" data-arg="${fecha}">Pasar ${p.top.length + p.acts.length} pendientes a mañana</button></div>` : ""}`);
 }
@@ -595,9 +613,9 @@ function detMes(arg) {
 function habitosDelDia(fecha, marc) {
   const HS = habitos(), total = HS.length, n = HS.filter(h => marc.has(h[0])).length;
   const editar = estado.habEditar;
-  const cabeza = `<div class="hab-cab"><h3 id="habTit">${editar ? "Tus hábitos" : "Checklist de hábitos"}</h3>${editar ? "" : `<span class="hab-n">${n} / ${total}</span>`}
-    <button class="btn mini" data-acc="habEditar" aria-pressed="${!!editar}">${editar ? ic("check") + " Listo" : ic("editar") + " Editar"}</button></div>`;
-  if (editar) return `<section class="hoja hab" aria-labelledby="habTit">${cabeza}
+  const cabeza = cabSec("check", `<span id="habTit">${editar ? "Tus hábitos" : "Checklist de hábitos"}</span>`, editar ? "Escríbelos a tu manera." : "Los hábitos de tus seis ejes, uno abierto a la vez.",
+    `${editar ? "" : `<span class="sec-badge">${n}/${total}</span>`}<button class="btn mini" data-acc="habEditar" aria-pressed="${!!editar}">${editar ? ic("check") + " Listo" : ic("editar") + " Editar"}</button>`);
+  if (editar) return `<section class="hoja hab sec-dia" id="sd-habitos" data-sd="habitos" aria-labelledby="habTit">${cabeza}
     <p class="suave hab-lectura">Escríbelos a tu manera. Cada eje lleva de 1 a ${HABITOS_MAX} hábitos. Los días que ya marcaste se conservan.</p>
     ${EJES.map(([cod, nom]) => { const hs = HS.filter(h => h[1] === cod);
       return `<div class="hab-edit"><h4>${nom}</h4>${hs.map(([id, , t]) => `<div class="hab-fila"><input type="text" value="${esc(t)}" maxlength="120" data-acc-change="habRenombrar" data-arg="${esc(id)}" aria-label="Hábito de ${nom}">
@@ -611,7 +629,7 @@ function habitosDelDia(fecha, marc) {
   const visible = elegido !== undefined ? elegido : pendiente;
   const r = n / Math.max(1, total);
   const lectura = r >= 10 / 18 ? "Vas en buen camino." : r >= 8 / 18 ? "Avanzando. Busca llegar a dos tercios." : n > 0 ? "Menos de la mitad: revisa qué está pasando." : "Marca los hábitos que cumpliste hoy.";
-  return `<section class="hoja hab" aria-labelledby="habTit">${cabeza}
+  return `<section class="hoja hab sec-dia" id="sd-habitos" data-sd="habitos" aria-labelledby="habTit">${cabeza}
     <div class="hab-linea" role="progressbar" aria-label="Hábitos marcados" aria-valuemin="0" aria-valuemax="${total}" aria-valuenow="${n}"><i style="--p:${r.toFixed(3)}"></i></div>
     <p class="suave hab-lectura">${lectura}</p>
     ${EJES.map(([cod, nom]) => { const hs = HS.filter(h => h[1] === cod), k = hs.filter(h => marc.has(h[0])).length;
@@ -635,10 +653,12 @@ function detDia(fecha) {
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mapa de mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
+    `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["metas", "metas", "Metas"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"], ["finanzas", "finanzas", "Finanzas"]]
+      .map(([k, i, n]) => `<button type="button" class="chip" data-acc="irSecDia" data-arg="${k}">${ic(i)}${n}</button>`).join("")}</nav>` +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
     planDelDia(fecha, ag, ms) +
     actividadesDia(fecha, ag, ms) + (esHoy && window.cordadasHoy ? cordadasHoy() : "") +
-    hoja(`<h3>Metas del mes</h3><p class="suave ayuda-h">Marca si hoy diste el paso.</p>
+    seccionDia("metas", cabSec("metas", "Metas del mes", "Marca si hoy diste el paso.", ms.length ? `<span class="sec-badge">${ms.filter(x => numeros(x.dias).includes(f.getDate())).length}/${ms.length}</span>` : "") + `
       ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`) +
     habitos +
     (window.bienHojaDia ? bienHojaDia(fecha) : "") +

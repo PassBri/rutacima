@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Breathe for a minute</string>
     <string name="bd_practica">Practice of the week</string>
     <string name="bd_patrones">Your patterns</string>
+    <string name="energia_n1">Drained</string>
+    <string name="energia_n2">Low</string>
+    <string name="energia_n3">Normal</string>
+    <string name="energia_n4">Good</string>
+    <string name="energia_n5">Full</string>
 </resources>

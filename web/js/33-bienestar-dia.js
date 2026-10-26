@@ -54,9 +54,9 @@ function bienHojaDia(fecha) {
   const paso = (k, v, max, st, suf, etq) => `<div class="bd-paso"><span>${etq}</span><div class="bd-ctrl"><button type="button" class="rb" data-acc="bienValor" data-arg="${k}|${Math.max(0, (v || 0) - st)}" aria-label="Menos ${etq.toLowerCase()}">−</button><b>${v ?? "—"}${v != null ? `<small> ${suf}</small>` : ""}</b><button type="button" class="rb" data-acc="bienValor" data-arg="${k}|${Math.min(max, (v || 0) + st)}" aria-label="Más ${etq.toLowerCase()}">+</button></div></div>`;
   const pil = pd?.p || {};
   const estadoP = k => pil[k] == null ? "" : pil[k] >= .99 ? " ok" : pil[k] >= .6 ? " medio" : " bajo";
-  return `<section class="hoja bien-dia" data-bien-f="${fecha}" aria-labelledby="bdTit-${fecha}">
-    <div class="bd-cab"><span class="bd-ic">${ic("bienestar")}</span><div><h3 id="bdTit-${fecha}">Bienestar del día</h3><p class="suave">${esHoy ? "Tu clima interior y tus hábitos de hoy." : "Tu clima interior y tus hábitos de este día."} Es privado.</p></div>
-      ${pd ? `<div class="bd-anillo" style="--p:${pd.cumplidos / 6}" role="img" aria-label="${pd.cumplidos} de 6 hábitos cumplidos"><b>${pd.cumplidos}</b><small>/6</small></div>` : ""}</div>
+  return `<section class="hoja bien-dia sec-dia" id="sd-bienestar" data-sd="bienestar" data-bien-f="${fecha}">
+    ${cabSec("bienestar", "Bienestar del día", `${esHoy ? "Tu clima interior y tus hábitos de hoy." : "Tu clima interior y tus hábitos de este día."} Es privado.`,
+      pd ? `<div class="bd-anillo" style="--p:${pd.cumplidos / 6}" role="img" aria-label="${pd.cumplidos} de 6 hábitos cumplidos"><b>${pd.cumplidos}</b><small>/6</small></div>` : "")}
 
     <h4 class="bd-sub">¿Cómo estuvo tu clima interior?</h4>
     <div class="bd-climas" role="radiogroup" aria-label="Clima interior">${Object.entries(CLIMAS).map(([k, c]) => `<button type="button" role="radio" class="bd-clima${b.clima === k ? " si" : ""}" style="--c:${c.c}" data-acc="bienClima" data-arg="${k}" aria-checked="${b.clima === k}">${climaSvg(k)}<span>${c.n}</span></button>`).join("")}</div>
@@ -66,10 +66,11 @@ function bienHojaDia(fecha) {
       <details class="bd-mas"${(b.causas || []).length || b.nota || (b.herr || []).length ? " open" : ""}><summary>Qué lo provocó, herramientas y nota${ic("abajo")}</summary>
         <div class="bien-chips" style="margin-top:10px" aria-label="Causas">${CAUSAS.map(c => `<button type="button" class="chip${(b.causas || []).includes(c) ? " si" : ""}" data-acc="bienCausa" data-arg="${c}" aria-pressed="${(b.causas || []).includes(c)}">${c}</button>`).join("")}</div>
         <div class="bd-herr">${HERRAMIENTAS.map(([k, n, d]) => `<button type="button" class="bd-h${(b.herr || []).includes(k) ? " si" : ""}" data-acc="${k === "caja" ? "bienRespirar" : "bienHerr"}" data-arg="${k}" aria-pressed="${(b.herr || []).includes(k)}" title="${esc(d)}">${(b.herr || []).includes(k) ? ic("check") : ""}${n}</button>`).join("")}</div>
-        <textarea rows="2" maxlength="600" data-acc-change="bienNota" aria-label="Nota del día, solo para ti" placeholder="Una nota solo para ti: qué pasó, qué necesitas…">${esc(b.nota || "")}</textarea>
+        <label class="campo-m3"><span>Nota · solo para ti</span><textarea rows="3" maxlength="600" data-acc-change="bienNota" placeholder="Qué pasó, qué pensaste, qué necesitas…">${esc(b.nota || "")}</textarea></label>
       </details></div>` : ""}
     ${fuerte ? `<div class="bien-apoyo bd-apoyo">${ic("comentario")}<div><b>No tienes que pasar esto solo</b><p>Habla con alguien de confianza o con un profesional. En Colombia la <b>Línea 106</b> atiende gratis las 24 horas; si hay peligro inmediato, llama al <b>123</b>. En otros países: <a href="https://findahelpline.com" target="_blank" rel="noopener">findahelpline.com</a>.</p></div></div>` : ""}
 
+    <div class="sec-div"></div>
     <h4 class="bd-sub">Vida saludable</h4>
     <div class="bd-habitos">
       <div class="bd-h-it${estadoP("sueno")}">${paso("sueno", b.sueno, 14, .5, "h", "Sueño")}<small>Meta 7 a 9 h</small></div>
@@ -155,3 +156,12 @@ function bienResumenAnio(a) {
     ${s.conDatos ? `<h4 class="bd-sub">Días que cumpliste cada meta</h4>${metasPilares(s, s.conDatos)}` : ""}
   </section>`;
 }
+
+/* Índice del día: salta a cada sección con un desplazamiento suave */
+Object.assign(ACC, {
+  irSecDia(_, k) {
+    const el = document.getElementById("sd-" + k); if (!el) return;
+    el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    el.classList.add("sd-foco"); setTimeout(() => el.classList.remove("sd-foco"), 1200);
+  },
+});

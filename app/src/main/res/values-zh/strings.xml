@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">呼吸一分钟</string>
     <string name="bd_practica">本周练习</string>
     <string name="bd_patrones">你的规律</string>
+    <string name="energia_n1">耗尽</string>
+    <string name="energia_n2">偏低</string>
+    <string name="energia_n3">正常</string>
+    <string name="energia_n4">良好</string>
+    <string name="energia_n5">满格</string>
 </resources>

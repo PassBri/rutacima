@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Подышать минуту</string>
     <string name="bd_practica">Практика недели</string>
     <string name="bd_patrones">Твои закономерности</string>
+    <string name="energia_n1">Без сил</string>
+    <string name="energia_n2">Низкая</string>
+    <string name="energia_n3">Обычная</string>
+    <string name="energia_n4">Хорошая</string>
+    <string name="energia_n5">На максимуме</string>
 </resources>

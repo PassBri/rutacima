@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">تنفّس دقيقة</string>
     <string name="bd_practica">ممارسة الأسبوع</string>
     <string name="bd_patrones">أنماطك</string>
+    <string name="energia_n1">منهك</string>
+    <string name="energia_n2">منخفضة</string>
+    <string name="energia_n3">عادية</string>
+    <string name="energia_n4">جيدة</string>
+    <string name="energia_n5">في القمة</string>
 </resources>

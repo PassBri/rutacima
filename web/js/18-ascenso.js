@@ -415,9 +415,9 @@ document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target.ma
 /** Para el día (Hoy) y el balance del mes: un resumen que lleva al módulo. */
 window.ascResumenDia = function (f) {
   const movs = movsDe(f), s = sumar(movs), plata = window.plataFuera || globalThis.plata;
-  return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Control financiero</h3><button class="btn mini" data-ir="finanzas" data-arg="d:${f}">${ic("finanzas")} ${movs.length ? "Ver y anotar" : "Anotar"}</button></div>
+  return `<section class="hoja sec-dia" id="sd-finanzas" data-sd="finanzas">` + cabSec("finanzas", "Control financiero", "Lo que entró y salió hoy.", `<button class="btn mini" data-ir="finanzas" data-arg="d:${f}">${movs.length ? "Ver y anotar" : "Anotar"}</button>`) + (`
     ${movs.length ? `<div class="asc-mini">${movs.slice(0, 5).map(x => `<span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span><span>${esc(x.n || catDe(x.t, x.c)?.[1] || "")}</span><span class="num">${plata(x.m)}</span>`).join("")}</div>
-      <p class="fin-libre">Disponible hoy <b class="${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</b></p>` : `<p class="suave" style="margin:6px 0 0">Anota lo que entró y salió hoy. En Ascenso financiero se suma al mes, al año y a tu balance general.</p>`}`);
+      <p class="fin-libre">Disponible hoy <b class="${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</b></p>` : `<p class="suave" style="margin:0">Anota lo que entró y salió hoy. En Ascenso financiero se suma al mes, al año y a tu balance general.</p>`}`) + `</section>`;
 };
 window.ascResumenMes = function (a, m) {
   const ym = ymDe(a, m), t = totalesDe(ym + "-");

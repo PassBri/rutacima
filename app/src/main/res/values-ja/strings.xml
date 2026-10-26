@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">1分間の呼吸</string>
     <string name="bd_practica">今週の練習</string>
     <string name="bd_patrones">あなたのパターン</string>
+    <string name="energia_n1">へとへと</string>
+    <string name="energia_n2">低め</string>
+    <string name="energia_n3">ふつう</string>
+    <string name="energia_n4">良い</string>
+    <string name="energia_n5">絶好調</string>
 </resources>

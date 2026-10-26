@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">Respirare un minuto</string>
     <string name="bd_practica">Pratica della settimana</string>
     <string name="bd_patrones">I tuoi schemi</string>
+    <string name="energia_n1">Esausto</string>
+    <string name="energia_n2">Bassa</string>
+    <string name="energia_n3">Normale</string>
+    <string name="energia_n4">Buona</string>
+    <string name="energia_n5">Al massimo</string>
 </resources>

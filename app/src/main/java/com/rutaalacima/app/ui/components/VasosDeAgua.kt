@@ -10,6 +10,9 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -143,35 +146,50 @@ private fun Vaso(nivel: Float, ola: Float, modifier: Modifier) {
 /** Nivel de energía como altitud: cinco cumbres que crecen; se encienden hasta la elegida. */
 @Composable
 fun NivelEnergia(valor: Int, onChange: (Int) -> Unit, color: Color = MaterialTheme.colorScheme.secondary, total: Int = 5) {
-    val vacio = MaterialTheme.colorScheme.outline
-    val nieve = MaterialTheme.colorScheme.surface
+    // Cinco cordilleras que crecen, de la niebla (agotado) al sol en la cumbre (a tope). Igual que la web (energiaMontes).
+    val colores = listOf(Color(0xFF7A8896), Color(0xFF6F8FA0), Color(0xFF3E8A5A), Color(0xFFC98A12), Color(0xFFE8A317))
+    val nombres = listOf(R.string.energia_n1, R.string.energia_n2, R.string.energia_n3, R.string.energia_n4, R.string.energia_n5).map { stringResource(it) }
+    val vacio = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.13f)
+    val borde = MaterialTheme.colorScheme.outlineVariant
+    val fondo = MaterialTheme.colorScheme.surface
     val nombre = stringResource(R.string.energia)
-    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.Bottom) {
-        for (i in 1..total) {
-            val lleno = i <= valor
-            Canvas(
-                Modifier.size(width = 34.dp, height = 34.dp).clip(RoundedCornerShape(8.dp))
-                    .clickable(role = Role.Button) { onChange(if (valor == i) i - 1 else i) }
-                    .semantics { contentDescription = "$nombre $i/$total"; stateDescription = if (lleno) "✓" else "" },
-            ) {
-                val w = size.width; val h = size.height
-                val alto = h * (0.36f + 0.12f * (i - 1))
-                val pico = Offset(w / 2f, h * 0.94f - alto)
-                val monte = Path().apply { moveTo(w * 0.1f, h * 0.94f); lineTo(pico.x, pico.y); lineTo(w * 0.9f, h * 0.94f); close() }
-                if (lleno) {
-                    drawPath(monte, color)
-                    // Nieve en la cumbre
-                    val k = 0.28f
-                    val nieveP = Path().apply {
-                        moveTo(pico.x, pico.y)
-                        lineTo(pico.x + (w * 0.4f) * k, pico.y + alto * k)
-                        lineTo(pico.x, pico.y + alto * k * 0.7f)
-                        lineTo(pico.x - (w * 0.4f) * k, pico.y + alto * k)
-                        close()
+    androidx.compose.foundation.layout.Column {
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Bottom) {
+            for (i in 1..total.coerceAtMost(5)) {
+                val lleno = i <= valor; val c = colores[i - 1]; val actual = i == valor
+                androidx.compose.foundation.layout.Box(
+                    Modifier.size(50.dp).clip(RoundedCornerShape(16.dp))
+                        .background(if (lleno) c.copy(alpha = 0.12f) else fondo)
+                        .border(if (actual) 2.dp else 1.dp, if (lleno) c.copy(alpha = if (actual) 1f else 0.45f) else borde, RoundedCornerShape(16.dp))
+                        .clickable(role = Role.Button) { onChange(if (valor == i) i - 1 else i) }
+                        .semantics { contentDescription = "$nombre $i/$total: ${nombres[i - 1]}"; stateDescription = if (lleno) "✓" else "" }
+                        .padding(5.dp),
+                ) {
+                    Canvas(Modifier.matchParentSize()) {
+                        val k = size.width / 40f
+                        val ph = 8f + 5f * i; val b = 34f; val y = b - ph
+                        fun o(x: Float, yy: Float) = Offset(x * k, yy * k)
+                        val monte = Path().apply {
+                            moveTo(o(3f, b).x, o(3f, b).y); lineTo(o(12f, b - .6f * ph).x, o(12f, b - .6f * ph).y)
+                            lineTo(o(16.5f, b - .45f * ph).x, o(16.5f, b - .45f * ph).y); lineTo(o(24f, y).x, o(24f, y).y)
+                            lineTo(o(37f, b).x, o(37f, b).y); close()
+                        }
+                        drawPath(monte, if (lleno) c else vacio)
+                        if (lleno) {
+                            val nieve = Path().apply {
+                                moveTo(o(24f, y).x, o(24f, y).y); lineTo(o(24f + 13f * .3f, y + ph * .3f).x, o(24f + 13f * .3f, y + ph * .3f).y)
+                                lineTo(o(25.4f, y + ph * .22f).x, o(25.4f, y + ph * .22f).y); lineTo(o(23.4f, y + ph * .3f).x, o(23.4f, y + ph * .3f).y)
+                                lineTo(o(24f - 7.5f * .3f, y + .55f * ph * .3f).x, o(24f - 7.5f * .3f, y + .55f * ph * .3f).y); close()
+                            }
+                            drawPath(nieve, Color.White)
+                        }
                     }
-                    drawPath(nieveP, nieve)
-                } else drawPath(monte, vacio, style = Stroke(width = 1.5.dp.toPx(), join = androidx.compose.ui.graphics.StrokeJoin.Round))
+                }
             }
         }
+        if (valor in 1..5) Text(
+            "${nombres[valor - 1]} · $valor / 5", color = colores[valor - 1], style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(top = 6.dp),
+        )
     }
 }

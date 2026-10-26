@@ -2312,4 +2312,9 @@
     <string name="bd_respirar">एक मिनट साँस</string>
     <string name="bd_practica">इस हफ़्ते का अभ्यास</string>
     <string name="bd_patrones">आपके पैटर्न</string>
+    <string name="energia_n1">थका हुआ</string>
+    <string name="energia_n2">कम</string>
+    <string name="energia_n3">सामान्य</string>
+    <string name="energia_n4">अच्छी</string>
+    <string name="energia_n5">पूरी</string>
 </resources>
