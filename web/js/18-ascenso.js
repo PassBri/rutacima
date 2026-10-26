@@ -60,7 +60,22 @@ function movsDe(f) {
     .map(([k, t, c]) => ({ id: "ag-" + k, t, c, m: Math.abs(montoFin(ag[k])), n: "Registro del día", ag: k })).filter(x => x.m);
   const g = movsGuardados(f), fijos = (window.fijosEn?.(f) || []).filter(v => !g.some(y => y.fx === v.fx));   // los fijos del mes que no se cambiaron a mano
   const futuro = f > iso(hoyFecha());
-  return [...viejos, ...fijos, ...g.map(y => futuro && y.fx ? { ...y, prog: true } : y)];   // un fijo cambiado en un mes que no llega: programado
+  const todos = [...viejos, ...fijos, ...g.map(y => futuro && y.fx ? { ...y, prog: true } : y)];   // un fijo cambiado en un mes que no llega: programado
+  return ordenDia(f, todos);
+}
+/** El orden que eligió la persona para las filas del día (se arrastran con el asa). Los fijos se ubican
+ *  por su fijo, así un fijo cambiado ese mes conserva su lugar; lo nuevo va al final. */
+const claveOrden = f => `fin#orden#${f}`;
+const llaveOrden = x => x.fx ? "fx:" + x.fx : x.id;
+function ordenDia(f, xs) {
+  let o; try { o = JSON.parse(respuesta(claveOrden(f)) || "[]"); } catch { o = []; }
+  if (!Array.isArray(o) || !o.length) return xs;
+  const pos = new Map(o.map((k, i) => [k, i]));
+  return xs.map((x, i) => [x, pos.has(llaveOrden(x)) ? pos.get(llaveOrden(x)) : 1e6 + i]).sort((a, b) => a[1] - b[1]).map(a => a[0]);
+}
+function guardarOrdenDia(f, ids) {
+  const xs = movsDe(f), por = new Map(xs.map(x => [x.id, x]));
+  responder(ASC.WB, claveOrden(f), JSON.stringify(ids.map(id => por.get(id)).filter(Boolean).map(llaveOrden)));
 }
 function guardarMovs(f, xs) {
   const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}) }));
@@ -200,15 +215,15 @@ DET["finanzas.d"] = f => {
           <button class="btn lleno" type="submit">Agregar</button>
         </div>
         <label class="asc-repite"><input type="checkbox" name="repite"> ${ic("repetir")} Se repite cada mes el día ${d.getDate()} <span class="suave">(arriendo, salario, internet…)</span></label></form>
-      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th class="cada-mes" title="Se repite cada mes">${ic("repetir")}<span class="oculto">Se repite cada mes</span></th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
-        ${movs.length ? movs.map(x => `<tr class="t-${x.t}${x.prog ? " prog" : ""}"><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
+      <div class="asc-tabla"><table class="asc-movs"><thead><tr><th class="asa-col"><span class="oculto">Ordenar</span></th><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th class="cada-mes" title="Se repite cada mes">${ic("repetir")}<span class="oculto">Se repite cada mes</span></th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
+        ${movs.length ? movs.map(x => `<tr class="t-${x.t}${x.prog ? " prog" : ""}" data-mov="${esc(x.id)}"><td class="asa-col">${movs.length > 1 ? `<button type="button" class="asc-asa" data-mover-mov="${esc(x.id)}" data-dia="${f}" aria-label="Arrastrar para cambiar el orden (o usa las flechas)" title="Arrastrar para cambiar el orden">${ic("arrastrar")}</button>` : ""}</td><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
           <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
           <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto"></td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
           <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
-          : `<tr><td colspan="6" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
-      </tbody>${movs.length ? `<tfoot><tr><th colspan="3" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
+          : `<tr><td colspan="7" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
+      </tbody>${movs.length ? `<tfoot><tr><th colspan="4" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
     `<button class="hoja asc-sube" data-sel="m:${ym}"><span>Así va ${MESES[m - 1]}</span><b class="${mes.disp < 0 ? "neg" : ""}">${plata(mes.disp)} disponible</b><small>Entró ${plata(mes.ing)} · salió ${plata(mes.gas + mes.aho + mes.inv)}</small>${ic("der")}</button>`, "max-width:980px");
 };
@@ -305,3 +320,50 @@ window.ascResumenMes = function (a, m) {
   return hoja(`<div class="cab-lista-btn"><h3 style="margin:0">Finanzas del mes</h3><button class="btn mini" data-ir="finanzas" data-arg="m:${ym}">${ic("finanzas")} Abrir</button></div>
     ${t.n ? cifras(t) + (t.tasa != null ? `<p class="fin-libre">Ahorro e inversión: <b>${Math.round(t.tasa * 100)} %</b> de lo que entró</p>` : "") : `<p class="suave" style="margin:6px 0 0">Aún no hay movimientos en ${MESES[m - 1]}.</p>`}`);
 };
+
+
+/* ---------- Ordenar las filas del día: arrastrar el asa (mouse o dedo) o con las flechas del teclado ---------- */
+{
+  let arr = null;
+  const filas = tb => [...tb.querySelectorAll("tr[data-mov]")];
+  document.addEventListener("pointerdown", e => {
+    const asa = e.target.closest?.(".asc-asa"); if (!asa || e.button > 0) return;
+    const tr = asa.closest("tr"), tb = tr.parentElement;
+    e.preventDefault(); asa.setPointerCapture?.(e.pointerId);
+    arr = { asa, tr, tb, f: asa.dataset.dia, y0: e.clientY, antes: filas(tb).map(x => x.dataset.mov).join() };
+    tr.classList.add("arrastrando"); document.body.classList.add("ordenando");
+  });
+  document.addEventListener("pointermove", e => {
+    if (!arr) return;
+    const { tr, tb } = arr;
+    tr.style.transform = `translateY(${e.clientY - arr.y0}px)`;
+    // Cuando el centro pasa sobre otra fila, la fila se mueve ahí y las demás se apartan
+    const otras = filas(tb).filter(x => x !== tr);
+    const destino = otras.find(x => { const r = x.getBoundingClientRect(); return e.clientY > r.top && e.clientY < r.bottom; });
+    if (!destino) return;
+    const r = destino.getBoundingClientRect(), antesDe = e.clientY < r.top + r.height / 2;
+    const ref = antesDe ? destino : destino.nextElementSibling;
+    if (ref === tr || (ref && ref.previousElementSibling === tr && !antesDe)) return;
+    const top0 = tr.getBoundingClientRect().top;
+    tb.insertBefore(tr, ref);
+    arr.y0 += tr.getBoundingClientRect().top - top0;
+    tr.style.transform = `translateY(${e.clientY - arr.y0}px)`;
+  });
+  const soltar = () => {
+    if (!arr) return;
+    const { tr, tb, f, antes } = arr; arr = null;
+    tr.style.transform = ""; tr.classList.remove("arrastrando"); document.body.classList.remove("ordenando");
+    const ids = filas(tb).map(x => x.dataset.mov);
+    if (ids.join() !== antes) guardarOrdenDia(f, ids);
+  };
+  document.addEventListener("pointerup", soltar); document.addEventListener("pointercancel", soltar);
+  document.addEventListener("keydown", e => {
+    const asa = e.target.closest?.(".asc-asa"); if (!asa || e.target !== asa) return;
+    const paso = { ArrowUp: -1, ArrowDown: 1 }[e.key]; if (!paso) return;
+    e.preventDefault();
+    const tb = asa.closest("tbody"), ids = filas(tb).map(x => x.dataset.mov), i = ids.indexOf(asa.dataset.moverMov), j = i + paso;
+    if (j < 0 || j >= ids.length) return;
+    [ids[i], ids[j]] = [ids[j], ids[i]]; guardarOrdenDia(asa.dataset.dia, ids);
+    requestAnimationFrame(() => document.querySelector(`.asc-asa[data-mover-mov="${CSS.escape(ids[j])}"]`)?.focus());
+  });
+}

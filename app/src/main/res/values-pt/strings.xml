@@ -2015,4 +2015,7 @@
     <string name="usuario_elegir">Escolher meu @usuário</string>
     <string name="usuario_error">Não foi possível mudar o usuário. Confira sua conexão.</string>
     <string name="cu_fijo_programado">Programado · conta quando o dia chegar</string>
+    <string name="cu_ordenar">Arraste para reordenar</string>
+    <string name="cu_subir">Subir</string>
+    <string name="cu_bajar">Descer</string>
 </resources>

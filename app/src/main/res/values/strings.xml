@@ -2017,4 +2017,7 @@
     <string name="usuario_elegir">Elegir mi @usuario</string>
     <string name="usuario_error">No se pudo cambiar el usuario. Revisa tu conexión.</string>
     <string name="cu_fijo_programado">Programado · cuenta el día que llegue</string>
+    <string name="cu_ordenar">Arrastra para cambiar el orden</string>
+    <string name="cu_subir">Subir</string>
+    <string name="cu_bajar">Bajar</string>
 </resources>

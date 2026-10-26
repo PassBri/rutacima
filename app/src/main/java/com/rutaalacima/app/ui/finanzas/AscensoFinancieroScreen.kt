@@ -94,6 +94,10 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import kotlinx.serialization.json.jsonPrimitive
+import kotlinx.serialization.json.jsonArray
+import androidx.compose.ui.semantics.customActions
+import androidx.compose.material.icons.filled.DragIndicator
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -144,12 +148,21 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val saludSinDeudas by lazy { com.rutaalacima.app.domain.model.Salud.de(dias, null, deudas, activos, propias, sinDeudas = true) }
     /** Fijos programados de los días que aún no llegan (hasta diciembre): se ven y se cambian, no suman. */
     val programados: Map<String, List<Mov>> by lazy { com.rutaalacima.app.domain.model.Fijos.programados(dias, fijos, hoy()) }
-    fun movs(fecha: String): List<Mov> = programados[fecha].orEmpty() + dias[fecha].orEmpty()
+    fun movs(fecha: String): List<Mov> = ordenar(fecha, programados[fecha].orEmpty() + dias[fecha].orEmpty())
+    /** El orden que eligió la persona para las filas del día (igual que la web: "fin#orden#fecha"). */
+    private fun ordenar(fecha: String, xs: List<Mov>): List<Mov> {
+        val o = runCatching { kotlinx.serialization.json.Json.parseToJsonElement(respuestas["fin#orden#$fecha"] ?: return xs).jsonArray.map { it.jsonPrimitive.content } }.getOrNull() ?: return xs
+        val pos = o.withIndex().associate { it.value to it.index }
+        return xs.withIndex().sortedBy { (i, x) -> pos[llaveOrden(x)] ?: (1_000_000 + i) }.map { it.value }
+    }
     fun suma(prefijo: String): Cuentas.Suma = Cuentas.sumar(dias.filterKeys { it.startsWith(prefijo) }.values.flatten(), propias)
     val total: Cuentas.Suma by lazy { Cuentas.sumar(dias.values.flatten(), propias) }
     val anios: List<Int> get() = (dias.keys.mapNotNull { it.take(4).toIntOrNull() } + hoy().year).distinct().sorted()
     fun presupuesto(ym: YearMonth): String = respuestas[Finanzas.clavePresupuesto(ym.year, ym.monthValue)].orEmpty()
 }
+
+/** Llave de una fila para su orden: los fijos se ubican por su fijo (igual que la web). */
+fun llaveOrden(x: Mov) = x.fx?.let { "fx:$it" } ?: x.id
 
 class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     val libro: StateFlow<Libro> = combine(c.respuestas.observar(Cuentas.WB), c.agenda.conFinanzas) { r, agendas ->
@@ -186,6 +199,15 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
             val g = guardados(f); if (g.any { it.fx == id }) guardar(f, g.map { if (it.fx == id) it.copy(fx = nuevoId) else it })
         }
     }
+    /** Sube o baja una fila del día; guarda el orden para la web y el teléfono. */
+    fun mover(f: String, x: Mov, paso: Int) = viewModelScope.launch {
+        val ids = libro.value.movs(f).map(::llaveOrden).toMutableList()
+        val i = ids.indexOf(llaveOrden(x)); val j = i + paso
+        if (i < 0 || j !in ids.indices) return@launch
+        ids[i] = ids[j].also { ids[j] = ids[i] }
+        c.respuestas.guardar(Cuentas.WB, "fin#orden#$f", kotlinx.serialization.json.JsonArray(ids.map { kotlinx.serialization.json.JsonPrimitive(it) }).toString())
+    }
+
     /** La casilla «se repite cada mes» de un movimiento ya anotado. */
     fun repetir(f: String, x: Mov, si: Boolean) = viewModelScope.launch {
         val dia = LocalDate.parse(f)
@@ -967,6 +989,23 @@ private fun FilaMovimiento(x: Mov, fecha: String, plata: (Double) -> String, vm:
             .clickable(onClickLabel = stringResource(R.string.cu_editar_mov)) { editar = true }.padding(start = 12.dp, top = 8.dp, bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        // Asa para ordenar: se arrastra arriba o abajo; con lector de pantalla, acciones Subir y Bajar
+        val subir = stringResource(R.string.cu_subir); val bajar = stringResource(R.string.cu_bajar); val ordenar = stringResource(R.string.cu_ordenar)
+        val paso = with(androidx.compose.ui.platform.LocalDensity.current) { 52.dp.toPx() }
+        var acumulado by remember { mutableStateOf(0f) }
+        Icon(Icons.Filled.DragIndicator, ordenar,
+            Modifier.padding(end = 6.dp).size(24.dp)
+                .pointerInput(x.id) {
+                    androidx.compose.foundation.gestures.detectVerticalDragGestures(onDragEnd = { acumulado = 0f }, onDragCancel = { acumulado = 0f }) { cambio, d ->
+                        cambio.consume(); acumulado += d
+                        if (acumulado > paso) { acumulado -= paso; vm.mover(fecha, x, 1) }
+                        if (acumulado < -paso) { acumulado += paso; vm.mover(fecha, x, -1) }
+                    }
+                }
+                .semantics { customActions = listOf(
+                    androidx.compose.ui.semantics.CustomAccessibilityAction(subir) { vm.mover(fecha, x, -1); true },
+                    androidx.compose.ui.semantics.CustomAccessibilityAction(bajar) { vm.mover(fecha, x, 1); true }) },
+            tint = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(nombreTipo(t, plural = false), Modifier.clip(RoundedCornerShape(50)).background(colorTipo(t).copy(alpha = 0.14f)).padding(horizontal = 10.dp, vertical = 3.dp),
             style = MaterialTheme.typography.labelMedium, color = colorTipo(t))
         Spacer(Modifier.width(10.dp))

@@ -2015,4 +2015,7 @@
     <string name="usuario_elegir">Выбрать мой @никнейм</string>
     <string name="usuario_error">Не удалось сменить никнейм. Проверьте подключение.</string>
     <string name="cu_fijo_programado">Запланировано · учтётся в свой день</string>
+    <string name="cu_ordenar">Перетащите, чтобы изменить порядок</string>
+    <string name="cu_subir">Выше</string>
+    <string name="cu_bajar">Ниже</string>
 </resources>

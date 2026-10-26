@@ -2909,3 +2909,13 @@ a.chip { text-decoration: none; color: var(--tinta); display: inline-flex; align
 .asc-movs tr.prog td > :not(.fijo-marca) { opacity: .8; }
 .asc-movs tr.prog .pildora { opacity: .7; }
 .asc-movs td select { min-width: 140px; }
+
+/* Asa para ordenar los movimientos del día */
+.asc-movs .asa-col { width: 36px; padding-left: 4px; padding-right: 0; }
+.asc-asa { width: 32px; height: 40px; display: grid; place-items: center; border: 0; background: transparent; border-radius: 8px; cursor: grab; touch-action: none; color: var(--tinta-suave); }
+.asc-asa svg { width: 20px; height: 20px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) { .asc-asa:hover { background: color-mix(in srgb, var(--tinta) 6%, transparent); color: var(--tinta); } }
+.asc-asa:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 1px; }
+.asc-movs tr.arrastrando { position: relative; z-index: 2; background: var(--hoja); box-shadow: 0 8px 24px rgb(var(--sombra, 24 38 48) / .22); }
+.asc-movs tr.arrastrando .asc-asa { cursor: grabbing; color: var(--burdeos); }
+body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: none; }

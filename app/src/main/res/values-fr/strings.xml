@@ -2015,4 +2015,7 @@
     <string name="usuario_elegir">Choisir mon @utilisateur</string>
     <string name="usuario_error">Impossible de changer l\'utilisateur. Vérifiez votre connexion.</string>
     <string name="cu_fijo_programado">Programmé · compte le jour venu</string>
+    <string name="cu_ordenar">Faites glisser pour réordonner</string>
+    <string name="cu_subir">Monter</string>
+    <string name="cu_bajar">Descendre</string>
 </resources>
