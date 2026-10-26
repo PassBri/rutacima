@@ -3390,3 +3390,4 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
   .energia2 button { width: 48px; height: 48px; }
 }
 @media (prefers-reduced-motion: reduce) { .energia2 button, .energia2 .e2-monte, .sec-dia { transition: none; } }
+.bien-volver-fila { padding: 0 16px 10px; } .bien-volver-fila .btn svg { width: 18px; height: 18px; }

@@ -80,7 +80,7 @@ function bienHojaDia(fecha) {
       <div class="bd-h-it${estadoP("agua")}"><div class="bd-paso"><span>Agua</span><b class="bd-agua">${agua}<small> de 8</small></b></div><small>Se anota en las cantimploras del día</small></div>
       <div class="bd-h-it${estadoP("pant")}"><label class="bd-paso bd-sw"><span>Sin pantallas al dormir</span><input type="checkbox" role="switch" ${b.pant ? "checked" : ""} data-acc-change="bienPant"></label><small>La última hora sin celular ni TV</small></div>
     </div>
-    <div class="bd-pie"><button class="btn mini" data-acc="bienRespirar">${ic("bienestar")} Respirar un minuto</button><button class="btn mini" data-ir="bienestar" data-arg="practica">${ic("aprende")} Práctica de la semana</button><button class="btn mini" data-ir="bienestar" data-arg="clima">${ic("grafica")} Tus patrones</button></div>
+    <div class="bd-pie"><button class="btn mini" data-acc="bienRespirar">${ic("bienestar")} Respirar un minuto</button><button class="btn mini" data-acc="abrirBien" data-arg="practica">${ic("aprende")} Práctica de la semana</button><button class="btn mini" data-acc="abrirBien" data-arg="clima">${ic("grafica")} Tus patrones</button></div>
   </section>`;
 }
 

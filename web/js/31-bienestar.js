@@ -69,9 +69,15 @@ function patronesClima(n = 30) {
     sueno: bienDormido.length >= 3 && conSueno.length - bienDormido.length >= 3 ? [Math.round(agr(bienDormido) / bienDormido.length * 100), Math.round(agr(conSueno.filter(([, b]) => b.sueno < 7)) / (conSueno.length - bienDormido.length) * 100)] : null };
 }
 
+/** Bienestar vive en el día: siempre hay un botón para volver al día del que se vino (o a hoy). */
+function volverDiaBien(lista = false) {
+  const f = estado.bienVolver || iso(hoyFecha()), esHoy = f === iso(hoyFecha());
+  const n = esHoy ? "Volver a hoy" : `Volver al ${Number(f.slice(8))} de ${MESES[Number(f.slice(5, 7)) - 1]}`;
+  return `<button class="btn mini${lista ? " oro bien-volver" : ""}" data-ir="hoy" data-arg="d:${f}">${ic("volver")} ${n}</button>`;
+}
 LISTAS.bienestar = () => {
   const hoyI = iso(hoyFecha()), b = bienDia(hoyI), is = indiceSaludable(), [gn] = GOLEMAN[semanaIso(hoyFecha()) % 5];
-  let h = cabLista("Bienestar", { buscar: false }) + `<div class="items">`;
+  let h = cabLista("Bienestar", { buscar: false }) + `<div class="bien-volver-fila">${volverDiaBien(true)}</div><div class="items">`;
   h += item("hoy", av(b.clima ? `<span class="bien-punto" style="background:${CLIMAS[b.clima].c}"></span>` : ic("bienestar"), "var(--ok)"), "Tu clima de hoy", "", b.clima ? `${CLIMAS[b.clima].n}${b.emo ? " · " + b.emo : ""}` : "¿Cómo está tu clima interior?");
   h += item("habitos", av(ic("hoy"), "var(--ok)"), "Vida saludable", "", is.indice != null ? `Índice ${is.indice} % · racha de ${is.racha} ${is.racha === 1 ? "día" : "días"}` : "Sueño, actividad física, alimentación y más");
   h += item("clima", av(ic("grafica"), "var(--ok)"), "Tu clima del mes", "", "Lo que se repite en tus emociones");
@@ -84,7 +90,7 @@ LISTAS.bienestar = () => {
 DET["bienestar.hoy"] = () => {
   const f = iso(hoyFecha()), b = bienDia(f), cl = b.clima ? CLIMAS[b.clima] : null;
   const fuerte = (b.clima === "tormenta" || b.clima === "niebla") && (b.int || 0) >= 5;
-  return cab(av(ic("bienestar"), "var(--ok)"), "Tu clima de hoy", "Bienestar · inteligencia emocional", "") + cuerpo(
+  return cab(av(ic("bienestar"), "var(--ok)"), "Tu clima de hoy", "Bienestar · inteligencia emocional", volverDiaBien()) + cuerpo(
     hoja(`<h3 style="margin:0 0 4px">¿Cómo está tu clima interior?</h3><p class="suave" style="margin:0 0 12px">Elige según tu energía y si lo que sientes es agradable o no. No hay climas buenos ni malos: todos dicen algo.</p>
       <div class="bien-medidor">${Object.entries(CLIMAS).map(([k, c]) => `<button type="button" class="bien-clima${b.clima === k ? " si" : ""}" style="--c:${c.c}" data-acc="bienClima" data-arg="${k}" aria-pressed="${b.clima === k}">
         <span class="bc-ic">${window.climaSvg ? climaSvg(k) : ""}</span><b>${c.n}</b><small>${c.d}</small></button>`).join("")}</div>`) +
@@ -104,7 +110,7 @@ DET["bienestar.habitos"] = () => {
   const f = iso(hoyFecha()), b = bienDia(f), is = indiceSaludable(), agua = aguaDe(f);
   const paso = (k, v, min, max, st, suf) => `<div class="bien-paso"><button type="button" class="rb" data-acc="bienValor" data-arg="${k}|${Math.max(min, (v || 0) - st)}" aria-label="Menos">−</button><b>${v ?? "—"}${v != null ? " " + suf : ""}</b><button type="button" class="rb" data-acc="bienValor" data-arg="${k}|${Math.min(max, (v || 0) + st)}" aria-label="Más">+</button></div>`;
   const nivelP = v => v == null ? "na" : v >= .99 ? "ok" : v >= .6 ? "medio" : "bajo";
-  return cab(av(ic("hoy"), "var(--ok)"), "Vida saludable", "Bienestar · tus hábitos de hoy", "") + cuerpo(
+  return cab(av(ic("hoy"), "var(--ok)"), "Vida saludable", "Bienestar · tus hábitos de hoy", volverDiaBien()) + cuerpo(
     hoja(`<div class="bien-indice"><div class="bi-n"><b>${is.indice ?? "—"}</b><span>${is.indice != null ? "%" : ""}</span></div><div><h3 style="margin:0">Índice de vida saludable</h3>
       <p class="suave" style="margin:2px 0 0">Los últimos 7 días, con las metas de la OMS. Racha: <b>${is.racha} ${is.racha === 1 ? "día" : "días"}</b> con 4 de 6 hábitos cumplidos. Un día flojo no borra tu camino.</p></div></div>
       <div class="bien-pilares">${SALUD_PILARES.map(([k, n, meta]) => `<div class="bp e-${nivelP(is.pil[k])}"><span>${n}</span><div class="barra"><i style="width:${Math.round((is.pil[k] || 0) * 100)}%"></i></div><small>${k === "mov" ? `${is.movSem} de 150 min esta semana` : `Meta: ${meta}`}</small></div>`).join("")}</div>`) +
@@ -122,7 +128,7 @@ DET["bienestar.habitos"] = () => {
 DET["bienestar.clima"] = () => {
   const p = patronesClima(30), total = p.dias.length;
   const dias = diasAtras(30).reverse();
-  return cab(av(ic("grafica"), "var(--ok)"), "Tu clima del mes", "Bienestar · los últimos 30 días", "") + cuerpo(
+  return cab(av(ic("grafica"), "var(--ok)"), "Tu clima del mes", "Bienestar · los últimos 30 días", volverDiaBien()) + cuerpo(
     hoja(`<h3 style="margin:0 0 10px">Cada día, su clima</h3><div class="bien-cal">${dias.map(f => { const b = bienDia(f), c = b.clima ? CLIMAS[b.clima] : null;
       return `<span class="bc${c ? "" : " vacio"}" style="${c ? `--c:${c.c}` : ""}" title="${Number(f.slice(8))} ${MES_C[Number(f.slice(5, 7)) - 1]}${c ? ` · ${c.n}${b.emo ? " · " + b.emo : ""}` : ""}"><i>${Number(f.slice(8))}</i></span>`; }).join("")}</div>
       <div class="bien-ley">${Object.entries(CLIMAS).map(([, c]) => `<span><i style="background:${c.c}"></i>${c.n}</span>`).join("")}</div>`) +
@@ -135,14 +141,14 @@ DET["bienestar.clima"] = () => {
 };
 
 /* ---------- Respirar un minuto (respiración en caja guiada) ---------- */
-DET["bienestar.respirar"] = () => cab(av(ic("bienestar"), "var(--ok)"), "Respirar un minuto", "Bienestar · respiración en caja", "") + cuerpo(
+DET["bienestar.respirar"] = () => cab(av(ic("bienestar"), "var(--ok)"), "Respirar un minuto", "Bienestar · respiración en caja", volverDiaBien()) + cuerpo(
   hoja(`<div class="bien-resp"><div class="br-caja" id="brCaja"><span class="br-punto"></span><b id="brFase">Toca empezar</b></div>
     <p class="suave">Inhala 4 segundos, sostén 4, exhala 4 y sostén 4. Cuatro vueltas son un minuto.</p>
     <div class="botones" style="justify-content:center"><button class="btn lleno" data-acc="bienRespirarEmpezar" id="brBoton">Empezar</button></div></div>`), "max-width:640px");
 
 /* ---------- Práctica de la semana ---------- */
 DET["bienestar.practica"] = () => { const k = semanaIso(hoyFecha()) % 5, [n, d] = GOLEMAN[k];
-  return cab(av(ic("aprende"), "var(--ok)"), "Práctica de la semana", "Bienestar · los cinco componentes de la inteligencia emocional", "") + cuerpo(
+  return cab(av(ic("aprende"), "var(--ok)"), "Práctica de la semana", "Bienestar · los cinco componentes de la inteligencia emocional", volverDiaBien()) + cuerpo(
     hoja(`<div class="bien-practica"><small>Esta semana</small><h3>${n}</h3><p>${d}</p></div>`) +
     hoja(`<h3 style="margin:0 0 10px">Los cinco componentes (Daniel Goleman)</h3><ol class="bien-goleman">${GOLEMAN.map(([gn, gd], i) => `<li class="${i === k ? "actual" : ""}"><b>${gn}</b><span>${gd}</span></li>`).join("")}</ol>
       <p class="suave" style="margin:10px 0 0">Cada semana cambia la práctica. Repetirla en días buenos y malos es lo que la vuelve hábito.</p>`), "max-width:860px"); };
@@ -158,7 +164,7 @@ Object.assign(ACC, {
   bienCausa(el, c) { guardarBien(fBien(el), d => { const l = new Set(d.causas || []); l.has(c) ? l.delete(c) : l.add(c); d.causas = [...l]; }); pintarDetalle(); },
   bienNota(el) { guardarBien(fBien(el), d => { d.nota = el.value.trim().slice(0, 600); }); },
   bienHerr(el, k) { guardarBien(fBien(el), d => { const l = new Set(d.herr || []); l.has(k) ? l.delete(k) : l.add(k); d.herr = [...l]; }); pintarDetalle(); },
-  bienRespirar(el) { guardarBien(fBien(el), d => { const l = new Set(d.herr || []); l.add("caja"); d.herr = [...l]; }); if (estado.sec !== "bienestar") { ir("bienestar", "respirar"); } else elegir("respirar"); setTimeout(() => ACC.bienRespirarEmpezar(), 300); },
+  bienRespirar(el) { if (el?.closest?.("[data-bien-f]")) estado.bienVolver = fBien(el); guardarBien(fBien(el), d => { const l = new Set(d.herr || []); l.add("caja"); d.herr = [...l]; }); if (estado.sec !== "bienestar") { ir("bienestar", "respirar"); } else elegir("respirar"); setTimeout(() => ACC.bienRespirarEmpezar(), 300); },
   bienValor(el, arg) { const [k, v] = arg.split("|"); guardarBien(fBien(el), d => { d[k] = Math.max(0, Number(v)); }); repintarBien(); },
   bienPant(el) { guardarBien(fBien(el), d => { d.pant = el.checked; }); repintarBien(); },
   bienRespirarEmpezar() {
@@ -173,4 +179,9 @@ Object.assign(ACC, {
     };
     paso(); respTimer = setInterval(paso, 1000);
   },
+});
+
+Object.assign(ACC, {
+  /** Abre una herramienta de Bienestar desde la tarjeta del día y recuerda a qué día volver. */
+  abrirBien(el, k) { estado.bienVolver = fBien(el); ir("bienestar", k); },
 });
