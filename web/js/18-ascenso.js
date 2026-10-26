@@ -84,8 +84,8 @@ function guardarOrdenDia(f, ids) {
   responder(ASC.WB, claveOrden(f), JSON.stringify(ids.map(id => por.get(id)).filter(Boolean).map(llaveOrden)));
 }
 function guardarMovs(f, xs) {
-  const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx, cap, ab }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}),
-    ...(cap != null ? { cap: Math.round(Number(cap) * 100) / 100 } : {}), ...(ab ? { ab } : {}) }));   // cap: lo que bajó la deuda; ab: abono a capital
+  const l = xs.filter(x => !x.ag && !x.virtual).map(({ id, t, m, c, n, r, d, fx, cap, ab, meta }) => ({ id, t, m: Math.round(Number(m) * 100) / 100, c, n: String(n || "").slice(0, 120), ...(r?.length ? { r } : {}), ...(d ? { d } : {}), ...(fx ? { fx } : {}),
+    ...(cap != null ? { cap: Math.round(Number(cap) * 100) / 100 } : {}), ...(ab ? { ab } : {}), ...(meta ? { meta } : {}) }));   // meta: la meta financiera a la que va; cap: lo que bajó la deuda; ab: abono a capital
   return responder(ASC.WB, claveMov(f), l.length ? JSON.stringify(l) : "");
 }
 const catDe = (t, c) => (window.categorias ? categorias(t) : ASC.CAT[t] || []).find(x => x[0] === c) || ASC.CAT[t]?.at(-1);
@@ -246,7 +246,7 @@ DET["finanzas.m"] = arg => {
 DET["finanzas.d"] = f => {
   if (window.finBloqueado?.()) return pantallaBloqueo();
   const d = deIso(f), a = d.getFullYear(), m = d.getMonth() + 1, ym = ymDe(a, m), movs = movsDe(f), s = sumar(movs), mes = totalesDe(ym + "-");
-  const tipo = estado.ascTipo || "gas", deudasLista = window.deudasDatos ? deudasDatos().lista : [];
+  const tipo = estado.ascTipo || "gas", deudasLista = window.deudasDatos ? deudasDatos().lista : [], metasLista = window.metasFinDatos ? metasFinDatos() : [];
   const opc = t => categorias(t).map(([c, n]) => `<option value="${c}" ${c === estado.ascCatNueva ? "selected" : ""}>${esc(n)}</option>`).join("");
   return cab(avAsc(), `${d.getDate()} de ${MESES[m - 1]}`, mayus(d.toLocaleDateString("es", { weekday: "long" })) + ` · ${a}`, ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], [String(a), "a:" + a], [mayus(MESES[m - 1]), "m:" + ym], [String(d.getDate()), ""]]) +
@@ -263,7 +263,7 @@ DET["finanzas.d"] = f => {
       <div class="asc-tabla"><table class="asc-movs"><thead><tr><th class="asa-col"><span class="oculto">Ordenar</span></th><th>Tipo</th><th>Categoría</th><th>Concepto</th><th class="num">Monto</th><th class="cada-mes" title="Se repite cada mes">${ic("repetir")}<span class="oculto">Se repite cada mes</span></th><th><span class="oculto">Recibos y quitar</span></th></tr></thead><tbody>
         ${movs.length ? movs.map(x => `<tr class="t-${x.t}${x.prog ? " prog" : ""}" data-mov="${esc(x.id)}"><td class="asa-col">${movs.length > 1 ? `<button type="button" class="asc-asa" data-mover-mov="${esc(x.id)}" data-dia="${f}" aria-label="Arrastrar para cambiar el orden (o usa las flechas)" title="Arrastrar para cambiar el orden">${ic("arrastrar")}</button>` : ""}</td><td><span class="pildora t-${x.t}">${ASC.TIPOS.find(y => y[0] === x.t)[2]}</span></td>
           <td><select data-acc-change="ascCat" data-arg="${f}|${x.id}" aria-label="Categoría">${categorias(x.t).map(([c, n]) => `<option value="${c}" ${c === x.c ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
-          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.t === "gas" && (x.c === "deudas" || x.d) && !x.ag && deudasLista.length ? `<select class="paga-deuda${x.d ? "" : " sin"}" data-acc-change="ascDeudaDe" data-arg="${f}|${x.id}" aria-label="Deuda que paga"><option value="">¿Qué deuda paga?</option>${deudasLista.map(y => `<option value="${y.id}" ${x.d === y.id ? "selected" : ""}>Paga: ${esc(y.nombre)}</option>`).join("")}</select>` : ""}</td>
+          <td><input value="${esc(x.n || "")}" data-acc-change="ascNota" data-arg="${f}|${x.id}" maxlength="120" placeholder="Concepto" aria-label="Concepto">${x.t === "gas" && (x.c === "deudas" || x.d) && !x.ag && deudasLista.length ? `<select class="paga-deuda${x.d ? "" : " sin"}" data-acc-change="ascDeudaDe" data-arg="${f}|${x.id}" aria-label="Deuda que paga"><option value="">¿Qué deuda paga?</option>${deudasLista.map(y => `<option value="${y.id}" ${x.d === y.id ? "selected" : ""}>Paga: ${esc(y.nombre)}</option>`).join("")}</select>` : ""}${(x.t === "aho" || x.t === "inv") && !x.ag && metasLista.length ? `<select class="paga-deuda${x.meta ? "" : " sin"}" data-acc-change="ascMetaDe" data-arg="${f}|${x.id}" aria-label="Meta financiera"><option value="">¿Para qué meta?</option>${metasLista.map(y => `<option value="${y.id}" ${x.meta === y.id ? "selected" : ""}>Meta: ${esc(y.nombre)}</option>`).join("")}</select>` : ""}</td>
           <td class="num"> <input class="num" inputmode="decimal" value="${esc(numAsc(x.m))}" data-acc-change="ascMonto" data-arg="${f}|${x.id}" aria-label="Monto"></td>
           <td class="cada-mes">${x.ag ? "" : `<input type="checkbox" ${x.fx ? "checked" : ""} data-acc-change="ascRepite" data-arg="${f}|${x.id}" aria-label="Se repite cada mes el día ${d.getDate()}${x.prog ? " · programado: cuenta el día que llegue" : ""}" title="${x.prog ? "Programado: cuenta el día que llegue" : `Se repite cada mes el día ${d.getDate()}`}">`}</td>
           <td class="acc-mov">${x.ag ? "" : `<button class="rb${x.r?.length ? " con" : ""}" data-acc="ascRecibos" data-arg="${f}|${x.id}" aria-label="Recibos (${x.r?.length || 0})" title="Recibos">${ic("adjunto")}${x.r?.length ? `<small>${x.r.length}</small>` : ""}</button>`}${`<button class="rb" data-acc="ascDuplicar" data-arg="${f}|${x.id}" aria-label="Duplicar al mes siguiente" title="Duplicar al mes siguiente">${ic("copiar")}</button>`}<button class="rb" data-acc="ascBorrar" data-arg="${f}|${x.id}" aria-label="Quitar este movimiento">${ic("borrar")}</button></td></tr>`).join("")
@@ -294,6 +294,7 @@ LISTAS.finanzas = () => {
   const dd = window.deudasHoy ? deudasHoy() : [], debe = dd.reduce((a, x) => a + x.actual, 0);
   h += item("deudas", av(ic("deuda"), "var(--ok)"), "Salir de deudas", "", dd.length ? (debe > 0 ? `Debes ${plata(debe)} · ${dd.filter(x => x.actual > 0).length} por pagar` : "¡Sin deudas!") : "Tu plan con avalancha o bola de nieve");
   h += item("patrimonio", av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
+  if (window.metasFinResumen) { const mr = metasFinResumen(); h += item("metasfin", av(ic("alcancia"), "var(--ok)"), "Metas financieras", "", mr.n ? `${mr.n} ${mr.n === 1 ? "meta" : "metas"} · ${Math.round(mr.pct * 100)} % del total` : "Lo que quieres lograr con tu dinero"); }
   h += grupo("Años");
   anios.forEach(y => { const s = totalesDe(y + "-"); h += item("a:" + y, av(String(y).slice(2), "var(--ok)"), String(y), "", s.n ? `Entró ${plata(s.ing)} · ${plata(s.disp)} libre` : "Sin movimientos"); });
   h += grupo("Aprende");

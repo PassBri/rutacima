@@ -111,7 +111,8 @@ function planDeudas(lista, metodo, extra) {
   let mes = 0, interes = 0; const serie = [total()], pago1 = {}, intDe = {}, pagos = [];
   while (ds.some(d => d.b > 0.005) && mes < 600) {
     mes++;
-    ds.forEach(d => { if (d.b > 0.005) { const i = d.b * d.r; d.b += i; interes += i; intDe[d.id] = (intDe[d.id] || 0) + i; } });
+    const intMes = {};
+    ds.forEach(d => { if (d.b > 0.005) { const i = d.b * d.r; d.b += i; interes += i; intDe[d.id] = (intDe[d.id] || 0) + i; intMes[d.id] = i; } });
     const prev = Object.fromEntries(ds.map(d => [d.id, d.b]));
     const antes = mes === 1 ? Object.fromEntries(ds.map(d => [d.id, d.b])) : null;
     // Solo mínimos: cada deuda paga su cuota y nada más; con un método, lo que sobra rueda a la siguiente
@@ -120,7 +121,7 @@ function planDeudas(lista, metodo, extra) {
     for (const d of ds.filter(d => d.b > 0.005).sort(ordenar)) { if (bolsa <= 0.005) break; const p = Math.min(bolsa, d.b); d.b -= p; bolsa -= p; }
     if (antes) ds.forEach(d => { pago1[d.id] = antes[d.id] - d.b; });
     // Lo que recibe cada deuda este mes (para el calendario mes a mes), con su interés ya sumado
-    if (mes <= 120) pagos.push({ por: Object.fromEntries(ds.map(d => [d.id, Math.max(0, (prev[d.id] ?? 0) - d.b)])), saldo: total() });
+    if (mes <= 120) pagos.push({ por: Object.fromEntries(ds.map(d => [d.id, Math.max(0, (prev[d.id] ?? 0) - d.b)])), int: intMes, saldo: total() });
     ds.forEach(d => { if (d.b <= 0.005 && !d.fin) d.fin = mes; });
     serie.push(total());
   }
@@ -600,8 +601,11 @@ function aplicarMetodo(d, plan, vivas, fechaFin) {
     ${foco ? `<p class="suave" style="margin:8px 0 0;font-size:13px">Todo lo que puedes pagar de más va a <b>${esc(foco.nombre)}</b>; a las demás, solo su mínimo.</p>` : ""}
     <details class="calendario-deudas"${estado.deudasCal ? " open" : ""}><summary data-acc="deudasCal">Mes a mes: qué recibe cada deuda</summary>
       <div class="asc-tabla"><table><thead><tr><th>Mes</th>${orden.map(x => `<th class="num" title="${esc(x.nombre)}">${esc(corto(x.nombre))}</th>`).join("")}<th class="num">Debes al final</th></tr></thead><tbody>
-      ${filas.map((f, k) => `<tr><th scope="row">${fechaFin(k + 1)}</th>${orden.map(x => { const v = f.por[x.id] || 0, fin = plan.fin[x.id] === k + 1, extra = v - (Number(x.minimo) || 0) > 0.5;
-        return `<td class="num${fin ? " fin" : extra ? " extra" : ""}">${v > 0.5 ? plata(Math.round(v)) : "—"}${fin ? " ✓" : ""}</td>`; }).join("")}<td class="num">${plata(Math.round(f.saldo))}</td></tr>`).join("")}
+      ${(() => { const n = {}; orden.forEach(x => { n[x.id] = x.avance ? x.avance.k : 0; });   // el número de cada cuota sigue desde las ya pagadas
+        return filas.map((f, k) => `<tr><th scope="row">${fechaFin(k + 1)}</th>${orden.map(x => { const v = f.por[x.id] || 0, fin = plan.fin[x.id] === k + 1, extra = v - (Number(x.minimo) || 0) > 0.5;
+          if (v > 0.5) n[x.id]++;
+          const i = Math.min(v, f.int?.[x.id] || 0), cap = Math.max(0, v - i);
+          return `<td class="num${fin ? " fin" : extra ? " extra" : ""}">${v > 0.5 ? `<b>${plata(Math.round(v))}${fin ? " ✓" : ""}</b><small class="cal-cuota">Cuota ${n[x.id]}${x.avance ? ` de ${x.avance.n}` : ""}</small><small class="cal-det">Capital ${plata(Math.round(cap))}</small><small class="cal-det">Interés ${plata(Math.round(i))}</small>` : "—"}</td>`; }).join("")}<td class="num">${plata(Math.round(f.saldo))}</td></tr>`).join(""); })()}
       </tbody></table></div>
       ${plan.pagos.length > 12 ? `<button class="btn mini" data-acc="deudasTodo">${estado.deudasTodo ? "Ver solo 12 meses" : `Ver los ${Math.min(plan.pagos.length, 120)} meses`}</button>` : ""}
       <p class="suave" style="font-size:12.5px;margin:8px 0 0"><span class="ley-extra"></span> recibe el extra · ✓ la eliminas ese mes</p></details>`);
@@ -996,6 +1000,10 @@ function informeFinanciero() {
           return tr([esc(catDe(t, c)?.[1] || c), plata(v), Math.round(p) + " %", `<div class="barra"><i style="width:${Math.max(2, p)}%"></i></div>`]); })) : ""}
         ${h2("Activos y pasivos")}<div class="dos"><div>${tabla(["Lo que tienes", "Valor hoy"], [...act.map(x => tr([`${esc(x.nombre)}<br><small>${(TIPOS_ACTIVO.find(t => t[0] === x.tipo) || [, ""])[1]}</small>`, plata(Number(x.valor) || 0)])), tr(["Ahorro e inversión del libro<br><small>Se suma solo</small>", plata(led)]), tr(["Activos totales", plata(r.activos)], "total")])}</div>
           <div>${tabla(["Lo que debes", "Saldo hoy"], [...(lista.length ? lista.map(x => tr([`${esc(x.nombre)}<br><small>${x.tipo === "buena" ? "Buena · produce" : "Mala · solo cuesta"}</small>`, plata(x.actual)])) : [tr(["Sin deudas", ""])]), tr(["Pasivos totales", plata(r.pasivos)], "total"), tr(["Patrimonio neto", `<span class="${r.neto < 0 ? "neg" : ""}">${plata(r.neto)}</span>`], "total")])}</div></div>
+        ${(() => { const ms = window.metasFinHoy ? metasFinHoy() : []; if (!ms.length) return "";
+          const EST = { lograda: "¡Lograda!", atiempo: "Vas a tiempo", atrasada: "Atrasada", vencida: "Se pasó la fecha", sinfecha: "Sin fecha" };
+          return h2("Tus metas financieras") + tabla(["Meta", "Llevas", "Meta", "Para cuándo", "Aporta al mes", "Estado"], ms.map(x => tr([`${esc(x.nombre)}<br><small>${tipoMeta(x.tipo)[1]}</small><div class="barra" style="margin-top:6px"><i style="width:${Math.max(2, x.pct * 100)}%;background:#1E7B4A"></i></div>`,
+            `${plata(x.ahorrado)}<br><small>${Math.round(x.pct * 100)} %</small>`, plata(x.objetivo), x.fecha ? nombreYm(x.fecha) : "—", x.aporteMes ? plata(Math.ceil(x.aporteMes)) : "—", pill(x.estado === "lograda" || x.estado === "atiempo" ? "ok" : x.estado === "atrasada" ? "medio" : x.estado === "vencida" ? "bajo" : "na").replace(/>[^<]*</, `>${EST[x.estado]}<`)]))); })()}
         ${lista.length ? h2("Tus deudas") + `<p>Método <b>${metodo}</b>${dd.extra ? ` con ${plata(dd.extra)} extra al mes` : ""}. ${vivas.length ? (plan.meses ? `Quedas libre en <b>${mesesDespues(plan.meses)}</b> y pagas cerca de <b>${plata(Math.round(plan.interes))}</b> en intereses.` : "Con estos pagos la deuda no baja: sube el pago o renegocia la tasa.") : "¡Sin deudas!"}</p>` +
           lista.map(x => { const a = x.avance, fin = plan.fin[x.id];
             return `<div class="deuda"><header><b>${esc(x.nombre)}</b><small>${x.tipo === "buena" ? "Buena · produce" : "Mala · solo cuesta"} · interés ${Number(x.tasa) || 0} % anual</small></header>

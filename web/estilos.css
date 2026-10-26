@@ -3085,3 +3085,46 @@ body.ordenando, body.ordenando * { cursor: grabbing !important; user-select: non
 /* Navegación de periodo y migas */
 #detalle[data-sec="finanzas"] .asc-nav b { font-family: var(--font-texto); font-weight: 500; font-size: 17px; }
 #detalle[data-sec="finanzas"] .asc-sube { border-radius: 16px; }
+/* Metas financieras: tarjetas con anillo de avance, plan del mes y ritmo (Material 3) */
+.metas-fin { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.meta-fin { background: var(--hoja); border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent); border-radius: 16px; padding: 16px; display: grid; gap: 12px; align-content: start; }
+.meta-fin header { display: flex; gap: 10px; align-items: center; }
+.mf-ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; background: color-mix(in srgb, var(--ok) 14%, transparent); }
+.mf-ic svg { width: 22px; height: 22px; fill: var(--ok); }
+.mf-nombre { flex: 1; min-width: 0; display: grid; }
+.mf-nombre input { font: inherit; font-weight: 600; font-size: 15px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--tinta); padding: 2px 6px; margin-left: -6px; text-overflow: ellipsis; min-width: 0; }
+@media (hover: hover) and (pointer: fine) { .mf-nombre input:hover { border-color: var(--linea); } }
+.mf-nombre input:focus { outline: none; border-color: var(--burdeos); background: var(--hoja); }
+.mf-nombre small { color: var(--tinta-suave); font-size: 12px; }
+.mf-estado { flex: none; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+.meta-fin.e-ok .mf-estado { color: var(--c-ing); background: color-mix(in srgb, var(--c-ing) 14%, transparent); }
+.meta-fin.e-medio .mf-estado { color: #8A5A00; background: color-mix(in srgb, #D9A21B 20%, transparent); }
+.meta-fin.e-bajo .mf-estado { color: var(--burdeos); background: var(--burdeos-suave); }
+.meta-fin.e-na .mf-estado { color: var(--tinta-suave); background: color-mix(in srgb, var(--tinta) 8%, transparent); }
+.mf-avance { display: flex; gap: 14px; align-items: center; }
+.mf-anillo { width: 64px; height: 64px; flex: none; transform: rotate(-90deg); }
+.mf-anillo circle { fill: none; stroke: color-mix(in srgb, var(--tinta) 8%, transparent); stroke-width: 7; }
+.mf-anillo circle.v { stroke: var(--ok); stroke-linecap: round; transition: stroke-dasharray .6s cubic-bezier(.2,0,0,1); }
+.mf-avance > div { display: grid; gap: 1px; } .mf-avance b { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.mf-avance span { font-size: 13.5px; font-variant-numeric: tabular-nums; } .mf-avance small { color: var(--tinta-suave); font-size: 12.5px; }
+.mf-plan { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mf-plan > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--tinta) 5%, var(--hoja)); align-content: start; }
+.mf-plan span { font-size: 12px; color: var(--tinta-suave); } .mf-plan b { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; } .mf-plan small { font-size: 11.5px; color: var(--tinta-suave); line-height: 1.35; }
+.mf-campos { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.mf-campos label { display: grid; gap: 4px; font-size: 12px; color: var(--tinta-suave); }
+.mf-campos input { height: 40px; padding: 0 10px; border: 1px solid color-mix(in srgb, var(--tinta) 30%, transparent); border-radius: 8px; background: var(--hoja); color: var(--tinta); font: inherit; font-size: 14.5px; width: 140px; }
+.mf-campos input:focus { outline: none; border-color: var(--burdeos); box-shadow: inset 0 0 0 1px var(--burdeos); }
+.mf-acciones { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+.mf-tipos { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.mf-tipo { display: grid; justify-items: center; gap: 6px; padding: 12px 8px; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--tinta) 14%, transparent); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 13px; cursor: pointer; transition: background .2s, border-color .2s; }
+.mf-tipo svg { width: 24px; height: 24px; fill: var(--tinta-suave); }
+.mf-tipo[aria-checked="true"] { border-color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 8%, var(--hoja)); box-shadow: inset 0 0 0 1px var(--burdeos); }
+.mf-tipo[aria-checked="true"] svg { fill: var(--burdeos); }
+@media (hover: hover) and (pointer: fine) { .mf-tipo[aria-checked="false"]:hover { background: color-mix(in srgb, var(--tinta) 4%, var(--hoja)); } }
+.mf-sugerencia { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.mf-sugerencia > svg { width: 36px; height: 36px; fill: var(--ok); flex: none; } .mf-sugerencia > div { flex: 1; min-width: 220px; } .mf-sugerencia p { margin: 4px 0 0; }
+.mf-vacio { text-align: center; padding: 10px 0; } .mf-vacio svg { width: 48px; height: 48px; fill: var(--ok); } .mf-vacio h3 { margin: 8px 0 4px; }
+/* Mes a mes de las deudas: el pago con su número de cuota y cuánto va a capital y a intereses */
+.calendario-deudas td.num b { display: block; font-weight: 600; }
+.calendario-deudas td.num small { display: block; font-size: 11.5px; line-height: 1.35; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.calendario-deudas td.num small.cal-cuota { color: var(--tinta); font-weight: 500; }
