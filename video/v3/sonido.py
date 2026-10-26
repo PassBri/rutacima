@@ -15,7 +15,7 @@ def rev(x, mezcla): return x * (1 - mezcla) + norm(fftconvolve(x, IR)[:len(x)], 
 voces = json.load(open(S + '/v3/voz.json'))
 voz = np.zeros(N)
 for i, s0 in enumerate(voces):
-    x = leer(f'{S}/voz/v{i}.wav'); s = int(s0 * SR); e = min(N, s + len(x)); voz[s:e] += x[:e - s]
+    x = leer(f'{S}/voz2/v{i}.wav'); s = int(s0 * SR); e = min(N, s + len(x)); voz[s:e] += x[:e - s]
 voz = norm(voz, 0.92)
 voz = voz * 0.9 + norm(fftconvolve(voz, ir(0.6, 9))[:N], 0.92) * 0.1   # un poco de sala, voz cálida
 act = flt(np.abs(voz), 4, o=1); act = np.clip(act / (act.max() + 1e-9) * 5, 0, 1); duck = 1 - 0.5 * act

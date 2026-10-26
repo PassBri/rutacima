@@ -4,7 +4,7 @@
 
 61 s, 1280 × 720, 30 fps. Las pantallas son capturas reales de la web en modo demostración
 (`v3/pantallas/`). `v3/escena.html` dibuja cada cuadro a partir del tiempo y `v3/config.js` define
-las escenas, el recorrido del símbolo guía y cuándo entra cada frase de la voz. La música es la de
+las escenas, el recorrido del símbolo guía y cuándo entra cada frase de la voz. La voz es `v3/voz/narracion.mp3` (generada por Brian), cortada por frases. La música es la de
 `public/musica.mp3`, alargada sin cambiar el tono.
 
 ```bash
