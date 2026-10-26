@@ -90,13 +90,13 @@ private data class Serie(val k: String, val nombre: Int, val color: @Composable 
 
 @Composable
 private fun series(): List<Serie> = listOf(
-    Serie("saldo", R.string.gr_saldo) { MaterialTheme.colorScheme.onSurface },
+    Serie("saldo", R.string.gr_saldo) { MaterialTheme.colorScheme.primary },
     Serie("patr", R.string.gr_patr) { Marca.Oro },
     Serie("ing", R.string.cu_ing) { vc(V_FIJOS) },
     Serie("gas", R.string.cu_gas) { vc(V_VARIABLES) },
     Serie("aho", R.string.cu_aho) { vc(V_AHORRO) },
     Serie("inv", R.string.cu_inv) { vc(V_INVERSION) },
-    Serie("disp", R.string.cu_disp) { MaterialTheme.colorScheme.primary },
+    Serie("disp", R.string.cu_disp) { MaterialTheme.colorScheme.onSurface },
 )
 
 private val RANGOS = listOf(Triple(R.string.gr_r1m, 1, Gran.D), Triple(R.string.gr_r3m, 3, Gran.D), Triple(R.string.gr_r6m, 6, Gran.S),
@@ -159,6 +159,7 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
     val visibles = sers.filter { it.k in activas && !(velas && it.k == "saldo") }
     val colores = visibles.associate { it.k to it.color() }
     val cSaldoArriba = ST_OK; val cSaldoAbajo = ST_BAJO
+    val cZona = ST_OK
     val tinta = MaterialTheme.colorScheme.onSurface; val suave = MaterialTheme.colorScheme.onSurfaceVariant
     val linea = MaterialTheme.colorScheme.outlineVariant; val fondo = MaterialTheme.colorScheme.surface
     val pctColores = listOf("flujo" to vc(V_FIJOS), "constr" to vc(V_AHORRO), "gastoP" to vc(V_VARIABLES))
@@ -256,14 +257,17 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
             fun y(v: Double) = (pt + (hi - v) / (hi - lo) * (pb - pt)).toFloat()
             // cuadrícula y eje derecho
             GraficaAscenso.marcas(lo, hi).forEach { v ->
-                drawLine(if (v == 0.0) suave.copy(alpha = 0.6f) else linea, Offset(L, y(v)), Offset(size.width - R, y(v)), 1.dp.toPx())
+                drawLine(if (v == 0.0) suave.copy(alpha = 0.6f) else linea, Offset(L, y(v)), Offset(size.width - R, y(v)), 1.dp.toPx(),
+                    pathEffect = if (v == 0.0) null else PathEffect.dashPathEffect(floatArrayOf(2.dp.toPx(), 4.dp.toPx())))
                 val t = medidor.measure(if (oculto) "•••" else compacto(v), estiloEje); drawText(t, topLeft = Offset(size.width - R + 6.dp.toPx(), y(v) - t.size.height / 2f))
             }
             val flujos = visibles.filter { it.k in setOf("ing", "gas", "aho", "inv", "disp") }; val acum = visibles.filter { it.k in setOf("saldo", "patr") }
             fun trazo(k: String, area: Boolean) {
                 val c = colores.getValue(k); val path = Path()
                 vis.forEachIndexed { i, p -> if (i == 0) path.moveTo(cx(i), y(p.serie(k))) else path.lineTo(cx(i), y(p.serie(k))) }
-                if (area) { val a = Path().apply { addPath(path); lineTo(cx(nv - 1), y(maxOf(lo, 0.0))); lineTo(cx(0), y(maxOf(lo, 0.0))); close() }; drawPath(a, c.copy(alpha = 0.14f)) }
+                // La cordillera de tu dinero: el área se desvanece del color de la serie hacia el papel
+                if (area) { val a = Path().apply { addPath(path); lineTo(cx(nv - 1), y(maxOf(lo, 0.0))); lineTo(cx(0), y(maxOf(lo, 0.0))); close() }
+                    drawPath(a, androidx.compose.ui.graphics.Brush.verticalGradient(listOf(c.copy(alpha = 0.32f), c.copy(alpha = 0.03f)), startY = pt, endY = y(maxOf(lo, 0.0)))) }
                 drawPath(path, c, style = Stroke(2.dp.toPx(), join = StrokeJoin.Round))
             }
             if (tipo == 2 && flujos.isNotEmpty()) {
@@ -273,7 +277,18 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
                     barra(colores.getValue(s.k), x0, ya, bw, (yb - ya).coerceAtLeast(1f), v >= 0)
                 } }
             } else flujos.forEach { trazo(it.k, tipo == 1) }
-            acum.forEach { trazo(it.k, tipo == 1 && it.k == "saldo") }
+            acum.forEach { trazo(it.k, tipo != 2 && it.k == "saldo") }
+            // La cumbre del periodo (bandera en el saldo más alto) y el punto de hoy con su halo
+            if (acum.any { it.k == "saldo" } && nv > 2 && !velas) {
+                val im = vis.indices.maxByOrNull { vis[it].saldo } ?: 0
+                val px = cx(im); val py = y(vis[im].saldo)
+                if (vis[im].saldo > 0) {
+                    drawLine(Marca.Oro, Offset(px, py - 4.dp.toPx()), Offset(px, py - 24.dp.toPx()), 1.5.dp.toPx())
+                    drawPath(Path().apply { moveTo(px, py - 24.dp.toPx()); lineTo(px + 11.dp.toPx(), py - 20.dp.toPx()); lineTo(px, py - 16.dp.toPx()); close() }, Marca.Oro)
+                }
+                if (i0 + nv - 1 == n - 1) { val c0 = colores.getValue("saldo"); val h = Offset(cx(nv - 1), y(vis[nv - 1].saldo))
+                    drawCircle(c0.copy(alpha = 0.18f), 10.dp.toPx(), h); drawCircle(fondo, 6.dp.toPx(), h); drawCircle(c0, 4.5.dp.toPx(), h) }
+            }
             if (velas) {
                 val bw = (paso * 0.66f).coerceIn(1f, 18.dp.toPx())
                 vis.forEachIndexed { i, p ->
@@ -299,6 +314,8 @@ fun GraficaAscensoCard(libro: Libro, plata: (Double) -> String) {
                 val pv = vis.flatMap { p -> listOfNotNull(p.flujo, p.constr, p.gastoP) }
                 val plo = minOf(0.0, pv.minOrNull() ?: 0.0).coerceAtLeast(-1.0); val phi = maxOf(0.3, pv.maxOrNull() ?: 0.3).coerceAtMost(1.5)
                 fun py(v: Double) = (qt + (phi - v.coerceIn(plo, phi)) / (phi - plo) * (qb - qt)).toFloat()
+                // Zona sana: del 20 % hacia arriba
+                drawRect(cZona.copy(alpha = 0.08f), Offset(L, py(phi)), Size(size.width - R - L, py(0.2) - py(phi)))
                 drawText(medidor.measure("%", estiloEje), topLeft = Offset(L, qt - 12.dp.toPx()))
                 listOf(plo, 0.0, 0.2, phi).distinct().forEach { v ->
                     drawLine(if (v == 0.2) suave else linea, Offset(L, py(v)), Offset(size.width - R, py(v)), 1.dp.toPx(),
