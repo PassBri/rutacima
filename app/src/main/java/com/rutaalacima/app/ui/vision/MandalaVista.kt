@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.ui.zIndex
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -229,7 +230,10 @@ fun MandalaSeccion(
             val giro by androidx.compose.animation.core.animateFloatAsState(if (girada) 180f else 0f,
                 androidx.compose.animation.core.tween(750, easing = androidx.compose.animation.core.FastOutSlowInEasing), label = "giro81")
             val dens = androidx.compose.ui.platform.LocalDensity.current.density
-            Box(Modifier.graphicsLayer { rotationY = giro; cameraDistance = 18f * dens }) {
+            // El 9×9 dentro de la esfera de la brújula (el mismo fondo de la cumbre y el vision board)
+            EsferaBrujula {
+            Box(Modifier.graphicsLayer { rotationY = giro; cameraDistance = 18f * dens }
+            }) {
                 // Adelante: el texto limpio (o la edición, en modo Edición). Atrás: las imágenes
                 if (giro <= 90f) Cuadricula(datos, bloqueAbierto ?: 4, modoTexto = true, modoEdicion = modoEdicion, tonal = false, onPaso = onPaso, onBloque = { onBloque(it) })
                 else Box(Modifier.graphicsLayer { rotationY = 180f }) {

@@ -177,42 +177,8 @@ internal fun RosaVision(
     cumbre: CasillaVista?, campamentos: List<CasillaVista?>, onCrear: (String) -> Unit,
     tarjeta: @Composable (CasillaVista, Int, String?, Modifier) -> Unit,
 ) {
-    // El vision board es una brújula: la esfera con sus marcas, la rosa de 8 puntas y los puntos cardinales (igual que la web)
-    val tinta = MaterialTheme.colorScheme.onSurface; val burdeos = MaterialTheme.colorScheme.primary; val oro = Color(0xFFC9973B)
-    val esfera = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
-    Box(Modifier.widthIn(max = 640.dp).fillMaxWidth().aspectRatio(1f), contentAlignment = Alignment.Center) {
-        Canvas(Modifier.fillMaxSize()) {
-            val c = center; val r = size.minDimension / 2f * 0.986f
-            drawCircle(esfera, r, c); drawCircle(tinta.copy(alpha = .22f), r, c, style = Stroke(1.dp.toPx()))
-            drawCircle(oro.copy(alpha = .5f), r * 0.9f, c, style = Stroke(0.8.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(2.dp.toPx(), 3.dp.toPx()))))
-            for (i in 0 until 72) {
-                val a = Math.toRadians(i * 5.0); val l = r * (if (i % 9 == 0) 0.065f else if (i % 3 == 0) 0.04f else 0.022f)
-                val sx = kotlin.math.sin(a).toFloat(); val cy = kotlin.math.cos(a).toFloat()
-                drawLine(tinta.copy(alpha = if (i % 9 == 0) .55f else .3f), Offset(c.x + r * sx, c.y - r * cy), Offset(c.x + (r - l) * sx, c.y - (r - l) * cy), strokeWidth = (if (i % 9 == 0) 1.2f else 0.7f).dp.toPx())
-            }
-            fun punta(grados: Double, largo: Float, ancho: Float, color: Color) {
-                val a = Math.toRadians(grados); val b = Math.toRadians(grados + 90)
-                val path = androidx.compose.ui.graphics.Path().apply {
-                    moveTo(c.x, c.y)
-                    lineTo(c.x + ancho * kotlin.math.sin(b).toFloat(), c.y - ancho * kotlin.math.cos(b).toFloat())
-                    lineTo(c.x + largo * kotlin.math.sin(a).toFloat(), c.y - largo * kotlin.math.cos(a).toFloat())
-                    lineTo(c.x - ancho * kotlin.math.sin(b).toFloat(), c.y + ancho * kotlin.math.cos(b).toFloat()); close()
-                }
-                drawPath(path, color)
-            }
-            listOf(0.0, 90.0, 180.0, 270.0).forEach { punta(it, r * .95f, r * .085f, burdeos.copy(alpha = .14f)) }
-            listOf(45.0, 135.0, 225.0, 315.0).forEach { punta(it, r * .77f, r * .06f, oro.copy(alpha = .16f)) }
-        }
-        // Puntos cardinales sobre la esfera
-        listOf("N" to Alignment.TopCenter, "E" to Alignment.CenterEnd, "S" to Alignment.BottomCenter, "O" to Alignment.CenterStart).forEach { (t, al) ->
-            Box(Modifier.align(al).zIndex(2f).padding(1.dp).clip(RoundedCornerShape(50))
-                .background(if (t == "N") burdeos else MaterialTheme.colorScheme.surface)
-                .border(1.dp, if (t == "N") burdeos else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(50))
-                .padding(horizontal = 7.dp, vertical = 2.dp)) {
-                Text(t, style = MaterialTheme.typography.labelSmall, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
-                    color = if (t == "N") Color.White else MaterialTheme.colorScheme.onSurfaceVariant)
-            }
-        }
+    // El vision board es una brújula (la misma esfera de la cumbre y el 9×9)
+    EsferaBrujula {
     Column(Modifier.fillMaxWidth(0.84f).aspectRatio(1f).zIndex(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         repeat(3) { fila ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -511,5 +477,47 @@ internal fun VisorTarjetas(
                 SelectorModoTarjetas(modo, onModo, Modifier.fillMaxWidth())
             }
         }
+    }
+}
+
+/** La esfera de la brújula (marcas, rosa de 8 puntas y puntos cardinales) detrás de la cumbre, el vision board o el 9×9: igual que la web. */
+@Composable
+internal fun EsferaBrujula(modifier: Modifier = Modifier, contenido: @Composable androidx.compose.foundation.layout.BoxScope.() -> Unit) {
+    val tinta = MaterialTheme.colorScheme.onSurface; val burdeos = MaterialTheme.colorScheme.primary; val oro = Color(0xFFC9973B)
+    val esfera = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f)
+    Box(modifier.widthIn(max = 640.dp).fillMaxWidth().aspectRatio(1f), contentAlignment = Alignment.Center) {
+        Canvas(Modifier.fillMaxSize()) {
+            val c = center; val r = size.minDimension / 2f * 0.986f
+            drawCircle(esfera, r, c); drawCircle(tinta.copy(alpha = .22f), r, c, style = Stroke(1.dp.toPx()))
+            drawCircle(oro.copy(alpha = .5f), r * 0.9f, c, style = Stroke(0.8.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(2.dp.toPx(), 3.dp.toPx()))))
+            for (i in 0 until 72) {
+                val a = Math.toRadians(i * 5.0); val l = r * (if (i % 9 == 0) 0.065f else if (i % 3 == 0) 0.04f else 0.022f)
+                val sx = kotlin.math.sin(a).toFloat(); val cy = kotlin.math.cos(a).toFloat()
+                drawLine(tinta.copy(alpha = if (i % 9 == 0) .55f else .3f), Offset(c.x + r * sx, c.y - r * cy), Offset(c.x + (r - l) * sx, c.y - (r - l) * cy), strokeWidth = (if (i % 9 == 0) 1.2f else 0.7f).dp.toPx())
+            }
+            fun punta(grados: Double, largo: Float, ancho: Float, color: Color) {
+                val a = Math.toRadians(grados); val b = Math.toRadians(grados + 90)
+                val path = androidx.compose.ui.graphics.Path().apply {
+                    moveTo(c.x, c.y)
+                    lineTo(c.x + ancho * kotlin.math.sin(b).toFloat(), c.y - ancho * kotlin.math.cos(b).toFloat())
+                    lineTo(c.x + largo * kotlin.math.sin(a).toFloat(), c.y - largo * kotlin.math.cos(a).toFloat())
+                    lineTo(c.x - ancho * kotlin.math.sin(b).toFloat(), c.y + ancho * kotlin.math.cos(b).toFloat()); close()
+                }
+                drawPath(path, color)
+            }
+            listOf(0.0, 90.0, 180.0, 270.0).forEach { punta(it, r * .95f, r * .085f, burdeos.copy(alpha = .14f)) }
+            listOf(45.0, 135.0, 225.0, 315.0).forEach { punta(it, r * .77f, r * .06f, oro.copy(alpha = .16f)) }
+        }
+        // Puntos cardinales sobre la esfera
+        listOf("N" to Alignment.TopCenter, "E" to Alignment.CenterEnd, "S" to Alignment.BottomCenter, "O" to Alignment.CenterStart).forEach { (t, al) ->
+            Box(Modifier.align(al).zIndex(2f).padding(1.dp).clip(RoundedCornerShape(50))
+                .background(if (t == "N") burdeos else MaterialTheme.colorScheme.surface)
+                .border(1.dp, if (t == "N") burdeos else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(50))
+                .padding(horizontal = 7.dp, vertical = 2.dp)) {
+                Text(t, style = MaterialTheme.typography.labelSmall, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                    color = if (t == "N") Color.White else MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+        contenido()
     }
 }
