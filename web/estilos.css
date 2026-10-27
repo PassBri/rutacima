@@ -3639,3 +3639,12 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
   .md-capa[data-capa="81"] .md-progreso { font-size: 13px; }
 }
 .rosa-brujula.rb-81 > .md-grilla-caja { width: 84%; }
+
+/* Las tres capas con el mismo cuadro dentro de la brújula: la cumbre, el vision board y el 9×9 miden lo mismo y van centrados */
+.rosa-brujula { display: grid; place-items: center; }
+.rosa-brujula > .tablero-9, .rosa-brujula.rb-81 > .md-grilla-caja, .rosa-brujula.rb-1 > .cumbre-tarjeta, .rosa-brujula.rb-1 > .md-nivel1 {
+  grid-area: 1 / 1; width: 82% !important; aspect-ratio: 1; margin: 0 !important; max-width: none !important; min-width: 0 !important; }
+.rosa-brujula > .rb-esfera, .rosa-brujula > .rb-rumbo { grid-area: 1 / 1; }
+/* La cumbre, engastada en la brújula: borde dorado y sombra, como la pieza central */
+.rosa-brujula.rb-1 > .cumbre-tarjeta, .rosa-brujula.rb-1 > .md-nivel1 { height: auto !important; border-radius: 22px; box-shadow: 0 0 0 3px var(--oro), 0 0 0 9px color-mix(in srgb, var(--oro) 18%, transparent), 0 18px 40px -16px rgb(var(--sombra) / .55); }
+.rosa-brujula.rb-1 > .cumbre-tarjeta .giro-in, .rosa-brujula.rb-1 > .cumbre-tarjeta .cara, .rosa-brujula.rb-1 > .cumbre-tarjeta .dorso { border-radius: 22px; }
