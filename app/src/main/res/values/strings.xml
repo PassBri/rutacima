@@ -1046,7 +1046,7 @@
     <string name="cumbre_comunidad_valor">Hoy una publicación vale %1$s mm y un impulso %2$s mm</string>
     <string name="mandala_tablero">Tablero</string>
     <string name="mandala_titulo">Tu 9×9</string>
-    <string name="mandala_intro">Tu vision board es el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</string>
+    <string name="mandala_intro">Tus campamentos son el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</string>
     <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d ganados</string>
     <string name="mandala_2d">Cuadrícula</string>
     <string name="mandala_3d">Montaña 3D</string>
@@ -1132,10 +1132,10 @@
     <string name="brujula_nueva_montana_ayuda">Los pasos ganados se liberan (siguen en tu diario de vida con sus evidencias) y se llenan con pasos nuevos. Los que van a medio camino se quedan con sus jornadas.</string>
     <string name="brujula_nueva_montana_si">Empezar</string>
     <string name="brujula_cierre_post">Mi Brújula de la Cima %1$d · Las 7 lecciones de mi año</string>
-    <string name="brujula_zoom_1">Tu cumbre personal. Toca o haz doble toque para abrir tu vision board.</string>
-    <string name="brujula_zoom_9">Tu vision board: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.</string>
+    <string name="brujula_zoom_1">Tu cumbre personal. Toca o haz doble toque para abrir tus campamentos.</string>
+    <string name="brujula_zoom_9">Campamentos: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.</string>
     <string name="brujula_zoom_81">Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo. Para volver, usa la flecha, las migas o el botón atrás.</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Campamentos</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Alejar</string>
     <string name="carta_titulo">Carta de bienvenida</string>
@@ -1788,7 +1788,7 @@
     <string name="vision_modo_imagen">Imagen</string>
     <string name="vision_modo_texto">Texto</string>
     <string name="vision_seccion_cumbre">1 · Mi cumbre personal</string>
-    <string name="vision_seccion_rosa">9 · Mi vision board</string>
+    <string name="vision_seccion_rosa">9 · Campamentos</string>
     <string name="vision_ver_grande">Ver en grande</string>
     <string name="vision_mas_tarjetas">Más tarjetas</string>
     <string name="vision_metas_sostienen">Lo que la sostiene</string>
@@ -2338,7 +2338,7 @@
     <string name="modelo_e1_t">La cumbre</string>
     <string name="modelo_e1_d">Tu propósito en una frase y una foto. Es el norte de todo lo demás.</string>
     <string name="modelo_e9_t">Los 8 campamentos</string>
-    <string name="modelo_e9_d">Alrededor de la cumbre, 8 rumbos que la sostienen: %1$s. Juntos son tu vision board.</string>
+    <string name="modelo_e9_d">Alrededor de la cumbre, 8 rumbos que la sostienen: %1$s. Juntos forman la capa Campamentos.</string>
     <string name="modelo_e81_t">Los 64 pasos</string>
     <string name="modelo_e81_d">Cada campamento se abre en 8 pasos concretos. La cumbre, los 8 campamentos y los 64 pasos forman la Brújula 9×9.</string>
     <string name="modelo_camino">El camino del año</string>
@@ -2364,7 +2364,7 @@
     <string name="modelo_solo_d">Comparte tu 9×9 en la comunidad, sube en cordada y deja que otros te impulsen con su clima.</string>
     <string name="modelo_origen_t">Origen</string>
     <string name="modelo_origen_d">La Brújula 1·9·81 se inspira en la Mandala Chart que Yasuo Matsumura creó en Japón en 1979 (Matsumura, 2007). Llevó la estructura de 3×3 del mandala budista a la planeación de la vida y del trabajo: una meta en el centro y ocho áreas alrededor (salud, trabajo, economía, familia, sociedad, carácter, aprendizaje y ocio), para vivir con equilibrio (Mandala Chart Kyōkai, s. f.). Hiroaki Imaizumi la convirtió en el Mandal-Art para generar ideas (Imaizumi, 1988) y Takashi Harada en la hoja Open Window 64 para alcanzar metas, la que usó Shohei Ohtani (Harada y Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute la vuelve una brújula de montaña: una cumbre, 8 campamentos y 64 pasos que se ganan con jornadas, medidos con el Método Cima 9×52 y con una foto de evidencia por paso.</string>
+    <string name="modelo_origen_suroute">El Método Ruta a la Cima la vuelve una brújula de montaña: una cumbre, 8 campamentos y 64 pasos que se ganan con jornadas, medidos con el Método Cima 9×52 y con una foto de evidencia por paso.</string>
     <string name="modelo_refs_t">Referencias</string>
     <string-array name="modelo_refs" translatable="false">
         <item>Harada, T., y Shibayama, K. (2017). &lt;i&gt;Ichiryū no tasseiryoku: Harada mesoddo «Ōpun Uindō 64»&lt;/i&gt; [La capacidad de logro de primer nivel: el método Harada «Open Window 64»]. Forest Shuppan.</item>

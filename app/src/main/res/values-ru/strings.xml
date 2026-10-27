@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Сегодня публикация стоит %1$s мм, импульс — %2$s мм</string>
     <string name="mandala_tablero">Доска</string>
     <string name="mandala_titulo">Твоя 9×9</string>
-    <string name="mandala_intro">Твой vision board — центр: вершина посередине и 8 постоянных лагерей вокруг, как роза ветров (6 осей, Слияние и Базовый лагерь). Каждый лагерь — путь из 8 шагов по фазам Трансформационного путешествия. Когда ты зарабатываешь шаг, фото-доказательство заменяет мечту: твоя 9×9 превращается из задуманной в прожитую.</string>
+    <string name="mandala_intro">Твои лагеря — центр: вершина посередине и 8 постоянных лагерей вокруг, как роза ветров (6 осей, Слияние и Базовый лагерь). Каждый лагерь — путь из 8 шагов по фазам Трансформационного путешествия. Когда ты зарабатываешь шаг, фото-доказательство заменяет мечту: твоя 9×9 превращается из задуманной в прожитую.</string>
     <string name="mandala_progreso">Записано %1$d из 64 шагов · заработано %2$d</string>
     <string name="mandala_2d">Сетка</string>
     <string name="mandala_3d">Гора 3D</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">Заработанные шаги освобождаются (остаются в дневнике жизни с доказательствами) и заполняются новыми. Начатые сохраняют свои дни.</string>
     <string name="brujula_nueva_montana_si">Начать</string>
     <string name="brujula_cierre_post">Мой компас вершины %1$d · 7 уроков моего года</string>
-    <string name="brujula_zoom_1">Твоя личная вершина. Нажми или нажми дважды, чтобы открыть vision board.</string>
-    <string name="brujula_zoom_9">Твой vision board: вершина и 8 лагерей. Нажми на вершину, чтобы увидеть 9×9, или на лагерь, чтобы открыть его шаги.</string>
+    <string name="brujula_zoom_1">Твоя личная вершина. Нажми или дважды нажми, чтобы открыть свои лагеря.</string>
+    <string name="brujula_zoom_9">Лагеря: вершина и её 8 лагерей. Нажми на вершину, чтобы увидеть 9×9, или на лагерь, чтобы открыть его шаги.</string>
     <string name="brujula_zoom_81">Весь компас: 81 клетка. Нажми на блок, чтобы открыть его ниже. Назад — стрелка, «хлебные крошки» или кнопка «назад».</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Лагеря</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Отдалить</string>
     <string name="carta_titulo">Приветственное письмо</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Фото</string>
     <string name="vision_modo_texto">Текст</string>
     <string name="vision_seccion_cumbre">1 · Моя личная вершина</string>
-    <string name="vision_seccion_rosa">9 · Моя доска желаний</string>
+    <string name="vision_seccion_rosa">9 · Лагеря</string>
     <string name="vision_ver_grande">Открыть на весь экран</string>
     <string name="vision_mas_tarjetas">Другие карточки</string>
     <string name="vision_metas_sostienen">Поддерживающие цели</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">Вершина</string>
     <string name="modelo_e1_d">Твоя цель в одной фразе и одном фото. Это север для всего остального.</string>
     <string name="modelo_e9_t">8 лагерей</string>
-    <string name="modelo_e9_d">Вокруг вершины 8 направлений, которые её поддерживают: %1$s. Вместе они — твоя доска визуализации.</string>
+    <string name="modelo_e9_d">Вокруг вершины 8 направлений, которые её поддерживают: %1$s. Вместе они образуют уровень «Лагеря».</string>
     <string name="modelo_e81_t">64 шага</string>
     <string name="modelo_e81_d">Каждый лагерь раскрывается в 8 конкретных шагов. Вершина, 8 лагерей и 64 шага образуют Компас 9×9.</string>
     <string name="modelo_camino">Путь года</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Делись своим 9×9 с сообществом, иди в связке и позволь другим поддерживать тебя своей погодой.</string>
     <string name="modelo_origen_t">Происхождение</string>
     <string name="modelo_origen_d">Компас 1·9·81 вдохновлён Мандала-чартом, который Ясуо Мацумура создал в Японии в 1979 году (Matsumura, 2007). Он перенёс структуру 3×3 буддийской мандалы на планирование жизни и работы: цель в центре и восемь сфер вокруг (здоровье, работа, финансы, семья, общество, характер, учёба и досуг), чтобы жить в равновесии (Mandala Chart Kyōkai, n.d.). Хироаки Имаидзуми превратил его в Mandal-Art для поиска идей (Imaizumi, 1988), а Такаси Харада — в лист Open Window 64 для достижения целей, которым пользовался Сёхэй Отани (Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute превращает его в горный компас: одна вершина, 8 лагерей и 64 шага, заработанных переходами, измеряемых Методом Cima 9×52, с фото-подтверждением для каждого шага.</string>
+    <string name="modelo_origen_suroute">Метод Ruta a la Cima превращает его в горный компас: одна вершина, 8 лагерей и 64 шага, заработанных переходами, измеряемых Методом Cima 9×52, с фото-подтверждением для каждого шага.</string>
     <string name="modelo_refs_t">Литература</string>
 </resources>

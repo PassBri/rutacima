@@ -432,7 +432,7 @@ const DET = {
   /* ---------- Mi ruta: vida → año → mes → día ---------- */
   /* ---------- Mi ruta: Cumbre y Brújula (la visión de toda la vida) ---------- */
   vida() {
-    return cab(av(ic("brujula"), "var(--burdeos)"), "Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
+    return cab(av(ic("brujula"), "var(--burdeos)"), "Brújula", "Tu cumbre, tus campamentos y los 81 pasos del 9×9") + cuerpo(
       visionCompleta(window.visionVida ? visionVida() : ""));
   },
   /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */

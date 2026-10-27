@@ -3732,3 +3732,11 @@ html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--burdeos) 25%, transparent), 0 2px 4px -1px rgb(var(--sombra) / .45); }
 .rosa-brujula.rb-min > .rb-s::after { background: color-mix(in srgb, var(--burdeos) 45%, transparent); }
 @media (max-width: 600px) { .rosa-brujula.rb-min > .rb-s::before { width: 18px; height: 18px; font-size: 10px; } }
+/* Modelo: el número del camino va en su círculo, alineado con el texto */
+.mo li > .mo-i { display: grid !important; place-items: center; width: 28px; height: 28px; margin: 0 4px; border-radius: 50%; border: 1px solid var(--linea); font-size: 12.5px; line-height: 1; font-weight: 700; color: var(--tinta-suave); }
+
+/* El frente del 9×9 es siempre texto limpio, también en Edición: las fotos solo van al reverso */
+.md-flip .cara-texto .md-grilla .md-c > img { display: none !important; }
+.md-flip .cara-texto .md-grilla .md-c.con-evid::after, .md-flip .cara-texto .md-grilla .md-cumbre.con-foto::after { display: none !important; }
+.md-flip .cara-texto .md-grilla .md-paso.con-evid .md-t81 { color: var(--tinta) !important; text-shadow: none !important; }
+.md-flip .cara-texto .md-grilla .md-cumbre.con-foto b { color: var(--tinta); text-shadow: none; }

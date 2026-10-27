@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">आज एक पोस्ट %1$s मिमी और एक बढ़ावा %2$s मिमी के बराबर है</string>
     <string name="mandala_tablero">बोर्ड</string>
     <string name="mandala_titulo">आपका 9×9</string>
-    <string name="mandala_intro">आपका विज़न बोर्ड केंद्र है: बीच में शिखर और चारों ओर दिशासूचक की तरह 8 तय पड़ाव (आपके 6 अक्ष, संगम और बेस कैंप)। हर पड़ाव परिवर्तनकारी यात्रा के चरणों से गुज़रती 8 कदमों की यात्रा है। कदम कमाने पर उसकी सबूत वाली तस्वीर विज़न की जगह ले लेती है: आपका 9×9 सपने से जीवन बन जाता है।</string>
+    <string name="mandala_intro">आपके शिविर केंद्र हैं: बीच में शिखर और चारों ओर दिशासूचक की तरह 8 तय पड़ाव (आपके 6 अक्ष, संगम और बेस कैंप)। हर पड़ाव परिवर्तनकारी यात्रा के चरणों से गुज़रती 8 कदमों की यात्रा है। कदम कमाने पर उसकी सबूत वाली तस्वीर विज़न की जगह ले लेती है: आपका 9×9 सपने से जीवन बन जाता है।</string>
     <string name="mandala_progreso">64 में से %1$d कदम लिखे · %2$d कमाए</string>
     <string name="mandala_2d">ग्रिड</string>
     <string name="mandala_3d">3D पहाड़</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">कमाए गए कदम खाली हो जाते हैं (सबूतों के साथ जीवन-डायरी में रहते हैं) और नए कदम आते हैं। आधे रास्ते वाले अपने दिन रखते हैं।</string>
     <string name="brujula_nueva_montana_si">शुरू करें</string>
     <string name="brujula_cierre_post">मेरा शिखर कम्पास %1$d · मेरे साल के 7 सबक</string>
-    <string name="brujula_zoom_1">आपका निजी शिखर। विज़न बोर्ड खोलने के लिए टैप या डबल टैप करें।</string>
-    <string name="brujula_zoom_9">आपका विज़न बोर्ड: शिखर और उसके 8 पड़ाव। 9×9 देखने के लिए शिखर, कदम खोलने के लिए पड़ाव टैप करें।</string>
+    <string name="brujula_zoom_1">आपका निजी शिखर। अपने शिविर खोलने के लिए टैप या डबल-टैप करें।</string>
+    <string name="brujula_zoom_9">शिविर: शिखर और उसके 8 शिविर। 9×9 देखने के लिए शिखर पर, या किसी शिविर के कदम खोलने के लिए उस पर टैप करें।</string>
     <string name="brujula_zoom_81">आपका पूरा कम्पास: 81 खाने। किसी ब्लॉक को नीचे खोलने के लिए टैप करें। लौटने के लिए तीर, पथ या बैक बटन इस्तेमाल करें।</string>
-    <string name="brujula_nivel_vision">विज़न बोर्ड</string>
+    <string name="brujula_nivel_vision">शिविर</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">छोटा करें</string>
     <string name="carta_titulo">स्वागत पत्र</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">चित्र</string>
     <string name="vision_modo_texto">पाठ</string>
     <string name="vision_seccion_cumbre">1 · मेरा व्यक्तिगत शिखर</string>
-    <string name="vision_seccion_rosa">9 · मेरा विज़न बोर्ड</string>
+    <string name="vision_seccion_rosa">9 · शिविर</string>
     <string name="vision_ver_grande">बड़ा करके देखें</string>
     <string name="vision_mas_tarjetas">और कार्ड</string>
     <string name="vision_metas_sostienen">इसे सहारा देने वाले लक्ष्य</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">शिखर</string>
     <string name="modelo_e1_d">एक वाक्य और एक फ़ोटो में आपका उद्देश्य। यह बाकी सब का उत्तर है।</string>
     <string name="modelo_e9_t">8 शिविर</string>
-    <string name="modelo_e9_d">शिखर के चारों ओर 8 दिशाएँ जो उसे थामती हैं: %1$s। मिलकर ये आपका विज़न बोर्ड हैं।</string>
+    <string name="modelo_e9_d">शिखर के चारों ओर 8 दिशाएँ जो उसे थामती हैं: %1$s। मिलकर ये शिविर परत बनाती हैं।</string>
     <string name="modelo_e81_t">64 कदम</string>
     <string name="modelo_e81_d">हर शिविर 8 ठोस कदमों में खुलता है। शिखर, 8 शिविर और 64 कदम मिलकर 9×9 कम्पास बनाते हैं।</string>
     <string name="modelo_camino">साल की राह</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">समुदाय में अपना 9×9 साझा करें, रस्सी-दल में चढ़ें और दूसरों को अपने मौसम से आपका हौसला बढ़ाने दें।</string>
     <string name="modelo_origen_t">उत्पत्ति</string>
     <string name="modelo_origen_d">कम्पास 1·9·81 उस मंडला चार्ट से प्रेरित है जिसे यासुओ मात्सुमुरा ने 1979 में जापान में बनाया था (Matsumura, 2007)। उन्होंने बौद्ध मंडल की 3×3 संरचना को जीवन और काम की योजना में लगाया: केंद्र में एक लक्ष्य और चारों ओर आठ क्षेत्र (स्वास्थ्य, काम, अर्थ, परिवार, समाज, चरित्र, सीखना और मनोरंजन), ताकि संतुलन से जिया जाए (Mandala Chart Kyōkai, n.d.)। हिरोआकी इमाइज़ुमी ने इसे विचार पैदा करने के लिए Mandal-Art बनाया (Imaizumi, 1988) और ताकाशी हरादा ने लक्ष्य पाने के लिए Open Window 64 शीट, जिसे शोहेई ओहतानी ने इस्तेमाल किया (Harada &amp; Shibayama, 2017)।</string>
-    <string name="modelo_origen_suroute">SuRoute इसे पर्वत का कम्पास बनाता है: एक शिखर, 8 शिविर और यात्रा-दिनों से कमाए गए 64 कदम, Cima 9×52 पद्धति से मापे गए और हर कदम की एक सबूत फ़ोटो के साथ।</string>
+    <string name="modelo_origen_suroute">Ruta a la Cima पद्धति इसे पर्वत का कम्पास बनाती है: एक शिखर, 8 शिविर और यात्रा-दिनों से कमाए गए 64 कदम, Cima 9×52 पद्धति से मापे गए और हर कदम की एक सबूत फ़ोटो के साथ।</string>
     <string name="modelo_refs_t">संदर्भ</string>
 </resources>

@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Heute ist ein Beitrag %1$s mm wert und ein Schub %2$s mm</string>
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">Dein 9×9</string>
-    <string name="mandala_intro">Dein Vision Board ist die Mitte: dein Gipfel in der Mitte und 8 feste Lager ringsum wie eine Windrose (deine 6 Achsen, Konfluenz und Basislager). Jedes Lager ist eine Reise in 8 Schritten durch die Phasen der transformativen Reise. Wenn du einen Schritt verdienst, ersetzt sein Beweisfoto die Vision: Dein 9×9 wird vom Traum zum gelebten Leben.</string>
+    <string name="mandala_intro">Deine Lager sind die Mitte: dein Gipfel in der Mitte und 8 feste Lager ringsum wie eine Windrose (deine 6 Achsen, Konfluenz und Basislager). Jedes Lager ist eine Reise in 8 Schritten durch die Phasen der transformativen Reise. Wenn du einen Schritt verdienst, ersetzt sein Beweisfoto die Vision: Dein 9×9 wird vom Traum zum gelebten Leben.</string>
     <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d verdient</string>
     <string name="mandala_2d">Raster</string>
     <string name="mandala_3d">3D-Berg</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">Verdiente Schritte werden frei (sie bleiben mit ihren Beweisen im Lebenstagebuch) und neu gefüllt. Halbfertige behalten ihre Tage.</string>
     <string name="brujula_nueva_montana_si">Beginnen</string>
     <string name="brujula_cierre_post">Mein Gipfelkompass %1$d · Die 7 Lektionen meines Jahres</string>
-    <string name="brujula_zoom_1">Dein persönlicher Gipfel. Tippe oder doppeltippe, um dein Vision Board zu öffnen.</string>
-    <string name="brujula_zoom_9">Dein Vision Board: der Gipfel und seine 8 Lager. Tippe auf den Gipfel für das 9×9 oder auf ein Lager für seine Schritte.</string>
+    <string name="brujula_zoom_1">Dein persönlicher Gipfel. Tippe oder doppeltippe, um deine Lager zu öffnen.</string>
+    <string name="brujula_zoom_9">Lager: der Gipfel und seine 8 Lager. Tippe auf den Gipfel für das 9×9 oder auf ein Lager für seine Schritte.</string>
     <string name="brujula_zoom_81">Dein ganzer Kompass: 81 Felder. Tippe auf einen Block, um ihn unten zu öffnen. Zurück geht\'s mit dem Pfeil, der Pfadleiste oder der Zurück-Taste.</string>
-    <string name="brujula_nivel_vision">Vision Board</string>
+    <string name="brujula_nivel_vision">Lager</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Herauszoomen</string>
     <string name="carta_titulo">Willkommensbrief</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Bild</string>
     <string name="vision_modo_texto">Text</string>
     <string name="vision_seccion_cumbre">1 · Mein persönlicher Gipfel</string>
-    <string name="vision_seccion_rosa">9 · Mein Vision Board</string>
+    <string name="vision_seccion_rosa">9 · Lager</string>
     <string name="vision_ver_grande">Groß anzeigen</string>
     <string name="vision_mas_tarjetas">Weitere Karten</string>
     <string name="vision_metas_sostienen">Unterstützende Ziele</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">Der Gipfel</string>
     <string name="modelo_e1_d">Dein Ziel in einem Satz und einem Foto. Es ist der Norden für alles andere.</string>
     <string name="modelo_e9_t">Die 8 Lager</string>
-    <string name="modelo_e9_d">Um den Gipfel herum 8 Richtungen, die ihn tragen: %1$s. Zusammen sind sie dein Vision Board.</string>
+    <string name="modelo_e9_d">Um den Gipfel herum 8 Richtungen, die ihn tragen: %1$s. Zusammen bilden sie die Ebene Lager.</string>
     <string name="modelo_e81_t">Die 64 Schritte</string>
     <string name="modelo_e81_d">Jedes Lager öffnet sich in 8 konkrete Schritte. Gipfel, 8 Lager und 64 Schritte bilden den 9×9-Kompass.</string>
     <string name="modelo_camino">Der Weg des Jahres</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Teile dein 9×9 mit der Community, steig in einer Seilschaft und lass dich von anderen mit ihrem Wetter anspornen.</string>
     <string name="modelo_origen_t">Ursprung</string>
     <string name="modelo_origen_d">Der Kompass 1·9·81 ist vom Mandala Chart inspiriert, das Yasuo Matsumura 1979 in Japan schuf (Matsumura, 2007). Er übertrug die 3×3-Struktur des buddhistischen Mandalas auf die Lebens- und Arbeitsplanung: ein Ziel in der Mitte und acht Bereiche darum (Gesundheit, Arbeit, Finanzen, Familie, Gesellschaft, Charakter, Lernen und Freizeit), um im Gleichgewicht zu leben (Mandala Chart Kyōkai, o. D.). Hiroaki Imaizumi machte daraus das Mandal-Art zur Ideenfindung (Imaizumi, 1988) und Takashi Harada das Blatt Open Window 64 zum Erreichen von Zielen, das Shohei Ohtani nutzte (Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute macht daraus einen Bergkompass: ein Gipfel, 8 Lager und 64 Schritte, die mit Etappentagen verdient werden, gemessen mit der Methode Cima 9×52 und mit einem Belegfoto pro Schritt.</string>
+    <string name="modelo_origen_suroute">Die Methode Ruta a la Cima macht daraus einen Bergkompass: ein Gipfel, 8 Lager und 64 Schritte, die mit Etappentagen verdient werden, gemessen mit der Methode Cima 9×52 und mit einem Belegfoto pro Schritt.</string>
     <string name="modelo_refs_t">Literatur</string>
 </resources>

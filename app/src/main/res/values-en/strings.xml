@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Today a post is worth %1$s mm and a boost %2$s mm</string>
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">Your 9×9</string>
-    <string name="mandala_intro">Your vision board is the center: your summit in the middle and 8 fixed camps around it, like a compass rose (your 6 axes, Confluence and Base Camp). Each camp is an 8-step journey through the phases of the Transformative Journey. When you earn a step, its evidence photo replaces the vision: your 9×9 goes from dreamed to lived.</string>
+    <string name="mandala_intro">Your camps are the center: your summit in the middle and 8 fixed camps around it, like a compass rose (your 6 axes, Confluence and Base Camp). Each camp is an 8-step journey through the phases of the Transformative Journey. When you earn a step, its evidence photo replaces the vision: your 9×9 goes from dreamed to lived.</string>
     <string name="mandala_progreso">%1$d of 64 steps written · %2$d earned</string>
     <string name="mandala_2d">Grid</string>
     <string name="mandala_3d">3D mountain</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">Earned steps are cleared (they stay in your life diary with their evidence) and refilled with new steps. The ones halfway keep their work days.</string>
     <string name="brujula_nueva_montana_si">Start</string>
     <string name="brujula_cierre_post">My Summit Compass %1$d · The 7 lessons of my year</string>
-    <string name="brujula_zoom_1">Your personal summit. Tap or double-tap to open your vision board.</string>
-    <string name="brujula_zoom_9">Your vision board: the summit and its 8 camps. Tap the summit to see the 9×9 or a camp to open its steps.</string>
+    <string name="brujula_zoom_1">Your personal summit. Tap or double-tap to open your camps.</string>
+    <string name="brujula_zoom_9">Camps: the summit and its 8 camps. Tap the summit to see the 9×9 or a camp to open its steps.</string>
     <string name="brujula_zoom_81">Your full Compass: 81 tiles. Tap a block to open it below. To go back, use the arrow, the breadcrumbs or the back button.</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Camps</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Zoom out</string>
     <string name="carta_titulo">Welcome letter</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Image</string>
     <string name="vision_modo_texto">Text</string>
     <string name="vision_seccion_cumbre">1 · My personal summit</string>
-    <string name="vision_seccion_rosa">9 · My vision board</string>
+    <string name="vision_seccion_rosa">9 · Camps</string>
     <string name="vision_ver_grande">View full screen</string>
     <string name="vision_mas_tarjetas">More cards</string>
     <string name="vision_metas_sostienen">Goals that support it</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">The summit</string>
     <string name="modelo_e1_d">Your purpose in one sentence and one photo. It is the north of everything else.</string>
     <string name="modelo_e9_t">The 8 camps</string>
-    <string name="modelo_e9_d">Around the summit, 8 directions that hold it up: %1$s. Together they are your vision board.</string>
+    <string name="modelo_e9_d">Around the summit, 8 directions that hold it up: %1$s. Together they form the Camps layer.</string>
     <string name="modelo_e81_t">The 64 steps</string>
     <string name="modelo_e81_d">Each camp opens into 8 concrete steps. The summit, the 8 camps and the 64 steps make up the 9×9 Compass.</string>
     <string name="modelo_camino">The path of the year</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Share your 9×9 with the community, climb as a rope team and let others boost you with their weather.</string>
     <string name="modelo_origen_t">Origin</string>
     <string name="modelo_origen_d">The 1·9·81 Compass is inspired by the Mandala Chart that Yasuo Matsumura created in Japan in 1979 (Matsumura, 2007). He brought the 3×3 structure of the Buddhist mandala to life and work planning: a goal at the center and eight areas around it (health, work, finances, family, society, character, learning and leisure), to live in balance (Mandala Chart Kyōkai, n.d.). Hiroaki Imaizumi turned it into Mandal-Art to generate ideas (Imaizumi, 1988) and Takashi Harada into the Open Window 64 sheet to reach goals, the one Shohei Ohtani used (Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute turns it into a mountain compass: one summit, 8 camps and 64 steps earned with workdays, measured with the Cima 9×52 Method and with one evidence photo per step.</string>
+    <string name="modelo_origen_suroute">The Ruta a la Cima Method turns it into a mountain compass: one summit, 8 camps and 64 steps earned with workdays, measured with the Cima 9×52 Method and with one evidence photo per step.</string>
     <string name="modelo_refs_t">References</string>
 </resources>

@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">اليوم يساوي المنشور %1$s مم والدفعة %2$s مم</string>
     <string name="mandala_tablero">اللوحة</string>
     <string name="mandala_titulo">شبكتك 9×9</string>
-    <string name="mandala_intro">لوحة رؤيتك هي المركز: قمتك في الوسط و8 معسكرات ثابتة حولها مثل وردة الرياح (محاورك الستة، والتقاء، ومعسكر القاعدة). كل معسكر رحلة من 8 خطوات عبر مراحل الرحلة التحويلية. عندما تكسب خطوة تحل صورة الدليل محل الرؤية: تتحول شبكتك 9×9 من حلم إلى حياة.</string>
+    <string name="mandala_intro">معسكراتك هي المركز: قمتك في الوسط و8 معسكرات ثابتة حولها مثل وردة الرياح (محاورك الستة، والتقاء، ومعسكر القاعدة). كل معسكر رحلة من 8 خطوات عبر مراحل الرحلة التحويلية. عندما تكسب خطوة تحل صورة الدليل محل الرؤية: تتحول شبكتك 9×9 من حلم إلى حياة.</string>
     <string name="mandala_progreso">%1$d من 64 خطوة مكتوبة · %2$d مكتسبة</string>
     <string name="mandala_2d">الشبكة</string>
     <string name="mandala_3d">جبل ثلاثي الأبعاد</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">تُفرَّغ الخطوات المكتسبة (تبقى في يوميات حياتك مع أدلتها) وتُملأ بخطوات جديدة. والتي في منتصف الطريق تحتفظ بأيامها.</string>
     <string name="brujula_nueva_montana_si">ابدأ</string>
     <string name="brujula_cierre_post">بوصلة قمتي %1$d · دروس عامي السبعة</string>
-    <string name="brujula_zoom_1">قمتك الشخصية. المس أو المس مرتين لفتح لوحة رؤيتك.</string>
-    <string name="brujula_zoom_9">لوحة رؤيتك: القمة ومعسكراتها الثمانية. المس القمة لرؤية 9×9 أو معسكرًا لفتح خطواته.</string>
+    <string name="brujula_zoom_1">قمتك الشخصية. اضغط أو اضغط مرتين لفتح معسكراتك.</string>
+    <string name="brujula_zoom_9">المعسكرات: القمة ومعسكراتها الثمانية. اضغط على القمة لرؤية 9×9 أو على معسكر لفتح خطواته.</string>
     <string name="brujula_zoom_81">بوصلتك كاملة: 81 خانة. المس كتلة لفتحها بالأسفل. للعودة استخدم السهم أو مسار التنقل أو زر الرجوع.</string>
-    <string name="brujula_nivel_vision">لوحة الرؤية</string>
+    <string name="brujula_nivel_vision">المعسكرات</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">تصغير</string>
     <string name="carta_titulo">رسالة ترحيب</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">صورة</string>
     <string name="vision_modo_texto">نص</string>
     <string name="vision_seccion_cumbre">1 · قمتي الشخصية</string>
-    <string name="vision_seccion_rosa">9 · لوحة رؤيتي</string>
+    <string name="vision_seccion_rosa">9 · المعسكرات</string>
     <string name="vision_ver_grande">عرض بحجم كبير</string>
     <string name="vision_mas_tarjetas">بطاقات أخرى</string>
     <string name="vision_metas_sostienen">الأهداف التي تدعمها</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">القمة</string>
     <string name="modelo_e1_d">غايتك في جملة وصورة. هي الشمال لكل ما عداها.</string>
     <string name="modelo_e9_t">المعسكرات الثمانية</string>
-    <string name="modelo_e9_d">حول القمة ثمانية اتجاهات تسندها: %1$s. معًا تشكّل لوحة رؤيتك.</string>
+    <string name="modelo_e9_d">حول القمة ثمانية اتجاهات تسندها: %1$s. معًا تشكّل طبقة المعسكرات.</string>
     <string name="modelo_e81_t">الخطوات الأربع والستون</string>
     <string name="modelo_e81_d">ينفتح كل معسكر على 8 خطوات محددة. القمة والمعسكرات الثمانية والخطوات الأربع والستون تشكّل بوصلة 9×9.</string>
     <string name="modelo_camino">طريق العام</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">شارك 9×9 الخاص بك مع المجتمع، واصعد ضمن فريق، ودع الآخرين يحفّزونك بطقسهم.</string>
     <string name="modelo_origen_t">الأصل</string>
     <string name="modelo_origen_d">تستلهم البوصلة 1·9·81 مخطط الماندالا الذي ابتكره ياسو ماتسومورا في اليابان عام 1979 (Matsumura, 2007). نقل بنية 3×3 من الماندالا البوذية إلى تخطيط الحياة والعمل: هدف في المركز وثمانية مجالات حوله (الصحة، العمل، المال، الأسرة، المجتمع، الشخصية، التعلم، الترفيه) للعيش بتوازن (Mandala Chart Kyōkai, n.d.). حوّله هيروأكي إيمايزومي إلى Mandal-Art لتوليد الأفكار (Imaizumi, 1988)، وحوّله تاكاشي هارادا إلى ورقة Open Window 64 لتحقيق الأهداف، وهي التي استخدمها شوهي أوتاني (Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">يحوّلها SuRoute إلى بوصلة جبلية: قمة واحدة و8 معسكرات و64 خطوة تُكسب بأيام السير، تُقاس بطريقة Cima 9×52 مع صورة إثبات لكل خطوة.</string>
+    <string name="modelo_origen_suroute">تحوّلها طريقة Ruta a la Cima إلى بوصلة جبلية: قمة واحدة و8 معسكرات و64 خطوة تُكسب بأيام السير، تُقاس بطريقة Cima 9×52 مع صورة إثبات لكل خطوة.</string>
     <string name="modelo_refs_t">المراجع</string>
 </resources>

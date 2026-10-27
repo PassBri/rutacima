@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Aujourd\'hui une publication vaut %1$s mm et un élan %2$s mm</string>
     <string name="mandala_tablero">Tableau</string>
     <string name="mandala_titulo">Ton 9×9</string>
-    <string name="mandala_intro">Ton vision board est le centre : ton sommet au milieu et 8 camps fixes autour, comme une rose des vents (tes 6 axes, Confluence et Camp de base). Chaque camp est un voyage de 8 pas à travers les phases du Voyage transformateur. Quand tu gagnes un pas, sa photo de preuve remplace la vision : ton 9×9 passe du rêvé au vécu.</string>
+    <string name="mandala_intro">Tes camps sont le centre : ton sommet au milieu et 8 camps fixes autour, comme une rose des vents (tes 6 axes, Confluence et Camp de base). Chaque camp est un voyage de 8 pas à travers les phases du Voyage transformateur. Quand tu gagnes un pas, sa photo de preuve remplace la vision : ton 9×9 passe du rêvé au vécu.</string>
     <string name="mandala_progreso">%1$d pas sur 64 écrits · %2$d gagnés</string>
     <string name="mandala_2d">Grille</string>
     <string name="mandala_3d">Montagne 3D</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">Les pas gagnés sont libérés (ils restent dans ton journal de vie avec leurs preuves) et remplacés par de nouveaux. Ceux à mi-chemin gardent leurs journées.</string>
     <string name="brujula_nueva_montana_si">Commencer</string>
     <string name="brujula_cierre_post">Ma Boussole du Sommet %1$d · Les 7 leçons de mon année</string>
-    <string name="brujula_zoom_1">Ton sommet personnel. Touche ou touche deux fois pour ouvrir ton vision board.</string>
-    <string name="brujula_zoom_9">Ton vision board : le sommet et ses 8 camps. Touche le sommet pour voir le 9×9 ou un camp pour ouvrir ses pas.</string>
+    <string name="brujula_zoom_1">Ton sommet personnel. Touche ou touche deux fois pour ouvrir tes camps.</string>
+    <string name="brujula_zoom_9">Camps : le sommet et ses 8 camps. Touche le sommet pour voir le 9×9 ou un camp pour ouvrir ses pas.</string>
     <string name="brujula_zoom_81">Ta Boussole complète : 81 cases. Touche un bloc pour l\'ouvrir en dessous. Pour revenir, utilise la flèche, le fil d\'Ariane ou le bouton retour.</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Camps</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Dézoomer</string>
     <string name="carta_titulo">Lettre de bienvenue</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Image</string>
     <string name="vision_modo_texto">Texte</string>
     <string name="vision_seccion_cumbre">1 · Mon sommet personnel</string>
-    <string name="vision_seccion_rosa">9 · Mon tableau de visualisation</string>
+    <string name="vision_seccion_rosa">9 · Camps</string>
     <string name="vision_ver_grande">Voir en grand</string>
     <string name="vision_mas_tarjetas">Autres cartes</string>
     <string name="vision_metas_sostienen">Les objectifs qui la soutiennent</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">Le sommet</string>
     <string name="modelo_e1_d">Ton but en une phrase et une photo. C\'est le nord de tout le reste.</string>
     <string name="modelo_e9_t">Les 8 camps</string>
-    <string name="modelo_e9_d">Autour du sommet, 8 caps qui le soutiennent : %1$s. Ensemble, ils forment ton vision board.</string>
+    <string name="modelo_e9_d">Autour du sommet, 8 caps qui le soutiennent : %1$s. Ensemble, ils forment la couche Camps.</string>
     <string name="modelo_e81_t">Les 64 pas</string>
     <string name="modelo_e81_d">Chaque camp s\'ouvre en 8 pas concrets. Le sommet, les 8 camps et les 64 pas forment la Boussole 9×9.</string>
     <string name="modelo_camino">Le chemin de l\'année</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Partage ton 9×9 avec la communauté, monte en cordée et laisse les autres te pousser avec leur météo.</string>
     <string name="modelo_origen_t">Origine</string>
     <string name="modelo_origen_d">La Boussole 1·9·81 s\'inspire de la Mandala Chart créée au Japon en 1979 par Yasuo Matsumura (Matsumura, 2007). Il a appliqué la structure 3×3 du mandala bouddhiste à la planification de la vie et du travail : un objectif au centre et huit domaines autour (santé, travail, finances, famille, société, caractère, apprentissage et loisirs), pour vivre en équilibre (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi en a fait le Mandal-Art pour générer des idées (Imaizumi, 1988) et Takashi Harada la feuille Open Window 64 pour atteindre des objectifs, celle qu\'a utilisée Shohei Ohtani (Harada et Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute en fait une boussole de montagne : un sommet, 8 camps et 64 pas gagnés avec des journées, mesurés avec la Méthode Cima 9×52 et une photo de preuve par pas.</string>
+    <string name="modelo_origen_suroute">La Méthode Ruta a la Cima en fait une boussole de montagne : un sommet, 8 camps et 64 pas gagnés avec des journées, mesurés avec la Méthode Cima 9×52 et une photo de preuve par pas.</string>
     <string name="modelo_refs_t">Références</string>
 </resources>

@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Hoje uma publicação vale %1$s mm e um impulso %2$s mm</string>
     <string name="mandala_tablero">Quadro</string>
     <string name="mandala_titulo">Seu 9×9</string>
-    <string name="mandala_intro">Seu vision board é o centro: seu cume no meio e 8 acampamentos fixos ao redor, como uma rosa dos ventos (seus 6 eixos, Confluência e Acampamento Base). Cada acampamento é uma viagem de 8 passos pelas fases da Viagem Transformadora. Ao conquistar um passo, a foto de evidência substitui a visão: seu 9×9 passa de sonhado a vivido.</string>
+    <string name="mandala_intro">Seus acampamentos são o centro: seu cume no meio e 8 acampamentos fixos ao redor, como uma rosa dos ventos (seus 6 eixos, Confluência e Acampamento Base). Cada acampamento é uma viagem de 8 passos pelas fases da Viagem Transformadora. Ao conquistar um passo, a foto de evidência substitui a visão: seu 9×9 passa de sonhado a vivido.</string>
     <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d conquistados</string>
     <string name="mandala_2d">Grade</string>
     <string name="mandala_3d">Montanha 3D</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">Os passos conquistados são liberados (continuam no diário de vida com suas evidências) e recebem passos novos. Os que estão no meio do caminho mantêm suas jornadas.</string>
     <string name="brujula_nueva_montana_si">Começar</string>
     <string name="brujula_cierre_post">Minha Bússola do Cume %1$d · As 7 lições do meu ano</string>
-    <string name="brujula_zoom_1">Seu cume pessoal. Toque ou toque duas vezes para abrir seu vision board.</string>
-    <string name="brujula_zoom_9">Seu vision board: o cume e seus 8 acampamentos. Toque o cume para ver o 9×9 ou um acampamento para abrir seus passos.</string>
+    <string name="brujula_zoom_1">Seu cume pessoal. Toque ou toque duas vezes para abrir seus acampamentos.</string>
+    <string name="brujula_zoom_9">Acampamentos: o cume e seus 8 acampamentos. Toque o cume para ver o 9×9 ou um acampamento para abrir seus passos.</string>
     <string name="brujula_zoom_81">Sua Bússola completa: 81 casas. Toque um bloco para abri-lo abaixo. Para voltar, use a seta, a trilha ou o botão voltar.</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Acampamentos</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Afastar</string>
     <string name="carta_titulo">Carta de boas-vindas</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Imagem</string>
     <string name="vision_modo_texto">Texto</string>
     <string name="vision_seccion_cumbre">1 · Meu cume pessoal</string>
-    <string name="vision_seccion_rosa">9 · Meu vision board</string>
+    <string name="vision_seccion_rosa">9 · Acampamentos</string>
     <string name="vision_ver_grande">Ver em tela cheia</string>
     <string name="vision_mas_tarjetas">Mais cartões</string>
     <string name="vision_metas_sostienen">O que a sustenta</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">O cume</string>
     <string name="modelo_e1_d">Seu propósito em uma frase e uma foto. É o norte de todo o resto.</string>
     <string name="modelo_e9_t">Os 8 acampamentos</string>
-    <string name="modelo_e9_d">Ao redor do cume, 8 rumos que o sustentam: %1$s. Juntos são o seu vision board.</string>
+    <string name="modelo_e9_d">Ao redor do cume, 8 rumos que o sustentam: %1$s. Juntos formam a camada Acampamentos.</string>
     <string name="modelo_e81_t">Os 64 passos</string>
     <string name="modelo_e81_d">Cada acampamento se abre em 8 passos concretos. O cume, os 8 acampamentos e os 64 passos formam a Bússola 9×9.</string>
     <string name="modelo_camino">O caminho do ano</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Compartilhe seu 9×9 na comunidade, suba em cordada e deixe que outros te impulsionem com o seu clima.</string>
     <string name="modelo_origen_t">Origem</string>
     <string name="modelo_origen_d">A Bússola 1·9·81 se inspira na Mandala Chart que Yasuo Matsumura criou no Japão em 1979 (Matsumura, 2007). Ele levou a estrutura 3×3 da mandala budista ao planejamento da vida e do trabalho: uma meta no centro e oito áreas ao redor (saúde, trabalho, economia, família, sociedade, caráter, aprendizagem e lazer), para viver com equilíbrio (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi a transformou no Mandal-Art para gerar ideias (Imaizumi, 1988) e Takashi Harada na folha Open Window 64 para alcançar metas, a que Shohei Ohtani usou (Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">O SuRoute a transforma em uma bússola de montanha: um cume, 8 acampamentos e 64 passos conquistados com jornadas, medidos com o Método Cima 9×52 e com uma foto de evidência por passo.</string>
+    <string name="modelo_origen_suroute">O Método Ruta a la Cima a transforma em uma bússola de montanha: um cume, 8 acampamentos e 64 passos conquistados com jornadas, medidos com o Método Cima 9×52 e com uma foto de evidência por passo.</string>
     <string name="modelo_refs_t">Referências</string>
 </resources>

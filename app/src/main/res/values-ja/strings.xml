@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">今日は投稿1つで%1$s mm、応援1回で%2$s mm</string>
     <string name="mandala_tablero">ボード</string>
     <string name="mandala_titulo">あなたの9×9</string>
-    <string name="mandala_intro">ビジョンボードが中心です。真ん中に頂、周りに方位磁針のような8つの固定キャンプ（6つの軸、合流、ベースキャンプ）。各キャンプは変容の旅の各段階を進む8ステップの旅。ステップを獲得すると証拠写真がビジョンに置き換わり、9×9は夢から現実へ。</string>
+    <string name="mandala_intro">キャンプが中心です。真ん中に頂、周りに方位磁針のような8つの固定キャンプ（6つの軸、合流、ベースキャンプ）。各キャンプは変容の旅の各段階を進む8ステップの旅。ステップを獲得すると証拠写真がビジョンに置き換わり、9×9は夢から現実へ。</string>
     <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d獲得</string>
     <string name="mandala_2d">マス</string>
     <string name="mandala_3d">3Dの山</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">獲得したステップは空になり（証拠とともに人生日記に残ります）、新しいステップが入ります。途中のステップは日数を保ちます。</string>
     <string name="brujula_nueva_montana_si">始める</string>
     <string name="brujula_cierre_post">私の頂のコンパス %1$d · 1年の7つの教訓</string>
-    <string name="brujula_zoom_1">あなたの頂。タップまたはダブルタップでビジョンボードを開きます。</string>
-    <string name="brujula_zoom_9">ビジョンボード：頂と8つのキャンプ。頂をタップで9×9、キャンプをタップでステップを開きます。</string>
+    <string name="brujula_zoom_1">あなたの頂上。タップまたはダブルタップでキャンプを開きます。</string>
+    <string name="brujula_zoom_9">キャンプ：頂上と8つのキャンプ。頂上をタップすると9×9、キャンプをタップするとそのステップが開きます。</string>
     <string name="brujula_zoom_81">コンパス全体：81マス。ブロックをタップすると下に開きます。戻るには矢印、パンくず、戻るボタンを使います。</string>
-    <string name="brujula_nivel_vision">ビジョンボード</string>
+    <string name="brujula_nivel_vision">キャンプ</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">縮小</string>
     <string name="carta_titulo">ようこその手紙</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">画像</string>
     <string name="vision_modo_texto">テキスト</string>
     <string name="vision_seccion_cumbre">1 · 私の頂上</string>
-    <string name="vision_seccion_rosa">9 · 私のビジョンボード</string>
+    <string name="vision_seccion_rosa">9 · キャンプ</string>
     <string name="vision_ver_grande">大きく表示</string>
     <string name="vision_mas_tarjetas">その他のカード</string>
     <string name="vision_metas_sostienen">支える目標</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">頂上</string>
     <string name="modelo_e1_d">目的を一文と一枚の写真で。ほかのすべての北になります。</string>
     <string name="modelo_e9_t">8つのキャンプ</string>
-    <string name="modelo_e9_d">頂上のまわりに、それを支える8つの方角：%1$s。合わせてあなたのビジョンボードです。</string>
+    <string name="modelo_e9_d">頂上のまわりに、それを支える8つの方角：%1$s。合わせて「キャンプ」の階層になります。</string>
     <string name="modelo_e81_t">64のステップ</string>
     <string name="modelo_e81_d">各キャンプは8つの具体的なステップに分かれます。頂上、8つのキャンプ、64のステップで9×9コンパスになります。</string>
     <string name="modelo_camino">一年の道のり</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">コミュニティで9×9を共有し、ザイルパーティーで登り、仲間の天気で背中を押してもらいましょう。</string>
     <string name="modelo_origen_t">由来</string>
     <string name="modelo_origen_d">コンパス 1·9·81 は、松村寧雄が1979年に日本で考案したマンダラチャートに着想を得ています（Matsumura, 2007）。仏教の曼荼羅の3×3構造を人生と仕事の計画に応用し、中心に目標、周りに8つの領域（健康、仕事、経済、家庭、社会、人格、学習、遊び）を置いて、バランスのとれた生き方を目指します（Mandala Chart Kyōkai, n.d.）。今泉浩晃はそれを発想のためのマンダラートに（Imaizumi, 1988）、原田隆史は目標達成のためのオープンウィンドウ64に発展させ、大谷翔平が使いました（Harada &amp; Shibayama, 2017）。</string>
-    <string name="modelo_origen_suroute">SuRoute はそれを山のコンパスにしました：一つの頂上、8つのキャンプ、行程日で勝ち取る64のステップを Cima 9×52 メソッドで測り、ステップごとに証拠写真を一枚残します。</string>
+    <string name="modelo_origen_suroute">Ruta a la Cima メソッドはそれを山のコンパスにしました：一つの頂上、8つのキャンプ、行程日で勝ち取る64のステップを Cima 9×52 メソッドで測り、ステップごとに証拠写真を一枚残します。</string>
     <string name="modelo_refs_t">参考文献</string>
 </resources>

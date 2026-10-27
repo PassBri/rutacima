@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">오늘 게시물 하나는 %1$s mm, 응원 하나는 %2$s mm</string>
     <string name="mandala_tablero">보드</string>
     <string name="mandala_titulo">나의 9×9</string>
-    <string name="mandala_intro">비전 보드가 중심이에요. 가운데 정상, 주변에 나침반처럼 고정된 8개의 캠프(6개 축, 합류, 베이스캠프). 각 캠프는 변화의 여정 단계를 따라가는 8단계 여정이에요. 단계를 얻으면 증거 사진이 비전을 대신해 9×9가 꿈에서 현실이 돼요.</string>
+    <string name="mandala_intro">캠프가 중심이에요. 가운데 정상, 주변에 나침반처럼 고정된 8개의 캠프(6개 축, 합류, 베이스캠프). 각 캠프는 변화의 여정 단계를 따라가는 8단계 여정이에요. 단계를 얻으면 증거 사진이 비전을 대신해 9×9가 꿈에서 현실이 돼요.</string>
     <string name="mandala_progreso">64단계 중 %1$d 작성 · %2$d 획득</string>
     <string name="mandala_2d">격자</string>
     <string name="mandala_3d">3D 산</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">획득한 단계는 비워지고(증거와 함께 인생 일기에 남아요) 새 단계로 채워져요. 진행 중인 단계는 실행한 날을 유지해요.</string>
     <string name="brujula_nueva_montana_si">시작</string>
     <string name="brujula_cierre_post">나의 정상 나침반 %1$d · 한 해의 7가지 교훈</string>
-    <string name="brujula_zoom_1">나의 정상. 탭하거나 두 번 탭해 비전 보드를 열어요.</string>
-    <string name="brujula_zoom_9">비전 보드: 정상과 8개의 캠프. 정상을 누르면 9×9, 캠프를 누르면 그 단계가 열려요.</string>
+    <string name="brujula_zoom_1">당신의 개인 정상. 탭하거나 두 번 탭하여 캠프를 여세요.</string>
+    <string name="brujula_zoom_9">캠프: 정상과 8개의 캠프. 정상을 탭하면 9×9, 캠프를 탭하면 그 걸음이 열립니다.</string>
     <string name="brujula_zoom_81">전체 나침반: 81칸. 블록을 누르면 아래에 열려요. 돌아가려면 화살표, 경로 표시, 뒤로 버튼을 쓰세요.</string>
-    <string name="brujula_nivel_vision">비전 보드</string>
+    <string name="brujula_nivel_vision">캠프</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">축소</string>
     <string name="carta_titulo">환영 편지</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">이미지</string>
     <string name="vision_modo_texto">텍스트</string>
     <string name="vision_seccion_cumbre">1 · 나만의 정상</string>
-    <string name="vision_seccion_rosa">9 · 내 비전 보드</string>
+    <string name="vision_seccion_rosa">9 · 캠프</string>
     <string name="vision_ver_grande">크게 보기</string>
     <string name="vision_mas_tarjetas">더 많은 카드</string>
     <string name="vision_metas_sostienen">이루기 위한 목표</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">정상</string>
     <string name="modelo_e1_d">한 문장과 한 장의 사진으로 담은 당신의 목적. 다른 모든 것의 북쪽입니다.</string>
     <string name="modelo_e9_t">8개의 캠프</string>
-    <string name="modelo_e9_d">정상 주위에서 그것을 받쳐 주는 8개의 방향: %1$s. 함께 모이면 당신의 비전 보드가 됩니다.</string>
+    <string name="modelo_e9_d">정상 주위에서 그것을 받쳐 주는 8개의 방향: %1$s. 함께 모여 캠프 단계를 이룹니다.</string>
     <string name="modelo_e81_t">64개의 걸음</string>
     <string name="modelo_e81_d">각 캠프는 8개의 구체적인 걸음으로 펼쳐집니다. 정상, 8개의 캠프, 64개의 걸음이 9×9 나침반을 이룹니다.</string>
     <string name="modelo_camino">한 해의 길</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">커뮤니티에 9×9를 공유하고, 로프 팀으로 오르며, 다른 사람들이 날씨로 응원하게 하세요.</string>
     <string name="modelo_origen_t">기원</string>
     <string name="modelo_origen_d">나침반 1·9·81은 마쓰무라 야스오가 1979년 일본에서 만든 만다라 차트에서 영감을 받았습니다(Matsumura, 2007). 그는 불교 만다라의 3×3 구조를 삶과 일의 계획에 적용했습니다. 가운데에 목표, 주위에 여덟 영역(건강, 일, 경제, 가정, 사회, 인격, 학습, 여가)을 두어 균형 있게 살도록 했습니다(Mandala Chart Kyōkai, n.d.). 이마이즈미 히로아키는 이를 아이디어 발상을 위한 만다라트로(Imaizumi, 1988), 하라다 다카시는 목표 달성을 위한 오픈 윈도우 64로 발전시켰고, 오타니 쇼헤이가 이것을 사용했습니다(Harada &amp; Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute는 이를 산의 나침반으로 바꿉니다: 하나의 정상, 8개의 캠프, 여정일로 얻는 64개의 걸음을 Cima 9×52 방법으로 측정하고 걸음마다 증거 사진을 한 장 남깁니다.</string>
+    <string name="modelo_origen_suroute">Ruta a la Cima 방법은 이를 산의 나침반으로 바꿉니다: 하나의 정상, 8개의 캠프, 여정일로 얻는 64개의 걸음을 Cima 9×52 방법으로 측정하고 걸음마다 증거 사진을 한 장 남깁니다.</string>
     <string name="modelo_refs_t">참고 문헌</string>
 </resources>

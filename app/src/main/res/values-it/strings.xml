@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Oggi un post vale %1$s mm e uno slancio %2$s mm</string>
     <string name="mandala_tablero">Bacheca</string>
     <string name="mandala_titulo">Il tuo 9×9</string>
-    <string name="mandala_intro">Il tuo vision board è il centro: la tua vetta in mezzo e 8 campi fissi intorno, come una rosa dei venti (i tuoi 6 assi, Confluenza e Campo base). Ogni campo è un viaggio di 8 passi attraverso le fasi del Viaggio trasformativo. Quando conquisti un passo, la sua foto di prova sostituisce la visione: il tuo 9×9 passa da sognato a vissuto.</string>
+    <string name="mandala_intro">I tuoi campi sono il centro: la tua vetta in mezzo e 8 campi fissi intorno, come una rosa dei venti (i tuoi 6 assi, Confluenza e Campo base). Ogni campo è un viaggio di 8 passi attraverso le fasi del Viaggio trasformativo. Quando conquisti un passo, la sua foto di prova sostituisce la visione: il tuo 9×9 passa da sognato a vissuto.</string>
     <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d conquistati</string>
     <string name="mandala_2d">Griglia</string>
     <string name="mandala_3d">Montagna 3D</string>
@@ -1130,10 +1130,10 @@
     <string name="brujula_nueva_montana_ayuda">I passi conquistati si liberano (restano nel diario di vita con le prove) e si riempiono di nuovi. Quelli a metà conservano le giornate.</string>
     <string name="brujula_nueva_montana_si">Inizia</string>
     <string name="brujula_cierre_post">La mia Bussola della Vetta %1$d · Le 7 lezioni del mio anno</string>
-    <string name="brujula_zoom_1">La tua vetta personale. Tocca o tocca due volte per aprire il tuo vision board.</string>
-    <string name="brujula_zoom_9">Il tuo vision board: la vetta e i suoi 8 campi. Tocca la vetta per vedere il 9×9 o un campo per aprirne i passi.</string>
+    <string name="brujula_zoom_1">La tua vetta personale. Tocca o tocca due volte per aprire i tuoi campi.</string>
+    <string name="brujula_zoom_9">Campi: la vetta e i suoi 8 campi. Tocca la vetta per vedere il 9×9 o un campo per aprire i suoi passi.</string>
     <string name="brujula_zoom_81">La tua Bussola completa: 81 caselle. Tocca un blocco per aprirlo sotto. Per tornare usa la freccia, il percorso o il tasto indietro.</string>
-    <string name="brujula_nivel_vision">Vision board</string>
+    <string name="brujula_nivel_vision">Campi</string>
     <string name="brujula_nivel_completa">9×9</string>
     <string name="brujula_alejar">Allontana</string>
     <string name="carta_titulo">Lettera di benvenuto</string>
@@ -1786,7 +1786,7 @@
     <string name="vision_modo_imagen">Immagine</string>
     <string name="vision_modo_texto">Testo</string>
     <string name="vision_seccion_cumbre">1 · La mia vetta personale</string>
-    <string name="vision_seccion_rosa">9 · La mia vision board</string>
+    <string name="vision_seccion_rosa">9 · Campi</string>
     <string name="vision_ver_grande">Vedi in grande</string>
     <string name="vision_mas_tarjetas">Altre schede</string>
     <string name="vision_metas_sostienen">Gli obiettivi che la sostengono</string>
@@ -2336,7 +2336,7 @@
     <string name="modelo_e1_t">La vetta</string>
     <string name="modelo_e1_d">Il tuo scopo in una frase e una foto. È il nord di tutto il resto.</string>
     <string name="modelo_e9_t">Gli 8 campi</string>
-    <string name="modelo_e9_d">Intorno alla vetta, 8 direzioni che la sostengono: %1$s. Insieme sono il tuo vision board.</string>
+    <string name="modelo_e9_d">Intorno alla vetta, 8 direzioni che la sostengono: %1$s. Insieme formano il livello Campi.</string>
     <string name="modelo_e81_t">I 64 passi</string>
     <string name="modelo_e81_d">Ogni campo si apre in 8 passi concreti. La vetta, gli 8 campi e i 64 passi formano la Bussola 9×9.</string>
     <string name="modelo_camino">Il cammino dell\'anno</string>
@@ -2362,6 +2362,6 @@
     <string name="modelo_solo_d">Condividi il tuo 9×9 con la comunità, sali in cordata e lascia che gli altri ti spingano con il loro meteo.</string>
     <string name="modelo_origen_t">Origine</string>
     <string name="modelo_origen_d">La Bussola 1·9·81 si ispira alla Mandala Chart creata in Giappone nel 1979 da Yasuo Matsumura (Matsumura, 2007). Portò la struttura 3×3 del mandala buddhista alla pianificazione della vita e del lavoro: un obiettivo al centro e otto aree intorno (salute, lavoro, economia, famiglia, società, carattere, apprendimento e svago), per vivere in equilibrio (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi la trasformò nel Mandal-Art per generare idee (Imaizumi, 1988) e Takashi Harada nel foglio Open Window 64 per raggiungere obiettivi, quello usato da Shohei Ohtani (Harada e Shibayama, 2017).</string>
-    <string name="modelo_origen_suroute">SuRoute la trasforma in una bussola di montagna: una vetta, 8 campi e 64 passi conquistati con giornate, misurati con il Metodo Cima 9×52 e con una foto di prova per passo.</string>
+    <string name="modelo_origen_suroute">Il Metodo Ruta a la Cima la trasforma in una bussola di montagna: una vetta, 8 campi e 64 passi conquistati con giornate, misurati con il Metodo Cima 9×52 e con una foto di prova per passo.</string>
     <string name="modelo_refs_t">Bibliografia</string>
 </resources>
