@@ -106,3 +106,21 @@ window.companeroHtml = companeroHtml;
 
 /* Las secciones abiertas se recuerdan aunque la página se redibuje al guardar una respuesta */
 document.addEventListener("toggle", e => { const d = e.target; if (d.classList?.contains("cp-sec")) (estado.cpAbiertos ||= [true, false, false, false])[d.dataset.cp] = d.open; }, true);
+
+/* Al guardar una respuesta la Brújula se redibuja: se conserva dónde ibas (el cajón y la página no saltan) */
+{
+  const base = pintarDetalle;
+  pintarDetalle = function () {
+    const sel = [".md-cajon.abierto", "#detalle", ".det-cuerpo", ".md-capa.activa > .hoja"];
+    const antes = sel.map(s => [s, [...document.querySelectorAll(s)].map(e => e.scrollTop)]);
+    const pagina = scrollY, foco = document.activeElement, clave = foco?.dataset?.resp || foco?.dataset?.arg;
+    base.apply(this, arguments);
+    antes.forEach(([s, tops]) => document.querySelectorAll(s).forEach((e, i) => { if (tops[i] != null && e.scrollTop !== tops[i]) e.scrollTop = tops[i]; }));
+    if (scrollY !== pagina) scrollTo(0, pagina);
+    // El campo que estabas usando conserva el foco
+    if (clave && foco && !foco.isConnected) {
+      const otro = document.querySelector(`.cp [data-resp="${CSS.escape(clave)}"], .cp [data-arg="${CSS.escape(clave)}"]`);
+      if (otro) { otro.focus({ preventScroll: true }); if (typeof otro.selectionStart === "number" && foco.selectionStart != null) try { otro.setSelectionRange(foco.selectionStart, foco.selectionEnd); } catch {} }
+    }
+  };
+}
