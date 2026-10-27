@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">«%1$s» уже имеет %2$d отмеченных дней в этом месяце. Убрать из месяца?</string>
     <string name="foco_sin_metas">Целей на %1$d пока нет. Они рождаются из твоего компаса на этот год.</string>
     <string name="foco_quitar">Убрать</string>
+    <string name="ruta_propositos">Долгосрочно</string>
+    <string name="ruta_sin_propositos">Пока ничего долгосрочного. Это рождается из твоего общего компаса.</string>
+    <string name="ruta_prop_anios">%1$d лет</string>
 </resources>

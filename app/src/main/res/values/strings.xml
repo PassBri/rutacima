@@ -2539,4 +2539,7 @@
     <string name="foco_quitar_q">«%1$s» ya tiene %2$d días marcados este mes. ¿Quitarla del mes?</string>
     <string name="foco_sin_metas">Aún no hay metas de %1$d. Nacen de tu Brújula de ese año.</string>
     <string name="foco_quitar">Quitar</string>
+    <string name="ruta_propositos">Propósitos · varios años</string>
+    <string name="ruta_sin_propositos">Todavía no hay propósitos. Nacen de tu Brújula general.</string>
+    <string name="ruta_prop_anios">%1$d años</string>
 </resources>

@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">„%1$s“ hat diesen Monat schon %2$d markierte Tage. Aus dem Monat entfernen?</string>
     <string name="foco_sin_metas">Noch keine Ziele für %1$d. Sie entstehen aus deinem Kompass dieses Jahres.</string>
     <string name="foco_quitar">Entfernen</string>
+    <string name="ruta_propositos">Langfristig</string>
+    <string name="ruta_sin_propositos">Noch nichts Langfristiges. Es entsteht aus deinem allgemeinen Kompass.</string>
+    <string name="ruta_prop_anios">%1$d Jahre</string>
 </resources>

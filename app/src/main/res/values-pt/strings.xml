@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">“%1$s” já tem %2$d dias marcados este mês. Tirar do mês?</string>
     <string name="foco_sin_metas">Ainda não há metas de %1$d. Elas nascem da sua Bússola desse ano.</string>
     <string name="foco_quitar">Tirar</string>
+    <string name="ruta_propositos">Longo prazo</string>
+    <string name="ruta_sin_propositos">Ainda nada de longo prazo. Nasce da sua Bússola geral.</string>
+    <string name="ruta_prop_anios">%1$d anos</string>
 </resources>

@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">「%1$s」は今月すでに%2$d日記録されています。今月から外しますか？</string>
     <string name="foco_sin_metas">%1$d年の目標はまだありません。その年のコンパスから生まれます。</string>
     <string name="foco_quitar">外す</string>
+    <string name="ruta_propositos">長期</string>
+    <string name="ruta_sin_propositos">まだ長期の目標がありません。全体のコンパスから生まれます。</string>
+    <string name="ruta_prop_anios">%1$d年</string>
 </resources>

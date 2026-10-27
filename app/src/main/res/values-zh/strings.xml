@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">「%1$s」本月已标记 %2$d 天。要从本月移除吗？</string>
     <string name="foco_sin_metas">%1$d 年还没有目标。它们来自那一年的罗盘。</string>
     <string name="foco_quitar">移除</string>
+    <string name="ruta_propositos">长期</string>
+    <string name="ruta_sin_propositos">还没有长期目标。它来自你的总罗盘。</string>
+    <string name="ruta_prop_anios">%1$d 年</string>
 </resources>

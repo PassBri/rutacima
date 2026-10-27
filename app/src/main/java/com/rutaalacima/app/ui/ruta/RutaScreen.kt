@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.ruta
 
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.animation.expandVertically
 import androidx.compose.material.icons.filled.Check
@@ -291,7 +292,7 @@ fun RutaScreen(
             ) {
                 when (n) {
                     // La raíz de Mi ruta es el mapa de la vida (el tiempo); la visión tiene su propia opción
-                    Nivel.Vida -> nivelMapa(perfil, posts, propositos, ir, onAjustes) { vm.cambiarMeta(it) }
+                    Nivel.Vida -> nivelMapa(perfil, posts, propositos, ir, onAjustes, onProposito) { vm.cambiarMeta(it) }
                     Nivel.Brujula -> item(key = "vision-vida") {
                         VisionVida(casillas, anuales, vm.armando, onArmar = { vm.armarVision() }, onVision = onVision, onCompartir = onCompartirVision,
                             onAnio = { ir(Nivel.Anio(it)) }, onNuevaMeta = onNuevaMetaCampamento)
@@ -466,9 +467,12 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
     propositos: List<PropositoEntity>,
     ir: (Nivel) -> Unit,
     onAjustes: () -> Unit,
+    onProposito: (Long) -> Unit,
     onMeta: (Int) -> Unit,
 ) {
     item { RecordatorioDiaCard(perfil, onAjustes) }
+    // Lo más grande va arriba: los propósitos de varios años (Brújula general); cada año lleva sus metas (igual que la web)
+    item(key = "propositos") { PropositosRuta(propositos, onProposito) }
     val anioNac = perfil.anioNacimiento
     if (anioNac != null) {
         val meta = perfil.esperanza()
@@ -938,6 +942,25 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
     item {
         FilledTonalButton(onClick = { onPublicar("LOGRO") }, modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.AddAPhoto, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.compartir_avance))
+        }
+    }
+}
+
+/** Los propósitos de varios años, arriba de Mi ruta: cada uno abre su detalle. */
+@Composable
+private fun PropositosRuta(propositos: List<PropositoEntity>, onProposito: (Long) -> Unit) {
+    RutaCard {
+        Text(stringResource(R.string.ruta_propositos), style = MaterialTheme.typography.titleMedium)
+        if (propositos.isEmpty()) Text(stringResource(R.string.ruta_sin_propositos), style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant)
+        propositos.sortedWith(compareBy({ it.prioridad }, { it.orden }, { it.id })).forEach { p ->
+            Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable { onProposito(p.id) }, verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(10.dp).clip(CircleShape).background(com.rutaalacima.app.ui.vision.colorCampamento(p.eje ?: "CON")))
+                Spacer(Modifier.width(10.dp))
+                Text(p.titulo, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f), maxLines = 2)
+                Text(stringResource(R.string.ruta_prop_anios, p.horizonte), style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
     }
 }

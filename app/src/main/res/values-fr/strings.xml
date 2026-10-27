@@ -2530,4 +2530,7 @@
     <string name="foco_quitar_q">« %1$s » a déjà %2$d jours marqués ce mois-ci. Le retirer du mois ?</string>
     <string name="foco_sin_metas">Pas encore d’objectifs pour %1$d. Ils naissent de ta Boussole de cette année.</string>
     <string name="foco_quitar">Retirer</string>
+    <string name="ruta_propositos">Long terme</string>
+    <string name="ruta_sin_propositos">Rien à long terme pour l’instant. Cela naît de ta Boussole générale.</string>
+    <string name="ruta_prop_anios">%1$d ans</string>
 </resources>
