@@ -3876,3 +3876,8 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .sm-rehacer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 4px 16px 10px; font-size: 12px; }
 .campo .sm-fila input.sm-texto { border: 0; background: transparent; width: auto; padding: 6px 2px; border-radius: 0; }
 .campo .sm-nueva input { border-style: dashed; background: transparent; }
+
+/* Plan de acción de cada meta */
+.pm-barra { height: 4px; border-radius: 9px; background: color-mix(in srgb, var(--burdeos) 14%, var(--linea)); margin: 8px 0 12px; overflow: hidden; }
+.pm-barra i { display: block; height: 100%; background: var(--burdeos); border-radius: 9px; }
+.hoja .sm-fila input.sm-texto { border: 0; background: transparent; width: auto; padding: 6px 2px; border-radius: 0; box-shadow: none; }

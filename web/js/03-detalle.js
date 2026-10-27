@@ -560,6 +560,7 @@ const DET = {
         ${campo("Evidencia observable", area("meta_anio", k, "observable", m.observable, "¿Cómo sabrás que la lograste?"))}
         ${campo("Obstáculo", area("meta_anio", k, "obstaculo", m.obstaculo))}
         ${campo("Próxima acción", txt("meta_anio", k, "proximaAccion", m.proximaAccion))}</div>`) +
+      (window.planMetaHtml ? planMetaHtml(m) : "") +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes que la alimentan</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${iso(hoyFecha()).slice(0, 7)}|${m.id}">${ic("mas")} Nueva</button></div>
         ${hijos.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-sel="m:${x.id}">${mayus(MESES[x.mes - 1])} ${x.anio} · ${esc(x.texto)}</button><span class="pct">${pctTxt(avanceMetaMes(x))}</span></div></div>`).join("") || `<p class="suave">Sin metas del mes conectadas.</p>`}`));
   },
