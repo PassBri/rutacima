@@ -364,7 +364,10 @@ function mandalaHtml(tableroHtml = "") {
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
-    <button class="md-ver-grande" data-acc="mdVisor" data-arg="0" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
+    <span class="md-riel-sep" aria-hidden="true"></span>
+    <button class="md-riel-btn md-girar-todas" data-acc="mdGirarCapa" aria-label="Girar las tarjetas" title="Girar las tarjetas">${ic("girar")}</button>
+    <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
+    <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
      (girar, pantalla completa e información). La explicación vive en el botón de información, para dar todo el espacio a la brújula. */
   const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><div class="msc-tit"><span class="md-sec-n">${n}</span><h3>${t}</h3></div>
@@ -458,7 +461,8 @@ function mandalaHtml(tableroHtml = "") {
   /* 1 → 9 → 81 en una sola página: una capa a la vez en el mismo lugar, como acercar la brújula (sin hacer scroll) */
   const nv = mdCapaActual();
   const capa = (n, html) => `<section class="md-capa${n === nv ? " activa" : ""}" data-capa="${n}"${n === nv ? "" : " hidden"}>${html}</section>`;
-  return nav + `<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div>` + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
+  /* Todos los botones van en un riel a la derecha (en el computador): más espacio para la cumbre, el vision board y el 9×9 */
+  return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div></div>` + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
 }
 
 
@@ -982,8 +986,8 @@ ACC.md81Girar = el => {
 };
 
 /* Vision board: el ícono de girar de arriba gira todas las tarjetas, en cascada (una tras otra) */
-ACC.girarTodasVision = el => {
-  const ts = [...document.querySelectorAll(".rosa-brujula .tablero-9 .casilla-v.giro, #md-s9 ~ .tablero-9 .casilla-v.giro")]; if (!ts.length) return;
+ACC.girarTodasVision = (el, sel) => {
+  const ts = [...document.querySelectorAll(typeof sel === "string" && sel ? sel : ".rosa-brujula .tablero-9 .casilla-v.giro, #md-s9 ~ .tablero-9 .casilla-v.giro")]; if (!ts.length) return;
   const atras = ts.some(t => !t.classList.contains("girada"));
   ts.forEach((t, i) => {
     const k = t.dataset.casilla, enModo = estado.modoTarjetas !== "imagen";
@@ -1023,6 +1027,7 @@ function mdCapa(n) {
   pila.querySelectorAll(".md-capa").forEach(c => { const si = Number(c.dataset.capa) === n; c.hidden = !si; c.classList.toggle("activa", si);
     c.classList.remove("entra-dentro", "entra-fuera"); if (si && antes !== n && !pocoMovimiento?.()) { void c.offsetWidth; c.classList.add(n > antes ? "entra-dentro" : "entra-fuera"); } });
   document.querySelectorAll("[data-capa-btn]").forEach(b => b.setAttribute("aria-selected", String(Number(b.dataset.capaBtn) === n)));
+  const info = document.getElementById("mdRielInfo"); if (info) info.textContent = MD_CAPA_INFO[n];
   // Que la capa quede a la vista bajo la barra (sin desplazar si ya lo está)
   const r = pila.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .4) pila.scrollIntoView({ block: "start", behavior: "auto" });
   navigator.vibrate?.(6);
@@ -1035,3 +1040,17 @@ document.addEventListener("keydown", e => {
   if ((e.key === "+" || e.key === "=") && i < 2) { e.preventDefault(); mdCapa(orden[i + 1]); }
   if ((e.key === "-" || e.key === "_") && i > 0) { e.preventDefault(); mdCapa(orden[i - 1]); }
 });
+
+/* El riel de la derecha actúa sobre la capa que se ve: girar sus tarjetas y abrirla en pantalla completa */
+const MD_CAPA_INFO = {
+  1: "Tu cumbre: lo más grande, hacia dónde va tu vida. Todo lo de abajo la sostiene.",
+  9: "Tu vision board: tu cumbre al centro y 8 campamentos alrededor, como una brújula. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.",
+  81: "La Brújula 9×9: los 64 pasos. Gírala para ver tus imágenes; en Edición escribes directo en cada casilla y en Imagen o Texto, tocar un bloque lo abre con sus jornadas.",
+};
+ACC.mdGirarCapa = el => {
+  const n = mdCapaActual();
+  if (n === 81) return ACC.md81Girar(el);
+  if (n === 1) return ACC.girarTodasVision(el, '.md-capa[data-capa="1"] .casilla-v.giro');
+  ACC.girarTodasVision(el);
+};
+ACC.mdVisorCapa = el => ACC.mdVisor(el, String({ 1: 0, 9: 1, 81: 2 }[mdCapaActual()]));

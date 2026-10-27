@@ -3508,3 +3508,25 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
   .md-capa[data-capa="81"] .md-grilla-caja, .md-capa[data-capa="1"] .cumbre-tarjeta { margin-top: 4px; }
 }
 @media (max-width: 700px) { .msc-info > p { right: 0; top: calc(100% + 8px); } .msc-tit h3 { white-space: normal; } }
+
+/* Riel de la derecha (computador): 1 · 9 · 81, Imagen · Texto · Edición, girar, información y pantalla completa en una columna */
+.md-riel-sep, .md-riel-btn, .md-riel-info { display: none; }
+@media (min-width: 701px) {
+  .md-escena { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+  .md-escena > .md-secciones { order: 2; position: sticky; top: 8px; flex-direction: column; align-items: center; width: auto; margin: 0; padding: 8px 6px; border-radius: 30px; overflow: visible; gap: 6px; }
+  .md-escena > .md-secciones > button[role="tab"] { padding: 4px; } .md-escena > .md-secciones > button span { display: none; }
+  .md-escena > .md-secciones b { min-width: 36px; height: 36px; font-size: 13px; }
+  .md-escena .md-nav-sep, .md-escena .md-riel-sep { display: block; width: 24px; height: 1px; flex: none; background: var(--linea); margin: 2px 0; }
+  .md-escena .modo-tarj { flex-direction: column; border-radius: 22px; }
+  .md-escena .modo-tarj button { width: 40px; height: 40px; padding: 0; justify-content: center; } .md-escena .modo-tarj button span { display: none; }
+  .md-escena .md-riel-btn, .md-escena .md-ver-grande { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 1px solid var(--linea); background: var(--hoja); cursor: pointer; }
+  .md-escena .md-riel-btn svg, .md-escena .md-ver-grande svg { width: 20px; height: 20px; fill: var(--tinta); }
+  .md-escena .md-riel-info { display: block; position: relative; } .md-escena .md-riel-info > summary { list-style: none; } .md-escena .md-riel-info > summary::-webkit-details-marker { display: none; }
+  .md-escena .md-riel-info > p { top: 0; right: calc(100% + 12px); }
+  /* En el computador los botones de cada capa ya están en el riel */
+  .md-escena .msc-fab { display: none; }
+  .md-escena .md-pila .md-sec-cab { right: auto; }
+  .md-capa .rosa-brujula { width: min(100% - 24px, 860px, calc(100dvh - 200px)); }
+  .md-capa[data-capa="81"] .md-grilla-caja .md-grilla, .md-capa[data-capa="81"] .md-flip-in { max-width: min(100% - 24px, 800px, calc(100dvh - 200px)); }
+  .md-capa[data-capa="1"] .cumbre-tarjeta { max-width: min(500px, calc(100dvh - 270px)); }
+}
