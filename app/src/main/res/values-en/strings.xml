@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%1$d of %2$d done</string>
     <string name="plan_vacio">No steps yet. Add as many as you need to reach this goal.</string>
     <string name="plan_guarda_meta">Save the goal to start its action plan.</string>
+    <string name="foco_mes_titulo">Which %1$d goals do I work on in %2$s?</string>
+    <string name="foco_mes_ayuda">Check the goals of the year you’ll work on this month. Each day, your actions feed one of them and the days are marked here.</string>
+    <string name="foco_quitar_q">“%1$s” already has %2$d days marked this month. Remove it from the month?</string>
+    <string name="foco_sin_metas">No goals for %1$d yet. They come from that year’s Compass.</string>
+    <string name="foco_quitar">Remove</string>
 </resources>

@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%2$d में से %1$d पूरे</string>
     <string name="plan_vacio">अभी कोई कदम नहीं। इस लक्ष्य के लिए जितने चाहिए उतने जोड़ें।</string>
     <string name="plan_guarda_meta">कार्य योजना शुरू करने के लिए लक्ष्य सहेजें।</string>
+    <string name="foco_mes_titulo">%2$s में मैं %1$d के कौन-से लक्ष्यों पर काम करूँ?</string>
+    <string name="foco_mes_ayuda">इस महीने जिन सालाना लक्ष्यों पर काम करेंगे, उन्हें चुनें। हर दिन आपके काम उनमें से किसी एक में योगदान देते हैं और दिन यहाँ दर्ज होते हैं।</string>
+    <string name="foco_quitar_q">«%1$s» के इस महीने पहले से %2$d दिन दर्ज हैं। इसे महीने से हटाएँ?</string>
+    <string name="foco_sin_metas">%1$d के लिए अभी कोई लक्ष्य नहीं। वे उस साल के कम्पास से बनते हैं।</string>
+    <string name="foco_quitar">हटाएँ</string>
 </resources>

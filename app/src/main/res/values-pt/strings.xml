@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%1$d de %2$d feitos</string>
     <string name="plan_vacio">Ainda sem passos. Adicione os que precisar para alcançar esta meta.</string>
     <string name="plan_guarda_meta">Salve a meta para começar seu plano de ação.</string>
+    <string name="foco_mes_titulo">Quais metas de %1$d trabalho em %2$s?</string>
+    <string name="foco_mes_ayuda">Marque as metas do ano que você vai trabalhar este mês. A cada dia, suas ações contribuem para uma delas e os dias são marcados aqui.</string>
+    <string name="foco_quitar_q">“%1$s” já tem %2$d dias marcados este mês. Tirar do mês?</string>
+    <string name="foco_sin_metas">Ainda não há metas de %1$d. Elas nascem da sua Bússola desse ano.</string>
+    <string name="foco_quitar">Tirar</string>
 </resources>

@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">Сделано %1$d из %2$d</string>
     <string name="plan_vacio">Пока нет шагов. Добавь столько, сколько нужно для этой цели.</string>
     <string name="plan_guarda_meta">Сохрани цель, чтобы начать её план действий.</string>
+    <string name="foco_mes_titulo">Над какими целями %1$d я работаю в %2$s?</string>
+    <string name="foco_mes_ayuda">Отметь цели года, над которыми будешь работать в этом месяце. Каждый день твои действия вкладываются в одну из них, а дни отмечаются здесь.</string>
+    <string name="foco_quitar_q">«%1$s» уже имеет %2$d отмеченных дней в этом месяце. Убрать из месяца?</string>
+    <string name="foco_sin_metas">Целей на %1$d пока нет. Они рождаются из твоего компаса на этот год.</string>
+    <string name="foco_quitar">Убрать</string>
 </resources>

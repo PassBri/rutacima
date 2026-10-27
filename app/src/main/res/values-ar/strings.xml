@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">تم %1$d من %2$d</string>
     <string name="plan_vacio">لا توجد خطوات بعد. أضف ما تحتاجه لتحقيق هذا الهدف.</string>
     <string name="plan_guarda_meta">احفظ الهدف لتبدأ خطة عمله.</string>
+    <string name="foco_mes_titulo">ما أهداف %1$d التي أعمل عليها في %2$s؟</string>
+    <string name="foco_mes_ayuda">حدّد أهداف السنة التي ستعمل عليها هذا الشهر. كل يوم تسهم أفعالك في أحدها وتُعلَّم الأيام هنا.</string>
+    <string name="foco_quitar_q">«%1$s» لديه بالفعل %2$d أيام مُعلّمة هذا الشهر. هل تزيله من الشهر؟</string>
+    <string name="foco_sin_metas">لا توجد أهداف لعام %1$d بعد. تنشأ من بوصلتك لتلك السنة.</string>
+    <string name="foco_quitar">إزالة</string>
 </resources>

@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%1$d di %2$d fatti</string>
     <string name="plan_vacio">Ancora nessun passo. Aggiungi quelli che ti servono per raggiungere questo obiettivo.</string>
     <string name="plan_guarda_meta">Salva l’obiettivo per iniziare il suo piano d’azione.</string>
+    <string name="foco_mes_titulo">Su quali obiettivi del %1$d lavoro a %2$s?</string>
+    <string name="foco_mes_ayuda">Segna gli obiettivi dell’anno su cui lavorerai questo mese. Ogni giorno le tue azioni contribuiscono a uno di essi e i giorni si segnano qui.</string>
+    <string name="foco_quitar_q">«%1$s» ha già %2$d giorni segnati questo mese. Toglierlo dal mese?</string>
+    <string name="foco_sin_metas">Ancora nessun obiettivo per il %1$d. Nascono dalla tua Bussola di quell’anno.</string>
+    <string name="foco_quitar">Togli</string>
 </resources>

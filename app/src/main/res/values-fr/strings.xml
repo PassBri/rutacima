@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%1$d sur %2$d faits</string>
     <string name="plan_vacio">Pas encore d’étapes. Ajoute celles qu’il te faut pour atteindre cet objectif.</string>
     <string name="plan_guarda_meta">Enregistre l’objectif pour commencer son plan d’action.</string>
+    <string name="foco_mes_titulo">Quels objectifs de %1$d je travaille en %2$s ?</string>
+    <string name="foco_mes_ayuda">Coche les objectifs de l’année que tu travailleras ce mois-ci. Chaque jour, tes actions nourrissent l’un d’eux et les jours se marquent ici.</string>
+    <string name="foco_quitar_q">« %1$s » a déjà %2$d jours marqués ce mois-ci. Le retirer du mois ?</string>
+    <string name="foco_sin_metas">Pas encore d’objectifs pour %1$d. Ils naissent de ta Boussole de cette année.</string>
+    <string name="foco_quitar">Retirer</string>
 </resources>

@@ -31,6 +31,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Checkbox
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -94,6 +95,20 @@ class MesViewModel(private val c: AppContainer) : ViewModel() {
     val metas: StateFlow<List<MetaMensualEntity>> = actual
         .flatMapLatest { c.planAnual.metasMes(it.year, it.monthValue) }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /** Las metas del año de este mes: aquí se escoge cuáles se trabajan (orden de mayor a menor, igual que la web). */
+    val anuales: StateFlow<List<com.rutaalacima.app.data.local.MetaAnualEntity>> =
+        kotlinx.coroutines.flow.combine(c.planificador.todasLasMetas, actual) { ms, ym -> ms.filter { it.anio == ym.year }.sortedWith(compareBy({ it.prioridad }, { it.id })) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    /** Escoger (o quitar) una meta del año para este mes: crea (o quita) su meta del mes. */
+    fun elegirAnual(anual: com.rutaalacima.app.data.local.MetaAnualEntity, si: Boolean) = viewModelScope.launch {
+        val ym = periodo
+        val actualMes = metas.value.firstOrNull { it.metaAnualId == anual.id }
+        if (si && actualMes == null) c.planAnual.guardarMetaMes(
+            MetaMensualEntity(anio = ym.year, mes = ym.monthValue, orden = metas.value.size + 1, texto = anual.titulo, metaAnualId = anual.id))
+        else if (!si && actualMes != null) c.planAnual.eliminarMetaMes(actualMes)
+    }
 
     val diasConAgenda: StateFlow<Set<Int>> = actual
         .flatMapLatest { c.agenda.diasConAgenda(it.year, it.monthValue) }
@@ -159,7 +174,14 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
     val diasAgenda by vm.diasConAgenda.collectAsStateWithLifecycle()
     val ym = vm.periodo
     val m = vm.mes
-    var nuevaMeta by remember { mutableStateOf("") }
+    val anuales by vm.anuales.collectAsStateWithLifecycle()
+    var quitar by remember { mutableStateOf<Pair<com.rutaalacima.app.data.local.MetaAnualEntity, Int>?>(null) }
+    quitar?.let { (anual, n) ->
+        androidx.compose.material3.AlertDialog(onDismissRequest = { quitar = null },
+            text = { Text(stringResource(R.string.foco_quitar_q, anual.titulo, n)) },
+            confirmButton = { androidx.compose.material3.TextButton(onClick = { vm.elegirAnual(anual, false); quitar = null }) { Text(stringResource(R.string.foco_quitar)) } },
+            dismissButton = { androidx.compose.material3.TextButton(onClick = { quitar = null }) { Text(stringResource(R.string.cancelar)) } })
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize().imePadding(),
@@ -178,19 +200,27 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
         item { Calendario(ym, diasAgenda, onAbrirDia) }
 
         // Metas mensuales con registro de cumplimiento
-        item { SectionTitle(stringResource(R.string.metas_mensuales_n, metas.size)) }
+        item { SectionTitle(stringResource(R.string.foco_mes_titulo, ym.year, nombreMes(ym.monthValue).lowercase())) }
         item {
-            Text(stringResource(R.string.metas_mes_ayuda), style = MaterialTheme.typography.bodyMedium,
+            Text(stringResource(R.string.foco_mes_ayuda), style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
-        items(metas, key = { it.id }) { meta -> MetaMensualCard(meta, ym, vm) }
-        item {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                OutlinedTextField(nuevaMeta, { nuevaMeta = it }, label = { Text(stringResource(R.string.nueva_meta_mes)) },
-                    modifier = Modifier.weight(1f), singleLine = true)
-                IconButton(onClick = { vm.agregarMeta(nuevaMeta); nuevaMeta = "" }, enabled = nuevaMeta.isNotBlank()) {
-                    Icon(Icons.Filled.Add, stringResource(R.string.agregar_meta))
+        // Las metas del año que se trabajan este mes: se marcan aquí; cada una lleva su registro de días
+        if (anuales.isEmpty()) item {
+            Text(stringResource(R.string.foco_sin_metas, ym.year), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        items(anuales, key = { "a" + it.id }) { anual ->
+            val delMes = metas.firstOrNull { it.metaAnualId == anual.id }
+            Column {
+                Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(checked = delMes != null, onCheckedChange = { si ->
+                        if (!si && delMes != null && delMes.diasMarcados().isNotEmpty()) quitar = anual to delMes.diasMarcados().size
+                        else vm.elegirAnual(anual, si)
+                    })
+                    Text(anual.titulo, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f),
+                        fontWeight = if (delMes != null) FontWeight.SemiBold else FontWeight.Normal)
                 }
+                if (delMes != null) MetaMensualCard(delMes, ym, vm)
             }
         }
 

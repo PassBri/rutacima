@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%2$d개 중 %1$d개 완료</string>
     <string name="plan_vacio">아직 단계가 없어요. 이 목표에 필요한 만큼 추가하세요.</string>
     <string name="plan_guarda_meta">목표를 저장하면 실행 계획을 시작할 수 있어요.</string>
+    <string name="foco_mes_titulo">%2$s에는 %1$d년의 어떤 목표를 할까요?</string>
+    <string name="foco_mes_ayuda">이번 달에 할 올해 목표를 체크하세요. 매일의 행동이 그중 하나에 기여하고, 날짜가 여기에 표시돼요.</string>
+    <string name="foco_quitar_q">「%1$s」는 이번 달 이미 %2$d일이 표시됐어요. 이번 달에서 뺄까요?</string>
+    <string name="foco_sin_metas">%1$d년 목표가 아직 없어요. 그해 나침반에서 생겨나요.</string>
+    <string name="foco_quitar">빼기</string>
 </resources>

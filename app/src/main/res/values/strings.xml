@@ -2534,4 +2534,9 @@
     <string name="plan_hechos">%1$d de %2$d hechos</string>
     <string name="plan_vacio">Sin pasos todavía. Agrega los que necesites para lograr esta meta.</string>
     <string name="plan_guarda_meta">Guarda la meta para empezar su plan de acción.</string>
+    <string name="foco_mes_titulo">¿Qué metas de %1$d trabajo en %2$s?</string>
+    <string name="foco_mes_ayuda">Marca las metas del año que trabajarás este mes. En cada día, tus acciones aportan a una de ellas y los días se marcan aquí.</string>
+    <string name="foco_quitar_q">«%1$s» ya tiene %2$d días marcados este mes. ¿Quitarla del mes?</string>
+    <string name="foco_sin_metas">Aún no hay metas de %1$d. Nacen de tu Brújula de ese año.</string>
+    <string name="foco_quitar">Quitar</string>
 </resources>

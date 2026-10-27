@@ -2525,4 +2525,9 @@
     <string name="plan_hechos">%2$d 件中 %1$d 件完了</string>
     <string name="plan_vacio">まだステップがありません。この目標に必要なだけ追加しましょう。</string>
     <string name="plan_guarda_meta">目標を保存すると行動計画を始められます。</string>
+    <string name="foco_mes_titulo">%2$sは%1$d年のどの目標に取り組む？</string>
+    <string name="foco_mes_ayuda">今月取り組む年間目標にチェックしましょう。毎日の行動がそのどれかに貢献し、日付がここに記録されます。</string>
+    <string name="foco_quitar_q">「%1$s」は今月すでに%2$d日記録されています。今月から外しますか？</string>
+    <string name="foco_sin_metas">%1$d年の目標はまだありません。その年のコンパスから生まれます。</string>
+    <string name="foco_quitar">外す</string>
 </resources>
