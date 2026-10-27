@@ -37,6 +37,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.animation.AnimatedVisibility
@@ -555,6 +556,24 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                         compartiendo = vm.compartiendo,
                         abrirCompartir = compartir,
                     )
+                    // Informe PDF de la Brújula (igual que la web)
+                    val nombresC = (0 until Mandala.CAMPAMENTOS).map { i -> campamentos.getOrNull(i)?.let { nombreCampamento(it) } ?: nombreCodigo(Mandala.CAMPAMENTOS_FIJOS[i]) }
+                    val ejesC = (0 until Mandala.CAMPAMENTOS).map { nombreCodigo(Mandala.CAMPAMENTOS_FIJOS[it]) }
+                    val fasesC = (0 until Mandala.PASOS).map { nombreFase(it) }
+                    val listo = stringResource(R.string.ib_listo)
+                    androidx.compose.material3.OutlinedButton(onClick = {
+                        val anioI = anioActivo ?: java.time.LocalDate.now().year
+                        val metasC = cascada?.let { cas ->
+                            (cas.propositos.flatMap { p -> p.anios.map { it.meta to (it.meta.eje ?: p.proposito.eje) } } + cas.aniosSueltos.map { it.meta to it.meta.eje })
+                                .filter { it.first.anio == anioI }.groupBy({ it.second?.takeIf(String::isNotBlank) ?: "CON" }, { it.first.titulo })
+                        }.orEmpty()
+                        InformeBrujula.imprimir(ctx, datos, anioActivo, perfilVida.nombre, cumbre?.let { porcentajes[it.casilla.id] } ?: 0,
+                            nombresC, ejesC, fasesC, (0 until Mandala.CAMPAMENTOS).map { i -> campamentos.getOrNull(i)?.let { porcentajes[it.casilla.id] } ?: 0 },
+                            metasC, textos)
+                        com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo)
+                    }, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+                        Icon(Icons.Filled.PictureAsPdf, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.ib_boton))
+                    }
                 }
             }
             if (casillas.isNotEmpty()) {
