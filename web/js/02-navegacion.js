@@ -13,7 +13,8 @@ const SECCIONES = [
  *  medio). Al deslizar el dedo aparece el nombre y al soltar se abre.
  *  Metas, Coach y Mis frases se abren desde arriba (destello y menú) y desde Perfil. */
 /** Bienestar vive en cada día (Mi ruta › día, mes y año); su pantalla de herramientas se abre desde allí. */
-const OCULTAS_RIEL = new Set(["bienestar"]);
+/* Metas vive dentro de Mi ruta (propósitos, metas por año, foco del mes y acciones del día) */
+const OCULTAS_RIEL = new Set(["bienestar", "metas"]);
 const SOLO_PC = new Set(["metas", "mochila", "coach", "mensajes", "frases", "finanzas", "bienestar"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "cimas" };
 
@@ -86,7 +87,7 @@ document.addEventListener("focusout", () => setTimeout(pintarSiPendiente, 0));
 
 /* ---------- Lista ---------- */
 function cabLista(titulo, { chips = [], buscar = true, nuevo = null } = {}) {
-  const atajos = `<span class="solo-movil atajos">${estado.sec !== "metas" ? `<button class="rb" data-sec="metas" aria-label="Metas">${ic("metas")}</button>` : ""}${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
+  const atajos = `<span class="solo-movil atajos">${estado.sec !== "frases" ? `<button class="rb" data-sec="frases" aria-label="Mis frases">${ic("frases")}</button>` : ""}${estado.sec !== "finanzas" ? `<button class="rb" data-sec="finanzas" aria-label="Ascenso financiero">${ic("finanzas")}</button>` : ""}${estado.sec !== "mochila" ? `<button class="rb" data-sec="mochila" aria-label="Equipo">${ic("mochila")}</button>` : ""}${estado.sec === "comunidad" ? `<button class="rb" data-sec="mensajes" aria-label="Mensajes">${ic("mensajes")}</button>` : ""}<button class="rb" data-sec="coach" aria-label="Coach" style="color:var(--oro)">${ic("coach")}</button></span>`;
   return `<div class="lista-cab"><div class="cab-lista-btn"><h1>${titulo}</h1><span style="display:flex;gap:4px;align-items:center">${atajos}${nuevo ? `<button class="nuevo" data-sel="${nuevo[0]}" aria-label="${nuevo[1]}" title="${nuevo[1]}">${ic("mas")}</button>` : ""}</span></div>
     ${buscar ? `<label class="buscar">${ic("buscar")}<input id="busq" type="search" placeholder="Buscar" value="${esc(estado.busqueda)}" aria-label="Buscar"></label>` : ""}
     ${chips.length ? `<div class="chips">${chips.map(([k, n]) => `<button class="chip" data-filtro="${k}" aria-pressed="${estado.filtro === k}">${n}</button>`).join("")}</div>` : ""}</div>`;
@@ -95,6 +96,8 @@ const item = (sel, avatar, titulo, hora, sub, extra = "") =>
   `<button class="item" data-sel="${esc(sel)}" aria-selected="${estado.sel === sel}">${avatar}<span class="txt">
      <span class="t1"><span>${titulo}</span><span class="hora">${hora}</span></span>
      <span class="t2"><span>${sub}</span>${extra}</span></span></button>`;
+/** El apodo, cuando ya cargó su módulo (la lista se puede pintar antes al arrancar). */
+const apodoSeguro = (tipo, id, resto) => typeof conApodo === "function" ? conApodo(tipo, id, resto) : resto;
 const av = (txt, color) => `<span class="avatar" style="--c:${color}">${txt}</span>`;
 const avSello = () => SIMBOLO("avatar");
 const coincide = s => !estado.busqueda || String(s).toLowerCase().includes(estado.busqueda.toLowerCase());
@@ -108,7 +111,16 @@ function pintarLista() {
 const LISTAS = {
   ruta() {
     const r = recordatorio(), p = perfil();
-    let h = cabLista("Mi ruta", { chips: [["todo", "Toda la vida"], ["plan", "Años del plan"], ["metas", "Con metas"]] }) + `<div class="items">`;
+    let h = cabLista("Mi ruta", { chips: [["todo", "Toda la vida"], ["prop", "Propósitos"], ["plan", "Años del plan"], ["metas", "Con metas"]], nuevo: ["nuevo", "Nuevo propósito o meta"] }) + `<div class="items">`;
+    // Propósitos (Brújula general): lo más grande va arriba
+    const c0 = cascada(), props = c0.props.filter(x => coincide(x.titulo)).sort((x, y) => (x.prioridad || "B").localeCompare(y.prioridad || "B") || (x.orden || 0) - (y.orden || 0) || x.id - y.id);
+    if (estado.filtro === "prop" || estado.filtro === "todo") {
+      if (estado.filtro === "prop" && window.Sincro && Store.lista("vision").length) h += `<div class="sm-rehacer"><span class="suave">Tus propósitos y metas salen de tu Brújula</span><button class="btn mini" data-acc="rehacerMetas" title="Quita tus metas y propósitos actuales (con respaldo) y los vuelve a crear desde la Brújula">${ic("brujula")} Rehacer desde la Brújula</button></div>`;
+      h += grupo("Propósitos · varios años");
+      if (!props.length) h += `<p class="vacio-mini">Todavía no hay propósitos. Nacen de tu Brújula general.</p>`;
+      props.forEach(x => { h += item("p:" + x.id, av(pctTxt(c0.nodoProp(x)), COLOR_EJE[x.eje] || "var(--burdeos)"), esc(x.titulo), `${x.horizonte || 5} años`, apodoSeguro("p", x.id, (NOMBRE_EJE[x.eje] || "Confluencia") + ` · Prioridad ${x.prioridad || "B"}`)); });
+      if (estado.filtro === "prop") return h + `</div>`;
+    }
     if (!r) return h + `<p class="vacio-mini">Agrega tu fecha de nacimiento en Perfil para ver tu vida año por año.</p><div class="botones" style="justify-content:center"><button class="btn lleno" data-ir="perfil" data-arg="perfil">Ir a mi perfil</button></div></div>`;
     const anioHoy = new Date().getFullYear(), nac = p.anioNacimiento, ultimo = nac + metaVida();
     const conMetas = new Map();
@@ -131,6 +143,9 @@ const LISTAS = {
       if (!coincide(`${a} ${sub}`)) continue;
       const color = a < anioHoy ? "var(--burdeos)" : a === anioHoy ? "var(--oro)" : "#B8A99C";
       h += item("a:" + a, av(a - nac, color), `${a} · ${a - nac} años`, a === anioHoy ? "ahora" : "", esc(sub), metas.length ? `<span class="badge suave">${metas.length}</span>` : "");
+      // Con metas: debajo de cada año, sus metas (cada una abre su detalle aquí mismo)
+      if (estado.filtro === "metas") metas.sort((x, y) => (x.prioridad || "B").localeCompare(y.prioridad || "B") || x.id - y.id)
+        .forEach(m => { h += `<div class="item-hijo">${item("ma:" + m.id, av(pctTxt(c0.nodoAnio(m)), COLOR_EJE[ejeEfectivo("meta_anio", m)] || "var(--oro)"), esc(m.titulo), m.prioridad || "", conApodo("a", m.id, ESTADOS.find(e => e[0] === m.estado)?.[1] || ""))}</div>`; });
     }
     return h + `</div>`;
   },

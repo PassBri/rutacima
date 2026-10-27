@@ -3892,3 +3892,6 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .foco .pct { border: 0; background: none; color: var(--burdeos); font-weight: 700; cursor: pointer; }
 .foco-ir { border: 0; background: none; font-size: 12px; text-decoration: underline; cursor: pointer; }
 .foco + .tira { margin: 0 0 8px 30px; }
+/* Mi ruta › Con metas: las metas de cada año, un poco adentro de su año */
+.item-hijo > .item { padding-left: 36px; }
+.item-hijo > .item .avatar { transform: scale(.85); }

@@ -90,3 +90,21 @@ async function limpiarMesSueltas() {
   await responder("migra", "migra#mes-sueltas", "1");
 }
 window.limpiarMesSueltas = limpiarMesSueltas;
+
+/* Metas vive dentro de Mi ruta: propósitos arriba, cada año con sus metas, el mes con su foco y el día con sus acciones.
+ * Los enlaces de siempre (ir("metas", …)) llegan a Mi ruta: p: propósito, a: meta del año → ma:, m: meta del mes → mm:. */
+DET["ruta.p"] = arg => DET["metas.p"](arg);
+DET["ruta.ma"] = arg => DET["metas.a"](arg);
+DET["ruta.mm"] = arg => DET["metas.m"](arg);
+DET["ruta.nuevo"] = () => DET["metas.nuevo"]();
+const irSinMetas = ir;
+ir = function (sec, sel = null, ...rest) {
+  if (sec === "metas") {
+    const [t, ...r] = String(sel ?? "").split(":"), id = r.join(":");
+    const nuevo = sel == null ? null : t === "p" ? "p:" + id : t === "a" ? "ma:" + id : t === "m" ? "mm:" + id : sel;
+    irSinMetas("ruta", nuevo, ...rest);
+    if (sel == null) { estado.filtro = "prop"; pintarLista(); }
+    return;
+  }
+  return irSinMetas(sec, sel, ...rest);
+};
