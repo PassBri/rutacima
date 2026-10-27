@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.aprende
 
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -58,7 +59,7 @@ import kotlinx.coroutines.flow.stateIn
 enum class Etapa(@StringRes val titulo: Int, @StringRes val descripcion: Int, val paleta: Int, val guias: List<String>) {
     CONOCETE(R.string.etapa_1, R.string.etapa_1_desc, 0, listOf("descubre", "diagnostico", "seis_ejes")),
     TRAZA(R.string.etapa_2, R.string.etapa_2_desc, 3, listOf("viaje", "confluencia", "proposito_valor")),
-    CAMINA(R.string.etapa_3, R.string.etapa_3_desc, 7, listOf("portales", "campamento", "companero")),
+    CAMINA(R.string.etapa_3, R.string.etapa_3_desc, 7, listOf("portales", "campamento")),
     SUPERA(R.string.etapa_4, R.string.etapa_4_desc, 2, listOf("caidas", "niebla", "kit")),
     CIMA(R.string.etapa_5, R.string.etapa_5_desc, 1, listOf("desde_cima", "planificador_cierre")),
     FINANZAS(R.string.etapa_finanzas, R.string.etapa_finanzas_desc, 2, listOf("fin_base", "fin_camino", "fin_cargas", "fin_brujula", "fin_supervivencia", "fin_cima", "fin_ascenso")),
@@ -83,7 +84,7 @@ class AprendeViewModel(c: AppContainer) : ViewModel() {
 }
 
 @Composable
-fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit, onMochila: () -> Unit = {}) {
+fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit, onMochila: () -> Unit = {}, onCompanero: () -> Unit = {}) {
     val vm = rutaViewModel { AprendeViewModel(it) }
     val guias by vm.guias.collectAsStateWithLifecycle()
     val enOtroIdioma = androidx.compose.ui.platform.LocalConfiguration.current.locales[0].language != "es"
@@ -110,6 +111,21 @@ fun AprendeScreen(contentPadding: PaddingValues, onOpen: (String) -> Unit, onMoc
                     Column(Modifier.weight(1f)) {
                         Text(stringResource(R.string.mochila_titulo), style = MaterialTheme.typography.titleMedium)
                         Text(stringResource(R.string.mochila_aprende), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+        }
+        // Compañero de Ascenso ya no es una guía más: vive en la Brújula (Campamento Base)
+        item {
+            com.rutaalacima.app.ui.components.RutaCard(Modifier.padding(horizontal = 16.dp), onClick = onCompanero) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer), contentAlignment = Alignment.Center) {
+                        androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Outlined.FavoriteBorder, null, tint = MaterialTheme.colorScheme.primary)
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(R.string.cp_titulo), style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.cp_aprende_sub), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }

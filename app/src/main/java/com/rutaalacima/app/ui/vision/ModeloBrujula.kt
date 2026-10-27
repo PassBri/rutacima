@@ -73,13 +73,13 @@ internal fun IconoModelo(color: Color, modifier: Modifier = Modifier.size(22.dp)
 
 /** Botón «Modelo» de la barra: abre la explicación de la Brújula 1·9·81. */
 @Composable
-internal fun ModeloBrujulaAccion() {
+internal fun ModeloBrujulaAccion(onCompanero: () -> Unit = {}) {
     var abierto by rememberSaveable { mutableStateOf(false) }
     val etiqueta = stringResource(R.string.modelo_boton)
     IconButton(onClick = { abierto = true }, modifier = Modifier.semantics { contentDescription = etiqueta }) {
         Box(Modifier.size(24.dp), contentAlignment = Alignment.Center) { IconoModelo(MaterialTheme.colorScheme.onSurface, Modifier.size(20.dp)) }
     }
-    if (abierto) ModeloBrujulaHoja(onCerrar = { abierto = false })
+    if (abierto) ModeloBrujulaHoja(onCerrar = { abierto = false }, onCompanero = { abierto = false; onCompanero() })
 }
 
 /** Diagrama 9×9: las 81 casillas, el 3×3 central (9) y la cumbre (1) en oro. */
@@ -108,7 +108,7 @@ private fun referenciaApa(texto: String): AnnotatedString = buildAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun ModeloBrujulaHoja(onCerrar: () -> Unit) {
+internal fun ModeloBrujulaHoja(onCerrar: () -> Unit, onCompanero: () -> Unit = {}) {
     val estado = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val cs = MaterialTheme.colorScheme; val ty = MaterialTheme.typography
     val campamentos = listOf(R.string.brujula_con, R.string.eje_tra, R.string.eje_val, R.string.eje_evo, R.string.eje_voz,
@@ -154,6 +154,9 @@ internal fun ModeloBrujulaHoja(onCerrar: () -> Unit) {
             }
             Titulo(stringResource(R.string.modelo_tiempo_t)); Parrafo(stringResource(R.string.modelo_tiempo_d))
             Titulo(stringResource(R.string.modelo_solo_t)); Parrafo(stringResource(R.string.modelo_solo_d))
+            androidx.compose.material3.TextButton(onClick = onCompanero, contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp)) {
+                Text(stringResource(R.string.cp_abrir))
+            }
             Titulo(stringResource(R.string.modelo_origen_t)); Parrafo(stringResource(R.string.modelo_origen_d))
             Spacer(Modifier.height(8.dp)); Parrafo(stringResource(R.string.modelo_origen_suroute))
             Titulo(stringResource(R.string.modelo_refs_t))

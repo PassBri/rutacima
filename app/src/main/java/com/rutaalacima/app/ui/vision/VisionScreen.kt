@@ -351,7 +351,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: Boolean = false, onIrA: (String) -> Unit = {}) {
+fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: Boolean = false, onIrA: (String) -> Unit = {}, abrirCompanero: Boolean = false) {
     val vm = rutaViewModel { VisionViewModel(it) }
     val ctx = LocalContext.current
     val casillas by vm.casillas.collectAsStateWithLifecycle()
@@ -444,6 +444,9 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             metas = metasVision.sostenPorId[id].orEmpty(), apodosMetas = apodos, modifier = modificador)
     }
 
+    // Compañero de Ascenso: vive en el Campamento Base de la Brújula
+    var companero by rememberSaveable { mutableStateOf(abrirCompanero) }
+    if (companero) CompaneroHoja(datos.tituloCumbre, onCerrar = { companero = false }, onGuia = { companero = false; onGuia(CompaneroViewModel.WB) })
     Scaffold(
         modifier = Modifier.fondoPapel(),
         containerColor = Color.Transparent,
@@ -452,7 +455,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(anioActivo?.let { stringResource(R.string.brujula_de_anio, it) } ?: stringResource(R.string.vision_titulo)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
-                actions = { ModeloBrujulaAccion() },
+                actions = { CompaneroAccion { companero = true }; ModeloBrujulaAccion(onCompanero = { companero = true }) },
             )
         },
     ) { padding ->

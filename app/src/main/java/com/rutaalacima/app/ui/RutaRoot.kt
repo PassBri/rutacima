@@ -143,6 +143,7 @@ object Rutas {
     const val FRASES = "frases"
     const val WEB = "web"
     const val VISION = "vision"
+    const val VISION_COMPANERO = "vision/companero"
     const val VISION_COMPARTIR = "vision?compartir={compartir}"
     const val MENSAJES = "mensajes"
     const val CONTACTOS = "contactos"
@@ -444,7 +445,7 @@ private fun AppPrincipal() {
                     onBuscar = { nav.navigate(Rutas.PERSONAS) },
                 )
             }
-            composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook, onMochila = { nav.navigate(Rutas.MOCHILA) }) }
+            composable(Rutas.APRENDE) { AprendeScreen(padding, onOpen = abrirWorkbook, onMochila = { nav.navigate(Rutas.MOCHILA) }, onCompanero = { nav.navigate(Rutas.VISION_COMPANERO) }) }
             composable(Rutas.PERFIL) {
                 PerfilScreen(
                     contentPadding = padding,
@@ -560,6 +561,7 @@ private fun AppPrincipal() {
             composable(Rutas.AJUSTES) {
                 AjustesScreen(onBack = { nav.popBackStack() }, onFrases = { nav.navigate(Rutas.FRASES) }, onWeb = { nav.navigate(Rutas.WEB) })
             }
+            composable(Rutas.VISION_COMPANERO) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }, onIrA = { nav.navigate(it) }, abrirCompanero = true) }
             composable(Rutas.VISION) { com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }, onIrA = { nav.navigate(it) }) }
             composable(Rutas.VISION_COMPARTIR, arguments = listOf(navArgument("compartir") { type = NavType.StringType; nullable = true; defaultValue = null })) {
                 com.rutaalacima.app.ui.vision.VisionScreen(onBack = { nav.popBackStack() }, onGuia = { nav.navigate(Rutas.workbook(it)) }, compartir = true, onIrA = { nav.navigate(it) })
