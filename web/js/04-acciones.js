@@ -346,6 +346,7 @@ function clic(e) {
     return;
   }
   // La Comunidad se abre a pantalla completa (Cimas), en el teléfono y en el computador
+  if (t.dataset.sec === "brujula") { ir("ruta", "vida"); return; }
   if (t.dataset.sec === "comunidad") { estado.vistaCom = "cimas"; ir("comunidad", "feed"); return; }
   if (t.dataset.sec) { ir(t.dataset.sec, innerWidth > 900 && t.dataset.sec === "coach" ? "coach" : null); return; }
   if (t.dataset.sel?.startsWith("ir-")) { const d = t.dataset.sel.slice(3); if (d === "coachvida") ir("mensajes", "coachvida"); else ir(d, d === "coach" ? "coach" : null); return; }

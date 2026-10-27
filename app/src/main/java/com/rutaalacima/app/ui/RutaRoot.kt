@@ -46,6 +46,7 @@ import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -193,6 +194,8 @@ private data class Pestana(val ruta: String, val titulo: Int, val icono: ImageVe
 private val PESTANAS = listOf(
     Pestana(Rutas.HOY, R.string.tab_hoy, com.rutaalacima.app.ui.components.IconosRuta.Huellas, com.rutaalacima.app.ui.components.IconosRuta.HuellasContorno),
     Pestana(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain, Icons.Outlined.Terrain),
+    // La Brújula 1·9·81 es una función principal: va justo después de Mi ruta
+    Pestana(Rutas.VISION, R.string.ruta_brujula, Icons.Filled.Explore, Icons.Outlined.Explore),
     Pestana(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata, com.rutaalacima.app.ui.components.IconosRuta.FogataContorno),
     Pestana(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.MapaRuta, com.rutaalacima.app.ui.components.IconosRuta.MapaRutaContorno),
     Pestana(Rutas.PERFIL, R.string.tab_perfil, com.rutaalacima.app.ui.components.IconosRuta.Perfil, com.rutaalacima.app.ui.components.IconosRuta.PerfilContorno),
@@ -285,7 +288,8 @@ private fun AppPrincipal() {
         containerColor = androidx.compose.ui.graphics.Color.Transparent,
         snackbarHost = { androidx.compose.material3.SnackbarHost(com.rutaalacima.app.ui.theme.AvisoGlobal.host) },
         topBar = {
-            if (pestana != null && !inmersivo) {
+            // La Brújula trae su propia barra (año, Modelo), así que no se duplica
+            if (pestana != null && pestana.ruta != Rutas.VISION && !inmersivo) {
                 TopAppBar(
                     scrollBehavior = desplazamiento,
                     // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
@@ -818,4 +822,4 @@ private fun androidx.compose.foundation.layout.RowScope.IconoBarra(
 }
 
 /** Posición de Publicar en la barra: en medio, como en otras redes. */
-private const val CENTRO = 2
+private const val CENTRO = 3
