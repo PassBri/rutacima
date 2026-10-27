@@ -2,12 +2,12 @@
 /* Brújula ↔ Metas ↔ Mi ruta, sincronizadas (la misma regla que SincroBrujula.kt en la app).
  * - Brújula general: cada campamento ↔ un propósito de largo plazo de ese eje; sus 8 pasos ↔ sus "metas específicas".
  * - Brújula de un año: cada campamento ↔ la meta de ese año con ese eje; sus 8 pasos ↔ sus sub-metas.
- * - Confluencia va con lo que no tiene eje; Campamento Base no tiene metas (se queda solo en la Brújula).
+ * - Confluencia va con lo que no tiene eje; Campamento Base lleva el código CAM.
  * - La Brújula manda: lo escrito en un paso pisa la sub-meta; una sub-meta en un paso vacío lo llena.
  * - Las sub-metas 1 a 8 son los pasos 1 a 8; desde la 9 se quedan solo en Metas.
  * - Si un campamento no tiene su meta (o propósito), se crea con el nombre del campamento: la Brújula llena Metas y Mi ruta. */
 const Sincro = {
-  CODS: ["CON", "TRA", "VAL", "EVO", "VOZ", "VOL", "MAE"],
+  CODS: ["CON", "TRA", "VAL", "EVO", "VOZ", "CAM", "VOL", "MAE"],
   PASOS: 8,
   lineas: s => String(s || "").split("\n").map(x => x.trim()),
   unir(ls) { const r = [...ls]; while (r.length && !r[r.length - 1]) r.pop(); return r.join("\n"); },

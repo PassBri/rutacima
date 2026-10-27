@@ -77,7 +77,6 @@ object VisionBoard {
             val (nombre, afirmacion, foto) = t.ejes[cod] ?: t.campamentos[cod] ?: continue
             val propio = when (cod) {
                 "CON" -> propositos.firstOrNull { it.eje == null }?.titulo
-                "CAM" -> null
                 else -> propositos.firstOrNull { it.eje == cod }?.titulo ?: metasDelAnio.firstOrNull { it.eje == cod }?.titulo
             }?.trim()?.takeIf { it.isNotEmpty() }
             r += Propuesta(

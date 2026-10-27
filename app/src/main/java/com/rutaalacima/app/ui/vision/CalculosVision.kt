@@ -38,7 +38,7 @@ internal fun calcularMetasVision(cumbre: CasillaVista?, campamentos: List<Casill
         cumbre?.let { put(it.casilla.id, todas.map { meta -> meta.second }) }
         campamentos.forEachIndexed { i, cv -> cv?.let {
             val codigo = Mandala.CAMPAMENTOS_FIJOS[i]
-            put(it.casilla.id, if (codigo == "CAM") emptyList() else porCodigo[codigo].orEmpty())
+            put(it.casilla.id, porCodigo[codigo].orEmpty())
         } }
     }
     return MetasVision(avancePorCodigo, porId)
@@ -53,7 +53,7 @@ internal fun porcentajesVision(datos: DatosMandala, estados: Map<String, String>
         if (cv == null) 0f else {
             val pasos = (0 until Mandala.PASOS).sumOf { MetodoCima.avance(datos.pasoCima(i, it), datos.ritmo.dificultad).toDouble() }
                 .toFloat() * 100f / Mandala.PASOS
-            val meta = if (datos.codigo(i) == "CAM") 0f else metas[datos.codigo(i)] ?: 0f
+            val meta = metas[datos.codigo(i)] ?: 0f
             manual(cv.casilla.id, maxOf(pasos, meta))
         }
     }

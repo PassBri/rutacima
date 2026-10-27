@@ -261,7 +261,7 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         val ejesDe = banco.associate { it.texto.trim().lowercase() to it.ejes }
         val sugerencias = buildList {
             val propios = c.planificador.propositos.first().filter { p ->
-                when (codigo) { "CON" -> p.eje == null; "CAM" -> false; else -> p.eje == codigo }
+                when (codigo) { "CON" -> p.eje == null; else -> p.eje == codigo }
             } + listOfNotNull(casilla.origen.removePrefix("proposito:").toLongOrNull()?.let { id -> c.planificador.propositos.first().firstOrNull { it.id == id } })
             propios.distinctBy { it.id }.forEach { p -> addAll(c.planificador.acciones(p.id).first().filter { !it.hecha }.map { it.texto }) }
             val delBanco = when (codigo) {

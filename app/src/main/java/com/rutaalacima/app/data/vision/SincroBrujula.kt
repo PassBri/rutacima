@@ -14,14 +14,14 @@ import kotlinx.coroutines.sync.withLock
  * Brújula ↔ Metas ↔ Mi ruta, sincronizadas (la misma regla que web/js/37-sincro-metas.js).
  * - Brújula general: cada campamento ↔ un propósito de largo plazo de ese eje; sus 8 pasos ↔ sus metas específicas.
  * - Brújula de un año: cada campamento ↔ la meta de ese año con ese eje; sus 8 pasos ↔ sus sub-metas.
- * - Confluencia va con lo que no tiene eje; Campamento Base no tiene metas.
+ * - Confluencia va con lo que no tiene eje; Campamento Base lleva el código CAM.
  * - La Brújula manda: lo escrito en un paso pisa la sub-meta; una sub-meta en un paso vacío lo llena.
  * - Las sub-metas 1 a 8 son los pasos 1 a 8; desde la 9 se quedan solo en Metas.
  * - Si un campamento no tiene su meta (o propósito), se crea con el nombre del campamento.
  */
 class SincroBrujula(private val db: RutaDatabase, private val respuestas: RespuestasRepository) {
     companion object {
-        val CODS = listOf("CON", "TRA", "VAL", "EVO", "VOZ", "VOL", "MAE")
+        val CODS = listOf("CON", "TRA", "VAL", "EVO", "VOZ", "CAM", "VOL", "MAE")
         const val PASOS = 8
         fun lineas(s: String): MutableList<String> = s.split("\n").map { it.trim() }.toMutableList()
         fun unir(ls: List<String>): String = ls.dropLastWhile { it.isEmpty() }.joinToString("\n")

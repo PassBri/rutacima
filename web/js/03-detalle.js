@@ -143,7 +143,7 @@ async function fotoVisionAnio(a, archivo) {
   catch (e) { errorNube(e); }
 }
 window.fotoVisionAnio = fotoVisionAnio;
-const opcionesEje = [["", "Sin eje"], ...EJES.map(([c, n]) => [c, n])];
+const opcionesEje = [["", "Sin eje · Confluencia"], ...EJES.map(([c, n]) => [c, n]), ["CAM", "Campamento Base"]];
 
 /** El momento del día para el arte (0 amanecer, 1 día, 2 atardecer, 3 noche), según la hora local. */
 const momentoAhora = () => { const h = new Date().getHours(); return h >= 5 && h < 8 ? 0 : h >= 8 && h < 17 ? 1 : h >= 17 && h < 19 ? 2 : 3; };
@@ -1129,8 +1129,8 @@ function proponerVision() {
     const [nombre, af, foto] = VISION_CAMP[cod] || [NOMBRE_EJE[cod], VISION_EJES[cod][0], VISION_EJES[cod][1]];
     // En la Brújula del año mandan las metas de ese año; en la general, los propósitos
     const propio = (delAnio
-      ? (cod === "CON" ? metas.find(x => !x.eje)?.titulo : cod === "CAM" ? null : metas.find(x => x.eje === cod)?.titulo || props.find(x => x.eje === cod)?.titulo)
-      : (cod === "CON" ? props.find(x => !x.eje)?.titulo : cod === "CAM" ? null
+      ? (cod === "CON" ? metas.find(x => !x.eje)?.titulo : metas.find(x => x.eje === cod)?.titulo || props.find(x => x.eje === cod)?.titulo)
+      : (cod === "CON" ? props.find(x => !x.eje)?.titulo
         : (props.find(x => x.eje === cod)?.titulo || metas.find(x => x.eje === cod)?.titulo)))?.trim() || null;
     r.push({ titulo: nombre, afirmacion: propio || af, eje: VISION_CAMP[cod] ? null : cod, sugerencia: propio ? `${foto} Relacionada con: ${propio}` : foto,
       busqueda: palabrasClave(propio || foto), origen: "campamento:" + cod });

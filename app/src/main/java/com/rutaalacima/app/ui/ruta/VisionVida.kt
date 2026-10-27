@@ -66,9 +66,8 @@ import com.rutaalacima.app.ui.vision.nombreCodigo
 import java.io.File
 import java.time.LocalDate
 
-/** Las metas de un campamento: las del mismo eje; Confluencia toma las metas sin eje; Campamento Base no tiene metas. */
+/** Las metas de un campamento: las del mismo eje (Campamento Base: CAM); Confluencia toma las metas sin eje. */
 internal fun metasDeCampamento(codigo: String, metas: List<MetaAnualEntity>): List<MetaAnualEntity> = when (codigo) {
-    "CAM" -> emptyList()
     "CON" -> metas.filter { it.eje.isNullOrBlank() }
     else -> metas.filter { it.eje == codigo }
 }.sortedBy { it.anio }
@@ -121,7 +120,6 @@ fun VisionVida(
                             val i = cel.campamento; val cod = Mandala.CAMPAMENTOS_FIJOS[i]; val cv = camps.getOrNull(i)
                             val ms = metasDeCampamento(cod, metas); val anios = ms.map { it.anio }.distinct()
                             val pie = when {
-                                cod == "CAM" -> stringResource(R.string.vv_cordadas)
                                 ms.isEmpty() -> stringResource(R.string.vv_sin_metas)
                                 else -> stringResource(R.string.vv_metas_n, ms.size) + " · " + anios.take(2).joinToString(", ") + if (anios.size > 2) "…" else ""
                             }
@@ -148,9 +146,8 @@ fun VisionVida(
                             }
                             IconButton(onClick = { elegido = null }) { Icon(Icons.Filled.Close, stringResource(R.string.cerrar_brujula)) }
                         }
-                        if (cod == "CAM") {
-                            Text(stringResource(R.string.vv_cam_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                        } else {
+                        if (cod == "CAM") Text(stringResource(R.string.vv_cam_texto), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        run {
                             if (ms.isEmpty()) Text(stringResource(R.string.vv_sin_metas_texto), style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 6.dp))
                             ms.groupBy { it.anio }.forEach { (anio, delAnio) ->
