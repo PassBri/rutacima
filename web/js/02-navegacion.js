@@ -201,13 +201,11 @@ const LISTAS = {
     let h = cabLista("Aprende", { chips: [["todo", "Todo"], ["ruta", "Ruta"], ["finanzas", "Finanzas"], ["herramientas", "Herramientas"], ["lecturas", "Lecturas"]] }) + `<div class="items">`;
     // Los bonos viven en la mochila: herramientas para usar mientras construyes tus metas
     if (estado.filtro === "todo" && !estado.busqueda) h += `<button class="item" data-sec="mochila">${av(ic("mochila"), "var(--oro)")}<span class="txt"><span class="t1"><span>Tu equipo</span><span class="hora"></span></span><span class="t2"><span>Las herramientas del método para el camino</span></span></span></button>`;
-    // Compañero de Ascenso ya no es una guía más: vive en la Brújula (Campamento Base)
-    if (estado.filtro === "todo" && coincide("compañero de ascenso pareja relaciones")) h += `<button class="item" data-acc="abrirCompanero">${av(ic("companero"), "var(--burdeos)")}<span class="txt"><span class="t1"><span>Compañero de Ascenso</span><span class="hora"></span></span><span class="t2"><span>Ahora vive en tu Brújula, en el Campamento Base</span></span></span></button>`;
     if (!Contenido.indice) { Contenido.cargarIndice(); return h + `<p class="vacio-mini">Cargando las guías…</p></div>`; }
     const resp = Store.lista("respuesta");
     let g = "";
     [...Contenido.indice].sort((a, b) => Object.keys(CAT).indexOf(a.category) - Object.keys(CAT).indexOf(b.category) || a.order - b.order)
-      .filter(x => x.id !== "companero" && !window.MOCHILA_IDS?.has(x.id) && (estado.filtro === "todo" || x.category === estado.filtro) && coincide(x.title + x.subtitle)).forEach(x => {
+      .filter(x => !window.MOCHILA_IDS?.has(x.id) && (estado.filtro === "todo" || x.category === estado.filtro) && coincide(x.title + x.subtitle)).forEach(x => {
         if (x.category !== g) { h += grupo(CAT[x.category] || x.category); g = x.category; }
         const n = resp.filter(r => r.workbookId === x.id && !r.clave.includes("#")).length;
         h += item("wb:" + x.id, av(esc(x.title.trim()[0]), x.category === "bonos" ? "var(--oro)" : "var(--burdeos)"), esc(x.title), n ? `${n}/${x.inputs}` : "", esc(x.subtitle));
