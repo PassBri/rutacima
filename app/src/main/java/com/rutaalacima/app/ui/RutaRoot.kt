@@ -663,7 +663,7 @@ private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () 
         header = {
             androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(40.dp).padding(top = 4.dp), tint = MaterialTheme.colorScheme.onSurface)
             androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(Icons.Outlined.AddCircle, stringResource(R.string.publicar))
+                Icon(com.rutaalacima.app.ui.components.IconoPublicar, stringResource(R.string.publicar))
             }
         },
     ) {
@@ -743,7 +743,7 @@ private fun BarraNavegacion(actual: String?, onIr: (String) -> Unit, onPublicar:
                 val p = pestanaEn(k)
                 val nombre = p?.let { stringResource(it.titulo) } ?: nombrePublicar
                 IconoBarra(
-                    icono = p?.let { if (actual == it.ruta) it.icono else it.iconoInactivo } ?: Icons.Outlined.AddCircle,
+                    icono = p?.let { if (actual == it.ruta) it.icono else it.iconoInactivo } ?: com.rutaalacima.app.ui.components.IconoPublicar,
                     nombre = nombre,
                     elegida = p != null && actual == p.ruta,
                     esPublicar = p == null,

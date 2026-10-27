@@ -22,7 +22,7 @@ function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
     marca("sello logo", true) +
-    SECCIONES.filter(([k]) => !OCULTAS_RIEL.has(k)).map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("anadir")}</span><span class="tip">Publicar</span></button>` : "") +
+    SECCIONES.filter(([k]) => !OCULTAS_RIEL.has(k)).map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("publicar2")}</span><span class="tip">Publicar</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${estado.sec === k ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Apariencia">${ic("tema")}<span class="tip">Apariencia</span></button>
