@@ -28,11 +28,43 @@ class PerfilRepository(private val db: RutaDatabase) {
 }
 
 class RespuestasRepository(private val db: RutaDatabase) {
+    /** Las finanzas cifradas de extremo a extremo se leen en claro solo mientras su llave está abierta. */
+    private fun claro(r: RespuestaEntity) = com.rutaalacima.app.seguridad.FinCifrado.leer(r.clave, r.valor)
+
     fun observar(workbookId: String): Flow<Map<String, String>> =
-        db.respuestaDao().observeWorkbook(workbookId).map { list -> list.associate { it.clave to it.valor } }
+        if (workbookId != com.rutaalacima.app.domain.model.Finanzas.WB)
+            db.respuestaDao().observeWorkbook(workbookId).map { list -> list.associate { it.clave to it.valor } }
+        else kotlinx.coroutines.flow.combine(db.respuestaDao().observeWorkbook(workbookId), com.rutaalacima.app.seguridad.FinCifrado.version) { list, _ ->
+            list.associate { it.clave to claro(it) }
+        }
 
     suspend fun cargar(workbookId: String): Map<String, String> =
-        db.respuestaDao().getWorkbook(workbookId).associate { it.clave to it.valor }
+        db.respuestaDao().getWorkbook(workbookId).associate { it.clave to claro(it) }
+
+    /** ¿Las finanzas están cifradas de extremo a extremo? */
+    suspend fun finCifrado(): Boolean = db.respuestaDao().valor("fin#cifrado") == "1"
+
+    /** Activa el cifrado: crea la llave, cifra lo que ya existe y guarda la llave envuelta con el código. */
+    suspend fun activarCifrado(ctx: android.content.Context, codigo: String) {
+        val wb = com.rutaalacima.app.domain.model.Finanzas.WB
+        val llave = com.rutaalacima.app.seguridad.FinCifrado.crear(ctx, codigo)
+        db.respuestaDao().getWorkbook(wb).filter { com.rutaalacima.app.seguridad.FinCifrado.cifrable(it.clave) && it.valor.isNotEmpty() && !it.valor.startsWith("e1:") }
+            .forEach { db.respuestaDao().upsert(it.copy(valor = com.rutaalacima.app.seguridad.FinCifrado.cifrarValor(it.valor), actualizadoEn = System.currentTimeMillis())) }
+        db.respuestaDao().upsert(RespuestaEntity(clave = "fin#llave", workbookId = wb, valor = llave))
+        db.respuestaDao().upsert(RespuestaEntity(clave = "fin#cifrado", workbookId = wb, valor = "1"))
+        com.rutaalacima.app.seguridad.FinCifrado.avisarCambio()
+    }
+
+    /** Quita el cifrado: todo vuelve a guardarse sin cifrar (sigue siendo privado de la cuenta). */
+    suspend fun quitarCifrado(ctx: android.content.Context) {
+        val wb = com.rutaalacima.app.domain.model.Finanzas.WB
+        if (!com.rutaalacima.app.seguridad.FinCifrado.abierta()) return
+        db.respuestaDao().getWorkbook(wb).filter { com.rutaalacima.app.seguridad.FinCifrado.cifrable(it.clave) && it.valor.startsWith("e1:") }.forEach {
+            val c = claro(it); if (c.isNotEmpty()) db.respuestaDao().upsert(it.copy(valor = c, actualizadoEn = System.currentTimeMillis()))
+        }
+        db.respuestaDao().delete("fin#cifrado"); db.respuestaDao().delete("fin#llave")
+        com.rutaalacima.app.seguridad.FinCifrado.borrarLocal(ctx); com.rutaalacima.app.seguridad.FinCifrado.cerrar()
+    }
 
     /** Número de campos respondidos por workbook. */
     val conteos: Flow<Map<String, Int>> =
@@ -46,8 +78,13 @@ class RespuestasRepository(private val db: RutaDatabase) {
     }
 
     suspend fun guardar(workbookId: String, clave: String, valor: String) {
-        if (valor.isEmpty()) db.respuestaDao().delete(clave)
-        else db.respuestaDao().upsert(RespuestaEntity(clave = clave, workbookId = workbookId, valor = valor))
+        if (valor.isEmpty()) { db.respuestaDao().delete(clave); return }
+        val fc = com.rutaalacima.app.seguridad.FinCifrado
+        val v = if (workbookId == com.rutaalacima.app.domain.model.Finanzas.WB && fc.cifrable(clave) && finCifrado()) {
+            if (!fc.abierta()) return          // con la llave cerrada no se escribe en claro
+            fc.cifrarValor(valor)
+        } else valor
+        db.respuestaDao().upsert(RespuestaEntity(clave = clave, workbookId = workbookId, valor = v))
     }
 }
 

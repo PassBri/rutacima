@@ -54,6 +54,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.Shield
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
@@ -922,8 +923,10 @@ fun PrivacidadCard(libro: Libro, vm: CuentasViewModel) {
             Capa(Icons.Filled.VerifiedUser, R.string.cu_capa_cuenta, R.string.cu_capa_cuenta_d)
             val sinBloqueo = stringResource(R.string.cu_sin_bloqueo_tel)
             Capa(Icons.Filled.Fingerprint, R.string.cu_capa_bloqueo, R.string.cu_capa_bloqueo_d) {
+                val primeroCif = stringResource(R.string.cu_cif_primero)
                 Switch(libro.bloqueo, { si ->
-                    if (si && !Bloqueo.biometriaDisponible(ctx) && !Bloqueo.tieneClave(ctx)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueo)
+                    if (!si && libro.cifrado) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(primeroCif)
+                    else if (si && !Bloqueo.biometriaDisponible(ctx) && !Bloqueo.tieneClave(ctx)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueo)
                     else { vm.bloqueo(si); if (si) vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
                 })
             }
@@ -934,6 +937,7 @@ fun PrivacidadCard(libro: Libro, vm: CuentasViewModel) {
                         shape = SegmentedButtonDefaults.itemShape(i, 3)) { Text(stringResource(R.string.cu_min, m)) }
                 }
             }
+            CapaCifrado(libro, vm)
             Capa(Icons.Filled.VisibilityOff, R.string.cu_capa_ocultar, R.string.cu_capa_ocultar_d) { Switch(libro.respuestas["fin#ocultar"] == "1", { vm.ocultar(it) }) }
             Capa(Icons.Filled.AttachFile, R.string.cu_capa_recibos, R.string.cu_capa_recibos_d)
         }
@@ -1257,5 +1261,91 @@ private fun AplicarMetodo(d: Deudas.Datos, plan: Deudas.Plan, vivas: List<Deudas
                 Text(if (todo) stringResource(R.string.cu_ver_12) else stringResource(R.string.cu_ver_meses, minOf(plan.pagos.size, 120)))
             }
         }
+    }
+}
+
+
+// ====================================================================== Cifrado de extremo a extremo
+
+@Composable
+private fun CapaCifrado(libro: Libro, vm: CuentasViewModel) {
+    val ctx = LocalContext.current
+    var activando by remember { mutableStateOf(false) }
+    var quitando by remember { mutableStateOf(false) }
+    Capa(Icons.Filled.Shield, R.string.cu_cif_titulo, when { libro.cifrado -> R.string.cu_cif_on_d; libro.bloqueo -> R.string.cu_cif_off_d; else -> R.string.cu_cif_falta_bloqueo }) {
+        when {
+            libro.cifrado -> TextButton(onClick = { quitando = true }) { Text(stringResource(R.string.cu_cif_quitar)) }
+            libro.bloqueo -> Button(onClick = { activando = true }) { Text(stringResource(R.string.cu_cif_activar)) }
+        }
+    }
+    if (activando) ActivarCifradoDialogo(onCerrar = { activando = false }) { codigo, listo -> vm.activarCifrado(ctx, codigo) { listo(); activando = false } }
+    if (quitando) {
+        val quitado = stringResource(R.string.cu_cif_quitado)
+        androidx.compose.material3.AlertDialog(onDismissRequest = { quitando = false },
+            title = { Text(stringResource(R.string.cu_cif_quitar_t)) }, text = { Text(stringResource(R.string.cu_cif_quitar_d)) },
+            confirmButton = { TextButton(onClick = { vm.quitarCifrado(ctx) { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(quitado) }; quitando = false }) { Text(stringResource(R.string.cu_cif_quitar)) } },
+            dismissButton = { TextButton(onClick = { quitando = false }) { Text(stringResource(R.string.cu_cif_cancelar)) } })
+    }
+}
+
+/** Muestra el código de 12 palabras, pide dos de ellas para confirmar que se guardó y cifra. */
+@Composable
+private fun ActivarCifradoDialogo(onCerrar: () -> Unit, onCifrar: (String, () -> Unit) -> Unit) {
+    val ctx = LocalContext.current
+    val codigo = remember { com.rutaalacima.app.seguridad.FinCifrado.nuevoCodigo() }
+    val pal = remember(codigo) { codigo.split(" ") }
+    val p1 = remember { 2 + kotlin.random.Random.nextInt(4) }; val p2 = remember { 7 + kotlin.random.Random.nextInt(4) }
+    var a by remember { mutableStateOf("") }; var b by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf("") }; var cifrando by remember { mutableStateOf(false) }
+    val noCoincide = stringResource(R.string.cu_cif_no_coincide); val listo = stringResource(R.string.cu_cif_listo); val copiado = stringResource(R.string.cu_cif_copiado)
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = { if (!cifrando) onCerrar() },
+        icon = { Icon(Icons.Filled.Shield, null) },
+        title = { Text(stringResource(R.string.cu_cif_titulo)) },
+        text = {
+            Column(Modifier.verticalScroll(androidx.compose.foundation.rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text(stringResource(R.string.cu_cif_codigo_t), style = MaterialTheme.typography.titleSmall)
+                Text(stringResource(R.string.cu_cif_codigo_d), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(androidx.compose.ui.graphics.Color(0xFFC9973B).copy(alpha = .14f)).padding(12.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    pal.chunked(3).forEachIndexed { f, fila ->
+                        Row { fila.forEachIndexed { c, w -> Text("${f * 3 + c + 1}. $w", Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.SemiBold) } }
+                    }
+                }
+                TextButton(onClick = {
+                    (ctx.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager).setPrimaryClip(android.content.ClipData.newPlainText("SuRoute", codigo))
+                    com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(copiado)
+                }) { Text(stringResource(R.string.cu_cif_copiar)) }
+                OutlinedTextField(a, { a = it; error = "" }, label = { Text(stringResource(R.string.cu_cif_palabra, p1 + 1)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(b, { b = it; error = "" }, label = { Text(stringResource(R.string.cu_cif_palabra, p2 + 1)) }, singleLine = true, modifier = Modifier.fillMaxWidth())
+                if (error.isNotBlank()) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
+            }
+        },
+        confirmButton = {
+            Button(enabled = !cifrando, onClick = {
+                val fc = com.rutaalacima.app.seguridad.FinCifrado
+                if (fc.normalizar(a) != pal[p1] || fc.normalizar(b) != pal[p2]) { error = noCoincide; return@Button }
+                cifrando = true
+                onCifrar(codigo) { com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo) }
+            }) { Text(stringResource(if (cifrando) R.string.cu_cif_cifrando else R.string.cu_cif_cifrar)) }
+        },
+        dismissButton = { TextButton(enabled = !cifrando, onClick = onCerrar) { Text(stringResource(R.string.cu_cif_cancelar)) } },
+    )
+}
+
+/** En un teléfono nuevo: tras la huella se pide una vez el código de recuperación. */
+@Composable
+fun PantallaCodigoCifrado(modifier: Modifier = Modifier, llave: String, onAbierta: () -> Unit) {
+    val ctx = LocalContext.current
+    var codigo by remember { mutableStateOf("") }; var error by remember { mutableStateOf("") }
+    val mal = stringResource(R.string.cu_cif_mal)
+    Column(modifier.fillMaxSize().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+        Icon(Icons.Filled.Lock, null, Modifier.size(56.dp), tint = MaterialTheme.colorScheme.primary)
+        Spacer(Modifier.height(12.dp))
+        Text(stringResource(R.string.cu_cif_nuevo_t), style = MaterialTheme.typography.titleLarge, textAlign = TextAlign.Center)
+        Text(stringResource(R.string.cu_cif_nuevo_d), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.padding(top = 6.dp))
+        Spacer(Modifier.height(16.dp))
+        OutlinedTextField(codigo, { codigo = it; error = "" }, modifier = Modifier.fillMaxWidth(), minLines = 3, placeholder = { Text("pino rio luna …") })
+        Button(onClick = { if (com.rutaalacima.app.seguridad.FinCifrado.abrirConCodigo(ctx, codigo, llave)) onAbierta() else error = mal }, modifier = Modifier.padding(top = 10.dp)) { Text(stringResource(R.string.cu_cif_abrir)) }
+        if (error.isNotBlank()) Text(error, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 8.dp))
     }
 }

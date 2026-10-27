@@ -28,6 +28,9 @@ interface RespuestaDao {
     @Query("SELECT * FROM respuestas WHERE workbookId = :workbookId")
     suspend fun getWorkbook(workbookId: String): List<RespuestaEntity>
 
+    @Query("SELECT valor FROM respuestas WHERE clave = :clave LIMIT 1")
+    suspend fun valor(clave: String): String?
+
     @Query("SELECT workbookId, COUNT(*) AS respondidas FROM respuestas WHERE valor != '' AND clave NOT LIKE '%#%' GROUP BY workbookId")
     fun observeConteos(): Flow<List<ConteoRespuestas>>
 

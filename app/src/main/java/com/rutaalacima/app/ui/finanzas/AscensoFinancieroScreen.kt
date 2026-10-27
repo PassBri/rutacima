@@ -152,6 +152,8 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val ocultarFuera get() = !publica && respuestas["fin#ocultar"] == "1"
     /** Minutos sin uso tras los que el módulo se vuelve a cerrar (1, 5 o 15; igual que la web). */
     val minutosCierre get() = respuestas["fin#cierre"]?.toIntOrNull()?.takeIf { it in listOf(1, 5, 15) } ?: 5
+    /** Cifrado de extremo a extremo activo (fin#llave guarda la llave envuelta con el código). */
+    val cifrado get() = respuestas["fin#cifrado"] == "1" && !respuestas["fin#llave"].isNullOrBlank()
     fun salud(anio: Int?) = com.rutaalacima.app.domain.model.Salud.de(dias, anio, deudas, activos, propias)
     /** La misma salud financiera sin deudas: para ver cuántos puntos le quitan. */
     val saludSinDeudas by lazy { com.rutaalacima.app.domain.model.Salud.de(dias, null, deudas, activos, propias, sinDeudas = true) }
@@ -419,6 +421,12 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     fun bloqueo(si: Boolean) = poner("fin#bloqueo", if (si) "1" else "")
     fun ocultar(si: Boolean) = poner("fin#ocultar", if (si) "1" else "")
     fun cierre(min: Int) = poner("fin#cierre", "$min")
+    fun activarCifrado(ctx: android.content.Context, codigo: String, listo: () -> Unit) = viewModelScope.launch {
+        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) { c.respuestas.activarCifrado(ctx, codigo) }; abiertoHasta = System.currentTimeMillis() + libro.value.minutosCierre * 60_000L; listo()
+    }
+    fun quitarCifrado(ctx: android.content.Context, listo: () -> Unit) = viewModelScope.launch {
+        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) { c.respuestas.quitarCifrado(ctx) }; listo()
+    }
     /** Hasta cuándo queda abierto el módulo tras la huella (5 minutos o hasta salir de la app). */
     var abiertoHasta by mutableStateOf(0L)
     val abierto get() = System.currentTimeMillis() < abiertoHasta
@@ -583,13 +591,21 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
     // Se vuelve a cerrar al salir de la app
     val ciclo = androidx.lifecycle.compose.LocalLifecycleOwner.current
     androidx.compose.runtime.DisposableEffect(ciclo) {
-        val o = androidx.lifecycle.LifecycleEventObserver { _, e -> if (e == androidx.lifecycle.Lifecycle.Event.ON_STOP) vm.abiertoHasta = 0L }
+        val o = androidx.lifecycle.LifecycleEventObserver { _, e -> if (e == androidx.lifecycle.Lifecycle.Event.ON_STOP) { vm.abiertoHasta = 0L; com.rutaalacima.app.seguridad.FinCifrado.cerrar() } }
         ciclo.lifecycle.addObserver(o); onDispose { ciclo.lifecycle.removeObserver(o) }
     }
     // Se cierra solo tras unos minutos sin uso: un reloj revisa cada 10 s y cada toque cuenta como uso
     var reloj by remember { mutableStateOf(0L) }
-    androidx.compose.runtime.LaunchedEffect(Unit) { while (true) { kotlinx.coroutines.delay(10_000); reloj = System.currentTimeMillis() } }
-    val bloqueado = reloj >= 0 && libro.bloqueo && !vm.abierto
+    androidx.compose.runtime.LaunchedEffect(Unit) {
+        while (true) {
+            kotlinx.coroutines.delay(10_000); reloj = System.currentTimeMillis()
+            // Al vencer el tiempo sin uso, la llave del cifrado también se olvida
+            if (libro.bloqueo && !vm.abierto && com.rutaalacima.app.seguridad.FinCifrado.abierta()) com.rutaalacima.app.seguridad.FinCifrado.cerrar()
+        }
+    }
+    val bloqueado = reloj >= 0 && ((libro.cifrado && !com.rutaalacima.app.seguridad.FinCifrado.abierta()) || (libro.bloqueo && !vm.abierto))
+    var pideCodigo by remember { mutableStateOf(false) }
+    val ctxBloqueo = androidx.compose.ui.platform.LocalContext.current
     val alUsar = Modifier.pointerInput(libro.minutosCierre) {
         awaitPointerEventScope { while (true) { awaitPointerEvent(androidx.compose.ui.input.pointer.PointerEventPass.Initial); if (vm.abierto) vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L } }
     }
@@ -627,7 +643,15 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
             )
         },
     ) { padding ->
-        if (bloqueado) { PantallaBloqueo(Modifier.padding(padding)) { vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }; return@Scaffold }
+        if (bloqueado) {
+            val abrir = { vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
+            if (pideCodigo) PantallaCodigoCifrado(Modifier.padding(padding), libro.respuestas["fin#llave"].orEmpty()) { pideCodigo = false; abrir() }
+            else PantallaBloqueo(Modifier.padding(padding)) {
+                // Con cifrado, la huella abre también la llave guardada en el teléfono; si no la tiene, se pide el código
+                if (libro.cifrado && !com.rutaalacima.app.seguridad.FinCifrado.abrirConTelefono(ctxBloqueo)) pideCodigo = true else abrir()
+            }
+            return@Scaffold
+        }
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
