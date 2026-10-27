@@ -3558,3 +3558,53 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
 @media (max-width: 700px) { .bb-der { width: 100%; } .bb-como { margin-left: auto; } }
 .md-extra .md-ritmo-pliegue > summary::after { content: none; }
 .md-extra .md-ritmo-pliegue > summary .suave { margin-left: 0; }
+
+/* Riel completo (computador): General y año primero, luego 1 · 9 · 81, modos, girar, información, fotos, cómo se arma y pantalla completa */
+.md-riel-top { display: none; }
+@media (min-width: 701px) {
+  .brujula-barra { display: none; }
+  .md-escena .md-riel-top { display: contents; }
+  .md-escena .md-riel-on[aria-pressed="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); }
+  .md-escena .md-riel-on[aria-pressed="true"] svg { fill: var(--burdeos); }
+  .md-escena .md-riel-anio { position: relative; }
+  .md-escena .md-riel-anio > summary { list-style: none; } .md-escena .md-riel-anio > summary::-webkit-details-marker { display: none; }
+  .md-escena .md-riel-txt b { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .md-escena .md-riel-txt.activo { background: var(--burdeos); border-color: var(--burdeos); } .md-escena .md-riel-txt.activo b { color: #fff; }
+  .md-escena .md-riel-anio > .bs-panel, .md-escena .md-riel-como > .bb-panel { top: 0; left: auto; right: calc(100% + 12px); }
+  .md-escena .md-riel-anio > .bs-panel { max-height: min(520px, 70vh); }
+  .md-escena .md-riel-fotos { position: relative; cursor: default; } .md-escena .md-riel-fotos .bb-aro { width: 30px; height: 30px; }
+  .md-escena .md-riel-fotos b { position: absolute; font-size: 11px; font-weight: 700; }
+  .md-escena .md-riel-como { position: relative; } .md-escena .md-riel-como > summary { list-style: none; } .md-escena .md-riel-como > summary::-webkit-details-marker { display: none; }
+  .md-escena .md-riel-como > summary svg { fill: var(--oro); }
+  .md-escena > .md-secciones { max-height: calc(100dvh - 120px); overflow-y: auto; scrollbar-width: none; }
+}
+.bs-anio small { color: var(--tinta-suave); font-size: 12px; }
+
+/* Cajones del riel: Tu ritmo, Cierre del año y Planear por campamento se abren junto al riel (computador) */
+.md-cajones { display: grid; gap: 12px; }
+.md-cajon-cab { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; margin-bottom: 10px; }
+.md-cajon-cab > div { display: grid; gap: 2px; } .md-cajon-cab b { font-size: 15px; } .md-cajon-cab .suave { font-size: 13px; }
+.md-cajon-x { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; cursor: pointer; }
+.md-cajon-x svg { width: 20px; height: 20px; fill: var(--tinta-suave); }
+.md-cajon-x.flota { position: absolute; top: 10px; right: 10px; z-index: 2; }
+.md-cajon-planear { position: relative; }
+.md-extra-cierre { display: block; }
+@media (max-width: 700px) { .md-cajon-x { display: none; } }
+@media (min-width: 701px) {
+  .md-escena { position: relative; }
+  .md-escena > .md-secciones { max-height: none; overflow: visible; }
+  .md-escena > .md-cajones { position: absolute; top: 0; right: 74px; width: min(460px, calc(100% - 90px)); z-index: 22; display: block; pointer-events: none; }
+  .md-cajon { display: none; pointer-events: auto; max-height: calc(100dvh - 140px); overflow-y: auto; border-radius: 20px; box-shadow: 0 18px 40px -16px rgb(var(--sombra) / .45); animation: bs-abre .2s cubic-bezier(.2, 0, 0, 1); }
+  .md-cajon.abierto { display: block; }
+  .md-cajon > .hoja, .md-cajon-planear > .hoja { margin: 0; }
+  .md-riel-cajon[aria-pressed="true"] { background: color-mix(in srgb, var(--oro) 20%, var(--hoja)) !important; border-color: color-mix(in srgb, var(--oro) 50%, transparent) !important; }
+}
+/* Los años del menú no heredan las píldoras del riel */
+.md-secciones .bs-panel b { display: inline; min-width: 0; height: auto; padding: 0; border-radius: 0; background: none; color: var(--tinta); font-size: 15px; }
+@media (min-width: 701px) {
+  .md-escena > .md-secciones { gap: 4px; padding: 6px 5px; }
+  .md-escena .md-riel-btn, .md-escena .md-ver-grande { width: 40px; height: 40px; }
+  .md-escena > .md-secciones b { min-width: 34px; height: 34px; }
+  .md-escena .modo-tarj button { width: 36px; height: 36px; }
+  .md-escena .md-nav-sep, .md-escena .md-riel-sep { margin: 1px 0; }
+}

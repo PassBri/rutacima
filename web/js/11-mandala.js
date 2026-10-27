@@ -313,7 +313,7 @@ function ritmoHtml(r) {
     <small>Un paso no se marca: se gana con jornadas, días distintos en que avanzaste en él. Cada 4 tramos la dificultad se ajusta como en Bitcoin: si vas muy rápido, un paso nuevo pide más jornadas; si te frenas, pide menos para que vuelvas. Así llegas a la cumbre el 31 de diciembre.</small></div>`;
 }
 
-function mandalaHtml(tableroHtml = "") {
+function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear = "") {
   const d = Mandala.datos(), b = estado.mandalaBloque ?? 4;
   const compartir = estado.mdCompartir
     ? `<div class="md-compartir"><p>Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale y quién la ve:</p>
@@ -359,7 +359,7 @@ function mandalaHtml(tableroHtml = "") {
   const svg = "";   // las confluencias se marcan con ⇄ en cada paso; las líneas cruzaban toda la grilla
   // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
-  const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">
+  const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${rielArriba ? `<span class="md-riel-top">${rielArriba}</span><span class="md-riel-sep" aria-hidden="true"></span>` : ""}
     ${[[1, "Cumbre"], [9, "Vision board"], [81, "Brújula 9×9"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
@@ -367,6 +367,9 @@ function mandalaHtml(tableroHtml = "") {
     <span class="md-riel-sep" aria-hidden="true"></span>
     <button class="md-riel-btn md-girar-todas" data-acc="mdGirarCapa" aria-label="Girar las tarjetas" title="Girar las tarjetas">${ic("girar")}</button>
     <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
+    ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
+    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["ritmo", "grafica", "Tu ritmo · Método Cima 9×52"], ["cierre", "bandera", "Cierre del año"], ...(planear ? [["planear", "metas", "Planear por campamento"]] : [])].map(([k, i, t]) =>
+      `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
      (girar, pantalla completa e información). La explicación vive en el botón de información, para dar todo el espacio a la brújula. */
@@ -462,10 +465,13 @@ function mandalaHtml(tableroHtml = "") {
   const nv = mdCapaActual();
   const capa = (n, html) => `<section class="md-capa${n === nv ? " activa" : ""}" data-capa="${n}"${n === nv ? "" : " hidden"}>${html}</section>`;
   /* Todos los botones van en un riel a la derecha (en el computador): más espacio para la cumbre, el vision board y el 9×9 */
-  return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div></div>` +
-    /* Debajo de la brújula, ordenado en tarjetas: el ritmo del año y el cierre, lado a lado */
-    `<div class="md-extras">` + hoja(`<details class="md-ritmo-pliegue"><summary><span class="sec-ic">${ic("grafica")}</span><span class="mx-tx"><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></span>${ic("abajo")}</summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`, "md-extra") +
-    hoja(`<span class="sec-ic">${ic("bandera")}</span>` + cierreHtml(d), "md-extra md-extra-cierre") + `</div>`;
+  /* Ritmo, cierre del año y planear por campamento viven en cajones que se abren desde el riel de la derecha:
+     la vista queda limpia para la cumbre, el vision board y el 9×9 (en el teléfono se ven debajo, como antes) */
+  const cajon = (k, html) => `<div class="md-cajon${estado.mdCajon === k ? " abierto" : ""}" data-cajon="${k}">${html}</div>`;
+  const cajones = cajon("ritmo", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("grafica")}</span><div><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="ritmo" aria-label="Cerrar">${ic("cerrar")}</button></div>${ritmoHtml(d.ritmo)}`, "md-extra")) +
+    cajon("cierre", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("bandera")}</span><div><b>Cierre del año</b><span class="suave">Desde la Cima</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="cierre" aria-label="Cerrar">${ic("cerrar")}</button></div>${cierreHtml(d)}`, "md-extra md-extra-cierre")) +
+    (planear ? cajon("planear", `<div class="md-cajon-planear"><button class="md-cajon-x flota" data-acc="mdCajon" data-arg="planear" aria-label="Cerrar">${ic("cerrar")}</button>${planear}</div>`) : "");
+  return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div><div class="md-cajones">${cajones}</div></div>`;
 }
 
 
@@ -1057,3 +1063,11 @@ ACC.mdGirarCapa = el => {
   ACC.girarTodasVision(el);
 };
 ACC.mdVisorCapa = el => ACC.mdVisor(el, String({ 1: 0, 9: 1, 81: 2 }[mdCapaActual()]));
+
+/* Cajones del riel: se abren y cierran sin redibujar (uno a la vez) */
+ACC.mdCajon = (el, k) => {
+  estado.mdCajon = estado.mdCajon === k ? null : k;
+  document.querySelectorAll(".md-cajon").forEach(c => c.classList.toggle("abierto", c.dataset.cajon === estado.mdCajon));
+  document.querySelectorAll(".md-riel-cajon").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.arg === estado.mdCajon)));
+};
+document.addEventListener("keydown", e => { if (e.key === "Escape" && estado.mdCajon && document.querySelector(".md-cajon.abierto")) ACC.mdCajon(null, estado.mdCajon); });

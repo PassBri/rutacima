@@ -433,7 +433,7 @@ const DET = {
   /* ---------- Mi ruta: Cumbre y Brújula (la visión de toda la vida) ---------- */
   vida() {
     return cab(av(ic("brujula"), "var(--burdeos)"), "Brújula", "Tu cumbre, tu vision board y los 81 pasos del 9×9") + cuerpo(
-      visionCompleta() + (window.visionVida ? visionVida() : ""));
+      visionCompleta(window.visionVida ? visionVida() : ""));
   },
   /* ---------- Mi ruta: Mapa de mi vida (el tiempo): recordatorio del día y un punto por año ---------- */
   puntos() {
@@ -1338,30 +1338,43 @@ DET["perfil.vision"] = () => {
 };
 /** El vision board completo (cumbre 1 · vision board 9 · Brújula 81): el mismo en Perfil y en Mi vida.
  * Arriba se elige cuál: la General (toda tu vida) o la de un año. */
-/** Qué Brújula ver: la General o la de un año. Un botón abre el menú de años con la cumbre de cada uno. */
+/** Qué Brújula ver: la General o la de un año. Los años van de tu nacimiento hasta tu meta de vida (100 o 120),
+ *  con la edad de cada uno; arriba, los que ya tienen Brújula con su cumbre. */
+const cumbreDeAnio = y => { const cs = casillasDe(y); if (!cs.length) return null; const { cumbre } = Mandala.repartir(cs); return cumbre?.titulo || cs[0]?.titulo || "Brújula creada"; };
+function aniosDeLaVida() {
+  const hoy = new Date().getFullYear(), nac = perfil().anioNacimiento, creados = aniosBrujula().filter(y => casillasDe(y).length);
+  const desde = nac ? nac + 1 : Math.min(hoy - 2, ...creados), hasta = nac ? nac + metaVida() : Math.max(hoy + 6, ...creados);
+  const r = []; for (let y = desde; y <= hasta; y++) r.push(y);
+  return { anios: r, creados, nac, hoy };
+}
+function panelAnios() {
+  const a = estado.brujulaAnio || null, { anios, creados, nac, hoy } = aniosDeLaVida();
+  const fila = y => { const c = cumbreDeAnio(y); return `<button type="button" role="menuitemradio" aria-checked="${y === a}" class="bs-anio${c ? " creada" : ""}${y === hoy ? " hoy" : ""}" data-acc="brujulaAnio" data-arg="${y}"${y === hoy ? ' data-hoy="1"' : ""}>
+      <b>${y}</b><span>${nac ? `<small>${y - nac} ${y - nac === 1 ? "año" : "años"}</small> · ` : ""}${c ? esc(c) : y < hoy ? "Sin Brújula" : "Crear su Brújula"}</span>${y === hoy ? `<em>este año</em>` : ""}${c ? ic("check") : ic("mas")}</button>`; };
+  return `<div class="bs-panel" role="menu">
+    ${creados.length ? `<p class="bs-tit">Cumbres creadas</p>${creados.map(fila).join("")}` : ""}
+    <p class="bs-tit">${nac ? `Toda tu vida · de ${anios[0]} a ${anios[anios.length - 1]}` : "Elige un año"}</p>${anios.filter(y => !creados.includes(y)).map(fila).join("")}
+    ${nac ? "" : `<p class="bs-tit">Escribe tu año de nacimiento en Perfil para ver toda tu vida, de 1 a ${metaVida()} años.</p>`}</div>`;
+}
 function selectorBrujula() {
-  const a = estado.brujulaAnio || null, hoy = new Date().getFullYear();
-  const cumbreDe = y => { const cs = casillasDe(y); if (!cs.length) return null; const { cumbre } = Mandala.repartir(cs); return cumbre?.titulo || cs[0]?.titulo || "Brújula creada"; };
-  const creados = aniosBrujula().filter(y => casillasDe(y).length);
-  const desde = Math.min(hoy - 2, ...creados), hasta = Math.max(hoy + 6, ...creados);
-  const anios = []; for (let y = desde; y <= hasta; y++) anios.push(y);
-  const fila = y => { const c = cumbreDe(y); return `<button type="button" role="menuitemradio" aria-checked="${y === a}" class="bs-anio${c ? " creada" : ""}${y === hoy ? " hoy" : ""}" data-acc="brujulaAnio" data-arg="${y}">
-      <b>${y}</b><span>${c ? esc(c) : y < hoy ? "Sin Brújula" : "Crear su Brújula"}</span>${y === hoy ? `<em>este año</em>` : ""}${c ? ic("check") : ic("mas")}</button>`; };
-  const actual = a ? cumbreDe(a) : null;
+  const a = estado.brujulaAnio || null, actual = a ? cumbreDeAnio(a) : null;
   return `<div class="brujula-sel">
     <button type="button" role="tab" class="bs-general" aria-selected="${!a}" data-acc="brujulaAnio" data-arg="">${ic("cima")}<span>General</span></button>
     <details class="bs-menu"><summary role="button" aria-label="Elegir año" class="${a ? "activo" : ""}">${ic("hoy")}<span>${a ? `<b>${a}</b>${actual ? ` · ${esc(actual)}` : " · sin crear"}` : "Elegir año"}</span>${ic("abajo")}</summary>
-      <div class="bs-panel" role="menu">
-        ${creados.length ? `<p class="bs-tit">Cumbres creadas</p>${creados.map(fila).join("")}` : ""}
-        <p class="bs-tit">${creados.length ? "Otros años" : "Elige un año para crear su Brújula"}</p>${anios.filter(y => !creados.includes(y)).map(fila).join("")}
-      </div></details></div>`;
+      ${panelAnios()}</details></div>`;
+}
+/** Lo mismo, como botones del riel de la derecha (computador). */
+function rielBrujula() {
+  const a = estado.brujulaAnio || null;
+  return `<button class="md-riel-btn md-riel-on" data-acc="brujulaAnio" data-arg="" aria-pressed="${!a}" aria-label="Brújula general" title="Brújula general">${ic("cima")}</button>
+    <details class="bs-menu md-riel-anio"><summary class="md-riel-btn md-riel-txt${a ? " activo" : ""}" aria-label="Elegir año" title="${a ? `Brújula de ${a}` : "Elegir año"}">${a ? `<b>${String(a).slice(2)}</b>` : ic("hoy")}</summary>${panelAnios()}</details>`;
 }
 function vistaPreviaBrujula() {
   const ps = proponerVision(), orden = [1, 2, 3, 4, 0, 5, 6, 7, 8];
   return `<div class="brujula-previa" aria-hidden="true">${orden.map(k => { const p = ps[k]; if (!p) return "<span></span>";
     const cod = p.origen.split(":")[1]; return `<span class="${k ? "" : "centro"}" style="--c:${k ? (Mandala.COLORES[cod] || COLOR_EJE[cod] || "var(--burdeos)") : "var(--oro)"}"><b>${esc(k ? Mandala.nombre(cod) : p.titulo)}</b><small>${esc(p.afirmacion)}</small></span>`; }).join("")}</div>`;
 }
-function visionCompleta() {
+function visionCompleta(planear = "") {
   if (!estado.misPosts) cargarMisPosts();
   const cs = casillasVision(), conFoto = cs.filter(c => fotoDePublicacion(c.publicacionId)).length, a = estado.brujulaAnio || null;
   const ayudaPct = `<details class="avance-m3-ayuda"><summary>¿De dónde sale el % de cada casilla?</summary>
@@ -1375,7 +1388,7 @@ function visionCompleta() {
       <p>${a ? `Nace de tu palabra del año y de tus metas de ${a}: una cumbre para el año y 8 campamentos con sus 64 pasos. Tu Brújula general no cambia.`
         : "Tu cumbre al centro, 8 campamentos alrededor y 64 pasos pequeños. Así se verá con lo que ya escribiste:"}</p>
       ${vistaPreviaBrujula()}<div class="botones">${botones}</div>
-      <p class="suave" style="margin:10px 0 0">Después lo llenas con tus fotos: cada imagen es de tu vida, no de un catálogo.</p></div>`);
+      <p class="suave" style="margin:10px 0 0">Después lo llenas con tus fotos: cada imagen es de tu vida, no de un catálogo.</p></div>`) + planear;
   }
   const rehacer = armandoVision ? `<span class="suave">Armando tu tablero…</span>`
     : `<button class="btn mini" data-acc="armarVision"${a ? ` data-arg="datos"` : ""}>${ic(a ? "girar" : "ia")} Volver a proponer</button><span class="suave">Solo cambian las casillas que aún no tienen foto.</span>`;
@@ -1388,8 +1401,14 @@ function visionCompleta() {
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
         ${ayudaPct}<div class="botones">${rehacer}</div>
         ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</div></details></div></div>` +
-    mandalaHtml("");
+    mandalaHtml("", rielBrujula(), `<span class="md-riel-btn md-riel-fotos" title="${conFoto} de ${cs.length} casillas con tu foto" aria-label="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}</b></span>
+      <details class="bb-como md-riel-como"><summary class="md-riel-btn" aria-label="Cómo se arma tu Brújula" title="Cómo se arma">${ic("ia")}</summary><div class="bb-panel">
+        <h4>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</h4>
+        <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
+        ${ayudaPct}<div class="botones">${rehacer}</div></div></details>`, planear);
 }
-/* El menú de años de la Brújula se cierra al tocar fuera o con Escape */
+/* El menú de años de la Brújula se cierra al tocar fuera o con Escape; al abrirlo, muestra el año elegido (o este año) */
+document.addEventListener("toggle", e => { const d = e.target; if (!d.classList?.contains("bs-menu") || !d.open) return;
+  (d.querySelector('.bs-anio[aria-checked="true"]') || d.querySelector(".bs-anio[data-hoy]"))?.scrollIntoView({ block: "center" }); }, true);
 document.addEventListener("pointerdown", e => { document.querySelectorAll(".bs-menu[open], .bb-como[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".bs-menu[open], .bb-como[open]").forEach(d => { d.open = false; }); });
