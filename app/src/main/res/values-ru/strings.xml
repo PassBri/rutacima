@@ -2488,7 +2488,4 @@
     <string name="fa_listo">Готово: компьютер теперь может открыть твои финансы</string>
     <string name="fa_error">Не удалось подтвердить. Создай новый QR в вебе.</string>
     <string name="fa_cuenta">Войди в приложение, чтобы подтвердить веб.</string>
-    <string name="vis_llenar_metas">Заполнить шаги моими целями</string>
-    <string name="vis_llenar_listo">Готово: записано шагов — %1$d по твоим целям на %2$d год</string>
-    <string name="vis_llenar_nada">В твоих лагерях не было пустых шагов или целей на этот год</string>
 </resources>

@@ -2488,7 +2488,4 @@
     <string name="fa_listo">完成：你的电脑现在可以打开你的财务了</string>
     <string name="fa_error">无法批准。请在网页上生成新的二维码。</string>
     <string name="fa_cuenta">请先在应用中登录再批准网页。</string>
-    <string name="vis_llenar_metas">用我的目标填写步骤</string>
-    <string name="vis_llenar_listo">完成：已用你 %2$d 年的目标写好 %1$d 个步骤</string>
-    <string name="vis_llenar_nada">你的营地里没有空步骤，或今年没有目标</string>
 </resources>

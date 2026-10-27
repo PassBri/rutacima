@@ -2488,7 +2488,4 @@
     <string name="fa_listo">हो गया: अब आपका कंप्यूटर आपका वित्त खोल सकता है</string>
     <string name="fa_error">स्वीकृति नहीं हो सकी। वेब पर नया QR बनाएँ।</string>
     <string name="fa_cuenta">वेब को स्वीकृत करने के लिए ऐप में साइन इन करें।</string>
-    <string name="vis_llenar_metas">मेरे लक्ष्यों से कदम भरें</string>
-    <string name="vis_llenar_listo">हो गया: %2$d के आपके लक्ष्यों से %1$d कदम लिखे गए</string>
-    <string name="vis_llenar_nada">आपके शिविरों में इस साल के खाली कदम या लक्ष्य नहीं थे</string>
 </resources>
