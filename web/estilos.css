@@ -3791,3 +3791,7 @@ button.md-ganado { border: 1px solid color-mix(in srgb, var(--c, var(--burdeos))
 button.md-ganado.no { background: transparent; font-weight: 600; color: var(--tinta-suave); border-color: var(--linea); }
 button.md-ganado:disabled { opacity: .5; cursor: default; }
 .md-grande .md-paso.con-evid button.md-ganado { background: rgb(0 0 0 / .35); border-color: rgb(255 255 255 / .6); }
+/* Campamentos: la frase de cada tarjeta va centrada (horizontal y vertical) */
+.tablero-9 .dorso.compacta .dorso-lectura { display: flex; flex-direction: column; height: 100%; }
+.tablero-9 .dorso.compacta .lect-frase { text-align: center; margin: auto 0; padding: 0 4px; }
+.tablero-9 .dorso.compacta .casilla-frase, .tablero-9 .dorso.compacta .casilla-apodo { text-align: center; }

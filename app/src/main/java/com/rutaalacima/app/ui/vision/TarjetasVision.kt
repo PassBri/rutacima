@@ -274,8 +274,10 @@ private fun DorsoLectura(
     Column(contenido, verticalArrangement = Arrangement.spacedBy(if (compacta) 4.dp else 12.dp)) {
         if (apodo.isNotBlank()) Text(stringResource(R.string.apodo_entre_comillas, apodo), color = tinta,
             style = if (compacta) MaterialTheme.typography.labelSmall else MaterialTheme.typography.titleSmall)
-        Box(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), contentAlignment = Alignment.CenterStart) {
-            Text(cv.casilla.afirmacion.ifBlank { cv.casilla.titulo }, style = estilo, fontWeight = FontWeight.Bold, color = tinta)
+        // En la tarjeta pequeña (Campamentos) la frase va centrada
+        Box(Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()), contentAlignment = if (compacta) Alignment.Center else Alignment.CenterStart) {
+            Text(cv.casilla.afirmacion.ifBlank { cv.casilla.titulo }, style = estilo, fontWeight = FontWeight.Bold, color = tinta,
+                textAlign = if (compacta) androidx.compose.ui.text.style.TextAlign.Center else null, modifier = if (compacta) Modifier.fillMaxWidth() else Modifier)
         }
         Text(stringResource(R.string.vision_estado_porcentaje, estado, porcentaje), color = tinta,
             style = MaterialTheme.typography.labelSmall)
@@ -325,7 +327,7 @@ private fun DorsoCompacto(cv: CasillaVista, apodo: String, porcentaje: Int, acci
     val id = cv.casilla.id
     Column(modifier.padding(5.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
         CampoTarjetaTexto(cv.casilla.afirmacion, stringResource(R.string.vision_frase), { acciones.onCampo(id, CampoTarjeta.FRASE, it) },
-            Modifier.fillMaxWidth().weight(1f), compacto = true)
+            Modifier.fillMaxWidth().weight(1f), compacto = true, centrado = true)
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             EstadoTarjeta(porcentaje, { acciones.onPorcentaje(id, siguienteEstado(porcentaje)) }, Modifier.weight(1f), compacto = true)
             IconButton(onClick = onAmpliar, modifier = Modifier.size(26.dp)) {
