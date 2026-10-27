@@ -856,7 +856,7 @@ const Contenido = {
     if (estado.sel === "wb:" + id) pintarDetalle();
   },
 };
-const respuesta = clave => Store.get("respuesta", clave)?.valor || "";
+const respuesta = clave => { const v = Store.get("respuesta", clave)?.valor || ""; return window.finLeer ? finLeer(clave, v) : v; };
 function responder(wb, clave, valor) {
   if (!valor) return Store.borrar("respuesta", clave);
   return Store.guardar("respuesta", { clave, workbookId: wb, valor: String(valor), actualizadoEn: Date.now() }, clave);

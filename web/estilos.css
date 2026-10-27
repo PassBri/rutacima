@@ -3781,3 +3781,6 @@ html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
 .cp .cp-flag span { flex: 1; }
 .capas .seg.cierre-min { display: inline-grid; grid-template-columns: repeat(3, auto); gap: 4px; flex: none; }
 .capas .seg.cierre-min .seg-b { padding: 0 10px; min-height: 34px; font-size: 13px; white-space: nowrap; }
+.cod-rec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px 14px; margin: 10px 0; padding: 14px 16px 14px 34px; border-radius: 14px; background: color-mix(in srgb, var(--oro) 12%, var(--hoja)); font: 600 15px/1.6 var(--font-titulo); }
+@media (max-width: 480px) { .cod-rec { grid-template-columns: repeat(2, 1fr); } }
+.bloqueo-fin textarea { width: 100%; min-height: 84px; border: 1px solid var(--linea); border-radius: 12px; padding: 10px 12px; background: var(--hoja); color: var(--tinta); font: 16px/1.5 var(--font-ui, inherit); resize: vertical; }
