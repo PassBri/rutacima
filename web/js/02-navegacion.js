@@ -155,7 +155,8 @@ const LISTAS = {
   metas() {
     const c = cascada(), anioHoy = new Date().getFullYear();
     const anios = [...new Set(c.anuales.map(x => x.anio))].sort((x, y) => x - y);
-    let h = cabLista("Metas", { chips: [["todo", "Todo"], ["prop", "Propósitos"], ["anio", `${anioHoy}`], ["mes", "Este mes"]], nuevo: ["nuevo", "Nueva meta"] }) + `<div class="items">`;
+    let h = cabLista("Metas", { chips: [["todo", "Todo"], ["prop", "Propósitos"], ["anio", `${anioHoy}`], ["mes", "Este mes"]], nuevo: ["nuevo", "Nueva meta"] }) +
+      (window.Sincro && Store.lista("vision").length ? `<div class="sm-rehacer"><span class="suave">Tus metas salen de tu Brújula</span><button class="btn mini" data-acc="rehacerMetas" title="Quita tus metas y propósitos actuales (con respaldo) y los vuelve a crear desde la Brújula">${ic("brujula")} Rehacer desde la Brújula</button></div>` : "") + `<div class="items">`;
     const f = estado.filtro;
     if (f === "todo" || f === "prop") {
       h += grupo("Propósitos a largo plazo");

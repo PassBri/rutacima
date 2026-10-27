@@ -529,7 +529,7 @@ const DET = {
         ${campo("Descripción", area("proposito", k, "descripcion", p.descripcion))}
         ${campo("Indicador de éxito", area("proposito", k, "indicadorExito", p.indicadorExito, "¿Cómo sabrás que llegaste?"))}
         ${campo("¿Por qué me importa?", area("proposito", k, "porQueImporta", p.porQueImporta))}
-        ${campo("Metas específicas (una por línea)", area("proposito", k, "metasEspecificas", p.metasEspecificas))}
+        ${campo("Metas específicas", window.subMetasHtml ? subMetasHtml("proposito", p) : area("proposito", k, "metasEspecificas", p.metasEspecificas))}
         ${campo("Visualización", area("proposito", k, "visualizacion", p.visualizacion))}</div>`) +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Plan de acción</div></div>
         ${acciones.map(x => `<label class="check"><input type="checkbox" ${bind("accion", x.id, "hecha", "bool")} ${x.hecha ? "checked" : ""}><span>${esc(x.texto)}</span>
@@ -555,7 +555,7 @@ const DET = {
           ${campo("Decisión", sel("meta_anio", k, "decision", m.decision || "CONTINUAR", DECISIONES))}</div>
         ${hijos.length ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoAnio(m))}, el promedio de sus metas del mes.</p>`
           : campo("Avance manual", `<div class="rango"><input type="range" min="0" max="100" step="5" value="${m.avance || 0}" ${bind("meta_anio", k, "avance", "num")}><b>${m.avance || 0}%</b></div>`)}
-        ${campo("Sub-metas (una por línea)", area("meta_anio", k, "subMetas", m.subMetas))}
+        ${campo("Sub-metas", window.subMetasHtml ? subMetasHtml("meta_anio", m) : area("meta_anio", k, "subMetas", m.subMetas))}
         ${campo("Indicador", txt("meta_anio", k, "indicador", m.indicador))}
         ${campo("Evidencia observable", area("meta_anio", k, "observable", m.observable, "¿Cómo sabrás que la lograste?"))}
         ${campo("Obstáculo", area("meta_anio", k, "obstaculo", m.obstaculo))}

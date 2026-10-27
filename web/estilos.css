@@ -3850,3 +3850,29 @@ html[data-modo-tarjetas="texto"] .md-grande .mdp.con-evid :is(.mdp-prog, .mdp-es
 html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%, var(--tinta)); }
 @media (prefers-color-scheme: dark) { html:not([data-theme="light"]) .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%, var(--tinta)); } }
 .md-c.md-hecho .mdp-num { color: #fff !important; }
+
+/* Sub-metas una por una (Metas ↔ pasos de la Brújula) */
+.sm { display: grid; gap: 6px; }
+.sm-fila { display: flex; align-items: center; gap: 8px; padding: 4px 4px 4px 6px; border-radius: 12px; border: 1px solid var(--linea); background: var(--hoja); }
+.sm-fila.ganada { background: color-mix(in srgb, var(--oro-suave) 60%, var(--hoja)); }
+.sm-check { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--linea); background: transparent; color: transparent; cursor: pointer; padding: 0; }
+.sm-check svg { width: 16px; height: 16px; fill: currentColor; }
+.sm-check[aria-pressed="true"] { background: var(--burdeos); border-color: var(--burdeos); color: #fff; }
+.sm-punto { flex: none; width: 8px; height: 8px; margin: 0 10px; border-radius: 50%; background: var(--tinta-suave); opacity: .5; }
+.sm-fila input.sm-texto { box-shadow: none; outline: none; border-radius: 0; height: auto; }
+.sm-texto { flex: 1; min-width: 0; border: 0; background: transparent; font: inherit; font-size: 16px; color: var(--tinta); padding: 6px 2px; }
+.sm-texto:focus { outline: none; }
+.sm-fila:focus-within { border-color: var(--burdeos); }
+.sm-fila.ganada .sm-texto { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--tinta) 40%, transparent); }
+.sm-donde { flex: none; font-size: 11px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.sm-quitar { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--tinta-suave); cursor: pointer; }
+.sm-quitar svg { width: 16px; height: 16px; fill: currentColor; }
+@media (hover: hover) and (pointer: fine) { .sm-quitar:hover { background: var(--hoja-2); color: var(--burdeos); } }
+.sm-nueva { display: flex; gap: 8px; align-items: center; }
+.sm-nueva input { flex: 1; min-width: 0; font-size: 16px; padding: 8px 12px; border-radius: 12px; border: 1px dashed var(--linea); background: transparent; color: var(--tinta); }
+.sm-nota { display: flex; align-items: center; gap: 6px; margin: 2px 0 0; font-size: 12px; }
+.sm-nota svg { width: 14px; height: 14px; fill: currentColor; flex: none; }
+.sm-vacio { margin: 0; font-size: 13px; }
+.sm-rehacer { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 4px 16px 10px; font-size: 12px; }
+.campo .sm-fila input.sm-texto { border: 0; background: transparent; width: auto; padding: 6px 2px; border-radius: 0; }
+.campo .sm-nueva input { border-style: dashed; background: transparent; }
