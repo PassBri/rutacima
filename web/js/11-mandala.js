@@ -238,10 +238,15 @@ function mdCelda(d, cel, grande) {
   }
   const est = Mandala.estado(camp?.id, cel.paso), texto = camp ? respuesta(Mandala.clave(camp.id, cel.paso)) : "";
   const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1}</small>`;
-  if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
-      ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}${fase}
-      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
-      ${mdJornadas(d, cel, camp, texto)}${d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla grande">☁</span>` : ""}${d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace">⇄ ${d.enlaces(cel.camp, cel.paso).map(x => Mandala.nombre(x)).join(", ")}</span>` : ""}</span>`;
+  if (grande && camp) {
+    const gan = d.pasoCima(cel.camp, cel.paso).cumplido, enl = d.enlaces(cel.camp, cel.paso);
+    return `<span class="md-c md-paso mdp md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
+      ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}
+      <span class="mdp-cab"><b class="mdp-num" aria-hidden="true">${gan ? ic("check") : cel.paso + 1}</b>${gan ? `<span class="mdp-estado">Ganado</span>` : ""}${enl.length ? `<span class="mdp-enl" title="Paso de confluencia con ${enl.map(x => Mandala.nombre(x)).join(", ")}">⇄ ${enl.map(x => Mandala.nombre(x)).join(", ")}</span>` : ""}
+        <button class="mdp-ic" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}" aria-label="Detalles del paso ${cel.paso + 1}" title="Detalles, evidencia y portal">${ic("masH")}</button></span>
+      <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="Escribe el paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
+      ${mdJornadas(d, cel, camp, texto)}${d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla grande">☁</span>` : ""}</span>`;
+  }
   const extra = (d.niebla(cel.camp, cel.paso) ? `<span class="md-niebla" title="Niebla: más de ${Travesia.NIEBLA_DIAS} días sin avanzar">☁</span>` : "") +
     (d.enlaces(cel.camp, cel.paso).length ? `<span class="md-enlace" title="Paso de confluencia">⇄</span>` : "");
   const t81 = camp ? `<textarea class="md-t81" data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(mdNombre(camp))}">${esc(texto)}</textarea>` : "";
@@ -251,13 +256,13 @@ function mdCelda(d, cel, grande) {
 /** Jornadas de un paso y el botón para registrar la de hoy. */
 function mdJornadas(d, cel, camp, texto) {
   const p = d.pasoCima(cel.camp, cel.paso);
-  if (p.cumplido) return `<button class="md-ganado" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="true" title="Quitar el paso ganado">✓ Paso ganado</button>
-    <button class="btn mini" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">${mdFotoPaso(camp, cel.paso) ? "Evidencia y portal" : "📷 Evidencia y portal"}</button>`;
+  if (p.cumplido) return `<span class="md-jornadas mdp-pie"><span class="mdp-acc">
+    <button class="btn mini mdp-prim" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">${ic("foto")} Evidencia</button>
+    <button class="md-ganado mdp-chip" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="true" title="Quitar el paso ganado">${ic("check")} Ganado</button></span></span>`;
   const req = p.req || d.ritmo.dificultad, hoyListo = p.jornadas.includes(iso(new Date()));
-  return `<span class="md-jornadas"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i>
-    <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button>
-    <button class="md-ganado no" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="false" ${!texto.trim() ? "disabled" : ""} title="Marcar el paso como ganado">○ Marcar ganado</button>
-    <button class="md-mas" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">Detalles</button></span>`;
+  return `<span class="md-jornadas mdp-pie"><span class="mdp-prog"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i></span>
+    <span class="mdp-acc"><button class="btn mini mdp-prim" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button>
+    <button class="md-ganado no mdp-chip" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="false" ${!texto.trim() ? "disabled" : ""} title="Marcar el paso como ganado">${ic("check")} Ganado</button></span></span>`;
 }
 /** Paso ganado: se activa y se desactiva. Al quitarlo, la última jornada sale para que no vuelva a contar como ganado. */
 ACC.mdGanado = async (_, arg) => {
@@ -355,7 +360,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     const html = mdCelda(d, cel, true);
     if (cel.tipo === "CAMPAMENTO" && cel.copia) return d.camps[cel.camp] ? `<button data-acc="mandalaBloque" data-arg="${Mandala.ANILLO[cel.camp]}">${html}</button>` : `<button data-acc="crearCampamento" data-arg="${Mandala.CAMPAMENTOS_FIJOS[cel.camp]}">${html}</button>`;
     if (cel.tipo === "CAMPAMENTO") return `<button data-acc="mandalaBloque" data-arg="4">${html}</button>`;
-    return `<div>${html}</div>`;
+    return `<div${cel.tipo === "PASO" ? ` style="--o:${cel.paso + 1}"` : ""}>${html}</div>`;
   }).join("");
   const cod = camp >= 0 ? Mandala.CAMPAMENTOS_FIJOS[camp] : null;
   const titulo = camp < 0 ? d.titulo : cs ? mdNombre(cs) : "Campamento libre";
@@ -413,12 +418,12 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
       <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button>${cod === "CAM" ? `<button class="btn mini" data-acc="abrirCompanero">${ic("companero")} Compañero de Ascenso</button>` : ""}</div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
     : `<div class="md-bloque-cab">${mdAnillo(pctC, "")}<div><small>Centro · tu cumbre y sus 8 campamentos</small><h4>${esc(d.titulo)}</h4></div></div>`;
-  const editorBloque = `<div id="md-bloque"></div><div class="md-bloque-barra"><button class="btn mini" data-acc="md81" data-arg="">${ic("volver")} Los 81</button>
+  const editorBloque = `<div id="md-bloque"></div><div class="md-bloque-wrap"><div class="md-bloque-barra"><button class="btn mini" data-acc="md81" data-arg="">${ic("volver")} Los 81</button>
       <span class="md-minimapa" role="group" aria-label="Cambiar de bloque">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<button class="md-mini${bl === b ? " elegido" : ""}" data-acc="mandalaBloque" data-arg="${bl}" aria-label="Bloque ${bl + 1}" style="--c:${bl === 4 ? "var(--oro)" : d.color(Mandala.ANILLO.indexOf(bl))}"></button>`).join("")}</span></div>
     ${camposBloque}${camp >= 0 && !cs ? "" : mdBarraAvance(d, camp)}<div class="md-grande">${grande}</div>${mdPanelPaso(d)}
     <div class="botones" style="margin-top:12px">${cs ? `<button class="btn" data-acc="mandalaSugerir" data-arg="${cs.id}">${ic("ia")} Sugerir pasos</button>` : ""}
     ${camp >= 0 && !cs ? `<button class="btn" data-acc="crearCampamento" data-arg="${cod}">${ic("mas")} Agregar campamento</button>` : ""}
-    ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div>`;
+    ${camp >= 0 ? `<button class="btn mini" data-acc="mandalaBloque" data-arg="4">Ver el centro</button>` : ""}</div></div>`;
   /* Al tocar un bloque, se abre ahí mismo en lugar de los 81 (sin bajar); "Los 81" vuelve a la grilla. */
   const s81 = hoja(cabSec("md-s81", "81", "Ruta", "Lo más pequeño: los 64 pasos. En Edición escribes directo en cada casilla; en Imagen o Texto, toca un bloque para abrirlo con sus jornadas.",
     !estado.md81 ? `<button class="md-visor-ic md-girar-todas" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Girar al texto" : "Girar a las imágenes"}" title="Girar la tarjeta">${ic("girar")}</button>` : "") +

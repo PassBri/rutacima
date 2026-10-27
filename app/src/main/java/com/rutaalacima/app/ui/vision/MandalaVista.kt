@@ -15,6 +15,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -49,6 +50,7 @@ import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Hub
 import androidx.compose.material.icons.filled.Landscape
 import androidx.compose.material.icons.filled.OpenInFull
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
@@ -81,6 +83,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -254,7 +257,9 @@ fun MandalaSeccion(
             key(bloqueAbierto) {
                 Bloque(datos, bloqueAbierto, onElegirBloque = { onBloque(it) }, onPaso = { i, p -> editando = i to p },
                     onSugerir = onSugerir, onAgregarCampamento = onAgregarCampamento, modoTexto = modoTexto,
-                    onTextoPaso = { i, p, texto -> datos.casilla(i)?.let { onPaso(it.casilla, p, texto) } })
+                    onTextoPaso = { i, p, texto -> datos.casilla(i)?.let { onPaso(it.casilla, p, texto) } },
+                    onAvanzarPaso = { i, p -> datos.casilla(i)?.let { onAvanzar(it.casilla, p) } },
+                    onGanadoPaso = { i, p, si -> datos.casilla(i)?.let { onGanado(it.casilla, p, si) } })
             }
         }
         if (!modoTexto && !modoEdicion && bloqueAbierto == null) LeyendaCalor()
@@ -494,6 +499,8 @@ private fun Bloque(
     soloLectura: Boolean = false,
     modoTexto: Boolean = false,
     onTextoPaso: ((Int, Int, String) -> Unit)? = null,
+    onAvanzarPaso: ((Int, Int) -> Unit)? = null,
+    onGanadoPaso: ((Int, Int, Boolean) -> Unit)? = null,
 ) {
     val vacio = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f)
     val campamento = Mandala.ANILLO.indexOf(bloque)          // −1 en el bloque central
@@ -508,7 +515,12 @@ private fun Bloque(
             stringResource(R.string.brujula_campamento_de, nombreCodigo(datos.codigo(campamento)), Mandala.RUMBOS[campamento]),
             style = MaterialTheme.typography.labelLarge, color = datos.color(campamento),
         )
-        BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {
+        // Un campamento abierto para editar: sus 8 pasos en tarjetas Material 3, del 1 al 8 (como la web en el teléfono)
+        if (cv != null && onTextoPaso != null && onAvanzarPaso != null && onGanadoPaso != null && !soloLectura) {
+            for (p in 0 until Mandala.PASOS) TarjetaPaso(datos, campamento, p,
+                onTexto = { onTextoPaso(campamento, p, it) }, onAvanzar = { onAvanzarPaso(campamento, p) },
+                onGanado = { onGanadoPaso(campamento, p, it) }, onDetalle = { onPaso(campamento, p) })
+        } else BoxWithConstraints(Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(16.dp))) {
             val ancho = maxWidth / 3
             val alto = ancho
             Column {
@@ -555,6 +567,59 @@ private fun Bloque(
                 Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.mandala_agregar_campamento))
             }
             if (campamento >= 0) TextButton(onClick = { onElegirBloque(4) }) { Text(stringResource(R.string.mandala_ver_centro)) }
+        }
+    }
+}
+
+/** Un paso del campamento en una tarjeta: número, texto editable, jornadas y las dos acciones del día. */
+@Composable
+private fun TarjetaPaso(
+    datos: DatosMandala, campamento: Int, p: Int,
+    onTexto: (String) -> Unit, onAvanzar: () -> Unit, onGanado: (Boolean) -> Unit, onDetalle: () -> Unit,
+) {
+    val color = datos.color(campamento)
+    val paso = datos.pasoCima(campamento, p)
+    val texto = datos.paso(campamento, p)
+    val ganado = paso.cumplido
+    val req = paso.requeridas ?: datos.ritmo.dificultad
+    val hoyListo = LocalDate.now() in paso.jornadas
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = lerp(MaterialTheme.colorScheme.surface, color, if (ganado) .18f else .06f),
+        border = androidx.compose.foundation.BorderStroke(1.dp, color.copy(alpha = if (ganado) .45f else .22f)),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(start = 12.dp, end = 4.dp, top = 6.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(28.dp).clip(CircleShape).background(if (ganado) color else color.copy(alpha = .16f)), contentAlignment = Alignment.Center) {
+                    if (ganado) Icon(Icons.Filled.Check, null, Modifier.size(16.dp), tint = Color.White)
+                    else Text("${p + 1}", style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold, color = color)
+                }
+                if (ganado) Text(stringResource(R.string.metodo_ganado), Modifier.padding(start = 8.dp), style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold, color = color)
+                Spacer(Modifier.weight(1f))
+                IconButton(onClick = onDetalle) { Icon(Icons.Filled.MoreHoriz, stringResource(R.string.vision_paso_detalle)) }
+            }
+            Column(Modifier.padding(end = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                CampoTarjetaTexto(texto, stringResource(R.string.mandala_paso, p + 1), onTexto, Modifier.fillMaxWidth(), tamano = 15.sp)
+                if (!ganado) {
+                    Text(stringResource(R.string.metodo_jornadas, paso.jornadas.size, req), style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    LinearProgressIndicator(progress = { paso.jornadas.size.toFloat() / req }, modifier = Modifier.fillMaxWidth(),
+                        color = color, trackColor = color.copy(alpha = .14f))
+                }
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    if (ganado) androidx.compose.material3.FilledTonalButton(onClick = onDetalle, modifier = Modifier.weight(1f)) {
+                        Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.vision_paso_detalle), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    } else Button(onClick = onAvanzar, enabled = texto.isNotBlank() && !hoyListo, modifier = Modifier.weight(1f),
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(containerColor = color, contentColor = Color.White)) {
+                        Text(stringResource(if (hoyListo) R.string.metodo_ya_hoy else R.string.metodo_avance_hoy), maxLines = 1)
+                    }
+                    FilterChip(selected = ganado, onClick = { onGanado(!ganado) }, enabled = ganado || texto.isNotBlank(),
+                        label = { Text(stringResource(R.string.metodo_ganado), maxLines = 1) },
+                        leadingIcon = { Icon(Icons.Filled.Check, null, Modifier.size(16.dp)) })
+                }
+            }
         }
     }
 }
