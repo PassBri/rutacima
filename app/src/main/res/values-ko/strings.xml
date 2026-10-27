@@ -2326,4 +2326,5 @@
     <string name="brujula_sin">나침반 없음</string>
     <string name="brujula_crear_su">나침반 만들기</string>
     <string name="brujula_cumbres_creadas">만든 정상</string>
+    <string name="brujula_edad">%1$d세</string>
 </resources>

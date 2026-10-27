@@ -2326,4 +2326,5 @@
     <string name="brujula_sin">コンパスなし</string>
     <string name="brujula_crear_su">コンパスを作る</string>
     <string name="brujula_cumbres_creadas">作成した頂上</string>
+    <string name="brujula_edad">%1$d 歳</string>
 </resources>

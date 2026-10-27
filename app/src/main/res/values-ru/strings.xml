@@ -2326,4 +2326,5 @@
     <string name="brujula_sin">Без компаса</string>
     <string name="brujula_crear_su">Создать компас</string>
     <string name="brujula_cumbres_creadas">Созданные вершины</string>
+    <string name="brujula_edad">%1$d г.</string>
 </resources>

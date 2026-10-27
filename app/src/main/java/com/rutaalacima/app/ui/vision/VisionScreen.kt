@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.vision
 
+import com.rutaalacima.app.ui.perfil.esperanza
 import androidx.compose.foundation.background
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.CalendarMonth
@@ -143,6 +144,8 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     val anios = c.vision.anios.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
     val aniosConBrujula = c.vision.aniosConBrujula.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
     val cumbresPorAnio = c.vision.cumbresPorAnio.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    /** Para el menú de años: de tu nacimiento a tu meta de vida (100 o 120). */
+    val perfil = c.perfil.perfil.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), com.rutaalacima.app.data.local.PerfilEntity())
     fun elegirAnio(a: Int?) { c.vision.elegirAnio(a); conIa = null }
 
     fun armar(sinIa: Boolean = false) = viewModelScope.launch {
@@ -352,6 +355,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
     val anios by vm.anios.collectAsStateWithLifecycle()
     val aniosConBrujula by vm.aniosConBrujula.collectAsStateWithLifecycle()
     val cumbresPorAnio by vm.cumbresPorAnio.collectAsStateWithLifecycle()
+    val perfilVida by vm.perfil.collectAsStateWithLifecycle()
     var paraFoto by remember { mutableStateOf<VisionCasillaEntity?>(null) }
     val cascada by vm.cascada.collectAsStateWithLifecycle()
     val apodos by vm.apodos.collectAsStateWithLifecycle()
@@ -463,7 +467,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
             item(key = "introduccion", span = { GridItemSpan(2) }) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     // Arriba se elige cuál Brújula: la General (toda tu vida) o la de un año
-                    SelectorBrujula(anioActivo, anios, aniosConBrujula, cumbresPorAnio, onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
+                    SelectorBrujula(anioActivo, anios, aniosConBrujula, cumbresPorAnio, perfilVida.anioNacimiento, perfilVida.esperanza(), onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
                     IntroduccionVision(
                         anio = anioActivo, vacia = casillas.isEmpty(), armando = vm.armando, conIa = vm.conIa,
                         conFoto = conFoto, total = tarjetasVisor.size, onArmar = { vm.armar(it) },
@@ -572,12 +576,14 @@ internal fun colorEje(codigo: String): Color = when (codigo) {
 /** General · 2026 · 2027…: la Brújula de toda la vida y una por año. El "+" marca los años aún sin crear. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, cumbres: Map<Int, String>, onElegir: (Int?) -> Unit) {
+private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, cumbres: Map<Int, String>, nacimiento: Int?, metaVida: Int, onElegir: (Int?) -> Unit) {
     // General o un año: el botón de año abre un menú con la cumbre de cada año creado (igual que la web)
     val hoy = java.time.LocalDate.now().year
     var abierto by remember { mutableStateOf(false) }
     val creados = conBrujula.sorted()
-    val rango = ((minOf(hoy - 2, creados.minOrNull() ?: hoy))..(maxOf(hoy + 6, creados.maxOrNull() ?: hoy))).toList()
+    // Toda la vida: de 1 año hasta la meta de vida (sin año de nacimiento, unos años alrededor de hoy)
+    val rango = (if (nacimiento != null) (nacimiento + 1)..(nacimiento + metaVida)
+        else (minOf(hoy - 2, creados.minOrNull() ?: hoy))..(maxOf(hoy + 6, creados.maxOrNull() ?: hoy))).toList()
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
         FilterChip(selected = anio == null, onClick = { onElegir(null) }, label = { Text(stringResource(R.string.brujula_general)) },
             leadingIcon = { Icon(IconosRuta.Cima, null, Modifier.size(18.dp)) })
@@ -594,6 +600,8 @@ private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, 
                         text = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text("$y", style = MaterialTheme.typography.titleSmall, modifier = Modifier.width(52.dp))
+                                if (nacimiento != null) Text(stringResource(R.string.brujula_edad, y - nacimiento) + " · ", style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
                                 Text(c ?: stringResource(if (y < hoy) R.string.brujula_sin else R.string.brujula_crear_su),
                                     style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                                     color = if (c != null) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f, fill = false))
