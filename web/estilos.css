@@ -3608,3 +3608,5 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
   .md-escena .modo-tarj button { width: 36px; height: 36px; }
   .md-escena .md-nav-sep, .md-escena .md-riel-sep { margin: 1px 0; }
 }
+/* Con un bloque del 9×9 abierto, la etiqueta del título no tapa «Los 81» ni el minimapa */
+@media (min-width: 701px) { .md-capa > .hoja:has(.md-bloque-barra) { padding-top: 62px; } }
