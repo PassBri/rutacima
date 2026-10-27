@@ -2513,4 +2513,12 @@
     <string name="ib_nota">由 SuRoute 生成 · Ruta a la Cima 方法的指南针 1·9·81，灵感来自 Yasuo Matsumura 的 Mandala Chart（1979）。</string>
     <string name="ib_boton">下载 PDF 报告</string>
     <string name="ib_listo">报告已就绪：请选择「另存为 PDF」</string>
+    <string name="submetas_titulo">子目标</string>
+    <string name="submeta_nueva">新子目标</string>
+    <string name="submeta_agregar">添加</string>
+    <string name="submeta_paso">第 %1$d 步</string>
+    <string name="submeta_solo_metas">仅在目标中</string>
+    <string name="submeta_quitar">移除子目标</string>
+    <string name="submeta_ganado">标记为已达成</string>
+    <string name="submeta_sincro">已与你的罗盘同步：前 8 个就是它的步骤。</string>
 </resources>

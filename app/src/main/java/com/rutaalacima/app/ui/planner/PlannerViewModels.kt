@@ -32,7 +32,19 @@ class PlannerViewModel(private val c: AppContainer) : ViewModel() {
 
     fun balance(anio: Int): Flow<BalanceAnualEntity?> = c.planificador.balance(anio)
 
-    fun guardarMeta(m: MetaAnualEntity) = viewModelScope.launch { c.planificador.guardarMeta(m) }
+    /** Las sub-metas 1 a 8 de una meta con Brújula también escriben sus pasos. */
+    fun guardarMeta(m: MetaAnualEntity) = viewModelScope.launch {
+        val casilla = if (m.id != 0L) c.sincro.casillaDeMeta(m) else null
+        c.planificador.guardarMeta(if (casilla != null) m.copy(subMetas = c.sincro.lineasEditadas(casilla, com.rutaalacima.app.data.vision.SincroBrujula.lineas(m.subMetas))) else m)
+    }
+    init { viewModelScope.launch { runCatching { c.sincro.reconciliar() } } }
+    /** El campamento de la meta que se está editando (null si no tiene Brújula) y sus pasos ganados. */
+    var vinculo by mutableStateOf<com.rutaalacima.app.data.local.VisionCasillaEntity?>(null)
+        private set
+    fun cargarVinculo(m: MetaAnualEntity) = viewModelScope.launch { vinculo = if (m.id != 0L) c.sincro.casillaDeMeta(m) else null }
+    val mandala: StateFlow<Map<String, String>> =
+        c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    fun alternarGanado(casillaId: Long, paso: Int) = viewModelScope.launch { alternarGanadoPaso(c, casillaId, paso) }
     fun eliminarMeta(m: MetaAnualEntity) = viewModelScope.launch { c.planificador.eliminarMeta(m) }
     fun guardarBalance(b: BalanceAnualEntity) = viewModelScope.launch { c.planificador.guardarBalance(b) }
     fun mesesConBalance(anio: Int): Flow<Set<Int>> = c.planAnual.mesesConBalance(anio)
@@ -74,6 +86,14 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
 
     fun editarApodo(texto: String) { apodo = texto.take(32); guardado = false }
 
+    /** El campamento de este propósito en la Brújula general (null si no lo tiene). */
+    var vinculo by mutableStateOf<com.rutaalacima.app.data.local.VisionCasillaEntity?>(null)
+        private set
+    fun cargarVinculo() = viewModelScope.launch { vinculo = if (proposito.id != 0L) c.sincro.casillaDeProposito(proposito) else null }
+    val mandala: StateFlow<Map<String, String>> =
+        c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+    fun alternarGanado(casillaId: Long, paso: Int) = viewModelScope.launch { alternarGanadoPaso(c, casillaId, paso) }
+
     fun editar(transform: (PropositoEntity) -> PropositoEntity) {
         proposito = transform(proposito)
         guardado = false
@@ -82,6 +102,7 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
     fun guardar(onDone: (() -> Unit)? = null) {
         if (proposito.titulo.isBlank()) return
         viewModelScope.launch {
+            vinculo?.let { cas -> proposito = proposito.copy(metasEspecificas = c.sincro.lineasEditadas(cas, com.rutaalacima.app.data.vision.SincroBrujula.lineas(proposito.metasEspecificas))) }
             val nuevoId = c.planificador.guardarProposito(proposito)
             if (id == 0L) {
                 id = nuevoId
@@ -109,4 +130,15 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
     fun alternarAccion(a: AccionEntity) = viewModelScope.launch { c.planificador.guardarAccion(a.copy(hecha = !a.hecha)) }
     fun fechaAccion(a: AccionEntity, millis: Long?) = viewModelScope.launch { c.planificador.guardarAccion(a.copy(fechaFin = millis)) }
     fun eliminarAccion(a: AccionEntity) = viewModelScope.launch { c.planificador.eliminarAccion(a) }
+}
+
+/** Ganar o quitar un paso desde Metas (igual que en la Brújula): al quitarlo, la última jornada sale. */
+internal suspend fun alternarGanadoPaso(c: AppContainer, casillaId: Long, paso: Int) {
+    val M = com.rutaalacima.app.domain.model.Mandala
+    val r = c.respuestas.cargar(M.WORKBOOK)
+    val x = com.rutaalacima.app.domain.model.MetodoCima.leer(casillaId, paso, r)
+    if (!x.cumplido) { c.respuestas.guardar(M.WORKBOOK, M.claveHecho(casillaId, paso), java.time.LocalDate.now().toString()); return }
+    c.respuestas.guardar(M.WORKBOOK, M.claveHecho(casillaId, paso), "")
+    val req = x.requeridas ?: com.rutaalacima.app.domain.model.MetodoCima.DIFICULTAD_INICIAL
+    if (x.jornadas.size >= req) c.respuestas.guardar(M.WORKBOOK, com.rutaalacima.app.domain.model.MetodoCima.claveJornadas(casillaId, paso), x.jornadas.sorted().take(req - 1).joinToString(","))
 }

@@ -2513,4 +2513,12 @@
     <string name="ib_nota">SuRoute द्वारा बनाया गया · Ruta a la Cima पद्धति का कम्पास 1·9·81, Yasuo Matsumura के Mandala Chart (1979) से प्रेरित।</string>
     <string name="ib_boton">PDF रिपोर्ट डाउनलोड करें</string>
     <string name="ib_listo">रिपोर्ट तैयार: «PDF के रूप में सहेजें» चुनें</string>
+    <string name="submetas_titulo">उप-लक्ष्य</string>
+    <string name="submeta_nueva">नया उप-लक्ष्य</string>
+    <string name="submeta_agregar">जोड़ें</string>
+    <string name="submeta_paso">कदम %1$d</string>
+    <string name="submeta_solo_metas">सिर्फ़ लक्ष्यों में</string>
+    <string name="submeta_quitar">उप-लक्ष्य हटाएँ</string>
+    <string name="submeta_ganado">पूरा हुआ चिह्नित करें</string>
+    <string name="submeta_sincro">आपके कम्पास से सिंक: पहले 8 उसके कदम हैं।</string>
 </resources>

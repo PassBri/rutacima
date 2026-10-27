@@ -2513,4 +2513,12 @@
     <string name="ib_nota">Создано в SuRoute · Компас 1·9·81 Метода Ruta a la Cima, вдохновлён Mandala Chart Ясуо Мацумуры (Yasuo Matsumura, 1979).</string>
     <string name="ib_boton">Скачать отчёт PDF</string>
     <string name="ib_listo">Отчёт готов: выбери «Сохранить как PDF»</string>
+    <string name="submetas_titulo">Подцели</string>
+    <string name="submeta_nueva">Новая подцель</string>
+    <string name="submeta_agregar">Добавить</string>
+    <string name="submeta_paso">Шаг %1$d</string>
+    <string name="submeta_solo_metas">Только в Целях</string>
+    <string name="submeta_quitar">Убрать подцель</string>
+    <string name="submeta_ganado">Отметить как достигнутое</string>
+    <string name="submeta_sincro">Синхронизировано с компасом: первые 8 — его шаги.</string>
 </resources>

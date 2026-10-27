@@ -2513,4 +2513,12 @@
     <string name="ib_nota">Erstellt mit SuRoute · Kompass 1·9·81 der Methode Ruta a la Cima, inspiriert vom Mandala Chart von Yasuo Matsumura (1979).</string>
     <string name="ib_boton">PDF-Bericht herunterladen</string>
     <string name="ib_listo">Bericht fertig: Wähle «Als PDF speichern»</string>
+    <string name="submetas_titulo">Teilziele</string>
+    <string name="submeta_nueva">Neues Teilziel</string>
+    <string name="submeta_agregar">Hinzufügen</string>
+    <string name="submeta_paso">Schritt %1$d</string>
+    <string name="submeta_solo_metas">Nur in Ziele</string>
+    <string name="submeta_quitar">Teilziel entfernen</string>
+    <string name="submeta_ganado">Als geschafft markieren</string>
+    <string name="submeta_sincro">Mit deinem Kompass synchron: Die ersten 8 sind seine Schritte.</string>
 </resources>

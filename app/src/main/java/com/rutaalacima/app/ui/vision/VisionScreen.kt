@@ -220,7 +220,10 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
 
     fun guardarPaso(casilla: VisionCasillaEntity, paso: Int, texto: String) = viewModelScope.launch {
         c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, paso), texto.trim())
+        c.sincro.pasoEscrito(casilla, paso, texto)
     }
+    /** Al abrir la Brújula, Metas y Mi ruta quedan al día con ella. */
+    init { viewModelScope.launch { runCatching { c.sincro.reconciliar() } } }
 
     /** Registra la jornada de hoy en un paso (Método Cima 9×52): el paso se gana al juntar las jornadas que pide. */
     fun avanzarPaso(casilla: VisionCasillaEntity, paso: Int, campamentos: List<Long?>) = viewModelScope.launch {

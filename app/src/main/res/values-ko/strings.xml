@@ -2513,4 +2513,12 @@
     <string name="ib_nota">SuRoute에서 생성 · Ruta a la Cima 방법의 나침반 1·9·81, Yasuo Matsumura의 Mandala Chart(1979)에서 영감을 받음.</string>
     <string name="ib_boton">PDF 보고서 다운로드</string>
     <string name="ib_listo">보고서 준비 완료: «PDF로 저장»을 선택하세요</string>
+    <string name="submetas_titulo">하위 목표</string>
+    <string name="submeta_nueva">새 하위 목표</string>
+    <string name="submeta_agregar">추가</string>
+    <string name="submeta_paso">%1$d단계</string>
+    <string name="submeta_solo_metas">목표에만</string>
+    <string name="submeta_quitar">하위 목표 삭제</string>
+    <string name="submeta_ganado">달성으로 표시</string>
+    <string name="submeta_sincro">나침반과 동기화됨: 처음 8개가 그 단계예요.</string>
 </resources>

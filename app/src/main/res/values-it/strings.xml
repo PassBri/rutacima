@@ -2513,4 +2513,12 @@
     <string name="ib_nota">Generato da SuRoute · Bussola 1·9·81 del Metodo Ruta a la Cima, ispirata alla Mandala Chart di Yasuo Matsumura (1979).</string>
     <string name="ib_boton">Scarica il report PDF</string>
     <string name="ib_listo">Report pronto: scegli «Salva come PDF»</string>
+    <string name="submetas_titulo">Sotto-obiettivi</string>
+    <string name="submeta_nueva">Nuovo sotto-obiettivo</string>
+    <string name="submeta_agregar">Aggiungi</string>
+    <string name="submeta_paso">Passo %1$d</string>
+    <string name="submeta_solo_metas">Solo in Obiettivi</string>
+    <string name="submeta_quitar">Rimuovi sotto-obiettivo</string>
+    <string name="submeta_ganado">Segna come conquistato</string>
+    <string name="submeta_sincro">Sincronizzato con la tua Bussola: i primi 8 sono i suoi passi.</string>
 </resources>

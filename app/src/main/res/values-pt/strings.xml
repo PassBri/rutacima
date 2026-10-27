@@ -2513,4 +2513,12 @@
     <string name="ib_nota">Gerado pelo SuRoute · Bússola 1·9·81 do Método Ruta a la Cima, inspirada na Mandala Chart de Yasuo Matsumura (1979).</string>
     <string name="ib_boton">Baixar relatório PDF</string>
     <string name="ib_listo">Relatório pronto: escolha «Salvar como PDF»</string>
+    <string name="submetas_titulo">Submetas</string>
+    <string name="submeta_nueva">Nova submeta</string>
+    <string name="submeta_agregar">Adicionar</string>
+    <string name="submeta_paso">Passo %1$d</string>
+    <string name="submeta_solo_metas">Só em Metas</string>
+    <string name="submeta_quitar">Remover submeta</string>
+    <string name="submeta_ganado">Marcar como conquistado</string>
+    <string name="submeta_sincro">Sincronizada com sua Bússola: as 8 primeiras são seus passos.</string>
 </resources>

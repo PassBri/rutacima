@@ -2513,4 +2513,12 @@
     <string name="ib_nota">SuRoute で作成 · Ruta a la Cima メソッドのコンパス 1·9·81。Yasuo Matsumura の Mandala Chart（1979）に着想を得ています。</string>
     <string name="ib_boton">PDF レポートをダウンロード</string>
     <string name="ib_listo">レポートの準備ができました：「PDF として保存」を選んでください</string>
+    <string name="submetas_titulo">サブ目標</string>
+    <string name="submeta_nueva">新しいサブ目標</string>
+    <string name="submeta_agregar">追加</string>
+    <string name="submeta_paso">ステップ %1$d</string>
+    <string name="submeta_solo_metas">目標のみ</string>
+    <string name="submeta_quitar">サブ目標を削除</string>
+    <string name="submeta_ganado">達成にする</string>
+    <string name="submeta_sincro">コンパスと同期：最初の8つがそのステップです。</string>
 </resources>

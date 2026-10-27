@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -118,7 +119,12 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit, onAnio: (Int) -> Unit
             item { Campo(stringResource(R.string.indicador_exito), p.indicadorExito) { v -> vm.editar { it.copy(indicadorExito = v) } } }
             item { Campo(stringResource(R.string.visualizacion), p.visualizacion) { v -> vm.editar { it.copy(visualizacion = v) } } }
             item { Campo(stringResource(R.string.por_que_importa), p.porQueImporta) { v -> vm.editar { it.copy(porQueImporta = v) } } }
-            item { Campo(stringResource(R.string.metas_especificas), p.metasEspecificas) { v -> vm.editar { it.copy(metasEspecificas = v) } } }
+            item {
+                androidx.compose.runtime.LaunchedEffect(p.id, p.eje) { vm.cargarVinculo() }
+                val mandala by vm.mandala.collectAsState()
+                SubMetasEditor(p.metasEspecificas, { v -> vm.editar { it.copy(metasEspecificas = v) } }, casillaId = vm.vinculo?.id, mandala = mandala,
+                    onGanado = { i -> vm.vinculo?.let { vm.alternarGanado(it.id, i) } })
+            }
             item { Campo(stringResource(R.string.impacto), p.impacto) { v -> vm.editar { it.copy(impacto = v) } } }
             item { Campo(stringResource(R.string.reflexion_final), p.reflexionFinal) { v -> vm.editar { it.copy(reflexionFinal = v) } } }
             item {

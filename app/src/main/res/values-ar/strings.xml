@@ -2513,4 +2513,12 @@
     <string name="ib_nota">أُنشئ بواسطة SuRoute · البوصلة 1·9·81 من طريقة Ruta a la Cima، مستوحاة من Mandala Chart لـ Yasuo Matsumura (1979).</string>
     <string name="ib_boton">تنزيل تقرير PDF</string>
     <string name="ib_listo">التقرير جاهز: اختر «حفظ بتنسيق PDF»</string>
+    <string name="submetas_titulo">الأهداف الفرعية</string>
+    <string name="submeta_nueva">هدف فرعي جديد</string>
+    <string name="submeta_agregar">إضافة</string>
+    <string name="submeta_paso">الخطوة %1$d</string>
+    <string name="submeta_solo_metas">في الأهداف فقط</string>
+    <string name="submeta_quitar">إزالة الهدف الفرعي</string>
+    <string name="submeta_ganado">وضع علامة كمُنجز</string>
+    <string name="submeta_sincro">متزامنة مع بوصلتك: أول 8 هي خطواتها.</string>
 </resources>

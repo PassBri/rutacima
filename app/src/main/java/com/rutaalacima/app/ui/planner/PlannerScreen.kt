@@ -235,9 +235,12 @@ internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp,
             // Encima del teclado: el campo que se edita nunca queda tapado
             contentWindowInsets = { androidx.compose.foundation.layout.WindowInsets.ime.union(androidx.compose.foundation.layout.WindowInsets.navigationBars) },
         ) {
+            androidx.compose.runtime.LaunchedEffect(meta.id) { vm.cargarVinculo(meta) }
+            val mandala by vm.mandala.collectAsState()
             MetaEditor(
                 inicial = meta,
                 propositos = propositos,
+                vinculo = vm.vinculo, mandala = mandala, onGanado = { cid, i -> vm.alternarGanado(cid, i) },
                 onGuardar = { vm.guardarMeta(it); editando = null },
                 onEliminar = if (meta.id != 0L) ({ vm.eliminarMeta(meta); editando = null }) else null,
             )
@@ -303,6 +306,9 @@ private fun MetaEditor(
     propositos: List<PropositoEntity>,
     onGuardar: (MetaAnualEntity) -> Unit,
     onEliminar: (() -> Unit)?,
+    vinculo: com.rutaalacima.app.data.local.VisionCasillaEntity? = null,
+    mandala: Map<String, String> = emptyMap(),
+    onGanado: (Long, Int) -> Unit = { _, _ -> },
 ) {
     var m by remember(inicial.id) { mutableStateOf(inicial) }
     Column(
@@ -312,8 +318,7 @@ private fun MetaEditor(
         Text(stringResource(if (inicial.id == 0L) R.string.nueva_meta else R.string.editar_meta) + " · ${inicial.anio}", style = MaterialTheme.typography.titleLarge)
         if (m.id != 0L) com.rutaalacima.app.ui.components.ApodoField("a", m.id)
         OutlinedTextField(m.titulo, { m = m.copy(titulo = it) }, label = { Text(stringResource(R.string.actividad_meta)) }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(m.subMetas, { m = m.copy(subMetas = it) }, label = { Text(stringResource(R.string.submetas_ayuda)) },
-            modifier = Modifier.fillMaxWidth(), minLines = 3)
+        SubMetasEditor(m.subMetas, { m = m.copy(subMetas = it) }, casillaId = vinculo?.id, mandala = mandala, onGanado = { i -> vinculo?.let { onGanado(it.id, i) } })
         if (propositos.isNotEmpty()) {
             ChipSelector(
                 stringResource(R.string.proposito_aporta),

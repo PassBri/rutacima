@@ -2522,4 +2522,12 @@
     <string name="ib_nota">Generado por SuRoute · Brújula 1·9·81 del Método Ruta a la Cima, inspirada en la Mandala Chart de Yasuo Matsumura (1979).</string>
     <string name="ib_boton">Descargar informe PDF</string>
     <string name="ib_listo">Informe listo: elige «Guardar como PDF»</string>
+    <string name="submetas_titulo">Sub-metas</string>
+    <string name="submeta_nueva">Nueva sub-meta</string>
+    <string name="submeta_agregar">Agregar</string>
+    <string name="submeta_paso">Paso %1$d</string>
+    <string name="submeta_solo_metas">Solo en Metas</string>
+    <string name="submeta_quitar">Quitar sub-meta</string>
+    <string name="submeta_ganado">Marcar como ganado</string>
+    <string name="submeta_sincro">Sincronizada con tu Brújula: las 8 primeras son sus pasos.</string>
 </resources>
