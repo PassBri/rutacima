@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Apri la guida completa (quaderno 11)</string>
     <string name="cp_aprende_sub">Ora si trova nella tua Bussola, al Campo base</string>
     <string name="cp_abrir">Apri Compagno di salita</string>
+    <string name="cu_cierre">Si chiude da solo</string>
+    <string name="cu_cierre_d">Dopo questi minuti senza uso, o quando esci dall\'app.</string>
+    <string name="cu_min">%1$d min</string>
 </resources>

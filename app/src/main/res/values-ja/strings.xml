@@ -2455,4 +2455,7 @@
     <string name="cp_guia">完全版ガイドを開く（ワークブック 11）</string>
     <string name="cp_aprende_sub">今はベースキャンプの、あなたのコンパスの中にあります</string>
     <string name="cp_abrir">登攀パートナーを開く</string>
+    <string name="cu_cierre">自動でロック</string>
+    <string name="cu_cierre_d">この時間使わなかったとき、またはアプリを離れたとき。</string>
+    <string name="cu_min">%1$d 分</string>
 </resources>

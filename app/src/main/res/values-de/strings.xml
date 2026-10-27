@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Den vollständigen Leitfaden öffnen (Arbeitsbuch 11)</string>
     <string name="cp_aprende_sub">Jetzt in deinem Kompass, im Basislager</string>
     <string name="cp_abrir">Aufstiegspartner öffnen</string>
+    <string name="cu_cierre">Sperrt sich selbst</string>
+    <string name="cu_cierre_d">Nach diesen Minuten ohne Nutzung oder beim Verlassen der App.</string>
+    <string name="cu_min">%1$d Min.</string>
 </resources>

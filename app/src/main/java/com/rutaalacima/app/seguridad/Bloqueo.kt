@@ -27,6 +27,7 @@ object Bloqueo {
     private const val ITERACIONES = 120_000
     const val MAX_INTENTOS = 5
     const val ESPERA_MS = 30_000L
+    val ESPERAS_MS = longArrayOf(30_000L, 60_000L, 300_000L, 900_000L)
 
     private fun prefs(c: Context) = c.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -111,12 +112,14 @@ object Bloqueo {
         val sal = p.getString("sal", null)?.fromHex() ?: return false
         val guardado = p.getString("hash", null) ?: return false
         val ok = java.security.MessageDigest.isEqual(hash(clave, sal), guardado.fromHex())
-        if (ok) p.edit().putInt("fallos", 0).apply()
+        if (ok) p.edit().putInt("fallos", 0).putInt("nivel", 0).apply()
         else {
+            // Cada tanda de 5 fallos espera más: 30 s, 1 min, 5 min y 15 min (igual que la web)
             val fallos = p.getInt("fallos", 0) + 1
-            p.edit().putInt("fallos", if (fallos >= MAX_INTENTOS) 0 else fallos)
-                .putLong("bloqueado_hasta", if (fallos >= MAX_INTENTOS) System.currentTimeMillis() + ESPERA_MS else 0)
-                .apply()
+            val nivel = p.getInt("nivel", 0)
+            if (fallos >= MAX_INTENTOS) p.edit().putInt("fallos", 0).putInt("nivel", nivel + 1)
+                .putLong("bloqueado_hasta", System.currentTimeMillis() + ESPERAS_MS[nivel.coerceAtMost(ESPERAS_MS.lastIndex)]).apply()
+            else p.edit().putInt("fallos", fallos).apply()
         }
         return ok
     }

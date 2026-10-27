@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Ouvrir le guide complet (cahier 11)</string>
     <string name="cp_aprende_sub">Se trouve désormais dans ta Boussole, au Camp de base</string>
     <string name="cp_abrir">Ouvrir Compagnon de cordée</string>
+    <string name="cu_cierre">Se verrouille seul</string>
+    <string name="cu_cierre_d">Après ces minutes sans utilisation, ou en quittant l\'app.</string>
+    <string name="cu_min">%1$d min</string>
 </resources>

@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Open the full guide (workbook 11)</string>
     <string name="cp_aprende_sub">Now lives in your Compass, at Base Camp</string>
     <string name="cp_abrir">Open Climbing Partner</string>
+    <string name="cu_cierre">Locks by itself</string>
+    <string name="cu_cierre_d">After these minutes without use, or when you leave the app.</string>
+    <string name="cu_min">%1$d min</string>
 </resources>

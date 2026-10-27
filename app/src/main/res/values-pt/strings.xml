@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Abrir o guia completo (caderno 11)</string>
     <string name="cp_aprende_sub">Agora fica na sua Bússola, no Acampamento Base</string>
     <string name="cp_abrir">Abrir Companheiro de Subida</string>
+    <string name="cu_cierre">Fecha sozinho</string>
+    <string name="cu_cierre_d">Após estes minutos sem uso, ou ao sair do app.</string>
+    <string name="cu_min">%1$d min</string>
 </resources>

@@ -2464,4 +2464,7 @@
     <string name="cp_guia">Abrir la guía completa (workbook 11)</string>
     <string name="cp_aprende_sub">Ahora vive en tu Brújula, en el Campamento Base</string>
     <string name="cp_abrir">Abrir Compañero de Ascenso</string>
+    <string name="cu_cierre">Se cierra solo</string>
+    <string name="cu_cierre_d">Tras estos minutos sin uso, o al salir de la app.</string>
+    <string name="cu_min">%1$d min</string>
 </resources>

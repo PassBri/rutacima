@@ -2455,4 +2455,7 @@
     <string name="cp_guia">Открыть полное руководство (рабочая тетрадь 11)</string>
     <string name="cp_aprende_sub">Теперь находится в твоём Компасе, в Базовом лагере</string>
     <string name="cp_abrir">Открыть «Спутник восхождения»</string>
+    <string name="cu_cierre">Закрывается сам</string>
+    <string name="cu_cierre_d">Через эти минуты без использования или при выходе из приложения.</string>
+    <string name="cu_min">%1$d мин</string>
 </resources>

@@ -455,15 +455,43 @@ async function hashPin(pin, sal) {
   const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: enc.encode(sal), iterations: 120000 }, clave, 256);
   return [...new Uint8Array(bits)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
-const finBloqueado = () => bloqueoFin() && !(estado.ascAbierto && Date.now() - estado.ascAbierto < 5 * 60 * 1000);
+/** Minutos sin uso tras los que el módulo se vuelve a cerrar (1, 5 o 15; por defecto 5). */
+const finMinutos = () => [1, 5, 15].includes(Number(respuesta("fin#cierre"))) ? Number(respuesta("fin#cierre")) : 5;
+const finBloqueado = () => bloqueoFin() && !(estado.ascAbierto && Date.now() - estado.ascAbierto < finMinutos() * 60 * 1000);
+/* Cada toque o tecla dentro del módulo cuenta como uso; al pasar el tiempo sin uso, se cierra solo */
+["pointerdown", "keydown"].forEach(t => document.addEventListener(t, () => { if (estado.sec === "finanzas" && estado.ascAbierto && !finBloqueado()) estado.ascAbierto = Date.now(); }, true));
+setInterval(() => { if (estado.sec === "finanzas" && bloqueoFin() && estado.ascAbierto && finBloqueado()) { estado.ascAbierto = 0; pintarDetalle(); } }, 10000);
+/* Intentos: tras 5 PIN errados, una espera que crece (30 s, 1 min, 5 min, 15 min) y que sobrevive a recargar la página */
+const FIN_ESPERAS = [30, 60, 300, 900];
+const finIntentos = () => { try { return JSON.parse(localStorage.getItem("suroute-fin-intentos") || "{}"); } catch { return {}; } };
+const guardarIntentos = o => { try { localStorage.setItem("suroute-fin-intentos", JSON.stringify(o)); } catch {} };
+const finEspera = () => Math.max(0, (finIntentos().hasta || 0) - Date.now());
+/* Passkey: abrir con la huella, el rostro o Windows Hello de este aparato (WebAuthn). La credencial vive en el aparato. */
+const b64u = b => btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+const desdeB64u = t => Uint8Array.from(atob(t.replace(/-/g, "+").replace(/_/g, "/") + "===".slice((t.length + 3) % 4)), c => c.charCodeAt(0));
+const passkeyId = () => { try { return localStorage.getItem("suroute-fin-passkey") || ""; } catch { return ""; } };
+const passkeyPosible = () => !!window.PublicKeyCredential && !!navigator.credentials?.create && isSecureContext;
+async function crearPasskey() {
+  const cred = await navigator.credentials.create({ publicKey: {
+    rp: { name: "SuRoute" }, challenge: crypto.getRandomValues(new Uint8Array(32)),
+    user: { id: crypto.getRandomValues(new Uint8Array(16)), name: "Ascenso financiero", displayName: "Ascenso financiero · SuRoute" },
+    pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
+    authenticatorSelection: { authenticatorAttachment: "platform", userVerification: "required", residentKey: "discouraged" }, timeout: 60000 } });
+  try { localStorage.setItem("suroute-fin-passkey", b64u(cred.rawId)); } catch {}
+}
+async function usarPasskey() {
+  await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), userVerification: "required", timeout: 60000,
+    allowCredentials: [{ type: "public-key", id: desdeB64u(passkeyId()) }] } });
+}
 document.addEventListener("visibilitychange", () => { if (document.hidden) estado.ascAbierto = 0; });
 function pantallaBloqueo() {
-  const espera = Math.max(0, (estado.ascEspera || 0) - Date.now());
+  const espera = finEspera();
   return cab(av(ic("candado"), "var(--ok)"), "Ascenso financiero", "Privado · bloqueado") + cuerpo(hoja(`<div class="bloqueo-fin">${ic("candado", "i grande")}
-    <h3>Tus finanzas están protegidas</h3><p class="suave">Escribe tu PIN para abrir el libro de cuentas. Se vuelve a cerrar a los 5 minutos o al salir.</p>
+    <h3>Tus finanzas están protegidas</h3><p class="suave">${passkeyId() ? "Ábrelo con tu huella o rostro, o con tu PIN." : "Escribe tu PIN para abrir el libro de cuentas."} Se vuelve a cerrar tras ${finMinutos()} ${finMinutos() === 1 ? "minuto" : "minutos"} sin uso o al salir.</p>
+    ${passkeyId() && passkeyPosible() ? `<button class="btn lleno" data-acc="ascPasskey" style="margin:0 auto 14px;display:flex">${ic("huella")} Abrir con huella o rostro</button>` : ""}
     <form data-form="ascPin" class="form" style="max-width:260px;margin:0 auto"><input name="texto" type="password" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{4,6}" aria-label="PIN" placeholder="PIN" ${espera ? "disabled" : ""} required style="text-align:center;letter-spacing:.5em;font-size:22px">
       <button class="btn lleno" type="submit" ${espera ? "disabled" : ""}>Abrir</button></form>
-    ${espera ? `<p class="suave">Demasiados intentos. Espera ${Math.ceil(espera / 1000)} segundos.</p>` : ""}</div>`), "max-width:560px");
+    ${espera ? `<p class="suave">Demasiados intentos. Espera ${espera > 90000 ? Math.ceil(espera / 60000) + " minutos" : Math.ceil(espera / 1000) + " segundos"}.</p>` : ""}</div>`), "max-width:560px");
 }
 function privacidadHoja() {
   const pub = publicaFin();
@@ -471,8 +499,12 @@ function privacidadHoja() {
     <div class="seg" role="radiogroup" aria-label="Privacidad" style="grid-template-columns:1fr 1fr;max-width:420px"><button type="button" role="radio" aria-checked="${!pub}" class="seg-b t-gas" data-acc="ascVisibilidad" data-arg="privada">Privada</button><button type="button" role="radio" aria-checked="${pub}" class="seg-b t-ing" data-acc="ascVisibilidad" data-arg="publica">Pública</button></div>
     ${pub ? `<p class="suave" style="margin:12px 0 0">Puedes compartir tu salud financiera y tu avance contra las deudas en la comunidad. Los montos, los recibos y los movimientos siguen siendo privados.</p>`
       : `<div class="capas"><div class="capa">${ic("check")}<span><b>Solo tu cuenta</b><small>Nadie más puede leer tus movimientos: la base de datos solo los entrega a tu sesión.</small></span></div>
-        <div class="capa">${ic("candado")}<span><b>Bloqueo con PIN</b><small>${bloqueoFin() ? "Activo: el módulo pide tu PIN y se cierra a los 5 minutos o al salir. En la app se abre con tu huella o rostro." : "Pide un PIN para abrir este módulo en la web (en la app, tu huella o rostro)."}</small></span>
+        <div class="capa">${ic("candado")}<span><b>Bloqueo con PIN</b><small>${bloqueoFin() ? `Activo: el módulo pide tu PIN y se cierra tras ${finMinutos()} ${finMinutos() === 1 ? "minuto" : "minutos"} sin uso o al salir. En la app se abre con tu huella o rostro.` : "Pide un PIN para abrir este módulo en la web (en la app, tu huella o rostro)."}</small></span>
           ${bloqueoFin() ? `<button class="btn mini" data-acc="ascQuitarPin">Quitar</button>` : `<button class="btn mini lleno" data-acc="ascPonerPin">Activar</button>`}</div>
+        ${bloqueoFin() ? `<div class="capa">${ic("reloj")}<span><b>Se cierra solo</b><small>Tras estos minutos sin uso, o al cambiar de pestaña.</small></span>
+          <span class="seg cierre-min" role="radiogroup" aria-label="Minutos sin uso">${[1, 5, 15].map(m => `<button type="button" role="radio" class="seg-b" aria-checked="${finMinutos() === m}" data-acc="ascCierre" data-arg="${m}">${m} min</button>`).join("")}</span></div>
+        ${passkeyPosible() ? `<div class="capa">${ic("huella")}<span><b>Huella, rostro o Windows Hello</b><small>${passkeyId() ? "Activo en este aparato: abres sin escribir el PIN." : "Abre el módulo con el desbloqueo de este aparato, sin escribir el PIN. El PIN queda de respaldo."}</small></span>
+          ${passkeyId() ? `<button class="btn mini" data-acc="ascPasskeyQuitar">Quitar</button>` : `<button class="btn mini lleno" data-acc="ascPasskeyCrear">Activar</button>`}</div>` : ""}` : ""}
         <div class="capa">${ic("ojo")}<span><b>Ocultar montos fuera del módulo</b><small>En Hoy, el planificador y Mi ruta verás ••••• en vez de cifras.</small></span><input type="checkbox" data-acc-change="ascOcultar" ${respuesta("fin#ocultar") === "1" ? "checked" : ""} aria-label="Ocultar montos fuera del módulo"></div>
         <div class="capa">${ic("adjunto")}<span><b>Recibos en un archivo privado</b><small>Tus fotos y PDF se guardan en una carpeta solo tuya y se abren con enlaces que vencen en minutos.</small></span></div></div>`}`);
 }
@@ -817,6 +849,16 @@ Object.assign(ACC, {
   ascVisibilidad(_, v) { responder(ASC.WB, "fin#visibilidad", v === "publica" ? "publica" : ""); toast(v === "publica" ? "Podrás compartir tu avance, sin montos" : "Tus finanzas son privadas"); },
   ascOcultar(el) { responder(ASC.WB, "fin#ocultar", el.checked ? "1" : ""); },
   ascQuitarPin() { if (finBloqueado()) return; responder(ASC.WB, "fin#bloqueo", ""); responder(ASC.WB, "fin#pin", ""); toast("Bloqueo quitado"); },
+  ascCierre(_, m) { responder(ASC.WB, "fin#cierre", String(m)); estado.ascAbierto = Date.now(); toast(`Se cerrará tras ${m} ${m === "1" ? "minuto" : "minutos"} sin uso`); },
+  async ascPasskeyCrear() {
+    try { await crearPasskey(); toast("Listo: abre tus finanzas con tu huella o rostro"); pintarDetalle(); }
+    catch (e) { if (e?.name !== "NotAllowedError") toast("Este aparato no permitió crear la llave. Sigue usando tu PIN."); }
+  },
+  ascPasskeyQuitar() { try { localStorage.removeItem("suroute-fin-passkey"); } catch {} toast("Huella quitada en este aparato"); pintarDetalle(); },
+  async ascPasskey() {
+    try { await usarPasskey(); estado.ascAbierto = Date.now(); guardarIntentos({}); pintarDetalle(); }
+    catch (e) { if (e?.name !== "NotAllowedError") toast("No se pudo usar la huella. Escribe tu PIN."); }
+  },
   ascPonerPin() {
     const v = ventanaCuenta(`<h3 style="margin-top:0">Crea tu PIN</h3><p class="suave">De 4 a 6 números. Lo pedirá este módulo en la web; en la app se abre con tu huella o rostro.</p>
       <form class="form" id="nuevoPin">${campo("PIN", `<input name="a" type="password" inputmode="numeric" pattern="[0-9]{4,6}" maxlength="6" required autocomplete="new-password">`)}${campo("Repite el PIN", `<input name="b" type="password" inputmode="numeric" pattern="[0-9]{4,6}" maxlength="6" required autocomplete="new-password">`)}
@@ -863,10 +905,11 @@ Object.assign(ACC, {
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   async ascPin(form, datos, texto) {
     const [sal, h] = respuesta("fin#pin").split(".");
-    if (await hashPin(texto, sal) === h) { estado.ascAbierto = Date.now(); estado.ascIntentos = 0; pintarDetalle(); return; }
-    estado.ascIntentos = (estado.ascIntentos || 0) + 1;
-    if (estado.ascIntentos >= 5) { estado.ascEspera = Date.now() + 30000; estado.ascIntentos = 0; setTimeout(() => pintarDetalle(), 30100); }
-    toast("PIN incorrecto"); pintarDetalle();
+    if (finEspera()) { pintarDetalle(); return; }
+    if (await hashPin(texto, sal) === h) { estado.ascAbierto = Date.now(); guardarIntentos({}); pintarDetalle(); return; }
+    const o = finIntentos(); o.n = (o.n || 0) + 1;
+    if (o.n >= 5) { const seg = FIN_ESPERAS[Math.min(o.nivel || 0, FIN_ESPERAS.length - 1)]; o.hasta = Date.now() + seg * 1000; o.nivel = (o.nivel || 0) + 1; o.n = 0; setTimeout(() => pintarDetalle(), seg * 1000 + 100); }
+    guardarIntentos(o); toast("PIN incorrecto"); pintarDetalle();
   },
   deudaNueva(form, datos, texto) {
     const saldo = Math.abs(montoFin(datos.get("saldo"))); if (!texto || !saldo) { toast("Escribe el nombre y lo que debes"); return; }

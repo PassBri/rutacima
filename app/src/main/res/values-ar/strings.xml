@@ -2455,4 +2455,7 @@
     <string name="cp_guia">افتح الدليل الكامل (كرّاسة العمل 11)</string>
     <string name="cp_aprende_sub">أصبح الآن في بوصلتك، في معسكر القاعدة</string>
     <string name="cp_abrir">افتح رفيق الصعود</string>
+    <string name="cu_cierre">يُقفل تلقائيًا</string>
+    <string name="cu_cierre_d">بعد هذه الدقائق دون استخدام، أو عند الخروج من التطبيق.</string>
+    <string name="cu_min">%1$d د</string>
 </resources>

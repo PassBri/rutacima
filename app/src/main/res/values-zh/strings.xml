@@ -2455,4 +2455,7 @@
     <string name="cp_guia">打开完整指南（练习册 11）</string>
     <string name="cp_aprende_sub">现在位于你的罗盘中，在大本营</string>
     <string name="cp_abrir">打开攀登伙伴</string>
+    <string name="cu_cierre">自动锁定</string>
+    <string name="cu_cierre_d">在这几分钟未使用后，或离开应用时。</string>
+    <string name="cu_min">%1$d 分钟</string>
 </resources>

@@ -150,6 +150,8 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
     val publica get() = respuestas["fin#visibilidad"] == "publica"
     val bloqueo get() = respuestas["fin#bloqueo"] == "1"
     val ocultarFuera get() = !publica && respuestas["fin#ocultar"] == "1"
+    /** Minutos sin uso tras los que el módulo se vuelve a cerrar (1, 5 o 15; igual que la web). */
+    val minutosCierre get() = respuestas["fin#cierre"]?.toIntOrNull()?.takeIf { it in listOf(1, 5, 15) } ?: 5
     fun salud(anio: Int?) = com.rutaalacima.app.domain.model.Salud.de(dias, anio, deudas, activos, propias)
     /** La misma salud financiera sin deudas: para ver cuántos puntos le quitan. */
     val saludSinDeudas by lazy { com.rutaalacima.app.domain.model.Salud.de(dias, null, deudas, activos, propias, sinDeudas = true) }
@@ -416,6 +418,7 @@ class CuentasViewModel(private val c: AppContainer) : ViewModel() {
     fun visibilidad(publica: Boolean) = poner("fin#visibilidad", if (publica) "publica" else "")
     fun bloqueo(si: Boolean) = poner("fin#bloqueo", if (si) "1" else "")
     fun ocultar(si: Boolean) = poner("fin#ocultar", if (si) "1" else "")
+    fun cierre(min: Int) = poner("fin#cierre", "$min")
     /** Hasta cuándo queda abierto el módulo tras la huella (5 minutos o hasta salir de la app). */
     var abiertoHasta by mutableStateOf(0L)
     val abierto get() = System.currentTimeMillis() < abiertoHasta
@@ -583,11 +586,17 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
         val o = androidx.lifecycle.LifecycleEventObserver { _, e -> if (e == androidx.lifecycle.Lifecycle.Event.ON_STOP) vm.abiertoHasta = 0L }
         ciclo.lifecycle.addObserver(o); onDispose { ciclo.lifecycle.removeObserver(o) }
     }
-    val bloqueado = libro.bloqueo && !vm.abierto
+    // Se cierra solo tras unos minutos sin uso: un reloj revisa cada 10 s y cada toque cuenta como uso
+    var reloj by remember { mutableStateOf(0L) }
+    androidx.compose.runtime.LaunchedEffect(Unit) { while (true) { kotlinx.coroutines.delay(10_000); reloj = System.currentTimeMillis() } }
+    val bloqueado = reloj >= 0 && libro.bloqueo && !vm.abierto
+    val alUsar = Modifier.pointerInput(libro.minutosCierre) {
+        awaitPointerEventScope { while (true) { awaitPointerEvent(androidx.compose.ui.input.pointer.PointerEventPass.Initial); if (vm.abierto) vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L } }
+    }
 
     androidx.compose.runtime.CompositionLocalProvider(LocalPropias provides libro.propias, LocalCuentas provides vm) {
     Scaffold(
-        modifier = Modifier.fondoPapel(),
+        modifier = Modifier.fondoPapel().then(alUsar),
         containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(avisos) },
         topBar = {
@@ -618,7 +627,7 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
             )
         },
     ) { padding ->
-        if (bloqueado) { PantallaBloqueo(Modifier.padding(padding)) { vm.abiertoHasta = System.currentTimeMillis() + 5 * 60_000 }; return@Scaffold }
+        if (bloqueado) { PantallaBloqueo(Modifier.padding(padding)) { vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }; return@Scaffold }
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->

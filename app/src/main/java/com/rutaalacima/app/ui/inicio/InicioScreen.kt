@@ -297,14 +297,14 @@ fun InicioScreen(onTerminar: () -> Unit) {
                 }
                 Sello.CLAVE -> {
                     val incorrecta = stringResource(R.string.clave_incorrecta)
-                    val espera = stringResource(R.string.clave_espera, (Bloqueo.ESPERA_MS / 1000).toInt())
+                    val espera = { ctx.getString(R.string.clave_espera, ((Bloqueo.esperaRestante(ctx) + 999) / 1000).toInt()) }
                     PinPad(
                         titulo = stringResource(R.string.clave_titulo), valor = clave, onCambio = { clave = it; error = null },
                         onConfirmar = {
                             when {
-                                Bloqueo.esperaRestante(ctx) > 0 -> error = espera
+                                Bloqueo.esperaRestante(ctx) > 0 -> error = espera()
                                 Bloqueo.verificarClave(ctx, clave) -> { clave = ""; abrir() }
-                                else -> { clave = ""; error = if (Bloqueo.esperaRestante(ctx) > 0) espera else incorrecta }
+                                else -> { clave = ""; error = if (Bloqueo.esperaRestante(ctx) > 0) espera() else incorrecta }
                             }
                         },
                         error = error,

@@ -54,6 +54,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -140,7 +141,7 @@ fun PantallaBloqueo(modifier: Modifier = Modifier, onAbrir: () -> Unit) {
                 OutlinedTextField(pin, { pin = it.filter(Char::isDigit).take(6) }, label = { Text(stringResource(R.string.cu_clave)) }, singleLine = true,
                     visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword))
                 val mal = stringResource(R.string.cu_clave_mal)
-                Button(onClick = { if (Bloqueo.verificarClave(ctx, pin)) onAbrir() else { error = mal; pin = "" } }, modifier = Modifier.padding(top = 8.dp)) { Text(stringResource(R.string.cu_abrir)) }
+                Button(onClick = { if (Bloqueo.verificarClave(ctx, pin)) onAbrir() else { error = if (Bloqueo.esperaRestante(ctx) > 0) ctx.getString(R.string.clave_espera, ((Bloqueo.esperaRestante(ctx) + 999) / 1000).toInt()) else mal; pin = "" } }, modifier = Modifier.padding(top = 8.dp)) { Text(stringResource(R.string.cu_abrir)) }
             }
             else -> {
                 Text(stringResource(R.string.cu_sin_bloqueo_tel), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
@@ -923,8 +924,15 @@ fun PrivacidadCard(libro: Libro, vm: CuentasViewModel) {
             Capa(Icons.Filled.Fingerprint, R.string.cu_capa_bloqueo, R.string.cu_capa_bloqueo_d) {
                 Switch(libro.bloqueo, { si ->
                     if (si && !Bloqueo.biometriaDisponible(ctx) && !Bloqueo.tieneClave(ctx)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueo)
-                    else { vm.bloqueo(si); if (si) vm.abiertoHasta = System.currentTimeMillis() + 5 * 60_000 }
+                    else { vm.bloqueo(si); if (si) vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
                 })
+            }
+            if (libro.bloqueo) Capa(Icons.Filled.Timer, R.string.cu_cierre, R.string.cu_cierre_d)
+            if (libro.bloqueo) SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth().padding(top = 6.dp)) {
+                listOf(1, 5, 15).forEachIndexed { i, m ->
+                    SegmentedButton(selected = libro.minutosCierre == m, onClick = { vm.cierre(m); vm.abiertoHasta = System.currentTimeMillis() + m * 60_000L },
+                        shape = SegmentedButtonDefaults.itemShape(i, 3)) { Text(stringResource(R.string.cu_min, m)) }
+                }
             }
             Capa(Icons.Filled.VisibilityOff, R.string.cu_capa_ocultar, R.string.cu_capa_ocultar_d) { Switch(libro.respuestas["fin#ocultar"] == "1", { vm.ocultar(it) }) }
             Capa(Icons.Filled.AttachFile, R.string.cu_capa_recibos, R.string.cu_capa_recibos_d)

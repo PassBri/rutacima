@@ -3779,3 +3779,5 @@ html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
 .cp .cp-flag { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px !important; grid-template-columns: none !important; }
 .cp .cp-flag input { flex: none; width: 18px !important; height: 18px !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; }
 .cp .cp-flag span { flex: 1; }
+.capas .seg.cierre-min { display: inline-grid; grid-template-columns: repeat(3, auto); gap: 4px; flex: none; }
+.capas .seg.cierre-min .seg-b { padding: 0 10px; min-height: 34px; font-size: 13px; white-space: nowrap; }

@@ -2455,4 +2455,7 @@
     <string name="cp_guia">전체 가이드 열기 (워크북 11)</string>
     <string name="cp_aprende_sub">이제 베이스캠프의 나침반에 있어요</string>
     <string name="cp_abrir">등반 동반자 열기</string>
+    <string name="cu_cierre">자동으로 잠김</string>
+    <string name="cu_cierre_d">이 시간 동안 사용하지 않거나 앱을 나가면 잠겨요.</string>
+    <string name="cu_min">%1$d분</string>
 </resources>
