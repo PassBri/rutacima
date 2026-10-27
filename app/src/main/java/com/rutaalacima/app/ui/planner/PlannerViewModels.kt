@@ -45,7 +45,7 @@ class PlannerViewModel(private val c: AppContainer) : ViewModel() {
     /** Planes de acción de las metas (libro "metas"), igual que la web. */
     val planes: StateFlow<Map<String, String>> =
         c.respuestas.observar(PlanMeta.WB).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
-    fun guardarPlan(metaId: Long, pasos: List<PasoPlan>) = viewModelScope.launch {
+    internal fun guardarPlan(metaId: Long, pasos: List<PasoPlan>) = viewModelScope.launch {
         c.respuestas.guardar(PlanMeta.WB, PlanMeta.clave(metaId), PlanMeta.escribir(pasos.filter { it.t.isNotBlank() }))
     }
     val mandala: StateFlow<Map<String, String>> =
