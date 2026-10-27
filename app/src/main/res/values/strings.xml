@@ -2530,4 +2530,8 @@
     <string name="submeta_quitar">Quitar sub-meta</string>
     <string name="submeta_ganado">Marcar como ganado</string>
     <string name="submeta_sincro">Sincronizada con tu Brújula: las 8 primeras son sus pasos.</string>
+    <string name="plan_accion">Plan de acción</string>
+    <string name="plan_hechos">%1$d de %2$d hechos</string>
+    <string name="plan_vacio">Sin pasos todavía. Agrega los que necesites para lograr esta meta.</string>
+    <string name="plan_guarda_meta">Guarda la meta para empezar su plan de acción.</string>
 </resources>

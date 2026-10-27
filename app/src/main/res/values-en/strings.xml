@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">Remove sub-goal</string>
     <string name="submeta_ganado">Mark as earned</string>
     <string name="submeta_sincro">Synced with your Compass: the first 8 are its steps.</string>
+    <string name="plan_accion">Action plan</string>
+    <string name="plan_hechos">%1$d of %2$d done</string>
+    <string name="plan_vacio">No steps yet. Add as many as you need to reach this goal.</string>
+    <string name="plan_guarda_meta">Save the goal to start its action plan.</string>
 </resources>

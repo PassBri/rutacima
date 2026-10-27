@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">Teilziel entfernen</string>
     <string name="submeta_ganado">Als geschafft markieren</string>
     <string name="submeta_sincro">Mit deinem Kompass synchron: Die ersten 8 sind seine Schritte.</string>
+    <string name="plan_accion">Aktionsplan</string>
+    <string name="plan_hechos">%1$d von %2$d erledigt</string>
+    <string name="plan_vacio">Noch keine Schritte. Füge so viele hinzu, wie du für dieses Ziel brauchst.</string>
+    <string name="plan_guarda_meta">Speichere das Ziel, um seinen Aktionsplan zu beginnen.</string>
 </resources>

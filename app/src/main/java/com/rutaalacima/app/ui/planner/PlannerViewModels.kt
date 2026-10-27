@@ -42,6 +42,12 @@ class PlannerViewModel(private val c: AppContainer) : ViewModel() {
     var vinculo by mutableStateOf<com.rutaalacima.app.data.local.VisionCasillaEntity?>(null)
         private set
     fun cargarVinculo(m: MetaAnualEntity) = viewModelScope.launch { vinculo = if (m.id != 0L) c.sincro.casillaDeMeta(m) else null }
+    /** Planes de acción de las metas (libro "metas"), igual que la web. */
+    val planes: StateFlow<Map<String, String>> =
+        c.respuestas.observar(PlanMeta.WB).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+    fun guardarPlan(metaId: Long, pasos: List<PasoPlan>) = viewModelScope.launch {
+        c.respuestas.guardar(PlanMeta.WB, PlanMeta.clave(metaId), PlanMeta.escribir(pasos.filter { it.t.isNotBlank() }))
+    }
     val mandala: StateFlow<Map<String, String>> =
         c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
     fun alternarGanado(casillaId: Long, paso: Int) = viewModelScope.launch { alternarGanadoPaso(c, casillaId, paso) }

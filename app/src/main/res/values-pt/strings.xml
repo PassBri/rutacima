@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">Remover submeta</string>
     <string name="submeta_ganado">Marcar como conquistado</string>
     <string name="submeta_sincro">Sincronizada com sua Bússola: as 8 primeiras são seus passos.</string>
+    <string name="plan_accion">Plano de ação</string>
+    <string name="plan_hechos">%1$d de %2$d feitos</string>
+    <string name="plan_vacio">Ainda sem passos. Adicione os que precisar para alcançar esta meta.</string>
+    <string name="plan_guarda_meta">Salve a meta para começar seu plano de ação.</string>
 </resources>

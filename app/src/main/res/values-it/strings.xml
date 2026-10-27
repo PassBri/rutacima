@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">Rimuovi sotto-obiettivo</string>
     <string name="submeta_ganado">Segna come conquistato</string>
     <string name="submeta_sincro">Sincronizzato con la tua Bussola: i primi 8 sono i suoi passi.</string>
+    <string name="plan_accion">Piano d’azione</string>
+    <string name="plan_hechos">%1$d di %2$d fatti</string>
+    <string name="plan_vacio">Ancora nessun passo. Aggiungi quelli che ti servono per raggiungere questo obiettivo.</string>
+    <string name="plan_guarda_meta">Salva l’obiettivo per iniziare il suo piano d’azione.</string>
 </resources>

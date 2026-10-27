@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">하위 목표 삭제</string>
     <string name="submeta_ganado">달성으로 표시</string>
     <string name="submeta_sincro">나침반과 동기화됨: 처음 8개가 그 단계예요.</string>
+    <string name="plan_accion">실행 계획</string>
+    <string name="plan_hechos">%2$d개 중 %1$d개 완료</string>
+    <string name="plan_vacio">아직 단계가 없어요. 이 목표에 필요한 만큼 추가하세요.</string>
+    <string name="plan_guarda_meta">목표를 저장하면 실행 계획을 시작할 수 있어요.</string>
 </resources>

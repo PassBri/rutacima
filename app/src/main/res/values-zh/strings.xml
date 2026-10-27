@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">移除子目标</string>
     <string name="submeta_ganado">标记为已达成</string>
     <string name="submeta_sincro">已与你的罗盘同步：前 8 个就是它的步骤。</string>
+    <string name="plan_accion">行动计划</string>
+    <string name="plan_hechos">已完成 %1$d / %2$d</string>
+    <string name="plan_vacio">还没有步骤。添加实现这个目标所需的任意步骤。</string>
+    <string name="plan_guarda_meta">先保存目标，再开始它的行动计划。</string>
 </resources>

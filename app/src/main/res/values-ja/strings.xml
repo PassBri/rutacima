@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">サブ目標を削除</string>
     <string name="submeta_ganado">達成にする</string>
     <string name="submeta_sincro">コンパスと同期：最初の8つがそのステップです。</string>
+    <string name="plan_accion">行動計画</string>
+    <string name="plan_hechos">%2$d 件中 %1$d 件完了</string>
+    <string name="plan_vacio">まだステップがありません。この目標に必要なだけ追加しましょう。</string>
+    <string name="plan_guarda_meta">目標を保存すると行動計画を始められます。</string>
 </resources>

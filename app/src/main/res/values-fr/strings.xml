@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">Retirer le sous-objectif</string>
     <string name="submeta_ganado">Marquer comme gagné</string>
     <string name="submeta_sincro">Synchronisé avec ta Boussole : les 8 premiers sont ses étapes.</string>
+    <string name="plan_accion">Plan d’action</string>
+    <string name="plan_hechos">%1$d sur %2$d faits</string>
+    <string name="plan_vacio">Pas encore d’étapes. Ajoute celles qu’il te faut pour atteindre cet objectif.</string>
+    <string name="plan_guarda_meta">Enregistre l’objectif pour commencer son plan d’action.</string>
 </resources>

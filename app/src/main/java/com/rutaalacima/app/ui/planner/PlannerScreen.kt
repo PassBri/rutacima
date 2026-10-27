@@ -237,7 +237,9 @@ internal fun MetasTab(vm: PlannerViewModel, bottom: androidx.compose.ui.unit.Dp,
         ) {
             androidx.compose.runtime.LaunchedEffect(meta.id) { vm.cargarVinculo(meta) }
             val mandala by vm.mandala.collectAsState()
+            val planes by vm.planes.collectAsState()
             MetaEditor(
+                plan = PlanMeta.leer(planes[PlanMeta.clave(meta.id)]), onPlan = { vm.guardarPlan(meta.id, it) },
                 inicial = meta,
                 propositos = propositos,
                 vinculo = vm.vinculo, mandala = mandala, onGanado = { cid, i -> vm.alternarGanado(cid, i) },
@@ -309,6 +311,8 @@ private fun MetaEditor(
     vinculo: com.rutaalacima.app.data.local.VisionCasillaEntity? = null,
     mandala: Map<String, String> = emptyMap(),
     onGanado: (Long, Int) -> Unit = { _, _ -> },
+    plan: List<PasoPlan> = emptyList(),
+    onPlan: (List<PasoPlan>) -> Unit = {},
 ) {
     var m by remember(inicial.id) { mutableStateOf(inicial) }
     Column(
@@ -319,6 +323,9 @@ private fun MetaEditor(
         if (m.id != 0L) com.rutaalacima.app.ui.components.ApodoField("a", m.id)
         OutlinedTextField(m.titulo, { m = m.copy(titulo = it) }, label = { Text(stringResource(R.string.actividad_meta)) }, modifier = Modifier.fillMaxWidth())
         SubMetasEditor(m.subMetas, { m = m.copy(subMetas = it) }, casillaId = vinculo?.id, mandala = mandala, onGanado = { i -> vinculo?.let { onGanado(it.id, i) } })
+        // Plan de acción: se guarda al instante (una meta nueva lo tiene cuando se guarda)
+        if (inicial.id != 0L) PlanMetaEditor(plan, onPlan)
+        else Text(stringResource(R.string.plan_guarda_meta), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         if (propositos.isNotEmpty()) {
             ChipSelector(
                 stringResource(R.string.proposito_aporta),

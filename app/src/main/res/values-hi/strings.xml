@@ -2521,4 +2521,8 @@
     <string name="submeta_quitar">उप-लक्ष्य हटाएँ</string>
     <string name="submeta_ganado">पूरा हुआ चिह्नित करें</string>
     <string name="submeta_sincro">आपके कम्पास से सिंक: पहले 8 उसके कदम हैं।</string>
+    <string name="plan_accion">कार्य योजना</string>
+    <string name="plan_hechos">%2$d में से %1$d पूरे</string>
+    <string name="plan_vacio">अभी कोई कदम नहीं। इस लक्ष्य के लिए जितने चाहिए उतने जोड़ें।</string>
+    <string name="plan_guarda_meta">कार्य योजना शुरू करने के लिए लक्ष्य सहेजें।</string>
 </resources>
