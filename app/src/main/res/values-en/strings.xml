@@ -2488,4 +2488,7 @@
     <string name="fa_listo">Done: your computer can now open your finances</string>
     <string name="fa_error">Couldn\'t approve. Generate a new QR on the web.</string>
     <string name="fa_cuenta">Sign in to the app to approve the web.</string>
+    <string name="vis_llenar_metas">Fill steps with my goals</string>
+    <string name="vis_llenar_listo">Done: %1$d steps written with your %2$d goals</string>
+    <string name="vis_llenar_nada">There were no empty steps or goals for this year in your camps</string>
 </resources>

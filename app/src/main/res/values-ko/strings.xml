@@ -2488,4 +2488,7 @@
     <string name="fa_listo">완료: 이제 컴퓨터에서 재정을 열 수 있어요</string>
     <string name="fa_error">승인하지 못했어요. 웹에서 새 QR을 만드세요.</string>
     <string name="fa_cuenta">웹을 승인하려면 앱에 로그인하세요.</string>
+    <string name="vis_llenar_metas">내 목표로 걸음 채우기</string>
+    <string name="vis_llenar_listo">완료: %2$d년 목표로 걸음 %1$d개를 썼어요</string>
+    <string name="vis_llenar_nada">캠프에 빈 걸음이나 올해 목표가 없었어요</string>
 </resources>

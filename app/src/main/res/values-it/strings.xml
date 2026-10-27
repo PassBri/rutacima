@@ -2488,4 +2488,7 @@
     <string name="fa_listo">Fatto: il tuo computer può aprire le tue finanze</string>
     <string name="fa_error">Impossibile approvare. Genera un nuovo QR sul web.</string>
     <string name="fa_cuenta">Accedi all\'app per approvare il web.</string>
+    <string name="vis_llenar_metas">Riempi i passi con i miei obiettivi</string>
+    <string name="vis_llenar_listo">Fatto: %1$d passi scritti con i tuoi obiettivi del %2$d</string>
+    <string name="vis_llenar_nada">Non c\'erano passi vuoti o obiettivi di quest\'anno nei tuoi campi</string>
 </resources>

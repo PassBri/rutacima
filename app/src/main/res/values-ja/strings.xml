@@ -2488,4 +2488,7 @@
     <string name="fa_listo">完了：パソコンで家計を開けるようになりました</string>
     <string name="fa_error">承認できませんでした。Web で新しい QR を作ってください。</string>
     <string name="fa_cuenta">Web を承認するにはアプリでログインしてください。</string>
+    <string name="vis_llenar_metas">目標でステップを埋める</string>
+    <string name="vis_llenar_listo">完了：%2$d 年の目標で %1$d 個のステップを書きました</string>
+    <string name="vis_llenar_nada">キャンプに空いているステップか今年の目標がありませんでした</string>
 </resources>

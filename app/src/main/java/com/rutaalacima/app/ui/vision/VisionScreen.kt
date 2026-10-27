@@ -37,6 +37,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.animation.AnimatedVisibility
@@ -216,6 +217,36 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
     /** Pasos de la mandala 9×9 (respuestas del workbook "mandala"). */
     val mandala = c.respuestas.observar(Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
     val cumbreFrase = c.perfil.perfil.map { it.cumbreFrase }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "")
+
+    /**
+     * Llena los pasos vacíos de cada campamento con las metas del año (por su eje, o el de su propósito)
+     * y sus submetas, por turnos para que cada meta aporte. Lo ya escrito se respeta (igual que la web).
+     */
+    fun llenarPasosConMetas(campamentos: List<CasillaVista?>, anio: Int, listo: (Int) -> Unit) = viewModelScope.launch {
+        val cas = cascada.value ?: c.cascada.cascada.first()
+        val anuales = cas.propositos.flatMap { p -> p.anios.map { it.meta to (it.meta.eje ?: p.proposito.eje) } } + cas.aniosSueltos.map { it.meta to it.meta.eje }
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        val limpiar = { t: String -> t.replace(Regex("^\\s*[a-zA-Z0-9][.)]\\s*"), "").trim() }
+        var n = 0
+        campamentos.forEachIndexed { i, cv ->
+            val casilla = cv?.casilla ?: return@forEachIndexed
+            val codigo = Mandala.CAMPAMENTOS_FIJOS[i]
+            if (codigo == "CAM") return@forEachIndexed
+            val listas = anuales.filter { (m, eje) -> m.anio == anio && (eje?.takeIf(String::isNotBlank) ?: "CON") == codigo }.map { (m, _) ->
+                m.subMetas.lines().map(limpiar).filter { it.isNotEmpty() && !it.lowercase().startsWith("avance") && it.length <= 140 }.ifEmpty { listOf(m.titulo) }
+            }
+            val cand = mutableListOf<String>(); val vistos = mutableSetOf<String>()
+            var k = 0
+            while (listas.any { k < it.size }) { listas.forEach { l -> l.getOrNull(k)?.let { if (vistos.add(it.lowercase())) cand += it } }; k++ }
+            var j = 0
+            for (p in 0 until Mandala.PASOS) {
+                if (j >= cand.size) break
+                if (r[Mandala.clave(casilla.id, p)].orEmpty().isNotBlank()) continue
+                c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, p), cand[j++].take(120)); n++
+            }
+        }
+        listo(n)
+    }
 
     fun guardarPaso(casilla: VisionCasillaEntity, paso: Int, texto: String) = viewModelScope.launch {
         c.respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(casilla.id, paso), texto.trim())
@@ -476,6 +507,18 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     // Arriba se elige cuál Brújula: la General (toda tu vida) o la de un año
                     SelectorBrujula(anioActivo, anios, aniosConBrujula, cumbresPorAnio, perfilVida.anioNacimiento, perfilVida.esperanza(), onElegir = { giradas = emptyList(); bloqueAbierto = null; vm.elegirAnio(it) })
+                    // Lleva las metas del año (y sus submetas) a los pasos vacíos de cada campamento
+                    if (casillas.isNotEmpty()) {
+                        val anioMetas = anioActivo ?: java.time.LocalDate.now().year
+                        val llenos = stringResource(R.string.vis_llenar_listo); val nada = stringResource(R.string.vis_llenar_nada)
+                        androidx.compose.material3.OutlinedButton(onClick = {
+                            vm.llenarPasosConMetas(campamentos, anioMetas) { n ->
+                                com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (n > 0) llenos.format(n, anioMetas) else nada)
+                            }
+                        }, modifier = Modifier.fillMaxWidth()) {
+                            Icon(Icons.Filled.Flag, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.vis_llenar_metas))
+                        }
+                    }
                     IntroduccionVision(
                         anio = anioActivo, vacia = casillas.isEmpty(), armando = vm.armando, conIa = vm.conIa,
                         conFoto = conFoto, total = tarjetasVisor.size, onArmar = { vm.armar(it) },

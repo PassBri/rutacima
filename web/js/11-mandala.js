@@ -371,6 +371,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
     <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["companero", "companero", "Compañero de Ascenso"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
+    <span class="md-riel-top"><button class="md-riel-btn" data-acc="mdPasosDeMetas" aria-label="Llenar pasos con mis metas del año" title="Llenar pasos con mis metas del año">${ic("metas")}</button></span>
     ${typeof tamBotones === "function" ? `<span class="md-riel-top md-riel-tam">${tamBotones()}</span>` : ""}
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
@@ -669,6 +670,34 @@ async function llenarCampamentosVacios() {
   for (const c of camps) if (c && [0, 1, 2, 3, 4, 5, 6, 7].every(p => !respuesta(Mandala.clave(c.id, p)).trim())) await llenarPasos(c);
 }
 window.llenarCampamentosVacios = llenarCampamentosVacios;
+
+/** Llena los pasos vacíos de cada campamento con las metas del año de la Brújula (y sus submetas),
+ *  repartiendo por turnos para que cada meta aporte. Lo ya escrito se respeta. Devuelve cuántos pasos llenó. */
+async function llenarPasosConMetas() {
+  const d = Mandala.datos(), anio = estado.brujulaAnio || new Date().getFullYear();
+  const limpiar = t => String(t || "").replace(/^\s*[a-zA-Z0-9][.)]\s*/, "").trim();
+  let n = 0;
+  for (let i = 0; i < 8; i++) {
+    const c = d.camps[i]; if (!c) continue;
+    const listas = metasDeCampamento(i).filter(m => m.anio === anio).map(m => {
+      const subs = String(m.subMetas || "").split("\n").map(limpiar).filter(t => t && !/^avance\b/i.test(t) && t.length <= 140);
+      return subs.length ? subs : [m.titulo];
+    });
+    const cand = [], vistos = new Set();
+    for (let k = 0; listas.some(l => k < l.length); k++) listas.forEach(l => { const t = l[k]; if (t && !vistos.has(t.toLowerCase())) { vistos.add(t.toLowerCase()); cand.push(t); } });
+    let j = 0;
+    for (let p = 0; p < 8 && j < cand.length; p++) {
+      if (respuesta(Mandala.clave(c.id, p)).trim()) continue;
+      responder("mandala", Mandala.clave(c.id, p), cand[j++].slice(0, 120)); n++;
+    }
+  }
+  return n;
+}
+ACC.mdPasosDeMetas = async () => {
+  const n = await llenarPasosConMetas();
+  toast(n ? `Listo: ${n} ${n === 1 ? "paso escrito" : "pasos escritos"} con tus metas de ${estado.brujulaAnio || new Date().getFullYear()}` : "No había pasos vacíos o metas de este año en tus campamentos");
+  pintarDetalle();
+};
 
 /** Imagen 1080×1350 del 9×9 (igual que MandalaImagen.kt en la app). */
 async function imagenMandala() {
@@ -975,7 +1004,8 @@ function visionVida() {
       <i aria-hidden="true"></i>${esc(Mandala.nombre(cod))}<span>${cod === "CAM" ? "" : ms.length}</span></button>`;
   }).join("");
   return hoja(`<div class="vv-cab"><div><h3>Planear por campamento</h3><p class="suave">Las metas que sostienen cada campamento de tu Brújula, año por año. Elige uno para verlas o crear una nueva.</p></div>
-      <button class="btn mini lleno" data-acc="compartirVision" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando…" : "Compartir mis campamentos"}</button></div>
+      <span class="botones" style="margin:0"><button class="btn mini" data-acc="mdPasosDeMetas">${ic("metas")} Llenar pasos con mis metas</button>
+      <button class="btn mini lleno" data-acc="compartirVision" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando…" : "Compartir mis campamentos"}</button></span></div>
     <div class="vv-chips">${chips}</div>${panel}`);
 }
 Object.assign(ACC, {

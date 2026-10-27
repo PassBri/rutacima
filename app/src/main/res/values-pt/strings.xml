@@ -2488,4 +2488,7 @@
     <string name="fa_listo">Pronto: seu computador já pode abrir suas finanças</string>
     <string name="fa_error">Não foi possível aprovar. Gere um novo QR na web.</string>
     <string name="fa_cuenta">Entre no app para aprovar a web.</string>
+    <string name="vis_llenar_metas">Preencher passos com minhas metas</string>
+    <string name="vis_llenar_listo">Pronto: %1$d passos escritos com suas metas de %2$d</string>
+    <string name="vis_llenar_nada">Não havia passos vazios ou metas deste ano nos seus acampamentos</string>
 </resources>

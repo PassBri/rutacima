@@ -2488,4 +2488,7 @@
     <string name="fa_listo">Fertig: Dein Computer kann deine Finanzen jetzt öffnen</string>
     <string name="fa_error">Bestätigung fehlgeschlagen. Erzeuge im Web einen neuen QR-Code.</string>
     <string name="fa_cuenta">Melde dich in der App an, um das Web zu bestätigen.</string>
+    <string name="vis_llenar_metas">Schritte mit meinen Zielen füllen</string>
+    <string name="vis_llenar_listo">Fertig: %1$d Schritte mit deinen Zielen für %2$d geschrieben</string>
+    <string name="vis_llenar_nada">In deinen Lagern gab es keine leeren Schritte oder Ziele für dieses Jahr</string>
 </resources>
