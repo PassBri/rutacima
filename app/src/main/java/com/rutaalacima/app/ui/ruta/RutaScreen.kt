@@ -471,8 +471,6 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
     onMeta: (Int) -> Unit,
 ) {
     item { RecordatorioDiaCard(perfil, onAjustes) }
-    // Lo más grande va arriba: los propósitos de varios años (Brújula general); cada año lleva sus metas (igual que la web)
-    item(key = "propositos") { PropositosRuta(propositos, onProposito) }
     val anioNac = perfil.anioNacimiento
     if (anioNac != null) {
         val meta = perfil.esperanza()
@@ -527,6 +525,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
         item { Text(stringResource(R.string.ruta_puntos_sin_fecha), style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant) }
     }
+    // Los puntos de vida ordenan todo (años → meses → días); debajo, los propósitos de varios años (igual que la web)
+    item(key = "propositos") { PropositosRuta(propositos, onProposito) }
 }
 
 /** Órbita de un año con metas: un arco que se desvanece y gira despacio (9 s por vuelta), sin tapar el punto. */

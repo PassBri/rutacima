@@ -112,14 +112,14 @@ const LISTAS = {
   ruta() {
     const r = recordatorio(), p = perfil();
     let h = cabLista("Mi ruta", { chips: [["todo", "Toda la vida"], ["prop", "Propósitos"], ["plan", "Años del plan"], ["metas", "Con metas"]], nuevo: ["nuevo", "Nuevo propósito o meta"] }) + `<div class="items">`;
-    // Propósitos (Brújula general): lo más grande va arriba
+    // Mi ruta se ordena por los puntos de vida (años → meses → días); los propósitos se ven en su filtro
     const c0 = cascada(), props = c0.props.filter(x => coincide(x.titulo)).sort((x, y) => (x.prioridad || "B").localeCompare(y.prioridad || "B") || (x.orden || 0) - (y.orden || 0) || x.id - y.id);
-    if (estado.filtro === "prop" || estado.filtro === "todo") {
+    if (estado.filtro === "prop") {
       if (estado.filtro === "prop" && window.Sincro && Store.lista("vision").length) h += `<div class="sm-rehacer"><span class="suave">Tus propósitos y metas salen de tu Brújula</span><button class="btn mini" data-acc="rehacerMetas" title="Quita tus metas y propósitos actuales (con respaldo) y los vuelve a crear desde la Brújula">${ic("brujula")} Rehacer desde la Brújula</button></div>`;
       h += grupo("Propósitos · varios años");
       if (!props.length) h += `<p class="vacio-mini">Todavía no hay propósitos. Nacen de tu Brújula general.</p>`;
       props.forEach(x => { h += item("p:" + x.id, av(pctTxt(c0.nodoProp(x)), COLOR_EJE[x.eje] || "var(--burdeos)"), esc(x.titulo), `${x.horizonte || 5} años`, apodoSeguro("p", x.id, (NOMBRE_EJE[x.eje] || "Confluencia") + ` · Prioridad ${x.prioridad || "B"}`)); });
-      if (estado.filtro === "prop") return h + `</div>`;
+      return h + `</div>`;
     }
     if (!r) return h + `<p class="vacio-mini">Agrega tu fecha de nacimiento en Perfil para ver tu vida año por año.</p><div class="botones" style="justify-content:center"><button class="btn lleno" data-ir="perfil" data-arg="perfil">Ir a mi perfil</button></div></div>`;
     const anioHoy = new Date().getFullYear(), nac = p.anioNacimiento, ultimo = nac + metaVida();
