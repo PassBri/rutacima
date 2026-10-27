@@ -277,6 +277,8 @@ fun RutaScreen(
     Box(Modifier.fillMaxSize()) {
     Column(Modifier.fillMaxSize().padding(top = contentPadding.calculateTopPadding())) {
         Migas(nivel, perfil, ir)
+        // Barra de vida (igual que la web en el teléfono): años; el abierto muestra sus meses y el mes abierto sus días
+        BarraVida(nivel, perfil, anuales, ir)
         SaltosChips(ir)
         val deslizar = Modifier.pointerInput(codigo) {
             val n0 = nivel; if (n0 !is Nivel.Anio) return@pointerInput
@@ -960,6 +962,77 @@ private fun PropositosRuta(propositos: List<PropositoEntity>, onProposito: (Long
                 Text(p.titulo, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f), maxLines = 2)
                 Text(stringResource(R.string.ruta_prop_anios, p.horizonte), style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+/** Barra de vida: un punto por año; el año abierto despliega sus meses y el mes abierto sus días. Tocar otra vez sube un nivel. */
+@Composable
+private fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>, ir: (Nivel) -> Unit) {
+    val nac = perfil.anioNacimiento ?: return
+    val h = hoy()
+    val (a, m, d) = when (nivel) {
+        is Nivel.Anio -> Triple(nivel.anio, null, null)
+        is Nivel.Mes -> Triple(nivel.ym.year, nivel.ym.monthValue, null)
+        is Nivel.Semana -> YearMonth.from(nivel.lunes.plusDays(3)).let { Triple(it.year, it.monthValue, null) }
+        is Nivel.Dia -> Triple(nivel.fecha.year, nivel.fecha.monthValue, nivel.fecha.dayOfMonth)
+        else -> Triple(null, null, null)
+    }
+    val conMetas = remember(anuales) { anuales.map { it.anio }.toSet() }
+    // Los elementos de la barra, en orden: años, y dentro del año abierto sus meses (y del mes abierto sus días)
+    data class Pieza(val clave: String, val anio: Int, val mes: Int? = null, val dia: Int? = null)
+    val piezas = remember(nac, a, m, perfil.esperanza()) {
+        buildList {
+            for (y in nac..nac + perfil.esperanza()) {
+                add(Pieza("a$y", y))
+                if (y == a) for (mm in 1..12) {
+                    add(Pieza("m$y-$mm", y, mm))
+                    if (mm == m) for (dd in 1..YearMonth.of(y, mm).lengthOfMonth()) add(Pieza("d$y-$mm-$dd", y, mm, dd))
+                }
+            }
+        }
+    }
+    val estado = androidx.compose.foundation.lazy.rememberLazyListState()
+    LaunchedEffect(nivel) {
+        val i = piezas.indexOfFirst { if (d != null) it.dia == d && it.mes == m else if (m != null) it.mes == m && it.dia == null && it.anio == a else if (a != null) it.anio == a && it.mes == null else it.anio == h.year && it.mes == null }
+        if (i >= 0) estado.animateScrollToItem(maxOf(0, i - 2))
+    }
+    val cs = MaterialTheme.colorScheme
+    LazyRow(state = estado, contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+        items(piezas, key = { it.clave }) { p ->
+            when {
+                p.mes == null -> {
+                    val abierto = p.anio == a
+                    Row(Modifier.clip(RoundedCornerShape(50)).background(if (abierto) cs.secondaryContainer else Color.Transparent)
+                        .clickable { ir(if (abierto && m == null) Nivel.Vida else Nivel.Anio(p.anio)) }
+                        .heightIn(min = 44.dp).padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(10.dp).clip(CircleShape)
+                            .background(if (p.anio < h.year) cs.primary else if (p.anio == h.year) cs.secondary else Color.Transparent)
+                            .border(if (p.anio in conMetas) 2.dp else 1.dp, if (p.anio in conMetas) cs.secondary else cs.outline, CircleShape))
+                        Spacer(Modifier.width(6.dp))
+                        Text("${p.anio}", style = MaterialTheme.typography.labelLarge,
+                            fontWeight = if (abierto || p.anio == h.year) FontWeight.Bold else FontWeight.Normal)
+                    }
+                }
+                p.dia == null -> {
+                    val abierto = p.mes == m
+                    Text(nombreMes(p.mes!!).take(3), style = MaterialTheme.typography.labelLarge,
+                        color = if (abierto) cs.onPrimary else cs.onSurface,
+                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(if (abierto) cs.primary else cs.surfaceContainerHigh)
+                            .clickable { ir(if (abierto && d == null) Nivel.Anio(p.anio) else Nivel.Mes(YearMonth.of(p.anio, p.mes!!))) }
+                            .heightIn(min = 40.dp).padding(horizontal = 12.dp, vertical = 10.dp))
+                }
+                else -> {
+                    val abierto = p.dia == d
+                    val esHoy = p.anio == h.year && p.mes == h.monthValue && p.dia == h.dayOfMonth
+                    Box(Modifier.size(36.dp).clip(CircleShape).background(if (abierto) cs.primary else Color.Transparent)
+                        .border(if (esHoy) 1.5.dp else 0.dp, if (esHoy) cs.secondary else Color.Transparent, CircleShape)
+                        .clickable { ir(Nivel.Dia(LocalDate.of(p.anio, p.mes!!, p.dia!!))) }, contentAlignment = Alignment.Center) {
+                        Text("${p.dia}", style = MaterialTheme.typography.labelMedium, color = if (abierto) cs.onPrimary else cs.onSurfaceVariant)
+                    }
+                }
             }
         }
     }
