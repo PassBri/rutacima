@@ -157,7 +157,7 @@ internal fun NavegacionVision(modo: ModoTarjetas, onModo: (ModoTarjetas) -> Unit
     FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp), verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = Modifier.fillMaxWidth()) {
         listOf(1, 9, 81).forEachIndexed { i, numero ->
-            val descripcion = stringResource(listOf(R.string.vision_seccion_cumbre, R.string.vision_seccion_rosa, R.string.brujula_titulo)[i])
+            val descripcion = stringResource(listOf(R.string.vision_seccion_cumbre, R.string.vision_seccion_rosa, R.string.vision_seccion_ruta)[i])
             // 1 · 9 · 81 en una sola pantalla: la capa elegida queda marcada
             if (i == seccion) androidx.compose.material3.FilledTonalButton(onClick = { onSeccion(i) }, enabled = habilitada, modifier = Modifier.semantics { contentDescription = descripcion }) {
                 Text(stringResource(R.string.vision_nivel_numero, numero))
@@ -496,11 +496,8 @@ internal fun EsferaBrujula(modifier: Modifier = Modifier, contenido: @Composable
             Text("N", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, color = burdeos)
         }
         Column(Modifier.align(Alignment.BottomCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-            // La S es de SuRoute: un pequeño sello de lacre
-            Box(Modifier.size(20.dp).clip(RoundedCornerShape(50)).background(
-                androidx.compose.ui.graphics.Brush.radialGradient(listOf(burdeos.copy(alpha = .8f), burdeos, Color(0xFF3E0F12)))), contentAlignment = Alignment.Center) {
-                Text("S", style = MaterialTheme.typography.labelMedium, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, color = Color.White)
-            }
+            // La S es de SuRoute: en rojo lacre y negrita
+            Text("S", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, color = burdeos)
         }
         Row(Modifier.align(Alignment.CenterStart), verticalAlignment = Alignment.CenterVertically) {
             Text("O", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, color = suave); Spacer(Modifier.width(3.dp)); Box(Modifier.size(6.dp, 1.dp).background(linea))

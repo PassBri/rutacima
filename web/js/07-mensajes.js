@@ -289,7 +289,7 @@ DET["mensajes.coachvida"] = () => {
       ${mio.estado === "solicitado" ? `<p class="suave">Esperando que acepte tu solicitud.</p>` : `
         <div class="botones" style="margin-top:12px"><button class="btn lleno" data-acc="escribirA" data-arg="${esc(mio.otroId)}|${esc(mio.otroNombre)}">${ic("mensajes")} Escribir</button></div>
         <label style="display:flex;align-items:flex-start;gap:12px;margin-top:14px;cursor:pointer"><input type="checkbox" style="width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--burdeos)" data-acc-change="compartirAvance" data-arg="${esc(mio.id)}" ${mio.comparteAvance ? "checked" : ""}>
-          <span><b>Compartir mi avance</b><br><span class="suave" style="font-size:13px">Tu cumbre, propósitos, metas, hábitos de la semana, ejes y vision board. Nunca tus respuestas de los libros ni tus notas.</span></span></label>
+          <span><b>Compartir mi avance</b><br><span class="suave" style="font-size:13px">Tu cumbre, propósitos, metas, hábitos de la semana, ejes y campamentos. Nunca tus respuestas de los libros ni tus notas.</span></span></label>
         ${mio.estado === "activo" ? `<div class="ses-bloque">${htmlSesiones(mio.id)}</div>` : ""}`}
       <div class="botones" style="margin-top:8px"><button class="btn mini peligro" data-acc="terminarAcomp" data-arg="${esc(mio.id)}">${mio.estado === "solicitado" ? "Cancelar solicitud" : "Terminar acompañamiento"}</button></div>`);
   }
@@ -339,7 +339,7 @@ DET["mensajes.acomp"] = uid => {
     <p class="suave" style="margin:6px 0 0;font-size:13px">Promedio: ${prom.toFixed(1)} de ${habitos().length} hábitos al día</p>`);
   h += bloqueX("Propósitos", r.propositos) + bloqueX("Metas del año", r.metasAnio) + bloqueX("Metas del mes", r.metasMes);
   if (r.ejes) h += hoja(`<div class="etiqueta">Ejes</div>` + EJES.map(([c, n], i) => `<div style="display:grid;grid-template-columns:120px 1fr 24px;gap:10px;align-items:center;margin-top:8px"><span>${n}</span>${barra(r.ejes[i] * 10)}<b>${r.ejes[i]}</b></div>`).join(""));
-  if (r.visionTotal) h += hoja(`<p style="margin:0">Vision board: ${r.visionConFoto} de ${r.visionTotal} casillas con su foto</p>`);
+  if (r.visionTotal) h += hoja(`<p style="margin:0">Campamentos: ${r.visionConFoto} de ${r.visionTotal} casillas con su foto</p>`);
   return titulo + cuerpo(h + deCoach, "max-width:680px");
 };
 

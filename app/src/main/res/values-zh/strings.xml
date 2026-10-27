@@ -423,7 +423,7 @@
     <string name="crear_cuenta">创建账号</string>
     <string name="filtro_para_ti">为你推荐</string>
     <string name="filtro_siguiendo">关注</string>
-    <string name="filtro_vision">愿景板</string>
+    <string name="filtro_vision">营地</string>
     <string name="error_cargar">无法加载：%1$s</string>
     <string name="feed_vacio">还没有帖子。来做第一个分享进展的人吧！</string>
     <string name="visibilidad_publica">公开</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">感悟</string>
     <string name="tipo_logro_ayuda">庆祝你取得的成绩。每一次胜利都算数。</string>
     <string name="tipo_evidencia_ayuda">展示你进展的证明：一张照片胜过千言万语。</string>
-    <string name="tipo_vision_ayuda">给你的愿景板添加一张图片：你的山巅是什么样子。</string>
+    <string name="tipo_vision_ayuda">给你的营地添加一张图片：你的山巅是什么样子。</string>
     <string name="tipo_meta_ayuda">公开你的目标：被分享的承诺更容易兑现。</string>
     <string name="tipo_reflexion_ayuda">分享一个旅途中的心得。</string>
     <string name="agregar_foto">添加照片</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">即使设为私密，它也会一直保存在你的人生日记里。</string>
     <string name="demo_post_1">我完成了第一门设计课程！连续 30 天，每天练习 1 小时。</string>
     <string name="demo_meta_1">6 个月内精通 UX 设计</string>
-    <string name="demo_post_2">我的 2027 愿景板：带花园的房子、属于自己的工作室，还有陪伴家人的时间。</string>
+    <string name="demo_post_2">我的 2027 营地：带花园的房子、属于自己的工作室，还有陪伴家人的时间。</string>
     <string name="demo_post_3">坚持 5:00 起床的第 21 天。自律开始变得自然了。</string>
     <string name="demo_meta_3">养成早起的习惯</string>
     <string name="demo_post_4">我今年的目标：不增加工作时间，让创业收入翻一番。</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">已完成目标</string>
     <string name="perfil_tab_publicaciones">帖子</string>
     <string name="perfil_tab_vida">我的人生</string>
-    <string name="perfil_tab_vision">愿景板</string>
+    <string name="perfil_tab_vision">营地</string>
     <string name="perfil_tab_ejes">维度</string>
     <string name="sin_publicaciones">你还没有发布过内容。分享你的第一个成就吧。</string>
-    <string name="vision_board_texto">你的愿景板：你正在打造的人生画面。</string>
+    <string name="vision_board_texto">你的营地：你正在打造的人生画面。</string>
     <string name="vision_vacia">添加你的第一张愿景图片。</string>
     <string name="agregar_vision">添加到我的愿景</string>
     <string name="ejes_sin_evaluar">你还没有评估你的 6 个维度。</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">完成。你的路线已从云端删除，手机上仍完整保留。</string>
     <string name="web_codigo_invalido">这不是 SuRoute 的二维码。请扫描 SuRoute Web 上显示的二维码。</string>
     <string name="web_escaner_no">无法打开扫描器。请输入网页上显示的代码。</string>
-    <string name="vision_titulo">我的愿景板</string>
-    <string name="vision_abrir">打造我的愿景板</string>
+    <string name="vision_titulo">我的营地</string>
+    <string name="vision_abrir">打造我的营地</string>
     <string name="vision_intro">AI 根据你的巅峰、目标和计划搭建愿景板，再由你放上自己的照片：每张图都来自你的生活，而不是图库。</string>
     <string name="vision_armar">用 AI 搭建</string>
     <string name="vision_rearmar">重新建议</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">等待对方接受你的请求。</string>
     <string name="coach_vida_escribir">发消息</string>
     <string name="coach_vida_compartir">分享我的进展</string>
-    <string name="coach_vida_compartir_ayuda">你的巅峰、使命、目标、本周习惯、维度和愿景板。绝不包括你在书中的回答或笔记。</string>
+    <string name="coach_vida_compartir_ayuda">你的巅峰、使命、目标、本周习惯、维度和营地。绝不包括你在书中的回答或笔记。</string>
     <string name="coach_vida_cancelar">取消请求</string>
     <string name="coach_vida_terminar">结束辅导</string>
     <string name="coach_vida_acompanas">你辅导的人</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">开始你的第一本指南</string>
     <string name="paso_guia_texto">《发现你的个人巅峰》一步步带领你，也可以收听。</string>
     <string name="paso_guia_boton">打开指南</string>
-    <string name="paso_vision">制作你的愿景板</string>
+    <string name="paso_vision">制作你的营地</string>
     <string name="paso_vision_texto">AI 根据你写下的内容生成，你用自己的照片填满。</string>
-    <string name="paso_vision_boton">制作我的愿景板</string>
+    <string name="paso_vision_boton">制作我的营地</string>
     <string name="paso_comunidad">分享你的目标</string>
     <string name="paso_comunidad_texto">说出来就是承诺。可以只自己可见，或只给关注者看。</string>
     <string name="paso_comunidad_boton">发布我的目标</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">你最稳定的习惯</string>
     <string name="constancia_veces">今年 %1$d 天</string>
     <string name="respaldo_titulo">备份</string>
-    <string name="respaldo_texto">将你的整条路线保存为文件（目标、习惯、回答、维度、愿景板和语录）。无需账号，换手机或以防万一都适用。</string>
+    <string name="respaldo_texto">将你的整条路线保存为文件（目标、习惯、回答、维度、营地和语录）。无需账号，换手机或以防万一都适用。</string>
     <string name="respaldo_guardar">保存我的路线副本</string>
     <string name="respaldo_restaurar">恢复副本</string>
     <string name="respaldo_guardado">副本已保存。</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">今天推进了</string>
     <string name="metodo_ya_hoy">今天已计入</string>
     <string name="metodo_ganado">步骤已赢得</string>
-    <string name="mandala_compartir">把我的 9×9 分享到社区</string>
+    <string name="mandala_compartir">在社区分享我的指南针</string>
     <string name="mandala_compartiendo">正在生成图片…</string>
-    <string name="mandala_compartir_ayuda">将发布一张包含你的顶峰、愿景板照片和步骤的 9×9 图片。谁可以看到？</string>
+    <string name="mandala_compartir_ayuda">将发布一张包含你的顶峰、营地照片和路线的指南针图片。谁可以看到？</string>
     <string name="mandala_compartir_publico">所有人</string>
     <string name="mandala_compartir_seguidores">我的关注者</string>
     <string name="mandala_compartido">你的 9×9 已发布到社区</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">营地：山顶和它的 8 个营地。轻点山顶查看 9×9，或轻点营地打开它的步骤。</string>
     <string name="brujula_zoom_81">完整的罗盘：81 格。点一个区块在下方打开。返回可用箭头、路径导航或返回键。</string>
     <string name="brujula_nivel_vision">营地</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">路线</string>
     <string name="brujula_alejar">缩小</string>
     <string name="carta_titulo">欢迎信</string>
     <string name="carta_para">致决定攀登的你</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">由你的机构提供。</string>
     <string name="plan_origen_piloto">你是试点计划的一员。</string>
     <string name="plan_b_metodo">指南、轴心、目标和习惯</string>
-    <string name="plan_b_brujula">顶峰罗盘与愿景板</string>
+    <string name="plan_b_brujula">顶峰罗盘与营地</string>
     <string name="plan_b_comunidad">社区、消息和绳队</string>
     <string name="plan_b_web">SuRoute 网页版，iPhone 也能用</string>
     <string name="plan_b_datos">备份、导出和删除你的数据</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">添加习惯</string>
     <string name="habitos_fabrica">恢复默认</string>
     <string name="habitos_fabrica_si">是，恢复 18 个</string>
-    <string name="vv_titulo">我的愿景板</string>
+    <string name="vv_titulo">我的营地</string>
     <string name="vv_ayuda">你的顶峰在中心，周围是支撑它的一切。点一个营地，按年份查看并规划它的目标。</string>
     <string name="vv_vacio">这是你路线的核心：顶峰在中心，周围 8 个营地。AI 根据你的顶峰、使命和目标来搭建，你再用自己的照片填满它。</string>
-    <string name="vv_armar">搭建我的愿景板</string>
-    <string name="vv_armando">正在搭建你的愿景板…</string>
+    <string name="vv_armar">搭建我的营地</string>
+    <string name="vv_armando">正在搭建你的营地…</string>
     <string name="vv_metas_n">%1$d 个目标</string>
     <string name="vv_sin_metas">还没有目标</string>
     <string name="vv_sin_metas_texto">还没有目标支撑这个营地。规划第一个：你想在哪一年实现？</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">用一句话和一张照片写下你的目标。它是其他一切的北方。</string>
     <string name="modelo_e9_t">8 个营地</string>
     <string name="modelo_e9_d">山顶周围有 8 个支撑它的方向：%1$s。它们合起来组成“营地”这一层。</string>
-    <string name="modelo_e81_t">64 个步骤</string>
-    <string name="modelo_e81_d">每个营地展开为 8 个具体步骤。山顶、8 个营地和 64 个步骤组成 9×9 指南针。</string>
+    <string name="modelo_e81_t">路线</string>
+    <string name="modelo_e81_d">每个营地展开为 8 个具体步骤：64 个步骤就是你通往山顶的路线。山顶、8 个营地和路线组成指南针 1·9·81。</string>
     <string name="modelo_camino">一年的路</string>
     <string name="modelo_c1_t">梦想</string>
     <string name="modelo_c1_d">写下你的山顶并配一张照片。</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">指南针 1·9·81 的灵感来自松村宁雄于 1979 年在日本创立的曼陀罗图（Matsumura, 2007）。他把佛教曼陀罗的 3×3 结构用于人生与工作规划：中心是一个目标，周围是八个领域（健康、工作、经济、家庭、社会、品格、学习和休闲），以求平衡地生活（Mandala Chart Kyōkai, n.d.）。今泉浩晃把它发展为用于构思的 Mandal-Art（Imaizumi, 1988），原田隆史则发展为用于实现目标的 Open Window 64 表，大谷翔平用的就是它（Harada &amp; Shibayama, 2017）。</string>
     <string name="modelo_origen_suroute">Ruta a la Cima 方法把它变成一个登山指南针：一个山顶、8 个营地和 64 个用行程日赢得的步骤，用 Cima 9×52 方法衡量，每个步骤配一张证据照片。</string>
     <string name="modelo_refs_t">参考文献</string>
+    <string name="vision_seccion_ruta">81 · 路线</string>
 </resources>

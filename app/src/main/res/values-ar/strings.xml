@@ -423,7 +423,7 @@
     <string name="crear_cuenta">إنشاء حساب</string>
     <string name="filtro_para_ti">لك</string>
     <string name="filtro_siguiendo">المتابَعون</string>
-    <string name="filtro_vision">لوحات الرؤية</string>
+    <string name="filtro_vision">المعسكرات</string>
     <string name="error_cargar">تعذّر التحميل: %1$s</string>
     <string name="feed_vacio">لا منشورات بعد. كن أول من يشارك تقدّمه!</string>
     <string name="visibilidad_publica">عام</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">تأمل</string>
     <string name="tipo_logro_ayuda">احتفل بشيء حققته. كل انتصار يُحسب.</string>
     <string name="tipo_evidencia_ayuda">اعرض دليل تقدّمك: صورة واحدة تغني عن ألف نيّة.</string>
-    <string name="tipo_vision_ayuda">أضف صورة إلى لوحة رؤيتك: كيف تبدو قمّتك.</string>
+    <string name="tipo_vision_ayuda">أضف صورة إلى معسكراتك: كيف تبدو قمّتك.</string>
     <string name="tipo_meta_ayuda">أعلن هدفك: الالتزام المشترك يُنجَز أكثر.</string>
     <string name="tipo_reflexion_ayuda">شارك درسًا من الطريق.</string>
     <string name="agregar_foto">إضافة صورة</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">يبقى دائمًا في مذكرات حياتك، حتى لو كان خاصًا.</string>
     <string name="demo_post_1">أنهيت دورتي الأولى في التصميم! 30 يومًا متتاليًا من التدرّب ساعة يوميًا.</string>
     <string name="demo_meta_1">إتقان تصميم تجربة المستخدم خلال 6 أشهر</string>
-    <string name="demo_post_2">لوحة رؤيتي لعام 2027: بيت بحديقة، وورشة خاصة، ووقت لعائلتي.</string>
+    <string name="demo_post_2">معسكراتي لعام 2027: بيت بحديقة، وورشة خاصة، ووقت لعائلتي.</string>
     <string name="demo_post_3">اليوم الحادي والعشرون من الاستيقاظ في الخامسة. بدأ الانضباط يصبح طبيعيًا.</string>
     <string name="demo_meta_3">بناء عادة الاستيقاظ المبكر</string>
     <string name="demo_post_4">هدفي لهذه السنة: مضاعفة إيرادات مشروعي دون زيادة ساعات العمل.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">أهداف محققة</string>
     <string name="perfil_tab_publicaciones">المنشورات</string>
     <string name="perfil_tab_vida">حياتي</string>
-    <string name="perfil_tab_vision">لوحة الرؤية</string>
+    <string name="perfil_tab_vision">المعسكرات</string>
     <string name="perfil_tab_ejes">المحاور</string>
     <string name="sin_publicaciones">لم تنشر بعد. شارك أول إنجاز لك.</string>
-    <string name="vision_board_texto">لوحة رؤيتك: صور الحياة التي تبنيها.</string>
+    <string name="vision_board_texto">معسكراتك: صور الحياة التي تبنيها.</string>
     <string name="vision_vacia">أضف أول صورة لرؤيتك.</string>
     <string name="agregar_vision">إضافة إلى رؤيتي</string>
     <string name="ejes_sin_evaluar">لم تقيّم محاورك الستة بعد.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">تم. حُذف مسارك من السحابة وما زال كاملًا على هاتفك.</string>
     <string name="web_codigo_invalido">هذا ليس رمز SuRoute. امسح الرمز الظاهر في SuRoute Web.</string>
     <string name="web_escaner_no">تعذّر فتح الماسح. اكتب الرمز الظاهر في الويب.</string>
-    <string name="vision_titulo">لوحة رؤيتي</string>
-    <string name="vision_abrir">إنشاء لوحة رؤيتي</string>
+    <string name="vision_titulo">معسكراتي</string>
+    <string name="vision_abrir">إنشاء معسكراتي</string>
     <string name="vision_intro">يبني الذكاء الاصطناعي لوحتك من قمتك وأهدافك وغاياتك، وتملؤها أنت بصورك: فكل صورة من حياتك لا من كتالوج.</string>
     <string name="vision_armar">إنشاء بالذكاء الاصطناعي</string>
     <string name="vision_rearmar">اقتراح جديد</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">بانتظار قبول طلبك.</string>
     <string name="coach_vida_escribir">مراسلة</string>
     <string name="coach_vida_compartir">مشاركة تقدّمي</string>
-    <string name="coach_vida_compartir_ayuda">قمّتك وغاياتك وأهدافك وعادات الأسبوع والمحاور ولوحة الرؤية. لا إجاباتك في الكتب ولا ملاحظاتك أبدًا.</string>
+    <string name="coach_vida_compartir_ayuda">قمّتك وغاياتك وأهدافك وعادات الأسبوع والمحاور والمعسكرات. لا إجاباتك في الكتب ولا ملاحظاتك أبدًا.</string>
     <string name="coach_vida_cancelar">إلغاء الطلب</string>
     <string name="coach_vida_terminar">إنهاء المرافقة</string>
     <string name="coach_vida_acompanas">الأشخاص الذين ترافقهم</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">ابدأ دليلك الأول</string>
     <string name="paso_guia_texto">«اكتشف قمّتك الشخصية» يرشدك خطوة بخطوة. ويمكنك الاستماع إليه.</string>
     <string name="paso_guia_boton">افتح الدليل</string>
-    <string name="paso_vision">أنشئ لوحة رؤيتك</string>
+    <string name="paso_vision">أنشئ معسكراتك</string>
     <string name="paso_vision_texto">يبنيها الذكاء الاصطناعي مما كتبته، وتملؤها أنت بصورك.</string>
-    <string name="paso_vision_boton">أنشئ لوحتي</string>
+    <string name="paso_vision_boton">أنشئ معسكراتي</string>
     <string name="paso_comunidad">شارك هدفك</string>
     <string name="paso_comunidad_texto">قوله بصوت عالٍ التزام. يمكنك نشره لك وحدك أو لمتابعيك.</string>
     <string name="paso_comunidad_boton">انشر هدفي</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">أكثر عاداتك ثباتًا</string>
     <string name="constancia_veces">%1$d أيام هذا العام</string>
     <string name="respaldo_titulo">نسخة احتياطية</string>
-    <string name="respaldo_texto">احفظ مسارك كاملًا في ملف (الأهداف والعادات والإجابات والمحاور ولوحة الرؤية والعبارات). يعمل دون حساب، لتغيير الهاتف أو للاحتياط.</string>
+    <string name="respaldo_texto">احفظ مسارك كاملًا في ملف (الأهداف والعادات والإجابات والمحاور والمعسكرات والعبارات). يعمل دون حساب، لتغيير الهاتف أو للاحتياط.</string>
     <string name="respaldo_guardar">احفظ نسخة من مساري</string>
     <string name="respaldo_restaurar">استعادة نسخة</string>
     <string name="respaldo_guardado">تم حفظ النسخة.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">تقدّمت اليوم</string>
     <string name="metodo_ya_hoy">اليوم محسوب بالفعل</string>
     <string name="metodo_ganado">خطوة مكتسبة</string>
-    <string name="mandala_compartir">شارك شبكتي 9×9 مع المجتمع</string>
+    <string name="mandala_compartir">شارك بوصلتي مع المجتمع</string>
     <string name="mandala_compartiendo">جارٍ تجهيز الصورة…</string>
-    <string name="mandala_compartir_ayuda">ستُنشر صورة لشبكتك 9×9 فيها قمتك وصور لوحة رؤيتك وخطواتك. من يمكنه رؤيتها؟</string>
+    <string name="mandala_compartir_ayuda">ستُنشر صورة لبوصلتك فيها قمتك وصور معسكراتك ومسارك. من يمكنه رؤيتها؟</string>
     <string name="mandala_compartir_publico">الجميع</string>
     <string name="mandala_compartir_seguidores">متابعيّ</string>
     <string name="mandala_compartido">شبكتك 9×9 الآن في المجتمع</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">المعسكرات: القمة ومعسكراتها الثمانية. اضغط على القمة لرؤية 9×9 أو على معسكر لفتح خطواته.</string>
     <string name="brujula_zoom_81">بوصلتك كاملة: 81 خانة. المس كتلة لفتحها بالأسفل. للعودة استخدم السهم أو مسار التنقل أو زر الرجوع.</string>
     <string name="brujula_nivel_vision">المعسكرات</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">المسار</string>
     <string name="brujula_alejar">تصغير</string>
     <string name="carta_titulo">رسالة ترحيب</string>
     <string name="carta_para">إليك، يا من قررت الصعود</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">حصلت عليها من خلال مؤسستك.</string>
     <string name="plan_origen_piloto">أنت جزء من البرنامج التجريبي.</string>
     <string name="plan_b_metodo">الأدلة والمحاور والأهداف والعادات</string>
-    <string name="plan_b_brujula">بوصلة القمة ولوحة الرؤية</string>
+    <string name="plan_b_brujula">بوصلة القمة والمعسكرات</string>
     <string name="plan_b_comunidad">المجتمع والرسائل والفرق</string>
     <string name="plan_b_web">SuRoute ويب، على iPhone أيضًا</string>
     <string name="plan_b_datos">النسخ الاحتياطي لبياناتك وتصديرها وحذفها</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">إضافة عادة</string>
     <string name="habitos_fabrica">استعادة الافتراضية</string>
     <string name="habitos_fabrica_si">نعم، استعادة الـ 18</string>
-    <string name="vv_titulo">لوحة رؤيتي</string>
+    <string name="vv_titulo">معسكراتي</string>
     <string name="vv_ayuda">قمتك في المركز وما يسندها حولها. المس مخيمًا لترى أهدافه وتخطط لها حسب السنة.</string>
     <string name="vv_vacio">إنها قلب مسارك: قمتك في المركز و8 مخيمات حولها. يبنيها الذكاء الاصطناعي من قمتك وغاياتك وأهدافك، وأنت تملؤها بصورك.</string>
-    <string name="vv_armar">إنشاء لوحة رؤيتي</string>
-    <string name="vv_armando">جارٍ إنشاء لوحة رؤيتك…</string>
+    <string name="vv_armar">إنشاء معسكراتي</string>
+    <string name="vv_armando">جارٍ إنشاء معسكراتك…</string>
     <string name="vv_metas_n">%1$d أهداف</string>
     <string name="vv_sin_metas">لا أهداف بعد</string>
     <string name="vv_sin_metas_texto">لا أهداف تسند هذا المخيم بعد. خطط للأول: في أي سنة تريد تحقيقه؟</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">غايتك في جملة وصورة. هي الشمال لكل ما عداها.</string>
     <string name="modelo_e9_t">المعسكرات الثمانية</string>
     <string name="modelo_e9_d">حول القمة ثمانية اتجاهات تسندها: %1$s. معًا تشكّل طبقة المعسكرات.</string>
-    <string name="modelo_e81_t">الخطوات الأربع والستون</string>
-    <string name="modelo_e81_d">ينفتح كل معسكر على 8 خطوات محددة. القمة والمعسكرات الثمانية والخطوات الأربع والستون تشكّل بوصلة 9×9.</string>
+    <string name="modelo_e81_t">المسار</string>
+    <string name="modelo_e81_d">ينفتح كل معسكر على 8 خطوات محددة: 64 خطوة هي مسارك نحو القمة. القمة والمعسكرات الثمانية والمسار تشكّل البوصلة 1·9·81.</string>
     <string name="modelo_camino">طريق العام</string>
     <string name="modelo_c1_t">احلم</string>
     <string name="modelo_c1_d">اكتب قمتك وأضف لها صورة.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">تستلهم البوصلة 1·9·81 مخطط الماندالا الذي ابتكره ياسو ماتسومورا في اليابان عام 1979 (Matsumura, 2007). نقل بنية 3×3 من الماندالا البوذية إلى تخطيط الحياة والعمل: هدف في المركز وثمانية مجالات حوله (الصحة، العمل، المال، الأسرة، المجتمع، الشخصية، التعلم، الترفيه) للعيش بتوازن (Mandala Chart Kyōkai, n.d.). حوّله هيروأكي إيمايزومي إلى Mandal-Art لتوليد الأفكار (Imaizumi, 1988)، وحوّله تاكاشي هارادا إلى ورقة Open Window 64 لتحقيق الأهداف، وهي التي استخدمها شوهي أوتاني (Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">تحوّلها طريقة Ruta a la Cima إلى بوصلة جبلية: قمة واحدة و8 معسكرات و64 خطوة تُكسب بأيام السير، تُقاس بطريقة Cima 9×52 مع صورة إثبات لكل خطوة.</string>
     <string name="modelo_refs_t">المراجع</string>
+    <string name="vision_seccion_ruta">81 · المسار</string>
 </resources>

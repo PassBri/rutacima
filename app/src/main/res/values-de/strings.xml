@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Konto erstellen</string>
     <string name="filtro_para_ti">Für dich</string>
     <string name="filtro_siguiendo">Folge ich</string>
-    <string name="filtro_vision">Vision Boards</string>
+    <string name="filtro_vision">Lager</string>
     <string name="error_cargar">Laden nicht möglich: %1$s</string>
     <string name="feed_vacio">Noch keine Beiträge. Sei der Erste, der seinen Fortschritt teilt!</string>
     <string name="visibilidad_publica">Öffentlich</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Reflexion</string>
     <string name="tipo_logro_ayuda">Feiere etwas, das du erreicht hast. Jeder Sieg zählt.</string>
     <string name="tipo_evidencia_ayuda">Zeige den Beweis deines Fortschritts: Ein Foto sagt mehr als tausend Vorsätze.</string>
-    <string name="tipo_vision_ayuda">Füge deinem Vision Board ein Bild hinzu: So sieht dein Gipfel aus.</string>
+    <string name="tipo_vision_ayuda">Füge deinen Lagern ein Bild hinzu: So sieht dein Gipfel aus.</string>
     <string name="tipo_meta_ayuda">Mach dein Ziel öffentlich: Geteilte Verpflichtung wird eher erfüllt.</string>
     <string name="tipo_reflexion_ayuda">Teile eine Lektion vom Weg.</string>
     <string name="agregar_foto">Foto hinzufügen</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">Es bleibt immer in deinem Lebenstagebuch, auch wenn es privat ist.</string>
     <string name="demo_post_1">Ich habe meinen ersten Design-Kurs abgeschlossen! 30 Tage in Folge jeden Tag 1 Stunde geübt.</string>
     <string name="demo_meta_1">UX-Design in 6 Monaten meistern</string>
-    <string name="demo_post_2">Mein Vision Board 2027: ein Haus mit Garten, eine eigene Werkstatt und Zeit für meine Familie.</string>
+    <string name="demo_post_2">Meine Lager 2027: ein Haus mit Garten, eine eigene Werkstatt und Zeit für meine Familie.</string>
     <string name="demo_post_3">Tag 21 mit Aufstehen um 5:00. Die Disziplin fühlt sich langsam natürlich an.</string>
     <string name="demo_meta_3">Die Gewohnheit des frühen Aufstehens aufbauen</string>
     <string name="demo_post_4">Mein Jahresziel: den doppelten Umsatz mit meinem Unternehmen, ohne mehr Stunden zu arbeiten.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Erreichte Ziele</string>
     <string name="perfil_tab_publicaciones">Beiträge</string>
     <string name="perfil_tab_vida">Mein Leben</string>
-    <string name="perfil_tab_vision">Vision Board</string>
+    <string name="perfil_tab_vision">Lager</string>
     <string name="perfil_tab_ejes">Achsen</string>
     <string name="sin_publicaciones">Du hast noch nichts gepostet. Teile deinen ersten Erfolg.</string>
-    <string name="vision_board_texto">Dein Vision Board: die Bilder des Lebens, das du aufbaust.</string>
+    <string name="vision_board_texto">Deine Lager: die Bilder des Lebens, das du aufbaust.</string>
     <string name="vision_vacia">Füge das erste Bild deiner Vision hinzu.</string>
     <string name="agregar_vision">Zu meiner Vision hinzufügen</string>
     <string name="ejes_sin_evaluar">Du hast deine 6 Achsen noch nicht bewertet.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">Erledigt. Dein Weg wurde aus der Cloud gelöscht und ist auf dem Handy vollständig.</string>
     <string name="web_codigo_invalido">Das ist kein SuRoute-Code. Scanne den Code, der in SuRoute Web angezeigt wird.</string>
     <string name="web_escaner_no">Der Scanner ließ sich nicht öffnen. Gib den im Web angezeigten Code ein.</string>
-    <string name="vision_titulo">Mein Vision Board</string>
-    <string name="vision_abrir">Mein Vision Board erstellen</string>
+    <string name="vision_titulo">Meine Lager</string>
+    <string name="vision_abrir">Meine Lager erstellen</string>
     <string name="vision_intro">Die KI baut dein Board aus deinem Gipfel, deinen Zielen und Vorhaben. Du füllst es mit deinen Fotos – jedes Bild stammt aus deinem Leben, nicht aus einem Katalog.</string>
     <string name="vision_armar">Mit KI erstellen</string>
     <string name="vision_rearmar">Neu vorschlagen</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">Warte auf die Annahme deiner Anfrage.</string>
     <string name="coach_vida_escribir">Schreiben</string>
     <string name="coach_vida_compartir">Meinen Fortschritt teilen</string>
-    <string name="coach_vida_compartir_ayuda">Dein Gipfel, Lebensziele, Ziele, Gewohnheiten der Woche, Achsen und Vision Board. Nie deine Antworten in den Büchern oder Notizen.</string>
+    <string name="coach_vida_compartir_ayuda">Dein Gipfel, Lebensziele, Ziele, Gewohnheiten der Woche, Achsen und Lager. Nie deine Antworten in den Büchern oder Notizen.</string>
     <string name="coach_vida_cancelar">Anfrage zurückziehen</string>
     <string name="coach_vida_terminar">Begleitung beenden</string>
     <string name="coach_vida_acompanas">Menschen, die du begleitest</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Starte deinen ersten Leitfaden</string>
     <string name="paso_guia_texto">„Entdecke deinen persönlichen Gipfel“ führt dich Schritt für Schritt. Du kannst ihn auch anhören.</string>
     <string name="paso_guia_boton">Leitfaden öffnen</string>
-    <string name="paso_vision">Erstelle dein Vision Board</string>
+    <string name="paso_vision">Erstelle deine Lager</string>
     <string name="paso_vision_texto">Die KI baut es aus dem, was du geschrieben hast; du füllst es mit deinen Fotos.</string>
-    <string name="paso_vision_boton">Vision Board erstellen</string>
+    <string name="paso_vision_boton">Lager erstellen</string>
     <string name="paso_comunidad">Teile dein Ziel</string>
     <string name="paso_comunidad_texto">Es laut zu sagen verpflichtet. Du kannst es nur für dich oder für deine Follower posten.</string>
     <string name="paso_comunidad_boton">Ziel posten</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Deine beständigsten Gewohnheiten</string>
     <string name="constancia_veces">%1$d Tage dieses Jahr</string>
     <string name="respaldo_titulo">Sicherung</string>
-    <string name="respaldo_texto">Speichere deine ganze Route in einer Datei (Ziele, Gewohnheiten, Antworten, Achsen, Vision Board und Zitate). Auch ohne Konto – zum Handywechsel oder zur Sicherheit.</string>
+    <string name="respaldo_texto">Speichere deine ganze Route in einer Datei (Ziele, Gewohnheiten, Antworten, Achsen, Lager und Zitate). Auch ohne Konto – zum Handywechsel oder zur Sicherheit.</string>
     <string name="respaldo_guardar">Kopie meiner Route speichern</string>
     <string name="respaldo_restaurar">Kopie wiederherstellen</string>
     <string name="respaldo_guardado">Kopie gespeichert.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">Heute vorangekommen</string>
     <string name="metodo_ya_hoy">Heute zählt schon</string>
     <string name="metodo_ganado">Schritt verdient</string>
-    <string name="mandala_compartir">Mein 9×9 mit der Community teilen</string>
+    <string name="mandala_compartir">Meinen Kompass in der Community teilen</string>
     <string name="mandala_compartiendo">Bild wird erstellt…</string>
-    <string name="mandala_compartir_ayuda">Ein Bild deines 9×9 mit Gipfel, Vision-Board-Fotos und Schritten wird gepostet. Wer darf es sehen?</string>
+    <string name="mandala_compartir_ayuda">Ein Bild deines Kompasses mit Gipfel, Lagerfotos und Route wird gepostet. Wer darf es sehen?</string>
     <string name="mandala_compartir_publico">Alle</string>
     <string name="mandala_compartir_seguidores">Meine Follower</string>
     <string name="mandala_compartido">Dein 9×9 ist jetzt in der Community</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Lager: der Gipfel und seine 8 Lager. Tippe auf den Gipfel für das 9×9 oder auf ein Lager für seine Schritte.</string>
     <string name="brujula_zoom_81">Dein ganzer Kompass: 81 Felder. Tippe auf einen Block, um ihn unten zu öffnen. Zurück geht\'s mit dem Pfeil, der Pfadleiste oder der Zurück-Taste.</string>
     <string name="brujula_nivel_vision">Lager</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Route</string>
     <string name="brujula_alejar">Herauszoomen</string>
     <string name="carta_titulo">Willkommensbrief</string>
     <string name="carta_para">Für dich, der du dich entschieden hast aufzusteigen</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">Du hast ihn über deine Einrichtung.</string>
     <string name="plan_origen_piloto">Du bist Teil des Pilotprogramms.</string>
     <string name="plan_b_metodo">Leitfäden, Achsen, Ziele und Gewohnheiten</string>
-    <string name="plan_b_brujula">Gipfelkompass und Vision Board</string>
+    <string name="plan_b_brujula">Gipfelkompass und Lager</string>
     <string name="plan_b_comunidad">Community, Nachrichten und Seilschaften</string>
     <string name="plan_b_web">SuRoute Web, auch auf dem iPhone</string>
     <string name="plan_b_datos">Sichern, exportieren und löschen deiner Daten</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Gewohnheit hinzufügen</string>
     <string name="habitos_fabrica">Standard wiederherstellen</string>
     <string name="habitos_fabrica_si">Ja, die 18 wiederherstellen</string>
-    <string name="vv_titulo">Mein Vision Board</string>
+    <string name="vv_titulo">Meine Lager</string>
     <string name="vv_ayuda">Dein Gipfel in der Mitte und was ihn trägt. Tippe auf ein Lager, um seine Ziele nach Jahr zu sehen und zu planen.</string>
     <string name="vv_vacio">Das Herz deiner Route: dein Gipfel in der Mitte und 8 Lager drumherum. Die KI baut es aus Gipfel, Zielen und Vorsätzen; du füllst es mit deinen Fotos.</string>
-    <string name="vv_armar">Mein Vision Board erstellen</string>
-    <string name="vv_armando">Dein Vision Board wird erstellt…</string>
+    <string name="vv_armar">Meine Lager erstellen</string>
+    <string name="vv_armando">Deine Lager werden erstellt…</string>
     <string name="vv_metas_n">%1$d Ziele</string>
     <string name="vv_sin_metas">Noch keine Ziele</string>
     <string name="vv_sin_metas_texto">Noch tragen keine Ziele dieses Lager. Plane das erste: In welchem Jahr willst du es erreichen?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Dein Ziel in einem Satz und einem Foto. Es ist der Norden für alles andere.</string>
     <string name="modelo_e9_t">Die 8 Lager</string>
     <string name="modelo_e9_d">Um den Gipfel herum 8 Richtungen, die ihn tragen: %1$s. Zusammen bilden sie die Ebene Lager.</string>
-    <string name="modelo_e81_t">Die 64 Schritte</string>
-    <string name="modelo_e81_d">Jedes Lager öffnet sich in 8 konkrete Schritte. Gipfel, 8 Lager und 64 Schritte bilden den 9×9-Kompass.</string>
+    <string name="modelo_e81_t">Die Route</string>
+    <string name="modelo_e81_d">Jedes Lager öffnet sich in 8 konkrete Schritte: 64 Schritte, die deine Route zum Gipfel sind. Gipfel, 8 Lager und Route bilden den Kompass 1·9·81.</string>
     <string name="modelo_camino">Der Weg des Jahres</string>
     <string name="modelo_c1_t">Träumen</string>
     <string name="modelo_c1_d">Schreib deinen Gipfel auf und gib ihm ein Foto.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">Der Kompass 1·9·81 ist vom Mandala Chart inspiriert, das Yasuo Matsumura 1979 in Japan schuf (Matsumura, 2007). Er übertrug die 3×3-Struktur des buddhistischen Mandalas auf die Lebens- und Arbeitsplanung: ein Ziel in der Mitte und acht Bereiche darum (Gesundheit, Arbeit, Finanzen, Familie, Gesellschaft, Charakter, Lernen und Freizeit), um im Gleichgewicht zu leben (Mandala Chart Kyōkai, o. D.). Hiroaki Imaizumi machte daraus das Mandal-Art zur Ideenfindung (Imaizumi, 1988) und Takashi Harada das Blatt Open Window 64 zum Erreichen von Zielen, das Shohei Ohtani nutzte (Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">Die Methode Ruta a la Cima macht daraus einen Bergkompass: ein Gipfel, 8 Lager und 64 Schritte, die mit Etappentagen verdient werden, gemessen mit der Methode Cima 9×52 und mit einem Belegfoto pro Schritt.</string>
     <string name="modelo_refs_t">Literatur</string>
+    <string name="vision_seccion_ruta">81 · Route</string>
 </resources>

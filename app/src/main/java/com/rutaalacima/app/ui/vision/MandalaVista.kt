@@ -221,7 +221,7 @@ fun MandalaSeccion(
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         // El 9×9 gira completo: adelante el texto limpio, detrás las imágenes (igual que la web)
         var girada81 by rememberSaveable { mutableStateOf(false) }
-        CabeceraSeccionVision(stringResource(R.string.brujula_titulo),
+        CabeceraSeccionVision(stringResource(R.string.vision_seccion_ruta),
             onGirar = if (modoEdicion || bloqueAbierto == null) ({ girada81 = !girada81 }) else null, girada = girada81, onGrande = onVerGrande)
         Text(stringResource(R.string.mandala_intro), style = MaterialTheme.typography.bodyMedium)
         if (modoEdicion || bloqueAbierto == null) {

@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Créer un compte</string>
     <string name="filtro_para_ti">Pour toi</string>
     <string name="filtro_siguiendo">Abonnements</string>
-    <string name="filtro_vision">Vision boards</string>
+    <string name="filtro_vision">Camps</string>
     <string name="error_cargar">Impossible de charger : %1$s</string>
     <string name="feed_vacio">Pas encore de publications. Sois le premier à partager ta progression !</string>
     <string name="visibilidad_publica">Publique</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Réflexion</string>
     <string name="tipo_logro_ayuda">Célèbre quelque chose que tu as accompli. Chaque victoire compte.</string>
     <string name="tipo_evidencia_ayuda">Montre la preuve de ta progression : une photo vaut mieux que mille intentions.</string>
-    <string name="tipo_vision_ayuda">Ajoute une image à ton vision board : à quoi ressemble ton sommet.</string>
+    <string name="tipo_vision_ayuda">Ajoute une image à tes camps : à quoi ressemble ton sommet.</string>
     <string name="tipo_meta_ayuda">Rends ton objectif public : un engagement partagé se tient mieux.</string>
     <string name="tipo_reflexion_ayuda">Partage une leçon du chemin.</string>
     <string name="agregar_foto">Ajouter une photo</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">Elle reste toujours dans ton journal de vie, même si elle est privée.</string>
     <string name="demo_post_1">J\'ai terminé mon premier cours de design ! 30 jours d\'affilée à pratiquer 1 heure par jour.</string>
     <string name="demo_meta_1">Maîtriser le design UX en 6 mois</string>
-    <string name="demo_post_2">Mon vision board 2027 : une maison avec jardin, un atelier à moi et du temps pour ma famille.</string>
+    <string name="demo_post_2">Mes camps 2027 : une maison avec jardin, un atelier à moi et du temps pour ma famille.</string>
     <string name="demo_post_3">Jour 21 à me lever à 5h00. La discipline commence à devenir naturelle.</string>
     <string name="demo_meta_3">Prendre l\'habitude de me lever tôt</string>
     <string name="demo_post_4">Mon objectif de l\'année : doubler mon chiffre d\'affaires sans travailler plus d\'heures.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Objectifs atteints</string>
     <string name="perfil_tab_publicaciones">Publications</string>
     <string name="perfil_tab_vida">Ma vie</string>
-    <string name="perfil_tab_vision">Vision board</string>
+    <string name="perfil_tab_vision">Camps</string>
     <string name="perfil_tab_ejes">Axes</string>
     <string name="sin_publicaciones">Tu n\'as encore rien publié. Partage ta première réussite.</string>
-    <string name="vision_board_texto">Ton vision board : les images de la vie que tu es en train de construire.</string>
+    <string name="vision_board_texto">Tes camps : les images de la vie que tu es en train de construire.</string>
     <string name="vision_vacia">Ajoute la première image de ta vision.</string>
     <string name="agregar_vision">Ajouter à ma vision</string>
     <string name="ejes_sin_evaluar">Tu n\'as pas encore évalué tes 6 axes.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">C’est fait. Ton parcours a été supprimé du cloud et reste complet sur ton téléphone.</string>
     <string name="web_codigo_invalido">Ce code n’est pas un code SuRoute. Scanne celui affiché sur SuRoute Web.</string>
     <string name="web_escaner_no">Impossible d’ouvrir le scanner. Saisis le code affiché sur le web.</string>
-    <string name="vision_titulo">Mon vision board</string>
-    <string name="vision_abrir">Créer mon vision board</string>
+    <string name="vision_titulo">Mes camps</string>
+    <string name="vision_abrir">Créer mes camps</string>
     <string name="vision_intro">L’IA construit ton tableau avec ton sommet, tes objectifs et tes buts. Tu le remplis de tes photos : chaque image vient de ta vie, pas d’un catalogue.</string>
     <string name="vision_armar">Créer avec l’IA</string>
     <string name="vision_rearmar">Proposer à nouveau</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">En attente de l’acceptation de ta demande.</string>
     <string name="coach_vida_escribir">Écrire</string>
     <string name="coach_vida_compartir">Partager ma progression</string>
-    <string name="coach_vida_compartir_ayuda">Ton sommet, tes raisons d’être, objectifs, habitudes de la semaine, axes et vision board. Jamais tes réponses aux cahiers ni tes notes.</string>
+    <string name="coach_vida_compartir_ayuda">Ton sommet, tes raisons d’être, objectifs, habitudes de la semaine, axes et camps. Jamais tes réponses aux cahiers ni tes notes.</string>
     <string name="coach_vida_cancelar">Annuler la demande</string>
     <string name="coach_vida_terminar">Mettre fin à l’accompagnement</string>
     <string name="coach_vida_acompanas">Personnes que tu accompagnes</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Commence ton premier guide</string>
     <string name="paso_guia_texto">« Découvre ton Sommet Personnel » te guide pas à pas. Tu peux aussi l’écouter.</string>
     <string name="paso_guia_boton">Ouvrir le guide</string>
-    <string name="paso_vision">Crée ton vision board</string>
+    <string name="paso_vision">Crée tes camps</string>
     <string name="paso_vision_texto">L’IA le compose avec ce que tu as écrit ; tu le remplis avec tes photos.</string>
-    <string name="paso_vision_boton">Créer mon vision board</string>
+    <string name="paso_vision_boton">Créer mes camps</string>
     <string name="paso_comunidad">Partage ton objectif</string>
     <string name="paso_comunidad_texto">Le dire à voix haute engage. Tu peux publier pour toi seul ou pour tes abonnés.</string>
     <string name="paso_comunidad_boton">Publier mon objectif</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Tes habitudes les plus régulières</string>
     <string name="constancia_veces">%1$d jours cette année</string>
     <string name="respaldo_titulo">Sauvegarde</string>
-    <string name="respaldo_texto">Enregistre toute ta route dans un fichier (objectifs, habitudes, réponses, axes, vision board et citations). Sans compte, pour changer de téléphone ou au cas où.</string>
+    <string name="respaldo_texto">Enregistre toute ta route dans un fichier (objectifs, habitudes, réponses, axes, camps et citations). Sans compte, pour changer de téléphone ou au cas où.</string>
     <string name="respaldo_guardar">Enregistrer une copie de ma route</string>
     <string name="respaldo_restaurar">Restaurer une copie</string>
     <string name="respaldo_guardado">Copie enregistrée.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">J\'ai avancé aujourd\'hui</string>
     <string name="metodo_ya_hoy">Aujourd\'hui compte déjà</string>
     <string name="metodo_ganado">Pas gagné</string>
-    <string name="mandala_compartir">Partager mon 9×9 avec la communauté</string>
+    <string name="mandala_compartir">Partager ma Boussole avec la communauté</string>
     <string name="mandala_compartiendo">Préparation de l\'image…</string>
-    <string name="mandala_compartir_ayuda">Une image de ton 9×9 est publiée avec ton sommet, les photos de ton vision board et tes pas. Qui peut la voir ?</string>
+    <string name="mandala_compartir_ayuda">Une image de ta Boussole est publiée avec ton sommet, les photos de tes camps et ta route. Qui peut la voir ?</string>
     <string name="mandala_compartir_publico">Tout le monde</string>
     <string name="mandala_compartir_seguidores">Mes abonnés</string>
     <string name="mandala_compartido">Ton 9×9 est dans la communauté</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Camps : le sommet et ses 8 camps. Touche le sommet pour voir le 9×9 ou un camp pour ouvrir ses pas.</string>
     <string name="brujula_zoom_81">Ta Boussole complète : 81 cases. Touche un bloc pour l\'ouvrir en dessous. Pour revenir, utilise la flèche, le fil d\'Ariane ou le bouton retour.</string>
     <string name="brujula_nivel_vision">Camps</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Route</string>
     <string name="brujula_alejar">Dézoomer</string>
     <string name="carta_titulo">Lettre de bienvenue</string>
     <string name="carta_para">Pour toi, qui as décidé de monter</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">Tu l\'as grâce à ton institution.</string>
     <string name="plan_origen_piloto">Tu fais partie du programme pilote.</string>
     <string name="plan_b_metodo">Guides, axes, objectifs et habitudes</string>
-    <string name="plan_b_brujula">Boussole du Sommet et vision board</string>
+    <string name="plan_b_brujula">Boussole du Sommet et camps</string>
     <string name="plan_b_comunidad">Communauté, messages et cordées</string>
     <string name="plan_b_web">SuRoute Web, aussi sur iPhone</string>
     <string name="plan_b_datos">Sauvegarder, exporter et supprimer tes données</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Ajouter l’habitude</string>
     <string name="habitos_fabrica">Revenir aux habitudes d’origine</string>
     <string name="habitos_fabrica_si">Oui, revenir aux 18</string>
-    <string name="vv_titulo">Mon vision board</string>
+    <string name="vv_titulo">Mes camps</string>
     <string name="vv_ayuda">Ton sommet au centre et ce qui le soutient. Touche un camp pour voir et planifier ses objectifs par année.</string>
     <string name="vv_vacio">C’est le cœur de ta route : ton sommet au centre et 8 camps autour. L’IA le construit avec ton sommet, tes buts et tes objectifs ; tu le remplis de tes photos.</string>
-    <string name="vv_armar">Créer mon vision board</string>
-    <string name="vv_armando">Création de ton vision board…</string>
+    <string name="vv_armar">Créer mes camps</string>
+    <string name="vv_armando">Création de tes camps…</string>
     <string name="vv_metas_n">%1$d objectifs</string>
     <string name="vv_sin_metas">Pas encore d’objectifs</string>
     <string name="vv_sin_metas_texto">Aucun objectif ne soutient encore ce camp. Planifie le premier : en quelle année veux-tu l’atteindre ?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Ton but en une phrase et une photo. C\'est le nord de tout le reste.</string>
     <string name="modelo_e9_t">Les 8 camps</string>
     <string name="modelo_e9_d">Autour du sommet, 8 caps qui le soutiennent : %1$s. Ensemble, ils forment la couche Camps.</string>
-    <string name="modelo_e81_t">Les 64 pas</string>
-    <string name="modelo_e81_d">Chaque camp s\'ouvre en 8 pas concrets. Le sommet, les 8 camps et les 64 pas forment la Boussole 9×9.</string>
+    <string name="modelo_e81_t">La route</string>
+    <string name="modelo_e81_d">Chaque camp s\'ouvre en 8 pas concrets : 64 pas qui sont ta route vers le sommet. Le sommet, les 8 camps et la route forment la Boussole 1·9·81.</string>
     <string name="modelo_camino">Le chemin de l\'année</string>
     <string name="modelo_c1_t">Rêver</string>
     <string name="modelo_c1_d">Écris ton sommet et ajoute-lui une photo.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">La Boussole 1·9·81 s\'inspire de la Mandala Chart créée au Japon en 1979 par Yasuo Matsumura (Matsumura, 2007). Il a appliqué la structure 3×3 du mandala bouddhiste à la planification de la vie et du travail : un objectif au centre et huit domaines autour (santé, travail, finances, famille, société, caractère, apprentissage et loisirs), pour vivre en équilibre (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi en a fait le Mandal-Art pour générer des idées (Imaizumi, 1988) et Takashi Harada la feuille Open Window 64 pour atteindre des objectifs, celle qu\'a utilisée Shohei Ohtani (Harada et Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">La Méthode Ruta a la Cima en fait une boussole de montagne : un sommet, 8 camps et 64 pas gagnés avec des journées, mesurés avec la Méthode Cima 9×52 et une photo de preuve par pas.</string>
     <string name="modelo_refs_t">Références</string>
+    <string name="vision_seccion_ruta">81 · Route</string>
 </resources>

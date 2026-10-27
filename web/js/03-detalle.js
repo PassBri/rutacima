@@ -522,7 +522,7 @@ const DET = {
       hoja(`<h3 style="margin:0 0 4px">Los años de esta cumbre</h3><p class="suave" style="margin:0 0 8px">${aniosDeCumbre(p).ini}–${aniosDeCumbre(p).fin}: toca un año para ver sus metas, meses y días.</p>${cintaCumbre(p)}`) +
       hoja(`<div class="form">${campo("Propósito", txt("proposito", k, "titulo", p.titulo))}
         ${selectorHorizonte("proposito", k, p.horizonte || 5)}
-        <div class="form-2">          ${campo("Eje · campamento del vision board", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
+        <div class="form-2">          ${campo("Eje · campamento de tu Brújula", sel("proposito", k, "eje", p.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("proposito", k, "prioridad", p.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}</div>
         ${auto ? `<p class="suave" style="margin:0">Avance automático: ${pctTxt(c.nodoProp(p))}, el promedio de sus metas anuales.</p>`
           : campo(`Avance manual`, `<div class="rango"><input type="range" min="0" max="100" step="5" value="${p.progreso || 0}" ${bind("proposito", k, "progreso", "num")}><b>${p.progreso || 0}%</b></div>`)}
@@ -549,7 +549,7 @@ const DET = {
       enlace + hoja(`<div class="form">${campo("Meta", txt("meta_anio", k, "titulo", m.titulo))}
         <div class="form-2">${campo("Año", `<input type="number" min="1900" max="2200" ${bind("meta_anio", k, "anio", "num")} value="${m.anio}">`)}
           ${campo("Propósito", sel("meta_anio", k, "propositoId", m.propositoId ?? "", [["", "Sin propósito"], ...c.props.map(p => [p.id, p.titulo])], "numNulo"))}
-          ${campo("Eje · campamento del vision board", sel("meta_anio", k, "eje", m.eje || "", opcionesEje, "nulo"))}
+          ${campo("Eje · campamento de tu Brújula", sel("meta_anio", k, "eje", m.eje || "", opcionesEje, "nulo"))}
           ${campo("Prioridad", sel("meta_anio", k, "prioridad", m.prioridad || "B", PRIORIDADES.map(x => [x, PRIORIDAD_NOMBRE[x]])))}
           ${campo("Estado", sel("meta_anio", k, "estado", m.estado || "NO_INICIADA", ESTADOS))}
           ${campo("Decisión", sel("meta_anio", k, "decision", m.decision || "CONTINUAR", DECISIONES))}</div>
@@ -575,7 +575,7 @@ function detMetaMes(id) {
       <label class="check" style="margin-top:10px"><input type="checkbox" ${bind("meta_mes", k, "cumplida", "bool")} ${m.cumplida ? "checked" : ""}><span>Meta cumplida</span></label>`) +
     hoja(`<div class="form">${campo("Meta", txt("meta_mes", k, "texto", m.texto))}
       <div class="form-2">${campo("Meta del año", sel("meta_mes", k, "metaAnualId", m.metaAnualId ?? "", [["", "Sin conectar"], ...c.anuales.map(a => [a.id, `${a.anio} · ${a.titulo}`])], "numNulo"))}
-        ${campo("Eje · campamento del vision board", sel("meta_mes", k, "eje", m.eje || "", [["", ejeEfectivo("meta_mes", { ...m, eje: null }) ? `El de su meta del año (${NOMBRE_EJE[ejeEfectivo("meta_mes", { ...m, eje: null })]})` : "Sin eje"], ...opcionesEje.slice(1)], "nulo"))}
+        ${campo("Eje · campamento de tu Brújula", sel("meta_mes", k, "eje", m.eje || "", [["", ejeEfectivo("meta_mes", { ...m, eje: null }) ? `El de su meta del año (${NOMBRE_EJE[ejeEfectivo("meta_mes", { ...m, eje: null })]})` : "Sin eje"], ...opcionesEje.slice(1)], "nulo"))}
         ${campo("Días objetivo", `<input type="number" min="1" max="31" ${bind("meta_mes", k, "objetivoDias", "num")} value="${m.objetivoDias || 20}">`)}</div>
       ${campo("Indicador", txt("meta_mes", k, "indicador", m.indicador))}</div>`), "max-width:720px");
 }
@@ -669,7 +669,7 @@ function detDia(fecha) {
 /* ---------- Comunidad ---------- */
 const DEMO_POSTS = [
   ["demo-1", "Valentina R.", "LOGRO", "MAE", "¡Terminé mi primer curso de diseño! 30 días seguidos practicando 1 hora diaria.", "Dominar el diseño UX en 6 meses", 128, 3],
-  ["demo-2", "Andrés M.", "VISION", "TRA", "Mi vision board 2027: una casa con jardín, un taller propio y tiempo para mi familia.", "", 96, 7],
+  ["demo-2", "Andrés M.", "VISION", "TRA", "Mis campamentos 2027: una casa con jardín, un taller propio y tiempo para mi familia.", "", 96, 7],
   ["demo-3", "Lucía P.", "EVIDENCIA", "VOL", "Día 21 levantándome a las 5:00. La disciplina empieza a sentirse natural.", "Crear el hábito de madrugar", 74, 12],
   ["demo-4", "Mateo G.", "META", "VAL", "Mi meta del año: facturar el doble con mi emprendimiento sin trabajar más horas.", "Duplicar ingresos del emprendimiento", 51, 20],
   ["demo-5", "Sofía L.", "REFLEXION", "VOZ", "Hoy dije lo que pensaba en una reunión importante. Me temblaba la voz, pero lo hice.", "", 63, 26],
@@ -1098,7 +1098,7 @@ const VISION_EJES = {
 const VACIAS = new Set("el la los las un una unos unas de del al a en y o con por para mi mis tu tus su sus que se lo es son como más the and of to my sin sobre hasta desde cada todo toda".split(" "));
 const palabrasClave = t => [...new Set(String(t).toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(w => w.length > 2 && !VACIAS.has(w) && isNaN(Number(w))))].slice(0, 4).join(" ");
 const urlIdeas = b => "https://www.pexels.com/search/" + encodeURIComponent(b || "mountain summit") + "/";
-const INSTRUCCION_VISION = `Arma mi vision board con lo que sabes de mí (mi cumbre, mis propósitos, mis metas y mis ejes).
+const INSTRUCCION_VISION = `Arma mis campamentos (mi vision board) con lo que sabes de mí (mi cumbre, mis propósitos, mis metas y mis ejes).
 Son exactamente ${VISION_MAX} casillas, una por cada campamento de mi Brújula de la Cima: CUMBRE (mi cumbre
 personal), VOL, MAE, VOZ, VAL, EVO, TRA (mis 6 ejes), CON (Confluencia: un proyecto que activa varios
 ejes) y CAM (Campamento Base: mentor, cordada y red de apoyo).

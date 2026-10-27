@@ -423,7 +423,7 @@
     <string name="crear_cuenta">अकाउंट बनाएँ</string>
     <string name="filtro_para_ti">आपके लिए</string>
     <string name="filtro_siguiendo">फ़ॉलो किए गए</string>
-    <string name="filtro_vision">विज़न बोर्ड</string>
+    <string name="filtro_vision">शिविर</string>
     <string name="error_cargar">लोड नहीं हो सका: %1$s</string>
     <string name="feed_vacio">अभी कोई पोस्ट नहीं है। अपनी प्रगति साझा करने वाले पहले व्यक्ति बनें!</string>
     <string name="visibilidad_publica">सार्वजनिक</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">चिंतन</string>
     <string name="tipo_logro_ayuda">जो आपने हासिल किया उसका जश्न मनाएँ। हर जीत मायने रखती है।</string>
     <string name="tipo_evidencia_ayuda">अपनी प्रगति का सबूत दिखाएँ: एक तस्वीर हज़ार उद्देश्यों से ज़्यादा कहती है।</string>
-    <string name="tipo_vision_ayuda">अपने विज़न बोर्ड में एक तस्वीर जोड़ें: आपकी चोटी कैसी दिखती है।</string>
+    <string name="tipo_vision_ayuda">अपने शिविरों में एक तस्वीर जोड़ें: आपकी चोटी कैसी दिखती है।</string>
     <string name="tipo_meta_ayuda">अपना लक्ष्य सार्वजनिक करें: साझा किया गया वादा ज़्यादा निभता है।</string>
     <string name="tipo_reflexion_ayuda">राह से मिला कोई सबक़ साझा करें।</string>
     <string name="agregar_foto">फ़ोटो जोड़ें</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">यह निजी होने पर भी हमेशा आपकी जीवन-डायरी में रहता है।</string>
     <string name="demo_post_1">मैंने अपना पहला डिज़ाइन कोर्स पूरा कर लिया! लगातार 30 दिन रोज़ 1 घंटा अभ्यास किया।</string>
     <string name="demo_meta_1">6 महीने में UX डिज़ाइन में महारत हासिल करना</string>
-    <string name="demo_post_2">मेरा 2027 का विज़न बोर्ड: बगीचे वाला घर, अपनी वर्कशॉप और परिवार के लिए समय।</string>
+    <string name="demo_post_2">मेरे 2027 के शिविर: बगीचे वाला घर, अपनी वर्कशॉप और परिवार के लिए समय।</string>
     <string name="demo_post_3">सुबह 5:00 बजे उठने का 21वाँ दिन। अनुशासन अब स्वाभाविक लगने लगा है।</string>
     <string name="demo_meta_3">जल्दी उठने की आदत बनाना</string>
     <string name="demo_post_4">मेरा साल का लक्ष्य: ज़्यादा घंटे काम किए बिना अपने कारोबार से दोगुनी बिक्री करना।</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">पूरे हुए लक्ष्य</string>
     <string name="perfil_tab_publicaciones">पोस्ट</string>
     <string name="perfil_tab_vida">मेरा जीवन</string>
-    <string name="perfil_tab_vision">विज़न बोर्ड</string>
+    <string name="perfil_tab_vision">शिविर</string>
     <string name="perfil_tab_ejes">अक्ष</string>
     <string name="sin_publicaciones">आपने अभी तक कुछ पोस्ट नहीं किया है। अपनी पहली उपलब्धि साझा करें।</string>
-    <string name="vision_board_texto">आपका विज़न बोर्ड: उस ज़िंदगी की तस्वीरें जो आप गढ़ रहे हैं।</string>
+    <string name="vision_board_texto">आपके शिविर: उस ज़िंदगी की तस्वीरें जो आप गढ़ रहे हैं।</string>
     <string name="vision_vacia">अपने विज़न की पहली तस्वीर जोड़ें।</string>
     <string name="agregar_vision">मेरे विज़न में जोड़ें</string>
     <string name="ejes_sin_evaluar">आपने अभी तक अपने 6 अक्षों को नहीं आँका है।</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">हो गया। आपका मार्ग क्लाउड से हट गया और फ़ोन पर पूरा है।</string>
     <string name="web_codigo_invalido">यह SuRoute का कोड नहीं है। SuRoute Web पर दिखने वाला कोड स्कैन करें।</string>
     <string name="web_escaner_no">स्कैनर नहीं खुल सका। वेब पर दिखने वाला कोड लिखें।</string>
-    <string name="vision_titulo">मेरा विज़न बोर्ड</string>
-    <string name="vision_abrir">मेरा विज़न बोर्ड बनाएँ</string>
+    <string name="vision_titulo">मेरे शिविर</string>
+    <string name="vision_abrir">मेरे शिविर बनाएँ</string>
     <string name="vision_intro">AI आपके शिखर, उद्देश्यों और लक्ष्यों से बोर्ड बनाता है। आप उसे अपनी तस्वीरों से भरें: हर छवि आपकी ज़िंदगी से हो, किसी कैटलॉग से नहीं।</string>
     <string name="vision_armar">AI से बनाएँ</string>
     <string name="vision_rearmar">फिर से सुझाएँ</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">आपके अनुरोध के स्वीकार होने की प्रतीक्षा है।</string>
     <string name="coach_vida_escribir">लिखें</string>
     <string name="coach_vida_compartir">मेरी प्रगति साझा करें</string>
-    <string name="coach_vida_compartir_ayuda">आपका शिखर, उद्देश्य, लक्ष्य, सप्ताह की आदतें, आयाम और विज़न बोर्ड। किताबों के उत्तर या नोट्स कभी नहीं।</string>
+    <string name="coach_vida_compartir_ayuda">आपका शिखर, उद्देश्य, लक्ष्य, सप्ताह की आदतें, आयाम और शिविर। किताबों के उत्तर या नोट्स कभी नहीं।</string>
     <string name="coach_vida_cancelar">अनुरोध रद्द करें</string>
     <string name="coach_vida_terminar">साथ समाप्त करें</string>
     <string name="coach_vida_acompanas">जिनका आप साथ दे रहे हैं</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">अपनी पहली गाइड शुरू करें</string>
     <string name="paso_guia_texto">“अपना निजी शिखर खोजें” आपको कदम-दर-कदम ले जाती है। इसे सुन भी सकते हैं।</string>
     <string name="paso_guia_boton">गाइड खोलें</string>
-    <string name="paso_vision">अपना विज़न बोर्ड बनाएँ</string>
+    <string name="paso_vision">अपने शिविर बनाएँ</string>
     <string name="paso_vision_texto">AI आपके लिखे से बनाता है; आप उसे अपनी तस्वीरों से भरते हैं।</string>
-    <string name="paso_vision_boton">मेरा विज़न बोर्ड बनाएँ</string>
+    <string name="paso_vision_boton">मेरे शिविर बनाएँ</string>
     <string name="paso_comunidad">अपना लक्ष्य साझा करें</string>
     <string name="paso_comunidad_texto">ज़ोर से कहना प्रतिबद्ध करता है। सिर्फ़ अपने लिए या फ़ॉलोअर्स के लिए पोस्ट कर सकते हैं।</string>
     <string name="paso_comunidad_boton">मेरा लक्ष्य पोस्ट करें</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">आपकी सबसे नियमित आदतें</string>
     <string name="constancia_veces">इस साल %1$d दिन</string>
     <string name="respaldo_titulo">बैकअप</string>
-    <string name="respaldo_texto">अपना पूरा मार्ग एक फ़ाइल में सहेजें (लक्ष्य, आदतें, उत्तर, आयाम, विज़न बोर्ड और उद्धरण)। बिना खाते के भी—फ़ोन बदलने या एहतियात के लिए।</string>
+    <string name="respaldo_texto">अपना पूरा मार्ग एक फ़ाइल में सहेजें (लक्ष्य, आदतें, उत्तर, आयाम, शिविर और उद्धरण)। बिना खाते के भी—फ़ोन बदलने या एहतियात के लिए।</string>
     <string name="respaldo_guardar">मेरे मार्ग की प्रति सहेजें</string>
     <string name="respaldo_restaurar">प्रति बहाल करें</string>
     <string name="respaldo_guardado">प्रति सहेजी गई।</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">आज आगे बढ़ा</string>
     <string name="metodo_ya_hoy">आज गिना जा चुका है</string>
     <string name="metodo_ganado">कदम कमाया</string>
-    <string name="mandala_compartir">अपना 9×9 समुदाय में साझा करें</string>
+    <string name="mandala_compartir">समुदाय में मेरा कम्पास साझा करें</string>
     <string name="mandala_compartiendo">छवि तैयार हो रही है…</string>
-    <string name="mandala_compartir_ayuda">आपके शिखर, विज़न बोर्ड की तस्वीरों और कदमों के साथ आपके 9×9 की छवि पोस्ट होगी। इसे कौन देख सकता है?</string>
+    <string name="mandala_compartir_ayuda">आपके शिखर, शिविरों की तस्वीरों और मार्ग के साथ आपके कम्पास की छवि पोस्ट होगी। इसे कौन देख सकता है?</string>
     <string name="mandala_compartir_publico">सभी</string>
     <string name="mandala_compartir_seguidores">मेरे फ़ॉलोअर</string>
     <string name="mandala_compartido">आपका 9×9 अब समुदाय में है</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">शिविर: शिखर और उसके 8 शिविर। 9×9 देखने के लिए शिखर पर, या किसी शिविर के कदम खोलने के लिए उस पर टैप करें।</string>
     <string name="brujula_zoom_81">आपका पूरा कम्पास: 81 खाने। किसी ब्लॉक को नीचे खोलने के लिए टैप करें। लौटने के लिए तीर, पथ या बैक बटन इस्तेमाल करें।</string>
     <string name="brujula_nivel_vision">शिविर</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">मार्ग</string>
     <string name="brujula_alejar">छोटा करें</string>
     <string name="carta_titulo">स्वागत पत्र</string>
     <string name="carta_para">तुम्हारे लिए, जिसने चढ़ने का फ़ैसला किया</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">यह तुम्हें तुम्हारी संस्था से मिला है।</string>
     <string name="plan_origen_piloto">तुम पायलट कार्यक्रम का हिस्सा हो।</string>
     <string name="plan_b_metodo">गाइड, अक्ष, लक्ष्य और आदतें</string>
-    <string name="plan_b_brujula">शिखर कम्पास और विज़न बोर्ड</string>
+    <string name="plan_b_brujula">शिखर कम्पास और शिविर</string>
     <string name="plan_b_comunidad">समुदाय, संदेश और टोलियाँ</string>
     <string name="plan_b_web">SuRoute वेब, iPhone पर भी</string>
     <string name="plan_b_datos">डेटा का बैकअप, निर्यात और हटाना</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">आदत जोड़ें</string>
     <string name="habitos_fabrica">डिफ़ॉल्ट पर लौटें</string>
     <string name="habitos_fabrica_si">हाँ, 18 पर लौटें</string>
-    <string name="vv_titulo">मेरा विज़न बोर्ड</string>
+    <string name="vv_titulo">मेरे शिविर</string>
     <string name="vv_ayuda">बीच में आपका शिखर और उसे थामने वाली चीज़ें। किसी कैंप को छूकर उसके लक्ष्य साल के हिसाब से देखें और योजना बनाएँ।</string>
     <string name="vv_vacio">यह आपकी राह का दिल है: बीच में शिखर और चारों ओर 8 कैंप। AI इसे आपके शिखर, उद्देश्यों और लक्ष्यों से बनाता है; आप इसे अपनी तस्वीरों से भरते हैं।</string>
-    <string name="vv_armar">मेरा विज़न बोर्ड बनाएँ</string>
-    <string name="vv_armando">आपका विज़न बोर्ड बन रहा है…</string>
+    <string name="vv_armar">मेरे शिविर बनाएँ</string>
+    <string name="vv_armando">आपके शिविर बन रहे हैं…</string>
     <string name="vv_metas_n">%1$d लक्ष्य</string>
     <string name="vv_sin_metas">अभी कोई लक्ष्य नहीं</string>
     <string name="vv_sin_metas_texto">अभी इस कैंप को थामने वाला कोई लक्ष्य नहीं। पहला लक्ष्य बनाइए: किस साल इसे पाना चाहते हैं?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">एक वाक्य और एक फ़ोटो में आपका उद्देश्य। यह बाकी सब का उत्तर है।</string>
     <string name="modelo_e9_t">8 शिविर</string>
     <string name="modelo_e9_d">शिखर के चारों ओर 8 दिशाएँ जो उसे थामती हैं: %1$s। मिलकर ये शिविर परत बनाती हैं।</string>
-    <string name="modelo_e81_t">64 कदम</string>
-    <string name="modelo_e81_d">हर शिविर 8 ठोस कदमों में खुलता है। शिखर, 8 शिविर और 64 कदम मिलकर 9×9 कम्पास बनाते हैं।</string>
+    <string name="modelo_e81_t">मार्ग</string>
+    <string name="modelo_e81_d">हर शिविर 8 ठोस कदमों में खुलता है: 64 कदम जो शिखर तक आपका मार्ग हैं। शिखर, 8 शिविर और मार्ग मिलकर कम्पास 1·9·81 बनाते हैं।</string>
     <string name="modelo_camino">साल की राह</string>
     <string name="modelo_c1_t">सपना देखें</string>
     <string name="modelo_c1_d">अपना शिखर लिखें और उसमें एक फ़ोटो लगाएँ।</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">कम्पास 1·9·81 उस मंडला चार्ट से प्रेरित है जिसे यासुओ मात्सुमुरा ने 1979 में जापान में बनाया था (Matsumura, 2007)। उन्होंने बौद्ध मंडल की 3×3 संरचना को जीवन और काम की योजना में लगाया: केंद्र में एक लक्ष्य और चारों ओर आठ क्षेत्र (स्वास्थ्य, काम, अर्थ, परिवार, समाज, चरित्र, सीखना और मनोरंजन), ताकि संतुलन से जिया जाए (Mandala Chart Kyōkai, n.d.)। हिरोआकी इमाइज़ुमी ने इसे विचार पैदा करने के लिए Mandal-Art बनाया (Imaizumi, 1988) और ताकाशी हरादा ने लक्ष्य पाने के लिए Open Window 64 शीट, जिसे शोहेई ओहतानी ने इस्तेमाल किया (Harada &amp; Shibayama, 2017)।</string>
     <string name="modelo_origen_suroute">Ruta a la Cima पद्धति इसे पर्वत का कम्पास बनाती है: एक शिखर, 8 शिविर और यात्रा-दिनों से कमाए गए 64 कदम, Cima 9×52 पद्धति से मापे गए और हर कदम की एक सबूत फ़ोटो के साथ।</string>
     <string name="modelo_refs_t">संदर्भ</string>
+    <string name="vision_seccion_ruta">81 · मार्ग</string>
 </resources>

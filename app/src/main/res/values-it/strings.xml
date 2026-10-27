@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Crea account</string>
     <string name="filtro_para_ti">Per te</string>
     <string name="filtro_siguiendo">Seguiti</string>
-    <string name="filtro_vision">Vision board</string>
+    <string name="filtro_vision">Campi</string>
     <string name="error_cargar">Impossibile caricare: %1$s</string>
     <string name="feed_vacio">Ancora nessun post. Sii il primo a condividere i tuoi progressi!</string>
     <string name="visibilidad_publica">Pubblico</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Riflessione</string>
     <string name="tipo_logro_ayuda">Celebra qualcosa che hai ottenuto. Ogni vittoria conta.</string>
     <string name="tipo_evidencia_ayuda">Mostra la prova dei tuoi progressi: una foto vale più di mille propositi.</string>
-    <string name="tipo_vision_ayuda">Aggiungi un\'immagine al tuo vision board: com\'è la tua vetta.</string>
+    <string name="tipo_vision_ayuda">Aggiungi un\'immagine ai tuoi campi: com\'è la tua vetta.</string>
     <string name="tipo_meta_ayuda">Rendi pubblico il tuo obiettivo: l\'impegno condiviso si rispetta di più.</string>
     <string name="tipo_reflexion_ayuda">Condividi una lezione imparata lungo il cammino.</string>
     <string name="agregar_foto">Aggiungi foto</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">Resta sempre nel tuo diario di vita, anche se è privato.</string>
     <string name="demo_post_1">Ho finito il mio primo corso di design! 30 giorni di fila a praticare 1 ora al giorno.</string>
     <string name="demo_meta_1">Padroneggiare l\'UX design in 6 mesi</string>
-    <string name="demo_post_2">Il mio vision board 2027: una casa con giardino, un laboratorio tutto mio e tempo per la mia famiglia.</string>
+    <string name="demo_post_2">I miei campi 2027: una casa con giardino, un laboratorio tutto mio e tempo per la mia famiglia.</string>
     <string name="demo_post_3">Giorno 21 che mi alzo alle 5:00. La disciplina comincia a sembrare naturale.</string>
     <string name="demo_meta_3">Creare l\'abitudine di alzarmi presto</string>
     <string name="demo_post_4">Il mio obiettivo dell\'anno: fatturare il doppio con la mia attività senza lavorare più ore.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Obiettivi raggiunti</string>
     <string name="perfil_tab_publicaciones">Post</string>
     <string name="perfil_tab_vida">La mia vita</string>
-    <string name="perfil_tab_vision">Vision board</string>
+    <string name="perfil_tab_vision">Campi</string>
     <string name="perfil_tab_ejes">Assi</string>
     <string name="sin_publicaciones">Non hai ancora pubblicato. Condividi il tuo primo traguardo.</string>
-    <string name="vision_board_texto">Il tuo vision board: le immagini della vita che stai costruendo.</string>
+    <string name="vision_board_texto">I tuoi campi: le immagini della vita che stai costruendo.</string>
     <string name="vision_vacia">Aggiungi la prima immagine della tua visione.</string>
     <string name="agregar_vision">Aggiungi alla mia visione</string>
     <string name="ejes_sin_evaluar">Non hai ancora valutato i tuoi 6 assi.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">Fatto. Il percorso è stato eliminato dal cloud ed è ancora completo sul telefono.</string>
     <string name="web_codigo_invalido">Questo codice non è di SuRoute. Scansiona quello che appare su SuRoute Web.</string>
     <string name="web_escaner_no">Impossibile aprire lo scanner. Scrivi il codice che appare sul web.</string>
-    <string name="vision_titulo">La mia vision board</string>
-    <string name="vision_abrir">Crea la mia vision board</string>
+    <string name="vision_titulo">I miei campi</string>
+    <string name="vision_abrir">Crea i miei campi</string>
     <string name="vision_intro">L’IA crea la tua bacheca con la tua vetta, i tuoi propositi e obiettivi. Tu la riempi con le tue foto: ogni immagine viene dalla tua vita, non da un catalogo.</string>
     <string name="vision_armar">Crea con l’IA</string>
     <string name="vision_rearmar">Proponi di nuovo</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">In attesa che accetti la tua richiesta.</string>
     <string name="coach_vida_escribir">Scrivi</string>
     <string name="coach_vida_compartir">Condividi i miei progressi</string>
-    <string name="coach_vida_compartir_ayuda">La tua vetta, scopi, obiettivi, abitudini della settimana, assi e vision board. Mai le tue risposte ai libri né le note.</string>
+    <string name="coach_vida_compartir_ayuda">La tua vetta, scopi, obiettivi, abitudini della settimana, assi e campi. Mai le tue risposte ai libri né le note.</string>
     <string name="coach_vida_cancelar">Annulla richiesta</string>
     <string name="coach_vida_terminar">Termina l’accompagnamento</string>
     <string name="coach_vida_acompanas">Persone che accompagni</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Inizia la tua prima guida</string>
     <string name="paso_guia_texto">«Scopri la tua Vetta Personale» ti guida passo passo. Puoi anche ascoltarla.</string>
     <string name="paso_guia_boton">Apri la guida</string>
-    <string name="paso_vision">Crea la tua vision board</string>
+    <string name="paso_vision">Crea i tuoi campi</string>
     <string name="paso_vision_texto">L’IA la compone con ciò che hai scritto; tu la riempi con le tue foto.</string>
-    <string name="paso_vision_boton">Crea la mia vision board</string>
+    <string name="paso_vision_boton">Crea i miei campi</string>
     <string name="paso_comunidad">Condividi il tuo obiettivo</string>
     <string name="paso_comunidad_texto">Dirlo ad alta voce impegna. Puoi pubblicarlo solo per te o per i tuoi follower.</string>
     <string name="paso_comunidad_boton">Pubblica il mio obiettivo</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Le tue abitudini più costanti</string>
     <string name="constancia_veces">%1$d giorni quest’anno</string>
     <string name="respaldo_titulo">Backup</string>
-    <string name="respaldo_texto">Salva tutta la tua rotta in un file (obiettivi, abitudini, risposte, assi, vision board e frasi). Funziona senza account, per cambiare telefono o per sicurezza.</string>
+    <string name="respaldo_texto">Salva tutta la tua rotta in un file (obiettivi, abitudini, risposte, assi, campi e frasi). Funziona senza account, per cambiare telefono o per sicurezza.</string>
     <string name="respaldo_guardar">Salva una copia della mia rotta</string>
     <string name="respaldo_restaurar">Ripristina una copia</string>
     <string name="respaldo_guardado">Copia salvata.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">Oggi sono andato avanti</string>
     <string name="metodo_ya_hoy">Oggi conta già</string>
     <string name="metodo_ganado">Passo conquistato</string>
-    <string name="mandala_compartir">Condividi il mio 9×9 nella comunità</string>
+    <string name="mandala_compartir">Condividi la mia Bussola nella comunità</string>
     <string name="mandala_compartiendo">Preparo l\'immagine…</string>
-    <string name="mandala_compartir_ayuda">Viene pubblicata un\'immagine del tuo 9×9 con la vetta, le foto del vision board e i passi. Chi può vederla?</string>
+    <string name="mandala_compartir_ayuda">Viene pubblicata un\'immagine della tua Bussola con la vetta, le foto dei campi e la rotta. Chi può vederla?</string>
     <string name="mandala_compartir_publico">Tutti</string>
     <string name="mandala_compartir_seguidores">I miei follower</string>
     <string name="mandala_compartido">Il tuo 9×9 è nella comunità</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Campi: la vetta e i suoi 8 campi. Tocca la vetta per vedere il 9×9 o un campo per aprire i suoi passi.</string>
     <string name="brujula_zoom_81">La tua Bussola completa: 81 caselle. Tocca un blocco per aprirlo sotto. Per tornare usa la freccia, il percorso o il tasto indietro.</string>
     <string name="brujula_nivel_vision">Campi</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Rotta</string>
     <string name="brujula_alejar">Allontana</string>
     <string name="carta_titulo">Lettera di benvenuto</string>
     <string name="carta_para">Per te, che hai deciso di salire</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">Lo hai tramite la tua istituzione.</string>
     <string name="plan_origen_piloto">Fai parte del programma pilota.</string>
     <string name="plan_b_metodo">Guide, assi, obiettivi e abitudini</string>
-    <string name="plan_b_brujula">Bussola della Vetta e vision board</string>
+    <string name="plan_b_brujula">Bussola della Vetta e campi</string>
     <string name="plan_b_comunidad">Community, messaggi e cordate</string>
     <string name="plan_b_web">SuRoute Web, anche su iPhone</string>
     <string name="plan_b_datos">Backup, esportazione ed eliminazione dei dati</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Aggiungi abitudine</string>
     <string name="habitos_fabrica">Ripristina predefinite</string>
     <string name="habitos_fabrica_si">Sì, ripristina le 18</string>
-    <string name="vv_titulo">Il mio vision board</string>
+    <string name="vv_titulo">I miei campi</string>
     <string name="vv_ayuda">La tua vetta al centro e ciò che la sostiene. Tocca un campo per vedere e pianificare i suoi obiettivi per anno.</string>
     <string name="vv_vacio">È il cuore del tuo percorso: la vetta al centro e 8 campi intorno. L’IA lo costruisce con vetta, propositi e obiettivi; tu lo riempi con le tue foto.</string>
-    <string name="vv_armar">Crea il mio vision board</string>
-    <string name="vv_armando">Creazione del vision board…</string>
+    <string name="vv_armar">Crea i miei campi</string>
+    <string name="vv_armando">Creazione dei campi…</string>
     <string name="vv_metas_n">%1$d obiettivi</string>
     <string name="vv_sin_metas">Ancora nessun obiettivo</string>
     <string name="vv_sin_metas_texto">Nessun obiettivo sostiene ancora questo campo. Pianifica il primo: in che anno vuoi raggiungerlo?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Il tuo scopo in una frase e una foto. È il nord di tutto il resto.</string>
     <string name="modelo_e9_t">Gli 8 campi</string>
     <string name="modelo_e9_d">Intorno alla vetta, 8 direzioni che la sostengono: %1$s. Insieme formano il livello Campi.</string>
-    <string name="modelo_e81_t">I 64 passi</string>
-    <string name="modelo_e81_d">Ogni campo si apre in 8 passi concreti. La vetta, gli 8 campi e i 64 passi formano la Bussola 9×9.</string>
+    <string name="modelo_e81_t">La rotta</string>
+    <string name="modelo_e81_d">Ogni campo si apre in 8 passi concreti: 64 passi che sono la tua rotta verso la vetta. La vetta, gli 8 campi e la rotta formano la Bussola 1·9·81.</string>
     <string name="modelo_camino">Il cammino dell\'anno</string>
     <string name="modelo_c1_t">Sognare</string>
     <string name="modelo_c1_d">Scrivi la tua vetta e dalle una foto.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">La Bussola 1·9·81 si ispira alla Mandala Chart creata in Giappone nel 1979 da Yasuo Matsumura (Matsumura, 2007). Portò la struttura 3×3 del mandala buddhista alla pianificazione della vita e del lavoro: un obiettivo al centro e otto aree intorno (salute, lavoro, economia, famiglia, società, carattere, apprendimento e svago), per vivere in equilibrio (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi la trasformò nel Mandal-Art per generare idee (Imaizumi, 1988) e Takashi Harada nel foglio Open Window 64 per raggiungere obiettivi, quello usato da Shohei Ohtani (Harada e Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">Il Metodo Ruta a la Cima la trasforma in una bussola di montagna: una vetta, 8 campi e 64 passi conquistati con giornate, misurati con il Metodo Cima 9×52 e con una foto di prova per passo.</string>
     <string name="modelo_refs_t">Bibliografia</string>
+    <string name="vision_seccion_ruta">81 · Rotta</string>
 </resources>

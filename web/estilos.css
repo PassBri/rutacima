@@ -3724,14 +3724,9 @@ html[data-modo-tarjetas="texto"] .md-grande .md-c > img { display: none !importa
 html[data-modo-tarjetas="texto"] .md-grande .md-cumbre.con-foto::after { display: none; }
 html[data-modo-tarjetas="texto"] .md-grande .md-cumbre.con-foto b { color: var(--tinta); text-shadow: none; }
 html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
-/* La S es de SuRoute: va en rojo lacre, como un pequeño sello de cera */
-.rosa-brujula.rb-min > .rb-s { color: #fff; font-weight: 800; letter-spacing: 0; gap: 4px; }
-.rosa-brujula.rb-min > .rb-s { font-size: 0; }
-.rosa-brujula.rb-min > .rb-s::before { display: grid; content: "S"; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 800 12px/1 var(--font-titulo);
-  color: #fff; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--burdeos) 70%, #fff) 0, var(--burdeos) 55%, color-mix(in srgb, var(--burdeos) 75%, #000) 100%);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--burdeos) 25%, transparent), 0 2px 4px -1px rgb(var(--sombra) / .45); }
+/* La S es de SuRoute: en rojo lacre y negrita */
+.rosa-brujula.rb-min > .rb-s { color: var(--burdeos); font-weight: 800; }
 .rosa-brujula.rb-min > .rb-s::after { background: color-mix(in srgb, var(--burdeos) 45%, transparent); }
-@media (max-width: 600px) { .rosa-brujula.rb-min > .rb-s::before { width: 18px; height: 18px; font-size: 10px; } }
 /* Modelo: el número del camino va en su círculo, alineado con el texto */
 .mo li > .mo-i { display: grid !important; place-items: center; width: 28px; height: 28px; margin: 0 4px; border-radius: 50%; border: 1px solid var(--linea); font-size: 12.5px; line-height: 1; font-weight: 700; color: var(--tinta-suave); }
 

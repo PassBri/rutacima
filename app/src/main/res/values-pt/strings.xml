@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Criar conta</string>
     <string name="filtro_para_ti">Para você</string>
     <string name="filtro_siguiendo">Seguindo</string>
-    <string name="filtro_vision">Vision boards</string>
+    <string name="filtro_vision">Acampamentos</string>
     <string name="error_cargar">Não foi possível carregar: %1$s</string>
     <string name="feed_vacio">Ainda não há publicações. Seja o primeiro a compartilhar seu progresso!</string>
     <string name="visibilidad_publica">Pública</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Reflexão</string>
     <string name="tipo_logro_ayuda">Celebre algo que você conseguiu. Cada vitória conta.</string>
     <string name="tipo_evidencia_ayuda">Mostre a prova do seu progresso: uma foto vale mais que mil propósitos.</string>
-    <string name="tipo_vision_ayuda">Adicione uma imagem ao seu vision board: como é o seu cume.</string>
+    <string name="tipo_vision_ayuda">Adicione uma imagem aos seus acampamentos: como é o seu cume.</string>
     <string name="tipo_meta_ayuda">Torne sua meta pública: compromisso compartilhado é mais cumprido.</string>
     <string name="tipo_reflexion_ayuda">Compartilhe uma lição do caminho.</string>
     <string name="agregar_foto">Adicionar foto</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">Sempre fica no seu diário de vida, mesmo que seja privada.</string>
     <string name="demo_post_1">Terminei meu primeiro curso de design! 30 dias seguidos praticando 1 hora por dia.</string>
     <string name="demo_meta_1">Dominar o design UX em 6 meses</string>
-    <string name="demo_post_2">Meu vision board 2027: uma casa com jardim, um ateliê próprio e tempo para minha família.</string>
+    <string name="demo_post_2">Meus acampamentos 2027: uma casa com jardim, um ateliê próprio e tempo para minha família.</string>
     <string name="demo_post_3">Dia 21 acordando às 5:00. A disciplina começa a parecer natural.</string>
     <string name="demo_meta_3">Criar o hábito de acordar cedo</string>
     <string name="demo_post_4">Minha meta do ano: faturar o dobro com meu negócio sem trabalhar mais horas.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Metas cumpridas</string>
     <string name="perfil_tab_publicaciones">Publicações</string>
     <string name="perfil_tab_vida">Minha vida</string>
-    <string name="perfil_tab_vision">Vision board</string>
+    <string name="perfil_tab_vision">Acampamentos</string>
     <string name="perfil_tab_ejes">Eixos</string>
     <string name="sin_publicaciones">Você ainda não publicou. Compartilhe sua primeira conquista.</string>
-    <string name="vision_board_texto">Seu vision board: as imagens da vida que você está construindo.</string>
+    <string name="vision_board_texto">Seus acampamentos: as imagens da vida que você está construindo.</string>
     <string name="vision_vacia">Adicione a primeira imagem da sua visão.</string>
     <string name="agregar_vision">Adicionar à minha visão</string>
     <string name="ejes_sin_evaluar">Você ainda não avaliou seus 6 eixos.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">Pronto. Sua rota foi apagada da nuvem e continua completa no celular.</string>
     <string name="web_codigo_invalido">Esse código não é do SuRoute. Escaneie o que aparece no SuRoute Web.</string>
     <string name="web_escaner_no">Não foi possível abrir o leitor. Digite o código que aparece na web.</string>
-    <string name="vision_titulo">Meu vision board</string>
-    <string name="vision_abrir">Montar meu vision board</string>
+    <string name="vision_titulo">Meus acampamentos</string>
+    <string name="vision_abrir">Montar meus acampamentos</string>
     <string name="vision_intro">A IA monta seu quadro com seu cume, seus propósitos e suas metas. Você o preenche com suas fotos: assim cada imagem é da sua vida, não de um catálogo.</string>
     <string name="vision_armar">Montar com IA</string>
     <string name="vision_rearmar">Sugerir de novo</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">Aguardando a aceitação da sua solicitação.</string>
     <string name="coach_vida_escribir">Escrever</string>
     <string name="coach_vida_compartir">Compartilhar meu avanço</string>
-    <string name="coach_vida_compartir_ayuda">Seu cume, propósitos, metas, hábitos da semana, eixos e vision board. Nunca suas respostas dos livros nem suas notas.</string>
+    <string name="coach_vida_compartir_ayuda">Seu cume, propósitos, metas, hábitos da semana, eixos e acampamentos. Nunca suas respostas dos livros nem suas notas.</string>
     <string name="coach_vida_cancelar">Cancelar solicitação</string>
     <string name="coach_vida_terminar">Encerrar acompanhamento</string>
     <string name="coach_vida_acompanas">Pessoas que você acompanha</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Comece seu primeiro guia</string>
     <string name="paso_guia_texto">“Descubra seu Cume Pessoal” guia você passo a passo. Também dá para ouvir.</string>
     <string name="paso_guia_boton">Abrir o guia</string>
-    <string name="paso_vision">Monte seu vision board</string>
+    <string name="paso_vision">Monte seus acampamentos</string>
     <string name="paso_vision_texto">A IA monta com o que você já escreveu; você preenche com suas fotos.</string>
-    <string name="paso_vision_boton">Montar meu vision board</string>
+    <string name="paso_vision_boton">Montar meus acampamentos</string>
     <string name="paso_comunidad">Compartilhe sua meta</string>
     <string name="paso_comunidad_texto">Dizer em voz alta compromete. Você pode publicar só para você ou para seus seguidores.</string>
     <string name="paso_comunidad_boton">Publicar minha meta</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Seus hábitos mais constantes</string>
     <string name="constancia_veces">%1$d dias neste ano</string>
     <string name="respaldo_titulo">Cópia de segurança</string>
-    <string name="respaldo_texto">Salve toda a sua rota em um arquivo (metas, hábitos, respostas, eixos, vision board e frases). Funciona sem conta, para trocar de telefone ou por precaução.</string>
+    <string name="respaldo_texto">Salve toda a sua rota em um arquivo (metas, hábitos, respostas, eixos, acampamentos e frases). Funciona sem conta, para trocar de telefone ou por precaução.</string>
     <string name="respaldo_guardar">Salvar cópia da minha rota</string>
     <string name="respaldo_restaurar">Restaurar uma cópia</string>
     <string name="respaldo_guardado">Cópia salva.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">Avancei hoje</string>
     <string name="metodo_ya_hoy">Hoje já conta</string>
     <string name="metodo_ganado">Passo conquistado</string>
-    <string name="mandala_compartir">Compartilhar meu 9×9 na comunidade</string>
+    <string name="mandala_compartir">Compartilhar minha Bússola na comunidade</string>
     <string name="mandala_compartiendo">Preparando a imagem…</string>
-    <string name="mandala_compartir_ayuda">Será publicada uma imagem do seu 9×9 com seu cume, as fotos do seu vision board e seus passos. Quem pode ver?</string>
+    <string name="mandala_compartir_ayuda">Será publicada uma imagem da sua Bússola com seu cume, as fotos dos seus acampamentos e sua rota. Quem pode ver?</string>
     <string name="mandala_compartir_publico">Todos</string>
     <string name="mandala_compartir_seguidores">Meus seguidores</string>
     <string name="mandala_compartido">Seu 9×9 já está na comunidade</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Acampamentos: o cume e seus 8 acampamentos. Toque o cume para ver o 9×9 ou um acampamento para abrir seus passos.</string>
     <string name="brujula_zoom_81">Sua Bússola completa: 81 casas. Toque um bloco para abri-lo abaixo. Para voltar, use a seta, a trilha ou o botão voltar.</string>
     <string name="brujula_nivel_vision">Acampamentos</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Rota</string>
     <string name="brujula_alejar">Afastar</string>
     <string name="carta_titulo">Carta de boas-vindas</string>
     <string name="carta_para">Para você, que decidiu subir</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">Você o tem pela sua instituição.</string>
     <string name="plan_origen_piloto">Você faz parte do programa piloto.</string>
     <string name="plan_b_metodo">Guias, eixos, metas e hábitos</string>
-    <string name="plan_b_brujula">Bússola do Cume e vision board</string>
+    <string name="plan_b_brujula">Bússola do Cume e acampamentos</string>
     <string name="plan_b_comunidad">Comunidade, mensagens e cordadas</string>
     <string name="plan_b_web">SuRoute Web, também no iPhone</string>
     <string name="plan_b_datos">Backup, exportar e excluir seus dados</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Adicionar hábito</string>
     <string name="habitos_fabrica">Voltar aos padrões</string>
     <string name="habitos_fabrica_si">Sim, voltar aos 18</string>
-    <string name="vv_titulo">Meu vision board</string>
+    <string name="vv_titulo">Meus acampamentos</string>
     <string name="vv_ayuda">Seu cume no centro e o que o sustenta. Toque um acampamento para ver e planejar suas metas por ano.</string>
     <string name="vv_vacio">É o coração da sua rota: seu cume no centro e 8 acampamentos ao redor. A IA o monta com seu cume, propósitos e metas; você o preenche com suas fotos.</string>
-    <string name="vv_armar">Montar meu vision board</string>
-    <string name="vv_armando">Montando seu vision board…</string>
+    <string name="vv_armar">Montar meus acampamentos</string>
+    <string name="vv_armando">Montando seus acampamentos…</string>
     <string name="vv_metas_n">%1$d metas</string>
     <string name="vv_sin_metas">Sem metas ainda</string>
     <string name="vv_sin_metas_texto">Ainda não há metas que sustentem este acampamento. Planeje a primeira: em que ano quer alcançá-la?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Seu propósito em uma frase e uma foto. É o norte de todo o resto.</string>
     <string name="modelo_e9_t">Os 8 acampamentos</string>
     <string name="modelo_e9_d">Ao redor do cume, 8 rumos que o sustentam: %1$s. Juntos formam a camada Acampamentos.</string>
-    <string name="modelo_e81_t">Os 64 passos</string>
-    <string name="modelo_e81_d">Cada acampamento se abre em 8 passos concretos. O cume, os 8 acampamentos e os 64 passos formam a Bússola 9×9.</string>
+    <string name="modelo_e81_t">A rota</string>
+    <string name="modelo_e81_d">Cada acampamento se abre em 8 passos concretos: 64 passos que são a sua rota até o cume. O cume, os 8 acampamentos e a rota formam a Bússola 1·9·81.</string>
     <string name="modelo_camino">O caminho do ano</string>
     <string name="modelo_c1_t">Sonhar</string>
     <string name="modelo_c1_d">Escreva o seu cume e coloque uma foto.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">A Bússola 1·9·81 se inspira na Mandala Chart que Yasuo Matsumura criou no Japão em 1979 (Matsumura, 2007). Ele levou a estrutura 3×3 da mandala budista ao planejamento da vida e do trabalho: uma meta no centro e oito áreas ao redor (saúde, trabalho, economia, família, sociedade, caráter, aprendizagem e lazer), para viver com equilíbrio (Mandala Chart Kyōkai, s.d.). Hiroaki Imaizumi a transformou no Mandal-Art para gerar ideias (Imaizumi, 1988) e Takashi Harada na folha Open Window 64 para alcançar metas, a que Shohei Ohtani usou (Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">O Método Ruta a la Cima a transforma em uma bússola de montanha: um cume, 8 acampamentos e 64 passos conquistados com jornadas, medidos com o Método Cima 9×52 e com uma foto de evidência por passo.</string>
     <string name="modelo_refs_t">Referências</string>
+    <string name="vision_seccion_ruta">81 · Rota</string>
 </resources>

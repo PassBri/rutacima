@@ -425,7 +425,7 @@
     <string name="crear_cuenta">Crear cuenta</string>
     <string name="filtro_para_ti">Para ti</string>
     <string name="filtro_siguiendo">Siguiendo</string>
-    <string name="filtro_vision">Vision boards</string>
+    <string name="filtro_vision">Campamentos</string>
     <string name="error_cargar">No se pudo cargar: %1$s</string>
     <string name="feed_vacio">Aún no hay publicaciones. ¡Sé el primero en compartir tu avance!</string>
     <string name="visibilidad_publica">Pública</string>
@@ -446,7 +446,7 @@
     <string name="tipo_reflexion">Reflexión</string>
     <string name="tipo_logro_ayuda">Celebra algo que conseguiste. Cada victoria cuenta.</string>
     <string name="tipo_evidencia_ayuda">Muestra la prueba de tu avance: una foto vale más que mil propósitos.</string>
-    <string name="tipo_vision_ayuda">Agrega una imagen a tu vision board: cómo se ve tu cumbre.</string>
+    <string name="tipo_vision_ayuda">Agrega una imagen a tus campamentos: cómo se ve tu cumbre.</string>
     <string name="tipo_meta_ayuda">Haz pública tu meta: el compromiso compartido se cumple más.</string>
     <string name="tipo_reflexion_ayuda">Comparte una lección del camino.</string>
     <string name="agregar_foto">Agregar foto</string>
@@ -458,7 +458,7 @@
     <string name="siempre_en_tu_diario">Siempre queda en tu diario de vida, aunque sea privada.</string>
     <string name="demo_post_1">¡Terminé mi primer curso de diseño! 30 días seguidos practicando 1 hora diaria.</string>
     <string name="demo_meta_1">Dominar el diseño UX en 6 meses</string>
-    <string name="demo_post_2">Mi vision board 2027: una casa con jardín, un taller propio y tiempo para mi familia.</string>
+    <string name="demo_post_2">Mis campamentos 2027: una casa con jardín, un taller propio y tiempo para mi familia.</string>
     <string name="demo_post_3">Día 21 levantándome a las 5:00. La disciplina empieza a sentirse natural.</string>
     <string name="demo_meta_3">Crear el hábito de madrugar</string>
     <string name="demo_post_4">Mi meta del año: facturar el doble con mi emprendimiento sin trabajar más horas.</string>
@@ -491,10 +491,10 @@
     <string name="metas_cumplidas">Metas cumplidas</string>
     <string name="perfil_tab_publicaciones">Publicaciones</string>
     <string name="perfil_tab_vida">Mi vida</string>
-    <string name="perfil_tab_vision">Vision board</string>
+    <string name="perfil_tab_vision">Campamentos</string>
     <string name="perfil_tab_ejes">Ejes</string>
     <string name="sin_publicaciones">Aún no has publicado. Comparte tu primer logro.</string>
-    <string name="vision_board_texto">Tu vision board: las imágenes de la vida que estás construyendo.</string>
+    <string name="vision_board_texto">Tus campamentos: las imágenes de la vida que estás construyendo.</string>
     <string name="vision_vacia">Agrega la primera imagen de tu visión.</string>
     <string name="agregar_vision">Agregar a mi visión</string>
     <string name="ejes_sin_evaluar">Aún no has evaluado tus 6 ejes.</string>
@@ -694,8 +694,8 @@
     <string name="web_borrado">Listo. Tu ruta se borró de la nube y sigue completa en tu teléfono.</string>
     <string name="web_codigo_invalido">Ese código no es de SuRoute. Escanea el que aparece en SuRoute Web.</string>
     <string name="web_escaner_no">No se pudo abrir el escáner. Escribe el código que aparece en la web.</string>
-    <string name="vision_titulo">Mi vision board</string>
-    <string name="vision_abrir">Armar mi vision board</string>
+    <string name="vision_titulo">Mis campamentos</string>
+    <string name="vision_abrir">Armar mis campamentos</string>
     <string name="vision_intro">La IA arma tu tablero con tu cumbre, tus propósitos y tus metas. Tú lo llenas con tus fotos: así cada imagen es de tu vida, no de un catálogo.</string>
     <string name="vision_armar">Armar con IA</string>
     <string name="vision_rearmar">Volver a proponer</string>
@@ -763,7 +763,7 @@
     <string name="coach_vida_esperando">Esperando que acepte tu solicitud.</string>
     <string name="coach_vida_escribir">Escribir</string>
     <string name="coach_vida_compartir">Compartir mi avance</string>
-    <string name="coach_vida_compartir_ayuda">Tu cumbre, propósitos, metas, hábitos de la semana, ejes y vision board. Nunca tus respuestas de los libros ni tus notas.</string>
+    <string name="coach_vida_compartir_ayuda">Tu cumbre, propósitos, metas, hábitos de la semana, ejes y campamentos. Nunca tus respuestas de los libros ni tus notas.</string>
     <string name="coach_vida_cancelar">Cancelar solicitud</string>
     <string name="coach_vida_terminar">Terminar acompañamiento</string>
     <string name="coach_vida_acompanas">Personas que acompañas</string>
@@ -854,9 +854,9 @@
     <string name="paso_guia">Empieza tu primera guía</string>
     <string name="paso_guia_texto">«Descubre tu Cumbre Personal» te lleva paso a paso. También puedes escucharla.</string>
     <string name="paso_guia_boton">Abrir la guía</string>
-    <string name="paso_vision">Arma tu vision board</string>
+    <string name="paso_vision">Arma tus campamentos</string>
     <string name="paso_vision_texto">La IA lo arma con lo que ya escribiste; tú lo llenas con tus fotos.</string>
-    <string name="paso_vision_boton">Armar mi vision board</string>
+    <string name="paso_vision_boton">Armar mis campamentos</string>
     <string name="paso_comunidad">Comparte tu meta</string>
     <string name="paso_comunidad_texto">Decirlo en voz alta compromete. Puedes publicarlo solo para ti o para tus seguidores.</string>
     <string name="paso_comunidad_boton">Publicar mi meta</string>
@@ -890,7 +890,7 @@
     <string name="constancia_habitos_fuertes">Tus hábitos más constantes</string>
     <string name="constancia_veces">%1$d días este año</string>
     <string name="respaldo_titulo">Copia de seguridad</string>
-    <string name="respaldo_texto">Guarda toda tu ruta en un archivo (metas, hábitos, respuestas, ejes, vision board y frases). Sirve aunque no tengas cuenta, para cambiar de teléfono o por si acaso.</string>
+    <string name="respaldo_texto">Guarda toda tu ruta en un archivo (metas, hábitos, respuestas, ejes, campamentos y frases). Sirve aunque no tengas cuenta, para cambiar de teléfono o por si acaso.</string>
     <string name="respaldo_guardar">Guardar copia de mi ruta</string>
     <string name="respaldo_restaurar">Restaurar una copia</string>
     <string name="respaldo_guardado">Copia guardada.</string>
@@ -1070,9 +1070,9 @@
     <string name="metodo_avance_hoy">Avancé hoy</string>
     <string name="metodo_ya_hoy">Hoy ya cuenta</string>
     <string name="metodo_ganado">Paso ganado</string>
-    <string name="mandala_compartir">Compartir mi 9×9 en la comunidad</string>
+    <string name="mandala_compartir">Compartir mi Brújula en la comunidad</string>
     <string name="mandala_compartiendo">Preparando la imagen…</string>
-    <string name="mandala_compartir_ayuda">Se publica una imagen de tu 9×9 con tu cumbre, las fotos de tu vision board y tus pasos. ¿Quién la puede ver?</string>
+    <string name="mandala_compartir_ayuda">Se publica una imagen de tu Brújula con tu cumbre, las fotos de tus campamentos y tu ruta. ¿Quién la puede ver?</string>
     <string name="mandala_compartir_publico">Todos</string>
     <string name="mandala_compartir_seguidores">Mis seguidores</string>
     <string name="mandala_compartido">Tu 9×9 ya está en la comunidad</string>
@@ -1136,7 +1136,7 @@
     <string name="brujula_zoom_9">Campamentos: la cumbre y sus 8 campamentos. Toca la cumbre para ver el 9×9 o un campamento para abrir sus pasos.</string>
     <string name="brujula_zoom_81">Tu Brújula completa: 81 casillas. Toca un bloque para abrirlo abajo. Para volver, usa la flecha, las migas o el botón atrás.</string>
     <string name="brujula_nivel_vision">Campamentos</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Ruta</string>
     <string name="brujula_alejar">Alejar</string>
     <string name="carta_titulo">Carta de bienvenida</string>
     <string name="carta_para">Para ti, que decidiste subir</string>
@@ -1229,7 +1229,7 @@
     <string name="plan_origen_institucion">Lo tienes por tu institución.</string>
     <string name="plan_origen_piloto">Eres parte del programa piloto.</string>
     <string name="plan_b_metodo">Guías, ejes, metas y hábitos</string>
-    <string name="plan_b_brujula">Brújula de la Cima y vision board</string>
+    <string name="plan_b_brujula">Brújula de la Cima y campamentos</string>
     <string name="plan_b_comunidad">Comunidad, mensajes y cordadas</string>
     <string name="plan_b_web">SuRoute Web, también en iPhone</string>
     <string name="plan_b_datos">Respaldo, exportar y eliminar tus datos</string>
@@ -1312,11 +1312,11 @@
     <string name="habitos_agregar">Agregar hábito</string>
     <string name="habitos_fabrica">Volver a los de fábrica</string>
     <string name="habitos_fabrica_si">Sí, volver a los 18</string>
-    <string name="vv_titulo">Mi vision board</string>
+    <string name="vv_titulo">Mis campamentos</string>
     <string name="vv_ayuda">Tu cumbre al centro y lo que la sostiene. Toca un campamento para ver y planear sus metas por año.</string>
     <string name="vv_vacio">Es el corazón de tu ruta: tu cumbre al centro y 8 campamentos alrededor. Lo arma la IA con tu cumbre, tus propósitos y tus metas; tú lo llenas con tus fotos.</string>
-    <string name="vv_armar">Armar mi vision board</string>
-    <string name="vv_armando">Armando tu vision board…</string>
+    <string name="vv_armar">Armar mis campamentos</string>
+    <string name="vv_armando">Armando tus campamentos…</string>
     <string name="vv_metas_n">%1$d metas</string>
     <string name="vv_sin_metas">Sin metas aún</string>
     <string name="vv_sin_metas_texto">Todavía no hay metas que sostengan este campamento. Planea la primera: ¿en qué año la quieres lograr?</string>
@@ -2339,8 +2339,8 @@
     <string name="modelo_e1_d">Tu propósito en una frase y una foto. Es el norte de todo lo demás.</string>
     <string name="modelo_e9_t">Los 8 campamentos</string>
     <string name="modelo_e9_d">Alrededor de la cumbre, 8 rumbos que la sostienen: %1$s. Juntos forman la capa Campamentos.</string>
-    <string name="modelo_e81_t">Los 64 pasos</string>
-    <string name="modelo_e81_d">Cada campamento se abre en 8 pasos concretos. La cumbre, los 8 campamentos y los 64 pasos forman la Brújula 9×9.</string>
+    <string name="modelo_e81_t">La ruta</string>
+    <string name="modelo_e81_d">Cada campamento se abre en 8 pasos concretos: 64 pasos que son tu ruta hacia la cumbre. La cumbre, los 8 campamentos y la ruta forman la Brújula 1·9·81.</string>
     <string name="modelo_camino">El camino del año</string>
     <string name="modelo_c1_t">Soñar</string>
     <string name="modelo_c1_d">Escribe tu cumbre y ponle una foto.</string>
@@ -2373,4 +2373,5 @@
         <item>Matsumura, Y. (2006). &lt;i&gt;Mandara shikō de yume wa kanarazu kanau!&lt;/i&gt; [¡Con el pensamiento mandala los sueños sí se cumplen!]. Forest Shuppan.</item>
         <item>Matsumura, Y. (2007). &lt;i&gt;Zukai mandara chāto&lt;/i&gt; [La Mandala Chart ilustrada]. Seishun Shuppansha.</item>
     </string-array>
+    <string name="vision_seccion_ruta">81 · Ruta</string>
 </resources>

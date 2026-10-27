@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Create account</string>
     <string name="filtro_para_ti">For you</string>
     <string name="filtro_siguiendo">Following</string>
-    <string name="filtro_vision">Vision boards</string>
+    <string name="filtro_vision">Camps</string>
     <string name="error_cargar">Couldn\'t load: %1$s</string>
     <string name="feed_vacio">No posts yet. Be the first to share your progress!</string>
     <string name="visibilidad_publica">Public</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Reflection</string>
     <string name="tipo_logro_ayuda">Celebrate something you accomplished. Every win counts.</string>
     <string name="tipo_evidencia_ayuda">Show proof of your progress: a photo is worth a thousand resolutions.</string>
-    <string name="tipo_vision_ayuda">Add an image to your vision board: what your summit looks like.</string>
+    <string name="tipo_vision_ayuda">Add an image to your camps: what your summit looks like.</string>
     <string name="tipo_meta_ayuda">Make your goal public: a shared commitment is more likely to be kept.</string>
     <string name="tipo_reflexion_ayuda">Share a lesson from the trail.</string>
     <string name="agregar_foto">Add photo</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">It always stays in your life journal, even if it\'s private.</string>
     <string name="demo_post_1">I finished my first design course! 30 days in a row practicing 1 hour a day.</string>
     <string name="demo_meta_1">Master UX design in 6 months</string>
-    <string name="demo_post_2">My 2027 vision board: a house with a garden, a workshop of my own and time for my family.</string>
+    <string name="demo_post_2">My 2027 camps: a house with a garden, a workshop of my own and time for my family.</string>
     <string name="demo_post_3">Day 21 of getting up at 5:00. Discipline is starting to feel natural.</string>
     <string name="demo_meta_3">Build the habit of waking up early</string>
     <string name="demo_post_4">My goal for the year: double my business revenue without working more hours.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Goals achieved</string>
     <string name="perfil_tab_publicaciones">Posts</string>
     <string name="perfil_tab_vida">My life</string>
-    <string name="perfil_tab_vision">Vision board</string>
+    <string name="perfil_tab_vision">Camps</string>
     <string name="perfil_tab_ejes">Axes</string>
     <string name="sin_publicaciones">You haven\'t posted yet. Share your first achievement.</string>
-    <string name="vision_board_texto">Your vision board: the images of the life you\'re building.</string>
+    <string name="vision_board_texto">Your camps: the images of the life you\'re building.</string>
     <string name="vision_vacia">Add the first image of your vision.</string>
     <string name="agregar_vision">Add to my vision</string>
     <string name="ejes_sin_evaluar">You haven\'t rated your 6 axes yet.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">Done. Your path was deleted from the cloud and is still complete on your phone.</string>
     <string name="web_codigo_invalido">That isn’t a SuRoute code. Scan the one shown on SuRoute Web.</string>
     <string name="web_escaner_no">Couldn’t open the scanner. Type the code shown on the web.</string>
-    <string name="vision_titulo">My vision board</string>
-    <string name="vision_abrir">Build my vision board</string>
+    <string name="vision_titulo">My camps</string>
+    <string name="vision_abrir">Build my camps</string>
     <string name="vision_intro">AI builds your board from your summit, purposes and goals. You fill it with your own photos, so every image comes from your life, not a catalog.</string>
     <string name="vision_armar">Build with AI</string>
     <string name="vision_rearmar">Suggest again</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">Waiting for them to accept your request.</string>
     <string name="coach_vida_escribir">Message</string>
     <string name="coach_vida_compartir">Share my progress</string>
-    <string name="coach_vida_compartir_ayuda">Your summit, purposes, goals, this week’s habits, axes and vision board. Never your workbook answers or notes.</string>
+    <string name="coach_vida_compartir_ayuda">Your summit, purposes, goals, this week’s habits, axes and camps. Never your workbook answers or notes.</string>
     <string name="coach_vida_cancelar">Cancel request</string>
     <string name="coach_vida_terminar">End coaching</string>
     <string name="coach_vida_acompanas">People you coach</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Start your first guide</string>
     <string name="paso_guia_texto">“Discover your Personal Summit” guides you step by step. You can also listen to it.</string>
     <string name="paso_guia_boton">Open the guide</string>
-    <string name="paso_vision">Build your vision board</string>
+    <string name="paso_vision">Build your camps</string>
     <string name="paso_vision_texto">AI builds it from what you’ve written; you fill it with your photos.</string>
-    <string name="paso_vision_boton">Build my vision board</string>
+    <string name="paso_vision_boton">Build my camps</string>
     <string name="paso_comunidad">Share your goal</string>
     <string name="paso_comunidad_texto">Saying it out loud commits you. You can post it just for you or for your followers.</string>
     <string name="paso_comunidad_boton">Post my goal</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Your most consistent habits</string>
     <string name="constancia_veces">%1$d days this year</string>
     <string name="respaldo_titulo">Backup</string>
-    <string name="respaldo_texto">Save your whole route to a file (goals, habits, answers, axes, vision board and quotes). Works without an account, to switch phones or just in case.</string>
+    <string name="respaldo_texto">Save your whole route to a file (goals, habits, answers, axes, camps and quotes). Works without an account, to switch phones or just in case.</string>
     <string name="respaldo_guardar">Save a copy of my route</string>
     <string name="respaldo_restaurar">Restore a copy</string>
     <string name="respaldo_guardado">Copy saved.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">I moved forward today</string>
     <string name="metodo_ya_hoy">Today already counts</string>
     <string name="metodo_ganado">Step earned</string>
-    <string name="mandala_compartir">Share my 9×9 with the community</string>
+    <string name="mandala_compartir">Share my Compass with the community</string>
     <string name="mandala_compartiendo">Preparing the image…</string>
-    <string name="mandala_compartir_ayuda">An image of your 9×9 is posted with your summit, your vision board photos and your steps. Who can see it?</string>
+    <string name="mandala_compartir_ayuda">An image of your Compass is posted with your summit, your camp photos and your route. Who can see it?</string>
     <string name="mandala_compartir_publico">Everyone</string>
     <string name="mandala_compartir_seguidores">My followers</string>
     <string name="mandala_compartido">Your 9×9 is now in the community</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Camps: the summit and its 8 camps. Tap the summit to see the 9×9 or a camp to open its steps.</string>
     <string name="brujula_zoom_81">Your full Compass: 81 tiles. Tap a block to open it below. To go back, use the arrow, the breadcrumbs or the back button.</string>
     <string name="brujula_nivel_vision">Camps</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Route</string>
     <string name="brujula_alejar">Zoom out</string>
     <string name="carta_titulo">Welcome letter</string>
     <string name="carta_para">For you, who decided to climb</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">You have it through your institution.</string>
     <string name="plan_origen_piloto">You\'re part of the pilot program.</string>
     <string name="plan_b_metodo">Guides, axes, goals and habits</string>
-    <string name="plan_b_brujula">Summit Compass and vision board</string>
+    <string name="plan_b_brujula">Summit Compass and camps</string>
     <string name="plan_b_comunidad">Community, messages and rope teams</string>
     <string name="plan_b_web">SuRoute Web, also on iPhone</string>
     <string name="plan_b_datos">Back up, export and delete your data</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Add habit</string>
     <string name="habitos_fabrica">Restore defaults</string>
     <string name="habitos_fabrica_si">Yes, restore the 18</string>
-    <string name="vv_titulo">My vision board</string>
+    <string name="vv_titulo">My camps</string>
     <string name="vv_ayuda">Your summit in the center and what holds it up. Tap a camp to see and plan its goals by year.</string>
     <string name="vv_vacio">It is the heart of your route: your summit in the center and 8 camps around it. AI builds it from your summit, purposes and goals; you fill it with your photos.</string>
-    <string name="vv_armar">Build my vision board</string>
-    <string name="vv_armando">Building your vision board…</string>
+    <string name="vv_armar">Build my camps</string>
+    <string name="vv_armando">Building your camps…</string>
     <string name="vv_metas_n">%1$d goals</string>
     <string name="vv_sin_metas">No goals yet</string>
     <string name="vv_sin_metas_texto">No goals hold up this camp yet. Plan the first one: in which year do you want to reach it?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Your purpose in one sentence and one photo. It is the north of everything else.</string>
     <string name="modelo_e9_t">The 8 camps</string>
     <string name="modelo_e9_d">Around the summit, 8 directions that hold it up: %1$s. Together they form the Camps layer.</string>
-    <string name="modelo_e81_t">The 64 steps</string>
-    <string name="modelo_e81_d">Each camp opens into 8 concrete steps. The summit, the 8 camps and the 64 steps make up the 9×9 Compass.</string>
+    <string name="modelo_e81_t">The route</string>
+    <string name="modelo_e81_d">Each camp opens into 8 concrete steps: 64 steps that are your route to the summit. The summit, the 8 camps and the route make up the 1·9·81 Compass.</string>
     <string name="modelo_camino">The path of the year</string>
     <string name="modelo_c1_t">Dream</string>
     <string name="modelo_c1_d">Write your summit and give it a photo.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">The 1·9·81 Compass is inspired by the Mandala Chart that Yasuo Matsumura created in Japan in 1979 (Matsumura, 2007). He brought the 3×3 structure of the Buddhist mandala to life and work planning: a goal at the center and eight areas around it (health, work, finances, family, society, character, learning and leisure), to live in balance (Mandala Chart Kyōkai, n.d.). Hiroaki Imaizumi turned it into Mandal-Art to generate ideas (Imaizumi, 1988) and Takashi Harada into the Open Window 64 sheet to reach goals, the one Shohei Ohtani used (Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">The Ruta a la Cima Method turns it into a mountain compass: one summit, 8 camps and 64 steps earned with workdays, measured with the Cima 9×52 Method and with one evidence photo per step.</string>
     <string name="modelo_refs_t">References</string>
+    <string name="vision_seccion_ruta">81 · Route</string>
 </resources>

@@ -423,7 +423,7 @@
     <string name="crear_cuenta">Создать аккаунт</string>
     <string name="filtro_para_ti">Для тебя</string>
     <string name="filtro_siguiendo">Подписки</string>
-    <string name="filtro_vision">Доски желаний</string>
+    <string name="filtro_vision">Лагеря</string>
     <string name="error_cargar">Не удалось загрузить: %1$s</string>
     <string name="feed_vacio">Публикаций пока нет. Стань первым, кто поделится прогрессом!</string>
     <string name="visibilidad_publica">Публичная</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">Размышление</string>
     <string name="tipo_logro_ayuda">Отпразднуй то, чего добился(лась). Каждая победа важна.</string>
     <string name="tipo_evidencia_ayuda">Покажи подтверждение своего прогресса: фото стоит тысячи намерений.</string>
-    <string name="tipo_vision_ayuda">Добавь картинку на свою доску желаний: как выглядит твоя вершина.</string>
+    <string name="tipo_vision_ayuda">Добавь картинку в свои лагеря: как выглядит твоя вершина.</string>
     <string name="tipo_meta_ayuda">Сделай цель публичной: общее обязательство выполняется чаще.</string>
     <string name="tipo_reflexion_ayuda">Поделись уроком, который дала дорога.</string>
     <string name="agregar_foto">Добавить фото</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">Запись всегда остаётся в твоём дневнике жизни, даже если она приватная.</string>
     <string name="demo_post_1">Закончил(а) свой первый курс по дизайну! 30 дней подряд занимался(лась) по часу в день.</string>
     <string name="demo_meta_1">Освоить UX-дизайн за 6 месяцев</string>
-    <string name="demo_post_2">Моя доска желаний на 2027: дом с садом, собственная мастерская и время для семьи.</string>
+    <string name="demo_post_2">Мои лагеря на 2027: дом с садом, собственная мастерская и время для семьи.</string>
     <string name="demo_post_3">21-й день, как я встаю в 5:00. Дисциплина начинает казаться естественной.</string>
     <string name="demo_meta_3">Выработать привычку рано вставать</string>
     <string name="demo_post_4">Моя цель на год: удвоить выручку своего дела, не работая больше часов.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">Выполненные цели</string>
     <string name="perfil_tab_publicaciones">Публикации</string>
     <string name="perfil_tab_vida">Моя жизнь</string>
-    <string name="perfil_tab_vision">Доска желаний</string>
+    <string name="perfil_tab_vision">Лагеря</string>
     <string name="perfil_tab_ejes">Оси</string>
     <string name="sin_publicaciones">Ты ещё ничего не публиковал(а). Поделись своим первым достижением.</string>
-    <string name="vision_board_texto">Твоя доска желаний: образы жизни, которую ты строишь.</string>
+    <string name="vision_board_texto">Твои лагеря: образы жизни, которую ты строишь.</string>
     <string name="vision_vacia">Добавь первое изображение своего видения.</string>
     <string name="agregar_vision">Добавить в моё видение</string>
     <string name="ejes_sin_evaluar">Ты ещё не оценил(а) свои 6 осей.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">Готово. Путь удалён из облака и полностью сохранён на телефоне.</string>
     <string name="web_codigo_invalido">Это не код SuRoute. Отсканируй код, показанный в SuRoute Web.</string>
     <string name="web_escaner_no">Не удалось открыть сканер. Введи код, показанный в веб-версии.</string>
-    <string name="vision_titulo">Моя доска визуализации</string>
-    <string name="vision_abrir">Собрать мою доску</string>
+    <string name="vision_titulo">Мои лагеря</string>
+    <string name="vision_abrir">Собрать мои лагеря</string>
     <string name="vision_intro">ИИ собирает доску из твоей вершины, целей и задач. Ты наполняешь её своими фото — каждое изображение из твоей жизни, а не из каталога.</string>
     <string name="vision_armar">Собрать с ИИ</string>
     <string name="vision_rearmar">Предложить заново</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">Ждём, пока примут твой запрос.</string>
     <string name="coach_vida_escribir">Написать</string>
     <string name="coach_vida_compartir">Делиться прогрессом</string>
-    <string name="coach_vida_compartir_ayuda">Твоя вершина, цели жизни, задачи, привычки недели, оси и доска визуализации. Никогда — ответы в книгах и заметки.</string>
+    <string name="coach_vida_compartir_ayuda">Твоя вершина, цели жизни, задачи, привычки недели, оси и лагеря. Никогда — ответы в книгах и заметки.</string>
     <string name="coach_vida_cancelar">Отменить запрос</string>
     <string name="coach_vida_terminar">Завершить сопровождение</string>
     <string name="coach_vida_acompanas">Кого ты сопровождаешь</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">Начни первое руководство</string>
     <string name="paso_guia_texto">«Открой свою личную вершину» ведёт шаг за шагом. Её можно и послушать.</string>
     <string name="paso_guia_boton">Открыть руководство</string>
-    <string name="paso_vision">Собери доску визуализации</string>
+    <string name="paso_vision">Собери свои лагеря</string>
     <string name="paso_vision_texto">ИИ соберёт её из написанного тобой, а ты заполнишь своими фото.</string>
-    <string name="paso_vision_boton">Собрать доску</string>
+    <string name="paso_vision_boton">Собрать лагеря</string>
     <string name="paso_comunidad">Поделись целью</string>
     <string name="paso_comunidad_texto">Сказать вслух — значит взять обязательство. Можно опубликовать только для себя или для подписчиков.</string>
     <string name="paso_comunidad_boton">Опубликовать цель</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">Самые стабильные привычки</string>
     <string name="constancia_veces">%1$d дн. в этом году</string>
     <string name="respaldo_titulo">Резервная копия</string>
-    <string name="respaldo_texto">Сохрани весь маршрут в файл (цели, привычки, ответы, оси, доска визуализации и цитаты). Без аккаунта — для смены телефона или на всякий случай.</string>
+    <string name="respaldo_texto">Сохрани весь маршрут в файл (цели, привычки, ответы, оси, лагеря и цитаты). Без аккаунта — для смены телефона или на всякий случай.</string>
     <string name="respaldo_guardar">Сохранить копию маршрута</string>
     <string name="respaldo_restaurar">Восстановить копию</string>
     <string name="respaldo_guardado">Копия сохранена.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">Сегодня продвинулся</string>
     <string name="metodo_ya_hoy">Сегодня уже засчитано</string>
     <string name="metodo_ganado">Шаг заработан</string>
-    <string name="mandala_compartir">Поделиться 9×9 с сообществом</string>
+    <string name="mandala_compartir">Поделиться своим Компасом с сообществом</string>
     <string name="mandala_compartiendo">Готовлю изображение…</string>
-    <string name="mandala_compartir_ayuda">Будет опубликовано изображение твоей 9×9 с вершиной, фото vision board и шагами. Кто может его видеть?</string>
+    <string name="mandala_compartir_ayuda">Будет опубликовано изображение твоего Компаса с вершиной, фото лагерей и маршрутом. Кто может его видеть?</string>
     <string name="mandala_compartir_publico">Все</string>
     <string name="mandala_compartir_seguidores">Мои подписчики</string>
     <string name="mandala_compartido">Твоя 9×9 уже в сообществе</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">Лагеря: вершина и её 8 лагерей. Нажми на вершину, чтобы увидеть 9×9, или на лагерь, чтобы открыть его шаги.</string>
     <string name="brujula_zoom_81">Весь компас: 81 клетка. Нажми на блок, чтобы открыть его ниже. Назад — стрелка, «хлебные крошки» или кнопка «назад».</string>
     <string name="brujula_nivel_vision">Лагеря</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">Маршрут</string>
     <string name="brujula_alejar">Отдалить</string>
     <string name="carta_titulo">Приветственное письмо</string>
     <string name="carta_para">Тебе, решившему подняться</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">Предоставлен вашей организацией.</string>
     <string name="plan_origen_piloto">Вы участник пилотной программы.</string>
     <string name="plan_b_metodo">Гиды, оси, цели и привычки</string>
-    <string name="plan_b_brujula">Компас вершины и доска визуализации</string>
+    <string name="plan_b_brujula">Компас вершины и лагеря</string>
     <string name="plan_b_comunidad">Сообщество, сообщения и связки</string>
     <string name="plan_b_web">SuRoute Web, в том числе на iPhone</string>
     <string name="plan_b_datos">Резервная копия, экспорт и удаление данных</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">Добавить привычку</string>
     <string name="habitos_fabrica">Вернуть исходные</string>
     <string name="habitos_fabrica_si">Да, вернуть 18</string>
-    <string name="vv_titulo">Моя доска визуализации</string>
+    <string name="vv_titulo">Мои лагеря</string>
     <string name="vv_ayuda">В центре — твоя вершина, вокруг — то, что её держит. Нажми на лагерь, чтобы увидеть и спланировать его цели по годам.</string>
     <string name="vv_vacio">Это сердце твоего маршрута: вершина в центре и 8 лагерей вокруг. ИИ собирает её из твоей вершины, целей и задач, а ты наполняешь своими фото.</string>
-    <string name="vv_armar">Собрать мою доску</string>
-    <string name="vv_armando">Собираю твою доску…</string>
+    <string name="vv_armar">Собрать мои лагеря</string>
+    <string name="vv_armando">Собираю твои лагеря…</string>
     <string name="vv_metas_n">Целей: %1$d</string>
     <string name="vv_sin_metas">Пока нет целей</string>
     <string name="vv_sin_metas_texto">Этот лагерь пока не держит ни одна цель. Спланируй первую: в каком году ты хочешь её достичь?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">Твоя цель в одной фразе и одном фото. Это север для всего остального.</string>
     <string name="modelo_e9_t">8 лагерей</string>
     <string name="modelo_e9_d">Вокруг вершины 8 направлений, которые её поддерживают: %1$s. Вместе они образуют уровень «Лагеря».</string>
-    <string name="modelo_e81_t">64 шага</string>
-    <string name="modelo_e81_d">Каждый лагерь раскрывается в 8 конкретных шагов. Вершина, 8 лагерей и 64 шага образуют Компас 9×9.</string>
+    <string name="modelo_e81_t">Маршрут</string>
+    <string name="modelo_e81_d">Каждый лагерь раскрывается в 8 конкретных шагов: 64 шага — это твой маршрут к вершине. Вершина, 8 лагерей и маршрут образуют Компас 1·9·81.</string>
     <string name="modelo_camino">Путь года</string>
     <string name="modelo_c1_t">Мечтать</string>
     <string name="modelo_c1_d">Запиши свою вершину и добавь фото.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">Компас 1·9·81 вдохновлён Мандала-чартом, который Ясуо Мацумура создал в Японии в 1979 году (Matsumura, 2007). Он перенёс структуру 3×3 буддийской мандалы на планирование жизни и работы: цель в центре и восемь сфер вокруг (здоровье, работа, финансы, семья, общество, характер, учёба и досуг), чтобы жить в равновесии (Mandala Chart Kyōkai, n.d.). Хироаки Имаидзуми превратил его в Mandal-Art для поиска идей (Imaizumi, 1988), а Такаси Харада — в лист Open Window 64 для достижения целей, которым пользовался Сёхэй Отани (Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">Метод Ruta a la Cima превращает его в горный компас: одна вершина, 8 лагерей и 64 шага, заработанных переходами, измеряемых Методом Cima 9×52, с фото-подтверждением для каждого шага.</string>
     <string name="modelo_refs_t">Литература</string>
+    <string name="vision_seccion_ruta">81 · Маршрут</string>
 </resources>

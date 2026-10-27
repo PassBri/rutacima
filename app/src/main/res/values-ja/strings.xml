@@ -423,7 +423,7 @@
     <string name="crear_cuenta">アカウント作成</string>
     <string name="filtro_para_ti">おすすめ</string>
     <string name="filtro_siguiendo">フォロー中</string>
-    <string name="filtro_vision">ビジョンボード</string>
+    <string name="filtro_vision">キャンプ</string>
     <string name="error_cargar">読み込めませんでした: %1$s</string>
     <string name="feed_vacio">まだ投稿がありません。最初に進捗を共有してみませんか?</string>
     <string name="visibilidad_publica">公開</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">振り返り</string>
     <string name="tipo_logro_ayuda">達成したことをお祝いしましょう。どの勝利も大切です。</string>
     <string name="tipo_evidencia_ayuda">進歩の証拠を見せましょう。1枚の写真は千の決意に勝ります。</string>
-    <string name="tipo_vision_ayuda">ビジョンボードに画像を追加しましょう。あなたの山頂はどんな姿?</string>
+    <string name="tipo_vision_ayuda">キャンプに画像を追加しましょう。あなたの山頂はどんな姿?</string>
     <string name="tipo_meta_ayuda">目標を公開しましょう。みんなで共有した約束は、果たされやすくなります。</string>
     <string name="tipo_reflexion_ayuda">道のりで得た学びを共有しましょう。</string>
     <string name="agregar_foto">写真を追加</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">非公開でも、あなたの人生の記録にはいつも残ります。</string>
     <string name="demo_post_1">初めてのデザインコースを修了しました!毎日1時間、30日連続で練習しました。</string>
     <string name="demo_meta_1">6か月でUXデザインをマスターする</string>
-    <string name="demo_post_2">2027年のビジョンボード: 庭つきの家、自分の工房、そして家族との時間。</string>
+    <string name="demo_post_2">2027年のキャンプ: 庭つきの家、自分の工房、そして家族との時間。</string>
     <string name="demo_post_3">5時起き21日目。規律が自然に感じられてきました。</string>
     <string name="demo_meta_3">早起きの習慣をつくる</string>
     <string name="demo_post_4">今年の目標: 労働時間を増やさずに、事業の売上を2倍にする。</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">達成した目標</string>
     <string name="perfil_tab_publicaciones">投稿</string>
     <string name="perfil_tab_vida">私の人生</string>
-    <string name="perfil_tab_vision">ビジョンボード</string>
+    <string name="perfil_tab_vision">キャンプ</string>
     <string name="perfil_tab_ejes">軸</string>
     <string name="sin_publicaciones">まだ投稿がありません。最初の成果を共有しましょう。</string>
-    <string name="vision_board_texto">あなたのビジョンボード: 築いていく人生のイメージ。</string>
+    <string name="vision_board_texto">あなたのキャンプ: 築いていく人生のイメージ。</string>
     <string name="vision_vacia">ビジョンの最初の画像を追加しましょう。</string>
     <string name="agregar_vision">ビジョンに追加</string>
     <string name="ejes_sin_evaluar">6つの軸はまだ評価されていません。</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">完了しました。ルートはクラウドから削除され、スマホにはすべて残っています。</string>
     <string name="web_codigo_invalido">SuRoute のコードではありません。SuRoute Web に表示されたコードをスキャンしてください。</string>
     <string name="web_escaner_no">スキャナーを開けませんでした。Web に表示されたコードを入力してください。</string>
-    <string name="vision_titulo">私のビジョンボード</string>
-    <string name="vision_abrir">ビジョンボードを作る</string>
+    <string name="vision_titulo">私のキャンプ</string>
+    <string name="vision_abrir">キャンプを作る</string>
     <string name="vision_intro">AI があなたの頂上・目的・目標からボードを組み立てます。写真はあなた自身のものを。どの画像もカタログではなく、あなたの人生から。</string>
     <string name="vision_armar">AI で作る</string>
     <string name="vision_rearmar">もう一度提案</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">リクエストの承認を待っています。</string>
     <string name="coach_vida_escribir">メッセージ</string>
     <string name="coach_vida_compartir">進み具合を共有</string>
-    <string name="coach_vida_compartir_ayuda">頂、目的、目標、今週の習慣、軸、ビジョンボード。本への回答やメモは共有しません。</string>
+    <string name="coach_vida_compartir_ayuda">頂、目的、目標、今週の習慣、軸、キャンプ。本への回答やメモは共有しません。</string>
     <string name="coach_vida_cancelar">リクエストを取り消す</string>
     <string name="coach_vida_terminar">伴走を終了</string>
     <string name="coach_vida_acompanas">伴走している人</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">最初のガイドを始める</string>
     <string name="paso_guia_texto">「あなたの頂を見つける」が一歩ずつ導きます。音声でも聴けます。</string>
     <string name="paso_guia_boton">ガイドを開く</string>
-    <string name="paso_vision">ビジョンボードを作る</string>
+    <string name="paso_vision">キャンプを作る</string>
     <string name="paso_vision_texto">書いた内容からAIが作り、あなたが写真で埋めます。</string>
-    <string name="paso_vision_boton">ボードを作る</string>
+    <string name="paso_vision_boton">キャンプを作る</string>
     <string name="paso_comunidad">目標をシェア</string>
     <string name="paso_comunidad_texto">口に出すと本気になれます。自分だけ、またはフォロワー限定でも投稿できます。</string>
     <string name="paso_comunidad_boton">目標を投稿</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">よく続いた習慣</string>
     <string name="constancia_veces">今年 %1$d日</string>
     <string name="respaldo_titulo">バックアップ</string>
-    <string name="respaldo_texto">ルート全体（目標、習慣、回答、軸、ビジョンボード、言葉）をファイルに保存。アカウント不要で、機種変更や万一に備えて。</string>
+    <string name="respaldo_texto">ルート全体（目標、習慣、回答、軸、キャンプ、言葉）をファイルに保存。アカウント不要で、機種変更や万一に備えて。</string>
     <string name="respaldo_guardar">ルートのコピーを保存</string>
     <string name="respaldo_restaurar">コピーを復元</string>
     <string name="respaldo_guardado">コピーを保存しました。</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">今日進めた</string>
     <string name="metodo_ya_hoy">今日は記録済み</string>
     <string name="metodo_ganado">ステップ獲得</string>
-    <string name="mandala_compartir">9×9をコミュニティに共有</string>
+    <string name="mandala_compartir">コミュニティでコンパスを共有</string>
     <string name="mandala_compartiendo">画像を準備中…</string>
-    <string name="mandala_compartir_ayuda">頂、ビジョンボードの写真、ステップが入った9×9の画像を投稿します。誰が見られますか？</string>
+    <string name="mandala_compartir_ayuda">頂、キャンプの写真、ルートが入ったコンパスの画像を投稿します。誰が見られますか？</string>
     <string name="mandala_compartir_publico">全員</string>
     <string name="mandala_compartir_seguidores">フォロワー</string>
     <string name="mandala_compartido">9×9をコミュニティに投稿しました</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">キャンプ：頂上と8つのキャンプ。頂上をタップすると9×9、キャンプをタップするとそのステップが開きます。</string>
     <string name="brujula_zoom_81">コンパス全体：81マス。ブロックをタップすると下に開きます。戻るには矢印、パンくず、戻るボタンを使います。</string>
     <string name="brujula_nivel_vision">キャンプ</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">ルート</string>
     <string name="brujula_alejar">縮小</string>
     <string name="carta_titulo">ようこその手紙</string>
     <string name="carta_para">登ると決めたあなたへ</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">所属機関から提供されています。</string>
     <string name="plan_origen_piloto">パイロットプログラムの参加者です。</string>
     <string name="plan_b_metodo">ガイド、軸、目標、習慣</string>
-    <string name="plan_b_brujula">サミットコンパスとビジョンボード</string>
+    <string name="plan_b_brujula">サミットコンパスとキャンプ</string>
     <string name="plan_b_comunidad">コミュニティ、メッセージ、ザイルパーティ</string>
     <string name="plan_b_web">SuRoute Web（iPhone でも）</string>
     <string name="plan_b_datos">データのバックアップ・書き出し・削除</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">習慣を追加</string>
     <string name="habitos_fabrica">初期設定に戻す</string>
     <string name="habitos_fabrica_si">はい、18 個に戻す</string>
-    <string name="vv_titulo">私のビジョンボード</string>
+    <string name="vv_titulo">私のキャンプ</string>
     <string name="vv_ayuda">中央にあなたの頂上、その周りに支えるもの。キャンプをタップすると年ごとの目標を見て計画できます。</string>
     <string name="vv_vacio">あなたのルートの中心です。中央に頂上、周りに 8 つのキャンプ。AI が頂上・目的・目標から組み立て、あなたが写真で埋めます。</string>
-    <string name="vv_armar">ビジョンボードを作る</string>
-    <string name="vv_armando">ビジョンボードを作成中…</string>
+    <string name="vv_armar">キャンプを作る</string>
+    <string name="vv_armando">キャンプを作成中…</string>
     <string name="vv_metas_n">目標 %1$d 件</string>
     <string name="vv_sin_metas">目標はまだありません</string>
     <string name="vv_sin_metas_texto">このキャンプを支える目標はまだありません。最初の目標を計画しましょう。何年に達成しますか？</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">目的を一文と一枚の写真で。ほかのすべての北になります。</string>
     <string name="modelo_e9_t">8つのキャンプ</string>
     <string name="modelo_e9_d">頂上のまわりに、それを支える8つの方角：%1$s。合わせて「キャンプ」の階層になります。</string>
-    <string name="modelo_e81_t">64のステップ</string>
-    <string name="modelo_e81_d">各キャンプは8つの具体的なステップに分かれます。頂上、8つのキャンプ、64のステップで9×9コンパスになります。</string>
+    <string name="modelo_e81_t">ルート</string>
+    <string name="modelo_e81_d">各キャンプは8つの具体的なステップに分かれます。64のステップが頂上へのルートです。頂上、8つのキャンプ、ルートでコンパス 1·9·81 になります。</string>
     <string name="modelo_camino">一年の道のり</string>
     <string name="modelo_c1_t">夢見る</string>
     <string name="modelo_c1_d">頂上を書き、写真を添えましょう。</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">コンパス 1·9·81 は、松村寧雄が1979年に日本で考案したマンダラチャートに着想を得ています（Matsumura, 2007）。仏教の曼荼羅の3×3構造を人生と仕事の計画に応用し、中心に目標、周りに8つの領域（健康、仕事、経済、家庭、社会、人格、学習、遊び）を置いて、バランスのとれた生き方を目指します（Mandala Chart Kyōkai, n.d.）。今泉浩晃はそれを発想のためのマンダラートに（Imaizumi, 1988）、原田隆史は目標達成のためのオープンウィンドウ64に発展させ、大谷翔平が使いました（Harada &amp; Shibayama, 2017）。</string>
     <string name="modelo_origen_suroute">Ruta a la Cima メソッドはそれを山のコンパスにしました：一つの頂上、8つのキャンプ、行程日で勝ち取る64のステップを Cima 9×52 メソッドで測り、ステップごとに証拠写真を一枚残します。</string>
     <string name="modelo_refs_t">参考文献</string>
+    <string name="vision_seccion_ruta">81 · ルート</string>
 </resources>

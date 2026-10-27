@@ -5,7 +5,7 @@ const PLAN_PRECIO = { mes: CONFIG.planPrecioMes || "$14.900", anio: CONFIG.planP
 // [texto, en el plan gratuito, esencial (nunca se cobra), detalle gratis, detalle Cumbre]
 const PLAN_BENEFICIOS = [
   ["Guías, ejes, metas y hábitos", true, true],
-  ["Brújula de la Cima y vision board", true, true],
+  ["Brújula de la Cima y campamentos", true, true],
   ["Comunidad, mensajes y cordadas", true, true],
   ["SuRoute Web, también en iPhone", true, true],
   ["Respaldo, exportar y eliminar tus datos", true, true],

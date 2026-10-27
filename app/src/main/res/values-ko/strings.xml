@@ -423,7 +423,7 @@
     <string name="crear_cuenta">계정 만들기</string>
     <string name="filtro_para_ti">추천</string>
     <string name="filtro_siguiendo">팔로잉</string>
-    <string name="filtro_vision">비전 보드</string>
+    <string name="filtro_vision">캠프</string>
     <string name="error_cargar">불러오지 못했어요: %1$s</string>
     <string name="feed_vacio">아직 게시물이 없어요. 가장 먼저 진행 상황을 공유해 보세요!</string>
     <string name="visibilidad_publica">전체 공개</string>
@@ -444,7 +444,7 @@
     <string name="tipo_reflexion">회고</string>
     <string name="tipo_logro_ayuda">이룬 것을 축하하세요. 모든 승리는 소중해요.</string>
     <string name="tipo_evidencia_ayuda">진전의 증거를 보여 주세요. 사진 한 장이 천 마디 다짐보다 나아요.</string>
-    <string name="tipo_vision_ayuda">비전 보드에 이미지를 추가하세요. 나의 정상은 어떤 모습인가요?</string>
+    <string name="tipo_vision_ayuda">캠프에 이미지를 추가하세요. 나의 정상은 어떤 모습인가요?</string>
     <string name="tipo_meta_ayuda">목표를 공개하세요. 함께 나눈 약속은 더 잘 지켜져요.</string>
     <string name="tipo_reflexion_ayuda">길에서 얻은 교훈을 나눠 보세요.</string>
     <string name="agregar_foto">사진 추가</string>
@@ -456,7 +456,7 @@
     <string name="siempre_en_tu_diario">비공개로 해도 항상 나의 인생 일기에 남아요.</string>
     <string name="demo_post_1">첫 디자인 강좌를 끝냈어요! 30일 연속으로 하루 1시간씩 연습했어요.</string>
     <string name="demo_meta_1">6개월 안에 UX 디자인 마스터하기</string>
-    <string name="demo_post_2">나의 2027 비전 보드: 정원이 있는 집, 나만의 작업실, 그리고 가족과 보내는 시간.</string>
+    <string name="demo_post_2">나의 2027 캠프: 정원이 있는 집, 나만의 작업실, 그리고 가족과 보내는 시간.</string>
     <string name="demo_post_3">5시 기상 21일째. 이제 규율이 자연스럽게 느껴지기 시작해요.</string>
     <string name="demo_meta_3">일찍 일어나는 습관 만들기</string>
     <string name="demo_post_4">올해의 목표: 일하는 시간은 늘리지 않고 내 사업 매출을 두 배로 올리기.</string>
@@ -489,10 +489,10 @@
     <string name="metas_cumplidas">달성한 목표</string>
     <string name="perfil_tab_publicaciones">게시물</string>
     <string name="perfil_tab_vida">나의 삶</string>
-    <string name="perfil_tab_vision">비전 보드</string>
+    <string name="perfil_tab_vision">캠프</string>
     <string name="perfil_tab_ejes">축</string>
     <string name="sin_publicaciones">아직 게시물이 없어요. 첫 성과를 공유해 보세요.</string>
-    <string name="vision_board_texto">나의 비전 보드: 내가 만들어 가는 삶의 이미지들이에요.</string>
+    <string name="vision_board_texto">나의 캠프: 내가 만들어 가는 삶의 이미지들이에요.</string>
     <string name="vision_vacia">비전의 첫 이미지를 추가해 보세요.</string>
     <string name="agregar_vision">내 비전에 추가</string>
     <string name="ejes_sin_evaluar">아직 6개 축을 평가하지 않았어요.</string>
@@ -692,8 +692,8 @@
     <string name="web_borrado">완료됐어요. 경로가 클라우드에서 삭제됐고 휴대폰에는 그대로 있어요.</string>
     <string name="web_codigo_invalido">SuRoute 코드가 아니에요. SuRoute Web에 나타난 코드를 스캔하세요.</string>
     <string name="web_escaner_no">스캐너를 열지 못했어요. 웹에 나타난 코드를 입력하세요.</string>
-    <string name="vision_titulo">나의 비전 보드</string>
-    <string name="vision_abrir">비전 보드 만들기</string>
+    <string name="vision_titulo">나의 캠프</string>
+    <string name="vision_abrir">캠프 만들기</string>
     <string name="vision_intro">AI가 당신의 정상, 목표, 계획으로 보드를 구성해요. 사진은 직접 채우세요. 모든 이미지가 카탈로그가 아닌 당신의 삶에서 나오도록.</string>
     <string name="vision_armar">AI로 만들기</string>
     <string name="vision_rearmar">다시 제안</string>
@@ -761,7 +761,7 @@
     <string name="coach_vida_esperando">요청 수락을 기다리는 중입니다.</string>
     <string name="coach_vida_escribir">메시지 보내기</string>
     <string name="coach_vida_compartir">내 진행 상황 공유</string>
-    <string name="coach_vida_compartir_ayuda">당신의 정상, 목적, 목표, 이번 주 습관, 축과 비전 보드. 책에 쓴 답이나 메모는 절대 공유되지 않아요.</string>
+    <string name="coach_vida_compartir_ayuda">당신의 정상, 목적, 목표, 이번 주 습관, 축과 캠프. 책에 쓴 답이나 메모는 절대 공유되지 않아요.</string>
     <string name="coach_vida_cancelar">요청 취소</string>
     <string name="coach_vida_terminar">코칭 종료</string>
     <string name="coach_vida_acompanas">내가 동행하는 사람들</string>
@@ -852,9 +852,9 @@
     <string name="paso_guia">첫 번째 가이드 시작하기</string>
     <string name="paso_guia_texto">‘나의 정상 발견하기’가 한 걸음씩 안내해요. 들을 수도 있어요.</string>
     <string name="paso_guia_boton">가이드 열기</string>
-    <string name="paso_vision">비전 보드 만들기</string>
+    <string name="paso_vision">캠프 만들기</string>
     <string name="paso_vision_texto">AI가 작성한 내용으로 만들고, 사진으로 채우는 건 당신이에요.</string>
-    <string name="paso_vision_boton">비전 보드 만들기</string>
+    <string name="paso_vision_boton">캠프 만들기</string>
     <string name="paso_comunidad">목표 공유하기</string>
     <string name="paso_comunidad_texto">말로 하면 다짐이 돼요. 나만 보기나 팔로워 공개로 올릴 수 있어요.</string>
     <string name="paso_comunidad_boton">목표 올리기</string>
@@ -888,7 +888,7 @@
     <string name="constancia_habitos_fuertes">가장 꾸준한 습관</string>
     <string name="constancia_veces">올해 %1$d일</string>
     <string name="respaldo_titulo">백업</string>
-    <string name="respaldo_texto">전체 경로(목표, 습관, 답변, 축, 비전 보드, 문구)를 파일로 저장해요. 계정 없이도 휴대폰 교체나 만일을 위해 쓸 수 있어요.</string>
+    <string name="respaldo_texto">전체 경로(목표, 습관, 답변, 축, 캠프, 문구)를 파일로 저장해요. 계정 없이도 휴대폰 교체나 만일을 위해 쓸 수 있어요.</string>
     <string name="respaldo_guardar">내 경로 사본 저장</string>
     <string name="respaldo_restaurar">사본 복원</string>
     <string name="respaldo_guardado">사본을 저장했어요.</string>
@@ -1068,9 +1068,9 @@
     <string name="metodo_avance_hoy">오늘 나아갔어요</string>
     <string name="metodo_ya_hoy">오늘은 이미 기록됨</string>
     <string name="metodo_ganado">단계 획득</string>
-    <string name="mandala_compartir">9×9를 커뮤니티에 공유</string>
+    <string name="mandala_compartir">커뮤니티에 내 나침반 공유</string>
     <string name="mandala_compartiendo">이미지 준비 중…</string>
-    <string name="mandala_compartir_ayuda">정상, 비전 보드 사진, 단계가 담긴 9×9 이미지가 게시돼요. 누가 볼 수 있나요?</string>
+    <string name="mandala_compartir_ayuda">정상, 캠프 사진, 루트가 담긴 나침반 이미지가 게시돼요. 누가 볼 수 있나요?</string>
     <string name="mandala_compartir_publico">모두</string>
     <string name="mandala_compartir_seguidores">팔로워</string>
     <string name="mandala_compartido">9×9가 커뮤니티에 올라갔어요</string>
@@ -1134,7 +1134,7 @@
     <string name="brujula_zoom_9">캠프: 정상과 8개의 캠프. 정상을 탭하면 9×9, 캠프를 탭하면 그 걸음이 열립니다.</string>
     <string name="brujula_zoom_81">전체 나침반: 81칸. 블록을 누르면 아래에 열려요. 돌아가려면 화살표, 경로 표시, 뒤로 버튼을 쓰세요.</string>
     <string name="brujula_nivel_vision">캠프</string>
-    <string name="brujula_nivel_completa">9×9</string>
+    <string name="brujula_nivel_completa">루트</string>
     <string name="brujula_alejar">축소</string>
     <string name="carta_titulo">환영 편지</string>
     <string name="carta_para">오르기로 결심한 당신에게</string>
@@ -1227,7 +1227,7 @@
     <string name="plan_origen_institucion">소속 기관을 통해 이용 중이에요.</string>
     <string name="plan_origen_piloto">파일럿 프로그램 참여자예요.</string>
     <string name="plan_b_metodo">가이드, 축, 목표, 습관</string>
-    <string name="plan_b_brujula">정상 나침반과 비전 보드</string>
+    <string name="plan_b_brujula">정상 나침반과 캠프</string>
     <string name="plan_b_comunidad">커뮤니티, 메시지, 자일 파티</string>
     <string name="plan_b_web">SuRoute 웹, 아이폰에서도</string>
     <string name="plan_b_datos">데이터 백업, 내보내기, 삭제</string>
@@ -1310,11 +1310,11 @@
     <string name="habitos_agregar">습관 추가</string>
     <string name="habitos_fabrica">기본값으로 되돌리기</string>
     <string name="habitos_fabrica_si">네, 18개로 되돌리기</string>
-    <string name="vv_titulo">나의 비전 보드</string>
+    <string name="vv_titulo">나의 캠프</string>
     <string name="vv_ayuda">가운데는 나의 정상, 주변은 그것을 받치는 것들. 캠프를 눌러 연도별 목표를 보고 계획하세요.</string>
     <string name="vv_vacio">당신 루트의 심장입니다. 가운데 정상, 주변에 8개의 캠프. AI가 정상·목적·목표로 만들고, 당신이 사진으로 채웁니다.</string>
-    <string name="vv_armar">비전 보드 만들기</string>
-    <string name="vv_armando">비전 보드를 만드는 중…</string>
+    <string name="vv_armar">캠프 만들기</string>
+    <string name="vv_armando">캠프를 만드는 중…</string>
     <string name="vv_metas_n">목표 %1$d개</string>
     <string name="vv_sin_metas">아직 목표 없음</string>
     <string name="vv_sin_metas_texto">아직 이 캠프를 받치는 목표가 없어요. 첫 목표를 계획하세요. 몇 년에 이루고 싶나요?</string>
@@ -2337,8 +2337,8 @@
     <string name="modelo_e1_d">한 문장과 한 장의 사진으로 담은 당신의 목적. 다른 모든 것의 북쪽입니다.</string>
     <string name="modelo_e9_t">8개의 캠프</string>
     <string name="modelo_e9_d">정상 주위에서 그것을 받쳐 주는 8개의 방향: %1$s. 함께 모여 캠프 단계를 이룹니다.</string>
-    <string name="modelo_e81_t">64개의 걸음</string>
-    <string name="modelo_e81_d">각 캠프는 8개의 구체적인 걸음으로 펼쳐집니다. 정상, 8개의 캠프, 64개의 걸음이 9×9 나침반을 이룹니다.</string>
+    <string name="modelo_e81_t">루트</string>
+    <string name="modelo_e81_d">각 캠프는 8개의 구체적인 걸음으로 펼쳐집니다. 64개의 걸음이 정상으로 가는 루트입니다. 정상, 8개의 캠프, 루트가 나침반 1·9·81을 이룹니다.</string>
     <string name="modelo_camino">한 해의 길</string>
     <string name="modelo_c1_t">꿈꾸기</string>
     <string name="modelo_c1_d">정상을 쓰고 사진을 붙이세요.</string>
@@ -2364,4 +2364,5 @@
     <string name="modelo_origen_d">나침반 1·9·81은 마쓰무라 야스오가 1979년 일본에서 만든 만다라 차트에서 영감을 받았습니다(Matsumura, 2007). 그는 불교 만다라의 3×3 구조를 삶과 일의 계획에 적용했습니다. 가운데에 목표, 주위에 여덟 영역(건강, 일, 경제, 가정, 사회, 인격, 학습, 여가)을 두어 균형 있게 살도록 했습니다(Mandala Chart Kyōkai, n.d.). 이마이즈미 히로아키는 이를 아이디어 발상을 위한 만다라트로(Imaizumi, 1988), 하라다 다카시는 목표 달성을 위한 오픈 윈도우 64로 발전시켰고, 오타니 쇼헤이가 이것을 사용했습니다(Harada &amp; Shibayama, 2017).</string>
     <string name="modelo_origen_suroute">Ruta a la Cima 방법은 이를 산의 나침반으로 바꿉니다: 하나의 정상, 8개의 캠프, 여정일로 얻는 64개의 걸음을 Cima 9×52 방법으로 측정하고 걸음마다 증거 사진을 한 장 남깁니다.</string>
     <string name="modelo_refs_t">참고 문헌</string>
+    <string name="vision_seccion_ruta">81 · 루트</string>
 </resources>
