@@ -371,6 +371,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
     <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
+    ${typeof tamBotones === "function" ? `<span class="md-riel-top md-riel-tam">${tamBotones()}</span>` : ""}
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
      (girar, pantalla completa e información). La explicación vive en el botón de información, para dar todo el espacio a la brújula. */

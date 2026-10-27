@@ -179,7 +179,7 @@ internal fun RosaVision(
 ) {
     // El vision board es una brújula (la misma esfera de la cumbre y el 9×9)
     EsferaBrujula {
-    Column(Modifier.fillMaxWidth(0.82f).aspectRatio(1f).zIndex(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(Modifier.fillMaxWidth(0.92f).aspectRatio(1f).zIndex(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         repeat(3) { fila ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 repeat(3) { columna ->

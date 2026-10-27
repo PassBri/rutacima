@@ -484,7 +484,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                         CabeceraSeccionVision(stringResource(R.string.vision_seccion_cumbre)) { abrirNiveles(0) }
                         // La cumbre al centro de la esfera de la brújula (el mismo fondo del vision board y el 9×9)
                         EsferaBrujula {
-                            cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.fillMaxWidth(0.82f).aspectRatio(1f).zIndex(1f).border(3.dp, Color(0xFFC9973B), RoundedCornerShape(16.dp)), 0, null, null) } }
+                            cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.fillMaxWidth(0.92f).aspectRatio(1f).zIndex(1f).border(3.dp, Color(0xFFC9973B), RoundedCornerShape(16.dp)), 0, null, null) } }
                                 ?: Text(cumbreFrase, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.fillMaxWidth(0.6f).zIndex(1f))
                         }
                     }

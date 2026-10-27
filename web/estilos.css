@@ -3648,3 +3648,17 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
 /* La cumbre, engastada en la brújula: borde dorado y sombra, como la pieza central */
 .rosa-brujula.rb-1 > .cumbre-tarjeta, .rosa-brujula.rb-1 > .md-nivel1 { height: auto !important; border-radius: 22px; box-shadow: 0 0 0 3px var(--oro), 0 0 0 9px color-mix(in srgb, var(--oro) 18%, transparent), 0 18px 40px -16px rgb(var(--sombra) / .55); }
 .rosa-brujula.rb-1 > .cumbre-tarjeta .giro-in, .rosa-brujula.rb-1 > .cumbre-tarjeta .cara, .rosa-brujula.rb-1 > .cumbre-tarjeta .dorso { border-radius: 22px; }
+
+/* Brújula en el computador: sin la barra de arriba (el riel ya tiene ampliar y pantalla completa) y tarjetas más grandes */
+@media (min-width: 701px) {
+  #detalle:has(.md-escena) > .det-cab { display: none; }
+  #detalle:has(.md-escena) .det-cuerpo { padding-top: 14px; }
+  .md-pila { --md-h: clamp(560px, calc(100dvh - 60px), 1100px); }
+  .md-escena > .md-secciones { top: 0; }
+  .md-escena .md-riel-tam .tam-cab { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--linea); background: var(--hoja); display: grid; place-items: center; }
+  .md-escena .md-riel-tam .tam-cab svg { width: 20px; height: 20px; fill: var(--tinta); }
+  .md-pie-capa { height: 84px; min-height: 84px; }
+  .md-capa > .hoja { padding: 12px 14px 10px; }
+}
+/* La cumbre, el vision board y el 9×9: un cuadro más grande (sobresale apenas de la esfera en las esquinas) */
+.rosa-brujula > .tablero-9, .rosa-brujula.rb-81 > .md-grilla-caja, .rosa-brujula.rb-1 > .cumbre-tarjeta, .rosa-brujula.rb-1 > .md-nivel1 { width: 92% !important; }
