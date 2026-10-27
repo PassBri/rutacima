@@ -53,15 +53,20 @@ import com.rutaalacima.app.R
 
 private val OroModelo = Color(0xFFC9973B)
 
-/** Ícono del Modelo: el 3×3 con la cumbre llena al centro (1 · 9 · 81). */
+/** Ícono del Modelo 1·9·81: esquinas suaves, los 4 rumbos en tono más fuerte y la cumbre en oro. */
 @Composable
 internal fun IconoModelo(color: Color, modifier: Modifier = Modifier.size(22.dp)) {
     Canvas(modifier) {
-        val paso = size.minDimension / 3f; val lado = paso * 0.76f; val m = (paso - lado) / 2f
+        val u = size.minDimension / 24f; val lado = 5f * u; val r = CornerRadius(1.6f * u)
+        val pos = floatArrayOf(3f, 9.5f, 16f)
         for (f in 0 until 3) for (c in 0 until 3) {
-            val o = Offset(c * paso + m, f * paso + m); val r = CornerRadius(lado * .18f)
-            if (f == 1 && c == 1) drawRoundRect(color, o, Size(lado, lado), r)
-            else drawRoundRect(color, o, Size(lado, lado), r, style = Stroke(1.4.dp.toPx()))
+            val o = Offset(pos[c] * u, pos[f] * u)
+            val tinte = when {
+                f == 1 && c == 1 -> OroModelo
+                f == 1 || c == 1 -> color.copy(alpha = color.alpha * .65f)
+                else -> color.copy(alpha = color.alpha * .3f)
+            }
+            drawRoundRect(tinte, o, Size(lado, lado), r)
         }
     }
 }
