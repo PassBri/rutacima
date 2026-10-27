@@ -46,6 +46,7 @@ import androidx.compose.material.icons.outlined.Today
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.ui.semantics.isTraversalGroup
 import androidx.compose.material.icons.outlined.Explore
+import androidx.compose.material.icons.outlined.AddCircle
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.ui.input.pointer.pointerInput
@@ -662,7 +663,7 @@ private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () 
         header = {
             androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(40.dp).padding(top = 4.dp), tint = MaterialTheme.colorScheme.onSurface)
             androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(Icons.Outlined.Explore, stringResource(R.string.publicar))
+                Icon(Icons.Outlined.AddCircle, stringResource(R.string.publicar))
             }
         },
     ) {
@@ -742,7 +743,7 @@ private fun BarraNavegacion(actual: String?, onIr: (String) -> Unit, onPublicar:
                 val p = pestanaEn(k)
                 val nombre = p?.let { stringResource(it.titulo) } ?: nombrePublicar
                 IconoBarra(
-                    icono = p?.let { if (actual == it.ruta) it.icono else it.iconoInactivo } ?: Icons.Outlined.Explore,
+                    icono = p?.let { if (actual == it.ruta) it.icono else it.iconoInactivo } ?: Icons.Outlined.AddCircle,
                     nombre = nombre,
                     elegida = p != null && actual == p.ruta,
                     esPublicar = p == null,

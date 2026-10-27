@@ -369,7 +369,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     <button class="md-riel-btn md-girar-todas" data-acc="mdGirarCapa" aria-label="Girar las tarjetas" title="Girar las tarjetas">${ic("girar")}</button>
     <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
-    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["ritmo", "grafica", "Tu ritmo · Método Cima 9×52"], ["cierre", "bandera", "Cierre del año"], ...(planear ? [["planear", "metas", "Planear por campamento"]] : [])].map(([k, i, t]) =>
+    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
@@ -469,8 +469,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   /* Ritmo, cierre del año y planear por campamento viven en cajones que se abren desde el riel de la derecha:
      la vista queda limpia para la cumbre, el vision board y el 9×9 (en el teléfono se ven debajo, como antes) */
   const cajon = (k, html) => `<div class="md-cajon${estado.mdCajon === k ? " abierto" : ""}" data-cajon="${k}">${html}</div>`;
-  const cajones = cajon("ritmo", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("grafica")}</span><div><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="ritmo" aria-label="Cerrar">${ic("cerrar")}</button></div>${ritmoHtml(d.ritmo)}`, "md-extra")) +
-    cajon("cierre", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("bandera")}</span><div><b>Cierre del año</b><span class="suave">Desde la Cima</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="cierre" aria-label="Cerrar">${ic("cerrar")}</button></div>${cierreHtml(d)}`, "md-extra md-extra-cierre")) +
+  const cajones = cajon("ritmo", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("ritmo")}</span><div><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="ritmo" aria-label="Cerrar">${ic("cerrar")}</button></div>${ritmoHtml(d.ritmo)}`, "md-extra")) +
+    cajon("cierre", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("lecciones")}</span><div><b>Cierre del año</b><span class="suave">Desde la Cima</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="cierre" aria-label="Cerrar">${ic("cerrar")}</button></div>${cierreHtml(d)}`, "md-extra md-extra-cierre")) +
     (planear ? cajon("planear", `<div class="md-cajon-planear"><button class="md-cajon-x flota" data-acc="mdCajon" data-arg="planear" aria-label="Cerrar">${ic("cerrar")}</button>${planear}</div>`) : "");
   return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div><div class="md-cajones">${cajones}</div></div>`;
 }

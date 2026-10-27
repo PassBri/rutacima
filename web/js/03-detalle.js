@@ -1360,14 +1360,14 @@ function selectorBrujula() {
   const a = estado.brujulaAnio || null, actual = a ? cumbreDeAnio(a) : null;
   return `<div class="brujula-sel">
     <button type="button" role="tab" class="bs-general" aria-selected="${!a}" data-acc="brujulaAnio" data-arg="">${ic("cima")}<span>General</span></button>
-    <details class="bs-menu"><summary role="button" aria-label="Elegir año" class="${a ? "activo" : ""}">${ic("hoy")}<span>${a ? `<b>${a}</b>${actual ? ` · ${esc(actual)}` : " · sin crear"}` : "Elegir año"}</span>${ic("abajo")}</summary>
+    <details class="bs-menu"><summary role="button" aria-label="Elegir año" class="${a ? "activo" : ""}">${ic("calendario")}<span>${a ? `<b>${a}</b>${actual ? ` · ${esc(actual)}` : " · sin crear"}` : "Elegir año"}</span>${ic("abajo")}</summary>
       ${panelAnios()}</details></div>`;
 }
 /** Lo mismo, como botones del riel de la derecha (computador). */
 function rielBrujula() {
   const a = estado.brujulaAnio || null;
   return `<button class="md-riel-btn md-riel-on" data-acc="brujulaAnio" data-arg="" aria-pressed="${!a}" aria-label="Brújula general" title="Brújula general">${ic("cima")}</button>
-    <details class="bs-menu md-riel-anio"><summary class="md-riel-btn md-riel-txt${a ? " activo" : ""}" aria-label="Elegir año" title="${a ? `Brújula de ${a}` : "Elegir año"}">${a ? `<b>${String(a).slice(2)}</b>` : ic("hoy")}</summary>${panelAnios()}</details>`;
+    <details class="bs-menu md-riel-anio"><summary class="md-riel-btn md-riel-txt${a ? " activo" : ""}" aria-label="Elegir año" title="${a ? `Brújula de ${a}` : "Elegir año"}">${a ? `<b>${String(a).slice(2)}</b>` : ic("calendario")}</summary>${panelAnios()}</details>`;
 }
 function vistaPreviaBrujula() {
   const ps = proponerVision(), orden = [1, 2, 3, 4, 0, 5, 6, 7, 8];
@@ -1396,13 +1396,13 @@ function visionCompleta(planear = "") {
   const pctFotos = conFoto / cs.length;
   return `<div class="brujula-barra">${selectorBrujula()}<div class="bb-der">
       <span class="bb-fotos" title="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}/${cs.length}</b> con foto</span>
-      <details class="bb-como"><summary>${ic("info")}<span>Cómo se arma</span></summary><div class="bb-panel">
+      <details class="bb-como"><summary>${ic("ayuda")}<span>Cómo se arma</span></summary><div class="bb-panel">
         <h4>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</h4>
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
         ${ayudaPct}<div class="botones">${rehacer}</div>
         ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</div></details></div></div>` +
     mandalaHtml("", rielBrujula(), `<span class="md-riel-btn md-riel-fotos" title="${conFoto} de ${cs.length} casillas con tu foto" aria-label="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}</b></span>
-      <details class="bb-como md-riel-como"><summary class="md-riel-btn" aria-label="Cómo se arma tu Brújula" title="Cómo se arma">${ic("ia")}</summary><div class="bb-panel">
+      <details class="bb-como md-riel-como"><summary class="md-riel-btn" aria-label="Cómo se arma tu Brújula" title="Cómo se arma">${ic("ayuda")}</summary><div class="bb-panel">
         <h4>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</h4>
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
         ${ayudaPct}<div class="botones">${rehacer}</div></div></details>`, planear);
