@@ -369,7 +369,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     <button class="md-riel-btn md-girar-todas" data-acc="mdGirarCapa" aria-label="Girar las tarjetas" title="Girar las tarjetas">${ic("girar")}</button>
     <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
-    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
+    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
     ${typeof tamBotones === "function" ? `<span class="md-riel-top md-riel-tam">${tamBotones()}</span>` : ""}
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
@@ -471,7 +471,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   /* Ritmo, cierre del año y planear por campamento viven en cajones que se abren desde el riel de la derecha:
      la vista queda limpia para la cumbre, el vision board y el 9×9 (en el teléfono se ven debajo, como antes) */
   const cajon = (k, html) => `<div class="md-cajon${estado.mdCajon === k ? " abierto" : ""}" data-cajon="${k}">${html}</div>`;
-  const cajones = cajon("ritmo", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("ritmo")}</span><div><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="ritmo" aria-label="Cerrar">${ic("cerrar")}</button></div>${ritmoHtml(d.ritmo)}`, "md-extra")) +
+  const cajones = cajon("modelo", hoja(`<div class="md-cajon-cab md-cab-modelo"><span class="sec-ic">${ic("modelo")}</span><div><b>Modelo</b><span class="suave">Brújula 1·9·81</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="modelo" aria-label="Cerrar">${ic("cerrar")}</button></div>${modeloHtml()}`, "md-extra md-extra-modelo")) +
+    cajon("ritmo", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("ritmo")}</span><div><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="ritmo" aria-label="Cerrar">${ic("cerrar")}</button></div>${ritmoHtml(d.ritmo)}`, "md-extra")) +
     cajon("cierre", hoja(`<div class="md-cajon-cab"><span class="sec-ic">${ic("lecciones")}</span><div><b>Cierre del año</b><span class="suave">Desde la Cima</span></div><button class="md-cajon-x" data-acc="mdCajon" data-arg="cierre" aria-label="Cerrar">${ic("cerrar")}</button></div>${cierreHtml(d)}`, "md-extra md-extra-cierre")) +
     (planear ? cajon("planear", `<div class="md-cajon-planear"><button class="md-cajon-x flota" data-acc="mdCajon" data-arg="planear" aria-label="Cerrar">${ic("cerrar")}</button>${planear}</div>`) : "");
   return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div><div class="md-cajones">${cajones}</div></div>`;
@@ -1010,20 +1011,60 @@ ACC.girarTodasVision = (el, sel) => {
   el.setAttribute("aria-pressed", String(atras));
 };
 
-/** El vision board es una brújula: la esfera con sus marcas, la rosa de 8 puntas y los rumbos alrededor (Material 3). */
+/** La brújula minimalista (Material 3): sin esfera, solo los cuatro rumbos N · E · S · O alrededor de la tarjeta. */
 function rosaBrujula(tablero, clase = "", _ = "") {
-  let marcas = "";
-  for (let i = 0; i < 72; i++) { const a = i * 5 * Math.PI / 180, l = i % 9 === 0 ? 3.2 : i % 3 === 0 ? 2 : 1.1, r = 48.6;
-    marcas += `<line x1="${(50 + r * Math.sin(a)).toFixed(2)}" y1="${(50 - r * Math.cos(a)).toFixed(2)}" x2="${(50 + (r - l) * Math.sin(a)).toFixed(2)}" y2="${(50 - (r - l) * Math.cos(a)).toFixed(2)}" class="${i % 9 === 0 ? "m-mayor" : ""}"/>`; }
-  const punta = (ang, largo, ancho) => { const a = ang * Math.PI / 180, b = (ang + 90) * Math.PI / 180, f = n => n.toFixed(2);
-    return `M50 50L${f(50 + ancho * Math.sin(b))} ${f(50 - ancho * Math.cos(b))}L${f(50 + largo * Math.sin(a))} ${f(50 - largo * Math.cos(a))}L${f(50 - ancho * Math.sin(b))} ${f(50 + ancho * Math.cos(b))}Z`; };
-  const estrella = [0, 90, 180, 270].map(g => `<path class="rb-p1" d="${punta(g, 47, 4.2)}"/>`).join("") + [45, 135, 225, 315].map(g => `<path class="rb-p2" d="${punta(g, 38, 3)}"/>`).join("");
-  // Los 4 puntos cardinales en la esfera; cada tarjeta ya lleva su rumbo (NO, NE, SO, SE…)
-  const rumbos = [["N", 50, 2.6], ["E", 97.4, 50], ["S", 50, 97.4], ["O", 2.6, 50]];
-  return `<div class="rosa-brujula ${clase}">
-    <svg class="rb-esfera" viewBox="0 0 100 100" aria-hidden="true"><circle class="rb-aro" cx="50" cy="50" r="49.3"/><circle class="rb-aro2" cx="50" cy="50" r="44.5"/>${marcas}${estrella}<circle class="rb-eje" cx="50" cy="50" r="1.6"/></svg>
-    ${rumbos.map(([t, x, y]) => `<span class="rb-rumbo${t === "N" ? " norte" : ""}" style="left:${x}%;top:${y}%" aria-hidden="true">${t}</span>`).join("")}
+  const rumbos = [["N", "n"], ["E", "e"], ["S", "s"], ["O", "o"]];
+  return `<div class="rosa-brujula rb-min ${clase}">
+    ${rumbos.map(([t, k]) => `<span class="rb-rumbo rb-${k}${t === "N" ? " norte" : ""}" aria-hidden="true">${t}</span>`).join("")}
     ${tablero}</div>`;
+}
+
+/* ---------- El modelo: Brújula 1·9·81 ---------- */
+const MODELO_REFS = [
+  "Harada, T., y Shibayama, K. (2017). <i>Ichiryū no tasseiryoku: Harada mesoddo «Ōpun Uindō 64»</i> [La capacidad de logro de primer nivel: el método Harada «Open Window 64»]. Forest Shuppan.",
+  "Imaizumi, H. (1988). <i>Chō memogaku nyūmon: Mandarāto no gihō</i> [Introducción a la ciencia de las notas: la técnica del Mandal-Art]. Nihon Jitsugyō Shuppansha.",
+  "Mandala Chart Kyōkai. (s. f.). <i>Mandara chāto to wa</i> [Qué es la Mandala Chart]. https://mandalachart.jp/wp/mandalachart",
+  "Matsumura, Y. (2006). <i>Mandara shikō de yume wa kanarazu kanau!</i> [¡Con el pensamiento mandala los sueños sí se cumplen!]. Forest Shuppan.",
+  "Matsumura, Y. (2007). <i>Zukai mandara chāto</i> [La Mandala Chart ilustrada]. Seishun Shuppansha.",
+];
+function modeloHtml() {
+  // Diagrama: 81 casillas, el 3×3 del centro (9) y la cumbre (1) en oro
+  let celdas = "";
+  for (let f = 0; f < 9; f++) for (let c = 0; c < 9; c++) {
+    const enNueve = f >= 3 && f < 6 && c >= 3 && c < 6, centro = f === 4 && c === 4;
+    celdas += `<rect x="${c * 11 + 1}" y="${f * 11 + 1}" width="9.4" height="9.4" rx="2" class="${centro ? "mo-1" : enNueve ? "mo-9" : (f % 3 === 1 && c % 3 === 1) ? "mo-c" : "mo-81"}"/>`;
+  }
+  const escalas = [
+    ["1", "La cumbre", "Tu propósito en una frase y una foto. Es el norte de todo lo demás."],
+    ["9", "Los 8 campamentos", "Alrededor de la cumbre, 8 rumbos que la sostienen: Confluencia, Trascendencia, Valor, Evolución, Voz, Campamento base, Voluntad y Maestría. Juntos son tu vision board."],
+    ["81", "Los 64 pasos", "Cada campamento se abre en 8 pasos concretos. La cumbre, los 8 campamentos y los 64 pasos forman la Brújula 9×9."],
+  ];
+  const camino = [
+    ["Soñar", "Escribe tu cumbre y ponle una foto."],
+    ["Orientar", "Nombra tus 8 campamentos: los rumbos de tu vida."],
+    ["Desglosar", "Escribe los 64 pasos, 8 por campamento."],
+    ["Caminar", "Cada día avanzas en un paso. Un paso no se marca: se gana con jornadas, días distintos en que avanzaste."],
+    ["Medir", "Método Cima 9×52: el año son 52 tramos y tu montaña mide 8.848.000 mm, como el Everest. Cada 4 tramos la dificultad se ajusta para que llegues el 31 de diciembre."],
+    ["Cuidarte", "El bienestar de cada día (energía, actividad física, respiración) se suma en el mes y en el año."],
+    ["Evidenciar", "Una foto por paso: lo vivido va reemplazando a lo soñado."],
+    ["Cerrar", "Al terminar el año escribes 7 lecciones, las guardas en tu diario de vida y empiezas una nueva montaña."],
+  ];
+  return `<div class="mo">
+    <div class="mo-cab"><svg class="mo-dia" viewBox="0 0 100 100" aria-hidden="true">${celdas}</svg>
+      <div><h3>Brújula 1·9·81</h3><p>Tu vida es una montaña. La cumbre es hacia dónde vas, la brújula es cómo no perderte y cada día es un paso.</p></div></div>
+    <h4>Tres escalas, una sola brújula</h4>
+    <ol class="mo-escalas">${escalas.map(([n, t, d]) => `<li><b class="mo-n">${n}</b><div><b>${t}</b><span>${d}</span></div></li>`).join("")}</ol>
+    <h4>El camino del año</h4>
+    <ol class="mo-camino">${camino.map(([t, d], i) => `<li><span class="mo-i">${i + 1}</span><div><b>${t}</b><span>${d}</span></div></li>`).join("")}</ol>
+    <h4>En el tiempo</h4>
+    <p>Hay una Brújula General para toda tu vida y una para cada año, desde el año después de tu nacimiento hasta tu meta de vida. Elige el año en el riel y verás la cumbre de ese año.</p>
+    <h4>No subes solo</h4>
+    <p>Comparte tu 9×9 en la comunidad, sube en cordada y deja que otros te impulsen con su clima.</p>
+    <h4>Origen</h4>
+    <p>La Brújula 1·9·81 se inspira en la Mandala Chart que Yasuo Matsumura creó en Japón en 1979 (Matsumura, 2007). Llevó la estructura de 3×3 del mandala budista a la planeación de la vida y del trabajo: una meta en el centro y ocho áreas alrededor (salud, trabajo, economía, familia, sociedad, carácter, aprendizaje y ocio), para vivir con equilibrio (Mandala Chart Kyōkai, s. f.). Hiroaki Imaizumi la convirtió en el Mandal-Art para generar ideas (Imaizumi, 1988) y Takashi Harada en la hoja Open Window 64 para alcanzar metas, la que usó Shohei Ohtani (Harada y Shibayama, 2017).</p>
+    <p>SuRoute la vuelve una brújula de montaña: una cumbre, 8 campamentos y 64 pasos que se ganan con jornadas, medidos con el Método Cima 9×52 y con una foto de evidencia por paso.</p>
+    <h4>Referencias</h4>
+    <ul class="mo-refs">${MODELO_REFS.map(r => `<li>${r}</li>`).join("")}</ul></div>`;
 }
 
 /* ---------- Capas 1 · 9 · 81 en una sola página ---------- */

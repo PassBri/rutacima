@@ -232,7 +232,7 @@ fun MandalaSeccion(
             val dens = androidx.compose.ui.platform.LocalDensity.current.density
             // El 9×9 dentro de la esfera de la brújula (el mismo fondo de la cumbre y el vision board)
             EsferaBrujula {
-                Box(Modifier.fillMaxWidth(0.94f).zIndex(1f).graphicsLayer { rotationY = giro; cameraDistance = 18f * dens }) {
+                Box(Modifier.fillMaxWidth(0.9f).zIndex(1f).graphicsLayer { rotationY = giro; cameraDistance = 18f * dens }) {
                     // Adelante: el texto limpio (o la edición, en modo Edición). Atrás: las imágenes
                     if (giro <= 90f) Cuadricula(datos, bloqueAbierto ?: 4, modoTexto = true, modoEdicion = modoEdicion, tonal = false, onPaso = onPaso, onBloque = { onBloque(it) })
                     else Box(Modifier.graphicsLayer { rotationY = 180f }) {

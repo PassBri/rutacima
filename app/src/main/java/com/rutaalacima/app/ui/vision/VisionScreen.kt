@@ -452,6 +452,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(anioActivo?.let { stringResource(R.string.brujula_de_anio, it) } ?: stringResource(R.string.vision_titulo)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
+                actions = { ModeloBrujulaAccion() },
             )
         },
     ) { padding ->
@@ -484,7 +485,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                         CabeceraSeccionVision(stringResource(R.string.vision_seccion_cumbre)) { abrirNiveles(0) }
                         // La cumbre al centro de la esfera de la brújula (el mismo fondo del vision board y el 9×9)
                         EsferaBrujula {
-                            cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.fillMaxWidth(0.92f).aspectRatio(1f).zIndex(1f).border(3.dp, Color(0xFFC9973B), RoundedCornerShape(16.dp)), 0, null, null) } }
+                            cumbre?.let { cv -> key(cv.casilla.id) { pintarTarjeta(cv, false, true, Modifier.fillMaxWidth(0.88f).aspectRatio(1f).zIndex(1f).border(3.dp, Color(0xFFC9973B), RoundedCornerShape(16.dp)), 0, null, null) } }
                                 ?: Text(cumbreFrase, style = MaterialTheme.typography.headlineSmall, modifier = Modifier.fillMaxWidth(0.6f).zIndex(1f))
                         }
                     }
