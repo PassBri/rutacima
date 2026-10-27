@@ -377,8 +377,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><div class="msc-tit"><span class="md-sec-n">${n}</span><h3>${t}</h3></div>
     <div class="msc-fab">${extra}<details class="msc-info"><summary class="md-visor-ic" aria-label="Qué es ${esc(t)}" title="Qué es">${ic("info")}</summary><p>${sub}</p></details><button class="md-visor-ic" data-acc="mdVisor" data-arg="${{ 1: 0, 9: 1, 81: 2 }[n]}" aria-label="Ver ${t} en grande" title="Ver en grande (+ y − para moverte entre la cumbre, el vision board y el 9×9)">${ic("pantallaCompleta")}</button></div></div>`;
   const s1 = hoja((estado.brujulaAnio ? cabSec("md-s1", "1", `Mi cumbre de ${estado.brujulaAnio}`, "Lo más grande de este año. Todo lo de abajo la sostiene.") : cabSec("md-s1", "1", "Mi cumbre personal", "Lo más grande: hacia dónde va tu vida. Todo lo de abajo la sostiene.")) +
-    (d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`) +
-    mdBarraAvance(d, -1) + `<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p>`);
+    rosaBrujula(d.cumbre ? casillaVisionHtml(d.cumbre, d, false, { clase: "cumbre-tarjeta", fija: true }) : `<div class="md-nivel1 md-papel" style="pointer-events:none">${fotoC ? `<span class="md-impresion"><img src="${esc(fotoC)}" alt=""></span>` : `<span class="md-pico" aria-hidden="true">▲</span>`}<small>MI CUMBRE</small>${mdTituloEditable(d, -1, null, d.titulo)}</div>`, "rb-1") +
+    `<div class="md-pie-capa">${mdBarraAvance(d, -1)}<p class="md-mm">Tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p></div>`);
   /* El vision board ES la rosa: la cumbre al centro y los 8 campamentos alrededor, cada uno una tarjeta que se gira y se edita ahí mismo. */
   const rosa = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => {
     const cel = Mandala.celda(3 + Math.floor(k / 3), 3 + k % 3);
@@ -391,7 +391,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   }).join("");
   const s9 = hoja(cabSec("md-s9", "9", "Mi vision board", "Tu cumbre al centro y 8 campamentos alrededor. Imagen muestra tus fotos, Texto tus frases y Edición te deja escribir en cada tarjeta. La letra del rumbo abre sus 8 pasos.",
     `<button class="md-visor-ic md-girar-todas" data-acc="girarTodasVision" aria-label="Girar todas las tarjetas" title="Girar todas las tarjetas">${ic("girar")}</button>`) +
-    rosaBrujula(`<div class="tablero-9">${rosa}</div>`) + (tableroHtml || ""));
+    rosaBrujula(`<div class="tablero-9">${rosa}</div>`, "rb-9") + (tableroHtml || "") +
+    `<div class="md-pie-capa">${mdBarraAvance(d, -1)}<p class="md-mm">${d.camps.filter(Boolean).length} de 8 campamentos · tu montaña: <b>${d.ritmo.mm.toLocaleString("es")}</b> de 8.848.000 mm</p></div>`);
   const camposBloque = camp >= 0 ? (cs ? `<div class="md-bloque-cab" style="--c:${d.color(camp)}">${mdAnillo(mdPct(d, camp), "")}<div><small>${esc(Mandala.nombre(cod))} · rumbo ${Mandala.RUMBOS[camp]}</small><h4>${esc(mdNombre(cs))}</h4></div>
       <button class="btn mini" data-acc="editarTarjeta" data-arg="${cs.id}">${ic("foto")} Foto, frase y estado</button></div>` : `<h4>Campamento libre · ${esc(Mandala.nombre(cod))}</h4>`)
     : `<div class="md-bloque-cab">${mdAnillo(pctC, "")}<div><small>Centro · tu cumbre y sus 8 campamentos</small><h4>${esc(d.titulo)}</h4></div></div>`;
@@ -406,11 +407,11 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     !estado.md81 ? `<button class="md-visor-ic md-girar-todas" data-acc="md81Girar" aria-pressed="${!!estado.md81Girada}" aria-label="${estado.md81Girada ? "Girar al texto" : "Girar a las imágenes"}" title="Girar la tarjeta">${ic("girar")}</button>` : "") +
     (estado.md81 ? editorBloque : (
       /* La tarjeta del 9×9 gira completa en cualquier modo: adelante el texto (o la edición), detrás las imágenes */
-      `<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-in">
+      rosaBrujula(`<div class="md-grilla-caja md-flip${estado.md81Girada ? " girada" : ""}"><div class="md-flip-in">
           <div class="md-cara cara-texto" aria-hidden="${!!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div>
           <div class="md-cara cara-imagen" aria-hidden="${!estado.md81Girada}"><div class="md-grilla">${grilla}</div></div></div>
-</div>`) + `
-      <p class="md-leyenda"><span><i style="--n:7%"></i>Por escribir</span><span><i style="--n:30%"></i>Escrito</span><span><i style="--n:100%"></i>Ganado ✓</span></p>` + pie));
+</div>`, "rb-81", "md-81-hijo")) + `
+      <div class="md-pie-capa"><p class="md-leyenda"><span><i style="--n:7%"></i>Por escribir</span><span><i style="--n:30%"></i>Escrito</span><span><i style="--n:100%"></i>Ganado ✓</span></p>` + pie + `</div>`));
   // Visor emergente a pantalla completa: Cumbre (1) ⇄ Vision board (9) ⇄ Brújula 9×9 (81), en los dos sentidos
   let visor = "";
   if (estado.mdVisor) {
@@ -986,7 +987,7 @@ window.visionVida = visionVida;
 /* Girar la tarjeta del 9×9 sin redibujar (la animación se ve completa) */
 ACC.md81Girar = el => {
   estado.md81Girada = !estado.md81Girada;
-  const caja = document.querySelector("#md-s81 ~ .md-flip"); if (!caja) return pintarDetalle();
+  const caja = document.querySelector(".rb-81 .md-flip, #md-s81 ~ .md-flip"); if (!caja) return pintarDetalle();
   caja.classList.toggle("girada", estado.md81Girada);
   caja.querySelector(".cara-texto")?.setAttribute("aria-hidden", String(estado.md81Girada));
   caja.querySelector(".cara-imagen")?.setAttribute("aria-hidden", String(!estado.md81Girada));
@@ -1009,7 +1010,7 @@ ACC.girarTodasVision = (el, sel) => {
 };
 
 /** El vision board es una brújula: la esfera con sus marcas, la rosa de 8 puntas y los rumbos alrededor (Material 3). */
-function rosaBrujula(tablero) {
+function rosaBrujula(tablero, clase = "", _ = "") {
   let marcas = "";
   for (let i = 0; i < 72; i++) { const a = i * 5 * Math.PI / 180, l = i % 9 === 0 ? 3.2 : i % 3 === 0 ? 2 : 1.1, r = 48.6;
     marcas += `<line x1="${(50 + r * Math.sin(a)).toFixed(2)}" y1="${(50 - r * Math.cos(a)).toFixed(2)}" x2="${(50 + (r - l) * Math.sin(a)).toFixed(2)}" y2="${(50 - (r - l) * Math.cos(a)).toFixed(2)}" class="${i % 9 === 0 ? "m-mayor" : ""}"/>`; }
@@ -1018,7 +1019,7 @@ function rosaBrujula(tablero) {
   const estrella = [0, 90, 180, 270].map(g => `<path class="rb-p1" d="${punta(g, 47, 4.2)}"/>`).join("") + [45, 135, 225, 315].map(g => `<path class="rb-p2" d="${punta(g, 38, 3)}"/>`).join("");
   // Los 4 puntos cardinales en la esfera; cada tarjeta ya lleva su rumbo (NO, NE, SO, SE…)
   const rumbos = [["N", 50, 2.6], ["E", 97.4, 50], ["S", 50, 97.4], ["O", 2.6, 50]];
-  return `<div class="rosa-brujula">
+  return `<div class="rosa-brujula ${clase}">
     <svg class="rb-esfera" viewBox="0 0 100 100" aria-hidden="true"><circle class="rb-aro" cx="50" cy="50" r="49.3"/><circle class="rb-aro2" cx="50" cy="50" r="44.5"/>${marcas}${estrella}<circle class="rb-eje" cx="50" cy="50" r="1.6"/></svg>
     ${rumbos.map(([t, x, y]) => `<span class="rb-rumbo${t === "N" ? " norte" : ""}" style="left:${x}%;top:${y}%" aria-hidden="true">${t}</span>`).join("")}
     ${tablero}</div>`;
