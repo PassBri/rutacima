@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">Kompass erstellen</string>
     <string name="brujula_cumbres_creadas">Erstellte Gipfel</string>
     <string name="brujula_edad">%1$d J.</string>
+    <string name="brujula_foto_paso_agregar">Foto zu diesem Schritt hinzufügen</string>
+    <string name="brujula_foto_paso_cambiar">Foto dieses Schritts ändern</string>
 </resources>

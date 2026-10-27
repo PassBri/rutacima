@@ -2329,4 +2329,6 @@
     <string name="brujula_crear_su">Crear su Brújula</string>
     <string name="brujula_cumbres_creadas">Cumbres creadas</string>
     <string name="brujula_edad">%1$d años</string>
+    <string name="brujula_foto_paso_agregar">Agregar una foto a este paso</string>
+    <string name="brujula_foto_paso_cambiar">Cambiar la foto de este paso</string>
 </resources>

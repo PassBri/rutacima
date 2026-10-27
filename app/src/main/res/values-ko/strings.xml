@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">나침반 만들기</string>
     <string name="brujula_cumbres_creadas">만든 정상</string>
     <string name="brujula_edad">%1$d세</string>
+    <string name="brujula_foto_paso_agregar">이 단계에 사진 추가</string>
+    <string name="brujula_foto_paso_cambiar">이 단계 사진 바꾸기</string>
 </resources>

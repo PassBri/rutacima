@@ -114,7 +114,7 @@ const LISTAS = {
     const finPlan = (p.anioInicioPlan || anioHoy) + Math.max(5, ...Store.lista("proposito").map(x => x.horizonte || 5)) - 1;
     // Mi ruta: el mapa de toda la vida (el tiempo), la visión (cumbre, vision board y Brújula) y cada año
     if (estado.filtro === "todo" && coincide("mapa de mi vida puntos años")) h += item("puntos", av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", "inicio", `${r.edad} de ${metaVida()} años · un punto por año`, ic("pin", "i fijado"));
-    if (estado.filtro === "todo" && coincide("cumbre brujula vision board")) h += item("vida", av(ic("cima"), "var(--burdeos)"), "Brújula", "", "Tu cumbre, tu vision board y los 81 pasos");
+    if (estado.filtro === "todo" && coincide("cumbre brujula vision board")) h += item("vida", av(ic("brujula"), "var(--burdeos)"), "Brújula", "", "Tu cumbre, tu vision board y los 81 pasos");
     let anios = [];
     for (let a = anioHoy; a <= ultimo; a++) anios.push(a);
     for (let a = anioHoy - 1; a >= nac; a--) anios.push(a);

@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">أنشئ بوصلتها</string>
     <string name="brujula_cumbres_creadas">القمم المنشأة</string>
     <string name="brujula_edad">%1$d سنة</string>
+    <string name="brujula_foto_paso_agregar">أضف صورة لهذه الخطوة</string>
+    <string name="brujula_foto_paso_cambiar">غيّر صورة هذه الخطوة</string>
 </resources>

@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">Criar sua Bússola</string>
     <string name="brujula_cumbres_creadas">Cumes criados</string>
     <string name="brujula_edad">%1$d anos</string>
+    <string name="brujula_foto_paso_agregar">Adicionar uma foto a este passo</string>
+    <string name="brujula_foto_paso_cambiar">Trocar a foto deste passo</string>
 </resources>

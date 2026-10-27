@@ -279,8 +279,9 @@ function mdPanelPaso(d) {
   return `<div class="md-panel"><b>Paso ${n + 1} · ${Mandala.FASES[n]}</b><p style="margin:4px 0 8px">${esc(respuesta(Mandala.clave(c.id, n)))}</p>
     ${niebla}
     <h4>Este paso también activa:</h4><div class="chips">${chips}</div>
-    ${paso.cumplido ? `${evid ? `<img class="md-evid" src="${esc(evid)}" alt="Foto de evidencia">` : ""}
-    <label class="btn">${ic("foto")} ${evid ? "Cambiar foto de evidencia" : "Agregar foto de evidencia"}<input type="file" accept="image/*" hidden data-acc-change="mdEvidencia" data-arg="${c.id}|${n}"></label>
+    ${evid ? `<img class="md-evid" src="${esc(evid)}" alt="${paso.cumplido ? "Foto de evidencia" : "Foto del paso"}">` : ""}
+    <label class="btn">${ic("foto")} ${paso.cumplido ? (evid ? "Cambiar foto de evidencia" : "Agregar foto de evidencia") : (evid ? "Cambiar la foto de este paso" : "Agregar una foto a este paso")}<input type="file" accept="image/*" hidden data-acc-change="mdEvidencia" data-arg="${c.id}|${n}"></label>
+    ${paso.cumplido ? `
     <h4>Portal: antes del siguiente paso</h4>
     ${campo("Qué suelto", `<textarea data-resp="mandala|${Mandala.claveSoltar(c.id, n)}">${esc(respuesta(Mandala.claveSoltar(c.id, n)))}</textarea>`)}
     ${campo("Qué llevo", `<textarea data-resp="mandala|${Mandala.claveLlevar(c.id, n)}">${esc(respuesta(Mandala.claveLlevar(c.id, n)))}</textarea>`)}` : ""}

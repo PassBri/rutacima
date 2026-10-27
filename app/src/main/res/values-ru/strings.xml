@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">Создать компас</string>
     <string name="brujula_cumbres_creadas">Созданные вершины</string>
     <string name="brujula_edad">%1$d г.</string>
+    <string name="brujula_foto_paso_agregar">Добавить фото к шагу</string>
+    <string name="brujula_foto_paso_cambiar">Сменить фото шага</string>
 </resources>

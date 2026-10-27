@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">Create its Compass</string>
     <string name="brujula_cumbres_creadas">Summits created</string>
     <string name="brujula_edad">%1$d yrs</string>
+    <string name="brujula_foto_paso_agregar">Add a photo to this step</string>
+    <string name="brujula_foto_paso_cambiar">Change this step\'s photo</string>
 </resources>

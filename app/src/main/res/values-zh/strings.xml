@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">创建指南针</string>
     <string name="brujula_cumbres_creadas">已创建的山顶</string>
     <string name="brujula_edad">%1$d 岁</string>
+    <string name="brujula_foto_paso_agregar">为这一步添加照片</string>
+    <string name="brujula_foto_paso_cambiar">更换这一步的照片</string>
 </resources>

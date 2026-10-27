@@ -611,18 +611,21 @@ private fun EditarPaso(
                             label = { Text(nombreCodigo(cod)) })
                     }
                 }
+                // Cada paso puede llevar su foto (la del 9×9 al girarlo); al ganarlo, es la foto de evidencia
+                if (mostrarFoto && foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop)
+                OutlinedButton(onClick = onEvidencia, modifier = Modifier.fillMaxWidth()) {
+                    Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
+                    Text(stringResource(when {
+                        paso.cumplido -> if (foto == null) R.string.brujula_evidencia_agregar else R.string.brujula_evidencia_cambiar
+                        else -> if (foto == null) R.string.brujula_foto_paso_agregar else R.string.brujula_foto_paso_cambiar
+                    }))
+                }
                 if (paso.cumplido) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(Modifier.width(6.dp))
                         Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                    }
-                    // Kit de Evidencias: la foto real reemplaza a la visión en el borde del 9×9
-                    if (mostrarFoto && foto != null) AsyncImage(modeloFoto(foto), null, Modifier.fillMaxWidth().aspectRatio(1f).clip(RoundedCornerShape(12.dp)),
-                        contentScale = ContentScale.Crop)
-                    OutlinedButton(onClick = onEvidencia, modifier = Modifier.fillMaxWidth()) {
-                        Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
-                        Text(stringResource(if (foto == null) R.string.brujula_evidencia_agregar else R.string.brujula_evidencia_cambiar))
                     }
                     // Portal (Portales y Transiciones): qué suelto y qué llevo antes del siguiente paso
                     Text(stringResource(R.string.brujula_portal), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)

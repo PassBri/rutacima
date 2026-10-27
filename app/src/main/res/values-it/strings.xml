@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">Crea la sua Bussola</string>
     <string name="brujula_cumbres_creadas">Vette create</string>
     <string name="brujula_edad">%1$d anni</string>
+    <string name="brujula_foto_paso_agregar">Aggiungi una foto a questo passo</string>
+    <string name="brujula_foto_paso_cambiar">Cambia la foto di questo passo</string>
 </resources>

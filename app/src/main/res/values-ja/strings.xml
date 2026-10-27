@@ -2327,4 +2327,6 @@
     <string name="brujula_crear_su">コンパスを作る</string>
     <string name="brujula_cumbres_creadas">作成した頂上</string>
     <string name="brujula_edad">%1$d 歳</string>
+    <string name="brujula_foto_paso_agregar">このステップに写真を追加</string>
+    <string name="brujula_foto_paso_cambiar">このステップの写真を変更</string>
 </resources>
