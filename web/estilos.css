@@ -3735,3 +3735,47 @@ html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
 .md-flip .cara-texto .md-grilla .md-c.con-evid::after, .md-flip .cara-texto .md-grilla .md-cumbre.con-foto::after { display: none !important; }
 .md-flip .cara-texto .md-grilla .md-paso.con-evid .md-t81 { color: var(--tinta) !important; text-shadow: none !important; }
 .md-flip .cara-texto .md-grilla .md-cumbre.con-foto b { color: var(--tinta); text-shadow: none; }
+
+/* Compañero de Ascenso (Campamento Base): mismo cajón plegable que el Modelo en el teléfono */
+@media (max-width: 700px) {
+  .md-cajon[data-cajon="companero"]:not(.abierto) .cp { display: none; }
+  .md-cajon[data-cajon="companero"].abierto .md-cab-comp { margin-bottom: 10px; }
+  .md-cajon[data-cajon="companero"]:not(.abierto) .md-cab-comp .md-cajon-x { transform: rotate(45deg); }
+}
+.md-cajon[data-cajon="companero"] { order: 8; }
+.cp { display: grid; gap: 10px; }
+.cp-intro { margin: 0 0 4px; font: italic 15px/1.5 var(--font-titulo); color: var(--tinta-suave); }
+.cp-sec { border-top: 1px solid var(--linea); }
+.cp-sec > summary { list-style: none; display: grid; grid-template-columns: 28px 1fr 20px; gap: 12px; align-items: center; padding: 12px 0; cursor: pointer; }
+.cp-sec > summary::-webkit-details-marker { display: none; }
+.cp-sec > summary > svg { width: 20px; height: 20px; fill: var(--tinta-suave); transition: transform .2s cubic-bezier(.2, 0, 0, 1); }
+.cp-sec[open] > summary > svg { transform: rotate(180deg); }
+.cp-sec > summary b { font-size: 15px; }
+.cp-n { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 12.5px; font-weight: 700; color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); }
+.cp-cuerpo { display: grid; gap: 12px; padding: 0 0 14px; }
+.cp-preg { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.cp-preg li { display: grid; gap: 6px; font-size: 14px; }
+.cp-ops { display: flex; flex-wrap: wrap; gap: 6px; }
+.cp-ops .chip { min-height: 34px; }
+.cp-ops .chip[aria-pressed="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: var(--burdeos); color: var(--burdeos); font-weight: 600; }
+.cp-veredicto { margin: 0; padding: 12px 14px; border-radius: 14px; font-size: 14px; line-height: 1.5; background: color-mix(in srgb, var(--oro) 14%, var(--hoja)); }
+.cp-veredicto.aun { background: color-mix(in srgb, var(--burdeos) 9%, var(--hoja)); }
+.cp-nota { margin: 0; font-size: 13.5px; color: var(--tinta-suave); line-height: 1.5; }
+.cp-bloque { display: grid; gap: 8px; padding: 12px 14px; border: 1px solid var(--linea); border-radius: 16px; }
+.cp-bloque > b { font-size: 14px; }
+.cp-dos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.cp-dos label { display: grid; gap: 4px; align-content: start; }
+.cp-dos small, .cp-campo small { font-size: 12.5px; color: var(--tinta-suave); }
+.cp-mia { font: 600 14px/1.35 var(--font-titulo); }
+.cp-dos input, .cp-dos select, .cp-campo textarea { width: 100%; min-height: 40px; border: 1px solid var(--linea); border-radius: 10px; background: var(--hoja); color: var(--tinta); padding: 8px 10px; font: inherit; font-size: 16px; }
+.cp-fase-info { display: grid; gap: 2px; font-size: 12.5px; color: var(--tinta-suave); }
+.cp-campo { display: grid; gap: 4px; }
+.cp-flags > div { display: grid; gap: 4px; align-content: start; }
+.cp-flag { display: flex; gap: 8px; align-items: center; min-height: 34px; font-size: 14px; cursor: pointer; }
+.cp-flag input { width: 18px; height: 18px; accent-color: var(--burdeos); }
+.cp-rojo { color: var(--burdeos); font-size: 13.5px; } .cp-verde { color: color-mix(in srgb, #2e7d4f 80%, var(--tinta)); font-size: 13.5px; }
+.mo-enlace { border: 0; background: none; padding: 0; font: inherit; color: var(--burdeos); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (max-width: 480px) { .cp-dos { grid-template-columns: 1fr; } }
+.cp .cp-flag { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 10px !important; grid-template-columns: none !important; }
+.cp .cp-flag input { flex: none; width: 18px !important; height: 18px !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; }
+.cp .cp-flag span { flex: 1; }
