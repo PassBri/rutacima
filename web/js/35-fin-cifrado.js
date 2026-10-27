@@ -161,7 +161,7 @@ function pantallaCodigo() {
 }
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   async finCodigo(form, datos, texto) {
-    try { await finAbrirConCodigo(texto, estado.finPinPendiente || ""); estado.finPinPendiente = null; estado.finPideCodigo = false; estado.ascAbierto = Date.now(); toast("Listo: este aparato ya tiene tu llave"); pintarDetalle(); }
+    try { await finAbrirConCodigo(texto, estado.finPinPendiente || ""); estado.finPinPendiente = null; estado.finPideCodigo = false; estado.ascAbierto = Date.now(); toast("Listo: este aparato ya tiene tu llave"); pintarLista(); pintarDetalle(); }
     catch { toast("Ese código no abre tus finanzas: revisa las 12 palabras"); }
   },
 });
@@ -200,7 +200,7 @@ ACC.finAprobarQR = async () => {
       if (c.t === "dek") { FINC.dek = await dekImportar(fdeb64(c.k)); await finPrecargar(); }
       else if (FINC.activo()) throw new Error("sin llave");
       estado.finPideCodigo = false; estado.ascAbierto = Date.now(); guardarIntentos?.({});
-      toast("Aprobado desde tu teléfono"); v.remove(); pintarDetalle();
+      toast("Aprobado desde tu teléfono"); v.remove(); pintarLista(); pintarDetalle();
     } catch { v.querySelector(".qr-estado").textContent = "No se pudo abrir con esa aprobación. Intenta de nuevo."; }
     sb.from("fin_aprobaciones").delete().eq("id", id).then(() => {}, () => {});
   }

@@ -462,7 +462,7 @@ const finBloqueado = () => (window.FINC?.activo() && !FINC.dek) || (bloqueoFin()
 const finCerrar = () => { estado.ascAbierto = 0; window.FINC?.cerrar(); };
 /* Cada toque o tecla dentro del módulo cuenta como uso; al pasar el tiempo sin uso, se cierra solo */
 ["pointerdown", "keydown"].forEach(t => document.addEventListener(t, () => { if (estado.sec === "finanzas" && estado.ascAbierto && !finBloqueado()) estado.ascAbierto = Date.now(); }, true));
-setInterval(() => { if (bloqueoFin() && estado.ascAbierto && Date.now() - estado.ascAbierto >= finMinutos() * 60 * 1000) { finCerrar(); if (estado.sec === "finanzas") pintarDetalle(); } }, 10000);
+setInterval(() => { if (bloqueoFin() && estado.ascAbierto && Date.now() - estado.ascAbierto >= finMinutos() * 60 * 1000) { finCerrar(); if (estado.sec === "finanzas") { pintarLista(); pintarDetalle(); } } }, 10000);
 /* Intentos: tras 5 PIN errados, una espera que crece (30 s, 1 min, 5 min, 15 min) y que sobrevive a recargar la página */
 const FIN_ESPERAS = [30, 60, 300, 900];
 const finIntentos = () => { try { return JSON.parse(localStorage.getItem("suroute-fin-intentos") || "{}"); } catch { return {}; } };
@@ -485,7 +485,7 @@ async function usarPasskey() {
   await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), userVerification: "required", timeout: 60000,
     allowCredentials: [{ type: "public-key", id: desdeB64u(passkeyId()) }] } });
 }
-document.addEventListener("visibilitychange", () => { if (document.hidden) finCerrar(); });
+document.addEventListener("visibilitychange", () => { if (document.hidden) { if (bloqueoFin()) { finCerrar(); if (estado.sec === "finanzas") { pintarLista(); pintarDetalle(); } } } });
 function pantallaBloqueo() {
   if (estado.finPideCodigo && window.pantallaCodigo) return pantallaCodigo();
   const espera = finEspera();
@@ -866,7 +866,7 @@ Object.assign(ACC, {
       await usarPasskey(); guardarIntentos({});
       let abierta = true; try { abierta = await (window.finAbrirConAparato?.() ?? true); } catch { abierta = false; }
       if (!abierta) { toast("Esta vez escribe tu PIN: este aparato aún no guarda tu llave"); return; }
-      estado.ascAbierto = Date.now(); pintarDetalle();
+      estado.ascAbierto = Date.now(); pintarLista(); pintarDetalle();
     }
     catch (e) { if (e?.name !== "NotAllowedError") toast("No se pudo usar la huella. Escribe tu PIN."); }
   },
@@ -921,7 +921,7 @@ window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
       guardarIntentos({});
       let abierta = true; try { abierta = await (window.finAbrirConPin?.(texto) ?? true); } catch { abierta = false; }
       if (!abierta) { estado.finPinPendiente = texto; estado.finPideCodigo = true; pintarDetalle(); return; }
-      estado.ascAbierto = Date.now(); pintarDetalle(); return;
+      estado.ascAbierto = Date.now(); pintarLista(); pintarDetalle(); return;
     }
     const o = finIntentos(); o.n = (o.n || 0) + 1;
     if (o.n >= 5) { const seg = FIN_ESPERAS[Math.min(o.nivel || 0, FIN_ESPERAS.length - 1)]; o.hasta = Date.now() + seg * 1000; o.nivel = (o.nivel || 0) + 1; o.n = 0; setTimeout(() => pintarDetalle(), seg * 1000 + 100); }
