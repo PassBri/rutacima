@@ -358,10 +358,10 @@ function actividadesDia(fecha, ag, ms) {
     return `<div class="act${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"><span class="act-h">${ahora ? "Ahora" : String(h).padStart(2, "0") + ":00"}</span>
       <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t ? "disabled" : ""} aria-label="Hecha">
       <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
-      ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}" ${String(x.id) === meta ? "selected" : ""}>${esc(x.texto)}</option>`).join("")}</select>` : `<span></span>`}</div>`;
+      ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, meta)}</select>` : `<span></span>`}</div>`;
   };
   const llenas = Object.values(hor).filter(Boolean).length;
-  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del mes aporta: al marcarla hecha, el día cuenta en esa meta.", llenas ? `<span class="sec-badge">${llenas}</span>` : "") +
+  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del año aporta (de las que escogiste para este mes): al marcarla hecha, el día cuenta en esa meta.", llenas ? `<span class="sec-badge">${llenas}</span>` : "") +
     `<div class="acts">${horas.map(fila).join("")}</div>`);
 }
 
@@ -389,7 +389,7 @@ function filaTop(fecha, i, x, ms, editable) {
   return `<div class="top${x?.hecho ? " hecha" : ""}"><span class="top-n">${i + 1}</span>
     <input type="checkbox" data-acc-change="topHecha" data-arg="${fecha}|${i}" ${x?.hecho ? "checked" : ""} ${!x?.t || !editable ? "disabled" : ""} aria-label="Hecha">
     <input type="text" class="top-t" value="${esc(x?.t || "")}" placeholder="${["Lo más importante", "Lo segundo", "Lo tercero"][i]}" maxlength="160" data-acc-change="topTexto" data-arg="${fecha}|${i}" aria-label="Cumbre ${i + 1} del día">
-    ${x?.t ? `<select data-acc-change="topMeta" data-arg="${fecha}|${i}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(m => `<option value="${m.id}" ${String(m.id) === x.meta ? "selected" : ""}>${esc(m.texto)}</option>`).join("")}</select>` : "<span></span>"}</div>`;
+    ${x?.t ? `<select data-acc-change="topMeta" data-arg="${fecha}|${i}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, x.meta)}</select>` : "<span></span>"}</div>`;
 }
 /** El ritual de la mañana: intención y las 3 cumbres de hoy. */
 function planDelDia(fecha, ag, ms) {
@@ -602,8 +602,8 @@ function detMes(arg) {
   const campoMes = (n, etq) => campo(etq, `<textarea ${bind("mes", clave, n, "", `mes`)}>${esc(b[n] || "")}</textarea>`);
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(
     `<div class="migas"><button data-sel="puntos">Mapa de mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
-    hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
-      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`) +
+    (window.focoMes ? focoMes(a, m) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
+      ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`)) +
     hoja(`<div class="etiqueta" style="margin-bottom:8px">Días del mes · toca uno para abrirlo</div><div class="dias" style="max-width:320px">${cal}</div>`) +
     hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
       <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`) +

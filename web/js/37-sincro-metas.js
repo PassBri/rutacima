@@ -63,6 +63,7 @@ const Sincro = {
     try {
       const anios = [null, ...new Set(Store.lista("vision").map(anioDeCasilla).filter(Boolean))];
       for (const a of anios) await this.reconciliar(a);
+      if (window.limpiarMesSueltas) await limpiarMesSueltas();
     } catch (e) { console.error(e); } finally { this.ocupada = false; }
   },
   /** Escribir (o borrar) una sub-meta: si es una de las 8 primeras de una meta con Brújula, también su paso. */

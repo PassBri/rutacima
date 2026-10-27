@@ -3881,3 +3881,14 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .pm-barra { height: 4px; border-radius: 9px; background: color-mix(in srgb, var(--burdeos) 14%, var(--linea)); margin: 8px 0 12px; overflow: hidden; }
 .pm-barra i { display: block; height: 100%; background: var(--burdeos); border-radius: 9px; }
 .hoja .sm-fila input.sm-texto { border: 0; background: transparent; width: auto; padding: 6px 2px; border-radius: 0; box-shadow: none; }
+
+/* Mes: las metas del año que se trabajan este mes */
+.foco { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-top: 1px solid var(--linea); }
+.foco:first-of-type { border-top: 0; }
+.foco-cab { flex: 1; display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; }
+.foco-cab input { width: 20px; height: 20px; accent-color: var(--burdeos); flex: none; }
+.foco-cab span { flex: 1; }
+.foco.sel .foco-cab span { font-weight: 600; }
+.foco .pct { border: 0; background: none; color: var(--burdeos); font-weight: 700; cursor: pointer; }
+.foco-ir { border: 0; background: none; font-size: 12px; text-decoration: underline; cursor: pointer; }
+.foco + .tira { margin: 0 0 8px 30px; }

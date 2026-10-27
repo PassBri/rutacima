@@ -139,7 +139,7 @@ const ACC = {
     const fila = el.closest(".act"); if (!fila) return;
     const cb = fila.querySelector('input[type=checkbox]'); if (cb) { cb.disabled = !t; if (!t) cb.checked = false; }
     const sel = fila.querySelector("select"), f = deIso(fecha), ms = metasDelMes(f.getFullYear(), f.getMonth() + 1);
-    if (t && !sel) fila.lastElementChild.outerHTML = `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del mes que mueve"><option value="">Sin meta</option>${ms.map(x => `<option value="${x.id}">${esc(x.texto)}</option>`).join("")}</select>`;
+    if (t && !sel) fila.lastElementChild.outerHTML = `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, "")}</select>`;
     else if (!t && sel) sel.outerHTML = "<span></span>"; },
   actMeta(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#meta`, el.value);
     if (el.value && respuesta(`dia#${fecha}#${h}#hecho`) === "1") marcarDiaMeta(el.value, fecha); },
