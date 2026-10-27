@@ -3795,3 +3795,8 @@ button.md-ganado:disabled { opacity: .5; cursor: default; }
 .tablero-9 .dorso.compacta .dorso-lectura { display: flex; flex-direction: column; height: 100%; }
 .tablero-9 .dorso.compacta .lect-frase { text-align: center; margin: auto 0; padding: 0 4px; }
 .tablero-9 .dorso.compacta .casilla-frase, .tablero-9 .dorso.compacta .casilla-apodo { text-align: center; }
+
+/* Ruta (81) en grande: en modo imagen también se lee el texto de cada paso */
+html[data-modo-tarjetas="imagen"] .md-visor .md-grilla .md-paso .t { display: -webkit-box !important; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; opacity: 1 !important; color: var(--tinta); text-shadow: none; font-size: clamp(9px, .72vw, 12px); line-height: 1.2; text-align: center; padding: 0 3px; word-break: normal; overflow-wrap: break-word; hyphens: auto; }
+html[data-modo-tarjetas="imagen"] .md-visor .md-grilla .md-paso.md-hecho .t, html[data-modo-tarjetas="imagen"] .md-visor .md-grilla .md-paso.con-evid .t { color: #fff; text-shadow: 0 1px 2px rgb(0 0 0 / .5); }
+html[data-modo-tarjetas="imagen"] .md-visor .md-grilla .md-paso.md-hecho > i { position: absolute; top: 2px; right: 4px; font-size: 11px; }
