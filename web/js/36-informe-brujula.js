@@ -8,7 +8,13 @@ async function informeBrujula() {
   const d = Mandala.datos(), anio = estado.brujulaAnio || null, hoyD = new Date();
   const fecha = hoyD.toLocaleDateString("es", { day: "numeric", month: "long", year: "numeric" });
   const nombre = esc(perfil()?.nombre || ""), r = d.ritmo, pctC = Math.round(mdPct(d, -1));
-  let img = ""; try { const b = await imagenMandala(); img = await new Promise(ok => { const f = new FileReader(); f.onload = () => ok(f.result); f.readAsDataURL(b); }); } catch {}
+  // El 9×9 en texto: sin colores ni imágenes, con líneas más gruesas entre los bloques de 3×3
+  const celdaTxt = cel => cel.tipo === "CUMBRE" ? `<b>${esc(d.titulo)}</b>` : cel.tipo === "CAMPAMENTO"
+    ? `<b>${d.camps[cel.camp] ? esc(mdNombre(d.camps[cel.camp])) : esc(Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp]))}</b>`
+    : (() => { const c = d.camps[cel.camp]; if (!c) return ""; const t = respuesta(Mandala.clave(c.id, cel.paso)).trim(); return t ? esc(t) + (Mandala.estado(c.id, cel.paso) === "HECHO" ? " ✓" : "") : ""; })();
+  const grilla = `<table class="g9">${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(f => `<tr>${[0, 1, 2, 3, 4, 5, 6, 7, 8].map(c => {
+    const cel = Mandala.celda(f, c), cls = [c % 3 === 0 ? "bi" : "", f % 3 === 0 ? "bt" : "", c === 8 ? "bd" : "", f === 8 ? "bb" : "", cel.tipo !== "PASO" ? "cab" : ""].filter(Boolean).join(" ");
+    return `<td class="${cls}">${celdaTxt(cel)}</td>`; }).join("")}</tr>`).join("")}</table>`;
   const logo = new URL("iconos/logo-horizontal-crema.svg", location.href).href, simbolo = new URL("iconos/simbolo.svg", location.href).href;
   let sec = 0; const h2 = t => `<h2><span>${String(++sec).padStart(2, "0")}</span>${t}</h2>`;
   const EST = { VACIO: ["Por escribir", "#5A666B", "#EEF1F2"], ESCRITO: ["En camino", "#8A5A00", "#FBEFD8"], HECHO: ["Ganado", "#1E7B4A", "#E3F2E9"] };
@@ -40,7 +46,8 @@ async function informeBrujula() {
     .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{border-radius:10px;background:#F5F7F8;padding:10px 12px}.kpi span{display:block;font-size:11.5px;color:#5A666B}.kpi b{font-size:17px;font-variant-numeric:tabular-nums}
     .barra{height:8px;border-radius:4px;background:#EEF1F2;overflow:hidden;margin:12px 0 4px}.barra i{display:block;height:100%;background:#C9973B;border-radius:4px}
     .ritmo{margin:12px 0 0;padding:12px 16px;border-left:3px solid #86683A;background:#FBF8F2;border-radius:0 10px 10px 0}.ritmo p{margin:3px 0}
-    .imagen{text-align:center}.imagen img{width:min(100%,520px);border-radius:12px;box-shadow:0 6px 20px -10px rgb(0 0 0/.4)}
+    table.g9{table-layout:fixed;border-collapse:collapse;width:100%;break-inside:avoid}table.g9 td{border:1px solid #9AA3A7;padding:4px;height:64px;text-align:center;vertical-align:middle;font-size:9.5px;line-height:1.25;color:#1D2427;overflow:hidden;word-break:break-word}
+    table.g9 td.bi{border-left:2.5px solid #1D2427}table.g9 td.bt{border-top:2.5px solid #1D2427}table.g9 td.bd{border-right:2.5px solid #1D2427}table.g9 td.bb{border-bottom:2.5px solid #1D2427}table.g9 td.cab{font-size:10px}
     .camp{border:1px solid #DCE2E4;border-radius:12px;padding:14px 16px;margin:12px 0;break-inside:avoid}
     .camp header{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin-bottom:8px}.camp header b{display:block;font:600 15.5px "Roboto Serif",Georgia,serif}.camp header small{color:#5A666B}
     .rumbo{min-width:34px;height:34px;padding:0 6px;border-radius:10px;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px}.pct{font:600 18px "Roboto Serif",Georgia,serif;font-variant-numeric:tabular-nums}
@@ -66,7 +73,7 @@ async function informeBrujula() {
         <p>Tramo ${r.tramo + 1} de 52 · un paso nuevo pide ${r.dificultad} ${r.dificultad === 1 ? "jornada" : "jornadas"} · ${r.adelanto >= 0 ? `vas ${r.adelanto.toLocaleString("es", { maximumFractionDigits: 1 })} pasos adelante del ritmo` : `te faltan ${(-r.adelanto).toLocaleString("es", { maximumFractionDigits: 1 })} pasos para ir al ritmo`}</p>
         ${d.confluencias ? `<p>${d.confluencias} ${d.confluencias === 1 ? "paso de confluencia" : "pasos de confluencia"}: acciones que movieron varios ejes.</p>` : ""}
         ${d.enNiebla ? `<p>${d.enNiebla} ${d.enNiebla === 1 ? "paso" : "pasos"} en la niebla (más de ${Travesia.NIEBLA_DIAS} días sin avanzar).</p>` : ""}</div>
-      ${img ? h2("Mi Brújula 9×9") + `<div class="imagen"><img src="${img}" alt="La Brújula 9×9"></div>` : ""}
+      ${h2("Mi Brújula 9×9")}${grilla}
       ${h2("Campamentos y ruta")}${camps}
       <div class="nota"><img src="${simbolo}" alt="">Generado por SuRoute · Brújula 1·9·81 del Método Ruta a la Cima, inspirada en la Mandala Chart de Yasuo Matsumura (1979).</div>
     </div></div></body></html>`;

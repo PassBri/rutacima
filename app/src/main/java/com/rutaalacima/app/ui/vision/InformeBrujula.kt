@@ -29,11 +29,7 @@ object InformeBrujula {
         nombres: List<String>, ejes: List<String>, fases: List<String>, porcentajes: List<Int>, metas: Map<String, List<String>>,
         textos: MandalaImagen.Textos,
     ) {
-        val img = runCatching {
-            val f = MandalaImagen.generar(ctx.applicationContext, datos, textos)
-            "data:image/jpeg;base64," + Base64.encodeToString(f.readBytes(), Base64.NO_WRAP).also { f.delete() }
-        }.getOrDefault("")
-        val html = html(ctx, datos, anio, nombre, porcentajeCumbre, nombres, ejes, fases, porcentajes, metas, img)
+        val html = html(ctx, datos, anio, nombre, porcentajeCumbre, nombres, ejes, fases, porcentajes, metas, "")
         val w = WebView(ctx); vista = w
         w.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView, url: String?) {
@@ -44,6 +40,20 @@ object InformeBrujula {
         }
         w.loadDataWithBaseURL("file:///android_asset/", html, "text/html", "utf-8", null)
     }
+
+    /** El 9×9 en texto: sin colores ni imágenes, con líneas más gruesas entre los bloques de 3×3. */
+    private fun grilla(d: DatosMandala, nombres: List<String>): String = "<table class=\"g9\">" + (0 until 9).joinToString("") { f ->
+        "<tr>" + (0 until 9).joinToString("") { c ->
+            val cel = Mandala.celda(f, c)
+            val cls = listOfNotNull("bi".takeIf { c % 3 == 0 }, "bt".takeIf { f % 3 == 0 }, "bd".takeIf { c == 8 }, "bb".takeIf { f == 8 }).joinToString(" ")
+            val t = when (cel.tipo) {
+                Mandala.Tipo.CUMBRE -> "<b>${esc(d.tituloCumbre)}</b>"
+                Mandala.Tipo.CAMPAMENTO -> "<b>${esc(nombres[cel.campamento])}</b>"
+                else -> d.paso(cel.campamento, cel.paso).trim().let { if (it.isEmpty()) "" else esc(it) + if (d.estado(cel.campamento, cel.paso) == Mandala.EstadoPaso.HECHO) " ✓" else "" }
+            }
+            "<td class=\"$cls\">$t</td>"
+        } + "</tr>"
+    } + "</table>"
 
     private fun html(
         ctx: Context, d: DatosMandala, anio: Int?, nombre: String, pctC: Int, nombres: List<String>, ejes: List<String>,
@@ -91,7 +101,8 @@ object InformeBrujula {
             .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.kpi{border-radius:10px;background:#F5F7F8;padding:9px 11px}.kpi span{display:block;font-size:11px;color:#5A666B}.kpi b{font-size:16px}
             .barra{height:8px;border-radius:4px;background:#EEF1F2;overflow:hidden;margin:10px 0 4px}.barra i{display:block;height:100%;background:#C9973B}
             .ritmo{margin:10px 0 0;padding:10px 14px;border-left:3px solid #86683A;background:#FBF8F2}.ritmo p{margin:3px 0}
-            .imagen{text-align:center}.imagen img{width:72%;border-radius:12px}
+            table.g9{table-layout:fixed;border-collapse:collapse;width:100%;page-break-inside:avoid}table.g9 td{border:1px solid #9AA3A7;padding:3px;height:58px;text-align:center;vertical-align:middle;font-size:8.5px;line-height:1.25;word-break:break-word}
+            table.g9 td.bi{border-left:2.5px solid #1D2427}table.g9 td.bt{border-top:2.5px solid #1D2427}table.g9 td.bd{border-right:2.5px solid #1D2427}table.g9 td.bb{border-bottom:2.5px solid #1D2427}
             .camp{border:1px solid #DCE2E4;border-radius:12px;padding:12px 14px;margin:10px 0;page-break-inside:avoid}
             .camp header{display:flex;gap:10px;align-items:center;margin-bottom:6px}.camp header div{flex:1}.camp header b{display:block;font:600 15px serif}.camp header small{color:#5A666B}
             .rumbo{min-width:32px;height:32px;padding:0 6px;border-radius:9px;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px}.pct{font:600 17px serif}
@@ -108,7 +119,7 @@ object InformeBrujula {
                 <div class="kpi"><span>${s(R.string.ib_ganados)}</span><b>${s(R.string.ib_de_64, pr.hechos)}</b></div><div class="kpi"><span>${s(R.string.ib_evidencias)}</span><b>${d.evidencias}</b></div></div>
               <div class="barra"><i style="width:$pctC%"></i></div>
               <div class="ritmo"><p><b>${s(R.string.metodo_altura, nf.format(r.mm))}</b></p><p>${s(R.string.ib_ritmo, r.tramo + 1, r.dificultad)}</p></div>
-              ${if (img.isNotEmpty()) h2(s(R.string.ib_imagen)) + "<div class=\"imagen\"><img src=\"$img\"></div>" else ""}
+              ${h2(s(R.string.ib_imagen))}${grilla(d, nombres)}
               ${h2(s(R.string.ib_campamentos))}$camps
               <div class="nota">${s(R.string.ib_nota)}</div></div></body></html>"""
     }
