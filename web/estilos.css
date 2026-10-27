@@ -3530,3 +3530,31 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
   .md-capa[data-capa="81"] .md-grilla-caja .md-grilla, .md-capa[data-capa="81"] .md-flip-in { max-width: min(100% - 24px, 800px, calc(100dvh - 200px)); }
   .md-capa[data-capa="1"] .cumbre-tarjeta { max-width: min(500px, calc(100dvh - 270px)); }
 }
+
+/* Barra de la Brújula: selector a la izquierda; avance de fotos y «Cómo se arma» a la derecha */
+.brujula-barra { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin: 0 0 12px; }
+.brujula-barra .brujula-sel { margin: 0; }
+.bb-der { display: flex; align-items: center; gap: 8px; }
+.bb-fotos { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px 0 8px; border-radius: 22px; background: var(--hoja); border: 1px solid var(--linea); font-size: 13.5px; color: var(--tinta-suave); }
+.bb-fotos b { color: var(--tinta); font-weight: 600; font-variant-numeric: tabular-nums; }
+.bb-aro { --p: 0; width: 26px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, var(--hoja) 70%, transparent 72%), conic-gradient(var(--burdeos) calc(var(--p) * 360deg), color-mix(in srgb, var(--tinta) 12%, transparent) 0); }
+.bb-como { position: relative; }
+.bb-como > summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px 0 10px; border-radius: 22px; background: var(--hoja); border: 1px solid var(--linea); font-size: 13.5px; cursor: pointer; }
+.bb-como > summary::-webkit-details-marker { display: none; } .bb-como > summary svg { width: 20px; height: 20px; fill: var(--tinta-suave); }
+.bb-como[open] > summary { background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); }
+.bb-panel { position: absolute; z-index: 25; top: calc(100% + 6px); right: 0; width: min(420px, 88vw); padding: 14px 16px; border-radius: 16px; background: var(--hoja); border: 1px solid var(--linea);
+  box-shadow: 0 14px 32px -14px rgb(var(--sombra) / .4); font-size: 14px; line-height: 1.5; animation: bs-abre .18s cubic-bezier(.2, 0, 0, 1); }
+.bb-panel h4 { margin: 0 0 6px; font-size: 15px; } .bb-panel p { margin: 0 0 8px; } .bb-panel .botones { flex-wrap: wrap; align-items: center; gap: 8px; }
+/* Debajo de la brújula: ritmo y cierre del año, ordenados en dos tarjetas */
+.md-extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; margin-top: 12px; align-items: start; }
+.md-extra .sec-ic { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--oro) 16%, var(--hoja)); flex: none; }
+.md-extra .sec-ic svg { width: 20px; height: 20px; fill: var(--oro); }
+.md-extra .md-ritmo-pliegue > summary { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
+.md-extra .md-ritmo-pliegue > summary > svg { width: 20px; height: 20px; fill: var(--tinta-suave); transition: transform .2s; } .md-extra .md-ritmo-pliegue[open] > summary > svg { transform: rotate(180deg); }
+.mx-tx { display: grid; gap: 2px; } .mx-tx b { font-size: 15px; } .mx-tx .suave { font-size: 13px; }
+.md-extra-cierre { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+.md-extra-cierre .sec-ic { background: color-mix(in srgb, var(--burdeos) 11%, var(--hoja)); } .md-extra-cierre .sec-ic svg { fill: var(--burdeos); }
+.md-extra-cierre .md-cierre h3 { font-size: 15px !important; }
+@media (max-width: 700px) { .bb-der { width: 100%; } .bb-como { margin-left: auto; } }
+.md-extra .md-ritmo-pliegue > summary::after { content: none; }
+.md-extra .md-ritmo-pliegue > summary .suave { margin-left: 0; }

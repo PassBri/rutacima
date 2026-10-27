@@ -462,7 +462,10 @@ function mandalaHtml(tableroHtml = "") {
   const nv = mdCapaActual();
   const capa = (n, html) => `<section class="md-capa${n === nv ? " activa" : ""}" data-capa="${n}"${n === nv ? "" : " hidden"}>${html}</section>`;
   /* Todos los botones van en un riel a la derecha (en el computador): más espacio para la cumbre, el vision board y el 9×9 */
-  return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div></div>` + hoja(`<details class="md-ritmo-pliegue"><summary><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} mm</span></summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`) + hoja(cierreHtml(d));
+  return `<div class="md-escena">${nav}<div class="md-pila">${capa(1, s1)}${capa(9, s9)}${capa(81, s81)}</div></div>` +
+    /* Debajo de la brújula, ordenado en tarjetas: el ritmo del año y el cierre, lado a lado */
+    `<div class="md-extras">` + hoja(`<details class="md-ritmo-pliegue"><summary><span class="sec-ic">${ic("grafica")}</span><span class="mx-tx"><b>Tu ritmo · Método Cima 9×52</b><span class="suave">${d.ritmo.mm.toLocaleString("es")} de 8.848.000 mm</span></span>${ic("abajo")}</summary>${ritmoHtml(d.ritmo).replace('class="md-ritmo"', 'class="md-ritmo" style="margin:12px 0 0"')}</details>`, "md-extra") +
+    hoja(`<span class="sec-ic">${ic("bandera")}</span>` + cierreHtml(d), "md-extra md-extra-cierre") + `</div>`;
 }
 
 

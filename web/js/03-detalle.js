@@ -1379,14 +1379,17 @@ function visionCompleta() {
   }
   const rehacer = armandoVision ? `<span class="suave">Armando tu tablero…</span>`
     : `<button class="btn mini" data-acc="armarVision"${a ? ` data-arg="datos"` : ""}>${ic(a ? "girar" : "ia")} Volver a proponer</button><span class="suave">Solo cambian las casillas que aún no tienen foto.</span>`;
-  return selectorBrujula() +
-    hoja(`<div class="brujula-resumen"><span><b>${conFoto}</b> de ${cs.length} casillas con tu foto</span><div class="barra"><i style="width:${conFoto / cs.length * 100}%"></i></div></div>
-      <details class="brujula-como"><summary>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</summary>
+  /* Una sola barra arriba: qué Brújula ver (izquierda) y, a la derecha, el avance de fotos y «Cómo se arma» en un panel que se abre */
+  const pctFotos = conFoto / cs.length;
+  return `<div class="brujula-barra">${selectorBrujula()}<div class="bb-der">
+      <span class="bb-fotos" title="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}/${cs.length}</b> con foto</span>
+      <details class="bb-como"><summary>${ic("info")}<span>Cómo se arma</span></summary><div class="bb-panel">
+        <h4>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</h4>
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
         ${ayudaPct}<div class="botones">${rehacer}</div>
-        ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</details>`) +
+        ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</div></details></div></div>` +
     mandalaHtml("");
 }
 /* El menú de años de la Brújula se cierra al tocar fuera o con Escape */
-document.addEventListener("pointerdown", e => { document.querySelectorAll(".bs-menu[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
-document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".bs-menu[open]").forEach(d => { d.open = false; }); });
+document.addEventListener("pointerdown", e => { document.querySelectorAll(".bs-menu[open], .bb-como[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".bs-menu[open], .bb-como[open]").forEach(d => { d.open = false; }); });
