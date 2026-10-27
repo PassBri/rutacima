@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">复制</string>
     <string name="cu_cif_copiado">恢复码已复制：请粘贴到安全的地方，然后从剪贴板中删除</string>
     <string name="cu_cif_cancelar">取消</string>
+    <string name="fa_titulo">在电脑上打开你的财务？</string>
+    <string name="fa_desc">有人请求在 SuRoute Web 上打开你的财务攀登。只有当你本人在电脑前时才批准。</string>
+    <string name="fa_aprobar">用指纹批准</string>
+    <string name="fa_listo">完成：你的电脑现在可以打开你的财务了</string>
+    <string name="fa_error">无法批准。请在网页上生成新的二维码。</string>
+    <string name="fa_cuenta">请先在应用中登录再批准网页。</string>
 </resources>

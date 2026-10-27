@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">Copiar</string>
     <string name="cu_cif_copiado">Código copiado: cole-o em um lugar seguro e depois apague-o da área de transferência</string>
     <string name="cu_cif_cancelar">Cancelar</string>
+    <string name="fa_titulo">Abrir suas finanças no computador?</string>
+    <string name="fa_desc">Pediram para abrir seu Ascenso financeiro no SuRoute Web. Aprove só se for você, diante do seu computador.</string>
+    <string name="fa_aprobar">Aprovar com minha digital</string>
+    <string name="fa_listo">Pronto: seu computador já pode abrir suas finanças</string>
+    <string name="fa_error">Não foi possível aprovar. Gere um novo QR na web.</string>
+    <string name="fa_cuenta">Entre no app para aprovar a web.</string>
 </resources>

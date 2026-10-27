@@ -156,7 +156,8 @@ function pantallaCodigo() {
   return cab(av(ic("candado"), "var(--ok)"), "Ascenso financiero", "Cifrado · aparato nuevo") + cuerpo(hoja(`<div class="bloqueo-fin">${ic("candado", "i grande")}
     <h3>Este aparato aún no tiene tu llave</h3><p class="suave">Tus finanzas están cifradas. Escribe una sola vez tu código de recuperación de 12 palabras; después bastará tu PIN o tu huella.</p>
     <form data-form="finCodigo" class="form" style="max-width:420px;margin:0 auto"><textarea name="texto" rows="3" required autocomplete="off" autocapitalize="none" placeholder="pino rio luna …" aria-label="Código de recuperación"></textarea>
-      <button class="btn lleno" type="submit">Abrir mis finanzas</button></form></div>`), "max-width:560px");
+      <button class="btn lleno" type="submit">Abrir mis finanzas</button></form>
+    ${Store.nube?.sb ? `<p class="suave" style="margin:14px 0 6px">¿Tienes tu teléfono con SuRoute a mano?</p><button class="btn" data-acc="finAprobarQR" style="margin:0 auto;display:flex">${ic("telefono")} Aprobar con mi teléfono</button>` : ""}</div>`), "max-width:560px");
 }
 window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   async finCodigo(form, datos, texto) {
@@ -165,3 +166,43 @@ window.FORMULARIOS = Object.assign(window.FORMULARIOS || {}, {
   },
 });
 Object.assign(window, { finAbrirConPin, finAbrirConAparato, pantallaCodigo, hayLlaveLocal });
+
+/* ======================================================================
+ * Aprobar con el teléfono (QR): la web crea un par de llaves ECDH P-256 y muestra
+ * rutacima://finanzas?i=<id>&k=<llave pública>. El teléfono, tras la huella, deja en fin_aprobaciones
+ * un mensaje cifrado solo para esta web: la llave de datos (si hay cifrado) o un "ok". Vence en 5 minutos.
+ * ====================================================================== */
+const fb64u = b => fb64(b).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+ACC.finAprobarQR = async () => {
+  const sb = Store.nube?.sb; if (!sb) { toast("Entra con tu cuenta para aprobar con el teléfono"); return; }
+  const par = await crypto.subtle.generateKey({ name: "ECDH", namedCurve: "P-256" }, false, ["deriveBits"]);
+  const pub = fb64u(await crypto.subtle.exportKey("raw", par.publicKey)), id = fb64u(crypto.getRandomValues(new Uint8Array(18)));
+  const enlace = `rutacima://finanzas?i=${id}&k=${pub}`;
+  let img = ""; try { const q = qrcode(0, "M"); q.addData(enlace); q.make(); img = q.createDataURL(6, 2); } catch {}
+  let vivo = true;
+  const v = ventanaCifrado(`<h3 style="margin-top:0">Aprobar con tu teléfono</h3>
+    <p class="suave">Escanea este código con la cámara de tu teléfono. La app de SuRoute te pedirá tu huella o tu rostro y tus finanzas se abrirán aquí.</p>
+    <div class="qr-fin">${img ? `<img src="${img}" alt="Código QR para aprobar con el teléfono">` : "<p>Código QR no disponible</p>"}</div>
+    <p class="suave qr-estado" aria-live="polite">Esperando a tu teléfono… vence en 5 minutos.</p>
+    <div class="botones"><button class="btn" type="button" data-cerrar>Cancelar</button></div>`, w => { w.querySelector("[data-cerrar]").onclick = () => { vivo = false; w.remove(); }; });
+  const fin = Date.now() + 5 * 60 * 1000;
+  while (vivo && Date.now() < fin && document.body.contains(v)) {
+    await new Promise(r => setTimeout(r, 2000));
+    const { data } = await sb.from("fin_aprobaciones").select("datos").eq("id", id).maybeSingle();
+    if (!data?.datos) continue;
+    vivo = false;
+    try {
+      const m = JSON.parse(data.datos);
+      const suya = await crypto.subtle.importKey("raw", fdeb64(m.p), { name: "ECDH", namedCurve: "P-256" }, false, []);
+      const secreto = await crypto.subtle.deriveBits({ name: "ECDH", public: suya }, par.privateKey, 256);
+      const llave = await crypto.subtle.importKey("raw", await crypto.subtle.digest("SHA-256", secreto), "AES-GCM", false, ["decrypt"]);
+      const c = JSON.parse(new TextDecoder().decode(await descifrarCon(llave, m.c)));
+      if (c.t === "dek") { FINC.dek = await dekImportar(fdeb64(c.k)); await finPrecargar(); }
+      else if (FINC.activo()) throw new Error("sin llave");
+      estado.finPideCodigo = false; estado.ascAbierto = Date.now(); guardarIntentos?.({});
+      toast("Aprobado desde tu teléfono"); v.remove(); pintarDetalle();
+    } catch { v.querySelector(".qr-estado").textContent = "No se pudo abrir con esa aprobación. Intenta de nuevo."; }
+    sb.from("fin_aprobaciones").delete().eq("id", id).then(() => {}, () => {});
+  }
+  if (vivo && document.body.contains(v)) v.querySelector(".qr-estado").textContent = "El código venció. Ciérralo y genera uno nuevo.";
+};

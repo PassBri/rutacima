@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">コピー</string>
     <string name="cu_cif_copiado">フレーズをコピーしました。安全な場所に貼り付けてから、クリップボードから削除してください</string>
     <string name="cu_cif_cancelar">キャンセル</string>
+    <string name="fa_titulo">パソコンで家計を開きますか？</string>
+    <string name="fa_desc">SuRoute Web で「お金の登頂」を開くリクエストがありました。パソコンの前にいるのがあなた本人の場合だけ承認してください。</string>
+    <string name="fa_aprobar">指紋で承認</string>
+    <string name="fa_listo">完了：パソコンで家計を開けるようになりました</string>
+    <string name="fa_error">承認できませんでした。Web で新しい QR を作ってください。</string>
+    <string name="fa_cuenta">Web を承認するにはアプリでログインしてください。</string>
 </resources>

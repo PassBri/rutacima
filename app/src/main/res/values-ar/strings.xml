@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">نسخ</string>
     <string name="cu_cif_copiado">تم نسخ الرمز: الصقه في مكان آمن ثم احذفه من الحافظة</string>
     <string name="cu_cif_cancelar">إلغاء</string>
+    <string name="fa_titulo">فتح أموالك على الكمبيوتر؟</string>
+    <string name="fa_desc">طُلب فتح صعودك المالي على SuRoute Web. وافق فقط إن كنت أنت أمام كمبيوترك.</string>
+    <string name="fa_aprobar">الموافقة ببصمتي</string>
+    <string name="fa_listo">تم: يمكن لكمبيوترك الآن فتح أموالك</string>
+    <string name="fa_error">تعذّرت الموافقة. أنشئ رمز QR جديدًا على الويب.</string>
+    <string name="fa_cuenta">سجّل الدخول في التطبيق للموافقة على الويب.</string>
 </resources>

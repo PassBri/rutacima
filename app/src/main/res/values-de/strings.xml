@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">Kopieren</string>
     <string name="cu_cif_copiado">Code kopiert: Füge ihn an einem sicheren Ort ein und lösche ihn dann aus der Zwischenablage</string>
     <string name="cu_cif_cancelar">Abbrechen</string>
+    <string name="fa_titulo">Deine Finanzen am Computer öffnen?</string>
+    <string name="fa_desc">Es wurde angefragt, deinen Finanzaufstieg in SuRoute Web zu öffnen. Bestätige nur, wenn du es bist und vor deinem Computer sitzt.</string>
+    <string name="fa_aprobar">Mit Fingerabdruck bestätigen</string>
+    <string name="fa_listo">Fertig: Dein Computer kann deine Finanzen jetzt öffnen</string>
+    <string name="fa_error">Bestätigung fehlgeschlagen. Erzeuge im Web einen neuen QR-Code.</string>
+    <string name="fa_cuenta">Melde dich in der App an, um das Web zu bestätigen.</string>
 </resources>

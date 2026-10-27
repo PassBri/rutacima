@@ -47,6 +47,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="rutacima" android:host="vincular" />
+                <!-- Aprobar el Ascenso financiero de la web: rutacima://finanzas?i=…&k=… -->
+                <data android:scheme="rutacima" android:host="finanzas" />
             </intent-filter>
         </activity>
 

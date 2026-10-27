@@ -273,6 +273,8 @@ private fun AppPrincipal() {
     androidx.compose.runtime.LaunchedEffect(codigoWeb) {
         if (codigoWeb != null && rutaActual != Rutas.WEB) nav.navigate(Rutas.WEB) { launchSingleTop = true }
     }
+    // QR del Ascenso financiero de la web: aprobar con la huella
+    com.rutaalacima.app.ui.finanzas.AprobarFinanzasWeb(contenedor)
 
     // Tableta o teléfono en horizontal: las pestañas van en un riel a la izquierda
     val ancho = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 600

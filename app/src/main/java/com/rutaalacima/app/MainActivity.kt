@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             intent.removeExtra(com.rutaalacima.app.notificaciones.AvisosMensajes.EXTRA_IR_A)
         }
         val datos = intent?.data ?: return
+        com.rutaalacima.app.seguridad.FinAprobacion.desdeEnlace(datos)?.let { com.rutaalacima.app.seguridad.FinAprobacion.pendiente.value = it; return }
         if (datos.scheme != "rutacima" || datos.host != "vincular") return
         Sincronia.codigoDeVinculo(datos.toString())?.let { (application as RutaApp).container.web.codigoPendiente.value = it }
     }

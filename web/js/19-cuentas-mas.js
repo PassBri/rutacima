@@ -494,6 +494,7 @@ function pantallaBloqueo() {
     ${passkeyId() && passkeyPosible() ? `<button class="btn lleno" data-acc="ascPasskey" style="margin:0 auto 14px;display:flex">${ic("huella")} Abrir con huella o rostro</button>` : ""}
     <form data-form="ascPin" class="form" style="max-width:260px;margin:0 auto"><input name="texto" type="password" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]{4,6}" aria-label="PIN" placeholder="PIN" ${espera ? "disabled" : ""} required style="text-align:center;letter-spacing:.5em;font-size:22px">
       <button class="btn lleno" type="submit" ${espera ? "disabled" : ""}>Abrir</button></form>
+    ${Store.nube?.sb ? `<button class="btn" data-acc="finAprobarQR" style="margin:12px auto 0;display:flex">${ic("telefono")} Aprobar con mi teléfono</button>` : ""}
     ${espera ? `<p class="suave">Demasiados intentos. Espera ${espera > 90000 ? Math.ceil(espera / 60000) + " minutos" : Math.ceil(espera / 1000) + " segundos"}.</p>` : ""}</div>`), "max-width:560px");
 }
 function privacidadHoja() {

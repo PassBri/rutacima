@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">Copy</string>
     <string name="cu_cif_copiado">Code copied: paste it somewhere safe, then delete it from the clipboard</string>
     <string name="cu_cif_cancelar">Cancel</string>
+    <string name="fa_titulo">Open your finances on the computer?</string>
+    <string name="fa_desc">Someone asked to open your Financial Ascent on SuRoute Web. Approve it only if it is you, at your computer.</string>
+    <string name="fa_aprobar">Approve with my fingerprint</string>
+    <string name="fa_listo">Done: your computer can now open your finances</string>
+    <string name="fa_error">Couldn\'t approve. Generate a new QR on the web.</string>
+    <string name="fa_cuenta">Sign in to the app to approve the web.</string>
 </resources>

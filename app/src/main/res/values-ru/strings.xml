@@ -2482,4 +2482,10 @@
     <string name="cu_cif_copiar">Копировать</string>
     <string name="cu_cif_copiado">Код скопирован: вставь его в надёжное место, а затем удали из буфера обмена</string>
     <string name="cu_cif_cancelar">Отмена</string>
+    <string name="fa_titulo">Открыть финансы на компьютере?</string>
+    <string name="fa_desc">Поступил запрос открыть твоё «Финансовое восхождение» в SuRoute Web. Подтверждай, только если это ты за своим компьютером.</string>
+    <string name="fa_aprobar">Подтвердить отпечатком</string>
+    <string name="fa_listo">Готово: компьютер теперь может открыть твои финансы</string>
+    <string name="fa_error">Не удалось подтвердить. Создай новый QR в вебе.</string>
+    <string name="fa_cuenta">Войди в приложение, чтобы подтвердить веб.</string>
 </resources>
