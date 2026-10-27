@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Oggi un post vale %1$s mm e uno slancio %2$s mm</string>
     <string name="mandala_tablero">Bacheca</string>
     <string name="mandala_titulo">Il tuo 9×9</string>
-    <string name="mandala_intro">I tuoi campi sono il centro: la tua vetta in mezzo e 8 campi fissi intorno, come una rosa dei venti (i tuoi 6 assi, Confluenza e Campo base). Ogni campo è un viaggio di 8 passi attraverso le fasi del Viaggio trasformativo. Quando conquisti un passo, la sua foto di prova sostituisce la visione: il tuo 9×9 passa da sognato a vissuto.</string>
+    <string name="mandala_intro">I tuoi campi sono il centro: la tua vetta in mezzo e 8 campi fissi intorno, come una rosa dei venti (i tuoi 6 assi, Confluenza e Campo base). Ogni campo ha 8 passi. Quando conquisti un passo, la sua foto di prova sostituisce la visione: il tuo 9×9 passa da sognato a vissuto.</string>
     <string name="mandala_progreso">%1$d passi su 64 scritti · %2$d conquistati</string>
     <string name="mandala_2d">Griglia</string>
     <string name="mandala_3d">Montagna 3D</string>

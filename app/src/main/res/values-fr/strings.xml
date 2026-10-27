@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Aujourd\'hui une publication vaut %1$s mm et un élan %2$s mm</string>
     <string name="mandala_tablero">Tableau</string>
     <string name="mandala_titulo">Ton 9×9</string>
-    <string name="mandala_intro">Tes camps sont le centre : ton sommet au milieu et 8 camps fixes autour, comme une rose des vents (tes 6 axes, Confluence et Camp de base). Chaque camp est un voyage de 8 pas à travers les phases du Voyage transformateur. Quand tu gagnes un pas, sa photo de preuve remplace la vision : ton 9×9 passe du rêvé au vécu.</string>
+    <string name="mandala_intro">Tes camps sont le centre : ton sommet au milieu et 8 camps fixes autour, comme une rose des vents (tes 6 axes, Confluence et Camp de base). Chaque camp compte 8 pas. Quand tu gagnes un pas, sa photo de preuve remplace la vision : ton 9×9 passe du rêvé au vécu.</string>
     <string name="mandala_progreso">%1$d pas sur 64 écrits · %2$d gagnés</string>
     <string name="mandala_2d">Grille</string>
     <string name="mandala_3d">Montagne 3D</string>

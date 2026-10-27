@@ -84,7 +84,7 @@ object InformeBrujula {
                     Mandala.EstadoPaso.ESCRITO -> s(R.string.ib_n_de_m, x.jornadas.size, req)
                     else -> "—"
                 }
-                "<tr><td class=\"num\">${p + 1}</td><td><small>${esc(fases[p])}</small>${if (t.isNotEmpty()) esc(t) else "<span class=\"suave\">—</span>"}</td>" +
+                "<tr><td class=\"num\">${p + 1}</td><td>${if (t.isNotEmpty()) esc(t) else "<span class=\"suave\">—</span>"}</td>" +
                     "<td class=\"n\"><span class=\"pill\" style=\"color:$fg;background:$bg\">$et</span></td><td class=\"n\">$jor</td></tr>"
             }
             val ms = metas[d.codigo(i)].orEmpty()

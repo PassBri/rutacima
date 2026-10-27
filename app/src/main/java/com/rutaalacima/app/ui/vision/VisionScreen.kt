@@ -559,7 +559,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                     // Informe PDF de la Brújula (igual que la web)
                     val nombresC = (0 until Mandala.CAMPAMENTOS).map { i -> campamentos.getOrNull(i)?.let { nombreCampamento(it) } ?: nombreCodigo(Mandala.CAMPAMENTOS_FIJOS[i]) }
                     val ejesC = (0 until Mandala.CAMPAMENTOS).map { nombreCodigo(Mandala.CAMPAMENTOS_FIJOS[it]) }
-                    val fasesC = (0 until Mandala.PASOS).map { nombreFase(it) }
+                    val fasesC = emptyList<String>()
                     val listo = stringResource(R.string.ib_listo)
                     androidx.compose.material3.OutlinedButton(onClick = {
                         val anioI = anioActivo ?: java.time.LocalDate.now().year

@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">今日は投稿1つで%1$s mm、応援1回で%2$s mm</string>
     <string name="mandala_tablero">ボード</string>
     <string name="mandala_titulo">あなたの9×9</string>
-    <string name="mandala_intro">キャンプが中心です。真ん中に頂、周りに方位磁針のような8つの固定キャンプ（6つの軸、合流、ベースキャンプ）。各キャンプは変容の旅の各段階を進む8ステップの旅。ステップを獲得すると証拠写真がビジョンに置き換わり、9×9は夢から現実へ。</string>
+    <string name="mandala_intro">キャンプが中心です。真ん中に頂、周りに方位磁針のような8つの固定キャンプ（6つの軸、合流、ベースキャンプ）。各キャンプには8つのステップがあります。ステップを獲得すると証拠写真がビジョンに置き換わり、9×9は夢から現実へ。</string>
     <string name="mandala_progreso">64ステップ中%1$d記入 · %2$d獲得</string>
     <string name="mandala_2d">マス</string>
     <string name="mandala_3d">3Dの山</string>

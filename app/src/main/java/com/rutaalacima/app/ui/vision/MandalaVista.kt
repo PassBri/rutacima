@@ -276,7 +276,7 @@ fun MandalaSeccion(
     }
     editando?.let { (i, p) ->
         datos.casilla(i)?.let { cv -> EditarPaso(
-            numero = p + 1, fase = nombreFase(p), campamento = nombreCampamento(cv), texto = datos.paso(i, p),
+            numero = p + 1, campamento = nombreCampamento(cv), texto = datos.paso(i, p),
             paso = datos.pasoCima(i, p), dificultad = datos.ritmo.dificultad,
             foto = datos.fotoPaso(i, p), soltar = datos.soltar(i, p), llevar = datos.llevar(i, p),
             codigo = datos.codigo(i), enlaces = datos.enlaces(i, p), diasQuieto = datos.diasQuieto(i, p),
@@ -463,7 +463,7 @@ private fun CeldaPlana(datos: DatosMandala, cel: Mandala.Celda, vacio: Color, ch
                 if (chica && evidencia == null) Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam,
                     maxLines = 3, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(2.dp), color = MaterialTheme.colorScheme.onSurface)
                 if (!chica) Column(Modifier.fillMaxSize().padding(4.dp), verticalArrangement = Arrangement.SpaceBetween) {
-                    Text("${cel.paso + 1} · ${nombreFase(cel.paso)}", fontSize = 9.sp, lineHeight = 10.sp, fontWeight = FontWeight.Bold,
+                    Text("${cel.paso + 1}", fontSize = 9.sp, lineHeight = 10.sp, fontWeight = FontWeight.Bold,
                         color = if (evidencia != null) Color.White else color, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     Text(datos.paso(cel.campamento, cel.paso), fontSize = tam, lineHeight = tam, textAlign = TextAlign.Center,
                         maxLines = 4, overflow = TextOverflow.Ellipsis, modifier = Modifier.fillMaxWidth(),
@@ -531,7 +531,7 @@ private fun Bloque(
                                     if (!modoTexto) datos.fotoPaso(campamento, cel.paso)?.let {
                                         AsyncImage(modeloFoto(it, ancho, alto / 3), null, Modifier.fillMaxWidth().height(alto / 3), contentScale = ContentScale.Crop)
                                     }
-                                    Text(stringResource(R.string.brujula_paso_fase, cel.paso + 1, nombreFase(cel.paso)),
+                                    Text(stringResource(R.string.mandala_paso, cel.paso + 1),
                                         fontSize = 8.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, color = datos.color(campamento))
                                     CampoTarjetaTexto(datos.paso(campamento, cel.paso), stringResource(R.string.vision_frase),
                                         { onTextoPaso(campamento, cel.paso, it) }, Modifier.fillMaxWidth().weight(1f), compacto = true)
@@ -589,7 +589,7 @@ private fun RitmoCima(r: MetodoCima.Estado) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun EditarPaso(
-    numero: Int, fase: String, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
+    numero: Int, campamento: String, texto: String, paso: MetodoCima.Paso, dificultad: Int,
     foto: String?, soltar: String, llevar: String,
     codigo: String, enlaces: List<String>, diasQuieto: Int?, niebla: Boolean, caida: String?,
     onEvidencia: () -> Unit, onCaida: (String) -> Unit, onGuia: (String) -> Unit,
@@ -606,7 +606,7 @@ private fun EditarPaso(
     val hoyListo = LocalDate.now() in paso.jornadas
     AlertDialog(
         onDismissRequest = onCancelar,
-        title = { Text(stringResource(R.string.brujula_paso_fase, numero, fase)) },
+        title = { Text(stringResource(R.string.mandala_paso, numero)) },
         text = {
             Column(Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Text(campamento, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)

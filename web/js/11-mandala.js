@@ -237,7 +237,7 @@ function mdCelda(d, cel, grande) {
     return `<span class="md-c md-camp${camp ? "" : " libre"}" style="--c:${color}">${foto ? `<img src="${esc(foto)}" alt="">` : ""}<b>${camp ? esc(mdNombre(camp)) : "+ " + Mandala.nombre(Mandala.CAMPAMENTOS_FIJOS[cel.camp])}</b>${camp ? mdBarraMini(mdPct(d, cel.camp)) : ""}</span>`;
   }
   const est = Mandala.estado(camp?.id, cel.paso), texto = camp ? respuesta(Mandala.clave(camp.id, cel.paso)) : "";
-  const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1} · ${Mandala.FASES[cel.paso]}</small>`;
+  const evid = mdFotoPaso(camp, cel.paso), fase = `<small class="md-fase">${cel.paso + 1}</small>`;
   if (grande && camp) return `<span class="md-c md-paso md-${est.toLowerCase()}${evid ? " con-evid" : ""}" style="--c:${color}">
       ${evid ? `<img src="${esc(evid)}" alt="Evidencia">` : ""}${fase}
       <textarea data-resp="mandala|${Mandala.clave(camp.id, cel.paso)}" placeholder="Paso ${cel.paso + 1}" aria-label="Paso ${cel.paso + 1} de ${esc(camp.titulo)}">${esc(texto)}</textarea>
@@ -291,7 +291,7 @@ function mdPanelPaso(d) {
         ${estado.mdCaidaVer ? `<div class="botones">${Object.entries(Travesia.CAIDAS).map(([k, v]) => `<button class="btn mini" data-acc="mdCaida" data-arg="${c.id}|${n}|${k}">${v}</button>`).join("")}
           <button class="btn mini" data-ir="aprende" data-arg="wb:caidas">Guía de Caídas</button></div>` : ""}</div>` : "";
   const chips = Mandala.CAMPAMENTOS_FIJOS.filter(x => x !== cod).map(x => `<button class="chip" data-acc="mdEnlace" data-arg="${c.id}|${n}|${x}" aria-pressed="${en.includes(x)}">${Mandala.nombre(x)}</button>`).join("");
-  return `<div class="md-panel"><b>Paso ${n + 1} · ${Mandala.FASES[n]}</b><p style="margin:4px 0 8px">${esc(respuesta(Mandala.clave(c.id, n)))}</p>
+  return `<div class="md-panel"><b>Paso ${n + 1}</b><p style="margin:4px 0 8px">${esc(respuesta(Mandala.clave(c.id, n)))}</p>
     ${niebla}
     <h4>Este paso también activa:</h4><div class="chips">${chips}</div>
     ${evid ? `<img class="md-evid" src="${esc(evid)}" alt="${paso.cumplido ? "Foto de evidencia" : "Foto del paso"}">` : ""}
@@ -339,7 +339,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
         <button class="btn lleno" data-acc="compartirMandala" data-arg="PUBLICA">Todos</button><button class="btn mini" data-acc="compartirMandala" data-arg="">Cancelar</button></div></div>`
     : `<button class="btn lleno md-btn-compartir" data-acc="compartirMandala" data-arg="?" ${mdPublicando ? "disabled" : ""}>${ic("publicar")} ${mdPublicando ? "Preparando la imagen…" : "Compartir mi Brújula en la comunidad"}</button>`;
   const intro = `<h3 style="margin-top:0">Brújula de la Cima 9×9</h3>
-    <p>Tus campamentos son el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</p>`;
+    <p>Tus campamentos son el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento tiene 8 pasos. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</p>`;
   const pie = `<b class="md-progreso">${d.escritos} de 64 pasos escritos · ${d.hechos} ${d.hechos === 1 ? "ganado" : "ganados"}</b>
     <div class="barra" style="margin:8px 0 6px"><i style="width:${d.hechos / 64 * 100}%"></i></div>
     <p class="suave" style="margin:0">${d.evidencias} ${d.evidencias === 1 ? "foto" : "fotos"} de evidencia: lo vivido que ya reemplazó a lo soñado</p>

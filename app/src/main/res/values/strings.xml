@@ -1046,7 +1046,7 @@
     <string name="cumbre_comunidad_valor">Hoy una publicación vale %1$s mm y un impulso %2$s mm</string>
     <string name="mandala_tablero">Tablero</string>
     <string name="mandala_titulo">Tu 9×9</string>
-    <string name="mandala_intro">Tus campamentos son el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento es un viaje de 8 pasos por las fases del Viaje Transformativo. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</string>
+    <string name="mandala_intro">Tus campamentos son el centro: tu cumbre en medio y 8 campamentos fijos alrededor, como una rosa de los vientos (tus 6 ejes, Confluencia y Campamento Base). Cada campamento tiene 8 pasos. Al ganar un paso, su foto de evidencia reemplaza a la visión: tu 9×9 pasa de soñado a vivido.</string>
     <string name="mandala_progreso">%1$d de 64 pasos escritos · %2$d ganados</string>
     <string name="mandala_2d">Cuadrícula</string>
     <string name="mandala_3d">Montaña 3D</string>

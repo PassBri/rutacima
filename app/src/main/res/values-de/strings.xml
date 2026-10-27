@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Heute ist ein Beitrag %1$s mm wert und ein Schub %2$s mm</string>
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">Dein 9×9</string>
-    <string name="mandala_intro">Deine Lager sind die Mitte: dein Gipfel in der Mitte und 8 feste Lager ringsum wie eine Windrose (deine 6 Achsen, Konfluenz und Basislager). Jedes Lager ist eine Reise in 8 Schritten durch die Phasen der transformativen Reise. Wenn du einen Schritt verdienst, ersetzt sein Beweisfoto die Vision: Dein 9×9 wird vom Traum zum gelebten Leben.</string>
+    <string name="mandala_intro">Deine Lager sind die Mitte: dein Gipfel in der Mitte und 8 feste Lager ringsum wie eine Windrose (deine 6 Achsen, Konfluenz und Basislager). Jedes Lager hat 8 Schritte. Wenn du einen Schritt verdienst, ersetzt sein Beweisfoto die Vision: Dein 9×9 wird vom Traum zum gelebten Leben.</string>
     <string name="mandala_progreso">%1$d von 64 Schritten notiert · %2$d verdient</string>
     <string name="mandala_2d">Raster</string>
     <string name="mandala_3d">3D-Berg</string>

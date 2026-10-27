@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">오늘 게시물 하나는 %1$s mm, 응원 하나는 %2$s mm</string>
     <string name="mandala_tablero">보드</string>
     <string name="mandala_titulo">나의 9×9</string>
-    <string name="mandala_intro">캠프가 중심이에요. 가운데 정상, 주변에 나침반처럼 고정된 8개의 캠프(6개 축, 합류, 베이스캠프). 각 캠프는 변화의 여정 단계를 따라가는 8단계 여정이에요. 단계를 얻으면 증거 사진이 비전을 대신해 9×9가 꿈에서 현실이 돼요.</string>
+    <string name="mandala_intro">캠프가 중심이에요. 가운데 정상, 주변에 나침반처럼 고정된 8개의 캠프(6개 축, 합류, 베이스캠프). 각 캠프에는 8개의 단계가 있어요. 단계를 얻으면 증거 사진이 비전을 대신해 9×9가 꿈에서 현실이 돼요.</string>
     <string name="mandala_progreso">64단계 중 %1$d 작성 · %2$d 획득</string>
     <string name="mandala_2d">격자</string>
     <string name="mandala_3d">3D 산</string>

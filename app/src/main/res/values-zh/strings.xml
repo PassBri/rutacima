@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">今天一条帖子值 %1$s 毫米，一次助力 %2$s 毫米</string>
     <string name="mandala_tablero">看板</string>
     <string name="mandala_titulo">你的 9×9</string>
-    <string name="mandala_intro">你的营地就是中心：顶峰居中，周围是像罗盘一样固定的 8 个营地（6 个轴、汇流与大本营）。每个营地都是一段 8 步的旅程，走过转化之旅的各个阶段。赢得一步后，它的证据照片会取代愿景：你的 9×9 从梦想变成真实生活。</string>
+    <string name="mandala_intro">你的营地就是中心：顶峰居中，周围是像罗盘一样固定的 8 个营地（6 个轴、汇流与大本营）。每个营地有 8 步。赢得一步后，它的证据照片会取代愿景：你的 9×9 从梦想变成真实生活。</string>
     <string name="mandala_progreso">已写 %1$d / 64 步 · 赢得 %2$d</string>
     <string name="mandala_2d">方格</string>
     <string name="mandala_3d">3D 山峰</string>

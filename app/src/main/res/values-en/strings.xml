@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Today a post is worth %1$s mm and a boost %2$s mm</string>
     <string name="mandala_tablero">Board</string>
     <string name="mandala_titulo">Your 9×9</string>
-    <string name="mandala_intro">Your camps are the center: your summit in the middle and 8 fixed camps around it, like a compass rose (your 6 axes, Confluence and Base Camp). Each camp is an 8-step journey through the phases of the Transformative Journey. When you earn a step, its evidence photo replaces the vision: your 9×9 goes from dreamed to lived.</string>
+    <string name="mandala_intro">Your camps are the center: your summit in the middle and 8 fixed camps around it, like a compass rose (your 6 axes, Confluence and Base Camp). Each camp has 8 steps. When you earn a step, its evidence photo replaces the vision: your 9×9 goes from dreamed to lived.</string>
     <string name="mandala_progreso">%1$d of 64 steps written · %2$d earned</string>
     <string name="mandala_2d">Grid</string>
     <string name="mandala_3d">3D mountain</string>

@@ -27,7 +27,7 @@ async function informeBrujula() {
     const filas = [0, 1, 2, 3, 4, 5, 6, 7].map(p => {
       const t = respuesta(Mandala.clave(c.id, p)).trim(), e = Mandala.estado(c.id, p), x = d.pasoCima(i, p), req = x.req || r.dificultad;
       const jor = e === "HECHO" ? (x.cumplidoEn ? new Date(x.cumplidoEn + "T12:00").toLocaleDateString("es", { day: "numeric", month: "short", year: "numeric" }) : "✓") : e === "ESCRITO" ? `${x.jornadas.length} de ${req}` : "—";
-      return `<tr><td class="num">${p + 1}</td><td><small>${Mandala.FASES[p]}</small>${t ? esc(t) : `<span class="suave">—</span>`}</td><td class="n">${pill(e)}</td><td class="n">${jor}</td></tr>`;
+      return `<tr><td class="num">${p + 1}</td><td>${t ? esc(t) : `<span class="suave">—</span>`}</td><td class="n">${pill(e)}</td><td class="n">${jor}</td></tr>`;
     }).join("");
     const metas = cod === "CAM" ? [] : metasDeCampamento(i).filter(m => m.anio === anioMetas);
     return `<section class="camp">${cab}<table><thead><tr><th>#</th><th>Paso</th><th class="n">Estado</th><th class="n">Jornadas</th></tr></thead><tbody>${filas}</tbody></table>

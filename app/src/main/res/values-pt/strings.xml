@@ -1044,7 +1044,7 @@
     <string name="cumbre_comunidad_valor">Hoje uma publicação vale %1$s mm e um impulso %2$s mm</string>
     <string name="mandala_tablero">Quadro</string>
     <string name="mandala_titulo">Seu 9×9</string>
-    <string name="mandala_intro">Seus acampamentos são o centro: seu cume no meio e 8 acampamentos fixos ao redor, como uma rosa dos ventos (seus 6 eixos, Confluência e Acampamento Base). Cada acampamento é uma viagem de 8 passos pelas fases da Viagem Transformadora. Ao conquistar um passo, a foto de evidência substitui a visão: seu 9×9 passa de sonhado a vivido.</string>
+    <string name="mandala_intro">Seus acampamentos são o centro: seu cume no meio e 8 acampamentos fixos ao redor, como uma rosa dos ventos (seus 6 eixos, Confluência e Acampamento Base). Cada acampamento tem 8 passos. Ao conquistar um passo, a foto de evidência substitui a visão: seu 9×9 passa de sonhado a vivido.</string>
     <string name="mandala_progreso">%1$d de 64 passos escritos · %2$d conquistados</string>
     <string name="mandala_2d">Grade</string>
     <string name="mandala_3d">Montanha 3D</string>
