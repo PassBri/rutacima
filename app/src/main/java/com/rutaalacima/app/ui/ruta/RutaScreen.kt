@@ -335,7 +335,6 @@ fun RutaScreen(
 private fun SaltosChips(ir: (Nivel) -> Unit) {
     val h = hoy()
     val atajos = listOf(
-        Triple(R.string.ruta_brujula, androidx.compose.material.icons.Icons.Outlined.Explore, Nivel.Brujula),
         Triple(R.string.hoy, Icons.Filled.Today, Nivel.Dia(h)),
         Triple(R.string.ruta_esta_semana, Icons.Filled.ViewWeek, Nivel.Semana(h.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY)))),
         Triple(R.string.ruta_este_mes, Icons.Filled.CalendarMonth, Nivel.Mes(YearMonth.from(h))),
