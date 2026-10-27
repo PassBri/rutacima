@@ -496,7 +496,11 @@ internal fun EsferaBrujula(modifier: Modifier = Modifier, contenido: @Composable
             Text("N", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, color = burdeos)
         }
         Column(Modifier.align(Alignment.BottomCenter), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text("S", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, color = suave)
+            // La S es de SuRoute: un pequeño sello de lacre
+            Box(Modifier.size(20.dp).clip(RoundedCornerShape(50)).background(
+                androidx.compose.ui.graphics.Brush.radialGradient(listOf(burdeos.copy(alpha = .8f), burdeos, Color(0xFF3E0F12)))), contentAlignment = Alignment.Center) {
+                Text("S", style = MaterialTheme.typography.labelMedium, fontWeight = androidx.compose.ui.text.font.FontWeight.ExtraBold, color = Color.White)
+            }
         }
         Row(Modifier.align(Alignment.CenterStart), verticalAlignment = Alignment.CenterVertically) {
             Text("O", style = estilo, fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold, color = suave); Spacer(Modifier.width(3.dp)); Box(Modifier.size(6.dp, 1.dp).background(linea))

@@ -3718,3 +3718,17 @@ html[data-modo-tarjetas="edicion"] .md-flip .cara-imagen .md-grilla .md-paso { p
 }
 .mo-refs { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .mo-refs li { display: block !important; padding: 0 0 0 2em !important; text-indent: -2em; border: 0 !important; font-size: 12.5px; line-height: 1.5; color: var(--tinta-suave); overflow-wrap: anywhere; }
+
+/* Modo Texto: el bloque abierto del 9×9 tampoco muestra fotos (van al reverso, en Imagen) */
+html[data-modo-tarjetas="texto"] .md-grande .md-c > img { display: none !important; }
+html[data-modo-tarjetas="texto"] .md-grande .md-cumbre.con-foto::after { display: none; }
+html[data-modo-tarjetas="texto"] .md-grande .md-cumbre.con-foto b { color: var(--tinta); text-shadow: none; }
+html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
+/* La S es de SuRoute: va en rojo lacre, como un pequeño sello de cera */
+.rosa-brujula.rb-min > .rb-s { color: #fff; font-weight: 800; letter-spacing: 0; gap: 4px; }
+.rosa-brujula.rb-min > .rb-s { font-size: 0; }
+.rosa-brujula.rb-min > .rb-s::before { display: grid; content: "S"; place-items: center; width: 22px; height: 22px; border-radius: 50%; font: 800 12px/1 var(--font-titulo);
+  color: #fff; background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--burdeos) 70%, #fff) 0, var(--burdeos) 55%, color-mix(in srgb, var(--burdeos) 75%, #000) 100%);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--burdeos) 25%, transparent), 0 2px 4px -1px rgb(var(--sombra) / .45); }
+.rosa-brujula.rb-min > .rb-s::after { background: color-mix(in srgb, var(--burdeos) 45%, transparent); }
+@media (max-width: 600px) { .rosa-brujula.rb-min > .rb-s::before { width: 18px; height: 18px; font-size: 10px; } }
