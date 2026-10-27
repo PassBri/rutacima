@@ -199,6 +199,8 @@ fun MandalaSeccion(
     onBloque: (Int?) -> Unit,
     onPaso: (casilla: VisionCasillaEntity, paso: Int, texto: String) -> Unit,
     onAvanzar: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
+    /** Paso ganado: se activa y se desactiva a mano. */
+    onGanado: (casilla: VisionCasillaEntity, paso: Int, si: Boolean) -> Unit = { _, _, _ -> },
     onSugerir: (VisionCasillaEntity) -> Unit,
     onAgregarCampamento: (codigo: String) -> Unit,
     onEvidencia: (casilla: VisionCasillaEntity, paso: Int) -> Unit,
@@ -289,6 +291,7 @@ fun MandalaSeccion(
                 editando = null
             },
             onAvanzar = { t -> if (t != datos.paso(i, p)) onPaso(cv.casilla, p, t); onAvanzar(cv.casilla, p) },
+            onGanado = { si -> onGanado(cv.casilla, p, si); editando = null },
             onCancelar = { editando = null }, mostrarFoto = !modoTexto,
         ) }
     }
@@ -592,6 +595,7 @@ private fun EditarPaso(
     onEvidencia: () -> Unit, onCaida: (String) -> Unit, onGuia: (String) -> Unit,
     onGuardar: (String, String, String, List<String>) -> Unit, onAvanzar: (String) -> Unit, onCancelar: () -> Unit,
     mostrarFoto: Boolean = true,
+    onGanado: (Boolean) -> Unit = {},
 ) {
     var t by remember { mutableStateOf(texto) }
     var en by remember { mutableStateOf(enlaces) }
@@ -625,12 +629,16 @@ private fun EditarPaso(
                         else -> if (foto == null) R.string.brujula_foto_paso_agregar else R.string.brujula_foto_paso_cambiar
                     }))
                 }
+                // Paso ganado: un interruptor que se activa y se desactiva
+                Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).clickable(enabled = paso.cumplido || t.isNotBlank()) { onGanado(!paso.cumplido) }.padding(vertical = 4.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.Check, null, tint = if (paso.cumplido) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
+                    Spacer(Modifier.width(6.dp))
+                    Text(stringResource(R.string.metodo_ganado), Modifier.weight(1f), fontWeight = FontWeight.Bold,
+                        color = if (paso.cumplido) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                    androidx.compose.material3.Switch(paso.cumplido, { onGanado(it) }, enabled = paso.cumplido || t.isNotBlank())
+                }
                 if (paso.cumplido) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.Check, null, tint = MaterialTheme.colorScheme.primary)
-                        Spacer(Modifier.width(6.dp))
-                        Text(stringResource(R.string.metodo_ganado), fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
-                    }
                     // Portal (Portales y Transiciones): qué suelto y qué llevo antes del siguiente paso
                     Text(stringResource(R.string.brujula_portal), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                     OutlinedTextField(so, { so = it }, label = { Text(stringResource(R.string.brujula_soltar)) }, modifier = Modifier.fillMaxWidth())

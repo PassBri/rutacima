@@ -251,13 +251,28 @@ function mdCelda(d, cel, grande) {
 /** Jornadas de un paso y el botón para registrar la de hoy. */
 function mdJornadas(d, cel, camp, texto) {
   const p = d.pasoCima(cel.camp, cel.paso);
-  if (p.cumplido) return `<span class="md-ganado">✓ Paso ganado</span>
+  if (p.cumplido) return `<button class="md-ganado" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="true" title="Quitar el paso ganado">✓ Paso ganado</button>
     <button class="btn mini" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">${mdFotoPaso(camp, cel.paso) ? "Evidencia y portal" : "📷 Evidencia y portal"}</button>`;
   const req = p.req || d.ritmo.dificultad, hoyListo = p.jornadas.includes(iso(new Date()));
   return `<span class="md-jornadas"><span>${p.jornadas.length} de ${req} ${req === 1 ? "jornada" : "jornadas"}</span><i style="--f:${p.jornadas.length / req}"></i>
     <button class="btn mini" data-acc="mandalaAvanzar" data-arg="${camp.id}|${cel.paso}" ${!texto.trim() || hoyListo ? "disabled" : ""}>${hoyListo ? "Hoy ya cuenta" : "Avancé hoy"}</button>
+    <button class="md-ganado no" data-acc="mdGanado" data-arg="${camp.id}|${cel.paso}" aria-pressed="false" ${!texto.trim() ? "disabled" : ""} title="Marcar el paso como ganado">○ Marcar ganado</button>
     <button class="md-mas" data-acc="mdPaso" data-arg="${camp.id}|${cel.paso}">Detalles</button></span>`;
 }
+/** Paso ganado: se activa y se desactiva. Al quitarlo, la última jornada sale para que no vuelva a contar como ganado. */
+ACC.mdGanado = async (_, arg) => {
+  const [id, n] = arg.split("|"), p = Number(n), x = MetodoCima.leer(Number(id), p);
+  if (x.cumplido) {
+    await responder("mandala", Mandala.claveHecho(Number(id), p), "");
+    const req = x.req || Mandala.datos().ritmo.dificultad;
+    if (x.jornadas.length >= req) await responder("mandala", MetodoCima.claveJornadas(Number(id), p), [...x.jornadas].sort().slice(0, req - 1).join(","));
+    toast("Paso desmarcado: vuelve a estar en camino");
+  } else {
+    await responder("mandala", Mandala.claveHecho(Number(id), p), iso(new Date()));
+    toast("¡Paso ganado! Tu montaña subió " + MetodoCima.MM_POR_PASO.toLocaleString("es") + " mm.");
+  }
+  pintarDetalle();
+};
 
 /** Panel del paso ganado: foto de evidencia (Kit de Evidencias) y portal (qué suelto, qué llevo). */
 function mdPanelPaso(d) {

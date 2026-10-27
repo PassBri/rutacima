@@ -3786,3 +3786,8 @@ html[data-modo-tarjetas="texto"] .md-grande .md-camp b { text-shadow: none; }
 .bloqueo-fin textarea { width: 100%; min-height: 84px; border: 1px solid var(--linea); border-radius: 12px; padding: 10px 12px; background: var(--hoja); color: var(--tinta); font: 16px/1.5 var(--font-ui, inherit); resize: vertical; }
 .qr-fin { display: grid; place-items: center; margin: 8px 0; }
 .qr-fin img { width: min(240px, 70vw); height: auto; border-radius: 12px; background: #fff; padding: 8px; image-rendering: pixelated; }
+/* Paso ganado: un interruptor que se activa y se desactiva */
+button.md-ganado { border: 1px solid color-mix(in srgb, var(--c, var(--burdeos)) 55%, transparent); background: color-mix(in srgb, var(--c, var(--burdeos)) 14%, var(--hoja)); border-radius: 999px; padding: 4px 12px; min-height: 30px; cursor: pointer; font: 700 12px/1 var(--font-ui, inherit); color: var(--c, var(--burdeos)); }
+button.md-ganado.no { background: transparent; font-weight: 600; color: var(--tinta-suave); border-color: var(--linea); }
+button.md-ganado:disabled { opacity: .5; cursor: default; }
+.md-grande .md-paso.con-evid button.md-ganado { background: rgb(0 0 0 / .35); border-color: rgb(255 255 255 / .6); }

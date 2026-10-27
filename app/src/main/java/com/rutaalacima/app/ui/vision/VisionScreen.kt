@@ -232,6 +232,16 @@ class VisionViewModel(private val c: AppContainer) : ViewModel() {
         a.cumplidoEn?.let { c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), it.toString()) }
     }
 
+    /** Paso ganado a mano: al quitarlo, la última jornada sale para que no vuelva a contar como ganado (igual que la web). */
+    fun marcarGanado(casilla: VisionCasillaEntity, paso: Int, si: Boolean, campamentos: List<Long?>) = viewModelScope.launch {
+        if (si) { c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), java.time.LocalDate.now().toString()); return@launch }
+        val r = c.respuestas.cargar(Mandala.WORKBOOK)
+        val x = MetodoCima.leer(casilla.id, paso, r)
+        c.respuestas.guardar(Mandala.WORKBOOK, Mandala.claveHecho(casilla.id, paso), "")
+        val req = x.requeridas ?: MetodoCima.calcular(MetodoCima.pasosDe(campamentos, r), java.time.LocalDate.now()).dificultad
+        if (x.jornadas.size >= req) c.respuestas.guardar(Mandala.WORKBOOK, MetodoCima.claveJornadas(casilla.id, paso), x.jornadas.sorted().take(req - 1).joinToString(","))
+    }
+
     /** Llena los pasos vacíos de un campamento: primero las acciones de su propósito, luego el banco de acciones de su eje. */
     fun sugerirPasos(casilla: VisionCasillaEntity) = viewModelScope.launch { llenarPasos(casilla, c.respuestas.cargar(Mandala.WORKBOOK)) }
 
@@ -528,6 +538,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                         onVerGrande = { abrirNiveles(2) }, bloqueAbierto = bloqueAbierto, onBloque = { bloqueAbierto = it },
                         onPaso = guardarPaso,
                         onAvanzar = { cs, p -> vm.avanzarPaso(cs, p, campamentoIds) },
+                        onGanado = { cs, p, si -> vm.marcarGanado(cs, p, si, campamentoIds) },
                         onSugerir = { vm.sugerirPasos(it) },
                         onAgregarCampamento = { vm.crearCampamento(it) },
                         onEvidencia = { cs, p ->
