@@ -3895,3 +3895,65 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 /* Mi ruta › Con metas: las metas de cada año, un poco adentro de su año */
 .item-hijo > .item { padding-left: 36px; }
 .item-hijo > .item .avatar { transform: scale(.85); }
+
+/* ---------- Mi ruta: contenido al centro y barra de vida a la derecha (arriba en el teléfono) ---------- */
+@media (min-width: 901px) {
+  .app.ruta-vida .lista { display: none; }
+  #detalle.con-vida { padding-right: 132px; }
+  #detalle.con-vida .rv-barra { position: absolute; top: 0; right: 0; bottom: 0; width: 132px; overflow-y: auto; overscroll-behavior: contain;
+    display: flex; flex-direction: column; padding: 12px 8px 40px; border-left: 1px solid var(--linea); background: var(--hoja); z-index: 3; }
+}
+.rv-migas { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-bottom: 1px solid var(--linea); background: var(--hoja); flex-wrap: wrap; position: relative; z-index: 2; }
+.rv-atras { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--tinta); cursor: pointer; flex: none; }
+.rv-atras svg { width: 20px; height: 20px; fill: currentColor; }
+.rv-atras:disabled { opacity: .35; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .rv-atras:not(:disabled):hover { background: var(--burdeos-suave); } .rv-pasos button:hover { background: var(--hoja-2); } }
+.rv-pasos { display: flex; align-items: center; gap: 4px; flex: 1; min-width: 0; font-size: 14px; flex-wrap: wrap; }
+.rv-pasos button { border: 0; background: transparent; color: var(--tinta-suave); padding: 6px 8px; border-radius: 8px; cursor: pointer; font: inherit; }
+.rv-pasos b { padding: 6px 8px; color: var(--burdeos); }
+.rv-pasos i { color: var(--tinta-suave); font-style: normal; opacity: .6; }
+.rv-atajos { display: flex; gap: 6px; }
+.rv-atajos .chip { display: inline-flex; align-items: center; gap: 4px; }
+.rv-atajos .chip svg { width: 14px; height: 14px; fill: currentColor; }
+/* Años */
+.rv-anio { display: grid; grid-template-columns: 14px 1fr auto; align-items: center; gap: 8px; min-height: 30px; padding: 2px 8px; border: 0; border-radius: 10px; background: transparent; color: var(--tinta-suave); cursor: pointer; text-align: left; font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; flex: none; }
+.rv-anio i { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--burdeos); box-sizing: border-box; }
+.rv-anio.vivido i { background: var(--burdeos); }
+.rv-anio.futuro i { border-color: color-mix(in srgb, var(--tinta-suave) 45%, transparent); }
+.rv-anio.hoy i { border-color: var(--oro); background: var(--oro-suave); box-shadow: 0 0 0 3px color-mix(in srgb, var(--oro) 25%, transparent); }
+.rv-anio.con-metas i { outline: 2px solid var(--oro); outline-offset: 2px; }
+.rv-anio small { font-size: 10px; opacity: .7; }
+.rv-anio.hoy span { color: var(--tinta); font-weight: 700; }
+.rv-anio.abierto { background: var(--oro-suave); color: var(--burdeos); font-weight: 700; }
+@media (hover: hover) and (pointer: fine) { .rv-anio:not(.abierto):hover, .rv-mes:not(.abierto):hover, .rv-dia:not(.abierto):hover { background: var(--hoja-2); } }
+/* Meses y días */
+.rv-meses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 6px 2px 10px; flex: none; }
+.rv-mes { border: 0; border-radius: 8px; background: var(--hoja-2); color: var(--tinta); font: inherit; font-size: 12px; padding: 6px 0; cursor: pointer; text-transform: capitalize; }
+.rv-mes sup { font-size: 9px; color: var(--burdeos); margin-left: 1px; }
+.rv-mes.hoy { box-shadow: inset 0 0 0 1.5px var(--oro); }
+.rv-mes.abierto { background: var(--burdeos); color: var(--sobre-burdeos, #fff); grid-column: 1 / -1; }
+.rv-mes.abierto sup { color: inherit; }
+.rv-dias { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; padding: 4px 0 8px; }
+.rv-dia { border: 0; border-radius: 50%; aspect-ratio: 1; background: transparent; color: var(--tinta-suave); font: inherit; font-size: 11px; cursor: pointer; padding: 0; font-variant-numeric: tabular-nums; }
+.rv-dia.hecho { background: color-mix(in srgb, var(--burdeos) 18%, transparent); color: var(--burdeos); font-weight: 700; }
+.rv-dia.hoy { box-shadow: inset 0 0 0 1.5px var(--oro); }
+.rv-dia.abierto { background: var(--burdeos); color: var(--sobre-burdeos, #fff); font-weight: 700; }
+.rv-items .item { border-radius: 12px; }
+.rv-anio-link { border: 0; background: none; cursor: pointer; font-weight: 700; color: var(--burdeos); padding: 0; }
+/* Teléfono: la barra va arriba, horizontal y deslizable */
+@media (max-width: 900px) {
+  .rv-atajos { width: 100%; }
+  #detalle.con-vida .rv-migas { order: -2; }
+  #detalle.con-vida .rv-barra { order: -1; display: flex; flex-direction: row; align-items: flex-start; gap: 4px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+    padding: 8px 12px; border-bottom: 1px solid var(--linea); background: var(--hoja); flex: none; touch-action: pan-x; }
+  #detalle.con-vida .rv-barra .rv-anio { grid-template-columns: 12px auto; min-height: 44px; scroll-snap-align: center; }
+  #detalle.con-vida .rv-barra .rv-anio small { display: none; }
+  #detalle.con-vida .rv-meses { display: flex; gap: 4px; padding: 4px 6px; align-items: center; }
+  #detalle.con-vida .rv-mes { min-width: 44px; min-height: 40px; }
+  #detalle.con-vida .rv-mes.abierto { grid-column: auto; }
+  #detalle.con-vida .rv-dias { display: flex; gap: 2px; padding: 0 6px; align-items: center; }
+  #detalle.con-vida .rv-dia { width: 36px; height: 36px; flex: none; }
+}
+#detalle.con-vida .det-cuerpo .migas { display: none; }
+/* En Mi ruta, el regreso es por niveles (la flecha de las migas): la flecha de la cabecera sobra */
+#detalle.con-vida .det-cab .volver { display: none; }
