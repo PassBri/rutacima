@@ -150,18 +150,21 @@ const LISTAS = {
     return h + `</div>`;
   },
   hoy() {
-    const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1;
-    let h = cabLista("Hoy", { buscar: false }) + `<div class="items">`;
-    // Cada día con el mismo formato: «Tu día · lunes» y debajo la fecha y los hábitos (sin repetir la fecha a la derecha)
-    const filaDia = (d, cls) => item("d:" + iso(d), av(d.getDate(), cls), `Tu día · ${d.getTime() === hoy.getTime() ? "hoy" : d.toLocaleDateString("es", { weekday: "long" })}`, "",
-      `${d.getDate()} ${MES_C[d.getMonth()]} · ${marcadosDe(iso(d)).size} de ${habitos().length} hábitos`);
-    h += filaDia(hoy, "var(--burdeos)");
-    // «Metas del mes» ya no va en Hoy: viven en Mi ruta (el mes), a pedido de Brian
-    h += grupo("Ayer y antes");
-    for (let k = 1; k <= 6; k++) {
-      const d = new Date(hoy); d.setDate(d.getDate() - k);
-      h += filaDia(d, diaCumplido(d) ? "var(--burdeos)" : "#B8A99C");
-    }
+    const hoy = hoyFecha();
+    let h = cabLista("Hoy", { buscar: false }) + `<div class="items dias-semana">`;
+    // La semana en orden, de lunes a domingo; el día de hoy resaltado («Tu día»)
+    const lunes = d => { const x = new Date(d); x.setDate(x.getDate() - (x.getDay() + 6) % 7); return x; };
+    const filaDia = d => {
+      const esHoy = d.getTime() === hoy.getTime(), futuro = d > hoy;
+      const color = esHoy ? "var(--burdeos)" : futuro ? "#D9CFC6" : diaCumplido(d) ? "var(--burdeos)" : "#B8A99C";
+      return item("d:" + iso(d), av(d.getDate(), color), mayus(d.toLocaleDateString("es", { weekday: "long" })), esHoy ? "Tu día" : "",
+        futuro ? `${d.getDate()} ${MES_C[d.getMonth()]}` : `${d.getDate()} ${MES_C[d.getMonth()]} · ${marcadosDe(iso(d)).size} de ${habitos().length} hábitos`)
+        .replace('class="item', `class="item${esHoy ? " dia-hoy" : futuro ? " dia-futuro" : ""}`);
+    };
+    const semana = (ini, titulo) => { h += grupo(titulo); for (let k = 0; k < 7; k++) { const d = new Date(ini); d.setDate(d.getDate() + k); h += filaDia(d); } };
+    const l = lunes(hoy), antes = new Date(l); antes.setDate(antes.getDate() - 7);
+    semana(l, "Esta semana");
+    semana(antes, "Semana pasada");
     return h + `</div>`;
   },
   metas() {

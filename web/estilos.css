@@ -4329,3 +4329,10 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .peso-filas i { grid-area: d; } .pf-n { grid-area: n; } .peso-filas b { grid-area: p; font-size: 15px; } .peso-filas small { grid-area: m; min-width: 7.5rem; }
 .pf-pista { grid-area: t; grid-column: 2 / -1; grid-row: 2; height: 4px; }
 @media (max-width: 520px) { .peso-filas li { grid-template-columns: 8px minmax(0, 1fr) auto auto; } .peso-filas small { grid-column: auto; text-align: right; min-width: 0; } }
+
+/* Hoy: la semana de lunes a domingo; hoy resaltado con el acento burdeos y la etiqueta «Tu día» */
+.dias-semana .item.dia-hoy { background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); }
+.dias-semana .item.dia-hoy .avatar { background: var(--burdeos); color: #fff; }
+.dias-semana .item.dia-hoy .t1 > span:first-child { font-weight: 700; color: var(--burdeos); }
+.dias-semana .item.dia-hoy .hora { padding: 2px 8px; border-radius: 999px; background: var(--burdeos); color: #fff; font-size: 11px; font-weight: 600; }
+.dias-semana .item.dia-futuro .t1, .dias-semana .item.dia-futuro .t2 { opacity: .6; }
