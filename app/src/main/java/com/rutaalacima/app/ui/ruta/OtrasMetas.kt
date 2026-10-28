@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.rutaalacima.app.R
 import com.rutaalacima.app.data.local.MetaAnualEntity
 import com.rutaalacima.app.domain.model.Mandala
+import com.rutaalacima.app.ui.components.RutaCard
 
 /** Las metas del año que no son campamento de su Brújula (la primera de cada eje lo es; sin eje = CON), igual que la web. */
 internal fun otrasMetasDelAnio(delAnio: List<MetaAnualEntity>): List<MetaAnualEntity> {
