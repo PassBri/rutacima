@@ -4192,3 +4192,13 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ap-tx span { font-size: 13px; color: var(--tinta-suave); }
 .ap-tx small { font-size: 12px; color: var(--tinta-suave); margin-left: 2px; }
 @media (prefers-reduced-motion: reduce) { .ap-arco { transition: none; } }
+
+/* El día en dos columnas (Material 3): plan a la izquierda, hábitos · bienestar · cierre a la derecha */
+.dia-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+.dia-col { display: grid; gap: 18px; align-content: start; min-width: 0; }
+.dia-cont { container-type: inline-size; }
+@container (min-width: 860px) {
+  .dia-cols { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+  .dia-der { position: sticky; top: 72px; max-height: calc(100dvh - 96px); overflow-y: auto; overscroll-behavior: contain; padding-right: 2px; scrollbar-width: thin; }
+  .dia-cols .sec-dia { margin: 0; }
+}

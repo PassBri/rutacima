@@ -373,7 +373,7 @@ function actividadesDia(fecha, ag, ms) {
       ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, meta)}</select>` : `<span></span>`}</div>`;
   };
   const llenas = Object.values(hor).filter(Boolean).length;
-  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del año aporta (de las que escogiste para este mes): al marcarla hecha, el día cuenta en esa meta.",
+  return seccionDia("acts", cabSec("lista", "Actividades del día", "Qué harás a cada hora y a qué meta aporta: al marcarla hecha, cuenta en esa meta.",
       `<button class="btn-formato" data-acc="formatoHora" aria-pressed="${hora12()}" title="Cambiar a formato de ${hora12() ? "24" : "12"} horas" aria-label="Cambiar a formato de ${hora12() ? "24" : "12"} horas">${ic("reloj")}<b>${hora12() ? "12 h" : "24 h"}</b></button>` + (llenas ? progresoActs(fecha, hor) : "")) +
     `<div class="acts${hora12() ? " h12" : ""}">${horas.map(fila).join("")}</div>`);
 }
@@ -669,18 +669,21 @@ function detDia(fecha) {
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mi vida en años</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
-    `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"], ["finanzas", "finanzas", "Finanzas"]]
+    `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"]]
       .map(([k, i, n]) => `<button type="button" class="chip" data-acc="irSecDia" data-arg="${k}">${ic(i)}${n}</button>`).join("")}</nav>` +
     (sellada ? `<div class="aviso">${ic("frases")} Tu frase del día te espera sellada. <button class="btn" data-ir="frases" data-arg="f:${fecha}" style="margin-left:auto">Abrir</button></div>` : "") +
+    // Dos columnas en pantallas anchas: a la izquierda el plan (las 3 cumbres y las actividades por hora); a la derecha lo demás
+    `<div class="dia-cont"><div class="dia-cols"><div class="dia-col dia-izq">` +
     planDelDia(fecha, ag, ms) +
-    actividadesDia(fecha, ag, ms) + (esHoy && window.cordadasHoy ? cordadasHoy() : "") +
+    actividadesDia(fecha, ag, ms) + `</div><div class="dia-col dia-der">` + (esHoy && window.cordadasHoy ? cordadasHoy() : "") +
     (window.pasoDeHoy ? pasoDeHoy(fecha, ms) : "") +
     (window.pasoDeHoy ? "" : seccionDia("metas", cabSec("metas", "Metas del mes", "Marca si hoy diste el paso.", ms.length ? `<span class="sec-badge">${ms.filter(x => numeros(x.dias).includes(f.getDate())).length}/${ms.length}</span>` : "") + `
       ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`)) +
     habitos +
     (window.bienHojaDia ? bienHojaDia(fecha) : "") +
-    cierreDia(fecha, ag, campoAg) +
-    (window.ascResumenDia ? ascResumenDia(fecha) : ""));
+    cierreDia(fecha, ag, campoAg) + `</div></div></div>`,
+    // El control financiero del día se quitó de aquí: se anota en Ascenso financiero
+    "max-width:1320px");
 }
 
 /* ---------- Comunidad ---------- */
