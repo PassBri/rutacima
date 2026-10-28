@@ -69,7 +69,7 @@
   const pista = (p, color = "var(--burdeos)") => `<span class="ev-pista" aria-hidden="true"><em style="width:${Math.max(0, Math.min(100, (p || 0) * 100)).toFixed(1)}%;background:${color}"></em></span>`;
   const kpiEv = (etq, p, sub) => `<div class="ev-kpi"><span>${etq}</span><b>${pctN(p)}</b>${pista(p)}<small>${sub}</small></div>`;
   const botonInforme = sel => `<button class="btn mini" data-acc="informeRuta" data-arg="${sel}">${ic("descargar")} Descargar PDF</button>`;
-  const lectura = p => p == null ? "Aún no hay datos para medir." : p >= .8 ? "Un ascenso firme: sostén el ritmo." : p >= .6 ? "Buen paso: ajusta lo que quedó corto." : p >= .4 ? "A medio camino: elige menos y cúmplelo." : "Mes de niebla: vuelve a lo esencial, sin culpa.";
+  const lectura = p => p == null ? "Aún no hay datos para medir." : p >= .8 ? "Un ascenso firme: sostén el ritmo." : p >= .6 ? "Buen paso: ajusta lo que quedó corto." : p >= .4 ? "A medio camino: elige menos y cúmplelo." : "Tramo de niebla: vuelve a lo esencial, sin culpa.";
 
   function finanzasHoja(pref, titulo, sel) {
     if (typeof totalesDe !== "function") return "";
@@ -148,6 +148,47 @@
     };
     return cab(av(ic("brujula"), "var(--burdeos)"), "Balance de propósitos", "Tus cumbres de varios años: cuánto llevas y cuánto tiempo ha pasado") + cuerpo(
       (ps.length ? ps.map(fila).join("") : hoja(`<p class="suave" style="margin:0">Aún no tienes propósitos. Nacen de tu Brújula general. <button class="btn mini" data-sel="vida" data-ir="ruta" data-arg="vida">Abrir la Brújula</button></p>`)), "max-width:980px");
+  };
+
+  /* ---------- El día ---------- */
+  DET["evaluacion.d"] = arg => {
+    const f = /^\d{4}-\d\d-\d\d$/.test(String(arg)) ? String(arg) : iso(hoyFecha()), d = deIso(f), futuro = d > hoyFecha();
+    const ag = Store.get("agenda", f) || {}, hor = typeof horarioDe === "function" ? horarioDe(ag) : {}, top = typeof topDe === "function" ? topDe(f) : [];
+    const escritas = Object.entries(hor).filter(([, t]) => t), hechas = escritas.filter(([h]) => respuesta(`dia#${f}#${h}#hecho`) === "1").length;
+    const marc = marcadosDe(f), HS = habitos(), pd = typeof puntajeDia === "function" ? puntajeDia(f) : null;
+    const pHab = HS.length ? marc.size / HS.length : null, pAct = escritas.length ? hechas / escritas.length : null;
+    const pTop = top.length ? top.filter(x => x.hecho).length / top.length : null, pBien = pd ? pd.puntaje : null;
+    const puntaje = futuro ? null : prom([pHab, pAct, pTop, pBien]);
+    const aporte = typeof aporteDelDia === "function" ? [...aporteDelDia(f)] : [];
+    const ca = (n, etq) => campo(etq, `<textarea ${bind("agenda", f, n)}>${esc(ag[n] || "")}</textarea>`);
+    const fecha = mayus(d.toLocaleDateString("es", { weekday: "long", day: "numeric", month: "long", year: "numeric" }));
+    return cab(av(d.getDate(), "var(--burdeos)"), `Evaluación del día`, fecha, botonInforme(`d:${f}`)) + cuerpo(
+      hoja(`<div class="ev-resumen">${anillo(puntaje, "Puntaje del día")}<div><h3>Puntaje del día</h3><p class="suave">${futuro ? "Este día aún no llega: evalúalo cuando lo vivas." : lectura(puntaje)}</p>
+        <p class="ev-nota">Promedio de tus 3 cumbres, tus actividades, tus hábitos y tu bienestar. <button class="btn mini" data-ir="ruta" data-arg="d:${f}">Abrir el día en Mi ruta</button></p></div></div>
+        <div class="ev-kpis">${kpiEv("3 cumbres", pTop, top.length ? `${top.filter(x => x.hecho).length} de ${top.length} hechas` : "Sin cumbres")}${kpiEv("Actividades", pAct, escritas.length ? `${hechas} de ${escritas.length} hechas` : "Sin actividades")}
+          ${kpiEv("Hábitos", pHab, `${marc.size} de ${HS.length}`)}${kpiEv("Bienestar", pBien, pd ? `${pd.cumplidos} de 6 hábitos de salud` : "Sin registro")}</div>`) +
+      (aporte.length ? hoja(`<h3>Lo que aportó a tus metas</h3><ul class="ev-lista">${aporte.map(([k, v]) => `<li><i class="eje-punto" style="background:var(--oro)"></i><span class="ev-n">${esc(k)}</span><b>+${Math.round(v * 10) / 10} %</b></li>`).join("")}</ul>`) : "") +
+      (top.length || escritas.length ? hoja(`<h3>Lo que planeaste</h3><ul class="ev-lista">${top.map((x, i) => `<li><i class="eje-punto" style="background:${x.hecho ? "var(--ok)" : "#B8A99C"}"></i><span class="ev-n">${i + 1}. ${esc(x.t)}</span><b>${x.hecho ? "Hecha" : "—"}</b></li>`).join("")}
+        ${escritas.map(([h, t]) => { const ok = respuesta(`dia#${f}#${h}#hecho`) === "1"; return `<li><i class="eje-punto" style="background:${ok ? "var(--ok)" : "#B8A99C"}"></i><span class="ev-n">${dos(h)}:00 · ${esc(t)}</span><b>${ok ? "Hecha" : "—"}</b></li>`; }).join("")}</ul>`) : "") +
+      (futuro ? "" : hoja(`<h3>Cierre del día</h3><div class="form ev-form">${ca("victorias", "Victorias de hoy")}${ca("aprendizaje", "Aprendizaje")}${ca("gratitud", "Gratitud")}${ca("notas", "Notas")}</div>`)), "max-width:980px");
+  };
+  /* Los atajos de la barra: tu vida en años (puntaje de cada año), propósitos y metas por año */
+  DET["evaluacion.props"] = () => DET["evaluacion.p"]();
+  DET["evaluacion.puntos"] = () => {
+    const hoyA = hoyFecha().getFullYear(), conMetas = Store.lista("meta_anio").map(x => x.anio);
+    const desde = Math.max((perfil().anioNacimiento || hoyA) , Math.min(hoyA - 4, ...conMetas.filter(x => x <= hoyA)));
+    const anios = []; for (let y = hoyA; y >= desde; y--) anios.push(y);
+    return cab(av(ic("vida"), "var(--burdeos)"), "Evaluación de tu vida en años", "El puntaje de cada año · toca uno para evaluarlo") + cuerpo(hoja(`<ul class="ev-lista">${anios.map(y => { const e = evalAnio(y);
+      return `<li><i class="eje-punto" style="background:${y === hoyA ? "var(--burdeos)" : "#B8A99C"}"></i><button class="ev-n" data-sel="a:${y}">${y}${y === hoyA ? " · este año" : ""}</button><b>${pctN(e.puntaje)}</b>${pista(e.puntaje)}
+        <small>Metas ${pctN(e.pMetas)} · hábitos ${pctN(e.pHab)} · bienestar ${pctN(e.pBien)}</small></li>`; }).join("")}</ul>`), "max-width:980px");
+  };
+  DET["evaluacion.conmetas"] = () => {
+    const c = cascada(), anios = [...new Set(c.anuales.map(x => x.anio))].sort((x, y) => y - x);
+    return cab(av(ic("metas"), "var(--oro)"), "Evaluación de metas por año", "Cuánto llevas de cada meta, año por año") + cuerpo(
+      anios.map(a => { const ms = c.anuales.filter(x => x.anio === a), pa = prom(ms.map(x => c.nodoAnio(x)));
+        return hoja(`<div class="cab-lista-btn"><button class="etiqueta rv-anio-link" data-sel="a:${a}">${a}</button><b>${pctN(pa)}</b></div><ul class="ev-lista">${ms.map(m => `<li><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "var(--oro)"}"></i>
+          <button class="ev-n" data-ir="ruta" data-arg="ma:${m.id}">${esc(m.titulo)}</button><b>${pctN(c.nodoAnio(m))}</b>${pista(c.nodoAnio(m), COLOR_EJE[ejeEfectivo("meta_anio", m)] || "var(--oro)")}<small>${ESTADOS.find(e => e[0] === m.estado)?.[1] || ""}</small></li>`).join("")}</ul>`); }).join("")
+      || hoja(`<p class="suave" style="margin:0">Todavía no hay metas.</p>`), "max-width:980px");
   };
 
   /* ---------- La lista ---------- */

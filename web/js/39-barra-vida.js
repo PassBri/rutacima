@@ -36,7 +36,8 @@ function rvBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = rvLugar(), ver = rvVer();
   const v = String(estado.sel || ""), arriba = rvArriba(), a = ver.a, m = ver.m, edad = a - nac;
   const aro = (cls, dentro = "") => `<span class="pv ${cls}" aria-hidden="true">${PUNTO_MARCA}${dentro}</span>`;
-  const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? `${l.a}` : v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : "Mi vida en años";
+  const ev = estado.sec === "evaluacion";
+  const donde = (ev ? "Evaluar · " : "") + (l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? `${l.a}` : v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : "Mi vida en años");
   const isoHoy = `d:${aHoy}-${pad2(mHoy)}-${pad2(hoy.getDate())}`;
   // Meses: 4 × 3 aros
   let meses = "";
@@ -125,8 +126,9 @@ DET["ruta.conmetas"] = () => {
 const pintarDetalleSinVida = pintarDetalle;
 pintarDetalle = function (...args) {
   // La Brújula (Mi ruta › vida) tiene su propio riel: allí no va la barra de vida
-  const enRuta = estado.sec === "ruta" && estado.sel !== "vida";
-  if (enRuta && estado.sel == null) { estado.sel = "puntos"; document.getElementById("app")?.classList.add("con-detalle"); }
+  // Evaluación usa la misma barra: se elige el propósito, el año, el mes o el día que se quiere evaluar
+  const enRuta = (estado.sec === "ruta" && estado.sel !== "vida") || estado.sec === "evaluacion";
+  if (enRuta && estado.sel == null) { estado.sel = estado.sec === "evaluacion" ? "m:" + iso(hoyFecha()).slice(0, 7) : "puntos"; document.getElementById("app")?.classList.add("con-detalle"); }
   const r = pintarDetalleSinVida.apply(this, args), det = $("detalle");
   document.getElementById("app")?.classList.toggle("ruta-vida", enRuta);
   det.classList.toggle("con-vida", enRuta);
@@ -138,7 +140,7 @@ pintarDetalle = function (...args) {
 
 /* Teclado: Esc sube un nivel; en un día, ← → cambian de día y ↑ ↓ de semana (si no estás escribiendo) */
 document.addEventListener("keydown", e => {
-  if (estado.sec !== "ruta" || estado.sel === "vida" || document.querySelector(".md-visor, dialog[open], .hoja-modal")) return;
+  if ((estado.sec !== "ruta" && estado.sec !== "evaluacion") || estado.sel === "vida" || document.querySelector(".md-visor, dialog[open], .hoja-modal")) return;
   if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName || "") || e.altKey || e.ctrlKey || e.metaKey) return;
   if (e.key === "Escape") { const arriba = rvArriba(); if (arriba) { e.preventDefault(); elegir(arriba); } return; }
   const paso = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key], v = String(estado.sel || "");
