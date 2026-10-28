@@ -1,7 +1,7 @@
 "use strict";
 /* Mi ruta con la barra de vida (igual que la app): el contenido va en el centro y los puntos de vida en una barra
  * a la derecha (arriba en el teléfono). Clic en un año: aparecen sus meses; clic en un mes: aparecen sus días.
- * Se vuelve con las migas (← Vida › 2026 › Octubre › 27), con Esc o tocando otra vez el año o el mes abierto. */
+ * Se vuelve con la flecha de la barra, con Esc o tocando otra vez el año o el mes abierto. */
 const MES_CORTO = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
 const pad2 = n => String(n).padStart(2, "0");
 
@@ -24,46 +24,44 @@ function rvArriba() {
   return null;
 }
 
-function rvMigas() {
-  const l = rvLugar(), v = String(estado.sel || ""), arriba = rvArriba();
-  const parte = (sel, txt, actual) => actual ? `<b aria-current="page">${txt}</b>` : `<button data-sel="${sel}">${txt}</button>`;
-  const ps = [parte("puntos", "Vida", v === "puntos")];
-  if (l.a) ps.push(parte(`a:${l.a}`, l.a, v === `a:${l.a}`));
-  if (l.m) ps.push(parte(`m:${l.a}-${pad2(l.m)}`, mayus(MESES[l.m - 1]), v === `m:${l.a}-${pad2(l.m)}`));
-  if (l.d) ps.push(parte(`d:${l.a}-${pad2(l.m)}-${pad2(l.d)}`, l.d, v.startsWith("d:")));
-  const extra = v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : /^p:/.test(v) ? "Propósito" : /^ma:/.test(v) ? "Meta del año" : /^mm:/.test(v) ? "Meta del mes" : "";
-  return `<nav class="rv-migas" aria-label="Dónde estás">
-    <button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button>
-    <span class="rv-pasos">${ps.join(`<i aria-hidden="true">›</i>`)}${extra ? `<i aria-hidden="true">›</i><b>${extra}</b>` : ""}</span>
-    <span class="rv-atajos"><button class="chip" data-sel="props" aria-pressed="${v === "props"}">${ic("brujula")} Propósitos</button><button class="chip" data-sel="conmetas" aria-pressed="${v === "conmetas"}">${ic("metas")} Metas por año</button></span></nav>`;
-}
-
-/** La barra de vida: un punto por año; el año abierto despliega sus meses, y el mes abierto sus días. */
+/** La barra de vida a la derecha (arriba en el teléfono), con todo: subir un nivel, dónde estás, Propósitos y Metas por año,
+ *  y los mismos círculos del mapa de vida, uno debajo del otro: años; el año abierto, sus meses; el mes abierto, sus días. */
 function rvBarra() {
   const p = perfil(), nac = p.anioNacimiento; if (!nac) return "";
-  const hoy = hoyFecha(), aHoy = hoy.getFullYear(), ultimo = nac + metaVida(), l = rvLugar();
+  const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, ultimo = nac + metaVida() - 1, l = rvLugar();
+  const v = String(estado.sel || ""), arriba = rvArriba();
   const conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
+  const aro = (cls, dentro = "") => `<span class="pv ${cls}" aria-hidden="true">${PUNTO_MARCA}${dentro}</span>`;
+  const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? `${l.a}` : v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : "Vida";
   let h = "";
   for (let a = nac; a <= ultimo; a++) {
-    const abierto = l.a === a, cls = `${a < aHoy ? "vivido" : a === aHoy ? "hoy" : "futuro"}${conMetas.has(a) ? " con-metas" : ""}${abierto ? " abierto" : ""}`;
-    h += `<button class="rv-anio ${cls}" data-sel="${abierto && !l.m ? "puntos" : `a:${a}`}" aria-expanded="${abierto}" aria-label="${a}, ${a - nac} años${conMetas.has(a) ? ", con metas" : ""}"${a === aHoy ? ' data-hoy="1"' : ""}>
-      <i aria-hidden="true"></i><span>${a}</span><small>${a - nac}</small></button>`;
+    const abierto = l.a === a, cls = a < aHoy ? "vivido" : a === aHoy ? "actual" : "futuro";
+    h += `<button class="rv-fila rv-anio${abierto ? " abierto" : ""}" data-sel="${abierto && !l.m ? "puntos" : `a:${a}`}" aria-expanded="${abierto}" aria-label="${a}, ${a - nac} años${conMetas.has(a) ? ", con metas" : ""}"${a === aHoy ? ' data-hoy="1"' : ""}>
+      ${aro(cls + (conMetas.has(a) ? " meta" : ""), cls === "actual" ? `<b>${a - nac}</b>` : "")}<span class="rv-et">${a}<small>${a - nac} años</small></span></button>`;
     if (!abierto) continue;
-    h += `<div class="rv-meses" role="group" aria-label="Meses de ${a}">`;
+    h += `<div class="rv-hijos" role="group" aria-label="Meses de ${a}">`;
     for (let m = 1; m <= 12; m++) {
-      const mAb = l.m === m, esHoy = a === aHoy && m === hoy.getMonth() + 1, n = metasDelMes(a, m).length;
-      h += `<button class="rv-mes${mAb ? " abierto" : ""}${esHoy ? " hoy" : ""}" data-sel="${mAb && !l.d ? `a:${a}` : `m:${a}-${pad2(m)}`}" aria-expanded="${mAb}" aria-label="${MESES[m - 1]} de ${a}${n ? `, ${n} metas` : ""}">${MES_CORTO[m - 1]}${n ? `<sup>${n}</sup>` : ""}</button>`;
+      const mAb = l.m === m, n = metasDelMes(a, m).length;
+      const cm = a < aHoy || (a === aHoy && m < mHoy) ? "vivido" : a === aHoy && m === mHoy ? "actual" : "futuro";
+      h += `<button class="rv-fila rv-mes${mAb ? " abierto" : ""}" data-sel="${mAb && !l.d ? `a:${a}` : `m:${a}-${pad2(m)}`}" aria-expanded="${mAb}" aria-label="${MESES[m - 1]} de ${a}${n ? `, ${n} metas` : ""}">
+        ${aro(cm + (n ? " meta" : ""))}<span class="rv-et">${mayus(MESES[m - 1])}${n ? `<small>${n} ${n === 1 ? "meta" : "metas"}</small>` : ""}</span></button>`;
       if (!mAb) continue;
-      h += `<div class="rv-dias" role="group" aria-label="Días de ${MESES[m - 1]}">`;
+      h += `<div class="rv-hijos rv-dias" role="group" aria-label="Días de ${MESES[m - 1]}">`;
       for (let d = 1; d <= diasEnMes(a, m); d++) {
-        const f = new Date(a, m - 1, d), hecho = f <= hoy && diaCumplido(f), esHoyD = f.getTime() === hoy.getTime();
-        h += `<button class="rv-dia${l.d === d ? " abierto" : ""}${hecho ? " hecho" : ""}${esHoyD ? " hoy" : ""}" data-sel="d:${a}-${pad2(m)}-${pad2(d)}" aria-label="${d} de ${MESES[m - 1]}">${d}</button>`;
+        const f = new Date(a, m - 1, d), cd = f < hoy ? "vivido" : f.getTime() === hoy.getTime() ? "actual" : "futuro", hecho = f <= hoy && diaCumplido(f);
+        h += `<button class="rv-fila rv-dia${l.d === d ? " abierto" : ""}" data-sel="d:${a}-${pad2(m)}-${pad2(d)}" aria-label="${d} de ${MESES[m - 1]}${hecho ? ", cumplido" : ""}">
+          ${aro(cd + (hecho ? " meta" : ""), `<b>${d}</b>`)}<span class="rv-et">${["dom", "lun", "mar", "mié", "jue", "vie", "sáb"][f.getDay()]}</span></button>`;
       }
       h += `</div>`;
     }
     h += `</div>`;
   }
-  return `<nav class="rv-barra" aria-label="Tu vida en años">${h}</nav>`;
+  return `<nav class="rv-barra" aria-label="Tu vida en años">
+    <div class="rv-cab">
+      <div class="rv-cab-fila"><button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button><b class="rv-donde" title="Dónde estás">${donde}</b></div>
+      <div class="rv-cab-fila"><button class="rv-ic" data-sel="props" aria-pressed="${v === "props"}" aria-label="Propósitos" title="Propósitos">${ic("brujula")}</button><button class="rv-ic" data-sel="conmetas" aria-pressed="${v === "conmetas"}" aria-label="Metas por año" title="Metas por año">${ic("metas")}</button><button class="rv-ic" data-sel="puntos" aria-pressed="${v === "puntos"}" aria-label="Mapa de mi vida" title="Mapa de mi vida">${ic("puntos")}</button></div>
+    </div>
+    <div class="rv-lista">${h}</div></nav>`;
 }
 
 /* Vistas del centro para lo que antes estaba en la lista de la izquierda */
@@ -84,20 +82,20 @@ DET["ruta.conmetas"] = () => {
 };
 
 let rvSalto = true, rvSelPrevio = null;
-/* Pintar: en Mi ruta, el centro lleva las migas arriba y la barra de vida a la derecha */
+/* Pintar: en Mi ruta, el contenido al centro y la barra de vida (con todas sus opciones) a la derecha */
 const pintarDetalleSinVida = pintarDetalle;
 pintarDetalle = function (...args) {
-  const enRuta = estado.sec === "ruta";
+  // La Brújula (Mi ruta › vida) tiene su propio riel: allí no va la barra de vida
+  const enRuta = estado.sec === "ruta" && estado.sel !== "vida";
   if (enRuta && estado.sel == null) { estado.sel = "puntos"; document.getElementById("app")?.classList.add("con-detalle"); }
-  const viejo = document.querySelector(".rv-barra"), scroll = viejo ? [viejo.scrollTop, viejo.scrollLeft] : null;
+  const viejo = document.querySelector(".rv-lista"), scroll = viejo ? [viejo.scrollTop, viejo.scrollLeft] : null;
   const r = pintarDetalleSinVida.apply(this, args), det = $("detalle");
   document.getElementById("app")?.classList.toggle("ruta-vida", enRuta);
   det.classList.toggle("con-vida", enRuta);
   if (!enRuta) return r;
   const l = rvLugar(); if (l.a) estado.rvUltimo = l;
-  det.insertAdjacentHTML("afterbegin", rvMigas());
   det.insertAdjacentHTML("beforeend", rvBarra());
-  const barra = det.querySelector(".rv-barra");
+  const barra = det.querySelector(".rv-lista");
   if (barra) {
     const foco = barra.querySelector(".rv-dia.abierto, .rv-mes.abierto, .rv-anio.abierto") || barra.querySelector('[data-hoy="1"]');
     const mismo = rvSelPrevio === estado.sel; rvSelPrevio = estado.sel;
