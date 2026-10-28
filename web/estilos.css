@@ -3896,55 +3896,80 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .item-hijo > .item { padding-left: 36px; }
 .item-hijo > .item .avatar { transform: scale(.85); }
 
-/* ---------- Mi ruta: contenido al centro y barra de vida a la derecha (arriba en el teléfono) ---------- */
+/* ---------- Mi ruta: contenido al centro y barra de vida a la derecha, como selector de fecha (Material 3) ---------- */
 @media (min-width: 901px) {
   .app.ruta-vida .lista { display: none; }
-  #detalle.con-vida { padding-right: 150px; }
-  #detalle.con-vida .rv-barra { position: absolute; top: 0; right: 0; bottom: 0; width: 150px; display: flex; flex-direction: column;
+  #detalle.con-vida { padding-right: 268px; }
+  #detalle.con-vida .rv-barra { position: absolute; top: 0; right: 0; bottom: 0; width: 268px; overflow-y: auto; overscroll-behavior: contain;
     border-left: 1px solid var(--linea); background: var(--hoja); z-index: 3; }
-  .rv-lista { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 8px 10px 40px; display: flex; flex-direction: column; gap: 2px; }
+  .rv-plegar { display: none; }
+  .rv-cuerpo { display: grid !important; }
 }
-.rv-cab { flex: none; display: grid; gap: 6px; padding: 10px; border-bottom: 1px solid var(--linea); }
-.rv-cab-fila { display: flex; align-items: center; gap: 4px; }
-.rv-donde { flex: 1; min-width: 0; font-size: 13px; color: var(--burdeos); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.rv-atras, .rv-ic { width: 36px; height: 36px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--tinta-suave); cursor: pointer; padding: 0; }
-.rv-atras { color: var(--tinta); }
-.rv-atras svg, .rv-ic svg { width: 20px; height: 20px; fill: currentColor; }
-.rv-atras:disabled { opacity: .3; cursor: default; }
-.rv-ic[aria-pressed="true"] { background: var(--oro-suave); color: var(--burdeos); }
-@media (hover: hover) and (pointer: fine) { .rv-atras:not(:disabled):hover, .rv-ic:hover { background: var(--burdeos-suave); } .rv-fila:not(.abierto):hover { background: var(--hoja-2); } }
-/* Cada fila: el mismo círculo del mapa de vida y su nombre */
-.rv-fila { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 12px; background: transparent; cursor: pointer; text-align: left; font: inherit; color: var(--tinta); flex: none; }
-.rv-fila .pv { width: 26px; flex: none; font-size: 10px; pointer-events: none; }
-.rv-fila .pv.actual { outline-width: 2px; }
-.rv-et { display: grid; font-size: 13px; line-height: 1.15; font-variant-numeric: tabular-nums; }
-.rv-et small { font-size: 10.5px; color: var(--tinta-suave); }
-.rv-fila.abierto { background: var(--oro-suave); }
-.rv-fila.abierto .rv-et { color: var(--burdeos); font-weight: 700; }
-.rv-hijos { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; margin-left: 13px; border-left: 2px solid color-mix(in srgb, var(--oro) 45%, transparent); }
-.rv-mes .pv { width: 22px; }
-.rv-dia { min-height: 34px; }
-.rv-dia .pv { width: 24px; font-size: 9.5px; }
+.rv-barra { display: flex; flex-direction: column; }
+.rv-cab { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 4px; padding: 10px 10px 10px 6px; background: var(--hoja); border-bottom: 1px solid var(--linea); }
+.rv-donde { flex: 1; min-width: 0; font: 600 14px/1.2 var(--font-titulo); color: var(--burdeos); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-atras, .rv-flecha, .rv-plegar { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; border: 0; background: transparent; color: var(--tinta); cursor: pointer; padding: 0;
+  transition: background .2s cubic-bezier(.2,0,0,1); }
+.rv-atras svg, .rv-flecha svg, .rv-plegar svg { width: 22px; height: 22px; fill: currentColor; }
+.rv-atras:disabled, .rv-flecha:disabled { opacity: .3; cursor: default; }
+.rv-hoy { height: 32px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--linea); background: transparent; color: var(--burdeos); font-family: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.rv-cuerpo { display: none; gap: 6px; padding: 8px 12px 20px; }
+.rv-cuerpo.abierta { display: grid; }
+/* Pasos (año y mes): ‹ título › */
+.rv-paso { display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; }
+.rv-titulo { border: 0; background: transparent; border-radius: 999px; padding: 6px 10px; cursor: pointer; font: 600 16px/1.15 var(--font-titulo); color: var(--tinta);
+  display: grid; justify-items: center; transition: background .2s cubic-bezier(.2,0,0,1); }
+.rv-titulo small { font-family: var(--font-ui, inherit); font-size: 11px; font-weight: 500; color: var(--tinta-suave); }
+.rv-paso-mes .rv-titulo { font-size: 15px; }
+.rv-titulo.abierto { background: var(--oro-suave); color: var(--burdeos); }
+/* Meses: 4 × 3 */
+.rv-meses { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--linea); }
+.rv-mes { position: relative; display: grid; justify-items: center; gap: 2px; padding: 6px 0 4px; border: 0; border-radius: 14px; background: transparent; cursor: pointer; font: inherit; color: var(--tinta);
+  transition: background .2s cubic-bezier(.2,0,0,1); }
+.rv-mes .pv { width: 26px; pointer-events: none; }
+.rv-mes span { font-size: 11.5px; text-transform: capitalize; color: var(--tinta-suave); }
+.rv-mes.viendo { background: var(--hoja-2); }
+.rv-mes.viendo span { color: var(--tinta); font-weight: 600; }
+.rv-mes.abierto { background: var(--oro-suave); }
+.rv-mes.abierto span { color: var(--burdeos); font-weight: 700; }
+.rv-n { position: absolute; top: 2px; right: 8px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--burdeos); color: var(--sobre-burdeos, #fff);
+  font-family: inherit; font-size: 10px; line-height: 16px; font-weight: 700; font-style: normal; text-align: center; }
+/* Calendario del mes */
+.rv-cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; justify-items: center; padding-bottom: 8px; border-bottom: 1px solid var(--linea); }
+.rv-sem { font-size: 11px; color: var(--tinta-suave); font-weight: 600; height: 22px; display: grid; place-items: center; }
+.rv-vacio { width: 32px; }
+.rv-dia { width: 32px; height: 32px; padding: 3px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; transition: background .2s cubic-bezier(.2,0,0,1); }
+.rv-dia .pv { width: 100%; font-size: 10px; pointer-events: none; }
+.rv-dia.abierto { background: var(--burdeos); }
+.rv-dia.abierto .pv { color: #fff !important; }
+.rv-dia.abierto .pv b { color: #fff !important; }
+/* Navegación a otras vistas (como los ítems de un panel de navegación) */
+.rv-navs { display: grid; gap: 2px; padding-top: 4px; }
+.rv-nav-item { display: flex; align-items: center; gap: 12px; height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: transparent; color: var(--tinta); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; text-align: left;
+  transition: background .2s cubic-bezier(.2,0,0,1); }
+.rv-nav-item svg { width: 20px; height: 20px; fill: currentColor; color: var(--tinta-suave); }
+.rv-nav-item[aria-pressed="true"] { background: var(--oro-suave); color: var(--burdeos); font-weight: 600; }
+.rv-nav-item[aria-pressed="true"] svg { color: var(--burdeos); }
+@media (hover: hover) and (pointer: fine) {
+  .rv-atras:not(:disabled):hover, .rv-flecha:not(:disabled):hover, .rv-titulo:not(.abierto):hover, .rv-mes:not(.abierto):hover, .rv-dia:not(.abierto):hover, .rv-nav-item:not([aria-pressed="true"]):hover { background: var(--hoja-2); }
+  .rv-hoy:hover { background: var(--burdeos-suave); }
+}
+.rv-atras:focus-visible, .rv-flecha:focus-visible, .rv-titulo:focus-visible, .rv-mes:focus-visible, .rv-dia:focus-visible, .rv-nav-item:focus-visible, .rv-hoy:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 2px; }
+/* Los aros: los mismos del mapa de vida, sin relleno y con su número */
+.rv-barra .pv { background: transparent !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; aspect-ratio: 1; }
+.rv-barra .pv b { position: relative; z-index: 1; font-size: 10px; font-weight: 600; color: var(--tinta) !important; }
+.rv-barra .pv.actual b { color: var(--burdeos) !important; font-weight: 800; }
+.rv-barra .pv.futuro b { color: var(--tinta-suave) !important; }
 .rv-items .item { border-radius: 12px; }
 .rv-anio-link { border: 0; background: none; cursor: pointer; font-weight: 700; color: var(--burdeos); padding: 0; }
-/* Teléfono: la misma barra, arriba y horizontal */
+/* Teléfono: la barra va arriba; el calendario se despliega con la flecha */
 @media (max-width: 900px) {
-  #detalle.con-vida .rv-barra { order: -1; display: flex; align-items: center; border-bottom: 1px solid var(--linea); background: var(--hoja); flex: none; }
-  #detalle.con-vida .rv-cab { border-bottom: 0; border-right: 1px solid var(--linea); padding: 6px; gap: 2px; }
-  #detalle.con-vida .rv-donde { display: none; }
-  #detalle.con-vida .rv-cab-fila:last-child .rv-ic { width: 40px; height: 40px; }
-  #detalle.con-vida .rv-cab { grid-template-columns: auto auto; }
-  .rv-lista { flex: 1; display: flex; flex-direction: row; align-items: center; gap: 2px; overflow-x: auto; overscroll-behavior-x: contain; padding: 6px 10px; touch-action: pan-x; }
-  .rv-hijos { flex-direction: row; padding: 0 0 0 8px; margin: 0; border-left: 2px solid color-mix(in srgb, var(--oro) 45%, transparent); }
-  .rv-fila { flex-direction: column; gap: 2px; min-height: 52px; padding: 4px; }
-  .rv-et { text-align: center; font-size: 11px; }
-  .rv-et small { display: none; }
+  #detalle.con-vida .rv-barra { order: -1; flex: none; border-bottom: 1px solid var(--linea); background: var(--hoja); }
+  #detalle.con-vida .rv-cab { position: static; border-bottom: 0; }
+  #detalle.con-vida .rv-cuerpo.abierta { max-height: 70vh; overflow-y: auto; overscroll-behavior: contain; }
+  .rv-dia, .rv-vacio { width: 40px; height: 40px; }
 }
+@media (min-width: 901px) { #detalle.con-vida .rv-plegar { display: none; } }
 #detalle.con-vida .det-cuerpo .migas { display: none; }
 /* En Mi ruta, el regreso es por niveles (la flecha de las migas): la flecha de la cabecera sobra */
 #detalle.con-vida .det-cab .volver { display: none; }
-/* En la barra, los círculos son los mismos aros del mapa de vida (sin relleno) y llevan su número */
-.rv-fila .pv { background: transparent !important; border: 0 !important; outline: 0 !important; box-shadow: none !important; }
-.rv-fila .pv b { position: relative; z-index: 1; font-size: 9.5px; font-weight: 600; color: var(--tinta) !important; }
-.rv-fila .pv.actual b { color: var(--burdeos) !important; font-weight: 800; }
-.rv-fila .pv.futuro b { color: var(--tinta-suave) !important; }
