@@ -4230,3 +4230,42 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   #sd-cierre .form { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   #sd-cierre .form > .campo:last-child { grid-column: 1 / -1; }
 }
+
+/* ===== Bienestar del día, versión lista (Material 3): mismo contenido, mucho menos alto ===== */
+#sd-bienestar { container-type: inline-size; }
+#sd-bienestar .bd-sub { margin: 8px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--tinta-suave); }
+/* Clima: cuatro píldoras en una fila */
+#sd-bienestar .bd-climas { display: flex; flex-wrap: wrap; gap: 6px; }
+#sd-bienestar .bd-clima { display: inline-flex; align-items: center; flex: 1 1 auto; flex-direction: row; justify-content: center; gap: 6px; padding: 0 10px; min-height: 36px; border-radius: 999px; }
+#sd-bienestar .bd-clima .clima-ic { width: 18px; height: 18px; flex: none; }
+#sd-bienestar .bd-clima span { font-size: 12px; white-space: nowrap; }
+#sd-bienestar .sec-div { margin: 10px 0 2px; }
+/* Hábitos de vida saludable: filas de lista (nombre y meta a la izquierda, control a la derecha) */
+#sd-bienestar .bd-habitos { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+@container (min-width: 400px) { #sd-bienestar .bd-habitos { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; } }
+#sd-bienestar .bd-h-it { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "l c" "m c"; align-items: center; column-gap: 10px;
+  padding: 6px 0; margin: 0; background: none; border-radius: 0; border-bottom: 1px solid var(--linea); min-height: 48px; }
+#sd-bienestar .bd-h-it > .bd-paso { display: contents; }
+#sd-bienestar .bd-h-it > .bd-paso > span { grid-area: l; font-size: 14px; font-weight: 500; flex: none; align-self: end; }
+#sd-bienestar .bd-h-it > .bd-paso > .bd-ctrl, #sd-bienestar .bd-h-it > .bd-paso > .bien-porciones, #sd-bienestar .bd-h-it > .bd-paso > input { grid-area: c; }
+#sd-bienestar .bd-h-it > small { grid-area: m; font-size: 11px; color: var(--tinta-suave); align-self: start; }
+#sd-bienestar .bd-ctrl .rb { width: 28px; height: 28px; min-width: 28px; }
+#sd-bienestar .bd-ctrl b { min-width: 36px; text-align: center; font-size: 13px; }
+#sd-bienestar .bien-porciones button { width: 24px; height: 24px; min-width: 24px; font-size: 11px; }
+/* Energía y agua: una fila cada una, a todo lo ancho */
+#sd-bienestar .bd-ancho { grid-column: 1 / -1; }
+#sd-bienestar .bd-ancho .energia2, #sd-bienestar .bd-ancho .vasos { grid-area: c; margin: 0; gap: 4px; display: flex; }
+#sd-bienestar .bd-ancho .energia2 button { width: 34px; height: 34px; padding: 2px; }
+#sd-bienestar .bd-ancho .energia2-txt { grid-area: m; margin: 0; font-size: 11px; color: var(--tinta-suave); }
+#sd-bienestar .bd-ancho .vasos .vaso { width: 22px; height: 28px; padding: 0; }
+#sd-bienestar .bd-ancho .vasos .vaso svg { width: 22px; height: 28px; }
+#sd-bienestar .bd-ancho .vasos-pie { grid-area: m; margin: 0; display: flex; align-items: center; gap: 6px; font-size: 11px; }
+#sd-bienestar .bd-ancho .vasos-pie b { font-size: 11px; font-weight: 600; color: var(--tinta-suave); }
+#sd-bienestar .bd-ancho .vasos-pie .btn { min-height: 24px; height: 24px; padding: 0 8px; }
+/* Accesos: una fila de botones de texto */
+#sd-bienestar .bd-pie { display: flex; flex-wrap: wrap; gap: 4px 8px; margin-top: 8px; }
+#sd-bienestar .bd-pie .btn { border: 0; background: none; padding: 0 8px; min-height: 36px; color: var(--burdeos); }
+#sd-bienestar .bd-pie .btn { padding: 0 6px; font-size: 13px; }
+#sd-bienestar .bd-pie .btn svg { width: 16px; height: 16px; }
+#sd-bienestar .bien-porciones { gap: 2px; }
+#sd-bienestar .bien-porciones button { width: 22px; height: 22px; min-width: 22px; }
