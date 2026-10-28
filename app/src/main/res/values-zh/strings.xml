@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">评估 %1$s</string>
     <string name="ev_evaluar_mes_sub">本月的得分、目标、习惯、健康、总结和财务。</string>
     <string name="ev_evaluar_anio_sub">年度得分、罗盘、健康和年度总结。</string>
+    <string name="ev_tab_dia">日</string>
+    <string name="ev_puntaje_dia">当日得分</string>
+    <string name="ev_nota_dia">计划、活动、习惯和健康的平均值。</string>
+    <string name="plan_del_dia_ev">当日计划</string>
+    <string name="ev_sin_intencion">未写意图</string>
+    <string name="ev_sin_cumbres">未记录三座山峰。</string>
+    <string name="ev_n_hechas">已完成 %1$d / %2$d</string>
+    <string name="ev_clima_x">心情天气：%1$s</string>
+    <string name="ev_sin_clima">未记录内心天气</string>
 </resources>

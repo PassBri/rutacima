@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">تقييم %1$s</string>
     <string name="ev_evaluar_mes_sub">درجة الشهر والأهداف والعادات والعافية والحصيلة والمالية.</string>
     <string name="ev_evaluar_anio_sub">درجة السنة والبوصلة والعافية والحصيلة السنوية.</string>
+    <string name="ev_tab_dia">اليوم</string>
+    <string name="ev_puntaje_dia">درجة اليوم</string>
+    <string name="ev_nota_dia">متوسط الخطة والأنشطة والعادات والعافية.</string>
+    <string name="plan_del_dia_ev">خطة اليوم</string>
+    <string name="ev_sin_intencion">لا نية مكتوبة</string>
+    <string name="ev_sin_cumbres">لم تُكتب القمم الثلاث.</string>
+    <string name="ev_n_hechas">أُنجز %1$d من %2$d</string>
+    <string name="ev_clima_x">الطقس الداخلي: %1$s</string>
+    <string name="ev_sin_clima">لم يُسجَّل الطقس الداخلي</string>
 </resources>

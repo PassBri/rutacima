@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">%1$s का मूल्यांकन</string>
     <string name="ev_evaluar_mes_sub">महीने का स्कोर, लक्ष्य, आदतें, कल्याण, लेखा-जोखा और वित्त।</string>
     <string name="ev_evaluar_anio_sub">साल का स्कोर, कंपास, कल्याण और वार्षिक लेखा-जोखा।</string>
+    <string name="ev_tab_dia">दिन</string>
+    <string name="ev_puntaje_dia">दिन का स्कोर</string>
+    <string name="ev_nota_dia">योजना, गतिविधियों, आदतों और कल्याण का औसत।</string>
+    <string name="plan_del_dia_ev">दिन की योजना</string>
+    <string name="ev_sin_intencion">कोई इरादा नहीं लिखा</string>
+    <string name="ev_sin_cumbres">तीन शिखर नहीं लिखे गए।</string>
+    <string name="ev_n_hechas">%2$d में से %1$d पूरे</string>
+    <string name="ev_clima_x">मन का मौसम: %1$s</string>
+    <string name="ev_sin_clima">मन का मौसम दर्ज नहीं</string>
 </resources>

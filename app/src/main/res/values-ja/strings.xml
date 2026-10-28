@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">%1$s を振り返る</string>
     <string name="ev_evaluar_mes_sub">今月のスコア、目標、習慣、ウェルビーイング、振り返り、家計。</string>
     <string name="ev_evaluar_anio_sub">年間スコア、コンパス、ウェルビーイング、年間の振り返り。</string>
+    <string name="ev_tab_dia">日</string>
+    <string name="ev_puntaje_dia">今日のスコア</string>
+    <string name="ev_nota_dia">計画・活動・習慣・ウェルビーイングの平均です。</string>
+    <string name="plan_del_dia_ev">今日の計画</string>
+    <string name="ev_sin_intencion">意図が書かれていません</string>
+    <string name="ev_sin_cumbres">3つの頂上が書かれていません。</string>
+    <string name="ev_n_hechas">%2$d 件中 %1$d 件完了</string>
+    <string name="ev_clima_x">心の天気：%1$s</string>
+    <string name="ev_sin_clima">心の天気は未記録</string>
 </resources>

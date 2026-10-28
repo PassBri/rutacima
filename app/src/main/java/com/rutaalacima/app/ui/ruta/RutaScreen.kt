@@ -991,7 +991,7 @@ private fun PropositosRuta(propositos: List<PropositoEntity>, onProposito: (Long
  * Se despliega con la flecha; "Hoy" lleva al día de hoy. Tocar un mes o un día lo abre.
  */
 @Composable
-private fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>, ir: (Nivel) -> Unit) {
+internal fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>, ir: (Nivel) -> Unit) {
     val nac = perfil.anioNacimiento ?: return
     val h = hoy()
     val (a0, m0, d0) = when (nivel) {

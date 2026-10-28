@@ -2648,4 +2648,13 @@
     <string name="ev_evaluar_x">Evaluar %1$s</string>
     <string name="ev_evaluar_mes_sub">Puntaje, metas, hábitos, bienestar, balance y finanzas del mes.</string>
     <string name="ev_evaluar_anio_sub">Puntaje del año, la Brújula, bienestar y balance anual.</string>
+    <string name="ev_tab_dia">Día</string>
+    <string name="ev_puntaje_dia">Puntaje del día</string>
+    <string name="ev_nota_dia">Promedio del plan, las actividades, los hábitos y el bienestar.</string>
+    <string name="plan_del_dia_ev">Plan del día</string>
+    <string name="ev_sin_intencion">Sin intención escrita</string>
+    <string name="ev_sin_cumbres">No se anotaron las 3 cumbres.</string>
+    <string name="ev_n_hechas">%1$d de %2$d hechas</string>
+    <string name="ev_clima_x">Clima: %1$s</string>
+    <string name="ev_sin_clima">Clima interior sin anotar</string>
 </resources>

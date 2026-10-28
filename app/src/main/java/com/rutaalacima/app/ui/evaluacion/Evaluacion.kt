@@ -30,6 +30,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -91,6 +93,7 @@ import com.rutaalacima.app.ui.components.SectionTitle
 import com.rutaalacima.app.ui.components.rutaViewModel
 import com.rutaalacima.app.ui.i18n.texto
 import com.rutaalacima.app.ui.planner.nombreMes
+import com.rutaalacima.app.ui.planner.horarioMapa
 import com.rutaalacima.app.ui.theme.fondoPapel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -118,6 +121,10 @@ class EvaluacionViewModel(private val c: AppContainer) : ViewModel() {
     val mandala: StateFlow<Map<String, String>> = e(c.respuestas.observar(Mandala.WORKBOOK), emptyMap())
     val metasResp: StateFlow<Map<String, String>> = e(c.respuestas.observar("metas"), emptyMap())
     val checks: StateFlow<Map<LocalDate, Set<String>>> = e(c.checklist.desde(LocalDate.now().minusYears(2).withDayOfYear(1)), emptyMap())
+    val perfil: StateFlow<com.rutaalacima.app.data.local.PerfilEntity> = e(c.perfil.perfil, com.rutaalacima.app.data.local.PerfilEntity())
+    val diaResp: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.ui.planner.WB_DIA), emptyMap())
+    suspend fun agenda(f: LocalDate) = c.agenda.dia(f)
+    fun guardarAgenda(d: com.rutaalacima.app.data.local.AgendaDiaEntity) { guardando?.cancel(); guardando = viewModelScope.launch { delay(500); c.agenda.guardar(d) } }
     fun balance(anio: Int) = c.planificador.balance(anio)
     suspend fun mes(a: Int, m: Int): MesEntity = c.planAnual.mes(a, m)
     private var guardando: Job? = null
@@ -184,13 +191,17 @@ fun EvaluacionScreen(inicial: String?, onBack: () -> Unit, onRuta: (String) -> U
     val metasResp by vm.metasResp.collectAsStateWithLifecycle()
     val checks by vm.checks.collectAsStateWithLifecycle()
     val hoy = LocalDate.now()
-    var tab by rememberSaveable { mutableIntStateOf(when { inicial?.startsWith("a:") == true -> 1; inicial == "p" -> 2; else -> 0 }) }
+    var tab by rememberSaveable { mutableIntStateOf(when { inicial?.startsWith("d:") == true -> 0; inicial?.startsWith("a:") == true -> 2; inicial == "p" -> 3; else -> 1 }) }
+    var diaTxt by rememberSaveable { mutableStateOf(inicial?.takeIf { it.startsWith("d:") }?.removePrefix("d:") ?: hoy.toString()) }
+    val dia = runCatching { LocalDate.parse(diaTxt) }.getOrDefault(hoy)
+    val perfil by vm.perfil.collectAsStateWithLifecycle()
+    val diaResp by vm.diaResp.collectAsStateWithLifecycle()
     var ymTxt by rememberSaveable { mutableStateOf(inicial?.takeIf { it.startsWith("m:") }?.removePrefix("m:") ?: YearMonth.from(hoy).toString()) }
     var anio by rememberSaveable { mutableIntStateOf(inicial?.takeIf { it.startsWith("a:") }?.removePrefix("a:")?.toIntOrNull() ?: hoy.year) }
     val ym = runCatching { YearMonth.parse(ymTxt) }.getOrDefault(YearMonth.from(hoy))
     val ctx = LocalContext.current
     // Bienestar de los meses que se ven (el índice entra en el puntaje)
-    val mesesBien = if (tab == 1) (1..12).map { YearMonth.of(anio, it) }.filter { !it.atDay(1).isAfter(hoy) } else listOf(ym)
+    val mesesBien = if (tab == 0) listOf(YearMonth.from(dia)) else if (tab == 2) (1..12).map { YearMonth.of(anio, it) }.filter { !it.atDay(1).isAfter(hoy) } else listOf(ym)
     val bvm = rutaViewModel(key = "ev-bien-${mesesBien.joinToString()}") { com.rutaalacima.app.ui.bienestar.BienestarRangoViewModel(it, mesesBien) }
     val datosBien by bvm.datos.collectAsState()
     val bienDe: (List<LocalDate>) -> Double? = { fs -> Bienestar.acumulado(fs, datosBien.dias, datosBien.agua).indice?.let { it / 100.0 } }
@@ -202,29 +213,36 @@ fun EvaluacionScreen(inicial: String?, onBack: () -> Unit, onRuta: (String) -> U
                 title = { Text(stringResource(R.string.ev_titulo)) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
-                    if (tab != 2) IconButton(onClick = {
-                        val html = if (tab == 0) InformeRuta.mes(ctx, ym, metasEval(ym, anuales, mensuales, casillas, mandala), habitosEval(fechasHasta(ym), checks), bienDe(fechasHasta(ym)))
+                    if (tab == 1 || tab == 2) IconButton(onClick = {
+                        val html = if (tab == 1) InformeRuta.mes(ctx, ym, metasEval(ym, anuales, mensuales, casillas, mandala), habitosEval(fechasHasta(ym), checks), bienDe(fechasHasta(ym)))
                         else InformeRuta.anio(ctx, anio, campsEval(anio, anuales, mensuales, casillas, mandala),
                             (1..12).map { m -> YearMonth.of(anio, m) }.filter { !it.atDay(1).isAfter(hoy) }.map { y -> y to puntajeMes(y, anuales, mensuales, casillas, mandala, checks, bienDe) })
-                        InformeRuta.imprimir(ctx, html, if (tab == 0) "SuRoute-$ym" else "SuRoute-$anio")
+                        InformeRuta.imprimir(ctx, html, if (tab == 1) "SuRoute-$ym" else "SuRoute-$anio")
                     }) { Icon(Icons.Filled.Download, stringResource(R.string.ev_pdf)) }
                 })
         },
     ) { padding ->
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
             SecondaryTabRow(selectedTabIndex = tab, containerColor = Color.Transparent) {
-                listOf(R.string.ev_tab_mes, R.string.ev_tab_anio, R.string.ev_tab_prop).forEachIndexed { i, t -> Tab(selected = tab == i, onClick = { tab = i }, text = { Text(stringResource(t)) }) }
+                listOf(R.string.ev_tab_dia, R.string.ev_tab_mes, R.string.ev_tab_anio, R.string.ev_tab_prop).forEachIndexed { i, t -> Tab(selected = tab == i, onClick = { tab = i }, text = { Text(stringResource(t)) }) }
             }
-            if (tab != 2) Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { if (tab == 0) ymTxt = ym.minusMonths(1).toString() else anio-- }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, null) }
-                Text(if (tab == 0) "${nombreMes(ym.monthValue)} ${ym.year}" else "$anio", Modifier.weight(1f), textAlign = TextAlign.Center, style = MaterialTheme.typography.titleMedium)
-                IconButton(onClick = { if (tab == 0) ymTxt = ym.plusMonths(1).toString() else anio++ },
-                    enabled = if (tab == 0) ym.isBefore(YearMonth.from(hoy)) else anio < hoy.year) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null) }
+            // La misma barra de vida de Mi ruta: se elige el año, el mes o el día que se quiere evaluar
+            if (tab != 3) Box(Modifier.padding(horizontal = 16.dp, vertical = 6.dp)) {
+                val nivel = when (tab) { 0 -> com.rutaalacima.app.ui.ruta.Nivel.Dia(dia); 2 -> com.rutaalacima.app.ui.ruta.Nivel.Anio(anio); else -> com.rutaalacima.app.ui.ruta.Nivel.Mes(ym) }
+                com.rutaalacima.app.ui.ruta.BarraVida(nivel, perfil, anuales) { n ->
+                    when (n) {
+                        is com.rutaalacima.app.ui.ruta.Nivel.Dia -> { diaTxt = n.fecha.toString(); tab = 0 }
+                        is com.rutaalacima.app.ui.ruta.Nivel.Mes -> { ymTxt = n.ym.toString(); tab = 1 }
+                        is com.rutaalacima.app.ui.ruta.Nivel.Anio -> { anio = n.anio; tab = 2 }
+                        else -> {}
+                    }
+                }
             }
             LazyColumn(Modifier.fillMaxSize().imePadding(), contentPadding = PaddingValues(16.dp, 4.dp, 16.dp, 32.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 when (tab) {
-                    0 -> mesItems(ym, vm, metasEval(ym, anuales, mensuales, casillas, mandala), habitosEval(fechasHasta(ym), checks), bienDe(fechasHasta(ym)), onRuta)
-                    1 -> anioItems(anio, vm, anuales, mensuales, casillas, mandala, checks, bienDe, onRuta) { ymTxt = it.toString(); tab = 0 }
+                    0 -> diaItems(dia, vm, diaResp, checks, datosBien, onRuta)
+                    1 -> mesItems(ym, vm, metasEval(ym, anuales, mensuales, casillas, mandala), habitosEval(fechasHasta(ym), checks), bienDe(fechasHasta(ym)), onRuta)
+                    2 -> anioItems(anio, vm, anuales, mensuales, casillas, mandala, checks, bienDe, onRuta) { ymTxt = it.toString(); tab = 1 }
                     else -> propItems(propositos, anuales, mensuales, metasResp, vm, onRuta)
                 }
             }
@@ -288,6 +306,84 @@ private fun FilaAvance(color: Color, titulo: String, p: Double, sub: String?, on
 @Composable
 private fun Campo(etq: String, v: String, onCambio: (String) -> Unit) =
     OutlinedTextField(v, onCambio, label = { Text(etq) }, modifier = Modifier.fillMaxWidth(), minLines = 2)
+
+/** El día en versión evaluación: plan del día, actividades, checklist de hábitos y bienestar con su resultado, y el cierre. */
+private fun androidx.compose.foundation.lazy.LazyListScope.diaItems(f: LocalDate, vm: EvaluacionViewModel, r: Map<String, String>, checks: Map<LocalDate, Set<String>>,
+    bien: com.rutaalacima.app.ui.bienestar.DatosBienestar, onRuta: (String) -> Unit) {
+    val futuro = f.isAfter(LocalDate.now())
+    item(key = "dia-$f") {
+        var ag by remember(f) { mutableStateOf<com.rutaalacima.app.data.local.AgendaDiaEntity?>(null) }
+        LaunchedEffect(f) { ag = vm.agenda(f) }
+        val d = ag ?: return@item
+        val tops = com.rutaalacima.app.ui.planner.leerTops(r["dia#$f#top"]).filter { it.t.isNotBlank() }
+        val hor = with(com.rutaalacima.app.ui.planner.HORAS_DEL_DIA) { val m = d.horarioMapa(); mapNotNull { h -> m[h]?.takeIf { it.isNotBlank() }?.let { h to it } } }
+        val hecho: (Int) -> Boolean = { h -> r["dia#$f#$h#hecho"] == "1" }
+        val marc = checks[f].orEmpty(); val hs = ChecklistDiario.habitos
+        val bd = bien.dias[f] ?: Bienestar.Dia(); val pil = Bienestar.pilares(bd, bien.agua[f] ?: d.agua)
+        val pTop = if (tops.isEmpty()) null else tops.count { it.hecho }.toDouble() / tops.size
+        val pAct = if (hor.isEmpty()) null else hor.count { hecho(it.first) }.toDouble() / hor.size
+        val pHab = if (hs.isEmpty()) null else hs.count { it.id in marc }.toDouble() / hs.size
+        val pv = pil.values.filterNotNull(); val pBien = if (pv.isEmpty()) null else pv.sum() / Bienestar.PILARES.size
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Puntaje(if (futuro) null else prom(listOf(pTop, pAct, pHab, pBien)), stringResource(R.string.ev_puntaje_dia), stringResource(R.string.ev_nota_dia))
+            @Composable fun Resultado(ok: Boolean?, texto: String, sub: String? = null) {
+                Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                    val (bg, fg) = when (ok) { true -> Color(0xFF2F6B4A) to Color.White; false -> MaterialTheme.colorScheme.primaryContainer to MaterialTheme.colorScheme.primary; null -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurfaceVariant }
+                    Box(Modifier.size(22.dp).clip(CircleShape).background(bg), contentAlignment = Alignment.Center) {
+                        Icon(if (ok == true) Icons.Filled.Check else Icons.Filled.Close, null, Modifier.size(14.dp), tint = fg)
+                    }
+                    Spacer(Modifier.width(10.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(texto, style = MaterialTheme.typography.bodyMedium)
+                        sub?.let { Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    }
+                }
+            }
+            @Composable fun Seccion(titulo: String, sub: String, p: Double?, contenido: @Composable () -> Unit) = RutaCard {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(titulo, style = MaterialTheme.typography.titleMedium)
+                        Text(sub, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Text(pct(p), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal = 10.dp, vertical = 4.dp))
+                }
+                contenido()
+            }
+            Seccion(stringResource(R.string.plan_del_dia_ev), if (d.intencion.isNotBlank()) "«${d.intencion}»" else stringResource(R.string.ev_sin_intencion), pTop) {
+                if (tops.isEmpty()) Text(stringResource(R.string.ev_sin_cumbres), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+                tops.forEachIndexed { i, t -> Resultado(t.hecho, "${i + 1}. ${t.t}") }
+            }
+            Seccion(stringResource(R.string.actividades_dia), stringResource(R.string.ev_n_hechas, hor.count { hecho(it.first) }, hor.size), pAct) {
+                hor.forEach { (h, t) -> Resultado(hecho(h), t, "%02d:00".format(h)) }
+            }
+            Seccion(stringResource(R.string.checklist_hoy), stringResource(R.string.ev_n_hechas, hs.count { it.id in marc }, hs.size), pHab) {
+                Eje.entries.forEach { e -> val del = hs.filter { it.eje == e }
+                    if (del.isNotEmpty()) {
+                        Text("${e.texto()} · ${del.count { it.id in marc }}/${del.size}", style = MaterialTheme.typography.labelLarge, color = Color(e.color), modifier = Modifier.padding(top = 10.dp))
+                        del.forEach { h -> Resultado(h.id in marc, h.texto.ifBlank { h.id }) }
+                    }
+                }
+            }
+            val ctxC = LocalContext.current
+            val climaTxt = bd.clima?.let { c0 -> ctxC.resources.getIdentifier("bi_clima_$c0", "string", ctxC.packageName).takeIf { it != 0 }?.let { ctxC.getString(it) } ?: c0 }
+            Seccion(stringResource(R.string.ev_bienestar), climaTxt?.let { stringResource(R.string.ev_clima_x, it) } ?: stringResource(R.string.ev_sin_clima), pBien) {
+                Bienestar.PILARES.forEach { k -> val v = pil[k]; Resultado(v?.let { it >= 0.99 }, stringResource(when (k) {
+                    "sueno" -> R.string.bi_pil_sueno; "mov" -> R.string.bi_pil_mov; "fyv" -> R.string.bi_pil_fyv; "agua" -> R.string.bi_pil_agua; "aire" -> R.string.bi_pil_aire; else -> R.string.bi_pil_pant })) }
+            }
+            if (!futuro) RutaCard {
+                Text(stringResource(R.string.cierre_dia), style = MaterialTheme.typography.titleMedium)
+                Column(Modifier.padding(top = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val cambia: (com.rutaalacima.app.data.local.AgendaDiaEntity) -> Unit = { n -> ag = n; vm.guardarAgenda(n) }
+                    Campo(stringResource(R.string.victorias_dia), d.victorias) { cambia(d.copy(victorias = it)) }
+                    Campo(stringResource(R.string.aprendizaje), d.aprendizaje) { cambia(d.copy(aprendizaje = it)) }
+                    Campo(stringResource(R.string.gratitud), d.gratitud) { cambia(d.copy(gratitud = it)) }
+                    Campo(stringResource(R.string.notas_importantes), d.notas) { cambia(d.copy(notas = it)) }
+                }
+            }
+        }
+    }
+}
 
 private fun androidx.compose.foundation.lazy.LazyListScope.mesItems(ym: YearMonth, vm: EvaluacionViewModel, metas: List<MetaEval>, hab: HabEval, pBien: Double?, onRuta: (String) -> Unit) {
     val pMetas = prom(metas.map { it.p })

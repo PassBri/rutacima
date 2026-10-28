@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">Valuta %1$s</string>
     <string name="ev_evaluar_mes_sub">Punteggio, obiettivi, abitudini, benessere, bilancio e finanze del mese.</string>
     <string name="ev_evaluar_anio_sub">Punteggio dell\'anno, la Bussola, benessere e bilancio annuale.</string>
+    <string name="ev_tab_dia">Giorno</string>
+    <string name="ev_puntaje_dia">Punteggio del giorno</string>
+    <string name="ev_nota_dia">Media di piano, attività, abitudini e benessere.</string>
+    <string name="plan_del_dia_ev">Piano del giorno</string>
+    <string name="ev_sin_intencion">Nessuna intenzione scritta</string>
+    <string name="ev_sin_cumbres">Le 3 cime non sono state annotate.</string>
+    <string name="ev_n_hechas">%1$d di %2$d fatte</string>
+    <string name="ev_clima_x">Clima: %1$s</string>
+    <string name="ev_sin_clima">Clima interiore non annotato</string>
 </resources>

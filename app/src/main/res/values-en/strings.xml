@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">Review %1$s</string>
     <string name="ev_evaluar_mes_sub">Score, goals, habits, wellbeing, review and finances of the month.</string>
     <string name="ev_evaluar_anio_sub">Year score, the Compass, wellbeing and yearly review.</string>
+    <string name="ev_tab_dia">Day</string>
+    <string name="ev_puntaje_dia">Day score</string>
+    <string name="ev_nota_dia">Average of the plan, activities, habits and wellbeing.</string>
+    <string name="plan_del_dia_ev">Day plan</string>
+    <string name="ev_sin_intencion">No intention written</string>
+    <string name="ev_sin_cumbres">The 3 summits weren\'t written down.</string>
+    <string name="ev_n_hechas">%1$d of %2$d done</string>
+    <string name="ev_clima_x">Weather: %1$s</string>
+    <string name="ev_sin_clima">Inner weather not recorded</string>
 </resources>

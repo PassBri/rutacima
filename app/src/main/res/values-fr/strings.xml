@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">Évaluer %1$s</string>
     <string name="ev_evaluar_mes_sub">Score, objectifs, habitudes, bien-être, bilan et finances du mois.</string>
     <string name="ev_evaluar_anio_sub">Score de l\'année, la Boussole, le bien-être et le bilan annuel.</string>
+    <string name="ev_tab_dia">Jour</string>
+    <string name="ev_puntaje_dia">Score du jour</string>
+    <string name="ev_nota_dia">Moyenne du plan, des activités, des habitudes et du bien-être.</string>
+    <string name="plan_del_dia_ev">Plan du jour</string>
+    <string name="ev_sin_intencion">Aucune intention écrite</string>
+    <string name="ev_sin_cumbres">Les 3 sommets n\'ont pas été notés.</string>
+    <string name="ev_n_hechas">%1$d sur %2$d faites</string>
+    <string name="ev_clima_x">Météo : %1$s</string>
+    <string name="ev_sin_clima">Météo intérieure non notée</string>
 </resources>

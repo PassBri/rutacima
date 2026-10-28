@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">%1$s 평가</string>
     <string name="ev_evaluar_mes_sub">이번 달의 점수, 목표, 습관, 웰빙, 결산, 재정.</string>
     <string name="ev_evaluar_anio_sub">연간 점수, 나침반, 웰빙, 연간 결산.</string>
+    <string name="ev_tab_dia">일</string>
+    <string name="ev_puntaje_dia">오늘 점수</string>
+    <string name="ev_nota_dia">계획, 활동, 습관, 웰빙의 평균입니다.</string>
+    <string name="plan_del_dia_ev">오늘의 계획</string>
+    <string name="ev_sin_intencion">적어 둔 의도가 없어요</string>
+    <string name="ev_sin_cumbres">세 봉우리를 적지 않았어요.</string>
+    <string name="ev_n_hechas">%2$d개 중 %1$d개 완료</string>
+    <string name="ev_clima_x">마음 날씨: %1$s</string>
+    <string name="ev_sin_clima">마음 날씨 기록 없음</string>
 </resources>

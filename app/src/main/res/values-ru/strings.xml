@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">Оценить %1$s</string>
     <string name="ev_evaluar_mes_sub">Оценка, цели, привычки, самочувствие, итоги и финансы месяца.</string>
     <string name="ev_evaluar_anio_sub">Оценка года, Компас, самочувствие и годовые итоги.</string>
+    <string name="ev_tab_dia">День</string>
+    <string name="ev_puntaje_dia">Оценка дня</string>
+    <string name="ev_nota_dia">Среднее по плану, делам, привычкам и самочувствию.</string>
+    <string name="plan_del_dia_ev">План дня</string>
+    <string name="ev_sin_intencion">Намерение не записано</string>
+    <string name="ev_sin_cumbres">Три вершины не записаны.</string>
+    <string name="ev_n_hechas">Сделано %1$d из %2$d</string>
+    <string name="ev_clima_x">Погода внутри: %1$s</string>
+    <string name="ev_sin_clima">Внутренняя погода не отмечена</string>
 </resources>

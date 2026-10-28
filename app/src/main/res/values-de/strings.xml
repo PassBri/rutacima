@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">%1$s auswerten</string>
     <string name="ev_evaluar_mes_sub">Punktzahl, Ziele, Gewohnheiten, Wohlbefinden, Bilanz und Finanzen des Monats.</string>
     <string name="ev_evaluar_anio_sub">Jahrespunktzahl, Kompass, Wohlbefinden und Jahresbilanz.</string>
+    <string name="ev_tab_dia">Tag</string>
+    <string name="ev_puntaje_dia">Tagespunktzahl</string>
+    <string name="ev_nota_dia">Durchschnitt aus Plan, Aktivitäten, Gewohnheiten und Wohlbefinden.</string>
+    <string name="plan_del_dia_ev">Tagesplan</string>
+    <string name="ev_sin_intencion">Keine Absicht notiert</string>
+    <string name="ev_sin_cumbres">Die 3 Gipfel wurden nicht notiert.</string>
+    <string name="ev_n_hechas">%1$d von %2$d erledigt</string>
+    <string name="ev_clima_x">Wetter: %1$s</string>
+    <string name="ev_sin_clima">Inneres Wetter nicht notiert</string>
 </resources>

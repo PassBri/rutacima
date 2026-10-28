@@ -2639,4 +2639,13 @@
     <string name="ev_evaluar_x">Avaliar %1$s</string>
     <string name="ev_evaluar_mes_sub">Pontuação, metas, hábitos, bem-estar, balanço e finanças do mês.</string>
     <string name="ev_evaluar_anio_sub">Pontuação do ano, a Bússola, bem-estar e balanço anual.</string>
+    <string name="ev_tab_dia">Dia</string>
+    <string name="ev_puntaje_dia">Pontuação do dia</string>
+    <string name="ev_nota_dia">Média do plano, das atividades, dos hábitos e do bem-estar.</string>
+    <string name="plan_del_dia_ev">Plano do dia</string>
+    <string name="ev_sin_intencion">Sem intenção escrita</string>
+    <string name="ev_sin_cumbres">Os 3 cumes não foram anotados.</string>
+    <string name="ev_n_hechas">%1$d de %2$d feitas</string>
+    <string name="ev_clima_x">Clima: %1$s</string>
+    <string name="ev_sin_clima">Clima interior sem anotar</string>
 </resources>
