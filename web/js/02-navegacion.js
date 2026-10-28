@@ -152,12 +152,15 @@ const LISTAS = {
   hoy() {
     const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1;
     let h = cabLista("Hoy", { buscar: false }) + `<div class="items">`;
-    h += item("d:" + iso(hoy), av(hoy.getDate(), "var(--burdeos)"), "Tu día", "hoy", `${marcadosDe(iso(hoy)).size} de ${habitos().length} hábitos · ${MESES[hoy.getMonth()]}`, ic("pin", "i fijado"));
+    // Cada día con el mismo formato: «Tu día · lunes» y debajo la fecha y los hábitos (sin repetir la fecha a la derecha)
+    const filaDia = (d, cls) => item("d:" + iso(d), av(d.getDate(), cls), `Tu día · ${d.getTime() === hoy.getTime() ? "hoy" : d.toLocaleDateString("es", { weekday: "long" })}`, "",
+      `${d.getDate()} ${MES_C[d.getMonth()]} · ${marcadosDe(iso(d)).size} de ${habitos().length} hábitos`);
+    h += filaDia(hoy, "var(--burdeos)");
     // «Metas del mes» ya no va en Hoy: viven en Mi ruta (el mes), a pedido de Brian
     h += grupo("Ayer y antes");
     for (let k = 1; k <= 6; k++) {
       const d = new Date(hoy); d.setDate(d.getDate() - k);
-      h += item("d:" + iso(d), av(d.getDate(), diaCumplido(d) ? "var(--burdeos)" : "#B8A99C"), mayus(d.toLocaleDateString("es", { weekday: "long" })), `${d.getDate()} ${MES_C[d.getMonth()]}`, `${marcadosDe(iso(d)).size} hábitos`);
+      h += filaDia(d, diaCumplido(d) ? "var(--burdeos)" : "#B8A99C");
     }
     return h + `</div>`;
   },

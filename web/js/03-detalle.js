@@ -664,7 +664,7 @@ function detDia(fecha) {
   const campoAg = (n, etq, ph = "") => campo(etq, `<textarea ${bind("agenda", fecha, n, "", "agenda")} placeholder="${esc(ph)}">${esc(ag[n] || "")}</textarea>`);
   const habitos = habitosDelDia(fecha, marc);
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
-  return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
+  return cab(av(f.getDate(), "var(--burdeos)"), "Tu día", fechaLarga(f)) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mi vida en años</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
     `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"]]
