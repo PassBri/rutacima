@@ -13,15 +13,15 @@ object GraficaAscenso {
     enum class Gran { D, S, M, A }
 
     data class Periodo(
-        val inicio: LocalDate, var ing: Double = 0.0, var gas: Double = 0.0, var aho: Double = 0.0, var inv: Double = 0.0,
+        val inicio: LocalDate, var ing: Double = 0.0, var gas: Double = 0.0, var aho: Double = 0.0, var inv: Double = 0.0, var gen: Double = 0.0,
         var o: Double = 0.0, var h: Double = 0.0, var l: Double = 0.0, var c: Double = 0.0, var patr: Double = 0.0,
     ) {
-        val disp get() = ing - gas - aho - inv
+        val disp get() = ing - gas - aho - inv - gen
         val saldo get() = c
         val flujo get() = if (ing > 0) disp / ing else null
         val constr get() = if (ing > 0) (aho + inv) / ing else null
         val gastoP get() = if (ing > 0) gas / ing else null
-        fun serie(k: String): Double = when (k) { "saldo" -> c; "patr" -> patr; "ing" -> ing; "gas" -> gas; "aho" -> aho; "inv" -> inv; "disp" -> disp; else -> 0.0 }
+        fun serie(k: String): Double = when (k) { "saldo" -> c; "patr" -> patr; "ing" -> ing; "gas" -> gas; "aho" -> aho; "inv" -> inv; "gen" -> gen; "disp" -> disp; else -> 0.0 }
         fun pct(k: String): Double? = when (k) { "flujo" -> flujo; "constr" -> constr; else -> gastoP }
     }
 
@@ -42,7 +42,7 @@ object GraficaAscenso {
         while (!d.isAfter(hoy) && n++ < 20000) {
             val k = inicioDe(d, g)
             if (cur == null || cur.inicio != k) { cur = Periodo(k, o = saldo, h = saldo, l = saldo, c = saldo); out += cur }
-            porDia[d]?.let { s -> cur.ing += s.ing; cur.gas += s.gas; cur.aho += s.aho; cur.inv += s.inv; saldo += s.disponible; constr += s.aho + s.inv }
+            porDia[d]?.let { s -> cur.ing += s.ing; cur.gas += s.gas; cur.aho += s.aho; cur.inv += s.inv; cur.gen += s.gen; saldo += s.disponible; constr += s.aho + s.inv }
             cur.h = maxOf(cur.h, saldo); cur.l = minOf(cur.l, saldo); cur.c = saldo; cur.patr = constr
             d = d.plusDays(1)
         }

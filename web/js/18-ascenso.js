@@ -11,7 +11,7 @@
 
 const ASC = {
   WB: "finanzas",
-  TIPOS: [["ing", "Ingresos", "Ingreso"], ["gas", "Gastos", "Gasto"], ["aho", "Ahorro", "Ahorro"], ["inv", "Inversión", "Inversión"]],
+  TIPOS: [["ing", "Ingresos", "Ingreso"], ["gas", "Gastos", "Gasto"], ["aho", "Ahorro", "Ahorro"], ["inv", "Inversión", "Inversión"], ["gen", "Generosidad", "Generosidad"]],
   /** Categorías por tipo: [código, nombre, mochila] (la mochila solo aplica a gastos; ahorro e inversión son la roja). */
   CAT: {
     ing: [["trabajo", "Trabajo o salario"], ["negocio", "Negocio"], ["ventas", "Ventas"], ["honorarios", "Honorarios"], ["pasivo", "Ingreso pasivo"], ["otro", "Otro ingreso"]],
@@ -19,6 +19,7 @@ const ASC = {
       ["salud", "Salud", "verde"], ["deudas", "Pago de deudas", "verde"], ["entretenimiento", "Entretenimiento", "amarilla"], ["restaurantes", "Restaurantes", "amarilla"],
       ["ropa", "Ropa y accesorios", "amarilla"], ["suscripciones", "Suscripciones", "amarilla"], ["hormiga", "Gastos hormiga", "amarilla"], ["otro", "Otro gasto", "amarilla"]],
     aho: [["emergencia", "Fondo de emergencia"], ["meta", "Ahorro para una meta"], ["retiro", "Retiro"], ["otro", "Otro ahorro"]],
+    gen: [["persona", "Ayuda a una persona"], ["familia", "Apoyo a la familia"], ["causa", "Causa o fundación"], ["fe", "Diezmo u ofrenda"], ["comunidad", "Mi comunidad"], ["otro", "Otra ayuda"]],
     inv: [["educacion", "Educación"], ["herramientas", "Herramientas de trabajo"], ["fondos", "Fondos y acciones"], ["negocio", "Mi negocio"], ["inmuebles", "Bienes raíces"], ["otro", "Otra inversión"]],
   },
   MOCHILAS: [["verde", "Mochila verde", "Lo esencial", 0.5], ["amarilla", "Mochila amarilla", "Gastos variables", 0.3], ["roja", "Mochila roja", "Ahorro e inversión", 0.2]],
@@ -93,14 +94,14 @@ const mochilaDe = x => x.t === "gas" ? (catDe("gas", x.c)?.[2] || "amarilla") : 
 
 /** Suma de movimientos: totales por tipo, por mochila y por categoría. */
 function sumar(movs) {
-  const s = { ing: 0, gas: 0, aho: 0, inv: 0, n: 0, mochila: { verde: 0, amarilla: 0, roja: 0 }, cat: {} };
+  const s = { ing: 0, gas: 0, aho: 0, inv: 0, gen: 0, n: 0, mochila: { verde: 0, amarilla: 0, roja: 0 }, cat: {} };
   movs.forEach(x => {
     if (x.prog) return;                                  // programado: cuenta cuando llegue su día
-    const m = Number(x.m) || 0; s[x.t] += m; s.n++;
+    const m = Number(x.m) || 0; s[x.t] = (s[x.t] || 0) + m; s.n++;
     const mo = mochilaDe(x); if (mo) s.mochila[mo] += m;
     const k = x.t + ":" + x.c; s.cat[k] = (s.cat[k] || 0) + m;
   });
-  s.disp = s.ing - s.gas - s.aho - s.inv;          // lo que queda libre
+  s.disp = s.ing - s.gas - s.aho - s.inv - s.gen;  // lo que queda libre (la generosidad también sale)
   s.construido = s.aho + s.inv;                    // lo que suma a tu patrimonio
   s.tasa = s.ing > 0 ? Math.min(1, Math.max(0, s.construido / s.ing)) : null;
   return s;
@@ -116,7 +117,7 @@ function diasConMovs(programados = false) {
 const totalesDe = pref => sumar(diasConMovs().filter(f => f.startsWith(pref)).flatMap(movsDe));
 
 /* ---------- Piezas visuales ---------- */
-const COL = [["ing", "Ingresos"], ["gas", "Gastos"], ["aho", "Ahorro"], ["inv", "Inversión"], ["disp", "Disponible"]];
+const COL = [["ing", "Ingresos"], ["gas", "Gastos"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Generosidad"], ["disp", "Disponible"]];
 const celda = (v, k) => `<td class="num${k === "disp" && v < 0 ? " neg" : ""}${!v ? " cero" : ""}">${v ? plata(v) : "—"}</td>`;
 /** Tabla tipo hoja de cálculo: una fila por periodo (toca para bajar), acumulado que sube y fila de totales. */
 function tablaPeriodos(filas, etqCol, total) {
@@ -148,11 +149,11 @@ function porCategoria(s) {
 }
 /** Barras de ingresos y gastos por periodo (a escala, con su valor al pasar). */
 function grafica(filas) {
-  const max = Math.max(1, ...filas.flatMap(x => [x.s.ing, x.s.gas + x.s.aho + x.s.inv]));
+  const max = Math.max(1, ...filas.flatMap(x => [x.s.ing, x.s.gas + x.s.aho + x.s.inv + x.s.gen]));
   if (!filas.some(x => x.s.n)) return "";
   const W = 100 / filas.length;
-  return `<div class="asc-graf" role="img" aria-label="Ingresos y salidas por periodo">${filas.map(x => `<button class="asc-col" data-sel="${x.sel}" style="width:${W}%" title="${esc(x.etq)}: entró ${plata(x.s.ing)}, salió ${plata(x.s.gas + x.s.aho + x.s.inv)}">
-      <span class="pila"><i class="b-ing" style="height:${(x.s.ing / max * 100).toFixed(1)}%"></i><i class="b-gas" style="height:${((x.s.gas + x.s.aho + x.s.inv) / max * 100).toFixed(1)}%"></i></span><small>${esc(x.corto)}</small></button>`).join("")}</div>
+  return `<div class="asc-graf" role="img" aria-label="Ingresos y salidas por periodo">${filas.map(x => `<button class="asc-col" data-sel="${x.sel}" style="width:${W}%" title="${esc(x.etq)}: entró ${plata(x.s.ing)}, salió ${plata(x.s.gas + x.s.aho + x.s.inv + x.s.gen)}">
+      <span class="pila"><i class="b-ing" style="height:${(x.s.ing / max * 100).toFixed(1)}%"></i><i class="b-gas" style="height:${((x.s.gas + x.s.aho + x.s.inv + x.s.gen) / max * 100).toFixed(1)}%"></i></span><small>${esc(x.corto)}</small></button>`).join("")}</div>
     <p class="asc-ley"><span><i class="b-ing"></i>Entró</span><span><i class="b-gas"></i>Salió (gastos, ahorro e inversión)</span></p>`;
 }
 /** Migas de pan: siempre se puede subir al balance o bajar al día. */
@@ -256,7 +257,7 @@ DET["finanzas.d"] = f => {
         <div class="asc-fila-nueva">
           <label class="campo"><span>Monto</span><input name="monto" inputmode="decimal" autocomplete="off" placeholder="${plata(0)}" required aria-label="Monto"></label>
           <label class="campo"><span>Categoría <button type="button" class="enlace" data-acc="ascCrearCat" data-arg="${tipo}">+ Nueva</button></span><select name="cat">${opc(tipo)}</select></label>
-          <label class="campo"><span>Concepto</span><input name="texto" maxlength="120" autocomplete="off" placeholder="${{ ing: "Pago de la quincena", gas: "Mercado de la semana", aho: "Aporte al fondo", inv: "Curso de finanzas" }[tipo]}"></label>
+          <label class="campo"><span>Concepto</span><input name="texto" maxlength="120" autocomplete="off" placeholder="${{ ing: "Pago de la quincena", gas: "Mercado de la semana", aho: "Aporte al fondo", inv: "Curso de finanzas", gen: "Mercado para la señora Rosa" }[tipo]}"></label>
           <button class="btn lleno" type="submit">Agregar</button>
         </div>
         <label class="asc-repite"><input type="checkbox" name="repite"> ${ic("repetir")} Se repite cada mes el día ${d.getDate()} <span class="suave">(arriendo, salario, internet…)</span></label></form>
@@ -270,7 +271,7 @@ DET["finanzas.d"] = f => {
           : `<tr><td colspan="7" class="suave" style="padding:14px">Aún no hay movimientos este día. Anota el primero arriba: el monto y su categoría bastan.</td></tr>`}
       </tbody>${movs.length ? `<tfoot><tr><th colspan="4" scope="row">Disponible del día</th><td class="num ${s.disp < 0 ? "neg" : ""}">${plata(s.disp)}</td><td></td><td></td></tr></tfoot>` : ""}</table></div>`) +
     cifras(s) +
-    `<button class="hoja asc-sube" data-sel="m:${ym}"><span>Así va ${MESES[m - 1]}</span><b class="${mes.disp < 0 ? "neg" : ""}">${plata(mes.disp)} disponible</b><small>Entró ${plata(mes.ing)} · salió ${plata(mes.gas + mes.aho + mes.inv)}</small>${ic("der")}</button>`, "max-width:980px");
+    `<button class="hoja asc-sube" data-sel="m:${ym}"><span>Así va ${MESES[m - 1]}</span><b class="${mes.disp < 0 ? "neg" : ""}">${plata(mes.disp)} disponible</b><small>Entró ${plata(mes.ing)} · salió ${plata(mes.gas + mes.aho + mes.inv + mes.gen)}</small>${ic("der")}</button>`, "max-width:980px");
 };
 /** La moneda en la que llevas tus cuentas. */
 function monedaHoja() {

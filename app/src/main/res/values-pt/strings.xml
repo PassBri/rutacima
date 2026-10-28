@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">Pronto</string>
     <string name="mirar_noche">Modo noite</string>
     <string name="mirar_ayuda_ajustar">Arraste o desenho até a Lua ou uma estrela brilhante coincidir com a real. Toque duplo: zerar.</string>
+    <string name="cu_gen">Generosidade</string>
+    <string name="cu_cat_gen_persona">Ajuda a uma pessoa</string>
+    <string name="cu_cat_gen_familia">Apoio à família</string>
+    <string name="cu_cat_gen_causa">Causa ou fundação</string>
+    <string name="cu_cat_gen_fe">Dízimo ou oferta</string>
+    <string name="cu_cat_gen_comunidad">Minha comunidade</string>
+    <string name="cu_cat_gen_otro">Outra ajuda</string>
 </resources>

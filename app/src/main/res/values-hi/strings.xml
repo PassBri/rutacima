@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">हो गया</string>
     <string name="mirar_noche">रात्रि मोड</string>
     <string name="mirar_ayuda_ajustar">चित्र को तब तक खींचें जब तक चाँद या कोई चमकीला तारा असली पर न आ जाए। दो बार टैप: रीसेट।</string>
+    <string name="cu_gen">उदारता</string>
+    <string name="cu_cat_gen_persona">किसी की मदद</string>
+    <string name="cu_cat_gen_familia">परिवार को सहयोग</string>
+    <string name="cu_cat_gen_causa">कोई उद्देश्य या संस्था</string>
+    <string name="cu_cat_gen_fe">दशमांश या भेंट</string>
+    <string name="cu_cat_gen_comunidad">मेरा समुदाय</string>
+    <string name="cu_cat_gen_otro">अन्य मदद</string>
 </resources>

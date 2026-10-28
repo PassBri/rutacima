@@ -162,7 +162,7 @@ function saludDe(pref, { sinDeudas = false } = {}) {
   const pasivoIng = s.cat["ing:pasivo"] || 0, ingAct = s.ing - pasivoIng;
   // Sin deudas: no hay saldo ni cuotas, y lo que hoy se va en pagos de deuda queda libre
   const pagosDeuda = sinDeudas ? (s.cat["gas:deudas"] || 0) : 0;
-  const fijos = s.mochila.verde, variables = s.mochila.amarilla, gastos = s.gas - pagosDeuda, egresos = s.gas + s.aho + s.inv - pagosDeuda;
+  const fijos = s.mochila.verde, variables = s.mochila.amarilla, gastos = s.gas - pagosDeuda, egresos = s.gas + s.aho + s.inv + (s.gen || 0) - pagosDeuda;
   const deudas = actual && !sinDeudas ? deudasHoy() : [], pasivos = deudas.reduce((a, x) => a + x.actual, 0), buenas = deudas.filter(x => x.tipo === "buena").reduce((a, x) => a + x.actual, 0);
   // Cuotas de deuda al mes: lo que de verdad se paga (pagos anotados en «Pago de deudas»), o las cuotas mínimas si son más
   const deudaMes = sinDeudas ? 0 : Math.max(deudas.filter(x => x.actual > 0).reduce((a, x) => a + (Number(x.minimo) || 0), 0), mes(s.cat["gas:deudas"] || 0));
@@ -174,7 +174,7 @@ function saludDe(pref, { sinDeudas = false } = {}) {
   const r = {
     nMeses, s, activos, declarados, pasivos, neto, deudaMes, mesesLista: [...new Set(rango.map(f => f.slice(0, 7)))].sort(),
     filas: [["Ingresos activos (trabajo, negocio, ventas)", ingAct], ["Ingresos pasivos (rentas, intereses)", pasivoIng], ["Ingresos totales", s.ing, true],
-      ["Gastos fijos (mochila verde)", fijos], ["Gastos variables (mochila amarilla)", variables], ["Ahorro", s.aho], ["Inversión", s.inv], ["Egresos totales", egresos, true],
+      ["Gastos fijos (mochila verde)", fijos], ["Gastos variables (mochila amarilla)", variables], ["Ahorro", s.aho], ["Inversión", s.inv], ["Generosidad", s.gen || 0], ["Egresos totales", egresos, true],
       ["Flujo de efectivo neto", s.ing - egresos, true]],
     flujo: s.ing > 0 ? (s.ing - egresos) / s.ing : null, liquidez: egresos > 0 ? s.ing / egresos : null,
     tasaAhorro: s.ing > 0 ? s.aho / s.ing : null, tasaConstruye: s.ing > 0 ? s.construido / s.ing : null,
@@ -218,10 +218,10 @@ const EST_SALUD = { ok: ["Bien", "✓"], medio: ["Atención", "!"], bajo: ["Por 
 const pctT = v => Math.round(v * 100) + " %";
 function barraPeso(r) {
   const s = r.s; if (!(s.ing > 0)) return "";
-  const libre = s.ing - s.gas - s.aho - s.inv;
+  const libre = s.ing - s.gas - s.aho - s.inv - (s.gen || 0);
   const partes = [["fijos", "Gastos fijos", s.mochila.verde], ["variables", "Gastos variables", s.mochila.amarilla + Math.max(0, s.gas - s.mochila.verde - s.mochila.amarilla)],
-    ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
-  const base = Math.max(s.ing, s.gas + s.aho + s.inv);
+    ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["generosidad", "Generosidad", s.gen || 0], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
+  const base = Math.max(s.ing, s.gas + s.aho + s.inv + (s.gen || 0));
   return `<figure class="viz"><figcaption>¿Qué haces con cada peso que entra?</figcaption>
     <div class="peso-barra" role="img" aria-label="${partes.map(([, n, v]) => `${n} ${pctT(v / s.ing)}`).join(", ")}">${partes.map(([k, n, v]) =>
       `<span class="seg-${k}" style="flex:${v / base}" tabindex="0" data-tip="${esc(n)}|${pctT(v / s.ing)} de lo que entra|${plata(Math.round(v / r.nMeses))} al mes"></span>`).join("")}</div>
@@ -251,7 +251,7 @@ function balanceBarras(r) {
 /** Línea mes a mes: % de flujo neto y % de ahorro + inversión, con la meta del 20 % punteada. */
 function lineaMeses(pref, r) {
   const ms = r.mesesLista; if (ms.length < 2) return "";
-  const datos = ms.map(m => { const s = sumar(diasConMovs().filter(f => f.startsWith(m)).flatMap(movsDe)); return { m, f: s.ing > 0 ? (s.ing - s.gas - s.aho - s.inv) / s.ing : null, c: s.ing > 0 ? (s.aho + s.inv) / s.ing : null }; });
+  const datos = ms.map(m => { const s = sumar(diasConMovs().filter(f => f.startsWith(m)).flatMap(movsDe)); return { m, f: s.ing > 0 ? (s.ing - s.gas - s.aho - s.inv - (s.gen || 0)) / s.ing : null, c: s.ing > 0 ? (s.aho + s.inv) / s.ing : null }; });
   const vals = datos.flatMap(d => [d.f, d.c]).filter(v => v != null);
   const lo = Math.min(0, ...vals), hi = Math.max(0.3, ...vals), W = 600, H = 180, L = 36, R = 8, T = 10, B = 24;
   const x = i => L + i * (W - L - R) / (datos.length - 1), y = v => T + (hi - v) / (hi - lo) * (H - T - B);
@@ -987,7 +987,7 @@ function informeFinanciero() {
       vivas.length ? (plan.meses ? `<b>Deudas:</b> debes ${plata(r.pasivos)}; con tu plan quedas libre en ${mesesDespues(plan.meses)}.` : `<b>Deudas:</b> con los pagos actuales la deuda no baja.`) : "<b>Deudas:</b> no tienes deudas activas.",
     ].filter(Boolean);
     // Mes a mes: ingresos y egresos (barras) y lo que quedó libre
-    const mm = meses.map(ym => { const t = totalesDe(ym + "-"); return { ym, ing: t.ing, egr: t.gas + t.aho + t.inv, disp: t.disp }; });
+    const mm = meses.map(ym => { const t = totalesDe(ym + "-"); return { ym, ing: t.ing, egr: t.gas + t.aho + t.inv + (t.gen || 0), disp: t.disp }; });
     const tope = Math.max(1, ...mm.map(x => Math.max(x.ing, x.egr))), W = 640, H = 120, bw = Math.min(22, (W - 40) / Math.max(1, mm.length) / 2.6);
     const barras = mm.length ? `<svg viewBox="0 0 ${W} ${H + 24}" class="graf">${[0, .5, 1].map(f => `<line x1="0" x2="${W}" y1="${10 + (1 - f) * H}" y2="${10 + (1 - f) * H}" stroke="#EEF1F2"/>`).join("")}
       ${mm.map((x, i) => { const cx = 20 + (i + .5) * (W - 40) / mm.length, h1 = x.ing / tope * H, h2 = x.egr / tope * H;

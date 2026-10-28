@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">완료</string>
     <string name="mirar_noche">야간 모드</string>
     <string name="mirar_ayuda_ajustar">달이나 밝은 별이 실제와 겹칠 때까지 그림을 끄세요. 두 번 탭: 초기화.</string>
+    <string name="cu_gen">나눔</string>
+    <string name="cu_cat_gen_persona">누군가 돕기</string>
+    <string name="cu_cat_gen_familia">가족 지원</string>
+    <string name="cu_cat_gen_causa">대의 또는 재단</string>
+    <string name="cu_cat_gen_fe">십일조 또는 헌금</string>
+    <string name="cu_cat_gen_comunidad">우리 공동체</string>
+    <string name="cu_cat_gen_otro">기타 도움</string>
 </resources>

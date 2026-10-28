@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">تم</string>
     <string name="mirar_noche">الوضع الليلي</string>
     <string name="mirar_ayuda_ajustar">اسحب الرسم حتى يطابق القمر أو نجم ساطع موضعه الحقيقي. نقرتان: إعادة الضبط.</string>
+    <string name="cu_gen">العطاء</string>
+    <string name="cu_cat_gen_persona">مساعدة شخص</string>
+    <string name="cu_cat_gen_familia">دعم العائلة</string>
+    <string name="cu_cat_gen_causa">قضية أو مؤسسة</string>
+    <string name="cu_cat_gen_fe">عشور أو تقدمة</string>
+    <string name="cu_cat_gen_comunidad">مجتمعي</string>
+    <string name="cu_cat_gen_otro">مساعدة أخرى</string>
 </resources>

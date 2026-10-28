@@ -41,7 +41,7 @@ object Cuentas {
         @kotlinx.serialization.Transient var prog: Boolean = false
     }
 
-    enum class Tipo(val codigo: String) { ING("ing"), GAS("gas"), AHO("aho"), INV("inv");
+    enum class Tipo(val codigo: String) { ING("ing"), GAS("gas"), AHO("aho"), INV("inv"), GEN("gen");
         companion object { fun de(c: String) = entries.firstOrNull { it.codigo == c } ?: GAS }
     }
     enum class Mochila(val ideal: Double) { VERDE(0.5), AMARILLA(0.3), ROJA(0.2) }
@@ -53,6 +53,8 @@ object Cuentas {
             listOf("entretenimiento", "restaurantes", "ropa", "suscripciones", "hormiga", "otro").map { it to Mochila.AMARILLA },
         Tipo.AHO to listOf("emergencia", "meta", "retiro", "otro").map { it to Mochila.ROJA },
         Tipo.INV to listOf("educacion", "herramientas", "fondos", "negocio", "inmuebles", "otro").map { it to Mochila.ROJA },
+        // Generosidad: lo que das para ayudar a alguien (igual que la web)
+        Tipo.GEN to listOf("persona", "familia", "causa", "fe", "comunidad", "otro").map { it to null },
     )
 
     /** Categoría creada por la persona (fin#cats): código "u_…", nombre y, si es gasto, su mochila. */
@@ -66,7 +68,7 @@ object Cuentas {
     /** Las categorías de un tipo: las de siempre (sin "otro"), las propias y "otro" al final. */
     fun categorias(t: Tipo, propias: Map<String, List<Propia>> = emptyMap()): List<Pair<String, Mochila?>> {
         val base = CATEGORIAS.getValue(t)
-        val suyas = propias[t.codigo].orEmpty().map { it.c to (if (t == Tipo.GAS) (if (it.mo == "verde") Mochila.VERDE else Mochila.AMARILLA) else if (t == Tipo.ING) null else Mochila.ROJA) }
+        val suyas = propias[t.codigo].orEmpty().map { it.c to (if (t == Tipo.GAS) (if (it.mo == "verde") Mochila.VERDE else Mochila.AMARILLA) else if (t == Tipo.ING || t == Tipo.GEN) null else Mochila.ROJA) }
         return base.filter { it.first != "otro" } + suyas + base.filter { it.first == "otro" }
     }
 
@@ -75,7 +77,7 @@ object Cuentas {
         .replace(Regex("\\p{M}"), "").replace(Regex("[^a-z0-9]+"), "_").trim('_').take(24)
 
     fun mochila(m: Mov, propias: Map<String, List<Propia>> = emptyMap()): Mochila? = when (Tipo.de(m.t)) {
-        Tipo.ING -> null
+        Tipo.ING, Tipo.GEN -> null
         Tipo.AHO, Tipo.INV -> Mochila.ROJA
         Tipo.GAS -> categorias(Tipo.GAS, propias).firstOrNull { it.first == m.c }?.second ?: Mochila.AMARILLA
     }
@@ -101,15 +103,15 @@ object Cuentas {
             }
 
     data class Suma(
-        val ing: Double = 0.0, val gas: Double = 0.0, val aho: Double = 0.0, val inv: Double = 0.0, val n: Int = 0,
+        val ing: Double = 0.0, val gas: Double = 0.0, val aho: Double = 0.0, val inv: Double = 0.0, val gen: Double = 0.0, val n: Int = 0,
         val mochilas: Map<Mochila, Double> = emptyMap(), val categorias: Map<Pair<Tipo, String>, Double> = emptyMap(),
     ) {
         /** Lo que queda libre. */
-        val disponible get() = ing - gas - aho - inv
+        val disponible get() = ing - gas - aho - inv - gen
         /** Lo que suma a tu patrimonio. */
         val construido get() = aho + inv
         val tasa: Double? get() = if (ing > 0) (construido / ing).coerceIn(0.0, 1.0) else null
-        fun de(t: Tipo) = when (t) { Tipo.ING -> ing; Tipo.GAS -> gas; Tipo.AHO -> aho; Tipo.INV -> inv }
+        fun de(t: Tipo) = when (t) { Tipo.ING -> ing; Tipo.GAS -> gas; Tipo.AHO -> aho; Tipo.INV -> inv; Tipo.GEN -> gen }
     }
 
     fun sumar(todos: List<Mov>, propias: Map<String, List<Propia>> = emptyMap()): Suma {
@@ -118,7 +120,7 @@ object Cuentas {
         val moch = mutableMapOf<Mochila, Double>(); val cat = mutableMapOf<Pair<Tipo, String>, Double>()
         movs.forEach { x ->
             val t = Tipo.de(x.t)
-            s = when (t) { Tipo.ING -> s.copy(ing = s.ing + x.m); Tipo.GAS -> s.copy(gas = s.gas + x.m); Tipo.AHO -> s.copy(aho = s.aho + x.m); Tipo.INV -> s.copy(inv = s.inv + x.m) }
+            s = when (t) { Tipo.ING -> s.copy(ing = s.ing + x.m); Tipo.GAS -> s.copy(gas = s.gas + x.m); Tipo.AHO -> s.copy(aho = s.aho + x.m); Tipo.INV -> s.copy(inv = s.inv + x.m); Tipo.GEN -> s.copy(gen = s.gen + x.m) }
             mochila(x, propias)?.let { moch[it] = (moch[it] ?: 0.0) + x.m }
             cat[t to x.c] = (cat[t to x.c] ?: 0.0) + x.m
         }

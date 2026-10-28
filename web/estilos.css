@@ -20,10 +20,10 @@
   --franja: #1B2A38;
   --burbuja-yo: #F6EAD3;
   /* Ascenso financiero: un color por tipo de movimiento y por mochila (del libro Cima financiera) */
-  --c-ing: #2F6B4A; --c-gas: #6B2A1A; --c-aho: #2F5D7C; --c-inv: #6A4A7E;
+  --c-ing: #2F6B4A; --c-gas: #6B2A1A; --c-aho: #2F5D7C; --c-inv: #6A4A7E; --c-gen: #A0522D;
   --m-verde: #4C7A5A; --m-amarilla: #B08A3E; --m-roja: #6B2A1A; --m-libre: #DCE2E4;
   /* Gráficos de salud financiera: paleta validada (daltonismo y contraste) y estados fijos */
-  --v-fijos: #2E8B57; --v-variables: #D98A1C; --v-ahorro: #2A78D6; --v-inversion: #C2447E; --v-libre: #C9D1D4;
+  --v-fijos: #2E8B57; --v-variables: #D98A1C; --v-ahorro: #2A78D6; --v-inversion: #C2447E; --v-generosidad: #B5653A; --v-libre: #C9D1D4;
   --st-ok: #0ca30c; --st-medio: #fab219; --st-bajo: #d03b3b;
   --font-titulo: "Roboto Serif", Georgia, "Times New Roman", serif;
   --font-texto: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -32,15 +32,15 @@
   --fondo: #0A0E12; --hoja: #12181D; --hoja-2: #0E1418; --tinta: #E8EDEF; --tinta-suave: #98A6AD;
   --linea: #243039; --burdeos: #F0B3A1; --burdeos-suave: #3A2420; --oro: #C9AE84; --oro-suave: #2E2817;
   --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #070B10; --burbuja-yo: #2E2817; color-scheme: dark;
-  --c-ing: #8CC796; --c-gas: #F0B3A1; --c-aho: #9CC3E0; --c-inv: #C9AEDB; --m-verde: #86BC93; --m-amarilla: #D9B871; --m-roja: #F0B3A1; --m-libre: #243039;
-  --v-fijos: #45A86E; --v-variables: #C98500; --v-ahorro: #3987E5; --v-inversion: #D55181; --v-libre: #3A4750;
+  --c-ing: #8CC796; --c-gas: #F0B3A1; --c-aho: #9CC3E0; --c-inv: #C9AEDB; --c-gen: #E8B08A; --m-verde: #86BC93; --m-amarilla: #D9B871; --m-roja: #F0B3A1; --m-libre: #243039;
+  --v-fijos: #45A86E; --v-variables: #C98500; --v-ahorro: #3987E5; --v-inversion: #D55181; --v-generosidad: #D98A5E; --v-libre: #3A4750;
 } }
 :root[data-theme="dark"] {
   --fondo: #0A0E12; --hoja: #12181D; --hoja-2: #0E1418; --tinta: #E8EDEF; --tinta-suave: #98A6AD;
   --linea: #243039; --burdeos: #F0B3A1; --burdeos-suave: #3A2420; --oro: #C9AE84; --oro-suave: #2E2817;
   --sobre-burdeos: #2B1209; --sombra: 0 0 0; --ok: #8CC796; --franja: #070B10; --burbuja-yo: #2E2817; color-scheme: dark;
-  --c-ing: #8CC796; --c-gas: #F0B3A1; --c-aho: #9CC3E0; --c-inv: #C9AEDB; --m-verde: #86BC93; --m-amarilla: #D9B871; --m-roja: #F0B3A1; --m-libre: #243039;
-  --v-fijos: #45A86E; --v-variables: #C98500; --v-ahorro: #3987E5; --v-inversion: #D55181; --v-libre: #3A4750;
+  --c-ing: #8CC796; --c-gas: #F0B3A1; --c-aho: #9CC3E0; --c-inv: #C9AEDB; --c-gen: #E8B08A; --m-verde: #86BC93; --m-amarilla: #D9B871; --m-roja: #F0B3A1; --m-libre: #243039;
+  --v-fijos: #45A86E; --v-variables: #C98500; --v-ahorro: #3987E5; --v-inversion: #D55181; --v-generosidad: #D98A5E; --v-libre: #3A4750;
 }
 html, body { height: 100%; }
 * { scrollbar-width: none; }
@@ -4282,3 +4282,13 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ventana-cielo.modo-noche .vc-arriba, .ventana-cielo.modo-noche .vc-ayuda { color: #b33; }
 .ventana-cielo.modo-noche .vc-barra button, .ventana-cielo.modo-noche .vc-brujula, .ventana-cielo.modo-noche .vc-cerrar { color: #c33; border-color: rgb(200 50 50 / .5); background: rgb(120 0 0 / .18); }
 .ventana-cielo.modo-noche .vc-barra button[aria-pressed="true"] { background: #6a0f0f; color: #f2b0b0; }
+
+/* Generosidad: lo que das para ayudar a alguien (5.º tipo de movimiento) */
+.pildora.t-gen { color: var(--c-gen); background: color-mix(in srgb, var(--c-gen) 14%, transparent); }
+.seg-b.t-gen[aria-checked="true"] { background: color-mix(in srgb, var(--c-gen) 16%, transparent); color: var(--c-gen); }
+.seg-generosidad { background: var(--v-generosidad); }
+.seg { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.seg-b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.asc-cifras { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
+@media (max-width: 600px) { .seg { grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 20px; } }
+.asc-cifra.c-gen span::before { background: var(--c-gen); }

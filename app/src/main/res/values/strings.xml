@@ -2593,4 +2593,11 @@
     <string name="mirar_listo">Listo</string>
     <string name="mirar_noche">Modo noche</string>
     <string name="mirar_ayuda_ajustar">Arrastra el dibujo hasta que la Luna o una estrella brillante caiga sobre la real. Doble toque: volver a cero.</string>
+    <string name="cu_gen">Generosidad</string>
+    <string name="cu_cat_gen_persona">Ayuda a una persona</string>
+    <string name="cu_cat_gen_familia">Apoyo a la familia</string>
+    <string name="cu_cat_gen_causa">Causa o fundación</string>
+    <string name="cu_cat_gen_fe">Diezmo u ofrenda</string>
+    <string name="cu_cat_gen_comunidad">Mi comunidad</string>
+    <string name="cu_cat_gen_otro">Otra ayuda</string>
 </resources>

@@ -165,7 +165,7 @@ fun EscalaIsf(isf: Int) {
 fun BarraPeso(r: Salud.Resultado, plata: (Double) -> String) {
     val s = r.suma
     if (s.ing <= 0) return
-    val libre = s.ing - s.gas - s.aho - s.inv
+    val libre = s.ing - s.gas - s.aho - s.inv - s.gen
     val partes = listOf(
         Triple(stringResource(R.string.cu_seg_fijos), r.fijos, vc(V_FIJOS)),
         Triple(stringResource(R.string.cu_seg_variables), s.gas - r.fijos, vc(V_VARIABLES)),
@@ -173,7 +173,7 @@ fun BarraPeso(r: Salud.Resultado, plata: (Double) -> String) {
         Triple(stringResource(R.string.cu_inv), s.inv, vc(V_INVERSION)),
         Triple(stringResource(if (libre >= 0) R.string.cu_seg_libre else R.string.cu_seg_deficit), kotlin.math.abs(libre), vc(V_LIBRE)),
     ).filter { it.second > 0.0 }
-    val base = maxOf(s.ing, s.gas + s.aho + s.inv)
+    val base = maxOf(s.ing, s.gas + s.aho + s.inv + s.gen)
     Text(stringResource(R.string.cu_peso_titulo), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
     val desc = partes.joinToString(", ") { "${it.first} ${pctG(it.second / s.ing)}" }
     Row(Modifier.fillMaxWidth().height(22.dp).clip(RoundedCornerShape(4.dp)).semantics { contentDescription = desc }, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -275,7 +275,7 @@ fun LineaMeses(anio: Int?, libro: Libro) {
     }
     if (meses.size < 2) return
     val datos = remember(libro, meses) {
-        meses.map { m -> val s = libro.suma("$m-"); Triple(m, if (s.ing > 0) (s.ing - s.gas - s.aho - s.inv) / s.ing else null, if (s.ing > 0) (s.aho + s.inv) / s.ing else null) }
+        meses.map { m -> val s = libro.suma("$m-"); Triple(m, if (s.ing > 0) (s.ing - s.gas - s.aho - s.inv - s.gen) / s.ing else null, if (s.ing > 0) (s.aho + s.inv) / s.ing else null) }
     }
     var sel by remember(datos) { mutableIntStateOf(datos.lastIndex) }
     val cFlujo = vc(V_FIJOS); val cCons = vc(V_AHORRO)

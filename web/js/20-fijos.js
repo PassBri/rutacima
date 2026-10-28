@@ -72,7 +72,7 @@ function fijosHoja(ym) {
         <td><input class="num" type="number" min="1" max="31" value="${x.dia}" data-acc-change="fijoDia" data-arg="${x.id}" aria-label="Día del mes" style="width:64px"></td>
         <td class="num"><input class="num" inputmode="decimal" value="${esc(numAsc(Number(x.m)))}" data-acc-change="fijoMonto" data-arg="${x.id}" aria-label="Monto (rige desde este mes)"></td>
         <td class="acc-mov"><button class="rb" data-acc="fijoParar" data-arg="${x.id}" aria-label="Dejar de repetir" title="Dejar de repetir">${ic("cerrar")}</button></td></tr>`).join("")}
-      </tbody><tfoot><tr><th colspan="3" scope="row">Cada mes</th><td class="num">${["ing", "gas", "aho", "inv"].filter(t => totalT(t)).map(t => `<span class="pildora t-${t}">${plata(totalT(t))}</span>`).join(" ")}</td><td></td></tr></tfoot></table></div>
+      </tbody><tfoot><tr><th colspan="3" scope="row">Cada mes</th><td class="num">${["ing", "gas", "aho", "inv", "gen"].filter(t => totalT(t)).map(t => `<span class="pildora t-${t}">${plata(totalT(t))}</span>`).join(" ")}</td><td></td></tr></tfoot></table></div>
       <p class="suave" style="margin:8px 0 0;font-size:13px">Si cambias el monto, rige desde este mes. Para cambiar solo un mes, edítalo en su día.</p>`
     : `<p class="suave" style="margin:6px 0 0">¿Pagas arriendo, internet o recibes un salario fijo? Al anotarlo en un día marca <b>Se repite cada mes</b> y aparecerá solo cada mes, sin volver a escribirlo.</p>`}`);
 }

@@ -182,7 +182,7 @@ object Salud {
         // Sin deudas: no hay saldo ni cuotas, y lo que hoy se va en pagos de deuda queda libre
         val pagosDeuda = if (sinDeudas) s.categorias[Cuentas.Tipo.GAS to "deudas"] ?: 0.0 else 0.0
         val gas = s.gas - pagosDeuda
-        val egresos = gas + s.aho + s.inv
+        val egresos = gas + s.aho + s.inv + s.gen
         val ds = if (actual && !sinDeudas) deudas else emptyList()
         val pasivos = ds.sumOf { it.actual }
         val buenas = ds.filter { it.deuda.tipo == "buena" }.sumOf { it.actual }

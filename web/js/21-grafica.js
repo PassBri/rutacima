@@ -14,7 +14,7 @@
 const GR = { gran: "m", tipo: "linea", rango: "1A", series: ["saldo", "ing", "gas"], sma: false, salud: true, tabla: false, grande: false };
 const GR_SERIES = [
   ["saldo", "Saldo acumulado", "--burdeos"], ["patr", "Patrimonio construido", "--oro"], ["ing", "Ingresos", "--v-fijos"],
-  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["disp", "Disponible", "--tinta"],
+  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["gen", "Generosidad", "--v-generosidad"], ["disp", "Disponible", "--tinta"],
 ];
 const GR_PCT = [["flujo", "Flujo neto", "--v-fijos"], ["constr", "Ahorro + inversión", "--v-ahorro"], ["gastoP", "Gasto ÷ ingreso", "--v-variables"]];
 const GR_RANGOS = [["1M", "1M", "d", 31], ["3M", "3M", "d", 92], ["6M", "6M", "s", 26], ["1A", "1A", "m", 12], ["5A", "5A", "m", 60], ["todo", "Todo", "m", 0]];
@@ -35,11 +35,11 @@ function datosGrafica(gran) {
   const fin = hoyFecha(), ini = deIso(dias[0]) < fin ? deIso(dias[0]) : fin;
   for (let d = new Date(ini), n = 0; d <= fin && n < 20000; d.setDate(d.getDate() + 1), n++) {
     const k = clave(d), s = porDia.get(iso(d));
-    if (!cur || cur.k !== k) { cur = { k, etq: etq(d, k), largo: largo(d, k), ing: 0, gas: 0, aho: 0, inv: 0, o: saldo, h: saldo, l: saldo, c: saldo }; out.push(cur); }
-    if (s) { cur.ing += s.ing; cur.gas += s.gas; cur.aho += s.aho; cur.inv += s.inv; saldo += s.disp; constr += s.construido; }
+    if (!cur || cur.k !== k) { cur = { k, etq: etq(d, k), largo: largo(d, k), ing: 0, gas: 0, aho: 0, inv: 0, gen: 0, o: saldo, h: saldo, l: saldo, c: saldo }; out.push(cur); }
+    if (s) { cur.ing += s.ing; cur.gas += s.gas; cur.aho += s.aho; cur.inv += s.inv; cur.gen += s.gen || 0; saldo += s.disp; constr += s.construido; }
     cur.h = Math.max(cur.h, saldo); cur.l = Math.min(cur.l, saldo); cur.c = cur.saldo = saldo; cur.patr = constr;
   }
-  out.forEach(b => { b.disp = b.ing - b.gas - b.aho - b.inv; b.flujo = b.ing ? b.disp / b.ing : null; b.constr = b.ing ? (b.aho + b.inv) / b.ing : null; b.gastoP = b.ing ? b.gas / b.ing : null; });
+  out.forEach(b => { b.disp = b.ing - b.gas - b.aho - b.inv - b.gen; b.flujo = b.ing ? b.disp / b.ing : null; b.constr = b.ing ? (b.aho + b.inv) / b.ing : null; b.gastoP = b.ing ? b.gas / b.ing : null; });
   return out;
 }
 
@@ -165,7 +165,7 @@ function grDibujar() {
   grTicks(lo, hi, 5).forEach(v => { x.strokeStyle = v === 0 ? suave : linea; x.globalAlpha = v === 0 ? 0.6 : 1; x.setLineDash(v === 0 ? [] : [2, 4]); x.beginPath(); x.moveTo(g.L, Math.round(y(v)) + 0.5); x.lineTo(g.W - g.R, Math.round(y(v)) + 0.5); x.stroke(); x.globalAlpha = 1;
     x.fillStyle = suave; x.textAlign = "left"; x.fillText(grCompacto(v), g.W - g.R + 8, y(v)); }); x.setLineDash([]); x.globalAlpha = 1;
   // barras agrupadas (o áreas y líneas)
-  const flujos = series.filter(k => ["ing", "gas", "aho", "inv", "disp"].includes(k)), acumulados = series.filter(k => ["saldo", "patr"].includes(k));
+  const flujos = series.filter(k => ["ing", "gas", "aho", "inv", "gen", "disp"].includes(k)), acumulados = series.filter(k => ["saldo", "patr"].includes(k));
   if (GR.tipo === "barras" && flujos.length) {
     const gw = Math.max(1, paso * 0.78), bw = Math.max(1, (gw - 2 * (flujos.length - 1)) / flujos.length);
     vis.forEach((b, i) => flujos.forEach((k, j) => { const v = b[k], x0 = cx(i) - gw / 2 + j * (bw + 2), ya = y(Math.max(0, v)), yb = y(Math.min(0, v));

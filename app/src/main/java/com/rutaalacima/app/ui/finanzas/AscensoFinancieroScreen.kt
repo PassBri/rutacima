@@ -537,6 +537,7 @@ fun colorTipo(t: Tipo): Color {
         Tipo.GAS -> MaterialTheme.colorScheme.primary
         Tipo.AHO -> if (oscuro) Color(0xFF9CC3E0) else Color(0xFF2F5D7C)
         Tipo.INV -> if (oscuro) Color(0xFFC9AEDB) else Color(0xFF6A4A7E)
+        Tipo.GEN -> if (oscuro) Color(0xFFE8B08A) else Color(0xFFA0522D)
     }
 }
 
@@ -554,7 +555,7 @@ private fun Color.luminanciaBaja() = (0.299f * red + 0.587f * green + 0.114f * b
 
 @Composable fun nombreTipo(t: Tipo, plural: Boolean = true): String = stringResource(
     when (t) { Tipo.ING -> if (plural) R.string.cu_ing else R.string.cu_ing1; Tipo.GAS -> if (plural) R.string.cu_gas else R.string.cu_gas1
-        Tipo.AHO -> if (plural) R.string.cu_aho else R.string.cu_aho1; Tipo.INV -> if (plural) R.string.cu_inv else R.string.cu_inv1 })
+        Tipo.AHO -> if (plural) R.string.cu_aho else R.string.cu_aho1; Tipo.INV -> if (plural) R.string.cu_inv else R.string.cu_inv1; Tipo.GEN -> R.string.cu_gen })
 
 /** Nombre de una categoría en el idioma de la app. */
 /** Las categorías creadas por la persona (para sus nombres) y el ViewModel del libro (para crear más). */
@@ -804,8 +805,8 @@ private fun FilaTabla(etq: String, valores: List<String>, desliza: ScrollState, 
 fun GraficaPeriodos(filas: List<FilaPeriodo>, plata: (Double) -> String, onFila: (NivelCuentas) -> Unit) {
     if (filas.none { it.suma.n > 0 }) return
     val ing = colorTipo(Tipo.ING); val sal = colorTipo(Tipo.GAS); val guia = MaterialTheme.colorScheme.outlineVariant
-    val max = filas.maxOf { maxOf(it.suma.ing, it.suma.gas + it.suma.aho + it.suma.inv) }.coerceAtLeast(1.0)
-    val desc = filas.filter { it.suma.n > 0 }.joinToString { "${it.etiqueta}: ${plata(it.suma.ing)} / ${plata(it.suma.gas + it.suma.aho + it.suma.inv)}" }
+    val max = filas.maxOf { maxOf(it.suma.ing, it.suma.gas + it.suma.aho + it.suma.inv + it.suma.gen) }.coerceAtLeast(1.0)
+    val desc = filas.filter { it.suma.n > 0 }.joinToString { "${it.etiqueta}: ${plata(it.suma.ing)} / ${plata(it.suma.gas + it.suma.aho + it.suma.inv + it.suma.gen)}" }
     Column {
         Canvas(Modifier.fillMaxWidth().height(130.dp).semantics { contentDescription = desc }.pointerInput(filas) {
             detectTapGestures { p -> val i = (p.x / size.width * filas.size).toInt().coerceIn(0, filas.lastIndex); onFila(filas[i].destino) }
@@ -815,7 +816,7 @@ fun GraficaPeriodos(filas: List<FilaPeriodo>, plata: (Double) -> String, onFila:
             filas.forEachIndexed { i, f ->
                 val cx = w * i + w / 2
                 val hi = (f.suma.ing / max * size.height).toFloat()
-                val hs = ((f.suma.gas + f.suma.aho + f.suma.inv) / max * size.height).toFloat()
+                val hs = ((f.suma.gas + f.suma.aho + f.suma.inv + f.suma.gen) / max * size.height).toFloat()
                 if (hi > 0) drawRoundRect(ing, Offset(cx - bw - 1, size.height - hi), Size(bw, hi), CornerRadius(3f, 3f))
                 if (hs > 0) drawRoundRect(sal, Offset(cx + 1, size.height - hs), Size(bw, hs), CornerRadius(3f, 3f))
             }
@@ -1090,7 +1091,7 @@ private fun LazyListScope.dia(f: LocalDate, libro: Libro, plata: (Double) -> Str
                     Text(stringResource(R.string.cu_asi_va, mesFrase(f.monthValue)), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Text(stringResource(R.string.cu_disponible_x, plata(mesS.disponible)), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold,
                         color = if (mesS.disponible < 0) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurface)
-                    Text(stringResource(R.string.cu_mes_resumen, plata(mesS.ing), plata(mesS.gas + mesS.aho + mesS.inv)), style = MaterialTheme.typography.bodySmall,
+                    Text(stringResource(R.string.cu_mes_resumen, plata(mesS.ing), plata(mesS.gas + mesS.aho + mesS.inv + mesS.gen)), style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
                 Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null)
@@ -1116,7 +1117,7 @@ private fun NuevoMovimiento(plata: (Double) -> String, dia: Int, onAgregar: (Tip
         else {
             onAgregar(tipo, v, cat, nota, repite)
             com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(if (repite) ctx.getString(R.string.cu_fijo_quedo, plata(v), dia) else ctx.getString(R.string.cu_anotado, ctx.getString(when (tipo) {
-                Tipo.ING -> R.string.cu_ing1; Tipo.GAS -> R.string.cu_gas1; Tipo.AHO -> R.string.cu_aho1; Tipo.INV -> R.string.cu_inv1 }), plata(v)))
+                Tipo.ING -> R.string.cu_ing1; Tipo.GAS -> R.string.cu_gas1; Tipo.AHO -> R.string.cu_aho1; Tipo.INV -> R.string.cu_inv1; Tipo.GEN -> R.string.cu_gen }), plata(v)))
             monto = ""; nota = ""; error = false; repite = false
         }
     }

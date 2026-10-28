@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">完成</string>
     <string name="mirar_noche">夜间模式</string>
     <string name="mirar_ayuda_ajustar">拖动星图，直到月亮或一颗亮星与真实的重合。双击：重置。</string>
+    <string name="cu_gen">慷慨</string>
+    <string name="cu_cat_gen_persona">帮助他人</string>
+    <string name="cu_cat_gen_familia">支持家人</string>
+    <string name="cu_cat_gen_causa">公益或基金会</string>
+    <string name="cu_cat_gen_fe">什一奉献</string>
+    <string name="cu_cat_gen_comunidad">我的社区</string>
+    <string name="cu_cat_gen_otro">其他帮助</string>
 </resources>

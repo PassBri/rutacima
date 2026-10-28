@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">OK</string>
     <string name="mirar_noche">Mode nuit</string>
     <string name="mirar_ayuda_ajustar">Faites glisser le dessin jusqu\'à ce que la Lune ou une étoile brillante coïncide avec la vraie. Double appui : réinitialiser.</string>
+    <string name="cu_gen">Générosité</string>
+    <string name="cu_cat_gen_persona">Aide à une personne</string>
+    <string name="cu_cat_gen_familia">Soutien à la famille</string>
+    <string name="cu_cat_gen_causa">Cause ou fondation</string>
+    <string name="cu_cat_gen_fe">Dîme ou offrande</string>
+    <string name="cu_cat_gen_comunidad">Ma communauté</string>
+    <string name="cu_cat_gen_otro">Autre aide</string>
 </resources>

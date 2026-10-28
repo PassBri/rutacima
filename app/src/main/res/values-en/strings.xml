@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">Done</string>
     <string name="mirar_noche">Night mode</string>
     <string name="mirar_ayuda_ajustar">Drag the drawing until the Moon or a bright star sits on the real one. Double tap: reset.</string>
+    <string name="cu_gen">Generosity</string>
+    <string name="cu_cat_gen_persona">Helping someone</string>
+    <string name="cu_cat_gen_familia">Family support</string>
+    <string name="cu_cat_gen_causa">Cause or charity</string>
+    <string name="cu_cat_gen_fe">Tithe or offering</string>
+    <string name="cu_cat_gen_comunidad">My community</string>
+    <string name="cu_cat_gen_otro">Other help</string>
 </resources>

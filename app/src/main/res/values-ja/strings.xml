@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">完了</string>
     <string name="mirar_noche">ナイトモード</string>
     <string name="mirar_ayuda_ajustar">月や明るい星が本物と重なるまで図をドラッグします。ダブルタップでリセット。</string>
+    <string name="cu_gen">寄付・思いやり</string>
+    <string name="cu_cat_gen_persona">人への手助け</string>
+    <string name="cu_cat_gen_familia">家族への支援</string>
+    <string name="cu_cat_gen_causa">活動・財団</string>
+    <string name="cu_cat_gen_fe">十分の一献金・献金</string>
+    <string name="cu_cat_gen_comunidad">地域社会</string>
+    <string name="cu_cat_gen_otro">その他の支援</string>
 </resources>

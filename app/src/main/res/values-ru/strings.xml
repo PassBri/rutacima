@@ -2584,4 +2584,11 @@
     <string name="mirar_listo">Готово</string>
     <string name="mirar_noche">Ночной режим</string>
     <string name="mirar_ayuda_ajustar">Перетащите рисунок, пока Луна или яркая звезда не совпадёт с настоящей. Двойное касание: сброс.</string>
+    <string name="cu_gen">Щедрость</string>
+    <string name="cu_cat_gen_persona">Помощь человеку</string>
+    <string name="cu_cat_gen_familia">Поддержка семьи</string>
+    <string name="cu_cat_gen_causa">Благое дело или фонд</string>
+    <string name="cu_cat_gen_fe">Десятина или пожертвование</string>
+    <string name="cu_cat_gen_comunidad">Моё сообщество</string>
+    <string name="cu_cat_gen_otro">Другая помощь</string>
 </resources>
