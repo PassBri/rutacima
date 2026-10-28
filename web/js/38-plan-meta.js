@@ -11,9 +11,9 @@ const PlanMeta = {
 };
 window.PlanMeta = PlanMeta;
 
-function planMetaHtml(m) {
+function planMetaHtml(m, suelto = false) {
   const ps = PlanMeta.leer(m.id), hechos = ps.filter(x => x.h).length;
-  return hoja(`<div class="cab-lista-btn"><div class="etiqueta">Plan de acción${ps.length ? ` · ${hechos} de ${ps.length}` : ""}</div></div>
+  return (suelto ? (h => `<div class="pm-suelto">${h}</div>`) : hoja)(`<div class="cab-lista-btn"><div class="etiqueta">Plan de acción${ps.length ? ` · ${hechos} de ${ps.length}` : ""}</div></div>
     ${ps.length ? `<div class="pm-barra" role="img" aria-label="${hechos} de ${ps.length} pasos hechos"><i style="width:${Math.round(hechos * 100 / ps.length)}%"></i></div>` : ""}
     <div class="sm">${ps.map((x, i) => `<div class="sm-fila${x.h ? " ganada" : ""}">
       <button class="sm-check" data-acc="planMetaHecho" data-arg="${m.id}|${i}" aria-pressed="${x.h}" aria-label="${x.h ? "Desmarcar" : "Marcar hecho"}: ${esc(x.t)}">${ic("check")}</button>

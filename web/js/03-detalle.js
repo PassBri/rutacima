@@ -492,9 +492,9 @@ const DET = {
       // La cinta de años y ‹ año › ya están en la barra de vida (a la derecha)
 
       corazonAnio(a) + cumbresAnio(a) +
-      hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
+      (window.brujulaDelAnio ? brujulaDelAnio(a) + otrasMetasAnio(a, metas) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}${(() => { const n = c.mensuales.filter(x => x.metaAnualId === m.id).length; return n ? ` <span class="suave" style="font-size:12px">· ${n} ${n === 1 ? "mes" : "meses"}</span>` : ""; })()}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
-          : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`) +
+          : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`)) +
       (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cumplidosAnio(a) + cartaAnio(a) + (window.bienResumenAnio ? bienResumenAnio(a) : ""));
       // Los 12 meses ya están en la barra de vida (a la derecha): aquí no se repiten
   },
