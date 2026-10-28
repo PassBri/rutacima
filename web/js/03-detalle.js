@@ -125,7 +125,7 @@ function recuerdosAnio(a, ps) {
       <button class="alb-borrar" data-acc="albumBorrar" data-arg="${esc(p.id)}" aria-label="Borrar esta foto del álbum" title="Borrar">${ic("borrar")}</button>` : ""}</div>`;
   ps = window.ordenAlbum ? ordenAlbum(a, ps) : ps;
   const vistos = abierto ? ps : ps.slice(0, 6);
-  return `<div class="${abierto ? "album" : "album album-tira"}" data-album="${a}">${vistos.map(tarjeta).join("")}</div>` +
+  return `<div class="album album-tira" data-album="${a}">${vistos.map(tarjeta).join("")}</div>` +
     (ps.length > 6 ? `<button class="btn mini" style="margin-top:10px" data-acc="albumAbrir" data-arg="${abierto ? "" : a}">${abierto ? "Ver menos" : `Ver todo (${ps.length})`}</button>` : "");
 }
 /** Un año por vivir: su visión. Fotos de lo que quieres ver cumplido ese año, privadas hasta que las compartas. */

@@ -2556,4 +2556,16 @@
     <string name="album_mover">Drag to reorder</string>
     <string name="album_borrar_titulo">Delete this photo?</string>
     <string name="album_borrar_texto">The post will be removed from your wall and your album.</string>
+    <string name="foco_mis_metas">My goals for %1$s</string>
+    <string name="foco_elegir">Choose</string>
+    <string name="foco_cambiar">Change</string>
+    <string name="foco_vacio">You haven\'t chosen what to work on in %1$s yet. Pick a few %2$d goals: each day, your actions will add to them.</string>
+    <string name="foco_resumen">This month: %1$d goals and %2$d sub-goals from %3$d.</string>
+    <string name="foco_sin_pasos">No sub-goals yet: write them in your %1$d Compass.</string>
+    <string name="foco_ganada">Achieved</string>
+    <string name="foco_dias">Days with progress this month: %1$d</string>
+    <string name="foco_sin_dias">No days with progress yet this month</string>
+    <string name="foco_elegir_titulo">Choose what to work on in %1$s</string>
+    <string name="foco_elegir_ayuda">Check your %1$d goals and, if you like, only some of their sub-goals.</string>
+    <string name="foco_listo">Done</string>
 </resources>

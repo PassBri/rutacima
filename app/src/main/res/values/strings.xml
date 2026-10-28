@@ -2565,4 +2565,16 @@
     <string name="album_mover">Arrastra para ordenar</string>
     <string name="album_borrar_titulo">¿Borrar esta foto?</string>
     <string name="album_borrar_texto">Se borra la publicación de tu muro y de tu álbum.</string>
+    <string name="foco_mis_metas">Mis metas de %1$s</string>
+    <string name="foco_elegir">Elegir</string>
+    <string name="foco_cambiar">Cambiar</string>
+    <string name="foco_vacio">Aún no eliges qué trabajar en %1$s. Escoge unas pocas metas de %2$d: en cada día, tus acciones aportarán a ellas.</string>
+    <string name="foco_resumen">Este mes: %1$d metas y %2$d sub-metas de %3$d.</string>
+    <string name="foco_sin_pasos">Sin sub-metas todavía: escríbelas en la Brújula de %1$d.</string>
+    <string name="foco_ganada">Ganada</string>
+    <string name="foco_dias">Días con avance este mes: %1$d</string>
+    <string name="foco_sin_dias">Aún sin días con avance este mes</string>
+    <string name="foco_elegir_titulo">Elige qué trabajar en %1$s</string>
+    <string name="foco_elegir_ayuda">Marca las metas de %1$d y, si quieres, solo algunas de sus sub-metas.</string>
+    <string name="foco_listo">Listo</string>
 </resources>

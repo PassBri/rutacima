@@ -31,6 +31,10 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.filled.Check
+import com.rutaalacima.app.data.local.avance
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material3.Icon
@@ -188,6 +192,8 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
     val casillasV by vm.casillas.collectAsStateWithLifecycle()
     val mandala by vm.mandala.collectAsStateWithLifecycle()
     var quitar by remember { mutableStateOf<Pair<com.rutaalacima.app.data.local.MetaAnualEntity, Int>?>(null) }
+    var eligiendo by remember { mutableStateOf(false) }
+    if (eligiendo) HojaElegirMes(ym, anuales, metas, casillasV, mandala, vm, onQuitar = { anual, n -> quitar = anual to n }) { eligiendo = false }
     quitar?.let { (anual, n) ->
         androidx.compose.material3.AlertDialog(onDismissRequest = { quitar = null },
             text = { Text(stringResource(R.string.foco_quitar_q, anual.titulo, n)) },
@@ -211,48 +217,29 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
         item { MontanaArte("mes-${ym.monthValue}", Modifier.fillMaxWidth().height(140.dp).clip(RoundedCornerShape(20.dp)), paleta = ym.monthValue) }
         item { Calendario(ym, diasAgenda, onAbrirDia) }
 
-        // Metas mensuales con registro de cumplimiento
-        item { SectionTitle(stringResource(R.string.foco_mes_titulo, ym.year, nombreMes(ym.monthValue).lowercase())) }
-        item {
-            Text(stringResource(R.string.foco_mes_ayuda), style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
-        // Las metas del año que se trabajan este mes: se marcan aquí; cada una lleva su registro de días
-        if (anuales.isEmpty()) item {
-            Text(stringResource(R.string.foco_sin_metas, ym.year), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
-        items(anuales, key = { "a" + it.id }) { anual ->
-            val delMes = metas.firstOrNull { it.metaAnualId == anual.id }
-            Column {
-                Row(Modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(checked = delMes != null, onCheckedChange = { si ->
-                        if (!si && delMes != null && delMes.diasMarcados().isNotEmpty()) quitar = anual to delMes.diasMarcados().size
-                        else vm.elegirAnual(anual, si)
-                    })
-                    Text(anual.titulo, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f),
-                        fontWeight = if (delMes != null) FontWeight.SemiBold else FontWeight.Normal)
-                }
-                if (delMes != null) {
-                    // Completa o solo algunas sub-metas este mes
-                    val cas = com.rutaalacima.app.data.vision.SincroBrujula.casillaDe(anual, anuales, casillasV)
-                    val pasos = cas?.let { c0 -> (0 until com.rutaalacima.app.domain.model.Mandala.PASOS).mapNotNull { p ->
-                        mandala[com.rutaalacima.app.domain.model.Mandala.clave(c0.id, p)].orEmpty().trim().takeIf { it.isNotEmpty() }?.let { p to it } } }.orEmpty()
-                    if (pasos.isNotEmpty()) {
-                        val elegidos = com.rutaalacima.app.data.vision.LibroMetas.pasosDelMes(delMes.id)
-                        Text(if (elegidos.isEmpty()) stringResource(R.string.mes_completa) else stringResource(R.string.mes_pasos_n, elegidos.size, pasos.size),
-                            style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 12.dp))
-                        androidx.compose.foundation.layout.FlowRow(Modifier.padding(start = 12.dp, bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                            pasos.forEach { (p, t) ->
-                                androidx.compose.material3.FilterChip(selected = p in elegidos, onClick = { vm.alternarPasoMes(delMes, p) },
-                                    label = { Text("${p + 1}. $t", maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 220.dp)) })
-                            }
-                        }
-                    }
-                    MetaMensualCard(delMes, ym, vm)
+        // El mes en dos tiempos (igual que la web): ELEGIR en una hoja aparte y TRABAJAR con tarjetas de lo elegido.
+        // Los días del mes ya están en el calendario de arriba; aquí no se repiten.
+        val delMes = metas.filter { mm -> mm.metaAnualId != null && anuales.any { it.id == mm.metaAnualId } }
+        item(key = "foco-cab") {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                SectionTitle(stringResource(R.string.foco_mis_metas, nombreMes(ym.monthValue).lowercase()), Modifier.weight(1f))
+                if (anuales.isNotEmpty()) {
+                    if (delMes.isEmpty()) androidx.compose.material3.FilledTonalButton(onClick = { eligiendo = true }) {
+                        Icon(Icons.Filled.Add, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.foco_elegir)) }
+                    else androidx.compose.material3.OutlinedButton(onClick = { eligiendo = true }) {
+                        Icon(Icons.Outlined.Edit, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.foco_cambiar)) }
                 }
             }
         }
-
+        item(key = "foco-resumen") {
+            val nSubs = delMes.sumOf { mm -> pasosMes(mm, anuales, casillasV, mandala).second.size }
+            Text(when {
+                anuales.isEmpty() -> stringResource(R.string.foco_sin_metas, ym.year)
+                delMes.isEmpty() -> stringResource(R.string.foco_vacio, nombreMes(ym.monthValue).lowercase(), ym.year)
+                else -> stringResource(R.string.foco_resumen, delMes.size, nSubs, ym.year)
+            }, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        items(delMes, key = { "mf" + it.id }) { mm -> TarjetaFocoMes(mm, anuales, casillasV, mandala) }
         item(key = "bienestar-$ym") { com.rutaalacima.app.ui.bienestar.BienestarMesCard(ym, onDia = onAbrirDia) }
         if (m != null) {
             item { SectionTitle(stringResource(R.string.actividades_notas)) }
@@ -353,6 +340,120 @@ private fun MetaMensualCard(meta: MetaMensualEntity, ym: YearMonth, vm: MesViewM
                 ) {
                     Text("$d", fontSize = 10.sp, fontWeight = if (hecho) FontWeight.Bold else FontWeight.Normal,
                         color = if (hecho) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+    }
+}
+
+
+/** Las sub-metas de una meta del mes: (casilla, todas las escritas, las que se ven este mes = elegidas o todas). */
+private fun pasosMes(mm: MetaMensualEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>,
+    casillas: List<com.rutaalacima.app.data.local.VisionCasillaEntity>, mandala: Map<String, String>): Triple<com.rutaalacima.app.data.local.VisionCasillaEntity?, List<Pair<Int, String>>, List<Int>> {
+    val anual = anuales.firstOrNull { it.id == mm.metaAnualId }
+    val cas = com.rutaalacima.app.data.vision.SincroBrujula.casillaDe(anual, anuales, casillas) ?: return Triple(null, emptyList(), emptyList())
+    val todos = (0 until com.rutaalacima.app.domain.model.Mandala.PASOS).mapNotNull { p ->
+        mandala[com.rutaalacima.app.domain.model.Mandala.clave(cas.id, p)].orEmpty().trim().takeIf { it.isNotEmpty() }?.let { p to it } }
+    val elegidos = com.rutaalacima.app.data.vision.LibroMetas.pasosDelMes(mm.id).filter { e -> todos.any { it.first == e } }
+    val vistos = todos.filter { elegidos.isEmpty() || it.first in elegidos }
+    return Triple(cas, vistos, elegidos)
+}
+
+/** Una meta elegida para el mes: su nombre, su avance, sus sub-metas del mes (con jornadas) y los días con avance. */
+@Composable
+private fun TarjetaFocoMes(mm: MetaMensualEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>,
+    casillas: List<com.rutaalacima.app.data.local.VisionCasillaEntity>, mandala: Map<String, String>) {
+    val anual = anuales.firstOrNull { it.id == mm.metaAnualId }
+    val (cas, vistos, _) = pasosMes(mm, anuales, casillas, mandala)
+    val cs = MaterialTheme.colorScheme
+    RutaCard {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(10.dp).clip(CircleShape).background(com.rutaalacima.app.ui.vision.colorEje(anual?.eje ?: "CON")))
+            Spacer(Modifier.width(10.dp))
+            Text(anual?.titulo ?: mm.texto, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+            Text("${(mm.avance() * 100).toInt()} %", style = MaterialTheme.typography.labelLarge, color = cs.primary, fontWeight = FontWeight.Bold)
+        }
+        if (cas == null || vistos.isEmpty()) Text(stringResource(R.string.foco_sin_pasos, mm.anio), style = MaterialTheme.typography.bodySmall,
+            color = cs.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+        else vistos.forEachIndexed { i, (p, t) ->
+            val x = com.rutaalacima.app.domain.model.MetodoCima.leer(cas.id, p, mandala)
+            if (i > 0) androidx.compose.material3.HorizontalDivider(color = cs.outlineVariant)
+            Row(Modifier.fillMaxWidth().heightIn(min = 40.dp), verticalAlignment = Alignment.CenterVertically) {
+                Box(Modifier.size(18.dp).clip(CircleShape).background(if (x.cumplido) cs.primary else Color.Transparent)
+                    .border(1.5.dp, if (x.cumplido) cs.primary else cs.outline, CircleShape), contentAlignment = Alignment.Center) {
+                    if (x.cumplido) Icon(Icons.Filled.Check, null, Modifier.size(14.dp), tint = cs.onPrimary)
+                }
+                Spacer(Modifier.width(10.dp))
+                Text("${p + 1}. $t", style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f), color = if (x.cumplido) cs.onSurfaceVariant else cs.onSurface,
+                    textDecoration = if (x.cumplido) TextDecoration.LineThrough else null)
+                Text(if (x.cumplido) stringResource(R.string.foco_ganada) else "${x.jornadas.size}/${x.requeridas ?: com.rutaalacima.app.domain.model.MetodoCima.DIFICULTAD_INICIAL}",
+                    style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
+            }
+        }
+        val n = mm.diasMarcados().size
+        androidx.compose.material3.HorizontalDivider(color = cs.outlineVariant, modifier = Modifier.padding(top = 8.dp))
+        Text(if (n > 0) stringResource(R.string.foco_dias, n) else stringResource(R.string.foco_sin_dias),
+            style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant, modifier = Modifier.padding(top = 8.dp))
+    }
+}
+
+/** Elegir qué trabajar este mes: las metas del año por campamento y, de cada una, solo algunas sub-metas si se quiere. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
+@Composable
+private fun HojaElegirMes(ym: YearMonth, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>, metas: List<MetaMensualEntity>,
+    casillas: List<com.rutaalacima.app.data.local.VisionCasillaEntity>, mandala: Map<String, String>, vm: MesViewModel,
+    onQuitar: (com.rutaalacima.app.data.local.MetaAnualEntity, Int) -> Unit, onCerrar: () -> Unit) {
+    val estado = androidx.compose.material3.rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val cods = com.rutaalacima.app.domain.model.Mandala.CAMPAMENTOS_FIJOS
+    val grupos = anuales.sortedBy { it.id }.groupBy { it.eje ?: "CON" }.toList().sortedBy { (c, _) -> cods.indexOf(c).let { if (it < 0) 99 else it } }
+    androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar, sheetState = estado) {
+        LazyColumn(contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 32.dp)) {
+            item {
+                Text(stringResource(R.string.foco_elegir_titulo, nombreMes(ym.monthValue).lowercase()), style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.foco_elegir_ayuda, ym.year), style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp, bottom = 8.dp))
+            }
+            grupos.forEach { (cod, lista) ->
+                item(key = "g$cod") {
+                    Row(Modifier.padding(top = 14.dp, bottom = 2.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Box(Modifier.size(10.dp).clip(CircleShape).background(com.rutaalacima.app.ui.vision.colorEje(cod)))
+                        Spacer(Modifier.width(8.dp))
+                        Text(com.rutaalacima.app.ui.vision.nombreCodigo(cod), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                items(lista, key = { "e" + it.id }) { anual ->
+                    val mm = metas.firstOrNull { it.metaAnualId == anual.id }
+                    Column {
+                        Row(Modifier.fillMaxWidth().heightIn(min = 48.dp).clickable {
+                            if (mm != null && mm.diasMarcados().isNotEmpty()) onQuitar(anual, mm.diasMarcados().size) else vm.elegirAnual(anual, mm == null)
+                        }, verticalAlignment = Alignment.CenterVertically) {
+                            Checkbox(checked = mm != null, onCheckedChange = null)
+                            Spacer(Modifier.width(8.dp))
+                            Text(anual.titulo, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f),
+                                fontWeight = if (mm != null) FontWeight.SemiBold else FontWeight.Normal)
+                        }
+                        if (mm != null) {
+                            val (_, todos0, elegidos) = pasosMes(mm, anuales, casillas, mandala).let { (c, _, e) ->
+                                Triple(c, c?.let { c0 -> (0 until com.rutaalacima.app.domain.model.Mandala.PASOS).mapNotNull { p ->
+                                    mandala[com.rutaalacima.app.domain.model.Mandala.clave(c0.id, p)].orEmpty().trim().takeIf { it.isNotEmpty() }?.let { p to it } } }.orEmpty(), e) }
+                            if (todos0.isNotEmpty()) {
+                                Text(if (elegidos.isEmpty()) stringResource(R.string.mes_completa) else stringResource(R.string.mes_pasos_n, elegidos.size, todos0.size),
+                                    style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 40.dp))
+                                androidx.compose.foundation.layout.FlowRow(Modifier.padding(start = 40.dp, bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                    todos0.forEach { (p, t) ->
+                                        androidx.compose.material3.FilterChip(selected = p in elegidos, onClick = { vm.alternarPasoMes(mm, p) },
+                                            label = { Text("${p + 1}. $t", maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 220.dp)) })
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            item {
+                Row(Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.End) {
+                    androidx.compose.material3.Button(onClick = onCerrar) { Text(stringResource(R.string.foco_listo)) }
                 }
             }
         }

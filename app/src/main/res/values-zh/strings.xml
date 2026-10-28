@@ -2556,4 +2556,16 @@
     <string name="album_mover">拖动以排序</string>
     <string name="album_borrar_titulo">删除这张照片？</string>
     <string name="album_borrar_texto">该帖子将从你的主页和相册中删除。</string>
+    <string name="foco_mis_metas">我的%1$s目标</string>
+    <string name="foco_elegir">选择</string>
+    <string name="foco_cambiar">更改</string>
+    <string name="foco_vacio">你还没选择%1$s要做什么。挑几个 %2$d 年的目标：每天的行动都会为它们助力。</string>
+    <string name="foco_resumen">本月：%3$d 年的 %1$d 个目标和 %2$d 个子目标。</string>
+    <string name="foco_sin_pasos">还没有子目标：在 %1$d 年的罗盘里写下它们。</string>
+    <string name="foco_ganada">已达成</string>
+    <string name="foco_dias">本月有进展的天数：%1$d</string>
+    <string name="foco_sin_dias">本月还没有进展的日子</string>
+    <string name="foco_elegir_titulo">选择%1$s要做的事</string>
+    <string name="foco_elegir_ayuda">勾选 %1$d 年的目标，也可以只选部分子目标。</string>
+    <string name="foco_listo">完成</string>
 </resources>

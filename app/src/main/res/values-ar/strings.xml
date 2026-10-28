@@ -2556,4 +2556,16 @@
     <string name="album_mover">اسحب لإعادة الترتيب</string>
     <string name="album_borrar_titulo">حذف هذه الصورة؟</string>
     <string name="album_borrar_texto">سيُحذف المنشور من حائطك ومن ألبومك.</string>
+    <string name="foco_mis_metas">أهدافي في %1$s</string>
+    <string name="foco_elegir">اختيار</string>
+    <string name="foco_cambiar">تغيير</string>
+    <string name="foco_vacio">لم تختر بعد ما ستعمل عليه في %1$s. اختر بعض أهداف %2$d: ستضيف أفعالك اليومية إليها.</string>
+    <string name="foco_resumen">هذا الشهر: %1$d أهداف و%2$d أهداف فرعية من %3$d.</string>
+    <string name="foco_sin_pasos">لا أهداف فرعية بعد: اكتبها في بوصلة %1$d.</string>
+    <string name="foco_ganada">تحقّق</string>
+    <string name="foco_dias">أيام فيها تقدّم هذا الشهر: %1$d</string>
+    <string name="foco_sin_dias">لا أيام فيها تقدّم بعد هذا الشهر</string>
+    <string name="foco_elegir_titulo">اختر ما ستعمل عليه في %1$s</string>
+    <string name="foco_elegir_ayuda">حدّد أهداف %1$d، وإن شئت بعض أهدافها الفرعية فقط.</string>
+    <string name="foco_listo">تم</string>
 </resources>

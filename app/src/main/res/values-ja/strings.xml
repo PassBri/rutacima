@@ -2556,4 +2556,16 @@
     <string name="album_mover">ドラッグして並べ替え</string>
     <string name="album_borrar_titulo">この写真を削除しますか？</string>
     <string name="album_borrar_texto">投稿はウォールとアルバムから削除されます。</string>
+    <string name="foco_mis_metas">%1$sの目標</string>
+    <string name="foco_elegir">選ぶ</string>
+    <string name="foco_cambiar">変更</string>
+    <string name="foco_vacio">%1$sに取り組むことをまだ選んでいません。%2$d年の目標をいくつか選びましょう。毎日の行動がそれに積み上がります。</string>
+    <string name="foco_resumen">今月：%3$d年の目標%1$d件、サブ目標%2$d件。</string>
+    <string name="foco_sin_pasos">サブ目標はまだありません。%1$d年のコンパスに書きましょう。</string>
+    <string name="foco_ganada">達成</string>
+    <string name="foco_dias">今月の前進した日数：%1$d</string>
+    <string name="foco_sin_dias">今月はまだ前進した日がありません</string>
+    <string name="foco_elegir_titulo">%1$sに取り組むことを選ぶ</string>
+    <string name="foco_elegir_ayuda">%1$d年の目標にチェックし、必要ならサブ目標を一部だけ選びます。</string>
+    <string name="foco_listo">完了</string>
 </resources>

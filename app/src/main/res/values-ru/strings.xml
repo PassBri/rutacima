@@ -2556,4 +2556,16 @@
     <string name="album_mover">Перетащите, чтобы упорядочить</string>
     <string name="album_borrar_titulo">Удалить это фото?</string>
     <string name="album_borrar_texto">Публикация будет удалена со стены и из альбома.</string>
+    <string name="foco_mis_metas">Мои цели на %1$s</string>
+    <string name="foco_elegir">Выбрать</string>
+    <string name="foco_cambiar">Изменить</string>
+    <string name="foco_vacio">Вы ещё не выбрали, над чем работать в %1$s. Выберите несколько целей на %2$d: каждый день ваши действия будут их приближать.</string>
+    <string name="foco_resumen">В этом месяце: целей — %1$d, подцелей — %2$d (из %3$d).</string>
+    <string name="foco_sin_pasos">Подцелей пока нет: запишите их в Компас %1$d.</string>
+    <string name="foco_ganada">Достигнута</string>
+    <string name="foco_dias">Дней с прогрессом в этом месяце: %1$d</string>
+    <string name="foco_sin_dias">В этом месяце ещё нет дней с прогрессом</string>
+    <string name="foco_elegir_titulo">Выберите, над чем работать в %1$s</string>
+    <string name="foco_elegir_ayuda">Отметьте цели на %1$d и, если хотите, только некоторые подцели.</string>
+    <string name="foco_listo">Готово</string>
 </resources>

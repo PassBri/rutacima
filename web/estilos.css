@@ -4091,3 +4091,34 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .recuerdo-w.arrastrando { opacity: .45; transform: scale(.97); }
 .recuerdo-w.arrastrando .alb-mover { cursor: grabbing; }
 .recuerdo-w.destino { outline: 2px solid var(--oro); outline-offset: 2px; border-radius: 16px; }
+
+/* El mes: elegir aparte, trabajar con tarjetas limpias */
+.mf-lista { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.mf-card { border: 1px solid var(--linea); border-radius: 16px; background: var(--hoja); padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: 0 1px 2px var(--sombra); }
+.mf-card header { display: flex; align-items: center; gap: 10px; }
+.mf-card header b { flex: 1; min-width: 0; font-size: 15px; line-height: 1.3; }
+.mf-pct { border: 0; background: var(--hoja-2); color: var(--burdeos); font-weight: 700; font-variant-numeric: tabular-nums; border-radius: 999px; padding: 6px 12px; min-height: 36px; cursor: pointer; }
+.mf-pasos { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.mf-pasos li { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-top: 1px solid var(--linea); font-size: 14px; }
+.mf-pasos li:first-child { border-top: 0; }
+.mf-marca { flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--tinta-suave); display: grid; place-items: center; }
+.mf-marca svg { width: 14px; height: 14px; }
+.mf-pasos li.ganado .mf-marca { background: var(--burdeos); border-color: var(--burdeos); color: #fff; }
+.mf-pasos li.ganado .mf-t { color: var(--tinta-suave); text-decoration: line-through; }
+.mf-t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mf-pasos small { flex: none; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.mf-vacio { margin: 0; font-size: 13px; }
+.mf-card footer { font-size: 12px; color: var(--tinta-suave); border-top: 1px solid var(--linea); padding-top: 8px; }
+.mf-panel { display: grid; gap: 16px; }
+.mf-panel h4 { margin: 0 0 4px; display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--tinta-suave); font-weight: 600; }
+.mf-op { padding: 4px 0; border-top: 1px solid var(--linea); }
+.mf-op label { display: flex; align-items: center; gap: 12px; min-height: 44px; cursor: pointer; }
+.mf-op input { width: 20px; height: 20px; accent-color: var(--burdeos); flex: none; }
+.mf-op.sel label span { font-weight: 600; }
+.mf-subs { padding: 0 0 8px 32px; display: grid; gap: 6px; }
+.mf-subs small { color: var(--tinta-suave); }
+.mf-listo { display: flex; justify-content: flex-end; position: sticky; bottom: 8px; }
+.mf-card, .mf-pasos, .mf-pasos li { min-width: 0; }
+.mf-card { overflow: hidden; }
+.mf-vacio { padding: 0 !important; }
+.mf-lista { align-items: start; }

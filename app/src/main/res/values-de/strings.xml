@@ -2556,4 +2556,16 @@
     <string name="album_mover">Zum Sortieren ziehen</string>
     <string name="album_borrar_titulo">Dieses Foto löschen?</string>
     <string name="album_borrar_texto">Der Beitrag wird von deiner Pinnwand und aus deinem Album gelöscht.</string>
+    <string name="foco_mis_metas">Meine Ziele im %1$s</string>
+    <string name="foco_elegir">Auswählen</string>
+    <string name="foco_cambiar">Ändern</string>
+    <string name="foco_vacio">Du hast noch nicht gewählt, woran du im %1$s arbeitest. Wähle ein paar Ziele für %2$d: Jeden Tag zahlen deine Aktionen darauf ein.</string>
+    <string name="foco_resumen">Diesen Monat: %1$d Ziele und %2$d Teilziele aus %3$d.</string>
+    <string name="foco_sin_pasos">Noch keine Teilziele: Schreib sie in deinen Kompass %1$d.</string>
+    <string name="foco_ganada">Erreicht</string>
+    <string name="foco_dias">Tage mit Fortschritt diesen Monat: %1$d</string>
+    <string name="foco_sin_dias">Noch keine Tage mit Fortschritt diesen Monat</string>
+    <string name="foco_elegir_titulo">Wähle, woran du im %1$s arbeitest</string>
+    <string name="foco_elegir_ayuda">Markiere deine Ziele für %1$d und, wenn du willst, nur einige Teilziele.</string>
+    <string name="foco_listo">Fertig</string>
 </resources>
