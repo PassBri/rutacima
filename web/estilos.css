@@ -4336,3 +4336,51 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .dias-semana .item.dia-hoy .t1 > span:first-child { font-weight: 700; color: var(--burdeos); }
 .dias-semana .item.dia-hoy .hora { padding: 2px 8px; border-radius: 999px; background: var(--burdeos); color: #fff; font-size: 11px; font-weight: 600; }
 .dias-semana .item.dia-futuro .t1, .dias-semana .item.dia-futuro .t2 { opacity: .6; }
+
+/* ===== Evaluación ===== */
+.ev-acceso { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.ev-acceso > div:nth-child(2) { flex: 1 1 220px; }
+.ev-acceso h3 { margin: 0; } .ev-acceso p { margin: 2px 0 0; }
+.ev-ic { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 12%, transparent); color: var(--burdeos); flex: none; }
+.ev-ic svg { width: 22px; height: 22px; }
+.ev-resumen { display: flex; align-items: center; gap: 18px; }
+.ev-resumen h3 { margin: 0; } .ev-resumen p { margin: 4px 0 0; }
+.ev-nota { font-size: 12.5px; color: var(--tinta-suave); margin: 6px 0 0; }
+.ev-anillo { --p: 0; flex: none; width: 84px; height: 84px; border-radius: 50%; display: grid; place-items: center; grid-auto-flow: column; align-content: center; gap: 1px;
+  background: radial-gradient(closest-side, var(--hoja) 78%, transparent 79% 100%), conic-gradient(var(--burdeos) calc(var(--p) * 100%), color-mix(in srgb, var(--tinta) 10%, transparent) 0); }
+.ev-anillo b { font: 700 24px/1 var(--font-titulo); color: var(--tinta); font-variant-numeric: tabular-nums; } .ev-anillo small { font-size: 12px; color: var(--tinta-suave); align-self: end; margin-bottom: 4px; }
+.ev-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 16px; }
+.ev-kpi { display: grid; gap: 4px; padding: 12px 14px; border-radius: 14px; background: var(--hoja-2); }
+.ev-kpi span { font-size: 12.5px; color: var(--tinta-suave); } .ev-kpi b { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; } .ev-kpi small { font-size: 12px; color: var(--tinta-suave); }
+.ev-pista { display: block; height: 5px; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 9%, transparent); overflow: hidden; }
+.ev-pista em { display: block; height: 100%; border-radius: 999px; }
+.ev-lista { list-style: none; margin: 0; padding: 0; }
+.ev-lista li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; grid-template-areas: "d n p" ". t t" ". s s"; column-gap: 10px; row-gap: 5px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--linea); }
+.ev-lista li:last-child { border-bottom: 0; }
+.ev-lista .eje-punto { grid-area: d; margin: 0; } .ev-n { grid-area: n; text-align: left; border: 0; background: none; padding: 0; font: inherit; font-weight: 500; color: var(--tinta); cursor: pointer; }
+.ev-lista b { grid-area: p; font-variant-numeric: tabular-nums; } .ev-lista .ev-pista { grid-area: t; } .ev-lista small { grid-area: s; color: var(--tinta-suave); font-size: 12.5px; }
+@media (hover: hover) and (pointer: fine) { .ev-n:hover { color: var(--burdeos); text-decoration: underline; } }
+.ev-ejes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); column-gap: 28px; }
+.ev-ejes li { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 3.2rem; align-items: center; gap: 10px; min-height: 40px; border-bottom: 1px solid var(--linea); font-size: 14px; }
+.ev-ejes b { text-align: right; font-variant-numeric: tabular-nums; }
+.ev-meses { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; align-items: end; }
+.ev-mes { display: grid; gap: 4px; justify-items: center; border: 0; background: none; padding: 4px 0; cursor: pointer; font: inherit; color: var(--tinta); }
+.ev-mes:disabled { opacity: .35; cursor: default; }
+.ev-col { width: 100%; max-width: 26px; height: 90px; border-radius: 8px; background: color-mix(in srgb, var(--tinta) 6%, transparent); display: flex; align-items: flex-end; overflow: hidden; }
+.ev-col i { display: block; width: 100%; background: var(--burdeos); border-radius: 8px 8px 0 0; }
+.ev-mes b { font-size: 12px; font-variant-numeric: tabular-nums; } .ev-mes small { font-size: 11px; color: var(--tinta-suave); }
+.ev-fin { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; }
+.ev-fin div { padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); display: grid; gap: 2px; } .ev-fin span { font-size: 12px; color: var(--tinta-suave); } .ev-fin b { font-size: 18px; font-variant-numeric: tabular-nums; } .ev-fin b.neg { color: var(--peligro, #B3261E); }
+.ev-form { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+.ev-form textarea { min-height: 84px; }
+.ev-prop-cab { display: flex; align-items: center; gap: 12px; } .ev-prop-cab > div { flex: 1; } .ev-prop-cab h3 { margin: 0; } .ev-prop-cab p { margin: 2px 0 0; }
+.ev-anios { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin: 14px 0; }
+.ev-anio { display: grid; gap: 4px; text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--linea); background: var(--hoja); cursor: pointer; font: inherit; color: var(--tinta); }
+.ev-anio.actual { border-color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 7%, var(--hoja)); }
+.ev-anio small { font-size: 11.5px; color: var(--tinta-suave); }
+.dlg-inf { border: 0; border-radius: 24px; padding: 24px; max-width: min(440px, calc(100vw - 32px)); background: var(--hoja); color: var(--tinta); box-shadow: 0 12px 40px var(--sombra); }
+.dlg-inf::backdrop { background: rgb(0 0 0 / .35); }
+.dlg-inf h3 { margin: 0 0 4px; } .dlg-inf .botones { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.ev-anillo { display: flex; align-items: baseline; justify-content: center; padding-top: 0; line-height: 84px; aspect-ratio: 1; }
+.ev-anillo b, .ev-anillo small { line-height: 1; align-self: center; } .ev-anillo small { margin: 6px 0 0 1px; }
+.ev-prop-cab > div { flex: 0 0 auto; } .ev-prop-cab > div:nth-child(2) { flex: 1 1 auto; }

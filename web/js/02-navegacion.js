@@ -6,7 +6,7 @@
  * acompañamiento, después lo que se consulta de vez en cuando y al final el perfil. En el teléfono la barra
  * muestra Hoy · Mi ruta · Publicar · Comunidad · Aprende · Perfil. */
 const SECCIONES = [
-  ["hoy", "Hoy"], ["ruta", "Mi ruta"], ["brujula", "Brújula"], ["metas", "Metas"], ["comunidad", "Comunidad"],
+  ["hoy", "Hoy"], ["ruta", "Mi ruta"], ["brujula", "Brújula"], ["evaluacion", "Evaluación"], ["metas", "Metas"], ["comunidad", "Comunidad"],
   ["coach", "Coach"], ["mensajes", "Mensajes"], ["aprende", "Aprende"], ["mochila", "Equipo"], ["frases", "Mis frases"], ["finanzas", "Ascenso financiero"], ["bienestar", "Bienestar"], ["perfil", "Perfil"],
 ];
 /** En el teléfono la barra es igual a la de la app: solo íconos (5 secciones y Publicar con brújula en
@@ -15,7 +15,7 @@ const SECCIONES = [
 /** Bienestar vive en cada día (Mi ruta › día, mes y año); su pantalla de herramientas se abre desde allí. */
 /* Metas vive dentro de Mi ruta (propósitos, metas por año, foco del mes y acciones del día) */
 const OCULTAS_RIEL = new Set(["bienestar", "metas"]);
-const SOLO_PC = new Set(["metas", "mochila", "coach", "mensajes", "frases", "finanzas", "bienestar"]);
+const SOLO_PC = new Set(["evaluacion", "metas", "mochila", "coach", "mensajes", "frases", "finanzas", "bienestar"]);
 const estado = { sec: "ruta", sel: null, filtro: "todo", busqueda: "", wbSec: 0, feed: null, feedFiltro: "PARA_TI", post: null, wb: {}, vistaCom: "cimas" };
 
 /** La Brújula vive en Mi ruta › Brújula, pero en la barra es una sección propia. */
@@ -25,7 +25,7 @@ function pintarRiel() {
   const sellada = !abiertas(new Date().getFullYear()).has(fraseIndice(hoyFecha()));
   $("riel").innerHTML =
     marca("sello logo", true) +
-    SECCIONES.filter(([k]) => !OCULTAS_RIEL.has(k)).map(([k, n], i) => (i === 3 ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("publicar2")}</span><span class="tip">Publicar</span></button>` : "") +
+    SECCIONES.filter(([k]) => !OCULTAS_RIEL.has(k)).map(([k, n]) => (k === "comunidad" ? `<button class="rb rb-publicar" data-ir="comunidad" data-arg="publicar" aria-label="Publicar"><span class="rb-ic">${ic("publicar2")}</span><span class="tip">Publicar</span></button>` : "") +
       `<button class="rb ${SOLO_PC.has(k) ? "solo-pc" : ""}" data-sec="${k}" aria-label="${n}" ${seccionActiva(k) ? 'aria-current="page"' : ""}><span class="rb-ic">${ic(k)}</span><span class="tip">${n}</span>${(k === "frases" && sellada) || (k === "mensajes" && typeof MS !== "undefined" && noLeidosTotal()) ? '<span class="punto"></span>' : ""}</button>`).join("") +
     `<span class="esp"></span>
      <button class="rb solo-pc" data-acc="tema" aria-label="Apariencia">${ic("tema")}<span class="tip">Apariencia</span></button>

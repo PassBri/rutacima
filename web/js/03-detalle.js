@@ -160,7 +160,7 @@ function pintarDetalle() {
   const s = estado.sec, v = estado.sel;
   $("detalle").dataset.sec = s || "";          // para el estilo de cada sección (por ejemplo, Material 3 en finanzas)
   let h;
-  if (v === null) h = s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "bienestar" ? (estado.sel = "hoy", DET["bienestar.hoy"]()) : s === "mensajes" ? vacioMensajes() : s === "mochila" ? (estado.sel = "inicio", DET["mochila.inicio"]()) : vacio();
+  if (v === null) h = s === "evaluacion" && DET["evaluacion.m"] ? (estado.sel = "m:" + iso(hoyFecha()).slice(0, 7), DET["evaluacion.m"]()) : s === "coach" ? (estado.sel = "coach", DET.coach()) : s === "finanzas" ? (estado.sel = "b", DET["finanzas.b"]()) : s === "bienestar" ? (estado.sel = "hoy", DET["bienestar.hoy"]()) : s === "mensajes" ? vacioMensajes() : s === "mochila" ? (estado.sel = "inicio", DET["mochila.inicio"]()) : vacio();
   else {
     const [t, ...resto] = String(v).split(":"); const arg = resto.join(":");
     const f = DET[`${s}.${t}`] || DET[t];
@@ -507,7 +507,8 @@ const DET = {
       (window.brujulaDelAnio ? brujulaDelAnio(a) + otrasMetasAnio(a, metas) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}${(() => { const n = c.mensuales.filter(x => x.metaAnualId === m.id).length; return n ? ` <span class="suave" style="font-size:12px">· ${n} ${n === 1 ? "mes" : "meses"}</span>` : ""; })()}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`)) +
-      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cartaAnio(a) + (window.bienResumenAnio ? bienResumenAnio(a) : ""));
+      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cartaAnio(a) +
+      evaluarHoja(`a:${a}`, `Evaluar ${a}`, "Puntaje del año, la Brújula, bienestar, balance anual y finanzas."));
       // Los 12 meses ya están en la barra de vida (a la derecha): aquí no se repiten
   },
   "ruta.m"(arg) { return detMes(arg); },
@@ -602,6 +603,9 @@ function tiraDias(m) {
   }
   return h + `</div>`;
 }
+/** Acceso a Evaluación desde Mi ruta, con el informe PDF a un toque. */
+const evaluarHoja = (sel, titulo, sub) => hoja(`<div class="ev-acceso"><span class="ev-ic">${ic("evaluacion")}</span><div><h3>${titulo}</h3><p class="suave">${sub}</p></div>
+  <div class="botones"><button class="btn lleno" data-ir="evaluacion" data-arg="${sel}">${ic("evaluacion")} Evaluar</button><button class="btn" data-acc="informeRuta" data-arg="${sel}">${ic("descargar")} PDF</button></div></div>`);
 function detMes(arg) {
   const [a, m] = arg.split("-").map(Number), clave = arg;
   const ms = metasDelMes(a, m), b = Store.get("mes", clave) || {}, hoy = hoyFecha();
@@ -617,11 +621,8 @@ function detMes(arg) {
     `<div class="migas"><button data-sel="puntos">Mi vida en años</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
     (window.focoMes ? focoMes(a, m) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
       ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`)) +
-    // Los días del mes ya están en el calendario de la barra de vida (a la derecha)
-    hoja(`<h3>Balance del mes</h3><div class="form">${campoMes("comoEstuvo", "¿Cómo estuvo el mes?")}${campoMes("logros", "Logros")}${campoMes("desafios", "Desafíos")}
-      <div class="form-2">${campoMes("agradecido", "Estoy agradecido por")}${campoMes("mejorar", "Puedo mejorar")}</div>${campoMes("objetivosProximo", "Objetivos del próximo mes")}${campoMes("notas", "Notas")}</div>`) +
-    (window.bienResumenMes ? bienResumenMes(a, m) : "") +
-    (window.ascResumenMes ? ascResumenMes(a, m) : ""));
+    // El balance, el bienestar y las finanzas del mes viven en Evaluación (a un toque)
+    evaluarHoja(`m:${clave}`, `Evaluar ${MESES[m - 1]}`, "Puntaje, cumplimiento de metas, hábitos, bienestar, balance y finanzas del mes."));
 }
 /** Los hábitos del día, un eje abierto a la vez (el primero que falta). Al completar uno se abre el siguiente. Se editan aquí mismo. */
 function habitosDelDia(fecha, marc) {
@@ -664,7 +665,7 @@ function detDia(fecha) {
   const campoAg = (n, etq, ph = "") => campo(etq, `<textarea ${bind("agenda", fecha, n, "", "agenda")} placeholder="${esc(ph)}">${esc(ag[n] || "")}</textarea>`);
   const habitos = habitosDelDia(fecha, marc);
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
-  return cab(av(f.getDate(), "var(--burdeos)"), "Tu día", fechaLarga(f)) + cuerpo(
+  return cab(av(f.getDate(), "var(--burdeos)"), "Tu día", fechaLarga(f), `<button class="rb" data-acc="informeRuta" data-arg="d:${fecha}" aria-label="Descargar informe PDF de días" title="Informe PDF (este día o varios)">${ic("descargar")}</button>`) + cuerpo(
     `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mi vida en años</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
     `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"]]
