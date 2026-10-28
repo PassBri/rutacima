@@ -4199,6 +4199,27 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .dia-cont { container-type: inline-size; }
 @container (min-width: 860px) {
   .dia-cols { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
-  .dia-der { position: sticky; top: 72px; max-height: calc(100dvh - 96px); overflow-y: auto; overscroll-behavior: contain; padding-right: 2px; scrollbar-width: thin; }
   .dia-cols .sec-dia { margin: 0; }
 }
+
+/* Bienestar del día compacto: el mismo contenido, en menos espacio */
+#sd-bienestar .bd-sub { margin: 10px 0 6px; font-size: 13px; }
+#sd-bienestar .bd-climas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+#sd-bienestar .bd-clima { padding: 6px 4px; min-height: 0; gap: 2px; border-radius: 12px; }
+#sd-bienestar .bd-clima .clima-ic { width: 22px; height: 22px; }
+#sd-bienestar .bd-clima span { font-size: 11px; line-height: 1.2; }
+#sd-bienestar .sec-div { margin: 10px 0 0; }
+#sd-bienestar .bd-habitos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: 6px; }
+#sd-bienestar .bd-h-it { padding: 8px 10px; border-radius: 12px; margin: 0; gap: 2px; }
+#sd-bienestar .bd-paso { gap: 6px; min-height: 32px; }
+#sd-bienestar .bd-paso > span { font-size: 13px; font-weight: 500; }
+#sd-bienestar .bd-h-it > small { font-size: 11px; }
+#sd-bienestar .bd-ctrl { gap: 4px; }
+#sd-bienestar .bd-ctrl .rb { width: 30px; height: 30px; min-width: 30px; }
+#sd-bienestar .bien-porciones { gap: 3px; }
+#sd-bienestar .bien-porciones button { width: 26px; height: 26px; min-width: 26px; font-size: 12px; }
+#sd-bienestar .bd-pie { margin-top: 8px; }
+#sd-bienestar .bd-h-it .bd-paso:not(.bd-sw) { flex-wrap: wrap; row-gap: 4px; }
+#sd-bienestar .bd-h-it .bd-paso:not(.bd-sw) > span { flex: 1 0 100%; }
+#sd-bienestar .bd-h-it .bd-ctrl, #sd-bienestar .bd-h-it .bien-porciones { margin-left: 0; }
+#sd-bienestar .bd-sw > span { flex: 1; }
