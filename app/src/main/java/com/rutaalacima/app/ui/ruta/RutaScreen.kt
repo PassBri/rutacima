@@ -322,9 +322,7 @@ fun RutaScreen(
                             }
                         }
                         item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
-                        item(key = "cumbres-${n.anio}") {
-                            CumbresAnio(n.anio, propositos, anuales, onProposito) { p -> onNuevaMetaCumbre(p.eje, n.anio, p.id) }
-                        }
+                        // Las cumbres personales del año ya se ven en su Brújula (abajo): no se repiten (igual que la web)
                         // El año es su Brújula: la cumbre del año y sus 8 campamentos con sus sub-metas
                         item(key = "brujula-${n.anio}") {
                             val todas by vm.todasCasillas.collectAsStateWithLifecycle()
