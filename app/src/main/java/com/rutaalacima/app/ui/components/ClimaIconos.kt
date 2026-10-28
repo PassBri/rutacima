@@ -109,7 +109,7 @@ fun ClimaIcono(clave: String, modifier: Modifier = Modifier, apagado: Boolean = 
  * cada clima según cuántas personas lo dejaron. Al tocarlo se abre el abanico; tocar el tuyo lo quita.
  */
 @Composable
-fun BotonClima(climas: Map<String, Int>, miClima: String?, onElegir: (String?) -> Unit, modifier: Modifier = Modifier, tamano: Dp = 50.dp) {
+fun BotonClima(climas: Map<String, Int>, miClima: String?, onElegir: (String?) -> Unit, modifier: Modifier = Modifier, tamano: Dp = 50.dp, fondo: Color = Color.Transparent) {
     val ctx = LocalContext.current
     val haptico = LocalHapticFeedback.current
     var abierto by remember { mutableStateOf(false) }
@@ -128,7 +128,7 @@ fun BotonClima(climas: Map<String, Int>, miClima: String?, onElegir: (String?) -
                 abierto = !abierto; haptico.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             }.padding(2.dp).semantics { contentDescription = "$etiqueta, $total" },
         ) {
-            Box(Modifier.size(tamano).scale(pop.value), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(tamano).scale(pop.value).background(fondo, androidx.compose.foundation.shape.CircleShape), contentAlignment = Alignment.Center) {
                 Canvas(Modifier.size(tamano).graphicsLayer { rotationZ = -120f * (1f - giro.value); alpha = giro.value }) {
                     val g = 3.5.dp.toPx(); val r = Size(size.width - g, size.height - g); val o = Offset(g / 2, g / 2)
                     if (total == 0) drawArc(Color.White.copy(alpha = 0.35f), 0f, 360f, false, o, r, style = Stroke(g))

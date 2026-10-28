@@ -4462,3 +4462,39 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .rosa-brujula .tablero-9 .lect-frase { font-size: 11px; line-height: 1.3; margin: 0; }
   .rosa-brujula .tablero-9 .dorso-pie { gap: 4px; font-size: 10px; }
 }
+
+/* ---------- Cimas: columna de acciones de la marca (opción B) ----------
+   Seis acciones iguales: círculo de papel translúcido de 48 px, ícono de 24 px y el número debajo,
+   con la misma distancia entre todas. "Más opciones" vive junto al nombre del autor. */
+.cima-acciones { right: 10px; bottom: 28px; gap: 12px; }
+.cima-acciones > button { display: grid; grid-template-rows: 48px 15px; justify-items: center; align-items: center; gap: 4px; width: 56px; padding: 0; color: #fff; }
+.cima-acciones > button > svg, .cima-acciones > button.clima-btn .cb-circ, .cima-acciones .cima-autor .avatar {
+  width: 48px !important; height: 48px !important; box-sizing: border-box; border-radius: 50%; }
+.cima-acciones > button:not(.clima-btn):not(.cima-autor) > svg { padding: 12px !important; fill: #fff; filter: none;
+  background: rgb(251 248 243 / .16) !important; border: 1px solid rgb(251 248 243 / .32) !important;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgb(0 0 0 / .22); }
+.cima-acciones > button.clima-btn .cb-circ { background: rgb(251 248 243 / .16) !important; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgb(0 0 0 / .22); }
+.cima-acciones > button.clima-btn .cb-circ .clima-ic { width: 26px; height: 26px; }
+.cima-acciones > button.clima-btn .cb-aro { -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px)); mask: radial-gradient(farthest-side, transparent calc(100% - 2.5px), #000 calc(100% - 2px)); }
+.cima-acciones .cima-autor { grid-template-rows: 48px 15px; }
+.cima-acciones .cima-autor .avatar { font-size: 15px; border: 1.5px solid rgb(251 248 243 / .85); box-shadow: 0 2px 8px rgb(0 0 0 / .22); }
+.cima-acciones .cima-autor .aro-marca { width: 48px; height: 48px; padding: 0; }
+.cima-acciones .cima-autor .aro-marca::before { display: none; }
+/* Impulsar: solo el corazón dentro del círculo; al impulsar, el círculo se llena de burdeos */
+.cima-acciones .cima-impulso .im-aro, .cima-acciones .cima-impulso .im-punto { display: none; }
+.cima-acciones > button.cima-impulso:not(.clima-btn):not(.cima-autor) > svg { padding: 0 !important; }
+.cima-acciones .cima-impulso .im-corazon { fill: none; stroke: #fff; stroke-width: 2; }
+.cima-acciones .cima-impulso[aria-pressed="true"] svg { background: var(--burdeos) !important; border-color: var(--burdeos) !important; }
+.cima-acciones .cima-impulso[aria-pressed="true"] .im-corazon { fill: #fff; stroke: #fff; }
+.cima-acciones .cima-impulso.recien svg { animation: cima-latido .5s cubic-bezier(.2, 0, 0, 1); }
+@keyframes cima-latido { 0% { transform: scale(.85); } 45% { transform: scale(1.1); } 100% { transform: none; } }
+.cima-acciones [data-acc="guardarPost"][aria-pressed="true"] svg { background: rgb(158 193 214 / .3) !important; border-color: #9EC1D6 !important; }
+.cima-acciones > button > b { font: 600 12px/15px var(--font-cuerpo, inherit); font-variant-numeric: tabular-nums; text-shadow: 0 1px 3px rgb(0 0 0 / .6); }
+.cima-acciones > button:active > svg, .cima-acciones > button:active .cb-circ { transform: scale(.92); transition: transform .1s cubic-bezier(.2, 0, 0, 1); }
+.cima-quien-fila { display: flex; align-items: center; gap: 6px; max-width: 100%; }
+.cima-mas-op { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #fff; flex: none; }
+.cima-mas-op svg { width: 22px; height: 22px; fill: #fff; filter: drop-shadow(0 1px 3px rgb(0 0 0 / .6)); }
+@media (prefers-reduced-motion: reduce) { .cima-acciones .cima-impulso.recien svg { animation: none; } }
+.cima-acciones > button.cima-impulso[aria-pressed="true"]:not(.clima-btn):not(.cima-autor) > svg { background: var(--burdeos) !important; border-color: var(--burdeos) !important; }
+.cima-acciones > button[data-acc="guardarPost"][aria-pressed="true"]:not(.clima-btn):not(.cima-autor) > svg { background: rgb(158 193 214 / .32) !important; border-color: #9EC1D6 !important; }
+.cima .cima-acciones > button.clima-btn .cb-circ { background: rgb(251 248 243 / .16) !important; }

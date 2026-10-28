@@ -13,6 +13,8 @@ import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.ui.unit.sp
 import com.rutaalacima.app.ui.i18n.texto
 import androidx.compose.foundation.clickable
@@ -195,37 +197,32 @@ private fun CimaPagina(
             com.rutaalacima.app.ui.components.ImpulsoMarca(true, tamano = 120.dp)
         }
 
-        // Derecha: autor y acciones
+        // Derecha: columna de la marca. Seis acciones iguales: círculo de papel translúcido de 48 dp,
+        // ícono de 24 dp y el número debajo, con la misma distancia entre todas (igual que la web)
         Column(
-            Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 24.dp),
+            Modifier.align(Alignment.BottomEnd).padding(end = 10.dp, bottom = 28.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(14.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Box(Modifier.clip(CircleShape).clickable(onClick = onAutor).padding(2.dp).semantics { contentDescription = post.autorNombre }) {
-                com.rutaalacima.app.ui.components.AroMarca(46.dp, Color.White.copy(alpha = 0.92f)) { Avatar(post.autorNombre, post.avatarUrl, tamano = 46) }
+            Column(Modifier.width(56.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Box(Modifier.size(48.dp).shadow(4.dp, CircleShape).clip(CircleShape).border(1.5.dp, PapelClaro.copy(alpha = 0.85f), CircleShape)
+                    .clickable(onClick = onAutor).semantics { contentDescription = post.autorNombre }, contentAlignment = Alignment.Center) {
+                    Avatar(post.autorNombre, post.avatarUrl, tamano = 48)
+                }
+                Spacer(Modifier.height(22.dp))
             }
-            // Impulsar: el corazón dentro del símbolo de SuRoute
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onImpulsar).padding(2.dp)
-                    .semantics { contentDescription = "${'$'}{context.getString(R.string.impulsar)}, ${'$'}{contar(post.impulsos)}" },
-            ) {
-                com.rutaalacima.app.ui.components.ImpulsoMarca(post.yoImpulse, tamano = 50.dp)
-                Spacer(Modifier.height(1.dp))
-                Text(contar(post.impulsos), color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
-            }
-            // ¿Qué clima te deja? El anillo de cielo con el clima que más dejó la comunidad
-            com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima)
-            Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onAbrir)
+            Accion(if (post.yoImpulse) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder, contar(post.impulsos), stringResource(R.string.impulsar), Color.White,
+                fondo = if (post.yoImpulse) MaterialTheme.colorScheme.primary else null, onClick = onImpulsar)
+            com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima, tamano = 48.dp, fondo = PapelClaro.copy(alpha = 0.16f))
+            Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onClick = onAbrir)
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
-                if (guardado) com.rutaalacima.app.ui.components.AzulAltura else Color.White, onGuardar)
+                if (guardado) com.rutaalacima.app.ui.components.AzulAltura else Color.White,
+                fondo = if (guardado) com.rutaalacima.app.ui.components.AzulAltura.copy(alpha = 0.32f) else null, onClick = onGuardar)
             Accion(Icons.Outlined.Share, "", stringResource(R.string.compartir), Color.White) {
                 val enlace = com.rutaalacima.app.data.social.EnlacesRed.publicacion(post)
                 val texto = listOf(post.metaTitulo, post.texto, enlace.ifBlank { "— SuRoute" }).filter { it.isNotBlank() }.joinToString("\n\n")
                 context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, texto), null))
             }
-            // Más: reportar, bloquear y copiar, siempre a un toque
-            Accion(Icons.Filled.MoreHoriz, "", stringResource(R.string.mas_opciones), Color.White, onMas)
         }
 
         // Abajo: autor, texto (se abre con "más"), meta y eje
@@ -240,6 +237,10 @@ private fun CimaPagina(
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false).clickable(onClick = onAutor),
                 )
                 InsigniaCoach(post.autorId)
+                // Más: reportar, bloquear y copiar, siempre a un toque junto al nombre
+                Box(Modifier.size(40.dp).clip(CircleShape).clickable(onClick = onMas), contentAlignment = Alignment.Center) {
+                    Icon(Icons.Filled.MoreHoriz, stringResource(R.string.mas_opciones), tint = Color.White, modifier = Modifier.size(24.dp))
+                }
             }
             Text(
                 listOfNotNull(post.tipo.texto(), eje?.texto(), haceCuanto(post.creadoEn)).joinToString(" · "),
@@ -287,20 +288,23 @@ private fun contar(n: Int): String = when {
     else -> "$n"
 }
 
+private val PapelClaro = Color(0xFFFBF8F3)
+
 @Composable
-private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte: Color, onClick: () -> Unit) {
+private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte: Color, fondo: Color? = null, onClick: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(2.dp)
+        modifier = Modifier.width(56.dp).clip(RoundedCornerShape(16.dp)).clickable(onClick = onClick).padding(vertical = 2.dp)
             .semantics { contentDescription = if (texto.isEmpty()) descripcion else "$descripcion, $texto" },
     ) {
-        // Sin círculos de color: íconos blancos limpios con una sombra suave para leerse sobre cualquier foto
-        Box(Modifier.size(48.dp).background(Brush.radialGradient(listOf(Color(0x40000000), Color.Transparent)), CircleShape), contentAlignment = Alignment.Center) {
-            Icon(icono, null, tint = tinte, modifier = Modifier.size(28.dp))
-        }
-        if (texto.isNotEmpty()) {
-            Spacer(Modifier.height(3.dp))
-            Text(texto, color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Medium)
-        }
+        Box(
+            Modifier.size(48.dp).shadow(4.dp, CircleShape).clip(CircleShape)
+                .background(fondo ?: PapelClaro.copy(alpha = 0.16f))
+                .border(1.dp, if (fondo != null) Color.Transparent else PapelClaro.copy(alpha = 0.32f), CircleShape),
+            contentAlignment = Alignment.Center,
+        ) { Icon(icono, null, tint = tinte, modifier = Modifier.size(24.dp)) }
+        Spacer(Modifier.height(4.dp))
+        // El renglón del número siempre ocupa su lugar para que la distancia entre botones sea igual
+        Text(texto, color = Color.White, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.SemiBold, modifier = Modifier.height(16.dp))
     }
 }

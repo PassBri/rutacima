@@ -809,9 +809,8 @@ Object.assign(DET, {
             ${globalThis.botonClima ? botonClima(p) : ""}
             <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
             ${globalThis.botonMochila ? botonMochila(p) : ""}
-            <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button>
-            <button data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones">${ic("masH")}</button></div>
-          <div class="cima-pie"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b>
+            <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button></div>
+          <div class="cima-pie"><div class="cima-quien-fila"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b><button class="cima-mas-op" data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones" title="Más opciones">${ic("masH")}</button></div>
             <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], hace(p.creadoEn)].filter(Boolean).join(" · ")}${p.eje ? ` · <button class="cima-eje" data-ir="comunidad" data-arg="eje:${p.eje}">${esc(NOMBRE_EJE[p.eje])}</button>` : ""}</span>
             ${p.foto && p.texto ? `<p class="cima-texto">${enlazarTexto(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
             ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
