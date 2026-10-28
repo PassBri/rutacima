@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -191,7 +192,7 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                     aplicar()
                 }
             }.pointerInput(ajustando) {
-                if (ajustando) androidx.compose.foundation.gestures.detectTapGestures(onDoubleTap = { ajusteA = 0f; ajusteH = 0f; guardarAjuste(); aplicar() })
+                if (ajustando) detectTapGestures(onDoubleTap = { ajusteA = 0f; ajusteH = 0f; guardarAjuste(); aplicar() })
             },
         ) {
             val fov = if (camara) fovDeCamara(lente, size.width, size.height) else if (size.width < 700.dp.toPx()) 70f else 90f

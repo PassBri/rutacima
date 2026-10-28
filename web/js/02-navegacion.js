@@ -153,13 +153,7 @@ const LISTAS = {
     const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1;
     let h = cabLista("Hoy", { buscar: false }) + `<div class="items">`;
     h += item("d:" + iso(hoy), av(hoy.getDate(), "var(--burdeos)"), "Tu día", "hoy", `${marcadosDe(iso(hoy)).size} de ${habitos().length} hábitos · ${MESES[hoy.getMonth()]}`, ic("pin", "i fijado"));
-    h += grupo(`Metas de ${MESES[m - 1]}`);
-    const ms = metasDelMes(a, m);
-    if (!ms.length) h += `<p class="vacio-mini">Aún no hay metas este mes.</p>`;
-    ms.forEach(x => {
-      const hechoHoy = numeros(x.dias).includes(hoy.getDate());
-      h += item("mm:" + x.id, av(pctTxt(avanceMetaMes(x)), "var(--burdeos)"), esc(x.texto), hechoHoy ? "hecho hoy" : "", NOMBRE_EJE[x.eje] || "Meta del mes");
-    });
+    // «Metas del mes» ya no va en Hoy: viven en Mi ruta (el mes), a pedido de Brian
     h += grupo("Ayer y antes");
     for (let k = 1; k <= 6; k++) {
       const d = new Date(hoy); d.setDate(d.getDate() - k);
