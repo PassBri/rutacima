@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Copia dalla Bussola generale</string>
     <string name="bja_reemplazar">Sostituire la Bussola %1$d con quella generale?</string>
     <string name="bja_copiada">Fatto: la Bussola %1$d ha %2$d campi della tua Bussola generale.</string>
+    <string name="om_otras">Altri obiettivi del %1$d</string>
+    <string name="om_copiar">Copia</string>
+    <string name="om_copia_sufijo">" (copia)"</string>
+    <string name="om_borrar_titulo">Eliminare questo obiettivo?</string>
+    <string name="om_borrar_texto">«%1$s» verrà eliminato con i suoi progressi.</string>
+    <string name="album_mover">Trascina per riordinare</string>
+    <string name="album_borrar_titulo">Eliminare questa foto?</string>
+    <string name="album_borrar_texto">Il post verrà eliminato dalla tua bacheca e dal tuo album.</string>
 </resources>

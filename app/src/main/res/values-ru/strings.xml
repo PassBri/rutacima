@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Скопировать из общего компаса</string>
     <string name="bja_reemplazar">Заменить компас %1$d общим?</string>
     <string name="bja_copiada">Готово: в компасе %1$d теперь %2$d лагерей из общего компаса.</string>
+    <string name="om_otras">Другие цели на %1$d</string>
+    <string name="om_copiar">Копировать</string>
+    <string name="om_copia_sufijo">" (копия)"</string>
+    <string name="om_borrar_titulo">Удалить эту цель?</string>
+    <string name="om_borrar_texto">«%1$s» будет удалена вместе с прогрессом.</string>
+    <string name="album_mover">Перетащите, чтобы упорядочить</string>
+    <string name="album_borrar_titulo">Удалить это фото?</string>
+    <string name="album_borrar_texto">Публикация будет удалена со стены и из альбома.</string>
 </resources>

@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">全体のコンパスからコピー</string>
     <string name="bja_reemplazar">%1$d年のコンパスを全体のもので置き換えますか？</string>
     <string name="bja_copiada">完了：%1$d年のコンパスに全体のコンパスから%2$d個のキャンプが入りました。</string>
+    <string name="om_otras">%1$d年のその他の目標</string>
+    <string name="om_copiar">コピー</string>
+    <string name="om_copia_sufijo">（コピー）</string>
+    <string name="om_borrar_titulo">この目標を削除しますか？</string>
+    <string name="om_borrar_texto">「%1$s」とその進捗が削除されます。</string>
+    <string name="album_mover">ドラッグして並べ替え</string>
+    <string name="album_borrar_titulo">この写真を削除しますか？</string>
+    <string name="album_borrar_texto">投稿はウォールとアルバムから削除されます。</string>
 </resources>

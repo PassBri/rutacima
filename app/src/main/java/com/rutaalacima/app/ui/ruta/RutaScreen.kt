@@ -216,9 +216,11 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     /** Lo de cada año de la vida: palabra, anhelos y carta (respuestas del workbook "vida", sincronizadas con la web). */
     val vida: StateFlow<Map<String, String>> = e(c.respuestas.observar(WB_VIDA), emptyMap())
     fun guardarVida(clave: String, valor: String) = viewModelScope.launch { c.respuestas.guardar(WB_VIDA, clave, valor) }
-    fun anheloAMeta(anio: Int, titulo: String) = viewModelScope.launch {
-        c.planificador.guardarMeta(MetaAnualEntity(anio = anio, titulo = titulo.take(120)))
+    fun renombrarMeta(m: MetaAnualEntity, t: String) = viewModelScope.launch { c.planificador.guardarMeta(m.copy(titulo = t.take(120))) }
+    fun copiarMeta(m: MetaAnualEntity, sufijo: String) = viewModelScope.launch {
+        c.planificador.guardarMeta(m.copy(id = 0, titulo = (m.titulo + sufijo).take(120), avance = 0, estado = "NO_INICIADA"))
     }
+    fun borrarMeta(m: MetaAnualEntity) = viewModelScope.launch { c.planificador.eliminarMeta(m) }
     suspend fun publicarRecuerdos(anio: Int, foto: android.net.Uri, visibilidad: com.rutaalacima.app.data.social.Visibilidad, titulo: String,
         fotos: List<com.rutaalacima.app.data.social.Post>, frase: String, metas: String) {
         // Las fotos van con su dirección pública para que quien vea la publicación reproduzca el flashback
@@ -321,7 +323,7 @@ fun RutaScreen(
                                     metasRecuerdos.filter { it.anio == n.anio }.let { m -> "${m.count { it.estado == "COMPLETADA" || it.avance >= 100 }}/${m.size}" })
                             }
                         }
-                        item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
+                        item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) }
                         // Las cumbres personales del año ya se ven en su Brújula (abajo): no se repiten (igual que la web)
                         // El año es su Brújula: la cumbre del año y sus 8 campamentos con sus sub-metas
                         item(key = "brujula-${n.anio}") {
@@ -333,8 +335,8 @@ fun RutaScreen(
                                 onAbrirBrujula = { vm.abrirBrujulaAnio(n.anio); onVision() },
                                 onMeta = { onPlanificador(3, LocalDate.of(n.anio, 1, 1)) })
                         }
-                        nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
-                        item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
+                        nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum, vm)
+                        // "Cumplidos" ya se ve en la Brújula del año (los ganados se marcan ahí), igual que la web
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
                         item(key = "bien-anio-${n.anio}") { com.rutaalacima.app.ui.bienestar.BienestarAnioCard(n.anio) { ir(Nivel.Mes(it)) } }
                     }
@@ -639,8 +641,10 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
     onNuevaMeta: (NivelMeta) -> Unit,
     onPlanificador: (Int, LocalDate?) -> Unit,
     onAlbum: (Int) -> Unit,
+    vm: RutaViewModel,
 ) {
     val delAnio = anuales.filter { it.anio == anio }
+    val otras = otrasMetasDelAnio(delAnio)
     val mesesDelAnio = mensuales.filter { it.anio == anio }
     val recuerdos = posts.filter { it.anio == anio }
     val avance = if (delAnio.isEmpty()) null else delAnio.map { it.avance }.average().toFloat() / 100f
@@ -691,19 +695,12 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelAnio(
             }
         }
     }
-    item { SectionTitle(stringResource(R.string.ruta_metas_del_anio)) }
-    if (delAnio.isEmpty()) item {
-        Text(stringResource(R.string.metas_anio_vacio_texto), style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
-    items(delAnio, key = { "a${it.id}" }) { m ->
-        RutaCard(onClick = { onPlanificador(3, LocalDate.of(anio, 1, 1)) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(m.titulo, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f))
-                Text("${m.avance}%", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary)
-            }
-            ProgressLine(m.avance / 100f, Modifier.padding(top = 6.dp))
-        }
+    // Las metas de la Brújula ya están arriba; aquí van las otras del año: editar, copiar y borrar ahí mismo (igual que la web)
+    item { SectionTitle(stringResource(R.string.om_otras, anio)) }
+    items(otras, key = { "a${it.id}" }) { m ->
+        val sufijo = stringResource(R.string.om_copia_sufijo)
+        FilaOtraMeta(m, onAbrir = { onPlanificador(3, LocalDate.of(anio, 1, 1)) },
+            onRenombrar = { vm.renombrarMeta(m, it) }, onCopiar = { vm.copiarMeta(m, sufijo) }, onBorrar = { vm.borrarMeta(m) })
     }
     item {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

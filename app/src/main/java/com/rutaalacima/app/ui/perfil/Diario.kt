@@ -24,6 +24,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.DragIndicator
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.zIndex
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Public
@@ -97,6 +106,19 @@ class DiarioViewModel(private val c: AppContainer) : ViewModel() {
     }
 
     suspend fun privadosDe(anio: Int) = c.social.privadosDe(anio)
+
+    /** Orden del álbum de cada año (ids separados por coma), el mismo que usa la web: "album:orden:<año>" en "vida". */
+    val ordenes: StateFlow<Map<String, String>> = e(c.respuestas.observar("vida"), emptyMap())
+    fun guardarOrden(anio: Int, ids: List<String>) = viewModelScope.launch { c.respuestas.guardar("vida", "album:orden:$anio", ids.joinToString(",")) }
+    /** Borrar una foto del álbum es borrar su publicación (como en la web). */
+    fun borrar(p: Post) = viewModelScope.launch { runCatching { c.social.eliminar(p) } }
+}
+
+/** Ordena los recuerdos según el orden guardado; los nuevos quedan al final. */
+internal fun ordenarAlbum(ps: List<Post>, orden: String?): List<Post> {
+    val ids = orden.orEmpty().split(",").filter { it.isNotBlank() }
+    if (ids.isEmpty()) return ps
+    return ps.sortedBy { p -> ids.indexOf(p.id).let { if (it < 0) Int.MAX_VALUE else it } }
 }
 
 private fun iconoVis(v: String): ImageVector = when (v) {
@@ -181,8 +203,16 @@ fun AlbumAnioScreen(anio: Int, onBack: () -> Unit, onAbrirPost: (String) -> Unit
     val alcance = rememberCoroutineScope()
     var preguntar by remember { mutableStateOf<Pair<String, Int>?>(null) }
     val actual = vis[anio] ?: "PRIVADA"
-    val delAnio = posts.filter { it.anio == anio }
-    val metas = cumplidas.filter { it.anio == anio }
+    val ordenes by vm.ordenes.collectAsStateWithLifecycle()
+    val ordenGuardado = ordenes["album:orden:$anio"]
+    // Lista local para que la foto se mueva mientras se arrastra; se guarda al soltar
+    var delAnio by remember { mutableStateOf(emptyList<Post>()) }
+    LaunchedEffect(posts, ordenGuardado) { delAnio = ordenarAlbum(posts.filter { it.anio == anio }, ordenGuardado) }
+    var aBorrar by remember { mutableStateOf<Post?>(null) }
+    val estadoGrid = androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState()
+    var arrastrando by remember { mutableStateOf<String?>(null) }
+    var dedo by remember { mutableStateOf(androidx.compose.ui.geometry.Offset.Zero) }
+    var desplazo by remember { mutableStateOf(androidx.compose.ui.geometry.Offset.Zero) }
     Scaffold(
         modifier = Modifier.fondoPapel(), containerColor = Color.Transparent,
         topBar = {
@@ -194,6 +224,7 @@ fun AlbumAnioScreen(anio: Int, onBack: () -> Unit, onAbrirPost: (String) -> Unit
         },
     ) { padding ->
         LazyVerticalStaggeredGrid(
+            state = estadoGrid,
             columns = StaggeredGridCells.Adaptive(150.dp),
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 4.dp, bottom = 32.dp),
             verticalItemSpacing = 10.dp, horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -219,17 +250,65 @@ fun AlbumAnioScreen(anio: Int, onBack: () -> Unit, onAbrirPost: (String) -> Unit
                     }
                     Text(stringResource(when (actual) { "PUBLICA" -> R.string.album_nota_publica; "SEGUIDORES" -> R.string.album_nota_seguidores; else -> R.string.album_nota_privada }),
                         style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                    if (metas.isNotEmpty()) {
-                        Text(stringResource(R.string.album_metas), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 6.dp))
-                        metas.forEach { m -> AssistChip(onClick = {}, label = { Text(m.titulo, maxLines = 2) }, leadingIcon = { Icon(Icons.Filled.EmojiEvents, null, Modifier.size(18.dp)) }) }
-                    }
                     OutlinedButton(onClick = { onRecuerdo(anio) }) {
                         Icon(Icons.Filled.AddAPhoto, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.album_agregar, anio))
                     }
                 }
             }
-            items(delAnio, key = { it.id }) { p -> TarjetaRecuerdo(p) { onAbrirPost(p.id) } }
+            items(delAnio, key = { it.id }) { p ->
+                val activo = arrastrando == p.id
+                Box(Modifier.zIndex(if (activo) 1f else 0f).graphicsLayer {
+                    if (activo) { translationX = desplazo.x; translationY = desplazo.y; scaleX = .97f; scaleY = .97f; alpha = .85f }
+                }) {
+                    TarjetaRecuerdo(p) { onAbrirPost(p.id) }
+                    // Esquina izquierda: mover (arrastrar para ordenar). Esquina derecha: borrar.
+                    val etiquetaMover = stringResource(R.string.album_mover)
+                    Box(Modifier.align(Alignment.TopStart).padding(6.dp).size(40.dp).clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = .9f))
+                        .semantics { contentDescription = etiquetaMover }
+                        .pointerInput(p.id) {
+                            detectDragGestures(
+                                onDragStart = { o ->
+                                    val info = estadoGrid.layoutInfo.visibleItemsInfo.firstOrNull { it.key == p.id }
+                                    val base = info?.offset?.let { androidx.compose.ui.geometry.Offset(it.x.toFloat(), it.y.toFloat()) } ?: androidx.compose.ui.geometry.Offset.Zero
+                                    val margen = 6.dp.toPx()
+                                    dedo = base + androidx.compose.ui.geometry.Offset(margen, margen) + o
+                                    desplazo = androidx.compose.ui.geometry.Offset.Zero; arrastrando = p.id
+                                },
+                                onDrag = { cambio, d -> cambio.consume(); dedo += d; desplazo += d },
+                                onDragEnd = {
+                                    val destino = estadoGrid.layoutInfo.visibleItemsInfo.firstOrNull { i ->
+                                        i.key != p.id && delAnio.any { it.id == i.key } &&
+                                            dedo.x >= i.offset.x && dedo.x <= i.offset.x + i.size.width && dedo.y >= i.offset.y && dedo.y <= i.offset.y + i.size.height
+                                    }?.key
+                                    if (destino != null) {
+                                        val sin = delAnio.filter { it.id != p.id }.toMutableList()
+                                        sin.add(sin.indexOfFirst { it.id == destino }.coerceAtLeast(0), p)
+                                        delAnio = sin; vm.guardarOrden(anio, sin.map { it.id })
+                                    }
+                                    arrastrando = null; desplazo = androidx.compose.ui.geometry.Offset.Zero
+                                },
+                                onDragCancel = { arrastrando = null; desplazo = androidx.compose.ui.geometry.Offset.Zero },
+                            )
+                        }, contentAlignment = Alignment.Center) {
+                        Icon(Icons.Filled.DragIndicator, null, Modifier.size(20.dp))
+                    }
+                    IconButton(onClick = { aBorrar = p }, modifier = Modifier.align(Alignment.TopEnd).padding(6.dp).size(40.dp).clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = .9f))) {
+                        Icon(Icons.Outlined.Delete, stringResource(R.string.borrar), Modifier.size(20.dp))
+                    }
+                }
+            }
         }
+    }
+    aBorrar?.let { p ->
+        AlertDialog(
+            onDismissRequest = { aBorrar = null },
+            title = { Text(stringResource(R.string.album_borrar_titulo)) },
+            text = { Text(stringResource(R.string.album_borrar_texto)) },
+            confirmButton = { TextButton(onClick = { vm.borrar(p); delAnio = delAnio.filter { it.id != p.id }; aBorrar = null }) { Text(stringResource(R.string.borrar)) } },
+            dismissButton = { TextButton(onClick = { aBorrar = null }) { Text(stringResource(R.string.cancelar)) } },
+        )
     }
     preguntar?.let { (v, n) ->
         AlertDialog(

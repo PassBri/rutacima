@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Aus dem allgemeinen Kompass kopieren</string>
     <string name="bja_reemplazar">Kompass %1$d durch den allgemeinen ersetzen?</string>
     <string name="bja_copiada">Fertig: Der Kompass %1$d hat %2$d Lager aus deinem allgemeinen Kompass.</string>
+    <string name="om_otras">Weitere Ziele für %1$d</string>
+    <string name="om_copiar">Kopieren</string>
+    <string name="om_copia_sufijo">" (Kopie)"</string>
+    <string name="om_borrar_titulo">Dieses Ziel löschen?</string>
+    <string name="om_borrar_texto">„%1$s“ wird samt Fortschritt gelöscht.</string>
+    <string name="album_mover">Zum Sortieren ziehen</string>
+    <string name="album_borrar_titulo">Dieses Foto löschen?</string>
+    <string name="album_borrar_texto">Der Beitrag wird von deiner Pinnwand und aus deinem Album gelöscht.</string>
 </resources>

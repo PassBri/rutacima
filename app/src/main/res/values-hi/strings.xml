@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">सामान्य कम्पास से कॉपी करें</string>
     <string name="bja_reemplazar">%1$d के कम्पास को सामान्य कम्पास से बदलें?</string>
     <string name="bja_copiada">हो गया: %1$d के कम्पास में आपके सामान्य कम्पास के %2$d पड़ाव हैं।</string>
+    <string name="om_otras">%1$d के अन्य लक्ष्य</string>
+    <string name="om_copiar">कॉपी करें</string>
+    <string name="om_copia_sufijo">" (कॉपी)"</string>
+    <string name="om_borrar_titulo">यह लक्ष्य हटाएँ?</string>
+    <string name="om_borrar_texto">«%1$s» अपनी प्रगति के साथ हटा दिया जाएगा।</string>
+    <string name="album_mover">क्रम बदलने के लिए खींचें</string>
+    <string name="album_borrar_titulo">यह फ़ोटो हटाएँ?</string>
+    <string name="album_borrar_texto">पोस्ट आपकी वॉल और एल्बम से हटा दी जाएगी।</string>
 </resources>

@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Copy from the general Compass</string>
     <string name="bja_reemplazar">Replace the %1$d Compass with the general one?</string>
     <string name="bja_copiada">Done: the %1$d Compass now has %2$d camps from your general Compass.</string>
+    <string name="om_otras">Other goals for %1$d</string>
+    <string name="om_copiar">Copy</string>
+    <string name="om_copia_sufijo">" (copy)"</string>
+    <string name="om_borrar_titulo">Delete this goal?</string>
+    <string name="om_borrar_texto">“%1$s” and its progress will be deleted.</string>
+    <string name="album_mover">Drag to reorder</string>
+    <string name="album_borrar_titulo">Delete this photo?</string>
+    <string name="album_borrar_texto">The post will be removed from your wall and your album.</string>
 </resources>

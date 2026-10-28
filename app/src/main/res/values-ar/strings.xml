@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">نسخ من البوصلة العامة</string>
     <string name="bja_reemplazar">هل تستبدل بوصلة %1$d بالبوصلة العامة؟</string>
     <string name="bja_copiada">تم: بوصلة %1$d فيها %2$d معسكرات من بوصلتك العامة.</string>
+    <string name="om_otras">أهداف أخرى لعام %1$d</string>
+    <string name="om_copiar">نسخ</string>
+    <string name="om_copia_sufijo">" (نسخة)"</string>
+    <string name="om_borrar_titulo">حذف هذا الهدف؟</string>
+    <string name="om_borrar_texto">سيُحذف «%1$s» مع تقدّمه.</string>
+    <string name="album_mover">اسحب لإعادة الترتيب</string>
+    <string name="album_borrar_titulo">حذف هذه الصورة؟</string>
+    <string name="album_borrar_texto">سيُحذف المنشور من حائطك ومن ألبومك.</string>
 </resources>

@@ -4068,3 +4068,26 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .aporte-dia span { color: var(--tinta); }
 .ba-cab .btn { white-space: nowrap; flex: none; }
 .ba-acc { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+
+/* Otras metas del año: nombre editable ahí mismo + abrir, copiar, borrar */
+.om-fila { display: flex; align-items: center; gap: 4px; padding-block: 6px; border-bottom: 1px solid var(--linea); }
+.om-fila:last-child { border-bottom: 0; }
+.om-texto { flex: 1; min-width: 0; font-family: inherit; font-size: 16px; font-weight: 500; line-height: 1.3; color: var(--tinta); background: transparent; border: 1px solid transparent; border-radius: 10px; padding: 10px 10px; }
+.om-texto:focus { outline: none; border-color: var(--oro); background: var(--hoja); }
+.om-ic { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; border: 0; background: transparent; color: var(--tinta-suave); cursor: pointer; }
+.om-ic svg { width: 20px; height: 20px; }
+.om-ic.peligro.seguro { background: var(--burdeos); color: #fff; }
+@media (hover: hover) and (pointer: fine) { .om-ic:hover { background: var(--hoja-2); color: var(--tinta); } .om-ic.peligro:hover { color: var(--burdeos); } }
+
+/* Álbum: cada foto lleva en sus esquinas mover (arrastrar) y borrar */
+.recuerdo-w { position: relative; break-inside: avoid; margin: 0 0 10px; transition: opacity .15s, transform .15s cubic-bezier(.2,0,0,1); }
+.recuerdo-w .recuerdo { margin: 0; height: 100%; }
+.album.album-tira .recuerdo-w { margin: 0; }
+.alb-mover, .alb-borrar { position: absolute; top: 6px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; border: 0; background: color-mix(in srgb, var(--hoja) 88%, transparent); color: var(--tinta); box-shadow: 0 1px 3px var(--sombra); cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; }
+.alb-mover { left: 6px; cursor: grab; }
+.alb-borrar { right: 6px; }
+.alb-mover svg, .alb-borrar svg { width: 18px; height: 18px; }
+.alb-borrar.seguro { background: var(--burdeos); color: #fff; }
+.recuerdo-w.arrastrando { opacity: .45; transform: scale(.97); }
+.recuerdo-w.arrastrando .alb-mover { cursor: grabbing; }
+.recuerdo-w.destino { outline: 2px solid var(--oro); outline-offset: 2px; border-radius: 16px; }

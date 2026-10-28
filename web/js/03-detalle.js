@@ -108,21 +108,24 @@ function albumAnio(a, metas) {
   const vis = respuesta(`diario-${a}#visibilidad`) || "PRIVADA";
   const opciones = [["PRIVADA", "Solo yo"], ["SEGUIDORES", "Seguidores"], ["PUBLICA", "Público"]];
   const nota = { PRIVADA: "Solo tú ves este año.", SEGUIDORES: "Tus seguidores pueden ver este año en tu diario.", PUBLICA: "Cualquier persona de la comunidad puede ver este año en tu diario." }[vis];
-  const cumplidas = metas.filter(m => m.estado === "CUMPLIDA");
   return hoja(`<div class="album-cab"><h3>Álbum de ${a}</h3>
       <div class="segmentos" role="group" aria-label="Quién puede ver este año">${opciones.map(([k, n]) => `<button data-acc="diarioVis" data-arg="${a}|${k}" aria-pressed="${vis === k}">${n}</button>`).join("")}</div></div>
     <p class="suave" style="margin:6px 0 12px">${nota}</p>
     ${window.botonHistoriaAnio ? `<p style="margin:0 0 12px">${botonHistoriaAnio(a)}</p>` : ""}
-    ${cumplidas.length ? `<div class="chips" style="margin-bottom:12px">${cumplidas.map(m => `<span class="chip" aria-pressed="true">🏆 ${esc(m.titulo)}</span>`).join("")}</div>` : ""}
     ${ps.length ? recuerdosAnio(a, ps)
       : `<p class="suave" style="margin:0">${estado.misPosts ? "Todavía no hay recuerdos de este año. Regístralos desde la app." : "Cargando recuerdos…"}</p>`}`);
 }
 /** Recuerdos de un año: una tira de 6 que no tapa los meses; "Ver todo" abre el mosaico completo. */
 function recuerdosAnio(a, ps) {
-  const abierto = estado.albumAbierto === a, vistos = abierto ? ps : ps.slice(0, 6);
-  const tarjeta = p => `<button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">
-        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy">` : ""}<span>${p.metaTitulo ? `<b>${esc(p.metaTitulo)}</b>` : ""}${p.texto ? (p.foto ? esc(p.texto) : `<i>“${esc(p.texto)}”</i>`) : ""}</span></button>`;
-  return `<div class="${abierto ? "album" : "album album-tira"}">${vistos.map(tarjeta).join("")}</div>` +
+  const abierto = estado.albumAbierto === a;
+  // Cada recuerdo se abre al tocarlo; en sus esquinas, mover (arrastrar para ordenar) y quitar
+  const tarjeta = p => `<div class="recuerdo-w" data-post="${esc(p.id)}"><button class="recuerdo" data-ir="comunidad" data-arg="post:${esc(p.id)}">
+        ${p.foto ? `<img src="${esc(p.foto)}" alt="" loading="lazy" draggable="false">` : ""}<span>${p.metaTitulo ? `<b>${esc(p.metaTitulo)}</b>` : ""}${p.texto ? (p.foto ? esc(p.texto) : `<i>“${esc(p.texto)}”</i>`) : ""}</span></button>
+      ${p.propio !== false ? `<button class="alb-mover" data-alb-mover="${a}" aria-label="Mover (arrastra para ordenar)" title="Arrastra para ordenar">${ic("arrastrar")}</button>
+      <button class="alb-borrar" data-acc="albumBorrar" data-arg="${esc(p.id)}" aria-label="Borrar esta foto del álbum" title="Borrar">${ic("borrar")}</button>` : ""}</div>`;
+  ps = window.ordenAlbum ? ordenAlbum(a, ps) : ps;
+  const vistos = abierto ? ps : ps.slice(0, 6);
+  return `<div class="${abierto ? "album" : "album album-tira"}" data-album="${a}">${vistos.map(tarjeta).join("")}</div>` +
     (ps.length > 6 ? `<button class="btn mini" style="margin-top:10px" data-acc="albumAbrir" data-arg="${abierto ? "" : a}">${abierto ? "Ver menos" : `Ver todo (${ps.length})`}</button>` : "");
 }
 /** Un año por vivir: su visión. Fotos de lo que quieres ver cumplido ese año, privadas hasta que las compartas. */
@@ -272,10 +275,7 @@ function corazonAnio(a) {
   return hoja(`<h3 style="margin:0 0 4px">${titulo}</h3><p class="suave" style="margin:0 0 12px">${ayuda}</p>
     <div class="form">${campo("Palabra del año", `<input type="text" maxlength="40" data-resp="vida|${claveVida(a, "palabra")}" value="${esc(respuesta(claveVida(a, "palabra")))}" placeholder="${futuro || a === hoy ? "Libertad, Familia, Cumbre…" : "La palabra de ese año"}">`)}
     ${campo(futuro ? "Anhelos y sueños" : "Anhelos", `<textarea rows="4" data-resp="vida|${claveVida(a, "anhelos")}" placeholder="${futuro ? "Conocer la Patagonia\nAbrir mi escuela\nCorrer mi primera maratón" : a === hoy ? "Lo que anhelas este año, uno por línea" : "Lo que anhelabas ese año"}">${esc(respuesta(claveVida(a, "anhelos")))}</textarea>`)}</div>
-    ${anh.length && a >= hoy ? `<div class="chips" style="margin-top:10px">${anh.slice(0, 8).map(t => { const ya = Store.lista("meta_anio").find(m => m.anio === a && m.titulo.trim().toLowerCase() === t.toLowerCase());
-        return ya ? `<button class="chip" aria-pressed="true" data-ir="metas" data-arg="a:${ya.id}" title="Ya es meta de ${a}">${ic("check")} ${esc(t)}</button>`
-          : `<button class="chip" data-acc="anheloAMeta" data-arg="${a}|${esc(t)}" title="Convertir en meta de ${a}">${ic("mas")} ${esc(t)}</button>`; }).join("")}</div>
-      <p class="suave" style="margin:6px 0 0;font-size:13px">Toca un anhelo para convertirlo en meta de ${a}.</p>` : ""}`);
+`);
 }
 /** Lo cumplido del año: metas logradas y logros publicados. */
 function cumplidosAnio(a) {
@@ -496,7 +496,7 @@ const DET = {
       (window.brujulaDelAnio ? brujulaDelAnio(a) + otrasMetasAnio(a, metas) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}${(() => { const n = c.mensuales.filter(x => x.metaAnualId === m.id).length; return n ? ` <span class="suave" style="font-size:12px">· ${n} ${n === 1 ? "mes" : "meses"}</span>` : ""; })()}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
           : `<p class="suave" style="margin:8px 0 0">Todavía no hay metas para ${a}.</p>`}`)) +
-      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cumplidosAnio(a) + cartaAnio(a) + (window.bienResumenAnio ? bienResumenAnio(a) : ""));
+      (a <= hoy.getFullYear() ? albumAnio(a, metas) : visionAnio(a)) + cartaAnio(a) + (window.bienResumenAnio ? bienResumenAnio(a) : ""));
       // Los 12 meses ya están en la barra de vida (a la derecha): aquí no se repiten
   },
   "ruta.m"(arg) { return detMes(arg); },

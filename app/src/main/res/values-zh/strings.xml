@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">从总罗盘复制</string>
     <string name="bja_reemplazar">用总罗盘替换 %1$d 年罗盘？</string>
     <string name="bja_copiada">完成：%1$d 年罗盘已有总罗盘的 %2$d 个营地。</string>
+    <string name="om_otras">%1$d 年的其他目标</string>
+    <string name="om_copiar">复制</string>
+    <string name="om_copia_sufijo">（副本）</string>
+    <string name="om_borrar_titulo">删除这个目标？</string>
+    <string name="om_borrar_texto">「%1$s」及其进度将被删除。</string>
+    <string name="album_mover">拖动以排序</string>
+    <string name="album_borrar_titulo">删除这张照片？</string>
+    <string name="album_borrar_texto">该帖子将从你的主页和相册中删除。</string>
 </resources>

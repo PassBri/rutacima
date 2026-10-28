@@ -152,9 +152,8 @@ private fun CampoVida(valor: String, etiqueta: String, ejemplo: String, lineas: 
 /** El corazón del año: su palabra y sus anhelos y sueños; un toque convierte un anhelo en meta de ese año. */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CorazonAnio(anio: Int, vida: Map<String, String>, onGuardar: (String, String) -> Unit, onAnheloAMeta: (String) -> Unit) {
+fun CorazonAnio(anio: Int, vida: Map<String, String>, onGuardar: (String, String) -> Unit) {
     val hoy = LocalDate.now().year; val futuro = anio > hoy
-    val anhelos = vida[claveVida(anio, "anhelos")].orEmpty().lines().map { it.trim() }.filter { it.isNotEmpty() }
     RutaCard {
         Text(stringResource(when { futuro -> R.string.vida_suenas; anio == hoy -> R.string.vida_tu_anio; else -> R.string.vida_lo_que_fue }, anio), style = MaterialTheme.typography.titleMedium)
         Text(stringResource(if (futuro) R.string.vida_anhelos_ayuda_futuro else R.string.vida_anhelos_ayuda), style = MaterialTheme.typography.bodySmall,
@@ -164,15 +163,6 @@ fun CorazonAnio(anio: Int, vida: Map<String, String>, onGuardar: (String, String
         Spacer(Modifier.height(8.dp))
         CampoVida(vida[claveVida(anio, "anhelos")].orEmpty(), stringResource(if (futuro) R.string.vida_anhelos_suenos else R.string.vida_anhelos), stringResource(R.string.vida_anhelos_ejemplo), 3,
             { onGuardar(claveVida(anio, "anhelos"), it) })
-        if (anhelos.isNotEmpty() && anio >= hoy) {
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.padding(top = 8.dp)) {
-                anhelos.take(8).forEach { t ->
-                    AssistChip(onClick = { onAnheloAMeta(t) }, label = { Text(t, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-                        leadingIcon = { Icon(Icons.Filled.Add, null, Modifier.size(16.dp)) })
-                }
-            }
-            Text(stringResource(R.string.vida_anhelo_a_meta, anio), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        }
     }
 }
 

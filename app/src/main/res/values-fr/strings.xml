@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Copier depuis la Boussole générale</string>
     <string name="bja_reemplazar">Remplacer la Boussole %1$d par la générale ?</string>
     <string name="bja_copiada">C’est fait : la Boussole %1$d a %2$d camps de ta Boussole générale.</string>
+    <string name="om_otras">Autres objectifs de %1$d</string>
+    <string name="om_copiar">Copier</string>
+    <string name="om_copia_sufijo">" (copie)"</string>
+    <string name="om_borrar_titulo">Supprimer cet objectif ?</string>
+    <string name="om_borrar_texto">« %1$s » et sa progression seront supprimés.</string>
+    <string name="album_mover">Faites glisser pour réordonner</string>
+    <string name="album_borrar_titulo">Supprimer cette photo ?</string>
+    <string name="album_borrar_texto">La publication sera supprimée de votre mur et de votre album.</string>
 </resources>

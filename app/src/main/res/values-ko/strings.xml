@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">전체 나침반에서 복사</string>
     <string name="bja_reemplazar">%1$d년 나침반을 전체 나침반으로 바꿀까요?</string>
     <string name="bja_copiada">완료: %1$d년 나침반에 전체 나침반의 캠프 %2$d개가 들어갔어요.</string>
+    <string name="om_otras">%1$d년의 다른 목표</string>
+    <string name="om_copiar">복사</string>
+    <string name="om_copia_sufijo">" (사본)"</string>
+    <string name="om_borrar_titulo">이 목표를 삭제할까요?</string>
+    <string name="om_borrar_texto">「%1$s」와 진행 상황이 삭제됩니다.</string>
+    <string name="album_mover">끌어서 순서 변경</string>
+    <string name="album_borrar_titulo">이 사진을 삭제할까요?</string>
+    <string name="album_borrar_texto">게시물이 담벼락과 앨범에서 삭제됩니다.</string>
 </resources>

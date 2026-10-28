@@ -117,12 +117,6 @@ internal fun BrujulaAnioCard(
                                     style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
-                        if (meta != null) {
-                            val plan = PlanMeta.leer(LibroMetas.valores[PlanMeta.clave(meta.id)])
-                            Text(stringResource(R.string.bja_plan, plan.count { it.h }, plan.size), style = MaterialTheme.typography.labelMedium,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.clip(RoundedCornerShape(8.dp)).clickable { onMeta(meta) }.padding(vertical = 6.dp))
-                        }
                     }
                 }
             }

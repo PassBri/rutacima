@@ -59,7 +59,6 @@ function brujulaDelAnio(a) {
       <div class="ba-barra"><i style="width:${ganados / 8 * 100}%"></i></div>
       <ol class="ba-pasos">${pasos.map(({ p, t, x }) => t ? `<li class="${x.cumplido ? "ganado" : ""}"><button class="ba-check" data-acc="baGanado" data-arg="${c.id}|${p}" aria-pressed="${x.cumplido}" aria-label="${x.cumplido ? "Quitar ganado" : "Marcar ganado"}: ${esc(t)}">${ic("check")}</button><span>${esc(t)}</span>${!x.cumplido && x.jornadas.length ? `<small>${x.jornadas.length}/${x.req || MetodoCima.INICIAL}</small>` : ""}</li>` : "").join("")
         || `<li class="suave">Sin sub-metas todavía: escríbelas en la Brújula o en la meta.</li>`}</ol>
-      ${m ? `<details class="ba-plan"${estado.baPlan === m.id ? " open" : ""}><summary data-acc="baPlan" data-arg="${m.id}">${ic("lista")} Plan de acción${plan.length ? ` · ${plan.filter(x => x.h).length} de ${plan.length}` : ""}</summary>${planMetaHtml(m, true)}</details>` : ""}
     </article>`;
   };
   return hoja(`<div class="ba-cab"><div><small>Brújula de ${a}</small><h3>${esc(cumbre?.afirmacion || cumbre?.titulo || `Mi cumbre de ${a}`)}</h3></div>
@@ -152,7 +151,10 @@ actividadesDia = function (fecha, ag, ms) {
 function otrasMetasAnio(a, metas) {
   const ids = new Set(Mandala.CAMPAMENTOS_FIJOS.map(cod => Sincro.objetivo(a, cod)?.id).filter(Boolean)), otras = metas.filter(m => !ids.has(m.id));
   return hoja(`<div class="cab-lista-btn"><div class="etiqueta">${otras.length ? `Otras metas de ${a}` : `¿Otra meta para ${a}?`}</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
-    ${otras.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-sel="ma:${m.id}">${esc(m.titulo)}</button></div></div>`).join("") || `<p class="suave" style="margin:6px 0 0">Las metas de ${a} son las de su Brújula. Aquí puedes sumar otras.</p>`}`);
+    ${otras.map(m => `<div class="om-fila"><input class="om-texto" value="${esc(m.titulo)}" maxlength="120" ${bind("meta_anio", String(m.id), "titulo")} aria-label="Nombre de la meta">
+      <button class="om-ic" data-sel="ma:${m.id}" aria-label="Abrir" title="Abrir">${ic("der")}</button>
+      <button class="om-ic" data-acc="metaCopiar" data-arg="${m.id}" aria-label="Copiar" title="Copiar">${ic("copiar")}</button>
+      <button class="om-ic peligro" data-acc="metaBorrar" data-arg="${m.id}" aria-label="Borrar" title="Borrar">${ic("borrar")}</button></div>`).join("") || `<p class="suave" style="margin:6px 0 0">Las metas de ${a} son las de su Brújula. Aquí puedes sumar otras.</p>`}`);
 }
 window.otrasMetasAnio = otrasMetasAnio;
 
@@ -189,3 +191,65 @@ ACC.copiarGeneral = async (el, arg) => {
   toast(`Listo: la Brújula de ${a} tiene la cumbre y ${n} campamentos de tu Brújula general, con sus sub-metas.`);
   pintarDetalle(); pintarLista();
 };
+
+/* Otras metas del año: copiar y borrar (con confirmación) ahí mismo */
+ACC.metaCopiar = async (_, id) => { const m = Store.get("meta_anio", id); if (!m) return;
+  await Store.guardar("meta_anio", { ...m, id: nuevoId(), titulo: (m.titulo + " (copia)").slice(0, 120), estado: "NO_INICIADA", avance: 0 }); toast("Meta copiada"); pintarDetalle(); };
+ACC.metaBorrar = async (el, id) => {
+  if (!el.dataset.seguro) { el.dataset.seguro = "1"; el.classList.add("seguro"); el.title = "¿Borrar? Toca otra vez"; toast("Toca otra vez para borrar la meta");
+    setTimeout(() => { if (el.isConnected) { delete el.dataset.seguro; el.classList.remove("seguro"); } }, 4000); return; }
+  await Store.borrar("meta_anio", id); toast("Meta borrada"); pintarDetalle(); pintarLista();
+};
+
+/* Álbum del año: borrar una foto (es la publicación) y ordenarlas arrastrando desde la esquina */
+const claveOrdenAlbum = a => `album:orden:${a}`;
+function ordenAlbum(a, ps) {
+  const orden = respuesta(claveOrdenAlbum(a)).split(",").filter(Boolean);
+  if (!orden.length) return ps;
+  const pos = id => { const i = orden.indexOf(String(id)); return i < 0 ? 1e9 : i; };
+  return [...ps].sort((x, y) => pos(x.id) - pos(y.id));
+}
+window.ordenAlbum = ordenAlbum;
+ACC.albumBorrar = async (el, id) => {
+  if (!el.dataset.seguro) { el.dataset.seguro = "1"; el.classList.add("seguro"); toast("Toca otra vez para borrar la foto (se borra la publicación)");
+    setTimeout(() => { if (el.isConnected) { delete el.dataset.seguro; el.classList.remove("seguro"); } }, 4000); return; }
+  if (Store.nube) { const r = await Store.nube.sb.from("posts").delete().eq("id", id); if (r.error) return errorNube(r.error); }
+  else { const i = misPostsDemo.findIndex(p => String(p.id) === String(id)); if (i >= 0) misPostsDemo.splice(i, 1); }
+  if (estado.misRecientes) estado.misRecientes = estado.misRecientes.filter(p => String(p.id) !== String(id));
+  estado.feed = null; estado.misPosts = null; toast("Foto borrada"); pintarDetalle();
+};
+/* Arrastrar desde la esquina (mouse o dedo): la foto se suelta antes de la que está debajo */
+document.addEventListener("pointerdown", e => {
+  const h = e.target.closest?.("[data-alb-mover]"); if (!h) return;
+  e.preventDefault();
+  const w = h.closest(".recuerdo-w"), caja = w.parentElement, a = Number(h.dataset.albMover);
+  w.classList.add("arrastrando"); h.setPointerCapture?.(e.pointerId);
+  let destino = null;
+  const mover = ev => {
+    const bajo = document.elementFromPoint(ev.clientX, ev.clientY)?.closest(".recuerdo-w");
+    caja.querySelectorAll(".destino").forEach(x => x.classList.remove("destino"));
+    destino = bajo && bajo !== w && bajo.parentElement === caja ? bajo : null; destino?.classList.add("destino");
+  };
+  const soltar = async () => {
+    removeEventListener("pointermove", mover); removeEventListener("pointerup", soltar); removeEventListener("pointercancel", soltar);
+    w.classList.remove("arrastrando"); caja.querySelectorAll(".destino").forEach(x => x.classList.remove("destino"));
+    if (!destino) return;
+    const todos = ordenAlbum(a, (estado.misPosts || []).filter(p => (p.anio ?? new Date(p.creadoEn).getFullYear()) === a)).map(p => String(p.id));
+    const de = w.dataset.post, a2 = destino.dataset.post, sin = todos.filter(x => x !== de);
+    sin.splice(sin.indexOf(a2), 0, de);
+    await responder("vida", claveOrdenAlbum(a), sin.join(",")); pintarDetalle();
+  };
+  addEventListener("pointermove", mover); addEventListener("pointerup", soltar); addEventListener("pointercancel", soltar);
+});
+/* Con teclado: en el botón de mover, ← → (o ↑ ↓) cambian la foto de lugar */
+document.addEventListener("keydown", async e => {
+  const h = e.target.closest?.("[data-alb-mover]"); if (!h) return;
+  const paso = { ArrowLeft: -1, ArrowUp: -1, ArrowRight: 1, ArrowDown: 1 }[e.key]; if (!paso) return;
+  e.preventDefault();
+  const a = Number(h.dataset.albMover), de = h.closest(".recuerdo-w").dataset.post;
+  const todos = ordenAlbum(a, (estado.misPosts || []).filter(p => (p.anio ?? new Date(p.creadoEn).getFullYear()) === a)).map(p => String(p.id));
+  const i = todos.indexOf(de), j = i + paso; if (i < 0 || j < 0 || j >= todos.length) return;
+  [todos[i], todos[j]] = [todos[j], todos[i]];
+  await responder("vida", claveOrdenAlbum(a), todos.join(",")); pintarDetalle();
+  document.querySelector(`.recuerdo-w[data-post="${CSS.escape(de)}"] [data-alb-mover]`)?.focus();
+});

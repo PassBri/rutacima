@@ -2548,4 +2548,12 @@
     <string name="bja_copiar">Copiar da Bússola geral</string>
     <string name="bja_reemplazar">Substituir a Bússola de %1$d pela geral?</string>
     <string name="bja_copiada">Pronto: a Bússola de %1$d tem %2$d acampamentos da sua Bússola geral.</string>
+    <string name="om_otras">Outras metas de %1$d</string>
+    <string name="om_copiar">Copiar</string>
+    <string name="om_copia_sufijo">" (cópia)"</string>
+    <string name="om_borrar_titulo">Apagar esta meta?</string>
+    <string name="om_borrar_texto">«%1$s» será apagada com o seu progresso.</string>
+    <string name="album_mover">Arraste para ordenar</string>
+    <string name="album_borrar_titulo">Apagar esta foto?</string>
+    <string name="album_borrar_texto">A publicação será apagada do seu mural e do seu álbum.</string>
 </resources>

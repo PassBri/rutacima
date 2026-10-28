@@ -2557,4 +2557,12 @@
     <string name="bja_copiar">Copiar de la Brújula general</string>
     <string name="bja_reemplazar">¿Reemplazar la Brújula de %1$d con la general?</string>
     <string name="bja_copiada">Listo: la Brújula de %1$d tiene %2$d campamentos de tu Brújula general.</string>
+    <string name="om_otras">Otras metas de %1$d</string>
+    <string name="om_copiar">Copiar</string>
+    <string name="om_copia_sufijo">" (copia)"</string>
+    <string name="om_borrar_titulo">¿Borrar esta meta?</string>
+    <string name="om_borrar_texto">Se borrará «%1$s» con su avance.</string>
+    <string name="album_mover">Arrastra para ordenar</string>
+    <string name="album_borrar_titulo">¿Borrar esta foto?</string>
+    <string name="album_borrar_texto">Se borra la publicación de tu muro y de tu álbum.</string>
 </resources>
