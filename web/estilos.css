@@ -4067,3 +4067,4 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .aporte-dia b { color: var(--burdeos); }
 .aporte-dia span { color: var(--tinta); }
 .ba-cab .btn { white-space: nowrap; flex: none; }
+.ba-acc { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }

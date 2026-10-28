@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">오늘 목표에 %1$s %% 기여했어요</string>
     <string name="mes_completa">전체: 모든 하위 목표</string>
     <string name="mes_pasos_n">이번 달 %2$d개 중 %1$d개 하위 목표</string>
+    <string name="bja_copiar">전체 나침반에서 복사</string>
+    <string name="bja_reemplazar">%1$d년 나침반을 전체 나침반으로 바꿀까요?</string>
+    <string name="bja_copiada">완료: %1$d년 나침반에 전체 나침반의 캠프 %2$d개가 들어갔어요.</string>
 </resources>

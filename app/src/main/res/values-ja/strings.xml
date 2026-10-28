@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">今日は目標に %1$s %% 貢献しました</string>
     <string name="mes_completa">全体：すべてのサブ目標</string>
     <string name="mes_pasos_n">今月は %2$d 件中 %1$d 件のサブ目標</string>
+    <string name="bja_copiar">全体のコンパスからコピー</string>
+    <string name="bja_reemplazar">%1$d年のコンパスを全体のもので置き換えますか？</string>
+    <string name="bja_copiada">完了：%1$d年のコンパスに全体のコンパスから%2$d個のキャンプが入りました。</string>
 </resources>

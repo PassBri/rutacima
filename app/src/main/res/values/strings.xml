@@ -2554,4 +2554,7 @@
     <string name="aporte_dia">Hoy aportaste %1$s %% a tus metas</string>
     <string name="mes_completa">Completa: todas sus sub-metas</string>
     <string name="mes_pasos_n">%1$d de %2$d sub-metas este mes</string>
+    <string name="bja_copiar">Copiar de la Brújula general</string>
+    <string name="bja_reemplazar">¿Reemplazar la Brújula de %1$d con la general?</string>
+    <string name="bja_copiada">Listo: la Brújula de %1$d tiene %2$d campamentos de tu Brújula general.</string>
 </resources>

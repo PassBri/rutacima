@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Oggi hai aggiunto %1$s %% ai tuoi obiettivi</string>
     <string name="mes_completa">Completo: tutti i sotto-obiettivi</string>
     <string name="mes_pasos_n">%1$d di %2$d sotto-obiettivi questo mese</string>
+    <string name="bja_copiar">Copia dalla Bussola generale</string>
+    <string name="bja_reemplazar">Sostituire la Bussola %1$d con quella generale?</string>
+    <string name="bja_copiada">Fatto: la Bussola %1$d ha %2$d campi della tua Bussola generale.</string>
 </resources>

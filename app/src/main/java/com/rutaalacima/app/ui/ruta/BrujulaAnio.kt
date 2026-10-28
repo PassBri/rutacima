@@ -19,6 +19,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.filled.Explore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -53,9 +56,15 @@ import com.rutaalacima.app.ui.vision.nombreCodigo
 @Composable
 internal fun BrujulaAnioCard(
     anio: Int, casillas: List<VisionCasillaEntity>, anuales: List<MetaAnualEntity>, mandala: Map<String, String>,
-    onGanado: (Long, Int) -> Unit, onAbrirBrujula: () -> Unit, onMeta: (MetaAnualEntity) -> Unit,
+    onGanado: (Long, Int) -> Unit, onAbrirBrujula: () -> Unit, onMeta: (MetaAnualEntity) -> Unit, onCopiar: () -> Unit = {},
 ) {
     val delAnio = casillas.filter { Mandala.anioDeOrigen(it.origen) == anio }
+    val hayGeneral = casillas.any { Mandala.anioDeOrigen(it.origen) == null }
+    var confirmar by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+    if (confirmar) androidx.compose.material3.AlertDialog(onDismissRequest = { confirmar = false },
+        text = { Text(stringResource(R.string.bja_reemplazar, anio)) },
+        confirmButton = { androidx.compose.material3.TextButton(onClick = { confirmar = false; onCopiar() }) { Text(stringResource(R.string.bja_copiar)) } },
+        dismissButton = { androidx.compose.material3.TextButton(onClick = { confirmar = false }) { Text(stringResource(R.string.cancelar)) } })
     RutaCard {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
@@ -68,6 +77,9 @@ internal fun BrujulaAnioCard(
                 Icon(Icons.Filled.Explore, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
                 Text(stringResource(if (delAnio.isEmpty()) R.string.bja_crear else R.string.bja_abrir))
             }
+        }
+        if (hayGeneral) androidx.compose.material3.TextButton(onClick = { if (delAnio.isEmpty()) onCopiar() else confirmar = true }) {
+            Icon(Icons.Filled.ContentCopy, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.bja_copiar))
         }
         if (delAnio.isEmpty()) return@RutaCard
         val (_, camps) = Mandala.repartir(delAnio, { it.origen }, { it.eje })

@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">आज आपने लक्ष्यों में %1$s %% जोड़ा</string>
     <string name="mes_completa">पूरा: सभी उप-लक्ष्य</string>
     <string name="mes_pasos_n">इस महीने %2$d में से %1$d उप-लक्ष्य</string>
+    <string name="bja_copiar">सामान्य कम्पास से कॉपी करें</string>
+    <string name="bja_reemplazar">%1$d के कम्पास को सामान्य कम्पास से बदलें?</string>
+    <string name="bja_copiada">हो गया: %1$d के कम्पास में आपके सामान्य कम्पास के %2$d पड़ाव हैं।</string>
 </resources>

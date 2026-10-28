@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Aujourd’hui tu as ajouté %1$s %% à tes objectifs</string>
     <string name="mes_completa">Complet : tous ses sous-objectifs</string>
     <string name="mes_pasos_n">%1$d sur %2$d sous-objectifs ce mois-ci</string>
+    <string name="bja_copiar">Copier depuis la Boussole générale</string>
+    <string name="bja_reemplazar">Remplacer la Boussole %1$d par la générale ?</string>
+    <string name="bja_copiada">C’est fait : la Boussole %1$d a %2$d camps de ta Boussole générale.</string>
 </resources>

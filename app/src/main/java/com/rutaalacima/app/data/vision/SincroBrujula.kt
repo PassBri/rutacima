@@ -101,6 +101,38 @@ class SincroBrujula(private val db: RutaDatabase, private val respuestas: Respue
         }
     }
 
+    /**
+     * Copia la Brújula general a la de un año (igual que la web): la cumbre, los 8 campamentos (frase, eje y foto) y sus
+     * sub-metas. Lo ganado y las jornadas no se copian. Si el año ya tenía algo, se reemplaza. Devuelve cuántos campamentos copió.
+     */
+    suspend fun copiarGeneral(anio: Int): Int {
+        val todas = db.visionDao().todas()
+        val gen = Mandala.repartir(todas.filter { Mandala.anioDeOrigen(it.origen) == null }, { it.origen }, { it.eje })
+        val dest = Mandala.repartir(todas.filter { Mandala.anioDeOrigen(it.origen) == anio }, { it.origen }, { it.eje })
+        val r = respuestas.cargar(Mandala.WORKBOOK)
+        suspend fun copiar(src: VisionCasillaEntity?, actual: VisionCasillaEntity?, origen: String): Long? {
+            src ?: return null
+            val nueva = (actual ?: VisionCasillaEntity(orden = src.orden, titulo = src.titulo, afirmacion = src.afirmacion, origen = Mandala.origenEnAnio(anio, origen)))
+                .copy(titulo = src.titulo, afirmacion = src.afirmacion, eje = src.eje, sugerencia = src.sugerencia, busqueda = src.busqueda, publicacionId = src.publicacionId)
+            return db.visionDao().guardar(nueva).let { if (actual != null) actual.id else it }
+        }
+        copiar(gen.first, dest.first, "cumbre")
+        var n = 0
+        for (i in 0 until 8) {
+            val src = gen.second[i] ?: continue
+            val id = copiar(src, dest.second[i], Mandala.origenCampamento(Mandala.CAMPAMENTOS_FIJOS[i])) ?: continue
+            n++
+            for (p in 0 until PASOS) respuestas.guardar(Mandala.WORKBOOK, Mandala.clave(id, p), r[Mandala.clave(src.id, p)].orEmpty().trim())
+        }
+        reconciliar()
+        // Cada meta del año toma el nombre de su campamento copiado
+        for (i in 0 until 8) {
+            val src = gen.second[i] ?: continue; val cod = Mandala.CAMPAMENTOS_FIJOS[i]; if (cod !in CODS) continue
+            meta(anio, cod)?.let { m -> nombre(src).takeIf { it.isNotBlank() && it != m.titulo }?.let { dao.upsertMeta(m.copy(titulo = it)) } }
+        }
+        return n
+    }
+
     /** Un paso escrito (o borrado) en la Brújula: su sub-meta cambia al instante. */
     suspend fun pasoEscrito(casilla: VisionCasillaEntity, paso: Int, texto: String) = candado.withLock {
         val anio = Mandala.anioDeOrigen(casilla.origen)

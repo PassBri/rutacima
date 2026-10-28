@@ -45,7 +45,8 @@ const casillaDeMes = mm => { const a = mm && Store.get("meta_anio", mm.metaAnual
 function brujulaDelAnio(a) {
   const cs = casillasDe(a);
   if (!cs.length) return hoja(`<h3 style="margin:0 0 4px">Brújula de ${a}</h3><p class="suave" style="margin:0 0 10px">Las metas de ${a} nacen de su Brújula: la cumbre del año y sus 8 campamentos, cada uno con sus sub-metas.</p>
-    <button class="btn lleno" data-acc="abrirBrujulaAnio" data-arg="${a}">${ic("brujula")} Crear la Brújula de ${a}</button>`);
+    <div class="botones"><button class="btn lleno" data-acc="abrirBrujulaAnio" data-arg="${a}">${ic("brujula")} Crear la Brújula de ${a}</button>
+    ${casillasDe(null).length ? `<button class="btn" data-acc="copiarGeneral" data-arg="${a}">${ic("copiar")} Copiar de la Brújula general</button>` : ""}</div>`);
   const { cumbre, camps } = Mandala.repartir(cs), hoyF = hoyFecha();
   const tarjeta = (c, i) => {
     const cod = Mandala.CAMPAMENTOS_FIJOS[i], color = Mandala.COLORES[cod] || COLOR_EJE[cod] || "#7A4A6B";
@@ -62,7 +63,8 @@ function brujulaDelAnio(a) {
     </article>`;
   };
   return hoja(`<div class="ba-cab"><div><small>Brújula de ${a}</small><h3>${esc(cumbre?.afirmacion || cumbre?.titulo || `Mi cumbre de ${a}`)}</h3></div>
-      <button class="btn mini" data-acc="abrirBrujulaAnio" data-arg="${a}">${ic("brujula")} Abrir la Brújula</button></div>
+      <span class="ba-acc">${casillasDe(null).length ? `<button class="btn mini" data-acc="copiarGeneral" data-arg="${a}" title="Trae la cumbre, los campamentos y sus sub-metas de tu Brújula general">${ic("copiar")} Copiar de la general</button>` : ""}
+      <button class="btn mini" data-acc="abrirBrujulaAnio" data-arg="${a}">${ic("brujula")} Abrir la Brújula</button></span></div>
     <p class="suave" style="margin:0 0 12px">La cumbre de ${a} y sus 8 campamentos: cada uno con su meta, sus sub-metas (los pasos) y su plan de acción.</p>
     <div class="ba-grid">${Mandala.CAMPAMENTOS_FIJOS.map((_, i) => tarjeta(camps[i], i)).join("")}</div>`, "ba-hoja");
 }
@@ -153,3 +155,37 @@ function otrasMetasAnio(a, metas) {
     ${otras.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-sel="ma:${m.id}">${esc(m.titulo)}</button></div></div>`).join("") || `<p class="suave" style="margin:6px 0 0">Las metas de ${a} son las de su Brújula. Aquí puedes sumar otras.</p>`}`);
 }
 window.otrasMetasAnio = otrasMetasAnio;
+
+/* Copiar la Brújula general a la de un año: la cumbre, los 8 campamentos (frase, eje y foto) y sus sub-metas.
+ * Lo ganado y las jornadas no se copian: el año empieza su propio camino. Si el año ya tiene algo escrito, se reemplaza. */
+ACC.copiarGeneral = async (el, arg) => {
+  const a = Number(arg), anio = casillasDe(a);
+  if (anio.length && !el.dataset.seguro) {
+    el.dataset.seguro = "1"; const antes = el.innerHTML; el.innerHTML = `¿Reemplazar la Brújula de ${a}? Toca otra vez`;
+    setTimeout(() => { if (el.isConnected) { delete el.dataset.seguro; el.innerHTML = antes; } }, 5000);
+    return;
+  }
+  const gen = Mandala.repartir(casillasDe(null)), dest = Mandala.repartir(anio);
+  const base = c => (c.origen || "").replace(/^anio:\d{4}:/, "");
+  const copiar = async (src, actual, origen) => {
+    if (!src) return null;
+    const datos = { titulo: src.titulo, afirmacion: src.afirmacion, eje: src.eje ?? null, sugerencia: src.sugerencia || "", busqueda: src.busqueda || "", publicacionId: src.publicacionId ?? null };
+    const raw = actual ? Store.get("vision", actual.id) : null;
+    const obj = raw ? { ...raw, ...datos } : { id: nuevoId(), orden: src.orden || 0, ...datos, origen: `anio:${a}:${origen || base(src) || "manual"}` };
+    await Store.guardar("vision", obj);
+    return obj;
+  };
+  await copiar(gen.cumbre, dest.cumbre, "cumbre");
+  let n = 0;
+  for (let i = 0; i < 8; i++) {
+    const src = gen.camps[i]; if (!src) continue;
+    const obj = await copiar(src, dest.camps[i], "campamento:" + Mandala.CAMPAMENTOS_FIJOS[i]); n++;
+    for (let p = 0; p < 8; p++) await responderBase("mandala", Mandala.clave(obj.id, p), respuesta(Mandala.clave(src.id, p)).trim());
+  }
+  await Sincro.reconciliar(a);
+  // Cada meta del año toma el nombre de su campamento copiado
+  for (let i = 0; i < 8; i++) { const cod = Mandala.CAMPAMENTOS_FIJOS[i], src = gen.camps[i], m = src && Sincro.objetivo(a, cod);
+    if (m && mdNombre(src) && m.titulo !== mdNombre(src)) await Store.guardar("meta_anio", { ...m, titulo: mdNombre(src).slice(0, 120) }); }
+  toast(`Listo: la Brújula de ${a} tiene la cumbre y ${n} campamentos de tu Brújula general, con sus sub-metas.`);
+  pintarDetalle(); pintarLista();
+};

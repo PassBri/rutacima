@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Heute hast du %1$s %% zu deinen Zielen beigetragen</string>
     <string name="mes_completa">Ganz: alle Teilziele</string>
     <string name="mes_pasos_n">%1$d von %2$d Teilzielen diesen Monat</string>
+    <string name="bja_copiar">Aus dem allgemeinen Kompass kopieren</string>
+    <string name="bja_reemplazar">Kompass %1$d durch den allgemeinen ersetzen?</string>
+    <string name="bja_copiada">Fertig: Der Kompass %1$d hat %2$d Lager aus deinem allgemeinen Kompass.</string>
 </resources>

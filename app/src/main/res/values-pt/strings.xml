@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Hoje você somou %1$s %% às suas metas</string>
     <string name="mes_completa">Completa: todas as submetas</string>
     <string name="mes_pasos_n">%1$d de %2$d submetas este mês</string>
+    <string name="bja_copiar">Copiar da Bússola geral</string>
+    <string name="bja_reemplazar">Substituir a Bússola de %1$d pela geral?</string>
+    <string name="bja_copiada">Pronto: a Bússola de %1$d tem %2$d acampamentos da sua Bússola geral.</string>
 </resources>

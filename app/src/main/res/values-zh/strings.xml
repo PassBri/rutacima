@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">今天你为目标贡献了 %1$s %%</string>
     <string name="mes_completa">完整：全部子目标</string>
     <string name="mes_pasos_n">本月 %1$d / %2$d 个子目标</string>
+    <string name="bja_copiar">从总罗盘复制</string>
+    <string name="bja_reemplazar">用总罗盘替换 %1$d 年罗盘？</string>
+    <string name="bja_copiada">完成：%1$d 年罗盘已有总罗盘的 %2$d 个营地。</string>
 </resources>

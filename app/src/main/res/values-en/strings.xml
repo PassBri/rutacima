@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Today you added %1$s %% to your goals</string>
     <string name="mes_completa">Whole: all its sub-goals</string>
     <string name="mes_pasos_n">%1$d of %2$d sub-goals this month</string>
+    <string name="bja_copiar">Copy from the general Compass</string>
+    <string name="bja_reemplazar">Replace the %1$d Compass with the general one?</string>
+    <string name="bja_copiada">Done: the %1$d Compass now has %2$d camps from your general Compass.</string>
 </resources>

@@ -2545,4 +2545,7 @@
     <string name="aporte_dia">Сегодня ты добавил %1$s %% к своим целям</string>
     <string name="mes_completa">Целиком: все подцели</string>
     <string name="mes_pasos_n">%1$d из %2$d подцелей в этом месяце</string>
+    <string name="bja_copiar">Скопировать из общего компаса</string>
+    <string name="bja_reemplazar">Заменить компас %1$d общим?</string>
+    <string name="bja_copiada">Готово: в компасе %1$d теперь %2$d лагерей из общего компаса.</string>
 </resources>
