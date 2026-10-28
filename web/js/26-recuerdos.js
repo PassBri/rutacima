@@ -40,7 +40,7 @@ function abrirReel(el, R) {
   const slides = [...fs.map((x, i) => {
     const f = new Date(x.creadoEn), frase = String(x.metaTitulo || x.texto || "").trim().slice(0, 140);
     return `<figure class="reel-slide" data-i="${i}"><img src="${esc(x.foto)}" alt="${altFoto(x)}" style="--o:${["50% 40%", "40% 55%", "60% 45%"][i % 3]}">
-      <figcaption><span class="reel-sello" aria-label="${MESES[f.getMonth()]}">${MES_SELLO[f.getMonth()]}</span>${frase ? `<p>«${esc(frase)}»</p>` : ""}<small>${f.getDate()} de ${MESES[f.getMonth()]}</small></figcaption></figure>`;
+      <figcaption>${frase ? `<p>«${esc(frase)}»</p>` : ""}<small>${f.getDate()} de ${MESES[f.getMonth()]}</small></figcaption></figure>`;
   }), `<figure class="reel-slide reel-fin" data-i="${fs.length}">
       <div class="reel-mosaico">${fs.slice(0, 9).map(x => `<img src="${esc(x.foto)}" alt="">`).join("")}</div>
       <figcaption><small>${esc(R.titulo)}</small><h2>${esc(R.frase || "Un año más cerca de la cumbre")}</h2>

@@ -196,10 +196,6 @@ fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<
                 if (indice < fotos.size) {
                     val p = fotos[indice]
                     val fecha = fechaRecuerdo(p)
-                    var sellado by remember(indice) { mutableStateOf(false) }
-                    LaunchedEffect(indice) { if (!reducir) delay(250); sellado = true }
-                    val sello by animateFloatAsState(if (sellado || reducir) 1f else .6f,
-                        if (reducir) snap() else tween(450), label = "selloRecuerdo")
                     AsyncImage(solicitudFotoVision(p.foto, lado), null,
                         Modifier.fillMaxSize().graphicsLayer {
                             val zoom = if (reducir) 1f else 1.14f - progreso * .12f
@@ -209,11 +205,7 @@ fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<
                     Box(Modifier.fillMaxSize().graphicsLayer { alpha = destello.value }.background(Color(0xFFFFF7E8)))
                     Column(Modifier.align(Alignment.BottomCenter).fillMaxWidth()
                         .background(Brush.verticalGradient(listOf(Color.Transparent, Color.Black.copy(alpha = .8f)))).padding(20.dp)) {
-                        Box(Modifier.size(56.dp).graphicsLayer { scaleX = sello; scaleY = sello; rotationZ = -8f }
-                            .background(Brush.radialGradient(listOf(Color(0xFFA34352), Color(0xFF681C36))), CircleShape), contentAlignment = Alignment.Center) {
-                            Text(fecha.format(DateTimeFormatter.ofPattern("MMM", Locale.getDefault())).uppercase(Locale.getDefault()), color = Color.White,
-                                style = MaterialTheme.typography.labelMedium)
-                        }
+                        // El sello del mes (OCT…) se quitó: la fecha ya va abajo
                         val texto = p.metaTitulo.ifBlank { p.texto }.trim().take(140)
                         if (texto.isNotBlank()) Text("«$texto»", color = Color.White, style = MaterialTheme.typography.headlineSmall, maxLines = 4)
                         Text(fecha.format(DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM)), color = Color.White)
