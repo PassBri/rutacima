@@ -459,7 +459,7 @@ const DET = {
           <div><div class="cifra">${r.quedan.toLocaleString("es")}</div><div class="suave">días hasta los ${metaVida()}</div></div></div></div>
         <div style="text-align:right"><div class="cifra" style="color:var(--oro)">${Math.round(r.dia / r.total * 100)}%</div><div class="suave">del camino</div></div></div>
         <div class="barra" style="margin-top:14px"><i style="width:${Math.min(100, r.dia / r.total * 100)}%"></i></div>
-        <p class="frase-vida">${r.frase}</p>`) + esteDia() +
+        <p class="frase-vida">${r.frase}</p>`, "pv-recordatorio") + esteDia() +
       hoja(`<div class="pv-cab"><div><h3>Tu vida en años</h3><p class="suave">Una fila por década · toca un año para abrirlo mes a mes</p></div></div>
         <div class="pv-chips" role="list">
           <span role="listitem" class="pv-chip"><i class="vivido"></i><b>${vividos}</b> vividos</span>

@@ -69,6 +69,7 @@ function rvBarra() {
         <button class="rv-flecha" data-acc="rvMes" data-arg="1" aria-label="Mes siguiente">${ic("der")}</button></div>
       <div class="rv-cal" role="group" aria-label="Días de ${MESES[m - 1]} de ${a}">${dias}</div>
       <div class="rv-navs">${nav("puntos", "puntos", "Mapa de mi vida", v === "puntos")}${nav("props", "brujula", "Propósitos", v === "props")}${nav("conmetas", "metas", "Metas por año", v === "conmetas")}</div>
+      ${rvRecordatorio()}
     </div></nav>`;
 }
 /** Mini mapa de vida: los mismos aros, una fila por década. Un toque mira ese año; otro toque al mismo año lo abre. */
@@ -82,6 +83,15 @@ function rvMiniMapa(nac, visto) {
       <span class="pv ${cls}${conMetas.has(y) ? " meta" : ""}" aria-hidden="true">${PUNTO_MARCA}</span></button>`;
   }
   return `<div class="rv-mapa" role="group" aria-label="Elige un año de tu vida">${h}</div><p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo.</p></div>`;
+}
+/** El recordatorio del día, compacto, al final de la barra (en el computador): así el centro deja ver tu vida en años completa. */
+function rvRecordatorio() {
+  const r = recordatorio(); if (!r) return "";
+  const pct = Math.round(r.dia / r.total * 100);
+  return `<section class="rv-rec" aria-label="Recordatorio del día"><b class="rv-rec-t">Recordatorio del día</b>
+    <div class="rv-rec-cifras"><div><b>${r.dia.toLocaleString("es")}</b><small>día de tu vida</small></div><div><b>${r.quedan.toLocaleString("es")}</b><small>días hasta los ${metaVida()}</small></div></div>
+    <div class="rv-rec-barra" role="img" aria-label="${pct} % del camino"><i style="width:${Math.min(100, pct)}%"></i></div><small class="rv-rec-pct">${pct} % del camino</small>
+    <p class="rv-rec-frase">${r.frase}</p></section>`;
 }
 /* Mirar otro año o mes sin abrirlo: solo se redibuja la barra */
 function rvRepintar() { const b = document.querySelector(".rv-barra"); if (b) b.outerHTML = rvBarra(); }

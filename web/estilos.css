@@ -3997,3 +3997,17 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .rv-nav-item { height: 40px; font-size: 13px; }
   .rv-titulo { font-size: 15px; padding: 4px 8px; }
 }
+/* Recordatorio del día: en el computador vive al final de la barra de vida; en el centro queda tu vida en años completa */
+.rv-rec { display: none; }
+@media (min-width: 901px) {
+  #detalle.con-vida .pv-recordatorio { display: none; }
+  .rv-rec { display: grid; gap: 6px; margin-top: 8px; padding: 14px; border-radius: 16px; background: var(--hoja-2); }
+  .rv-rec-t { font-size: 12px; color: var(--tinta-suave); font-weight: 600; }
+  .rv-rec-cifras { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .rv-rec-cifras b { display: block; font: 700 18px/1.1 var(--font-titulo); color: var(--burdeos); font-variant-numeric: tabular-nums; }
+  .rv-rec-cifras small, .rv-rec-pct { font-size: 11px; color: var(--tinta-suave); }
+  .rv-rec-barra { height: 6px; border-radius: 9px; background: color-mix(in srgb, var(--burdeos) 14%, var(--linea)); overflow: hidden; }
+  .rv-rec-barra i { display: block; height: 100%; background: var(--burdeos); border-radius: 9px; }
+  .rv-rec-pct { color: var(--oro); font-weight: 700; }
+  .rv-rec-frase { margin: 2px 0 0; font: 400 13px/1.4 var(--font-titulo); color: var(--tinta); }
+}
