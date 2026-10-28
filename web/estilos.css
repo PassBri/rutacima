@@ -4407,3 +4407,20 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ev-clima { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--hoja-2); margin: 6px 0 4px; }
 .ev-clima svg { width: 36px; height: 36px; } .ev-clima > div:first-of-type { display: grid; flex: 1; } .ev-clima span { color: var(--tinta-suave); font-size: 13px; }
 .ev-energia { display: grid; text-align: right; } .ev-energia span { font-size: 12px; }
+
+/* Evaluación: separadores, calendario con puntaje, datos del propósito y Sí/No de los anhelos */
+.ev-sep { margin: 10px 2px -4px; } .ev-sep h2 { margin: 0; font: 600 18px/1.3 var(--font-titulo); color: var(--burdeos); } .ev-sep p { margin: 2px 0 0; }
+.ev-sep.mini { margin: 18px 0 8px; padding-top: 14px; border-top: 1px solid var(--linea); } .ev-sep.mini h2 { font-size: 15px; }
+.ev-cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.ev-dsem { text-align: center; font-size: 11px; color: var(--tinta-suave); font-weight: 600; }
+.ev-dcal { display: grid; place-items: center; gap: 0; min-height: 46px; border-radius: 12px; border: 1px solid var(--linea); background: var(--hoja); cursor: pointer; font: inherit; color: var(--tinta); padding: 4px 0; }
+.ev-dcal b { font-size: 13px; } .ev-dcal small { font-size: 10.5px; font-variant-numeric: tabular-nums; color: var(--tinta-suave); }
+.ev-dcal:disabled { opacity: .4; cursor: default; }
+.ev-dcal.ok { background: color-mix(in srgb, var(--ok, #2F6B4A) 14%, var(--hoja)); border-color: transparent; }
+.ev-dcal.medio { background: color-mix(in srgb, var(--oro) 18%, var(--hoja)); border-color: transparent; }
+.ev-dcal.bajo { background: color-mix(in srgb, var(--burdeos) 9%, var(--hoja)); border-color: transparent; }
+.ev-dato { margin: 10px 0 0; } .ev-dato span { font-size: 12px; color: var(--tinta-suave); font-weight: 600; } .ev-dato p { margin: 2px 0 0; white-space: pre-wrap; }
+.ev-filas li:has(.ev-sino) { grid-template-columns: 24px minmax(0, 1fr) auto; grid-template-areas: "r t b"; }
+.ev-sino { grid-area: b; display: flex; gap: 4px; } .ev-sino .chip { min-height: 32px; padding: 0 12px; }
+.ev-card header .ev-badge { margin-left: auto; }
+.ba-camp .ev-filas li { font-size: 13px; padding: 6px 0; }
