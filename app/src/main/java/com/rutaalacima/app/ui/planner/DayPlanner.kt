@@ -342,6 +342,8 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 IconButton(onClick = { vm.abrir(f.plusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.dia_siguiente)) }
             }
         }
+        // La semana en orden, de lunes a domingo (igual que la web): hoy con el círculo lleno y «Tu día»; el día abierto, resaltado
+        item(key = "semana") { SemanaDias(f, onElegir = { vm.abrir(it) }) }
         if (d == null) {
             item { Box(Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) { com.rutaalacima.app.ui.components.CargandoMarca() } }
             return@LazyColumn
@@ -571,6 +573,36 @@ fun Circulos(total: Int, valor: Int, color: Color, onChange: (Int) -> Unit) {
                 Text("$i", style = MaterialTheme.typography.labelSmall,
                     color = if (lleno) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+
+@Composable
+private fun SemanaDias(abierto: LocalDate, onElegir: (LocalDate) -> Unit) {
+    val hoyF = hoy()
+    val lunes = abierto.minusDays(((abierto.dayOfWeek.value + 6) % 7).toLong())
+    val cs = MaterialTheme.colorScheme
+    val tuDia = stringResource(R.string.tu_dia_corto)
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        (0L..6L).map { lunes.plusDays(it) }.forEach { d ->
+            val esHoy = d == hoyF; val sel = d == abierto; val futuro = d.isAfter(hoyF)
+            val nombre = d.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.getDefault()).replace(".", "")
+            Column(Modifier.weight(1f).clip(RoundedCornerShape(16.dp))
+                .background(if (sel) cs.primaryContainer.copy(alpha = if (esHoy) 0.55f else 0.35f) else Color.Transparent)
+                .clickable { onElegir(d) }.padding(vertical = 8.dp)
+                .semantics { contentDescription = formatoDia(d) + if (esHoy) " · $tuDia" else "" },
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(nombre.replaceFirstChar { it.uppercase() }, style = MaterialTheme.typography.labelSmall,
+                    color = if (esHoy) cs.primary else cs.onSurfaceVariant.copy(alpha = if (futuro) 0.6f else 1f),
+                    fontWeight = if (esHoy) FontWeight.Bold else FontWeight.Normal, maxLines = 1)
+                Box(Modifier.padding(top = 4.dp).size(34.dp).clip(CircleShape).background(if (esHoy) cs.primary else Color.Transparent),
+                    contentAlignment = Alignment.Center) {
+                    Text("${d.dayOfMonth}", style = MaterialTheme.typography.titleSmall, fontWeight = if (esHoy || sel) FontWeight.Bold else FontWeight.Normal,
+                        color = if (esHoy) cs.onPrimary else cs.onSurface.copy(alpha = if (futuro) 0.55f else 1f))
+                }
+                Text(if (esHoy) tuDia else " ", style = MaterialTheme.typography.labelSmall, color = cs.primary, maxLines = 1, modifier = Modifier.padding(top = 2.dp))
             }
         }
     }

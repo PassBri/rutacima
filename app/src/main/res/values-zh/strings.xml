@@ -2594,4 +2594,5 @@
     <string name="cu_bloquear_salir">锁定并退出</string>
     <string name="cu_bloqueado_aviso">财务攀登已锁定</string>
     <string name="cu_activar_bloqueo">开启</string>
+    <string name="tu_dia_corto">今天</string>
 </resources>

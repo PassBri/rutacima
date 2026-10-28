@@ -2594,4 +2594,5 @@
     <string name="cu_bloquear_salir">Sperren und verlassen</string>
     <string name="cu_bloqueado_aviso">Finanzaufstieg gesperrt</string>
     <string name="cu_activar_bloqueo">Aktivieren</string>
+    <string name="tu_dia_corto">Dein Tag</string>
 </resources>
