@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">切换为 24 小时制</string>
     <string name="acts_hechas">已完成</string>
     <string name="acts_hechas_desc">已完成 %1$d / %2$d 项活动</string>
+    <string name="mirar_ajustar">校准</string>
+    <string name="mirar_listo">完成</string>
+    <string name="mirar_noche">夜间模式</string>
+    <string name="mirar_ayuda_ajustar">拖动星图，直到月亮或一颗亮星与真实的重合。双击：重置。</string>
 </resources>

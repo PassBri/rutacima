@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">Zum 24-Stunden-Format wechseln</string>
     <string name="acts_hechas">erledigt</string>
     <string name="acts_hechas_desc">%1$d von %2$d Aktivitäten erledigt</string>
+    <string name="mirar_ajustar">Justieren</string>
+    <string name="mirar_listo">Fertig</string>
+    <string name="mirar_noche">Nachtmodus</string>
+    <string name="mirar_ayuda_ajustar">Ziehe die Zeichnung, bis der Mond oder ein heller Stern auf dem echten liegt. Doppeltippen: zurücksetzen.</string>
 </resources>

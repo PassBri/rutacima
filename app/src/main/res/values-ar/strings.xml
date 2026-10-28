@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">التبديل إلى نظام 24 ساعة</string>
     <string name="acts_hechas">منجزة</string>
     <string name="acts_hechas_desc">أُنجز %1$d من %2$d نشاطًا</string>
+    <string name="mirar_ajustar">ضبط</string>
+    <string name="mirar_listo">تم</string>
+    <string name="mirar_noche">الوضع الليلي</string>
+    <string name="mirar_ayuda_ajustar">اسحب الرسم حتى يطابق القمر أو نجم ساطع موضعه الحقيقي. نقرتان: إعادة الضبط.</string>
 </resources>

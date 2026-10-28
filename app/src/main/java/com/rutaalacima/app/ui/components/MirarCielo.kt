@@ -11,6 +11,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -99,6 +101,16 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
     var alt by remember { mutableFloatStateOf(35f) }
     var conSensor by remember { mutableStateOf(false) }
     var tiempo by remember { mutableLongStateOf(0L) }
+    // Ajuste fino de la brújula (se recuerda en el teléfono) y modo noche en rojo (igual que la web)
+    val prefs = remember { contexto.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE) }
+    var ajusteA by remember { mutableFloatStateOf(prefs.getFloat("cielo_dA", 0f)) }
+    var ajusteH by remember { mutableFloatStateOf(prefs.getFloat("cielo_dh", 0f)) }
+    var crudoRumbo by remember { mutableFloatStateOf(180f) }
+    var crudoAlt by remember { mutableFloatStateOf(35f) }
+    var ajustando by remember { mutableStateOf(false) }
+    var noche by remember { mutableStateOf(prefs.getBoolean("cielo_noche", false)) }
+    fun guardarAjuste() { prefs.edit().putFloat("cielo_dA", ajusteA).putFloat("cielo_dh", ajusteH).apply() }
+    fun aplicar() { metaRumbo = (crudoRumbo + ajusteA + 360f) % 360f; metaAlt = (crudoAlt + ajusteH).coerceIn(-20f, 89f) }
 
     // Sensor de rotación: dirección de la parte de atrás del aparato en Este-Norte-Arriba
     DisposableEffect(Unit) {
@@ -110,8 +122,9 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
             override fun onSensorChanged(e: SensorEvent) {
                 SensorManager.getRotationMatrixFromVector(r, e.values)
                 val este = -r[2]; val norte = -r[5]; val arriba = -r[8]
-                metaRumbo = ((atan2(este, norte) / G).toFloat() + declinacion + 360f) % 360f
-                metaAlt = (asin(arriba.coerceIn(-1f, 1f)) / G).toFloat().coerceIn(-20f, 89f)
+                crudoRumbo = ((atan2(este, norte) / G).toFloat() + declinacion + 360f) % 360f
+                crudoAlt = (asin(arriba.coerceIn(-1f, 1f)) / G).toFloat()
+                aplicar()
                 conSensor = true
             }
             override fun onAccuracyChanged(s: Sensor?, a: Int) {}
@@ -156,15 +169,29 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
         else permiso.launch(android.Manifest.permission.CAMERA)
     }
 
-    Box(Modifier.fillMaxSize().background(Color(0xFF060A12))) {
+    Box(Modifier.fillMaxSize().background(Color(0xFF060A12))
+        // Modo noche: todo pasa a rojo tenue (también la cámara) para conservar la visión nocturna
+        .graphicsLayer { compositingStrategy = androidx.compose.ui.graphics.CompositingStrategy.Offscreen }
+        .drawWithContent {
+            drawContent()
+            if (noche) { drawRect(Color(0xFFFF2A2A), blendMode = androidx.compose.ui.graphics.BlendMode.Multiply); drawRect(Color.Black.copy(alpha = 0.35f)) }
+        }) {
         if (camara) CamaraDeFondo(onLente = { lente = it })
         Canvas(
-            Modifier.fillMaxSize().pointerInput(conSensor) {
+            Modifier.fillMaxSize().pointerInput(conSensor, ajustando) {
                 if (!conSensor) detectDragGestures { _, d ->
                     val k = 70f / size.width
                     metaRumbo = (metaRumbo - d.x * k + 360f) % 360f
                     metaAlt = (metaAlt + d.y * k).coerceIn(-20f, 89f)
+                } else if (ajustando) detectDragGestures(onDragEnd = { guardarAjuste() }) { _, d ->
+                    // Con sensores, arrastrar corre el dibujo hasta que calce con el cielo real
+                    val k = 70f / size.width
+                    ajusteA = (((ajusteA - d.x * k) + 540f) % 360f) - 180f
+                    ajusteH = (ajusteH + d.y * k).coerceIn(-30f, 30f)
+                    aplicar()
                 }
+            }.pointerInput(ajustando) {
+                if (ajustando) androidx.compose.foundation.gestures.detectTapGestures(onDoubleTap = { ajusteA = 0f; ajusteH = 0f; guardarAjuste(); aplicar() })
             },
         ) {
             val fov = if (camara) fovDeCamara(lente, size.width, size.height) else if (size.width < 700.dp.toPx()) 70f else 90f
@@ -186,6 +213,12 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
             Modifier.align(Alignment.BottomCenter).fillMaxWidth().safeDrawingPadding().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Row(Modifier.padding(bottom = 10.dp), horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
+                if (conSensor) BotonCielo(stringResource(if (ajustando) R.string.mirar_listo else R.string.mirar_ajustar), ajustando) {
+                    ajustando = !ajustando; if (!ajustando) guardarAjuste()
+                }
+                BotonCielo(stringResource(R.string.mirar_noche), noche) { noche = !noche; prefs.edit().putBoolean("cielo_noche", noche).apply() }
+            }
             if (conSensor) {
                 val etq = stringResource(if (camara) R.string.mirar_camara_quitar else R.string.mirar_camara)
                 Surface(onClick = { alternarCamara() }, shape = CircleShape, color = if (camara) Color.White else Color.White.copy(alpha = 0.12f),
@@ -199,7 +232,7 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                 }
             }
             Text(
-                stringResource(if (camara) R.string.mirar_ayuda_camara else if (conSensor) R.string.mirar_ayuda_sensor else R.string.mirar_ayuda_arrastre),
+                stringResource(if (ajustando) R.string.mirar_ayuda_ajustar else if (camara) R.string.mirar_ayuda_camara else if (conSensor) R.string.mirar_ayuda_sensor else R.string.mirar_ayuda_arrastre),
                 color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp, textAlign = TextAlign.Center,
                 style = androidx.compose.ui.text.TextStyle(shadow = androidx.compose.ui.graphics.Shadow(Color.Black.copy(alpha = 0.7f), blurRadius = 4f)),
             )
@@ -424,4 +457,15 @@ private fun DrawScope.dibujarVentana(
     if (altS > -4) guia(c.sol.first, altS, tSol)
     if (c.luna.second > -2) guia(c.luna.first, c.luna.second, tLuna)
     if (rad != null && rad.second > 0) guia(rad.first, rad.second, tLluvia)
+}
+
+
+/** Botón píldora de la ventana del cielo (Ajustar, Modo noche). */
+@Composable
+private fun BotonCielo(texto: String, activo: Boolean, onClick: () -> Unit) {
+    Surface(onClick = onClick, shape = CircleShape, color = if (activo) Color.White else Color.White.copy(alpha = 0.12f),
+        contentColor = if (activo) Color(0xFF060A12) else Color.White, border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
+        modifier = Modifier.semantics { contentDescription = texto }) {
+        Text(texto, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 18.dp, vertical = 12.dp))
+    }
 }

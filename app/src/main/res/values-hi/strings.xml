@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">24 घंटे के प्रारूप पर जाएँ</string>
     <string name="acts_hechas">पूरी</string>
     <string name="acts_hechas_desc">%2$d में से %1$d गतिविधियाँ पूरी</string>
+    <string name="mirar_ajustar">समायोजित करें</string>
+    <string name="mirar_listo">हो गया</string>
+    <string name="mirar_noche">रात्रि मोड</string>
+    <string name="mirar_ayuda_ajustar">चित्र को तब तक खींचें जब तक चाँद या कोई चमकीला तारा असली पर न आ जाए। दो बार टैप: रीसेट।</string>
 </resources>

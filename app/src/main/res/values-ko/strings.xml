@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">24시간 형식으로 전환</string>
     <string name="acts_hechas">완료</string>
     <string name="acts_hechas_desc">활동 %2$d개 중 %1$d개 완료</string>
+    <string name="mirar_ajustar">조정</string>
+    <string name="mirar_listo">완료</string>
+    <string name="mirar_noche">야간 모드</string>
+    <string name="mirar_ayuda_ajustar">달이나 밝은 별이 실제와 겹칠 때까지 그림을 끄세요. 두 번 탭: 초기화.</string>
 </resources>

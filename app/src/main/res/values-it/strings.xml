@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">Passa al formato 24 ore</string>
     <string name="acts_hechas">fatte</string>
     <string name="acts_hechas_desc">%1$d attività fatte su %2$d</string>
+    <string name="mirar_ajustar">Regola</string>
+    <string name="mirar_listo">Fatto</string>
+    <string name="mirar_noche">Modalità notte</string>
+    <string name="mirar_ayuda_ajustar">Trascina il disegno finché la Luna o una stella luminosa coincide con quella vera. Doppio tocco: azzera.</string>
 </resources>

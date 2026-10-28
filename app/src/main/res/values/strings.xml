@@ -2589,4 +2589,8 @@
     <string name="formato_a_24">Cambiar a formato de 24 horas</string>
     <string name="acts_hechas">hechas</string>
     <string name="acts_hechas_desc">%1$d de %2$d actividades hechas</string>
+    <string name="mirar_ajustar">Ajustar</string>
+    <string name="mirar_listo">Listo</string>
+    <string name="mirar_noche">Modo noche</string>
+    <string name="mirar_ayuda_ajustar">Arrastra el dibujo hasta que la Luna o una estrella brillante caiga sobre la real. Doble toque: volver a cero.</string>
 </resources>

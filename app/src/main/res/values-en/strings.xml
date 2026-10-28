@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">Switch to 24-hour format</string>
     <string name="acts_hechas">done</string>
     <string name="acts_hechas_desc">%1$d of %2$d activities done</string>
+    <string name="mirar_ajustar">Adjust</string>
+    <string name="mirar_listo">Done</string>
+    <string name="mirar_noche">Night mode</string>
+    <string name="mirar_ayuda_ajustar">Drag the drawing until the Moon or a bright star sits on the real one. Double tap: reset.</string>
 </resources>

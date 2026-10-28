@@ -366,12 +366,24 @@ const Cielo = (() => {
         <button type="button" class="vc-cerrar" aria-label="Cerrar">${typeof ic === "function" ? ic("cerrar") : "×"}</button></div>
       <p class="vc-ayuda"></p>
       <button type="button" class="vc-brujula" hidden>Usar la brújula del teléfono</button>
-      <button type="button" class="vc-camara" hidden>Ver con la cámara</button>`;
+      <div class="vc-barra"><button type="button" class="vc-camara" hidden>Ver con la cámara</button>
+        <button type="button" class="vc-ajustar" hidden aria-pressed="false">Ajustar</button>
+        <button type="button" class="vc-noche" aria-pressed="false">Modo noche</button></div>`;
     document.body.append(v);
     const lienzo = v.querySelector("canvas"), ctx = lienzo.getContext("2d"), ayuda = v.querySelector(".vc-ayuda"), rumboTxt = v.querySelector(".vc-rumbo");
     // Mirada inicial: hacia el sur, a 35° sobre el horizonte (la mitad del cielo que mejor se ve desde Colombia)
     const vista = { rumbo: 180, alt: 35, fov: innerWidth < 700 ? 70 : 90 }, meta = { ...vista };
     let sensores = false, cuadro = 0, cache = null, cacheMin = -1;
+    // Ajuste fino: corrige la desviación de la brújula de cada teléfono (se recuerda en este aparato)
+    const leerLS = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+    const guardarLS = (k, x) => { try { localStorage.setItem(k, JSON.stringify(x)); } catch {} };
+    const ajuste = leerLS("suroute-cielo-ajuste", { dA: 0, dh: 0 });
+    let ajustando = false, ultimo = null;
+    // Modo noche: todo en rojo tenue, para no encandilarse mirando el cielo de verdad
+    const bNoche = v.querySelector(".vc-noche"), bAjustar = v.querySelector(".vc-ajustar");
+    const ponerNoche = on => { v.classList.toggle("modo-noche", on); bNoche.setAttribute("aria-pressed", on); guardarLS("suroute-cielo-noche", on); };
+    ponerNoche(!!leerLS("suroute-cielo-noche", false));
+    bNoche.onclick = () => ponerNoche(!v.classList.contains("modo-noche"));
     const tactil = matchMedia("(pointer: coarse)").matches;
     ayuda.textContent = tactil ? "Mueve el teléfono para mirar el cielo." : "Arrastra para mirar alrededor · la rueda acerca y aleja.";
 
@@ -381,9 +393,9 @@ const Cielo = (() => {
       if (typeof ev.webkitCompassHeading === "number") alfa = 360 - ev.webkitCompassHeading;
       else if (!ev.absolute && ev.type !== "deviceorientationabsolute") return;
       if (alfa == null || ev.beta == null || ev.gamma == null) return;
-      const p = apuntado(alfa, ev.beta, ev.gamma);
-      if (!sensores) { sensores = true; ayuda.textContent = "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla."; v.querySelector(".vc-brujula").hidden = true; }
-      meta.rumbo = p.rumbo; meta.alt = Math.max(-20, Math.min(89, p.alt));
+      const p = apuntado(alfa, ev.beta, ev.gamma); ultimo = p;
+      if (!sensores) { sensores = true; ayuda.textContent = "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla."; v.querySelector(".vc-brujula").hidden = true; bAjustar.hidden = false; }
+      meta.rumbo = (p.rumbo + ajuste.dA + 360) % 360; meta.alt = Math.max(-20, Math.min(89, p.alt + ajuste.dh));
     }
     const escuchar = () => { addEventListener("deviceorientationabsolute", alGirar); addEventListener("deviceorientation", alGirar); };
     if (typeof DeviceOrientationEvent !== "undefined" && typeof DeviceOrientationEvent.requestPermission === "function") {
@@ -395,12 +407,26 @@ const Cielo = (() => {
     let arrastre = null;
     lienzo.addEventListener("pointerdown", e => { arrastre = { x: e.clientX, y: e.clientY }; lienzo.setPointerCapture(e.pointerId); });
     lienzo.addEventListener("pointermove", e => {
-      if (!arrastre || sensores) return;
+      if (!arrastre) return;
       const k = vista.fov / lienzo.clientWidth;
+      if (sensores) { // con sensores solo se arrastra para ajustar: el dibujo se corre hasta calzar con el cielo real
+        if (!ajustando) return;
+        ajuste.dA = ((ajuste.dA - (e.clientX - arrastre.x) * k + 540) % 360) - 180; ajuste.dh = Math.max(-30, Math.min(30, ajuste.dh + (e.clientY - arrastre.y) * k));
+        if (ultimo) { meta.rumbo = (ultimo.rumbo + ajuste.dA + 360) % 360; meta.alt = Math.max(-20, Math.min(89, ultimo.alt + ajuste.dh)); }
+        arrastre = { x: e.clientX, y: e.clientY }; return;
+      }
       meta.rumbo = (meta.rumbo - (e.clientX - arrastre.x) * k + 360) % 360; meta.alt = Math.max(-20, Math.min(89, meta.alt + (e.clientY - arrastre.y) * k));
       arrastre = { x: e.clientX, y: e.clientY };
     });
-    lienzo.addEventListener("pointerup", () => arrastre = null);
+    lienzo.addEventListener("pointerup", () => { arrastre = null; if (ajustando) guardarLS("suroute-cielo-ajuste", ajuste); });
+    bAjustar.onclick = () => {
+      ajustando = !ajustando; bAjustar.setAttribute("aria-pressed", ajustando); bAjustar.textContent = ajustando ? "Listo" : "Ajustar";
+      v.classList.toggle("ajustando", ajustando);
+      ayuda.textContent = ajustando ? "Arrastra el dibujo hasta que la Luna o una estrella brillante caiga sobre la real. Doble toque: volver a cero."
+        : "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla.";
+      if (!ajustando) guardarLS("suroute-cielo-ajuste", ajuste);
+    };
+    lienzo.addEventListener("dblclick", () => { if (!ajustando) return; ajuste.dA = 0; ajuste.dh = 0; guardarLS("suroute-cielo-ajuste", ajuste); });
     lienzo.addEventListener("wheel", e => { e.preventDefault(); meta.fov = Math.max(35, Math.min(120, meta.fov * (e.deltaY > 0 ? 1.08 : 0.92))); }, { passive: false });
     const teclas = e => {
       if (e.key === "Escape") cerrar();

@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">24時間表示に切り替え</string>
     <string name="acts_hechas">完了</string>
     <string name="acts_hechas_desc">%2$d件中%1$d件の活動が完了</string>
+    <string name="mirar_ajustar">調整</string>
+    <string name="mirar_listo">完了</string>
+    <string name="mirar_noche">ナイトモード</string>
+    <string name="mirar_ayuda_ajustar">月や明るい星が本物と重なるまで図をドラッグします。ダブルタップでリセット。</string>
 </resources>

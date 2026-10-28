@@ -2580,4 +2580,8 @@
     <string name="formato_a_24">Перейти на 24-часовой формат</string>
     <string name="acts_hechas">выполнено</string>
     <string name="acts_hechas_desc">Выполнено %1$d из %2$d дел</string>
+    <string name="mirar_ajustar">Настроить</string>
+    <string name="mirar_listo">Готово</string>
+    <string name="mirar_noche">Ночной режим</string>
+    <string name="mirar_ayuda_ajustar">Перетащите рисунок, пока Луна или яркая звезда не совпадёт с настоящей. Двойное касание: сброс.</string>
 </resources>
