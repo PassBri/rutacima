@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">पूरे लक्ष्य के लिए</string>
     <string name="formato_a_12">12 घंटे के प्रारूप पर जाएँ</string>
     <string name="formato_a_24">24 घंटे के प्रारूप पर जाएँ</string>
+    <string name="acts_hechas">पूरी</string>
+    <string name="acts_hechas_desc">%2$d में से %1$d गतिविधियाँ पूरी</string>
 </resources>

@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">À meta em geral</string>
     <string name="formato_a_12">Mudar para formato de 12 horas</string>
     <string name="formato_a_24">Mudar para formato de 24 horas</string>
+    <string name="acts_hechas">feitas</string>
+    <string name="acts_hechas_desc">%1$d de %2$d atividades feitas</string>
 </resources>

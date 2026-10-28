@@ -388,6 +388,24 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 androidx.compose.material3.FilterChip(selected = formato24, onClick = cambiarFormato,
                     label = { Text(if (formato24) "24 h" else "12 h") },
                     leadingIcon = { Icon(Icons.Outlined.Schedule, stringResource(if (formato24) R.string.formato_a_12 else R.string.formato_a_24), Modifier.size(18.dp)) })
+                // "3 / 24 hechas" con un anillo de avance (igual que la web)
+                val escritas = d.horarioMapa().filterValues { it.isNotBlank() }.keys
+                if (escritas.isNotEmpty()) {
+                    val hechas = escritas.count { r["dia#$f#$it#hecho"] == "1" }
+                    val desc = stringResource(R.string.acts_hechas_desc, hechas, escritas.size)
+                    Row(Modifier.padding(start = 8.dp).clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                        .padding(start = 4.dp, end = 12.dp, top = 4.dp, bottom = 4.dp).semantics(mergeDescendants = true) { contentDescription = desc },
+                        verticalAlignment = Alignment.CenterVertically) {
+                        val av by androidx.compose.animation.core.animateFloatAsState(hechas.toFloat() / escritas.size, label = "acts")
+                        androidx.compose.material3.CircularProgressIndicator(progress = { av }, modifier = Modifier.size(26.dp), strokeWidth = 3.5.dp,
+                            color = if (hechas == escritas.size) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary,
+                            trackColor = MaterialTheme.colorScheme.outlineVariant, strokeCap = androidx.compose.ui.graphics.StrokeCap.Round, gapSize = 0.dp)
+                        Spacer(Modifier.width(8.dp))
+                        Text("$hechas", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                        Text(" / ${escritas.size} " + stringResource(R.string.acts_hechas), style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
             }
             Text(stringResource(R.string.actividades_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             // Cuánto aportaron hoy las acciones hechas a las sub-metas (jornadas del Método Cima)

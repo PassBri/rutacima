@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">Für das Ziel allgemein</string>
     <string name="formato_a_12">Zum 12-Stunden-Format wechseln</string>
     <string name="formato_a_24">Zum 24-Stunden-Format wechseln</string>
+    <string name="acts_hechas">erledigt</string>
+    <string name="acts_hechas_desc">%1$d von %2$d Aktivitäten erledigt</string>
 </resources>

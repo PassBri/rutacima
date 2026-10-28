@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">목표 전체에</string>
     <string name="formato_a_12">12시간 형식으로 전환</string>
     <string name="formato_a_24">24시간 형식으로 전환</string>
+    <string name="acts_hechas">완료</string>
+    <string name="acts_hechas_desc">활동 %2$d개 중 %1$d개 완료</string>
 </resources>

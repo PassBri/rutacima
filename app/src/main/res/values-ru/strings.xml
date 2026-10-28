@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">К цели в целом</string>
     <string name="formato_a_12">Перейти на 12-часовой формат</string>
     <string name="formato_a_24">Перейти на 24-часовой формат</string>
+    <string name="acts_hechas">выполнено</string>
+    <string name="acts_hechas_desc">Выполнено %1$d из %2$d дел</string>
 </resources>

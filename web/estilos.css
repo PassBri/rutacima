@@ -4179,3 +4179,16 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 @media (prefers-reduced-motion: reduce) { .act-h.girar { animation: none; } }
 .sec-dia .acts.h12 .act { grid-template-columns: 72px 28px 1fr minmax(0, 190px); }
 @media (max-width: 600px) { .sec-dia .acts.h12 .act { grid-template-columns: 68px 26px 1fr; } }
+
+/* Actividades: "3 / 24 hechas" con anillo de avance */
+.act-prog { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border-radius: 999px; background: var(--hoja-2); min-height: 36px; }
+.act-prog svg { width: 28px; height: 28px; transform: rotate(-90deg); flex: none; }
+.act-prog circle { fill: none; stroke-width: 4; }
+.ap-fondo { stroke: color-mix(in srgb, var(--tinta) 12%, transparent); }
+.ap-arco { stroke: var(--burdeos); stroke-linecap: round; transition: stroke-dashoffset .4s cubic-bezier(.2,0,0,1); }
+.act-prog.completo .ap-arco { stroke: var(--oro); }
+.ap-tx { display: inline-flex; align-items: baseline; gap: 3px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ap-tx b { font-size: 16px; color: var(--tinta); }
+.ap-tx span { font-size: 13px; color: var(--tinta-suave); }
+.ap-tx small { font-size: 12px; color: var(--tinta-suave); margin-left: 2px; }
+@media (prefers-reduced-motion: reduce) { .ap-arco { transition: none; } }

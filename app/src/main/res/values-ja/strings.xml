@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">目標全体に</string>
     <string name="formato_a_12">12時間表示に切り替え</string>
     <string name="formato_a_24">24時間表示に切り替え</string>
+    <string name="acts_hechas">完了</string>
+    <string name="acts_hechas_desc">%2$d件中%1$d件の活動が完了</string>
 </resources>

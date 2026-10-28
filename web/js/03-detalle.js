@@ -349,6 +349,15 @@ function sinPasoEsteMes(a, m) {
 /* Formato de la hora en las actividades: 24 h (13:00) o 12 h (1:00 p. m.); se recuerda en este navegador */
 const hora12 = () => { try { return localStorage.getItem("suroute-hora12") === "1"; } catch { return false; } };
 const fmtHora = h => hora12() ? `${(h % 12) || 12} ${h < 12 ? "a. m." : "p. m."}` : String(h).padStart(2, "0") + ":00";
+/** "3 / 24 hechas" con un anillo de avance: hechas sobre las horas que tienen actividad escrita. */
+function progresoActs(fecha, hor) {
+  const escritas = Object.entries(hor).filter(([, t]) => t), hechas = escritas.filter(([h]) => respuesta(`dia#${fecha}#${h}#hecho`) === "1").length;
+  const n = escritas.length, r = 15, L = 2 * Math.PI * r, frac = n ? hechas / n : 0;
+  return `<span class="act-prog${n && hechas === n ? " completo" : ""}" role="img" aria-label="${hechas} de ${n} actividades hechas">
+    <svg viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="${r}" class="ap-fondo"/><circle cx="18" cy="18" r="${r}" class="ap-arco" stroke-dasharray="${L.toFixed(1)}" stroke-dashoffset="${(L * (1 - frac)).toFixed(1)}"/></svg>
+    <span class="ap-tx"><b>${hechas}</b><span>/ ${n}</span><small>hechas</small></span></span>`;
+}
+window.progresoActs = progresoActs;
 /** Actividades del día por hora (el mismo horario de la app), cada una puede ir a una meta del mes: al hacerla, el día cuenta en esa meta. */
 const horarioDe = ag => { try { return JSON.parse(ag.horario || "{}") || {}; } catch { return {}; } };
 function actividadesDia(fecha, ag, ms) {
@@ -365,7 +374,7 @@ function actividadesDia(fecha, ag, ms) {
   };
   const llenas = Object.values(hor).filter(Boolean).length;
   return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del año aporta (de las que escogiste para este mes): al marcarla hecha, el día cuenta en esa meta.",
-      `<button class="btn-formato" data-acc="formatoHora" aria-pressed="${hora12()}" title="Cambiar a formato de ${hora12() ? "24" : "12"} horas" aria-label="Cambiar a formato de ${hora12() ? "24" : "12"} horas">${ic("reloj")}<b>${hora12() ? "12 h" : "24 h"}</b></button>` + (llenas ? `<span class="sec-badge">${llenas}</span>` : "")) +
+      `<button class="btn-formato" data-acc="formatoHora" aria-pressed="${hora12()}" title="Cambiar a formato de ${hora12() ? "24" : "12"} horas" aria-label="Cambiar a formato de ${hora12() ? "24" : "12"} horas">${ic("reloj")}<b>${hora12() ? "12 h" : "24 h"}</b></button>` + (llenas ? progresoActs(fecha, hor) : "")) +
     `<div class="acts${hora12() ? " h12" : ""}">${horas.map(fila).join("")}</div>`);
 }
 

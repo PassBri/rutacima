@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">To the goal in general</string>
     <string name="formato_a_12">Switch to 12-hour format</string>
     <string name="formato_a_24">Switch to 24-hour format</string>
+    <string name="acts_hechas">done</string>
+    <string name="acts_hechas_desc">%1$d of %2$d activities done</string>
 </resources>

@@ -145,6 +145,7 @@ const ACC = {
     if (el.options[0]) el.options[0].textContent = el.value ? "Ninguna (quitar)" : "Aporta a…";
     if (el.value && respuesta(`dia#${fecha}#${h}#hecho`) === "1") marcarDiaMeta(el.value, fecha); },
   actHecha(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#hecho`, el.checked ? "1" : "");
+    { const p = document.querySelector("#sd-acts .act-prog"); if (p) { const ag = Store.get("agenda", fecha) || {}; try { p.outerHTML = progresoActs(fecha, horarioDe(ag)); } catch {} } }
     const meta = respuesta(`dia#${fecha}#${h}#meta`); el.closest(".act")?.classList.toggle("hecha", el.checked);
     if (el.checked && meta && deIso(fecha) <= hoyFecha()) { marcarDiaMeta(meta, fecha); toast("El día cuenta en tu meta del mes"); } else if (el.checked) toast("Actividad hecha"); },
   /* Plan del día: las 3 cumbres */

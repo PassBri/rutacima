@@ -2578,4 +2578,6 @@
     <string name="paso_hoy_general">للهدف بشكل عام</string>
     <string name="formato_a_12">التبديل إلى نظام 12 ساعة</string>
     <string name="formato_a_24">التبديل إلى نظام 24 ساعة</string>
+    <string name="acts_hechas">منجزة</string>
+    <string name="acts_hechas_desc">أُنجز %1$d من %2$d نشاطًا</string>
 </resources>
