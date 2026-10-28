@@ -171,31 +171,31 @@ fun BarraPeso(r: Salud.Resultado, plata: (Double) -> String) {
         Triple(stringResource(R.string.cu_seg_variables), s.gas - r.fijos, vc(V_VARIABLES)),
         Triple(stringResource(R.string.cu_aho), s.aho, vc(V_AHORRO)),
         Triple(stringResource(R.string.cu_inv), s.inv, vc(V_INVERSION)),
+        Triple(stringResource(R.string.cu_gen), s.gen, Color(0xFFB5653A)),
         Triple(stringResource(if (libre >= 0) R.string.cu_seg_libre else R.string.cu_seg_deficit), kotlin.math.abs(libre), vc(V_LIBRE)),
     ).filter { it.second > 0.0 }
     val base = maxOf(s.ing, s.gas + s.aho + s.inv + s.gen)
     Text(stringResource(R.string.cu_peso_titulo), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
     val desc = partes.joinToString(", ") { "${it.first} ${pctG(it.second / s.ing)}" }
-    Row(Modifier.fillMaxWidth().height(22.dp).clip(RoundedCornerShape(4.dp)).semantics { contentDescription = desc }, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-        partes.forEach { (_, v, c) -> Box(Modifier.weight((v / base).toFloat().coerceAtLeast(0.004f)).height(22.dp).background(c)) }
+    Row(Modifier.fillMaxWidth().height(16.dp).clip(RoundedCornerShape(50)).semantics { contentDescription = desc }, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+        partes.forEach { (_, v, c) -> Box(Modifier.weight((v / base).toFloat().coerceAtLeast(0.004f)).height(16.dp).background(c)) }
     }
     if (libre < 0) Text("✕ " + stringResource(R.string.cu_deficit_aviso, plata(Math.round(-libre / r.meses).toDouble())), style = MaterialTheme.typography.bodySmall,
         color = ST_BAJO, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 8.dp))
-    Column(Modifier.padding(top = 10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    // Leyenda en tarjetas tonales: el nombre, el porcentaje grande y el monto al mes, juntos (igual que la web)
+    Column(Modifier.padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         partes.chunked(2).forEach { fila ->
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 fila.forEach { (n, v, c) ->
-                    Row(Modifier.weight(1f)) {
-                        Box(Modifier.padding(top = 4.dp).size(10.dp).clip(RoundedCornerShape(2.dp)).background(c))
-                        Spacer(Modifier.width(8.dp))
-                        Column(Modifier.weight(1f)) {
-                            Row {
-                                Text(n, Modifier.weight(1f), style = MaterialTheme.typography.bodySmall, maxLines = 2)
-                                Text(pctG(v / s.ing), style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold)
-                            }
-                            Text(stringResource(R.string.cu_por_mes, plata(Math.round(v / r.meses).toDouble())), style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal = 12.dp, vertical = 10.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Box(Modifier.size(10.dp).clip(RoundedCornerShape(50)).background(c))
+                            Spacer(Modifier.width(8.dp))
+                            Text(n, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
                         }
+                        Text(pctG(v / s.ing), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 2.dp))
+                        Text(stringResource(R.string.cu_por_mes, plata(Math.round(v / r.meses).toDouble())), style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     }
                 }
                 if (fila.size == 1) Spacer(Modifier.weight(1f))

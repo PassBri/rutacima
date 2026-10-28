@@ -4292,3 +4292,17 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .asc-cifras { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
 @media (max-width: 600px) { .seg { grid-template-columns: repeat(3, minmax(0, 1fr)); border-radius: 20px; } }
 .asc-cifra.c-gen span::before { background: var(--c-gen); }
+
+/* ¿Qué haces con cada peso que entra?: barra redondeada y leyenda en tarjetas (nombre, % grande y monto juntos) */
+.peso-barra { height: 16px; gap: 3px; border-radius: 999px; overflow: hidden; }
+.peso-barra span:first-child { border-radius: 999px 0 0 999px; } .peso-barra span:last-child { border-radius: 0 999px 999px 0; }
+.peso-barra span:only-child { border-radius: 999px; }
+.peso-ley { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 14px; }
+.peso-ley li { display: grid; grid-template-columns: auto 1fr; grid-template-areas: "i n" "p p" "m m"; gap: 2px 8px; align-items: center;
+  padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); font-size: 13px; }
+.peso-ley i { grid-area: i; grid-row: 1; width: 10px; height: 10px; border-radius: 50%; }
+.peso-ley span { grid-area: n; color: var(--tinta-suave); line-height: 1.25; }
+.peso-ley b { grid-area: p; font-size: 20px; line-height: 1.2; font-weight: 600; color: var(--tinta); }
+.peso-ley small { grid-area: m; grid-column: 1 / -1; font-size: 12px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.peso-ley li { grid-template-columns: 10px minmax(0, 1fr); }
+.peso-ley b { grid-column: 1 / -1; }
