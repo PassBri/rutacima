@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">%2$d में से %1$d पूरे</string>
     <string name="ev_clima_x">मन का मौसम: %1$s</string>
     <string name="ev_sin_clima">मन का मौसम दर्ज नहीं</string>
+    <string name="ev_metas_mes_como">%1$s के मेरे लक्ष्य · कैसा रहा?</string>
+    <string name="ev_jornadas">%2$d में से %1$d सत्र</string>
+    <string name="ev_analisis">विश्लेषण</string>
+    <string name="ev_analisis_mes">महीने के आपके रिकॉर्ड क्या कहते हैं</string>
+    <string name="ev_preguntas">लेखा-जोखा के प्रश्न</string>
+    <string name="ev_preguntas_mes">आराम से लिखें: ये आपके महीने की याद हैं</string>
+    <string name="ev_tu_anio">आपका %1$d · क्या पूरा हुआ?</string>
+    <string name="ev_palabra">साल का आपका शब्द: %1$s</string>
+    <string name="ev_sin_anhelos">आपने इस साल की इच्छाएँ नहीं लिखीं।</string>
+    <string name="ev_analisis_anio">%1$d के आपके रिकॉर्ड क्या कहते हैं</string>
+    <string name="ev_preguntas_anio">यह साल आपको क्या दे गया</string>
+    <string name="ev_prop_desc">विवरण</string>
+    <string name="ev_prop_porque">यह मेरे लिए क्यों मायने रखता है?</string>
+    <string name="ev_prop_indicador">सफलता का संकेतक</string>
+    <string name="ev_prop_especificas">विशिष्ट लक्ष्य · क्या पूरे हो रहे हैं?</string>
+    <string name="ev_prop_analisis">समय और वर्षों के मुकाबले प्रगति</string>
+    <string name="ev_preguntas_prop">क्या काम कर रहा है और क्या बदलेंगे</string>
 </resources>

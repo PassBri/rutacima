@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">أُنجز %1$d من %2$d</string>
     <string name="ev_clima_x">الطقس الداخلي: %1$s</string>
     <string name="ev_sin_clima">لم يُسجَّل الطقس الداخلي</string>
+    <string name="ev_metas_mes_como">أهدافي في %1$s · كيف سارت؟</string>
+    <string name="ev_jornadas">%1$d من %2$d جلسات</string>
+    <string name="ev_analisis">التحليل</string>
+    <string name="ev_analisis_mes">ما تقوله سجلات شهرك</string>
+    <string name="ev_preguntas">أسئلة الحصيلة</string>
+    <string name="ev_preguntas_mes">اكتبها بهدوء: إنها ذاكرتك عن الشهر</string>
+    <string name="ev_tu_anio">سنتك %1$d · هل تحققت؟</string>
+    <string name="ev_palabra">كلمتك لهذا العام: %1$s</string>
+    <string name="ev_sin_anhelos">لم تكتب أمنيات لهذا العام.</string>
+    <string name="ev_analisis_anio">ما تقوله سجلاتك في %1$d</string>
+    <string name="ev_preguntas_anio">ما يتركه لك هذا العام</string>
+    <string name="ev_prop_desc">الوصف</string>
+    <string name="ev_prop_porque">لماذا يهمني؟</string>
+    <string name="ev_prop_indicador">مؤشر النجاح</string>
+    <string name="ev_prop_especificas">الأهداف المحددة · هل تتحقق؟</string>
+    <string name="ev_prop_analisis">التقدم مقابل الوقت والسنوات</string>
+    <string name="ev_preguntas_prop">ما ينجح وما ستعدّله</string>
 </resources>

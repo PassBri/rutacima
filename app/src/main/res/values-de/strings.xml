@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">%1$d von %2$d erledigt</string>
     <string name="ev_clima_x">Wetter: %1$s</string>
     <string name="ev_sin_clima">Inneres Wetter nicht notiert</string>
+    <string name="ev_metas_mes_como">Meine Ziele im %1$s · wie lief es?</string>
+    <string name="ev_jornadas">%1$d von %2$d Einheiten</string>
+    <string name="ev_analisis">Analyse</string>
+    <string name="ev_analisis_mes">Was deine Einträge des Monats sagen</string>
+    <string name="ev_preguntas">Bilanzfragen</string>
+    <string name="ev_preguntas_mes">Schreib sie in Ruhe: Sie sind dein Gedächtnis des Monats</string>
+    <string name="ev_tu_anio">Dein %1$d · hat es sich erfüllt?</string>
+    <string name="ev_palabra">Dein Wort des Jahres: %1$s</string>
+    <string name="ev_sin_anhelos">Du hast für dieses Jahr keine Wünsche notiert.</string>
+    <string name="ev_analisis_anio">Was deine Einträge von %1$d sagen</string>
+    <string name="ev_preguntas_anio">Was dir dieses Jahr lässt</string>
+    <string name="ev_prop_desc">Beschreibung</string>
+    <string name="ev_prop_porque">Warum ist es mir wichtig?</string>
+    <string name="ev_prop_indicador">Erfolgsindikator</string>
+    <string name="ev_prop_especificas">Konkrete Ziele · werden sie erreicht?</string>
+    <string name="ev_prop_analisis">Fortschritt im Verhältnis zur Zeit und den Jahren</string>
+    <string name="ev_preguntas_prop">Was funktioniert und was du anpasst</string>
 </resources>

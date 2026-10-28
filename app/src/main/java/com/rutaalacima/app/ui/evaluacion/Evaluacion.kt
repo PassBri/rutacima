@@ -122,6 +122,8 @@ class EvaluacionViewModel(private val c: AppContainer) : ViewModel() {
     val metasResp: StateFlow<Map<String, String>> = e(c.respuestas.observar("metas"), emptyMap())
     val checks: StateFlow<Map<LocalDate, Set<String>>> = e(c.checklist.desde(LocalDate.now().minusYears(2).withDayOfYear(1)), emptyMap())
     val perfil: StateFlow<com.rutaalacima.app.data.local.PerfilEntity> = e(c.perfil.perfil, com.rutaalacima.app.data.local.PerfilEntity())
+    val vida: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.ui.ruta.WB_VIDA), emptyMap())
+    fun anhelo(clave: String, v: String) = viewModelScope.launch { c.respuestas.guardar(com.rutaalacima.app.ui.ruta.WB_VIDA, clave, v) }
     val diaResp: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.ui.planner.WB_DIA), emptyMap())
     suspend fun agenda(f: LocalDate) = c.agenda.dia(f)
     fun guardarAgenda(d: com.rutaalacima.app.data.local.AgendaDiaEntity) { guardando?.cancel(); guardando = viewModelScope.launch { delay(500); c.agenda.guardar(d) } }
@@ -152,7 +154,13 @@ private fun habitosEval(fechas: List<LocalDate>, checks: Map<LocalDate, Set<Stri
     return HabEval(if (de > 0) si.toDouble() / de else null, porEje)
 }
 
-data class MetaEval(val mm: MetaMensualEntity, val titulo: String, val eje: String?, val p: Double, val dias: Int, val ganadas: Int, val total: Int)
+/** Una sub-meta evaluada: ganada (true), en camino con jornadas (null) o pendiente (false). */
+data class PasoEval(val n: Int, val t: String, val ok: Boolean?, val jornadas: Int, val req: Int)
+data class MetaEval(val mm: MetaMensualEntity, val titulo: String, val eje: String?, val p: Double, val dias: Int, val ganadas: Int, val total: Int, val pasos: List<PasoEval> = emptyList())
+private fun pasoEval(casillaId: Long, p: Int, t: String, mandala: Map<String, String>): PasoEval {
+    val x = MetodoCima.leer(casillaId, p, mandala)
+    return PasoEval(p, t, if (x.cumplido) true else if (x.jornadas.isNotEmpty()) null else false, x.jornadas.size, x.requeridas ?: MetodoCima.DIFICULTAD_INICIAL)
+}
 private fun metasEval(ym: YearMonth, anuales: List<MetaAnualEntity>, mensuales: List<MetaMensualEntity>, casillas: List<VisionCasillaEntity>, mandala: Map<String, String>): List<MetaEval> =
     mensuales.filter { it.anio == ym.year && it.mes == ym.monthValue && it.metaAnualId != null }.mapNotNull { mm ->
         val a = anuales.firstOrNull { it.id == mm.metaAnualId } ?: return@mapNotNull null
@@ -160,16 +168,18 @@ private fun metasEval(ym: YearMonth, anuales: List<MetaAnualEntity>, mensuales: 
         val todos = cas?.let { c0 -> (0 until Mandala.PASOS).filter { mandala[Mandala.clave(c0.id, it)].orEmpty().isNotBlank() } }.orEmpty()
         val el = LibroMetas.pasosDelMes(mm.id).filter { it in todos }; val vis = el.ifEmpty { todos }
         val ganadas = cas?.let { c0 -> vis.count { mandala[Mandala.claveHecho(c0.id, it)].orEmpty().startsWith(ym.toString()) } } ?: 0
-        MetaEval(mm, a.titulo, a.eje, mm.avance().toDouble(), mm.diasMarcados().size, ganadas, vis.size)
+        MetaEval(mm, a.titulo, a.eje, mm.avance().toDouble(), mm.diasMarcados().size, ganadas, vis.size,
+            cas?.let { c0 -> vis.map { p -> pasoEval(c0.id, p, mandala[Mandala.clave(c0.id, p)].orEmpty().trim(), mandala) } }.orEmpty())
     }
 
-data class CampEval(val cod: String, val meta: MetaAnualEntity, val p: Double, val ganadas: Int, val total: Int)
+data class CampEval(val cod: String, val meta: MetaAnualEntity, val p: Double, val ganadas: Int, val total: Int, val pasos: List<PasoEval> = emptyList())
 private fun campsEval(anio: Int, anuales: List<MetaAnualEntity>, mensuales: List<MetaMensualEntity>, casillas: List<VisionCasillaEntity>, mandala: Map<String, String>): List<CampEval> =
     Mandala.CAMPAMENTOS_FIJOS.mapNotNull { cod ->
         val meta = anuales.filter { it.anio == anio && (it.eje ?: "CON") == cod }.minByOrNull { it.id } ?: return@mapNotNull null
         val cas = SincroBrujula.casillaDe(meta, anuales, casillas)
         val pasos = cas?.let { c0 -> (0 until Mandala.PASOS).filter { mandala[Mandala.clave(c0.id, it)].orEmpty().isNotBlank() } }.orEmpty()
-        CampEval(cod, meta, nodoAnio(meta, mensuales), cas?.let { c0 -> pasos.count { MetodoCima.leer(c0.id, it, mandala).cumplido } } ?: 0, pasos.size)
+        CampEval(cod, meta, nodoAnio(meta, mensuales), cas?.let { c0 -> pasos.count { MetodoCima.leer(c0.id, it, mandala).cumplido } } ?: 0, pasos.size,
+            cas?.let { c0 -> pasos.map { p -> pasoEval(c0.id, p, mandala[Mandala.clave(c0.id, p)].orEmpty().trim(), mandala) } }.orEmpty())
     }
 
 private fun pct(p: Double?) = p?.let { "${Math.round(it * 100)} %" } ?: "—"
@@ -196,6 +206,7 @@ fun EvaluacionScreen(inicial: String?, onBack: () -> Unit, onRuta: (String) -> U
     val dia = runCatching { LocalDate.parse(diaTxt) }.getOrDefault(hoy)
     val perfil by vm.perfil.collectAsStateWithLifecycle()
     val diaResp by vm.diaResp.collectAsStateWithLifecycle()
+    val vidaResp by vm.vida.collectAsStateWithLifecycle()
     var ymTxt by rememberSaveable { mutableStateOf(inicial?.takeIf { it.startsWith("m:") }?.removePrefix("m:") ?: YearMonth.from(hoy).toString()) }
     var anio by rememberSaveable { mutableIntStateOf(inicial?.takeIf { it.startsWith("a:") }?.removePrefix("a:")?.toIntOrNull() ?: hoy.year) }
     val ym = runCatching { YearMonth.parse(ymTxt) }.getOrDefault(YearMonth.from(hoy))
@@ -242,8 +253,8 @@ fun EvaluacionScreen(inicial: String?, onBack: () -> Unit, onRuta: (String) -> U
                 when (tab) {
                     0 -> diaItems(dia, vm, diaResp, checks, datosBien, onRuta)
                     1 -> mesItems(ym, vm, metasEval(ym, anuales, mensuales, casillas, mandala), habitosEval(fechasHasta(ym), checks), bienDe(fechasHasta(ym)), onRuta)
-                    2 -> anioItems(anio, vm, anuales, mensuales, casillas, mandala, checks, bienDe, onRuta) { ymTxt = it.toString(); tab = 1 }
-                    else -> propItems(propositos, anuales, mensuales, metasResp, vm, onRuta)
+                    2 -> anioItems(anio, vm, vidaResp, anuales, mensuales, casillas, mandala, checks, bienDe, onRuta) { ymTxt = it.toString(); tab = 1 }
+                    else -> propItems(propositos, anuales, mensuales, metasResp, vm, onRuta, casillas, mandala)
                 }
             }
         }
@@ -301,6 +312,30 @@ private fun FilaAvance(color: Color, titulo: String, p: Double, sub: String?, on
             strokeCap = StrokeCap.Round, gapSize = 0.dp, drawStopIndicator = {})
         sub?.let { Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 20.dp, top = 4.dp)) }
     }
+}
+
+/** Un ítem evaluado: ✓ cumplido, ✕ pendiente, – sin dato o en camino. */
+@Composable
+private fun ResultadoEv(ok: Boolean?, texto: String, sub: String? = null) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+        val (bg, fg) = when (ok) { true -> Color(0xFF2F6B4A) to Color.White; false -> MaterialTheme.colorScheme.primaryContainer to MaterialTheme.colorScheme.primary; null -> MaterialTheme.colorScheme.surfaceContainerHigh to MaterialTheme.colorScheme.onSurfaceVariant }
+        Box(Modifier.size(22.dp).clip(CircleShape).background(bg), contentAlignment = Alignment.Center) {
+            if (ok == null) Text("–", color = fg, style = MaterialTheme.typography.labelMedium)
+            else Icon(if (ok) Icons.Filled.Check else Icons.Filled.Close, null, Modifier.size(14.dp), tint = fg)
+        }
+        Spacer(Modifier.width(10.dp))
+        Column(Modifier.weight(1f)) {
+            Text(texto, style = MaterialTheme.typography.bodyMedium)
+            sub?.let { Text(it, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+        }
+    }
+}
+
+/** Separador de bloque: «Análisis» y «Preguntas de balance». */
+@Composable
+private fun Separador(titulo: String, sub: String) = Column(Modifier.padding(top = 10.dp)) {
+    Text(titulo, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.primary)
+    Text(sub, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 }
 
 @Composable
@@ -387,20 +422,23 @@ private fun androidx.compose.foundation.lazy.LazyListScope.diaItems(f: LocalDate
 
 private fun androidx.compose.foundation.lazy.LazyListScope.mesItems(ym: YearMonth, vm: EvaluacionViewModel, metas: List<MetaEval>, hab: HabEval, pBien: Double?, onRuta: (String) -> Unit) {
     val pMetas = prom(metas.map { it.p })
+    // Primero la misma estructura del mes de Mi ruta: cada meta elegida con sus sub-metas evaluadas
+    item(key = "metas") {
+        RutaCard {
+            Text(stringResource(R.string.ev_metas_mes_como, nombreMes(ym.monthValue)), style = MaterialTheme.typography.titleMedium)
+            if (metas.isEmpty()) Text(stringResource(R.string.ev_sin_metas_mes), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+            metas.forEachIndexed { i, m ->
+                if (i > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(top = 6.dp))
+                FilaAvance(colorEje(m.eje), m.titulo, m.p, stringResource(R.string.ev_dias_avance, m.dias) + if (m.total > 0) " · " + stringResource(R.string.ev_submetas_mes, m.ganadas, m.total) else "") { onRuta("m:$ym") }
+                m.pasos.forEach { p -> ResultadoEv(p.ok, "${p.n + 1}. ${p.t}", if (p.ok == true) null else stringResource(R.string.ev_jornadas, p.jornadas, p.req)) }
+            }
+        }
+    }
+    item(key = "sep-an") { Separador(stringResource(R.string.ev_analisis), stringResource(R.string.ev_analisis_mes)) }
     item(key = "punt") { Puntaje(prom(listOf(pMetas, hab.p, pBien)), stringResource(R.string.ev_puntaje_mes), stringResource(R.string.ev_nota_puntaje)) }
     item(key = "kpis") {
         Kpis(listOf(Triple(stringResource(R.string.ev_metas), pMetas, stringResource(R.string.ev_n_metas, metas.size)),
             Triple(stringResource(R.string.ev_habitos), hab.p, ""), Triple(stringResource(R.string.ev_bienestar), pBien, "")))
-    }
-    item(key = "metas") {
-        RutaCard {
-            Text(stringResource(R.string.ev_cumplimiento), style = MaterialTheme.typography.titleMedium)
-            if (metas.isEmpty()) Text(stringResource(R.string.ev_sin_metas_mes), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
-            metas.forEachIndexed { i, m ->
-                if (i > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                FilaAvance(colorEje(m.eje), m.titulo, m.p, stringResource(R.string.ev_dias_avance, m.dias) + if (m.total > 0) " · " + stringResource(R.string.ev_submetas_mes, m.ganadas, m.total) else "") { onRuta("m:$ym") }
-            }
-        }
     }
     item(key = "ejes") {
         RutaCard {
@@ -413,6 +451,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.mesItems(ym: YearMont
         }
     }
     item(key = "bien-$ym") { com.rutaalacima.app.ui.bienestar.BienestarMesCard(ym) }
+    item(key = "fin-$ym") { com.rutaalacima.app.ui.finanzas.ResumenCuentasMes(ym) }
+    item(key = "sep-pr") { Separador(stringResource(R.string.ev_preguntas), stringResource(R.string.ev_preguntas_mes)) }
     item(key = "bal-$ym") {
         var m by remember(ym) { mutableStateOf<MesEntity?>(null) }
         LaunchedEffect(ym) { m = vm.mes(ym.year, ym.monthValue) }
@@ -432,10 +472,9 @@ private fun androidx.compose.foundation.lazy.LazyListScope.mesItems(ym: YearMont
             }
         }
     }
-    item(key = "fin-$ym") { com.rutaalacima.app.ui.finanzas.ResumenCuentasMes(ym) }
 }
 
-private fun androidx.compose.foundation.lazy.LazyListScope.anioItems(anio: Int, vm: EvaluacionViewModel, anuales: List<MetaAnualEntity>, mensuales: List<MetaMensualEntity>,
+private fun androidx.compose.foundation.lazy.LazyListScope.anioItems(anio: Int, vm: EvaluacionViewModel, vida: Map<String, String>, anuales: List<MetaAnualEntity>, mensuales: List<MetaMensualEntity>,
     casillas: List<VisionCasillaEntity>, mandala: Map<String, String>, checks: Map<LocalDate, Set<String>>, bienDe: (List<LocalDate>) -> Double?,
     onRuta: (String) -> Unit, onMes: (YearMonth) -> Unit) {
     val hoy = LocalDate.now()
@@ -445,6 +484,38 @@ private fun androidx.compose.foundation.lazy.LazyListScope.anioItems(anio: Int, 
     val pMetas = prom(delAnio.map { nodoAnio(it, mensuales) })
     val todas = meses.filter { !it.atDay(1).isAfter(hoy) }.flatMap { fechasHasta(it) }
     val hab = habitosEval(todas, checks); val pBien = bienDe(todas)
+    // Primero la misma estructura del año de Mi ruta: tu año (palabra y anhelos, ¿se cumplieron?) y su Brújula
+    item(key = "corazon-a-$anio") {
+        val anh = vida[com.rutaalacima.app.ui.ruta.claveVida(anio, "anhelos")].orEmpty().lines().map { it.trim() }.filter { it.isNotEmpty() }
+        val palabra = vida[com.rutaalacima.app.ui.ruta.claveVida(anio, "palabra")].orEmpty()
+        RutaCard {
+            Text(stringResource(R.string.ev_tu_anio, anio), style = MaterialTheme.typography.titleMedium)
+            if (palabra.isNotBlank()) Text(stringResource(R.string.ev_palabra, palabra), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (anh.isEmpty()) Text(stringResource(R.string.ev_sin_anhelos), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+            anh.forEachIndexed { i, t ->
+                val k = "eval:anh:$anio:$i"; val v = vida[k]; val ok = when (v) { "1" -> true; "0" -> false; else -> null }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f)) { ResultadoEv(ok, t) }
+                    androidx.compose.material3.FilterChip(selected = ok == true, onClick = { vm.anhelo(k, if (v == "1") "" else "1") }, label = { Text(stringResource(R.string.si)) })
+                    Spacer(Modifier.width(6.dp))
+                    androidx.compose.material3.FilterChip(selected = ok == false, onClick = { vm.anhelo(k, if (v == "0") "" else "0") }, label = { Text(stringResource(R.string.no)) })
+                }
+            }
+        }
+    }
+    item(key = "brujula-a") {
+        val camps = campsEval(anio, anuales, mensuales, casillas, mandala)
+        RutaCard {
+            Text(stringResource(R.string.ev_brujula_anio, anio), style = MaterialTheme.typography.titleMedium)
+            if (camps.isEmpty()) Text(stringResource(R.string.ev_sin_brujula), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
+            camps.forEachIndexed { i, cmp ->
+                if (i > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(top = 6.dp))
+                FilaAvance(colorEje(cmp.cod), cmp.meta.titulo, cmp.p, com.rutaalacima.app.ui.vision.nombreCodigo(cmp.cod) + if (cmp.total > 0) " · " + stringResource(R.string.ev_submetas_ganadas, cmp.ganadas, cmp.total) else "") { onRuta("a:$anio") }
+                cmp.pasos.forEach { p -> ResultadoEv(p.ok, p.t, if (p.ok == true) null else stringResource(R.string.ev_jornadas, p.jornadas, p.req)) }
+            }
+        }
+    }
+    item(key = "sep-an-a") { Separador(stringResource(R.string.ev_analisis), stringResource(R.string.ev_analisis_anio, anio)) }
     item(key = "punt-a") { Puntaje(prom(listOf(pMetas, hab.p, pBien)), stringResource(R.string.ev_puntaje_anio, anio), stringResource(R.string.ev_toca_mes)) }
     item(key = "kpis-a") { Kpis(listOf(Triple(stringResource(R.string.ev_metas), pMetas, stringResource(R.string.ev_n_metas, delAnio.size)), Triple(stringResource(R.string.ev_habitos), hab.p, ""), Triple(stringResource(R.string.ev_bienestar), pBien, ""))) }
     item(key = "meses-a") {
@@ -463,18 +534,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.anioItems(anio: Int, 
             }
         }
     }
-    item(key = "brujula-a") {
-        val camps = campsEval(anio, anuales, mensuales, casillas, mandala)
-        RutaCard {
-            Text(stringResource(R.string.ev_brujula_anio, anio), style = MaterialTheme.typography.titleMedium)
-            if (camps.isEmpty()) Text(stringResource(R.string.ev_sin_brujula), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 6.dp))
-            camps.forEachIndexed { i, cmp ->
-                if (i > 0) HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                FilaAvance(colorEje(cmp.cod), cmp.meta.titulo, cmp.p, com.rutaalacima.app.ui.vision.nombreCodigo(cmp.cod) + if (cmp.total > 0) " · " + stringResource(R.string.ev_submetas_ganadas, cmp.ganadas, cmp.total) else "") { onRuta("a:$anio") }
-            }
-        }
-    }
     item(key = "bien-a-$anio") { com.rutaalacima.app.ui.bienestar.BienestarAnioCard(anio) { onMes(it) } }
+    item(key = "sep-pr-a") { Separador(stringResource(R.string.ev_preguntas), stringResource(R.string.ev_preguntas_anio)) }
     item(key = "bal-a-$anio") {
         val guardado by remember(anio) { vm.balance(anio) }.collectAsState(initial = null)
         var b by remember(anio, guardado) { mutableStateOf(guardado ?: BalanceAnualEntity(anio = anio)) }
@@ -493,7 +554,10 @@ private fun androidx.compose.foundation.lazy.LazyListScope.anioItems(anio: Int, 
 }
 
 private fun androidx.compose.foundation.lazy.LazyListScope.propItems(propositos: List<PropositoEntity>, anuales: List<MetaAnualEntity>, mensuales: List<MetaMensualEntity>,
-    resp: Map<String, String>, vm: EvaluacionViewModel, onRuta: (String) -> Unit) {
+    resp: Map<String, String>, vm: EvaluacionViewModel, onRuta: (String) -> Unit,
+    casillas: List<VisionCasillaEntity> = emptyList(), mandala: Map<String, String> = emptyMap()) {
+    // Las casillas de la Brújula general: cada propósito es un campamento y sus metas específicas son sus pasos
+    val generales = Mandala.repartir(casillas.filter { Mandala.anioDeOrigen(it.origen) == null }, { it.origen }, { it.eje }).second
     if (propositos.isEmpty()) item { Text(stringResource(R.string.ev_sin_propositos), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant) }
     items(propositos, key = { "p${it.id}" }) { p ->
         val rango = com.rutaalacima.app.ui.ruta.aniosDeCumbre(p, anuales)
@@ -513,6 +577,21 @@ private fun androidx.compose.foundation.lazy.LazyListScope.propItems(propositos:
                     Text("${Math.round(avance * 100)}", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
                 }
             }
+            // La misma estructura del propósito: para qué, indicador de éxito y metas específicas (¿se están cumpliendo?)
+            listOf(R.string.ev_prop_desc to p.descripcion, R.string.ev_prop_porque to p.porQueImporta, R.string.ev_prop_indicador to p.indicadorExito).forEach { (etq, v) ->
+                if (v.isNotBlank()) {
+                    Text(stringResource(etq), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 10.dp))
+                    Text(v, style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+            val cas = generales.getOrNull(Mandala.CAMPAMENTOS_FIJOS.indexOf(p.eje ?: "CON"))
+            val especificas = p.metasEspecificas.lines().map { it.trim() }.filter { it.isNotEmpty() }
+            if (especificas.isNotEmpty()) {
+                Text(stringResource(R.string.ev_prop_especificas), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 12.dp))
+                especificas.forEachIndexed { i, t -> val pe = cas?.let { pasoEval(it.id, i, t, mandala) }
+                    ResultadoEv(pe?.ok, t, pe?.takeIf { it.ok != true && it.jornadas > 0 }?.let { stringResource(R.string.ev_jornadas, it.jornadas, it.req) }) }
+            }
+            Separador(stringResource(R.string.ev_analisis), stringResource(R.string.ev_prop_analisis))
             Text(stringResource(if (avance >= tiempo) R.string.ev_prop_ritmo else R.string.ev_prop_atras), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(vertical = 6.dp))
             androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 rango.forEach { y ->
@@ -528,7 +607,8 @@ private fun androidx.compose.foundation.lazy.LazyListScope.propItems(propositos:
             val k = "eval:p:${p.id}"
             var bien by remember(p.id) { mutableStateOf(resp["$k:bien"].orEmpty()) }
             var ajustar by remember(p.id) { mutableStateOf(resp["$k:ajustar"].orEmpty()) }
-            Spacer(Modifier.height(10.dp))
+            Separador(stringResource(R.string.ev_preguntas), stringResource(R.string.ev_preguntas_prop))
+            Spacer(Modifier.height(8.dp))
             Campo(stringResource(R.string.ev_funciona), bien) { bien = it; vm.reflexion("$k:bien", it) }
             Spacer(Modifier.height(8.dp))
             Campo(stringResource(R.string.ev_ajustar), ajustar) { ajustar = it; vm.reflexion("$k:ajustar", it) }

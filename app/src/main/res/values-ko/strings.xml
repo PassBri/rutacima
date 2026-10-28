@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">%2$d개 중 %1$d개 완료</string>
     <string name="ev_clima_x">마음 날씨: %1$s</string>
     <string name="ev_sin_clima">마음 날씨 기록 없음</string>
+    <string name="ev_metas_mes_como">%1$s 나의 목표 · 어땠나요?</string>
+    <string name="ev_jornadas">%2$d회 중 %1$d회</string>
+    <string name="ev_analisis">분석</string>
+    <string name="ev_analisis_mes">이번 달 기록이 말해 주는 것</string>
+    <string name="ev_preguntas">결산 질문</string>
+    <string name="ev_preguntas_mes">천천히 적어 보세요: 이번 달의 기억이에요</string>
+    <string name="ev_tu_anio">나의 %1$d년 · 이루어졌나요?</string>
+    <string name="ev_palabra">올해의 단어: %1$s</string>
+    <string name="ev_sin_anhelos">올해 소망을 적지 않았어요.</string>
+    <string name="ev_analisis_anio">%1$d년 기록이 말해 주는 것</string>
+    <string name="ev_preguntas_anio">올해가 남긴 것</string>
+    <string name="ev_prop_desc">설명</string>
+    <string name="ev_prop_porque">왜 나에게 중요한가?</string>
+    <string name="ev_prop_indicador">성공 지표</string>
+    <string name="ev_prop_especificas">구체적 목표 · 이루어지고 있나요?</string>
+    <string name="ev_prop_analisis">시간과 해에 대한 진척</string>
+    <string name="ev_preguntas_prop">잘 되는 것과 조정할 것</string>
 </resources>

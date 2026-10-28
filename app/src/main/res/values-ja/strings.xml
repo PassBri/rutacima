@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">%2$d 件中 %1$d 件完了</string>
     <string name="ev_clima_x">心の天気：%1$s</string>
     <string name="ev_sin_clima">心の天気は未記録</string>
+    <string name="ev_metas_mes_como">%1$sの目標 · どうだった？</string>
+    <string name="ev_jornadas">%2$d 回中 %1$d 回</string>
+    <string name="ev_analisis">分析</string>
+    <string name="ev_analisis_mes">今月の記録が語ること</string>
+    <string name="ev_preguntas">振り返りの質問</string>
+    <string name="ev_preguntas_mes">ゆっくり書きましょう：今月の記憶になります</string>
+    <string name="ev_tu_anio">あなたの %1$d 年 · 叶いましたか？</string>
+    <string name="ev_palabra">今年の言葉：%1$s</string>
+    <string name="ev_sin_anhelos">今年の願いが書かれていません。</string>
+    <string name="ev_analisis_anio">%1$d 年の記録が語ること</string>
+    <string name="ev_preguntas_anio">この一年が残してくれたもの</string>
+    <string name="ev_prop_desc">説明</string>
+    <string name="ev_prop_porque">なぜ大切なのか</string>
+    <string name="ev_prop_indicador">成功の指標</string>
+    <string name="ev_prop_especificas">具体的な目標 · 達成できていますか？</string>
+    <string name="ev_prop_analisis">時間と年に対する進み具合</string>
+    <string name="ev_preguntas_prop">うまくいっていることと調整すること</string>
 </resources>

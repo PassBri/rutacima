@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">Сделано %1$d из %2$d</string>
     <string name="ev_clima_x">Погода внутри: %1$s</string>
     <string name="ev_sin_clima">Внутренняя погода не отмечена</string>
+    <string name="ev_metas_mes_como">Мои цели на %1$s · как прошло?</string>
+    <string name="ev_jornadas">%1$d из %2$d занятий</string>
+    <string name="ev_analisis">Анализ</string>
+    <string name="ev_analisis_mes">Что говорят ваши записи за месяц</string>
+    <string name="ev_preguntas">Вопросы для итогов</string>
+    <string name="ev_preguntas_mes">Пишите спокойно: это ваша память о месяце</string>
+    <string name="ev_tu_anio">Ваш %1$d · сбылось?</string>
+    <string name="ev_palabra">Ваше слово года: %1$s</string>
+    <string name="ev_sin_anhelos">Вы не записали желания на этот год.</string>
+    <string name="ev_analisis_anio">Что говорят ваши записи за %1$d</string>
+    <string name="ev_preguntas_anio">Что оставляет вам этот год</string>
+    <string name="ev_prop_desc">Описание</string>
+    <string name="ev_prop_porque">Почему это важно для меня?</string>
+    <string name="ev_prop_indicador">Показатель успеха</string>
+    <string name="ev_prop_especificas">Конкретные цели · выполняются?</string>
+    <string name="ev_prop_analisis">Прогресс относительно времени и лет</string>
+    <string name="ev_preguntas_prop">Что работает и что вы измените</string>
 </resources>

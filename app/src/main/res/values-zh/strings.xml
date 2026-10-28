@@ -2648,4 +2648,21 @@
     <string name="ev_n_hechas">已完成 %1$d / %2$d</string>
     <string name="ev_clima_x">心情天气：%1$s</string>
     <string name="ev_sin_clima">未记录内心天气</string>
+    <string name="ev_metas_mes_como">我的%1$s目标 · 进展如何？</string>
+    <string name="ev_jornadas">%2$d 次中的 %1$d 次</string>
+    <string name="ev_analisis">分析</string>
+    <string name="ev_analisis_mes">你本月的记录说明了什么</string>
+    <string name="ev_preguntas">总结问题</string>
+    <string name="ev_preguntas_mes">慢慢写：这是你对这个月的记忆</string>
+    <string name="ev_tu_anio">你的 %1$d 年 · 实现了吗？</string>
+    <string name="ev_palabra">你的年度词：%1$s</string>
+    <string name="ev_sin_anhelos">你没有写下今年的愿望。</string>
+    <string name="ev_analisis_anio">你 %1$d 年的记录说明了什么</string>
+    <string name="ev_preguntas_anio">这一年留给你什么</string>
+    <string name="ev_prop_desc">描述</string>
+    <string name="ev_prop_porque">为什么它对我重要？</string>
+    <string name="ev_prop_indicador">成功指标</string>
+    <string name="ev_prop_especificas">具体目标 · 正在达成吗？</string>
+    <string name="ev_prop_analisis">进展与时间、年份对比</string>
+    <string name="ev_preguntas_prop">有效的做法和要调整的</string>
 </resources>
