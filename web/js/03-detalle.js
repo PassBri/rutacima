@@ -488,9 +488,9 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="puntos">Mi vida en años</button> › <span>${a}</span></div>` + lineaVida(a) +
-      `<div class="anio-nav"><button class="btn mini" data-ir="ruta" data-arg="a:${a - 1}" aria-label="Año anterior: ${a - 1}">‹ ${a - 1}</button>
-        <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
+      `<div class="migas"><button data-sel="puntos">Mi vida en años</button> › <span>${a}</span></div>` +
+      // La cinta de años y ‹ año › ya están en la barra de vida (a la derecha)
+
       corazonAnio(a) + cumbresAnio(a) +
       hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del año</div><button class="btn mini oro" data-acc="nuevaMetaAnio" data-arg="${a}">${ic("mas")} Nueva meta</button></div>
         ${metas.length ? metas.map(m => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="a:${m.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_anio", m)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_anio", m)] || "Confluencia")}"></i> ${esc(m.titulo)}${(() => { const n = c.mensuales.filter(x => x.metaAnualId === m.id).length; return n ? ` <span class="suave" style="font-size:12px">· ${n} ${n === 1 ? "mes" : "meses"}</span>` : ""; })()}</button><span class="pct">${pctTxt(c.nodoAnio(m))}</span></div><div class="barra"><i style="width:${c.nodoAnio(m) * 100}%"></i></div></div>`).join("")
