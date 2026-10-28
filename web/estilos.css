@@ -2106,7 +2106,7 @@ html:not([data-modo-tarjetas="imagen"]) .md-leyenda { display: none; }
 @media (max-width: 600px) { .rec-tira img { width: 64px; } }
 
 .reel { position: fixed; inset: 0; z-index: 2100; display: grid; place-items: center; background: #07090C; animation: visor-entra .22s cubic-bezier(.2,0,0,1); }
-.reel-escena { position: relative; width: min(100vw, calc(100dvh - 24px), 720px); aspect-ratio: 1; overflow: hidden; border-radius: clamp(0px, 3vw, 22px); background: #111; color: #fff; }
+.reel-escena { position: relative; width: min(100vw, calc((100dvh - 24px) * 3 / 4), 600px); aspect-ratio: 3 / 4; overflow: hidden; border-radius: clamp(0px, 3vw, 22px); background: #111; color: #fff; }
 .reel-barras { position: absolute; z-index: 3; left: 12px; right: 12px; top: 12px; display: flex; gap: 4px; }
 .reel-barras i { flex: 1; height: 3px; border-radius: 3px; background: rgb(255 255 255 / .3); overflow: hidden; }
 .reel-barras b { display: block; height: 100%; background: #fff; transform-origin: left; transform: scaleX(0); }

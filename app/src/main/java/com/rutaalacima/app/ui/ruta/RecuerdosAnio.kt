@@ -40,6 +40,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -191,8 +192,9 @@ fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<
     }
     Dialog(onDismissRequest = onCerrar, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         BoxWithConstraints(Modifier.fillMaxSize().background(Color.Black).safeDrawingPadding(), contentAlignment = Alignment.Center) {
-            val lado = minOf(maxWidth, maxHeight, 720.dp)
-            Box(Modifier.size(lado).aspectRatio(1f).clip(RoundedCornerShape(16.dp)).background(Color(0xFF1D120D))) {
+            // Vertical 3:4, como se ve y se publica en el celular
+            val lado = minOf(maxWidth, maxHeight * 3f / 4f, 600.dp)
+            Box(Modifier.width(lado).aspectRatio(3f / 4f).clip(RoundedCornerShape(16.dp)).background(Color(0xFF1D120D))) {
                 if (indice < fotos.size) {
                     val p = fotos[indice]
                     val fecha = fechaRecuerdo(p)
@@ -269,7 +271,9 @@ fun HistoriaRecuerdos(anio: Int, fotos: List<Post>, cumbre: String, metas: List<
 
 /** Renderiza una sola imagen exportable; cada original se decodifica con tamaño acotado. */
 private suspend fun mosaicoRecuerdos(context: Context, anio: Int, fotos: List<Post>, frase: String, marca: String): File = withContext(Dispatchers.IO) {
-    val bitmap = Bitmap.createBitmap(1080, 1080, Bitmap.Config.ARGB_8888)
+    // Vertical 3:4 (1080×1440): el formato del celular cuando se publica
+    val W = 1080; val H = 1440
+    val bitmap = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
     canvas.drawColor(android.graphics.Color.rgb(29, 18, 13))
     val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.FILTER_BITMAP_FLAG)
@@ -277,27 +281,30 @@ private suspend fun mosaicoRecuerdos(context: Context, anio: Int, fotos: List<Po
     try {
         val seleccion = fotos.takeLast(9)
         val n = if (seleccion.size <= 1) 1 else if (seleccion.size <= 4) 2 else 3
-        val lado = (1080 - 8 * (n + 1)) / n
-        seleccion.forEachIndexed { i, post ->
+        val cw = (W - 8 * (n + 1)) / n; val ch = (H - 8 * (n + 1)) / n
+        seleccion.take(n * n).forEachIndexed { i, post ->
             val resultado = loader.execute(ImageRequest.Builder(context)
                 .data(if (post.foto.startsWith("http") || post.foto.startsWith("content:")) post.foto else File(post.foto))
-                .size(lado, lado).allowHardware(false).build())
+                .size(cw, ch).allowHardware(false).build())
             check(resultado is SuccessResult)
             val foto = resultado.drawable.toBitmap()
-            val s = minOf(foto.width, foto.height)
-            val x = 8 + i % n * (lado + 8); val y = 8 + i / n * (lado + 8)
-            canvas.drawBitmap(foto, Rect((foto.width - s) / 2, (foto.height - s) / 2, (foto.width + s) / 2, (foto.height + s) / 2),
-                RectF(x.toFloat(), y.toFloat(), (x + lado).toFloat(), (y + lado).toFloat()), paint)
+            // Recorte tipo "cover" a la proporción de la celda
+            val r = cw.toFloat() / ch
+            val sw = minOf(foto.width.toFloat(), foto.height * r); val sh = sw / r
+            val sx = ((foto.width - sw) / 2).toInt(); val sy = ((foto.height - sh) / 2).toInt()
+            val x = 8 + i % n * (cw + 8); val y = 8 + i / n * (ch + 8)
+            canvas.drawBitmap(foto, Rect(sx, sy, sx + sw.toInt(), sy + sh.toInt()),
+                RectF(x.toFloat(), y.toFloat(), (x + cw).toFloat(), (y + ch).toFloat()), paint)
         }
-        paint.shader = LinearGradient(0f, 550f, 0f, 1080f, intArrayOf(0x001D120D, 0xF51D120D.toInt()), null, Shader.TileMode.CLAMP)
-        canvas.drawRect(0f, 550f, 1080f, 1080f, paint)
+        paint.shader = LinearGradient(0f, H * .6f, 0f, H.toFloat(), intArrayOf(0x001D120D, 0xF51D120D.toInt()), null, Shader.TileMode.CLAMP)
+        canvas.drawRect(0f, H * .6f, W.toFloat(), H.toFloat(), paint)
         paint.shader = null; paint.color = android.graphics.Color.WHITE
         paint.typeface = Typeface.create("serif", Typeface.BOLD); paint.textSize = 150f
-        canvas.drawText(anio.toString(), 56f, 930f, paint)
+        canvas.drawText(anio.toString(), 56f, H - 150f, paint)
         paint.typeface = Typeface.create("sans-serif", Typeface.NORMAL); paint.textSize = 38f
         val texto = android.text.TextUtils.ellipsize(frase, android.text.TextPaint(paint), 960f, android.text.TextUtils.TruncateAt.END).toString()
-        canvas.drawText(texto, 60f, 988f, paint)
-        paint.textSize = 26f; canvas.drawText(marca, 60f, 1034f, paint)
+        canvas.drawText(texto, 60f, H - 92f, paint)
+        paint.textSize = 26f; canvas.drawText(marca, 60f, H - 46f, paint)
         File(context.cacheDir, "suroute-recuerdos-$anio.jpg").also { archivo ->
             archivo.outputStream().use { check(bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it)) }
         }

@@ -125,20 +125,22 @@ function abrirReel(el, R) {
   v.querySelector(".reel-x").focus({ preventScroll: true });
 };
 
-/** Mosaico cuadrado 1080×1080 con hasta 9 fotos del año, el año grande y la frase de la cumbre. */
+/** Mosaico vertical 3:4 (1080×1440, el formato del celular) con hasta 9 fotos del año, el año grande y la frase de la cumbre. */
 async function mosaicoAnio(a, fs, p) {
-  const N = 1080, cv = Object.assign(document.createElement("canvas"), { width: N, height: N }), x = cv.getContext("2d");
-  x.fillStyle = "#1D120D"; x.fillRect(0, 0, N, N);
+  const W = 1080, N = 1440, cv = Object.assign(document.createElement("canvas"), { width: W, height: N }), x = cv.getContext("2d");
+  x.fillStyle = "#1D120D"; x.fillRect(0, 0, W, N);
   const cargar = src => new Promise(res => { const im = new Image(); im.crossOrigin = "anonymous"; im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
   const ims = (await Promise.all(fs.slice(-9).map(f => cargar(f.foto)))).filter(Boolean);
-  const n = ims.length <= 1 ? 1 : ims.length <= 4 ? 2 : 3, g = 8, lado = (N - g * (n + 1)) / n;
+  const n = ims.length <= 1 ? 1 : ims.length <= 4 ? 2 : 3, g = 8, cw = (W - g * (n + 1)) / n, ch = (N - g * (n + 1)) / n;
   ims.slice(0, n * n).forEach((im, k) => {
-    const cx = g + (k % n) * (lado + g), cy = g + Math.floor(k / n) * (lado + g), s = Math.min(im.width, im.height);
-    x.save(); x.beginPath(); x.roundRect(cx, cy, lado, lado, 18); x.clip();
-    x.drawImage(im, (im.width - s) / 2, (im.height - s) / 2, s, s, cx, cy, lado, lado); x.restore();
+    const cx = g + (k % n) * (cw + g), cy = g + Math.floor(k / n) * (ch + g);
+    // Recorte tipo "cover" a la proporción de la celda
+    const r = cw / ch, sw = Math.min(im.width, im.height * r), sh = sw / r;
+    x.save(); x.beginPath(); x.roundRect(cx, cy, cw, ch, 18); x.clip();
+    x.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, cx, cy, cw, ch); x.restore();
   });
-  const gr = x.createLinearGradient(0, N * .55, 0, N); gr.addColorStop(0, "rgba(29,18,13,0)"); gr.addColorStop(1, "rgba(29,18,13,.92)");
-  x.fillStyle = gr; x.fillRect(0, N * .55, N, N * .45);
+  const gr = x.createLinearGradient(0, N * .6, 0, N); gr.addColorStop(0, "rgba(29,18,13,0)"); gr.addColorStop(1, "rgba(29,18,13,.92)");
+  x.fillStyle = gr; x.fillRect(0, N * .6, W, N * .4);
   x.fillStyle = "#F3EDE0"; x.font = "700 150px 'Roboto Serif', Georgia, serif"; x.textBaseline = "alphabetic"; x.fillText(String(a), 56, N - 150);
   x.font = "500 38px Roboto, system-ui, sans-serif"; x.fillStyle = "rgba(243,237,224,.9)";
   const frase = (p.cumbreFrase || "Un año más cerca de mi cumbre").slice(0, 70); x.fillText(frase, 60, N - 92);
