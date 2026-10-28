@@ -346,6 +346,9 @@ function sinPasoEsteMes(a, m) {
   return `<div class="sin-paso"><p class="suave" style="margin:10px 0 6px">Metas de ${a} sin paso en ${MESES[m - 1]}:</p>
     ${anuales.map(x => `<button class="chip" data-acc="nuevaMetaMes" data-arg="${a}-${String(m).padStart(2, "0")}|${x.id}">${ic("mas")} ${esc(x.titulo)}</button>`).join("")}</div>`;
 }
+/* Formato de la hora en las actividades: 24 h (13:00) o 12 h (1:00 p. m.); se recuerda en este navegador */
+const hora12 = () => { try { return localStorage.getItem("suroute-hora12") === "1"; } catch { return false; } };
+const fmtHora = h => hora12() ? `${(h % 12) || 12} ${h < 12 ? "a. m." : "p. m."}` : String(h).padStart(2, "0") + ":00";
 /** Actividades del día por hora (el mismo horario de la app), cada una puede ir a una meta del mes: al hacerla, el día cuenta en esa meta. */
 const horarioDe = ag => { try { return JSON.parse(ag.horario || "{}") || {}; } catch { return {}; } };
 function actividadesDia(fecha, ag, ms) {
@@ -355,14 +358,15 @@ function actividadesDia(fecha, ag, ms) {
   const fila = h => {
     const t = hor[h] || "", meta = respuesta(`dia#${fecha}#${h}#meta`), hecho = respuesta(`dia#${fecha}#${h}#hecho`) === "1";
     const ahora = fecha === iso(hoyF) && new Date().getHours() === Number(h);
-    return `<div class="act${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"><span class="act-h">${ahora ? "Ahora" : String(h).padStart(2, "0") + ":00"}</span>
+    return `<div class="act${hecho ? " hecha" : ""}${ahora ? " ahora" : ""}"><span class="act-h" data-h="${h}"${ahora ? ' data-ahora="1"' : ""}>${ahora ? "Ahora" : fmtHora(h)}</span>
       <input type="checkbox" data-acc-change="actHecha" data-arg="${fecha}|${h}" ${hecho ? "checked" : ""} ${!t ? "disabled" : ""} aria-label="Hecha">
       <input type="text" class="act-t" value="${esc(t)}" placeholder="—" data-acc-change="actTexto" data-arg="${fecha}|${h}" aria-label="Actividad de las ${h}:00">
       ${t ? `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, meta)}</select>` : `<span></span>`}</div>`;
   };
   const llenas = Object.values(hor).filter(Boolean).length;
-  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del año aporta (de las que escogiste para este mes): al marcarla hecha, el día cuenta en esa meta.", llenas ? `<span class="sec-badge">${llenas}</span>` : "") +
-    `<div class="acts">${horas.map(fila).join("")}</div>`);
+  return seccionDia("acts", cabSec("lista", "Actividades del día", "Escribe lo que harás a cada hora y elige a qué meta del año aporta (de las que escogiste para este mes): al marcarla hecha, el día cuenta en esa meta.",
+      `<button class="btn-formato" data-acc="formatoHora" aria-pressed="${hora12()}" title="Cambiar a formato de ${hora12() ? "24" : "12"} horas" aria-label="Cambiar a formato de ${hora12() ? "24" : "12"} horas">${ic("reloj")}<b>${hora12() ? "12 h" : "24 h"}</b></button>` + (llenas ? `<span class="sec-badge">${llenas}</span>` : "")) +
+    `<div class="acts${hora12() ? " h12" : ""}">${horas.map(fila).join("")}</div>`);
 }
 
 

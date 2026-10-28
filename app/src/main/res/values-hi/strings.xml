@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">आपने अभी इस महीने के लक्ष्य नहीं चुने। उन्हें महीने में चुनें।</string>
     <string name="paso_hoy_cual">किस उप-लक्ष्य की ओर कदम बढ़ाया?</string>
     <string name="paso_hoy_general">पूरे लक्ष्य के लिए</string>
+    <string name="formato_a_12">12 घंटे के प्रारूप पर जाएँ</string>
+    <string name="formato_a_24">24 घंटे के प्रारूप पर जाएँ</string>
 </resources>

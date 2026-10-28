@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">你还没选择本月要做的目标。请在月份中选择。</string>
     <string name="paso_hoy_cual">这一步是为哪个子目标迈出的？</string>
     <string name="paso_hoy_general">整体目标</string>
+    <string name="formato_a_12">切换为 12 小时制</string>
+    <string name="formato_a_24">切换为 24 小时制</string>
 </resources>

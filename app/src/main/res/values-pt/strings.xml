@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">Você ainda não escolheu quais metas trabalhar este mês. Escolha-as no mês.</string>
     <string name="paso_hoy_cual">Em qual submeta você deu o passo?</string>
     <string name="paso_hoy_general">À meta em geral</string>
+    <string name="formato_a_12">Mudar para formato de 12 horas</string>
+    <string name="formato_a_24">Mudar para formato de 24 horas</string>
 </resources>

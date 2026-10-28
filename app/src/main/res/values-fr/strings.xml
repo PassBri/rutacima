@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">Vous n\'avez pas encore choisi vos objectifs du mois. Choisissez-les dans le mois.</string>
     <string name="paso_hoy_cual">Pour quel sous-objectif avez-vous avancé ?</string>
     <string name="paso_hoy_general">À l\'objectif en général</string>
+    <string name="formato_a_12">Passer au format 12 heures</string>
+    <string name="formato_a_24">Passer au format 24 heures</string>
 </resources>

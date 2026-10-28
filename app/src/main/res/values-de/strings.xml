@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">Du hast noch keine Ziele für diesen Monat gewählt. Wähle sie im Monat.</string>
     <string name="paso_hoy_cual">Für welches Teilziel war der Schritt?</string>
     <string name="paso_hoy_general">Für das Ziel allgemein</string>
+    <string name="formato_a_12">Zum 12-Stunden-Format wechseln</string>
+    <string name="formato_a_24">Zum 24-Stunden-Format wechseln</string>
 </resources>

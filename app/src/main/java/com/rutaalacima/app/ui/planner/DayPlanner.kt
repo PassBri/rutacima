@@ -6,6 +6,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.outlined.Flag
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -86,6 +88,9 @@ import java.time.LocalDate
 
 /** Franjas de "Planifique su día": de 4:00 am a 3:00 am. */
 val HORAS_DEL_DIA: List<Int> = (4..23).toList() + (0..3).toList()
+
+/** 24 h: "13:00"; 12 h: "1:00 pm" (la de siempre en la app). */
+fun etiquetaHora(h: Int, formato24: Boolean): String = if (formato24) "%02d:00".format(h) else etiquetaHora(h)
 
 fun etiquetaHora(h: Int): String = when {
     h == 0 -> "12:00 am"
@@ -306,6 +311,19 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
     val metas = todas.filter { it.anio == f.year && it.mes == f.monthValue }
     val manana = f.plusDays(1)
     val metasManana = todas.filter { it.anio == manana.year && it.mes == manana.monthValue }
+    // Formato de las horas (12 h o 24 h), recordado en el teléfono; al cambiarlo, las horas giran como una tablilla
+    val prefs = remember { ctx.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE) }
+    var formato24 by remember { mutableStateOf(prefs.getBoolean("hora24", false)) }
+    val giro = remember { androidx.compose.animation.core.Animatable(0f) }
+    val alcance = androidx.compose.runtime.rememberCoroutineScope()
+    val reducir = !android.animation.ValueAnimator.areAnimatorsEnabled()
+    val cambiarFormato: () -> Unit = {
+        alcance.launch {
+            if (!reducir) giro.animateTo(90f, androidx.compose.animation.core.tween(150))
+            formato24 = !formato24; prefs.edit().putBoolean("hora24", formato24).apply()
+            if (!reducir) { giro.snapTo(-90f); giro.animateTo(0f, androidx.compose.animation.core.tween(170, easing = androidx.compose.animation.core.FastOutSlowInEasing)) }
+        }
+    }
 
     LazyColumn(
         modifier = Modifier.fillMaxSize().imePadding(),
@@ -367,6 +385,9 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
         item(key = "acts-tit") {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 SectionTitle(stringResource(R.string.actividades_dia), Modifier.weight(1f))
+                androidx.compose.material3.FilterChip(selected = formato24, onClick = cambiarFormato,
+                    label = { Text(if (formato24) "24 h" else "12 h") },
+                    leadingIcon = { Icon(Icons.Outlined.Schedule, stringResource(if (formato24) R.string.formato_a_12 else R.string.formato_a_24), Modifier.size(18.dp)) })
             }
             Text(stringResource(R.string.actividades_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             // Cuánto aportaron hoy las acciones hechas a las sub-metas (jornadas del Método Cima)
@@ -389,7 +410,8 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                     .background(if (esAhora) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(if (esAhora) stringResource(R.string.ahora_hora) else etiquetaHora(h), modifier = Modifier.width(64.dp).padding(start = 4.dp),
+                Text(if (esAhora) stringResource(R.string.ahora_hora) else etiquetaHora(h, formato24),
+                    modifier = Modifier.width(64.dp).padding(start = 4.dp).graphicsLayer { rotationX = giro.value; cameraDistance = 12f * density },
                     style = MaterialTheme.typography.labelMedium, fontWeight = if (esAhora) FontWeight.Bold else FontWeight.Normal,
                     color = if (esAhora) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                 Checkbox(checked = hecho, onCheckedChange = { vm.actHecha(h, it, r) }, enabled = t.isNotBlank(),

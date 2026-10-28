@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">이번 달에 할 목표를 아직 고르지 않았어요. 월 화면에서 고르세요.</string>
     <string name="paso_hoy_cual">어느 하위 목표에 한 걸음 나아갔나요?</string>
     <string name="paso_hoy_general">목표 전체에</string>
+    <string name="formato_a_12">12시간 형식으로 전환</string>
+    <string name="formato_a_24">24시간 형식으로 전환</string>
 </resources>

@@ -4165,3 +4165,17 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ph-subs { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); display: grid; gap: 8px; }
 .ph-subs small { color: var(--tinta-suave); }
 .ph-subs .chip svg { width: 16px; height: 16px; }
+
+/* Formato 12 h / 24 h de las actividades: botón tonal y giro de tablilla */
+.btn-formato { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 13px; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.btn-formato svg { width: 18px; height: 18px; }
+.btn-formato b { font-variant-numeric: tabular-nums; font-weight: 600; }
+.btn-formato[aria-pressed="true"] { background: var(--oro-suave); border-color: transparent; }
+.btn-formato:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .btn-formato:hover { background: var(--hoja-2); } }
+.act-h { display: inline-block; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.act-h.girar { animation: girarHora .32s cubic-bezier(.2,0,0,1) both; }
+@keyframes girarHora { 0% { transform: rotateX(0); } 50% { transform: rotateX(90deg); opacity: .3; } 100% { transform: rotateX(0); } }
+@media (prefers-reduced-motion: reduce) { .act-h.girar { animation: none; } }
+.sec-dia .acts.h12 .act { grid-template-columns: 72px 28px 1fr minmax(0, 190px); }
+@media (max-width: 600px) { .sec-dia .acts.h12 .act { grid-template-columns: 68px 26px 1fr; } }

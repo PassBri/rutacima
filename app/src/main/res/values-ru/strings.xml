@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">Вы ещё не выбрали цели на этот месяц. Выберите их в месяце.</string>
     <string name="paso_hoy_cual">К какой подцели был шаг?</string>
     <string name="paso_hoy_general">К цели в целом</string>
+    <string name="formato_a_12">Перейти на 12-часовой формат</string>
+    <string name="formato_a_24">Перейти на 24-часовой формат</string>
 </resources>

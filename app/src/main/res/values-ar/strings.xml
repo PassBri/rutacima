@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">لم تختر بعد أهداف هذا الشهر. اخترها في الشهر.</string>
     <string name="paso_hoy_cual">نحو أي هدف فرعي كانت خطوتك؟</string>
     <string name="paso_hoy_general">للهدف بشكل عام</string>
+    <string name="formato_a_12">التبديل إلى نظام 12 ساعة</string>
+    <string name="formato_a_24">التبديل إلى نظام 24 ساعة</string>
 </resources>

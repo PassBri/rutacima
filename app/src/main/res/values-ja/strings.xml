@@ -2576,4 +2576,6 @@
     <string name="paso_hoy_vacio">今月取り組む目標をまだ選んでいません。月の画面で選びましょう。</string>
     <string name="paso_hoy_cual">どのサブ目標に一歩進みましたか？</string>
     <string name="paso_hoy_general">目標全体に</string>
+    <string name="formato_a_12">12時間表示に切り替え</string>
+    <string name="formato_a_24">24時間表示に切り替え</string>
 </resources>

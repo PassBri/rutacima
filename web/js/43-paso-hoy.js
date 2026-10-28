@@ -56,3 +56,19 @@
   ACC.pasoHoySub = (_, arg) => { const [id, fecha, p] = arg.split("|"); marcar(id, fecha, p); };
   ACC.pasoHoyCerrar = () => { estado.pasoHoy = null; pintarDetalle(); };
 })();
+
+/* Botón 12 h / 24 h de las Actividades del día */
+ACC.formatoHora = el => {
+  const nuevo = !hora12();
+  try { localStorage.setItem("suroute-hora12", nuevo ? "1" : "0"); } catch {}
+  el.setAttribute("aria-pressed", nuevo); el.querySelector("b").textContent = nuevo ? "12 h" : "24 h";
+  el.title = el.ariaLabel = `Cambiar a formato de ${nuevo ? "24" : "12"} horas`;
+  const hs = [...document.querySelectorAll("#sd-acts .act-h[data-h]")];
+  document.querySelector("#sd-acts .acts")?.classList.toggle("h12", nuevo);
+  const poner = x => { if (!x.dataset.ahora) x.textContent = fmtHora(Number(x.dataset.h)); };
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return hs.forEach(poner);
+  // Las horas giran como una tablilla, una tras otra: a la mitad de su giro cambia el formato
+  hs.forEach((x, i) => { const d = Math.min(i, 12) * 18; x.style.animationDelay = `${d}ms`; x.classList.remove("girar"); void x.offsetWidth; x.classList.add("girar");
+    setTimeout(() => poner(x), d + 150); setTimeout(() => x.classList.remove("girar"), d + 360); });
+};
+
