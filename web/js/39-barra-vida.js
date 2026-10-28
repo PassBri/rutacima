@@ -36,7 +36,7 @@ function rvBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = rvLugar(), ver = rvVer();
   const v = String(estado.sel || ""), arriba = rvArriba(), a = ver.a, m = ver.m, edad = a - nac;
   const aro = (cls, dentro = "") => `<span class="pv ${cls}" aria-hidden="true">${PUNTO_MARCA}${dentro}</span>`;
-  const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? `${l.a}` : v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : "Mapa de mi vida";
+  const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? `${l.a}` : v === "props" ? "Propósitos" : v === "conmetas" ? "Metas por año" : "Mi vida en años";
   const isoHoy = `d:${aHoy}-${pad2(mHoy)}-${pad2(hoy.getDate())}`;
   // Meses: 4 × 3 aros
   let meses = "";
@@ -68,7 +68,7 @@ function rvBarra() {
         <button class="rv-titulo${l.a === a && l.m === m && !l.d ? " abierto" : ""}" data-sel="m:${a}-${pad2(m)}" title="Abrir ${MESES[m - 1]}">${mayus(MESES[m - 1])}</button>
         <button class="rv-flecha" data-acc="rvMes" data-arg="1" aria-label="Mes siguiente">${ic("der")}</button></div>
       <div class="rv-cal" role="group" aria-label="Días de ${MESES[m - 1]} de ${a}">${dias}</div>
-      <div class="rv-navs">${nav("puntos", "puntos", "Mapa de mi vida", v === "puntos")}${nav("props", "brujula", "Propósitos", v === "props")}${nav("conmetas", "metas", "Metas por año", v === "conmetas")}</div>
+      <div class="rv-navs">${nav("puntos", "vida", "Mi vida en años", v === "puntos")}${nav("props", "brujula", "Propósitos", v === "props")}${nav("conmetas", "metas", "Metas por año", v === "conmetas")}</div>
       ${rvRecordatorio()}
     </div></nav>`;
 }

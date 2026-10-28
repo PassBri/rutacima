@@ -452,7 +452,7 @@ const DET = {
     }
     puntos += "</div>";
     const vividos = Math.max(0, anioHoy - nac), porVivir = Math.max(0, metaVida() - vividos - 1);
-    return cab(av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", `${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
+    return cab(av(ic("vida"), "var(--burdeos)"), "Mi vida en años", `${r.edad} de ${metaVida()} años · un punto por año`) + cuerpo(
       hoja(`<div class="cielo-mini" data-cielo aria-hidden="true"></div><div class="recordatorio"><div><div class="etiqueta">Recordatorio del día</div>
         <div style="display:flex;gap:28px;flex-wrap:wrap;margin-top:10px">
           <div><div class="cifra">${r.dia.toLocaleString("es")}</div><div class="suave">día de tu vida</div></div>
@@ -488,7 +488,7 @@ const DET = {
     const metas = c.anuales.filter(x => x.anio === a);
     return cab(av(edad ?? "·", a < hoy.getFullYear() ? "var(--burdeos)" : a === hoy.getFullYear() ? "var(--oro)" : "#B8A99C"),
       `${a}${edad !== null ? ` · ${edad} años` : ""}`, a < hoy.getFullYear() ? "Año vivido" : a === hoy.getFullYear() ? "Año en curso" : "Por vivir") + cuerpo(
-      `<div class="migas"><button data-sel="puntos">Mapa de mi vida</button> › <span>${a}</span></div>` + lineaVida(a) +
+      `<div class="migas"><button data-sel="puntos">Mi vida en años</button> › <span>${a}</span></div>` + lineaVida(a) +
       `<div class="anio-nav"><button class="btn mini" data-ir="ruta" data-arg="a:${a - 1}" aria-label="Año anterior: ${a - 1}">‹ ${a - 1}</button>
         <span class="suave">Desliza o usa ← → para cambiar de año</span><button class="btn mini" data-ir="ruta" data-arg="a:${a + 1}" aria-label="Año siguiente: ${a + 1}">${a + 1} ›</button></div>` +
       corazonAnio(a) + cumbresAnio(a) +
@@ -602,7 +602,7 @@ function detMes(arg) {
   }
   const campoMes = (n, etq) => campo(etq, `<textarea ${bind("mes", clave, n, "", `mes`)}>${esc(b[n] || "")}</textarea>`);
   return cab(av(MES_C[m - 1], "var(--burdeos)"), `${mayus(MESES[m - 1])} ${a}`, `${ms.length} metas este mes`) + cuerpo(
-    `<div class="migas"><button data-sel="puntos">Mapa de mi vida</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
+    `<div class="migas"><button data-sel="puntos">Mi vida en años</button> › <button data-sel="a:${a}">${a}</button> › <span>${mayus(MESES[m - 1])}</span></div>` +
     (window.focoMes ? focoMes(a, m) : hoja(`<div class="cab-lista-btn"><div class="etiqueta">Metas del mes</div><button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${clave}">${ic("mas")} Nueva meta</button></div>
       ${ms.map(x => `<div class="meta-fila"><div class="arriba"><button style="text-align:left" data-ir="metas" data-arg="m:${x.id}"><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}" title="${esc(NOMBRE_EJE[ejeEfectivo("meta_mes", x)] || "Confluencia")}"></i> ${esc(x.texto)}</button>${cadena("meta_mes", x)}<span class="pct">${pctTxt(avanceMetaMes(x))}</span></div>${tiraDias(x)}</div>`).join("") || `<p class="suave" style="margin:8px 0 0">Sin metas este mes.</p>`}${sinPasoEsteMes(a, m)}`)) +
     // Los días del mes ya están en el calendario de la barra de vida (a la derecha)
@@ -653,7 +653,7 @@ function detDia(fecha) {
   const habitos = habitosDelDia(fecha, marc);
   const sellada = esHoy && !abiertas(hoy.getFullYear()).has(fraseIndice(hoy));
   return cab(av(f.getDate(), "var(--burdeos)"), esHoy ? "Tu día" : mayus(f.toLocaleDateString("es", { weekday: "long" })), fechaLarga(f)) + cuerpo(
-    `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mapa de mi vida</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
+    `<div class="migas"><button data-ir="ruta" data-arg="puntos">Mi vida en años</button> › <button data-ir="ruta" data-arg="a:${f.getFullYear()}">${f.getFullYear()}</button> › <button data-ir="ruta" data-arg="m:${fecha.slice(0, 7)}">${mayus(MESES[f.getMonth()])}</button> › <span>${f.getDate()}</span></div>` +
     (esHoy ? `<div class="cielo-dia"><div class="cielo" data-cielo="hud"></div>${p.cumbreFrase ? `<button type="button" class="cielo-cumbre" data-ir="ruta" data-arg="vida" aria-label="Tu cumbre: ${esc(p.cumbreFrase)}. Ver tu ruta"><span class="frase-vida">${esc(p.cumbreFrase)}</span></button>` : ""}</div>` : "") +
     `<nav class="dia-indice" aria-label="Secciones del día">${[["plan", "bandera", "Plan"], ["acts", "lista", "Actividades"], ["metas", "metas", "Metas"], ["habitos", "check", "Hábitos"], ["bienestar", "bienestar", "Bienestar"], ["cierre", "tema", "Cierre"], ["finanzas", "finanzas", "Finanzas"]]
       .map(([k, i, n]) => `<button type="button" class="chip" data-acc="irSecDia" data-arg="${k}">${ic(i)}${n}</button>`).join("")}</nav>` +

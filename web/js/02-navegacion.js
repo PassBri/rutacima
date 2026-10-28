@@ -127,7 +127,7 @@ const LISTAS = {
     Store.lista("meta_anio").forEach(m => conMetas.set(m.anio, (conMetas.get(m.anio) || 0) + 1));
     const finPlan = (p.anioInicioPlan || anioHoy) + Math.max(5, ...Store.lista("proposito").map(x => x.horizonte || 5)) - 1;
     // Mi ruta: el mapa de toda la vida (el tiempo), la visión (cumbre, vision board y Brújula) y cada año
-    if (estado.filtro === "todo" && coincide("mapa de mi vida puntos años")) h += item("puntos", av(ic("puntos"), "var(--burdeos)"), "Mapa de mi vida", "inicio", `${r.edad} de ${metaVida()} años · un punto por año`, ic("pin", "i fijado"));
+    if (estado.filtro === "todo" && coincide("mi vida en años mapa de mi vida puntos")) h += item("puntos", av(ic("vida"), "var(--burdeos)"), "Mi vida en años", "inicio", `${r.edad} de ${metaVida()} años · un punto por año`, ic("pin", "i fijado"));
     // La Brújula ya no va aquí: es una sección propia en la barra
     let anios = [];
     for (let a = anioHoy; a <= ultimo; a++) anios.push(a);

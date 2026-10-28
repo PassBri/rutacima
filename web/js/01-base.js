@@ -209,7 +209,11 @@ const P960 = {
 };
 /* Modelo 1·9·81: las esquinas suaves, los 4 rumbos en tono más fuerte y la cumbre en oro */
 const IC_MODELO = (cls) => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><g opacity=".3">${[[3, 3], [16, 3], [3, 16], [16, 16]].map(([x, y]) => `<rect x="${x}" y="${y}" width="5" height="5" rx="1.6"/>`).join("")}</g><g opacity=".65">${[[9.5, 3], [3, 9.5], [16, 9.5], [9.5, 16]].map(([x, y]) => `<rect x="${x}" y="${y}" width="5" height="5" rx="1.6"/>`).join("")}</g><rect x="9.5" y="9.5" width="5" height="5" rx="1.6" style="fill:var(--oro)"/></svg>`;
-const ic = (n, cls = "i") => n === "modelo" ? IC_MODELO(cls) : P960[n] ? `<svg class="${cls}" viewBox="0 -960 960 960" aria-hidden="true"><path d="${P960[n]}"/></svg>`
+/** Mi vida en años: 3 × 3 aros como el mapa de vida (vividos llenos, hoy en dorado, por vivir claros). */
+const IC_VIDA = (cls) => { const aro = (x, y, op, col = "currentColor", w = 1.6) => `<path d="M${(x - 2.6 * Math.sin(.24)).toFixed(2)} ${(y + 2.6 * Math.cos(.24)).toFixed(2)}A2.6 2.6 0 1 1 ${(x + 2.6 * Math.sin(.24)).toFixed(2)} ${(y + 2.6 * Math.cos(.24)).toFixed(2)}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/><circle cx="${x}" cy="${y + 2.6}" r=".75" fill="${col}" opacity="${op}"/>`;
+  const P = [[5, 5], [12, 5], [19, 5], [5, 12], [12, 12], [19, 12], [5, 19], [12, 19], [19, 19]];
+  return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" style="fill:none">${P.map(([x, y], i) => i < 4 ? aro(x, y, 1) : i === 4 ? aro(x, y, 1, "var(--oro)", 1.9) : aro(x, y, .4, "currentColor", 1.2)).join("")}</svg>`; };
+const ic = (n, cls = "i") => n === "modelo" ? IC_MODELO(cls) : n === "vida" ? IC_VIDA(cls) : P960[n] ? `<svg class="${cls}" viewBox="0 -960 960 960" aria-hidden="true"><path d="${P960[n]}"/></svg>`
   : `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path${IC_PAR.has(n) ? ' fill-rule="evenodd"' : ""} d="${P[n]}"/></svg>`;
 
 /* ======================================================================
