@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Teilziele</string>
     <string name="mc_tab_plan">Aktionsplan</string>
     <string name="mc_tab_seg">Verlauf</string>
+    <string name="paso_hoy_titulo">Schritt von heute</string>
+    <string name="paso_hoy_ayuda">Tippe auf ein Ziel, wenn du heute einen Schritt gemacht hast.</string>
+    <string name="paso_hoy_vacio">Du hast noch keine Ziele für diesen Monat gewählt. Wähle sie im Monat.</string>
+    <string name="paso_hoy_cual">Für welches Teilziel war der Schritt?</string>
+    <string name="paso_hoy_general">Für das Ziel allgemein</string>
 </resources>

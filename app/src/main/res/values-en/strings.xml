@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Sub-goals</string>
     <string name="mc_tab_plan">Action plan</string>
     <string name="mc_tab_seg">Tracking</string>
+    <string name="paso_hoy_titulo">Today\'s step</string>
+    <string name="paso_hoy_ayuda">Tap a goal if you took a step on it today.</string>
+    <string name="paso_hoy_vacio">You haven\'t chosen which goals to work on this month. Choose them in the month.</string>
+    <string name="paso_hoy_cual">Which sub-goal did you move forward?</string>
+    <string name="paso_hoy_general">To the goal in general</string>
 </resources>

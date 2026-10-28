@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">子目标</string>
     <string name="mc_tab_plan">行动计划</string>
     <string name="mc_tab_seg">跟进</string>
+    <string name="paso_hoy_titulo">今天的一步</string>
+    <string name="paso_hoy_ayuda">如果今天为某个目标迈出了一步，就点一下它。</string>
+    <string name="paso_hoy_vacio">你还没选择本月要做的目标。请在月份中选择。</string>
+    <string name="paso_hoy_cual">这一步是为哪个子目标迈出的？</string>
+    <string name="paso_hoy_general">整体目标</string>
 </resources>

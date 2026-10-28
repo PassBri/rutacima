@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Sotto-obiettivi</string>
     <string name="mc_tab_plan">Piano d\'azione</string>
     <string name="mc_tab_seg">Monitoraggio</string>
+    <string name="paso_hoy_titulo">Passo di oggi</string>
+    <string name="paso_hoy_ayuda">Tocca un obiettivo se oggi hai fatto un passo.</string>
+    <string name="paso_hoy_vacio">Non hai ancora scelto gli obiettivi del mese. Sceglili nel mese.</string>
+    <string name="paso_hoy_cual">Per quale sotto-obiettivo hai fatto il passo?</string>
+    <string name="paso_hoy_general">All\'obiettivo in generale</string>
 </resources>

@@ -191,6 +191,25 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
     fun diasConAgenda(ym: YearMonth): Flow<Set<Int>> = c.agenda.diasConAgenda(ym.year, ym.monthValue)
     suspend fun agenda(fecha: LocalDate): AgendaDiaEntity = c.agenda.dia(fecha)
     fun alternarDia(m: MetaMensualEntity, dia: Int) = viewModelScope.launch { c.planAnual.alternarDia(m, dia) }
+    /** Paso de hoy: marca el día en la meta del mes y, si se escogió una sub-meta, le suma su jornada (y lo recuerda para deshacer). */
+    fun marcarPasoHoy(m: MetaMensualEntity, fecha: LocalDate, casillaId: Long?, paso: Int?) = viewModelScope.launch {
+        if (fecha.dayOfMonth !in m.diasMarcados()) c.planAnual.alternarDia(m, fecha.dayOfMonth)
+        if (casillaId != null && paso != null) {
+            com.rutaalacima.app.ui.planner.jornadaPaso(c, casillaId, paso, fecha)
+            c.respuestas.guardar("metas", "paso:hoy:${m.id}:$fecha", "$casillaId|$paso")
+        }
+    }
+    fun deshacerPasoHoy(m: MetaMensualEntity, fecha: LocalDate) = viewModelScope.launch {
+        if (fecha.dayOfMonth in m.diasMarcados()) c.planAnual.alternarDia(m, fecha.dayOfMonth)
+        val r = c.respuestas.cargar("metas")["paso:hoy:${m.id}:$fecha"].orEmpty().split("|")
+        val cid = r.getOrNull(0)?.toLongOrNull(); val p = r.getOrNull(1)?.toIntOrNull()
+        if (cid != null && p != null) {
+            val M = com.rutaalacima.app.domain.model.Mandala; val MC = com.rutaalacima.app.domain.model.MetodoCima
+            val x = MC.leer(cid, p, c.respuestas.cargar(M.WORKBOOK))
+            if (!x.cumplido) c.respuestas.guardar(M.WORKBOOK, MC.claveJornadas(cid, p), (x.jornadas - fecha).sorted().joinToString(","))
+            c.respuestas.guardar("metas", "paso:hoy:${m.id}:$fecha", "")
+        }
+    }
     /** Respuestas del día (las 3 cumbres de cada día), compartidas con el planificador y la web. */
     val dias: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.ui.planner.WB_DIA), emptyMap())
     /** Baja una meta del año a este mes: crea su paso mensual, ya unido a ella. */
@@ -930,25 +949,12 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
             }
         }
     }
-    val metas = mensuales.filter { it.anio == fecha.year && it.mes == fecha.monthValue }
-    item { SectionTitle(stringResource(R.string.metas_mes_hoy)) }
-    if (metas.isEmpty()) item {
-        Text(stringResource(R.string.crear_primera_meta_mes), style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
-    items(metas, key = { "md${it.id}" }) { m ->
-        val hecho = fecha.dayOfMonth in m.diasMarcados()
-        RutaCard(onClick = { vm.alternarDia(m, fecha.dayOfMonth) }) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = hecho, onCheckedChange = { vm.alternarDia(m, fecha.dayOfMonth) })
-                Column(Modifier.weight(1f)) {
-                    Text(m.texto, style = MaterialTheme.typography.titleSmall)
-                    CadenaMeta(m, anuales, propositos)
-                    Text(stringResource(R.string.dias_de, m.diasMarcados().size, m.objetivoDias), style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
+    // Paso de hoy (igual que la web): una fila de chips, uno por meta del mes; un toque marca el paso y, si tiene sub-metas, se escoge a cuál
+    val metas = mensuales.filter { it.anio == fecha.year && it.mes == fecha.monthValue && it.metaAnualId != null }
+    item(key = "paso-hoy-$fecha") {
+        val todas by vm.todasCasillas.collectAsStateWithLifecycle()
+        val mandala by vm.mandala.collectAsStateWithLifecycle()
+        PasoDeHoy(fecha, metas, anuales, todas, mandala, onMarcar = { m, cas, p -> vm.marcarPasoHoy(m, fecha, cas, p) }, onDeshacer = { vm.deshacerPasoHoy(it, fecha) })
     }
     item {
         val n = checks[fecha]?.size ?: 0

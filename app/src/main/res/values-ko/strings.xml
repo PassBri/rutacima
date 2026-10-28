@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">하위 목표</string>
     <string name="mc_tab_plan">실행 계획</string>
     <string name="mc_tab_seg">진행 관리</string>
+    <string name="paso_hoy_titulo">오늘의 한 걸음</string>
+    <string name="paso_hoy_ayuda">오늘 한 걸음 나아간 목표를 누르세요.</string>
+    <string name="paso_hoy_vacio">이번 달에 할 목표를 아직 고르지 않았어요. 월 화면에서 고르세요.</string>
+    <string name="paso_hoy_cual">어느 하위 목표에 한 걸음 나아갔나요?</string>
+    <string name="paso_hoy_general">목표 전체에</string>
 </resources>

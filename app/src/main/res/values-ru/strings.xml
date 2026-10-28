@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Подцели</string>
     <string name="mc_tab_plan">План действий</string>
     <string name="mc_tab_seg">Отслеживание</string>
+    <string name="paso_hoy_titulo">Шаг сегодня</string>
+    <string name="paso_hoy_ayuda">Нажмите на цель, если сегодня сделали к ней шаг.</string>
+    <string name="paso_hoy_vacio">Вы ещё не выбрали цели на этот месяц. Выберите их в месяце.</string>
+    <string name="paso_hoy_cual">К какой подцели был шаг?</string>
+    <string name="paso_hoy_general">К цели в целом</string>
 </resources>

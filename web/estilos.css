@@ -4151,3 +4151,17 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .mc-seg { grid-template-columns: 1fr; }
   .mc-panel { max-height: none; }
 }
+
+/* Paso de hoy: una fila de chips por meta del mes */
+.ph-fila { display: flex; flex-wrap: wrap; gap: 8px; }
+.ph-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 12px; border-radius: 10px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); font: inherit; font-size: 14px; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; transition: background .15s, border-color .15s; }
+.ph-chip .eje-punto { margin: 0; }
+.ph-chip small { color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.ph-chip svg { width: 18px; height: 18px; }
+.ph-chip.si { background: var(--oro-suave); border-color: transparent; font-weight: 600; }
+.ph-chip:disabled { opacity: .5; cursor: default; }
+.ph-chip:active:not(:disabled) { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .ph-chip:hover:not(:disabled) { background: var(--hoja-2); } .ph-chip.si:hover { background: var(--oro-suave); } }
+.ph-subs { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--hoja-2); display: grid; gap: 8px; }
+.ph-subs small { color: var(--tinta-suave); }
+.ph-subs .chip svg { width: 16px; height: 16px; }

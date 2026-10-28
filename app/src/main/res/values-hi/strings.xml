@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">उप-लक्ष्य</string>
     <string name="mc_tab_plan">कार्य योजना</string>
     <string name="mc_tab_seg">प्रगति</string>
+    <string name="paso_hoy_titulo">आज का कदम</string>
+    <string name="paso_hoy_ayuda">अगर आज किसी लक्ष्य की ओर कदम बढ़ाया तो उसे टैप करें।</string>
+    <string name="paso_hoy_vacio">आपने अभी इस महीने के लक्ष्य नहीं चुने। उन्हें महीने में चुनें।</string>
+    <string name="paso_hoy_cual">किस उप-लक्ष्य की ओर कदम बढ़ाया?</string>
+    <string name="paso_hoy_general">पूरे लक्ष्य के लिए</string>
 </resources>

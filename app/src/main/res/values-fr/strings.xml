@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Sous-objectifs</string>
     <string name="mc_tab_plan">Plan d\'action</string>
     <string name="mc_tab_seg">Suivi</string>
+    <string name="paso_hoy_titulo">Pas du jour</string>
+    <string name="paso_hoy_ayuda">Touchez un objectif si vous avez avancé aujourd\'hui.</string>
+    <string name="paso_hoy_vacio">Vous n\'avez pas encore choisi vos objectifs du mois. Choisissez-les dans le mois.</string>
+    <string name="paso_hoy_cual">Pour quel sous-objectif avez-vous avancé ?</string>
+    <string name="paso_hoy_general">À l\'objectif en général</string>
 </resources>

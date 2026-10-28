@@ -2580,4 +2580,9 @@
     <string name="mc_tab_sub">Sub-metas</string>
     <string name="mc_tab_plan">Plan de acción</string>
     <string name="mc_tab_seg">Seguimiento</string>
+    <string name="paso_hoy_titulo">Paso de hoy</string>
+    <string name="paso_hoy_ayuda">Toca una meta si hoy le diste un paso.</string>
+    <string name="paso_hoy_vacio">Aún no eliges qué metas trabajar este mes. Elígelas en el mes.</string>
+    <string name="paso_hoy_cual">¿A qué sub-meta le diste el paso?</string>
+    <string name="paso_hoy_general">A la meta en general</string>
 </resources>

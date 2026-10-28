@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">サブ目標</string>
     <string name="mc_tab_plan">行動計画</string>
     <string name="mc_tab_seg">進捗管理</string>
+    <string name="paso_hoy_titulo">今日の一歩</string>
+    <string name="paso_hoy_ayuda">今日一歩進んだ目標をタップしましょう。</string>
+    <string name="paso_hoy_vacio">今月取り組む目標をまだ選んでいません。月の画面で選びましょう。</string>
+    <string name="paso_hoy_cual">どのサブ目標に一歩進みましたか？</string>
+    <string name="paso_hoy_general">目標全体に</string>
 </resources>

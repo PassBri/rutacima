@@ -2571,4 +2571,9 @@
     <string name="mc_tab_sub">Submetas</string>
     <string name="mc_tab_plan">Plano de ação</string>
     <string name="mc_tab_seg">Acompanhamento</string>
+    <string name="paso_hoy_titulo">Passo de hoje</string>
+    <string name="paso_hoy_ayuda">Toque numa meta se hoje você deu um passo.</string>
+    <string name="paso_hoy_vacio">Você ainda não escolheu quais metas trabalhar este mês. Escolha-as no mês.</string>
+    <string name="paso_hoy_cual">Em qual submeta você deu o passo?</string>
+    <string name="paso_hoy_general">À meta em geral</string>
 </resources>
