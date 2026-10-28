@@ -10,7 +10,9 @@
     return { c, ps: el.length ? el : todos };
   };
   const corto = (t, n) => t.length > n ? t.slice(0, n - 1) + "…" : t;
-  window.pasoDeHoy = (fecha, ms) => {
+  /* Quitado del día a pedido de Brian (redundante con «Aporta a…» de las actividades): queda sin pintar. */
+  window.pasoDeHoy = () => "";
+  const pasoDeHoyAntes = (fecha, ms) => {
     const f = deIso(fecha), d = f.getDate(), futuro = f > hoyFecha();
     ms = ms.filter(x => x.metaAnualId != null);
     const hechos = ms.filter(x => numeros(x.dias).includes(d)).length, abierta = estado.pasoHoy && Store.get("meta_mes", estado.pasoHoy);

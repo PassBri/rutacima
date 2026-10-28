@@ -949,13 +949,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelDia(
             }
         }
     }
-    // Paso de hoy (igual que la web): una fila de chips, uno por meta del mes; un toque marca el paso y, si tiene sub-metas, se escoge a cuál
-    val metas = mensuales.filter { it.anio == fecha.year && it.mes == fecha.monthValue && it.metaAnualId != null }
-    item(key = "paso-hoy-$fecha") {
-        val todas by vm.todasCasillas.collectAsStateWithLifecycle()
-        val mandala by vm.mandala.collectAsStateWithLifecycle()
-        PasoDeHoy(fecha, metas, anuales, todas, mandala, onMarcar = { m, cas, p -> vm.marcarPasoHoy(m, fecha, cas, p) }, onDeshacer = { vm.deshacerPasoHoy(it, fecha) })
-    }
+    // «Paso de hoy» se quitó del día (redundante con «Aporta a…» de las actividades), igual que la web
     item {
         val n = checks[fecha]?.size ?: 0
         RutaCard(onClick = onKit) {
