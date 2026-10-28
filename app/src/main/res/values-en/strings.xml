@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">Nothing long-term yet. It comes from your general Compass.</string>
     <string name="ruta_prop_anios">%1$d years</string>
     <string name="ruta_calendario">Show or hide the calendar</string>
+    <string name="ruta_mapa_ayuda">Tap a year to view it; tap it again to open it.</string>
 </resources>

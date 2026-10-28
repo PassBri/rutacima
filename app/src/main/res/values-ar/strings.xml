@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">لا شيء طويل المدى بعد. ينشأ من بوصلتك العامة.</string>
     <string name="ruta_prop_anios">%1$d سنوات</string>
     <string name="ruta_calendario">إظهار التقويم أو إخفاؤه</string>
+    <string name="ruta_mapa_ayuda">المس سنة لعرضها؛ المسها مرة أخرى لفتحها.</string>
 </resources>

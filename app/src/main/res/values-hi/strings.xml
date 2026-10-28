@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">अभी कुछ लंबी अवधि का नहीं। यह आपके सामान्य कम्पास से बनता है।</string>
     <string name="ruta_prop_anios">%1$d साल</string>
     <string name="ruta_calendario">कैलेंडर दिखाएँ या छिपाएँ</string>
+    <string name="ruta_mapa_ayuda">साल देखने के लिए छुएँ; खोलने के लिए फिर से छुएँ।</string>
 </resources>

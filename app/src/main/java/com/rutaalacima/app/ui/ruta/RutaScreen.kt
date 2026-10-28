@@ -990,6 +990,7 @@ private fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.ruta
         else -> Triple(null, null, null)
     }
     var abierta by rememberSaveable { mutableStateOf(false) }
+    var mapa by rememberSaveable { mutableStateOf(false) }
     // El año y el mes que se miran (sin abrirlos), siempre al día con lo que muestra la pantalla
     var ver by remember(nivel) { mutableStateOf(YearMonth.of(a0 ?: h.year, m0 ?: if (a0 != null && a0 != h.year) 1 else h.monthValue)) }
     val cs = MaterialTheme.colorScheme
@@ -1023,11 +1024,35 @@ private fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.ruta
             // ‹ año ›
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = { ver = ver.minusYears(1) }, enabled = ver.year > nac) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.anio_anterior)) }
-                Column(Modifier.weight(1f).clip(RoundedCornerShape(50)).clickable { ir(Nivel.Anio(ver.year)) }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                // Tocar el año despliega el mini mapa de vida (una fila por década) para saltar a cualquier año
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(50)).clickable { mapa = !mapa }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("${ver.year}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    Text(stringResource(R.string.ruta_prop_anios, ver.year - nac), style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.ruta_prop_anios, ver.year - nac), style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
+                        Icon(if (mapa) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, null, Modifier.size(14.dp), tint = cs.onSurfaceVariant)
+                    }
                 }
                 IconButton(onClick = { ver = ver.plusYears(1) }, enabled = ver.year < nac + perfil.esperanza()) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.anio_siguiente)) }
+            }
+            if (mapa) Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(cs.surfaceContainerHigh).padding(8.dp),
+                verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                for (dec in 0 until (perfil.esperanza() + 9) / 10) Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("${dec * 10}", style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant, modifier = Modifier.width(22.dp))
+                    for (k in 0 until 10) {
+                        val i = dec * 10 + k; val y = nac + i
+                        Box(Modifier.weight(1f).aspectRatio(1f), contentAlignment = Alignment.Center) {
+                            if (i < perfil.esperanza()) {
+                                val est = when { y < h.year -> -1; y == h.year -> 0; else -> 1 }
+                                Box(Modifier.fillMaxSize(.86f).clip(CircleShape).background(if (y == ver.year) cs.secondaryContainer else Color.Transparent)
+                                    .clickable { if (y == ver.year) { mapa = false; ir(Nivel.Anio(y)) } else ver = YearMonth.of(y, ver.monthValue) }, contentAlignment = Alignment.Center) {
+                                    Box(Modifier.fillMaxSize(.72f).border(if (est == 1) 1.dp else 1.6.dp, when (est) { -1 -> cs.primary; 0 -> cs.secondary; else -> cs.outlineVariant }, CircleShape))
+                                }
+                            }
+                        }
+                    }
+                }
+                Text(stringResource(R.string.ruta_mapa_ayuda), style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant,
+                    textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
             }
             // Los 12 meses en aros (4 × 3)
             for (fila in 0 until 3) Row(Modifier.fillMaxWidth()) {

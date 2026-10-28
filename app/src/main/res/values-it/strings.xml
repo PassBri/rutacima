@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">Ancora niente a lungo termine. Nasce dalla tua Bussola generale.</string>
     <string name="ruta_prop_anios">%1$d anni</string>
     <string name="ruta_calendario">Mostra o nascondi il calendario</string>
+    <string name="ruta_mapa_ayuda">Tocca un anno per vederlo; toccalo di nuovo per aprirlo.</string>
 </resources>

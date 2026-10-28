@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">まだ長期の目標がありません。全体のコンパスから生まれます。</string>
     <string name="ruta_prop_anios">%1$d年</string>
     <string name="ruta_calendario">カレンダーを表示/非表示</string>
+    <string name="ruta_mapa_ayuda">年をタップで表示、もう一度タップで開きます。</string>
 </resources>

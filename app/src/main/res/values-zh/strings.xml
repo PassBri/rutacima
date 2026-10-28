@@ -2534,4 +2534,5 @@
     <string name="ruta_sin_propositos">还没有长期目标。它来自你的总罗盘。</string>
     <string name="ruta_prop_anios">%1$d 年</string>
     <string name="ruta_calendario">显示或隐藏日历</string>
+    <string name="ruta_mapa_ayuda">点一下年份查看；再点一次打开。</string>
 </resources>
