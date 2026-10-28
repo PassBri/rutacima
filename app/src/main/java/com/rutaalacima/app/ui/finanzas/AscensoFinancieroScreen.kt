@@ -618,9 +618,10 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
         containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(avisos) },
         topBar = {
-            TopAppBar(
+            // Con cinco acciones, el título baja a su propio renglón (igual que la web en el celular)
+            androidx.compose.material3.MediumTopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-                title = { Text(stringResource(R.string.cu_titulo)) },
+                title = { Text(stringResource(R.string.cu_titulo), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
                 navigationIcon = { IconButton(onClick = { nivel.arriba()?.let(ir) ?: onBack() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
                 actions = {
                     if (!bloqueado) {

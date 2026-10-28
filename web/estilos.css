@@ -4424,3 +4424,16 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ev-sino { grid-area: b; display: flex; gap: 4px; } .ev-sino .chip { min-height: 32px; padding: 0 12px; }
 .ev-card header .ev-badge { margin-left: auto; }
 .ba-camp .ev-filas li { font-size: 13px; padding: 6px 0; }
+
+/* ---------- Celular: cabeceras con muchas acciones y selector de tipo financiero ---------- */
+@media (max-width: 700px) {
+  /* Con 4 o más acciones, el título conserva su renglón y las acciones bajan a una fila propia a la derecha */
+  .det-cab:has(> .rb ~ .rb ~ .rb ~ .rb ~ .rb) { flex-wrap: wrap; row-gap: 2px; padding-bottom: 6px; }
+  .det-cab:has(> .rb ~ .rb ~ .rb ~ .rb ~ .rb) > .txt { flex: 1 1 calc(100% - 128px); }
+  .det-cab:has(> .rb ~ .rb ~ .rb ~ .rb ~ .rb) > .txt + .rb { margin-left: auto; }
+  .det-cab h2, .det-cab p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Tipo de movimiento: chips de filtro Material en lugar de una píldora partida en dos renglones */
+  #detalle[data-sec="finanzas"] .seg { display: flex; flex-wrap: wrap; gap: 8px; border: 0; border-radius: 0; overflow: visible; }
+  #detalle[data-sec="finanzas"] .seg-b, #detalle[data-sec="finanzas"] .seg-b + .seg-b { flex: 1 1 auto; border: 1px solid var(--m3-borde-fuerte); border-radius: 8px; padding: 6px 14px; min-height: 40px; }
+  #detalle[data-sec="finanzas"] .seg-b[aria-checked="true"] { border-color: transparent; }
+}
