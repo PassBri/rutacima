@@ -4,6 +4,7 @@ import com.rutaalacima.app.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.outlined.Flag
 import androidx.compose.material.icons.outlined.Schedule
@@ -339,6 +340,16 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                         TextButton(onClick = { vm.abrir(hoy()) }) { Text(stringResource(R.string.ir_a_hoy)) }
                     }
                 }
+                // Informe PDF del día (Imprimir › Guardar como PDF), igual que el botón de la web
+                IconButton(onClick = {
+                    val dd = d ?: return@IconButton
+                    val hor = dd.horarioMapa()
+                    val html = com.rutaalacima.app.ui.evaluacion.InformeRuta.dia(ctx, f, dd.intencion, vm.tops(f, r).map { it.t to it.hecho },
+                        HORAS_DEL_DIA.mapNotNull { h -> hor[h]?.takeIf { it.isNotBlank() }?.let { Triple(h, it, r["dia#$f#$h#hecho"] == "1") } },
+                        listOf(ctx.getString(R.string.victorias_dia) to dd.victorias, ctx.getString(R.string.aprendizaje) to dd.aprendizaje,
+                            ctx.getString(R.string.gratitud) to dd.gratitud, ctx.getString(R.string.notas_importantes) to dd.notas), dd.energia, dd.agua)
+                    com.rutaalacima.app.ui.evaluacion.InformeRuta.imprimir(ctx, html, "SuRoute-$f")
+                }) { Icon(Icons.Filled.Download, stringResource(R.string.ev_pdf)) }
                 IconButton(onClick = { vm.abrir(f.plusDays(1)) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.dia_siguiente)) }
             }
         }

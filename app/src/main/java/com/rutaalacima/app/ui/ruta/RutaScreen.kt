@@ -357,11 +357,12 @@ fun RutaScreen(
                         nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum, vm)
                         // "Cumplidos" ya se ve en la Brújula del año (los ganados se marcan ahí), igual que la web
                         item(key = "carta-${n.anio}") { CartaAnio(n.anio, vida, vm::guardarVida) }
-                        item(key = "bien-anio-${n.anio}") { com.rutaalacima.app.ui.bienestar.BienestarAnioCard(n.anio) { ir(Nivel.Mes(it)) } }
+                        // El bienestar, el balance y las finanzas del año viven en Evaluación (igual que la web)
+                        item(key = "evaluar-${n.anio}") { com.rutaalacima.app.ui.evaluacion.EvaluarCard(stringResource(R.string.ev_evaluar_x, "${n.anio}"), stringResource(R.string.ev_evaluar_anio_sub), "a:${n.anio}") }
                     }
                     is Nivel.Mes -> {
                         nivelMes(n.ym, mensuales, anuales, propositos, checks, posts, vm, ir, onNuevaMeta, onPlanificador)
-                        item(key = "bien-mes-${n.ym}") { com.rutaalacima.app.ui.bienestar.BienestarMesCard(n.ym) { ir(Nivel.Dia(it)) } }
+                        item(key = "evaluar-${n.ym}") { com.rutaalacima.app.ui.evaluacion.EvaluarCard(stringResource(R.string.ev_evaluar_x, com.rutaalacima.app.ui.planner.nombreMes(n.ym.monthValue)), stringResource(R.string.ev_evaluar_mes_sub), "m:${n.ym}") }
                     }
                     is Nivel.Semana -> nivelSemana(n.lunes, mensuales, checks, ir, onPlanificador, onKit)
                     is Nivel.Dia -> {
@@ -812,7 +813,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMes(
             com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(ctx.getString(R.string.paso_mes_creado))
         }
     }
-    item(key = "finanzas-$ym") { com.rutaalacima.app.ui.finanzas.ResumenCuentasMes(ym) }
+    // Las finanzas del mes se ven en Evaluación
     item {
         OutlinedButton(onClick = { onPlanificador(2, ym.atDay(1)) }, modifier = Modifier.fillMaxWidth()) {
             Icon(Icons.Filled.CalendarMonth, null); Spacer(Modifier.width(6.dp)); Text(stringResource(R.string.ruta_planificador_mes))
