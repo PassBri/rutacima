@@ -152,25 +152,49 @@
 
   /* ---------- El día ---------- */
   DET["evaluacion.d"] = arg => {
+    // La misma estructura del día de Mi ruta, en versión evaluación: plan del día y actividades a la izquierda;
+    // checklist de hábitos y bienestar a la derecha; el cierre abajo. Cada sección dice cuánto se cumplió.
     const f = /^\d{4}-\d\d-\d\d$/.test(String(arg)) ? String(arg) : iso(hoyFecha()), d = deIso(f), futuro = d > hoyFecha();
     const ag = Store.get("agenda", f) || {}, hor = typeof horarioDe === "function" ? horarioDe(ag) : {}, top = typeof topDe === "function" ? topDe(f) : [];
-    const escritas = Object.entries(hor).filter(([, t]) => t), hechas = escritas.filter(([h]) => respuesta(`dia#${f}#${h}#hecho`) === "1").length;
-    const marc = marcadosDe(f), HS = habitos(), pd = typeof puntajeDia === "function" ? puntajeDia(f) : null;
+    const escritas = Object.entries(hor).filter(([, t]) => t).sort((x, y) => ((Number(x[0]) + 20) % 24) - ((Number(y[0]) + 20) % 24));
+    const hechoAct = h => respuesta(`dia#${f}#${h}#hecho`) === "1", hechas = escritas.filter(([h]) => hechoAct(h)).length;
+    const marc = marcadosDe(f), HS = habitos(), pd = typeof puntajeDia === "function" ? puntajeDia(f) : null, b = typeof bienDia === "function" ? bienDia(f) : {};
     const pHab = HS.length ? marc.size / HS.length : null, pAct = escritas.length ? hechas / escritas.length : null;
     const pTop = top.length ? top.filter(x => x.hecho).length / top.length : null, pBien = pd ? pd.puntaje : null;
     const puntaje = futuro ? null : prom([pHab, pAct, pTop, pBien]);
     const aporte = typeof aporteDelDia === "function" ? [...aporteDelDia(f)] : [];
     const ca = (n, etq) => campo(etq, `<textarea ${bind("agenda", f, n)}>${esc(ag[n] || "")}</textarea>`);
     const fecha = mayus(d.toLocaleDateString("es", { weekday: "long", day: "numeric", month: "long", year: "numeric" }));
+    const nota = p => `<span class="ev-badge${p == null ? " na" : p >= .8 ? " ok" : p >= .5 ? " medio" : " bajo"}">${pctN(p)}</span>`;
+    const res = ok => `<span class="ev-res ${ok ? "si" : "no"}" aria-label="${ok ? "Cumplido" : "No cumplido"}">${ic(ok ? "check" : "cerrar")}</span>`;
+    const nombreMeta = v => { const [id, p] = String(v || "").split("|"); const mm = Store.get("meta_mes", id); if (!mm) return ""; const a = Store.get("meta_anio", mm.metaAnualId);
+      return (a?.titulo || mm.texto) + (p != null && p !== "" ? ` · sub-meta ${Number(p) + 1}` : ""); };
+    // Plan del día
+    const plan = seccionDia("plan", cabSec("bandera", "Plan del día", "Tu intención y las 3 cumbres: ¿se cumplieron?", nota(pTop)) +
+      (ag.intencion ? `<p class="ev-intencion">«${esc(ag.intencion)}»</p>` : `<p class="suave">Sin intención escrita.</p>`) +
+      `<ul class="ev-filas">${top.length ? top.map((x, i) => `<li>${res(x.hecho)}<span class="ev-num">${i + 1}</span><span class="ev-t">${esc(x.t)}</span>${x.meta ? `<small>↑ ${esc(nombreMeta(x.meta))}</small>` : ""}</li>`).join("") : `<li class="suave">No se anotaron las 3 cumbres.</li>`}</ul>`);
+    // Actividades del día
+    const acts = seccionDia("acts", cabSec("lista", "Actividades del día", escritas.length ? `${hechas} de ${escritas.length} hechas` : "Sin actividades anotadas", nota(pAct)) +
+      (aporte.length ? `<div class="aporte-dia"><b>Aportó ${Math.round(aporte.reduce((s, [, v]) => s + v, 0) * 10) / 10} %</b>${aporte.map(([k, v]) => `<span>+${Math.round(v * 10) / 10} % ${esc(k)}</span>`).join("")}</div>` : "") +
+      `<ul class="ev-filas">${escritas.map(([h, t]) => { const ok = hechoAct(h), m = nombreMeta(respuesta(`dia#${f}#${h}#meta`));
+        return `<li>${res(ok)}<span class="ev-hora">${typeof fmtHora === "function" ? fmtHora(Number(h)) : dos(h) + ":00"}</span><span class="ev-t">${esc(t)}</span>${m ? `<small>↑ ${esc(m)}</small>` : ""}</li>`; }).join("")}</ul>`);
+    // Checklist de hábitos por eje
+    const habs = seccionDia("habitos", cabSec("check", "Checklist de hábitos", `${marc.size} de ${HS.length} hábitos`, nota(pHab)) +
+      EJES.map(([cod, nom]) => { const hs = HS.filter(h => h[1] === cod); if (!hs.length) return ""; const n = hs.filter(([id]) => marc.has(id)).length;
+        return `<div class="ev-eje"><div class="ev-eje-cab"><i class="eje-punto" style="background:${COLOR_EJE[cod]}"></i><b>${nom}</b><span>${n} / ${hs.length}</span></div>
+          <ul class="ev-filas">${hs.map(([id, , t]) => `<li>${res(marc.has(id))}<span class="ev-t">${esc(t)}</span></li>`).join("")}</ul></div>`; }).join(""));
+    // Bienestar
+    const cl = b.clima && typeof CLIMAS !== "undefined" ? CLIMAS[b.clima] : null, pil = typeof pilaresDia === "function" ? pilaresDia(f) : {};
+    const valorPil = { sueno: b.sueno != null ? `${b.sueno} h` : "—", mov: b.mov != null ? `${b.mov} min` : "—", fyv: b.fyv != null ? `${b.fyv} porciones` : "—", agua: `${aguaDe(f)} de 8`, aire: b.aire != null ? `${b.aire} min` : "—", pant: b.pant == null ? "—" : b.pant ? "Sí" : "No" };
+    const bien = seccionDia("bienestar", cabSec("bienestar", "Bienestar", pd ? `${pd.cumplidos} de 6 hábitos de salud cumplidos` : "Sin registro de este día", nota(pBien)) +
+      `<div class="ev-clima">${cl ? `${typeof climaSvg === "function" ? climaSvg(b.clima) : ""}<div><b>${cl.n}</b>${b.emo ? `<span>${esc(b.emo)}${b.int ? ` · intensidad ${b.int} de 5` : ""}</span>` : ""}</div>` : `<span class="suave">Clima interior sin anotar.</span>`}
+        ${ag.energia ? `<div class="ev-energia"><span>Energía</span><b>${ag.energia} de 5</b></div>` : ""}</div>
+      <ul class="ev-filas ev-pilares">${SALUD_PILARES.map(([k, n, meta]) => `<li>${pil[k] == null ? `<span class="ev-res na">${ic("menos") || "–"}</span>` : res(pil[k] >= .99)}<span class="ev-t">${n}</span><small>${valorPil[k]} · meta ${meta}</small></li>`).join("")}</ul>`);
+    const cierre = futuro ? "" : seccionDia("cierre", cabSec("tema", "Cierre del día", "Lo que salió y lo que aprendiste") + `<div class="form ev-form">${ca("victorias", "Victorias de hoy")}${ca("aprendizaje", "Aprendizaje")}${ca("gratitud", "Gratitud")}${ca("notas", "Notas")}</div>`);
     return cab(av(d.getDate(), "var(--burdeos)"), `Evaluación del día`, fecha, botonInforme(`d:${f}`)) + cuerpo(
       hoja(`<div class="ev-resumen">${anillo(puntaje, "Puntaje del día")}<div><h3>Puntaje del día</h3><p class="suave">${futuro ? "Este día aún no llega: evalúalo cuando lo vivas." : lectura(puntaje)}</p>
-        <p class="ev-nota">Promedio de tus 3 cumbres, tus actividades, tus hábitos y tu bienestar. <button class="btn mini" data-ir="ruta" data-arg="d:${f}">Abrir el día en Mi ruta</button></p></div></div>
-        <div class="ev-kpis">${kpiEv("3 cumbres", pTop, top.length ? `${top.filter(x => x.hecho).length} de ${top.length} hechas` : "Sin cumbres")}${kpiEv("Actividades", pAct, escritas.length ? `${hechas} de ${escritas.length} hechas` : "Sin actividades")}
-          ${kpiEv("Hábitos", pHab, `${marc.size} de ${HS.length}`)}${kpiEv("Bienestar", pBien, pd ? `${pd.cumplidos} de 6 hábitos de salud` : "Sin registro")}</div>`) +
-      (aporte.length ? hoja(`<h3>Lo que aportó a tus metas</h3><ul class="ev-lista">${aporte.map(([k, v]) => `<li><i class="eje-punto" style="background:var(--oro)"></i><span class="ev-n">${esc(k)}</span><b>+${Math.round(v * 10) / 10} %</b></li>`).join("")}</ul>`) : "") +
-      (top.length || escritas.length ? hoja(`<h3>Lo que planeaste</h3><ul class="ev-lista">${top.map((x, i) => `<li><i class="eje-punto" style="background:${x.hecho ? "var(--ok)" : "#B8A99C"}"></i><span class="ev-n">${i + 1}. ${esc(x.t)}</span><b>${x.hecho ? "Hecha" : "—"}</b></li>`).join("")}
-        ${escritas.map(([h, t]) => { const ok = respuesta(`dia#${f}#${h}#hecho`) === "1"; return `<li><i class="eje-punto" style="background:${ok ? "var(--ok)" : "#B8A99C"}"></i><span class="ev-n">${dos(h)}:00 · ${esc(t)}</span><b>${ok ? "Hecha" : "—"}</b></li>`; }).join("")}</ul>`) : "") +
-      (futuro ? "" : hoja(`<h3>Cierre del día</h3><div class="form ev-form">${ca("victorias", "Victorias de hoy")}${ca("aprendizaje", "Aprendizaje")}${ca("gratitud", "Gratitud")}${ca("notas", "Notas")}</div>`)), "max-width:980px");
+        <p class="ev-nota">Promedio del plan, las actividades, los hábitos y el bienestar. <button class="btn mini" data-ir="ruta" data-arg="d:${f}">Abrir el día en Mi ruta</button></p></div></div>`) +
+      `<div class="dia-cont"><div class="dia-cols"><div class="dia-col dia-izq">${plan}${acts}${bien}</div><div class="dia-col dia-der">${habs}</div></div>${cierre}</div>`, "max-width:1320px");
   };
   /* Los atajos de la barra: tu vida en años (puntaje de cada año), propósitos y metas por año */
   DET["evaluacion.props"] = () => DET["evaluacion.p"]();

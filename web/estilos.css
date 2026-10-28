@@ -4384,3 +4384,26 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .ev-anillo { display: flex; align-items: baseline; justify-content: center; padding-top: 0; line-height: 84px; aspect-ratio: 1; }
 .ev-anillo b, .ev-anillo small { line-height: 1; align-self: center; } .ev-anillo small { margin: 6px 0 0 1px; }
 .ev-prop-cab > div { flex: 0 0 auto; } .ev-prop-cab > div:nth-child(2) { flex: 1 1 auto; }
+
+/* Evaluación del día: la misma estructura del día, con el resultado de cada cosa */
+.ev-badge { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; padding: 4px 10px; border-radius: 999px; background: var(--hoja-2); color: var(--tinta-suave); }
+.ev-badge.ok { background: color-mix(in srgb, var(--ok, #2F6B4A) 16%, transparent); color: var(--ok, #2F6B4A); }
+.ev-badge.medio { background: color-mix(in srgb, var(--oro) 18%, transparent); color: #8A6A1C; }
+.ev-badge.bajo { background: color-mix(in srgb, var(--burdeos) 12%, transparent); color: var(--burdeos); }
+.ev-filas { list-style: none; margin: 6px 0 0; padding: 0; }
+.ev-filas li { display: grid; grid-template-columns: 24px auto minmax(0, 1fr); grid-template-areas: "r n t" ". . s"; align-items: center; column-gap: 10px; row-gap: 2px; padding: 9px 0; border-bottom: 1px solid var(--linea); font-size: 14px; }
+.ev-filas li:last-child { border-bottom: 0; }
+.ev-filas li.suave { display: block; }
+.ev-filas .ev-res { grid-area: r; } .ev-filas .ev-num, .ev-filas .ev-hora { grid-area: n; } .ev-filas .ev-t { grid-area: t; min-width: 0; }
+.ev-filas small { grid-area: s; grid-column: 2 / -1; color: var(--tinta-suave); font-size: 12px; }
+.ev-filas li:not(:has(.ev-num, .ev-hora)) { grid-template-columns: 24px minmax(0, 1fr); grid-template-areas: "r t" ". s"; }
+.ev-res { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; }
+.ev-res svg { width: 15px; height: 15px; }
+.ev-res.si { background: var(--ok, #2F6B4A); color: #fff; } .ev-res.no { background: color-mix(in srgb, var(--burdeos) 12%, transparent); color: var(--burdeos); } .ev-res.na { background: var(--hoja-2); color: var(--tinta-suave); }
+.ev-num { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--hoja-2); }
+.ev-hora { font-size: 12px; font-variant-numeric: tabular-nums; padding: 2px 8px; border-radius: 8px; background: var(--hoja-2); color: var(--tinta-suave); white-space: nowrap; }
+.ev-intencion { font: italic 15px/1.4 var(--font-titulo); margin: 4px 0 6px; }
+.ev-eje { margin-top: 10px; } .ev-eje-cab { display: flex; align-items: center; gap: 8px; font-size: 13px; } .ev-eje-cab b { flex: 1; } .ev-eje-cab span { color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.ev-clima { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 14px; background: var(--hoja-2); margin: 6px 0 4px; }
+.ev-clima svg { width: 36px; height: 36px; } .ev-clima > div:first-of-type { display: grid; flex: 1; } .ev-clima span { color: var(--tinta-suave); font-size: 13px; }
+.ev-energia { display: grid; text-align: right; } .ev-energia span { font-size: 12px; }
