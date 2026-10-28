@@ -60,8 +60,9 @@ function rvBarra() {
       <button class="rv-plegar solo-movil" data-acc="rvPlegar" aria-expanded="${!!estado.rvAbierta}" aria-label="${estado.rvAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.rvAbierta ? "arriba" : "abajo")}</button></div>
     <div class="rv-cuerpo${estado.rvAbierta ? " abierta" : ""}">
       <div class="rv-paso"><button class="rv-flecha" data-acc="rvAnio" data-arg="-1" aria-label="Año anterior" ${a <= nac ? "disabled" : ""}>${ic("izq")}</button>
-        <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-sel="a:${a}" title="Abrir ${a}">${a}<small>${edad} años</small></button>
+        <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="rvMapa" aria-expanded="${!!estado.rvMapa}" title="Elegir otro año">${a}<small>${edad} años ${ic(estado.rvMapa ? "arriba" : "abajo")}</small></button>
         <button class="rv-flecha" data-acc="rvAnio" data-arg="1" aria-label="Año siguiente" ${a >= nac + metaVida() - 1 ? "disabled" : ""}>${ic("der")}</button></div>
+      ${estado.rvMapa ? rvMiniMapa(nac, a) : ""}
       <div class="rv-meses" role="group" aria-label="Meses de ${a}">${meses}</div>
       <div class="rv-paso rv-paso-mes"><button class="rv-flecha" data-acc="rvMes" data-arg="-1" aria-label="Mes anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && l.m === m && !l.d ? " abierto" : ""}" data-sel="m:${a}-${pad2(m)}" title="Abrir ${MESES[m - 1]}">${mayus(MESES[m - 1])}</button>
@@ -70,11 +71,29 @@ function rvBarra() {
       <div class="rv-navs">${nav("puntos", "puntos", "Mapa de mi vida", v === "puntos")}${nav("props", "brujula", "Propósitos", v === "props")}${nav("conmetas", "metas", "Metas por año", v === "conmetas")}</div>
     </div></nav>`;
 }
+/** Mini mapa de vida: los mismos aros, una fila por década. Un toque mira ese año; otro toque al mismo año lo abre. */
+function rvMiniMapa(nac, visto) {
+  const aHoy = hoyFecha().getFullYear(), conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
+  let h = "";
+  for (let i = 0; i < metaVida(); i++) {
+    const y = nac + i, cls = y < aHoy ? "vivido" : y === aHoy ? "actual" : "futuro";
+    if (i % 10 === 0) h += `${i ? "</div>" : ""}<div class="rv-dec"><small>${i}</small>`;
+    h += `<button class="rv-mini${y === visto ? " viendo" : ""}" data-acc="rvAnioIr" data-arg="${y}" aria-label="${y}, ${i} años${conMetas.has(y) ? ", con metas" : ""}" title="${y} · ${i} años${conMetas.has(y) ? " · con metas" : ""}">
+      <span class="pv ${cls}${conMetas.has(y) ? " meta" : ""}" aria-hidden="true">${PUNTO_MARCA}</span></button>`;
+  }
+  return `<div class="rv-mapa" role="group" aria-label="Elige un año de tu vida">${h}</div><p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo.</p></div>`;
+}
 /* Mirar otro año o mes sin abrirlo: solo se redibuja la barra */
 function rvRepintar() { const b = document.querySelector(".rv-barra"); if (b) b.outerHTML = rvBarra(); }
 ACC.rvAnio = (_, d) => { const ver = rvVer(), nac = perfil().anioNacimiento; ver.a = Math.min(nac + metaVida() - 1, Math.max(nac, ver.a + Number(d))); rvRepintar(); };
 ACC.rvMes = (_, d) => { const ver = rvVer(); ver.m += Number(d); if (ver.m < 1) { ver.m = 12; ver.a--; } if (ver.m > 12) { ver.m = 1; ver.a++; } rvRepintar(); };
 ACC.rvPlegar = () => { estado.rvAbierta = !estado.rvAbierta; rvRepintar(); };
+ACC.rvMapa = () => { estado.rvMapa = !estado.rvMapa; rvRepintar(); };
+ACC.rvAnioIr = (_, y) => {
+  const ver = rvVer(), n = Number(y);
+  if (ver.a === n) { estado.rvMapa = false; elegir("a:" + n); return; }
+  ver.a = n; rvRepintar();
+};
 
 DET["ruta.props"] = () => {
   const c = cascada(), ps = c.props.slice().sort((x, y) => (x.prioridad || "B").localeCompare(y.prioridad || "B") || (x.orden || 0) - (y.orden || 0) || x.id - y.id);

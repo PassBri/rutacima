@@ -3973,3 +3973,27 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 #detalle.con-vida .det-cuerpo .migas { display: none; }
 /* En Mi ruta, el regreso es por niveles (la flecha de las migas): la flecha de la cabecera sobra */
 #detalle.con-vida .det-cab .volver { display: none; }
+/* Mini mapa de vida en la barra: una fila por década, los mismos aros en pequeño */
+.rv-titulo small { display: inline-flex; align-items: center; gap: 2px; }
+.rv-titulo small svg { width: 14px; height: 14px; fill: currentColor; }
+.rv-mapa { display: grid; gap: 2px; padding: 8px 4px 6px; border-radius: 16px; background: var(--hoja-2); animation: rvAparece .2s cubic-bezier(.2,0,0,1); }
+@keyframes rvAparece { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { .rv-mapa { animation: none; } }
+.rv-dec { display: grid; grid-template-columns: 20px repeat(10, 1fr); align-items: center; }
+.rv-dec small { font-size: 9.5px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.rv-mini { aspect-ratio: 1; padding: 2px; border: 0; border-radius: 50%; background: transparent; cursor: pointer; display: grid; place-items: center; }
+.rv-mini .pv { width: 100%; pointer-events: none; }
+.rv-mini.viendo { background: var(--oro-suave); box-shadow: 0 0 0 2px var(--oro); }
+@media (hover: hover) and (pointer: fine) { .rv-mini:not(.viendo):hover { background: var(--burdeos-suave); } }
+.rv-mapa-ayuda { margin: 4px 0 0; font-size: 11px; color: var(--tinta-suave); text-align: center; }
+/* Ventanas medianas (por ejemplo, media pantalla): la barra y sus aros un poco más compactos */
+@media (min-width: 901px) and (max-width: 1280px) {
+  #detalle.con-vida { padding-right: 232px; }
+  #detalle.con-vida .rv-barra { width: 232px; }
+  .rv-cuerpo { padding: 6px 8px 16px; gap: 4px; }
+  .rv-mes .pv { width: 22px; }
+  .rv-mes { padding: 4px 0 2px; }
+  .rv-dia, .rv-vacio { width: 28px; height: 28px; }
+  .rv-nav-item { height: 40px; font-size: 13px; }
+  .rv-titulo { font-size: 15px; padding: 4px 8px; }
+}
