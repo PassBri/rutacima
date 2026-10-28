@@ -4437,3 +4437,28 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   #detalle[data-sec="finanzas"] .seg-b, #detalle[data-sec="finanzas"] .seg-b + .seg-b { flex: 1 1 auto; border: 1px solid var(--m3-borde-fuerte); border-radius: 8px; padding: 6px 14px; min-height: 40px; }
   #detalle[data-sec="finanzas"] .seg-b[aria-checked="true"] { border-color: transparent; }
 }
+
+/* Safari del iPhone ignora backface-visibility en caras con capas propias (insignias, botones, sombras):
+   la cara de atrás se veía en espejo encima de la de adelante. Se oculta a mitad del giro. */
+.md-cara, .casilla-v .cara, .casilla-v .dorso { transition: visibility 0s linear .37s; }
+.md-flip:not(.girada) .md-cara.cara-imagen, .md-flip.girada .md-cara.cara-texto { visibility: hidden; }
+.casilla-v.giro:not(.girada) .dorso, .casilla-v.giro.girada .cara { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .md-cara, .casilla-v .cara, .casilla-v .dorso { transition: none; } }
+
+/* Brújula 9 en el celular: tarjetas de ~100 px. Solo lo esencial y legible:
+   rumbo arriba a la izquierda, avance arriba a la derecha y el nombre completo abajo (el giro está en la barra). */
+@media (max-width: 600px) {
+  .rosa-brujula .tablero-9 .casilla-girar, .rosa-brujula .tablero-9 .dorso-mas,
+  .rosa-brujula .tablero-9 .cara-foto.vacia .casilla-btn { display: none !important; }
+  .rosa-brujula .tablero-9 .cara-pasos { position: absolute; z-index: 2; left: 6px; top: 6px; min-width: 26px; height: 22px; padding: 0 6px; border-radius: 11px;
+    font: 700 10.5px/22px var(--font-cuerpo, inherit); width: auto; }
+  .rosa-brujula .tablero-9 .casilla-pct-btn { right: 6px; top: 6px; }
+  .rosa-brujula .tablero-9 .pct-m3.esquina { height: 22px; padding: 0 7px; font-size: 10.5px; gap: 0; }
+  .rosa-brujula .tablero-9 .pct-m3.esquina > i { display: none; }
+  .rosa-brujula .tablero-9 .cara-pie { padding: 18px 6px 7px; justify-content: center; }
+  .rosa-brujula .tablero-9 .cara-apodo { white-space: normal; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    text-align: center; font-size: 11.5px; line-height: 1.2; padding: 3px 7px; border-radius: 8px; max-width: 100%; }
+  .rosa-brujula .tablero-9 .dorso { padding: 7px; gap: 4px; }
+  .rosa-brujula .tablero-9 .lect-frase { font-size: 11px; line-height: 1.3; margin: 0; }
+  .rosa-brujula .tablero-9 .dorso-pie { gap: 4px; font-size: 10px; }
+}
