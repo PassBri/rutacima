@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">Tithe or offering</string>
     <string name="cu_cat_gen_comunidad">My community</string>
     <string name="cu_cat_gen_otro">Other help</string>
+    <string name="cu_bloquear_salir">Lock and exit</string>
+    <string name="cu_bloqueado_aviso">Financial climb locked</string>
+    <string name="cu_activar_bloqueo">Turn on</string>
 </resources>

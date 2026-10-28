@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">Decima o offerta</string>
     <string name="cu_cat_gen_comunidad">La mia comunità</string>
     <string name="cu_cat_gen_otro">Altro aiuto</string>
+    <string name="cu_bloquear_salir">Blocca ed esci</string>
+    <string name="cu_bloqueado_aviso">Ascesa finanziaria bloccata</string>
+    <string name="cu_activar_bloqueo">Attiva</string>
 </resources>

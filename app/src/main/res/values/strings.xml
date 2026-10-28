@@ -2600,4 +2600,7 @@
     <string name="cu_cat_gen_fe">Diezmo u ofrenda</string>
     <string name="cu_cat_gen_comunidad">Mi comunidad</string>
     <string name="cu_cat_gen_otro">Otra ayuda</string>
+    <string name="cu_bloquear_salir">Bloquear y salir</string>
+    <string name="cu_bloqueado_aviso">Ascenso financiero bloqueado</string>
+    <string name="cu_activar_bloqueo">Activar</string>
 </resources>

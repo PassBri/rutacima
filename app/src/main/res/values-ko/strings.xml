@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">십일조 또는 헌금</string>
     <string name="cu_cat_gen_comunidad">우리 공동체</string>
     <string name="cu_cat_gen_otro">기타 도움</string>
+    <string name="cu_bloquear_salir">잠그고 나가기</string>
+    <string name="cu_bloqueado_aviso">재정 등반이 잠겼어요</string>
+    <string name="cu_activar_bloqueo">켜기</string>
 </resources>

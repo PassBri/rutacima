@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">عشور أو تقدمة</string>
     <string name="cu_cat_gen_comunidad">مجتمعي</string>
     <string name="cu_cat_gen_otro">مساعدة أخرى</string>
+    <string name="cu_bloquear_salir">قفل وخروج</string>
+    <string name="cu_bloqueado_aviso">تم قفل الصعود المالي</string>
+    <string name="cu_activar_bloqueo">تفعيل</string>
 </resources>

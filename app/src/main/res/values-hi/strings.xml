@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">दशमांश या भेंट</string>
     <string name="cu_cat_gen_comunidad">मेरा समुदाय</string>
     <string name="cu_cat_gen_otro">अन्य मदद</string>
+    <string name="cu_bloquear_salir">लॉक करें और बाहर जाएँ</string>
+    <string name="cu_bloqueado_aviso">वित्तीय चढ़ाई लॉक हो गई</string>
+    <string name="cu_activar_bloqueo">चालू करें</string>
 </resources>

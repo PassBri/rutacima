@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">Dízimo ou oferta</string>
     <string name="cu_cat_gen_comunidad">Minha comunidade</string>
     <string name="cu_cat_gen_otro">Outra ajuda</string>
+    <string name="cu_bloquear_salir">Bloquear e sair</string>
+    <string name="cu_bloqueado_aviso">Ascensão financeira bloqueada</string>
+    <string name="cu_activar_bloqueo">Ativar</string>
 </resources>

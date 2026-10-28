@@ -499,7 +499,7 @@ function pantallaBloqueo() {
 }
 function privacidadHoja() {
   const pub = publicaFin();
-  return hoja(`<h3 style="margin:0 0 4px">Privacidad</h3><p class="suave" style="margin:0 0 10px">Tus cuentas son tuyas. Elige si son solo para ti o si quieres compartir tu avance (solo porcentajes, nunca montos).</p>
+  return hoja(`<h3 id="fin-privacidad" style="margin:0 0 4px">Privacidad</h3><p class="suave" style="margin:0 0 10px">Tus cuentas son tuyas. Elige si son solo para ti o si quieres compartir tu avance (solo porcentajes, nunca montos).</p>
     <div class="seg" role="radiogroup" aria-label="Privacidad" style="grid-template-columns:1fr 1fr;max-width:420px"><button type="button" role="radio" aria-checked="${!pub}" class="seg-b t-gas" data-acc="ascVisibilidad" data-arg="privada">Privada</button><button type="button" role="radio" aria-checked="${pub}" class="seg-b t-ing" data-acc="ascVisibilidad" data-arg="publica">Pública</button></div>
     ${pub ? `<p class="suave" style="margin:12px 0 0">Puedes compartir tu salud financiera y tu avance contra las deudas en la comunidad. Los montos, los recibos y los movimientos siguen siendo privados.</p>`
       : `<div class="capas"><div class="capa">${ic("check")}<span><b>Solo tu cuenta</b><small>Nadie más puede leer tus movimientos: la base de datos solo los entrega a tu sesión.</small></span></div>
@@ -1085,3 +1085,10 @@ Object.assign(ACC, {
     toast("Análisis listo: usa «Guardar como PDF» para descargarlo");
   },
 });
+
+/* Candado del encabezado: con PIN, cierra el módulo y lleva a Hoy; sin PIN, lleva a crearlo (Privacidad, en el Balance general) */
+ACC.ascBloquearSalir = () => { finCerrar(); toast("Ascenso financiero bloqueado"); ir("hoy"); };
+ACC.ascProteger = el => {
+  if (ACC.ascPonerPin) return ACC.ascPonerPin(el);   // crea el PIN ahí mismo; luego el candado sirve para bloquear y salir
+  ir("finanzas", "b"); setTimeout(() => document.getElementById("fin-privacidad")?.scrollIntoView({ block: "start" }), 120);
+};

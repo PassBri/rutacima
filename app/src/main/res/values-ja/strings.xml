@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">十分の一献金・献金</string>
     <string name="cu_cat_gen_comunidad">地域社会</string>
     <string name="cu_cat_gen_otro">その他の支援</string>
+    <string name="cu_bloquear_salir">ロックして終了</string>
+    <string name="cu_bloqueado_aviso">資産の登山をロックしました</string>
+    <string name="cu_activar_bloqueo">オンにする</string>
 </resources>

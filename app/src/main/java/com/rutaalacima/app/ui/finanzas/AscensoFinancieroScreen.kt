@@ -52,6 +52,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.AttachFile
 import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -636,6 +637,26 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         IconButton(onClick = { InformeFinanciero.imprimir(ctxI, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoPdf) }) {
                             Icon(Icons.Filled.Download, stringResource(R.string.cu_informe))
                         }
+                    }
+                    // Candado: con bloqueo activo, cierra el módulo y sale; sin él, ofrece activarlo (igual que la web)
+                    if (!bloqueado) {
+                        var proteger by remember { mutableStateOf(false) }
+                        val ctxL = androidx.compose.ui.platform.LocalContext.current
+                        val sinBloqueoTel = stringResource(R.string.cu_sin_bloqueo_tel); val cerrado = stringResource(R.string.cu_bloqueado_aviso)
+                        IconButton(onClick = {
+                            if (libro.bloqueo) { vm.abiertoHasta = 0L; com.rutaalacima.app.seguridad.FinCifrado.cerrar(); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(cerrado); onBack() }
+                            else proteger = true
+                        }) { Icon(Icons.Filled.Lock, stringResource(if (libro.bloqueo) R.string.cu_bloquear_salir else R.string.cu_capa_bloqueo)) }
+                        if (proteger) androidx.compose.material3.AlertDialog(onDismissRequest = { proteger = false },
+                            icon = { Icon(Icons.Filled.Lock, null) },
+                            title = { Text(stringResource(R.string.cu_capa_bloqueo)) },
+                            text = { Text(stringResource(R.string.cu_capa_bloqueo_d)) },
+                            confirmButton = { androidx.compose.material3.TextButton(onClick = {
+                                proteger = false
+                                if (!com.rutaalacima.app.seguridad.Bloqueo.biometriaDisponible(ctxL) && !com.rutaalacima.app.seguridad.Bloqueo.tieneClave(ctxL)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueoTel)
+                                else { vm.bloqueo(true); vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
+                            }) { Text(stringResource(R.string.cu_activar_bloqueo)) } },
+                            dismissButton = { androidx.compose.material3.TextButton(onClick = { proteger = false }) { Text(stringResource(R.string.cancelar)) } })
                     }
                     if (!bloqueado) IconButton(onClick = { vm.oculto = !vm.oculto }) {
                         Icon(if (vm.oculto) Icons.Filled.VisibilityOff else Icons.Filled.Visibility, stringResource(if (vm.oculto) R.string.cu_mostrar_montos else R.string.cu_ocultar_montos))

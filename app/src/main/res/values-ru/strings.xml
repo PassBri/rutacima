@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">Десятина или пожертвование</string>
     <string name="cu_cat_gen_comunidad">Моё сообщество</string>
     <string name="cu_cat_gen_otro">Другая помощь</string>
+    <string name="cu_bloquear_salir">Заблокировать и выйти</string>
+    <string name="cu_bloqueado_aviso">Финансовое восхождение заблокировано</string>
+    <string name="cu_activar_bloqueo">Включить</string>
 </resources>

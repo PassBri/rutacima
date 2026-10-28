@@ -2591,4 +2591,7 @@
     <string name="cu_cat_gen_fe">什一奉献</string>
     <string name="cu_cat_gen_comunidad">我的社区</string>
     <string name="cu_cat_gen_otro">其他帮助</string>
+    <string name="cu_bloquear_salir">锁定并退出</string>
+    <string name="cu_bloqueado_aviso">财务攀登已锁定</string>
+    <string name="cu_activar_bloqueo">开启</string>
 </resources>
