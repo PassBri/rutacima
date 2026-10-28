@@ -2542,4 +2542,5 @@
     <string name="ruta_propositos">Propósitos · varios años</string>
     <string name="ruta_sin_propositos">Todavía no hay propósitos. Nacen de tu Brújula general.</string>
     <string name="ruta_prop_anios">%1$d años</string>
+    <string name="ruta_calendario">Mostrar u ocultar el calendario</string>
 </resources>

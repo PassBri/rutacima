@@ -2533,4 +2533,5 @@
     <string name="ruta_propositos">長期</string>
     <string name="ruta_sin_propositos">まだ長期の目標がありません。全体のコンパスから生まれます。</string>
     <string name="ruta_prop_anios">%1$d年</string>
+    <string name="ruta_calendario">カレンダーを表示/非表示</string>
 </resources>

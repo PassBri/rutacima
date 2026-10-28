@@ -2533,4 +2533,5 @@
     <string name="ruta_propositos">Longo prazo</string>
     <string name="ruta_sin_propositos">Ainda nada de longo prazo. Nasce da sua Bússola geral.</string>
     <string name="ruta_prop_anios">%1$d anos</string>
+    <string name="ruta_calendario">Mostrar ou ocultar o calendário</string>
 </resources>

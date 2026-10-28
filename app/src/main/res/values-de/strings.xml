@@ -2533,4 +2533,5 @@
     <string name="ruta_propositos">Langfristig</string>
     <string name="ruta_sin_propositos">Noch nichts Langfristiges. Es entsteht aus deinem allgemeinen Kompass.</string>
     <string name="ruta_prop_anios">%1$d Jahre</string>
+    <string name="ruta_calendario">Kalender ein- oder ausblenden</string>
 </resources>

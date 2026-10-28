@@ -2533,4 +2533,5 @@
     <string name="ruta_propositos">장기</string>
     <string name="ruta_sin_propositos">아직 장기 목표가 없어요. 전체 나침반에서 생겨나요.</string>
     <string name="ruta_prop_anios">%1$d년</string>
+    <string name="ruta_calendario">달력 보이기/숨기기</string>
 </resources>

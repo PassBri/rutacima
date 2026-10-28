@@ -1,5 +1,12 @@
 package com.rutaalacima.app.ui.ruta
 
+import androidx.compose.material3.IconButton
+import androidx.compose.ui.unit.sp
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.outlined.Explore
 import androidx.compose.animation.expandVertically
@@ -967,70 +974,100 @@ private fun PropositosRuta(propositos: List<PropositoEntity>, onProposito: (Long
     }
 }
 
-/** Barra de vida: un punto por año; el año abierto despliega sus meses y el mes abierto sus días. Tocar otra vez sube un nivel. */
+/**
+ * Barra de vida como selector de fecha (igual que la web): año con ‹ ›, los 12 meses en aros, ‹ mes › y su calendario.
+ * Se despliega con la flecha; "Hoy" lleva al día de hoy. Tocar un mes o un día lo abre.
+ */
 @Composable
 private fun BarraVida(nivel: Nivel, perfil: PerfilEntity, anuales: List<com.rutaalacima.app.data.local.MetaAnualEntity>, ir: (Nivel) -> Unit) {
     val nac = perfil.anioNacimiento ?: return
     val h = hoy()
-    val (a, m, d) = when (nivel) {
+    val (a0, m0, d0) = when (nivel) {
         is Nivel.Anio -> Triple(nivel.anio, null, null)
         is Nivel.Mes -> Triple(nivel.ym.year, nivel.ym.monthValue, null)
         is Nivel.Semana -> YearMonth.from(nivel.lunes.plusDays(3)).let { Triple(it.year, it.monthValue, null) }
         is Nivel.Dia -> Triple(nivel.fecha.year, nivel.fecha.monthValue, nivel.fecha.dayOfMonth)
         else -> Triple(null, null, null)
     }
-    val conMetas = remember(anuales) { anuales.map { it.anio }.toSet() }
-    // Los elementos de la barra, en orden: años, y dentro del año abierto sus meses (y del mes abierto sus días)
-    data class Pieza(val clave: String, val anio: Int, val mes: Int? = null, val dia: Int? = null)
-    val piezas = remember(nac, a, m, perfil.esperanza()) {
-        buildList {
-            for (y in nac..nac + perfil.esperanza()) {
-                add(Pieza("a$y", y))
-                if (y == a) for (mm in 1..12) {
-                    add(Pieza("m$y-$mm", y, mm))
-                    if (mm == m) for (dd in 1..YearMonth.of(y, mm).lengthOfMonth()) add(Pieza("d$y-$mm-$dd", y, mm, dd))
-                }
+    var abierta by rememberSaveable { mutableStateOf(false) }
+    // El año y el mes que se miran (sin abrirlos), siempre al día con lo que muestra la pantalla
+    var ver by remember(nivel) { mutableStateOf(YearMonth.of(a0 ?: h.year, m0 ?: if (a0 != null && a0 != h.year) 1 else h.monthValue)) }
+    val cs = MaterialTheme.colorScheme
+    val loc = java.util.Locale.getDefault()
+    val donde = when {
+        d0 != null -> "$d0 ${java.time.Month.of(m0!!).getDisplayName(java.time.format.TextStyle.SHORT, loc)} $a0"
+        m0 != null -> "${nombreMes(m0)} $a0"
+        a0 != null -> "$a0"
+        else -> stringResource(R.string.ruta_vida_puntos)
+    }
+    @Composable fun Aro(estado: Int, texto: String?, sel: Boolean, marca: Boolean, tam: androidx.compose.ui.unit.Dp, onClick: () -> Unit) {
+        // estado: -1 vivido, 0 actual, 1 por vivir
+        val color = when (estado) { -1 -> cs.primary; 0 -> cs.secondary; else -> cs.outlineVariant }
+        Box(Modifier.size(tam).clip(CircleShape).background(if (sel) cs.primary else Color.Transparent).clickable(onClick = onClick), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(tam - 8.dp).border(if (estado == 1) 1.5.dp else 2.dp, if (sel) cs.onPrimary else color, CircleShape)
+                .then(if (marca) Modifier.border(3.dp, cs.secondary.copy(alpha = .35f), CircleShape) else Modifier), contentAlignment = Alignment.Center) {
+                if (texto != null) Text(texto, fontSize = 10.sp, fontWeight = if (estado == 0) FontWeight.Black else FontWeight.SemiBold,
+                    color = if (sel) cs.onPrimary else if (estado == 1) cs.onSurfaceVariant else cs.onSurface)
             }
         }
     }
-    val estado = androidx.compose.foundation.lazy.rememberLazyListState()
-    LaunchedEffect(nivel) {
-        val i = piezas.indexOfFirst { if (d != null) it.dia == d && it.mes == m else if (m != null) it.mes == m && it.dia == null && it.anio == a else if (a != null) it.anio == a && it.mes == null else it.anio == h.year && it.mes == null }
-        if (i >= 0) estado.animateScrollToItem(maxOf(0, i - 2))
-    }
-    val cs = MaterialTheme.colorScheme
-    LazyRow(state = estado, contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-        items(piezas, key = { it.clave }) { p ->
-            when {
-                p.mes == null -> {
-                    val abierto = p.anio == a
-                    Row(Modifier.clip(RoundedCornerShape(50)).background(if (abierto) cs.secondaryContainer else Color.Transparent)
-                        .clickable { ir(if (abierto && m == null) Nivel.Vida else Nivel.Anio(p.anio)) }
-                        .heightIn(min = 44.dp).padding(horizontal = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(10.dp).clip(CircleShape)
-                            .background(if (p.anio < h.year) cs.primary else if (p.anio == h.year) cs.secondary else Color.Transparent)
-                            .border(if (p.anio in conMetas) 2.dp else 1.dp, if (p.anio in conMetas) cs.secondary else cs.outline, CircleShape))
-                        Spacer(Modifier.width(6.dp))
-                        Text("${p.anio}", style = MaterialTheme.typography.labelLarge,
-                            fontWeight = if (abierto || p.anio == h.year) FontWeight.Bold else FontWeight.Normal)
+    Column(Modifier.fillMaxWidth().padding(horizontal = 12.dp).clip(RoundedCornerShape(20.dp)).background(cs.surfaceContainerLow).animateContentSize()) {
+        Row(Modifier.fillMaxWidth().padding(start = 16.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Text(donde, style = MaterialTheme.typography.titleSmall, color = cs.primary, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f), maxLines = 1)
+            androidx.compose.material3.OutlinedButton(onClick = { ir(Nivel.Dia(h)) }, contentPadding = PaddingValues(horizontal = 14.dp)) { Text(stringResource(R.string.hoy)) }
+            IconButton(onClick = { abierta = !abierta }) {
+                Icon(if (abierta) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, stringResource(R.string.ruta_calendario))
+            }
+        }
+        if (abierta) Column(Modifier.padding(start = 8.dp, end = 8.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            // ‹ año ›
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { ver = ver.minusYears(1) }, enabled = ver.year > nac) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.anio_anterior)) }
+                Column(Modifier.weight(1f).clip(RoundedCornerShape(50)).clickable { ir(Nivel.Anio(ver.year)) }.padding(vertical = 4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("${ver.year}", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                    Text(stringResource(R.string.ruta_prop_anios, ver.year - nac), style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
+                }
+                IconButton(onClick = { ver = ver.plusYears(1) }, enabled = ver.year < nac + perfil.esperanza()) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.anio_siguiente)) }
+            }
+            // Los 12 meses en aros (4 × 3)
+            for (fila in 0 until 3) Row(Modifier.fillMaxWidth()) {
+                for (col in 0 until 4) {
+                    val mm = fila * 4 + col + 1
+                    val est = when { ver.year < h.year || (ver.year == h.year && mm < h.monthValue) -> -1; ver.year == h.year && mm == h.monthValue -> 0; else -> 1 }
+                    Column(Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(if (mm == ver.monthValue) cs.surfaceContainerHigh else Color.Transparent)
+                        .clickable { ver = YearMonth.of(ver.year, mm); ir(Nivel.Mes(YearMonth.of(ver.year, mm))) }.padding(vertical = 4.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        Aro(est, null, a0 == ver.year && m0 == mm && d0 == null, false, 30.dp) { ver = YearMonth.of(ver.year, mm); ir(Nivel.Mes(YearMonth.of(ver.year, mm))) }
+                        Text(java.time.Month.of(mm).getDisplayName(java.time.format.TextStyle.SHORT, loc).replaceFirstChar { it.uppercase() },
+                            style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
                     }
                 }
-                p.dia == null -> {
-                    val abierto = p.mes == m
-                    Text(nombreMes(p.mes!!).take(3), style = MaterialTheme.typography.labelLarge,
-                        color = if (abierto) cs.onPrimary else cs.onSurface,
-                        modifier = Modifier.clip(RoundedCornerShape(10.dp)).background(if (abierto) cs.primary else cs.surfaceContainerHigh)
-                            .clickable { ir(if (abierto && d == null) Nivel.Anio(p.anio) else Nivel.Mes(YearMonth.of(p.anio, p.mes!!))) }
-                            .heightIn(min = 40.dp).padding(horizontal = 12.dp, vertical = 10.dp))
+            }
+            HorizontalDivider()
+            // ‹ mes ›
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = { ver = ver.minusMonths(1) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.mes_anterior)) }
+                Text(nombreMes(ver.monthValue), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f).clip(RoundedCornerShape(50)).clickable { ir(Nivel.Mes(ver)) }.padding(vertical = 8.dp))
+                IconButton(onClick = { ver = ver.plusMonths(1) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.mes_siguiente)) }
+            }
+            // Calendario del mes (lunes a domingo)
+            Row(Modifier.fillMaxWidth()) {
+                DayOfWeek.entries.forEach { dw ->
+                    Text(dw.getDisplayName(java.time.format.TextStyle.NARROW, loc), Modifier.weight(1f), textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.labelSmall, color = cs.onSurfaceVariant)
                 }
-                else -> {
-                    val abierto = p.dia == d
-                    val esHoy = p.anio == h.year && p.mes == h.monthValue && p.dia == h.dayOfMonth
-                    Box(Modifier.size(36.dp).clip(CircleShape).background(if (abierto) cs.primary else Color.Transparent)
-                        .border(if (esHoy) 1.5.dp else 0.dp, if (esHoy) cs.secondary else Color.Transparent, CircleShape)
-                        .clickable { ir(Nivel.Dia(LocalDate.of(p.anio, p.mes!!, p.dia!!))) }, contentAlignment = Alignment.Center) {
-                        Text("${p.dia}", style = MaterialTheme.typography.labelMedium, color = if (abierto) cs.onPrimary else cs.onSurfaceVariant)
+            }
+            val ini = ver.atDay(1).dayOfWeek.value - 1
+            val total = ini + ver.lengthOfMonth()
+            for (sem in 0 until (total + 6) / 7) Row(Modifier.fillMaxWidth()) {
+                for (k in 0 until 7) {
+                    val dd = sem * 7 + k - ini + 1
+                    Box(Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                        if (dd in 1..ver.lengthOfMonth()) {
+                            val f = ver.atDay(dd)
+                            Aro(f.compareTo(h).coerceIn(-1, 1), "$dd", a0 == ver.year && m0 == ver.monthValue && d0 == dd, false, 40.dp) { ir(Nivel.Dia(f)) }
+                        }
                     }
                 }
             }
