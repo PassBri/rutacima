@@ -111,7 +111,8 @@ window.focoMes = focoMes;
 /* ---------- 4. El día: aporta a una meta o a una sub-meta, y cuánto ---------- */
 opcionesAporte = function (ms, actual) {
   const act = String(actual ?? "");
-  return `<option value="">Aporta a…</option>${ms.map(mm => {
+  // "Ninguna" siempre a la vista para quitar el aporte (antes solo existía el rótulo "Aporta a…")
+  return `<option value="" ${act ? "" : "selected"}>${act ? "Ninguna (quitar)" : "Aporta a…"}</option>${ms.map(mm => {
     const a = Store.get("meta_anio", mm.metaAnualId), nombre = a?.titulo || mm.texto, c = casillaDeMes(mm);
     const elegidos = pasosDelMes(mm), pasos = c ? [0, 1, 2, 3, 4, 5, 6, 7].filter(p => respuesta(Mandala.clave(c.id, p)).trim() && (!elegidos.length || elegidos.includes(p))) : [];
     const op = (v, t) => `<option value="${v}" ${v === act ? "selected" : ""}>${esc(t)}</option>`;

@@ -142,6 +142,7 @@ const ACC = {
     if (t && !sel) fila.lastElementChild.outerHTML = `<select data-acc-change="actMeta" data-arg="${fecha}|${h}" aria-label="Meta del año a la que aporta">${opcionesAporte(ms, "")}</select>`;
     else if (!t && sel) sel.outerHTML = "<span></span>"; },
   actMeta(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#meta`, el.value);
+    if (el.options[0]) el.options[0].textContent = el.value ? "Ninguna (quitar)" : "Aporta a…";
     if (el.value && respuesta(`dia#${fecha}#${h}#hecho`) === "1") marcarDiaMeta(el.value, fecha); },
   actHecha(el, arg) { const [fecha, h] = arg.split("|"); responder("dia", `dia#${fecha}#${h}#hecho`, el.checked ? "1" : "");
     const meta = respuesta(`dia#${fecha}#${h}#meta`); el.closest(".act")?.classList.toggle("hecha", el.checked);
