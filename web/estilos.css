@@ -4011,3 +4011,16 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .rv-rec-pct { color: var(--oro); font-weight: 700; }
   .rv-rec-frase { margin: 2px 0 0; font: 400 13px/1.4 var(--font-titulo); color: var(--tinta); }
 }
+/* Tu vida en años: título, ayuda y los cuatro datos en una sola fila */
+.pv-hoja .pv-cab { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+.pv-hoja .pv-cab .pv-chips { margin: 0; flex-wrap: nowrap; gap: 6px; }
+.pv-hoja .pv-chip { height: 30px; padding: 0 10px 0 8px; font-size: 12.5px; white-space: nowrap; }
+@media (max-width: 1280px) { .pv-hoja .pv-cab p { display: none; } }
+.pv-hoja .pv-cab { flex-wrap: nowrap; }
+.pv-hoja .pv-cab h3 { white-space: nowrap; }
+@media (max-width: 1280px) {
+  .pv-hoja .pv-cab h3 { font-size: 16px; }
+  .pv-hoja .pv-edad { display: none; }
+  .pv-hoja .pv-chip { padding: 0 8px 0 6px; font-size: 12px; gap: 4px; }
+}
+@media (max-width: 900px) { .pv-hoja .pv-cab { flex-wrap: wrap; } .pv-hoja .pv-cab .pv-chips { flex-wrap: wrap; } }
