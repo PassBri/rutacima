@@ -46,6 +46,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
@@ -177,29 +178,29 @@ fun BarraPeso(r: Salud.Resultado, plata: (Double) -> String) {
     val base = maxOf(s.ing, s.gas + s.aho + s.inv + s.gen)
     Text(stringResource(R.string.cu_peso_titulo), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 16.dp, bottom = 8.dp))
     val desc = partes.joinToString(", ") { "${it.first} ${pctG(it.second / s.ing)}" }
-    Row(Modifier.fillMaxWidth().height(16.dp).clip(RoundedCornerShape(50)).semantics { contentDescription = desc }, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-        partes.forEach { (_, v, c) -> Box(Modifier.weight((v / base).toFloat().coerceAtLeast(0.004f)).height(16.dp).background(c)) }
+    Row(Modifier.fillMaxWidth().height(10.dp).clip(RoundedCornerShape(50)).semantics { contentDescription = desc }, horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+        partes.forEach { (_, v, c) -> Box(Modifier.weight((v / base).toFloat().coerceAtLeast(0.004f)).height(10.dp).background(c)) }
     }
     if (libre < 0) Text("✕ " + stringResource(R.string.cu_deficit_aviso, plata(Math.round(-libre / r.meses).toDouble())), style = MaterialTheme.typography.bodySmall,
         color = ST_BAJO, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 8.dp))
-    // Leyenda en tarjetas tonales: el nombre, el porcentaje grande y el monto al mes, juntos (igual que la web)
-    Column(Modifier.padding(top = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        partes.chunked(2).forEach { fila ->
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                fila.forEach { (n, v, c) ->
-                    Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.surfaceContainerHigh).padding(horizontal = 12.dp, vertical = 10.dp)) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Box(Modifier.size(10.dp).clip(RoundedCornerShape(50)).background(c))
-                            Spacer(Modifier.width(8.dp))
-                            Text(n, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 2)
-                        }
-                        Text(pctG(v / s.ing), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 2.dp))
-                        Text(stringResource(R.string.cu_por_mes, plata(Math.round(v / r.meses).toDouble())), style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                    }
+    // Filas claras (igual que la web): punto, nombre, % y monto al mes; debajo, una pista fina con su parte
+    Column(Modifier.padding(top = 12.dp)) {
+        partes.forEach { (n, v, c) ->
+            Column(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(8.dp).clip(RoundedCornerShape(50)).background(c))
+                    Spacer(Modifier.width(10.dp))
+                    Text(n, Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(pctG(v / s.ing), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                    Spacer(Modifier.width(12.dp))
+                    Text(stringResource(R.string.cu_por_mes, plata(Math.round(v / r.meses).toDouble())), style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
                 }
-                if (fila.size == 1) Spacer(Modifier.weight(1f))
+                Box(Modifier.padding(start = 18.dp, top = 6.dp).fillMaxWidth().height(4.dp).clip(RoundedCornerShape(50)).background(MaterialTheme.colorScheme.surfaceContainerHighest)) {
+                    Box(Modifier.fillMaxWidth((v / s.ing).toFloat().coerceIn(0f, 1f)).height(4.dp).clip(RoundedCornerShape(50)).background(c))
+                }
             }
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         }
     }
 }

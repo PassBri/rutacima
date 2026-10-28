@@ -222,11 +222,13 @@ function barraPeso(r) {
   const partes = [["fijos", "Gastos fijos", s.mochila.verde], ["variables", "Gastos variables", s.mochila.amarilla + Math.max(0, s.gas - s.mochila.verde - s.mochila.amarilla)],
     ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["generosidad", "Generosidad", s.gen || 0], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
   const base = Math.max(s.ing, s.gas + s.aho + s.inv + (s.gen || 0));
-  return `<figure class="viz"><figcaption>¿Qué haces con cada peso que entra?</figcaption>
+  return `<figure class="viz peso-viz"><figcaption><b>¿Qué haces con cada peso que entra?</b><span>Promedio al mes · toca una franja para ver el detalle</span></figcaption>
     <div class="peso-barra" role="img" aria-label="${partes.map(([, n, v]) => `${n} ${pctT(v / s.ing)}`).join(", ")}">${partes.map(([k, n, v]) =>
       `<span class="seg-${k}" style="flex:${v / base}" tabindex="0" data-tip="${esc(n)}|${pctT(v / s.ing)} de lo que entra|${plata(Math.round(v / r.nMeses))} al mes"></span>`).join("")}</div>
     ${libre < 0 ? `<p class="peso-aviso">✕ Sale más de lo que entra: ${plata(Math.round(-libre / r.nMeses))} al mes de déficit.</p>` : ""}
-    <ul class="peso-ley">${partes.map(([k, n, v]) => `<li><i class="seg-${k}"></i><span>${n}</span><b>${pctT(v / s.ing)}</b><small>${plata(Math.round(v / r.nMeses))}/mes</small></li>`).join("")}</ul></figure>`;
+    <ul class="peso-filas">${partes.map(([k, n, v]) => `<li><i class="seg-${k}"></i><span class="pf-n">${n}</span>
+      <span class="pf-pista" aria-hidden="true"><em class="seg-${k}" style="width:${Math.min(100, v / s.ing * 100).toFixed(1)}%"></em></span>
+      <b>${pctT(v / s.ing)}</b><small>${plata(Math.round(v / r.nMeses))}<span>/mes</span></small></li>`).join("")}</ul></figure>`;
 }
 function medidor(x) {
   const cab = `<header class="med-cab"><b>${x.nombre}</b>${chipEst(x.estado)}</header><div class="med-val">${x.valor}</div>`;

@@ -4306,3 +4306,26 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .peso-ley small { grid-area: m; grid-column: 1 / -1; font-size: 12px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
 .peso-ley li { grid-template-columns: 10px minmax(0, 1fr); }
 .peso-ley b { grid-column: 1 / -1; }
+
+/* ¿Qué haces con cada peso? — versión clara: barra fina y filas con su propia pista (nombre · pista · % · monto) */
+.peso-viz figcaption { display: grid; gap: 2px; margin-bottom: 12px; }
+.peso-viz figcaption b { font-size: 15px; font-weight: 600; color: var(--tinta); }
+.peso-viz figcaption span { font-size: 12px; color: var(--tinta-suave); font-weight: 400; }
+.peso-viz .peso-barra { height: 10px; gap: 2px; }
+.peso-filas { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 32px; }
+@media (min-width: 900px) { .peso-filas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.peso-filas li { display: grid; grid-template-columns: 8px minmax(96px, 9rem) minmax(0, 1fr) 3.4rem minmax(0, 8.5rem); align-items: center; gap: 12px;
+  min-height: 44px; border-bottom: 1px solid var(--linea); font-size: 14px; }
+.peso-filas i { width: 8px; height: 8px; border-radius: 50%; }
+.pf-n { color: var(--tinta); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-pista { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--tinta) 8%, transparent); overflow: hidden; }
+.pf-pista em { display: block; height: 100%; border-radius: 999px; }
+.peso-filas b { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+.peso-filas small { text-align: right; color: var(--tinta-suave); font-size: 12.5px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.peso-filas small span { opacity: .7; }
+@media (max-width: 520px) { .peso-filas li { grid-template-columns: 8px minmax(0, 1fr) 3.2rem; row-gap: 4px; padding: 8px 0; }
+  .pf-pista { grid-column: 2 / -1; grid-row: 2; } .peso-filas small { grid-column: 2 / -1; text-align: left; } }
+.peso-filas li { grid-template-columns: 8px minmax(0, 1fr) auto auto; grid-template-areas: "d n p m" ". t t t"; row-gap: 6px; column-gap: 10px; padding: 10px 0; min-height: 0; }
+.peso-filas i { grid-area: d; } .pf-n { grid-area: n; } .peso-filas b { grid-area: p; font-size: 15px; } .peso-filas small { grid-area: m; min-width: 7.5rem; }
+.pf-pista { grid-area: t; grid-column: 2 / -1; grid-row: 2; height: 4px; }
+@media (max-width: 520px) { .peso-filas li { grid-template-columns: 8px minmax(0, 1fr) auto auto; } .peso-filas small { grid-column: auto; text-align: right; min-width: 0; } }
