@@ -74,3 +74,4 @@ ACC.formatoHora = el => {
     setTimeout(() => poner(x), d + 150); setTimeout(() => x.classList.remove("girar"), d + 360); });
 };
 
+

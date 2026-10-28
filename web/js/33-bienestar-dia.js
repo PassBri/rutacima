@@ -77,8 +77,10 @@ function bienHojaDia(fecha) {
       <div class="bd-h-it${estadoP("mov")}">${paso("mov", b.mov, 600, 10, "min", "Actividad física")}<small>Meta 30 min al día</small></div>
       <div class="bd-h-it${estadoP("fyv")}"><div class="bd-paso"><span>Frutas y verduras</span><div class="bien-porciones">${[1, 2, 3, 4, 5].map(n => `<button type="button" class="${(b.fyv || 0) >= n ? "si" : ""}" data-acc="bienValor" data-arg="fyv|${(b.fyv || 0) === n ? n - 1 : n}" aria-label="${n} porciones">${n}</button>`).join("")}</div></div><small>Meta 5 porciones</small></div>
       <div class="bd-h-it${estadoP("aire")}">${paso("aire", b.aire, 600, 10, "min", "Aire libre")}<small>Meta 20 min</small></div>
-      <div class="bd-h-it${estadoP("agua")}"><div class="bd-paso"><span>Agua</span><b class="bd-agua">${agua}<small> de 8</small></b></div><small>Se anota en las cantimploras del día</small></div>
       <div class="bd-h-it${estadoP("pant")}"><label class="bd-paso bd-sw"><span>Sin pantallas al dormir</span><input type="checkbox" role="switch" ${b.pant ? "checked" : ""} data-acc-change="bienPant"></label><small>La última hora sin celular ni TV</small></div>
+      ${(() => { const ag = Store.get("agenda", fecha) || {}; // Energía y agua viven aquí (antes estaban en el cierre)
+        return `<div class="bd-h-it bd-ancho"><div class="bd-paso"><span>Energía</span></div>${energiaMontes(fecha, ag.energia || 0)}</div>
+      <div class="bd-h-it bd-ancho${estadoP("agua")}"><div class="bd-paso"><span>Agua</span></div>${vasosDeAgua(fecha, ag.agua || 0)}</div>`; })()}
     </div>
     <div class="bd-pie"><button class="btn mini" data-acc="bienRespirar">${ic("bienestar")} Respirar un minuto</button><button class="btn mini" data-acc="abrirBien" data-arg="practica">${ic("aprende")} Práctica de la semana</button><button class="btn mini" data-acc="abrirBien" data-arg="clima">${ic("grafica")} Tus patrones</button></div>
   </section>`;

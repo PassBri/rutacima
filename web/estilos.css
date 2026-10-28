@@ -4223,3 +4223,10 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 #sd-bienestar .bd-h-it .bd-paso:not(.bd-sw) > span { flex: 1 0 100%; }
 #sd-bienestar .bd-h-it .bd-ctrl, #sd-bienestar .bd-h-it .bien-porciones { margin-left: 0; }
 #sd-bienestar .bd-sw > span { flex: 1; }
+#sd-bienestar .bd-ancho { grid-column: 1 / -1; }
+#sd-bienestar .bd-ancho .energia2, #sd-bienestar .bd-ancho .vasos { margin-top: 2px; }
+.dia-cont > #sd-cierre { margin-top: 18px; }
+@container (min-width: 860px) {
+  #sd-cierre .form { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #sd-cierre .form > .campo:last-child { grid-column: 1 / -1; }
+}

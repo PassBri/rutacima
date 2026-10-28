@@ -432,8 +432,6 @@ function energiaMontes(fecha, v) {
 function cierreDia(fecha, ag, campoAg) {
   const man = sumarDias(fecha, 1), topM = topDe(man), d = deIso(man), msM = metasDelMes(d.getFullYear(), d.getMonth() + 1), p = pendientesDe(fecha);
   return seccionDia("cierre", cabSec("tema", "Cierre del día", "Lo que salió hoy y las 3 cumbres de mañana, antes de dormir.") + `<div class="form">${campoAg("victorias", "Victorias de hoy")}${campoAg("aprendizaje", "Aprendizaje")}${campoAg("gratitud", "Gratitud")}
-      <div class="form-2">${campo("Energía", energiaMontes(fecha, ag.energia || 0))}
-        <div class="campo"><span>Agua</span>${vasosDeAgua(fecha, ag.agua || 0)}</div></div>
       ${campoAg("notas", "Notas")}</div>
     <div class="sec-div"></div>
     <div class="sec-sub"><b>Mañana · tus 3 cumbres</b><span>Escríbelas antes de dormir: mañana empiezas sin decidir.</span></div>
@@ -681,7 +679,8 @@ function detDia(fecha) {
       ${ms.map(x => { const si = numeros(x.dias).includes(f.getDate()); return `<label class="check"><input type="checkbox" data-acc-change="diaMeta" data-arg="${x.id}|${f.getDate()}" ${si ? "checked" : ""} ${f > hoy ? "disabled" : ""}><span><i class="eje-punto" style="background:${COLOR_EJE[ejeEfectivo("meta_mes", x)] || "#7A4A6B"}"></i>${esc(x.texto)} <span class="suave">· ${pctTxt(avanceMetaMes(x))}</span>${cadena("meta_mes", x)}</span></label>`; }).join("") || `<p class="suave" style="margin:8px 0 0">Aún no tienes metas este mes: una meta pequeña que marques cada día es el mejor primer paso. <button class="btn mini oro" data-acc="nuevaMetaMes" data-arg="${fecha.slice(0, 7)}">Crear una</button></p>`}`)) +
     habitos +
     (window.bienHojaDia ? bienHojaDia(fecha) : "") +
-    cierreDia(fecha, ag, campoAg) + `</div></div></div>`,
+    // El cierre va debajo de las dos columnas, a todo lo ancho: así ninguna columna deja un hueco
+    `</div></div>` + cierreDia(fecha, ag, campoAg) + `</div>`,
     // El control financiero del día se quitó de aquí: se anota en Ascenso financiero
     "max-width:1320px");
 }
