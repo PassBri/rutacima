@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d ans</string>
     <string name="ruta_calendario">Afficher ou masquer le calendrier</string>
     <string name="ruta_mapa_ayuda">Touche une année pour la voir ; touche-la encore pour l’ouvrir.</string>
+    <string name="periodo_desde">Depuis</string>
+    <string name="periodo_hasta">Jusqu’en %1$d</string>
+    <string name="bja_titulo">Boussole %1$d</string>
+    <string name="bja_sin_brujula">Les objectifs de %1$d naissent de sa Boussole.</string>
+    <string name="bja_crear">Créer</string>
+    <string name="bja_abrir">Ouvrir la Boussole</string>
+    <string name="bja_plan">Plan d’action · %1$d sur %2$d</string>
+    <string name="aporte_dia">Aujourd’hui tu as ajouté %1$s %% à tes objectifs</string>
+    <string name="mes_completa">Complet : tous ses sous-objectifs</string>
+    <string name="mes_pasos_n">%1$d sur %2$d sous-objectifs ce mois-ci</string>
 </resources>

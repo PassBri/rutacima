@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d साल</string>
     <string name="ruta_calendario">कैलेंडर दिखाएँ या छिपाएँ</string>
     <string name="ruta_mapa_ayuda">साल देखने के लिए छुएँ; खोलने के लिए फिर से छुएँ।</string>
+    <string name="periodo_desde">से</string>
+    <string name="periodo_hasta">%1$d तक</string>
+    <string name="bja_titulo">%1$d का कम्पास</string>
+    <string name="bja_sin_brujula">%1$d के लक्ष्य उसके कम्पास से बनते हैं।</string>
+    <string name="bja_crear">बनाएँ</string>
+    <string name="bja_abrir">कम्पास खोलें</string>
+    <string name="bja_plan">कार्य योजना · %2$d में से %1$d</string>
+    <string name="aporte_dia">आज आपने लक्ष्यों में %1$s %% जोड़ा</string>
+    <string name="mes_completa">पूरा: सभी उप-लक्ष्य</string>
+    <string name="mes_pasos_n">इस महीने %2$d में से %1$d उप-लक्ष्य</string>
 </resources>

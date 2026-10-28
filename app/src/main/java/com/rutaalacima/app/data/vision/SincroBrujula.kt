@@ -27,6 +27,18 @@ class SincroBrujula(private val db: RutaDatabase, private val respuestas: Respue
         fun unir(ls: List<String>): String = ls.dropLastWhile { it.isEmpty() }.joinToString("\n")
         private fun ejeDe(cod: String): String? = if (cod == "CON") null else cod
         private fun nombre(c: VisionCasillaEntity) = c.afirmacion.ifBlank { c.titulo }.trim().take(120)
+
+        /** La casilla (campamento) de una meta del año, sin consultas: con las listas que ya tiene la pantalla. */
+        fun casillaDe(m: MetaAnualEntity?, anuales: List<MetaAnualEntity>, casillas: List<VisionCasillaEntity>): VisionCasillaEntity? {
+            m ?: return null
+            val cod = m.eje ?: "CON"
+            if (cod !in CODS || anuales.filter { it.anio == m.anio && it.eje == ejeDe(cod) }.minByOrNull { it.id }?.id != m.id) return null
+            return Mandala.repartir(casillas.filter { Mandala.anioDeOrigen(it.origen) == m.anio }, { it.origen }, { it.eje }).second
+                .getOrNull(Mandala.CAMPAMENTOS_FIJOS.indexOf(cod))
+        }
+        /** Cuánto aporta una jornada de ese paso a su meta, en %: 1 / jornadas del paso, y un paso es 1/8 de la meta. */
+        fun aporte(casillaId: Long, paso: Int, r: Map<String, String>): Float =
+            100f / ((com.rutaalacima.app.domain.model.MetodoCima.leer(casillaId, paso, r).requeridas ?: com.rutaalacima.app.domain.model.MetodoCima.DIFICULTAD_INICIAL) * 8)
     }
 
     private val candado = Mutex()

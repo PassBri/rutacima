@@ -2544,4 +2544,14 @@
     <string name="ruta_prop_anios">%1$d años</string>
     <string name="ruta_calendario">Mostrar u ocultar el calendario</string>
     <string name="ruta_mapa_ayuda">Toca un año para verlo; tócalo otra vez para abrirlo.</string>
+    <string name="periodo_desde">Desde</string>
+    <string name="periodo_hasta">Hasta %1$d</string>
+    <string name="bja_titulo">Brújula de %1$d</string>
+    <string name="bja_sin_brujula">Las metas de %1$d nacen de su Brújula.</string>
+    <string name="bja_crear">Crear</string>
+    <string name="bja_abrir">Abrir la Brújula</string>
+    <string name="bja_plan">Plan de acción · %1$d de %2$d</string>
+    <string name="aporte_dia">Hoy aportaste %1$s %% a tus metas</string>
+    <string name="mes_completa">Completa: todas sus sub-metas</string>
+    <string name="mes_pasos_n">%1$d de %2$d sub-metas este mes</string>
 </resources>

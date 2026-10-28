@@ -207,6 +207,11 @@ class RutaViewModel(private val c: AppContainer) : ViewModel() {
         }, emptyList())
     var armando by androidx.compose.runtime.mutableStateOf(false)
         private set
+    /** Todas las Brújulas (la general y las de cada año) y sus pasos: el año muestra la suya (igual que la web). */
+    val todasCasillas: StateFlow<List<com.rutaalacima.app.data.local.VisionCasillaEntity>> = e(c.db.visionDao().observe(), emptyList())
+    val mandala: StateFlow<Map<String, String>> = e(c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK), emptyMap())
+    fun alternarGanado(casillaId: Long, paso: Int) = viewModelScope.launch { com.rutaalacima.app.ui.planner.alternarGanadoPaso(c, casillaId, paso) }
+    fun abrirBrujulaAnio(anio: Int) = c.vision.elegirAnio(anio)
     /** Lo de cada año de la vida: palabra, anhelos y carta (respuestas del workbook "vida", sincronizadas con la web). */
     val vida: StateFlow<Map<String, String>> = e(c.respuestas.observar(WB_VIDA), emptyMap())
     fun guardarVida(clave: String, valor: String) = viewModelScope.launch { c.respuestas.guardar(WB_VIDA, clave, valor) }
@@ -318,6 +323,14 @@ fun RutaScreen(
                         item(key = "corazon-${n.anio}") { CorazonAnio(n.anio, vida, vm::guardarVida) { vm.anheloAMeta(n.anio, it) } }
                         item(key = "cumbres-${n.anio}") {
                             CumbresAnio(n.anio, propositos, anuales, onProposito) { p -> onNuevaMetaCumbre(p.eje, n.anio, p.id) }
+                        }
+                        // El año es su Brújula: la cumbre del año y sus 8 campamentos con sus sub-metas
+                        item(key = "brujula-${n.anio}") {
+                            val todas by vm.todasCasillas.collectAsStateWithLifecycle()
+                            val mandala by vm.mandala.collectAsStateWithLifecycle()
+                            BrujulaAnioCard(n.anio, todas, anuales, mandala, onGanado = vm::alternarGanado,
+                                onAbrirBrujula = { vm.abrirBrujulaAnio(n.anio); onVision() },
+                                onMeta = { onPlanificador(3, LocalDate.of(n.anio, 1, 1)) })
                         }
                         nivelAnio(n.anio, perfil, anuales, mensuales, posts, ir, onNuevaMeta, onPlanificador, onAlbum)
                         item(key = "cumplidos-${n.anio}") { CumplidosAnio(n.anio, anuales, posts, onAbrirPost) }
@@ -487,7 +500,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.nivelMapa(
         val edad = java.time.Period.between(LocalDate.of(anioNac, perfil.mesNacimiento ?: 1, 1), h).years
         val aniosConRecuerdos = posts.map { it.anio }.toSet()
         // Año en que vence cada propósito (se marca con una bandera en su punto)
-        val aniosMeta = propositos.map { java.time.Instant.ofEpochMilli(it.creadoEn).atZone(ZoneId.systemDefault()).year + it.horizonte }.toSet()
+        val aniosMeta = propositos.map { (com.rutaalacima.app.data.vision.LibroMetas.desde(it.id) ?: java.time.Instant.ofEpochMilli(it.creadoEn).atZone(ZoneId.systemDefault()).year) + it.horizonte }.toSet()
         item {
             Column(
                 Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow)

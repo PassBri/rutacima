@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.planner
 
+import androidx.compose.foundation.layout.width
 import com.rutaalacima.app.ui.theme.fondoPapel
 import com.rutaalacima.app.domain.model.Vida
 import com.rutaalacima.app.ui.i18n.texto
@@ -99,6 +100,16 @@ fun PropositoScreen(propositoId: Long, onBack: () -> Unit, onAnio: (Int) -> Unit
             }
             item { com.rutaalacima.app.ui.components.CampoApodo(vm.apodo, vm::editarApodo) }
             item {
+                // Período: desde qué año hasta cuál (el horizonte son los años entre los dos)
+                val desde = vm.desde
+                var texto by remember(desde) { mutableStateOf(desde.toString()) }
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    OutlinedTextField(texto, { v -> texto = v.filter(Char::isDigit).take(4); texto.toIntOrNull()?.takeIf { it in 1900..2200 }?.let(vm::cambiarDesde) },
+                        label = { Text(stringResource(R.string.periodo_desde)) }, singleLine = true, modifier = Modifier.width(120.dp),
+                        keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number))
+                    Text(stringResource(R.string.periodo_hasta, desde + p.horizonte - 1), style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary)
+                }
                 SelectorHorizonte(p.horizonte, { sel -> vm.editar { it.copy(horizonte = sel) } })
             }
             // La cinta de años de esta cumbre personal, con las metas de cada año (igual que en la web)

@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d년</string>
     <string name="ruta_calendario">달력 보이기/숨기기</string>
     <string name="ruta_mapa_ayuda">연도를 누르면 보이고, 한 번 더 누르면 열려요.</string>
+    <string name="periodo_desde">시작</string>
+    <string name="periodo_hasta">%1$d년까지</string>
+    <string name="bja_titulo">%1$d년 나침반</string>
+    <string name="bja_sin_brujula">%1$d년 목표는 그해 나침반에서 생겨나요.</string>
+    <string name="bja_crear">만들기</string>
+    <string name="bja_abrir">나침반 열기</string>
+    <string name="bja_plan">실행 계획 · %2$d개 중 %1$d개</string>
+    <string name="aporte_dia">오늘 목표에 %1$s %% 기여했어요</string>
+    <string name="mes_completa">전체: 모든 하위 목표</string>
+    <string name="mes_pasos_n">이번 달 %2$d개 중 %1$d개 하위 목표</string>
 </resources>

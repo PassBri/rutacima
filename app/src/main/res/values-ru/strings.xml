@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d лет</string>
     <string name="ruta_calendario">Показать или скрыть календарь</string>
     <string name="ruta_mapa_ayuda">Нажми на год, чтобы увидеть его; нажми ещё раз, чтобы открыть.</string>
+    <string name="periodo_desde">С</string>
+    <string name="periodo_hasta">До %1$d</string>
+    <string name="bja_titulo">Компас %1$d</string>
+    <string name="bja_sin_brujula">Цели %1$d рождаются из его компаса.</string>
+    <string name="bja_crear">Создать</string>
+    <string name="bja_abrir">Открыть компас</string>
+    <string name="bja_plan">План действий · %1$d из %2$d</string>
+    <string name="aporte_dia">Сегодня ты добавил %1$s %% к своим целям</string>
+    <string name="mes_completa">Целиком: все подцели</string>
+    <string name="mes_pasos_n">%1$d из %2$d подцелей в этом месяце</string>
 </resources>

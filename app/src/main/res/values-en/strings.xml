@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d years</string>
     <string name="ruta_calendario">Show or hide the calendar</string>
     <string name="ruta_mapa_ayuda">Tap a year to view it; tap it again to open it.</string>
+    <string name="periodo_desde">From</string>
+    <string name="periodo_hasta">Until %1$d</string>
+    <string name="bja_titulo">%1$d Compass</string>
+    <string name="bja_sin_brujula">Your %1$d goals come from its Compass.</string>
+    <string name="bja_crear">Create</string>
+    <string name="bja_abrir">Open the Compass</string>
+    <string name="bja_plan">Action plan · %1$d of %2$d</string>
+    <string name="aporte_dia">Today you added %1$s %% to your goals</string>
+    <string name="mes_completa">Whole: all its sub-goals</string>
+    <string name="mes_pasos_n">%1$d of %2$d sub-goals this month</string>
 </resources>

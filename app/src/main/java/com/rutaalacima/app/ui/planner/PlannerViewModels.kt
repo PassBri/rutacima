@@ -92,6 +92,11 @@ class PropositoViewModel(private val c: AppContainer, idInicial: Long) : ViewMod
 
     fun editarApodo(texto: String) { apodo = texto.take(32); guardado = false }
 
+    /** Año en que empieza el propósito (período Desde – Hasta, igual que la web). */
+    val desde: Int get() = com.rutaalacima.app.data.vision.LibroMetas.desde(proposito.id)
+        ?: java.time.Instant.ofEpochMilli(proposito.creadoEn).atZone(java.time.ZoneId.systemDefault()).year
+    fun cambiarDesde(anio: Int) { if (proposito.id != 0L) viewModelScope.launch { c.respuestas.guardar("metas", "periodo:p:${proposito.id}", anio.toString()) } }
+
     /** El campamento de este propósito en la Brújula general (null si no lo tiene). */
     var vinculo by mutableStateOf<com.rutaalacima.app.data.local.VisionCasillaEntity?>(null)
         private set
@@ -147,4 +152,15 @@ internal suspend fun alternarGanadoPaso(c: AppContainer, casillaId: Long, paso: 
     c.respuestas.guardar(M.WORKBOOK, M.claveHecho(casillaId, paso), "")
     val req = x.requeridas ?: com.rutaalacima.app.domain.model.MetodoCima.DIFICULTAD_INICIAL
     if (x.jornadas.size >= req) c.respuestas.guardar(M.WORKBOOK, com.rutaalacima.app.domain.model.MetodoCima.claveJornadas(casillaId, paso), x.jornadas.sorted().take(req - 1).joinToString(","))
+}
+
+/** Una jornada del Método Cima en un paso (de cualquier Brújula): al juntar las que pide, el paso queda ganado. */
+internal suspend fun jornadaPaso(c: AppContainer, casillaId: Long, paso: Int, fecha: java.time.LocalDate) {
+    val M = com.rutaalacima.app.domain.model.Mandala; val MC = com.rutaalacima.app.domain.model.MetodoCima
+    val x = MC.leer(casillaId, paso, c.respuestas.cargar(M.WORKBOOK)); if (x.cumplido) return
+    val req = x.requeridas ?: MC.DIFICULTAD_INICIAL
+    val js = (x.jornadas + fecha).sorted()
+    c.respuestas.guardar(M.WORKBOOK, MC.claveJornadas(casillaId, paso), js.joinToString(","))
+    c.respuestas.guardar(M.WORKBOOK, MC.claveRequeridas(casillaId, paso), req.toString())
+    if (js.size >= req) c.respuestas.guardar(M.WORKBOOK, M.claveHecho(casillaId, paso), fecha.toString())
 }

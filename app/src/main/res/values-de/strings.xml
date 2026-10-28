@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d Jahre</string>
     <string name="ruta_calendario">Kalender ein- oder ausblenden</string>
     <string name="ruta_mapa_ayuda">Tippe auf ein Jahr, um es zu sehen; tippe erneut, um es zu öffnen.</string>
+    <string name="periodo_desde">Von</string>
+    <string name="periodo_hasta">Bis %1$d</string>
+    <string name="bja_titulo">Kompass %1$d</string>
+    <string name="bja_sin_brujula">Die Ziele für %1$d entstehen aus seinem Kompass.</string>
+    <string name="bja_crear">Erstellen</string>
+    <string name="bja_abrir">Kompass öffnen</string>
+    <string name="bja_plan">Aktionsplan · %1$d von %2$d</string>
+    <string name="aporte_dia">Heute hast du %1$s %% zu deinen Zielen beigetragen</string>
+    <string name="mes_completa">Ganz: alle Teilziele</string>
+    <string name="mes_pasos_n">%1$d von %2$d Teilzielen diesen Monat</string>
 </resources>

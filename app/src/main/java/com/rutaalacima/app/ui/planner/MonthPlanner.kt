@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.planner
 
+import androidx.compose.foundation.layout.widthIn
 import com.rutaalacima.app.ui.components.MontanaArte
 import com.rutaalacima.app.R
 import androidx.compose.ui.res.stringResource
@@ -101,6 +102,14 @@ class MesViewModel(private val c: AppContainer) : ViewModel() {
         kotlinx.coroutines.flow.combine(c.planificador.todasLasMetas, actual) { ms, ym -> ms.filter { it.anio == ym.year }.sortedWith(compareBy({ it.prioridad }, { it.id })) }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    /** Para escoger solo algunas sub-metas de una meta en el mes (igual que la web: "mes:pasos:<id>"). */
+    val casillas: StateFlow<List<com.rutaalacima.app.data.local.VisionCasillaEntity>> = c.db.visionDao().observe().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val mandala: StateFlow<Map<String, String>> = c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+    fun alternarPasoMes(m: MetaMensualEntity, p: Int) = viewModelScope.launch {
+        val s = com.rutaalacima.app.data.vision.LibroMetas.pasosDelMes(m.id).toMutableSet(); if (!s.add(p)) s.remove(p)
+        c.respuestas.guardar("metas", "mes:pasos:${m.id}", s.sorted().joinToString(","))
+    }
+
     /** Escoger (o quitar) una meta del año para este mes: crea (o quita) su meta del mes. */
     fun elegirAnual(anual: com.rutaalacima.app.data.local.MetaAnualEntity, si: Boolean) = viewModelScope.launch {
         val ym = periodo
@@ -168,6 +177,7 @@ class MesViewModel(private val c: AppContainer) : ViewModel() {
 }
 
 /** Página mensual del Planificador Anual. */
+@OptIn(androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Unit) {
     val metas by vm.metas.collectAsStateWithLifecycle()
@@ -175,6 +185,8 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
     val ym = vm.periodo
     val m = vm.mes
     val anuales by vm.anuales.collectAsStateWithLifecycle()
+    val casillasV by vm.casillas.collectAsStateWithLifecycle()
+    val mandala by vm.mandala.collectAsStateWithLifecycle()
     var quitar by remember { mutableStateOf<Pair<com.rutaalacima.app.data.local.MetaAnualEntity, Int>?>(null) }
     quitar?.let { (anual, n) ->
         androidx.compose.material3.AlertDialog(onDismissRequest = { quitar = null },
@@ -220,7 +232,24 @@ fun MonthPlannerTab(vm: MesViewModel, bottom: Dp, onAbrirDia: (LocalDate) -> Uni
                     Text(anual.titulo, style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f),
                         fontWeight = if (delMes != null) FontWeight.SemiBold else FontWeight.Normal)
                 }
-                if (delMes != null) MetaMensualCard(delMes, ym, vm)
+                if (delMes != null) {
+                    // Completa o solo algunas sub-metas este mes
+                    val cas = com.rutaalacima.app.data.vision.SincroBrujula.casillaDe(anual, anuales, casillasV)
+                    val pasos = cas?.let { c0 -> (0 until com.rutaalacima.app.domain.model.Mandala.PASOS).mapNotNull { p ->
+                        mandala[com.rutaalacima.app.domain.model.Mandala.clave(c0.id, p)].orEmpty().trim().takeIf { it.isNotEmpty() }?.let { p to it } } }.orEmpty()
+                    if (pasos.isNotEmpty()) {
+                        val elegidos = com.rutaalacima.app.data.vision.LibroMetas.pasosDelMes(delMes.id)
+                        Text(if (elegidos.isEmpty()) stringResource(R.string.mes_completa) else stringResource(R.string.mes_pasos_n, elegidos.size, pasos.size),
+                            style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(start = 12.dp))
+                        androidx.compose.foundation.layout.FlowRow(Modifier.padding(start = 12.dp, bottom = 6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                            pasos.forEach { (p, t) ->
+                                androidx.compose.material3.FilterChip(selected = p in elegidos, onClick = { vm.alternarPasoMes(delMes, p) },
+                                    label = { Text("${p + 1}. $t", maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 220.dp)) })
+                            }
+                        }
+                    }
+                    MetaMensualCard(delMes, ym, vm)
+                }
             }
         }
 

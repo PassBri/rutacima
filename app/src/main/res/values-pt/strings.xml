@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d anos</string>
     <string name="ruta_calendario">Mostrar ou ocultar o calendário</string>
     <string name="ruta_mapa_ayuda">Toque um ano para vê-lo; toque de novo para abri-lo.</string>
+    <string name="periodo_desde">Desde</string>
+    <string name="periodo_hasta">Até %1$d</string>
+    <string name="bja_titulo">Bússola de %1$d</string>
+    <string name="bja_sin_brujula">As metas de %1$d nascem da sua Bússola.</string>
+    <string name="bja_crear">Criar</string>
+    <string name="bja_abrir">Abrir a Bússola</string>
+    <string name="bja_plan">Plano de ação · %1$d de %2$d</string>
+    <string name="aporte_dia">Hoje você somou %1$s %% às suas metas</string>
+    <string name="mes_completa">Completa: todas as submetas</string>
+    <string name="mes_pasos_n">%1$d de %2$d submetas este mês</string>
 </resources>

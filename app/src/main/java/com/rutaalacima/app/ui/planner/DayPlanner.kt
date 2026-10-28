@@ -129,6 +129,29 @@ class AgendaViewModel(private val c: AppContainer) : ViewModel() {
     /** Respuestas del día (cumbres, metas de cada hora, hechas), compartidas con la web. */
     val resp: StateFlow<Map<String, String>> = c.respuestas.observar(WB_DIA).stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
     val metasMes: StateFlow<List<MetaMensualEntity>> = c.planAnual.todasMetasMes.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    /** Para unir cada acción a una sub-meta (paso de la Brújula del año) y saber cuánto aporta (igual que la web). */
+    val anuales: StateFlow<List<com.rutaalacima.app.data.local.MetaAnualEntity>> = c.planificador.todasLasMetas.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val casillas: StateFlow<List<com.rutaalacima.app.data.local.VisionCasillaEntity>> = c.db.visionDao().observe().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    val mandala: StateFlow<Map<String, String>> = c.respuestas.observar(com.rutaalacima.app.domain.model.Mandala.WORKBOOK).stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+    fun casillaDeMes(m: MetaMensualEntity?) = com.rutaalacima.app.data.vision.SincroBrujula.casillaDe(
+        m?.metaAnualId?.let { id -> anuales.value.firstOrNull { it.id == id } }, anuales.value, casillas.value)
+    /** Las sub-metas que puede mover una acción: las escogidas para el mes (o todas si la meta va completa), con su aporte en %. */
+    fun pasosDe(m: MetaMensualEntity): List<Triple<Int, String, Float>> {
+        val cas = casillaDeMes(m) ?: return emptyList(); val r = mandala.value
+        val elegidos = com.rutaalacima.app.data.vision.LibroMetas.pasosDelMes(m.id)
+        return (0 until com.rutaalacima.app.domain.model.Mandala.PASOS).mapNotNull { p ->
+            val t = r[com.rutaalacima.app.domain.model.Mandala.clave(cas.id, p)].orEmpty().trim()
+            if (t.isEmpty() || (elegidos.isNotEmpty() && p !in elegidos)) null
+            else Triple(p, t, com.rutaalacima.app.data.vision.SincroBrujula.aporte(cas.id, p, r))
+        }
+    }
+    /** Lo que aportaron hoy las actividades y cumbres hechas, en %. */
+    fun aporteDelDia(f: LocalDate, r: Map<String, String>): Float {
+        val vs = (0 until 24).filter { r["dia#$f#$it#hecho"] == "1" }.map { r["dia#$f#$it#meta"].orEmpty() } + tops(f, r).filter { it.hecho }.map { it.meta }
+        return vs.sumOf { v -> val (id, p) = (v.split('|') + "").let { it[0] to it[1].toIntOrNull() }
+            if (p == null) 0.0 else casillaDeMes(metasMes.value.firstOrNull { it.id.toString() == id })?.let {
+                com.rutaalacima.app.data.vision.SincroBrujula.aporte(it.id, p, mandala.value).toDouble() } ?: 0.0 }.toFloat()
+    }
 
     /** Lo escrito y aún no guardado (para que el campo no salte mientras se escribe). */
     private val topsLocales = mutableStateMapOf<String, List<TopDia>>()
@@ -204,8 +227,12 @@ class AgendaViewModel(private val c: AppContainer) : ViewModel() {
     /** Marca el día en una meta del mes (sin desmarcar si ya estaba). */
     fun marcarMeta(id: String, f: LocalDate) {
         if (f.isAfter(hoy())) return  // un día que aún no llega no cuenta en la meta
-        val m = metasMes.value.firstOrNull { it.id.toString() == id && it.anio == f.year && it.mes == f.monthValue } ?: return
+        // "id" es la meta del mes; "id|paso" además suma una jornada a esa sub-meta de la Brújula
+        val partes = id.split('|')
+        val m = metasMes.value.firstOrNull { it.id.toString() == partes[0] && it.anio == f.year && it.mes == f.monthValue } ?: return
         if (f.dayOfMonth !in m.diasMarcados()) viewModelScope.launch { c.planAnual.alternarDia(m, f.dayOfMonth) }
+        val p = partes.getOrNull(1)?.toIntOrNull(); val cas = casillaDeMes(m)
+        if (p != null && cas != null) viewModelScope.launch { jornadaPaso(c, cas.id, p, f) }
     }
 
     // ---------------------------------------------------------------- Actividades por hora unidas a metas
@@ -314,7 +341,8 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 (0..2).forEach { i ->
                     FilaTop(i, tops.getOrNull(i), metas, marcable = true,
                         onTexto = { vm.topTexto(f, r, i, it) }, onMeta = { vm.topMeta(f, r, i, it) },
-                        onHecha = { si -> val movio = vm.topHecha(f, r, i, si); if (si) aviso(ctx.getString(if (movio) R.string.cumbre_dia_meta else R.string.cumbre_dia)) })
+                        onHecha = { si -> val movio = vm.topHecha(f, r, i, si); if (si) aviso(ctx.getString(if (movio) R.string.cumbre_dia_meta else R.string.cumbre_dia)) },
+                        pasosDe = vm::pasosDe)
                 }
                 // Lo que quedó ayer: traerlo o soltarlo (una vez por día)
                 if (f == hoy() && r["dia#$f#traido"] != "1") {
@@ -341,6 +369,11 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 SectionTitle(stringResource(R.string.actividades_dia), Modifier.weight(1f))
             }
             Text(stringResource(R.string.actividades_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            // Cuánto aportaron hoy las acciones hechas a las sub-metas (jornadas del Método Cima)
+            val aporte = vm.aporteDelDia(f, r)
+            if (aporte > 0f) Text(stringResource(R.string.aporte_dia, "%.1f".format(aporte)), style = MaterialTheme.typography.labelLarge,
+                fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(top = 6.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.secondaryContainer).padding(horizontal = 12.dp, vertical = 8.dp))
         }
         val horario = d.horarioMapa()
         val horas = HORAS_DEL_DIA  // las 24 horas, de 4:00 am a 3:00 am (igual que la web)
@@ -350,7 +383,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
             val hecho = r["dia#$f#$h#hecho"] == "1"
             val meta = r["dia#$f#$h#meta"].orEmpty()
             val esAhora = h == ahora
-            val metaTxt = metas.firstOrNull { it.id.toString() == meta }?.texto
+            val metaTxt = metas.firstOrNull { it.id.toString() == meta.substringBefore('|') }?.texto
             Row(
                 Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
                     .background(if (esAhora) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent),
@@ -370,7 +403,7 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                         textDecoration = if (hecho) TextDecoration.LineThrough else null),
                     supportingText = if (metaTxt != null) { { Text("↑ $metaTxt", maxLines = 1, overflow = TextOverflow.Ellipsis) } } else null,
                 )
-                if (t.isNotBlank()) SelectorMeta(meta, metas) { vm.actMeta(h, it, r) } else Spacer(Modifier.width(48.dp))
+                if (t.isNotBlank()) SelectorMeta(meta, metas, vm::pasosDe) { vm.actMeta(h, it, r) } else Spacer(Modifier.width(48.dp))
             }
         }
         // 3. Cierre del día y las 3 de mañana
@@ -417,11 +450,12 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
 /** Una de las 3 cumbres: número (la 1 resaltada), casilla, texto y la meta del mes que mueve. */
 @Composable
 private fun FilaTop(i: Int, x: TopDia?, metas: List<MetaMensualEntity>, marcable: Boolean,
-                    onTexto: (String) -> Unit, onMeta: (String) -> Unit, onHecha: (Boolean) -> Unit) {
+                    onTexto: (String) -> Unit, onMeta: (String) -> Unit, onHecha: (Boolean) -> Unit,
+                    pasosDe: (MetaMensualEntity) -> List<Triple<Int, String, Float>> = { emptyList() }) {
     val texto = x?.t.orEmpty()
     val hecho = x?.hecho == true
     val ph = stringResource(listOf(R.string.top_1, R.string.top_2, R.string.top_3)[i])
-    val metaTxt = metas.firstOrNull { it.id.toString() == x?.meta }?.texto
+    val metaTxt = metas.firstOrNull { it.id.toString() == x?.meta?.substringBefore('|') }?.texto
     Row(Modifier.fillMaxWidth().padding(top = 6.dp), verticalAlignment = Alignment.CenterVertically) {
         Box(Modifier.size(26.dp).clip(CircleShape)
             .background(if (i == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primaryContainer),
@@ -437,13 +471,13 @@ private fun FilaTop(i: Int, x: TopDia?, metas: List<MetaMensualEntity>, marcable
             textStyle = MaterialTheme.typography.bodyLarge.copy(textDecoration = if (hecho) TextDecoration.LineThrough else null),
             supportingText = if (metaTxt != null) { { Text("↑ $metaTxt", maxLines = 1, overflow = TextOverflow.Ellipsis) } } else null,
         )
-        if (texto.isNotBlank()) SelectorMeta(x?.meta.orEmpty(), metas, onMeta) else Spacer(Modifier.width(48.dp))
+        if (texto.isNotBlank()) SelectorMeta(x?.meta.orEmpty(), metas, pasosDe, onMeta) else Spacer(Modifier.width(48.dp))
     }
 }
 
 /** Bandera que abre la lista de metas del mes: rellena si la actividad ya mueve una meta. */
 @Composable
-private fun SelectorMeta(actual: String, metas: List<MetaMensualEntity>, onElegir: (String) -> Unit) {
+private fun SelectorMeta(actual: String, metas: List<MetaMensualEntity>, pasosDe: (MetaMensualEntity) -> List<Triple<Int, String, Float>> = { emptyList() }, onElegir: (String) -> Unit) {
     var abierto by remember { mutableStateOf(false) }
     Box {
         IconButton(onClick = { abierto = true }) {
@@ -453,8 +487,15 @@ private fun SelectorMeta(actual: String, metas: List<MetaMensualEntity>, onElegi
         DropdownMenu(expanded = abierto, onDismissRequest = { abierto = false }) {
             DropdownMenuItem(text = { Text(stringResource(R.string.sin_meta)) }, onClick = { onElegir(""); abierto = false })
             metas.forEach { m ->
-                DropdownMenuItem(text = { Text(m.texto, maxLines = 2) }, onClick = { onElegir(m.id.toString()); abierto = false },
+                DropdownMenuItem(text = { Text(m.texto, maxLines = 2, fontWeight = FontWeight.SemiBold) }, onClick = { onElegir(m.id.toString()); abierto = false },
                     leadingIcon = if (m.id.toString() == actual) { { Icon(Icons.Filled.Check, null) } } else null)
+                // Sus sub-metas (las escogidas para el mes) y cuánto aporta una jornada a cada una
+                pasosDe(m).forEach { (p, t, aporte) ->
+                    val v = "${m.id}|$p"
+                    DropdownMenuItem(text = { Text("${p + 1}. $t · +${"%.1f".format(aporte)} %", maxLines = 2, style = MaterialTheme.typography.bodySmall) },
+                        onClick = { onElegir(v); abierto = false }, modifier = Modifier.padding(start = 16.dp),
+                        leadingIcon = if (v == actual) { { Icon(Icons.Filled.Check, null) } } else null)
+                }
             }
         }
     }

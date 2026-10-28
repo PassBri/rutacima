@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d 年</string>
     <string name="ruta_calendario">显示或隐藏日历</string>
     <string name="ruta_mapa_ayuda">点一下年份查看；再点一次打开。</string>
+    <string name="periodo_desde">从</string>
+    <string name="periodo_hasta">到 %1$d 年</string>
+    <string name="bja_titulo">%1$d 年罗盘</string>
+    <string name="bja_sin_brujula">%1$d 年的目标来自它的罗盘。</string>
+    <string name="bja_crear">创建</string>
+    <string name="bja_abrir">打开罗盘</string>
+    <string name="bja_plan">行动计划 · %1$d / %2$d</string>
+    <string name="aporte_dia">今天你为目标贡献了 %1$s %%</string>
+    <string name="mes_completa">完整：全部子目标</string>
+    <string name="mes_pasos_n">本月 %1$d / %2$d 个子目标</string>
 </resources>

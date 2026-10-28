@@ -2535,4 +2535,14 @@
     <string name="ruta_prop_anios">%1$d سنوات</string>
     <string name="ruta_calendario">إظهار التقويم أو إخفاؤه</string>
     <string name="ruta_mapa_ayuda">المس سنة لعرضها؛ المسها مرة أخرى لفتحها.</string>
+    <string name="periodo_desde">من</string>
+    <string name="periodo_hasta">حتى %1$d</string>
+    <string name="bja_titulo">بوصلة %1$d</string>
+    <string name="bja_sin_brujula">أهداف %1$d تنشأ من بوصلتها.</string>
+    <string name="bja_crear">إنشاء</string>
+    <string name="bja_abrir">فتح البوصلة</string>
+    <string name="bja_plan">خطة العمل · %1$d من %2$d</string>
+    <string name="aporte_dia">اليوم أضفت %1$s %% إلى أهدافك</string>
+    <string name="mes_completa">كاملة: كل الأهداف الفرعية</string>
+    <string name="mes_pasos_n">%1$d من %2$d أهداف فرعية هذا الشهر</string>
 </resources>

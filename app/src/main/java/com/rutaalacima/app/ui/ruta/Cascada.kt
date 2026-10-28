@@ -55,11 +55,9 @@ import java.time.ZoneId
 
 /** Los años que abarca una cumbre personal: desde que se creó (o su primera meta) hasta su horizonte. */
 fun aniosDeCumbre(p: PropositoEntity, anuales: List<MetaAnualEntity>): IntRange {
-    val metas = anuales.filter { it.propositoId == p.id }.map { it.anio }
-    val creado = Instant.ofEpochMilli(p.creadoEn).atZone(ZoneId.systemDefault()).year
-    val ini = (metas + creado).min()
-    val fin = (metas + (ini + p.horizonte.coerceAtLeast(1) - 1)).max()
-    return ini..fin
+    // El período lo elige la persona (Desde – Hasta, igual que la web); si no, desde el año en que se creó
+    val ini = com.rutaalacima.app.data.vision.LibroMetas.desde(p.id) ?: Instant.ofEpochMilli(p.creadoEn).atZone(ZoneId.systemDefault()).year
+    return ini..(ini + p.horizonte.coerceAtLeast(1) - 1)
 }
 
 private fun colorEje(codigo: String?): Color = Eje.entries.firstOrNull { it.codigo == codigo }?.color?.let { Color(it) } ?: Color(0xFF7A4A6B)

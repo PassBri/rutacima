@@ -87,6 +87,8 @@ class AppContainer(context: Context) {
 
     init {
         web.iniciarAutomatica(appScope)
+        // El libro "metas" (períodos de los propósitos y sub-metas del mes), siempre al día
+        appScope.launch { respuestas.observar("metas").collect { com.rutaalacima.app.data.vision.LibroMetas.valores = it } }
         // Celebrar cuando una meta del mes o del año pasa a cumplida (no al abrir la app)
         appScope.launch {
             var antes: Set<String>? = null
