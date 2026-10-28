@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">Scegli su cosa lavorare a %1$s</string>
     <string name="foco_elegir_ayuda">Spunta gli obiettivi del %1$d e, se vuoi, solo alcuni sotto-obiettivi.</string>
     <string name="foco_listo">Fatto</string>
+    <string name="mc_tab_sub">Sotto-obiettivi</string>
+    <string name="mc_tab_plan">Piano d\'azione</string>
+    <string name="mc_tab_seg">Monitoraggio</string>
 </resources>

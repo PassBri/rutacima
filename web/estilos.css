@@ -4122,3 +4122,32 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .mf-card { overflow: hidden; }
 .mf-vacio { padding: 0 !important; }
 .mf-lista { align-items: start; }
+
+/* Meta del año en una sola pantalla: grilla compacta + pestañas Material 3 */
+.mc-hoja { padding: 16px 18px; }
+.mc-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 12px; align-items: end; }
+.mc-grid .campo { gap: 2px; min-width: 0; }
+.mc-grid .campo > span, .mc-etq { font-size: 12px; color: var(--tinta-suave); }
+.mc-grid input, .mc-grid select { min-height: 40px; padding-block: 6px; }
+.mc-meta { grid-column: span 4; }
+.mc-apodo { grid-column: span 2; }
+.mc-avance { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; }
+.mc-avance .rango { flex: 1; }
+.mc-auto { margin: 0; }
+.mc-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--linea); margin: -4px -2px 12px; overflow-x: auto; scrollbar-width: none; }
+.mc-tabs button { flex: none; border: 0; background: none; padding: 12px 16px; min-height: 48px; font: inherit; font-weight: 500; color: var(--tinta-suave); border-bottom: 3px solid transparent; margin-bottom: -1px; cursor: pointer; border-radius: 8px 8px 0 0; }
+.mc-tabs button[aria-selected="true"] { color: var(--burdeos); border-bottom-color: var(--burdeos); }
+.mc-tabs small { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-left: 4px; border-radius: 999px; background: var(--hoja-2); font-size: 11px; font-variant-numeric: tabular-nums; }
+@media (hover: hover) and (pointer: fine) { .mc-tabs button:hover { background: var(--hoja-2); color: var(--tinta); } }
+.mc-panel { max-height: min(46vh, 420px); overflow-y: auto; overscroll-behavior: contain; padding-right: 4px; }
+.mc-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 12px; }
+.mc-seg textarea { min-height: 72px; }
+.mc-mochila { font-size: 14px; }
+.mc-mochila summary { cursor: pointer; color: var(--tinta-suave); display: flex; align-items: center; gap: 8px; min-height: 40px; }
+.mc-mochila summary svg { width: 18px; height: 18px; }
+@media (max-width: 900px) {
+  .mc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .mc-meta, .mc-apodo { grid-column: 1 / -1; }
+  .mc-seg { grid-template-columns: 1fr; }
+  .mc-panel { max-height: none; }
+}

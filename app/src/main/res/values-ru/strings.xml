@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">Выберите, над чем работать в %1$s</string>
     <string name="foco_elegir_ayuda">Отметьте цели на %1$d и, если хотите, только некоторые подцели.</string>
     <string name="foco_listo">Готово</string>
+    <string name="mc_tab_sub">Подцели</string>
+    <string name="mc_tab_plan">План действий</string>
+    <string name="mc_tab_seg">Отслеживание</string>
 </resources>

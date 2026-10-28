@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">Choose what to work on in %1$s</string>
     <string name="foco_elegir_ayuda">Check your %1$d goals and, if you like, only some of their sub-goals.</string>
     <string name="foco_listo">Done</string>
+    <string name="mc_tab_sub">Sub-goals</string>
+    <string name="mc_tab_plan">Action plan</string>
+    <string name="mc_tab_seg">Tracking</string>
 </resources>

@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">Wähle, woran du im %1$s arbeitest</string>
     <string name="foco_elegir_ayuda">Markiere deine Ziele für %1$d und, wenn du willst, nur einige Teilziele.</string>
     <string name="foco_listo">Fertig</string>
+    <string name="mc_tab_sub">Teilziele</string>
+    <string name="mc_tab_plan">Aktionsplan</string>
+    <string name="mc_tab_seg">Verlauf</string>
 </resources>

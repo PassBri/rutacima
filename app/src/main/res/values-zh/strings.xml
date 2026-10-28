@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">选择%1$s要做的事</string>
     <string name="foco_elegir_ayuda">勾选 %1$d 年的目标，也可以只选部分子目标。</string>
     <string name="foco_listo">完成</string>
+    <string name="mc_tab_sub">子目标</string>
+    <string name="mc_tab_plan">行动计划</string>
+    <string name="mc_tab_seg">跟进</string>
 </resources>

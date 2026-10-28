@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">%1$sに取り組むことを選ぶ</string>
     <string name="foco_elegir_ayuda">%1$d年の目標にチェックし、必要ならサブ目標を一部だけ選びます。</string>
     <string name="foco_listo">完了</string>
+    <string name="mc_tab_sub">サブ目標</string>
+    <string name="mc_tab_plan">行動計画</string>
+    <string name="mc_tab_seg">進捗管理</string>
 </resources>

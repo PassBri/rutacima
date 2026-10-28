@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">Escolha o que trabalhar em %1$s</string>
     <string name="foco_elegir_ayuda">Marque as metas de %1$d e, se quiser, só algumas das submetas.</string>
     <string name="foco_listo">Pronto</string>
+    <string name="mc_tab_sub">Submetas</string>
+    <string name="mc_tab_plan">Plano de ação</string>
+    <string name="mc_tab_seg">Acompanhamento</string>
 </resources>

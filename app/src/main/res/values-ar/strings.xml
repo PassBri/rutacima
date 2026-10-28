@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">اختر ما ستعمل عليه في %1$s</string>
     <string name="foco_elegir_ayuda">حدّد أهداف %1$d، وإن شئت بعض أهدافها الفرعية فقط.</string>
     <string name="foco_listo">تم</string>
+    <string name="mc_tab_sub">الأهداف الفرعية</string>
+    <string name="mc_tab_plan">خطة العمل</string>
+    <string name="mc_tab_seg">المتابعة</string>
 </resources>

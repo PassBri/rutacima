@@ -302,6 +302,7 @@ private fun MetaCard(m: MetaAnualEntity, propositos: List<PropositoEntity>, onCl
     }
 }
 
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 private fun MetaEditor(
     inicial: MetaAnualEntity,
@@ -322,22 +323,7 @@ private fun MetaEditor(
         Text(stringResource(if (inicial.id == 0L) R.string.nueva_meta else R.string.editar_meta) + " · ${inicial.anio}", style = MaterialTheme.typography.titleLarge)
         if (m.id != 0L) com.rutaalacima.app.ui.components.ApodoField("a", m.id)
         OutlinedTextField(m.titulo, { m = m.copy(titulo = it) }, label = { Text(stringResource(R.string.actividad_meta)) }, modifier = Modifier.fillMaxWidth())
-        SubMetasEditor(m.subMetas, { m = m.copy(subMetas = it) }, casillaId = vinculo?.id, mandala = mandala, onGanado = { i -> vinculo?.let { onGanado(it.id, i) } })
-        // Plan de acción: se guarda al instante (una meta nueva lo tiene cuando se guarda)
-        if (inicial.id != 0L) PlanMetaEditor(plan, onPlan)
-        else Text(stringResource(R.string.plan_guarda_meta), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        if (propositos.isNotEmpty()) {
-            ChipSelector(
-                stringResource(R.string.proposito_aporta),
-                listOf<PropositoEntity?>(null) + propositos,
-                propositos.firstOrNull { it.id == m.propositoId },
-                { it?.titulo?.take(28) ?: stringResource(R.string.ninguno) },
-                { m = m.copy(propositoId = it?.id) },
-            )
-        }
-        ChipSelector(stringResource(R.string.matriz_decision), Decision.entries, Decision.from(m.decision), { it.texto() }, { m = m.copy(decision = it.name) })
-        ChipSelector(stringResource(R.string.prioridad), Prioridad.entries, Prioridad.from(m.prioridad), { "${it.clave} · " + it.texto() },
-            { m = m.copy(prioridad = it.name) }, color = { it.color.asColor() })
+        // Lo esencial arriba (nombre y avance); el resto en pestañas para verlo todo sin bajar tanto (igual que la web)
         Text(stringResource(R.string.avance_pct, m.avance), style = MaterialTheme.typography.labelLarge)
         Slider(
             value = m.avance.toFloat(),
@@ -348,13 +334,41 @@ private fun MetaEditor(
             },
             valueRange = 0f..100f,
         )
-        ChipSelector(stringResource(R.string.estado_semaforo), EstadoMeta.entries, EstadoMeta.from(m.estado), { it.texto() },
-            { m = m.copy(estado = it.name, avance = it.porcentaje ?: m.avance) }, color = { it.color.asColor() })
-        OutlinedTextField(m.obstaculo, { m = m.copy(obstaculo = it) }, label = { Text(stringResource(R.string.obstaculo_principal)) }, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(m.proximaAccion, { m = m.copy(proximaAccion = it) }, label = { Text(stringResource(R.string.proxima_accion)) }, modifier = Modifier.fillMaxWidth())
-        FechaField(stringResource(R.string.inicio), m.fechaInicio, { m = m.copy(fechaInicio = it) })
-        FechaField(stringResource(R.string.fin), m.fechaFin, { m = m.copy(fechaFin = it) })
-        FechaField(stringResource(R.string.fecha_revision), m.fechaRevision, { m = m.copy(fechaRevision = it) })
+        var pestana by remember(inicial.id) { mutableIntStateOf(0) }
+        androidx.compose.material3.SecondaryScrollableTabRow(selectedTabIndex = pestana, edgePadding = 0.dp) {
+            listOf(R.string.mc_tab_sub, R.string.mc_tab_plan, R.string.mc_tab_seg).forEachIndexed { i, t ->
+                androidx.compose.material3.Tab(selected = pestana == i, onClick = { pestana = i }, text = { Text(stringResource(t), maxLines = 1) })
+            }
+        }
+        when (pestana) {
+            0 -> SubMetasEditor(m.subMetas, { m = m.copy(subMetas = it) }, casillaId = vinculo?.id, mandala = mandala, onGanado = { i -> vinculo?.let { onGanado(it.id, i) } })
+            // Plan de acción: se guarda al instante (una meta nueva lo tiene cuando se guarda)
+            1 -> if (inicial.id != 0L) PlanMetaEditor(plan, onPlan)
+                else Text(stringResource(R.string.plan_guarda_meta), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            else -> Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                if (propositos.isNotEmpty()) {
+                    ChipSelector(
+                        stringResource(R.string.proposito_aporta),
+                        listOf<PropositoEntity?>(null) + propositos,
+                        propositos.firstOrNull { it.id == m.propositoId },
+                        { it?.titulo?.take(28) ?: stringResource(R.string.ninguno) },
+                        { m = m.copy(propositoId = it?.id) },
+                    )
+                }
+                ChipSelector(stringResource(R.string.estado_semaforo), EstadoMeta.entries, EstadoMeta.from(m.estado), { it.texto() },
+                    { m = m.copy(estado = it.name, avance = it.porcentaje ?: m.avance) }, color = { it.color.asColor() })
+                ChipSelector(stringResource(R.string.prioridad), Prioridad.entries, Prioridad.from(m.prioridad), { "${it.clave} · " + it.texto() },
+                    { m = m.copy(prioridad = it.name) }, color = { it.color.asColor() })
+                ChipSelector(stringResource(R.string.matriz_decision), Decision.entries, Decision.from(m.decision), { it.texto() }, { m = m.copy(decision = it.name) })
+                OutlinedTextField(m.obstaculo, { m = m.copy(obstaculo = it) }, label = { Text(stringResource(R.string.obstaculo_principal)) }, modifier = Modifier.fillMaxWidth())
+                OutlinedTextField(m.proximaAccion, { m = m.copy(proximaAccion = it) }, label = { Text(stringResource(R.string.proxima_accion)) }, modifier = Modifier.fillMaxWidth())
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(Modifier.weight(1f)) { FechaField(stringResource(R.string.inicio), m.fechaInicio, { m = m.copy(fechaInicio = it) }) }
+                    Box(Modifier.weight(1f)) { FechaField(stringResource(R.string.fin), m.fechaFin, { m = m.copy(fechaFin = it) }) }
+                }
+                FechaField(stringResource(R.string.fecha_revision), m.fechaRevision, { m = m.copy(fechaRevision = it) })
+            }
+        }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             onEliminar?.let { OutlinedButton(onClick = it) { Text(stringResource(R.string.eliminar)) } }
             Spacer(Modifier.weight(1f))

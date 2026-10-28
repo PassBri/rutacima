@@ -2568,4 +2568,7 @@
     <string name="foco_elegir_titulo">%1$s에 할 일 고르기</string>
     <string name="foco_elegir_ayuda">%1$d년 목표를 체크하고, 원하면 하위 목표 일부만 고르세요.</string>
     <string name="foco_listo">완료</string>
+    <string name="mc_tab_sub">하위 목표</string>
+    <string name="mc_tab_plan">실행 계획</string>
+    <string name="mc_tab_seg">진행 관리</string>
 </resources>
