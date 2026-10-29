@@ -4933,3 +4933,19 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   @keyframes md-capas-abre { from { opacity: 0; transform: translate(-50%, -50%) scale(.85); } }
 }
 @media (prefers-reduced-motion: reduce) { .md-escena .md-capas-menu { animation: none; } }
+
+/* Comunidad en el computador (como TikTok en la web): los senderos van arriba sin tapar la tarjeta y la columna de
+   acciones va fuera de la tarjeta, a su derecha, con botones de 44 px. Así la foto y el texto quedan limpios. */
+@media (min-width: 901px) {
+  .cimas { padding: 56px 0 16px; grid-auto-rows: calc(100% - 72px); scroll-padding-top: 56px; }
+  .cima { width: min(calc(100% - 160px), calc((100dvh - 170px) * 9 / 16)); overflow: visible; content-visibility: visible !important; translate: -30px 0; }
+  .cima > .cima-fondo, .cima > .cima-cielo, .cima::after { border-radius: inherit; overflow: hidden; }
+  .cima > .cima-cita { padding-right: 32px; }
+  .cima-acciones { right: -68px !important; bottom: 8px !important; gap: 10px !important; }
+  .cima-acciones > button { grid-template-rows: 44px 15px !important; width: 52px !important; }
+  .cima-acciones > button > svg, .cima-acciones > button.clima-btn .cb-circ, .cima-acciones .cima-autor .avatar { width: 44px !important; height: 44px !important; }
+  .cima-acciones > button:not(.clima-btn):not(.cima-autor) > svg { padding: 11px !important; }
+  .cima-acciones .cima-autor .aro-marca { width: 44px; height: 44px; }
+  .cima-acciones b, .cima-acciones > button { text-shadow: none; }
+  .cima-acciones > button { color: rgb(255 255 255 / .85); }
+}
