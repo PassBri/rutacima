@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">%1$s에는 아직 내역이 없어요. %3$d년 %2$s 요약이에요.</string>
     <string name="fb_res_cifras_de">%1$s 수치</string>
     <string name="fb_res_ritmo_cerrado">하루 평균 %1$s를 썼고 %2$s 지출은 %3$s였어요.</string>
+    <string name="fb_res_mes_vacio">%2$d년 %1$s에는 내역이 없어요. 화살표로 다른 달을 보세요.</string>
 </resources>

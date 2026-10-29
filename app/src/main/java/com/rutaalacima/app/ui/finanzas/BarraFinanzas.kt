@@ -128,6 +128,8 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
     val cambiarPanel: (Int) -> Unit = { k -> panel = if (panel == k) -1 else k; prefs.edit().putInt("fb_panel", panel).apply() }
     val verdeRiel = if (androidx.compose.foundation.isSystemInDarkTheme()) Color(0xFF8CC79A) else Color(0xFF2E6B3A)
     var mapa by rememberSaveable { mutableStateOf(false) }
+    // El mes que se mira en el resumen con las flechas; vuelve a seguir el centro cuando el centro cambia
+    var resMes by remember(nivel) { mutableStateOf<YearMonth?>(null) }
 
     // Totales por día y por mes, una sola vez por libro
     val porDia = remember(libro) { libro.dias.mapValues { (_, xs) -> Cuentas.sumar(xs, libro.propias) to xs.filter { !it.prog }.map { Tipo.de(it.t) }.toSet() } }
@@ -310,8 +312,24 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                         }
                     }
                     } else {
-                        AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(YearMonth.from(h))) }
-                        ResumenMes(libro, porMes, plata, verde, burdeos, oro)
+                        // Qué mes: el elegido con las flechas; si no, el abierto en el centro; si no, el actual (o el último con movimientos)
+                        val ymHoy = YearMonth.from(h)
+                        val mesCentro = when (nivel) { is NivelCuentas.Mes -> nivel.ym; is NivelCuentas.Dia -> YearMonth.from(nivel.f); else -> null }
+                        val vacio: (YearMonth) -> Boolean = { (porMes[it.toString()]?.n ?: 0) == 0 }
+                        val ultimo = porMes.filter { (k, v) -> v.n > 0 && k <= ymHoy.toString() }.keys.maxOrNull()?.let { YearMonth.parse(it) }
+                        val (resYm, resAuto) = resMes?.let { it to false }
+                            ?: mesCentro?.takeIf { !(it == ymHoy && vacio(ymHoy)) }?.let { it to false }
+                            ?: if (!vacio(ymHoy) || ultimo == null) ymHoy to false else ultimo to true
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            IconButton(onClick = { resMes = resYm.minusMonths(1) }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.cu_anterior)) }
+                            TextButton(onClick = { ir(NivelCuentas.Mes(resYm)) }, modifier = Modifier.weight(1f)) {
+                                Text("${nombreMesLargo(resYm.monthValue).replaceFirstChar { it.titlecase() }} ${resYm.year}",
+                                    style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif), color = burdeos)
+                            }
+                            IconButton(onClick = { resMes = resYm.plusMonths(1) }, enabled = resYm < ymHoy) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.siguiente)) }
+                        }
+                        if (resYm == ymHoy) AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(ymHoy)) }
+                        ResumenMes(libro, porMes, plata, verde, burdeos, oro, resYm, resAuto)
                         Cordillera(porAnio, verA, plata) { ir(NivelCuentas.Anio(it)) }
                     }
                 }
@@ -406,21 +424,19 @@ internal fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, n
 /** Resumen ampliado del mes (igual que la web): las cinco cifras frente al mes pasado, el ritmo de gasto,
  *  cuánto de lo que entra construye patrimonio (ideal 20 %) y las tres categorías donde más se gastó. */
 @Composable
-private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (Double) -> String, verde: Color, burdeos: Color, oro: Color) {
-    // El mes actual; si aún no tiene movimientos, el último mes que sí tiene (y se dice cuál es)
+private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (Double) -> String, verde: Color, burdeos: Color, oro: Color, ym: YearMonth, auto: Boolean) {
     val hoyR = hoy(); val ymHoy = YearMonth.from(hoyR)
     val suave = MaterialTheme.colorScheme.onSurfaceVariant
-    val ym = if ((porMes[ymHoy.toString()]?.n ?: 0) > 0) ymHoy
-        else porMes.filter { (k, v) -> v.n > 0 && k <= ymHoy.toString() }.keys.maxOrNull()?.let { YearMonth.parse(it) }
-    if (ym == null) {
-        Text(stringResource(R.string.fb_res_vacio, nombreMesLargo(ymHoy.monthValue).lowercase()), style = MaterialTheme.typography.bodySmall, color = suave)
-        return
-    }
     val esActual = ym == ymHoy
     val h = if (esActual) hoyR else ym.atEndOfMonth()
     val ant = ym.minusMonths(1)
-    val t = porMes.getValue(ym.toString()); val p = porMes[ant.toString()]
-    if (!esActual) Text(stringResource(R.string.fb_res_aviso, nombreMesLargo(ymHoy.monthValue).replaceFirstChar { it.titlecase() }, nombreMesLargo(ym.monthValue).lowercase(), ym.year),
+    val t = porMes[ym.toString()]; val p = porMes[ant.toString()]
+    if (t == null || t.n == 0) {
+        Text(stringResource(R.string.fb_res_mes_vacio, nombreMesLargo(ym.monthValue).replaceFirstChar { it.titlecase() }, ym.year), style = MaterialTheme.typography.bodySmall, color = suave)
+        return
+    }
+    // Si el mes actual está vacío, se muestra el último con movimientos y se dice cuál es
+    if (auto) Text(stringResource(R.string.fb_res_aviso, nombreMesLargo(ymHoy.monthValue).replaceFirstChar { it.titlecase() }, nombreMesLargo(ym.monthValue).lowercase(), ym.year),
         style = MaterialTheme.typography.bodySmall, color = suave)
     val tipos = listOf(Triple(Tipo.ING, R.string.cu_ing, 1), Triple(Tipo.GAS, R.string.cu_gas, -1), Triple(Tipo.AHO, R.string.cu_aho, 1),
         Triple(Tipo.INV, R.string.cu_inv, 1), Triple(Tipo.GEN, R.string.cu_gen, 0))

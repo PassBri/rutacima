@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">%1$s 还没有收支记录。这是 %3$d 年 %2$s 的总结。</string>
     <string name="fb_res_cifras_de">%1$s 数字</string>
     <string name="fb_res_ritmo_cerrado">你平均每天花 %1$s，%2$s 共支出 %3$s。</string>
+    <string name="fb_res_mes_vacio">%2$d 年 %1$s 没有收支记录。用箭头查看其他月份。</string>
 </resources>

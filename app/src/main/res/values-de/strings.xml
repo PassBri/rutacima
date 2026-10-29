@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">%1$s hat noch keine Bewegungen. Das ist die Übersicht für %2$s %3$d.</string>
     <string name="fb_res_cifras_de">%1$s in Zahlen</string>
     <string name="fb_res_ritmo_cerrado">Sie haben im Schnitt %1$s pro Tag ausgegeben und %2$s mit %3$s Ausgaben abgeschlossen.</string>
+    <string name="fb_res_mes_vacio">%1$s %2$d hat keine Bewegungen. Mit den Pfeilen sehen Sie einen anderen Monat.</string>
 </resources>

@@ -2809,4 +2809,5 @@
     <string name="fb_res_aviso">%1$s aún no tiene movimientos. Este es el resumen de %2$s de %3$d.</string>
     <string name="fb_res_cifras_de">%1$s en cifras</string>
     <string name="fb_res_ritmo_cerrado">Gastaste %1$s al día en promedio y cerraste %2$s con %3$s en gastos.</string>
+    <string name="fb_res_mes_vacio">%1$s de %2$d no tiene movimientos. Usa las flechas para ver otro mes.</string>
 </resources>

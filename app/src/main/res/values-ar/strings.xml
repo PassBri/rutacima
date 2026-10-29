@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">لا توجد حركات في %1$s بعد. هذا ملخص %2$s %3$d.</string>
     <string name="fb_res_cifras_de">%1$s بالأرقام</string>
     <string name="fb_res_ritmo_cerrado">أنفقت %1$s يوميًا في المتوسط وأنهيت %2$s بنفقات قدرها %3$s.</string>
+    <string name="fb_res_mes_vacio">لا توجد حركات في %1$s %2$d. استخدم الأسهم لعرض شهر آخر.</string>
 </resources>

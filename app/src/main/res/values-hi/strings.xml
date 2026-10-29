@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">%1$s में अभी कोई लेन-देन नहीं है। यह %3$d के %2$s का सारांश है।</string>
     <string name="fb_res_cifras_de">%1$s के आँकड़े</string>
     <string name="fb_res_ritmo_cerrado">आपने औसतन रोज़ %1$s खर्च किए और %2$s का खर्च %3$s रहा।</string>
+    <string name="fb_res_mes_vacio">%2$d के %1$s में कोई लेन-देन नहीं है। दूसरा महीना देखने के लिए तीरों का उपयोग करें।</string>
 </resources>

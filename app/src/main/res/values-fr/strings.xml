@@ -2800,4 +2800,5 @@
     <string name="fb_res_aviso">%1$s n’a pas encore de mouvements. Voici le résumé de %2$s %3$d.</string>
     <string name="fb_res_cifras_de">%1$s en chiffres</string>
     <string name="fb_res_ritmo_cerrado">Vous avez dépensé %1$s par jour en moyenne et clôturé %2$s avec %3$s de dépenses.</string>
+    <string name="fb_res_mes_vacio">%1$s %2$d n’a pas de mouvements. Utilisez les flèches pour voir un autre mois.</string>
 </resources>

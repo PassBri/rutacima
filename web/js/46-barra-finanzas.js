@@ -112,16 +112,23 @@ function fbTarjeta(datos) {
 }
 
 /** Resumen ampliado del mes: las cinco cifras frente al mes pasado, el ritmo de gasto, cuánto construyes y a dónde se fue. */
-function fbResumen(datos) {
-  // El mes actual; si aún no tiene movimientos, el último mes que sí tiene (y se dice cuál es)
-  const hoyR = hoyFecha(), ymHoy = iso(hoyR).slice(0, 7);
-  const ymR = datos.porMes[ymHoy]?.n ? ymHoy : Object.keys(datos.porMes).filter(k => k <= ymHoy && datos.porMes[k].n).sort().pop();
-  if (!ymR) return `<p class="fb-res-vacio">Cuando anotes movimientos verás aquí tus cifras, tu ritmo de gasto y a dónde se va tu dinero.</p>`;
-  const [a, m] = ymR.split("-").map(Number), ym = ymR, esActual = ym === ymHoy;
+/** Qué mes muestra el resumen: el que se eligió con las flechas; si no, el mes abierto en el centro;
+ *  si no, el mes actual o, si está vacío, el último con movimientos (auto). */
+function fbResMes(datos) {
+  const ymHoy = iso(hoyFecha()).slice(0, 7), l = fbLugar();
+  if (estado.fbResMes) return { ym: estado.fbResMes, auto: false };
+  if (l.m && !(`${l.a}-${pad2(l.m)}` === ymHoy && !datos.porMes[ymHoy]?.n)) return { ym: `${l.a}-${pad2(l.m)}`, auto: false };
+  const ym = datos.porMes[ymHoy]?.n ? ymHoy : Object.keys(datos.porMes).filter(k => k <= ymHoy && datos.porMes[k].n).sort().pop();
+  return { ym: ym || ymHoy, auto: !!ym && ym !== ymHoy };
+}
+function fbResumen(datos, sel) {
+  const hoyR = hoyFecha(), ymHoy = iso(hoyR).slice(0, 7), ym = sel.ym;
+  const [a, m] = ym.split("-").map(Number), esActual = ym === ymHoy;
   const hoy = esActual ? hoyR : new Date(a, m, 0);   // un mes cerrado se mide con todos sus días
   const prev = new Date(a, m - 2, 1), ymAnt = `${prev.getFullYear()}-${pad2(prev.getMonth() + 1)}`;
   const t = datos.porMes[ym], ant = datos.porMes[ymAnt];
-  const aviso = esActual ? "" : `<p class="fb-res-vacio">${mayus(MESES[hoyR.getMonth()])} aún no tiene movimientos. Este es el resumen de ${MESES[m - 1]} de ${a}.</p>`;
+  if (!t?.n) return `<p class="fb-res-vacio">${mayus(MESES[m - 1])} de ${a} no tiene movimientos. Usa las flechas para ver otro mes.</p>`;
+  const aviso = sel.auto ? `<p class="fb-res-vacio">${mayus(MESES[hoyR.getMonth()])} aún no tiene movimientos. Este es el resumen de ${MESES[m - 1]} de ${a}.</p>` : "";
   const TIPOS = [["ing", "Ingresos", 1], ["gas", "Gastos", -1], ["aho", "Ahorro", 1], ["inv", "Inversión", 1], ["gen", "Dar", 0]];
   const max = Math.max(1, ...TIPOS.map(([k]) => t[k] || 0));
   const delta = (k, sentido) => { const p = ant?.[k] || 0; if (!p || !t[k]) return `<small class="fb-delta"></small>`;
@@ -147,6 +154,18 @@ function fbResumen(datos) {
       return `<div class="fb-fila fb-cat"><span>${esc(cat?.[1] || c)}</span><span class="num">${plata(v)}</span><small class="fb-delta">${t.gas ? Math.round(v / t.gas * 100) + " %" : ""}</small><span class="fb-bar"><b style="width:${(v / cats[0][1] * 100).toFixed(1)}%;background:${FB_COLOR.gas}"></b></span></div>`; }).join("")}</div>` : "";
   return `${aviso}<div class="fb-res-bloque"><b class="fb-res-t">${esActual ? "El mes en cifras" : mayus(MESES[m - 1]) + " en cifras"} <small class="suave">frente a ${MESES[prev.getMonth()]}</small></b>${filas}</div>${ritmo}${construye}${adonde}`;
 }
+
+/** El panel del resumen: flechas para cambiar de mes (el nombre abre ese mes en el centro), «así va» si es el mes actual,
+ *  el resumen ampliado y la cordillera. */
+function fbResPanel(datos, aVer) {
+  const sel = fbResMes(datos), [a, m] = sel.ym.split("-").map(Number), ymHoy = iso(hoyFecha()).slice(0, 7);
+  const nav = `<div class="rv-paso fb-res-nav"><button class="rv-flecha" data-acc="fbResMes" data-arg="-1" aria-label="Mes anterior">${ic("izq")}</button>
+      <button class="rv-titulo" data-sel="m:${sel.ym}" title="Abrir ${MESES[m - 1]} de ${a}">${mayus(MESES[m - 1])} ${a}</button>
+      <button class="rv-flecha" data-acc="fbResMes" data-arg="1" aria-label="Mes siguiente" ${sel.ym >= ymHoy ? "disabled" : ""}>${ic("der")}</button></div>`;
+  return nav + (sel.ym === ymHoy ? fbTarjeta(datos) : "") + fbResumen(datos, sel) + fbCordillera(datos, aVer);
+}
+ACC.fbResMes = (_, d) => { const s = fbResMes(fbDatos()), [a, m] = s.ym.split("-").map(Number), f = new Date(a, m - 1 + Number(d), 1);
+  const ym = `${f.getFullYear()}-${pad2(f.getMonth() + 1)}`; if (ym > iso(hoyFecha()).slice(0, 7)) return; estado.fbResMes = ym; fbRepintar(); };
 
 function fbBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = fbLugar(), ver = fbVer(), a = ver.a, m = ver.m;
@@ -208,7 +227,7 @@ function fbBarra() {
       <div class="fb-hoja-cab"><b class="rv-donde">${panel === "cal" ? donde : "Resumen"}</b>
         ${panel === "cal" ? `<button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>` : ""}
         <button class="rv-atras" data-acc="fbPestana" data-arg="${panel}" aria-label="Cerrar" title="Cerrar">${ic("cerrar")}</button></div>
-      <div class="fb-panel">${panel === "cal" ? cal : fbTarjeta(datos) + fbResumen(datos) + fbCordillera(datos, a)}</div></div>` : "";
+      <div class="fb-panel">${panel === "cal" ? cal : fbResPanel(datos, a)}</div></div>` : "";
   return `<nav class="rv-barra fb-barra${panel ? " con-hoja" : ""}" aria-label="Ascenso financiero: año, mes y día">${riel}${hoja}</nav>`;
 }
 /** Qué se abre junto al riel: el calendario, el resumen o nada (se recuerda; en el teléfono empieza cerrado). */
@@ -270,6 +289,7 @@ DET["finanzas.fijos"] = () => cab(avAsc(), "Mis cuentas fijas", "Lo que se repit
     document.getElementById("app")?.classList.add("ruta-vida");
     det.classList.add("con-vida", "con-fin"); det.classList.toggle("fb-abierta", !!fbPanel());
     const l = fbLugar(); if (l.a && /^[amd]:/.test(String(estado.sel || ""))) estado.fbUltimo = l;
+    if (estado.fbResSel !== estado.sel) { estado.fbResSel = estado.sel; estado.fbResMes = null; }   // el resumen vuelve a seguir el centro
     det.insertAdjacentHTML("beforeend", fbBarra());
     return r;
   };

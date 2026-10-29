@@ -4798,3 +4798,6 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 /* Tipos de meta: solo íconos, el nombre aparece al pasar el mouse */
 .mf-tipos { grid-template-columns: repeat(auto-fill, 52px); gap: 8px; }
 .mf-tipo { width: 52px; height: 52px; padding: 0; place-items: center; border-radius: 14px; }
+
+.fb-res-nav { margin: -2px 0 8px; }
+.fb-res-nav .rv-titulo { font-size: 15px; }
