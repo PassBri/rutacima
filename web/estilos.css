@@ -4873,3 +4873,30 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .md-escena .md-capas-menu { width: max-content; min-width: 280px; max-width: none; }
   .md-escena .md-capas-menu button span strong { font-weight: 500; } .md-escena .md-capas-menu button span small { font-weight: 400; white-space: nowrap; }
 }
+
+/* Pie de cada capa (computador): crece lo necesario para que no se corten los botones (la brújula se ajusta encima);
+   «Descargar informe» ya está en el riel, aquí no se repite */
+@media (min-width: 701px) {
+  .md-pie-capa { height: auto !important; min-height: 0 !important; overflow: visible !important; }
+  .md-pie-capa [data-acc="informeBrujula"] { display: none; }
+  .md-capa[data-capa="81"] .md-pie-capa .botones { margin-left: auto !important; }
+  .md-capa[data-capa="81"] .md-pie-capa > p { flex: 1 1 auto; }
+}
+/* Riel en pantallas bajas: botones un poco más pequeños para que quepa entero sin cortarse */
+@media (min-width: 701px) and (max-height: 960px) {
+  .md-escena > .md-secciones { gap: 2px; padding: 5px 4px; }
+  .md-escena .md-riel-btn, .md-escena .md-ver-grande { width: 36px; height: 36px; }
+  .md-escena .md-riel-btn svg, .md-escena .md-ver-grande svg { width: 18px; height: 18px; }
+  .md-escena .modo-tarj button { width: 32px; height: 32px; }
+  .md-escena .md-nav-sep, .md-escena .md-riel-sep { margin: 0; }
+}
+
+/* Menú 1 · 9 · 81: solo los tres círculos en fila (el nombre aparece al pasar el mouse) */
+@media (min-width: 701px) {
+  .md-escena .md-capas-menu { display: flex; gap: 8px; width: auto; min-width: 0; padding: 8px; border-radius: 999px; top: -6px; }
+  .md-escena .md-capas-menu button { display: grid; place-items: center; width: 44px; min-height: 0; height: 44px; padding: 0; border-radius: 50%; background: transparent; }
+  .md-escena .md-capas-menu button::before { border-radius: 50%; }
+  .md-escena .md-capas-menu button[aria-checked="true"] { background: transparent; }
+  .md-escena .md-capas-menu button > b { width: 40px; height: 40px; }
+  .md-escena .md-capas-menu button:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 1px; }
+}

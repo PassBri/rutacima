@@ -386,8 +386,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${calVida}${rielArriba ? `<span class="md-riel-top">${rielArriba}</span>${sep}` : ""}
     ${[[1, "Cumbre"], [9, "Campamentos"], [81, "Ruta"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
     <details class="md-capas"><summary class="md-riel-btn" aria-haspopup="menu" aria-label="Capa de la Brújula: ${mdCapaActual()}. Cambiar" title="Cumbre (1), campamentos (9) o ruta (81)"><b data-capa-actual>${mdCapaActual()}</b><i class="md-capas-caret" aria-hidden="true"></i></summary>
-      <div class="md-capas-menu" role="menu" aria-label="Capa de la Brújula">${[[1, "Cumbre", "Tu cumbre al centro"], [9, "Campamentos", "Los 8 campamentos y la cumbre"], [81, "Ruta", "Los 81 pasos del 9×9"]].map(([n, t, d]) =>
-        `<button role="menuitemradio" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-checked="${mdCapaActual() === n}"><b>${n}</b><span><strong>${t}</strong><small>${d}</small></span>${ic("check")}</button>`).join("")}</div></details>
+      <div class="md-capas-menu" role="menu" aria-label="Capa de la Brújula">${[[1, "Cumbre"], [9, "Campamentos"], [81, "Ruta · 9×9"]].map(([n, t]) =>
+        `<button role="menuitemradio" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-checked="${mdCapaActual() === n}" aria-label="${n} · ${t}"><b>${n}</b></button>`).join("")}</div></details>
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
@@ -1165,6 +1165,6 @@ document.addEventListener("toggle", e => { const d = e.target; if (!d.classList?
 document.addEventListener("keydown", e => {
   const m = e.target.closest?.(".md-capas-menu"); if (!m) return;
   const xs = [...m.querySelectorAll("[role=menuitemradio]")], i = xs.indexOf(e.target);
-  const j = { ArrowDown: i + 1, ArrowUp: i - 1, Home: 0, End: xs.length - 1 }[e.key]; if (j == null) return;
+  const j = { ArrowDown: i + 1, ArrowUp: i - 1, ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: xs.length - 1 }[e.key]; if (j == null) return;
   e.preventDefault(); xs[(j + xs.length) % xs.length].focus();
 });

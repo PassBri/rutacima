@@ -307,7 +307,7 @@ document.addEventListener("keydown", e => {
    aunque el riel tenga desplazamiento. Aparece al pasar el mouse o al llegar con el teclado. */
 {
   let tip = null, sobre = null;
-  const SEL = ".fb-r, .mf-tipo";
+  const SEL = ".fb-r, .mf-tipo, .md-capas-menu button";
   const mostrar = b => {
     const t = b.getAttribute("aria-label"); if (!t) return;
     tip ||= Object.assign(document.createElement("div"), { className: "ic-tip", role: "tooltip" });
