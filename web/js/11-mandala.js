@@ -350,7 +350,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     <p class="suave" style="margin:0">${d.evidencias} ${d.evidencias === 1 ? "foto" : "fotos"} de evidencia: lo vivido que ya reemplazó a lo soñado</p>
     ${d.confluencias ? `<p class="md-conf">${d.confluencias} ${d.confluencias === 1 ? "paso" : "pasos"} de confluencia: una acción que movió varios ejes</p>` : ""}
     ${d.enNiebla ? `<p class="md-nieblas">${d.enNiebla} ${d.enNiebla === 1 ? "paso" : "pasos"} en la niebla (más de ${Travesia.NIEBLA_DIAS} días sin avanzar)</p>` : ""}
-    <div style="height:12px"></div><div class="botones" style="margin:0">${compartir}<button class="btn" data-acc="informeBrujula">${ic("pdf")} Descargar informe PDF</button></div>`;
+    <div style="height:12px"></div><div class="botones" style="margin:0">${compartir}<button class="btn" data-acc="informeBrujula">${ic("descargar")} Descargar informe</button></div>`;
   /* Cada bloque es un <div>: en modo Edición se escribe en sus casillas; en los otros modos, tocarlo lo abre (js/25-tarjetas.js). */
   const grilla = [0, 1, 2, 3, 4, 5, 6, 7, 8].map(bl => `<div class="md-bloque${bl === b ? " elegido" : ""}" data-bloque="${bl}" role="button" tabindex="0" aria-label="Abrir bloque ${bl + 1}">${
     [0, 1, 2, 3, 4, 5, 6, 7, 8].map(k => mdCelda(d, Mandala.celda(Math.floor(bl / 3) * 3 + Math.floor(k / 3), (bl % 3) * 3 + k % 3), false)).join("")}</div>`).join("");
@@ -380,18 +380,21 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const svg = "";   // las confluencias se marcan con ⇄ en cada paso; las líneas cruzaban toda la grilla
   // De lo más grande a lo más pequeño, en una sola página: Cumbre (1) → Vision board (9) → Brújula 9×9 (81)
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
-  const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${rielArriba ? `<span class="md-riel-top">${rielArriba}</span><span class="md-riel-sep" aria-hidden="true"></span>` : ""}
+  // El riel en grupos: calendario de la vida · qué Brújula · 1·9·81 · tarjetas · ayuda · guías · herramientas
+  const sep = `<span class="md-riel-sep" aria-hidden="true"></span>`;
+  const calVida = estado.sec === "ruta" ? `<span class="md-riel-top"><button class="md-riel-btn md-riel-on" data-acc="rvBrujulaPanel" aria-pressed="${!!estado.rvBrujula}" aria-label="Calendario de tu vida: años, meses y días" title="Calendario de tu vida: años, meses y días">${ic("calendario")}</button>${sep}</span>` : "";
+  const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${calVida}${rielArriba ? `<span class="md-riel-top">${rielArriba}</span>${sep}` : ""}
     ${[[1, "Cumbre"], [9, "Campamentos"], [81, "Ruta"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
-    <span class="md-riel-sep" aria-hidden="true"></span>
     <button class="md-riel-btn md-girar-todas" data-acc="mdGirarCapa" aria-label="Girar las tarjetas" title="Girar las tarjetas">${ic("girar")}</button>
-    <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
+    ${sep}
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
-    <span class="md-riel-top"><span class="md-riel-sep" aria-hidden="true"></span>${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["companero", "companero", "Compañero de Ascenso"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
-      `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}</span>
-    <span class="md-riel-top"><button class="md-riel-btn" data-acc="informeBrujula" aria-label="Descargar informe PDF de la Brújula" title="Descargar informe PDF de la Brújula">${ic("pdf")}</button></span>
+    <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
+    <span class="md-riel-top">${sep}${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["companero", "companero", "Compañero de Ascenso"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
+      `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}${sep}</span>
+    <span class="md-riel-top"><button class="md-riel-btn" data-acc="informeBrujula" aria-label="Descargar el informe de la Brújula" title="Descargar el informe de la Brújula">${ic("descargar")}</button></span>
     ${typeof tamBotones === "function" ? `<span class="md-riel-top md-riel-tam">${tamBotones()}</span>` : ""}
     <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Pantalla completa" title="Pantalla completa: de la cumbre al 9×9 y de vuelta, con + y −">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes

@@ -1388,7 +1388,7 @@ function selectorBrujula() {
 function rielBrujula() {
   const a = estado.brujulaAnio || null;
   return `<button class="md-riel-btn md-riel-on" data-acc="brujulaAnio" data-arg="" aria-pressed="${!a}" aria-label="Brújula general" title="Brújula general">${ic("cima")}</button>
-    <details class="bs-menu md-riel-anio"><summary class="md-riel-btn md-riel-txt${a ? " activo" : ""}" aria-label="Elegir año" title="${a ? `Brújula de ${a}` : "Elegir año"}">${a ? `<b>${String(a).slice(2)}</b>` : ic("calendario")}</summary>${panelAnios()}</details>`;
+    <details class="bs-menu md-riel-anio"><summary class="md-riel-btn md-riel-txt${a ? " activo" : ""}" aria-label="Elegir año" title="${a ? `Brújula de ${a}` : "Brújula de un año"}">${a ? `<b>${String(a).slice(2)}</b>` : "<b>Año</b>"}</summary>${panelAnios()}</details>`;
 }
 function vistaPreviaBrujula() {
   const ps = proponerVision(), orden = [1, 2, 3, 4, 0, 5, 6, 7, 8];

@@ -55,11 +55,16 @@ function rvBarra() {
     dias += `<button class="rv-dia${l.a === a && l.m === m && l.d === d ? " abierto" : ""}" data-sel="d:${a}-${pad2(m)}-${pad2(d)}" aria-label="${d} de ${MESES[m - 1]} de ${a}${hecho ? ", cumplido" : ""}">${aro(cd + (hecho ? " meta" : ""), `<b>${d}</b>`)}</button>`;
   }
   const nav = (sel, ic0, txt, actual) => `<button class="rv-nav-item" data-sel="${sel}" aria-pressed="${actual}">${ic(ic0)}<span>${txt}</span></button>`;
-  return `<nav class="rv-barra" aria-label="Tu vida: año, mes y día">
-    <div class="rv-cab"><button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button>
-      <b class="rv-donde">${donde}</b><button class="rv-hoy" data-sel="${isoHoy}" title="Ir a hoy">Hoy</button>
-      <button class="rv-plegar solo-movil" data-acc="rvPlegar" aria-expanded="${!!estado.rvAbierta}" aria-label="${estado.rvAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.rvAbierta ? "arriba" : "abajo")}</button></div>
-    <div class="rv-cuerpo${estado.rvAbierta ? " abierta" : ""}">
+  const enBrujula = estado.sec === "ruta" && estado.sel === "vida";
+  const titulo = enBrujula ? "Calendario de tu vida" : donde;
+  return `<nav class="rv-barra${enBrujula ? " rv-en-brujula" : ""}" aria-label="Tu vida: año, mes y día">
+    <div class="rv-cab">${enBrujula ? "" : `<button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button>`}
+      <b class="rv-donde">${titulo}</b><button class="rv-hoy" data-sel="${isoHoy}" title="Ir a hoy">Hoy</button>
+      ${enBrujula ? `<button class="rv-atras" data-acc="rvBrujulaPanel" aria-label="Cerrar el calendario" title="Cerrar el calendario">${ic("cerrar")}</button>`
+        : `<button class="rv-plegar solo-movil" data-acc="rvPlegar" aria-expanded="${!!estado.rvAbierta}" aria-label="${estado.rvAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.rvAbierta ? "arriba" : "abajo")}</button>`}</div>
+    <div class="rv-cuerpo${estado.rvAbierta || enBrujula ? " abierta" : ""}">
+      <label class="rv-buscar">${ic("buscar")}<input type="search" placeholder="Buscar metas y propósitos" value="${esc(estado.rvBusca || "")}" data-acc-input="rvBuscar" aria-label="Buscar metas y propósitos en Mi ruta"></label>
+      <div class="rv-resultados" aria-live="polite">${rvResultados()}</div>
       <div class="rv-paso"><button class="rv-flecha" data-acc="rvAnio" data-arg="-1" aria-label="Año anterior" ${a <= nac ? "disabled" : ""}>${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="rvMapa" aria-expanded="${!!estado.rvMapa}" title="Elegir otro año">${a}<small>${edad} años ${ic(estado.rvMapa ? "arriba" : "abajo")}</small></button>
         <button class="rv-flecha" data-acc="rvAnio" data-arg="1" aria-label="Año siguiente" ${a >= nac + metaVida() - 1 ? "disabled" : ""}>${ic("der")}</button></div>
@@ -73,6 +78,22 @@ function rvBarra() {
       ${rvRecordatorio()}
     </div></nav>`;
 }
+/** Lo que se busca en Mi ruta: propósitos, metas del año y metas del mes que contienen el texto (hasta 8). */
+function rvResultados() {
+  const q = String(estado.rvBusca || "").trim(); if (q.length < 2) return "";
+  const n = t => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase(), nq = n(q);
+  const xs = [...Store.lista("proposito").map(x => ["p:" + x.id, x.titulo, "Propósito"]),
+    ...Store.lista("meta_anio").map(x => ["ma:" + x.id, x.titulo, `Meta de ${x.anio}`]),
+    ...Store.lista("meta_mes").map(x => ["mm:" + x.id, x.titulo || x.texto, x.anio && x.mes ? `Meta de ${MESES[x.mes - 1]} ${x.anio}` : "Meta del mes"])]
+    .filter(([, t]) => t && n(t).includes(nq)).slice(0, 8);
+  return xs.length ? xs.map(([sel, t, tipo]) => `<button class="rv-res" data-sel="${sel}"><b>${esc(t)}</b><small>${tipo}</small></button>`).join("")
+    : `<p class="rv-res-nada">Nada con «${esc(q)}».</p>`;
+}
+ACC.rvBuscar = el => { estado.rvBusca = el.value; const r = document.querySelector(".rv-resultados"); if (r) r.innerHTML = rvResultados(); };
+/** En la Brújula, el calendario de la vida se abre y se cierra desde el riel (se recuerda). */
+ACC.rvBrujulaPanel = () => { estado.rvBrujula = !estado.rvBrujula; try { localStorage.setItem("suroute-rv-brujula", estado.rvBrujula ? "1" : ""); } catch {} pintarDetalle(); };
+if (estado.rvBrujula == null) { try { estado.rvBrujula = localStorage.getItem("suroute-rv-brujula") === "1"; } catch { estado.rvBrujula = false; } }
+
 /** Mini mapa de vida: los mismos aros, una fila por década. Un toque mira ese año; otro toque al mismo año lo abre. */
 function rvMiniMapa(nac, visto) {
   const aHoy = hoyFecha().getFullYear(), conMetas = new Set(Store.lista("meta_anio").map(m => m.anio));
@@ -128,11 +149,14 @@ pintarDetalle = function (...args) {
   // La Brújula (Mi ruta › vida) tiene su propio riel: allí no va la barra de vida
   // Evaluación usa la misma barra: se elige el propósito, el año, el mes o el día que se quiere evaluar
   const enRuta = (estado.sec === "ruta" && estado.sel !== "vida") || estado.sec === "evaluacion";
+  // En la Brújula la columna de Mi ruta no se muestra: el calendario de la vida se abre desde el riel
+  const enBrujula = estado.sec === "ruta" && estado.sel === "vida", conPanel = enBrujula && !!estado.rvBrujula;
   if (enRuta && estado.sel == null) { estado.sel = estado.sec === "evaluacion" ? "m:" + iso(hoyFecha()).slice(0, 7) : "puntos"; document.getElementById("app")?.classList.add("con-detalle"); }
   const r = pintarDetalleSinVida.apply(this, args), det = $("detalle");
   document.getElementById("app")?.classList.toggle("ruta-vida", enRuta);
-  det.classList.toggle("con-vida", enRuta);
-  if (!enRuta) return r;
+  document.getElementById("app")?.classList.toggle("ruta-brujula", enBrujula);
+  det.classList.toggle("con-vida", enRuta || conPanel);
+  if (!enRuta && !conPanel) return r;
   const l = rvLugar(); if (l.a) estado.rvUltimo = l;
   det.insertAdjacentHTML("beforeend", rvBarra());
   return r;
