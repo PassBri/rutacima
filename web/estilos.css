@@ -4927,3 +4927,9 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .md-avance-pop .md-op { display: flex; align-items: center; gap: 10px; font-size: 14px; }
   .md-avance-pop .md-op input { width: 18px; height: 18px; accent-color: var(--burdeos); }
 }
+/* Menú 1 · 9 · 81 centrado sobre su botón: el 9 queda encima del botón, el 1 a la izquierda y el 81 a la derecha */
+@media (min-width: 701px) {
+  .md-escena .md-capas-menu { top: 50%; right: auto; left: 50%; transform: translate(-50%, -50%); transform-origin: center; animation: md-capas-abre .18s cubic-bezier(.2, 0, 0, 1); z-index: 40; }
+  @keyframes md-capas-abre { from { opacity: 0; transform: translate(-50%, -50%) scale(.85); } }
+}
+@media (prefers-reduced-motion: reduce) { .md-escena .md-capas-menu { animation: none; } }
