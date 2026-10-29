@@ -1422,7 +1422,7 @@ function visionCompleta(planear = "") {
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>
         ${ayudaPct}<div class="botones">${rehacer}</div>
         ${visionConIa === false ? `<p class="suave" style="margin-bottom:0">Lo armé con tus datos, sin conexión a la IA.</p>` : ""}</div></details></div></div>` +
-    mandalaHtml("", rielBrujula(), `<span class="md-riel-btn md-riel-fotos" title="${conFoto} de ${cs.length} casillas con tu foto" aria-label="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}</b></span>
+    mandalaHtml("", "", `<span class="md-riel-btn md-riel-fotos" title="${conFoto} de ${cs.length} casillas con tu foto" aria-label="${conFoto} de ${cs.length} casillas con tu foto"><span class="bb-aro" style="--p:${pctFotos.toFixed(3)}"></span><b>${conFoto}</b></span>
       <details class="bb-como md-riel-como"><summary class="md-riel-btn" aria-label="Cómo se arma tu Brújula" title="Cómo se arma">${ic("ayuda")}</summary><div class="bb-panel">
         <h4>Cómo se arma${a ? ` la Brújula de ${a}` : " tu Brújula"}</h4>
         <p>${a ? `La cumbre sale de tu palabra de ${a} y cada campamento de tus metas de ese año.` : "La IA la arma con tu cumbre, tus propósitos y tus metas."} Tú la llenas con tus fotos.</p>

@@ -382,7 +382,7 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const fotoC = mdFoto(d.cumbre), pctC = mdPct(d, -1);
   // El riel en grupos: calendario de la vida · qué Brújula · 1·9·81 · tarjetas · ayuda · guías · herramientas
   const sep = `<span class="md-riel-sep" aria-hidden="true"></span>`;
-  const calVida = estado.sec === "ruta" ? `<span class="md-riel-top"><button class="md-riel-btn md-riel-on" data-acc="rvBrujulaPanel" aria-pressed="${!!estado.rvBrujula}" aria-label="Calendario de tu vida: años, meses y días" title="Calendario de tu vida: años, meses y días">${ic("calendario")}</button>${sep}</span>` : "";
+  const calVida = estado.sec === "ruta" ? `<span class="md-riel-top"><button class="md-riel-btn md-riel-on" data-acc="rvBrujulaPanel" aria-pressed="${!!estado.rvBrujula}" aria-label="Tus brújulas: la general y las de cada año" title="Tus brújulas: la general y las de cada año">${ic("calendario")}</button>${sep}</span>` : "";
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${calVida}${rielArriba ? `<span class="md-riel-top">${rielArriba}</span>${sep}` : ""}
     ${[[1, "Cumbre"], [9, "Campamentos"], [81, "Ruta"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
     <span class="md-nav-sep"></span>

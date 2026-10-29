@@ -78,6 +78,32 @@ function rvBarra() {
       ${rvRecordatorio()}
     </div></nav>`;
 }
+/** En la Brújula: «Tus brújulas». Arriba la Brújula general (tu cumbre personal); luego tu vida en años, con marca
+ *  en los años que ya tienen Brújula (un toque la abre o la ofrece crear); y la lista corta de los años con Brújula. */
+function bjPanel() {
+  const a = estado.brujulaAnio || null, { anios, creados, nac, hoy } = aniosDeLaVida();
+  const cab = `<div class="rv-cab"><b class="rv-donde">Tus brújulas</b>
+      <button class="rv-atras" data-acc="rvBrujulaPanel" aria-label="Cerrar" title="Cerrar">${ic("cerrar")}</button></div>`;
+  const general = `<button class="bj-general" data-acc="brujulaAnio" data-arg="" aria-pressed="${!a}">${ic("cima")}<span><b>Brújula general</b><small>Tu cumbre personal</small></span></button>`;
+  let mapa = "";
+  if (nac) {
+    let h = "";
+    anios.forEach((y, i) => {
+      const c = cumbreDeAnio(y), cls = y < hoy ? "vivido" : y === hoy ? "actual" : "futuro";
+      if (i === 0 || (y - nac) % 10 === 0) h += `${i ? "</div>" : ""}<div class="rv-dec"><small>${Math.floor((y - nac) / 10) * 10}</small>${i === 0 ? '<i aria-hidden="true"></i>'.repeat((y - nac) % 10) : ""}`;
+      h += `<button class="rv-mini${y === a ? " viendo" : ""}" data-acc="brujulaAnio" data-arg="${y}" aria-label="${y}, ${y - nac} años: ${c ? esc(c) : "sin Brújula"}" title="${y} · ${y - nac} años · ${c ? esc(c) : y < hoy ? "sin Brújula" : "crear su Brújula"}">
+        <span class="pv ${cls}${c ? " meta" : ""}" aria-hidden="true">${PUNTO_MARCA}</span></button>`;
+    });
+    mapa = `<b class="bj-tit">Tu vida en años</b><div class="rv-mapa bj-mapa" role="group" aria-label="Elige el año de una Brújula">${h}</div></div>
+      <p class="rv-mapa-ayuda">Los años marcados ya tienen Brújula. Toca un año para abrirla o crearla.</p>`;
+  }
+  const lista = creados.length ? `<b class="bj-tit">Años con Brújula</b><div class="rv-resultados">${creados.map(y =>
+      `<button class="rv-res${y === a ? " activo" : ""}" data-acc="brujulaAnio" data-arg="${y}" aria-pressed="${y === a}"><b>${y}${y === hoy ? " · este año" : ""}</b><small>${esc(cumbreDeAnio(y) || "")}</small></button>`).join("")}</div>`
+    : `<p class="rv-res-nada">Aún no tienes Brújulas por año. Toca un año para crear la primera.</p>`;
+  const sinNac = nac ? "" : `<p class="rv-res-nada">Escribe tu año de nacimiento en Perfil para ver toda tu vida en años.</p>`;
+  return `<nav class="rv-barra bj-panel" aria-label="Tus brújulas">${cab}<div class="rv-cuerpo abierta">${general}${mapa}${sinNac}${lista}</div></nav>`;
+}
+
 /** Lo que se busca en Mi ruta: propósitos, metas del año y metas del mes que contienen el texto (hasta 8). */
 function rvResultados() {
   const q = String(estado.rvBusca || "").trim(); if (q.length < 2) return "";
@@ -157,6 +183,7 @@ pintarDetalle = function (...args) {
   document.getElementById("app")?.classList.toggle("ruta-brujula", enBrujula);
   det.classList.toggle("con-vida", enRuta || conPanel);
   if (!enRuta && !conPanel) return r;
+  if (conPanel) { det.insertAdjacentHTML("beforeend", bjPanel()); return r; }
   const l = rvLugar(); if (l.a) estado.rvUltimo = l;
   det.insertAdjacentHTML("beforeend", rvBarra());
   return r;
