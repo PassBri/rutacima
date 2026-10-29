@@ -2820,4 +2820,5 @@
         <item quantity="one">%d 份教练申请待审核</item>
         <item quantity="other">%d 份教练申请待审核</item>
     </plurals>
+    <string name="todas_secciones">所有版块</string>
 </resources>

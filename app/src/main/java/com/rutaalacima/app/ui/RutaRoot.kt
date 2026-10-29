@@ -1,5 +1,12 @@
 package com.rutaalacima.app.ui
 
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.FormatQuote
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.foundation.layout.Arrangement
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.background
@@ -206,6 +213,25 @@ private val PESTANAS = listOf(
     Pestana(Rutas.PERFIL, R.string.tab_perfil, com.rutaalacima.app.ui.components.IconosRuta.Perfil, com.rutaalacima.app.ui.components.IconosRuta.PerfilContorno),
 )
 
+/** Todas las secciones, en el mismo orden y con los mismos íconos de la barra izquierda de la web.
+ *  null en la posición de Publicar (la brújula de publicar va entre Evaluación y Comunidad, igual que la web). */
+private data class Seccion(val ruta: String, val titulo: Int, val icono: ImageVector)
+private val SECCIONES_TODAS: List<Seccion?> by lazy { listOf(
+    Seccion(Rutas.HOY, R.string.tab_hoy, com.rutaalacima.app.ui.components.IconosRuta.Huellas),
+    Seccion(Rutas.RUTA, R.string.tab_ruta, Icons.Filled.Terrain),
+    Seccion(Rutas.VISION, R.string.ruta_brujula, Icons.Filled.Explore),
+    Seccion(Rutas.evaluacion(), R.string.ev_titulo, Icons.Filled.Insights),
+    null,
+    Seccion(Rutas.COMUNIDAD, R.string.tab_comunidad, com.rutaalacima.app.ui.components.IconosRuta.Fogata),
+    Seccion(Rutas.COACH, R.string.coach, com.rutaalacima.app.ui.components.IconosRuta.Coach),
+    Seccion(Rutas.MENSAJES, R.string.mensajes, com.rutaalacima.app.ui.components.IconosRuta.Radio),
+    Seccion(Rutas.APRENDE, R.string.tab_aprende, com.rutaalacima.app.ui.components.IconosRuta.MapaRuta),
+    Seccion(Rutas.MOCHILA, R.string.mochila_titulo, com.rutaalacima.app.ui.components.IconosRuta.Mosqueton),
+    Seccion(Rutas.FRASES, R.string.mis_frases, Icons.Filled.FormatQuote),
+    Seccion(Rutas.finanzas(), R.string.cu_titulo, com.rutaalacima.app.ui.components.IconosRuta.Finanzas),
+    Seccion(Rutas.PERFIL, R.string.tab_perfil, com.rutaalacima.app.ui.components.IconosRuta.Perfil),
+) }
+
 enum class EstadoApp { CARGANDO, ONBOARDING, LISTO }
 
 class RootViewModel(c: AppContainer) : ViewModel() {
@@ -282,11 +308,13 @@ private fun AppPrincipal() {
 
     // Tableta o teléfono en horizontal: las pestañas van en un riel a la izquierda
     val ancho = androidx.compose.ui.platform.LocalConfiguration.current.screenWidthDp >= 600
+    var hojaSecciones by remember { mutableStateOf(false) }
+    val irSeccion: (String) -> Unit = { r -> if (PESTANAS.any { it.ruta == r }) nav.irAPestana(r) else nav.navigate(r) }
     val celebracion by contenedor.celebracion.collectAsStateWithLifecycle()
   Box(Modifier.fillMaxSize().fondoPapel()) {
    Row(Modifier.fillMaxSize()) {
     if (ancho && pestana != null) {
-        RielLateral(actual = rutaActual, onIr = { nav.irAPestana(it) }, onPublicar = { nav.navigate(Rutas.publicar()) })
+        RielLateral(actual = rutaActual, onIr = irSeccion, onPublicar = { nav.navigate(Rutas.publicar()) })
     }
     // M3: la barra superior queda fija y toma el color del papel cuando el contenido pasa por debajo
     val desplazamiento = TopAppBarDefaults.pinnedScrollBehavior()
@@ -299,6 +327,8 @@ private fun AppPrincipal() {
             if (pestana != null && pestana.ruta != Rutas.VISION && !inmersivo) {
                 TopAppBar(
                     scrollBehavior = desplazamiento,
+                    // En el teléfono: todas las secciones de la web (las que no caben en la barra de abajo), en el mismo orden
+                    navigationIcon = { if (!ancho) IconButton(onClick = { hojaSecciones = true }) { Icon(Icons.Filled.Apps, stringResource(R.string.todas_secciones)) } },
                     // El sello firma la app; el texto dice dónde estás (Mi ruta, Hoy, Comunidad…).
                     title = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -667,6 +697,7 @@ private fun AppPrincipal() {
     }
    }
     // Meta cumplida: la bandera se clava en la cumbre
+    if (hojaSecciones) HojaSecciones(actual = rutaActual, onIr = irSeccion, onPublicar = { nav.navigate(Rutas.publicar()) }, onCerrar = { hojaSecciones = false })
     celebracion?.let { c ->
         com.rutaalacima.app.ui.components.CelebracionCumbre(c, onFin = { contenedor.celebracion.value = null }, onCompartir = {
             // Como en Strava: el logro se puede compartir al instante, ya con la meta vinculada
@@ -677,26 +708,66 @@ private fun AppPrincipal() {
   }
 }
 
-/** Riel de pestañas para pantallas anchas, con el botón de publicar arriba. */
+/** Riel para pantallas anchas (tableta, plegable o teléfono acostado): las mismas secciones, el mismo orden y los mismos
+ *  íconos de la barra izquierda de la web. Solo íconos; el nombre aparece al dejar el dedo o el puntero encima. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RielLateral(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit) {
-    androidx.compose.material3.NavigationRail(
-        containerColor = androidx.compose.ui.graphics.Color.Transparent,
-        header = {
-            androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), null, Modifier.size(40.dp).padding(top = 4.dp), tint = MaterialTheme.colorScheme.onSurface)
-            androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.padding(top = 12.dp)) {
-                Icon(com.rutaalacima.app.ui.components.IconoPublicar, stringResource(R.string.publicar))
-            }
-        },
+    val colores = MaterialTheme.colorScheme
+    Column(
+        Modifier.fillMaxHeight().width(72.dp).background(colores.surface).verticalScroll(androidx.compose.foundation.rememberScrollState())
+            .padding(vertical = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-        Spacer(Modifier.weight(1f))
-        PESTANAS.forEach { p ->
-            androidx.compose.material3.NavigationRailItem(
-                selected = actual == p.ruta, onClick = { onIr(p.ruta) },
-                icon = { Icon(p.icono, null) }, label = { Text(stringResource(p.titulo)) },
-            )
+        androidx.compose.material3.Icon(painterResource(R.drawable.logo_suroute_grueso), stringResource(R.string.app_name), Modifier.size(34.dp), tint = colores.onSurface)
+        Spacer(Modifier.height(8.dp))
+        SECCIONES_TODAS.forEach { sec ->
+            val nombre = sec?.let { stringResource(it.titulo) } ?: stringResource(R.string.publicar)
+            val activa = sec != null && actual != null && (actual == sec.ruta || actual.substringBefore('?') == sec.ruta.substringBefore('?'))
+            androidx.compose.material3.TooltipBox(
+                positionProvider = androidx.compose.material3.TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                tooltip = { PlainTooltip { Text(nombre) } },
+                state = androidx.compose.material3.rememberTooltipState(),
+            ) {
+                if (sec == null) androidx.compose.material3.FilledTonalIconButton(onClick = onPublicar, modifier = Modifier.size(48.dp)) {
+                    Icon(com.rutaalacima.app.ui.components.IconoPublicar, nombre)
+                } else IconButton(onClick = { onIr(sec.ruta) },
+                    modifier = Modifier.size(48.dp).background(if (activa) colores.secondaryContainer else androidx.compose.ui.graphics.Color.Transparent, CircleShape)
+                        .semantics { selected = activa }) {
+                    Icon(sec.icono, nombre, tint = if (activa) colores.onSecondaryContainer else colores.onSurfaceVariant)
+                }
+            }
         }
-        Spacer(Modifier.weight(1f))
+    }
+}
+
+/** En el teléfono: todas las secciones (las de la barra izquierda de la web) en una hoja, en el mismo orden. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HojaSecciones(actual: String?, onIr: (String) -> Unit, onPublicar: () -> Unit, onCerrar: () -> Unit) {
+    androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
+        Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 24.dp)) {
+            Text(stringResource(R.string.todas_secciones), style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(bottom = 12.dp))
+            SECCIONES_TODAS.chunked(4).forEach { fila ->
+                Row(Modifier.fillMaxWidth()) {
+                    fila.forEach { sec ->
+                        val nombre = sec?.let { stringResource(it.titulo) } ?: stringResource(R.string.publicar)
+                        val activa = sec != null && actual != null && actual.substringBefore('?') == sec.ruta.substringBefore('?')
+                        Column(Modifier.weight(1f).clip(androidx.compose.foundation.shape.RoundedCornerShape(16.dp))
+                            .clickable { onCerrar(); if (sec == null) onPublicar() else onIr(sec.ruta) }.padding(vertical = 10.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            Box(Modifier.size(48.dp).background(if (activa) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerHigh, CircleShape),
+                                contentAlignment = Alignment.Center) {
+                                Icon(sec?.icono ?: com.rutaalacima.app.ui.components.IconoPublicar, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                            }
+                            Text(nombre, style = MaterialTheme.typography.labelMedium, maxLines = 2, textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                                modifier = Modifier.padding(top = 6.dp, start = 2.dp, end = 2.dp))
+                        }
+                    }
+                    repeat(4 - fila.size) { Spacer(Modifier.weight(1f)) }
+                }
+            }
+        }
     }
 }
 

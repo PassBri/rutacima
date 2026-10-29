@@ -2820,4 +2820,5 @@
         <item quantity="one">確認待ちのコーチ応募 %d 件</item>
         <item quantity="other">確認待ちのコーチ応募 %d 件</item>
     </plurals>
+    <string name="todas_secciones">すべてのセクション</string>
 </resources>

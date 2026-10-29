@@ -2820,4 +2820,5 @@
         <item quantity="one">%d candidatura da coach da rivedere</item>
         <item quantity="other">%d candidature da coach da rivedere</item>
     </plurals>
+    <string name="todas_secciones">Tutte le sezioni</string>
 </resources>

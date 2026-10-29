@@ -4949,3 +4949,6 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .cima-acciones b, .cima-acciones > button { text-shadow: none; }
   .cima-acciones > button { color: rgb(255 255 255 / .85); }
 }
+/* Mochila guardada: el ícono se pinta azul de altura y el círculo se tiñe (igual que la app) */
+.cima-acciones > button[data-acc="guardarPost"][aria-pressed="true"] > svg { fill: #9EC1D6 !important; background: rgb(158 193 214 / .3) !important; border-color: rgb(158 193 214 / .55) !important; }
+.cima-acciones > button[data-acc="guardarPost"] > svg { transition: fill .2s cubic-bezier(.2,0,0,1), background-color .2s cubic-bezier(.2,0,0,1); }

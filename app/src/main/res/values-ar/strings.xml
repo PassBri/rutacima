@@ -2820,4 +2820,5 @@
         <item quantity="one">%d طلب مدرب للمراجعة</item>
         <item quantity="other">%d طلبات مدربين للمراجعة</item>
     </plurals>
+    <string name="todas_secciones">كل الأقسام</string>
 </resources>

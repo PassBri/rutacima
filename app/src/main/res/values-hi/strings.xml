@@ -2820,4 +2820,5 @@
         <item quantity="one">समीक्षा के लिए %d कोच आवेदन</item>
         <item quantity="other">समीक्षा के लिए %d कोच आवेदन</item>
     </plurals>
+    <string name="todas_secciones">सभी अनुभाग</string>
 </resources>

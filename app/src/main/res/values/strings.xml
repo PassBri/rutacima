@@ -2829,4 +2829,5 @@
         <item quantity="one">%d postulación de coach por revisar</item>
         <item quantity="other">%d postulaciones de coach por revisar</item>
     </plurals>
+    <string name="todas_secciones">Todas las secciones</string>
 </resources>

@@ -2820,4 +2820,5 @@
         <item quantity="one">%d candidatura de coach para revisar</item>
         <item quantity="other">%d candidaturas de coach para revisar</item>
     </plurals>
+    <string name="todas_secciones">Todas as seções</string>
 </resources>

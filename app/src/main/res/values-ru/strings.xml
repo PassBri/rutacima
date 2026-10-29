@@ -2820,4 +2820,5 @@
         <item quantity="one">%d заявка коуча на проверку</item>
         <item quantity="other">%d заявки коучей на проверку</item>
     </plurals>
+    <string name="todas_secciones">Все разделы</string>
 </resources>
