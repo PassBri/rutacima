@@ -4708,3 +4708,8 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-atajos .fb-atajo:nth-child(4n+1)[data-tip]:focus-visible::after { transform: none; }
 @media (hover: hover) and (pointer: fine) { .fb-atajos .fb-atajo:nth-child(4n+1)[data-tip]:hover::after { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .fb-atajo[data-tip]::after { transition: none; } }
+
+/* Columna de la comunidad: velo de tinta sin sombra (se lee igual sobre fotos claras y oscuras) */
+.cima-acciones > button:not(.clima-btn):not(.cima-autor):not(.cima-impulso[aria-pressed="true"]) > svg { background: rgb(14 12 10 / .34) !important; border-color: rgb(255 255 255 / .18) !important; }
+.cima-acciones > button:not(.clima-btn):not(.cima-autor) > svg, .cima-acciones > button.clima-btn .cb-circ, .cima-acciones .cima-autor .avatar { box-shadow: none !important; }
+.cima-acciones > button.clima-btn .cb-circ { background: rgb(14 12 10 / .34) !important; }

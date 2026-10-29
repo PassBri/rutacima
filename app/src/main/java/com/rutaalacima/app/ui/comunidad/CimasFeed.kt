@@ -242,7 +242,7 @@ private fun CimaPagina(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Column(Modifier.width(56.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                Box(Modifier.size(48.dp).shadow(4.dp, CircleShape).clip(CircleShape).border(1.5.dp, PapelClaro.copy(alpha = 0.85f), CircleShape)
+                Box(Modifier.size(48.dp).clip(CircleShape).border(1.5.dp, PapelClaro.copy(alpha = 0.85f), CircleShape)
                     .clickable(onClick = onAutor).semantics { contentDescription = post.autorNombre }, contentAlignment = Alignment.Center) {
                     Avatar(post.autorNombre, post.avatarUrl, tamano = 48)
                 }
@@ -251,7 +251,7 @@ private fun CimaPagina(
             // Pocos números: el contador de impulsos solo lo ve el autor
             Accion(if (post.yoImpulse) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder, if (post.propio) contar(post.impulsos) else "", stringResource(R.string.impulsar), Color.White,
                 fondo = if (post.yoImpulse) MaterialTheme.colorScheme.primary else null, onClick = onImpulsar)
-            com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima, tamano = 48.dp, fondo = PapelClaro.copy(alpha = 0.16f))
+            com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima, tamano = 48.dp, fondo = VeloTinta)
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onClick = onAbrir)
             Accion(if (guardado) com.rutaalacima.app.ui.components.IconosRuta.Morral else com.rutaalacima.app.ui.components.IconosRuta.MorralContorno, "", stringResource(R.string.guardar),
                 if (guardado) com.rutaalacima.app.ui.components.AzulAltura else Color.White,
@@ -328,6 +328,8 @@ private fun contar(n: Int): String = when {
 }
 
 private val PapelClaro = Color(0xFFFBF8F3)
+/** Fondo de los botones de la columna derecha: tinta translúcida (igual que la web). */
+private val VeloTinta = Color(0xFF0E0C0A).copy(alpha = 0.34f)
 
 @Composable
 private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte: Color, fondo: Color? = null, onClick: () -> Unit) {
@@ -337,9 +339,11 @@ private fun Accion(icono: ImageVector, texto: String, descripcion: String, tinte
             .semantics { contentDescription = if (texto.isEmpty()) descripcion else "$descripcion, $texto" },
     ) {
         Box(
-            Modifier.size(48.dp).shadow(4.dp, CircleShape).clip(CircleShape)
-                .background(fondo ?: PapelClaro.copy(alpha = 0.16f))
-                .border(1.dp, if (fondo != null) Color.Transparent else PapelClaro.copy(alpha = 0.32f), CircleShape),
+            // Velo de tinta sin sombra: se lee igual sobre fotos claras y oscuras (la sombra bajo un relleno
+            // translúcido se veía como una mancha gris)
+            Modifier.size(48.dp).clip(CircleShape)
+                .background(fondo ?: VeloTinta)
+                .border(1.dp, if (fondo != null) Color.Transparent else Color.White.copy(alpha = 0.18f), CircleShape),
             contentAlignment = Alignment.Center,
         ) { Icon(icono, null, tint = tinte, modifier = Modifier.size(24.dp)) }
         Spacer(Modifier.height(4.dp))

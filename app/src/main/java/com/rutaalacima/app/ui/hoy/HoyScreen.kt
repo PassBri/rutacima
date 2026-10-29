@@ -98,6 +98,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.first
+import com.rutaalacima.app.ui.planner.horarioMapa
+import com.rutaalacima.app.ui.planner.conHora
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -131,6 +134,22 @@ class HoyViewModel(private val c: AppContainer) : ViewModel() {
 
     fun alternarHoy(m: MetaMensualEntity) = viewModelScope.launch { c.planAnual.alternarDia(m, hoy().dayOfMonth) }
     fun alternarHabito(id: String) = viewModelScope.launch { c.checklist.alternar(hoy(), id) }
+
+    /** Actividad de una hora hecha o no; si va a una meta del mes, el día cuenta en esa meta (igual que el planificador y la web). */
+    fun actHecha(h: Int, si: Boolean) = viewModelScope.launch {
+        val f = hoy()
+        c.respuestas.guardar(com.rutaalacima.app.ui.planner.WB_DIA, "dia#$f#$h#hecho", if (si) "1" else "")
+        val meta = dia.value["dia#$f#$h#meta"].orEmpty()
+        if (!si || meta.isBlank()) return@launch
+        val partes = meta.split('|')
+        val m = metasMes.value.firstOrNull { it.id.toString() == partes[0] } ?: return@launch
+        if (f.dayOfMonth !in m.diasMarcados()) c.planAnual.alternarDia(m, f.dayOfMonth)
+        val p = partes.getOrNull(1)?.toIntOrNull() ?: return@launch
+        val anuales = c.planificador.todasLasMetas.first()
+        val cas = com.rutaalacima.app.data.vision.SincroBrujula.casillaDe(
+            m.metaAnualId?.let { id -> anuales.firstOrNull { it.id == id } }, anuales, c.db.visionDao().observe().first())
+        if (cas != null) com.rutaalacima.app.ui.planner.jornadaPaso(c, cas.id, p, f)
+    }
 }
 
 /** Pantalla "Hoy": todo lo del día en un solo lugar, tan simple como un chat. */
@@ -265,6 +284,67 @@ fun HoyScreen(
                         }
                     }
                     TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.abrir_planificador_dia)) }
+                }
+            }
+        }
+
+        // Actividades del día por hora (las mismas del planificador y de la web): las escritas,
+        // la hora de ahora y las dos siguientes; "Ver las 24 horas" abre el día completo
+        item(key = "acts-hoy") {
+            val a = vm.agenda
+            if (a != null) {
+                val r by vm.dia.collectAsStateWithLifecycle()
+                val f = hoy()
+                val hor = a.horarioMapa()
+                val ctx = androidx.compose.ui.platform.LocalContext.current
+                val formato24 = remember { ctx.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE).getBoolean("hora24", false) }
+                var todo by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+                val todas = com.rutaalacima.app.ui.planner.HORAS_DEL_DIA
+                val ahora = java.time.LocalTime.now().hour
+                val iAhora = todas.indexOf(ahora)
+                val horas = if (todo) todas else todas.filterIndexed { i, h -> hor[h].orEmpty().isNotBlank() || i in iAhora..iAhora + 2 }
+                val escritas = hor.filterValues { it.isNotBlank() }.keys
+                val hechas = escritas.count { r["dia#$f#$it#hecho"] == "1" }
+                RutaCard {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.actividades_dia), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                        if (escritas.isNotEmpty()) Text("$hechas / ${escritas.size} " + stringResource(R.string.acts_hechas),
+                            style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    Spacer(Modifier.height(6.dp))
+                    horas.forEach { h ->
+                        val t = hor[h].orEmpty()
+                        val hecho = r["dia#$f#$h#hecho"] == "1"
+                        val esAhora = h == ahora
+                        val metaTxt = r["dia#$f#$h#meta"]?.substringBefore('|')?.let { id -> metasMes.firstOrNull { it.id.toString() == id }?.texto }
+                        Row(
+                            Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp))
+                                .background(if (esAhora) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f) else Color.Transparent),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Text(if (esAhora) stringResource(R.string.ahora_hora) else com.rutaalacima.app.ui.planner.etiquetaHora(h, formato24),
+                                modifier = Modifier.width(60.dp).padding(start = 6.dp), style = MaterialTheme.typography.labelMedium,
+                                fontWeight = if (esAhora) FontWeight.Bold else FontWeight.Normal,
+                                color = if (esAhora) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                            Checkbox(checked = hecho, onCheckedChange = { vm.actHecha(h, it) }, enabled = t.isNotBlank())
+                            Column(Modifier.weight(1f).padding(vertical = 4.dp)) {
+                                OutlinedTextField(t, { v -> vm.editarAgenda { it.conHora(h, v) } }, modifier = Modifier.fillMaxWidth(), singleLine = true,
+                                    textStyle = MaterialTheme.typography.bodyMedium.copy(
+                                        textDecoration = if (hecho) androidx.compose.ui.text.style.TextDecoration.LineThrough else null))
+                                if (metaTxt != null) Text("↑ $metaTxt", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary,
+                                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(start = 4.dp, top = 2.dp))
+                            }
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        TextButton(onClick = { todo = !todo }) {
+                            Icon(if (todo) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown, null, Modifier.size(18.dp))
+                            Spacer(Modifier.width(4.dp))
+                            Text(stringResource(if (todo) R.string.acts_ver_menos else R.string.acts_ver_dia))
+                        }
+                        Spacer(Modifier.weight(1f))
+                        TextButton(onClick = { onIrA(Rutas.planificador(1, hoy())) }) { Text(stringResource(R.string.acts_planificador)) }
+                    }
                 }
             }
         }

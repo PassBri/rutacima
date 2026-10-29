@@ -107,6 +107,13 @@ fun AgendaDiaEntity.horarioMapa(): Map<Int, String> =
     runCatching { json.decodeFromString(horarioSerializer, horario) }.getOrDefault(emptyMap())
         .mapNotNull { (k, v) -> k.toIntOrNull()?.let { it to v } }.toMap()
 
+/** El mismo día con el texto de una hora cambiado (vacío la borra). */
+fun AgendaDiaEntity.conHora(h: Int, texto: String): AgendaDiaEntity {
+    val mapa = horarioMapa().toMutableMap()
+    if (texto.isBlank()) mapa.remove(h) else mapa[h] = texto
+    return copy(horario = json.encodeToString(horarioSerializer, mapa.mapKeys { it.key.toString() }))
+}
+
 /** Workbook de respuestas del día (el mismo que usa la web): "dia#<fecha>#top", "dia#<fecha>#<h>#meta|hecho", "dia#<fecha>#traido". */
 const val WB_DIA = "dia"
 

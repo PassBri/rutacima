@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">कैलेंडर</string>
     <string name="fb_tab_atajos">शॉर्टकट</string>
     <string name="fb_tab_resumen">सारांश</string>
+    <string name="acts_ver_dia">सभी 24 घंटे देखें</string>
+    <string name="acts_ver_menos">कम देखें</string>
+    <string name="acts_planificador">योजनाकार</string>
 </resources>

@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">Календарь</string>
     <string name="fb_tab_atajos">Ярлыки</string>
     <string name="fb_tab_resumen">Сводка</string>
+    <string name="acts_ver_dia">Все 24 часа</string>
+    <string name="acts_ver_menos">Свернуть</string>
+    <string name="acts_planificador">Планировщик</string>
 </resources>

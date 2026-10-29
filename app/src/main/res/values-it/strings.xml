@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">Calendario</string>
     <string name="fb_tab_atajos">Scorciatoie</string>
     <string name="fb_tab_resumen">Riepilogo</string>
+    <string name="acts_ver_dia">Vedi tutte le 24 ore</string>
+    <string name="acts_ver_menos">Mostra meno</string>
+    <string name="acts_planificador">Agenda</string>
 </resources>

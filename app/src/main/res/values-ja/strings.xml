@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">カレンダー</string>
     <string name="fb_tab_atajos">ショートカット</string>
     <string name="fb_tab_resumen">概要</string>
+    <string name="acts_ver_dia">24時間すべて表示</string>
+    <string name="acts_ver_menos">閉じる</string>
+    <string name="acts_planificador">プランナー</string>
 </resources>

@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">달력</string>
     <string name="fb_tab_atajos">바로가기</string>
     <string name="fb_tab_resumen">요약</string>
+    <string name="acts_ver_dia">24시간 모두 보기</string>
+    <string name="acts_ver_menos">접기</string>
+    <string name="acts_planificador">플래너</string>
 </resources>

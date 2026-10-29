@@ -2784,4 +2784,7 @@
     <string name="fb_tab_calendario">日历</string>
     <string name="fb_tab_atajos">快捷</string>
     <string name="fb_tab_resumen">概览</string>
+    <string name="acts_ver_dia">查看全部 24 小时</string>
+    <string name="acts_ver_menos">收起</string>
+    <string name="acts_planificador">规划</string>
 </resources>
