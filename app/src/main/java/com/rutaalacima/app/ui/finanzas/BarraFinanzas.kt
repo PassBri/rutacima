@@ -51,7 +51,11 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.ui.semantics.selected
-import androidx.compose.material3.SegmentedButton
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.automirrored.filled.ViewList
+import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -116,7 +120,11 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
     val lugarM = when (nivel) { is NivelCuentas.Mes -> nivel.ym.monthValue; is NivelCuentas.Dia -> nivel.f.monthValue; else -> null }
     var verA by remember(nivel) { mutableIntStateOf(lugarA ?: h.year) }
     var verM by remember(nivel) { mutableIntStateOf(lugarM ?: if (lugarA != null && lugarA != h.year) 1 else h.monthValue) }
-    var abierta by rememberSaveable { mutableStateOf(false) }
+    val prefs = remember { ctx.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE) }
+    // Lo abierto junto al riel: -1 nada, 0 calendario, 2 resumen (se recuerda)
+    var panel by rememberSaveable { mutableIntStateOf(prefs.getInt("fb_panel", -1).let { if (it == 0 || it == 2) it else -1 }) }
+    val cambiarPanel: (Int) -> Unit = { k -> panel = if (panel == k) -1 else k; prefs.edit().putInt("fb_panel", panel).apply() }
+    val verdeRiel = if (androidx.compose.foundation.isSystemInDarkTheme()) Color(0xFF8CC79A) else Color(0xFF2E6B3A)
     var mapa by rememberSaveable { mutableStateOf(false) }
 
     // Totales por día y por mes, una sola vez por libro
@@ -133,26 +141,33 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
     val verde = colorTipo(Tipo.ING); val burdeos = MaterialTheme.colorScheme.primary; val oro = MaterialTheme.colorScheme.secondary
     Surface(color = MaterialTheme.colorScheme.surfaceContainerLow, modifier = Modifier.fillMaxWidth()) {
         Column {
-            Row(Modifier.fillMaxWidth().padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = { nivel.arriba()?.let(ir) }, enabled = nivel.arriba() != null) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.fb_subir)) }
-                Row(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).clickable { abierta = !abierta }.padding(vertical = 10.dp, horizontal = 6.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(donde, style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif), color = burdeos, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
-                    Icon(if (abierta) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, stringResource(if (abierta) R.string.fb_ocultar else R.string.fb_mostrar), tint = burdeos)
+            // Riel de íconos (como la barra de la izquierda en la web): subir, calendario, resumen y los atajos uno tras otro,
+            // solo íconos verdes; el nombre aparece al dejar el dedo encima. Calendario y resumen se despliegan debajo.
+            val atajos = listOf<Triple<NivelCuentas?, androidx.compose.ui.graphics.vector.ImageVector, Int>>(
+                Triple(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance), Triple(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos),
+                Triple(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas), Triple(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo),
+                Triple(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud), Triple(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo),
+                Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo), Triple(null, Icons.Filled.PictureAsPdf, R.string.fb_informe),
+            )
+            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 4.dp, vertical = 4.dp),
+                verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                BotonRiel(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.fb_subir), false, verdeRiel, enabled = nivel.arriba() != null) { nivel.arriba()?.let(ir) }
+                BotonRiel(Icons.Filled.CalendarMonth, stringResource(R.string.fb_tab_calendario), panel == 0, verdeRiel) { cambiarPanel(0) }
+                BotonRiel(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.fb_tab_resumen), panel == 2, verdeRiel) { cambiarPanel(2) }
+                Box(Modifier.padding(horizontal = 6.dp).width(1.dp).height(24.dp).background(MaterialTheme.colorScheme.outlineVariant))
+                atajos.forEach { (n, ic, s) ->
+                    BotonRiel(ic, stringResource(s), n != null && n == nivel, verdeRiel) { if (n == null) onInforme() else ir(n) }
                 }
-                OutlinedButton(onClick = { ir(NivelCuentas.Dia(h)) }, modifier = Modifier.padding(end = 8.dp)) { Text(stringResource(R.string.fb_hoy)) }
             }
-            AnimatedVisibility(abierta) {
+            AnimatedVisibility(panel >= 0) {
                 Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()).padding(start = 12.dp, end = 12.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    // Pestañas: Calendario · Atajos · Resumen (se recuerda la última)
-                    val prefs = remember { ctx.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE) }
-                    var pest by rememberSaveable { mutableIntStateOf(prefs.getInt("fb_pestana", 0).coerceIn(0, 2)) }
-                    androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
-                        listOf(R.string.fb_tab_calendario, R.string.fb_tab_atajos, R.string.fb_tab_resumen).forEachIndexed { i, s ->
-                            SegmentedButton(selected = pest == i, onClick = { pest = i; prefs.edit().putInt("fb_pestana", i).apply() },
-                                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, 3), icon = {}) { Text(stringResource(s), maxLines = 1) }
-                        }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(if (panel == 0) donde else stringResource(R.string.fb_tab_resumen), style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif),
+                            color = burdeos, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f).padding(start = 4.dp))
+                        if (panel == 0) OutlinedButton(onClick = { ir(NivelCuentas.Dia(h)) }) { Text(stringResource(R.string.fb_hoy)) }
+                        IconButton(onClick = { cambiarPanel(panel) }) { Icon(Icons.Filled.Close, stringResource(R.string.fb_ocultar)) }
                     }
-                    if (pest == 0) {
+                    if (panel == 0) {
                     // Año y sus 12 meses
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { verA-- }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.cu_anterior)) }
@@ -287,35 +302,6 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                             }
                         }
                     }
-                    } else if (pest == 1) {
-                        // Atajos: solo íconos; la leyenda aparece al dejar el dedo o el puntero encima
-                        val atajos = listOf<Triple<NivelCuentas?, androidx.compose.ui.graphics.vector.ImageVector, Int>>(
-                            Triple(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance), Triple(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos),
-                            Triple(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas), Triple(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo),
-                            Triple(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud), Triple(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo),
-                            Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo), Triple(null, Icons.Filled.Download, R.string.fb_informe),
-                        )
-                        atajos.chunked(4).forEach { fila ->
-                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                fila.forEach { (n, ic, s) ->
-                                    val activo = n != null && n == nivel
-                                    val nombre = stringResource(s)
-                                    TooltipBox(
-                                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                                        tooltip = { PlainTooltip { Text(nombre) } },
-                                        state = rememberTooltipState(),
-                                        modifier = Modifier.weight(1f),
-                                    ) {
-                                        Surface(onClick = { if (n == null) onInforme() else ir(n) }, shape = RoundedCornerShape(14.dp),
-                                            color = if (activo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
-                                            border = if (activo) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-                                            modifier = Modifier.fillMaxWidth().aspectRatio(1f).semantics { contentDescription = nombre; selected = activo }) {
-                                            Box(contentAlignment = Alignment.Center) { Icon(ic, null, tint = burdeos, modifier = Modifier.size(22.dp)) }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     } else {
                         AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(YearMonth.from(h))) }
                         Cordillera(porAnio, verA, plata) { ir(NivelCuentas.Anio(it)) }
@@ -388,6 +374,23 @@ private fun AsiVaElMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, diasCon:
                 Text(if (racha > 0) stringResource(R.string.fb_racha, racha) else stringResource(R.string.fb_sin_racha), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             if (frases.isNotEmpty()) Text(frases[(h.toEpochDay() % frases.size).toInt()], style = MaterialTheme.typography.bodyMedium.copy(fontFamily = FontFamily.Serif), textAlign = TextAlign.Start)
+        }
+    }
+}
+
+/** Botón del riel: solo ícono verde en un círculo; el activo lleva un fondo verde suave. El nombre sale al dejar el dedo encima. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+private fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, nombre: String, activo: Boolean, verde: Color, enabled: Boolean = true, onClick: () -> Unit) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = { PlainTooltip { Text(nombre) } },
+        state = rememberTooltipState(),
+    ) {
+        IconButton(onClick = onClick, enabled = enabled,
+            modifier = Modifier.size(44.dp).clip(CircleShape).background(if (activo) verde.copy(alpha = 0.14f) else Color.Transparent)
+                .semantics { selected = activo }) {
+            Icon(icono, nombre, tint = if (enabled) verde else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f), modifier = Modifier.size(22.dp))
         }
     }
 }

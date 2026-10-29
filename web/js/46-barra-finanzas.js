@@ -114,7 +114,6 @@ function fbTarjeta(datos) {
 function fbBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = fbLugar(), ver = fbVer(), a = ver.a, m = ver.m;
   const v = String(estado.sel || ""), arriba = fbArriba(), datos = fbDatos();
-  let pest = estado.fbPestana; if (!pest) { try { pest = localStorage.getItem("suroute-fb-pestana"); } catch {} } pest = ["cal", "atajos", "resumen"].includes(pest) ? pest : "cal";
   const ATAJOS = [["b", "plata", "Balance general"], ["fijos", "repetir", "Mis cuentas fijas"], ["deudas", "deuda", "Deudas"], ["metasfin", "alcancia", "Metas financieras"],
     ["salud", "salud", "Salud financiera"], ["grafica", "grafica", "Gráfica del ascenso"], ["patrimonio", "balanza", "Activos y pasivos"]];
   const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? String(l.a) : ATAJOS.find(x => x[0] === v)?.[2] || "Ascenso financiero";
@@ -132,15 +131,17 @@ function fbBarra() {
   }
   const nav = (sel, i, txt) => `<button class="rv-nav-item" data-sel="${sel}" aria-pressed="${v === sel}">${ic(i)}<span>${txt}</span></button>`;
 
-  return `<nav class="rv-barra fb-barra" aria-label="Ascenso financiero: año, mes y día">
-    <div class="rv-cab"><button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button>
-      <b class="rv-donde">${donde}</b><button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>
-      <button class="rv-plegar solo-movil" data-acc="fbPlegar" aria-expanded="${!!estado.fbAbierta}" aria-label="${estado.fbAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.fbAbierta ? "arriba" : "abajo")}</button></div>
-    <div class="rv-cuerpo${estado.fbAbierta ? " abierta" : ""}">
-      <div class="fb-pestanas" role="tablist" aria-label="Partes de la barra">${[["cal", "calendario", "Calendario"], ["atajos", "cuadricula", "Atajos"], ["resumen", "grafica", "Resumen"]].map(([k, i, n]) =>
-        `<button role="tab" aria-selected="${pest === k}" data-acc="fbPestana" data-arg="${k}">${ic(i)}<span>${n}</span></button>`).join("")}</div>
-      ${pest === "cal" ? `<div class="fb-panel" role="tabpanel" aria-label="Calendario">
-      <div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
+  const panel = fbPanel();
+  const btn = (attrs, i, t, on) => `<button class="fb-r" ${attrs}${on != null ? ` aria-pressed="${on}"` : ""} aria-label="${t}" data-tip="${t}">${ic(i)}</button>`;
+  const riel = `<div class="fb-riel" role="toolbar" aria-label="Ascenso financiero" aria-orientation="vertical">
+      ${btn(arriba ? `data-sel="${arriba}"` : "disabled", "volver", "Subir un nivel (Esc)")}
+      ${btn('data-acc="fbPestana" data-arg="cal"', "calendario", "Calendario", panel === "cal")}
+      ${btn('data-acc="fbPestana" data-arg="resumen"', "lista", "Resumen del mes", panel === "resumen")}
+      <hr class="fb-sep" aria-hidden="true">
+      ${ATAJOS.map(([sel, i, t]) => btn(`data-sel="${sel}"`, i, t, v === sel)).join("")}
+      ${btn('data-acc="ascInforme"', "pdf", "Informe PDF")}
+    </div>`;
+  const cal = `<div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="fbMapa" aria-expanded="${!!estado.fbMapa}" title="Ver todos tus años">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"} ${ic(estado.fbMapa ? "arriba" : "abajo")}</small></button>
         <button class="rv-flecha" data-acc="fbAnio" data-arg="1" aria-label="Año siguiente" ${a >= aHoy + 1 ? "disabled" : ""}>${ic("der")}</button></div>
       ${estado.fbMapa ? fbAnios(datos, a) : ""}
@@ -149,12 +150,21 @@ function fbBarra() {
         <button class="rv-titulo${l.a === a && l.m === m && !l.d ? " abierto" : ""}" data-sel="m:${a}-${pad2(m)}" title="Abrir ${MESES[m - 1]}">${mayus(MESES[m - 1])}</button>
         <button class="rv-flecha" data-acc="fbMes" data-arg="1" aria-label="Mes siguiente">${ic("der")}</button></div>
       <div class="rv-cal" role="group" aria-label="Días de ${MESES[m - 1]} de ${a}">${dias}</div>
-      <p class="fb-ley" aria-hidden="true">${[["ing", "Ingreso"], ["gas", "Gasto"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Dar"]].map(([t, n]) => `<span><i style="background:${FB_COLOR[t]}"></i>${n}</span>`).join("")}</p>
-      </div>` : pest === "atajos" ? `<div class="fb-panel fb-atajos" role="tabpanel" aria-label="Atajos">${ATAJOS.map(([s, i, t]) =>
-        `<button class="fb-atajo" data-sel="${s}" aria-pressed="${v === s}" aria-label="${t}" data-tip="${t}">${ic(i)}</button>`).join("")}
-        <button class="fb-atajo" data-acc="ascInforme" aria-label="Informe PDF" data-tip="Informe PDF">${ic("descargar")}</button></div>`
-      : `<div class="fb-panel" role="tabpanel" aria-label="Resumen">${fbTarjeta(datos)}${fbCordillera(datos, a)}</div>`}
-    </div></nav>`;
+      <p class="fb-ley" aria-hidden="true">${[["ing", "Ingreso"], ["gas", "Gasto"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Dar"]].map(([t, n]) => `<span><i style="background:${FB_COLOR[t]}"></i>${n}</span>`).join("")}</p>`;
+  const hoja = panel ? `<div class="fb-hoja" role="region" aria-label="${panel === "cal" ? "Calendario" : "Resumen del mes"}">
+      <div class="fb-hoja-cab"><b class="rv-donde">${panel === "cal" ? donde : "Resumen"}</b>
+        ${panel === "cal" ? `<button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>` : ""}
+        <button class="rv-atras" data-acc="fbPestana" data-arg="${panel}" aria-label="Cerrar" title="Cerrar">${ic("cerrar")}</button></div>
+      <div class="fb-panel">${panel === "cal" ? cal : fbTarjeta(datos) + fbCordillera(datos, a)}</div></div>` : "";
+  return `<nav class="rv-barra fb-barra${panel ? " con-hoja" : ""}" aria-label="Ascenso financiero: año, mes y día">${riel}${hoja}</nav>`;
+}
+/** Qué se abre junto al riel: el calendario, el resumen o nada (se recuerda; en el teléfono empieza cerrado). */
+function fbPanel() {
+  if (estado.fbPanel == null) {
+    let p = null; try { p = localStorage.getItem("suroute-fb-panel"); } catch {}
+    estado.fbPanel = matchMedia("(max-width: 900px)").matches ? "" : (p === "" || p === "resumen" ? p : "cal");
+  }
+  return estado.fbPanel;
 }
 /** Todos tus años en miniatura (igual que Mi ruta): un aro por año de tu vida, una fila por década.
  *  El color dice cómo cerró: verde (sobró o todo tuvo destino), dorado (en cero sin ahorro), burdeos (salió más).
@@ -184,10 +194,10 @@ function fbAniosLista(datos, visto) {
       <b>${y}</b><small>${t?.n ? plata(t.disp) : "—"}</small></button>`; }).join("")}
     <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
 }
-ACC.fbPestana = (_, k) => { estado.fbPestana = k; try { localStorage.setItem("suroute-fb-pestana", k); } catch {} fbRepintar(); };
+ACC.fbPestana = (_, k) => { estado.fbPanel = fbPanel() === k ? "" : k; try { localStorage.setItem("suroute-fb-panel", estado.fbPanel); } catch {} fbRepintar(); };
 ACC.fbMapa = () => { estado.fbMapa = !estado.fbMapa; fbRepintar(); };
 ACC.fbAnioIr = (_, y) => { const ver = fbVer(), n = Number(y); if (ver.a === n) { estado.fbMapa = false; elegir("a:" + n); return; } ver.a = n; fbRepintar(); };
-function fbRepintar() { const b = document.querySelector(".fb-barra"); if (b) b.outerHTML = fbBarra(); }
+function fbRepintar() { const b = document.querySelector(".fb-barra"); if (b) b.outerHTML = fbBarra(); $("detalle")?.classList.toggle("fb-abierta", !!fbPanel()); }
 ACC.fbAnio = (_, d) => { const ver = fbVer(); ver.a = Math.min(hoyFecha().getFullYear() + 1, ver.a + Number(d)); fbRepintar(); };
 ACC.fbMes = (_, d) => { const ver = fbVer(); ver.m += Number(d); if (ver.m < 1) { ver.m = 12; ver.a--; } if (ver.m > 12) { ver.m = 1; ver.a++; } fbRepintar(); };
 ACC.fbPlegar = () => { estado.fbAbierta = !estado.fbAbierta; fbRepintar(); };
@@ -203,9 +213,9 @@ DET["finanzas.fijos"] = () => cab(avAsc(), "Mis cuentas fijas", "Lo que se repit
     const enFin = estado.sec === "finanzas" && !window.finBloqueado?.();
     if (enFin && estado.sel == null) { estado.sel = "m:" + iso(hoyFecha()).slice(0, 7); document.getElementById("app")?.classList.add("con-detalle"); }
     const r = base.apply(this, args), det = $("detalle");
-    if (!enFin) { det.classList.remove("con-fin"); return r; }
+    if (!enFin) { det.classList.remove("con-fin", "fb-abierta"); return r; }
     document.getElementById("app")?.classList.add("ruta-vida");
-    det.classList.add("con-vida", "con-fin");
+    det.classList.add("con-vida", "con-fin"); det.classList.toggle("fb-abierta", !!fbPanel());
     const l = fbLugar(); if (l.a && /^[amd]:/.test(String(estado.sel || ""))) estado.fbUltimo = l;
     det.insertAdjacentHTML("beforeend", fbBarra());
     return r;

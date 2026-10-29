@@ -4713,3 +4713,47 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .cima-acciones > button:not(.clima-btn):not(.cima-autor):not(.cima-impulso[aria-pressed="true"]) > svg { background: rgb(14 12 10 / .34) !important; border-color: rgb(255 255 255 / .18) !important; }
 .cima-acciones > button:not(.clima-btn):not(.cima-autor) > svg, .cima-acciones > button.clima-btn .cb-circ, .cima-acciones .cima-autor .avatar { box-shadow: none !important; }
 .cima-acciones > button.clima-btn .cb-circ { background: rgb(14 12 10 / .34) !important; }
+
+/* ---------- Ascenso financiero: riel de íconos a la derecha (como la barra de la izquierda) ----------
+   Los atajos van uno debajo del otro, solo íconos verdes; el nombre aparece al pasar el mouse.
+   El calendario y el resumen se abren al lado del riel solo cuando se piden, con el espacio que necesitan. */
+.fb-barra { --fb-verde: #2E6B3A; --fb-verde-suave: rgb(46 107 58 / .13); }
+:root[data-theme="dark"] .fb-barra { --fb-verde: #8CC79A; --fb-verde-suave: rgb(140 199 154 / .16); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fb-barra { --fb-verde: #8CC79A; --fb-verde-suave: rgb(140 199 154 / .16); } }
+.fb-riel { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 0; }
+.fb-r { position: relative; display: grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: var(--fb-verde); cursor: pointer; transition: background .15s cubic-bezier(.2,0,0,1); }
+.fb-r svg { width: 22px; height: 22px; fill: currentColor; }
+.fb-r[aria-pressed="true"] { background: var(--fb-verde-suave); }
+.fb-r:disabled { color: var(--tinta-suave); opacity: .45; cursor: default; }
+.fb-r:focus-visible { outline: 2px solid var(--fb-verde); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .fb-r:not(:disabled):not([aria-pressed="true"]):hover { background: var(--hoja-2); } }
+.fb-sep { width: 24px; margin: 6px 0; border: 0; border-top: 1px solid var(--linea); }
+.fb-r[data-tip]::after { content: attr(data-tip); position: absolute; right: calc(100% + 8px); top: 50%; transform: translate(4px, -50%); z-index: 6;
+  padding: 6px 10px; border-radius: 8px; background: var(--tinta); color: var(--hoja); font: 500 12.5px/1.2 var(--font, inherit); white-space: nowrap;
+  pointer-events: none; opacity: 0; transition: opacity .15s cubic-bezier(.2,0,0,1), transform .15s cubic-bezier(.2,0,0,1); }
+.fb-r[data-tip]:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
+@media (hover: hover) and (pointer: fine) { .fb-r[data-tip]:not(:disabled):hover::after { opacity: 1; transform: translate(0, -50%); } }
+@media (prefers-reduced-motion: reduce) { .fb-r[data-tip]::after, .fb-hoja { transition: none; animation: none; } }
+.fb-hoja { display: flex; flex-direction: column; min-width: 0; animation: rvAparece .18s cubic-bezier(.2,0,0,1); }
+.fb-hoja-cab { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 4px; padding: 10px 6px 10px 14px; background: var(--hoja); border-bottom: 1px solid var(--linea); }
+.fb-hoja .fb-panel { padding: 8px 12px 18px; }
+
+@media (min-width: 901px) {
+  #detalle.con-fin { padding-right: 61px; }
+  #detalle.con-fin.fb-abierta { padding-right: 361px; }
+  #detalle.con-fin .fb-barra { width: auto; flex-direction: row-reverse; overflow: visible; }
+  #detalle.con-fin .fb-riel { width: 60px; flex: none; }
+  #detalle.con-fin .fb-hoja { width: 300px; overflow-y: auto; overscroll-behavior: contain; border-right: 1px solid var(--linea); }
+}
+@media (min-width: 901px) and (max-width: 1280px) {
+  #detalle.con-fin.fb-abierta { padding-right: 321px; }
+  #detalle.con-fin .fb-hoja { width: 260px; }
+}
+/* Teléfono: el riel va arriba en una fila y lo que se abre baja debajo */
+@media (max-width: 900px) {
+  #detalle.con-fin .fb-riel { flex-direction: row; justify-content: flex-start; gap: 2px; padding: 6px 8px; overflow-x: auto; scrollbar-width: none; }
+  #detalle.con-fin .fb-sep { width: 0; height: 24px; margin: 0 4px; border-top: 0; border-left: 1px solid var(--linea); }
+  #detalle.con-fin .fb-r[data-tip]::after { display: none; }
+  #detalle.con-fin .fb-hoja { max-height: 70vh; overflow-y: auto; overscroll-behavior: contain; border-top: 1px solid var(--linea); }
+}
