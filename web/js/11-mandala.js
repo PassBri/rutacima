@@ -395,7 +395,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     ${sep}
     ${rielAbajo ? `<span class="md-riel-top">${rielAbajo}</span>` : ""}
     <details class="md-riel-info msc-info"><summary class="md-riel-btn" aria-label="Qué es" title="Qué es">${ic("info")}</summary><p id="mdRielInfo">${MD_CAPA_INFO[mdCapaActual()]}</p></details>
-    <details class="md-riel-avance"><summary class="md-riel-btn" aria-label="Avance y compartir" title="Avance y compartir">${ic("grafica")}</summary><div class="md-avance-pop" role="dialog" aria-label="Avance y compartir"></div></details>
+    <details class="md-riel-avance"><summary class="md-riel-btn" aria-label="Tu avance" title="Tu avance">${ic("dona")}</summary><div class="md-avance-pop" role="dialog" aria-label="Tu avance"></div></details>
+    <details class="md-riel-avance md-riel-compartir"><summary class="md-riel-btn" aria-label="Compartir mi Brújula en la comunidad" title="Compartir mi Brújula en la comunidad">${ic("compartir")}</summary><div class="md-avance-pop" role="dialog" aria-label="Compartir mi Brújula"></div></details>
     <span class="md-riel-top">${sep}${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["companero", "companero", "Compañero de Ascenso"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}${sep}</span>
     <span class="md-riel-top"><button class="md-riel-btn" data-acc="informeBrujula" aria-label="Descargar el informe de la Brújula" title="Descargar el informe de la Brújula">${ic("descargar")}</button></span>
@@ -1173,6 +1174,14 @@ document.addEventListener("keydown", e => {
 /* Avance y compartir (computador): el pie de la capa visible se abre junto al riel, para que la Brújula use toda la altura */
 document.addEventListener("toggle", e => { const d = e.target; if (!d.classList?.contains("md-riel-avance") || !d.open) return;
   const pie = document.querySelector(".md-capa:not([hidden]) .md-pie-capa") || document.querySelector(".md-pie-capa");
-  const pop = d.querySelector(".md-avance-pop"); if (pop) pop.innerHTML = pie ? pie.innerHTML : `<p class="suave" style="margin:0">Sin avance todavía.</p>`; }, true);
+  const pop = d.querySelector(".md-avance-pop"); if (!pop) return;
+  document.querySelectorAll(".md-riel-avance[open]").forEach(x => { if (x !== d) x.open = false; });
+  // Compartir: qué sale y quién la ve (las mismas opciones del celular)
+  if (d.classList.contains("md-riel-compartir")) { pop.innerHTML = mdPublicando ? `<p style="margin:0">Preparando la imagen…</p>`
+    : `<b class="md-pop-t">Compartir mi Brújula en la comunidad</b><p style="margin:0">Se publica tu Brújula para que la comunidad la explore (1 · 9 · 81), con una imagen para descargar. Elige qué sale y quién la ve:</p>
+      <label class="md-op"><input type="checkbox" id="mdConPasos" checked> Mis 64 pasos</label>
+      <label class="md-op"><input type="checkbox" id="mdConEvid"> Mis fotos de evidencia</label>
+      <div class="botones"><button class="btn" data-acc="compartirMandala" data-arg="SEGUIDORES">Mis seguidores</button><button class="btn lleno" data-acc="compartirMandala" data-arg="PUBLICA">Todos</button></div>`; return; }
+  pop.innerHTML = pie ? pie.innerHTML : `<p class="suave" style="margin:0">Sin avance todavía.</p>`; }, true);
 document.addEventListener("pointerdown", e => { document.querySelectorAll(".md-riel-avance[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
 document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".md-riel-avance[open]").forEach(d => { d.open = false; }); });

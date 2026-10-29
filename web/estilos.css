@@ -4920,3 +4920,10 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .md-escena .md-avance-pop b { display: inline; min-width: 0; height: auto; padding: 0; border-radius: 0; background: none; color: var(--tinta); font-size: inherit; font-weight: 700; }
   .md-escena .md-avance-pop .md-progreso { font-size: 14px; color: var(--burdeos); }
 }
+
+@media (min-width: 701px) {
+  .md-avance-pop .md-btn-compartir, .md-avance-pop .md-compartir, .md-avance-pop .botones:empty { display: none !important; }
+  .md-avance-pop .md-pop-t { font-size: 15px; color: var(--tinta); }
+  .md-avance-pop .md-op { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+  .md-avance-pop .md-op input { width: 18px; height: 18px; accent-color: var(--burdeos); }
+}
