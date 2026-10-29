@@ -174,7 +174,7 @@ function saludDe(pref, { sinDeudas = false } = {}) {
   const r = {
     nMeses, s, activos, declarados, pasivos, neto, deudaMes, mesesLista: [...new Set(rango.map(f => f.slice(0, 7)))].sort(),
     filas: [["Ingresos activos (trabajo, negocio, ventas)", ingAct], ["Ingresos pasivos (rentas, intereses)", pasivoIng], ["Ingresos totales", s.ing, true],
-      ["Gastos fijos (mochila verde)", fijos], ["Gastos variables (mochila amarilla)", variables], ["Ahorro", s.aho], ["Inversión", s.inv], ["Generosidad", s.gen || 0], ["Egresos totales", egresos, true],
+      ["Gastos fijos (mochila verde)", fijos], ["Gastos variables (mochila amarilla)", variables], ["Ahorro", s.aho], ["Inversión", s.inv], ["Dar", s.gen || 0], ["Egresos totales", egresos, true],
       ["Flujo de efectivo neto", s.ing - egresos, true]],
     flujo: s.ing > 0 ? (s.ing - egresos) / s.ing : null, liquidez: egresos > 0 ? s.ing / egresos : null,
     tasaAhorro: s.ing > 0 ? s.aho / s.ing : null, tasaConstruye: s.ing > 0 ? s.construido / s.ing : null,
@@ -220,7 +220,7 @@ function barraPeso(r) {
   const s = r.s; if (!(s.ing > 0)) return "";
   const libre = s.ing - s.gas - s.aho - s.inv - (s.gen || 0);
   const partes = [["fijos", "Gastos fijos", s.mochila.verde], ["variables", "Gastos variables", s.mochila.amarilla + Math.max(0, s.gas - s.mochila.verde - s.mochila.amarilla)],
-    ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["generosidad", "Generosidad", s.gen || 0], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
+    ["ahorro", "Ahorro", s.aho], ["inversion", "Inversión", s.inv], ["generosidad", "Dar", s.gen || 0], ["libre", libre >= 0 ? "Libre" : "Déficit", Math.abs(libre)]].filter(x => x[2] > 0);
   const base = Math.max(s.ing, s.gas + s.aho + s.inv + (s.gen || 0));
   return `<figure class="viz peso-viz"><figcaption><b>¿Qué haces con cada peso que entra?</b><span>Promedio al mes · toca una franja para ver el detalle</span></figcaption>
     <div class="peso-barra" role="img" aria-label="${partes.map(([, n, v]) => `${n} ${pctT(v / s.ing)}`).join(", ")}">${partes.map(([k, n, v]) =>

@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">完成</string>
     <string name="mirar_noche">夜间模式</string>
     <string name="mirar_ayuda_ajustar">拖动星图，直到月亮或一颗亮星与真实的重合。双击：重置。</string>
-    <string name="cu_gen">慷慨</string>
+    <string name="cu_gen">给予</string>
     <string name="cu_cat_gen_persona">帮助他人</string>
     <string name="cu_cat_gen_familia">支持家人</string>
     <string name="cu_cat_gen_causa">公益或基金会</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">查看你的所有年份</string>
     <string name="fb_mapa_ayuda">点按某一年查看；再点一次打开。</string>
     <string name="fb_balance_todos">查看总体结余</string>
+    <string name="fb_tab_calendario">日历</string>
+    <string name="fb_tab_atajos">快捷</string>
+    <string name="fb_tab_resumen">概览</string>
 </resources>

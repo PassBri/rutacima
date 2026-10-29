@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">OK</string>
     <string name="mirar_noche">Mode nuit</string>
     <string name="mirar_ayuda_ajustar">Faites glisser le dessin jusqu\'à ce que la Lune ou une étoile brillante coïncide avec la vraie. Double appui : réinitialiser.</string>
-    <string name="cu_gen">Générosité</string>
+    <string name="cu_gen">Don</string>
     <string name="cu_cat_gen_persona">Aide à une personne</string>
     <string name="cu_cat_gen_familia">Soutien à la famille</string>
     <string name="cu_cat_gen_causa">Cause ou fondation</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">Voir toutes tes années</string>
     <string name="fb_mapa_ayuda">Touche une année pour la voir ; touche-la encore pour l\'ouvrir.</string>
     <string name="fb_balance_todos">Voir le bilan général</string>
+    <string name="fb_tab_calendario">Calendrier</string>
+    <string name="fb_tab_atajos">Raccourcis</string>
+    <string name="fb_tab_resumen">Résumé</string>
 </resources>

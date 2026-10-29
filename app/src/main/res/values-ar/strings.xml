@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">تم</string>
     <string name="mirar_noche">الوضع الليلي</string>
     <string name="mirar_ayuda_ajustar">اسحب الرسم حتى يطابق القمر أو نجم ساطع موضعه الحقيقي. نقرتان: إعادة الضبط.</string>
-    <string name="cu_gen">العطاء</string>
+    <string name="cu_gen">عطاء</string>
     <string name="cu_cat_gen_persona">مساعدة شخص</string>
     <string name="cu_cat_gen_familia">دعم العائلة</string>
     <string name="cu_cat_gen_causa">قضية أو مؤسسة</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">عرض كل سنواتك</string>
     <string name="fb_mapa_ayuda">المس سنة لعرضها، والمسها مرة أخرى لفتحها.</string>
     <string name="fb_balance_todos">عرض الحصيلة العامة</string>
+    <string name="fb_tab_calendario">التقويم</string>
+    <string name="fb_tab_atajos">اختصارات</string>
+    <string name="fb_tab_resumen">ملخص</string>
 </resources>

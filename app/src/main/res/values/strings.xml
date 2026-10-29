@@ -2593,7 +2593,7 @@
     <string name="mirar_listo">Listo</string>
     <string name="mirar_noche">Modo noche</string>
     <string name="mirar_ayuda_ajustar">Arrastra el dibujo hasta que la Luna o una estrella brillante caiga sobre la real. Doble toque: volver a cero.</string>
-    <string name="cu_gen">Generosidad</string>
+    <string name="cu_gen">Dar</string>
     <string name="cu_cat_gen_persona">Ayuda a una persona</string>
     <string name="cu_cat_gen_familia">Apoyo a la familia</string>
     <string name="cu_cat_gen_causa">Causa o fundación</string>
@@ -2790,4 +2790,7 @@
     <string name="fb_todos_anios">Ver todos tus años</string>
     <string name="fb_mapa_ayuda">Toca un año para verlo; tócalo otra vez para abrirlo.</string>
     <string name="fb_balance_todos">Ver el balance de todos</string>
+    <string name="fb_tab_calendario">Calendario</string>
+    <string name="fb_tab_atajos">Atajos</string>
+    <string name="fb_tab_resumen">Resumen</string>
 </resources>

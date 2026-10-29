@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">Готово</string>
     <string name="mirar_noche">Ночной режим</string>
     <string name="mirar_ayuda_ajustar">Перетащите рисунок, пока Луна или яркая звезда не совпадёт с настоящей. Двойное касание: сброс.</string>
-    <string name="cu_gen">Щедрость</string>
+    <string name="cu_gen">Дарить</string>
     <string name="cu_cat_gen_persona">Помощь человеку</string>
     <string name="cu_cat_gen_familia">Поддержка семьи</string>
     <string name="cu_cat_gen_causa">Благое дело или фонд</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">Все ваши годы</string>
     <string name="fb_mapa_ayuda">Нажмите на год, чтобы посмотреть; нажмите ещё раз, чтобы открыть.</string>
     <string name="fb_balance_todos">Общий баланс</string>
+    <string name="fb_tab_calendario">Календарь</string>
+    <string name="fb_tab_atajos">Ярлыки</string>
+    <string name="fb_tab_resumen">Сводка</string>
 </resources>

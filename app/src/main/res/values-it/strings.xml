@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">Fatto</string>
     <string name="mirar_noche">Modalità notte</string>
     <string name="mirar_ayuda_ajustar">Trascina il disegno finché la Luna o una stella luminosa coincide con quella vera. Doppio tocco: azzera.</string>
-    <string name="cu_gen">Generosità</string>
+    <string name="cu_gen">Dare</string>
     <string name="cu_cat_gen_persona">Aiuto a una persona</string>
     <string name="cu_cat_gen_familia">Sostegno alla famiglia</string>
     <string name="cu_cat_gen_causa">Causa o fondazione</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">Vedi tutti i tuoi anni</string>
     <string name="fb_mapa_ayuda">Tocca un anno per vederlo; toccalo di nuovo per aprirlo.</string>
     <string name="fb_balance_todos">Vedi il bilancio generale</string>
+    <string name="fb_tab_calendario">Calendario</string>
+    <string name="fb_tab_atajos">Scorciatoie</string>
+    <string name="fb_tab_resumen">Riepilogo</string>
 </resources>

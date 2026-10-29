@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">हो गया</string>
     <string name="mirar_noche">रात्रि मोड</string>
     <string name="mirar_ayuda_ajustar">चित्र को तब तक खींचें जब तक चाँद या कोई चमकीला तारा असली पर न आ जाए। दो बार टैप: रीसेट।</string>
-    <string name="cu_gen">उदारता</string>
+    <string name="cu_gen">दान</string>
     <string name="cu_cat_gen_persona">किसी की मदद</string>
     <string name="cu_cat_gen_familia">परिवार को सहयोग</string>
     <string name="cu_cat_gen_causa">कोई उद्देश्य या संस्था</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">अपने सभी साल देखें</string>
     <string name="fb_mapa_ayuda">साल देखने के लिए टैप करें; खोलने के लिए फिर टैप करें।</string>
     <string name="fb_balance_todos">कुल हिसाब देखें</string>
+    <string name="fb_tab_calendario">कैलेंडर</string>
+    <string name="fb_tab_atajos">शॉर्टकट</string>
+    <string name="fb_tab_resumen">सारांश</string>
 </resources>

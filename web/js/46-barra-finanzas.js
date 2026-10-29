@@ -107,13 +107,14 @@ function fbTarjeta(datos) {
     ${uso != null ? `<div class="rv-rec-barra fb-pres${uso > 1 ? " pasado" : uso > 0.8 ? " cerca" : ""}" role="img" aria-label="Gastaste ${Math.round(uso * 100)} % del presupuesto"><i style="width:${Math.min(100, uso * 100)}%"></i></div>
       <small class="rv-rec-pct">${Math.round(uso * 100)} % del presupuesto gastado</small>`
       : `<button class="fb-sin-pres" data-sel="m:${ym}">Ponle un presupuesto al mes</button>`}
-    <small class="fb-racha">${ic("ruta")} ${racha ? `${racha} ${racha === 1 ? "día" : "días"} seguidos anotando` : "Anota hoy y empieza tu racha"}</small>
+    <small class="fb-racha">${ic("ruta")} ${racha ? (racha === 1 ? "1 día anotando" : `${racha} días seguidos anotando`) : "Anota hoy y empieza tu racha"}</small>
     <p class="rv-rec-frase">${frase}</p></section>`;
 }
 
 function fbBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = fbLugar(), ver = fbVer(), a = ver.a, m = ver.m;
   const v = String(estado.sel || ""), arriba = fbArriba(), datos = fbDatos();
+  let pest = estado.fbPestana; if (!pest) { try { pest = localStorage.getItem("suroute-fb-pestana"); } catch {} } pest = ["cal", "atajos", "resumen"].includes(pest) ? pest : "cal";
   const ATAJOS = [["b", "plata", "Balance general"], ["fijos", "repetir", "Mis cuentas fijas"], ["deudas", "deuda", "Deudas"], ["metasfin", "alcancia", "Metas financieras"],
     ["salud", "salud", "Salud financiera"], ["grafica", "grafica", "Gráfica del ascenso"], ["patrimonio", "balanza", "Activos y pasivos"]];
   const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? String(l.a) : ATAJOS.find(x => x[0] === v)?.[2] || "Ascenso financiero";
@@ -136,6 +137,9 @@ function fbBarra() {
       <b class="rv-donde">${donde}</b><button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>
       <button class="rv-plegar solo-movil" data-acc="fbPlegar" aria-expanded="${!!estado.fbAbierta}" aria-label="${estado.fbAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.fbAbierta ? "arriba" : "abajo")}</button></div>
     <div class="rv-cuerpo${estado.fbAbierta ? " abierta" : ""}">
+      <div class="fb-pestanas" role="tablist" aria-label="Partes de la barra">${[["cal", "calendario", "Calendario"], ["atajos", "cuadricula", "Atajos"], ["resumen", "grafica", "Resumen"]].map(([k, i, n]) =>
+        `<button role="tab" aria-selected="${pest === k}" data-acc="fbPestana" data-arg="${k}">${ic(i)}<span>${n}</span></button>`).join("")}</div>
+      ${pest === "cal" ? `<div class="fb-panel" role="tabpanel" aria-label="Calendario">
       <div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="fbMapa" aria-expanded="${!!estado.fbMapa}" title="Ver todos tus años">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"} ${ic(estado.fbMapa ? "arriba" : "abajo")}</small></button>
         <button class="rv-flecha" data-acc="fbAnio" data-arg="1" aria-label="Año siguiente" ${a >= aHoy + 1 ? "disabled" : ""}>${ic("der")}</button></div>
@@ -145,10 +149,11 @@ function fbBarra() {
         <button class="rv-titulo${l.a === a && l.m === m && !l.d ? " abierto" : ""}" data-sel="m:${a}-${pad2(m)}" title="Abrir ${MESES[m - 1]}">${mayus(MESES[m - 1])}</button>
         <button class="rv-flecha" data-acc="fbMes" data-arg="1" aria-label="Mes siguiente">${ic("der")}</button></div>
       <div class="rv-cal" role="group" aria-label="Días de ${MESES[m - 1]} de ${a}">${dias}</div>
-      <p class="fb-ley" aria-hidden="true">${[["ing", "Ingreso"], ["gas", "Gasto"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Generosidad"]].map(([t, n]) => `<span><i style="background:${FB_COLOR[t]}"></i>${n}</span>`).join("")}</p>
-      <div class="rv-navs">${ATAJOS.map(([s, i, t]) => nav(s, i, t)).join("")}</div>
-      ${fbCordillera(datos, a)}
-      ${fbTarjeta(datos)}
+      <p class="fb-ley" aria-hidden="true">${[["ing", "Ingreso"], ["gas", "Gasto"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Dar"]].map(([t, n]) => `<span><i style="background:${FB_COLOR[t]}"></i>${n}</span>`).join("")}</p>
+      </div>` : pest === "atajos" ? `<div class="fb-panel fb-atajos" role="tabpanel" aria-label="Atajos">${ATAJOS.map(([s, i, t]) =>
+        `<button class="fb-atajo" data-sel="${s}" aria-pressed="${v === s}">${ic(i)}<span>${t}</span></button>`).join("")}
+        <button class="fb-atajo" data-acc="ascInforme">${ic("descargar")}<span>Informe PDF</span></button></div>`
+      : `<div class="fb-panel" role="tabpanel" aria-label="Resumen">${fbTarjeta(datos)}${fbCordillera(datos, a)}</div>`}
     </div></nav>`;
 }
 /** Todos tus años en miniatura (igual que Mi ruta): un aro por año de tu vida, una fila por década.
@@ -179,6 +184,7 @@ function fbAniosLista(datos, visto) {
       <b>${y}</b><small>${t?.n ? plata(t.disp) : "—"}</small></button>`; }).join("")}
     <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
 }
+ACC.fbPestana = (_, k) => { estado.fbPestana = k; try { localStorage.setItem("suroute-fb-pestana", k); } catch {} fbRepintar(); };
 ACC.fbMapa = () => { estado.fbMapa = !estado.fbMapa; fbRepintar(); };
 ACC.fbAnioIr = (_, y) => { const ver = fbVer(), n = Number(y); if (ver.a === n) { estado.fbMapa = false; elegir("a:" + n); return; } ver.a = n; fbRepintar(); };
 function fbRepintar() { const b = document.querySelector(".fb-barra"); if (b) b.outerHTML = fbBarra(); }

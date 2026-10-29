@@ -11,7 +11,7 @@
 
 const ASC = {
   WB: "finanzas",
-  TIPOS: [["ing", "Ingresos", "Ingreso"], ["gas", "Gastos", "Gasto"], ["aho", "Ahorro", "Ahorro"], ["inv", "Inversión", "Inversión"], ["gen", "Generosidad", "Generosidad"]],
+  TIPOS: [["ing", "Ingresos", "Ingreso"], ["gas", "Gastos", "Gasto"], ["aho", "Ahorro", "Ahorro"], ["inv", "Inversión", "Inversión"], ["gen", "Dar", "Dar"]],
   /** Categorías por tipo: [código, nombre, mochila] (la mochila solo aplica a gastos; ahorro e inversión son la roja). */
   CAT: {
     ing: [["trabajo", "Trabajo o salario"], ["negocio", "Negocio"], ["ventas", "Ventas"], ["honorarios", "Honorarios"], ["pasivo", "Ingreso pasivo"], ["otro", "Otro ingreso"]],
@@ -117,7 +117,7 @@ function diasConMovs(programados = false) {
 const totalesDe = pref => sumar(diasConMovs().filter(f => f.startsWith(pref)).flatMap(movsDe));
 
 /* ---------- Piezas visuales ---------- */
-const COL = [["ing", "Ingresos"], ["gas", "Gastos"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Generosidad"], ["disp", "Disponible"]];
+const COL = [["ing", "Ingresos"], ["gas", "Gastos"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Dar"], ["disp", "Disponible"]];
 const celda = (v, k) => `<td class="num${k === "disp" && v < 0 ? " neg" : ""}${!v ? " cero" : ""}">${v ? plata(v) : "—"}</td>`;
 /** Tabla tipo hoja de cálculo: una fila por periodo (toca para bajar), acumulado que sube y fila de totales. */
 function tablaPeriodos(filas, etqCol, total) {

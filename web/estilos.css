@@ -4670,3 +4670,25 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-mapa-ley span { display: inline-flex; align-items: center; gap: 4px; }
 .fb-mapa-ley i { width: 8px; height: 8px; border-radius: 50%; border: 2px solid; }
 .fb-mapa-ley i.bien { border-color: var(--ok, #2E6B3A); } .fb-mapa-ley i.justo { border-color: var(--oro); } .fb-mapa-ley i.mal { border-color: var(--burdeos); }
+/* Barra financiera en pestañas: Calendario · Atajos · Resumen */
+.fb-pestanas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; padding: 3px; margin: 2px 0 6px; border-radius: 999px; background: var(--hoja-2); }
+.fb-pestanas button { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 36px; padding: 0 6px; border: 0; border-radius: 999px; background: transparent;
+  font: inherit; font-size: 12.5px; font-weight: 500; color: var(--tinta-suave); cursor: pointer; white-space: nowrap; transition: background .2s cubic-bezier(.2,0,0,1), color .2s; }
+.fb-pestanas button svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
+.fb-pestanas button[aria-selected="true"] { background: var(--hoja); color: var(--burdeos); font-weight: 600; box-shadow: 0 1px 2px rgb(29 18 13 / .1); }
+.fb-pestanas button:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 1px; }
+.fb-panel { display: grid; gap: 6px; animation: rvAparece .18s cubic-bezier(.2,0,0,1); }
+@media (prefers-reduced-motion: reduce) { .fb-panel { animation: none; } }
+.fb-ley { flex-wrap: nowrap; justify-content: space-between; gap: 4px; }
+.fb-atajos { grid-template-columns: 1fr 1fr; gap: 8px; }
+.fb-atajo { display: grid; justify-items: start; align-content: start; gap: 8px; min-height: 76px; padding: 12px; border: 1px solid var(--linea); border-radius: 16px; background: var(--hoja);
+  font: inherit; font-size: 13px; font-weight: 500; line-height: 1.25; color: var(--tinta); text-align: left; cursor: pointer; transition: background .2s cubic-bezier(.2,0,0,1); }
+.fb-atajo svg { width: 22px; height: 22px; fill: var(--burdeos); }
+.fb-atajo[aria-pressed="true"] { background: var(--oro-suave); border-color: transparent; color: var(--burdeos); font-weight: 600; }
+@media (hover: hover) and (pointer: fine) { .fb-atajo:not([aria-pressed="true"]):hover, .fb-pestanas button:not([aria-selected="true"]):hover { background: var(--hoja-2); } }
+.fb-atajo:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 2px; }
+.fb-panel .fb-cordillera { border-top: 0; padding-top: 4px; }
+.fb-barra .rv-cuerpo > *, .fb-panel, .fb-panel > * { min-width: 0; }
+.fb-pestanas button svg { display: none; }
+.fb-pestanas button { font-size: 13px; padding: 0 4px; }
+.fb-ley { font-size: 10.5px; gap: 2px; }

@@ -104,6 +104,7 @@ private fun colorCierre(t: Cuentas.Suma, verde: Color, oro: Color, burdeos: Colo
 @Composable
 fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, nacimiento: Int? = null, vida: Int = 100, onInforme: () -> Unit) {
     val h = hoy()
+    val ctx = androidx.compose.ui.platform.LocalContext.current
     // Lo que muestra el centro manda; las flechas solo miran otro año o mes sin abrirlo
     val lugarA = when (nivel) { is NivelCuentas.Anio -> nivel.a; is NivelCuentas.Mes -> nivel.ym.year; is NivelCuentas.Dia -> nivel.f.year; else -> null }
     val lugarM = when (nivel) { is NivelCuentas.Mes -> nivel.ym.monthValue; is NivelCuentas.Dia -> nivel.f.monthValue; else -> null }
@@ -136,6 +137,16 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
             }
             AnimatedVisibility(abierta) {
                 Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()).padding(start = 12.dp, end = 12.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    // Pestañas: Calendario · Atajos · Resumen (se recuerda la última)
+                    val prefs = remember { ctx.getSharedPreferences("suroute_ui", android.content.Context.MODE_PRIVATE) }
+                    var pest by rememberSaveable { mutableIntStateOf(prefs.getInt("fb_pestana", 0).coerceIn(0, 2)) }
+                    androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
+                        listOf(R.string.fb_tab_calendario, R.string.fb_tab_atajos, R.string.fb_tab_resumen).forEachIndexed { i, s ->
+                            androidx.compose.material3.SegmentedButton(selected = pest == i, onClick = { pest = i; prefs.edit().putInt("fb_pestana", i).apply() },
+                                shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, 3), icon = {}) { Text(stringResource(s), maxLines = 1) }
+                        }
+                    }
+                    if (pest == 0) {
                     // Año y sus 12 meses
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { verA-- }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.cu_anterior)) }
@@ -261,19 +272,42 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                             }
                         }
                     }
-                    HorizontalDivider()
-                    // Atajos
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        listOf(
+                    // Leyenda de los puntos de cada día
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        listOf(Tipo.ING to R.string.cu_ing1, Tipo.GAS to R.string.cu_gas1, Tipo.AHO to R.string.cu_aho1, Tipo.INV to R.string.cu_inv1, Tipo.GEN to R.string.cu_gen).forEach { (tp, s) ->
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(Modifier.size(7.dp).clip(CircleShape).background(colorTipo(tp))); Spacer(Modifier.width(3.dp))
+                                Text(stringResource(s), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1)
+                            }
+                        }
+                    }
+                    } else if (pest == 1) {
+                        // Atajos: cuadrícula de 2 columnas con íconos
+                        val atajos = listOf<Triple<NivelCuentas?, androidx.compose.ui.graphics.vector.ImageVector, Int>>(
                             Triple(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance), Triple(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos),
                             Triple(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas), Triple(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo),
                             Triple(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud), Triple(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo),
-                            Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo),
-                        ).forEach { (n, ic, t) -> AssistChip(onClick = { ir(n) }, label = { Text(stringResource(t)) }, leadingIcon = { Icon(ic, null, Modifier.size(18.dp)) }) }
-                        AssistChip(onClick = onInforme, label = { Text(stringResource(R.string.fb_informe)) }, leadingIcon = { Icon(Icons.Filled.Download, null, Modifier.size(18.dp)) })
+                            Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo), Triple(null, Icons.Filled.Download, R.string.fb_informe),
+                        )
+                        atajos.chunked(2).forEach { par ->
+                            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                                par.forEach { (n, ic, s) ->
+                                    val activo = n != null && n == nivel
+                                    Surface(onClick = { if (n == null) onInforme() else ir(n) }, shape = RoundedCornerShape(16.dp),
+                                        color = if (activo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
+                                        border = if (activo) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.weight(1f)) {
+                                        Column(Modifier.heightIn(min = 76.dp).padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                            Icon(ic, null, tint = burdeos, modifier = Modifier.size(22.dp))
+                                            Text(stringResource(s), style = MaterialTheme.typography.labelLarge, color = if (activo) burdeos else MaterialTheme.colorScheme.onSurface)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(YearMonth.from(h))) }
+                        Cordillera(porAnio, verA, plata) { ir(NivelCuentas.Anio(it)) }
                     }
-                    Cordillera(porAnio, verA, plata) { ir(NivelCuentas.Anio(it)) }
-                    AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(YearMonth.from(h))) }
                 }
             }
             HorizontalDivider()

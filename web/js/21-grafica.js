@@ -14,7 +14,7 @@
 const GR = { gran: "m", tipo: "linea", rango: "1A", series: ["saldo", "ing", "gas"], sma: false, salud: true, tabla: false, grande: false };
 const GR_SERIES = [
   ["saldo", "Saldo acumulado", "--burdeos"], ["patr", "Patrimonio construido", "--oro"], ["ing", "Ingresos", "--v-fijos"],
-  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["gen", "Generosidad", "--v-generosidad"], ["disp", "Disponible", "--tinta"],
+  ["gas", "Gastos", "--v-variables"], ["aho", "Ahorro", "--v-ahorro"], ["inv", "Inversión", "--v-inversion"], ["gen", "Dar", "--v-generosidad"], ["disp", "Disponible", "--tinta"],
 ];
 const GR_PCT = [["flujo", "Flujo neto", "--v-fijos"], ["constr", "Ahorro + inversión", "--v-ahorro"], ["gastoP", "Gasto ÷ ingreso", "--v-variables"]];
 const GR_RANGOS = [["1M", "1M", "d", 31], ["3M", "3M", "d", 92], ["6M", "6M", "s", 26], ["1A", "1A", "m", 12], ["5A", "5A", "m", 60], ["todo", "Todo", "m", 0]];

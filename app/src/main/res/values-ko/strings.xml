@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">모든 연도 보기</string>
     <string name="fb_mapa_ayuda">연도를 눌러 보고, 다시 누르면 열려요.</string>
     <string name="fb_balance_todos">전체 결산 보기</string>
+    <string name="fb_tab_calendario">달력</string>
+    <string name="fb_tab_atajos">바로가기</string>
+    <string name="fb_tab_resumen">요약</string>
 </resources>

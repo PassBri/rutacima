@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">完了</string>
     <string name="mirar_noche">ナイトモード</string>
     <string name="mirar_ayuda_ajustar">月や明るい星が本物と重なるまで図をドラッグします。ダブルタップでリセット。</string>
-    <string name="cu_gen">寄付・思いやり</string>
+    <string name="cu_gen">寄付</string>
     <string name="cu_cat_gen_persona">人への手助け</string>
     <string name="cu_cat_gen_familia">家族への支援</string>
     <string name="cu_cat_gen_causa">活動・財団</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">すべての年を見る</string>
     <string name="fb_mapa_ayuda">年をタップして表示、もう一度タップで開きます。</string>
     <string name="fb_balance_todos">全体の収支を見る</string>
+    <string name="fb_tab_calendario">カレンダー</string>
+    <string name="fb_tab_atajos">ショートカット</string>
+    <string name="fb_tab_resumen">概要</string>
 </resources>

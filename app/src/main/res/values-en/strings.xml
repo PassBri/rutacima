@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">Done</string>
     <string name="mirar_noche">Night mode</string>
     <string name="mirar_ayuda_ajustar">Drag the drawing until the Moon or a bright star sits on the real one. Double tap: reset.</string>
-    <string name="cu_gen">Generosity</string>
+    <string name="cu_gen">Give</string>
     <string name="cu_cat_gen_persona">Helping someone</string>
     <string name="cu_cat_gen_familia">Family support</string>
     <string name="cu_cat_gen_causa">Cause or charity</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">See all your years</string>
     <string name="fb_mapa_ayuda">Tap a year to view it; tap it again to open it.</string>
     <string name="fb_balance_todos">See the overall balance</string>
+    <string name="fb_tab_calendario">Calendar</string>
+    <string name="fb_tab_atajos">Shortcuts</string>
+    <string name="fb_tab_resumen">Summary</string>
 </resources>

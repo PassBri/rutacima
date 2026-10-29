@@ -2584,7 +2584,7 @@
     <string name="mirar_listo">Fertig</string>
     <string name="mirar_noche">Nachtmodus</string>
     <string name="mirar_ayuda_ajustar">Ziehe die Zeichnung, bis der Mond oder ein heller Stern auf dem echten liegt. Doppeltippen: zurücksetzen.</string>
-    <string name="cu_gen">Großzügigkeit</string>
+    <string name="cu_gen">Geben</string>
     <string name="cu_cat_gen_persona">Hilfe für eine Person</string>
     <string name="cu_cat_gen_familia">Familienunterstützung</string>
     <string name="cu_cat_gen_causa">Anliegen oder Stiftung</string>
@@ -2781,4 +2781,7 @@
     <string name="fb_todos_anios">Alle deine Jahre anzeigen</string>
     <string name="fb_mapa_ayuda">Tippe auf ein Jahr, um es anzusehen; tippe erneut, um es zu öffnen.</string>
     <string name="fb_balance_todos">Gesamtbilanz ansehen</string>
+    <string name="fb_tab_calendario">Kalender</string>
+    <string name="fb_tab_atajos">Kurzwahl</string>
+    <string name="fb_tab_resumen">Übersicht</string>
 </resources>
