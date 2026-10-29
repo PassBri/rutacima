@@ -385,6 +385,9 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
   const calVida = estado.sec === "ruta" ? `<span class="md-riel-top"><button class="md-riel-btn md-riel-on" data-acc="rvBrujulaPanel" aria-pressed="${!!estado.rvBrujula}" aria-label="Tus brújulas: la general y las de cada año" title="Tus brújulas: la general y las de cada año">${ic("calendario")}</button>${sep}</span>` : "";
   const nav = `<nav class="md-secciones" aria-label="Secciones de tu Brújula">${calVida}${rielArriba ? `<span class="md-riel-top">${rielArriba}</span>${sep}` : ""}
     ${[[1, "Cumbre"], [9, "Campamentos"], [81, "Ruta"]].map(([n, t]) => `<button role="tab" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}" aria-label="${t}"><b>${n}</b><span>${t}</span></button>`).join("")}
+    <details class="md-capas"><summary class="md-riel-btn" aria-label="Ver: cumbre (1), campamentos (9) o ruta (81)" title="Ver: cumbre (1), campamentos (9) o ruta (81)"><b data-capa-actual>${mdCapaActual()}</b></summary>
+      <div class="md-capas-menu" role="menu">${[[1, "Cumbre", "Tu cumbre al centro"], [9, "Campamentos", "Los 8 campamentos y la cumbre"], [81, "Ruta", "Los 81 pasos del 9×9"]].map(([n, t, d]) =>
+        `<button role="menuitemradio" data-acc="mdIr" data-arg="md-s${n}" data-capa-btn="${n}" aria-selected="${mdCapaActual() === n}"><b>${n}</b><span><strong>${t}</strong><small>${d}</small></span></button>`).join("")}</div></details>
     <span class="md-nav-sep"></span>
     <span class="modo-tarj" role="radiogroup" aria-label="Cómo ver tus tarjetas">${[["imagen", "foto", "Imagen"], ["texto", "frases", "Texto"], ["edicion", "editar", "Edición"]].map(([v, i, n]) =>
       `<button role="radio" aria-checked="${(estado.modoTarjetas || "imagen") === v}" data-acc="modoTarjetas" data-arg="${v}" title="Modo ${n.toLowerCase()}">${ic(i)}<span>${n}</span></button>`).join("")}</span>
@@ -1105,6 +1108,7 @@ function mdCapa(n) {
   pila.querySelectorAll(".md-capa").forEach(c => { const si = Number(c.dataset.capa) === n; c.hidden = !si; c.classList.toggle("activa", si);
     c.classList.remove("entra-dentro", "entra-fuera"); if (si && antes !== n && !pocoMovimiento?.()) { void c.offsetWidth; c.classList.add(n > antes ? "entra-dentro" : "entra-fuera"); } });
   document.querySelectorAll("[data-capa-btn]").forEach(b => b.setAttribute("aria-selected", String(Number(b.dataset.capaBtn) === n)));
+  document.querySelectorAll("[data-capa-actual]").forEach(b => { b.textContent = n; }); document.querySelectorAll(".md-capas[open]").forEach(d => { d.open = false; });
   const info = document.getElementById("mdRielInfo"); if (info) info.textContent = MD_CAPA_INFO[n];
   // Que la capa quede a la vista bajo la barra (sin desplazar si ya lo está)
   const r = pila.getBoundingClientRect(); if (r.top < 0 || r.top > innerHeight * .4) pila.scrollIntoView({ block: "start", behavior: "auto" });
@@ -1150,3 +1154,7 @@ function mdTamBtn() {
 }
 document.addEventListener("click", e => { if (!e.target.closest?.(".md-tam")) return;
   requestAnimationFrame(() => document.querySelectorAll(".md-tam").forEach(b => { b.outerHTML = mdTamBtn(); })); });
+
+/* El menú 1 · 9 · 81 se cierra al tocar fuera o con Escape */
+document.addEventListener("pointerdown", e => { document.querySelectorAll(".md-capas[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".md-capas[open]").forEach(d => { d.open = false; }); });

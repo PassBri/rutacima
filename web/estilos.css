@@ -4831,3 +4831,21 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 @media (hover: hover) and (pointer: fine) { .bj-general:not([aria-pressed="true"]):hover { background: var(--hoja-2); } }
 
 @media (min-width: 701px) { .md-escena .md-tam[aria-pressed="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); } .md-escena .md-tam[aria-pressed="true"] svg { fill: var(--burdeos); } }
+
+/* 1 · 9 · 81 en un solo botón del riel (computador): se abre y se elige la capa */
+.md-capas { display: none; }
+@media (min-width: 701px) {
+  .md-escena > .md-secciones > button[role="tab"] { display: none; }
+  .md-escena .md-capas { display: block; position: relative; }
+  .md-escena .md-capas > summary { list-style: none; background: var(--burdeos); border-color: var(--burdeos); }
+  .md-escena .md-capas > summary::-webkit-details-marker { display: none; }
+  .md-escena .md-capas > summary b { min-width: 0; height: auto; padding: 0; background: none; color: var(--sobre-burdeos, #fff); font-size: 13px; font-weight: 700; }
+  .md-capas-menu { position: absolute; top: 0; right: calc(100% + 12px); z-index: 30; display: grid; gap: 2px; width: max-content; max-width: 320px; padding: 6px; border-radius: 16px; background: var(--hoja); border: 1px solid var(--linea);
+    box-shadow: 0 14px 32px -14px rgb(var(--sombra) / .4); animation: bs-abre .18s cubic-bezier(.2, 0, 0, 1); }
+  .md-capas-menu button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border: 0; border-radius: 12px; background: transparent; text-align: left; cursor: pointer; font: inherit; color: var(--tinta); }
+  .md-capas-menu button b { flex: none; display: grid; place-items: center; min-width: 34px; height: 34px; border-radius: 99px; background: color-mix(in srgb, var(--tinta) 10%, var(--hoja)); color: var(--tinta); font-size: 13px; }
+  .md-capas-menu button[aria-selected="true"] { background: var(--oro-suave); }
+  .md-capas-menu button[aria-selected="true"] b { background: var(--burdeos); color: var(--sobre-burdeos, #fff); }
+  .md-capas-menu span { display: grid; gap: 1px; } .md-capas-menu strong { font-size: 14px; font-weight: 600; } .md-capas-menu small { font-size: 12px; color: var(--tinta-suave); }
+  @media (hover: hover) and (pointer: fine) { .md-capas-menu button:not([aria-selected="true"]):hover { background: var(--hoja-2); } }
+}
