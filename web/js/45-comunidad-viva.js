@@ -189,3 +189,113 @@ ACC.guiaComunidad = () => abrirHoja(`<div class="com-cab"><span></span><h3 class
   const lista = LISTAS.comunidad;
   LISTAS.comunidad = (...a) => lista(...a).replace(/(<button class="rb" data-ir="comunidad" data-arg="buscar")/, boton("rb") + "$1");
 }
+
+/* =====================================================================================
+ * Moverse de lado (lo nuevo de SuRoute frente al deslizar hacia abajo de las redes):
+ *  A. Deslizar a la izquierda: «Detrás de la cima», el camino de esa persona.
+ *  C. Deslizar a la derecha: «Me lo llevo», se guarda en la mochila y se impulsa. Nunca se rechaza a nadie.
+ *  B. Senderos: arriba, la franja de ejes (Todos, Voluntad, Maestría…); se toca o se desliza de lado para cambiar de sendero.
+ * ===================================================================================== */
+const SENDEROS = [[null, "Todos"], ...EJES.map(([c, n]) => [c, n])];
+
+// B. Senderos: la franja bajo las pestañas de Cimas
+{
+  const feed = DET["comunidad.feed"];
+  DET["comunidad.feed"] = (...a) => {
+    const h = feed(...a);
+    if (estado.vistaCom !== "cimas" || !estado.feed) return h;
+    const franja = `<nav class="senderos" aria-label="Senderos: desliza de lado para cambiar">${SENDEROS.map(([c, n]) =>
+      `<button data-acc="sendero" data-arg="${c || ""}" aria-pressed="${(estado.feedEje || null) === c}"${c ? ` style="--c:${COLOR_EJE[c]}"` : ""}>${c ? `<i></i>` : ""}${n}</button>`).join("")}</nav>`;
+    return h.replace(/(<div class="cimas-cab">[\s\S]*?<\/div>)/, `$1${franja}`);
+  };
+}
+ACC.sendero = (el, c) => {
+  estado.feedEje = c || null; estado.feed = null; estado.feedN = 0;
+  cargarFeed();
+  requestAnimationFrame(() => document.querySelector(".senderos [aria-pressed=true]")?.scrollIntoView({ inline: "center", block: "nearest" }));
+};
+const cambiarSendero = paso => {
+  const i = SENDEROS.findIndex(([c]) => c === (estado.feedEje || null)), j = (i + paso + SENDEROS.length) % SENDEROS.length;
+  ACC.sendero(null, SENDEROS[j][0] || "");
+  toast(`Sendero: ${SENDEROS[j][1]}`);
+};
+// En el ejemplo, los senderos también filtran
+{
+  const base = cargarFeed;
+  cargarFeed = async (...a) => { await base(...a); if (!Store.nube && estado.feedEje && estado.feed) { estado.feed = estado.feed.filter(p => p.eje === estado.feedEje); pintarDetalle(); } };
+}
+
+// A. Detrás de la cima: el camino de la persona, sus publicaciones del mismo sendero y su compromiso
+function detrasDeLaCima(p) {
+  const otras = (estado.feed || []).filter(x => x.autorId === p.autorId && x.id !== p.id).slice(0, 6), c = p.camino, k = p.compromiso;
+  const fila = (i, t, d) => `<li><span class="guia-ic">${ic(i)}</span><div><b>${t}</b>${d ? `<p>${d}</p>` : ""}</div></li>`;
+  abrirHoja(`<div class="com-cab"><span></span><h3 class="hoja-titulo">Detrás de la cima</h3><button data-cerrar-hoja aria-label="Cerrar">${ic("cerrar")}</button></div>
+    <div class="detras-quien">${av(esc((p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase()), COLOR_EJE[p.eje] || "var(--burdeos)")}
+      <div><b>${esc(p.autorNombre)}</b><span class="suave">${p.eje ? "Sendero " + esc(NOMBRE_EJE[p.eje]) : "Confluencia"}${p.metaTitulo ? " · " + esc(p.metaTitulo) : ""}</span></div></div>
+    <ul class="guia-com">
+      ${fila("ruta", c?.racha ? `Día ${c.racha} de constancia` : "Sin racha registrada", c?.racha ? "Días seguidos marcando sus hábitos cuando publicó." : "Esta publicación no trae su racha.")}
+      ${fila("cima", c?.ganados ? `${c.ganados} de 64 pasos ganados` : "Pasos de la Brújula", c?.ganados ? "Lo que ya conquistó de su Brújula de la Cima." : "Aún no comparte pasos ganados.")}
+      ${k?.hasta ? fila("bandera", k.estado === "LOGRADO" ? "Cumplió su compromiso" : k.estado === "REPLANTEO" ? "Replanteó su compromiso" : `Compromiso hasta el ${deIso(k.hasta).toLocaleDateString("es", { day: "numeric", month: "long" })}`, "Lo dijo en público y la comunidad ve el desenlace.") : ""}
+    </ul>
+    ${otras.length ? `<div class="etiqueta">Otras cimas de ${esc(p.autorNombre.split(" ")[0])}</div><div class="detras-otras">${otras.map(x => `<button data-acc="verCima" data-arg="${esc(x.id)}" data-cerrar-hoja>${postal(x, true)}</button>`).join("")}</div>` : ""}
+    <div class="botones" style="margin:14px 0 18px">${!p.demo || !Store.nube ? `<button class="btn" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" data-cerrar-hoja>${ic("mensajes")} Escribirle</button>` : ""}
+      ${Store.nube && !p.demo ? `<button class="btn lleno" data-ir="comunidad" data-arg="persona:${esc(p.autorId)}" data-cerrar-hoja>${ic("perfil")} Ver su perfil</button>` : ""}</div>`);
+}
+
+// C. Me lo llevo: a la mochila y con impulso
+function meLoLlevo(p, el) {
+  if (!estaGuardada(p.id)) ACC.guardarPost(el?.querySelector('[data-acc="guardarPost"]') || null, String(p.id));
+  if (!p.yoImpulse) ACC.impulsarId(null, String(p.id));
+  toast("Te lo llevas: quedó en tu mochila y le diste impulso.");
+}
+
+// El gesto: arrastrar de lado sobre la cima (lo vertical sigue siendo para pasar a la siguiente)
+{
+  let g = null;
+  const cimaDe = el => el.closest?.(".cima[data-cima]");
+  document.addEventListener("pointerdown", e => {
+    const c = cimaDe(e.target); if (!c || e.target.closest("button, a, input, textarea, .cima-acciones, .clima-abanico")) { g = null; return; }
+    g = { c, x: e.clientX, y: e.clientY, eje: null };
+  }, { passive: true });
+  document.addEventListener("pointermove", e => {
+    if (!g) return; const dx = e.clientX - g.x, dy = e.clientY - g.y;
+    if (!g.eje && Math.hypot(dx, dy) > 12) g.eje = Math.abs(dx) > Math.abs(dy) * 1.3 ? "x" : "y";
+    if (g.eje !== "x") return;
+    g.c.classList.add("deslizando"); g.c.style.setProperty("--dx", `${dx}px`);
+    const lado = dx > 0 ? "llevar" : "detras"; g.c.style.setProperty("--pista", Math.min(1, Math.abs(dx) / 110).toFixed(2));
+    let pista = g.c.querySelector(":scope > .cima-pista");
+    if (!pista) { pista = document.createElement("span"); pista.setAttribute("aria-hidden", "true"); g.c.append(pista); }
+    pista.className = "cima-pista " + lado; pista.textContent = lado === "llevar" ? "Me lo llevo" : "Detrás de la cima";
+  }, { passive: true });
+  const soltar = e => {
+    if (!g) return; const { c } = g, dx = e.clientX - g.x, fue = g.eje === "x"; g = null;
+    c.classList.remove("deslizando"); c.style.removeProperty("--dx"); c.style.removeProperty("--pista"); c.querySelector(":scope > .cima-pista")?.remove();
+    if (!fue || Math.abs(dx) < 90) return;
+    const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima); if (!p) return;
+    navigator.vibrate?.(10);
+    if (dx > 0) meLoLlevo(p, c); else detrasDeLaCima(p);
+  };
+  document.addEventListener("pointerup", soltar); document.addEventListener("pointercancel", () => { if (g) { g.c.classList.remove("deslizando"); g.c.style.removeProperty("--dx"); g.c.querySelector(":scope > .cima-pista")?.remove(); g = null; } });
+  // B. Deslizar de lado sobre la cabecera o los senderos cambia de sendero
+  let s = null;
+  document.addEventListener("pointerdown", e => { s = e.target.closest?.(".cimas-cab, .senderos") ? { x: e.clientX, y: e.clientY } : null; }, { passive: true });
+  document.addEventListener("pointerup", e => {
+    if (!s) return; const dx = e.clientX - s.x, dy = e.clientY - s.y; s = null;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5 && !e.target.closest?.(".senderos")) cambiarSendero(dx < 0 ? 1 : -1);
+  });
+  // Teclado (computador): ← detrás de la cima, → me lo llevo, sobre la cima visible
+  document.addEventListener("keydown", e => {
+    if (estado.sec !== "comunidad" || estado.vistaCom !== "cimas" || e.target.closest?.("input, textarea, select, [contenteditable]") || document.getElementById("hojaInferior")) return;
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const caja = document.querySelector(".cimas"); if (!caja) return;
+    const c = [...caja.querySelectorAll(".cima[data-cima]")].find(x => Math.abs(x.getBoundingClientRect().top - caja.getBoundingClientRect().top) < 40); if (!c) return;
+    const p = (estado.feed || []).find(x => String(x.id) === c.dataset.cima); if (!p) return;
+    e.preventDefault(); e.key === "ArrowRight" ? meLoLlevo(p, c) : detrasDeLaCima(p);
+  });
+}
+
+// La guía también explica los nuevos movimientos
+GUIA_COMUNIDAD.splice(2, 0,
+  ["izq", "Desliza a la izquierda: detrás de la cima", "Ves el camino de esa persona: su constancia, sus pasos de la Brújula, su compromiso y sus otras cimas. En el computador, flecha ←."],
+  ["morral", "Desliza a la derecha: me lo llevo", "La publicación queda en tu mochila y le das impulso. Aquí nunca se rechaza a nadie. En el computador, flecha →."],
+  ["ejes", "Senderos", "Arriba eliges un sendero (Voluntad, Maestría, Voz, Valor, Evolución, Trascendencia) o deslizas de lado sobre la cabecera para cambiarlo."]);

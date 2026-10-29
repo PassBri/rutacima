@@ -4589,3 +4589,30 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .cimas-pestanas { min-width: 0; gap: 0; }
   .cimas-pestanas button { padding: 10px 6px 12px; font-size: 14.5px; }
 }
+
+/* ---------- Moverse de lado en Cimas ---------- */
+.cima { touch-action: pan-y; }
+.cima.deslizando .cima-fondo, .cima.deslizando .cima-pie { transform: translateX(calc(var(--dx, 0px) * .35)); }
+.cima .cima-fondo, .cima .cima-pie { transition: transform .22s cubic-bezier(.2, 0, 0, 1); }
+.cima.deslizando .cima-fondo, .cima.deslizando .cima-pie { transition: none; }
+.cima-pista { position: absolute; top: 50%; z-index: 4; translate: 0 -50%; padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; line-height: 1.2;
+  color: #fff; background: rgb(10 14 24 / .72); border: 1px solid rgb(255 255 255 / .28); opacity: var(--pista, 0); pointer-events: none; white-space: nowrap; }
+.cima-pista.llevar { left: 16px; background: rgb(110 30 20 / .85); }
+.cima-pista.detras { right: 92px; }
+@media (prefers-reduced-motion: reduce) { .cima.deslizando .cima-fondo, .cima.deslizando .cima-pie { transform: none; } }
+/* Senderos */
+.senderos { position: absolute; z-index: 3; left: 0; right: 0; top: 58px; display: flex; gap: 6px; overflow-x: auto; padding: 4px 12px; scrollbar-width: none; touch-action: pan-x; }
+.senderos::-webkit-scrollbar { display: none; }
+.senderos button { display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 13px; color: rgb(255 255 255 / .85);
+  background: rgb(10 14 24 / .35); border: 1px solid rgb(255 255 255 / .22); white-space: nowrap; }
+.senderos button i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.senderos button[aria-pressed="true"] { color: #10141C; background: #fff; border-color: #fff; font-weight: 600; }
+.cimas-demo { top: 100px !important; }
+/* Detrás de la cima */
+.detras-quien { display: flex; gap: 12px; align-items: center; margin: 4px 0 6px; }
+.detras-quien > div { display: grid; } .detras-quien .suave { font-size: 13px; }
+.detras-otras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.detras-otras button { padding: 0; border: 0; border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; background: var(--hoja-2); }
+.detras-otras .postal { height: 100%; font-size: 11px; }
+@media (min-width: 901px) { .senderos { top: 8px; } }
+.cima.deslizando { user-select: none; -webkit-user-select: none; }
