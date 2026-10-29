@@ -126,16 +126,12 @@ function fbBarra() {
       <b>${d}</b>${tipos.length ? `<span class="fb-puntos">${tipos.map(t => `<i style="background:${FB_COLOR[t]}"></i>`).join("")}</span>` : ""}</button>`;
   }
   const nav = (sel, i, txt) => `<button class="rv-nav-item" data-sel="${sel}" aria-pressed="${v === sel}">${ic(i)}<span>${txt}</span></button>`;
-  const candado = typeof bloqueoFin === "function" ? (bloqueoFin()
-    ? `<button class="fb-herr" data-acc="ascBloquearSalir" aria-label="Bloquear y salir" title="Bloquear y salir">${ic("candado")}</button>`
-    : `<button class="fb-herr" data-acc="ascProteger" aria-label="Proteger con PIN" title="Proteger con PIN">${ic("candado")}</button>`) : "";
+
   return `<nav class="rv-barra fb-barra" aria-label="Ascenso financiero: año, mes y día">
     <div class="rv-cab"><button class="rv-atras" ${arriba ? `data-sel="${arriba}"` : "disabled"} aria-label="Subir un nivel (Esc)" title="Subir un nivel (Esc)">${ic("volver")}</button>
       <b class="rv-donde">${donde}</b><button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>
       <button class="rv-plegar solo-movil" data-acc="fbPlegar" aria-expanded="${!!estado.fbAbierta}" aria-label="${estado.fbAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.fbAbierta ? "arriba" : "abajo")}</button></div>
     <div class="rv-cuerpo${estado.fbAbierta ? " abierta" : ""}">
-      <div class="fb-herrs">${candado}<button class="fb-herr" data-acc="ascOjo" aria-pressed="${!!estado.ascOculto}" aria-label="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}" title="${estado.ascOculto ? "Mostrar montos" : "Ocultar montos"}">${ic(estado.ascOculto ? "ojoNo" : "ojo")}</button>
-        <button class="fb-herr" data-acc="ascInforme" aria-label="Informe PDF" title="Informe PDF: el análisis financiero completo">${ic("descargar")}</button></div>
       <div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-sel="a:${a}" title="Abrir ${a}">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"}</small></button>
         <button class="rv-flecha" data-acc="fbAnio" data-arg="1" aria-label="Año siguiente" ${a >= aHoy + 1 ? "disabled" : ""}>${ic("der")}</button></div>
