@@ -46,6 +46,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -142,7 +143,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                     var pest by rememberSaveable { mutableIntStateOf(prefs.getInt("fb_pestana", 0).coerceIn(0, 2)) }
                     androidx.compose.material3.SingleChoiceSegmentedButtonRow(Modifier.fillMaxWidth()) {
                         listOf(R.string.fb_tab_calendario, R.string.fb_tab_atajos, R.string.fb_tab_resumen).forEachIndexed { i, s ->
-                            androidx.compose.material3.SegmentedButton(selected = pest == i, onClick = { pest = i; prefs.edit().putInt("fb_pestana", i).apply() },
+                            SegmentedButton(selected = pest == i, onClick = { pest = i; prefs.edit().putInt("fb_pestana", i).apply() },
                                 shape = androidx.compose.material3.SegmentedButtonDefaults.itemShape(i, 3), icon = {}) { Text(stringResource(s), maxLines = 1) }
                         }
                     }
