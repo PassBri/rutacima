@@ -395,7 +395,8 @@ function mandalaHtml(tableroHtml = "", rielArriba = "", rielAbajo = "", planear 
     <span class="md-riel-top">${sep}${[["modelo", "modelo", "Modelo · Brújula 1·9·81"], ["companero", "companero", "Compañero de Ascenso"], ["ritmo", "ritmo", "Tu ritmo · Método Cima 9×52"], ["cierre", "lecciones", "Cierre del año"], ...(planear ? [["planear", "campamento", "Planear por campamento"]] : [])].map(([k, i, t]) =>
       `<button class="md-riel-btn md-riel-cajon" data-acc="mdCajon" data-arg="${k}" aria-pressed="${estado.mdCajon === k}" aria-label="${t}" title="${t}">${ic(i)}</button>`).join("")}${sep}</span>
     <span class="md-riel-top"><button class="md-riel-btn" data-acc="informeBrujula" aria-label="Descargar el informe de la Brújula" title="Descargar el informe de la Brújula">${ic("descargar")}</button></span>
-        <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Ver la Brújula en pantalla completa" title="Ver la Brújula en pantalla completa (+ y − para pasar de la cumbre al 9×9)">${ic("pantallaCompleta")}</button></nav>`;
+        <span class="md-riel-top">${mdTamBtn()}</span>
+    <button class="md-ver-grande" data-acc="mdVisorCapa" aria-label="Ver la Brújula en pantalla completa" title="Ver la Brújula en pantalla completa (+ y − para pasar de la cumbre al 9×9)">${ic("pantallaCompleta")}</button></nav>`;
   /* Cabecera compacta: el título como etiqueta arriba a la izquierda y, a la derecha, una fila de botones flotantes
      (girar, pantalla completa e información). La explicación vive en el botón de información, para dar todo el espacio a la brújula. */
   const cabSec = (id, n, t, sub, extra = "") => `<div class="md-sec-cab" id="${id}"><div class="msc-tit"><span class="md-sec-n">${n}</span><h3>${t}</h3></div>
@@ -1139,3 +1140,13 @@ ACC.mdCajon = (el, k) => {
   document.querySelectorAll(".md-riel-cajon").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.arg === estado.mdCajon)));
 };
 document.addEventListener("keydown", e => { if (e.key === "Escape" && estado.mdCajon && document.querySelector(".md-cajon.abierto")) ACC.mdCajon(null, estado.mdCajon); });
+
+/* Ventana de la app (grande o normal): en la Brújula la cabecera está oculta, así que vive en el riel con su propio ícono
+   (una pantalla), distinto del de «ver la Brújula en pantalla completa». */
+function mdTamBtn() {
+  const amplia = document.getElementById("pantallaApp")?.classList.contains("amplia");
+  const t = amplia ? "Volver la ventana a su tamaño normal" : "Agrandar la ventana de la app";
+  return `<button class="md-riel-btn md-tam" type="button" data-tam="${amplia ? "normal" : "amplia"}" aria-pressed="${!!amplia}" aria-label="${t}" title="${t}">${ic("pc")}</button>`;
+}
+document.addEventListener("click", e => { if (!e.target.closest?.(".md-tam")) return;
+  requestAnimationFrame(() => document.querySelectorAll(".md-tam").forEach(b => { b.outerHTML = mdTamBtn(); })); });

@@ -4829,3 +4829,5 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .bj-tit { margin: 10px 2px 2px; font-size: 12.5px; font-weight: 600; color: var(--tinta-suave); }
 .rv-res.activo { background: var(--oro-suave); }
 @media (hover: hover) and (pointer: fine) { .bj-general:not([aria-pressed="true"]):hover { background: var(--hoja-2); } }
+
+@media (min-width: 701px) { .md-escena .md-tam[aria-pressed="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); } .md-escena .md-tam[aria-pressed="true"] svg { fill: var(--burdeos); } }
