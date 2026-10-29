@@ -4680,7 +4680,7 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-panel { display: grid; gap: 6px; animation: rvAparece .18s cubic-bezier(.2,0,0,1); }
 @media (prefers-reduced-motion: reduce) { .fb-panel { animation: none; } }
 .fb-ley { flex-wrap: nowrap; justify-content: space-between; gap: 4px; }
-.fb-atajos { grid-template-columns: 1fr 1fr; gap: 8px; }
+.fb-atajos { grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .fb-atajo { display: grid; justify-items: start; align-content: start; gap: 8px; min-height: 76px; padding: 12px; border: 1px solid var(--linea); border-radius: 16px; background: var(--hoja);
   font: inherit; font-size: 13px; font-weight: 500; line-height: 1.25; color: var(--tinta); text-align: left; cursor: pointer; transition: background .2s cubic-bezier(.2,0,0,1); }
 .fb-atajo svg { width: 22px; height: 22px; fill: var(--burdeos); }
@@ -4692,3 +4692,19 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-pestanas button svg { display: none; }
 .fb-pestanas button { font-size: 13px; padding: 0 4px; }
 .fb-ley { font-size: 10.5px; gap: 2px; }
+
+/* Atajos: solo íconos, la leyenda aparece al pasar el mouse o con el foco */
+.fb-atajos .fb-atajo { position: relative; display: grid; place-items: center; min-height: 0; aspect-ratio: 1; padding: 0; border-radius: 14px; }
+.fb-atajos .fb-atajo svg { width: 22px; height: 22px; }
+.fb-atajo[data-tip]::after { content: attr(data-tip); position: absolute; left: 50%; top: calc(100% + 6px); transform: translate(-50%, -2px); z-index: 5;
+  padding: 5px 9px; border-radius: 8px; background: var(--tinta); color: var(--hoja); font-size: 12px; font-weight: 500; line-height: 1.2; white-space: nowrap;
+  pointer-events: none; opacity: 0; transition: opacity .15s cubic-bezier(.2,0,0,1), transform .15s cubic-bezier(.2,0,0,1); }
+.fb-atajo[data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+@media (hover: hover) and (pointer: fine) { .fb-atajo[data-tip]:hover::after { opacity: 1; transform: translate(-50%, 0); } }
+.fb-atajos .fb-atajo:nth-child(4n)[data-tip]::after { left: auto; right: 0; transform: translateY(-2px); }
+.fb-atajos .fb-atajo:nth-child(4n)[data-tip]:focus-visible::after { transform: none; }
+@media (hover: hover) and (pointer: fine) { .fb-atajos .fb-atajo:nth-child(4n)[data-tip]:hover::after { transform: none; } }
+.fb-atajos .fb-atajo:nth-child(4n+1)[data-tip]::after { left: 0; transform: translateY(-2px); }
+.fb-atajos .fb-atajo:nth-child(4n+1)[data-tip]:focus-visible::after { transform: none; }
+@media (hover: hover) and (pointer: fine) { .fb-atajos .fb-atajo:nth-child(4n+1)[data-tip]:hover::after { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .fb-atajo[data-tip]::after { transition: none; } }

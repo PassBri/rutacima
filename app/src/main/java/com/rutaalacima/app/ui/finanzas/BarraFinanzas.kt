@@ -46,6 +46,11 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.rememberTooltipState
+import androidx.compose.ui.semantics.selected
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -101,7 +106,7 @@ private fun colorCierre(t: Cuentas.Suma, verde: Color, oro: Color, burdeos: Colo
     else -> verde
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
 fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, nacimiento: Int? = null, vida: Int = 100, onInforme: () -> Unit) {
     val h = hoy()
@@ -283,23 +288,29 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                         }
                     }
                     } else if (pest == 1) {
-                        // Atajos: cuadrícula de 2 columnas con íconos
+                        // Atajos: solo íconos; la leyenda aparece al dejar el dedo o el puntero encima
                         val atajos = listOf<Triple<NivelCuentas?, androidx.compose.ui.graphics.vector.ImageVector, Int>>(
                             Triple(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance), Triple(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos),
                             Triple(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas), Triple(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo),
                             Triple(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud), Triple(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo),
                             Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo), Triple(null, Icons.Filled.Download, R.string.fb_informe),
                         )
-                        atajos.chunked(2).forEach { par ->
+                        atajos.chunked(4).forEach { fila ->
                             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                                par.forEach { (n, ic, s) ->
+                                fila.forEach { (n, ic, s) ->
                                     val activo = n != null && n == nivel
-                                    Surface(onClick = { if (n == null) onInforme() else ir(n) }, shape = RoundedCornerShape(16.dp),
-                                        color = if (activo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
-                                        border = if (activo) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.weight(1f)) {
-                                        Column(Modifier.heightIn(min = 76.dp).padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                            Icon(ic, null, tint = burdeos, modifier = Modifier.size(22.dp))
-                                            Text(stringResource(s), style = MaterialTheme.typography.labelLarge, color = if (activo) burdeos else MaterialTheme.colorScheme.onSurface)
+                                    val nombre = stringResource(s)
+                                    TooltipBox(
+                                        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+                                        tooltip = { PlainTooltip { Text(nombre) } },
+                                        state = rememberTooltipState(),
+                                        modifier = Modifier.weight(1f),
+                                    ) {
+                                        Surface(onClick = { if (n == null) onInforme() else ir(n) }, shape = RoundedCornerShape(14.dp),
+                                            color = if (activo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface,
+                                            border = if (activo) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+                                            modifier = Modifier.fillMaxWidth().aspectRatio(1f).semantics { contentDescription = nombre; selected = activo }) {
+                                            Box(contentAlignment = Alignment.Center) { Icon(ic, null, tint = burdeos, modifier = Modifier.size(22.dp)) }
                                         }
                                     }
                                 }

@@ -151,8 +151,8 @@ function fbBarra() {
       <div class="rv-cal" role="group" aria-label="Días de ${MESES[m - 1]} de ${a}">${dias}</div>
       <p class="fb-ley" aria-hidden="true">${[["ing", "Ingreso"], ["gas", "Gasto"], ["aho", "Ahorro"], ["inv", "Inversión"], ["gen", "Dar"]].map(([t, n]) => `<span><i style="background:${FB_COLOR[t]}"></i>${n}</span>`).join("")}</p>
       </div>` : pest === "atajos" ? `<div class="fb-panel fb-atajos" role="tabpanel" aria-label="Atajos">${ATAJOS.map(([s, i, t]) =>
-        `<button class="fb-atajo" data-sel="${s}" aria-pressed="${v === s}">${ic(i)}<span>${t}</span></button>`).join("")}
-        <button class="fb-atajo" data-acc="ascInforme">${ic("descargar")}<span>Informe PDF</span></button></div>`
+        `<button class="fb-atajo" data-sel="${s}" aria-pressed="${v === s}" aria-label="${t}" data-tip="${t}">${ic(i)}</button>`).join("")}
+        <button class="fb-atajo" data-acc="ascInforme" aria-label="Informe PDF" data-tip="Informe PDF">${ic("descargar")}</button></div>`
       : `<div class="fb-panel" role="tabpanel" aria-label="Resumen">${fbTarjeta(datos)}${fbCordillera(datos, a)}</div>`}
     </div></nav>`;
 }
