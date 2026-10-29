@@ -4900,3 +4900,23 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
   .md-escena .md-capas-menu button > b { width: 40px; height: 40px; }
   .md-escena .md-capas-menu button:focus-visible { outline: 2px solid var(--burdeos); outline-offset: 1px; }
 }
+
+/* La Brújula usa toda la altura: el pie de cada capa (avance, leyenda y compartir) se abre desde el riel */
+.md-riel-avance { display: none; }
+@media (min-width: 701px) {
+  .md-escena .md-pie-capa { display: none !important; }
+  .md-escena .md-riel-avance { display: block; position: relative; }
+  .md-escena .md-riel-avance > summary { list-style: none; } .md-escena .md-riel-avance > summary::-webkit-details-marker { display: none; }
+  .md-escena .md-riel-avance[open] > summary { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); }
+  .md-avance-pop { position: absolute; top: -8px; right: calc(100% + 10px); z-index: 30; width: min(420px, 60vw); display: grid; gap: 8px; padding: 16px; border-radius: 16px;
+    background: var(--hoja); box-shadow: 0 1px 2px rgb(0 0 0 / .3), 0 2px 6px 2px rgb(0 0 0 / .15); font-size: 13.5px; transform-origin: top right; animation: md-menu-abre .2s cubic-bezier(.2, 0, 0, 1); }
+  .md-avance-pop > * { margin: 0 !important; }
+  .md-avance-pop .botones { display: flex; flex-wrap: wrap; gap: 8px; }
+  .md-avance-pop [data-acc="informeBrujula"] { display: none; }
+  .md-avance-pop .md-btn-compartir { width: 100%; justify-content: center; }
+  .md-capa > .hoja > .rosa-brujula { margin-bottom: 0; }
+}
+@media (min-width: 701px) {
+  .md-escena .md-avance-pop b { display: inline; min-width: 0; height: auto; padding: 0; border-radius: 0; background: none; color: var(--tinta); font-size: inherit; font-weight: 700; }
+  .md-escena .md-avance-pop .md-progreso { font-size: 14px; color: var(--burdeos); }
+}
