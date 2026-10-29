@@ -4952,3 +4952,18 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 /* Mochila guardada: el ícono se pinta azul de altura y el círculo se tiñe (igual que la app) */
 .cima-acciones > button[data-acc="guardarPost"][aria-pressed="true"] > svg { fill: #9EC1D6 !important; background: rgb(158 193 214 / .3) !important; border-color: rgb(158 193 214 / .55) !important; }
 .cima-acciones > button[data-acc="guardarPost"] > svg { transition: fill .2s cubic-bezier(.2,0,0,1), background-color .2s cubic-bezier(.2,0,0,1); }
+
+/* Tarjeta de la comunidad en el computador: la imagen arriba y el texto en una franja propia debajo (nada montado);
+   el abanico de reacciones se abre hacia la derecha, fuera de la tarjeta */
+@media (min-width: 901px) {
+  .cima:not(.cima-fin) { display: flex; flex-direction: column; background: #0B0F18; }
+  .cima:not(.cima-fin) > .cima-fondo { position: relative; inset: auto; flex: 1 1 auto; min-height: 0; border-radius: 16px 16px 0 0; }
+  .cima:not(.cima-fin)::after { border-radius: 16px 16px 0 0; background: linear-gradient(rgb(6 10 18 / .45), transparent 14%); bottom: auto; height: 40%; }
+  .cima:not(.cima-fin) > .cima-pie { position: relative; left: auto; right: auto; bottom: auto; flex: none; max-height: 42%; overflow-y: auto; scrollbar-width: none;
+    padding: 12px 16px 14px; gap: 6px; border-top: 1px solid rgb(255 255 255 / .08); border-radius: 0 0 16px 16px; background: #0B0F18; }
+  .cima:not(.cima-fin) > .cima-pie .cima-texto { -webkit-line-clamp: 2; }
+  .cima:not(.cima-fin) > .cima-pie .cima-ayuda { display: none; }
+  .cima:not(.cima-fin) > .cima-pie .cima-explorar { min-height: 36px; padding: 0 14px; font-size: 13.5px; }
+  .cima-acciones .clima-abanico { right: auto; left: calc(100% + 10px); }
+}
+@media (min-width: 901px) { .cima-acciones .clima-abanico { flex-direction: column; border-radius: 30px; padding: 6px 4px; } }
