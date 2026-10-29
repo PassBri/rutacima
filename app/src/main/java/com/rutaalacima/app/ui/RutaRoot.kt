@@ -609,6 +609,7 @@ private fun AppPrincipal() {
                     onChat = { nav.navigate(Rutas.chat(it)) },
                     onAcompanado = { id, nombre -> nav.navigate(Rutas.acompanado(id, nombre)) },
                     onCuenta = { nav.navigate(Rutas.AJUSTES) },
+                    onRevisarCoaches = { com.rutaalacima.app.ui.moderacion.ModeracionInicio.pestana = 2; nav.navigate(Rutas.MODERACION) },
                 )
             }
             composable(

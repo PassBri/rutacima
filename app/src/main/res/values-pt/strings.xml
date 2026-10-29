@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">Anos com Bússola</string>
     <string name="bj_ninguna">Você ainda não tem Bússolas por ano. Toque em um ano para criar a primeira.</string>
     <string name="bj_este_anio">este ano</string>
+    <string name="coach_revisar_d">Só você vê isto porque modera o SuRoute.</string>
+    <string name="coach_revisar_btn">Revisar</string>
+    <string name="coach_dir_t">Ainda não há coaches verificados</string>
+    <string name="coach_dir_d">Um coach de vida do SuRoute é uma pessoa real que acompanha sua subida: conversa com você, revisa seu avanço só se você permitir e ajuda você a não desistir.</string>
+    <string name="coach_dir_1">Cada coach é revisado pela equipe do SuRoute antes de aparecer aqui.</string>
+    <string name="coach_dir_2">Você decide se compartilha seu avanço e pode parar quando quiser.</string>
+    <string name="coach_dir_3">Você pode encerrar o acompanhamento a qualquer momento.</string>
+    <string name="coach_dir_postula">Você acompanha pessoas? Candidate-se abaixo.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d candidatura de coach para revisar</item>
+        <item quantity="other">%d candidaturas de coach para revisar</item>
+    </plurals>
 </resources>

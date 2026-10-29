@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">Jahre mit Kompass</string>
     <string name="bj_ninguna">Du hast noch keine Jahreskompasse. Tippe auf ein Jahr, um den ersten zu erstellen.</string>
     <string name="bj_este_anio">dieses Jahr</string>
+    <string name="coach_revisar_d">Nur du siehst das, weil du SuRoute moderierst.</string>
+    <string name="coach_revisar_btn">Prüfen</string>
+    <string name="coach_dir_t">Noch keine verifizierten Coaches</string>
+    <string name="coach_dir_d">Ein SuRoute-Lebenscoach ist ein echter Mensch, der dich bei deinem Aufstieg begleitet: spricht mit dir, sieht deinen Fortschritt nur, wenn du es erlaubst, und hilft dir, nicht aufzugeben.</string>
+    <string name="coach_dir_1">Jeder Coach wird vom SuRoute-Team geprüft, bevor er hier erscheint.</string>
+    <string name="coach_dir_2">Du entscheidest, ob du deinen Fortschritt teilst, und kannst jederzeit aufhören.</string>
+    <string name="coach_dir_3">Du kannst die Begleitung jederzeit beenden.</string>
+    <string name="coach_dir_postula">Begleitest du Menschen? Bewirb dich unten.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d Coach-Bewerbung zu prüfen</item>
+        <item quantity="other">%d Coach-Bewerbungen zu prüfen</item>
+    </plurals>
 </resources>

@@ -126,7 +126,8 @@ internal fun fecha(iso: String): String? = runCatching {
 @Composable
 fun ModeracionScreen(onBack: () -> Unit) {
     val vm = rutaViewModel { ModeracionViewModel(it) }
-    var pestana by remember { mutableIntStateOf(0) }
+    var pestana by remember { mutableIntStateOf(ModeracionInicio.tomar()) }
+    androidx.compose.runtime.LaunchedEffect(Unit) { if (pestana == 2) vm.cargarCoaches() }
     Scaffold(
         modifier = Modifier.fondoPapel(),
         containerColor = Color.Transparent,
@@ -376,4 +377,10 @@ fun AvisoSuspension(modifier: Modifier = Modifier) {
             runCatching { abrir.openUri(com.rutaalacima.app.ui.legal.Legal.url(com.rutaalacima.app.ui.legal.Legal.Doc.PRIVACIDAD) + "#procedimiento") }
         }, modifier = Modifier.padding(top = 6.dp)) { Text(stringResource(R.string.suspension_apelar_boton)) }
     }
+}
+
+/** Con qué pestaña abre Moderación (por ejemplo, Coaches desde el aviso de Coach de vida); se usa una vez. */
+object ModeracionInicio {
+    var pestana = 0
+    fun tomar(): Int = pestana.also { pestana = 0 }
 }

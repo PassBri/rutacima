@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">कंपास वाले साल</string>
     <string name="bj_ninguna">अभी तक कोई सालाना कंपास नहीं है। पहला बनाने के लिए किसी साल पर टैप करें।</string>
     <string name="bj_este_anio">इस साल</string>
+    <string name="coach_revisar_d">यह सिर्फ़ आपको दिखता है क्योंकि आप SuRoute के मॉडरेटर हैं।</string>
+    <string name="coach_revisar_btn">देखें</string>
+    <string name="coach_dir_t">अभी कोई सत्यापित कोच नहीं है</string>
+    <string name="coach_dir_d">SuRoute लाइफ़ कोच एक असली व्यक्ति है जो आपकी चढ़ाई में साथ देता है: आपसे बात करता है, आपकी अनुमति से ही प्रगति देखता है और हार न मानने में मदद करता है।</string>
+    <string name="coach_dir_1">हर कोच को यहाँ दिखने से पहले SuRoute टीम जाँचती है।</string>
+    <string name="coach_dir_2">प्रगति साझा करनी है या नहीं, आप तय करते हैं और कभी भी रोक सकते हैं।</string>
+    <string name="coach_dir_3">आप कभी भी साथ खत्म कर सकते हैं।</string>
+    <string name="coach_dir_postula">क्या आप लोगों का साथ देते हैं? नीचे आवेदन करें।</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">समीक्षा के लिए %d कोच आवेदन</item>
+        <item quantity="other">समीक्षा के लिए %d कोच आवेदन</item>
+    </plurals>
 </resources>

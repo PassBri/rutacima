@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">有指南针的年份</string>
     <string name="bj_ninguna">你还没有年度指南针。点一个年份创建第一个。</string>
     <string name="bj_este_anio">今年</string>
+    <string name="coach_revisar_d">只有你能看到，因为你是 SuRoute 的审核员。</string>
+    <string name="coach_revisar_btn">审核</string>
+    <string name="coach_dir_t">还没有认证教练</string>
+    <string name="coach_dir_d">SuRoute 人生教练是陪你攀登的真人：与你交流，只有在你允许时才查看你的进度，帮你坚持下去。</string>
+    <string name="coach_dir_1">每位教练在出现在这里之前都经过 SuRoute 团队审核。</string>
+    <string name="coach_dir_2">是否分享进度由你决定，随时可以停止。</string>
+    <string name="coach_dir_3">你可以随时结束陪伴。</string>
+    <string name="coach_dir_postula">你在陪伴他人吗？在下方申请。</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d 份教练申请待审核</item>
+        <item quantity="other">%d 份教练申请待审核</item>
+    </plurals>
 </resources>

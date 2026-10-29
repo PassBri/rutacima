@@ -20,6 +20,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Chat
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -61,8 +64,10 @@ import com.rutaalacima.app.ui.comunidad.Avatar
 import com.rutaalacima.app.ui.theme.fondoPapel
 import kotlinx.coroutines.launch
 
-class CoachVidaViewModel(c: AppContainer) : ViewModel() {
+class CoachVidaViewModel(private val c: AppContainer) : ViewModel() {
     val repo = c.mensajes
+    /** Postulaciones de coach por revisar (solo si la persona modera SuRoute). */
+    var porRevisar by mutableStateOf(0)
     var directorio by mutableStateOf<List<CoachFicha>>(emptyList())
     var acompanamientos by mutableStateOf<List<Acompanamiento>>(emptyList())
     var miFicha by mutableStateOf<MiFichaCoach?>(null)
@@ -79,6 +84,7 @@ class CoachVidaViewModel(c: AppContainer) : ViewModel() {
             directorio = repo.directorio()
             miFicha = repo.miFicha()
         }
+        porRevisar = runCatching { if (c.moderacion.esModerador()) c.red.coachesPorVerificar().size else 0 }.getOrDefault(0)
     }
 
     private fun accion(error: String, bloque: suspend () -> Unit) = viewModelScope.launch {
@@ -104,7 +110,7 @@ class CoachVidaViewModel(c: AppContainer) : ViewModel() {
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoachVidaScreen(onBack: () -> Unit, onChat: (String) -> Unit, onAcompanado: (String, String) -> Unit, onCuenta: () -> Unit) {
+fun CoachVidaScreen(onBack: () -> Unit, onChat: (String) -> Unit, onAcompanado: (String, String) -> Unit, onCuenta: () -> Unit, onRevisarCoaches: () -> Unit = {}) {
     val vm = rutaViewModel { CoachVidaViewModel(it) }
     LaunchedEffect(Unit) { vm.cargar() }
     val error = stringResource(R.string.mensajes_error)
@@ -125,6 +131,19 @@ fun CoachVidaScreen(onBack: () -> Unit, onChat: (String) -> Unit, onAcompanado: 
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Text(stringResource(R.string.coach_vida_intro), style = MaterialTheme.typography.bodyMedium) }
+            // A quien modera: las postulaciones de coach por revisar, con un toque a Moderación › Coaches
+            if (vm.porRevisar > 0) item {
+                androidx.compose.material3.Surface(shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.secondaryContainer) {
+                    Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(androidx.compose.material.icons.Icons.Filled.Shield, null, tint = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(12.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(androidx.compose.ui.res.pluralStringResource(R.plurals.coach_revisar_t, vm.porRevisar, vm.porRevisar), style = MaterialTheme.typography.titleSmall)
+                            Text(stringResource(R.string.coach_revisar_d), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                        Button(onClick = onRevisarCoaches) { Text(stringResource(R.string.coach_revisar_btn)) }
+                    }
+                }
+            }
             if (!vm.repo.disponible) {
                 item {
                     RutaCard {
@@ -212,8 +231,23 @@ fun CoachVidaScreen(onBack: () -> Unit, onChat: (String) -> Unit, onAcompanado: 
             if (mio == null) {
                 item { SectionTitle(stringResource(R.string.coach_vida_directorio)) }
                 if (vm.directorio.isEmpty()) {
-                    item { Text(stringResource(R.string.coach_vida_sin_coaches), style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant) }
+                    // Sin coaches todavía: qué es un coach de SuRoute y cómo postularse
+                    item {
+                        RutaCard {
+                            Text(stringResource(R.string.coach_dir_t), style = MaterialTheme.typography.titleMedium)
+                            Text(stringResource(R.string.coach_dir_d), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(top = 6.dp, bottom = 8.dp))
+                            listOf(androidx.compose.material.icons.Icons.Filled.Shield to R.string.coach_dir_1, androidx.compose.material.icons.Icons.Filled.Lock to R.string.coach_dir_2,
+                                androidx.compose.material.icons.Icons.Filled.Check to R.string.coach_dir_3).forEach { (ic, t) ->
+                                Row(Modifier.padding(vertical = 4.dp), verticalAlignment = Alignment.Top) {
+                                    Icon(ic, null, Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(10.dp))
+                                    Text(stringResource(t), style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+                            if (vm.miFicha == null) Text(stringResource(R.string.coach_dir_postula), style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(top = 8.dp))
+                        }
+                    }
                 }
                 items(vm.directorio, key = { it.userId }) { f ->
                     RutaCard {

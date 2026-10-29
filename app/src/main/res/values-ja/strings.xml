@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">コンパスのある年</string>
     <string name="bj_ninguna">年ごとのコンパスはまだありません。年をタップして最初のものを作りましょう。</string>
     <string name="bj_este_anio">今年</string>
+    <string name="coach_revisar_d">SuRoute のモデレーターなので、あなただけに表示されます。</string>
+    <string name="coach_revisar_btn">確認する</string>
+    <string name="coach_dir_t">認証済みのコーチはまだいません</string>
+    <string name="coach_dir_d">SuRoute のライフコーチは、あなたの登山に寄り添う実在の人です。対話し、許可したときだけ進捗を見て、あきらめないよう支えます。</string>
+    <string name="coach_dir_1">すべてのコーチは掲載前に SuRoute チームが確認します。</string>
+    <string name="coach_dir_2">進捗を共有するかはあなたが決め、いつでもやめられます。</string>
+    <string name="coach_dir_3">伴走はいつでも終了できます。</string>
+    <string name="coach_dir_postula">人を支えていますか？下から応募してください。</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">確認待ちのコーチ応募 %d 件</item>
+        <item quantity="other">確認待ちのコーチ応募 %d 件</item>
+    </plurals>
 </resources>

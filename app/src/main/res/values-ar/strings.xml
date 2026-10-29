@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">سنوات لها بوصلة</string>
     <string name="bj_ninguna">ليست لديك بوصلات سنوية بعد. المس سنة لإنشاء الأولى.</string>
     <string name="bj_este_anio">هذه السنة</string>
+    <string name="coach_revisar_d">تراه أنت فقط لأنك تشرف على SuRoute.</string>
+    <string name="coach_revisar_btn">مراجعة</string>
+    <string name="coach_dir_t">لا يوجد مدربون موثَّقون بعد</string>
+    <string name="coach_dir_d">مدرب الحياة في SuRoute شخص حقيقي يرافقك في صعودك: يتحدث معك، ويراجع تقدمك فقط إذا سمحت، ويساعدك على عدم الاستسلام.</string>
+    <string name="coach_dir_1">يراجع فريق SuRoute كل مدرب قبل ظهوره هنا.</string>
+    <string name="coach_dir_2">أنت تقرر مشاركة تقدمك، ويمكنك التوقف متى شئت.</string>
+    <string name="coach_dir_3">يمكنك إنهاء المرافقة في أي وقت.</string>
+    <string name="coach_dir_postula">هل ترافق الناس؟ قدّم طلبك في الأسفل.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d طلب مدرب للمراجعة</item>
+        <item quantity="other">%d طلبات مدربين للمراجعة</item>
+    </plurals>
 </resources>

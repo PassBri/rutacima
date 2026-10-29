@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">나침반이 있는 해</string>
     <string name="bj_ninguna">아직 연도별 나침반이 없어요. 해를 눌러 첫 나침반을 만드세요.</string>
     <string name="bj_este_anio">올해</string>
+    <string name="coach_revisar_d">SuRoute를 운영 관리하므로 나만 볼 수 있어요.</string>
+    <string name="coach_revisar_btn">검토</string>
+    <string name="coach_dir_t">아직 인증된 코치가 없어요</string>
+    <string name="coach_dir_d">SuRoute 라이프 코치는 당신의 등반을 함께하는 실제 사람이에요. 대화하고, 허락할 때만 진행 상황을 보고, 포기하지 않도록 도와요.</string>
+    <string name="coach_dir_1">모든 코치는 이곳에 나오기 전에 SuRoute 팀이 검토해요.</string>
+    <string name="coach_dir_2">진행 상황 공유는 당신이 정하고, 언제든 멈출 수 있어요.</string>
+    <string name="coach_dir_3">언제든 동행을 끝낼 수 있어요.</string>
+    <string name="coach_dir_postula">사람들을 코칭하나요? 아래에서 지원하세요.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">검토할 코치 지원 %d건</item>
+        <item quantity="other">검토할 코치 지원 %d건</item>
+    </plurals>
 </resources>

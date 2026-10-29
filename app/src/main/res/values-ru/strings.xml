@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">Годы с Компасом</string>
     <string name="bj_ninguna">У вас пока нет Компасов по годам. Нажмите на год, чтобы создать первый.</string>
     <string name="bj_este_anio">этот год</string>
+    <string name="coach_revisar_d">Это видите только вы, потому что модерируете SuRoute.</string>
+    <string name="coach_revisar_btn">Проверить</string>
+    <string name="coach_dir_t">Пока нет проверенных коучей</string>
+    <string name="coach_dir_d">Лайф-коуч SuRoute — живой человек, который сопровождает вас на пути: общается с вами, видит прогресс только с вашего разрешения и помогает не сдаться.</string>
+    <string name="coach_dir_1">Каждого коуча проверяет команда SuRoute, прежде чем он появится здесь.</string>
+    <string name="coach_dir_2">Вы решаете, делиться ли прогрессом, и можете перестать в любой момент.</string>
+    <string name="coach_dir_3">Вы можете завершить сопровождение в любое время.</string>
+    <string name="coach_dir_postula">Вы сопровождаете людей? Подайте заявку ниже.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d заявка коуча на проверку</item>
+        <item quantity="other">%d заявки коучей на проверку</item>
+    </plurals>
 </resources>

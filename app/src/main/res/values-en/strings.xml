@@ -2808,4 +2808,16 @@
     <string name="bj_con_brujula">Years with a Compass</string>
     <string name="bj_ninguna">You don’t have yearly Compasses yet. Tap a year to create the first one.</string>
     <string name="bj_este_anio">this year</string>
+    <string name="coach_revisar_d">Only you see this because you moderate SuRoute.</string>
+    <string name="coach_revisar_btn">Review</string>
+    <string name="coach_dir_t">There are no verified coaches yet</string>
+    <string name="coach_dir_d">A SuRoute life coach is a real person who walks with you on your climb: talks with you, reviews your progress only if you allow it, and helps you not give up.</string>
+    <string name="coach_dir_1">Every coach is reviewed by the SuRoute team before appearing here.</string>
+    <string name="coach_dir_2">You decide whether to share your progress, and you can stop anytime.</string>
+    <string name="coach_dir_3">You can end the coaching at any time.</string>
+    <string name="coach_dir_postula">Do you coach people? Apply below.</string>
+    <plurals name="coach_revisar_t">
+        <item quantity="one">%d coach application to review</item>
+        <item quantity="other">%d coach applications to review</item>
+    </plurals>
 </resources>
