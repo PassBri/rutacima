@@ -93,6 +93,13 @@ private fun nombreMesCorto(m: Int): String = java.time.Month.of(m).getDisplayNam
 private fun nombreMesLargo(m: Int): String = java.time.Month.of(m).getDisplayName(java.time.format.TextStyle.FULL_STANDALONE, java.util.Locale.getDefault())
     .replaceFirstChar { it.uppercase() }
 
+/** Cómo cerró un periodo: verde si sobró (o quedó en cero pero ahorró o invirtió: todo tuvo destino), dorado si quedó en cero sin ahorro, burdeos si salió más. */
+private fun colorCierre(t: Cuentas.Suma, verde: Color, oro: Color, burdeos: Color): Color = when {
+    t.disponible < -0.5 -> burdeos
+    kotlin.math.abs(t.disponible) < 0.5 -> if (t.construido > 0) verde else oro
+    else -> verde
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, onInforme: () -> Unit) {
@@ -153,7 +160,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                                             val t = porAnio["$y"]; val viendo = y == verA
                                             Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp))
                                                 .background(if (viendo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
-                                                .border(1.5.dp, when { t == null || t.n == 0 -> MaterialTheme.colorScheme.outlineVariant; t.disponible >= 0 -> verde.copy(alpha = 0.6f); else -> burdeos.copy(alpha = 0.6f) }, RoundedCornerShape(12.dp))
+                                                .border(1.5.dp, if (t == null || t.n == 0) MaterialTheme.colorScheme.outlineVariant else colorCierre(t, verde, oro, burdeos).copy(alpha = 0.6f), RoundedCornerShape(12.dp))
                                                 .clickable { if (viendo) { mapa = false; ir(NivelCuentas.Anio(y)) } else verA = y }.padding(vertical = 6.dp),
                                                 horizontalAlignment = Alignment.CenterHorizontally) {
                                                 Text("$y", style = MaterialTheme.typography.titleSmall.copy(fontFamily = FontFamily.Serif), color = if (y == h.year) burdeos else MaterialTheme.colorScheme.onSurface)
@@ -177,7 +184,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                                     val (fr, color) = when {
                                         t == null || t.n == 0 -> 0f to MaterialTheme.colorScheme.outlineVariant
                                         pres > 0 -> (t.gas / pres).let { u -> u.toFloat().coerceIn(0f, 1f) to (if (u > 1) burdeos else if (u > 0.8) oro else verde) }
-                                        else -> (if (t.ing > 0) ((maxOf(0.0, t.disponible) + t.construido) / t.ing).toFloat().coerceIn(0.12f, 1f) else 1f) to (if (t.disponible >= 0) verde else burdeos)
+                                        else -> (if (t.ing > 0) ((maxOf(0.0, t.disponible) + t.construido) / t.ing).toFloat().coerceIn(0.12f, 1f) else 1f) to colorCierre(t, verde, oro, burdeos)
                                     }
                                     val abierto = lugarA == verA && lugarM == k; val actual = verA == h.year && k == h.monthValue
                                     Column(Modifier.weight(1f).clip(RoundedCornerShape(14.dp)).background(if (abierto) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)

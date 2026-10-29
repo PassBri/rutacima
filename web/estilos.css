@@ -4659,3 +4659,4 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-anio.viendo { background: var(--oro-suave); }
 .fb-link { border: 0; background: none; padding: 0; color: var(--burdeos); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .fb-anios { animation: none; } }
+.fb-anio.justo { border-color: color-mix(in srgb, var(--oro) 70%, transparent); }

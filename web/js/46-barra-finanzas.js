@@ -54,6 +54,8 @@ function fbDatos() {
   return { dias, porDia, porMes, porAnio };
 }
 
+/** Cómo cerró un periodo: bien (sobró, o quedó en cero pero ahorró o invirtió), justo (en cero sin ahorro) o mal (salió más). */
+const fbEstado = t => t.disp < -0.5 ? "mal" : Math.abs(t.disp) < 0.5 ? (t.construido > 0 ? "bien" : "justo") : "bien";
 /** Aro del mes: verde si quedó disponible, burdeos si no; con presupuesto, se llena con lo gastado (semáforo). */
 function fbAro(t, ym, actual) {
   const pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym))));
@@ -61,8 +63,10 @@ function fbAro(t, ym, actual) {
   if (t?.n) {
     if (pres) { const uso = t.gas / pres; fr = Math.min(1, uso); color = uso > 1 ? "var(--burdeos)" : uso > 0.8 ? "var(--oro)" : "var(--ok, #2E6B3A)";
       titulo = `Gastaste ${Math.round(uso * 100)} % del presupuesto`; }
-    else { fr = t.ing > 0 ? Math.max(0.12, Math.min(1, Math.max(0, t.disp) / t.ing + (t.construido / t.ing))) : 1; color = t.disp >= 0 ? "var(--ok, #2E6B3A)" : "var(--burdeos)";
-      titulo = t.disp >= 0 ? "Cerró con disponible" : "Salió más de lo que entró"; }
+    else { fr = t.ing > 0 ? Math.max(0.12, Math.min(1, Math.max(0, t.disp) / t.ing + (t.construido / t.ing))) : 1;
+      // En cero: si ahorró o invirtió, todo el dinero tuvo destino (verde); si no, quedó apretado (dorado)
+      const e = fbEstado(t); color = e === "bien" ? "var(--ok, #2E6B3A)" : e === "justo" ? "var(--oro)" : "var(--burdeos)";
+      titulo = e === "mal" ? "Salió más de lo que entró" : Math.abs(t.disp) < 0.5 ? (e === "bien" ? "En cero: todo tuvo destino" : "En cero, sin ahorro") : "Cerró con disponible"; }
   }
   const r = 11, c = 2 * Math.PI * r;
   return { titulo, svg: `<svg class="fb-aro" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="${r}" fill="none" stroke="var(--linea)" stroke-width="2.4"/>
@@ -153,7 +157,7 @@ function fbAnios(datos, visto) {
   const desde = Math.min(aHoy, ...conMovs), hasta = aHoy + 1, anios = [];
   for (let y = hasta; y >= desde; y--) anios.push(y);
   return `<div class="fb-anios" role="group" aria-label="Todos tus años">${anios.map(y => { const t = datos.porAnio[y];
-    const col = !t?.n ? "" : t.disp >= 0 ? " bien" : " mal";
+    const col = !t?.n ? "" : " " + fbEstado(t);
     return `<button class="fb-anio${y === visto ? " viendo" : ""}${y === aHoy ? " actual" : ""}${col}" data-acc="fbAnioIr" data-arg="${y}" aria-label="${y}${t?.n ? `: disponible ${plata(t.disp)}` : ", sin movimientos"}" title="${y}${t?.n ? ` · disponible ${plata(t.disp)} · construido ${plata(t.construido)}` : " · sin movimientos"}">
       <b>${y}</b><small>${t?.n ? plata(t.disp) : "—"}</small></button>`; }).join("")}
     <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
