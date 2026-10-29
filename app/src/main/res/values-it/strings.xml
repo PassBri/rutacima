@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">Una montagna di 8.848.000 mm che scaliamo insieme: contano i post, gli slanci e ogni giorno segnato in cordate e sfide.</string>
     <string name="cv_g12_t">Altre opzioni</string>
     <string name="cv_g12_d">Copia il link, silenzia, segnala o blocca. La tua sicurezza è sempre a un tocco.</string>
+    <string name="cv_me_lo_llevo">Lo porto con me</string>
+    <string name="cv_detras">Dietro la cima</string>
+    <string name="cv_llevado">L\'hai preso: è nel tuo zaino e gli hai dato slancio.</string>
+    <string name="cv_todos">Tutti</string>
+    <string name="cv_sendero">Sentiero %1$s</string>
+    <string name="cv_detras_ayuda">Il cammino che c\'era dietro quando ha pubblicato:</string>
+    <string name="cv_otras_cimas">Altre cime di %1$s</string>
+    <string name="cv_escribirle">Scrivigli</string>
+    <string name="cv_ver_perfil">Vedi profilo</string>
+    <string name="cv_sin_camino">Questa pubblicazione non riporta il suo cammino.</string>
+    <string name="cv_g13_t">Scorri a sinistra: dietro la cima</string>
+    <string name="cv_g13_d">Vedi il cammino di quella persona: la sua costanza, i passi della Bussola, il suo impegno e le altre cime.</string>
+    <string name="cv_g14_t">Scorri a destra: lo porto con me</string>
+    <string name="cv_g14_d">La pubblicazione va nel tuo zaino e riceve il tuo slancio. Qui nessuno viene mai rifiutato.</string>
+    <string name="cv_g15_t">Sentieri</string>
+    <string name="cv_g15_d">In alto scegli un sentiero (Volontà, Maestria, Voce, Valore, Evoluzione, Trascendenza) o scorri di lato sull\'intestazione per cambiarlo.</string>
 </resources>

@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">جبل ارتفاعه 8,848,000 مم نصعده معًا: تُحتسب المنشورات والتحفيزات وكل يوم مسجّل في فرق الحبل والتحديات.</string>
     <string name="cv_g12_t">خيارات إضافية</string>
     <string name="cv_g12_d">نسخ الرابط أو كتم الصوت أو الإبلاغ أو الحظر. أمانك دائمًا على بُعد نقرة.</string>
+    <string name="cv_me_lo_llevo">سآخذه معي</string>
+    <string name="cv_detras">خلف القمة</string>
+    <string name="cv_llevado">أخذته معك: صار في حقيبتك وقدّمت له تحفيزًا.</string>
+    <string name="cv_todos">الكل</string>
+    <string name="cv_sendero">مسار %1$s</string>
+    <string name="cv_detras_ayuda">الطريق الذي كان خلفه عند النشر:</string>
+    <string name="cv_otras_cimas">قمم أخرى لـ %1$s</string>
+    <string name="cv_escribirle">مراسلته</string>
+    <string name="cv_ver_perfil">عرض الملف الشخصي</string>
+    <string name="cv_sin_camino">لا تحمل هذه المشاركة طريقها.</string>
+    <string name="cv_g13_t">اسحب لليسار: خلف القمة</string>
+    <string name="cv_g13_d">شاهد طريق هذا الشخص: مثابرته وخطواته في البوصلة والتزامه وقممه الأخرى.</string>
+    <string name="cv_g14_t">اسحب لليمين: سآخذه معي</string>
+    <string name="cv_g14_d">تذهب المشاركة إلى حقيبتك وتنال تحفيزك. لا يُرفض أحد هنا أبدًا.</string>
+    <string name="cv_g15_t">المسارات</string>
+    <string name="cv_g15_d">في الأعلى اختر مسارًا (الإرادة، الإتقان، الصوت، القيمة، التطور، السمو) أو اسحب جانبيًا على الشريط العلوي لتغييره.</string>
 </resources>

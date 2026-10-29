@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">An 8,848,000 mm mountain we climb together: posts, boosts and every day checked in rope teams and challenges all add up.</string>
     <string name="cv_g12_t">More options</string>
     <string name="cv_g12_d">Copy the link, mute, report or block. Your safety is always one tap away.</string>
+    <string name="cv_me_lo_llevo">I\'ll take it</string>
+    <string name="cv_detras">Behind the summit</string>
+    <string name="cv_llevado">You took it: it\'s in your backpack and you boosted it.</string>
+    <string name="cv_todos">All</string>
+    <string name="cv_sendero">%1$s trail</string>
+    <string name="cv_detras_ayuda">The path behind it when they posted:</string>
+    <string name="cv_otras_cimas">More summits by %1$s</string>
+    <string name="cv_escribirle">Message them</string>
+    <string name="cv_ver_perfil">See their profile</string>
+    <string name="cv_sin_camino">This post doesn\'t carry its path.</string>
+    <string name="cv_g13_t">Swipe left: behind the summit</string>
+    <string name="cv_g13_d">See that person\'s path: their consistency, their Compass steps, their commitment and their other summits.</string>
+    <string name="cv_g14_t">Swipe right: I\'ll take it</string>
+    <string name="cv_g14_d">The post goes into your backpack and gets your boost. Nobody is ever rejected here.</string>
+    <string name="cv_g15_t">Trails</string>
+    <string name="cv_g15_d">At the top, pick a trail (Willpower, Mastery, Voice, Value, Evolution, Transcendence) or swipe sideways on the header to change it.</string>
 </resources>

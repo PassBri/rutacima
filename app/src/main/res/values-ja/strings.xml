@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">みんなで登る 8,848,000 mm の山。投稿、応援、そしてザイルパーティーやチャレンジでチェックした毎日が積み重なります。</string>
     <string name="cv_g12_t">その他のオプション</string>
     <string name="cv_g12_d">リンクのコピー、ミュート、報告、ブロック。安全はいつもワンタップで守れます。</string>
+    <string name="cv_me_lo_llevo">持っていく</string>
+    <string name="cv_detras">山頂の向こう側</string>
+    <string name="cv_llevado">持っていきました：リュックに入り、応援しました。</string>
+    <string name="cv_todos">すべて</string>
+    <string name="cv_sendero">%1$sの道</string>
+    <string name="cv_detras_ayuda">投稿したときの歩み：</string>
+    <string name="cv_otras_cimas">%1$sのほかの山頂</string>
+    <string name="cv_escribirle">メッセージ</string>
+    <string name="cv_ver_perfil">プロフィールを見る</string>
+    <string name="cv_sin_camino">この投稿には歩みの記録がありません。</string>
+    <string name="cv_g13_t">左にスワイプ：山頂の向こう側</string>
+    <string name="cv_g13_d">その人の歩みが見られます：継続の日数、コンパスの歩数、約束、ほかの山頂。</string>
+    <string name="cv_g14_t">右にスワイプ：持っていく</string>
+    <string name="cv_g14_d">投稿がリュックに入り、あなたの応援が届きます。ここでは誰も拒まれません。</string>
+    <string name="cv_g15_t">道</string>
+    <string name="cv_g15_d">上部で道（意志・熟達・声・価値・進化・超越）を選ぶか、ヘッダーを左右にスワイプして切り替えます。</string>
 </resources>

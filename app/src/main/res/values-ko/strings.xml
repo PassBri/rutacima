@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">모두 함께 오르는 8,848,000mm의 산이에요. 게시물, 응원, 그리고 자일 파티와 챌린지에서 체크한 하루하루가 모두 더해져요.</string>
     <string name="cv_g12_t">더보기</string>
     <string name="cv_g12_d">링크 복사, 뮤트, 신고, 차단. 안전은 언제나 한 번의 탭으로 지킬 수 있어요.</string>
+    <string name="cv_me_lo_llevo">가져갈게요</string>
+    <string name="cv_detras">정상 너머</string>
+    <string name="cv_llevado">가져갔어요: 배낭에 담기고 응원도 보냈어요.</string>
+    <string name="cv_todos">전체</string>
+    <string name="cv_sendero">%1$s 길</string>
+    <string name="cv_detras_ayuda">게시할 때의 여정:</string>
+    <string name="cv_otras_cimas">%1$s의 다른 정상</string>
+    <string name="cv_escribirle">메시지 보내기</string>
+    <string name="cv_ver_perfil">프로필 보기</string>
+    <string name="cv_sin_camino">이 게시물에는 여정 정보가 없어요.</string>
+    <string name="cv_g13_t">왼쪽으로 밀기: 정상 너머</string>
+    <string name="cv_g13_d">그 사람의 여정을 볼 수 있어요: 꾸준함, 나침반 걸음, 약속, 다른 정상.</string>
+    <string name="cv_g14_t">오른쪽으로 밀기: 가져갈게요</string>
+    <string name="cv_g14_d">게시물이 배낭에 담기고 응원을 받아요. 여기서는 누구도 거절당하지 않아요.</string>
+    <string name="cv_g15_t">길</string>
+    <string name="cv_g15_d">위에서 길(의지, 숙달, 목소리, 가치, 진화, 초월)을 고르거나 머리글을 옆으로 밀어 바꿔요.</string>
 </resources>

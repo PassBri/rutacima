@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">Uma montanha de 8.848.000 mm que subimos juntos: somam as publicações, os impulsos e cada dia marcado em cordadas e desafios.</string>
     <string name="cv_g12_t">Mais opções</string>
     <string name="cv_g12_d">Copiar o link, silenciar, denunciar ou bloquear. Sua segurança está sempre a um toque.</string>
+    <string name="cv_me_lo_llevo">Vou levar</string>
+    <string name="cv_detras">Por trás do cume</string>
+    <string name="cv_llevado">Você levou: ficou na sua mochila e recebeu seu impulso.</string>
+    <string name="cv_todos">Todos</string>
+    <string name="cv_sendero">Trilha %1$s</string>
+    <string name="cv_detras_ayuda">O caminho que havia por trás quando publicou:</string>
+    <string name="cv_otras_cimas">Outros cumes de %1$s</string>
+    <string name="cv_escribirle">Escrever</string>
+    <string name="cv_ver_perfil">Ver perfil</string>
+    <string name="cv_sin_camino">Esta publicação não traz o seu caminho.</string>
+    <string name="cv_g13_t">Deslize para a esquerda: por trás do cume</string>
+    <string name="cv_g13_d">Veja o caminho dessa pessoa: sua constância, seus passos da Bússola, seu compromisso e seus outros cumes.</string>
+    <string name="cv_g14_t">Deslize para a direita: vou levar</string>
+    <string name="cv_g14_d">A publicação vai para sua mochila e recebe seu impulso. Aqui ninguém é rejeitado.</string>
+    <string name="cv_g15_t">Trilhas</string>
+    <string name="cv_g15_d">No alto, escolha uma trilha (Vontade, Maestria, Voz, Valor, Evolução, Transcendência) ou deslize de lado no cabeçalho para mudar.</string>
 </resources>

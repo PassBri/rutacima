@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">Une montagne de 8 848 000 mm que nous gravissons ensemble : les publications, les élans et chaque jour coché dans les cordées et les défis s\'additionnent.</string>
     <string name="cv_g12_t">Plus d\'options</string>
     <string name="cv_g12_d">Copier le lien, mettre en sourdine, signaler ou bloquer. Ta sécurité est toujours à portée de doigt.</string>
+    <string name="cv_me_lo_llevo">Je le garde</string>
+    <string name="cv_detras">Derrière le sommet</string>
+    <string name="cv_llevado">Tu l\'as gardé : il est dans ton sac et tu lui as donné de l\'élan.</string>
+    <string name="cv_todos">Tous</string>
+    <string name="cv_sendero">Sentier %1$s</string>
+    <string name="cv_detras_ayuda">Le chemin qu\'il y avait derrière au moment de publier :</string>
+    <string name="cv_otras_cimas">Autres sommets de %1$s</string>
+    <string name="cv_escribirle">Lui écrire</string>
+    <string name="cv_ver_perfil">Voir son profil</string>
+    <string name="cv_sin_camino">Cette publication n\'indique pas son chemin.</string>
+    <string name="cv_g13_t">Glisse à gauche : derrière le sommet</string>
+    <string name="cv_g13_d">Découvre le chemin de cette personne : sa constance, ses pas de la Boussole, son engagement et ses autres sommets.</string>
+    <string name="cv_g14_t">Glisse à droite : je le garde</string>
+    <string name="cv_g14_d">La publication va dans ton sac et reçoit ton élan. Ici, personne n\'est jamais rejeté.</string>
+    <string name="cv_g15_t">Sentiers</string>
+    <string name="cv_g15_d">En haut, choisis un sentier (Volonté, Maîtrise, Voix, Valeur, Évolution, Transcendance) ou glisse sur l\'en-tête pour en changer.</string>
 </resources>

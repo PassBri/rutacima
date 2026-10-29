@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">一座 8,848,000 毫米的大山，由大家一起攀登：动态、助力，以及在结组和挑战中打卡的每一天都会累加。</string>
     <string name="cv_g12_t">更多选项</string>
     <string name="cv_g12_d">复制链接、静音、举报或屏蔽。你的安全始终只需轻点一下。</string>
+    <string name="cv_me_lo_llevo">我收下了</string>
+    <string name="cv_detras">山顶背后</string>
+    <string name="cv_llevado">已收下：放进了你的背包，并为它助力。</string>
+    <string name="cv_todos">全部</string>
+    <string name="cv_sendero">%1$s 小径</string>
+    <string name="cv_detras_ayuda">发布时背后的路程：</string>
+    <string name="cv_otras_cimas">%1$s 的其他山顶</string>
+    <string name="cv_escribirle">发消息</string>
+    <string name="cv_ver_perfil">查看主页</string>
+    <string name="cv_sin_camino">这条动态没有附带路程。</string>
+    <string name="cv_g13_t">向左滑：山顶背后</string>
+    <string name="cv_g13_d">查看这个人的路程：坚持的天数、指南针上的步数、承诺和其他山顶。</string>
+    <string name="cv_g14_t">向右滑：我收下了</string>
+    <string name="cv_g14_d">动态会放进你的背包并获得你的助力。这里从不拒绝任何人。</string>
+    <string name="cv_g15_t">小径</string>
+    <string name="cv_g15_d">在顶部选择一条小径（意志、精通、声音、价值、进化、超越），或在顶部栏左右滑动切换。</string>
 </resources>

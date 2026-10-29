@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">Гора высотой 8 848 000 мм, на которую мы поднимаемся вместе: в счёт идут публикации, поддержки и каждый отмеченный день в связках и испытаниях.</string>
     <string name="cv_g12_t">Другие действия</string>
     <string name="cv_g12_d">Скопировать ссылку, скрыть, пожаловаться или заблокировать. Твоя безопасность всегда в одном касании.</string>
+    <string name="cv_me_lo_llevo">Беру с собой</string>
+    <string name="cv_detras">За вершиной</string>
+    <string name="cv_llevado">Взято: в вашем рюкзаке, и вы поддержали публикацию.</string>
+    <string name="cv_todos">Все</string>
+    <string name="cv_sendero">Тропа: %1$s</string>
+    <string name="cv_detras_ayuda">Путь за публикацией в момент её создания:</string>
+    <string name="cv_otras_cimas">Другие вершины: %1$s</string>
+    <string name="cv_escribirle">Написать</string>
+    <string name="cv_ver_perfil">Открыть профиль</string>
+    <string name="cv_sin_camino">В этой публикации нет её пути.</string>
+    <string name="cv_g13_t">Влево: за вершиной</string>
+    <string name="cv_g13_d">Путь этого человека: постоянство, шаги Компаса, обязательство и другие вершины.</string>
+    <string name="cv_g14_t">Вправо: беру с собой</string>
+    <string name="cv_g14_d">Публикация попадает в ваш рюкзак и получает вашу поддержку. Здесь никого не отвергают.</string>
+    <string name="cv_g15_t">Тропы</string>
+    <string name="cv_g15_d">Вверху выберите тропу (Воля, Мастерство, Голос, Ценность, Развитие, Трансцендентность) или проведите вбок по заголовку, чтобы сменить её.</string>
 </resources>

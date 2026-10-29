@@ -64,6 +64,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -103,6 +104,9 @@ fun CimasFeed(
     onClima: (Post, String?) -> Unit = { _, _ -> },
     /** Cerrar mi compromiso vencido: LOGRADO o REPLANTEO. */
     onCompromiso: (Post, String) -> Unit = { _, _ -> },
+    /** Moverse de lado: a la derecha «me lo llevo» (mochila e impulso); a la izquierda «detrás de la cima». */
+    onLlevar: (Post) -> Unit = {},
+    onDetras: (Post) -> Unit = {},
 ) {
     VerticalPager(
         state = estado,
@@ -124,6 +128,7 @@ fun CimasFeed(
             onMas = { onMas(posts[i]) },
             onClima = { k -> onClima(posts[i], k) },
             onCompromiso = { e -> onCompromiso(posts[i], e) },
+            onLlevar = { onLlevar(posts[i]) }, onDetras = { onDetras(posts[i]) },
         )
     }
 }
@@ -148,8 +153,12 @@ private fun CimaPagina(
     onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit, onMas: () -> Unit,
     onClima: (String?) -> Unit = {},
     onCompromiso: (String) -> Unit = {},
+    onLlevar: () -> Unit = {}, onDetras: () -> Unit = {},
 ) {
     val context = LocalContext.current
+    // Arrastre de lado: el contenido acompaña el dedo y una pista dice qué pasará al soltar
+    var arrastre by remember { mutableStateOf(0f) }
+    val umbral = with(androidx.compose.ui.platform.LocalDensity.current) { 90.dp.toPx() }
     val eje = Eje.fromCodigo(post.eje)
     var sello by remember { mutableStateOf(false) }
     var abierto by remember { mutableStateOf(false) }
@@ -169,6 +178,16 @@ private fun CimaPagina(
                     },
                     onTap = { abierto = false },
                 )
+            }
+            .pointerInput(post.id) {
+                androidx.compose.foundation.gestures.detectHorizontalDragGestures(
+                    onDragEnd = {
+                        val d = arrastre; arrastre = 0f
+                        if (d > umbral) { haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress); onLlevar() }
+                        else if (d < -umbral) { haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress); onDetras() }
+                    },
+                    onDragCancel = { arrastre = 0f },
+                ) { cambio, dx -> cambio.consume(); arrastre += dx }
             },
     ) {
         // Fondo: la foto de borde a borde, o el cielo real del momento en que se publicó con la frase en letra de carta
@@ -195,6 +214,17 @@ private fun CimaPagina(
         // Velos para leer: arriba (pestañas) y abajo (pie)
         Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0f to Color(0x8C060A12), 0.16f to Color.Transparent, 0.55f to Color.Transparent, 1f to Color(0xE0060A12))))
 
+        // Pista del arrastre de lado: «Me lo llevo» a la izquierda o «Detrás de la cima» a la derecha
+        if (kotlin.math.abs(arrastre) > 12f) {
+            val llevar = arrastre > 0
+            androidx.compose.material3.Surface(
+                shape = RoundedCornerShape(50), color = if (llevar) Color(0xD96E1E14) else Color(0xB80A0E18),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color.White.copy(alpha = 0.28f)),
+                modifier = Modifier.align(if (llevar) Alignment.CenterStart else Alignment.CenterEnd).padding(start = 16.dp, end = 84.dp)
+                    .graphicsLayer { alpha = (kotlin.math.abs(arrastre) / umbral).coerceIn(0f, 1f) },
+            ) { Text(stringResource(if (llevar) R.string.cv_me_lo_llevo else R.string.cv_detras), color = Color.White, fontWeight = FontWeight.SemiBold,
+                style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) }
+        }
         // Doble toque: aparece el símbolo de SuRoute (el impulso de Ruta a la Cima)
         AnimatedVisibility(
             visible = sello, modifier = Modifier.align(Alignment.Center),

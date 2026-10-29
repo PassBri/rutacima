@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">Ein Berg von 8.848.000 mm, den wir gemeinsam besteigen: Beiträge, Anfeuerungen und jeder abgehakte Tag in Seilschaften und Challenges zählen mit.</string>
     <string name="cv_g12_t">Weitere Optionen</string>
     <string name="cv_g12_d">Link kopieren, stummschalten, melden oder blockieren. Deine Sicherheit ist immer nur einen Tipp entfernt.</string>
+    <string name="cv_me_lo_llevo">Nehm ich mit</string>
+    <string name="cv_detras">Hinter dem Gipfel</string>
+    <string name="cv_llevado">Mitgenommen: Es ist in deinem Rucksack und hat deinen Ansporn bekommen.</string>
+    <string name="cv_todos">Alle</string>
+    <string name="cv_sendero">Pfad %1$s</string>
+    <string name="cv_detras_ayuda">Der Weg dahinter, als es gepostet wurde:</string>
+    <string name="cv_otras_cimas">Weitere Gipfel von %1$s</string>
+    <string name="cv_escribirle">Schreiben</string>
+    <string name="cv_ver_perfil">Profil ansehen</string>
+    <string name="cv_sin_camino">Dieser Beitrag zeigt seinen Weg nicht.</string>
+    <string name="cv_g13_t">Nach links wischen: hinter dem Gipfel</string>
+    <string name="cv_g13_d">Sieh den Weg dieser Person: ihre Beständigkeit, ihre Kompass-Schritte, ihre Verpflichtung und ihre anderen Gipfel.</string>
+    <string name="cv_g14_t">Nach rechts wischen: nehm ich mit</string>
+    <string name="cv_g14_d">Der Beitrag landet in deinem Rucksack und bekommt deinen Ansporn. Hier wird niemand abgelehnt.</string>
+    <string name="cv_g15_t">Pfade</string>
+    <string name="cv_g15_d">Oben wählst du einen Pfad (Wille, Meisterschaft, Stimme, Wert, Entwicklung, Transzendenz) oder wischst seitlich über die Kopfzeile, um ihn zu wechseln.</string>
 </resources>

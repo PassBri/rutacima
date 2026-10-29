@@ -66,6 +66,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -119,6 +120,17 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     fun salirReto(id: String) = viewModelScope.launch { c.red.salirReto(id); recargarRetos() }
 
     fun elegirEje(e: String?) { eje = e; cargar() }
+    /** Senderos: pasar al eje siguiente o anterior (Todos, Voluntad, Maestría…). */
+    fun cambiarSendero(paso: Int) {
+        val lista = listOf<String?>(null) + com.rutaalacima.app.domain.model.Eje.entries.map { it.codigo }
+        val i = lista.indexOf(eje).coerceAtLeast(0)
+        elegirEje(lista[(i + paso + lista.size) % lista.size])
+    }
+    /** Me lo llevo: a la mochila y con impulso (nunca se rechaza a nadie). */
+    fun llevar(p: Post) {
+        if (p.id !in guardados) alternarGuardado(p)
+        if (!p.yoImpulse) impulsar(p)
+    }
 
     fun alternarGuardado(p: Post) {
         c.social.alternarGuardado(p.id)
@@ -304,6 +316,8 @@ fun ComunidadScreen(
     androidx.activity.compose.BackHandler(enabled = enMuro) { enMuro = false }
     var comentandoEn by androidx.compose.runtime.remember { mutableStateOf<Post?>(null) }
     var opcionesDe by androidx.compose.runtime.remember { mutableStateOf<Post?>(null) }
+    var detrasDe by androidx.compose.runtime.remember { mutableStateOf<Post?>(null) }
+    val llevado = stringResource(R.string.cv_llevado)
     if (!enMuro) {
         com.rutaalacima.app.ui.theme.TemaNoche {
             Box(Modifier.fillMaxSize().background(Color(0xFF060A12)).padding(bottom = contentPadding.calculateBottomPadding())) {
@@ -317,6 +331,8 @@ fun ComunidadScreen(
                             onAbrir = { comentandoEn = it; vm.cargarComentarios(it) },
                             onClima = { p, k -> vm.clima(p, k) },
                             onCompromiso = { p, e -> vm.cerrarCompromiso(p, e) },
+                            onLlevar = { vm.llevar(it); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(llevado) },
+                            onDetras = { detrasDe = it },
                             modifier = Modifier.fillMaxSize(),
                             guardados = vm.guardados, onGuardar = { vm.alternarGuardado(it) },
                             onAutor = { onAutor(it.autorId, it.autorNombre) },
@@ -336,6 +352,9 @@ fun ComunidadScreen(
             }
             comentandoEn?.let { p -> HojaComentarios(vm, p, onCerrar = { comentandoEn = null }, onAbrirDetalle = { comentandoEn = null; onAbrirPost(p.id) }) }
             opcionesDe?.let { p -> HojaOpciones(vm, p, onChat = onChat, onCerrar = { opcionesDe = null }) }
+            detrasDe?.let { p -> HojaDetrasDeLaCima(p, vm.posts.filter { it.autorId == p.autorId && it.id != p.id },
+                onCerrar = { detrasDe = null }, onEscribir = { detrasDe = null; vm.escribir(p, onChat) },
+                onPerfil = { detrasDe = null; onAutor(p.autorId, p.autorNombre) }) }
         }
         return
     }
@@ -497,7 +516,15 @@ private fun Filtros(vm: ComunidadViewModel) {
  */
 @Composable
 private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas: () -> Unit, onMensajes: () -> Unit, onCuenta: () -> Unit, noLeidos: Int = 0, onAvisos: () -> Unit = {}) {
-    Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 4.dp, vertical = 4.dp)) {
+    var dxCab by androidx.compose.runtime.remember { mutableStateOf(0f) }
+    Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 4.dp, vertical = 4.dp)
+        // Deslizar de lado sobre la cabecera cambia de sendero
+        .pointerInput(Unit) {
+            androidx.compose.foundation.gestures.detectHorizontalDragGestures(
+                onDragEnd = { val d = dxCab; dxCab = 0f; if (kotlin.math.abs(d) > 70.dp.toPx()) vm.cambiarSendero(if (d < 0) 1 else -1) },
+                onDragCancel = { dxCab = 0f },
+            ) { _, dx -> dxCab += dx }
+        }) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             androidx.compose.material3.IconButton(onClick = onMuro) {
                 Icon(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.comunidad_vista_lista), tint = Color.White)
@@ -521,6 +548,7 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
             Campana(noLeidos, onAvisos, Color.White)
             androidx.compose.material3.IconButton(onClick = onMensajes) { Icon(com.rutaalacima.app.ui.components.IconosRuta.Radio, stringResource(R.string.mensajes), tint = Color.White) }
         }
+        Senderos(vm.eje, vm::elegirEje)
         if (!vm.enLinea) {
             Text(
                 stringResource(R.string.modo_demo_titulo), color = Color.White.copy(alpha = 0.8f), style = MaterialTheme.typography.labelSmall,

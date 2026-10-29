@@ -2731,4 +2731,20 @@
     <string name="cv_g11_d">8,848,000 मिमी का पहाड़ जिसे हम सब मिलकर चढ़ते हैं: पोस्ट, प्रोत्साहन और रोप टीमों व चुनौतियों में निशान लगाया गया हर दिन जुड़ता है।</string>
     <string name="cv_g12_t">और विकल्प</string>
     <string name="cv_g12_d">लिंक कॉपी करें, म्यूट करें, रिपोर्ट करें या ब्लॉक करें। आपकी सुरक्षा हमेशा बस एक टैप दूर है।</string>
+    <string name="cv_me_lo_llevo">मैं इसे ले चलूँ</string>
+    <string name="cv_detras">शिखर के पीछे</string>
+    <string name="cv_llevado">ले लिया: यह आपके बैग में है और आपने इसे प्रोत्साहन दिया।</string>
+    <string name="cv_todos">सभी</string>
+    <string name="cv_sendero">%1$s पगडंडी</string>
+    <string name="cv_detras_ayuda">पोस्ट करते समय इसके पीछे का रास्ता:</string>
+    <string name="cv_otras_cimas">%1$s के और शिखर</string>
+    <string name="cv_escribirle">संदेश भेजें</string>
+    <string name="cv_ver_perfil">प्रोफ़ाइल देखें</string>
+    <string name="cv_sin_camino">इस पोस्ट के साथ उसका रास्ता नहीं है।</string>
+    <string name="cv_g13_t">बाएँ स्वाइप करें: शिखर के पीछे</string>
+    <string name="cv_g13_d">उस व्यक्ति का रास्ता देखें: निरंतरता, कंपास के कदम, प्रतिबद्धता और उनके दूसरे शिखर।</string>
+    <string name="cv_g14_t">दाएँ स्वाइप करें: मैं इसे ले चलूँ</string>
+    <string name="cv_g14_d">पोस्ट आपके बैग में जाती है और आपका प्रोत्साहन पाती है। यहाँ किसी को कभी ठुकराया नहीं जाता।</string>
+    <string name="cv_g15_t">पगडंडियाँ</string>
+    <string name="cv_g15_d">ऊपर एक पगडंडी चुनें (इच्छाशक्ति, महारत, आवाज़, मूल्य, विकास, उत्कर्ष) या बदलने के लिए हेडर पर बगल में स्वाइप करें।</string>
 </resources>

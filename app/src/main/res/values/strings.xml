@@ -2740,4 +2740,20 @@
     <string name="cv_g11_d">Una montaña de 8.848.000 mm que subimos entre todos: suman las publicaciones, los impulsos y cada día marcado en cordadas y retos.</string>
     <string name="cv_g12_t">Más opciones</string>
     <string name="cv_g12_d">Copiar el enlace, silenciar, reportar o bloquear. Tu seguridad siempre está a un toque.</string>
+    <string name="cv_me_lo_llevo">Me lo llevo</string>
+    <string name="cv_detras">Detrás de la cima</string>
+    <string name="cv_llevado">Te lo llevas: quedó en tu mochila y le diste impulso.</string>
+    <string name="cv_todos">Todos</string>
+    <string name="cv_sendero">Sendero %1$s</string>
+    <string name="cv_detras_ayuda">El camino que había detrás cuando publicó:</string>
+    <string name="cv_otras_cimas">Otras cimas de %1$s</string>
+    <string name="cv_escribirle">Escribirle</string>
+    <string name="cv_ver_perfil">Ver su perfil</string>
+    <string name="cv_sin_camino">Esta publicación no trae su camino.</string>
+    <string name="cv_g13_t">Desliza a la izquierda: detrás de la cima</string>
+    <string name="cv_g13_d">Ves el camino de esa persona: su constancia, sus pasos de la Brújula, su compromiso y sus otras cimas.</string>
+    <string name="cv_g14_t">Desliza a la derecha: me lo llevo</string>
+    <string name="cv_g14_d">La publicación queda en tu mochila y le das impulso. Aquí nunca se rechaza a nadie.</string>
+    <string name="cv_g15_t">Senderos</string>
+    <string name="cv_g15_d">Arriba eliges un sendero (Voluntad, Maestría, Voz, Valor, Evolución, Trascendencia) o deslizas de lado sobre la cabecera para cambiarlo.</string>
 </resources>

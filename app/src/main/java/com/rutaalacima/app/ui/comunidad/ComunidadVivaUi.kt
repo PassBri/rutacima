@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.WbSunny
@@ -42,6 +43,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.rutaalacima.app.ui.i18n.texto
+import com.rutaalacima.app.ui.theme.asColor
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -173,6 +176,8 @@ fun BotonGuiaComunidad(tinte: Color = MaterialTheme.colorScheme.onSurface) {
     if (abierta) androidx.compose.material3.ModalBottomSheet(onDismissRequest = { abierta = false }) {
         val lista = listOf(
             Icons.Filled.Terrain to (R.string.cv_g1_t to R.string.cv_g1_d), Icons.Filled.KeyboardArrowUp to (R.string.cv_g2_t to R.string.cv_g2_d),
+Icons.AutoMirrored.Filled.ArrowBack to (R.string.cv_g13_t to R.string.cv_g13_d), Icons.Filled.Bookmark to (R.string.cv_g14_t to R.string.cv_g14_d),
+            Icons.Filled.Terrain to (R.string.cv_g15_t to R.string.cv_g15_d),
             Icons.Filled.Favorite to (R.string.cv_g3_t to R.string.cv_g3_d), Icons.Filled.WbSunny to (R.string.cv_g4_t to R.string.cv_g4_d),
             Icons.Filled.Link to (R.string.cv_g5_t to R.string.cv_g5_d), Icons.Filled.Bookmark to (R.string.cv_g6_t to R.string.cv_g6_d),
             Icons.Filled.Hiking to (R.string.cv_g7_t to R.string.cv_g7_d), Icons.Filled.Flag to (R.string.cv_g8_t to R.string.cv_g8_d),
@@ -198,6 +203,59 @@ fun BotonGuiaComunidad(tinte: Color = MaterialTheme.colorScheme.onSurface) {
                     }
                 }
                 if (i < lista.lastIndex) androidx.compose.material3.HorizontalDivider()
+            }
+        }
+    }
+}
+
+
+/** Senderos: Todos y los seis ejes, bajo las pestañas de Cimas. */
+@Composable
+fun Senderos(eje: String?, onElegir: (String?) -> Unit) {
+    val opciones = listOf<com.rutaalacima.app.domain.model.Eje?>(null) + com.rutaalacima.app.domain.model.Eje.entries
+    Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 8.dp, vertical = 2.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+        opciones.forEach { e ->
+            val activo = eje == e?.codigo
+            Surface(onClick = { onElegir(e?.codigo) }, shape = RoundedCornerShape(50), color = if (activo) Color.White else Color(0x590A0E18),
+                border = BorderStroke(1.dp, if (activo) Color.White else Color.White.copy(alpha = 0.22f))) {
+                Row(Modifier.padding(horizontal = 12.dp, vertical = 7.dp), verticalAlignment = Alignment.CenterVertically) {
+                    if (e != null) { Box(Modifier.size(8.dp).clip(RoundedCornerShape(50)).background(e.color.asColor())); Spacer(Modifier.width(6.dp)) }
+                    Text(if (e == null) stringResource(R.string.cv_todos) else e.texto(),
+                        color = if (activo) Color(0xFF10141C) else Color.White.copy(alpha = 0.88f), style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (activo) FontWeight.SemiBold else FontWeight.Normal)
+                }
+            }
+        }
+    }
+}
+
+/** Detrás de la cima: el camino de la persona, su compromiso y sus otras cimas. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+fun HojaDetrasDeLaCima(post: Post, otras: List<Post>, onCerrar: () -> Unit, onEscribir: () -> Unit, onPerfil: () -> Unit) {
+    androidx.compose.material3.ModalBottomSheet(onDismissRequest = onCerrar) {
+        Column(Modifier.fillMaxWidth().padding(start = 20.dp, end = 20.dp, bottom = 28.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Text(stringResource(R.string.cv_detras), style = MaterialTheme.typography.titleLarge)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Avatar(post.autorNombre, post.avatarUrl, tamano = 44); Spacer(Modifier.width(12.dp))
+                Column {
+                    Text(post.autorNombre, style = MaterialTheme.typography.titleMedium)
+                    Text(listOfNotNull(post.eje?.let { stringResource(R.string.cv_sendero, it.let { c -> com.rutaalacima.app.domain.model.Eje.fromCodigo(c)?.texto() ?: c }) },
+                        post.metaTitulo.ifBlank { null }).joinToString(" · "), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+            if (post.camino == null && post.compromiso == null) Text(stringResource(R.string.cv_sin_camino), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            else {
+                Text(stringResource(R.string.cv_detras_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                ChipsCamino(post, sobreFoto = false, onCerrarCompromiso = {})
+            }
+            if (otras.isNotEmpty()) {
+                Text(stringResource(R.string.cv_otras_cimas, post.autorNombre.substringBefore(" ")), style = MaterialTheme.typography.titleSmall)
+                otras.take(5).forEach { o -> Text("“${o.texto.take(110)}”", style = MaterialTheme.typography.bodyMedium, maxLines = 2) }
+            }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                androidx.compose.material3.OutlinedButton(onClick = onEscribir) { Text(stringResource(R.string.cv_escribirle)) }
+                if (!post.demo) androidx.compose.material3.Button(onClick = onPerfil) { Text(stringResource(R.string.cv_ver_perfil)) }
             }
         }
     }
