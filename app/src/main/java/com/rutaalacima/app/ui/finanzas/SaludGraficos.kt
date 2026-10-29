@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -395,7 +396,7 @@ fun LazyListScope.saludNivel(anio: Int?, libro: Libro, plata: (Double) -> String
     item(key = "atajos-salud") {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton(onClick = { ir(NivelCuentas.PatrimonioN) }, Modifier.weight(1f)) {
-                Icon(Icons.Filled.Balance, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
+                Icon(Icons.Filled.SwapVert, null, Modifier.size(18.dp)); Spacer(Modifier.width(6.dp))
                 Text(stringResource(R.string.cu_patrimonio_titulo), maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
             OutlinedButton(onClick = { ir(NivelCuentas.DeudasN) }, Modifier.weight(1f)) {

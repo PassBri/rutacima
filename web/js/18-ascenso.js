@@ -296,7 +296,7 @@ LISTAS.finanzas = () => {
   h += item("salud", av(ic("salud"), "var(--ok)"), "Salud financiera", "", sf?.isf != null ? `ISF ${sf.isf} % · ${sf.nivel[0]}` : "Tus indicadores, mes a mes");
   const dd = window.deudasHoy ? deudasHoy() : [], debe = dd.reduce((a, x) => a + x.actual, 0);
   h += item("deudas", av(ic("deuda"), "var(--ok)"), "Salir de deudas", "", dd.length ? (debe > 0 ? `Debes ${plata(debe)} · ${dd.filter(x => x.actual > 0).length} por pagar` : "¡Sin deudas!") : "Tu plan con avalancha o bola de nieve");
-  h += item("patrimonio", av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
+  h += item("patrimonio", av(ic("flechasVert"), "var(--ok)"), "Activos y pasivos", "", "Tu patrimonio neto");
   if (window.metasFinResumen) { const mr = metasFinResumen(); h += item("metasfin", av(ic("alcancia"), "var(--ok)"), "Metas financieras", "", mr.n ? `${mr.n} ${mr.n === 1 ? "meta" : "metas"} · ${Math.round(mr.pct * 100)} % del total` : "Lo que quieres lograr con tu dinero"); }
   h += grupo("Años");
   anios.forEach(y => { const s = totalesDe(y + "-"); h += item("a:" + y, av(String(y).slice(2), "var(--ok)"), String(y), "", s.n ? `Entró ${plata(s.ing)} · ${plata(s.disp)} libre` : "Sin movimientos"); });

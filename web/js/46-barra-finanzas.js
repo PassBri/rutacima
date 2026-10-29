@@ -152,7 +152,7 @@ function fbBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = fbLugar(), ver = fbVer(), a = ver.a, m = ver.m;
   const v = String(estado.sel || ""), arriba = fbArriba(), datos = fbDatos();
   const ATAJOS = [["b", "plata", "Balance general"], ["fijos", "repetir", "Mis cuentas fijas"], ["deudas", "deuda", "Deudas"], ["metasfin", "alcancia", "Metas financieras"],
-    ["salud", "salud", "Salud financiera"], ["grafica", "grafica", "Gráfica del ascenso"], ["patrimonio", "balanza", "Activos y pasivos"]];
+    ["salud", "salud", "Salud financiera"], ["grafica", "grafica", "Gráfica del ascenso"], ["patrimonio", "flechasVert", "Activos y pasivos"]];
   const donde = l.d ? `${l.d} ${MES_CORTO[l.m - 1]} ${l.a}` : l.m ? `${mayus(MESES[l.m - 1])} ${l.a}` : l.a ? String(l.a) : ATAJOS.find(x => x[0] === v)?.[2] || "Ascenso financiero";
   let meses = "";
   for (let k = 1; k <= 12; k++) {

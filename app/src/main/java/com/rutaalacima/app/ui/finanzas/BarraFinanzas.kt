@@ -54,6 +54,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.ui.semantics.selected
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.SwapVert
 import androidx.compose.material.icons.automirrored.filled.ViewList
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Close
@@ -161,7 +162,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                 atajo(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos)
                 atajo(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo)
                 atajo(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas)
-                atajo(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo)
+                atajo(NivelCuentas.PatrimonioN, Icons.Filled.SwapVert, R.string.cu_patrimonio_titulo)
                 separador()
                 herramientas(verdeRiel)
             }

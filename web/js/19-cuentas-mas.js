@@ -330,7 +330,7 @@ DET["finanzas.salud"] = arg => {
   const cuerpoS = saludHoja(a ? a + "-" : "") || hoja(`<p class="suave" style="margin:0">Aún no hay movimientos ${a ? "en " + a : ""} para medir tu salud financiera. Anota lo que entra y sale y aquí verás tus indicadores.</p><div class="botones" style="margin-top:12px"><button class="btn lleno" data-sel="d:${iso(hoyFecha())}">Registrar hoy</button></div>`);
   return cab(av(ic("salud"), "var(--ok)"), "Salud financiera", "Ascenso financiero · tus indicadores", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], ["Salud financiera", ""]]) + chips + cuerpoS +
-    `<div class="botones" style="margin-top:4px"><button class="btn mini" data-sel="patrimonio">${ic("balanza")} Activos y pasivos</button><button class="btn mini" data-sel="deudas">${ic("deuda")} Salir de deudas</button></div>`, "max-width:980px");
+    `<div class="botones" style="margin-top:4px"><button class="btn mini" data-sel="patrimonio">${ic("flechasVert")} Activos y pasivos</button><button class="btn mini" data-sel="deudas">${ic("deuda")} Salir de deudas</button></div>`, "max-width:980px");
 };
 /* Lectura al pasar: el segmento o el mes bajo el puntero (también con el teclado en los segmentos) */
 (() => {
@@ -389,7 +389,7 @@ DET["finanzas.patrimonio"] = () => {
   const l = activosDatos(), led = sumar(diasConMovs().flatMap(movsDe)).construido, deudas = deudasHoy();
   const act = l.reduce((a, x) => a + (Number(x.valor) || 0), 0) + led, pas = deudas.reduce((a, x) => a + x.actual, 0);
   const cabeza = (n, v) => `<thead><tr><th class="asa-col"><span class="oculto">Ordenar</span></th><th>${n}</th><th>Tipo</th><th class="num">${v}</th><th><span class="oculto">Documentos y quitar</span></th></tr></thead>`;
-  return cab(av(ic("balanza"), "var(--ok)"), "Activos y pasivos", "Ascenso financiero · tu patrimonio neto", ojoAsc()) + cuerpo(
+  return cab(av(ic("flechasVert"), "var(--ok)"), "Activos y pasivos", "Ascenso financiero · tu patrimonio neto", ojoAsc()) + cuerpo(
     migasAsc([["Balance general", "b"], ["Activos y pasivos", ""]]) +
     `<div class="asc-cifras"><div class="asc-cifra c-ing"><span>Activos totales</span><b>${plata(act)}</b></div><div class="asc-cifra c-gas"><span>Pasivos totales</span><b>${plata(pas)}</b></div><div class="asc-cifra c-disp"><span>Patrimonio neto</span><b class="${act - pas < 0 ? "neg" : ""}">${plata(act - pas)}</b></div></div>` +
     hoja(`<h3 style="margin:0 0 4px">Lo que tienes</h3><p class="suave" style="margin:0 0 10px">Un activo pone dinero en tu bolsillo o guarda valor: cuentas, inversiones, tu casa, tu negocio. Escribe su valor de hoy.</p>
