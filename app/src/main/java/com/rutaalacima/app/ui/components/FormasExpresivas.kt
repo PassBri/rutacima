@@ -74,7 +74,7 @@ class FormaPoligono(private val poligono: RoundedPolygon) : Shape {
  * que rebota (movimiento "expressive" de Material 3) y sube un "+ mm" hacia la cumbre.
  */
 @Composable
-fun BotonImpulso(activo: Boolean, cantidad: Int, icono: ImageVector, descripcion: String, onClick: () -> Unit) {
+fun BotonImpulso(activo: Boolean, cantidad: Int, icono: ImageVector, descripcion: String, onClick: () -> Unit, mostrarCantidad: Boolean = true) {
     val haptico = LocalHapticFeedback.current
     val morph = remember { Morph(FormasRuta.circulo, FormasRuta.sol) }
     val p by animateFloatAsState(if (activo) 1f else 0f, spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessMediumLow), label = "morph")
@@ -107,7 +107,7 @@ fun BotonImpulso(activo: Boolean, cantidad: Int, icono: ImageVector, descripcion
                 )
             }
             Spacer(Modifier.width(4.dp))
-            Text("$cantidad", style = MaterialTheme.typography.labelLarge)
+            if (mostrarCantidad) Text("$cantidad", style = MaterialTheme.typography.labelLarge)
         }
     }
 }

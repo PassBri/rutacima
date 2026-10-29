@@ -217,14 +217,15 @@ class RedRepository(private val context: Context, private val supa: SupabaseClie
      * "Para ti": lo reciente con apoyo, de quienes sigo y de mis ejes, con variedad de personas (igual que la web).
      * Puntaje = apoyo (impulsos y comentarios) que se apaga con las horas × bonos (sigo, mi eje, foto).
      */
-    suspend fun ordenarParaTi(posts: List<Post>, ejes: Set<String>): List<Post> {
+    suspend fun ordenarParaTi(posts: List<Post>, ejes: Set<String>, tramo: String? = null): List<Post> {
         val sigo = sigo(); val ahora = System.currentTimeMillis()
         fun log2(x: Double) = kotlin.math.ln(x) / kotlin.math.ln(2.0)
         fun puntaje(p: Post): Double {
             val h = ((ahora - p.creadoEn) / 3_600_000.0).coerceAtLeast(0.0)
             return (1 + log2(1.0 + p.impulsos) * 1.5 + log2(1.0 + p.comentarios) * 2) / Math.pow(h + 2, 0.75) *
                 (if (p.autorId in sigo) 1.8 else 1.0) * (if (p.eje != null && p.eje in ejes) 1.4 else 1.0) *
-                (if (p.foto.isNotBlank()) 1.15 else 1.0) * (if (p.propio) 0.6 else 1.0)
+                (if (p.foto.isNotBlank()) 1.15 else 1.0) * (if (p.propio) 0.6 else 1.0) *
+                ComunidadViva.bono(p, tramo)   // primero lo que te ayuda a subir: tu tramo y el camino real detrás
         }
         val resto = posts.sortedByDescending(::puntaje).toMutableList(); val r = mutableListOf<Post>()
         while (resto.isNotEmpty()) {

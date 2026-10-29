@@ -32,6 +32,10 @@ object DemoComunidad {
                 metaTitulo = d.meta?.let { context.getString(it) }.orEmpty(),
                 impulsos = d.impulsos + if (yo) 1 else 0, comentarios = 2, yoImpulse = yo,
                 creadoEn = ahora - d.horas * 3_600_000, demo = true,
+                // Comunidad viva de ejemplo: el camino detrás, un compromiso abierto, uno cumplido y una carta sellada
+                camino = when (d.id) { "demo-1" -> Camino(30, 14); "demo-3" -> Camino(21, 9); "demo-4" -> Camino(5, 3); "demo-6" -> Camino(64, 22); else -> null },
+                compromiso = when (d.id) { "demo-4" -> Compromiso(LocalDate.now().plusDays(45).toString()); "demo-6" -> Compromiso(LocalDate.now().minusDays(3).toString(), Compromiso.LOGRADO); else -> null },
+                sello = if (d.id == "demo-5") LocalDate.now().plusDays(240).toString() else null,
             )
         }
     }
@@ -40,5 +44,6 @@ object DemoComunidad {
         if (postId.startsWith("demo-")) listOf(
             Comentario("$postId-c1", "Diana", context.getString(R.string.demo_comentario_1), System.currentTimeMillis() - 3_600_000),
             Comentario("$postId-c2", "Julián", context.getString(R.string.demo_comentario_2), System.currentTimeMillis() - 1_800_000),
+            Comentario("$postId-c3", "Camilo T.", context.getString(R.string.demo_comentario_cuerda), System.currentTimeMillis() - 900_000, cuerda = "CONSEJO"),
         ) else emptyList()
 }

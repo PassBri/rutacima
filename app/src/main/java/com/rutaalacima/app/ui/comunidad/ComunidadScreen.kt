@@ -134,7 +134,8 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
     private suspend fun ordenar(f: FiltroFeed, ps: List<Post>): List<Post> {
         if (f != FiltroFeed.PARA_TI) return ps
         val ejes = runCatching { c.respuestas.cargar("red")["red:ejes"].orEmpty().split(",").filter { it.isNotBlank() }.toSet() }.getOrDefault(emptySet())
-        return runCatching { c.red.ordenarParaTi(ps, ejes) }.getOrDefault(ps)
+        val tramo = com.rutaalacima.app.data.social.ComunidadViva.tramoMio(c)
+        return runCatching { c.red.ordenarParaTi(ps, ejes, tramo) }.getOrDefault(ps)
     }
 
     fun cargar(f: FiltroFeed = filtro) {
@@ -178,13 +179,20 @@ class ComunidadViewModel(private val c: AppContainer) : ViewModel() {
 
     /** Comentario al que se está respondiendo (null = comentario nuevo). */
     var respondiendo by mutableStateOf<com.rutaalacima.app.data.social.Comentario?>(null)
+    /** Lanzar una cuerda: PREGUNTA, CONSEJO o YO_TAMBIEN (null = comentario normal). */
+    var cuerda by mutableStateOf<String?>(null)
     fun comentar(p: Post, texto: String) {
         val t = texto.trim(); if (t.isEmpty()) return
-        val padre = respondiendo?.let { it.parentId ?: it.id }
-        comentarios = comentarios + com.rutaalacima.app.data.social.Comentario("local-${System.currentTimeMillis()}", c.social.nombrePropio(), t, System.currentTimeMillis(), parentId = padre, propio = true)
+        val padre = respondiendo?.let { it.parentId ?: it.id }; val k = if (padre == null) cuerda else null
+        comentarios = comentarios + com.rutaalacima.app.data.social.Comentario("local-${System.currentTimeMillis()}", c.social.nombrePropio(), t, System.currentTimeMillis(), parentId = padre, propio = true, cuerda = k)
         posts = posts.map { if (it.id == p.id) it.copy(comentarios = it.comentarios + 1) else it }
-        respondiendo = null
-        viewModelScope.launch { runCatching { c.social.comentar(p, t, padre) }; comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(comentarios) }
+        respondiendo = null; cuerda = null
+        viewModelScope.launch { runCatching { c.social.comentar(p, t, padre, k) }; comentarios = runCatching { c.social.comentarios(p) }.getOrDefault(comentarios) }
+    }
+    /** Cerrar mi compromiso vencido: lo logré o lo replanteo. */
+    fun cerrarCompromiso(p: Post, estado: String) = viewModelScope.launch {
+        val n = runCatching { c.social.cerrarCompromiso(p, estado) }.getOrNull() ?: return@launch
+        posts = posts.map { if (it.id == p.id) n else it }
     }
     fun impulsarComentario(k: com.rutaalacima.app.data.social.Comentario) {
         comentarios = comentarios.map { if (it.id == k.id) it.copy(yoLike = !k.yoLike, likes = (k.likes + if (k.yoLike) -1 else 1).coerceAtLeast(0)) else it }
@@ -308,6 +316,7 @@ fun ComunidadScreen(
                             onImpulsar = { vm.impulsar(it) },
                             onAbrir = { comentandoEn = it; vm.cargarComentarios(it) },
                             onClima = { p, k -> vm.clima(p, k) },
+                            onCompromiso = { p, e -> vm.cerrarCompromiso(p, e) },
                             modifier = Modifier.fillMaxSize(),
                             guardados = vm.guardados, onGuardar = { vm.alternarGuardado(it) },
                             onAutor = { onAutor(it.autorId, it.autorNombre) },
@@ -440,7 +449,8 @@ fun ComunidadScreen(
             }
             itemsIndexed(vm.posts, key = { _, p -> p.id }) { i, p ->
                 PostCard(p, onImpulsar = { vm.impulsar(p) }, onComentar = { onAbrirPost(p.id) }, onAbrir = { pagina = i; enMuro = false },
-                    guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) })
+                    guardado = p.id in vm.guardados, onGuardar = { vm.alternarGuardado(p) }, onAutor = { onAutor(p.autorId, p.autorNombre) },
+                    onCompromiso = { e -> vm.cerrarCompromiso(p, e) })
             }
         }
     }
@@ -551,8 +561,9 @@ private fun HojaComentarios(vm: ComunidadViewModel, post: Post, onCerrar: () -> 
                     androidx.compose.material3.IconButton(onClick = { vm.respondiendo = null }) { Icon(Icons.Filled.Close, stringResource(R.string.cancelar)) }
                 }
             }
+            if (vm.respondiendo == null) ChipsCuerda(vm.cuerda, { vm.cuerda = it }, Modifier.padding(top = 8.dp))
             Row(Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                androidx.compose.material3.OutlinedTextField(texto, { texto = it.take(1000) }, placeholder = { Text(stringResource(R.string.escribe_comentario)) },
+                androidx.compose.material3.OutlinedTextField(texto, { texto = it.take(1000) }, placeholder = { Text(placeholderCuerda(vm.cuerda) ?: stringResource(R.string.escribe_comentario)) },
                     modifier = Modifier.weight(1f), maxLines = 4, shape = MaterialTheme.shapes.extraLarge)
                 androidx.compose.material3.IconButton(onClick = { vm.comentar(post, texto); texto = "" }, enabled = texto.isNotBlank()) {
                     Icon(Icons.AutoMirrored.Filled.Send, stringResource(R.string.comentar), tint = MaterialTheme.colorScheme.primary)

@@ -137,6 +137,7 @@ fun PostCard(
     guardado: Boolean = false,
     onGuardar: (() -> Unit)? = null,
     onAutor: (() -> Unit)? = null,
+    onCompromiso: (String) -> Unit = {},
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -170,7 +171,10 @@ fun PostCard(
         }
 
         com.rutaalacima.app.ui.ruta.BotonRecuerdosPost(post, Modifier.padding(horizontal = 12.dp, vertical = 4.dp))
-        if (post.brujula.isNotBlank() && com.rutaalacima.app.ui.vision.brujulaValida(post.brujula)) {
+        if (com.rutaalacima.app.data.social.ComunidadViva.estaSellada(post)) {
+            // Carta al yo futuro: se ve el sobre con su lacre hasta el día en que se abre
+            CartaSellada(post.sello!!, conColumna = false, modifier = Modifier.padding(horizontal = 12.dp).fillMaxWidth().height(340.dp).clip(RoundedCornerShape(18.dp)))
+        } else if (post.brujula.isNotBlank() && com.rutaalacima.app.ui.vision.brujulaValida(post.brujula)) {
             // Brújula de la Cima: la cumbre en papel; al tocarla se explora con el zoom 1 · 9 · 81
             com.rutaalacima.app.ui.vision.BrujulaEnMuro(post.brujula, post.autorNombre, Modifier.padding(horizontal = 12.dp))
         } else if (post.foto.isNotBlank()) {
@@ -212,12 +216,14 @@ fun PostCard(
             }
         }
 
+        if (post.camino != null || post.compromiso != null || (post.propio && post.sello != null)) androidx.compose.foundation.layout.Box(Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp)) { ChipsCamino(post, sobreFoto = false, onCerrarCompromiso = onCompromiso) }
         // Acciones en píldoras
         Row(Modifier.padding(12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             com.rutaalacima.app.ui.components.BotonImpulso(
                 activo = post.yoImpulse, cantidad = post.impulsos,
                 icono = if (post.yoImpulse) com.rutaalacima.app.ui.components.IconosRuta.Banderin else com.rutaalacima.app.ui.components.IconosRuta.BanderinContorno,
                 descripcion = stringResource(R.string.impulsar), onClick = onImpulsar,
+                mostrarCantidad = post.propio,   // pocos números: el contador solo lo ve el autor
             )
             Pildora(Icons.AutoMirrored.Outlined.Comment, "${post.comentarios}", stringResource(R.string.comentar), false, onComentar)
             Spacer(Modifier.weight(1f))

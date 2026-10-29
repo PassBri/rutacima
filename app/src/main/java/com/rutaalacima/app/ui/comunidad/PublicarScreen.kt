@@ -2,6 +2,7 @@ package com.rutaalacima.app.ui.comunidad
 
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Terrain
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.background
 import com.rutaalacima.app.ui.theme.fondoPapel
@@ -84,8 +85,14 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
         private set
     var publicando by mutableStateOf(false)
         private set
+    /** Comunidad viva: el camino que se mostrará, el compromiso (días) y la carta sellada (meses). */
+    var camino by mutableStateOf(com.rutaalacima.app.data.social.Camino(0, 0))
+        private set
+    var compromisoDias by mutableStateOf(0)
+    var selloMeses by mutableStateOf(0)
 
     init {
+        viewModelScope.launch { camino = com.rutaalacima.app.data.social.ComunidadViva.caminoActual(c) }
         // Metas activas para vincular la publicación (del mes, del año y propósitos).
         viewModelScope.launch {
             val h = hoy()
@@ -100,7 +107,13 @@ class PublicarViewModel(private val c: AppContainer, tipoInicial: String) : View
         if (texto.isBlank() && foto == null && medios.isEmpty()) return
         publicando = true
         viewModelScope.launch {
-            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta, anio ?: hoy().year, mes, medios = medios) }
+            val h = hoy()
+            val extras = com.rutaalacima.app.data.social.ExtrasPost(
+                camino = camino.takeUnless { it.vacio },
+                compromiso = compromisoDias.takeIf { it > 0 }?.let { com.rutaalacima.app.data.social.Compromiso(h.plusDays(it.toLong()).toString()) },
+                sello = selloMeses.takeIf { it > 0 }?.let { h.plusMonths(it.toLong()).toString() },
+            )
+            runCatching { c.social.publicar(tipo, texto, foto, eje?.codigo, visibilidad, meta, anio ?: h.year, mes, medios = medios, extras = extras) }
             publicando = false
             alTerminar()
         }
@@ -247,6 +260,30 @@ fun PublicarScreen(tipoInicial: String, onBack: () -> Unit, metaInicial: String?
             item {
                 ChipSelector(stringResource(R.string.quien_lo_ve), Visibilidad.entries, vm.visibilidad, { it.texto() }, { vm.visibilidad = it })
                 Text(stringResource(R.string.siempre_en_tu_diario), style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+            }
+            // Comunidad viva: el camino detrás, un compromiso con fecha o una carta al yo futuro
+            item {
+                val cam = vm.camino
+                androidx.compose.material3.Surface(shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp), color = MaterialTheme.colorScheme.primary.copy(alpha = 0.07f)) {
+                    androidx.compose.foundation.layout.Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = androidx.compose.ui.Alignment.Top) {
+                        Icon(Icons.Filled.Terrain, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(20.dp))
+                        androidx.compose.foundation.layout.Spacer(Modifier.width(8.dp))
+                        Text(if (cam.vacio) stringResource(R.string.cv_camino_vacio) else stringResource(R.string.cv_camino_nota, cam.racha, cam.ganados),
+                            style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            }
+            item {
+                ChipSelector(stringResource(R.string.cv_compromiso), listOf(0, 7, 30, 90), vm.compromisoDias,
+                    { if (it == 0) stringResource(R.string.ninguna) else stringResource(R.string.cv_dias, it) }, { vm.compromisoDias = it })
+                Text(stringResource(R.string.cv_compromiso_ayuda), style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+            }
+            item {
+                ChipSelector(stringResource(R.string.cv_sellar), listOf(0, 1, 6, 12), vm.selloMeses,
+                    { if (it == 0) stringResource(R.string.cv_no_sellar) else stringResource(R.string.cv_meses, it) }, { vm.selloMeses = it })
+                Text(stringResource(R.string.cv_sellar_ayuda), style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
             }
             item {

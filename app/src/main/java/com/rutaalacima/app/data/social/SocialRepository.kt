@@ -61,6 +61,10 @@ data class Post(
     /** Reacción "¿Qué clima te deja?": cuántas personas dejaron cada clima y el mío. */
     val climas: Map<String, Int> = emptyMap(),
     val miClima: String? = null,
+    /** Comunidad viva: el camino detrás, el compromiso con fecha y la fecha en que se abre si es una carta sellada. */
+    val camino: Camino? = null,
+    val compromiso: Compromiso? = null,
+    val sello: String? = null,
 )
 
 /** Una pieza del carrusel: foto ("img") o video ("vid"), con su ruta local o URL. */
@@ -81,6 +85,8 @@ data class Comentario(
     /** Respuesta a otro comentario (null = comentario principal). */
     val parentId: String? = null, val likes: Int = 0, val yoLike: Boolean = false,
     val propio: Boolean = false, val ocultoAutor: Boolean = false, val autorAvatar: String = "",
+    /** Lanzar una cuerda: PREGUNTA, CONSEJO o YO_TAMBIEN (null = comentario normal). */
+    val cuerda: String? = null,
 )
 
 enum class FiltroFeed { PARA_TI, SIGUIENDO, VISION, GUARDADOS }
@@ -111,7 +117,11 @@ class SocialRepository(
         impulsos = impulsos + if (id in impulsados()) 1 else 0, yoImpulse = id in impulsados(),
         creadoEn = creadaEn, propio = true, visibilidad = runCatching { Visibilidad.valueOf(visibilidad) }.getOrDefault(Visibilidad.PUBLICA),
         brujula = brujula, media = MediaJson.leer(media),
-    )
+    ).let { p -> val x = extras(id); p.copy(camino = x.camino, compromiso = x.compromiso, sello = x.sello) }
+
+    /** Lo nuevo de mis publicaciones se guarda aparte en el teléfono (sin tocar la base local). */
+    private fun extras(id: String): ExtrasPost = ComunidadViva.deTexto(prefs.getString("extras:$id", null))
+    private fun guardarExtras(id: String, x: ExtrasPost) = prefs.edit().putString("extras:$id", ComunidadViva.aTexto(x)).apply()
 
     fun nombrePropio(): String = prefs.getString("nombre", "").orEmpty().ifBlank { context.getString(R.string.yo) }
     fun usuarioPropio(): String = prefs.getString("usuario", "").orEmpty()
@@ -140,8 +150,11 @@ class SocialRepository(
         brujula: String = "",
         /** Varias fotos o un video (carrusel). La primera foto queda como portada. */
         medios: List<Uri> = emptyList(),
+        /** Comunidad viva: camino, compromiso con fecha y carta sellada. */
+        extras: ExtrasPost = ExtrasPost(),
     ): PublicacionEntity = withContext(Dispatchers.IO) {
         val id = UUID.randomUUID().toString()
+        if (extras != ExtrasPost()) guardarExtras(id, extras)
         val piezas = medios.mapIndexedNotNull { i, u -> runCatching { guardarMedio(u, "$id-$i") }.getOrNull() }
         val ruta = foto?.let { guardarFoto(it, id) } ?: piezas.firstOrNull { !it.esVideo }?.url.orEmpty()
         val hoy = LocalDate.now()
@@ -182,14 +195,23 @@ class SocialRepository(
             else if (m.esVideo) MediaPost("vid", supa.subirArchivo("media", "$uid/${p.id}-$i.mp4", File(m.url).readBytes(), "video/mp4"))
             else MediaPost("img", supa.subirFoto("$uid/${p.id}-$i.jpg", File(m.url).readBytes()))
         }
-        supa.insert("posts", buildJsonObject {
+        val x = extras(p.id)
+        fun fila(conExtras: Boolean) = buildJsonObject {
             put("id", p.id); put("user_id", uid); put("tipo", p.tipo); put("texto", p.texto)
             put("image_url", url); p.eje?.let { put("eje", it) }; put("anio", p.anio)
             put("visibilidad", p.visibilidad); put("meta_titulo", p.metaTitulo)
             // Solo las Brújulas llevan la columna nueva (así lo demás funciona aunque no se haya actualizado la base)
             if (p.brujula.isNotBlank()) runCatching { kotlinx.serialization.json.Json.parseToJsonElement(p.brujula) }.getOrNull()?.let { put("brujula", it) }
             if (media.isNotEmpty()) put("media", MediaJson.json(media))
-        }, devolver = false)
+            if (conExtras) {
+                x.camino?.let { put("camino", ComunidadViva.json(it)) }
+                x.compromiso?.let { put("compromiso", ComunidadViva.json(it)) }
+                x.sello?.let { put("sello", ComunidadViva.jsonSello(it)) }
+            }
+        }
+        // Sin las columnas nuevas en la base (supabase/2026-10-29-comunidad-viva.sql), se publica igual sin ellas
+        if (x == ExtrasPost()) supa.insert("posts", fila(false), devolver = false)
+        else runCatching { supa.insert("posts", fila(true), devolver = false) }.getOrElse { supa.insert("posts", fila(false), devolver = false) }
         val subida = p.copy(remoteId = p.id, fotoUrl = url, media = if (media.isNotEmpty()) MediaJson.json(media).toString() else p.media)
         dao.upsert(subida)
         return subida
@@ -317,6 +339,16 @@ class SocialRepository(
             }
         } else if (enLinea) runCatching { supa.actualizar("posts", "id=eq.${post.id}", buildJsonObject { put("visibilidad", v.name) }) }
         cache[post.id]?.let { cache[post.id] = it.copy(visibilidad = v) }
+    }
+
+    /** Cierra un compromiso vencido: lo logré o lo replanteo. La comunidad ve el desenlace. */
+    suspend fun cerrarCompromiso(post: Post, estado: String): Post = withContext(Dispatchers.IO) {
+        val k = (post.compromiso ?: return@withContext post).copy(estado = estado)
+        if (post.propio) guardarExtras(post.id, extras(post.id).copy(compromiso = k))
+        if (enLinea && !post.demo) runCatching {
+            supa.actualizar("posts", "id=eq.${post.id}&user_id=eq.${supa.sesion.value!!.userId}", buildJsonObject { put("compromiso", ComunidadViva.json(k)) })
+        }
+        post.copy(compromiso = k).also { cache[post.id] = it }
     }
 
     suspend fun eliminar(post: Post) {
@@ -464,6 +496,7 @@ class SocialRepository(
             propio = s("user_id") == uid, visibilidad = runCatching { Visibilidad.valueOf(s("visibilidad")) }.getOrDefault(Visibilidad.PUBLICA),
             brujula = when (val b = o["brujula"]) { is JsonObject -> b.toString(); is kotlinx.serialization.json.JsonPrimitive -> b.contentOrNull.orEmpty(); else -> "" },
             media = MediaJson.leer(o["media"]),
+            camino = ComunidadViva.caminoDe(o["camino"]), compromiso = ComunidadViva.compromisoDe(o["compromiso"]), sello = ComunidadViva.selloDe(o["sello"]),
         )
     }
 
@@ -538,12 +571,15 @@ class SocialRepository(
                     texto = s("texto"), creadoEn = runCatching { Instant.parse(s("created_at")).toEpochMilli() }.getOrDefault(0L),
                     parentId = s("parent_id").ifBlank { null }, likes = conteo(o, "likes"), propio = s("user_id") == uid,
                     ocultoAutor = o["oculto_autor"]?.jsonPrimitive?.contentOrNull == "true", autorAvatar = autor?.get("avatar_url")?.jsonPrimitive?.contentOrNull.orEmpty(),
+                    cuerda = s("cuerda").ifBlank { null },
                 )
             }
             // Con respuestas e impulsos (si la base ya los tiene); si no, comentarios simples
+            val cols = "id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)"
             val lista = runCatching {
-                supa.select("comments", "select=id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)&post_id=eq.${post.id}&order=created_at")
-                    .jsonArray.map(::fila)
+                supa.select("comments", "select=$cols,cuerda&post_id=eq.${post.id}&order=created_at").jsonArray.map(::fila)
+            }.recoverCatching {
+                supa.select("comments", "select=$cols&post_id=eq.${post.id}&order=created_at").jsonArray.map(::fila)
             }.getOrElse {
                 supa.select("comments", "select=id,texto,created_at,user_id,autor:profiles!comments_user_id_fkey(username,nombre)&post_id=eq.${post.id}&order=created_at").jsonArray.map(::fila)
             }
@@ -554,19 +590,28 @@ class SocialRepository(
             lista.map { it.copy(yoLike = it.id in mios) }
         } else {
             DemoComunidad.comentarios(context, post.id) +
-                dao.comentarios(post.id).map { Comentario(it.id.toString(), it.autor, it.texto, it.creadoEn, propio = true) }
+                dao.comentarios(post.id).map { Comentario(it.id.toString(), it.autor, it.texto, it.creadoEn, propio = true,
+                    cuerda = prefs.getString("cuerda:${post.id}:${it.texto.hashCode()}", null)) }
         }
     }
 
-    suspend fun comentar(post: Post, texto: String, parentId: String? = null) = withContext(Dispatchers.IO) {
+    suspend fun comentar(post: Post, texto: String, parentId: String? = null, cuerda: String? = null) = withContext(Dispatchers.IO) {
         if (texto.isBlank()) return@withContext
         if (enLinea && !post.demo) {
-            val fila = buildJsonObject { put("post_id", post.id); put("user_id", supa.sesion.value!!.userId); put("texto", texto.trim()) }
+            val base = buildJsonObject { put("post_id", post.id); put("user_id", supa.sesion.value!!.userId); put("texto", texto.trim()) }
+            // Lanzar una cuerda: si la base aún no tiene la columna, queda como comentario normal
+            if (cuerda != null && parentId == null) {
+                runCatching { supa.insert("comments", JsonObject(base + ("cuerda" to kotlinx.serialization.json.JsonPrimitive(cuerda))), devolver = false) }
+                    .getOrElse { supa.insert("comments", base, devolver = false) }
+                return@withContext
+            }
+            val fila = base
             if (parentId != null) runCatching { supa.insert("comments", JsonObject(fila + ("parent_id" to kotlinx.serialization.json.JsonPrimitive(parentId))), devolver = false) }
                 .getOrElse { supa.insert("comments", fila, devolver = false) }
             else supa.insert("comments", fila, devolver = false)
         } else {
             dao.comentar(ComentarioLocalEntity(publicacionId = post.id, autor = nombrePropio(), texto = texto.trim()))
+            if (cuerda != null) prefs.edit().putString("cuerda:${post.id}:${texto.trim().hashCode()}", cuerda).apply()
         }
     }
 

@@ -612,6 +612,7 @@ private fun FilaComentario(
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f)) {
             Text(c.autor, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            EtiquetaCuerda(c.cuerda)
             TextoEnlazado(c.texto, style = MaterialTheme.typography.bodyMedium)
             if (c.ocultoAutor) Text(stringResource(R.string.red_oculto), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.error)
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {

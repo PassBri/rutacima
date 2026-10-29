@@ -4573,3 +4573,19 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 @media (min-width: 700px) { .cima-fondo > .carta-sellada { padding-right: 20px; } }
 .com-escribir:has(.cuerda-chips) { flex-wrap: wrap; row-gap: 8px; }
 .com-escribir .cuerda-chips { flex: 1 0 100%; padding: 0 0 2px; }
+/* Cómo funciona la comunidad */
+.guia-intro { margin: 0 0 8px; font-size: 14px; }
+.guia-com { list-style: none; margin: 0; padding: 0 0 16px; display: grid; gap: 4px; }
+.guia-com li { display: flex; gap: 12px; align-items: flex-start; padding: 10px 2px; border-bottom: 1px solid var(--linea); }
+.guia-com li:last-child { border-bottom: 0; }
+.guia-ic { display: grid; place-items: center; width: 40px; height: 40px; flex: none; border-radius: 12px; background: color-mix(in srgb, var(--burdeos) 9%, var(--hoja)); }
+.guia-ic svg { width: 22px; height: 22px; fill: var(--burdeos); }
+.guia-com b { font-size: 15px; }
+.guia-com p { margin: 2px 0 0; font-size: 13.5px; color: var(--tinta-suave); line-height: 1.45; }
+/* Con la guía junto a la lupa caben seis íconos: en teléfonos angostos se aprietan un poco */
+@media (max-width: 430px) {
+  .cimas-cab { gap: 0; padding-left: 2px; padding-right: 2px; }
+  .cimas-cab .cimas-ic { width: 40px; height: 40px; }
+  .cimas-pestanas { min-width: 0; gap: 0; }
+  .cimas-pestanas button { padding: 10px 6px 12px; font-size: 14.5px; }
+}

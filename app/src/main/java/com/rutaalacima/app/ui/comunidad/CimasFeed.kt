@@ -101,6 +101,8 @@ fun CimasFeed(
     onFin: (() -> Unit)? = null,
     /** "¿Qué clima te deja?": deja, cambia o quita (null) el clima. */
     onClima: (Post, String?) -> Unit = { _, _ -> },
+    /** Cerrar mi compromiso vencido: LOGRADO o REPLANTEO. */
+    onCompromiso: (Post, String) -> Unit = { _, _ -> },
 ) {
     VerticalPager(
         state = estado,
@@ -121,6 +123,7 @@ fun CimasFeed(
             onAutor = { onAutor(posts[i]) },
             onMas = { onMas(posts[i]) },
             onClima = { k -> onClima(posts[i], k) },
+            onCompromiso = { e -> onCompromiso(posts[i], e) },
         )
     }
 }
@@ -144,6 +147,7 @@ private fun CimaPagina(
     post: Post, primera: Boolean, guardado: Boolean, activo: Boolean = true,
     onImpulsar: () -> Unit, onAbrir: () -> Unit, onGuardar: () -> Unit, onAutor: () -> Unit, onMas: () -> Unit,
     onClima: (String?) -> Unit = {},
+    onCompromiso: (String) -> Unit = {},
 ) {
     val context = LocalContext.current
     val eje = Eje.fromCodigo(post.eje)
@@ -168,7 +172,9 @@ private fun CimaPagina(
             },
     ) {
         // Fondo: la foto de borde a borde, o el cielo real del momento en que se publicó con la frase en letra de carta
-        if (post.media.esCarrusel()) {
+        if (com.rutaalacima.app.data.social.ComunidadViva.estaSellada(post)) {
+            CartaSellada(post.sello!!, Modifier.fillMaxSize())
+        } else if (post.media.esCarrusel()) {
             MediaCarrusel(post.media, activo, Modifier.fillMaxSize())
         } else if (post.foto.isNotBlank()) {
             val modelo: Any = if (post.foto.startsWith("http")) post.foto else File(post.foto)
@@ -211,7 +217,8 @@ private fun CimaPagina(
                 }
                 Spacer(Modifier.height(22.dp))
             }
-            Accion(if (post.yoImpulse) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder, contar(post.impulsos), stringResource(R.string.impulsar), Color.White,
+            // Pocos números: el contador de impulsos solo lo ve el autor
+            Accion(if (post.yoImpulse) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder, if (post.propio) contar(post.impulsos) else "", stringResource(R.string.impulsar), Color.White,
                 fondo = if (post.yoImpulse) MaterialTheme.colorScheme.primary else null, onClick = onImpulsar)
             com.rutaalacima.app.ui.components.BotonClima(post.climas, post.miClima, onClima, tamano = 48.dp, fondo = PapelClaro.copy(alpha = 0.16f))
             Accion(Icons.AutoMirrored.Outlined.Comment, contar(post.comentarios), stringResource(R.string.comentar), Color.White, onClick = onAbrir)
@@ -246,7 +253,8 @@ private fun CimaPagina(
                 listOfNotNull(post.tipo.texto(), eje?.texto(), haceCuanto(post.creadoEn)).joinToString(" · "),
                 color = Color.White.copy(alpha = 0.78f), style = MaterialTheme.typography.labelMedium, maxLines = 1,
             )
-            if (post.foto.isNotBlank() && post.texto.isNotBlank()) {
+            ChipsCamino(post, sobreFoto = true, onCerrarCompromiso = onCompromiso)
+            if (post.foto.isNotBlank() && post.texto.isNotBlank() && !com.rutaalacima.app.data.social.ComunidadViva.estaSellada(post)) {
                 TextoEnlazado(
                     post.texto, color = Color.White, style = MaterialTheme.typography.bodyMedium,
                     maxLines = if (abierto) 12 else 2, enlace = Color.White,

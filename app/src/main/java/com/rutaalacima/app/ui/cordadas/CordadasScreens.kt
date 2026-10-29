@@ -27,6 +27,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Diversity3
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Button
@@ -288,7 +289,7 @@ class CordadaViewModel(private val c: AppContainer) : ViewModel() {
     fun salir(id: String, alTerminar: () -> Unit) = viewModelScope.launch { runCatching { repo.salir(id) }.onSuccess { alTerminar() }.onFailure { aviso = it.message } }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 fun CordadaScreen(id: String, onBack: () -> Unit) {
     val vm = rutaViewModel(key = "cordada-$id") { CordadaViewModel(it) }
@@ -355,6 +356,29 @@ fun CordadaScreen(id: String, onBack: () -> Unit) {
                     if (c.activa() && delMes.isNotEmpty()) {
                         Spacer(Modifier.height(4.dp))
                         SelectorMetaCordada(unidas[claveMetaCordada(id)].orEmpty(), delMes) { vm.unirMeta(id, it) }
+                    }
+                }
+            }
+            // Una cordada no deja caer a nadie: quien lleva 3 días sin marcar recibe una cuerda de sus compañeros
+            val caidos = if (c.activa()) vm.companeros.filter { !it.soyYo && com.rutaalacima.app.data.social.ComunidadViva.necesitaCuerda(it.dias, c.inicio, hoy) } else emptyList()
+            if (caidos.isNotEmpty()) item {
+                val plantilla = stringResource(R.string.cv_cuerda_texto)
+                RutaCard {
+                    Row(verticalAlignment = Alignment.Top) {
+                        Icon(Icons.Filled.Link, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(26.dp))
+                        Spacer(Modifier.width(10.dp))
+                        Column(Modifier.weight(1f)) {
+                            Text(stringResource(R.string.cv_sin_marcar, caidos.joinToString(", ") { it.nombre.substringBefore(" ") }), style = MaterialTheme.typography.titleSmall)
+                            Text(stringResource(R.string.cv_sin_marcar_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            androidx.compose.foundation.layout.FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp), modifier = Modifier.padding(top = 6.dp)) {
+                                caidos.forEach { p ->
+                                    OutlinedButton(onClick = { vm.texto = plantilla.format(p.nombre.substringBefore(" ")) }) {
+                                        Icon(Icons.Filled.Link, null, Modifier.size(16.dp)); Spacer(Modifier.width(6.dp))
+                                        Text(stringResource(R.string.cv_lanzar_a, p.nombre.substringBefore(" ")))
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
