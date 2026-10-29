@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -260,7 +261,7 @@ private fun NuevaMeta(vm: CuentasViewModel) {
                 val sel = tipo == t; val n = nombreTipoMeta(t)
                 androidx.compose.material3.TooltipBox(
                     positionProvider = androidx.compose.material3.TooltipDefaults.rememberPlainTooltipPositionProvider(),
-                    tooltip = { androidx.compose.material3.PlainTooltip { Text(n) } },
+                    tooltip = { PlainTooltip { Text(n) } },
                     state = androidx.compose.material3.rememberTooltipState(),
                 ) {
                     Box(Modifier.size(52.dp).clip(RoundedCornerShape(14.dp))
@@ -271,41 +272,6 @@ private fun NuevaMeta(vm: CuentasViewModel) {
                         contentAlignment = Alignment.Center) {
                         Icon(iconoMeta(t), null, Modifier.size(24.dp), tint = if (sel) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                }
-            }
-        }
-        OutlinedTextField(nombre, { nombre = it.take(60) }, label = { Text(stringResource(R.string.mf_nombre)) }, singleLine = true)
-                OutlinedTextField(objetivo, { objetivo = it }, label = { Text(stringResource(R.string.mf_cuanto)) }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal))
-                OutlinedTextField(fecha, { fecha = it.take(7) }, label = { Text(stringResource(R.string.mf_cuando)) }, placeholder = { Text("2027-06") }, singleLine = true,
-                    supportingText = { Text(stringResource(R.string.mf_cuando_d)) })
-            } },
-            confirmButton = { TextButton(onClick = {
-                val o = kotlin.math.abs(Finanzas.monto(objetivo))
-                vm.metaCambiar(x.id) { it.copy(nombre = nombre.trim().ifBlank { x.nombre }, objetivo = if (o > 0) o else it.objetivo, fecha = if (Regex("\\d{4}-\\d{2}").matches(fecha)) fecha else "") }
-                editar = false }) { Text(stringResource(R.string.guardar)) } },
-            dismissButton = { TextButton(onClick = { editar = false }) { Text(stringResource(R.string.cancelar)) } })
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
-@Composable
-private fun NuevaMeta(vm: CuentasViewModel) {
-    var tipo by remember { mutableStateOf("viaje") }
-    var nombre by remember { mutableStateOf("") }; var objetivo by remember { mutableStateOf("") }
-    var fecha by remember { mutableStateOf("") }; var inicial by remember { mutableStateOf("") }
-    val o = kotlin.math.abs(Finanzas.monto(objetivo))
-    val porDefecto = nombreTipoMeta(tipo); val creada = stringResource(R.string.mf_creada)
-    RutaCard {
-        Text(stringResource(R.string.mf_nueva), style = MaterialTheme.typography.titleMedium)
-        Text(stringResource(R.string.mf_nueva_d), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        FlowRow(Modifier.padding(top = 10.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            MetasFin.TIPOS.forEach { (t, _) ->
-                val sel = tipo == t
-                Row(Modifier.clip(RoundedCornerShape(8.dp)).border(1.dp, if (sel) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(8.dp))
-                    .background(if (sel) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface).clickable { tipo = t }.padding(horizontal = 10.dp, vertical = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Icon(iconoMeta(t), null, Modifier.size(18.dp), tint = if (sel) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
-                    Spacer(Modifier.width(6.dp)); Text(nombreTipoMeta(t), style = MaterialTheme.typography.labelLarge)
                 }
             }
         }
