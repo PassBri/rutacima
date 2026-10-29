@@ -417,6 +417,7 @@ fun ComunidadScreen(
             item {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box(Modifier.weight(1f)) { Filtros(vm) }
+                    BotonGuiaComunidad()
                     androidx.compose.material3.IconButton(onClick = onBuscar) { Icon(Icons.Filled.Search, stringResource(R.string.red_buscar)) }
                     Campana(noLeidos, onAvisos, MaterialTheme.colorScheme.onSurface)
                 }

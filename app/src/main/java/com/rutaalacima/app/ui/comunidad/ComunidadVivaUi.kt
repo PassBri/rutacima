@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.horizontalScroll
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,6 +21,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material.icons.filled.Bookmark
+import androidx.compose.material.icons.filled.Hiking
+import androidx.compose.material.icons.filled.Diversity3
+import androidx.compose.material.icons.filled.Landscape
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Refresh
@@ -33,6 +42,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -149,4 +160,45 @@ fun EtiquetaCuerda(cuerda: String?) {
 @Composable
 fun placeholderCuerda(k: String?): String? = when (k) {
     "PREGUNTA" -> stringResource(R.string.cv_ph_pregunta); "CONSEJO" -> stringResource(R.string.cv_ph_consejo); "YO_TAMBIEN" -> stringResource(R.string.cv_ph_yo_tambien); else -> null
+}
+
+/** Cómo funciona la comunidad: un botón junto a la lupa que abre la guía de todas las opciones. */
+@OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
+@Composable
+fun BotonGuiaComunidad(tinte: Color = MaterialTheme.colorScheme.onSurface) {
+    var abierta by androidx.compose.runtime.saveable.rememberSaveable { androidx.compose.runtime.mutableStateOf(false) }
+    androidx.compose.material3.IconButton(onClick = { abierta = true }) {
+        Icon(Icons.AutoMirrored.Filled.HelpOutline, stringResource(R.string.cv_guia_titulo), tint = tinte)
+    }
+    if (abierta) androidx.compose.material3.ModalBottomSheet(onDismissRequest = { abierta = false }) {
+        val lista = listOf(
+            Icons.Filled.Terrain to (R.string.cv_g1_t to R.string.cv_g1_d), Icons.Filled.KeyboardArrowUp to (R.string.cv_g2_t to R.string.cv_g2_d),
+            Icons.Filled.Favorite to (R.string.cv_g3_t to R.string.cv_g3_d), Icons.Filled.WbSunny to (R.string.cv_g4_t to R.string.cv_g4_d),
+            Icons.Filled.Link to (R.string.cv_g5_t to R.string.cv_g5_d), Icons.Filled.Bookmark to (R.string.cv_g6_t to R.string.cv_g6_d),
+            Icons.Filled.Hiking to (R.string.cv_g7_t to R.string.cv_g7_d), Icons.Filled.Flag to (R.string.cv_g8_t to R.string.cv_g8_d),
+            Icons.Filled.Lock to (R.string.cv_g9_t to R.string.cv_g9_d), Icons.Filled.Diversity3 to (R.string.cv_g10_t to R.string.cv_g10_d),
+            Icons.Filled.Landscape to (R.string.cv_g11_t to R.string.cv_g11_d), Icons.Filled.MoreHoriz to (R.string.cv_g12_t to R.string.cv_g12_d),
+        )
+        androidx.compose.foundation.lazy.LazyColumn(Modifier.fillMaxWidth().padding(horizontal = 20.dp), contentPadding = androidx.compose.foundation.layout.PaddingValues(bottom = 32.dp)) {
+            item {
+                Text(stringResource(R.string.cv_guia_titulo), style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.cv_guia_intro), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 8.dp))
+            }
+            items(lista.size) { i ->
+                val (ic, td) = lista[i]
+                Row(Modifier.fillMaxWidth().padding(vertical = 10.dp), verticalAlignment = Alignment.Top) {
+                    Box(Modifier.size(40.dp).clip(RoundedCornerShape(12.dp)).background(MaterialTheme.colorScheme.primary.copy(alpha = 0.09f)), contentAlignment = Alignment.Center) {
+                        Icon(ic, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
+                    }
+                    Spacer(Modifier.width(12.dp))
+                    Column(Modifier.weight(1f)) {
+                        Text(stringResource(td.first), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(td.second), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+                if (i < lista.lastIndex) androidx.compose.material3.HorizontalDivider()
+            }
+        }
+    }
 }
