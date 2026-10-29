@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s en chiffres</string>
     <string name="fb_res_ritmo_cerrado">Vous avez dépensé %1$s par jour en moyenne et clôturé %2$s avec %3$s de dépenses.</string>
     <string name="fb_res_mes_vacio">%1$s %2$d n’a pas de mouvements. Utilisez les flèches pour voir un autre mois.</string>
+    <string name="bj_tus_brujulas">Vos boussoles</string>
+    <string name="bj_cumbre_personal">Votre sommet personnel</string>
+    <string name="bj_vida_anios">Votre vie en années</string>
+    <string name="bj_ayuda">Les années marquées ont déjà une Boussole. Touchez une année pour l’ouvrir ou la créer.</string>
+    <string name="bj_con_brujula">Années avec Boussole</string>
+    <string name="bj_ninguna">Vous n’avez pas encore de Boussole par année. Touchez une année pour créer la première.</string>
+    <string name="bj_este_anio">cette année</string>
 </resources>

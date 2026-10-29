@@ -1,5 +1,11 @@
 package com.rutaalacima.app.ui.vision
 
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.border
@@ -37,7 +43,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.PictureAsPdf
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.animation.AnimatedVisibility
@@ -575,7 +581,7 @@ fun VisionScreen(onBack: () -> Unit, onGuia: (String) -> Unit = {}, compartir: B
                             metasC, textos)
                         com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listo)
                     }, modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
-                        Icon(Icons.Filled.PictureAsPdf, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.ib_boton))
+                        Icon(Icons.Filled.Download, null, Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(stringResource(R.string.ib_boton))
                     }
                 }
             }
@@ -617,52 +623,75 @@ internal fun colorEje(codigo: String): Color = when (codigo) {
 }
 
 
-/** General · 2026 · 2027…: la Brújula de toda la vida y una por año. El "+" marca los años aún sin crear. */
-@OptIn(ExperimentalMaterial3Api::class)
+/** «Tus brújulas»: un solo botón (con la Brújula que se ve) abre una hoja con la Brújula general (tu cumbre personal),
+ *  tu vida en años con marca en los años que ya tienen Brújula, y la lista corta de esos años (igual que la web). */
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.foundation.layout.ExperimentalLayoutApi::class)
 @Composable
 private fun SelectorBrujula(anio: Int?, anios: List<Int>, conBrujula: Set<Int>, cumbres: Map<Int, String>, nacimiento: Int?, metaVida: Int, onElegir: (Int?) -> Unit) {
-    // General o un año: el botón de año abre un menú con la cumbre de cada año creado (igual que la web)
     val hoy = java.time.LocalDate.now().year
-    var abierto by remember { mutableStateOf(false) }
+    var hoja by remember { mutableStateOf(false) }
     val creados = conBrujula.sorted()
-    // Toda la vida: de 1 año hasta la meta de vida (sin año de nacimiento, unos años alrededor de hoy)
     val rango = (if (nacimiento != null) (nacimiento + 1)..(nacimiento + metaVida)
         else (minOf(hoy - 2, creados.minOrNull() ?: hoy))..(maxOf(hoy + 6, creados.maxOrNull() ?: hoy))).toList()
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        FilterChip(selected = anio == null, onClick = { onElegir(null) }, label = { Text(stringResource(R.string.brujula_general)) },
-            leadingIcon = { Icon(IconosRuta.Cima, null, Modifier.size(18.dp)) })
-        Box {
-            FilterChip(selected = anio != null, onClick = { abierto = true },
-                label = { Text(anio?.let { a -> cumbres[a]?.let { "$a · $it" } ?: "$a" } ?: stringResource(R.string.brujula_elegir_anio), maxLines = 1,
-                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 220.dp)) },
-                leadingIcon = { Icon(Icons.Filled.CalendarMonth, null, Modifier.size(18.dp)) },
-                trailingIcon = { Icon(Icons.Filled.ArrowDropDown, null) })
-            androidx.compose.material3.DropdownMenu(abierto, { abierto = false }, Modifier.widthIn(min = 260.dp)) {
-                @Composable fun fila(y: Int) {
-                    val c = cumbres[y]
-                    androidx.compose.material3.DropdownMenuItem(
-                        text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text("$y", style = MaterialTheme.typography.titleSmall, modifier = Modifier.width(52.dp))
-                                if (nacimiento != null) Text(stringResource(R.string.brujula_edad, y - nacimiento) + " · ", style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant)
-                                Text(c ?: stringResource(if (y < hoy) R.string.brujula_sin else R.string.brujula_crear_su),
-                                    style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                                    color = if (c != null) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f, fill = false))
+    val elegir: (Int?) -> Unit = { hoja = false; onElegir(it) }
+    FilterChip(selected = true, onClick = { hoja = true },
+        label = { Text(anio?.let { a -> cumbres[a]?.let { "$a · $it" } ?: "$a" } ?: stringResource(R.string.brujula_general), maxLines = 1,
+            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis, modifier = Modifier.widthIn(max = 240.dp)) },
+        leadingIcon = { Icon(Icons.Filled.CalendarMonth, stringResource(R.string.bj_tus_brujulas), Modifier.size(18.dp)) },
+        trailingIcon = { Icon(Icons.Filled.ArrowDropDown, null) })
+    if (hoja) androidx.compose.material3.ModalBottomSheet(onDismissRequest = { hoja = false }) {
+        Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(start = 16.dp, end = 16.dp, bottom = 24.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(stringResource(R.string.bj_tus_brujulas), style = MaterialTheme.typography.titleLarge)
+            // La general: tu cumbre personal
+            androidx.compose.material3.Surface(onClick = { elegir(null) }, shape = RoundedCornerShape(16.dp),
+                color = if (anio == null) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainerLow) {
+                Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(IconosRuta.Cima, null, Modifier.size(24.dp), tint = MaterialTheme.colorScheme.primary); Spacer(Modifier.width(12.dp))
+                    Column {
+                        Text(stringResource(R.string.brujula_general), style = MaterialTheme.typography.titleSmall)
+                        Text(stringResource(R.string.bj_cumbre_personal), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                }
+            }
+            // Tu vida en años: una fila por década; marcados los años con Brújula
+            if (nacimiento != null) {
+                Text(stringResource(R.string.bj_vida_anios), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                val primario = MaterialTheme.colorScheme.primary; val oro = MaterialTheme.colorScheme.secondary; val tenue = MaterialTheme.colorScheme.outlineVariant
+                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    rango.groupBy { (it - nacimiento) / 10 }.forEach { (dec, ys) ->
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("${dec * 10}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(28.dp))
+                            if (dec == 0) Spacer(Modifier.width(28.dp * ((ys.first() - nacimiento) % 10)))
+                            ys.forEach { y ->
+                                val con = y in conBrujula
+                                val desc = "$y · " + (cumbres[y] ?: stringResource(if (y < hoy) R.string.brujula_sin else R.string.brujula_crear_su))
+                                Box(Modifier.size(28.dp).clip(CircleShape).background(if (y == anio) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
+                                    .clickable { elegir(y) }.semantics { contentDescription = desc }, contentAlignment = Alignment.Center) {
+                                    Box(Modifier.size(16.dp).clip(CircleShape)
+                                        .background(if (con) primario else Color.Transparent)
+                                        .border(if (y == hoy) 2.5.dp else 1.5.dp, if (y == hoy) oro else if (y < hoy || con) primario else tenue, CircleShape))
+                                }
                             }
-                        },
-                        trailingIcon = { Icon(if (c != null) Icons.Filled.Check else Icons.Filled.Add, null, Modifier.size(18.dp)) },
-                        onClick = { abierto = false; onElegir(y) },
-                        modifier = if (y == anio) Modifier.background(MaterialTheme.colorScheme.secondaryContainer) else Modifier,
-                    )
+                        }
+                    }
                 }
-                if (creados.isNotEmpty()) {
-                    Text(stringResource(R.string.brujula_cumbres_creadas), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp))
-                    creados.forEach { fila(it) }
-                    androidx.compose.material3.HorizontalDivider(Modifier.padding(vertical = 4.dp))
-                }
-                rango.filter { it !in conBrujula }.forEach { fila(it) }
+                Text(stringResource(R.string.bj_ayuda), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            // Los años con Brújula, para ir directo
+            Text(stringResource(R.string.bj_con_brujula), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            if (creados.isEmpty()) Text(stringResource(R.string.bj_ninguna), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            creados.forEach { y ->
+                androidx.compose.material3.ListItem(
+                    headlineContent = { Text(if (y == hoy) "$y · " + stringResource(R.string.bj_este_anio) else "$y") },
+                    supportingContent = if (cumbres[y] != null) { { Text(cumbres.getValue(y), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) } } else null,
+                    colors = androidx.compose.material3.ListItemDefaults.colors(containerColor = if (y == anio) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent),
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).clickable { elegir(y) })
+            }
+            // Sin año de nacimiento: la lista de años alrededor de hoy
+            if (nacimiento == null) rango.filter { it !in conBrujula }.forEach { y ->
+                androidx.compose.material3.ListItem(headlineContent = { Text("$y") },
+                    supportingContent = { Text(stringResource(if (y < hoy) R.string.brujula_sin else R.string.brujula_crear_su)) },
+                    modifier = Modifier.clip(RoundedCornerShape(12.dp)).clickable { elegir(y) })
             }
         }
     }

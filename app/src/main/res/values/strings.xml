@@ -2810,4 +2810,11 @@
     <string name="fb_res_cifras_de">%1$s en cifras</string>
     <string name="fb_res_ritmo_cerrado">Gastaste %1$s al día en promedio y cerraste %2$s con %3$s en gastos.</string>
     <string name="fb_res_mes_vacio">%1$s de %2$d no tiene movimientos. Usa las flechas para ver otro mes.</string>
+    <string name="bj_tus_brujulas">Tus brújulas</string>
+    <string name="bj_cumbre_personal">Tu cumbre personal</string>
+    <string name="bj_vida_anios">Tu vida en años</string>
+    <string name="bj_ayuda">Los años marcados ya tienen Brújula. Toca un año para abrirla o crearla.</string>
+    <string name="bj_con_brujula">Años con Brújula</string>
+    <string name="bj_ninguna">Aún no tienes Brújulas por año. Toca un año para crear la primera.</string>
+    <string name="bj_este_anio">este año</string>
 </resources>

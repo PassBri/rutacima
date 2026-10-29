@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s بالأرقام</string>
     <string name="fb_res_ritmo_cerrado">أنفقت %1$s يوميًا في المتوسط وأنهيت %2$s بنفقات قدرها %3$s.</string>
     <string name="fb_res_mes_vacio">لا توجد حركات في %1$s %2$d. استخدم الأسهم لعرض شهر آخر.</string>
+    <string name="bj_tus_brujulas">بوصلاتك</string>
+    <string name="bj_cumbre_personal">قمّتك الشخصية</string>
+    <string name="bj_vida_anios">حياتك بالسنوات</string>
+    <string name="bj_ayuda">السنوات المعلّمة لديها بوصلة بالفعل. المس سنة لفتحها أو إنشائها.</string>
+    <string name="bj_con_brujula">سنوات لها بوصلة</string>
+    <string name="bj_ninguna">ليست لديك بوصلات سنوية بعد. المس سنة لإنشاء الأولى.</string>
+    <string name="bj_este_anio">هذه السنة</string>
 </resources>

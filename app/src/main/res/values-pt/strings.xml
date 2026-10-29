@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s em números</string>
     <string name="fb_res_ritmo_cerrado">Você gastou %1$s por dia em média e fechou %2$s com %3$s em gastos.</string>
     <string name="fb_res_mes_vacio">%1$s de %2$d não tem movimentos. Use as setas para ver outro mês.</string>
+    <string name="bj_tus_brujulas">Suas bússolas</string>
+    <string name="bj_cumbre_personal">Seu cume pessoal</string>
+    <string name="bj_vida_anios">Sua vida em anos</string>
+    <string name="bj_ayuda">Os anos marcados já têm Bússola. Toque em um ano para abri-la ou criá-la.</string>
+    <string name="bj_con_brujula">Anos com Bússola</string>
+    <string name="bj_ninguna">Você ainda não tem Bússolas por ano. Toque em um ano para criar a primeira.</string>
+    <string name="bj_este_anio">este ano</string>
 </resources>

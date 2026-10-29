@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s के आँकड़े</string>
     <string name="fb_res_ritmo_cerrado">आपने औसतन रोज़ %1$s खर्च किए और %2$s का खर्च %3$s रहा।</string>
     <string name="fb_res_mes_vacio">%2$d के %1$s में कोई लेन-देन नहीं है। दूसरा महीना देखने के लिए तीरों का उपयोग करें।</string>
+    <string name="bj_tus_brujulas">आपके कंपास</string>
+    <string name="bj_cumbre_personal">आपकी निजी चोटी</string>
+    <string name="bj_vida_anios">सालों में आपका जीवन</string>
+    <string name="bj_ayuda">चिह्नित सालों में पहले से कंपास है। खोलने या बनाने के लिए किसी साल पर टैप करें।</string>
+    <string name="bj_con_brujula">कंपास वाले साल</string>
+    <string name="bj_ninguna">अभी तक कोई सालाना कंपास नहीं है। पहला बनाने के लिए किसी साल पर टैप करें।</string>
+    <string name="bj_este_anio">इस साल</string>
 </resources>

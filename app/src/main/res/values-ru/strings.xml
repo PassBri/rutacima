@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s в цифрах</string>
     <string name="fb_res_ritmo_cerrado">В среднем вы тратили %1$s в день и закрыли %2$s с расходами %3$s.</string>
     <string name="fb_res_mes_vacio">В месяце «%1$s %2$d» нет движений. Используйте стрелки, чтобы посмотреть другой месяц.</string>
+    <string name="bj_tus_brujulas">Ваши компасы</string>
+    <string name="bj_cumbre_personal">Ваша личная вершина</string>
+    <string name="bj_vida_anios">Ваша жизнь по годам</string>
+    <string name="bj_ayuda">У отмеченных лет уже есть Компас. Нажмите на год, чтобы открыть или создать его.</string>
+    <string name="bj_con_brujula">Годы с Компасом</string>
+    <string name="bj_ninguna">У вас пока нет Компасов по годам. Нажмите на год, чтобы создать первый.</string>
+    <string name="bj_este_anio">этот год</string>
 </resources>

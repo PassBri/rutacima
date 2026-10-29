@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s の数字</string>
     <string name="fb_res_ritmo_cerrado">1日平均 %1$s 使い、%2$s は支出 %3$s で締めくくりました。</string>
     <string name="fb_res_mes_vacio">%2$d年 %1$s は記録がありません。矢印で別の月を表示できます。</string>
+    <string name="bj_tus_brujulas">あなたのコンパス</string>
+    <string name="bj_cumbre_personal">あなたの個人の頂上</string>
+    <string name="bj_vida_anios">人生の年</string>
+    <string name="bj_ayuda">印のある年にはすでにコンパスがあります。年をタップして開くか作成します。</string>
+    <string name="bj_con_brujula">コンパスのある年</string>
+    <string name="bj_ninguna">年ごとのコンパスはまだありません。年をタップして最初のものを作りましょう。</string>
+    <string name="bj_este_anio">今年</string>
 </resources>

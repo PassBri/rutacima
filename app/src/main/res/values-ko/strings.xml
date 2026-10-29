@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s 수치</string>
     <string name="fb_res_ritmo_cerrado">하루 평균 %1$s를 썼고 %2$s 지출은 %3$s였어요.</string>
     <string name="fb_res_mes_vacio">%2$d년 %1$s에는 내역이 없어요. 화살표로 다른 달을 보세요.</string>
+    <string name="bj_tus_brujulas">나의 나침반</string>
+    <string name="bj_cumbre_personal">나의 개인 정상</string>
+    <string name="bj_vida_anios">연도로 보는 나의 삶</string>
+    <string name="bj_ayuda">표시된 해에는 이미 나침반이 있어요. 해를 눌러 열거나 만드세요.</string>
+    <string name="bj_con_brujula">나침반이 있는 해</string>
+    <string name="bj_ninguna">아직 연도별 나침반이 없어요. 해를 눌러 첫 나침반을 만드세요.</string>
+    <string name="bj_este_anio">올해</string>
 </resources>

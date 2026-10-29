@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s 数字</string>
     <string name="fb_res_ritmo_cerrado">你平均每天花 %1$s，%2$s 共支出 %3$s。</string>
     <string name="fb_res_mes_vacio">%2$d 年 %1$s 没有收支记录。用箭头查看其他月份。</string>
+    <string name="bj_tus_brujulas">你的指南针</string>
+    <string name="bj_cumbre_personal">你的个人顶峰</string>
+    <string name="bj_vida_anios">你的人生年份</string>
+    <string name="bj_ayuda">标记的年份已有指南针。点一下年份即可打开或创建。</string>
+    <string name="bj_con_brujula">有指南针的年份</string>
+    <string name="bj_ninguna">你还没有年度指南针。点一个年份创建第一个。</string>
+    <string name="bj_este_anio">今年</string>
 </resources>

@@ -2801,4 +2801,11 @@
     <string name="fb_res_cifras_de">%1$s in Zahlen</string>
     <string name="fb_res_ritmo_cerrado">Sie haben im Schnitt %1$s pro Tag ausgegeben und %2$s mit %3$s Ausgaben abgeschlossen.</string>
     <string name="fb_res_mes_vacio">%1$s %2$d hat keine Bewegungen. Mit den Pfeilen sehen Sie einen anderen Monat.</string>
+    <string name="bj_tus_brujulas">Deine Kompasse</string>
+    <string name="bj_cumbre_personal">Dein persönlicher Gipfel</string>
+    <string name="bj_vida_anios">Dein Leben in Jahren</string>
+    <string name="bj_ayuda">Markierte Jahre haben schon einen Kompass. Tippe auf ein Jahr, um ihn zu öffnen oder zu erstellen.</string>
+    <string name="bj_con_brujula">Jahre mit Kompass</string>
+    <string name="bj_ninguna">Du hast noch keine Jahreskompasse. Tippe auf ein Jahr, um den ersten zu erstellen.</string>
+    <string name="bj_este_anio">dieses Jahr</string>
 </resources>
