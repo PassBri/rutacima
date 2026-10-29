@@ -2778,4 +2778,7 @@
         <item>पहले सीखने में निवेश करें: यह वह संपत्ति है जिसे कोई नहीं छीन सकता।</item>
         <item>हर रुपये का एक उद्देश्य: ऐसे ही बिना हाँफे चढ़ा जाता है।</item>
     </string-array>
+    <string name="fb_todos_anios">अपने सभी साल देखें</string>
+    <string name="fb_mapa_ayuda">साल देखने के लिए टैप करें; खोलने के लिए फिर टैप करें।</string>
+    <string name="fb_balance_todos">कुल हिसाब देखें</string>
 </resources>

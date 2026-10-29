@@ -2778,4 +2778,7 @@
         <item>Сначала инвестируйте в обучение: этот актив никто не отнимет.</item>
         <item>У каждой монеты есть цель: так поднимаются, не сбивая дыхание.</item>
     </string-array>
+    <string name="fb_todos_anios">Все ваши годы</string>
+    <string name="fb_mapa_ayuda">Нажмите на год, чтобы посмотреть; нажмите ещё раз, чтобы открыть.</string>
+    <string name="fb_balance_todos">Общий баланс</string>
 </resources>

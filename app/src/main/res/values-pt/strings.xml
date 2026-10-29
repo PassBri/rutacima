@@ -2778,4 +2778,7 @@
         <item>Invista primeiro em aprender: é o ativo que ninguém te tira.</item>
         <item>Cada real com um propósito: assim se sobe sem perder o fôlego.</item>
     </string-array>
+    <string name="fb_todos_anios">Ver todos os seus anos</string>
+    <string name="fb_mapa_ayuda">Toque num ano para vê-lo; toque de novo para abri-lo.</string>
+    <string name="fb_balance_todos">Ver o balanço geral</string>
 </resources>

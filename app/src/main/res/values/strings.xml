@@ -2787,4 +2787,7 @@
         <item>Invierte primero en aprender: es el activo que nadie te quita.</item>
         <item>Cada peso con un propósito: así se sube sin perder el aire.</item>
     </string-array>
+    <string name="fb_todos_anios">Ver todos tus años</string>
+    <string name="fb_mapa_ayuda">Toca un año para verlo; tócalo otra vez para abrirlo.</string>
+    <string name="fb_balance_todos">Ver el balance de todos</string>
 </resources>

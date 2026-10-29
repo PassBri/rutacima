@@ -4648,3 +4648,14 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-racha svg { width: 14px; height: 14px; fill: var(--burdeos); }
 @media (max-width: 900px) { .fb-dia { width: 40px; height: 40px; } }
 .fb-dia.abierto { background: var(--burdeos) !important; }
+.fb-anios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 8px 6px 6px; border-radius: 16px; background: var(--hoja-2); animation: rvAparece .2s cubic-bezier(.2,0,0,1); }
+.fb-anios .rv-mapa-ayuda { grid-column: 1 / -1; margin: 4px 2px 0; }
+.fb-anio { display: grid; justify-items: center; gap: 1px; padding: 6px 2px; border: 1.5px solid var(--linea); border-radius: 12px; background: var(--hoja); cursor: pointer; font: inherit; color: var(--tinta); }
+.fb-anio b { font: 600 14px/1.1 var(--font-titulo); font-variant-numeric: tabular-nums; }
+.fb-anio small { font-size: 10.5px; color: var(--tinta-suave); font-variant-numeric: tabular-nums; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fb-anio.bien { border-color: color-mix(in srgb, var(--ok, #2E6B3A) 55%, transparent); }
+.fb-anio.mal { border-color: color-mix(in srgb, var(--burdeos) 55%, transparent); }
+.fb-anio.actual b { color: var(--burdeos); }
+.fb-anio.viendo { background: var(--oro-suave); }
+.fb-link { border: 0; background: none; padding: 0; color: var(--burdeos); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) { .fb-anios { animation: none; } }

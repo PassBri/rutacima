@@ -103,6 +103,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
     var verA by remember(nivel) { mutableIntStateOf(lugarA ?: h.year) }
     var verM by remember(nivel) { mutableIntStateOf(lugarM ?: if (lugarA != null && lugarA != h.year) 1 else h.monthValue) }
     var abierta by rememberSaveable { mutableStateOf(false) }
+    var mapa by rememberSaveable { mutableStateOf(false) }
 
     // Totales por día y por mes, una sola vez por libro
     val porDia = remember(libro) { libro.dias.mapValues { (_, xs) -> Cuentas.sumar(xs, libro.propias) to xs.filter { !it.prog }.map { Tipo.de(it.t) }.toSet() } }
@@ -131,11 +132,41 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                     // Año y sus 12 meses
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         IconButton(onClick = { verA-- }) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, stringResource(R.string.cu_anterior)) }
-                        Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).clickable { ir(NivelCuentas.Anio(verA)) }.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text("$verA", style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif), fontWeight = FontWeight.SemiBold)
+                        // Tocar el año despliega todos tus años (igual que Mi ruta)
+                        Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp)).clickable { mapa = !mapa }.padding(4.dp)
+                            .semantics { contentDescription = "$verA" }, horizontalAlignment = Alignment.CenterHorizontally) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text("$verA", style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif), fontWeight = FontWeight.SemiBold)
+                                Icon(if (mapa) Icons.Filled.ExpandLess else Icons.Filled.ExpandMore, stringResource(R.string.fb_todos_anios), Modifier.size(18.dp))
+                            }
                             Text(porAnio["$verA"]?.let { stringResource(R.string.fb_libre, plata(it.disponible)) } ?: stringResource(R.string.fb_sin_mov), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         IconButton(onClick = { verA++ }, enabled = verA <= h.year) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.siguiente)) }
+                    }
+                    if (mapa) {
+                        val desde = minOf(h.year, porAnio.keys.mapNotNull { it.toIntOrNull() }.minOrNull() ?: h.year)
+                        Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+                            Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                                ((h.year + 1) downTo desde).chunked(3).forEach { fila ->
+                                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                                        fila.forEach { y ->
+                                            val t = porAnio["$y"]; val viendo = y == verA
+                                            Column(Modifier.weight(1f).clip(RoundedCornerShape(12.dp))
+                                                .background(if (viendo) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surface)
+                                                .border(1.5.dp, when { t == null || t.n == 0 -> MaterialTheme.colorScheme.outlineVariant; t.disponible >= 0 -> verde.copy(alpha = 0.6f); else -> burdeos.copy(alpha = 0.6f) }, RoundedCornerShape(12.dp))
+                                                .clickable { if (viendo) { mapa = false; ir(NivelCuentas.Anio(y)) } else verA = y }.padding(vertical = 6.dp),
+                                                horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Text("$y", style = MaterialTheme.typography.titleSmall.copy(fontFamily = FontFamily.Serif), color = if (y == h.year) burdeos else MaterialTheme.colorScheme.onSurface)
+                                                Text(if (t != null && t.n > 0) plata(t.disponible) else "—", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                                            }
+                                        }
+                                        repeat(3 - fila.size) { Spacer(Modifier.weight(1f)) }
+                                    }
+                                }
+                                Text(stringResource(R.string.fb_mapa_ayuda), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                                TextButton(onClick = { mapa = false; ir(NivelCuentas.Balance) }, modifier = Modifier.align(Alignment.CenterHorizontally)) { Text(stringResource(R.string.fb_balance_todos)) }
+                            }
+                        }
                     }
                     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         (1..12).chunked(4).forEach { fila ->

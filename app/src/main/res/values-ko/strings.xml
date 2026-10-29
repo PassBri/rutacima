@@ -2778,4 +2778,7 @@
         <item>먼저 배움에 투자하세요. 누구도 빼앗을 수 없는 자산이에요.</item>
         <item>모든 돈에 목적을. 그래야 숨이 차지 않고 오를 수 있어요.</item>
     </string-array>
+    <string name="fb_todos_anios">모든 연도 보기</string>
+    <string name="fb_mapa_ayuda">연도를 눌러 보고, 다시 누르면 열려요.</string>
+    <string name="fb_balance_todos">전체 결산 보기</string>
 </resources>

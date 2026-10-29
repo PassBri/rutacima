@@ -2778,4 +2778,7 @@
         <item>まず学びに投資を。それは誰にも奪えない資産。</item>
         <item>1円ごとに目的を。そうすれば息切れせずに登れる。</item>
     </string-array>
+    <string name="fb_todos_anios">すべての年を見る</string>
+    <string name="fb_mapa_ayuda">年をタップして表示、もう一度タップで開きます。</string>
+    <string name="fb_balance_todos">全体の収支を見る</string>
 </resources>

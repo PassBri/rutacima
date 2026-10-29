@@ -133,8 +133,9 @@ function fbBarra() {
       <button class="rv-plegar solo-movil" data-acc="fbPlegar" aria-expanded="${!!estado.fbAbierta}" aria-label="${estado.fbAbierta ? "Ocultar el calendario" : "Mostrar el calendario"}">${ic(estado.fbAbierta ? "arriba" : "abajo")}</button></div>
     <div class="rv-cuerpo${estado.fbAbierta ? " abierta" : ""}">
       <div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
-        <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-sel="a:${a}" title="Abrir ${a}">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"}</small></button>
+        <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="fbMapa" aria-expanded="${!!estado.fbMapa}" title="Ver todos tus años">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"} ${ic(estado.fbMapa ? "arriba" : "abajo")}</small></button>
         <button class="rv-flecha" data-acc="fbAnio" data-arg="1" aria-label="Año siguiente" ${a >= aHoy + 1 ? "disabled" : ""}>${ic("der")}</button></div>
+      ${estado.fbMapa ? fbAnios(datos, a) : ""}
       <div class="rv-meses" role="group" aria-label="Meses de ${a}">${meses}</div>
       <div class="rv-paso rv-paso-mes"><button class="rv-flecha" data-acc="fbMes" data-arg="-1" aria-label="Mes anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && l.m === m && !l.d ? " abierto" : ""}" data-sel="m:${a}-${pad2(m)}" title="Abrir ${MESES[m - 1]}">${mayus(MESES[m - 1])}</button>
@@ -146,6 +147,19 @@ function fbBarra() {
       ${fbTarjeta(datos)}
     </div></nav>`;
 }
+/** Todos tus años: un aro por año (verde si cerró con disponible, burdeos si no). Un toque lo mira; otro toque lo abre. */
+function fbAnios(datos, visto) {
+  const aHoy = hoyFecha().getFullYear(), conMovs = Object.keys(datos.porAnio).map(Number);
+  const desde = Math.min(aHoy, ...conMovs), hasta = aHoy + 1, anios = [];
+  for (let y = hasta; y >= desde; y--) anios.push(y);
+  return `<div class="fb-anios" role="group" aria-label="Todos tus años">${anios.map(y => { const t = datos.porAnio[y];
+    const col = !t?.n ? "" : t.disp >= 0 ? " bien" : " mal";
+    return `<button class="fb-anio${y === visto ? " viendo" : ""}${y === aHoy ? " actual" : ""}${col}" data-acc="fbAnioIr" data-arg="${y}" aria-label="${y}${t?.n ? `: disponible ${plata(t.disp)}` : ", sin movimientos"}" title="${y}${t?.n ? ` · disponible ${plata(t.disp)} · construido ${plata(t.construido)}` : " · sin movimientos"}">
+      <b>${y}</b><small>${t?.n ? plata(t.disp) : "—"}</small></button>`; }).join("")}
+    <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
+}
+ACC.fbMapa = () => { estado.fbMapa = !estado.fbMapa; fbRepintar(); };
+ACC.fbAnioIr = (_, y) => { const ver = fbVer(), n = Number(y); if (ver.a === n) { estado.fbMapa = false; elegir("a:" + n); return; } ver.a = n; fbRepintar(); };
 function fbRepintar() { const b = document.querySelector(".fb-barra"); if (b) b.outerHTML = fbBarra(); }
 ACC.fbAnio = (_, d) => { const ver = fbVer(); ver.a = Math.min(hoyFecha().getFullYear() + 1, ver.a + Number(d)); fbRepintar(); };
 ACC.fbMes = (_, d) => { const ver = fbVer(); ver.m += Number(d); if (ver.m < 1) { ver.m = 12; ver.a--; } if (ver.m > 12) { ver.m = 1; ver.a++; } fbRepintar(); };

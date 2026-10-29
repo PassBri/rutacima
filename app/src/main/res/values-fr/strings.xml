@@ -2778,4 +2778,7 @@
         <item>Investis d\'abord dans l\'apprentissage : c\'est l\'actif que personne ne t\'enlève.</item>
         <item>Chaque euro avec un but : c\'est ainsi qu\'on monte sans perdre son souffle.</item>
     </string-array>
+    <string name="fb_todos_anios">Voir toutes tes années</string>
+    <string name="fb_mapa_ayuda">Touche une année pour la voir ; touche-la encore pour l\'ouvrir.</string>
+    <string name="fb_balance_todos">Voir le bilan général</string>
 </resources>

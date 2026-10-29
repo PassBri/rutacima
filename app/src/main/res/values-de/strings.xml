@@ -2778,4 +2778,7 @@
         <item>Investiere zuerst ins Lernen: Dieses Vermögen nimmt dir niemand.</item>
         <item>Jeder Euro mit einem Zweck: So steigt man auf, ohne außer Atem zu kommen.</item>
     </string-array>
+    <string name="fb_todos_anios">Alle deine Jahre anzeigen</string>
+    <string name="fb_mapa_ayuda">Tippe auf ein Jahr, um es anzusehen; tippe erneut, um es zu öffnen.</string>
+    <string name="fb_balance_todos">Gesamtbilanz ansehen</string>
 </resources>

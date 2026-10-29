@@ -2778,4 +2778,7 @@
         <item>先投资学习：那是没人能拿走的资产。</item>
         <item>每一块钱都有去处：这样攀登才不会喘不过气。</item>
     </string-array>
+    <string name="fb_todos_anios">查看你的所有年份</string>
+    <string name="fb_mapa_ayuda">点按某一年查看；再点一次打开。</string>
+    <string name="fb_balance_todos">查看总体结余</string>
 </resources>
