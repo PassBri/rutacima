@@ -585,10 +585,12 @@ private fun androidx.compose.foundation.lazy.LazyListScope.propItems(propositos:
                 }
             }
             val cas = generales.getOrNull(Mandala.CAMPAMENTOS_FIJOS.indexOf(p.eje ?: "CON"))
-            val especificas = p.metasEspecificas.lines().map { it.trim() }.filter { it.isNotEmpty() }
+            // Cada meta específica una sola vez, con su número de paso de la Brújula
+            val vistas = HashSet<String>()
+            val especificas = p.metasEspecificas.lines().mapIndexed { i, x -> i to x.trim() }.filter { (_, x) -> x.isNotEmpty() && vistas.add(x.lowercase()) }
             if (especificas.isNotEmpty()) {
                 Text(stringResource(R.string.ev_prop_especificas), style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(top = 12.dp))
-                especificas.forEachIndexed { i, t -> val pe = cas?.let { pasoEval(it.id, i, t, mandala) }
+                especificas.forEach { (i, t) -> val pe = cas?.let { pasoEval(it.id, i, t, mandala) }
                     ResultadoEv(pe?.ok, t, pe?.takeIf { it.ok != true && it.jornadas > 0 }?.let { stringResource(R.string.ev_jornadas, it.jornadas, it.req) }) }
             }
             Separador(stringResource(R.string.ev_analisis), stringResource(R.string.ev_prop_analisis))

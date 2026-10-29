@@ -25,6 +25,12 @@ class SincroBrujula(private val db: RutaDatabase, private val respuestas: Respue
         const val PASOS = 8
         fun lineas(s: String): MutableList<String> = s.split("\n").map { it.trim() }.toMutableList()
         fun unir(ls: List<String>): String = ls.dropLastWhile { it.isEmpty() }.joinToString("\n")
+        /** Quita las sub-metas repetidas que se acumularon después de los 8 pasos (deja la primera; los pasos no se tocan). */
+        fun sinRepetidas(ls: List<String>): MutableList<String> {
+            val vistas = HashSet<String>()
+            return ls.filterIndexed { i, x -> val k = x.trim().lowercase()
+                if (k.isEmpty()) i < PASOS else if (k in vistas && i >= PASOS) false else { vistas.add(k); true } }.toMutableList()
+        }
         private fun ejeDe(cod: String): String? = if (cod == "CON") null else cod
         private fun nombre(c: VisionCasillaEntity) = c.afirmacion.ifBlank { c.titulo }.trim().take(120)
 
@@ -68,7 +74,7 @@ class SincroBrujula(private val db: RutaDatabase, private val respuestas: Respue
     }
 
     private suspend fun lineasCon(casilla: VisionCasillaEntity, actuales: String, r: Map<String, String>): String {
-        val ls = lineas(actuales); while (ls.size < PASOS) ls.add("")
+        val ls = sinRepetidas(lineas(actuales)); while (ls.size < PASOS) ls.add("")
         for (p in 0 until PASOS) {
             val t = r[Mandala.clave(casilla.id, p)].orEmpty().trim()
             if (t.isNotEmpty()) ls[p] = t

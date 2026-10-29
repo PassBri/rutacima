@@ -11,6 +11,9 @@ const Sincro = {
   PASOS: 8,
   lineas: s => String(s || "").split("\n").map(x => x.trim()),
   unir(ls) { const r = [...ls]; while (r.length && !r[r.length - 1]) r.pop(); return r.join("\n"); },
+  /** Quita las sub-metas repetidas que se acumularon después de los 8 pasos (deja la primera; los pasos no se tocan). */
+  sinRepetidas(ls) { const vistas = new Set(); return ls.filter((x, i) => { const k = x.trim().toLowerCase(); if (!k) return i < this.PASOS;
+    if (vistas.has(k) && i >= this.PASOS) return false; vistas.add(k); return true; }); },
   campo: anio => anio ? "subMetas" : "metasEspecificas",
   tipo: anio => anio ? "meta_anio" : "proposito",
   ejeDe: cod => cod === "CON" ? null : cod,
@@ -48,7 +51,7 @@ const Sincro = {
       const c = camps[Mandala.CAMPAMENTOS_FIJOS.indexOf(cod)]; if (!c) continue;
       let o = this.objetivo(anio, cod), nuevo = false;
       if (!o) { o = this.crear(anio, cod, c); nuevo = true; }
-      const ls = this.lineas(o[campo]); while (ls.length < this.PASOS) ls.push("");
+      const ls = this.sinRepetidas(this.lineas(o[campo])); while (ls.length < this.PASOS) ls.push("");
       for (let p = 0; p < this.PASOS; p++) {
         const t = respuesta(Mandala.clave(c.id, p)).trim();
         if (t) ls[p] = t; else if (ls[p]) await responderBase("mandala", Mandala.clave(c.id, p), ls[p]);

@@ -179,8 +179,10 @@
       const anios = [], hoyA = hoyFecha().getFullYear(); for (let y = ini; y <= fin; y++) anios.push(y);
       const pa = c.nodoProp(p), transcurrido = Math.max(0, Math.min(1, (hoyA - ini + 1) / Math.max(1, fin - ini + 1)));
       const k = `eval:p:${p.id}`, cas = window.Sincro ? Sincro.casillaDe("proposito", p) : null;
-      const especificas = String(p.metasEspecificas || "").split("\n").map(x => x.trim()).filter(Boolean);
-      const lineas = especificas.map((t, i) => { const x = cas ? MetodoCima.leer(cas.id, i) : null; return `<li>${resEv(x ? (x.cumplido ? true : x.jornadas.length ? null : false) : null)}<span class="ev-t">${esc(t)}</span>${x && !x.cumplido && x.jornadas.length ? `<small>${x.jornadas.length}/${x.req || MetodoCima.INICIAL} jornadas</small>` : ""}</li>`; }).join("");
+      // Cada meta específica una sola vez (con su número de paso de la Brújula)
+      const vistas = new Set(), especificas = String(p.metasEspecificas || "").split("\n").map((x, i) => [x.trim(), i])
+        .filter(([x]) => x && !vistas.has(x.toLowerCase()) && vistas.add(x.toLowerCase()));
+      const lineas = especificas.map(([t, i]) => { const x = cas ? MetodoCima.leer(cas.id, i) : null; return `<li>${resEv(x ? (x.cumplido ? true : x.jornadas.length ? null : false) : null)}<span class="ev-t">${esc(t)}</span>${x && !x.cumplido && x.jornadas.length ? `<small>${x.jornadas.length}/${x.req || MetodoCima.INICIAL} jornadas</small>` : ""}</li>`; }).join("");
       const dato = (t, v) => v && String(v).trim() ? `<div class="ev-dato"><span>${t}</span><p>${esc(v)}</p></div>` : "";
       return hoja(`<div class="ev-prop-cab"><i class="eje-punto" style="background:${COLOR_EJE[p.eje] || "var(--burdeos)"}"></i><div><h3>${esc(p.titulo)}</h3>
           <p class="suave">${ini}–${fin} · ${esc(NOMBRE_EJE[p.eje] || "Confluencia")}</p></div>${notaEv(pa)}</div>
