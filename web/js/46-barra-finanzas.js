@@ -163,14 +163,30 @@ function fbBarra() {
   const nav = (sel, i, txt) => `<button class="rv-nav-item" data-sel="${sel}" aria-pressed="${v === sel}">${ic(i)}<span>${txt}</span></button>`;
 
   const panel = fbPanel();
-  const btn = (attrs, i, t, on) => `<button class="fb-r" ${attrs}${on != null ? ` aria-pressed="${on}"` : ""} aria-label="${t}" data-tip="${t}">${ic(i)}</button>`;
+  const btn = (attrs, i, t, on) => `<button class="fb-r" type="button" ${attrs}${on != null ? ` aria-pressed="${on}"` : ""} aria-label="${t}">${ic(i)}</button>`;
+  // El riel en grupos: navegar · ver · panorama · planear · herramientas (las de la cabecera viven aquí)
+  const ATJ = Object.fromEntries(ATAJOS.map(x => [x[0], x]));
+  const atj = k => { const [sel, i, t] = ATJ[k]; return btn(`data-sel="${sel}"`, i, t, v === sel); };
+  const amplia = document.getElementById("pantallaApp")?.classList.contains("amplia");
+  const candado = typeof bloqueoFin === "function"
+    ? (bloqueoFin() ? btn('data-acc="ascBloquearSalir"', "candado", "Bloquear y salir") : btn('data-acc="ascProteger"', "candado", "Proteger con PIN")) : "";
+  const sep = `<hr class="fb-sep" aria-hidden="true">`;
   const riel = `<div class="fb-riel" role="toolbar" aria-label="Ascenso financiero" aria-orientation="vertical">
       ${btn(arriba ? `data-sel="${arriba}"` : "disabled", "volver", "Subir un nivel (Esc)")}
+      ${sep}
       ${btn('data-acc="fbPestana" data-arg="cal"', "calendario", "Calendario", panel === "cal")}
       ${btn('data-acc="fbPestana" data-arg="resumen"', "lista", "Resumen del mes", panel === "resumen")}
-      <hr class="fb-sep" aria-hidden="true">
-      ${ATAJOS.map(([sel, i, t]) => btn(`data-sel="${sel}"`, i, t, v === sel)).join("")}
-      ${btn('data-acc="ascInforme"', "pdf", "Informe PDF")}
+      ${sep}
+      ${atj("b")}${atj("grafica")}${atj("salud")}
+      ${sep}
+      ${atj("fijos")}${atj("metasfin")}${atj("deudas")}${atj("patrimonio")}
+      ${sep}
+      ${btn(`data-acc="ascDeshacer" ${HIST.atras.length ? "" : "disabled"}`, "deshacer", "Deshacer (Ctrl+Z)")}
+      ${btn(`data-acc="ascRehacer" ${HIST.adelante.length ? "" : "disabled"}`, "rehacer", "Rehacer (Ctrl+Shift+Z)")}
+      ${btn('data-acc="ascOjo"', estado.ascOculto ? "ojoNo" : "ojo", estado.ascOculto ? "Mostrar montos" : "Ocultar montos")}
+      ${candado}
+      ${btn('data-acc="ascInforme"', "descargar", "Descargar el análisis completo")}
+      <button class="fb-r tam-cab" type="button" data-tam="${amplia ? "normal" : "amplia"}" aria-label="${amplia ? "Volver al tamaño normal" : "Ampliar la pantalla"}">${ic(amplia ? "salirPantalla" : "pantallaCompleta")}</button>
     </div>`;
   const cal = `<div class="rv-paso"><button class="rv-flecha" data-acc="fbAnio" data-arg="-1" aria-label="Año anterior">${ic("izq")}</button>
         <button class="rv-titulo${l.a === a && !l.m ? " abierto" : ""}" data-acc="fbMapa" aria-expanded="${!!estado.fbMapa}" title="Ver todos tus años">${a}<small>${datos.porAnio[a] ? `${plata(datos.porAnio[a].disp)} libre` : "sin movimientos"} ${ic(estado.fbMapa ? "arriba" : "abajo")}</small></button>
@@ -260,3 +276,28 @@ document.addEventListener("keydown", e => {
   if (!paso || !v.startsWith("d:")) return;
   e.preventDefault(); const f = deIso(v.slice(2)); f.setDate(f.getDate() + paso); elegir("d:" + iso(f));
 });
+
+/* Leyenda de los botones de solo ícono (riel financiero y tipos de meta): una etiqueta flotante que no se corta
+   aunque el riel tenga desplazamiento. Aparece al pasar el mouse o al llegar con el teclado. */
+{
+  let tip = null, sobre = null;
+  const SEL = ".fb-r, .mf-tipo";
+  const mostrar = b => {
+    const t = b.getAttribute("aria-label"); if (!t) return;
+    tip ||= Object.assign(document.createElement("div"), { className: "ic-tip", role: "tooltip" });
+    if (!tip.isConnected) document.body.append(tip);
+    tip.textContent = t; tip.classList.remove("ver");
+    const r = b.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight, enRiel = b.matches(".fb-r") && !matchMedia("(max-width: 900px)").matches;
+    let x = enRiel ? r.left - w - 8 : r.left + r.width / 2 - w / 2, y = enRiel ? r.top + r.height / 2 - h / 2 : r.bottom + 6;
+    x = Math.max(6, Math.min(innerWidth - w - 6, x)); if (y + h > innerHeight - 6) y = r.top - h - 6;
+    tip.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    requestAnimationFrame(() => tip.classList.add("ver"));
+  };
+  const ocultar = () => tip?.classList.remove("ver");
+  const fino = matchMedia("(hover: hover) and (pointer: fine)");
+  document.addEventListener("pointerover", e => { if (!fino.matches) return; const b = e.target.closest?.(SEL); if (b === sobre) return; sobre = b; b ? mostrar(b) : ocultar(); });
+  document.addEventListener("focusin", e => { const b = e.target.closest?.(SEL); if (b && b.matches(":focus-visible")) mostrar(b); else ocultar(); });
+  document.addEventListener("focusout", ocultar);
+  document.addEventListener("click", () => { sobre = null; ocultar(); }, true);
+  document.addEventListener("scroll", ocultar, true);
+}

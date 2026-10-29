@@ -85,7 +85,7 @@ DET["finanzas.metasfin"] = () => {
       <button class="btn lleno" data-acc="metaFinFondo">${ic("mas")} Crear mi fondo</button></div>`) : "") +
     (l.length ? `<div class="metas-fin">${l.map(tarjeta).join("")}</div>` : hoja(`<div class="mf-vacio">${ic("alcancia", "i grande")}<h3>¿Qué quieres lograr con tu dinero?</h3><p class="suave">Una meta clara es la mitad del camino. Escoge una, di cuánto y para cuándo: te diré cuánto aportar cada mes y si vas a tiempo.</p></div>`)) +
     hoja(`<h3 style="margin:0 0 4px">Nueva meta</h3><p class="suave" style="margin:0 0 12px">Escoge el tipo y escribe cuánto quieres reunir. La fecha es opcional, pero con ella sabrás cuánto aportar al mes.</p>
-      <div class="mf-tipos" role="radiogroup" aria-label="Tipo de meta">${TIPOS_META.map(([k, n, i, , d], j) => `<button type="button" role="radio" aria-checked="${(estado.metaTipo || "viaje") === k}" class="mf-tipo" data-acc="metaFinTipo" data-arg="${k}" title="${d}">${ic(i)}<span>${n}</span></button>`).join("")}</div>
+      <div class="mf-tipos" role="radiogroup" aria-label="Tipo de meta">${TIPOS_META.map(([k, n, i, , d], j) => `<button type="button" role="radio" aria-checked="${(estado.metaTipo || "viaje") === k}" class="mf-tipo" data-acc="metaFinTipo" data-arg="${k}" aria-label="${n}">${ic(i)}</button>`).join("")}</div>
       <form class="asc-nuevo" data-form="metaFinNueva" style="margin-top:12px"><div class="asc-fila-nueva">
         <label class="campo"><span>Nombre</span><input name="texto" maxlength="60" autocomplete="off" placeholder="${esc(tipoMeta(estado.metaTipo || "viaje")[1])}"></label>
         <label class="campo"><span>Cuánto quieres reunir</span><input name="objetivo" inputmode="decimal" autocomplete="off" placeholder="${plata(0)}" required></label>

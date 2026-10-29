@@ -113,7 +113,7 @@ private fun colorCierre(t: Cuentas.Suma, verde: Color, oro: Color, burdeos: Colo
 
 @OptIn(ExperimentalLayoutApi::class, androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, nacimiento: Int? = null, vida: Int = 100, onInforme: () -> Unit) {
+fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, nacimiento: Int? = null, vida: Int = 100, onInforme: () -> Unit, herramientas: @Composable (Color) -> Unit = {}) {
     val h = hoy()
     val ctx = androidx.compose.ui.platform.LocalContext.current
     // Lo que muestra el centro manda; las flechas solo miran otro año o mes sin abrirlo
@@ -144,21 +144,26 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
         Column {
             // Riel de íconos (como la barra de la izquierda en la web): subir, calendario, resumen y los atajos uno tras otro,
             // solo íconos verdes; el nombre aparece al dejar el dedo encima. Calendario y resumen se despliegan debajo.
-            val atajos = listOf<Triple<NivelCuentas?, androidx.compose.ui.graphics.vector.ImageVector, Int>>(
-                Triple(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance), Triple(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos),
-                Triple(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas), Triple(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo),
-                Triple(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud), Triple(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo),
-                Triple(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo), Triple(null, Icons.Filled.PictureAsPdf, R.string.fb_informe),
-            )
+            // En grupos: navegar · ver · panorama · planear · herramientas (igual que la web)
+            @Composable fun atajo(n: NivelCuentas, ic: androidx.compose.ui.graphics.vector.ImageVector, t: Int) = BotonRiel(ic, stringResource(t), n == nivel, verdeRiel) { ir(n) }
+            @Composable fun separador() = Box(Modifier.padding(horizontal = 6.dp).width(1.dp).height(24.dp).background(MaterialTheme.colorScheme.outlineVariant))
             Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 4.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
                 BotonRiel(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.fb_subir), false, verdeRiel, enabled = nivel.arriba() != null) { nivel.arriba()?.let(ir) }
+                separador()
                 BotonRiel(Icons.Filled.CalendarMonth, stringResource(R.string.fb_tab_calendario), panel == 0, verdeRiel) { cambiarPanel(0) }
                 BotonRiel(Icons.AutoMirrored.Filled.ViewList, stringResource(R.string.fb_tab_resumen), panel == 2, verdeRiel) { cambiarPanel(2) }
-                Box(Modifier.padding(horizontal = 6.dp).width(1.dp).height(24.dp).background(MaterialTheme.colorScheme.outlineVariant))
-                atajos.forEach { (n, ic, s) ->
-                    BotonRiel(ic, stringResource(s), n != null && n == nivel, verdeRiel) { if (n == null) onInforme() else ir(n) }
-                }
+                separador()
+                atajo(NivelCuentas.Balance, Icons.Filled.AttachMoney, R.string.cu_balance)
+                atajo(NivelCuentas.GraficaN, Icons.Filled.CandlestickChart, R.string.gr_titulo)
+                atajo(NivelCuentas.SaludN(null), Icons.Filled.MonitorHeart, R.string.cu_salud)
+                separador()
+                atajo(NivelCuentas.FijosN, Icons.Filled.Repeat, R.string.fb_fijos)
+                atajo(NivelCuentas.MetasN, Icons.Filled.Savings, R.string.mf_titulo)
+                atajo(NivelCuentas.DeudasN, Icons.Filled.CreditCard, R.string.cu_deudas)
+                atajo(NivelCuentas.PatrimonioN, Icons.Filled.AccountBalance, R.string.cu_patrimonio_titulo)
+                separador()
+                herramientas(verdeRiel)
             }
             AnimatedVisibility(panel >= 0) {
                 Column(Modifier.heightIn(max = 560.dp).verticalScroll(rememberScrollState()).padding(start = 12.dp, end = 12.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -383,7 +388,7 @@ private fun AsiVaElMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, diasCon:
 /** Botón del riel: solo ícono verde en un círculo; el activo lleva un fondo verde suave. El nombre sale al dejar el dedo encima. */
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-private fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, nombre: String, activo: Boolean, verde: Color, enabled: Boolean = true, onClick: () -> Unit) {
+internal fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, nombre: String, activo: Boolean, verde: Color, enabled: Boolean = true, onClick: () -> Unit) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = { PlainTooltip { Text(nombre) } },

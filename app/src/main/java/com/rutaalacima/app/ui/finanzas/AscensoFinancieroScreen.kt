@@ -622,51 +622,11 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
         containerColor = Color.Transparent,
         snackbarHost = { SnackbarHost(avisos) },
         topBar = {
-            // Con cinco acciones, el título baja a su propio renglón (igual que la web en el celular)
-            androidx.compose.material3.MediumTopAppBar(
+            // Las herramientas viven en el riel de la barra: arriba solo queda el título
+            androidx.compose.material3.TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
                 title = { Text(stringResource(R.string.cu_titulo), maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis) },
                 navigationIcon = { IconButton(onClick = { nivel.arriba()?.let(ir) ?: onBack() }) { Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(R.string.volver)) } },
-                actions = {
-                    if (!bloqueado) {
-                        val deshecho = stringResource(R.string.cu_deshecho); val rehecho = stringResource(R.string.cu_rehecho)
-                        IconButton(onClick = { vm.deshacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(deshecho) } }, enabled = vm.puedeDeshacer) {
-                            Icon(Icons.AutoMirrored.Filled.Undo, stringResource(R.string.cu_deshacer_ultimo))
-                        }
-                        IconButton(onClick = { vm.rehacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(rehecho) } }, enabled = vm.puedeRehacer) {
-                            Icon(Icons.AutoMirrored.Filled.Redo, stringResource(R.string.cu_rehacer))
-                        }
-                    }
-                    if (!bloqueado) {
-                        val ctxI = androidx.compose.ui.platform.LocalContext.current; val listoPdf = stringResource(R.string.cu_informe_pdf)
-                        IconButton(onClick = { InformeFinanciero.imprimir(ctxI, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoPdf) }) {
-                            Icon(Icons.Filled.Download, stringResource(R.string.cu_informe))
-                        }
-                    }
-                    // Candado: con bloqueo activo, cierra el módulo y sale; sin él, ofrece activarlo (igual que la web)
-                    if (!bloqueado) {
-                        var proteger by remember { mutableStateOf(false) }
-                        val ctxL = androidx.compose.ui.platform.LocalContext.current
-                        val sinBloqueoTel = stringResource(R.string.cu_sin_bloqueo_tel); val cerrado = stringResource(R.string.cu_bloqueado_aviso)
-                        IconButton(onClick = {
-                            if (libro.bloqueo) { vm.abiertoHasta = 0L; com.rutaalacima.app.seguridad.FinCifrado.cerrar(); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(cerrado); onBack() }
-                            else proteger = true
-                        }) { Icon(Icons.Filled.Lock, stringResource(if (libro.bloqueo) R.string.cu_bloquear_salir else R.string.cu_capa_bloqueo)) }
-                        if (proteger) androidx.compose.material3.AlertDialog(onDismissRequest = { proteger = false },
-                            icon = { Icon(Icons.Filled.Lock, null) },
-                            title = { Text(stringResource(R.string.cu_capa_bloqueo)) },
-                            text = { Text(stringResource(R.string.cu_capa_bloqueo_d)) },
-                            confirmButton = { androidx.compose.material3.TextButton(onClick = {
-                                proteger = false
-                                if (!com.rutaalacima.app.seguridad.Bloqueo.biometriaDisponible(ctxL) && !com.rutaalacima.app.seguridad.Bloqueo.tieneClave(ctxL)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueoTel)
-                                else { vm.bloqueo(true); vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
-                            }) { Text(stringResource(R.string.cu_activar_bloqueo)) } },
-                            dismissButton = { androidx.compose.material3.TextButton(onClick = { proteger = false }) { Text(stringResource(R.string.cancelar)) } })
-                    }
-                    if (!bloqueado) IconButton(onClick = { vm.oculto = !vm.oculto }) {
-                        Icon(if (vm.oculto) Icons.Filled.VisibilityOff else Icons.Filled.Visibility, stringResource(if (vm.oculto) R.string.cu_mostrar_montos else R.string.cu_ocultar_montos))
-                    }
-                },
             )
         },
     ) { padding ->
@@ -683,7 +643,35 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
             // La barra del Ascenso (igual que Mi ruta y la web): año, meses, días, atajos y «así va el mes», plegable
             val ctxB = androidx.compose.ui.platform.LocalContext.current; val listoB = stringResource(R.string.cu_informe_pdf)
             val perfilB by vm.perfil.collectAsStateWithLifecycle(initialValue = com.rutaalacima.app.data.local.PerfilEntity())
-            BarraFinanzas(nivel, libro, plata, ir, nacimiento = perfilB.anioNacimiento, vida = perfilB.esperanzaVida ?: 100, onInforme = { InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) })
+            BarraFinanzas(nivel, libro, plata, ir, nacimiento = perfilB.anioNacimiento, vida = perfilB.esperanzaVida ?: 100, onInforme = { InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) }) { verdeR ->
+                // Herramientas (antes en la barra de arriba): deshacer, rehacer, ocultar montos, candado y descargar el análisis
+                val deshecho = stringResource(R.string.cu_deshecho); val rehecho = stringResource(R.string.cu_rehecho)
+                BotonRiel(Icons.AutoMirrored.Filled.Undo, stringResource(R.string.cu_deshacer_ultimo), false, verdeR, enabled = vm.puedeDeshacer) {
+                    vm.deshacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(deshecho) } }
+                BotonRiel(Icons.AutoMirrored.Filled.Redo, stringResource(R.string.cu_rehacer), false, verdeR, enabled = vm.puedeRehacer) {
+                    vm.rehacer { if (it) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(rehecho) } }
+                BotonRiel(if (vm.oculto) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                    stringResource(if (vm.oculto) R.string.cu_mostrar_montos else R.string.cu_ocultar_montos), vm.oculto, verdeR) { vm.oculto = !vm.oculto }
+                // Candado: con bloqueo activo, cierra el módulo y sale; sin él, ofrece activarlo (igual que la web)
+                var proteger by remember { mutableStateOf(false) }
+                val sinBloqueoTel = stringResource(R.string.cu_sin_bloqueo_tel); val cerrado = stringResource(R.string.cu_bloqueado_aviso)
+                BotonRiel(Icons.Filled.Lock, stringResource(if (libro.bloqueo) R.string.cu_bloquear_salir else R.string.cu_capa_bloqueo), false, verdeR) {
+                    if (libro.bloqueo) { vm.abiertoHasta = 0L; com.rutaalacima.app.seguridad.FinCifrado.cerrar(); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(cerrado); onBack() }
+                    else proteger = true
+                }
+                if (proteger) androidx.compose.material3.AlertDialog(onDismissRequest = { proteger = false },
+                    icon = { Icon(Icons.Filled.Lock, null) },
+                    title = { Text(stringResource(R.string.cu_capa_bloqueo)) },
+                    text = { Text(stringResource(R.string.cu_capa_bloqueo_d)) },
+                    confirmButton = { androidx.compose.material3.TextButton(onClick = {
+                        proteger = false
+                        if (!com.rutaalacima.app.seguridad.Bloqueo.biometriaDisponible(ctxB) && !com.rutaalacima.app.seguridad.Bloqueo.tieneClave(ctxB)) com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(sinBloqueoTel)
+                        else { vm.bloqueo(true); vm.abiertoHasta = System.currentTimeMillis() + libro.minutosCierre * 60_000L }
+                    }) { Text(stringResource(R.string.cu_activar_bloqueo)) } },
+                    dismissButton = { androidx.compose.material3.TextButton(onClick = { proteger = false }) { Text(stringResource(R.string.cancelar)) } })
+                BotonRiel(Icons.Filled.Download, stringResource(R.string.cu_informe), false, verdeR) {
+                    InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) }
+            }
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
                 LazyColumn(

@@ -4781,3 +4781,20 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-tasa i { position: absolute; left: 20%; top: -3px; bottom: -3px; width: 2px; border-radius: 1px; background: var(--tinta); }
 .fb-res-vacio { margin: 10px 2px 0; font-size: 13px; color: var(--tinta-suave); }
 .fb-hoja .fb-cordillera { border-top: 1px solid var(--linea); padding-top: 12px; }
+
+/* Leyenda flotante de los botones de solo ícono */
+.ic-tip { position: fixed; left: 0; top: 0; z-index: 9999; padding: 6px 10px; border-radius: 8px; background: var(--tinta); color: var(--hoja);
+  font-size: 12.5px; font-weight: 500; line-height: 1.2; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .12s cubic-bezier(.2,0,0,1); }
+.ic-tip.ver { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .ic-tip { transition: none; } }
+/* El riel financiero lleva también las herramientas de la cabecera: allá ya no se repiten */
+#detalle.con-fin .det-cab .rb:not(.volver) { display: none; }
+#detalle.con-fin .fb-riel { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; gap: 2px; }
+#detalle.con-fin .fb-riel::-webkit-scrollbar { display: none; }
+.fb-r { width: 40px; height: 40px; }
+.fb-r svg { width: 21px; height: 21px; }
+.fb-sep { margin: 4px 0; }
+.fb-r.tam-cab { color: var(--fb-verde); }
+/* Tipos de meta: solo íconos, el nombre aparece al pasar el mouse */
+.mf-tipos { grid-template-columns: repeat(auto-fill, 52px); gap: 8px; }
+.mf-tipo { width: 52px; height: 52px; padding: 0; place-items: center; border-radius: 14px; }
