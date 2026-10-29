@@ -4660,3 +4660,13 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .fb-link { border: 0; background: none; padding: 0; color: var(--burdeos); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .fb-anios { animation: none; } }
 .fb-anio.justo { border-color: color-mix(in srgb, var(--oro) 70%, transparent); }
+/* Todos tus años en el Ascenso financiero: el color del aro dice cómo cerró ese año */
+.fb-mapa .pv.fin-bien { color: var(--ok, #2E6B3A); }
+.fb-mapa .pv.fin-justo { color: var(--oro); }
+.fb-mapa .pv.fin-mal { color: var(--burdeos); }
+.fb-mapa .pv.fin-sin { color: color-mix(in srgb, var(--tinta) 32%, transparent); }
+.fb-mapa .pv.fin-sin .pv-aro { stroke-width: 4.5; }
+.fb-mapa-ley { display: flex; flex-wrap: wrap; gap: 2px 10px; margin: 6px 4px 0; font-size: 10.5px; color: var(--tinta-suave); }
+.fb-mapa-ley span { display: inline-flex; align-items: center; gap: 4px; }
+.fb-mapa-ley i { width: 8px; height: 8px; border-radius: 50%; border: 2px solid; }
+.fb-mapa-ley i.bien { border-color: var(--ok, #2E6B3A); } .fb-mapa-ley i.justo { border-color: var(--oro); } .fb-mapa-ley i.mal { border-color: var(--burdeos); }

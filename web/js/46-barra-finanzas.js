@@ -151,14 +151,31 @@ function fbBarra() {
       ${fbTarjeta(datos)}
     </div></nav>`;
 }
-/** Todos tus años: un aro por año (verde si cerró con disponible, burdeos si no). Un toque lo mira; otro toque lo abre. */
+/** Todos tus años en miniatura (igual que Mi ruta): un aro por año de tu vida, una fila por década.
+ *  El color dice cómo cerró: verde (sobró o todo tuvo destino), dorado (en cero sin ahorro), burdeos (salió más).
+ *  Un toque mira ese año; otro toque lo abre. */
 function fbAnios(datos, visto) {
+  const nac = perfil().anioNacimiento, aHoy = hoyFecha().getFullYear();
+  if (!nac) return fbAniosLista(datos, visto);
+  let h = "";
+  for (let i = 0; i < metaVida(); i++) {
+    const y = nac + i, t = datos.porAnio[y], cls = y < aHoy ? "vivido" : y === aHoy ? "actual" : "futuro";
+    const fin = t?.n ? " fin-" + fbEstado(t) : y <= aHoy ? " fin-sin" : "";
+    if (i % 10 === 0) h += `${i ? "</div>" : ""}<div class="rv-dec"><small>${i}</small>`;
+    h += `<button class="rv-mini${y === visto ? " viendo" : ""}" data-acc="fbAnioIr" data-arg="${y}" aria-label="${y}, ${i} años${t?.n ? `: disponible ${plata(t.disp)}` : ", sin movimientos"}" title="${y} · ${i} años${t?.n ? ` · disponible ${plata(t.disp)} · construido ${plata(t.construido)}` : " · sin movimientos"}">
+      <span class="pv ${cls}${fin}" aria-hidden="true">${PUNTO_MARCA}</span></button>`;
+  }
+  return `<div class="rv-mapa fb-mapa" role="group" aria-label="Todos tus años">${h}</div>
+    <p class="fb-mapa-ley"><span><i class="bien"></i>Sobró o todo tuvo destino</span><span><i class="justo"></i>En cero sin ahorro</span><span><i class="mal"></i>Salió más</span></p>
+    <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
+}
+/** Sin año de nacimiento: los años con movimientos, en tarjetas. */
+function fbAniosLista(datos, visto) {
   const aHoy = hoyFecha().getFullYear(), conMovs = Object.keys(datos.porAnio).map(Number);
-  const desde = Math.min(aHoy, ...conMovs), hasta = aHoy + 1, anios = [];
-  for (let y = hasta; y >= desde; y--) anios.push(y);
+  const desde = Math.min(aHoy, ...conMovs), anios = [];
+  for (let y = aHoy + 1; y >= desde; y--) anios.push(y);
   return `<div class="fb-anios" role="group" aria-label="Todos tus años">${anios.map(y => { const t = datos.porAnio[y];
-    const col = !t?.n ? "" : " " + fbEstado(t);
-    return `<button class="fb-anio${y === visto ? " viendo" : ""}${y === aHoy ? " actual" : ""}${col}" data-acc="fbAnioIr" data-arg="${y}" aria-label="${y}${t?.n ? `: disponible ${plata(t.disp)}` : ", sin movimientos"}" title="${y}${t?.n ? ` · disponible ${plata(t.disp)} · construido ${plata(t.construido)}` : " · sin movimientos"}">
+    return `<button class="fb-anio${y === visto ? " viendo" : ""}${y === aHoy ? " actual" : ""}${t?.n ? " " + fbEstado(t) : ""}" data-acc="fbAnioIr" data-arg="${y}" aria-label="${y}${t?.n ? `: disponible ${plata(t.disp)}` : ", sin movimientos"}">
       <b>${y}</b><small>${t?.n ? plata(t.disp) : "—"}</small></button>`; }).join("")}
     <p class="rv-mapa-ayuda">Toca un año para verlo; tócalo otra vez para abrirlo. <button class="fb-link" data-sel="b">Ver el balance de todos</button></p></div>`;
 }

@@ -102,7 +102,7 @@ private fun colorCierre(t: Cuentas.Suma, verde: Color, oro: Color, burdeos: Colo
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, onInforme: () -> Unit) {
+fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, ir: (NivelCuentas) -> Unit, nacimiento: Int? = null, vida: Int = 100, onInforme: () -> Unit) {
     val h = hoy()
     // Lo que muestra el centro manda; las flechas solo miran otro año o mes sin abrirlo
     val lugarA = when (nivel) { is NivelCuentas.Anio -> nivel.a; is NivelCuentas.Mes -> nivel.ym.year; is NivelCuentas.Dia -> nivel.f.year; else -> null }
@@ -150,7 +150,31 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                         }
                         IconButton(onClick = { verA++ }, enabled = verA <= h.year) { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, stringResource(R.string.siguiente)) }
                     }
-                    if (mapa) {
+                    if (mapa && nacimiento != null) {
+                        // Todos tus años en miniatura: un aro por año de vida, una fila por década; el color dice cómo cerró
+                        Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surfaceContainerHigh) {
+                            Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                (0 until vida).chunked(10).forEach { dec ->
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Text("${dec.first()}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(20.dp))
+                                        dec.forEach { i ->
+                                            val y = nacimiento + i; val t = porAnio["$y"]
+                                            val c = when { t != null && t.n > 0 -> colorCierre(t, verde, oro, burdeos); y <= h.year -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f); else -> MaterialTheme.colorScheme.outlineVariant }
+                                            Box(Modifier.weight(1f).aspectRatio(1f).clip(CircleShape).background(if (y == verA) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent)
+                                                .clickable { if (y == verA) { mapa = false; ir(NivelCuentas.Anio(y)) } else verA = y }
+                                                .semantics { contentDescription = "$y" }, contentAlignment = Alignment.Center) {
+                                                Canvas(Modifier.fillMaxWidth(0.7f).aspectRatio(1f)) {
+                                                    drawCircle(c, size.minDimension / 2 - 1.5.dp.toPx(), style = Stroke((if (y == h.year) 2.4 else if (t != null && t.n > 0) 2.0 else 1.2).dp.toPx()))
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                Text(stringResource(R.string.fb_mapa_ayuda), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 4.dp))
+                                TextButton(onClick = { mapa = false; ir(NivelCuentas.Balance) }, modifier = Modifier.align(Alignment.CenterHorizontally)) { Text(stringResource(R.string.fb_balance_todos)) }
+                            }
+                        }
+                    } else if (mapa) {
                         val desde = minOf(h.year, porAnio.keys.mapNotNull { it.toIntOrNull() }.minOrNull() ?: h.year)
                         Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surfaceContainerHigh) {
                             Column(Modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {

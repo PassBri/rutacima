@@ -177,6 +177,8 @@ data class Libro(val dias: Map<String, List<Mov>> = emptyMap(), val moneda: Stri
 fun llaveOrden(x: Mov) = x.fx?.let { "fx:$it" } ?: x.id
 
 class CuentasViewModel(private val c: AppContainer) : ViewModel() {
+    /** Año de nacimiento y años de vida: para ver todos tus años en miniatura en la barra (igual que Mi ruta). */
+    val perfil = c.perfil.perfil
     val libro: StateFlow<Libro> = combine(c.respuestas.observar(Cuentas.WB), c.agenda.conFinanzas) { r, agendas ->
         val dias = mutableMapOf<String, MutableList<Mov>>()
         agendas.forEach { a -> Cuentas.deAgenda(a.ingresos, a.gastos, a.ahorro, a.inversion).takeIf { it.isNotEmpty() }?.let { dias.getOrPut(a.fecha) { mutableListOf() } += it } }
@@ -680,7 +682,8 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
             // La barra del Ascenso (igual que Mi ruta y la web): año, meses, días, atajos y «así va el mes», plegable
             val ctxB = androidx.compose.ui.platform.LocalContext.current; val listoB = stringResource(R.string.cu_informe_pdf)
-            BarraFinanzas(nivel, libro, plata, ir, onInforme = { InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) })
+            val perfilB by vm.perfil.collectAsStateWithLifecycle(initialValue = com.rutaalacima.app.data.local.PerfilEntity())
+            BarraFinanzas(nivel, libro, plata, ir, nacimiento = perfilB.anioNacimiento, vida = perfilB.esperanzaVida ?: 100, onInforme = { InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) })
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
                 LazyColumn(
