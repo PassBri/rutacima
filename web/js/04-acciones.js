@@ -413,14 +413,23 @@ async function enviar(e) {
     case "comentar": {
       const p = estado.post; if (!texto || !p) break;
       f.reset();
-      if (p.demo || !Store.nube) (demoComentarios[p.id] ||= []).push({ autor: perfil().nombre || "Yo", texto });
-      else { const r = await Store.nube.sb.from("comments").insert({ post_id: p.id, user_id: Store.nube.dueno, texto }); if (r.error) { errorNube(r.error); break; } }
+      // Lanzar una cuerda: el comentario puede ser una pregunta, un consejo o "yo también lo intento"
+      const cuerda = estado.cuerda || null; estado.cuerda = null;
+      if (p.demo || !Store.nube) (demoComentarios[p.id] ||= []).push({ autor: perfil().nombre || "Yo", texto, cuerda });
+      else {
+        const fila = { post_id: p.id, user_id: Store.nube.dueno, texto };
+        let r = await Store.nube.sb.from("comments").insert(cuerda ? { ...fila, cuerda } : fila);
+        if (r.error && cuerda && /cuerda/.test(r.error.message || "")) r = await Store.nube.sb.from("comments").insert(fila);
+        if (r.error) { errorNube(r.error); break; }
+      }
       p.comentariosLista = null; await cargarComentarios(p); globalThis.pintarHojaComentarios?.(p);
     } break;
     case "publicar": {
       if (!texto) break;
       const boton = f.querySelector("button[type=submit]"); boton.disabled = true; boton.textContent = "Publicando…";
       const post = { tipo: datos.get("tipo"), eje: datos.get("eje") || null, visibilidad: datos.get("visibilidad"), meta_titulo: datos.get("meta") || "", texto, anio: new Date().getFullYear() };
+      // Lo que hace distinta a SuRoute: el camino detrás (racha y pasos), el compromiso con fecha y la carta sellada
+      const extra = window.extrasPublicar?.(datos) || {};
       try {
         if (Store.nube) {
           const sb = Store.nube.sb, id = crypto.randomUUID(), foto = estado.fotoEditada || datos.get("foto");
@@ -436,18 +445,21 @@ async function enviar(e) {
             url = sb.storage.from("media").getPublicUrl(ruta).data.publicUrl;
           }
           // Se pide la fila de vuelta: así se sabe que quedó guardada y que tu cuenta puede verla
-          let r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post, ...(media ? { media } : {}) }).select().single();
+          let r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post, ...extra, ...(media ? { media } : {}) }).select().single();
+          // Sin las columnas nuevas en la base (falta correr supabase/2026-10-29-comunidad-viva.sql): se publica igual, sin ellas
+          if (r.error && /camino|compromiso|sello/.test(r.error.message || "")) r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post, ...(media ? { media } : {}) }).select().single();
           if (r.error && media && /media/.test(r.error.message || "")) r = await sb.from("posts").insert({ id, user_id: Store.nube.dueno, image_url: url, ...post }).select().single();
           if (r.error) throw r.error;
           const nuevo = { id, anio: post.anio, autorId: Store.nube.dueno, autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, foto: url,
-            metaTitulo: post.meta_titulo, visibilidad: post.visibilidad, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.parse(r.data?.created_at) || Date.now(), propio: true, media: media || [] };
+            metaTitulo: post.meta_titulo, visibilidad: post.visibilidad, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.parse(r.data?.created_at) || Date.now(), propio: true, media: media || [],
+            ...(window.extrasPost?.(r.data || {}) || {}) };
           estado.mediaPendiente = null;
           (estado.misRecientes ||= []).unshift(nuevo); estado.misPosts = null;
           if (post.visibilidad !== "PRIVADA") estado.feed = [nuevo, ...(estado.feed || []).filter(p => p.id !== id)];
           estado.fotoEditada = null; toast(post.visibilidad === "PRIVADA" ? "Guardado en Mis publicaciones (solo tú lo ves)" : "Publicado");
           ir("comunidad", null); break;
         } else {
-          misPostsDemo.unshift({ id: "mio-" + nuevoId(), autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, metaTitulo: post.meta_titulo, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, demo: false });
+          misPostsDemo.unshift({ id: "mio-" + nuevoId(), autorNombre: perfil().nombre || "Yo", tipo: post.tipo, eje: post.eje, texto, metaTitulo: post.meta_titulo, impulsos: 0, comentarios: 0, yoImpulse: false, creadoEn: Date.now(), propio: true, demo: false, ...(window.extrasPost?.(extra) || {}) });
         }
         estado.feed = null; estado.misPosts = null; estado.fotoEditada = null; toast("Publicado"); ir("comunidad", null);
       } catch (err) { errorNube(err); boton.disabled = false; boton.textContent = "Publicar"; }

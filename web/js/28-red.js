@@ -185,7 +185,8 @@ async function ordenarParaTi(ps) {
   const puntaje = p => {
     const h = Math.max(0, (ahora - p.creadoEn) / 36e5);
     return (1 + Math.log2(1 + (p.impulsos || 0)) * 1.5 + Math.log2(1 + (p.comentarios || 0)) * 2) / Math.pow(h + 2, 0.75)
-      * (sigo.has(p.autorId) ? 1.8 : 1) * (p.eje && ejes.has(p.eje) ? 1.4 : 1) * (p.foto ? 1.15 : 1) * (p.propio ? 0.6 : 1);
+      * (sigo.has(p.autorId) ? 1.8 : 1) * (p.eje && ejes.has(p.eje) ? 1.4 : 1) * (p.foto ? 1.15 : 1) * (p.propio ? 0.6 : 1)
+      * (window.bonoTramo ? bonoTramo(p) : 1);   // primero lo que te ayuda a subir: tu tramo y el camino real detrás
   };
   const resto = [...ps].sort((a, b) => puntaje(b) - puntaje(a)), r = [];
   // Variedad: no más de una publicación seguida de la misma persona si hay otras
@@ -305,7 +306,7 @@ DET["comunidad.persona"] = id => {
       ${p.bio ? `<p class="perfil-bio">${esc(p.bio)}</p>` : ""}${p.cumbre ? `<p class="perfil-cumbre">${ic("cima")} ${esc(p.cumbre)}</p>` : ""}
       ${p.propio ? "" : `<div class="botones">${botonSeguir(p.id).replace("btn mini", "btn")}<button class="btn" data-acc="escribirA" data-arg="${esc(p.id)}|${esc(p.nombre)}">${ic("mensajes")} Mensaje</button></div>`}</section>
     ${p.posts.length ? `<div class="perfil-grilla">${p.posts.map(q => `<button class="perfil-celda" data-ir="comunidad" data-arg="cima:${esc(q.id)}" aria-label="${esc((q.texto || "").slice(0, 60))}">
-        ${q.foto ? `<img src="${esc(q.foto)}" alt="" loading="lazy">` : `<span>${esc((q.texto || "").slice(0, 90))}</span>`}<small>${ic("impulso")} ${q.impulsos}</small></button>`).join("")}</div>`
+        ${q.foto ? `<img src="${esc(q.foto)}" alt="" loading="lazy">` : `<span>${esc((q.texto || "").slice(0, 90))}</span>`}${p.propio ? `<small>${ic("impulso")} ${q.impulsos}</small>` : ""}</button>`).join("")}</div>`
       : `<p class="suave" style="text-align:center">Todavía no comparte publicaciones.</p>`}`, "max-width:720px");
 };
 ACC.seguirPersona = async (el, id) => {
@@ -394,7 +395,7 @@ async function abrirPostEnlazado(id) {
     if (!q) { toast("Esa publicación ya no está disponible."); return; }
     (estado.feed ||= []).unshift({ id: q.id, autorId: q.user_id, autorNombre: q.autor?.nombre || q.autor?.username || "Senderista", autorUsuario: q.autor?.username || "", tipo: q.tipo, eje: q.eje,
       texto: q.texto, foto: q.image_url, metaTitulo: q.meta_titulo, visibilidad: q.visibilidad, impulsos: q.impulsos?.[0]?.count || 0, comentarios: q.comentarios?.[0]?.count || 0,
-      brujula: q.brujula || null, creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno });
+      brujula: q.brujula || null, creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno, ...(window.extrasPost?.(q) || {}) });
   }
   estado.vistaCom = "cimas"; ir("comunidad", "cima:" + id);
 }
@@ -408,7 +409,7 @@ async function cargarListado(clave, consulta, demo) {
       .eq("visibilidad", "PUBLICA").order("created_at", { ascending: false }).limit(60));
     ps = (data || []).map(q => ({ id: q.id, autorId: q.user_id, autorNombre: q.autor?.nombre || q.autor?.username || "Senderista", autorUsuario: q.autor?.username || "", tipo: q.tipo, eje: q.eje,
       texto: q.texto, foto: q.image_url, metaTitulo: q.meta_titulo, impulsos: q.impulsos?.[0]?.count || 0, comentarios: q.comentarios?.[0]?.count || 0, brujula: q.brujula || null,
-      creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno }));
+      creadoEn: Date.parse(q.created_at), propio: q.user_id === Store.nube.dueno, ...(window.extrasPost?.(q) || {}) }));
   }
   (estado.feed ||= []); ps.forEach(p => { if (!estado.feed.some(x => x.id === p.id)) estado.feed.push(p); });
   RED.listados[clave] = ps; pintarDetalle();

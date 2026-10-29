@@ -739,6 +739,7 @@ async function cargarFeed(mas = false) {
         tipo: p.tipo, eje: p.eje, texto: p.texto, foto: p.image_url, metaTitulo: p.meta_titulo, visibilidad: p.visibilidad,
         impulsos: p.impulsos?.[0]?.count || 0, comentarios: p.comentarios?.[0]?.count || 0, yoImpulse: mios.has(p.id),
         brujula: p.brujula || null, creadoEn: Date.parse(p.created_at), propio: p.user_id === yo, media: Array.isArray(p.media) ? p.media : [],
+        ...(window.extrasPost?.(p) || {}),
       })).filter(p => !previos.some(x => x.id === p.id));
       if (window.cargarClimas) await cargarClimas(nuevos);
       // "Para ti" ordena cada página (lo ya visto no se mueve); los demás van por fecha
@@ -772,7 +773,7 @@ Object.assign(DET, {
       `<div class="det-cuerpo"><div class="ancho" style="gap:16px;max-width:640px">
         ${p.demo ? `<div class="aviso">Comunidad de ejemplo. ${Store.nube ? "" : "Vincula la web con tu cuenta para ver la comunidad real."}</div>` : ""}
         ${postal(p)}${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${p.foto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}
-        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsar" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.yoImpulse ? "Impulsado" : "Impulsar"} · ${p.impulsos}</button>
+        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsar" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.yoImpulse ? "Impulsado" : "Impulsar"}${p.propio ? " · " + p.impulsos : ""}</button>
           <span class="suave">${(p.comentariosLista || []).length || p.comentarios} comentarios</span></div>
         <div class="chat" style="max-width:none">${(p.comentariosLista || []).map(c => `<div class="burbuja el"><b style="color:var(--oro);font-size:13px">${esc(c.autor)}</b><br>${esc(c.texto)}</div>`).join("")}</div>
       </div></div>
@@ -801,18 +802,19 @@ Object.assign(DET, {
           <button class="cimas-ic" data-sec="mensajes" aria-label="Mensajes" title="Mensajes">${ic("mensajes")}</button></div>
         ${p0Demo(ps)}
         <div class="cimas" tabindex="0" aria-label="Cimas: desliza para ver la siguiente">${ps.length ? ps.map((p, i) => `<article class="cima" data-cima="${esc(p.id)}" aria-label="Publicación de ${esc(p.autorNombre)}">
-          <div class="cima-fondo">${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${window.mediaCima?.(p) || ""}${window.mediaCima?.(p) ? "" : p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
-            : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${enlazarTexto(p.texto)}”</p>`}</div>
+          <div class="cima-fondo">${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}${window.selladaCima?.(p) || (window.mediaCima?.(p) || "") + (window.mediaCima?.(p) ? "" : p.foto ? `<img src="${esc(p.foto)}" alt="${altFoto(p)}" loading="lazy">`
+            : `<div class="cielo cima-cielo" data-cielo-post="${p.creadoEn}" aria-hidden="true"></div><p class="cima-cita">“${enlazarTexto(p.texto)}”</p>`)}</div>
           <div class="cima-acciones">
             <button class="cima-autor" data-acc="escribirA" data-arg="${esc(p.autorId)}|${esc(p.autorNombre)}" aria-label="Escribir a ${esc(p.autorNombre)}">${autor(p)}</button>
-            <button class="cima-impulso${estado.recienImpulso === p.id ? " recien" : ""}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="Impulsar, ${p.impulsos}">${IMPULSO_SVG}<b>${num(p.impulsos)}</b></button>
+            <button class="cima-impulso${estado.recienImpulso === p.id ? " recien" : ""}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}" aria-label="${p.propio ? `Impulsar, ${p.impulsos}` : "Impulsar"}">${IMPULSO_SVG}<b>${p.propio ? num(p.impulsos) : ""}</b></button>
             ${globalThis.botonClima ? botonClima(p) : ""}
             <button data-acc="comentariosCima" data-arg="${esc(p.id)}" aria-label="Comentarios, ${p.comentarios}">${ic("comentario")}<b>${num(p.comentarios)}</b></button>
             ${globalThis.botonMochila ? botonMochila(p) : ""}
             <button data-acc="compartirPost" data-arg="${esc(p.id)}" aria-label="Compartir">${ic("compartir")}</button></div>
           <div class="cima-pie"><div class="cima-quien-fila"><b class="cima-quien">${p.autorUsuario ? "@" + esc(p.autorUsuario) : esc(p.autorNombre)}</b><button class="cima-mas-op" data-acc="masCima" data-arg="${esc(p.id)}" aria-label="Más opciones" title="Más opciones">${ic("masH")}</button></div>
             <span class="cima-dato">${[TIPOS_POST.find(t => t[0] === p.tipo)?.[1], hace(p.creadoEn)].filter(Boolean).join(" · ")}${p.eje ? ` · <button class="cima-eje" data-ir="comunidad" data-arg="eje:${p.eje}">${esc(NOMBRE_EJE[p.eje])}</button>` : ""}</span>
-            ${p.foto && p.texto ? `<p class="cima-texto">${enlazarTexto(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
+            ${window.chipsCamino?.(p) || ""}
+            ${p.foto && p.texto && !window.estaSellada?.(p) ? `<p class="cima-texto">${enlazarTexto(p.texto)}</p>${p.texto.length > 90 ? `<button class="cima-mas" data-acc="masTexto" aria-expanded="false">más</button>` : ""}` : p.foto ? "" : `<span class="cima-dato suave-c">Publicado bajo este cielo</span>`}
             ${p.metaTitulo ? `<span class="cima-meta">${ic("ruta")}${esc(p.metaTitulo)}</span>` : ""}
             ${p.brujula && window.leerBrujula?.(p.brujula) ? `<button class="cima-explorar" data-ir="comunidad" data-arg="brujula:${esc(p.id)}">${ic("cima")} Explorar su Brújula 1 · 9 · 81</button>` : ""}
             ${i === 0 ? `<span class="cima-ayuda">${ic("arriba")}Desliza hacia arriba para ver la siguiente cima</span>` : ""}</div></article>`).join("") +
@@ -827,8 +829,8 @@ Object.assign(DET, {
         <div class="autor">${autor(p)}<div style="flex:1;min-width:0"><b>${esc(p.autorNombre)}</b><div class="suave" style="font-size:13px">${hace(p.creadoEn)} · ${TIPOS_POST.find(t => t[0] === p.tipo)?.[1] || ""}</div></div></div>
         ${p.brujula && window.leerBrujula?.(p.brujula) ? brujulaMuro(p)
           : `<button data-acc="verCima" data-arg="${esc(p.id)}" aria-label="Ver en Cimas, a pantalla completa" style="display:block;width:100%;text-align:left">${postal(p)}</button>${window.botonRecuerdosPost ? botonRecuerdosPost(p) : ""}
-        ${p.foto && p.texto ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}`}
-        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.impulsos}</button>${globalThis.botonClima ? botonClima(p, true) : ""}
+        ${p.foto && p.texto && !window.estaSellada?.(p) ? `<p style="margin:0">${esc(p.texto)}</p>` : ""}`}${window.chipsCamino?.(p) || ""}
+        <div class="acciones"><button class="btn ${p.yoImpulse ? "lleno" : "oro"}" data-acc="impulsarId" data-arg="${esc(p.id)}" aria-pressed="${p.yoImpulse}">${ic("impulso")} ${p.propio ? p.impulsos : p.yoImpulse ? "Impulsado" : "Impulsar"}</button>${globalThis.botonClima ? botonClima(p, true) : ""}
           <button class="btn" data-ir="comunidad" data-arg="post:${esc(p.id)}">${ic("comentario")} ${p.comentarios} comentarios</button>${globalThis.botonMochila ? botonMochila(p).replace("<button ", '<button class="btn mochila-btn" ') : ""}</div></article>`).join("") : vacioFeed),
       "max-width:600px");
   },

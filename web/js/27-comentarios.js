@@ -18,7 +18,9 @@ globalThis.cargarComentarios = async function (p) {
       .map(c => ({ ...c, yoLike: !!estado.likesDemo?.has(c.id) }));
   } else {
     const sb = Store.nube.sb, yo = Store.nube.dueno;
-    let r = await sb.from("comments").select("id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)").eq("post_id", p.id).order("created_at");
+    const COLS = "id,texto,created_at,user_id,parent_id,oculto_autor,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url),likes:comment_likes(count)";
+    let r = await sb.from("comments").select(COLS + ",cuerda").eq("post_id", p.id).order("created_at");
+    if (r.error) r = await sb.from("comments").select(COLS).eq("post_id", p.id).order("created_at");
     const completo = !r.error;
     if (r.error) r = await sb.from("comments").select("id,texto,created_at,user_id,autor:profiles!comments_user_id_fkey(username,nombre,avatar_url)").eq("post_id", p.id).order("created_at");
     const lista = r.data || [];
@@ -29,7 +31,7 @@ globalThis.cargarComentarios = async function (p) {
     }
     estado.comCompletos = completo;
     p.comentariosLista = lista.map(c => ({ id: c.id, autor: c.autor?.nombre || c.autor?.username || "", usuario: c.autor?.username || "", avatar: c.autor?.avatar_url || "",
-      texto: c.texto, creadoEn: Date.parse(c.created_at), parentId: c.parent_id || null, ocultoAutor: !!c.oculto_autor, likes: c.likes?.[0]?.count || 0, yoLike: mios.has(c.id), propio: c.user_id === yo }));
+      texto: c.texto, creadoEn: Date.parse(c.created_at), parentId: c.parent_id || null, ocultoAutor: !!c.oculto_autor, likes: c.likes?.[0]?.count || 0, yoLike: mios.has(c.id), propio: c.user_id === yo, cuerda: c.cuerda || null }));
   }
   p.comentarios = p.comentariosLista.length;
   if (estado.sel === "post:" + p.id && !enEdicion()) pintarDetalle();
@@ -38,7 +40,7 @@ globalThis.cargarComentarios = async function (p) {
 const avatarCom = c => c.avatar ? `<img class="com-av" src="${esc(c.avatar)}" alt="">`
   : `<span class="com-av">${esc((c.autor || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase())}</span>`;
 const filaCom = (c, hija = false) => `<div class="com${hija ? " hija" : ""}" data-com="${esc(c.id)}">${avatarCom(c)}
-    <div class="com-cuerpo"><span class="com-quien">${esc(c.autor)}</span><p>${enlazarTexto(c.texto)}</p>
+    <div class="com-cuerpo"><span class="com-quien">${esc(c.autor)}</span>${window.etiquetaCuerda?.(c) || ""}<p>${enlazarTexto(c.texto)}</p>
       <div class="com-pie"><span>${hace(c.creadoEn)}</span><button data-acc="responderCom" data-arg="${esc(c.parentId || c.id)}|${esc(c.autor)}">Responder</button>${estado.post?.propio && !c.propio && !String(c.id).startsWith("d") ? `<button data-acc="ocultarCom" data-arg="${esc(c.id)}">${c.ocultoAutor ? "Mostrar" : "Ocultar"}</button>` : ""}</div></div>
     <button class="com-ban" data-acc="banderaCom" data-arg="${esc(c.id)}" aria-pressed="${!!c.yoLike}" aria-label="Me gusta, ${c.likes || 0}">${ic("impulso")}<b>${c.likes || ""}</b></button></div>`;
 /** La lista: comentarios principales y, debajo de cada uno, sus respuestas plegadas. */
@@ -56,8 +58,8 @@ function listaComentariosHtml(p) {
 globalThis.listaComentariosHtml = listaComentariosHtml;
 const escribirCom = () => { const r = estado.respondiendo, p = perfil();
   return `${r ? `<div class="com-respondiendo">Respondiendo a <b>${esc(r.autor)}</b><button data-acc="responderCom" data-arg="" aria-label="Cancelar respuesta">${ic("cerrar")}</button></div>` : ""}
-    <form class="escribir hoja-escribir com-escribir" data-form="comentar">${(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl) ? `<img class="com-av" src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="">` : `<span class="com-av">${esc((p.nombre || "Y")[0].toUpperCase())}</span>`}
-      <input name="texto" placeholder="${r ? "Escribe tu respuesta…" : "Agregar comentario…"}" aria-label="Comentario" autocomplete="off" maxlength="1000"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`; };
+    <form class="escribir hoja-escribir com-escribir" data-form="comentar">${!r && window.chipsCuerda ? chipsCuerda() : ""}${(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl) ? `<img class="com-av" src="${esc(globalThis.mv?.demo?.avatar || p.fotoPerfilUrl)}" alt="">` : `<span class="com-av">${esc((p.nombre || "Y")[0].toUpperCase())}</span>`}
+      <input name="texto" placeholder="${r ? "Escribe tu respuesta…" : window.placeholderCuerda?.() || "Agregar comentario…"}" aria-label="Comentario" autocomplete="off" maxlength="1000"><button class="enviar" aria-label="Enviar">${ic("enviar")}</button></form>`; };
 
 globalThis.pintarHojaComentarios = function (p, abrir = false) {
   const n = (p.comentariosLista || []).length || p.comentarios || 0;

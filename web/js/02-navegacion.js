@@ -208,7 +208,7 @@ const LISTAS = {
     estado.feed.forEach(p => {
       const ini = (p.autorNombre || "?").split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
       // Todas las publicaciones abren en Cimas, en el mismo lugar; la Brújula se explora desde ahí
-      h += item("cima:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>`);
+      h += item("cima:" + p.id, av(esc(ini), COLOR_EJE[p.eje] || "var(--burdeos)"), esc(p.autorNombre), hace(p.creadoEn), esc(p.texto), (p.propio ? `<span class="badge ${p.yoImpulse ? "" : "suave"}">${p.impulsos}</span>` : p.yoImpulse ? `<span class="badge" aria-label="Lo impulsaste">${ic("impulso")}</span>` : ""));
     });
     return h + `</div>`;
   },

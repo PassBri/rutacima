@@ -4504,3 +4504,72 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .vc-barra button { white-space: nowrap; }
 @media (max-width: 420px) { .vc-barra { gap: 6px; } .vc-barra button { padding: 10px 14px; font-size: 13.5px; } }
 .vc-ayuda { line-height: 1.35; }
+
+/* ---------- Comunidad viva (45-comunidad-viva.js) ---------- */
+/* Prueba de camino, compromiso y sello: chips discretos en el pie de la publicación */
+.cv-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cv-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 3px 10px; border-radius: 8px; font-size: 12.5px; font-weight: 500;
+  font-variant-numeric: tabular-nums; color: var(--tinta); background: var(--hoja-2); border: 1px solid var(--linea); }
+.cv-chip svg { width: 16px; height: 16px; flex: none; fill: currentColor; }
+.cv-camino { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 8%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 22%, transparent); }
+.cv-logrado { color: var(--ok, #2E6B3A); background: color-mix(in srgb, var(--ok, #2E6B3A) 10%, var(--hoja)); border-color: color-mix(in srgb, var(--ok, #2E6B3A) 30%, transparent); }
+.cv-cierre { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.cv-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 18px; font: inherit; font-size: 13px; font-weight: 600;
+  color: var(--sobre-burdeos, #fff); background: var(--burdeos); border: 0; cursor: pointer; touch-action: manipulation; }
+.cv-btn svg { width: 16px; height: 16px; fill: currentColor; }
+.cv-btn + .cv-btn { color: var(--tinta); background: var(--hoja-2); border: 1px solid var(--linea); }
+/* Sobre una foto o el cielo (Cimas): chips de vidrio claro, legibles en cualquier fondo */
+.cima-pie .cv-chip { color: #fff; background: rgb(10 14 24 / .42); border-color: rgb(255 255 255 / .22); }
+.cima-pie .cv-camino { color: #fff; background: rgb(110 30 20 / .55); border-color: rgb(255 255 255 / .25); }
+.cima-pie .cv-logrado { color: #fff; background: rgb(30 90 50 / .6); }
+.cima-pie .cv-btn + .cv-btn { color: #fff; background: rgb(255 255 255 / .14); border-color: rgb(255 255 255 / .3); }
+.post-muro .cv-chips { margin-top: -4px; }
+
+/* Carta al yo futuro: un sobre de papel con su lacre */
+.carta-sellada { position: relative; display: grid; justify-items: center; align-content: center; gap: 8px; min-height: 260px; height: 100%; padding: 28px 20px; text-align: center;
+  background: radial-gradient(120% 90% at 50% 20%, #F7EEDD, #E8D9BC); color: #3A2A1E; }
+.cima-fondo > .carta-sellada { position: absolute; inset: 0; }
+.cs-sobre { position: relative; width: min(220px, 56%); aspect-ratio: 3 / 2; border-radius: 6px; background: #FBF5E8;
+  box-shadow: 0 1px 2px rgb(58 42 30 / .14), 0 14px 30px -14px rgb(58 42 30 / .45); overflow: hidden; }
+.cs-solapa { position: absolute; inset: 0 0 auto; height: 62%; background: linear-gradient(to bottom right, transparent 49.5%, #EFE3CC 50%) left / 50% 100% no-repeat,
+  linear-gradient(to bottom left, transparent 49.5%, #EFE3CC 50%) right / 50% 100% no-repeat; }
+.cs-lacre { position: absolute; left: 50%; top: 62%; width: 30%; translate: -50% -50%; filter: drop-shadow(0 2px 3px rgb(80 10 10 / .35)); }
+.cs-titulo { font: 600 20px/1.25 var(--font-titulo); color: #5A1F14; margin-top: 8px; }
+.cs-fecha { font-size: 14px; font-variant-numeric: tabular-nums; }
+.cs-ayuda { font-size: 12.5px; color: #6B5646; max-width: 280px; }
+.postal .carta-sellada, .post-muro .carta-sellada { border-radius: var(--md-shape-md, 16px); }
+
+/* Formulario de publicar: el camino que se mostrará y las formas nuevas de publicar */
+.cv-nota { display: flex; gap: 8px; align-items: flex-start; margin: 0; padding: 10px 12px; border-radius: 12px; font-size: 13.5px; color: var(--tinta);
+  background: color-mix(in srgb, var(--burdeos) 6%, var(--hoja)); }
+.cv-nota svg { width: 18px; height: 18px; flex: none; fill: var(--burdeos); margin-top: 1px; }
+.cv-mas { border: 1px solid var(--linea); border-radius: 12px; padding: 4px 12px; }
+.cv-mas > summary { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; font-weight: 500; list-style: none; }
+.cv-mas > summary::-webkit-details-marker { display: none; }
+.cv-mas > summary svg { width: 18px; height: 18px; fill: var(--burdeos); }
+.cv-mas[open] { padding-bottom: 12px; } .cv-mas[open] > summary { margin-bottom: 4px; }
+
+/* Lanzar una cuerda en los comentarios */
+.cuerda-chips { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px 0; scrollbar-width: none; }
+.cuerda-chips::-webkit-scrollbar { display: none; }
+.cuerda-chips button { display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 34px; padding: 0 12px; border-radius: 8px; font: inherit; font-size: 13px;
+  color: var(--tinta); background: transparent; border: 1px solid var(--linea); cursor: pointer; touch-action: manipulation; white-space: nowrap; }
+.cuerda-chips button svg { width: 16px; height: 16px; fill: currentColor; }
+.cuerda-chips button[aria-checked="true"] { color: var(--burdeos); background: color-mix(in srgb, var(--burdeos) 10%, var(--hoja)); border-color: transparent; font-weight: 600; }
+.com-cuerda { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; font-size: 11.5px; font-weight: 600; color: var(--burdeos); }
+.com-cuerda svg { width: 14px; height: 14px; fill: currentColor; }
+
+/* Cordada que no deja caer */
+.cv-cordada { display: flex; gap: 12px; align-items: flex-start; }
+.cv-cordada > svg { width: 28px; height: 28px; flex: none; fill: var(--burdeos); }
+.cv-cordada p { margin: 4px 0 0; font-size: 13.5px; }
+.cv-cuerda-btn { margin-top: 6px; align-self: flex-start; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .carta-sellada { filter: brightness(.88); } }
+:root[data-theme="dark"] .carta-sellada { filter: brightness(.88); }
+.cima-pie .cv-chips { gap: 5px; }
+.cima-pie .cv-chip { min-height: 26px; padding: 2px 9px; font-size: 12px; white-space: nowrap; }
+.cima-pie .cv-chip svg { width: 14px; height: 14px; }
+.cima-fondo > .carta-sellada { padding: 80px 84px 200px 20px; }
+@media (min-width: 700px) { .cima-fondo > .carta-sellada { padding-right: 20px; } }
+.com-escribir:has(.cuerda-chips) { flex-wrap: wrap; row-gap: 8px; }
+.com-escribir .cuerda-chips { flex: 1 0 100%; padding: 0 0 2px; }

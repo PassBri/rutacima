@@ -276,9 +276,14 @@ DET["mensajes.cordada"] = id => {
   if (!d?.miembros) h += `<p class="suave">${d?.error ? "No se pudo cargar la cordada. Revisa tu conexión." : "Cargando…"}</p>`;
   else {
     const fechas = diasCordada(c), hoy = iso(hoyFecha());
+    // Una cordada no deja caer a nadie: quien lleva 3 días sin marcar recibe una cuerda de sus compañeros
+    const ultimos = fechas.filter(f => f !== hoy).slice(-3), caido = m => !m.soyYo && !cordadaTerminada(c) && ultimos.length === 3 && ultimos.every(f => !m.dias.has(f)) && !m.dias.has(hoy);
+    const caidos = d.miembros.filter(caido);
+    if (caidos.length) h += hoja(`<div class="cv-cordada">${ic("cordada")}<div><b>${caidos.map(m => esc(m.nombre.split(" ")[0])).join(", ")} ${caidos.length === 1 ? "lleva" : "llevan"} 3 días sin marcar.</b>
+      <p class="suave">Una palabra a tiempo ayuda más de lo que crees. Lánzale una cuerda desde el muro de la cordada.</p></div></div>`);
     h += hoja(`<div class="etiqueta">Compañeros de cordada (${d.miembros.length})</div><div class="cord-miembros">` + d.miembros.map(m =>
       `<div class="cord-miembro">${m.avatar && /^https:\/\//.test(m.avatar) ? `<img class="avatar" src="${esc(m.avatar)}" alt="">` : avPersona(m.nombre, m.soyYo ? "var(--oro)" : "var(--burdeos)")}
-        <div class="nom"><b>${esc(m.nombre)}${m.soyYo ? ` <span class="pill">Tú</span>` : ""}</b><span class="suave">${m.dias.size} de ${c.dias}</span></div>
+        <div class="nom"><b>${esc(m.nombre)}${m.soyYo ? ` <span class="pill">Tú</span>` : ""}</b><span class="suave">${m.dias.size} de ${c.dias}${caido(m) ? " · 3 días sin marcar" : ""}</span>${caido(m) ? `<button class="btn mini cv-cuerda-btn" data-acc="cuerdaCordada" data-arg="${esc(m.nombre)}">${ic("cordada")} Lanzarle una cuerda</button>` : ""}</div>
         <div class="cord-dias" role="img" aria-label="${esc(m.nombre)}: ${m.dias.size} de ${fechas.length} días marcados">${fechas.slice().reverse().map(f => `<i class="${m.dias.has(f) ? "si" : ""}${f === hoy ? " hoy" : ""}" title="${deIso(f).toLocaleDateString("es", { day: "numeric", month: "short" })}"></i>`).join("")}</div></div>`).join("") + `</div>`);
   }
   if (!cordadaTerminada(c)) h += hoja(`<div class="etiqueta">Invita con este código (máximo 6 personas):</div>

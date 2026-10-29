@@ -31,7 +31,7 @@ const climasLocales = () => { try { return JSON.parse(localStorage.getItem("suro
 /** Conteos de ejemplo estables por publicación (sin cuenta): siempre los mismos para el mismo id. */
 function climasDemo(id) {
   let h = 0; for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  const r = {}; REAC_CLIMA.forEach(([k], i) => { r[k] = (h >> (i * 3)) % (i === 0 || i === 4 ? 9 : 5); });
+  const r = {}; REAC_CLIMA.forEach(([k], i) => { r[k] = (h >>> (i * 3)) % (i === 0 || i === 4 ? 9 : 5); });
   return r;
 }
 /** Agrega climas y miClima a las publicaciones del muro (la nube o el ejemplo). */
