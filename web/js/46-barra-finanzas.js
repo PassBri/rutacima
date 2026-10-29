@@ -111,6 +111,37 @@ function fbTarjeta(datos) {
     <p class="rv-rec-frase">${frase}</p></section>`;
 }
 
+/** Resumen ampliado del mes: las cinco cifras frente al mes pasado, el ritmo de gasto, cuánto construyes y a dónde se fue. */
+function fbResumen(datos) {
+  const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1, ym = `${a}-${pad2(m)}`;
+  const prev = new Date(a, m - 2, 1), ymAnt = `${prev.getFullYear()}-${pad2(prev.getMonth() + 1)}`;
+  const t = datos.porMes[ym], ant = datos.porMes[ymAnt];
+  if (!t?.n) return `<p class="fb-res-vacio">Cuando anotes movimientos de ${MESES[m - 1]} verás aquí tus cifras, tu ritmo de gasto y a dónde se va tu dinero.</p>`;
+  const TIPOS = [["ing", "Ingresos", 1], ["gas", "Gastos", -1], ["aho", "Ahorro", 1], ["inv", "Inversión", 1], ["gen", "Dar", 0]];
+  const max = Math.max(1, ...TIPOS.map(([k]) => t[k] || 0));
+  const delta = (k, sentido) => { const p = ant?.[k] || 0; if (!p || !t[k]) return `<small class="fb-delta"></small>`;
+    const d = (t[k] - p) / p, pct = Math.round(Math.abs(d) * 100); if (!pct) return `<small class="fb-delta">=</small>`;
+    const cls = sentido === 0 ? "" : (d > 0) === (sentido > 0) ? " bien" : " mal";
+    return `<small class="fb-delta${cls}" title="Frente a ${MESES[prev.getMonth()]}">${d > 0 ? "▲" : "▼"} ${pct} %</small>`; };
+  const filas = TIPOS.map(([k, n, sen]) => `<div class="fb-fila"><i style="background:${FB_COLOR[k]}"></i><span>${n}</span>
+      <span class="num">${plata(t[k] || 0)}</span>${delta(k, sen)}<span class="fb-bar"><b style="width:${((t[k] || 0) / max * 100).toFixed(1)}%;background:${FB_COLOR[k]}"></b></span></div>`).join("");
+  // Ritmo: promedio por día transcurrido y a dónde llegaría el gasto al cierre
+  const dia = hoy.getDate(), largo = diasEnMes(a, m), prom = Math.round(t.gas / dia), cierre = Math.round(t.gas / dia * largo);
+  const pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym))));
+  const ritmo = `<div class="fb-res-bloque"><b class="fb-res-t">Ritmo de gasto</b>
+      <p>Gastas <b>${plata(prom)}</b> al día en promedio. A este paso cerrarías ${MESES[m - 1]} con <b class="${pres && cierre > pres ? "neg" : ""}">${plata(cierre)}</b> en gastos${pres ? ` de ${plata(pres)} presupuestados` : ""}.</p></div>`;
+  // Cuánto de lo que entra construye patrimonio (ideal: al menos 20 %)
+  const tasa = t.ing > 0 ? Math.max(0, Math.min(1, t.construido / t.ing)) : null;
+  const construye = tasa == null ? "" : `<div class="fb-res-bloque"><b class="fb-res-t">Construyes el ${Math.round(tasa * 100)} % de lo que entra</b>
+      <span class="fb-tasa" role="img" aria-label="${Math.round(tasa * 100)} % a ahorro e inversión; ideal al menos 20 %"><b style="width:${(tasa * 100).toFixed(1)}%" class="${tasa >= 0.2 ? "bien" : ""}"></b><i title="Ideal: 20 %"></i></span>
+      <small class="suave">${tasa >= 0.2 ? "Vas por encima del 20 % ideal." : `Te faltan ${plata(Math.max(0, t.ing * 0.2 - t.construido))} para llegar al 20 %.`}</small></div>`;
+  // A dónde se fue: las tres categorías de gasto más grandes del mes
+  const s = totalesDe(ym), cats = Object.entries(s.cat).filter(([k]) => k.startsWith("gas:")).sort((x, y) => y[1] - x[1]).slice(0, 3);
+  const adonde = cats.length ? `<div class="fb-res-bloque"><b class="fb-res-t">¿A dónde se fue?</b>${cats.map(([k, v]) => { const c = k.split(":")[1], cat = catDe("gas", c);
+      return `<div class="fb-fila fb-cat"><span>${esc(cat?.[1] || c)}</span><span class="num">${plata(v)}</span><small class="fb-delta">${t.gas ? Math.round(v / t.gas * 100) + " %" : ""}</small><span class="fb-bar"><b style="width:${(v / cats[0][1] * 100).toFixed(1)}%;background:${FB_COLOR.gas}"></b></span></div>`; }).join("")}</div>` : "";
+  return `<div class="fb-res-bloque"><b class="fb-res-t">El mes en cifras <small class="suave">frente a ${MESES[prev.getMonth()]}</small></b>${filas}</div>${ritmo}${construye}${adonde}`;
+}
+
 function fbBarra() {
   const hoy = hoyFecha(), aHoy = hoy.getFullYear(), mHoy = hoy.getMonth() + 1, l = fbLugar(), ver = fbVer(), a = ver.a, m = ver.m;
   const v = String(estado.sel || ""), arriba = fbArriba(), datos = fbDatos();
@@ -155,7 +186,7 @@ function fbBarra() {
       <div class="fb-hoja-cab"><b class="rv-donde">${panel === "cal" ? donde : "Resumen"}</b>
         ${panel === "cal" ? `<button class="rv-hoy" data-sel="d:${iso(hoy)}" title="Ir a hoy y registrar">Hoy</button>` : ""}
         <button class="rv-atras" data-acc="fbPestana" data-arg="${panel}" aria-label="Cerrar" title="Cerrar">${ic("cerrar")}</button></div>
-      <div class="fb-panel">${panel === "cal" ? cal : fbTarjeta(datos) + fbCordillera(datos, a)}</div></div>` : "";
+      <div class="fb-panel">${panel === "cal" ? cal : fbTarjeta(datos) + fbResumen(datos) + fbCordillera(datos, a)}</div></div>` : "";
   return `<nav class="rv-barra fb-barra${panel ? " con-hoja" : ""}" aria-label="Ascenso financiero: año, mes y día">${riel}${hoja}</nav>`;
 }
 /** Qué se abre junto al riel: el calendario, el resumen o nada (se recuerda; en el teléfono empieza cerrado). */

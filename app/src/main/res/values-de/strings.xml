@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">Alle 24 Stunden</string>
     <string name="acts_ver_menos">Weniger</string>
     <string name="acts_planificador">Planer</string>
+    <string name="fb_res_vacio">Sobald Sie Bewegungen für %1$s eintragen, sehen Sie hier Ihre Zahlen, Ihr Ausgabentempo und wohin Ihr Geld geht.</string>
+    <string name="fb_res_cifras">Der Monat in Zahlen</string>
+    <string name="fb_res_frente">ggü. %1$s</string>
+    <string name="fb_res_ritmo">Ausgabentempo</string>
+    <string name="fb_res_ritmo_txt">Sie geben im Schnitt %1$s pro Tag aus. In diesem Tempo schließen Sie %2$s mit %3$s Ausgaben.</string>
+    <string name="fb_res_de_pres">von %1$s Budget.</string>
+    <string name="fb_res_construyes">Sie bauen %1$d %% Ihrer Einnahmen auf</string>
+    <string name="fb_res_bien" formatted="false">Sie liegen über den idealen 20 %.</string>
+    <string name="fb_res_falta">Noch %1$s bis 20 %%.</string>
+    <string name="fb_res_adonde">Wohin ging es?</string>
 </resources>

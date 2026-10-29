@@ -46,6 +46,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.PlainTooltip
@@ -304,6 +305,7 @@ fun BarraFinanzas(nivel: NivelCuentas, libro: Libro, plata: (Double) -> String, 
                     }
                     } else {
                         AsiVaElMes(libro, porMes, porDia.keys, plata, verde, burdeos, oro) { ir(NivelCuentas.Mes(YearMonth.from(h))) }
+                        ResumenMes(libro, porMes, plata, verde, burdeos, oro)
                         Cordillera(porAnio, verA, plata) { ir(NivelCuentas.Anio(it)) }
                     }
                 }
@@ -392,5 +394,89 @@ private fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, no
                 .semantics { selected = activo }) {
             Icon(icono, nombre, tint = if (enabled) verde else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.4f), modifier = Modifier.size(22.dp))
         }
+    }
+}
+
+/** Resumen ampliado del mes (igual que la web): las cinco cifras frente al mes pasado, el ritmo de gasto,
+ *  cuánto de lo que entra construye patrimonio (ideal 20 %) y las tres categorías donde más se gastó. */
+@Composable
+private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (Double) -> String, verde: Color, burdeos: Color, oro: Color) {
+    val h = hoy(); val ym = YearMonth.from(h); val ant = ym.minusMonths(1)
+    val t = porMes[ym.toString()]; val p = porMes[ant.toString()]
+    val suave = MaterialTheme.colorScheme.onSurfaceVariant
+    if (t == null || t.n == 0) {
+        Text(stringResource(R.string.fb_res_vacio, nombreMesLargo(ym.monthValue).lowercase()), style = MaterialTheme.typography.bodySmall, color = suave)
+        return
+    }
+    val tipos = listOf(Triple(Tipo.ING, R.string.cu_ing, 1), Triple(Tipo.GAS, R.string.cu_gas, -1), Triple(Tipo.AHO, R.string.cu_aho, 1),
+        Triple(Tipo.INV, R.string.cu_inv, 1), Triple(Tipo.GEN, R.string.cu_gen, 0))
+    fun v(s: Cuentas.Suma?, k: Tipo) = when (k) { Tipo.ING -> s?.ing; Tipo.GAS -> s?.gas; Tipo.AHO -> s?.aho; Tipo.INV -> s?.inv; Tipo.GEN -> s?.gen } ?: 0.0
+    val max = tipos.maxOf { v(t, it.first) }.coerceAtLeast(1.0)
+    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        HorizontalDivider()
+        Row(verticalAlignment = Alignment.Bottom) {
+            Text(stringResource(R.string.fb_res_cifras), style = MaterialTheme.typography.titleSmall)
+            Spacer(Modifier.width(6.dp))
+            Text(stringResource(R.string.fb_res_frente, nombreMesLargo(ant.monthValue).lowercase()), style = MaterialTheme.typography.labelSmall, color = suave)
+        }
+        tipos.forEach { (k, n, sentido) ->
+            val x = v(t, k); val px = v(p, k)
+            Column {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.size(8.dp).clip(CircleShape).background(colorTipo(k))); Spacer(Modifier.width(8.dp))
+                    Text(stringResource(n), style = MaterialTheme.typography.bodySmall, color = suave, modifier = Modifier.weight(1f))
+                    Text(plata(x), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+                    val d = if (px > 0 && x > 0) (x - px) / px else null
+                    val pct = d?.let { kotlin.math.round(kotlin.math.abs(it) * 100).toInt() }
+                    Text(if (d == null || pct == null) "" else if (pct == 0) "=" else (if (d > 0) "▲ " else "▼ ") + "$pct %",
+                        style = MaterialTheme.typography.labelSmall, textAlign = TextAlign.End, modifier = Modifier.width(52.dp),
+                        color = if (d == null || sentido == 0) suave else if ((d > 0) == (sentido > 0)) verde else burdeos)
+                }
+                LinearProgressIndicator(progress = { (x / max).toFloat() }, Modifier.fillMaxWidth().padding(start = 16.dp, top = 3.dp).height(5.dp),
+                    color = colorTipo(k), trackColor = MaterialTheme.colorScheme.surfaceContainerHighest, drawStopIndicator = {}, gapSize = 0.dp)
+            }
+        }
+        // Ritmo de gasto
+        HorizontalDivider(Modifier.padding(top = 4.dp))
+        val prom = t.gas / h.dayOfMonth; val cierre = prom * ym.lengthOfMonth()
+        val pres = kotlin.math.abs(Finanzas.monto(libro.presupuesto(ym)))
+        Text(stringResource(R.string.fb_res_ritmo), style = MaterialTheme.typography.titleSmall)
+        Text(stringResource(R.string.fb_res_ritmo_txt, plata(kotlin.math.round(prom)), nombreMesLargo(ym.monthValue).lowercase(), plata(kotlin.math.round(cierre))) +
+            (if (pres > 0) " " + stringResource(R.string.fb_res_de_pres, plata(pres)) else ""),
+            style = MaterialTheme.typography.bodySmall, color = if (pres > 0 && cierre > pres) burdeos else MaterialTheme.colorScheme.onSurface)
+        // Cuánto construyes
+        if (t.ing > 0) {
+            HorizontalDivider(Modifier.padding(top = 4.dp))
+            val tasa = (t.construido / t.ing).coerceIn(0.0, 1.0)
+            Text(stringResource(R.string.fb_res_construyes, (tasa * 100).toInt()), style = MaterialTheme.typography.titleSmall)
+            Box(Modifier.fillMaxWidth().height(10.dp)) {
+                LinearProgressIndicator(progress = { tasa.toFloat() }, Modifier.fillMaxWidth().height(8.dp).align(Alignment.Center),
+                    color = if (tasa >= 0.2) verde else oro, trackColor = MaterialTheme.colorScheme.surfaceContainerHighest, drawStopIndicator = {}, gapSize = 0.dp)
+                androidx.compose.foundation.layout.BoxWithConstraints(Modifier.matchParentSize()) {
+                    Box(Modifier.padding(start = maxWidth * 0.2f).width(2.dp).fillMaxHeight().background(MaterialTheme.colorScheme.onSurface))
+                }
+            }
+            Text(if (tasa >= 0.2) stringResource(R.string.fb_res_bien) else stringResource(R.string.fb_res_falta, plata(kotlin.math.max(0.0, t.ing * 0.2 - t.construido))),
+                style = MaterialTheme.typography.labelSmall, color = suave)
+        }
+        // A dónde se fue
+        val cats = t.categorias.filterKeys { it.first == Tipo.GAS }.entries.sortedByDescending { it.value }.take(3)
+        if (cats.isNotEmpty()) {
+            HorizontalDivider(Modifier.padding(top = 4.dp))
+            Text(stringResource(R.string.fb_res_adonde), style = MaterialTheme.typography.titleSmall)
+            cats.forEach { (k, valor) ->
+                Column {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(nombreCategoria(k.first, k.second), style = MaterialTheme.typography.bodySmall, color = suave, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        Text(plata(valor), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold)
+                        Text(if (t.gas > 0) "${(valor / t.gas * 100).toInt()} %" else "", style = MaterialTheme.typography.labelSmall, color = suave,
+                            textAlign = TextAlign.End, modifier = Modifier.width(44.dp))
+                    }
+                    LinearProgressIndicator(progress = { (valor / cats[0].value).toFloat() }, Modifier.fillMaxWidth().padding(top = 3.dp).height(5.dp),
+                        color = colorTipo(Tipo.GAS), trackColor = MaterialTheme.colorScheme.surfaceContainerHighest, drawStopIndicator = {}, gapSize = 0.dp)
+                }
+            }
+        }
+        HorizontalDivider(Modifier.padding(top = 4.dp))
     }
 }

@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">عرض الساعات الـ24</string>
     <string name="acts_ver_menos">عرض أقل</string>
     <string name="acts_planificador">المخطط</string>
+    <string name="fb_res_vacio">عندما تسجّل حركات %1$s سترى هنا أرقامك ووتيرة إنفاقك وأين تذهب أموالك.</string>
+    <string name="fb_res_cifras">الشهر بالأرقام</string>
+    <string name="fb_res_frente">مقارنةً بـ%1$s</string>
+    <string name="fb_res_ritmo">وتيرة الإنفاق</string>
+    <string name="fb_res_ritmo_txt">تنفق %1$s يوميًا في المتوسط. بهذه الوتيرة ستُنهي %2$s بنفقات قدرها %3$s.</string>
+    <string name="fb_res_de_pres">من أصل %1$s في الميزانية.</string>
+    <string name="fb_res_construyes">تبني %1$d %% مما يدخل</string>
+    <string name="fb_res_bien" formatted="false">أنت فوق نسبة 20 % المثالية.</string>
+    <string name="fb_res_falta">ينقصك %1$s للوصول إلى 20 %%.</string>
+    <string name="fb_res_adonde">أين ذهبت؟</string>
 </resources>

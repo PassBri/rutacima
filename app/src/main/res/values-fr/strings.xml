@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">Voir les 24 heures</string>
     <string name="acts_ver_menos">Voir moins</string>
     <string name="acts_planificador">Agenda</string>
+    <string name="fb_res_vacio">Quand vous noterez des mouvements de %1$s, vous verrez ici vos chiffres, votre rythme de dépense et où va votre argent.</string>
+    <string name="fb_res_cifras">Le mois en chiffres</string>
+    <string name="fb_res_frente">par rapport à %1$s</string>
+    <string name="fb_res_ritmo">Rythme de dépense</string>
+    <string name="fb_res_ritmo_txt">Vous dépensez %1$s par jour en moyenne. À ce rythme, vous finiriez %2$s avec %3$s de dépenses.</string>
+    <string name="fb_res_de_pres">sur %1$s budgétés.</string>
+    <string name="fb_res_construyes">Vous bâtissez %1$d %% de ce qui entre</string>
+    <string name="fb_res_bien" formatted="false">Vous êtes au-dessus des 20 % idéaux.</string>
+    <string name="fb_res_falta">Il manque %1$s pour atteindre 20 %%.</string>
+    <string name="fb_res_adonde">Où est-il allé ?</string>
 </resources>

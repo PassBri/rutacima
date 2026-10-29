@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">Все 24 часа</string>
     <string name="acts_ver_menos">Свернуть</string>
     <string name="acts_planificador">Планировщик</string>
+    <string name="fb_res_vacio">Когда вы запишете движения за %1$s, здесь появятся цифры, темп трат и то, куда уходят деньги.</string>
+    <string name="fb_res_cifras">Месяц в цифрах</string>
+    <string name="fb_res_frente">по сравнению с: %1$s</string>
+    <string name="fb_res_ritmo">Темп трат</string>
+    <string name="fb_res_ritmo_txt">В среднем вы тратите %1$s в день. В таком темпе %2$s закроется с расходами %3$s.</string>
+    <string name="fb_res_de_pres">из %1$s по бюджету.</string>
+    <string name="fb_res_construyes">Вы откладываете %1$d %% дохода</string>
+    <string name="fb_res_bien" formatted="false">Вы выше идеальных 20 %.</string>
+    <string name="fb_res_falta">До 20 %% не хватает %1$s.</string>
+    <string name="fb_res_adonde">Куда ушли деньги?</string>
 </resources>

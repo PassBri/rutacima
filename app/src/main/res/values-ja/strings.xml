@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">24時間すべて表示</string>
     <string name="acts_ver_menos">閉じる</string>
     <string name="acts_planificador">プランナー</string>
+    <string name="fb_res_vacio">%1$s の記録をつけると、数字・支出ペース・お金の行き先がここに表示されます。</string>
+    <string name="fb_res_cifras">今月の数字</string>
+    <string name="fb_res_frente">%1$s と比較</string>
+    <string name="fb_res_ritmo">支出ペース</string>
+    <string name="fb_res_ritmo_txt">1日平均 %1$s 使っています。このペースだと %2$s は支出 %3$s で締めくくります。</string>
+    <string name="fb_res_de_pres">（予算 %1$s）</string>
+    <string name="fb_res_construyes">収入の %1$d %% を資産にしています</string>
+    <string name="fb_res_bien" formatted="false">理想の 20 % を超えています。</string>
+    <string name="fb_res_falta">20 %% まであと %1$s。</string>
+    <string name="fb_res_adonde">どこに使った？</string>
 </resources>

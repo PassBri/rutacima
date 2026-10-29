@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">查看全部 24 小时</string>
     <string name="acts_ver_menos">收起</string>
     <string name="acts_planificador">规划</string>
+    <string name="fb_res_vacio">记录 %1$s 的收支后，这里会显示你的数字、支出节奏和钱的去向。</string>
+    <string name="fb_res_cifras">本月数字</string>
+    <string name="fb_res_frente">对比 %1$s</string>
+    <string name="fb_res_ritmo">支出节奏</string>
+    <string name="fb_res_ritmo_txt">你平均每天花 %1$s。按这个速度，%2$s 结束时支出将达 %3$s。</string>
+    <string name="fb_res_de_pres">（预算 %1$s）</string>
+    <string name="fb_res_construyes">你把收入的 %1$d %% 用于积累</string>
+    <string name="fb_res_bien" formatted="false">你已超过理想的 20 %。</string>
+    <string name="fb_res_falta">还差 %1$s 达到 20 %%。</string>
+    <string name="fb_res_adonde">钱去哪了？</string>
 </resources>

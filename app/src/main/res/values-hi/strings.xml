@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">सभी 24 घंटे देखें</string>
     <string name="acts_ver_menos">कम देखें</string>
     <string name="acts_planificador">योजनाकार</string>
+    <string name="fb_res_vacio">%1$s के लेन-देन दर्ज करने पर यहाँ आपके आँकड़े, खर्च की रफ़्तार और पैसा कहाँ गया, दिखेगा।</string>
+    <string name="fb_res_cifras">महीने के आँकड़े</string>
+    <string name="fb_res_frente">%1$s की तुलना में</string>
+    <string name="fb_res_ritmo">खर्च की रफ़्तार</string>
+    <string name="fb_res_ritmo_txt">आप औसतन रोज़ %1$s खर्च करते हैं। इसी रफ़्तार से %2$s का खर्च %3$s होगा।</string>
+    <string name="fb_res_de_pres">(बजट %1$s)</string>
+    <string name="fb_res_construyes">आप आमदनी का %1$d %% जोड़ रहे हैं</string>
+    <string name="fb_res_bien" formatted="false">आप आदर्श 20 % से ऊपर हैं।</string>
+    <string name="fb_res_falta">20 %% तक पहुँचने में %1$s बाकी।</string>
+    <string name="fb_res_adonde">पैसा कहाँ गया?</string>
 </resources>

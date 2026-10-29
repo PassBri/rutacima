@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">See all 24 hours</string>
     <string name="acts_ver_menos">Show less</string>
     <string name="acts_planificador">Planner</string>
+    <string name="fb_res_vacio">Once you log movements for %1$s you’ll see your figures, spending pace and where your money goes.</string>
+    <string name="fb_res_cifras">The month in numbers</string>
+    <string name="fb_res_frente">vs. %1$s</string>
+    <string name="fb_res_ritmo">Spending pace</string>
+    <string name="fb_res_ritmo_txt">You spend %1$s a day on average. At this pace you’d close %2$s with %3$s in expenses.</string>
+    <string name="fb_res_de_pres">out of %1$s budgeted.</string>
+    <string name="fb_res_construyes">You build %1$d %% of what comes in</string>
+    <string name="fb_res_bien" formatted="false">You’re above the ideal 20 %.</string>
+    <string name="fb_res_falta">%1$s more to reach 20 %%.</string>
+    <string name="fb_res_adonde">Where did it go?</string>
 </resources>

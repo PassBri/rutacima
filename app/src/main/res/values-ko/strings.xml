@@ -2787,4 +2787,14 @@
     <string name="acts_ver_dia">24시간 모두 보기</string>
     <string name="acts_ver_menos">접기</string>
     <string name="acts_planificador">플래너</string>
+    <string name="fb_res_vacio">%1$s 내역을 기록하면 여기에서 수치, 지출 속도, 돈의 행방을 볼 수 있어요.</string>
+    <string name="fb_res_cifras">이번 달 수치</string>
+    <string name="fb_res_frente">%1$s 대비</string>
+    <string name="fb_res_ritmo">지출 속도</string>
+    <string name="fb_res_ritmo_txt">하루 평균 %1$s를 써요. 이 속도라면 %2$s 지출은 %3$s가 돼요.</string>
+    <string name="fb_res_de_pres">(예산 %1$s)</string>
+    <string name="fb_res_construyes">들어온 돈의 %1$d %%를 쌓고 있어요</string>
+    <string name="fb_res_bien" formatted="false">이상적인 20 %를 넘었어요.</string>
+    <string name="fb_res_falta">20 %%까지 %1$s 남았어요.</string>
+    <string name="fb_res_adonde">어디에 썼나요?</string>
 </resources>
