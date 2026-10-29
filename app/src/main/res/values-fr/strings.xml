@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">La publication va dans ton sac et reçoit ton élan. Ici, personne n\'est jamais rejeté.</string>
     <string name="cv_g15_t">Sentiers</string>
     <string name="cv_g15_d">En haut, choisis un sentier (Volonté, Maîtrise, Voix, Valeur, Évolution, Transcendance) ou glisse sur l\'en-tête pour en changer.</string>
+    <string name="fb_fijos">Mes charges fixes</string>
+    <string name="fb_subir">Remonter d\'un niveau</string>
+    <string name="fb_ocultar">Masquer le calendrier</string>
+    <string name="fb_mostrar">Afficher le calendrier</string>
+    <string name="fb_hoy">Aujourd\'hui</string>
+    <string name="fb_libre">%1$s libre</string>
+    <string name="fb_sin_mov">Aucun mouvement</string>
+    <string name="fb_informe">Rapport PDF</string>
+    <string name="fb_cordillera">Ta cordillère du patrimoine</string>
+    <string name="fb_construido">%1$s construits au total · touche une année</string>
+    <string name="fb_asi_va">Où en est %1$s</string>
+    <string name="fb_disponible">disponible</string>
+    <string name="fb_dias_cerrar">jours avant la clôture</string>
+    <string name="fb_pres_gastado">%1$d %% du budget dépensé</string>
+    <string name="fb_poner_pres">Fixe un budget pour le mois</string>
+    <string name="fb_racha">%1$d jours d\'affilée à noter</string>
+    <string name="fb_sin_racha">Note aujourd\'hui et lance ta série</string>
+    <string-array name="fb_frases">
+        <item>Paie-toi d\'abord : ce que tu épargnes est la part du salaire qui reste avec toi.</item>
+        <item>Ce qui ne se mesure pas ne s\'améliore pas. Noter est le premier pas de l\'ascension.</item>
+        <item>Ce n\'est pas ce que tu gagnes, c\'est ce que tu gardes et fais fructifier.</item>
+        <item>Une petite dépense répétée chaque jour devient une grosse dette en fin d\'année.</item>
+        <item>Le fonds d\'urgence est la corde qui te retient quand le terrain cède.</item>
+        <item>Dépenser avec intention est aussi une façon d\'épargner.</item>
+        <item>La patience est l\'intérêt composé du caractère.</item>
+        <item>Avant d\'acheter, demande-toi combien d\'heures de ta vie cela coûte.</item>
+        <item>Ton budget ne t\'enlève pas ta liberté : il te dit où elle va.</item>
+        <item>Donner construit aussi : la générosité enrichit le chemin.</item>
+        <item>Investis d\'abord dans l\'apprentissage : c\'est l\'actif que personne ne t\'enlève.</item>
+        <item>Chaque euro avec un but : c\'est ainsi qu\'on monte sans perdre son souffle.</item>
+    </string-array>
 </resources>

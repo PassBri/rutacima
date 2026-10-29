@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">动态会放进你的背包并获得你的助力。这里从不拒绝任何人。</string>
     <string name="cv_g15_t">小径</string>
     <string name="cv_g15_d">在顶部选择一条小径（意志、精通、声音、价值、进化、超越），或在顶部栏左右滑动切换。</string>
+    <string name="fb_fijos">我的固定账单</string>
+    <string name="fb_subir">返回上一级</string>
+    <string name="fb_ocultar">隐藏日历</string>
+    <string name="fb_mostrar">显示日历</string>
+    <string name="fb_hoy">今天</string>
+    <string name="fb_libre">可支配 %1$s</string>
+    <string name="fb_sin_mov">无记录</string>
+    <string name="fb_informe">PDF 报告</string>
+    <string name="fb_cordillera">你的财富山脉</string>
+    <string name="fb_construido">累计积累 %1$s · 点按某一年</string>
+    <string name="fb_asi_va">%1$s进展</string>
+    <string name="fb_disponible">可支配</string>
+    <string name="fb_dias_cerrar">天后结束本月</string>
+    <string name="fb_pres_gastado">已花费预算的 %1$d %%</string>
+    <string name="fb_poner_pres">为本月设定预算</string>
+    <string name="fb_racha">连续记账 %1$d 天</string>
+    <string name="fb_sin_racha">今天记账，开始你的连续记录</string>
+    <string-array name="fb_frases">
+        <item>先支付给自己：你存下的，是工资里留给自己的那一部分。</item>
+        <item>无法衡量就无法改进。记账是攀登的第一步。</item>
+        <item>重要的不是赚多少，而是留下多少、让它增长多少。</item>
+        <item>每天重复的小花费，年底就是一笔大债。</item>
+        <item>应急基金是地面塌陷时拉住你的绳索。</item>
+        <item>有意识地花钱，也是一种储蓄。</item>
+        <item>耐心是品格的复利。</item>
+        <item>买之前问问自己：它值你生命中的多少小时？</item>
+        <item>预算不会夺走你的自由，它告诉你钱去了哪里。</item>
+        <item>给予也是一种建设：慷慨让道路更丰富。</item>
+        <item>先投资学习：那是没人能拿走的资产。</item>
+        <item>每一块钱都有去处：这样攀登才不会喘不过气。</item>
+    </string-array>
 </resources>

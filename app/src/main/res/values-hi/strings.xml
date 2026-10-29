@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">पोस्ट आपके बैग में जाती है और आपका प्रोत्साहन पाती है। यहाँ किसी को कभी ठुकराया नहीं जाता।</string>
     <string name="cv_g15_t">पगडंडियाँ</string>
     <string name="cv_g15_d">ऊपर एक पगडंडी चुनें (इच्छाशक्ति, महारत, आवाज़, मूल्य, विकास, उत्कर्ष) या बदलने के लिए हेडर पर बगल में स्वाइप करें।</string>
+    <string name="fb_fijos">मेरे निश्चित खर्च</string>
+    <string name="fb_subir">एक स्तर ऊपर</string>
+    <string name="fb_ocultar">कैलेंडर छिपाएँ</string>
+    <string name="fb_mostrar">कैलेंडर दिखाएँ</string>
+    <string name="fb_hoy">आज</string>
+    <string name="fb_libre">%1$s मुक्त</string>
+    <string name="fb_sin_mov">कोई लेन-देन नहीं</string>
+    <string name="fb_informe">PDF रिपोर्ट</string>
+    <string name="fb_cordillera">आपकी संपत्ति की पर्वतमाला</string>
+    <string name="fb_construido">कुल %1$s बनाए · कोई साल चुनें</string>
+    <string name="fb_asi_va">%1$s कैसा चल रहा है</string>
+    <string name="fb_disponible">उपलब्ध</string>
+    <string name="fb_dias_cerrar">दिन महीना पूरा होने में</string>
+    <string name="fb_pres_gastado">बजट का %1$d %% खर्च</string>
+    <string name="fb_poner_pres">महीने का बजट तय करें</string>
+    <string name="fb_racha">लगातार %1$d दिन से दर्ज</string>
+    <string name="fb_sin_racha">आज दर्ज करें और अपनी लय शुरू करें</string>
+    <string-array name="fb_frases">
+        <item>पहले खुद को भुगतान करें: जो बचाते हैं, वही वेतन का वह हिस्सा है जो आपके पास रहता है।</item>
+        <item>जो मापा नहीं जाता, वह सुधरता नहीं। दर्ज करना चढ़ाई का पहला कदम है।</item>
+        <item>मायने यह नहीं कि कितना कमाते हैं, बल्कि कितना बचाते और बढ़ाते हैं।</item>
+        <item>हर दिन दोहराया गया छोटा खर्च साल के अंत में बड़ा कर्ज़ बन जाता है।</item>
+        <item>आपातकालीन कोष वह रस्सी है जो ज़मीन खिसकने पर थामे रखती है।</item>
+        <item>सोच-समझकर खर्च करना भी बचत का एक तरीका है।</item>
+        <item>धैर्य चरित्र का चक्रवृद्धि ब्याज है।</item>
+        <item>खरीदने से पहले पूछें: यह आपकी ज़िंदगी के कितने घंटों के बराबर है?</item>
+        <item>बजट आपकी आज़ादी नहीं छीनता: वह बताता है कि पैसा कहाँ जाता है।</item>
+        <item>देना भी बनाता है: उदारता रास्ते को समृद्ध करती है।</item>
+        <item>पहले सीखने में निवेश करें: यह वह संपत्ति है जिसे कोई नहीं छीन सकता।</item>
+        <item>हर रुपये का एक उद्देश्य: ऐसे ही बिना हाँफे चढ़ा जाता है।</item>
+    </string-array>
 </resources>

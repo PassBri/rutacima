@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">게시물이 배낭에 담기고 응원을 받아요. 여기서는 누구도 거절당하지 않아요.</string>
     <string name="cv_g15_t">길</string>
     <string name="cv_g15_d">위에서 길(의지, 숙달, 목소리, 가치, 진화, 초월)을 고르거나 머리글을 옆으로 밀어 바꿔요.</string>
+    <string name="fb_fijos">나의 고정 지출</string>
+    <string name="fb_subir">한 단계 위로</string>
+    <string name="fb_ocultar">달력 숨기기</string>
+    <string name="fb_mostrar">달력 보기</string>
+    <string name="fb_hoy">오늘</string>
+    <string name="fb_libre">여유 %1$s</string>
+    <string name="fb_sin_mov">내역 없음</string>
+    <string name="fb_informe">PDF 보고서</string>
+    <string name="fb_cordillera">나의 자산 산맥</string>
+    <string name="fb_construido">총 %1$s 쌓음 · 연도를 누르세요</string>
+    <string name="fb_asi_va">%1$s 현황</string>
+    <string name="fb_disponible">사용 가능</string>
+    <string name="fb_dias_cerrar">일 후 마감</string>
+    <string name="fb_pres_gastado">예산의 %1$d %% 사용</string>
+    <string name="fb_poner_pres">이번 달 예산을 정하세요</string>
+    <string name="fb_racha">%1$d일 연속 기록</string>
+    <string name="fb_sin_racha">오늘 기록하고 연속 기록을 시작하세요</string>
+    <string-array name="fb_frases">
+        <item>먼저 나에게 지불하세요. 저축한 돈은 월급 중 나에게 남는 부분이에요.</item>
+        <item>측정하지 않으면 개선할 수 없어요. 기록이 등반의 첫걸음이에요.</item>
+        <item>얼마나 버느냐가 아니라 얼마나 지키고 키우느냐가 중요해요.</item>
+        <item>매일 반복되는 작은 지출은 연말에 큰 빚이 돼요.</item>
+        <item>비상금은 땅이 꺼질 때 나를 붙잡아 주는 로프예요.</item>
+        <item>의도를 갖고 쓰는 것도 저축의 한 방법이에요.</item>
+        <item>인내는 성품의 복리예요.</item>
+        <item>사기 전에 그것이 내 삶의 몇 시간인지 물어보세요.</item>
+        <item>예산은 자유를 빼앗지 않아요. 돈이 어디로 가는지 알려 줘요.</item>
+        <item>나누는 것도 쌓는 일이에요. 너그러움이 길을 풍요롭게 해요.</item>
+        <item>먼저 배움에 투자하세요. 누구도 빼앗을 수 없는 자산이에요.</item>
+        <item>모든 돈에 목적을. 그래야 숨이 차지 않고 오를 수 있어요.</item>
+    </string-array>
 </resources>

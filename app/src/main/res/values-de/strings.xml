@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">Der Beitrag landet in deinem Rucksack und bekommt deinen Ansporn. Hier wird niemand abgelehnt.</string>
     <string name="cv_g15_t">Pfade</string>
     <string name="cv_g15_d">Oben wählst du einen Pfad (Wille, Meisterschaft, Stimme, Wert, Entwicklung, Transzendenz) oder wischst seitlich über die Kopfzeile, um ihn zu wechseln.</string>
+    <string name="fb_fijos">Meine Fixkosten</string>
+    <string name="fb_subir">Eine Ebene hoch</string>
+    <string name="fb_ocultar">Kalender ausblenden</string>
+    <string name="fb_mostrar">Kalender einblenden</string>
+    <string name="fb_hoy">Heute</string>
+    <string name="fb_libre">%1$s frei</string>
+    <string name="fb_sin_mov">Keine Buchungen</string>
+    <string name="fb_informe">PDF-Bericht</string>
+    <string name="fb_cordillera">Dein Vermögensgebirge</string>
+    <string name="fb_construido">%1$s insgesamt aufgebaut · tippe auf ein Jahr</string>
+    <string name="fb_asi_va">So läuft der %1$s</string>
+    <string name="fb_disponible">verfügbar</string>
+    <string name="fb_dias_cerrar">Tage bis Monatsende</string>
+    <string name="fb_pres_gastado">%1$d %% des Budgets ausgegeben</string>
+    <string name="fb_poner_pres">Lege ein Monatsbudget fest</string>
+    <string name="fb_racha">%1$d Tage in Folge erfasst</string>
+    <string name="fb_sin_racha">Erfasse heute und starte deine Serie</string>
+    <string-array name="fb_frases">
+        <item>Bezahl zuerst dich selbst: Was du sparst, ist der Teil des Lohns, der bei dir bleibt.</item>
+        <item>Was man nicht misst, verbessert man nicht. Erfassen ist der erste Schritt des Aufstiegs.</item>
+        <item>Nicht wie viel du verdienst zählt, sondern wie viel du behältst und wachsen lässt.</item>
+        <item>Eine kleine Ausgabe jeden Tag wird am Jahresende zu einer großen Schuld.</item>
+        <item>Der Notgroschen ist das Seil, das dich hält, wenn der Boden nachgibt.</item>
+        <item>Bewusst ausgeben ist auch eine Art zu sparen.</item>
+        <item>Geduld ist der Zinseszins des Charakters.</item>
+        <item>Frag dich vor dem Kauf, wie viele Stunden deines Lebens er kostet.</item>
+        <item>Dein Budget nimmt dir keine Freiheit: Es zeigt dir, wohin sie geht.</item>
+        <item>Geben baut auch auf: Großzügigkeit macht den Weg reicher.</item>
+        <item>Investiere zuerst ins Lernen: Dieses Vermögen nimmt dir niemand.</item>
+        <item>Jeder Euro mit einem Zweck: So steigt man auf, ohne außer Atem zu kommen.</item>
+    </string-array>
 </resources>

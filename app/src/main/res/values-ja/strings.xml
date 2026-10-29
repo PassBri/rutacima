@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">投稿がリュックに入り、あなたの応援が届きます。ここでは誰も拒まれません。</string>
     <string name="cv_g15_t">道</string>
     <string name="cv_g15_d">上部で道（意志・熟達・声・価値・進化・超越）を選ぶか、ヘッダーを左右にスワイプして切り替えます。</string>
+    <string name="fb_fijos">固定費</string>
+    <string name="fb_subir">1つ上へ</string>
+    <string name="fb_ocultar">カレンダーを隠す</string>
+    <string name="fb_mostrar">カレンダーを表示</string>
+    <string name="fb_hoy">今日</string>
+    <string name="fb_libre">自由に使える %1$s</string>
+    <string name="fb_sin_mov">記録なし</string>
+    <string name="fb_informe">PDF レポート</string>
+    <string name="fb_cordillera">あなたの資産の山なみ</string>
+    <string name="fb_construido">合計 %1$s を築きました · 年をタップ</string>
+    <string name="fb_asi_va">%1$sの状況</string>
+    <string name="fb_disponible">使える額</string>
+    <string name="fb_dias_cerrar">日で月末</string>
+    <string name="fb_pres_gastado">予算の %1$d %% を使用</string>
+    <string name="fb_poner_pres">今月の予算を決めましょう</string>
+    <string name="fb_racha">%1$d 日連続で記録</string>
+    <string name="fb_sin_racha">今日記録して連続記録を始めよう</string>
+    <string-array name="fb_frases">
+        <item>まず自分に払おう。貯めた分は、給料のうち手元に残る分です。</item>
+        <item>測れないものは改善できない。記録することが登山の第一歩。</item>
+        <item>大事なのは稼ぐ額ではなく、残して育てる額。</item>
+        <item>毎日の小さな出費は、年末には大きな借金になる。</item>
+        <item>緊急資金は、足元が崩れたときに支えてくれるロープ。</item>
+        <item>意図を持って使うことも、ひとつの節約。</item>
+        <item>忍耐は人格の複利。</item>
+        <item>買う前に、それが人生の何時間分かを考えよう。</item>
+        <item>予算は自由を奪わない。お金の行き先を教えてくれる。</item>
+        <item>与えることも築くこと。寛大さが道を豊かにする。</item>
+        <item>まず学びに投資を。それは誰にも奪えない資産。</item>
+        <item>1円ごとに目的を。そうすれば息切れせずに登れる。</item>
+    </string-array>
 </resources>

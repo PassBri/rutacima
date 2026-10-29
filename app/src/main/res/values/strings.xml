@@ -2756,4 +2756,35 @@
     <string name="cv_g14_d">La publicación queda en tu mochila y le das impulso. Aquí nunca se rechaza a nadie.</string>
     <string name="cv_g15_t">Senderos</string>
     <string name="cv_g15_d">Arriba eliges un sendero (Voluntad, Maestría, Voz, Valor, Evolución, Trascendencia) o deslizas de lado sobre la cabecera para cambiarlo.</string>
+    <string name="fb_fijos">Mis cuentas fijas</string>
+    <string name="fb_subir">Subir un nivel</string>
+    <string name="fb_ocultar">Ocultar el calendario</string>
+    <string name="fb_mostrar">Mostrar el calendario</string>
+    <string name="fb_hoy">Hoy</string>
+    <string name="fb_libre">%1$s libre</string>
+    <string name="fb_sin_mov">Sin movimientos</string>
+    <string name="fb_informe">Informe PDF</string>
+    <string name="fb_cordillera">Tu cordillera del patrimonio</string>
+    <string name="fb_construido">%1$s construidos en total · toca un año</string>
+    <string name="fb_asi_va">Así va %1$s</string>
+    <string name="fb_disponible">disponible</string>
+    <string name="fb_dias_cerrar">días para cerrar</string>
+    <string name="fb_pres_gastado">%1$d %% del presupuesto gastado</string>
+    <string name="fb_poner_pres">Ponle un presupuesto al mes</string>
+    <string name="fb_racha">%1$d días seguidos anotando</string>
+    <string name="fb_sin_racha">Anota hoy y empieza tu racha</string>
+    <string-array name="fb_frases">
+        <item>Primero págate a ti: lo que ahorras es la parte del sueldo que se queda contigo.</item>
+        <item>Lo que no se mide no se mejora. Anotar es el primer paso del ascenso.</item>
+        <item>No es cuánto ganas, es cuánto conservas y haces crecer.</item>
+        <item>Un gasto pequeño repetido cada día es una deuda grande al final del año.</item>
+        <item>El fondo de emergencia es la cuerda que te sostiene cuando el terreno cede.</item>
+        <item>Gastar con intención también es una forma de ahorrar.</item>
+        <item>La paciencia es el interés compuesto del carácter.</item>
+        <item>Antes de comprar, pregúntate cuántas horas de tu vida cuesta.</item>
+        <item>Tu presupuesto no te quita libertad: te dice a dónde se va.</item>
+        <item>Dar también construye: la generosidad hace más rico el camino.</item>
+        <item>Invierte primero en aprender: es el activo que nadie te quita.</item>
+        <item>Cada peso con un propósito: así se sube sin perder el aire.</item>
+    </string-array>
 </resources>

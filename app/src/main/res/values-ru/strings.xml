@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">Публикация попадает в ваш рюкзак и получает вашу поддержку. Здесь никого не отвергают.</string>
     <string name="cv_g15_t">Тропы</string>
     <string name="cv_g15_d">Вверху выберите тропу (Воля, Мастерство, Голос, Ценность, Развитие, Трансцендентность) или проведите вбок по заголовку, чтобы сменить её.</string>
+    <string name="fb_fijos">Мои постоянные платежи</string>
+    <string name="fb_subir">На уровень выше</string>
+    <string name="fb_ocultar">Скрыть календарь</string>
+    <string name="fb_mostrar">Показать календарь</string>
+    <string name="fb_hoy">Сегодня</string>
+    <string name="fb_libre">Свободно: %1$s</string>
+    <string name="fb_sin_mov">Нет операций</string>
+    <string name="fb_informe">PDF-отчёт</string>
+    <string name="fb_cordillera">Ваш хребет капитала</string>
+    <string name="fb_construido">Всего создано: %1$s · выберите год</string>
+    <string name="fb_asi_va">Как идёт %1$s</string>
+    <string name="fb_disponible">доступно</string>
+    <string name="fb_dias_cerrar">дней до конца месяца</string>
+    <string name="fb_pres_gastado">Потрачено %1$d %% бюджета</string>
+    <string name="fb_poner_pres">Задайте бюджет на месяц</string>
+    <string name="fb_racha">Записей подряд, дней: %1$d</string>
+    <string name="fb_sin_racha">Запишите сегодня и начните серию</string>
+    <string-array name="fb_frases">
+        <item>Сначала заплатите себе: сбережения — это часть зарплаты, которая остаётся с вами.</item>
+        <item>Что не измеряется, то не улучшается. Записи — первый шаг восхождения.</item>
+        <item>Важно не сколько вы зарабатываете, а сколько сохраняете и приумножаете.</item>
+        <item>Маленькая трата каждый день к концу года превращается в большой долг.</item>
+        <item>Резервный фонд — это верёвка, которая держит, когда земля уходит из-под ног.</item>
+        <item>Тратить осознанно — тоже способ копить.</item>
+        <item>Терпение — это сложный процент характера.</item>
+        <item>Перед покупкой спросите себя, сколько часов вашей жизни она стоит.</item>
+        <item>Бюджет не отнимает свободу: он показывает, куда уходят деньги.</item>
+        <item>Отдавать — тоже строить: щедрость делает путь богаче.</item>
+        <item>Сначала инвестируйте в обучение: этот актив никто не отнимет.</item>
+        <item>У каждой монеты есть цель: так поднимаются, не сбивая дыхание.</item>
+    </string-array>
 </resources>

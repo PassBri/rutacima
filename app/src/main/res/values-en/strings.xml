@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">The post goes into your backpack and gets your boost. Nobody is ever rejected here.</string>
     <string name="cv_g15_t">Trails</string>
     <string name="cv_g15_d">At the top, pick a trail (Willpower, Mastery, Voice, Value, Evolution, Transcendence) or swipe sideways on the header to change it.</string>
+    <string name="fb_fijos">My fixed bills</string>
+    <string name="fb_subir">Up one level</string>
+    <string name="fb_ocultar">Hide calendar</string>
+    <string name="fb_mostrar">Show calendar</string>
+    <string name="fb_hoy">Today</string>
+    <string name="fb_libre">%1$s free</string>
+    <string name="fb_sin_mov">No entries</string>
+    <string name="fb_informe">PDF report</string>
+    <string name="fb_cordillera">Your wealth mountain range</string>
+    <string name="fb_construido">%1$s built in total · tap a year</string>
+    <string name="fb_asi_va">How %1$s is going</string>
+    <string name="fb_disponible">available</string>
+    <string name="fb_dias_cerrar">days to close</string>
+    <string name="fb_pres_gastado">%1$d %% of the budget spent</string>
+    <string name="fb_poner_pres">Set a budget for the month</string>
+    <string name="fb_racha">%1$d days in a row logging</string>
+    <string name="fb_sin_racha">Log today and start your streak</string>
+    <string-array name="fb_frases">
+        <item>Pay yourself first: what you save is the part of your pay that stays with you.</item>
+        <item>What isn\'t measured can\'t improve. Logging is the first step of the climb.</item>
+        <item>It\'s not how much you earn, it\'s how much you keep and grow.</item>
+        <item>A small expense repeated every day is a big debt by year\'s end.</item>
+        <item>Your emergency fund is the rope that holds you when the ground gives way.</item>
+        <item>Spending with intention is also a way of saving.</item>
+        <item>Patience is the compound interest of character.</item>
+        <item>Before buying, ask yourself how many hours of your life it costs.</item>
+        <item>Your budget doesn\'t take your freedom: it tells you where it goes.</item>
+        <item>Giving builds too: generosity makes the path richer.</item>
+        <item>Invest in learning first: it\'s the asset no one can take from you.</item>
+        <item>Every coin with a purpose: that\'s how you climb without running out of breath.</item>
+    </string-array>
 </resources>

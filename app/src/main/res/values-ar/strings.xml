@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">تذهب المشاركة إلى حقيبتك وتنال تحفيزك. لا يُرفض أحد هنا أبدًا.</string>
     <string name="cv_g15_t">المسارات</string>
     <string name="cv_g15_d">في الأعلى اختر مسارًا (الإرادة، الإتقان، الصوت، القيمة، التطور، السمو) أو اسحب جانبيًا على الشريط العلوي لتغييره.</string>
+    <string name="fb_fijos">فواتيري الثابتة</string>
+    <string name="fb_subir">الصعود مستوى</string>
+    <string name="fb_ocultar">إخفاء التقويم</string>
+    <string name="fb_mostrar">إظهار التقويم</string>
+    <string name="fb_hoy">اليوم</string>
+    <string name="fb_libre">%1$s متاح</string>
+    <string name="fb_sin_mov">لا توجد حركات</string>
+    <string name="fb_informe">تقرير PDF</string>
+    <string name="fb_cordillera">سلسلة جبال ثروتك</string>
+    <string name="fb_construido">%1$s مجموع ما بنيته · المس سنة</string>
+    <string name="fb_asi_va">كيف يسير %1$s</string>
+    <string name="fb_disponible">متاح</string>
+    <string name="fb_dias_cerrar">أيام على الإغلاق</string>
+    <string name="fb_pres_gastado">صُرف %1$d %% من الميزانية</string>
+    <string name="fb_poner_pres">حدّد ميزانية للشهر</string>
+    <string name="fb_racha">%1$d أيام متتالية من التسجيل</string>
+    <string name="fb_sin_racha">سجّل اليوم وابدأ سلسلتك</string>
+    <string-array name="fb_frases">
+        <item>ادفع لنفسك أولًا: ما تدّخره هو جزء الراتب الذي يبقى معك.</item>
+        <item>ما لا يُقاس لا يتحسّن. التسجيل هو أول خطوة في الصعود.</item>
+        <item>ليس المهم كم تكسب، بل كم تحفظ وتنمّي.</item>
+        <item>مصروف صغير يتكرر كل يوم يصبح دينًا كبيرًا في آخر السنة.</item>
+        <item>صندوق الطوارئ هو الحبل الذي يسندك حين تنهار الأرض.</item>
+        <item>الإنفاق بنية واعية هو أيضًا طريقة للادخار.</item>
+        <item>الصبر هو الفائدة المركّبة للشخصية.</item>
+        <item>قبل الشراء، اسأل نفسك كم ساعة من حياتك يكلّف.</item>
+        <item>ميزانيتك لا تسلبك حريتك: إنها تخبرك أين تذهب.</item>
+        <item>العطاء يبني أيضًا: الكرم يجعل الطريق أغنى.</item>
+        <item>استثمر أولًا في التعلّم: إنه الأصل الذي لا يأخذه منك أحد.</item>
+        <item>لكل قرش هدف: هكذا تصعد دون أن تنقطع أنفاسك.</item>
+    </string-array>
 </resources>

@@ -2747,4 +2747,35 @@
     <string name="cv_g14_d">La pubblicazione va nel tuo zaino e riceve il tuo slancio. Qui nessuno viene mai rifiutato.</string>
     <string name="cv_g15_t">Sentieri</string>
     <string name="cv_g15_d">In alto scegli un sentiero (Volontà, Maestria, Voce, Valore, Evoluzione, Trascendenza) o scorri di lato sull\'intestazione per cambiarlo.</string>
+    <string name="fb_fijos">Le mie spese fisse</string>
+    <string name="fb_subir">Sali di un livello</string>
+    <string name="fb_ocultar">Nascondi il calendario</string>
+    <string name="fb_mostrar">Mostra il calendario</string>
+    <string name="fb_hoy">Oggi</string>
+    <string name="fb_libre">%1$s libero</string>
+    <string name="fb_sin_mov">Nessun movimento</string>
+    <string name="fb_informe">Report PDF</string>
+    <string name="fb_cordillera">La tua cordigliera del patrimonio</string>
+    <string name="fb_construido">%1$s costruiti in totale · tocca un anno</string>
+    <string name="fb_asi_va">Come va %1$s</string>
+    <string name="fb_disponible">disponibile</string>
+    <string name="fb_dias_cerrar">giorni alla chiusura</string>
+    <string name="fb_pres_gastado">%1$d %% del budget speso</string>
+    <string name="fb_poner_pres">Imposta un budget per il mese</string>
+    <string name="fb_racha">%1$d giorni di fila a registrare</string>
+    <string name="fb_sin_racha">Registra oggi e inizia la tua serie</string>
+    <string-array name="fb_frases">
+        <item>Paga prima te stesso: ciò che risparmi è la parte dello stipendio che resta con te.</item>
+        <item>Ciò che non si misura non migliora. Annotare è il primo passo della salita.</item>
+        <item>Non conta quanto guadagni, ma quanto conservi e fai crescere.</item>
+        <item>Una piccola spesa ripetuta ogni giorno è un grande debito a fine anno.</item>
+        <item>Il fondo di emergenza è la corda che ti tiene quando il terreno cede.</item>
+        <item>Spendere con intenzione è anche un modo di risparmiare.</item>
+        <item>La pazienza è l\'interesse composto del carattere.</item>
+        <item>Prima di comprare, chiediti quante ore della tua vita costa.</item>
+        <item>Il tuo budget non ti toglie libertà: ti dice dove va.</item>
+        <item>Anche dare costruisce: la generosità rende più ricco il cammino.</item>
+        <item>Investi prima nell\'imparare: è il patrimonio che nessuno ti toglie.</item>
+        <item>Ogni euro con uno scopo: così si sale senza perdere il fiato.</item>
+    </string-array>
 </resources>

@@ -515,14 +515,16 @@ sealed interface NivelCuentas {
     data class SaludN(val a: Int?) : NivelCuentas
     data object GraficaN : NivelCuentas
     data object MetasN : NivelCuentas
+    /** Mis cuentas fijas (arriendo, salario, internet…): a un toque desde la barra. */
+    data object FijosN : NivelCuentas
 
-    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a"; GraficaN -> "grafica"; MetasN -> "metasfin" }
-    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN, GraficaN, MetasN -> Balance }
+    fun codigo(): String = when (this) { Balance -> "b"; is Anio -> "a:$a"; is Mes -> "m:$ym"; is Dia -> "d:$f"; DeudasN -> "deudas"; PatrimonioN -> "patrimonio"; is SaludN -> if (a == null) "salud" else "salud:$a"; GraficaN -> "grafica"; MetasN -> "metasfin"; FijosN -> "fijos" }
+    fun arriba(): NivelCuentas? = when (this) { Balance -> null; is Anio -> Balance; is Mes -> Anio(ym.year); is Dia -> Mes(YearMonth.from(f)); DeudasN, PatrimonioN, is SaludN, GraficaN, MetasN, FijosN -> Balance }
 
     companion object {
         fun de(c: String?): NivelCuentas = runCatching {
             val (t, v) = (c ?: "b").split(":", limit = 2).let { it[0] to it.getOrElse(1) { "" } }
-            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); "grafica" -> GraficaN; "metasfin" -> MetasN; else -> Balance }
+            when (t) { "a" -> Anio(v.toInt()); "m" -> Mes(YearMonth.parse(v)); "d" -> Dia(LocalDate.parse(v)); "deudas" -> DeudasN; "patrimonio" -> PatrimonioN; "salud" -> SaludN(v.toIntOrNull()); "grafica" -> GraficaN; "metasfin" -> MetasN; "fijos" -> FijosN; else -> Balance }
         }.getOrDefault(Balance)
     }
 }
@@ -676,6 +678,9 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
             return@Scaffold
         }
         Column(Modifier.fillMaxSize().padding(top = padding.calculateTopPadding())) {
+            // La barra del Ascenso (igual que Mi ruta y la web): año, meses, días, atajos y «así va el mes», plegable
+            val ctxB = androidx.compose.ui.platform.LocalContext.current; val listoB = stringResource(R.string.cu_informe_pdf)
+            BarraFinanzas(nivel, libro, plata, ir, onInforme = { InformeFinanciero.imprimir(ctxB, libro); com.rutaalacima.app.ui.theme.AvisoGlobal.mostrar(listoB) })
             Migas(nivel, ir)
             AnimatedContent(nivel, label = "nivel", transitionSpec = { fadeIn() togetherWith fadeOut() }) { n ->
                 LazyColumn(
@@ -691,6 +696,7 @@ fun AscensoFinancieroScreen(inicial: String?, onBack: () -> Unit, onAprende: () 
                         NivelCuentas.DeudasN -> deudasNivel(libro, plata, vm, avisos)
                         NivelCuentas.PatrimonioN -> patrimonioNivel(libro, plata, ir, vm)
                         NivelCuentas.MetasN -> metasFinNivel(libro, plata, vm)
+                        NivelCuentas.FijosN -> item(key = "fijos-solo") { FijosCard(libro, null, plata, vm) }
                         is NivelCuentas.SaludN -> saludNivel(n.a, libro, plata, ir)
                         NivelCuentas.GraficaN -> item(key = "grafica-sola") { if (libro.dias.isEmpty()) RutaCard { Text(stringResource(R.string.gr_vacia), style = MaterialTheme.typography.bodyMedium) } else GraficaAscensoCard(libro, plata) }
                     }
@@ -713,6 +719,7 @@ private fun Migas(n: NivelCuentas, ir: (NivelCuentas) -> Unit) {
             NivelCuentas.DeudasN -> add(stringResource(R.string.cu_deudas) to n)
             NivelCuentas.PatrimonioN -> add(stringResource(R.string.cu_patrimonio_titulo) to n)
             NivelCuentas.MetasN -> add(stringResource(R.string.mf_titulo) to n)
+            NivelCuentas.FijosN -> add(stringResource(R.string.fb_fijos) to n)
             is NivelCuentas.SaludN -> add(stringResource(R.string.cu_salud) to n)
             NivelCuentas.GraficaN -> add(stringResource(R.string.gr_titulo) to n)
             else -> {}
