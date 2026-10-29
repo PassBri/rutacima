@@ -4616,3 +4616,35 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .detras-otras .postal { height: 100%; font-size: 11px; }
 @media (min-width: 901px) { .senderos { top: 8px; } }
 .cima.deslizando { user-select: none; -webkit-user-select: none; }
+
+/* ---------- Ascenso financiero: barra a la derecha (46-barra-finanzas.js) ---------- */
+.fb-herrs { display: flex; justify-content: flex-end; gap: 4px; margin: -2px 0 2px; }
+.fb-herr { width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: var(--tinta-suave); display: grid; place-items: center; cursor: pointer; }
+.fb-herr svg { width: 20px; height: 20px; fill: currentColor; }
+.fb-herr[aria-pressed="true"] { background: var(--oro-suave); color: var(--burdeos); }
+.fb-aro { width: 28px; height: 28px; pointer-events: none; }
+.fb-dia { position: relative; display: grid; place-items: center; align-content: center; gap: 1px; padding: 0; }
+.fb-dia > b { font-size: 11.5px; font-weight: 500; color: var(--tinta); font-variant-numeric: tabular-nums; line-height: 1; }
+.fb-dia.anotado { background: color-mix(in srgb, var(--ok, #2E6B3A) 9%, transparent); }
+.fb-dia.hoy > b { color: var(--burdeos); font-weight: 800; }
+.fb-dia.hoy { box-shadow: inset 0 0 0 1.5px var(--burdeos); }
+.fb-dia.abierto > b { color: #fff; }
+.fb-puntos { display: flex; gap: 2px; height: 4px; }
+.fb-puntos i { width: 4px; height: 4px; border-radius: 50%; }
+.fb-dia.abierto .fb-puntos i { box-shadow: 0 0 0 1px #fff; }
+.fb-ley { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 0; padding: 2px 4px 8px; font-size: 11px; color: var(--tinta-suave); border-bottom: 1px solid var(--linea); }
+.fb-ley span { display: inline-flex; align-items: center; gap: 4px; } .fb-ley i { width: 7px; height: 7px; border-radius: 50%; }
+.fb-cordillera { display: grid; gap: 4px; padding: 10px 4px 4px; border-top: 1px solid var(--linea); }
+.fb-cordillera svg { width: 100%; height: auto; overflow: visible; }
+.fb-pico { cursor: pointer; } .fb-pico circle { fill: var(--hoja); stroke: var(--burdeos); stroke-width: 1.6; }
+.fb-pico.viendo circle { fill: var(--burdeos); }
+.fb-pico text { font-size: 8.5px; fill: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.fb-pico:focus-visible circle { stroke: var(--oro); stroke-width: 3; }
+.fb-cordillera small { font-size: 11.5px; }
+.fb-tarjeta .neg { color: var(--burdeos); }
+.fb-pres i { background: var(--ok, #2E6B3A); } .fb-pres.cerca i { background: var(--oro); } .fb-pres.pasado i { background: var(--burdeos); }
+.fb-sin-pres { justify-self: start; border: 0; background: none; padding: 4px 0; color: var(--burdeos); font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.fb-racha { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--tinta-suave); }
+.fb-racha svg { width: 14px; height: 14px; fill: var(--burdeos); }
+@media (max-width: 900px) { .fb-dia { width: 40px; height: 40px; } }
+.fb-dia.abierto { background: var(--burdeos) !important; }

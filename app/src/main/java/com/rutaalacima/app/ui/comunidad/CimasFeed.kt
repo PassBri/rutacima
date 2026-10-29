@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -180,7 +181,7 @@ private fun CimaPagina(
                 )
             }
             .pointerInput(post.id) {
-                androidx.compose.foundation.gestures.detectHorizontalDragGestures(
+                detectHorizontalDragGestures(
                     onDragEnd = {
                         val d = arrastre; arrastre = 0f
                         if (d > umbral) { haptico.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress); onLlevar() }

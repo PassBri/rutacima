@@ -1,5 +1,6 @@
 package com.rutaalacima.app.ui.comunidad
 
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.foundation.layout.height
@@ -520,7 +521,7 @@ private fun PestanasCimas(vm: ComunidadViewModel, onMuro: () -> Unit, onCordadas
     Column(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 4.dp, vertical = 4.dp)
         // Deslizar de lado sobre la cabecera cambia de sendero
         .pointerInput(Unit) {
-            androidx.compose.foundation.gestures.detectHorizontalDragGestures(
+            detectHorizontalDragGestures(
                 onDragEnd = { val d = dxCab; dxCab = 0f; if (kotlin.math.abs(d) > 70.dp.toPx()) vm.cambiarSendero(if (d < 0) 1 else -1) },
                 onDragCancel = { dxCab = 0f },
             ) { _, dx -> dxCab += dx }
