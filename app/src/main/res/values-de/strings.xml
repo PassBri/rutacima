@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">Zum 24-Stunden-Format wechseln</string>
     <string name="acts_hechas">erledigt</string>
     <string name="acts_hechas_desc">%1$d von %2$d Aktivitäten erledigt</string>
-    <string name="mirar_ajustar">Justieren</string>
+    <string name="mirar_ajustar">Kalibrieren</string>
     <string name="mirar_listo">Fertig</string>
     <string name="mirar_noche">Nachtmodus</string>
     <string name="mirar_ayuda_ajustar">Ziehe die Zeichnung, bis der Mond oder ein heller Stern auf dem echten liegt. Doppeltippen: zurücksetzen.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">Konkrete Ziele · werden sie erreicht?</string>
     <string name="ev_prop_analisis">Fortschritt im Verhältnis zur Zeit und den Jahren</string>
     <string name="ev_preguntas_prop">Was funktioniert und was du anpasst</string>
+    <string name="mirar_ayuda_calibrar">Tippe dorthin, wo du den Himmelskörper im goldenen Ring (%1$s) wirklich siehst. Halte beim Tippen still. Doppeltippen: zurücksetzen.</string>
+    <string name="mirar_calibrado">Fertig: %1$s sitzt jetzt richtig. Wirkt es noch verschoben, zieh zum Feinjustieren und tippe auf Fertig.</string>
+    <string name="mirar_sugerir_calibrar">Jeder Kompass weicht etwas ab: Tippe auf Kalibrieren und dann auf den echten %1$s, damit alles passt.</string>
 </resources>

@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">24시간 형식으로 전환</string>
     <string name="acts_hechas">완료</string>
     <string name="acts_hechas_desc">활동 %2$d개 중 %1$d개 완료</string>
-    <string name="mirar_ajustar">조정</string>
+    <string name="mirar_ajustar">보정</string>
     <string name="mirar_listo">완료</string>
     <string name="mirar_noche">야간 모드</string>
     <string name="mirar_ayuda_ajustar">달이나 밝은 별이 실제와 겹칠 때까지 그림을 끄세요. 두 번 탭: 초기화.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">구체적 목표 · 이루어지고 있나요?</string>
     <string name="ev_prop_analisis">시간과 해에 대한 진척</string>
     <string name="ev_preguntas_prop">잘 되는 것과 조정할 것</string>
+    <string name="mirar_ayuda_calibrar">금색 고리 속 천체(%1$s)가 실제로 보이는 곳을 화면에서 탭하세요. 탭할 때 움직이지 마세요. 두 번 탭: 초기화.</string>
+    <string name="mirar_calibrado">완료: %1$s이(가) 제자리에 맞춰졌어요. 아직 어긋나 보이면 드래그로 미세 조정하고 완료를 탭하세요.</string>
+    <string name="mirar_sugerir_calibrar">나침반은 조금씩 어긋나요: 보정을 탭한 뒤 실제 %1$s을(를) 탭하면 모두 맞춰져요.</string>
 </resources>

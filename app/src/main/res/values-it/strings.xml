@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">Passa al formato 24 ore</string>
     <string name="acts_hechas">fatte</string>
     <string name="acts_hechas_desc">%1$d attività fatte su %2$d</string>
-    <string name="mirar_ajustar">Regola</string>
+    <string name="mirar_ajustar">Calibra</string>
     <string name="mirar_listo">Fatto</string>
     <string name="mirar_noche">Modalità notte</string>
     <string name="mirar_ayuda_ajustar">Trascina il disegno finché la Luna o una stella luminosa coincide con quella vera. Doppio tocco: azzera.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">Obiettivi specifici · si stanno raggiungendo?</string>
     <string name="ev_prop_analisis">Avanzamento rispetto al tempo e agli anni</string>
     <string name="ev_preguntas_prop">Cosa funziona e cosa aggiusterai</string>
+    <string name="mirar_ayuda_calibrar">Tocca lo schermo dove vedi davvero l\'astro dell\'anello dorato (%1$s). Resta fermo mentre tocchi. Doppio tocco: azzera.</string>
+    <string name="mirar_calibrado">Fatto: %1$s è al suo posto. Se sembra ancora spostato, trascina per rifinire e tocca Fatto.</string>
+    <string name="mirar_sugerir_calibrar">Ogni bussola devia un po\': tocca Calibra e poi il vero %1$s, così tutto combacia.</string>
 </resources>

@@ -109,6 +109,9 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
     var crudoRumbo by remember { mutableFloatStateOf(180f) }
     var crudoAlt by remember { mutableFloatStateOf(35f) }
     var ajustando by remember { mutableStateOf(false) }
+    // Calibrar con un toque: donde la persona ve la Luna (o el Sol, o el planeta más alto) de verdad, ahí debe quedar el dibujo
+    var calibrado by remember { mutableStateOf(false) }
+    val ultimoFov = remember { floatArrayOf(70f) }
     var noche by remember { mutableStateOf(prefs.getBoolean("cielo_noche", false)) }
     fun guardarAjuste() { prefs.edit().putFloat("cielo_dA", ajusteA).putFloat("cielo_dh", ajusteH).apply() }
     fun aplicar() { metaRumbo = (crudoRumbo + ajusteA + 360f) % 360f; metaAlt = (crudoAlt + ajusteH).coerceIn(-20f, 89f) }
@@ -191,12 +194,25 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                     ajusteH = (ajusteH + d.y * k).coerceIn(-30f, 30f)
                     aplicar()
                 }
-            }.pointerInput(ajustando) {
-                if (ajustando) detectTapGestures(onDoubleTap = { ajusteA = 0f; ajusteH = 0f; guardarAjuste(); aplicar() })
+            }.pointerInput(ajustando, calibrado, cielo, camara) {
+                if (ajustando) detectTapGestures(
+                    onTap = { p ->
+                        val ref = referenciaCielo(cielo, tSol, tLuna)
+                        if (!calibrado && ref != null) {
+                            val (aT, hT) = desproyectar(p.x, p.y, size.width.toFloat(), size.height.toFloat(), rumbo, alt, ultimoFov[0], camara)
+                            ajusteA = ((ajusteA + (ref.second - aT).toFloat() + 540f) % 360f) - 180f
+                            ajusteH = (ajusteH + (ref.third - hT).toFloat()).coerceIn(-30f, 30f)
+                            guardarAjuste(); aplicar(); calibrado = true
+                        }
+                    },
+                    onDoubleTap = { ajusteA = 0f; ajusteH = 0f; calibrado = false; guardarAjuste(); aplicar() },
+                )
             },
         ) {
             val fov = if (camara) fovDeCamara(lente, size.width, size.height) else if (size.width < 700.dp.toPx()) 70f else 90f
-            dibujarVentana(cielo, rumbo, alt, fov, tiempo, sinMovimiento, medidor, cardinales, tSol, tLuna, tLluvia, camara = camara)
+            ultimoFov[0] = fov
+            val marca = if (ajustando && !calibrado) referenciaCielo(cielo, tSol, tLuna)?.let { it.second to it.third } else null
+            dibujarVentana(cielo, rumbo, alt, fov, tiempo, sinMovimiento, medidor, cardinales, tSol, tLuna, tLluvia, camara = camara, marca = marca)
         }
         Row(
             Modifier.fillMaxWidth().background(Brush.verticalGradient(listOf(Color(0x8C060A10), Color.Transparent))).safeDrawingPadding().padding(16.dp),
@@ -216,7 +232,7 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
         ) {
             Row(Modifier.padding(bottom = 10.dp), horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)) {
                 if (conSensor) BotonCielo(stringResource(if (ajustando) R.string.mirar_listo else R.string.mirar_ajustar), ajustando) {
-                    ajustando = !ajustando; if (!ajustando) guardarAjuste()
+                    ajustando = !ajustando; calibrado = false; if (!ajustando) guardarAjuste()
                 }
                 BotonCielo(stringResource(R.string.mirar_noche), noche) { noche = !noche; prefs.edit().putBoolean("cielo_noche", noche).apply() }
             }
@@ -233,12 +249,43 @@ fun MirarCieloScreen(onCerrar: () -> Unit) {
                 }
             }
             Text(
-                stringResource(if (ajustando) R.string.mirar_ayuda_ajustar else if (camara) R.string.mirar_ayuda_camara else if (conSensor) R.string.mirar_ayuda_sensor else R.string.mirar_ayuda_arrastre),
+                referenciaCielo(cielo, tSol, tLuna)?.first.let { ref -> when {
+                    ajustando && calibrado && ref != null -> stringResource(R.string.mirar_calibrado, ref)
+                    ajustando && ref != null -> stringResource(R.string.mirar_ayuda_calibrar, ref)
+                    ajustando -> stringResource(R.string.mirar_ayuda_ajustar)
+                    camara && conSensor && ajusteA == 0f && ajusteH == 0f && ref != null -> stringResource(R.string.mirar_sugerir_calibrar, ref)
+                    camara -> stringResource(R.string.mirar_ayuda_camara)
+                    conSensor -> stringResource(R.string.mirar_ayuda_sensor)
+                    else -> stringResource(R.string.mirar_ayuda_arrastre)
+                } },
                 color = Color.White.copy(alpha = 0.85f), fontSize = 13.sp, textAlign = TextAlign.Center,
                 style = androidx.compose.ui.text.TextStyle(shadow = androidx.compose.ui.graphics.Shadow(Color.Black.copy(alpha = 0.7f), blurRadius = 4f)),
             )
         }
     }
+}
+
+/** El astro para calibrar: nombre, rumbo y altura. La Luna o el Sol sobre el horizonte; si no, el planeta más alto. */
+private fun referenciaCielo(c: CieloDelMinuto, tSol: String, tLuna: String): Triple<String, Double, Double>? = when {
+    c.luna.second > 2 -> Triple(tLuna, c.luna.first, c.luna.second)
+    c.sol.second > 2 -> Triple(tSol, c.sol.first, c.sol.second)
+    else -> c.planetas.filter { it.third > 5 }.maxByOrNull { it.third }
+}
+
+/** Inverso de la proyección de dibujarVentana: el rumbo y la altura que hay detrás de un punto de la pantalla. */
+private fun desproyectar(x: Float, y: Float, w: Float, h: Float, rumbo: Float, alt: Float, fov: Float, camara: Boolean): Pair<Double, Double> {
+    val a0 = rumbo * G; val h0 = alt * G
+    val f = doubleArrayOf(cos(h0) * sin(a0), cos(h0) * cos(a0), sin(h0))
+    val r = doubleArrayOf(cos(a0), -sin(a0), 0.0)
+    val u = doubleArrayOf(-sin(a0) * sin(h0), -cos(a0) * sin(h0), cos(h0))
+    val escala = if (camara) (w / 2) / tan(fov * G / 2) else (w / 2) / (2 * tan(fov * G / 4))
+    val px = (x - w / 2) / escala; val py = (h / 2 - y) / escala
+    val v = if (camara) DoubleArray(3) { f[it] + px * r[it] + py * u[it] } else {
+        val rho = kotlin.math.hypot(px, py); val c = 2 * kotlin.math.atan(rho / 2); val s = if (rho > 0) sin(c) / rho else 0.0
+        DoubleArray(3) { cos(c) * f[it] + s * (px * r[it] + py * u[it]) }
+    }
+    val n = kotlin.math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+    return ((atan2(v[0], v[1]) / G + 360) % 360) to (asin((v[2] / n).coerceIn(-1.0, 1.0)) / G)
 }
 
 /**
@@ -330,6 +377,8 @@ private fun DrawScope.dibujarVentana(
     medidor: androidx.compose.ui.text.TextMeasurer, cardinales: List<String>, tSol: String, tLuna: String, tLluvia: String,
     /** Sobre la cámara: sin cielo ni montañas pintados, proyección del lente (rectilínea) y guías siempre visibles. */
     camara: Boolean = false,
+    /** Mientras se calibra: el astro de referencia, con un aro dorado que late para compararlo con el de verdad. */
+    marca: Pair<Double, Double>? = null,
 ) {
     val w = size.width; val h = size.height
     val a0 = rumbo * G; val h0 = alt * G
@@ -440,6 +489,10 @@ private fun DrawScope.dibujarVentana(
         if (card) { val m = medidor.measure(cardinales[az / 45], etiqueta); drawText(m, topLeft = Offset(o.x - m.size.width / 2f, o.y - 16.dp.toPx() - m.size.height)) }
     }
     // Guías en el borde: hacia dónde girar para ver el sol, la luna o el radiante de la lluvia
+    marca?.let { (az, al) -> proy(az, al)?.let { o ->
+        val pulso = if (sinMovimiento) 0f else ((sin(tiempo / 260.0) + 1) * 4).toFloat()
+        drawCircle(Color(0xFFC9A24A), radius = 34.dp.toPx() + pulso, center = o, style = androidx.compose.ui.graphics.drawscope.Stroke(2.5.dp.toPx()))
+    } }
     fun guia(az: Double, al: Double, t: String) {
         proy(az, al)?.let { if (it.x in 30f..(w - 30f) && it.y in 70.dp.toPx()..(h - 60.dp.toPx())) return }
         val dA = ((az - rumbo + 540) % 360) - 180; val dH = al - alt

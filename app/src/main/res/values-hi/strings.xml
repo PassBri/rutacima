@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">24 घंटे के प्रारूप पर जाएँ</string>
     <string name="acts_hechas">पूरी</string>
     <string name="acts_hechas_desc">%2$d में से %1$d गतिविधियाँ पूरी</string>
-    <string name="mirar_ajustar">समायोजित करें</string>
+    <string name="mirar_ajustar">कैलिब्रेट करें</string>
     <string name="mirar_listo">हो गया</string>
     <string name="mirar_noche">रात्रि मोड</string>
     <string name="mirar_ayuda_ajustar">चित्र को तब तक खींचें जब तक चाँद या कोई चमकीला तारा असली पर न आ जाए। दो बार टैप: रीसेट।</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">विशिष्ट लक्ष्य · क्या पूरे हो रहे हैं?</string>
     <string name="ev_prop_analisis">समय और वर्षों के मुकाबले प्रगति</string>
     <string name="ev_preguntas_prop">क्या काम कर रहा है और क्या बदलेंगे</string>
+    <string name="mirar_ayuda_calibrar">स्क्रीन पर वहाँ टैप करें जहाँ आपको सुनहरे घेरे वाला खगोलीय पिंड (%1$s) सच में दिखता है। टैप करते समय स्थिर रहें। दो बार टैप: रीसेट।</string>
+    <string name="mirar_calibrado">हो गया: %1$s अपनी जगह पर आ गया। अगर अभी भी खिसका लगे, तो बारीक समायोजन के लिए खींचें और हो गया टैप करें।</string>
+    <string name="mirar_sugerir_calibrar">हर कंपास थोड़ा भटकता है: कैलिब्रेट करें टैप करें, फिर असली %1$s पर टैप करें ताकि सब मेल खाए।</string>
 </resources>

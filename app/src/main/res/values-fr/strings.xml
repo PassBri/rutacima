@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">Passer au format 24 heures</string>
     <string name="acts_hechas">faites</string>
     <string name="acts_hechas_desc">%1$d activités faites sur %2$d</string>
-    <string name="mirar_ajustar">Ajuster</string>
+    <string name="mirar_ajustar">Calibrer</string>
     <string name="mirar_listo">OK</string>
     <string name="mirar_noche">Mode nuit</string>
     <string name="mirar_ayuda_ajustar">Faites glisser le dessin jusqu\'à ce que la Lune ou une étoile brillante coïncide avec la vraie. Double appui : réinitialiser.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">Objectifs précis · sont-ils atteints ?</string>
     <string name="ev_prop_analisis">Progrès face au temps et aux années</string>
     <string name="ev_preguntas_prop">Ce qui marche et ce que tu vas ajuster</string>
+    <string name="mirar_ayuda_calibrar">Touche l\'écran là où tu vois vraiment l\'astre de l\'anneau doré (%1$s). Reste immobile en touchant. Double toucher : remettre à zéro.</string>
+    <string name="mirar_calibrado">C\'est fait : %1$s est à sa place. Si c\'est encore décalé, fais glisser pour affiner puis touche Terminé.</string>
+    <string name="mirar_sugerir_calibrar">Chaque boussole dévie un peu : touche Calibrer, puis le vrai %1$s, pour que tout s\'aligne.</string>
 </resources>

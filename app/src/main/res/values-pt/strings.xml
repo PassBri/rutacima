@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">Mudar para formato de 24 horas</string>
     <string name="acts_hechas">feitas</string>
     <string name="acts_hechas_desc">%1$d de %2$d atividades feitas</string>
-    <string name="mirar_ajustar">Ajustar</string>
+    <string name="mirar_ajustar">Calibrar</string>
     <string name="mirar_listo">Pronto</string>
     <string name="mirar_noche">Modo noite</string>
     <string name="mirar_ayuda_ajustar">Arraste o desenho até a Lua ou uma estrela brilhante coincidir com a real. Toque duplo: zerar.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">Metas específicas · estão sendo cumpridas?</string>
     <string name="ev_prop_analisis">Avanço frente ao tempo e aos anos</string>
     <string name="ev_preguntas_prop">O que funciona e o que vai ajustar</string>
+    <string name="mirar_ayuda_calibrar">Toque na tela onde você realmente vê o astro do aro dourado (%1$s). Fique parado ao tocar. Toque duplo: zerar.</string>
+    <string name="mirar_calibrado">Pronto: %1$s ficou no lugar. Se ainda parecer deslocado, arraste para ajustar e toque em Pronto.</string>
+    <string name="mirar_sugerir_calibrar">Toda bússola desvia um pouco: toque em Calibrar e depois em %1$s de verdade para tudo se alinhar.</string>
 </resources>

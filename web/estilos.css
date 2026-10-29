@@ -4498,3 +4498,9 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .cima-acciones > button.cima-impulso[aria-pressed="true"]:not(.clima-btn):not(.cima-autor) > svg { background: var(--burdeos) !important; border-color: var(--burdeos) !important; }
 .cima-acciones > button[data-acc="guardarPost"][aria-pressed="true"]:not(.clima-btn):not(.cima-autor) > svg { background: rgb(158 193 214 / .32) !important; border-color: #9EC1D6 !important; }
 .cima .cima-acciones > button.clima-btn .cb-circ { background: rgb(251 248 243 / .16) !important; }
+
+/* Mirar el cielo en el celular: los tres botones en una sola fila y la ayuda debajo, sin montarse */
+.vc-barra { flex-wrap: nowrap; bottom: calc(max(18px, env(safe-area-inset-bottom)) + 70px); }
+.vc-barra button { white-space: nowrap; }
+@media (max-width: 420px) { .vc-barra { gap: 6px; } .vc-barra button { padding: 10px 14px; font-size: 13.5px; } }
+.vc-ayuda { line-height: 1.35; }

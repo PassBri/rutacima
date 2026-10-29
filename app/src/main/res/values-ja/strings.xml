@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">24時間表示に切り替え</string>
     <string name="acts_hechas">完了</string>
     <string name="acts_hechas_desc">%2$d件中%1$d件の活動が完了</string>
-    <string name="mirar_ajustar">調整</string>
+    <string name="mirar_ajustar">補正</string>
     <string name="mirar_listo">完了</string>
     <string name="mirar_noche">ナイトモード</string>
     <string name="mirar_ayuda_ajustar">月や明るい星が本物と重なるまで図をドラッグします。ダブルタップでリセット。</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">具体的な目標 · 達成できていますか？</string>
     <string name="ev_prop_analisis">時間と年に対する進み具合</string>
     <string name="ev_preguntas_prop">うまくいっていることと調整すること</string>
+    <string name="mirar_ayuda_calibrar">金色の輪の天体（%1$s）が実際に見える場所を画面でタップしてください。タップ中は動かさないで。ダブルタップ：リセット。</string>
+    <string name="mirar_calibrado">完了：%1$sが正しい位置に合いました。まだずれていれば、ドラッグで微調整して完了をタップ。</string>
+    <string name="mirar_sugerir_calibrar">コンパスは少しずれます：補正をタップし、本物の%1$sをタップするとすべてが合います。</string>
 </resources>

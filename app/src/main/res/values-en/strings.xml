@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">Switch to 24-hour format</string>
     <string name="acts_hechas">done</string>
     <string name="acts_hechas_desc">%1$d of %2$d activities done</string>
-    <string name="mirar_ajustar">Adjust</string>
+    <string name="mirar_ajustar">Calibrate</string>
     <string name="mirar_listo">Done</string>
     <string name="mirar_noche">Night mode</string>
     <string name="mirar_ayuda_ajustar">Drag the drawing until the Moon or a bright star sits on the real one. Double tap: reset.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">Specific goals · are they being met?</string>
     <string name="ev_prop_analisis">Progress versus time and years</string>
     <string name="ev_preguntas_prop">What works and what you\'ll adjust</string>
+    <string name="mirar_ayuda_calibrar">Tap where you really see the body in the gold ring (%1$s). Hold still while tapping. Double tap: reset.</string>
+    <string name="mirar_calibrado">Done: %1$s is now in place. If it still looks off, drag to fine-tune and tap Done.</string>
+    <string name="mirar_sugerir_calibrar">Every compass drifts a bit: tap Calibrate, then the real %1$s, so everything lines up.</string>
 </resources>

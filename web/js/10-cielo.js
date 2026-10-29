@@ -366,8 +366,8 @@ const Cielo = (() => {
         <button type="button" class="vc-cerrar" aria-label="Cerrar">${typeof ic === "function" ? ic("cerrar") : "×"}</button></div>
       <p class="vc-ayuda"></p>
       <button type="button" class="vc-brujula" hidden>Usar la brújula del teléfono</button>
-      <div class="vc-barra"><button type="button" class="vc-camara" hidden>Ver con la cámara</button>
-        <button type="button" class="vc-ajustar" hidden aria-pressed="false">Ajustar</button>
+      <div class="vc-barra"><button type="button" class="vc-camara" hidden>Cámara</button>
+        <button type="button" class="vc-ajustar" hidden aria-pressed="false">Calibrar</button>
         <button type="button" class="vc-noche" aria-pressed="false">Modo noche</button></div>`;
     document.body.append(v);
     const lienzo = v.querySelector("canvas"), ctx = lienzo.getContext("2d"), ayuda = v.querySelector(".vc-ayuda"), rumboTxt = v.querySelector(".vc-rumbo");
@@ -378,7 +378,32 @@ const Cielo = (() => {
     const leerLS = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
     const guardarLS = (k, x) => { try { localStorage.setItem(k, JSON.stringify(x)); } catch {} };
     const ajuste = leerLS("suroute-cielo-ajuste", { dA: 0, dh: 0 });
-    let ajustando = false, ultimo = null;
+    let ajustando = false, ultimo = null, marco = null, calibrado = false;
+    const TXT_APUNTA = "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla.";
+    /** El astro que sirve de referencia para calibrar: la Luna o el Sol si están sobre el horizonte; si no, el planeta más alto. */
+    const referencia = () => { const d = cache; if (!d) return null;
+      if (d.luna.h > 2) return { ...d.luna, nombre: "la Luna" };
+      if (d.sol.h > 2) return { ...d.sol, nombre: "el Sol" };
+      const p = d.planetas.filter(x => x.h > 5).sort((a, b) => b.h - a.h)[0];
+      return p ? { A: p.A, h: p.h, nombre: p.nombre } : null; };
+    /** Inverso de la proyección: el punto del cielo (rumbo y altura) que hay detrás de un punto de la pantalla. */
+    const desproy = (x, y) => { const m = marco; if (!m) return null;
+      const px = (x - m.W / 2) / m.escala, py = (m.H / 2 - y) / m.escala; let v;
+      if (m.conCam) v = [0, 1, 2].map(i => m.f[i] + px * m.r[i] + py * m.u[i]);
+      else { const rho = Math.hypot(px, py), c = 2 * Math.atan(rho / 2), s = rho ? Math.sin(c) / rho : 0;
+        v = [0, 1, 2].map(i => Math.cos(c) * m.f[i] + s * (px * m.r[i] + py * m.u[i])); }
+      const n = Math.hypot(...v); v = v.map(z => z / n);
+      return { A: (Math.atan2(v[0], v[1]) / rad + 360) % 360, h: Math.asin(Math.max(-1, Math.min(1, v[2]))) / rad }; };
+    /** Calibrar con un toque: donde la persona ve el astro de verdad, ahí debe quedar el dibujo. */
+    function calibrarEn(x, y) {
+      const ref = referencia(), bajo = desproy(x, y); if (!ref || !bajo) return false;
+      ajuste.dA = ((ajuste.dA + (ref.A - bajo.A) + 540) % 360) - 180;
+      ajuste.dh = Math.max(-30, Math.min(30, ajuste.dh + (ref.h - bajo.h)));
+      if (ultimo) { meta.rumbo = (ultimo.rumbo + ajuste.dA + 360) % 360; meta.alt = Math.max(-20, Math.min(89, ultimo.alt + ajuste.dh)); }
+      guardarLS("suroute-cielo-ajuste", ajuste); calibrado = true;
+      ayuda.textContent = `Listo: el dibujo quedó sobre ${ref.nombre}. Si aún se ve corrido, arrastra para afinar y toca «Listo».`;
+      navigator.vibrate?.(12); return true;
+    }
     // Modo noche: todo en rojo tenue, para no encandilarse mirando el cielo de verdad
     const bNoche = v.querySelector(".vc-noche"), bAjustar = v.querySelector(".vc-ajustar");
     const ponerNoche = on => { v.classList.toggle("modo-noche", on); bNoche.setAttribute("aria-pressed", on); guardarLS("suroute-cielo-noche", on); };
@@ -405,7 +430,8 @@ const Cielo = (() => {
 
     // Arrastrar, teclado y rueda (siempre disponibles; con sensores, el aparato manda)
     let arrastre = null;
-    lienzo.addEventListener("pointerdown", e => { arrastre = { x: e.clientX, y: e.clientY }; lienzo.setPointerCapture(e.pointerId); });
+    let toque = null;
+    lienzo.addEventListener("pointerdown", e => { arrastre = { x: e.clientX, y: e.clientY }; toque = { x: e.clientX, y: e.clientY, t: Date.now() }; lienzo.setPointerCapture(e.pointerId); });
     lienzo.addEventListener("pointermove", e => {
       if (!arrastre) return;
       const k = vista.fov / lienzo.clientWidth;
@@ -418,15 +444,24 @@ const Cielo = (() => {
       meta.rumbo = (meta.rumbo - (e.clientX - arrastre.x) * k + 360) % 360; meta.alt = Math.max(-20, Math.min(89, meta.alt + (e.clientY - arrastre.y) * k));
       arrastre = { x: e.clientX, y: e.clientY };
     });
-    lienzo.addEventListener("pointerup", () => { arrastre = null; if (ajustando) guardarLS("suroute-cielo-ajuste", ajuste); });
+    lienzo.addEventListener("pointerup", e => {
+      arrastre = null;
+      // Un toque corto (sin arrastrar) mientras se calibra: ahí está el astro de verdad
+      if (ajustando && sensores && toque && !calibrado && Math.hypot(e.clientX - toque.x, e.clientY - toque.y) < 10 && Date.now() - toque.t < 600) {
+        const caja = lienzo.getBoundingClientRect(); calibrarEn(e.clientX - caja.left, e.clientY - caja.top);
+      }
+      toque = null; if (ajustando) guardarLS("suroute-cielo-ajuste", ajuste);
+    });
     bAjustar.onclick = () => {
-      ajustando = !ajustando; bAjustar.setAttribute("aria-pressed", ajustando); bAjustar.textContent = ajustando ? "Listo" : "Ajustar";
-      v.classList.toggle("ajustando", ajustando);
-      ayuda.textContent = ajustando ? "Arrastra el dibujo hasta que la Luna o una estrella brillante caiga sobre la real. Doble toque: volver a cero."
-        : "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla.";
+      ajustando = !ajustando; bAjustar.setAttribute("aria-pressed", ajustando); bAjustar.textContent = ajustando ? "Listo" : "Calibrar";
+      v.classList.toggle("ajustando", ajustando); calibrado = false;
+      const ref = referencia();
+      ayuda.textContent = !ajustando ? TXT_APUNTA
+        : ref ? `Busca ${ref.nombre} de verdad${camara ? " en la cámara" : " en el cielo"}, quédate quieto y tócala en la pantalla. El aro dorado marca dónde la dibujamos. Doble toque: volver a cero.`
+        : "Arrastra el dibujo hasta que una estrella brillante caiga sobre la real. Doble toque: volver a cero.";
       if (!ajustando) guardarLS("suroute-cielo-ajuste", ajuste);
     };
-    lienzo.addEventListener("dblclick", () => { if (!ajustando) return; ajuste.dA = 0; ajuste.dh = 0; guardarLS("suroute-cielo-ajuste", ajuste); });
+    lienzo.addEventListener("dblclick", () => { if (!ajustando) return; ajuste.dA = 0; ajuste.dh = 0; calibrado = false; guardarLS("suroute-cielo-ajuste", ajuste); });
     lienzo.addEventListener("wheel", e => { e.preventDefault(); meta.fov = Math.max(35, Math.min(120, meta.fov * (e.deltaY > 0 ? 1.08 : 0.92))); }, { passive: false });
     const teclas = e => {
       if (e.key === "Escape") cerrar();
@@ -438,14 +473,16 @@ const Cielo = (() => {
     const video = v.querySelector(".vc-video"), bCam = v.querySelector(".vc-camara");
     let camara = null;
     if (tactil && navigator.mediaDevices?.getUserMedia) bCam.hidden = false;
-    const quitarCamara = () => { camara?.getTracks().forEach(t => t.stop()); camara = null; video.srcObject = null; v.classList.remove("con-camara"); bCam.textContent = "Ver con la cámara"; bCam.setAttribute("aria-pressed", "false"); };
+    const quitarCamara = () => { camara?.getTracks().forEach(t => t.stop()); camara = null; video.srcObject = null; v.classList.remove("con-camara"); bCam.textContent = "Cámara"; bCam.setAttribute("aria-pressed", "false"); };
     bCam.onclick = async () => {
       if (camara) { quitarCamara(); ayuda.textContent = sensores ? "Apunta con el teléfono: lo que ves es el cielo que está detrás de la pantalla." : "Mueve el teléfono para mirar el cielo."; return; }
       try {
         camara = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false });
         video.srcObject = camara; await video.play().catch(() => {});
-        v.classList.add("con-camara"); bCam.textContent = "Quitar la cámara"; bCam.setAttribute("aria-pressed", "true");
-        ayuda.textContent = "Apunta al cielo: las líneas unen las estrellas de cada constelación y los aros marcan dónde está cada una.";
+        v.classList.add("con-camara"); bCam.textContent = "Quitar cámara"; bCam.setAttribute("aria-pressed", "true");
+        ayuda.textContent = sensores && !ajuste.dA && !ajuste.dh && referencia()
+          ? `Cada brújula se desvía un poco: toca «Calibrar» y luego ${referencia().nombre} de verdad para que todo calce.`
+          : "Apunta al cielo: las líneas unen las estrellas de cada constelación y los aros marcan dónde está cada una.";
       } catch { quitarCamara(); bCam.textContent = "Sin permiso de cámara"; }
     };
     function cerrar() { quitarCamara(); cancelAnimationFrame(cuadro); removeEventListener("deviceorientationabsolute", alGirar); removeEventListener("deviceorientation", alGirar); removeEventListener("keydown", teclas); v.remove(); }
@@ -494,6 +531,7 @@ const Cielo = (() => {
         fov = 2 * Math.atan(frac * tAncho) / rad;
       }
       const escala = conCam ? (W / 2) / Math.tan(fov * rad / 2) : (W / 2) / (2 * Math.tan(fov * rad / 4));
+      marco = { W, H, escala, f, r, u, conCam };
       /** Pantalla (x, y) de un punto del cielo, o null si está detrás. */
       const proy = (A, h) => {
         const a = A * rad, e = h * rad, vx = Math.cos(e) * Math.sin(a), vy = Math.cos(e) * Math.cos(a), vz = Math.sin(e);
@@ -613,6 +651,11 @@ const Cielo = (() => {
       if (altS > -4) guia(d.sol.A, altS, "Sol");
       if (d.luna.h > -2) guia(d.luna.A, d.luna.h, "Luna");
       if (d.lluvia && d.lluvia.radiante.h > 0) guia(d.lluvia.radiante.A, d.lluvia.radiante.h, "Lluvia");
+      // Calibrando: un aro dorado que late sobre el astro dibujado, para comparar con el de verdad
+      if (ajustando && !calibrado) { const ref = referencia(), q = ref && proy(ref.A, ref.h);
+        if (q) { const pulso = sinMovimiento ? 0 : (Math.sin(tiempo / 260) + 1) * 4;
+          ctx.strokeStyle = "rgba(201,162,74,.95)"; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(q[0], q[1], 34 + pulso, 0, 7); ctx.stroke(); ctx.lineWidth = 1;
+          ctx.textAlign = "center"; ctx.font = "500 11px Roboto, system-ui, sans-serif"; ctx.fillStyle = "rgba(201,162,74,1)"; ctx.fillText("DIBUJO", q[0], q[1] + 54); } }
       rumboTxt.textContent = `${CARDINALES[Math.round(vista.rumbo / 45) % 8]} ${Math.round(vista.rumbo)}° · ${Math.round(vista.alt)}° de altura`;
     }
     cuadro = requestAnimationFrame(pintarCuadro);

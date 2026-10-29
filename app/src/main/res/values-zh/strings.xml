@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">具体目标 · 正在达成吗？</string>
     <string name="ev_prop_analisis">进展与时间、年份对比</string>
     <string name="ev_preguntas_prop">有效的做法和要调整的</string>
+    <string name="mirar_ayuda_calibrar">在屏幕上点按你真实看到金色圆环中天体（%1$s）的位置。点按时保持不动。双击：归零。</string>
+    <string name="mirar_calibrado">完成：%1$s 已对准。如果仍有偏差，拖动微调后点按完成。</string>
+    <string name="mirar_sugerir_calibrar">每个指南针都会有些偏差：点按校准，再点按真实的%1$s，让一切对齐。</string>
 </resources>

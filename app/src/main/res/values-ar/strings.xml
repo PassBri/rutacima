@@ -2580,7 +2580,7 @@
     <string name="formato_a_24">التبديل إلى نظام 24 ساعة</string>
     <string name="acts_hechas">منجزة</string>
     <string name="acts_hechas_desc">أُنجز %1$d من %2$d نشاطًا</string>
-    <string name="mirar_ajustar">ضبط</string>
+    <string name="mirar_ajustar">معايرة</string>
     <string name="mirar_listo">تم</string>
     <string name="mirar_noche">الوضع الليلي</string>
     <string name="mirar_ayuda_ajustar">اسحب الرسم حتى يطابق القمر أو نجم ساطع موضعه الحقيقي. نقرتان: إعادة الضبط.</string>
@@ -2665,4 +2665,7 @@
     <string name="ev_prop_especificas">الأهداف المحددة · هل تتحقق؟</string>
     <string name="ev_prop_analisis">التقدم مقابل الوقت والسنوات</string>
     <string name="ev_preguntas_prop">ما ينجح وما ستعدّله</string>
+    <string name="mirar_ayuda_calibrar">المس الشاشة حيث ترى فعلًا الجرم داخل الحلقة الذهبية (%1$s). ابقَ ثابتًا أثناء اللمس. لمسة مزدوجة: إعادة الضبط.</string>
+    <string name="mirar_calibrado">تم: أصبح %1$s في مكانه. إن بدا منزاحًا بعد، اسحب للضبط الدقيق ثم المس تم.</string>
+    <string name="mirar_sugerir_calibrar">كل بوصلة تنحرف قليلًا: المس معايرة ثم %1$s الحقيقي ليتطابق كل شيء.</string>
 </resources>
