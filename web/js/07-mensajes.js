@@ -284,6 +284,13 @@ DET["mensajes.coachvida"] = () => {
   const mio = cv.acomps.find(a => a.rol === "usuario"), acompanados = cv.acomps.filter(a => a.rol === "coach");
   let h = `<p style="margin:0">Conversa contigo, revisa tu avance si se lo permites y te ayuda a no rendirte.</p>`;
   if (!Store.nube) h += `<div class="aviso">Demostración: coaches y conversaciones de ejemplo.</div>`;
+  // A quien modera: las postulaciones por revisar, con un toque a Moderación › Coaches
+  if (Store.nube && window.MOD?.soy && window.RED && typeof cargarPorVerificar === "function") {
+    if (RED.porVerificar == null && !RED.cargandoPV) { RED.cargandoPV = true; cargarPorVerificar().finally(() => { RED.cargandoPV = false; if (estado.sel === "coachvida") pintarDetalle(); }); }
+    const n = RED.porVerificar?.length || 0;
+    if (n) h += `<div class="coach-revisar">${ic("escudo")}<span><b>${n === 1 ? "1 postulación de coach por revisar" : `${n} postulaciones de coach por revisar`}</b><small>Solo tú lo ves porque moderas SuRoute.</small></span>
+      <button class="btn mini lleno" data-acc="revisarCoaches">Revisar</button></div>`;
+  }
   if (mio) {
     h += `<div class="etiqueta">Mi coach</div>` + hoja(`<div class="autor" style="display:flex;gap:12px;align-items:center">${avPersona(mio.otroNombre, "var(--oro)")}<div><b>${esc(mio.otroNombre)}</b><div class="suave" style="font-size:13px">${esc(mio.especialidad)}</div></div></div>
       ${mio.estado === "solicitado" ? `<p class="suave">Esperando que acepte tu solicitud.</p>` : `
@@ -303,7 +310,13 @@ DET["mensajes.coachvida"] = () => {
   }
   if (!mio) {
     h += `<div class="etiqueta">Coaches verificados</div>`;
-    if (!cv.dir.length) h += `<p class="suave">Aún no hay coaches verificados. Vuelve pronto.</p>`;
+    // Sin coaches todavía: qué es un coach de SuRoute y cómo postularse, para que la pantalla no quede vacía
+    if (!cv.dir.length) h += hoja(`<div class="coach-vacio"><b>Todavía no hay coaches verificados</b>
+      <p>Un coach de vida de SuRoute es una persona real que te acompaña en tu ascenso: conversa contigo, revisa tu avance solo si tú lo permites y te ayuda a no rendirte.</p>
+      <ul><li>${ic("escudo")}<span>Cada coach es revisado por el equipo de SuRoute antes de aparecer aquí.</span></li>
+        <li>${ic("candado")}<span>Tú decides si compartes tu avance, y puedes dejar de hacerlo cuando quieras.</span></li>
+        <li>${ic("check")}<span>Puedes terminar el acompañamiento en cualquier momento.</span></li></ul>
+      ${cv.ficha ? "" : `<div class="botones"><button class="btn" data-acc="irPostular">¿Acompañas personas? Postúlate</button></div>`}</div>`);
     cv.dir.forEach(f => {
       h += hoja(`<div style="display:flex;gap:12px;align-items:center">${avPersona(f.nombre, "var(--oro)")}<div style="flex:1"><b>${esc(f.nombre)}</b> <span class="pill">${esc(f.especialidad)}</span><div class="suave" style="font-size:13px">Acompaña a ${f.acompanados} personas</div></div></div>
         ${f.bio ? `<p style="margin:10px 0 0">${esc(f.bio)}</p>` : ""}
@@ -379,3 +392,6 @@ async function enviarMensaje(f, texto) {
   try { await Msj.enviar(id, texto); } catch (e) { console.error(e); toast("No se envió el mensaje. Inténtalo de nuevo."); }
   await actualizarMensajes(true);
 }
+
+ACC.revisarCoaches = () => { if (window.MOD) MOD.pestana = "coaches"; ir("perfil", "moderacion"); };
+ACC.irPostular = () => { const f = document.querySelector('[data-form="postular"]'); f?.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => f?.querySelector("input")?.focus({ preventScroll: true }), 400); };

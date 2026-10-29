@@ -4832,20 +4832,44 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 
 @media (min-width: 701px) { .md-escena .md-tam[aria-pressed="true"] { background: color-mix(in srgb, var(--burdeos) 14%, var(--hoja)); border-color: color-mix(in srgb, var(--burdeos) 40%, transparent); } .md-escena .md-tam[aria-pressed="true"] svg { fill: var(--burdeos); } }
 
-/* 1 · 9 · 81 en un solo botón del riel (computador): se abre y se elige la capa */
+/* 1 · 9 · 81 en un solo botón del riel (computador): un menú de Material 3 (contenedor elevado, ítems de 56 dp con
+   texto de apoyo, la capa activa marcada con su check, capas de estado al pasar y foco visible) */
 .md-capas { display: none; }
 @media (min-width: 701px) {
   .md-escena > .md-secciones > button[role="tab"] { display: none; }
   .md-escena .md-capas { display: block; position: relative; }
-  .md-escena .md-capas > summary { list-style: none; background: var(--burdeos); border-color: var(--burdeos); }
+  .md-escena .md-capas > summary { list-style: none; position: relative; background: var(--burdeos); border-color: var(--burdeos); }
   .md-escena .md-capas > summary::-webkit-details-marker { display: none; }
-  .md-escena .md-capas > summary b { min-width: 0; height: auto; padding: 0; background: none; color: var(--sobre-burdeos, #fff); font-size: 13px; font-weight: 700; }
-  .md-capas-menu { position: absolute; top: 0; right: calc(100% + 12px); z-index: 30; display: grid; gap: 2px; width: max-content; max-width: 320px; padding: 6px; border-radius: 16px; background: var(--hoja); border: 1px solid var(--linea);
-    box-shadow: 0 14px 32px -14px rgb(var(--sombra) / .4); animation: bs-abre .18s cubic-bezier(.2, 0, 0, 1); }
-  .md-capas-menu button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 8px 10px; border: 0; border-radius: 12px; background: transparent; text-align: left; cursor: pointer; font: inherit; color: var(--tinta); }
-  .md-capas-menu button b { flex: none; display: grid; place-items: center; min-width: 34px; height: 34px; border-radius: 99px; background: color-mix(in srgb, var(--tinta) 10%, var(--hoja)); color: var(--tinta); font-size: 13px; }
-  .md-capas-menu button[aria-selected="true"] { background: var(--oro-suave); }
-  .md-capas-menu button[aria-selected="true"] b { background: var(--burdeos); color: var(--sobre-burdeos, #fff); }
-  .md-capas-menu span { display: grid; gap: 1px; } .md-capas-menu strong { font-size: 14px; font-weight: 600; } .md-capas-menu small { font-size: 12px; color: var(--tinta-suave); }
-  @media (hover: hover) and (pointer: fine) { .md-capas-menu button:not([aria-selected="true"]):hover { background: var(--hoja-2); } }
+  .md-escena .md-capas > summary b { min-width: 0; height: auto; padding: 0; background: none; color: var(--sobre-burdeos, #fff); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .md-capas-caret { position: absolute; right: 2px; bottom: 2px; width: 0; height: 0; border-left: 5px solid transparent; border-top: 5px solid var(--oro); transform: rotate(-45deg); }
+  .md-escena .md-capas[open] > summary { box-shadow: 0 0 0 3px color-mix(in srgb, var(--burdeos) 22%, transparent); }
+  .md-capas-menu { position: absolute; top: -8px; right: calc(100% + 10px); z-index: 30; display: grid; min-width: 260px; max-width: 320px; padding: 8px 0; border-radius: 12px;
+    background: var(--hoja); box-shadow: 0 1px 2px rgb(0 0 0 / .3), 0 2px 6px 2px rgb(0 0 0 / .15); transform-origin: top right;
+    animation: md-menu-abre .2s cubic-bezier(.2, 0, 0, 1); }
+  @keyframes md-menu-abre { from { opacity: 0; transform: scaleY(.85); } }
+  .md-capas-menu button { position: relative; display: grid; grid-template-columns: 40px 1fr 24px; align-items: center; gap: 12px; min-height: 56px; width: 100%; padding: 0 16px 0 12px;
+    border: 0; border-radius: 0; background: transparent; text-align: left; cursor: pointer; font: inherit; color: var(--tinta); }
+  .md-capas-menu button::before { content: ""; position: absolute; inset: 0; background: var(--tinta); opacity: 0; transition: opacity .15s; }
+  @media (hover: hover) and (pointer: fine) { .md-capas-menu button:hover::before { opacity: .08; } }
+  .md-capas-menu button:focus-visible { outline: none; } .md-capas-menu button:focus-visible::before { opacity: .12; }
+  .md-capas-menu button[aria-checked="true"] { background: var(--oro-suave); }
+  .md-capas-menu button > b { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: color-mix(in srgb, var(--tinta) 8%, var(--hoja)); color: var(--tinta); font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .md-capas-menu button[aria-checked="true"] > b { background: var(--burdeos); color: var(--sobre-burdeos, #fff); }
+  .md-capas-menu span { display: grid; gap: 2px; min-width: 0; } .md-capas-menu strong { font-size: 14px; font-weight: 500; letter-spacing: .1px; }
+  .md-capas-menu small { font-size: 12px; color: var(--tinta-suave); letter-spacing: .4px; }
+  .md-capas-menu button > svg { width: 20px; height: 20px; fill: var(--burdeos); visibility: hidden; }
+  .md-capas-menu button[aria-checked="true"] > svg { visibility: visible; }
+  @media (prefers-reduced-motion: reduce) { .md-capas-menu { animation: none; } }
+}
+/* Coach de vida: aviso a quien modera y directorio vacío que explica */
+.coach-revisar { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--oro-suave); }
+.coach-revisar > svg { width: 22px; height: 22px; flex: none; fill: var(--burdeos); }
+.coach-revisar span { flex: 1; display: grid; gap: 2px; } .coach-revisar b { font-size: 14px; } .coach-revisar small { font-size: 12.5px; color: var(--tinta-suave); }
+.coach-vacio b { font-size: 15px; } .coach-vacio p { margin: 6px 0 10px; color: var(--tinta-suave); line-height: 1.5; }
+.coach-vacio ul { list-style: none; margin: 0 0 4px; padding: 0; display: grid; gap: 8px; }
+.coach-vacio li { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; }
+.coach-vacio li svg { width: 18px; height: 18px; flex: none; margin-top: 1px; fill: var(--burdeos); }
+@media (min-width: 701px) {
+  .md-escena .md-capas-menu { width: max-content; min-width: 280px; max-width: none; }
+  .md-escena .md-capas-menu button span strong { font-weight: 500; } .md-escena .md-capas-menu button span small { font-weight: 400; white-space: nowrap; }
 }
