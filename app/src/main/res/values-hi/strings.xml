@@ -2797,4 +2797,7 @@
     <string name="fb_res_bien" formatted="false">आप आदर्श 20 % से ऊपर हैं।</string>
     <string name="fb_res_falta">20 %% तक पहुँचने में %1$s बाकी।</string>
     <string name="fb_res_adonde">पैसा कहाँ गया?</string>
+    <string name="fb_res_aviso">%1$s में अभी कोई लेन-देन नहीं है। यह %3$d के %2$s का सारांश है।</string>
+    <string name="fb_res_cifras_de">%1$s के आँकड़े</string>
+    <string name="fb_res_ritmo_cerrado">आपने औसतन रोज़ %1$s खर्च किए और %2$s का खर्च %3$s रहा।</string>
 </resources>

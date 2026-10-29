@@ -2797,4 +2797,7 @@
     <string name="fb_res_bien" formatted="false">你已超过理想的 20 %。</string>
     <string name="fb_res_falta">还差 %1$s 达到 20 %%。</string>
     <string name="fb_res_adonde">钱去哪了？</string>
+    <string name="fb_res_aviso">%1$s 还没有收支记录。这是 %3$d 年 %2$s 的总结。</string>
+    <string name="fb_res_cifras_de">%1$s 数字</string>
+    <string name="fb_res_ritmo_cerrado">你平均每天花 %1$s，%2$s 共支出 %3$s。</string>
 </resources>

@@ -2797,4 +2797,7 @@
     <string name="fb_res_bien" formatted="false">Вы выше идеальных 20 %.</string>
     <string name="fb_res_falta">До 20 %% не хватает %1$s.</string>
     <string name="fb_res_adonde">Куда ушли деньги?</string>
+    <string name="fb_res_aviso">В месяце «%1$s» пока нет движений. Это итоги за %2$s %3$d.</string>
+    <string name="fb_res_cifras_de">%1$s в цифрах</string>
+    <string name="fb_res_ritmo_cerrado">В среднем вы тратили %1$s в день и закрыли %2$s с расходами %3$s.</string>
 </resources>

@@ -2806,4 +2806,7 @@
     <string name="fb_res_bien" formatted="false">Vas por encima del 20 % ideal.</string>
     <string name="fb_res_falta">Te faltan %1$s para llegar al 20 %%.</string>
     <string name="fb_res_adonde">¿A dónde se fue?</string>
+    <string name="fb_res_aviso">%1$s aún no tiene movimientos. Este es el resumen de %2$s de %3$d.</string>
+    <string name="fb_res_cifras_de">%1$s en cifras</string>
+    <string name="fb_res_ritmo_cerrado">Gastaste %1$s al día en promedio y cerraste %2$s con %3$s en gastos.</string>
 </resources>

@@ -406,13 +406,21 @@ internal fun BotonRiel(icono: androidx.compose.ui.graphics.vector.ImageVector, n
  *  cuánto de lo que entra construye patrimonio (ideal 20 %) y las tres categorías donde más se gastó. */
 @Composable
 private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (Double) -> String, verde: Color, burdeos: Color, oro: Color) {
-    val h = hoy(); val ym = YearMonth.from(h); val ant = ym.minusMonths(1)
-    val t = porMes[ym.toString()]; val p = porMes[ant.toString()]
+    // El mes actual; si aún no tiene movimientos, el último mes que sí tiene (y se dice cuál es)
+    val hoyR = hoy(); val ymHoy = YearMonth.from(hoyR)
     val suave = MaterialTheme.colorScheme.onSurfaceVariant
-    if (t == null || t.n == 0) {
-        Text(stringResource(R.string.fb_res_vacio, nombreMesLargo(ym.monthValue).lowercase()), style = MaterialTheme.typography.bodySmall, color = suave)
+    val ym = if ((porMes[ymHoy.toString()]?.n ?: 0) > 0) ymHoy
+        else porMes.filter { (k, v) -> v.n > 0 && k <= ymHoy.toString() }.keys.maxOrNull()?.let { YearMonth.parse(it) }
+    if (ym == null) {
+        Text(stringResource(R.string.fb_res_vacio, nombreMesLargo(ymHoy.monthValue).lowercase()), style = MaterialTheme.typography.bodySmall, color = suave)
         return
     }
+    val esActual = ym == ymHoy
+    val h = if (esActual) hoyR else ym.atEndOfMonth()
+    val ant = ym.minusMonths(1)
+    val t = porMes.getValue(ym.toString()); val p = porMes[ant.toString()]
+    if (!esActual) Text(stringResource(R.string.fb_res_aviso, nombreMesLargo(ymHoy.monthValue).replaceFirstChar { it.titlecase() }, nombreMesLargo(ym.monthValue).lowercase(), ym.year),
+        style = MaterialTheme.typography.bodySmall, color = suave)
     val tipos = listOf(Triple(Tipo.ING, R.string.cu_ing, 1), Triple(Tipo.GAS, R.string.cu_gas, -1), Triple(Tipo.AHO, R.string.cu_aho, 1),
         Triple(Tipo.INV, R.string.cu_inv, 1), Triple(Tipo.GEN, R.string.cu_gen, 0))
     fun v(s: Cuentas.Suma?, k: Tipo) = when (k) { Tipo.ING -> s?.ing; Tipo.GAS -> s?.gas; Tipo.AHO -> s?.aho; Tipo.INV -> s?.inv; Tipo.GEN -> s?.gen } ?: 0.0
@@ -420,7 +428,7 @@ private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         HorizontalDivider()
         Row(verticalAlignment = Alignment.Bottom) {
-            Text(stringResource(R.string.fb_res_cifras), style = MaterialTheme.typography.titleSmall)
+            Text(if (esActual) stringResource(R.string.fb_res_cifras) else stringResource(R.string.fb_res_cifras_de, nombreMesLargo(ym.monthValue).replaceFirstChar { it.titlecase() }), style = MaterialTheme.typography.titleSmall)
             Spacer(Modifier.width(6.dp))
             Text(stringResource(R.string.fb_res_frente, nombreMesLargo(ant.monthValue).lowercase()), style = MaterialTheme.typography.labelSmall, color = suave)
         }
@@ -446,9 +454,10 @@ private fun ResumenMes(libro: Libro, porMes: Map<String, Cuentas.Suma>, plata: (
         val prom = t.gas / h.dayOfMonth; val cierre = prom * ym.lengthOfMonth()
         val pres = kotlin.math.abs(Finanzas.monto(libro.presupuesto(ym)))
         Text(stringResource(R.string.fb_res_ritmo), style = MaterialTheme.typography.titleSmall)
-        Text(stringResource(R.string.fb_res_ritmo_txt, plata(kotlin.math.round(prom)), nombreMesLargo(ym.monthValue).lowercase(), plata(kotlin.math.round(cierre))) +
+        Text((if (esActual) stringResource(R.string.fb_res_ritmo_txt, plata(kotlin.math.round(prom)), nombreMesLargo(ym.monthValue).lowercase(), plata(kotlin.math.round(cierre)))
+            else stringResource(R.string.fb_res_ritmo_cerrado, plata(kotlin.math.round(prom)), nombreMesLargo(ym.monthValue).lowercase(), plata(t.gas))) +
             (if (pres > 0) " " + stringResource(R.string.fb_res_de_pres, plata(pres)) else ""),
-            style = MaterialTheme.typography.bodySmall, color = if (pres > 0 && cierre > pres) burdeos else MaterialTheme.colorScheme.onSurface)
+            style = MaterialTheme.typography.bodySmall, color = if (pres > 0 && (if (esActual) cierre else t.gas) > pres) burdeos else MaterialTheme.colorScheme.onSurface)
         // Cuánto construyes
         if (t.ing > 0) {
             HorizontalDivider(Modifier.padding(top = 4.dp))

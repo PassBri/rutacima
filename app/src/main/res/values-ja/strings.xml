@@ -2797,4 +2797,7 @@
     <string name="fb_res_bien" formatted="false">理想の 20 % を超えています。</string>
     <string name="fb_res_falta">20 %% まであと %1$s。</string>
     <string name="fb_res_adonde">どこに使った？</string>
+    <string name="fb_res_aviso">%1$s はまだ記録がありません。%3$d年 %2$s のまとめです。</string>
+    <string name="fb_res_cifras_de">%1$s の数字</string>
+    <string name="fb_res_ritmo_cerrado">1日平均 %1$s 使い、%2$s は支出 %3$s で締めくくりました。</string>
 </resources>

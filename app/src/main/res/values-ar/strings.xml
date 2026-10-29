@@ -2797,4 +2797,7 @@
     <string name="fb_res_bien" formatted="false">أنت فوق نسبة 20 % المثالية.</string>
     <string name="fb_res_falta">ينقصك %1$s للوصول إلى 20 %%.</string>
     <string name="fb_res_adonde">أين ذهبت؟</string>
+    <string name="fb_res_aviso">لا توجد حركات في %1$s بعد. هذا ملخص %2$s %3$d.</string>
+    <string name="fb_res_cifras_de">%1$s بالأرقام</string>
+    <string name="fb_res_ritmo_cerrado">أنفقت %1$s يوميًا في المتوسط وأنهيت %2$s بنفقات قدرها %3$s.</string>
 </resources>

@@ -113,10 +113,15 @@ function fbTarjeta(datos) {
 
 /** Resumen ampliado del mes: las cinco cifras frente al mes pasado, el ritmo de gasto, cuánto construyes y a dónde se fue. */
 function fbResumen(datos) {
-  const hoy = hoyFecha(), a = hoy.getFullYear(), m = hoy.getMonth() + 1, ym = `${a}-${pad2(m)}`;
+  // El mes actual; si aún no tiene movimientos, el último mes que sí tiene (y se dice cuál es)
+  const hoyR = hoyFecha(), ymHoy = iso(hoyR).slice(0, 7);
+  const ymR = datos.porMes[ymHoy]?.n ? ymHoy : Object.keys(datos.porMes).filter(k => k <= ymHoy && datos.porMes[k].n).sort().pop();
+  if (!ymR) return `<p class="fb-res-vacio">Cuando anotes movimientos verás aquí tus cifras, tu ritmo de gasto y a dónde se va tu dinero.</p>`;
+  const [a, m] = ymR.split("-").map(Number), ym = ymR, esActual = ym === ymHoy;
+  const hoy = esActual ? hoyR : new Date(a, m, 0);   // un mes cerrado se mide con todos sus días
   const prev = new Date(a, m - 2, 1), ymAnt = `${prev.getFullYear()}-${pad2(prev.getMonth() + 1)}`;
   const t = datos.porMes[ym], ant = datos.porMes[ymAnt];
-  if (!t?.n) return `<p class="fb-res-vacio">Cuando anotes movimientos de ${MESES[m - 1]} verás aquí tus cifras, tu ritmo de gasto y a dónde se va tu dinero.</p>`;
+  const aviso = esActual ? "" : `<p class="fb-res-vacio">${mayus(MESES[hoyR.getMonth()])} aún no tiene movimientos. Este es el resumen de ${MESES[m - 1]} de ${a}.</p>`;
   const TIPOS = [["ing", "Ingresos", 1], ["gas", "Gastos", -1], ["aho", "Ahorro", 1], ["inv", "Inversión", 1], ["gen", "Dar", 0]];
   const max = Math.max(1, ...TIPOS.map(([k]) => t[k] || 0));
   const delta = (k, sentido) => { const p = ant?.[k] || 0; if (!p || !t[k]) return `<small class="fb-delta"></small>`;
@@ -129,7 +134,8 @@ function fbResumen(datos) {
   const dia = hoy.getDate(), largo = diasEnMes(a, m), prom = Math.round(t.gas / dia), cierre = Math.round(t.gas / dia * largo);
   const pres = Math.abs(montoFin(respuesta(claveFinPresupuesto(ym))));
   const ritmo = `<div class="fb-res-bloque"><b class="fb-res-t">Ritmo de gasto</b>
-      <p>Gastas <b>${plata(prom)}</b> al día en promedio. A este paso cerrarías ${MESES[m - 1]} con <b class="${pres && cierre > pres ? "neg" : ""}">${plata(cierre)}</b> en gastos${pres ? ` de ${plata(pres)} presupuestados` : ""}.</p></div>`;
+      <p>${esActual ? `Gastas <b>${plata(prom)}</b> al día en promedio. A este paso cerrarías ${MESES[m - 1]} con <b class="${pres && cierre > pres ? "neg" : ""}">${plata(cierre)}</b> en gastos${pres ? ` de ${plata(pres)} presupuestados` : ""}.`
+        : `Gastaste <b>${plata(prom)}</b> al día en promedio y cerraste ${MESES[m - 1]} con <b class="${pres && t.gas > pres ? "neg" : ""}">${plata(t.gas)}</b> en gastos${pres ? ` de ${plata(pres)} presupuestados` : ""}.`}</p></div>`;
   // Cuánto de lo que entra construye patrimonio (ideal: al menos 20 %)
   const tasa = t.ing > 0 ? Math.max(0, Math.min(1, t.construido / t.ing)) : null;
   const construye = tasa == null ? "" : `<div class="fb-res-bloque"><b class="fb-res-t">Construyes el ${Math.round(tasa * 100)} % de lo que entra</b>
@@ -139,7 +145,7 @@ function fbResumen(datos) {
   const s = totalesDe(ym), cats = Object.entries(s.cat).filter(([k]) => k.startsWith("gas:")).sort((x, y) => y[1] - x[1]).slice(0, 3);
   const adonde = cats.length ? `<div class="fb-res-bloque"><b class="fb-res-t">¿A dónde se fue?</b>${cats.map(([k, v]) => { const c = k.split(":")[1], cat = catDe("gas", c);
       return `<div class="fb-fila fb-cat"><span>${esc(cat?.[1] || c)}</span><span class="num">${plata(v)}</span><small class="fb-delta">${t.gas ? Math.round(v / t.gas * 100) + " %" : ""}</small><span class="fb-bar"><b style="width:${(v / cats[0][1] * 100).toFixed(1)}%;background:${FB_COLOR.gas}"></b></span></div>`; }).join("")}</div>` : "";
-  return `<div class="fb-res-bloque"><b class="fb-res-t">El mes en cifras <small class="suave">frente a ${MESES[prev.getMonth()]}</small></b>${filas}</div>${ritmo}${construye}${adonde}`;
+  return `${aviso}<div class="fb-res-bloque"><b class="fb-res-t">${esActual ? "El mes en cifras" : mayus(MESES[m - 1]) + " en cifras"} <small class="suave">frente a ${MESES[prev.getMonth()]}</small></b>${filas}</div>${ritmo}${construye}${adonde}`;
 }
 
 function fbBarra() {
