@@ -5004,3 +5004,32 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .noche-t { margin: 0; font: 400 19px/1.45 var(--font-titulo); color: var(--tinta); }
 .noche-q textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--linea); border-radius: 12px; background: var(--hoja); font: 400 16px/1.5 var(--font-titulo); color: var(--tinta); resize: vertical; }
 .alto-resp { line-height: 26px; background-attachment: local; background-position: 0 14px; }
+
+/* ---------- Trámites y plazos ---------- */
+.tr-lista { display: grid; gap: 8px; }
+.tr-fila { display: grid; grid-template-columns: 40px 1fr auto auto; align-items: center; gap: 10px; padding: 10px 6px 10px 10px; border: 1px solid var(--linea); border-radius: 14px; }
+.tr-fila.listo { opacity: .6; } .tr-fila.listo b { text-decoration: line-through; }
+.tr-ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--oro-suave); } .tr-ic svg { width: 20px; height: 20px; fill: var(--burdeos); }
+.tr-tx { display: grid; gap: 3px; min-width: 0; } .tr-tx b { font-size: 14.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-est { font-size: 12.5px; font-weight: 600; color: var(--tinta-suave); } .tr-est.pronto { color: #9A6A00; } .tr-est.vencido { color: var(--burdeos); } .tr-est.ok { color: var(--ok); }
+.tr-fechas { font-size: 12px; color: var(--tinta-suave); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-barra { display: block; height: 5px; border-radius: 99px; background: var(--hoja-2); overflow: hidden; } .tr-barra i { display: block; height: 100%; border-radius: 99px; background: var(--burdeos); }
+.tr-fila .rb[aria-pressed="true"] svg { fill: var(--ok); }
+.tr-form .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.tr-form .chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid var(--linea); border-radius: 99px; cursor: pointer; font-size: 13.5px; }
+.tr-form .chip svg { width: 16px; height: 16px; fill: var(--tinta-suave); }
+.tr-form .chip input { position: absolute; opacity: 0; pointer-events: none; }
+.tr-form .chip:has(input:checked) { background: var(--oro-suave); border-color: transparent; color: var(--burdeos); font-weight: 600; } .tr-form .chip:has(input:checked) svg { fill: var(--burdeos); }
+.tr-form .chip:has(input:focus-visible) { outline: 2px solid var(--burdeos); outline-offset: 2px; }
+.tr-form .campo-et { display: block; margin-bottom: 6px; font-size: 13px; color: var(--tinta-suave); }
+.tr-calc { margin: 0; font-size: 13.5px; color: var(--burdeos) !important; }
+/* En el calendario de la vida: una línea fina une el día de inicio con el final; el pago, un punto dorado */
+.rv-dia.tr-curso, .rv-dia.tr-inicio, .rv-dia.tr-fin { position: relative; }
+.rv-dia.tr-curso::after, .rv-dia.tr-inicio::after, .rv-dia.tr-fin::after { content: ""; position: absolute; left: 0; right: 0; bottom: 1px; height: 3px; background: color-mix(in srgb, var(--burdeos) 55%, transparent); pointer-events: none; }
+.rv-dia.tr-inicio::after { left: 50%; border-radius: 3px 0 0 3px; } .rv-dia.tr-fin::after { right: 50%; border-radius: 0 3px 3px 0; }
+.rv-dia.tr-inicio.tr-fin::after { left: 30%; right: 30%; border-radius: 3px; }
+.rv-dia.tr-fin::before { content: ""; position: absolute; right: calc(50% - 4px); bottom: -1px; width: 8px; height: 8px; border-radius: 50%; background: var(--burdeos); }
+.rv-dia.tr-pago::before { content: ""; position: absolute; left: calc(50% - 3px); bottom: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--oro); }
+.rv-dia.tr-pago { position: relative; }
+.tr-hab { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13.5px; cursor: pointer; }
+.tr-hab input { width: 18px; height: 18px; accent-color: var(--burdeos); flex: none; }
