@@ -466,6 +466,8 @@ fun DayPlannerTab(vm: AgendaViewModel, bottom: Dp) {
                 if (t.isNotBlank()) SelectorMeta(meta, metas, vm::pasosDe) { vm.actMeta(h, it, r) } else Spacer(Modifier.width(48.dp))
             }
         }
+        // Trámites y plazos de este día (del inicio al final, días hábiles con festivos de Colombia)
+        item(key = "tramites") { com.rutaalacima.app.ui.tramites.TramitesDia(f) }
         // 3. Cierre del día y las 3 de mañana
         item { SectionTitle(stringResource(R.string.cierre_dia)) }
         item { CampoDia(stringResource(R.string.victorias_dia), d.victorias, 2) { v -> vm.editar { it.copy(victorias = v) } } }
