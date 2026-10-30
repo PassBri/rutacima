@@ -152,6 +152,7 @@ object Rutas {
     fun persona(id: String) = "persona/${android.net.Uri.encode(id)}"
     const val AJUSTES = "ajustes"
     const val FRASES = "frases"
+    const val ALTO = "alto"
     const val WEB = "web"
     const val VISION = "vision"
     const val VISION_COMPANERO = "vision/companero"
@@ -691,7 +692,8 @@ private fun AppPrincipal() {
             composable("${Rutas.BIENESTAR}?tab={tab}", arguments = listOf(navArgument("tab") { type = NavType.IntType; defaultValue = 0 })) { e ->
                 com.rutaalacima.app.ui.bienestar.BienestarScreen(onBack = { nav.popBackStack() }, tabInicial = e.arguments?.getInt("tab") ?: 0)
             }
-            composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }) }
+            composable(Rutas.FRASES) { com.rutaalacima.app.ui.frases.FrasesScreen(onBack = { nav.popBackStack() }, onAlto = { nav.navigate(Rutas.ALTO) }) }
+            composable(Rutas.ALTO) { com.rutaalacima.app.ui.alto.AltoScreen(onBack = { nav.popBackStack() }) }
         }
         }
     }

@@ -1,0 +1,79 @@
+{
+  "intro": "Sometimes you don't need to change mountains. It's enough to pause on the trail and ask yourself the right questions.",
+  "cierre": "This is what you answered at this rest stop on the trail. Read it again next month: you'll see how far you've climbed.",
+  "nombres": {"VOL": "Willpower", "MAE": "Mastery", "VOZ": "Voice", "VAL": "Value", "EVO": "Evolution", "TRA": "Transcendence", "CON": "Confluence", "CAM": "Base Camp", "CUMBRE": "Your summit"},
+  "preguntas": {
+    "VOL": [
+      "What small step have you been dodging for days, and what would happen if you took it tomorrow before breakfast?",
+      "If your body could write you a letter, what would it thank you for and what would it ask of you?",
+      "At what time of day does your strength slip away, and what would protect it?",
+      "What promise did you make yourself and quietly let fall? Is it worth picking back up?",
+      "When no one is watching, who are you on the climb?",
+      "What habit are you carrying in your backpack that weighs more than it gives?"
+    ],
+    "MAE": [
+      "What would you love to master so well that you could teach it without notes?",
+      "What did you learn this month that the you of a year ago didn't know?",
+      "If you had a mountain guide for your craft today, what would you ask them first?",
+      "Where are you afraid of becoming a beginner again?",
+      "What recent mistake taught you more than a success?",
+      "What would you give one hour a day to if you knew that in five years you'd be among the best?"
+    ],
+    "VOZ": [
+      "What truth of yours do you still not dare to say out loud?",
+      "If your message fit in a single sentence carved into a stone at the summit, what would it be?",
+      "Who did you stay silent with when you wanted to speak?",
+      "What story from your life could encourage someone who is just starting to climb?",
+      "Where do you sound like yourself, and where do you sound like what others expect of you?",
+      "What unfinished conversation would make your backpack lighter?"
+    ],
+    "VAL": [
+      "If your money could talk, would it say it works for your summit or for your anxiety?",
+      "What recent purchase pulled you away from your peak, and which one brought you closer?",
+      "What is an hour of your life worth, and what are you trading it for?",
+      "What value do you give others that you still don't dare to charge for?",
+      "If you had six months of savings tomorrow, what decision would you make that you're not making today?",
+      "What were you taught about money that you no longer want to keep believing?"
+    ],
+    "EVO": [
+      "What part of the you from five years ago would be surprised to see you today?",
+      "What version of yourself are you leaving behind on this stretch of the trail?",
+      "What belief about yourself no longer fits you?",
+      "If this year were a chapter in your book, what title would you give it?",
+      "What fall made you stronger than you admit?",
+      "What would the child you once were say, seeing how you live today?"
+    ],
+    "TRA": [
+      "What do you want to remain when you are no longer on the mountain?",
+      "Who are you clearing a path for, even if they don't know it yet?",
+      "If your life were a trail others will walk, what marker would you leave on the hardest stretch?",
+      "What cause would get you up early without anyone asking?",
+      "What would you do differently this year if you knew someone was watching you to learn?",
+      "What will people thank you for twenty years from now?"
+    ],
+    "CON": [
+      "What activity in your life moves your body, your mind and your purpose all at once?",
+      "Where do what you love, what you're good at and what the world needs meet?",
+      "Which two of your goals compete with each other, and how could they walk together?",
+      "If you had to choose a single project that unites your six paths, what would it be?",
+      "What moment this week made you feel whole, with no loose pieces?",
+      "What are you doing separately that you could do all at once?"
+    ],
+    "CAM": [
+      "Who holds the rope when you slip?",
+      "Who do you owe a call just to say thank you?",
+      "Who would you like to rope up with this year?",
+      "Which relationship takes more oxygen from you than it gives?",
+      "How is your base camp: your home, your rest, your people?",
+      "Who could you walk alongside on their climb this week?"
+    ],
+    "CUMBRE": [
+      "If you reached your summit today, who would be with you in the photo?",
+      "Is your summit still yours, or is it the one others expected of you?",
+      "If the you of ten years from now read about your day today, what would they thank you for?",
+      "What would you do tomorrow if you knew fear couldn't follow you?",
+      "What would you give up to become who you truly want to be?",
+      "If you had only one year of trail left, would you keep climbing this same mountain?"
+    ]
+  }
+}

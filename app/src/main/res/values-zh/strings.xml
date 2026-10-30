@@ -2821,4 +2821,23 @@
         <item quantity="other">%d 份教练申请待审核</item>
     </plurals>
     <string name="todas_secciones">所有版块</string>
+    <string name="alto_titulo">路上的停驻</string>
+    <string name="alto_empezar">开始</string>
+    <string name="alto_n_preguntas">9 个问题 · %1$s</string>
+    <string name="alto_pregunta">问题 %1$d</string>
+    <string name="alto_de">共 %1$d 个</string>
+    <string name="alto_placeholder">不用多想，写下来…</string>
+    <string name="alto_anterior">上一个</string>
+    <string name="alto_siguiente">下一个</string>
+    <string name="alto_ver_respuestas">查看我的回答</string>
+    <string name="alto_tu_alto">你在 %1$s 的停驻</string>
+    <string name="alto_sin_responder">未回答</string>
+    <string name="alto_guardar">保存并关闭</string>
+    <string name="alto_reiniciar">重新开始</string>
+    <string name="alto_inv_d0">9 个问题，让你停下来看看自己的路</string>
+    <string name="alto_inv_dn">已回答 %1$d/9 · 继续</string>
+    <string name="alto_inv_lleno">已完成 · 重读你的回答</string>
+    <string name="noche_titulo">今晚的问题</string>
+    <string name="noche_placeholder">一句话就够了。只属于你。</string>
+    <string name="alto_cerrar">关闭</string>
 </resources>

@@ -349,6 +349,9 @@ fun HoyScreen(
             }
         }
 
+        // Antes de dormir: la pregunta de la noche y, cada mes, el alto en el camino (las mismas de la web)
+        item(key = "noche") { com.rutaalacima.app.ui.alto.PreguntaNocheCard() }
+        item(key = "alto") { com.rutaalacima.app.ui.alto.AltoInvitacion(onAbrir = { onIrA(com.rutaalacima.app.ui.Rutas.ALTO) }) }
         // Cascada: largo plazo · año · mes (líneas finas; se abre el planificador)
         item {
             val c = cascada

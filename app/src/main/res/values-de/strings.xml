@@ -2821,4 +2821,23 @@
         <item quantity="other">%d Coach-Bewerbungen zu prüfen</item>
     </plurals>
     <string name="todas_secciones">Alle Bereiche</string>
+    <string name="alto_titulo">Ein Halt am Weg</string>
+    <string name="alto_empezar">Beginnen</string>
+    <string name="alto_n_preguntas">9 Fragen · %1$s</string>
+    <string name="alto_pregunta">Frage %1$d</string>
+    <string name="alto_de">von %1$d</string>
+    <string name="alto_placeholder">Schreib, ohne lange nachzudenken…</string>
+    <string name="alto_anterior">Zurück</string>
+    <string name="alto_siguiente">Weiter</string>
+    <string name="alto_ver_respuestas">Meine Antworten ansehen</string>
+    <string name="alto_tu_alto">Dein Halt im %1$s</string>
+    <string name="alto_sin_responder">Nicht beantwortet</string>
+    <string name="alto_guardar">Speichern und schließen</string>
+    <string name="alto_reiniciar">Neu beginnen</string>
+    <string name="alto_inv_d0">9 Fragen, um innezuhalten und deine Route anzusehen</string>
+    <string name="alto_inv_dn">%1$d von 9 beantwortet · weiter</string>
+    <string name="alto_inv_lleno">Fertig · lies deine Antworten noch einmal</string>
+    <string name="noche_titulo">Die Frage des Abends</string>
+    <string name="noche_placeholder">Eine Zeile genügt. Sie bleibt nur bei dir.</string>
+    <string name="alto_cerrar">Schließen</string>
 </resources>

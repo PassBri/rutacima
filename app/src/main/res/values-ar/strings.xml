@@ -2821,4 +2821,23 @@
         <item quantity="other">%d طلبات مدربين للمراجعة</item>
     </plurals>
     <string name="todas_secciones">كل الأقسام</string>
+    <string name="alto_titulo">وقفة على الطريق</string>
+    <string name="alto_empezar">ابدأ</string>
+    <string name="alto_n_preguntas">9 أسئلة · %1$s</string>
+    <string name="alto_pregunta">السؤال %1$d</string>
+    <string name="alto_de">من %1$d</string>
+    <string name="alto_placeholder">اكتب دون أن تفكر كثيرًا…</string>
+    <string name="alto_anterior">السابق</string>
+    <string name="alto_siguiente">التالي</string>
+    <string name="alto_ver_respuestas">عرض إجاباتي</string>
+    <string name="alto_tu_alto">وقفتك في %1$s</string>
+    <string name="alto_sin_responder">بلا إجابة</string>
+    <string name="alto_guardar">حفظ وإغلاق</string>
+    <string name="alto_reiniciar">البدء من جديد</string>
+    <string name="alto_inv_d0">9 أسئلة لتتوقف وتنظر إلى طريقك</string>
+    <string name="alto_inv_dn">أُجيب عن %1$d من 9 · تابع</string>
+    <string name="alto_inv_lleno">مكتمل · أعد قراءة إجاباتك</string>
+    <string name="noche_titulo">سؤال الليلة</string>
+    <string name="noche_placeholder">سطر واحد يكفي. يبقى لك وحدك.</string>
+    <string name="alto_cerrar">إغلاق</string>
 </resources>

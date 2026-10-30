@@ -1,0 +1,79 @@
+{
+  "intro": "Manchmal musst du nicht den Berg wechseln. Es reicht, unterwegs innezuhalten und dir die richtigen Fragen zu stellen.",
+  "cierre": "Das hast du an dieser Rast auf dem Weg geantwortet. Lies es nächsten Monat noch einmal: Dann siehst du, wie weit du aufgestiegen bist.",
+  "nombres": {"VOL": "Willenskraft", "MAE": "Meisterschaft", "VOZ": "Stimme", "VAL": "Wert", "EVO": "Entwicklung", "TRA": "Transzendenz", "CON": "Zusammenfluss", "CAM": "Basislager", "CUMBRE": "Dein Gipfel"},
+  "preguntas": {
+    "VOL": [
+      "Welchem kleinen Schritt weichst du seit Tagen aus, und was würde passieren, wenn du ihn morgen vor dem Frühstück gehst?",
+      "Wenn dein Körper dir einen Brief schreiben könnte, wofür würde er dir danken und worum würde er dich bitten?",
+      "Zu welcher Tageszeit verlässt dich die Kraft, und was würde sie schützen?",
+      "Welches Versprechen hast du dir gegeben und still fallen lassen? Lohnt es sich, es wieder aufzunehmen?",
+      "Wenn niemand zusieht: Wer bist du beim Aufstieg?",
+      "Welche Gewohnheit trägst du im Rucksack, die schwerer wiegt, als sie dir bringt?"
+    ],
+    "MAE": [
+      "Was würdest du gern so gut beherrschen, dass du es ohne Notizen lehren könntest?",
+      "Was hast du diesen Monat gelernt, das dein Ich von vor einem Jahr noch nicht wusste?",
+      "Wenn du heute einen Bergführer für dein Handwerk hättest, was würdest du ihn als Erstes fragen?",
+      "Wobei hast du Angst, wieder Anfänger zu sein?",
+      "Welcher Fehler der letzten Zeit hat dich mehr gelehrt als ein Erfolg?",
+      "Wofür würdest du täglich eine Stunde einsetzen, wenn du wüsstest, dass du in fünf Jahren zu den Besten gehörst?"
+    ],
+    "VOZ": [
+      "Welche Wahrheit von dir traust du dich noch nicht laut auszusprechen?",
+      "Wenn deine Botschaft in einen einzigen Satz passen müsste, eingemeißelt in einen Stein auf dem Gipfel, wie würde er lauten?",
+      "Bei wem bist du still geblieben, obwohl du reden wolltest?",
+      "Welche Geschichte aus deinem Leben könnte jemandem Mut machen, der gerade erst mit dem Aufstieg beginnt?",
+      "Wo klingst du wie du selbst, und wo klingst du so, wie andere es von dir erwarten?",
+      "Welches offene Gespräch würde deinen Rucksack leichter machen?"
+    ],
+    "VAL": [
+      "Wenn dein Geld sprechen könnte, würde es sagen, dass es für deinen Gipfel arbeitet oder für deine Angst?",
+      "Welcher Kauf der letzten Zeit hat dich von deinem Gipfel entfernt, und welcher hat dich ihm nähergebracht?",
+      "Wie viel ist eine Stunde deines Lebens wert, und wogegen tauschst du sie gerade?",
+      "Welchen Wert gibst du anderen, für den du dich noch nicht traust, etwas zu verlangen?",
+      "Wenn du morgen sechs Monate Rücklagen hättest, welche Entscheidung würdest du treffen, die du heute nicht triffst?",
+      "Was hat man dir über Geld beigebracht, das du nicht länger glauben willst?"
+    ],
+    "EVO": [
+      "Welcher Teil von dir vor fünf Jahren wäre überrascht, dich heute zu sehen?",
+      "Welche Version von dir lässt du auf diesem Wegstück zurück?",
+      "Welcher Glaubenssatz über dich passt dir nicht mehr?",
+      "Wenn dieses Jahr ein Kapitel deines Buches wäre, welchen Titel würdest du ihm geben?",
+      "Welcher Sturz hat dich stärker gemacht, als du zugibst?",
+      "Was würde das Kind, das du einmal warst, sagen, wenn es sähe, wie du heute lebst?"
+    ],
+    "TRA": [
+      "Was soll bleiben, wenn du nicht mehr auf dem Berg bist?",
+      "Wem bahnst du gerade den Weg, auch wenn er es noch nicht weiß?",
+      "Wenn dein Leben ein Pfad wäre, den andere gehen werden, welches Zeichen würdest du am schwierigsten Abschnitt hinterlassen?",
+      "Für welche Sache würdest du früh aufstehen, ohne dass dich jemand darum bittet?",
+      "Was würdest du dieses Jahr anders machen, wenn du wüsstest, dass dir jemand zusieht, um zu lernen?",
+      "Wofür werden dir die Menschen in zwanzig Jahren dankbar sein?"
+    ],
+    "CON": [
+      "Welche Tätigkeit in deinem Leben bewegt zugleich deinen Körper, deinen Geist und deine Bestimmung?",
+      "Wo kreuzen sich das, was du liebst, das, was du kannst, und das, was die Welt braucht?",
+      "Welche zwei deiner Ziele konkurrieren miteinander, und wie könnten sie gemeinsam gehen?",
+      "Wenn du ein einziges Projekt wählen müsstest, das deine sechs Achsen verbindet, welches wäre es?",
+      "Welcher Moment dieser Woche hat dich ganz fühlen lassen, ohne lose Teile?",
+      "Was machst du getrennt, das du in einem Zug erledigen könntest?"
+    ],
+    "CAM": [
+      "Wer hält das Seil, wenn du ausrutschst?",
+      "Wem schuldest du einen Anruf, nur um Danke zu sagen?",
+      "Mit wem würdest du dieses Jahr gern eine Seilschaft bilden?",
+      "Welche Beziehung nimmt dir mehr Sauerstoff, als sie dir gibt?",
+      "Wie steht es um dein Basislager: dein Zuhause, deine Erholung, deine Menschen?",
+      "Wen könntest du diese Woche bei seinem Aufstieg begleiten?"
+    ],
+    "CUMBRE": [
+      "Wenn du heute deinen Gipfel erreichen würdest, wer wäre mit dir auf dem Foto?",
+      "Ist dein Gipfel noch deiner, oder ist es der, den andere von dir erwartet haben?",
+      "Wenn dein Ich in zehn Jahren deinen heutigen Tag lesen würde, wofür würde es dir danken?",
+      "Was würdest du morgen tun, wenn du wüsstest, dass die Angst dir nicht folgen kann?",
+      "Worauf würdest du verzichten, um der Mensch zu werden, der du wirklich sein willst?",
+      "Wenn dir nur noch ein Jahr Weg bliebe, würdest du weiter diesen selben Berg besteigen?"
+    ]
+  }
+}

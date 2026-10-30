@@ -48,7 +48,7 @@ class FrasesViewModel(c: AppContainer) : ViewModel() {
 /** "Mis frases": las frases del año que la persona ya abrió, de la más reciente a la primera. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FrasesScreen(onBack: () -> Unit) {
+fun FrasesScreen(onBack: () -> Unit, onAlto: () -> Unit = {}) {
     val vm = rutaViewModel { FrasesViewModel(it) }
     val abiertas by vm.desbloqueadas.collectAsStateWithLifecycle()
     val anio = LocalDate.now().year
@@ -68,6 +68,8 @@ fun FrasesScreen(onBack: () -> Unit) {
             contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = padding.calculateTopPadding() + 8.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
+            // Alto en el camino: 9 preguntas al mes para detenerte y mirar tu ruta
+            item { com.rutaalacima.app.ui.alto.AltoInvitacion(onAbrir = onAlto) }
             item {
                 Text(stringResource(R.string.mis_frases_n, abiertas.size), style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary)

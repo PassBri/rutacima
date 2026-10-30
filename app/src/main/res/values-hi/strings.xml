@@ -2821,4 +2821,23 @@
         <item quantity="other">समीक्षा के लिए %d कोच आवेदन</item>
     </plurals>
     <string name="todas_secciones">सभी अनुभाग</string>
+    <string name="alto_titulo">रास्ते में एक ठहराव</string>
+    <string name="alto_empezar">शुरू करें</string>
+    <string name="alto_n_preguntas">9 सवाल · %1$s</string>
+    <string name="alto_pregunta">सवाल %1$d</string>
+    <string name="alto_de">/ %1$d</string>
+    <string name="alto_placeholder">ज़्यादा सोचे बिना लिखिए…</string>
+    <string name="alto_anterior">पिछला</string>
+    <string name="alto_siguiente">अगला</string>
+    <string name="alto_ver_respuestas">मेरे जवाब देखें</string>
+    <string name="alto_tu_alto">%1$s का आपका ठहराव</string>
+    <string name="alto_sin_responder">जवाब नहीं दिया</string>
+    <string name="alto_guardar">सहेजें और बंद करें</string>
+    <string name="alto_reiniciar">फिर से शुरू करें</string>
+    <string name="alto_inv_d0">रुककर अपने रास्ते को देखने के 9 सवाल</string>
+    <string name="alto_inv_dn">9 में से %1$d जवाब दिए · जारी रखें</string>
+    <string name="alto_inv_lleno">पूरा · अपने जवाब फिर पढ़ें</string>
+    <string name="noche_titulo">आज रात का सवाल</string>
+    <string name="noche_placeholder">एक पंक्ति काफ़ी है। यह सिर्फ़ आपके लिए है।</string>
+    <string name="alto_cerrar">बंद करें</string>
 </resources>

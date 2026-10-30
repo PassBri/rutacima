@@ -1,0 +1,79 @@
+{
+  "intro": "A volte non serve cambiare montagna. Basta fermarti lungo il sentiero e farti le domande giuste.",
+  "cierre": "Ecco cosa hai risposto in questa sosta del cammino. Rileggilo il mese prossimo: vedrai quanto sei salito.",
+  "nombres": {"VOL": "Volontà", "MAE": "Maestria", "VOZ": "Voce", "VAL": "Valore", "EVO": "Evoluzione", "TRA": "Trascendenza", "CON": "Confluenza", "CAM": "Campo Base", "CUMBRE": "La tua vetta"},
+  "preguntas": {
+    "VOL": [
+      "Quale piccolo passo stai evitando da giorni, e cosa succederebbe se lo facessi domani prima di colazione?",
+      "Se il tuo corpo potesse scriverti una lettera, di cosa ti ringrazierebbe e cosa ti chiederebbe?",
+      "In quale momento della giornata ti abbandona la forza, e cosa potrebbe proteggerla?",
+      "Quale promessa ti sei fatto e hai lasciato cadere in silenzio? Vale la pena riprenderla?",
+      "Quando nessuno ti guarda, chi sei durante la salita?",
+      "Quale abitudine porti nello zaino che pesa più di quanto ti dà?"
+    ],
+    "MAE": [
+      "Cosa ti piacerebbe padroneggiare così bene da poterlo insegnare senza appunti?",
+      "Cosa hai imparato questo mese che il te di un anno fa non sapeva?",
+      "Se oggi avessi una guida alpina per il tuo mestiere, cosa le chiederesti per prima cosa?",
+      "In cosa hai paura di tornare a essere principiante?",
+      "Quale errore recente ti ha insegnato più di un successo?",
+      "A cosa dedicheresti un'ora al giorno se sapessi che tra cinque anni saresti tra i migliori?"
+    ],
+    "VOZ": [
+      "Quale tua verità non osi ancora dire ad alta voce?",
+      "Se il tuo messaggio stesse in un'unica frase incisa su una pietra della vetta, quale sarebbe?",
+      "Con chi sei rimasto in silenzio quando volevi parlare?",
+      "Quale storia della tua vita potrebbe dare coraggio a qualcuno che ha appena iniziato a salire?",
+      "Dove suoni come te stesso e dove suoni come ciò che gli altri si aspettano da te?",
+      "Quale conversazione in sospeso renderebbe più leggero il tuo zaino?"
+    ],
+    "VAL": [
+      "Se il tuo denaro potesse parlare, direbbe che lavora per la tua vetta o per la tua ansia?",
+      "Quale acquisto recente ti ha allontanato dalla tua cima, e quale ti ha avvicinato?",
+      "Quanto vale un'ora della tua vita, e con cosa la stai scambiando?",
+      "Quale valore dai agli altri che ancora non osi farti pagare?",
+      "Se domani avessi sei mesi di riserva, quale decisione prenderesti che oggi non prendi?",
+      "Cosa ti hanno insegnato sul denaro a cui non vuoi più continuare a credere?"
+    ],
+    "EVO": [
+      "Quale parte del te di cinque anni fa sarebbe sorpresa di vederti oggi?",
+      "Quale versione di te stai lasciando indietro in questo tratto del cammino?",
+      "Quale convinzione su di te non ti sta più addosso?",
+      "Se quest'anno fosse un capitolo del tuo libro, che titolo gli daresti?",
+      "Quale caduta ti ha reso più forte di quanto ammetti?",
+      "Cosa direbbe il bambino o la bambina che sei stato vedendo come vivi oggi?"
+    ],
+    "TRA": [
+      "Cosa vuoi che resti quando non sarai più sulla montagna?",
+      "A chi stai aprendo la strada, anche se ancora non lo sa?",
+      "Se la tua vita fosse un sentiero che altri percorreranno, quale segnale lasceresti nel tratto più difficile?",
+      "Per quale causa ti alzeresti presto senza che nessuno te lo chieda?",
+      "Cosa faresti di diverso quest'anno se sapessi che qualcuno ti guarda per imparare?",
+      "Di cosa ti ringrazieranno le persone tra vent'anni?"
+    ],
+    "CON": [
+      "Quale attività della tua vita muove insieme il tuo corpo, la tua mente e il tuo scopo?",
+      "Dove si incrociano ciò che ami, ciò che sai fare e ciò di cui il mondo ha bisogno?",
+      "Quali due tuoi obiettivi sono in competizione tra loro, e come potrebbero camminare insieme?",
+      "Se dovessi scegliere un solo progetto che unisca i tuoi sei assi, quale sarebbe?",
+      "Quale momento di questa settimana ti ha fatto sentire intero, senza pezzi sparsi?",
+      "Cosa stai facendo separatamente che potresti fare tutto in una volta?"
+    ],
+    "CAM": [
+      "Chi tiene la corda quando scivoli?",
+      "A chi devi una telefonata solo per dirgli grazie?",
+      "Con chi ti piacerebbe fare cordata quest'anno?",
+      "Quale relazione ti toglie più ossigeno di quanto te ne dia?",
+      "Come sta il tuo campo base: la tua casa, il tuo riposo, la tua gente?",
+      "Chi potresti accompagnare nella sua salita questa settimana?"
+    ],
+    "CUMBRE": [
+      "Se oggi arrivassi alla tua vetta, chi ci sarebbe con te nella foto?",
+      "La tua vetta è ancora tua, o è quella che gli altri si aspettavano da te?",
+      "Se il te tra dieci anni leggesse la tua giornata di oggi, di cosa ti ringrazierebbe?",
+      "Cosa faresti domani se sapessi che la paura non può seguirti?",
+      "A cosa rinunceresti per diventare chi vuoi davvero essere?",
+      "Se ti restasse un solo anno di cammino, continueresti a salire questa stessa montagna?"
+    ]
+  }
+}

@@ -2821,4 +2821,23 @@
         <item quantity="other">%d заявки коучей на проверку</item>
     </plurals>
     <string name="todas_secciones">Все разделы</string>
+    <string name="alto_titulo">Привал на пути</string>
+    <string name="alto_empezar">Начать</string>
+    <string name="alto_n_preguntas">9 вопросов · %1$s</string>
+    <string name="alto_pregunta">Вопрос %1$d</string>
+    <string name="alto_de">из %1$d</string>
+    <string name="alto_placeholder">Пиши, не раздумывая долго…</string>
+    <string name="alto_anterior">Назад</string>
+    <string name="alto_siguiente">Далее</string>
+    <string name="alto_ver_respuestas">Мои ответы</string>
+    <string name="alto_tu_alto">Твой привал: %1$s</string>
+    <string name="alto_sin_responder">Без ответа</string>
+    <string name="alto_guardar">Сохранить и закрыть</string>
+    <string name="alto_reiniciar">Начать заново</string>
+    <string name="alto_inv_d0">9 вопросов, чтобы остановиться и взглянуть на свой путь</string>
+    <string name="alto_inv_dn">Отвечено %1$d из 9 · продолжить</string>
+    <string name="alto_inv_lleno">Готово · перечитай свои ответы</string>
+    <string name="noche_titulo">Вопрос на ночь</string>
+    <string name="noche_placeholder">Достаточно одной строки. Она только для тебя.</string>
+    <string name="alto_cerrar">Закрыть</string>
 </resources>

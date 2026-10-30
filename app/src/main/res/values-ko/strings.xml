@@ -2821,4 +2821,23 @@
         <item quantity="other">검토할 코치 지원 %d건</item>
     </plurals>
     <string name="todas_secciones">모든 섹션</string>
+    <string name="alto_titulo">길 위의 쉼표</string>
+    <string name="alto_empezar">시작하기</string>
+    <string name="alto_n_preguntas">질문 9개 · %1$s</string>
+    <string name="alto_pregunta">질문 %1$d</string>
+    <string name="alto_de">/ %1$d</string>
+    <string name="alto_placeholder">너무 깊이 고민하지 말고 적어 보세요…</string>
+    <string name="alto_anterior">이전</string>
+    <string name="alto_siguiente">다음</string>
+    <string name="alto_ver_respuestas">내 답 보기</string>
+    <string name="alto_tu_alto">%1$s의 쉼표</string>
+    <string name="alto_sin_responder">답하지 않음</string>
+    <string name="alto_guardar">저장하고 닫기</string>
+    <string name="alto_reiniciar">다시 시작</string>
+    <string name="alto_inv_d0">멈춰 서서 나의 길을 돌아보는 9가지 질문</string>
+    <string name="alto_inv_dn">9개 중 %1$d개 답함 · 계속하기</string>
+    <string name="alto_inv_lleno">완료 · 답을 다시 읽어 보세요</string>
+    <string name="noche_titulo">오늘 밤의 질문</string>
+    <string name="noche_placeholder">한 줄이면 충분해요. 오직 당신만의 것.</string>
+    <string name="alto_cerrar">닫기</string>
 </resources>

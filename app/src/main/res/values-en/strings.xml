@@ -2821,4 +2821,23 @@
         <item quantity="other">%d coach applications to review</item>
     </plurals>
     <string name="todas_secciones">All sections</string>
+    <string name="alto_titulo">A pause on the trail</string>
+    <string name="alto_empezar">Begin</string>
+    <string name="alto_n_preguntas">9 questions · %1$s</string>
+    <string name="alto_pregunta">Question %1$d</string>
+    <string name="alto_de">of %1$d</string>
+    <string name="alto_placeholder">Write without overthinking…</string>
+    <string name="alto_anterior">Back</string>
+    <string name="alto_siguiente">Next</string>
+    <string name="alto_ver_respuestas">See my answers</string>
+    <string name="alto_tu_alto">Your pause in %1$s</string>
+    <string name="alto_sin_responder">Not answered</string>
+    <string name="alto_guardar">Save and close</string>
+    <string name="alto_reiniciar">Start over</string>
+    <string name="alto_inv_d0">9 questions to stop and look at your route</string>
+    <string name="alto_inv_dn">%1$d of 9 answered · continue</string>
+    <string name="alto_inv_lleno">Complete · read your answers again</string>
+    <string name="noche_titulo">Tonight’s question</string>
+    <string name="noche_placeholder">One line is enough. It stays just for you.</string>
+    <string name="alto_cerrar">Close</string>
 </resources>

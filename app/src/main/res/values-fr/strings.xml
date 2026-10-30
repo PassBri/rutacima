@@ -2821,4 +2821,23 @@
         <item quantity="other">%d candidatures de coach à examiner</item>
     </plurals>
     <string name="todas_secciones">Toutes les sections</string>
+    <string name="alto_titulo">Une halte sur le chemin</string>
+    <string name="alto_empezar">Commencer</string>
+    <string name="alto_n_preguntas">9 questions · %1$s</string>
+    <string name="alto_pregunta">Question %1$d</string>
+    <string name="alto_de">sur %1$d</string>
+    <string name="alto_placeholder">Écris sans trop réfléchir…</string>
+    <string name="alto_anterior">Précédente</string>
+    <string name="alto_siguiente">Suivante</string>
+    <string name="alto_ver_respuestas">Voir mes réponses</string>
+    <string name="alto_tu_alto">Ta halte de %1$s</string>
+    <string name="alto_sin_responder">Sans réponse</string>
+    <string name="alto_guardar">Enregistrer et fermer</string>
+    <string name="alto_reiniciar">Recommencer</string>
+    <string name="alto_inv_d0">9 questions pour t’arrêter et regarder ta route</string>
+    <string name="alto_inv_dn">%1$d sur 9 répondues · continue</string>
+    <string name="alto_inv_lleno">Terminé · relis tes réponses</string>
+    <string name="noche_titulo">La question du soir</string>
+    <string name="noche_placeholder">Une ligne suffit. Elle reste pour toi.</string>
+    <string name="alto_cerrar">Fermer</string>
 </resources>

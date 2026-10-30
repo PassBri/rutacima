@@ -2821,4 +2821,23 @@
         <item quantity="other">確認待ちのコーチ応募 %d 件</item>
     </plurals>
     <string name="todas_secciones">すべてのセクション</string>
+    <string name="alto_titulo">道の途中のひと休み</string>
+    <string name="alto_empezar">はじめる</string>
+    <string name="alto_n_preguntas">9つの問い · %1$s</string>
+    <string name="alto_pregunta">問い %1$d</string>
+    <string name="alto_de">/ %1$d</string>
+    <string name="alto_placeholder">考えすぎずに書いてみて…</string>
+    <string name="alto_anterior">前へ</string>
+    <string name="alto_siguiente">次へ</string>
+    <string name="alto_ver_respuestas">自分の答えを見る</string>
+    <string name="alto_tu_alto">%1$s のひと休み</string>
+    <string name="alto_sin_responder">未回答</string>
+    <string name="alto_guardar">保存して閉じる</string>
+    <string name="alto_reiniciar">最初から</string>
+    <string name="alto_inv_d0">立ち止まって自分の道を見つめる9つの問い</string>
+    <string name="alto_inv_dn">9問中 %1$d 問に回答 · 続ける</string>
+    <string name="alto_inv_lleno">完了 · 答えを読み返す</string>
+    <string name="noche_titulo">今夜の問い</string>
+    <string name="noche_placeholder">一行で十分。あなただけのもの。</string>
+    <string name="alto_cerrar">閉じる</string>
 </resources>

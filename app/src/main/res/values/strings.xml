@@ -2830,4 +2830,23 @@
         <item quantity="other">%d postulaciones de coach por revisar</item>
     </plurals>
     <string name="todas_secciones">Todas las secciones</string>
+    <string name="alto_titulo">Alto en el camino</string>
+    <string name="alto_empezar">Empezar</string>
+    <string name="alto_n_preguntas">9 preguntas · %1$s</string>
+    <string name="alto_pregunta">Pregunta %1$d</string>
+    <string name="alto_de">de %1$d</string>
+    <string name="alto_placeholder">Escribe sin pensarlo mucho…</string>
+    <string name="alto_anterior">Anterior</string>
+    <string name="alto_siguiente">Siguiente</string>
+    <string name="alto_ver_respuestas">Ver mis respuestas</string>
+    <string name="alto_tu_alto">Tu alto de %1$s</string>
+    <string name="alto_sin_responder">Sin responder</string>
+    <string name="alto_guardar">Guardar y cerrar</string>
+    <string name="alto_reiniciar">Volver a empezar</string>
+    <string name="alto_inv_d0">9 preguntas para detenerte y mirar tu ruta</string>
+    <string name="alto_inv_dn">%1$d de 9 respondidas · continúa</string>
+    <string name="alto_inv_lleno">Completo · vuelve a leer tus respuestas</string>
+    <string name="noche_titulo">La pregunta de la noche</string>
+    <string name="noche_placeholder">Una línea basta. Queda solo para ti.</string>
+    <string name="alto_cerrar">Cerrar</string>
 </resources>

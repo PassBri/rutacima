@@ -2821,4 +2821,23 @@
         <item quantity="other">%d candidature da coach da rivedere</item>
     </plurals>
     <string name="todas_secciones">Tutte le sezioni</string>
+    <string name="alto_titulo">Una sosta sul cammino</string>
+    <string name="alto_empezar">Inizia</string>
+    <string name="alto_n_preguntas">9 domande · %1$s</string>
+    <string name="alto_pregunta">Domanda %1$d</string>
+    <string name="alto_de">di %1$d</string>
+    <string name="alto_placeholder">Scrivi senza pensarci troppo…</string>
+    <string name="alto_anterior">Indietro</string>
+    <string name="alto_siguiente">Avanti</string>
+    <string name="alto_ver_respuestas">Vedi le mie risposte</string>
+    <string name="alto_tu_alto">La tua sosta di %1$s</string>
+    <string name="alto_sin_responder">Senza risposta</string>
+    <string name="alto_guardar">Salva e chiudi</string>
+    <string name="alto_reiniciar">Ricomincia</string>
+    <string name="alto_inv_d0">9 domande per fermarti e guardare la tua via</string>
+    <string name="alto_inv_dn">%1$d di 9 risposte · continua</string>
+    <string name="alto_inv_lleno">Completo · rileggi le tue risposte</string>
+    <string name="noche_titulo">La domanda della sera</string>
+    <string name="noche_placeholder">Basta una riga. Resta solo per te.</string>
+    <string name="alto_cerrar">Chiudi</string>
 </resources>
