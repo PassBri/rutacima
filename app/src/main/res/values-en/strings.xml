@@ -2840,7 +2840,7 @@
     <string name="noche_titulo">Tonight’s question</string>
     <string name="noche_placeholder">One line is enough. It stays just for you.</string>
     <string name="alto_cerrar">Close</string>
-    <string name="tr_titulo">Procedures & deadlines</string>
+    <string name="tr_titulo">Procedures &amp; deadlines</string>
     <string name="tr_sub">A procedure, a process or an installment: from start day to end day, with reminders before it’s due.</string>
     <string name="tr_nuevo">New</string>
     <string name="tr_vacio">Nothing in progress this day. Add a procedure, process or installment so you don’t miss the deadline.</string>

@@ -2840,7 +2840,7 @@
     <string name="noche_titulo">Die Frage des Abends</string>
     <string name="noche_placeholder">Eine Zeile genügt. Sie bleibt nur bei dir.</string>
     <string name="alto_cerrar">Schließen</string>
-    <string name="tr_titulo">Behördengänge & Fristen</string>
+    <string name="tr_titulo">Behördengänge &amp; Fristen</string>
     <string name="tr_sub">Ein Antrag, ein Verfahren oder eine Rate: vom ersten bis zum letzten Tag, mit Erinnerungen vor Ablauf.</string>
     <string name="tr_nuevo">Neu</string>
     <string name="tr_vacio">An diesem Tag läuft nichts. Füge einen Antrag, ein Verfahren oder eine Rate hinzu, um keine Frist zu verpassen.</string>
