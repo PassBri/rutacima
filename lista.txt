@@ -1,0 +1,18 @@
+total 2056
+drwxr-xr-x  2 runner runner   4096 Oct 31 15:38 .
+drwxr-xr-x 14 runner runner   4096 Oct 31 15:38 ..
+-rw-r--r--  1 runner runner   1003 Oct 31 15:38 TEST-com.rutaalacima.app.ui.CapturasTest.xml
+-rw-r--r--  1 runner runner 205894 Oct 31 15:38 ascenso-claro.png
+-rw-r--r--  1 runner runner 207924 Oct 31 15:38 ascenso-oscuro.png
+-rw-r--r--  1 runner runner 107851 Oct 31 15:38 cascada-claro.png
+-rw-r--r--  1 runner runner 108605 Oct 31 15:38 cascada-oscuro.png
+-rw-r--r--  1 runner runner  79605 Oct 31 15:38 finanzas-claro.png
+-rw-r--r--  1 runner runner  80115 Oct 31 15:38 finanzas-oscuro.png
+-rw-r--r--  1 runner runner 169552 Oct 31 15:38 grafica-claro.png
+-rw-r--r--  1 runner runner 169072 Oct 31 15:38 grafica-oscuro.png
+-rw-r--r--  1 runner runner      0 Oct 31 15:38 lista.txt
+-rw-r--r--  1 runner runner 171120 Oct 31 15:38 plan-dia.png
+-rw-r--r--  1 runner runner 262458 Oct 31 15:38 salud-claro.png
+-rw-r--r--  1 runner runner 121538 Oct 31 15:38 salud-graficos-claro.png
+-rw-r--r--  1 runner runner 121766 Oct 31 15:38 salud-graficos-oscuro.png
+-rw-r--r--  1 runner runner 261855 Oct 31 15:38 salud-oscuro.png

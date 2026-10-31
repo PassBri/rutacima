@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.rutaalacima.app.ui.CapturasTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-10-31T15:38:00" hostname="runnervm48cm3" time="11.843">
+  <properties/>
+  <testcase name="cascadaDelAnioYDelMes" classname="com.rutaalacima.app.ui.CapturasTest" time="7.044"/>
+  <testcase name="finanzasDelMes" classname="com.rutaalacima.app.ui.CapturasTest" time="0.682"/>
+  <testcase name="planDelDia" classname="com.rutaalacima.app.ui.CapturasTest" time="1.197"/>
+  <testcase name="saludFinanciera" classname="com.rutaalacima.app.ui.CapturasTest" time="0.893"/>
+  <testcase name="ascensoFinanciero" classname="com.rutaalacima.app.ui.CapturasTest" time="0.676"/>
+  <testcase name="graficaAscenso" classname="com.rutaalacima.app.ui.CapturasTest" time="0.98"/>
+  <testcase name="saludGraficos" classname="com.rutaalacima.app.ui.CapturasTest" time="0.37"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
