@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="color-scheme" content="light dark">
+<title>SuRoute · Summit Route</title>
+<meta name="application-name" content="SuRoute">
+<meta name="apple-mobile-web-app-title" content="SuRoute">
+<meta name="description" content="Encuentra tu cumbre y súbela paso a paso: metas, hábitos, finanzas y una comunidad que sube contigo. En el teléfono y en el computador.">
+<!-- Vista previa al compartir el enlace (WhatsApp, redes, correo) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SuRoute">
+<meta property="og:title" content="SuRoute · Summit Route">
+<meta property="og:description" content="Encuentra tu cumbre y súbela paso a paso: metas, hábitos, finanzas y una comunidad que sube contigo. En el teléfono y en el computador.">
+<meta property="og:url" content="https://suroute.com/">
+<meta property="og:image" content="https://suroute.com/iconos/compartir.png?v=8">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Símbolo de SuRoute, Summit Route, con el lema Tu vida es la montaña. Cada día es un paso.">
+<meta property="og:locale" content="es_CO">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="iconos/favicon.svg?v=9" type="image/svg+xml">
+<link rel="alternate icon" href="iconos/favicon.png?v=9" type="image/png">
+<!-- Instalable como app (Android, iPhone y computador) -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#F7F9F9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1418" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="iconos/apple-touch-icon.png?v=8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Serif:opsz,wght@8..144,500;8..144,700&family=Roboto:wght@300;400;500;700&display=swap">
+<style>html,body{margin:0}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="estilos.css?v=4524fbe62817408623d9773438a8142bf5a29856">
+<script src="config.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body>
+<!-- Apertura: el símbolo se traza, el punto cae al sur y en tres pasos se cuenta qué es SuRoute. Toca para saltar. -->
+<div id="intro" class="intro-suroute" role="presentation" aria-hidden="true">
+  <div class="in-centro">
+    <svg class="in-simbolo" viewBox="0 0 100 100"><path class="in-aro" pathLength="100" d="M41.45 85.53A38 38 0 1 1 58.55 85.53"/><circle class="in-punto" cx="50" cy="86.5" r="6.5"/></svg>
+    <p class="in-marca">SuRoute</p><p class="in-lema">Summit Route</p>
+    <div class="in-pasos"><span>Escribe tu cumbre</span><span>Da el paso de hoy</span><span>Sube acompañado</span></div>
+    <svg class="in-cordillera" viewBox="0 0 260 60"><path class="in-cresta" pathLength="100" d="M0 56L40 40L62 48L104 22L128 34L170 8L196 28L230 18L260 56"/><circle class="in-andante" r="4"/></svg>
+  </div>
+  <p class="in-saltar">Toca para saltar</p>
+</div>
+<script>
+(function () {
+  var el = document.getElementById("intro"), vista = false;
+  try { vista = localStorage.getItem("suroute-intro") === "1"; localStorage.setItem("suroute-intro", "1"); } catch (e) {}
+  if (vista || /[#&]p=/.test(location.hash)) el.classList.add("corta");
+  var fin = function () { if (el.parentNode) el.parentNode.removeChild(el); };
+  var salir = function () { el.classList.add("salir"); setTimeout(fin, 260); };
+  el.addEventListener("click", salir);
+  addEventListener("keydown", function (e) { if (e.key === "Escape" || e.key === "Enter" || e.key === " ") salir(); }, { once: true });
+  el.addEventListener("animationend", function (e) { if (e.target === el) fin(); });
+  setTimeout(fin, el.classList.contains("corta") ? 900 : 6000);
+})();
+</script>
+<div class="franja" aria-hidden="true"></div>
+<section id="pantallaCarta" class="carta-pantalla" hidden></section>
+<section id="pantallaVincular" class="vincular" hidden></section>
+<div id="pantallaCarga" class="cargando" hidden></div>
+<div id="pantallaApp" class="ventana" hidden>
+  <script>
+  /* Ampliar la pantalla para trabajar con más espacio, o volver al tamaño normal (se recuerda) */
+  (function () {
+    var v = document.getElementById("pantallaApp");
+    function poner(t, guardar) {
+      v.classList.toggle("amplia", t === "amplia");
+      // el botón cambia de ícono y de nombre sin redibujar la pantalla
+      if (typeof ic === "function") document.querySelectorAll(".tam-cab").forEach(function (b) {
+        var amplia = t === "amplia", txt = amplia ? "Volver al tamaño normal" : "Ampliar la pantalla";
+        b.dataset.tam = amplia ? "normal" : "amplia"; b.title = txt; b.setAttribute("aria-label", txt); b.innerHTML = ic(amplia ? "salirPantalla" : "pantallaCompleta");
+      });
+      if (guardar) try { localStorage.setItem("suroute-tam", t); } catch (e) {}
+    }
+    var t = "normal"; try { t = localStorage.getItem("suroute-tam") || "normal"; } catch (e) {}
+    poner(t, false);
+    document.addEventListener("click", function (e) { var b = e.target.closest && e.target.closest("[data-tam]"); if (b) poner(b.dataset.tam, true); });
+  })();
+  </script>
+  <div class="app" id="app">
+    <nav class="riel" id="riel" aria-label="Secciones"></nav>
+    <div class="cuerpo">
+      <section class="lista" id="lista" aria-label="Lista"></section>
+      <main class="detalle" id="detalle"></main>
+    </div>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<div id="miniAudio" class="mini-audio" hidden></div>
+<!-- La app en módulos, en orden (comparten el ámbito global; sin herramientas de compilación) -->
+<script src="js/01-base.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/02-navegacion.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/03-detalle.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/04-acciones.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/05-sello.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/06-audiolibros.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/07-mensajes.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/08-cordadas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/09-arranque.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/09b-cielo-datos.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/10-cielo.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/11-mandala.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/12-moderacion.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/13-cuenta.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/14-plan.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/15-instalar.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/16-arte.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/17-finanzas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/18-ascenso.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/19-cuentas-mas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/20-fijos.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/21-grafica.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/22-mivida.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/23-editor.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/24-mochila.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/25-tarjetas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/26-recuerdos.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/27-comentarios.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/28-red.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/29-contactos.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/30-metas-fin.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/31-bienestar.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/32-climas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+<script src="js/33-bienestar-dia.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/34-companero.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/35-fin-cifrado.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/36-informe-brujula.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/37-sincro-metas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/38-plan-meta.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/39-barra-vida.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/40-cadena.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/41-mes-foco.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/42-meta-compacta.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/43-paso-hoy.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/44-evaluacion.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/45-comunidad-viva.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/46-barra-finanzas.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/47-alto-camino.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+  <script src="js/48-tramites.js?v=4524fbe62817408623d9773438a8142bf5a29856"></script>
+</body>
+</html>

@@ -1,0 +1,955 @@
+{
+ "id": "kit",
+ "title": "Kit de Emergencia",
+ "subtitle": "7 herramientas de uso diario",
+ "category": "herramientas",
+ "order": 10,
+ "sections": [
+  {
+   "id": "kit.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "TU KIT DE EMERGENCIA CONTIENE:"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 1: Revisión mensual de 1 Página",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 15 minutos / mes"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 2: Checklist de hábitos diarios por eje",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 2 minutos / día"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 3: Tarjetas de recordatorio (Frases clave)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Uso: Recorta y lleva contigo"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 4: Matriz de decisiones (Filtro de cumbre)",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 5 minutos por decisión importante"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 5: Plan semanal simplificado",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 10 minutos / semana"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 6: Tracker visual de progreso",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Uso: Actualización semanal"
+    },
+    {
+     "type": "bullet",
+     "text": "HERRAMIENTA 7: 7 Preguntas rápidas de reorientación",
+     "mark": "•"
+    },
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 3 minutos cuando te sientas perdido"
+    },
+    {
+     "type": "paragraph",
+     "text": "INSTRUCCIONES: Imprime este kit y tenlo a mano. Estas herramientas están diseñadas para uso rápido en el día a día. No necesitas completar todas a la vez. Usa la que necesites, cuando la necesites."
+    }
+   ]
+  },
+  {
+   "id": "kit.sec1",
+   "title": "Herramienta 1: Revisión Mensual",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 15 minutos | Frecuencia: Primer domingo de cada mes"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "MES:"
+      },
+      {
+       "type": "heading",
+       "level": 2,
+       "text": "AÑO:"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "1. LOGROS DEL MES"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q1",
+     "label": "¿Qué 3 cosas celebro de este mes?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q2",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "2. DESAFÍOS Y APRENDIZAJES"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q4",
+     "label": "¿Qué fue difícil? ¿Qué aprendí de ello?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q5",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "3. EVALUACIÓN DE LOS 6 EJES"
+    },
+    {
+     "type": "paragraph",
+     "text": "Marca del 1 al 10 cómo está cada eje:"
+    },
+    {
+     "type": "scale",
+     "id": "kit.s7",
+     "label": "Voluntad",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "kit.s8",
+     "label": "Maestría",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "kit.s9",
+     "label": "Voz",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "kit.s10",
+     "label": "Valor",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "kit.s11",
+     "label": "Evolución",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "scale",
+     "id": "kit.s12",
+     "label": "Trascend",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "4. ENFOQUE PARA EL PRÓXIMO MES"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q13",
+     "label": "Mi eje prioritario del próximo mes:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q14",
+     "label": "3 acciones concretas que tomaré:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q15",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "5. REVISIÓN DE CUMBRE"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c17",
+     "label": "¿Sigo avanzando hacia mi Cumbre Personal?",
+     "options": [
+      "Sí",
+      "No",
+      "Necesito reorientar"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q18",
+     "label": "Si NO o REORIENTAR, ¿qué necesito ajustar?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q19",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "kit.sec2",
+   "title": "Herramienta 2: Checklist Diario Por Eje",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Tiempo: 2 minutos al final del día | Marca las casillas que cumpliste hoy"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FECHA:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EJE"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "HÁBITO DIARIO"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VOLUNTAD"
+    },
+    {
+     "type": "check",
+     "id": "kit.k21",
+     "label": "Revisé mi visión/propósito (1 min)"
+    },
+    {
+     "type": "check",
+     "id": "kit.k22",
+     "label": "Hice algo hoy que me acerca a mi cumbre"
+    },
+    {
+     "type": "check",
+     "id": "kit.k23",
+     "label": "Dije NO a algo que me aleja de mi cumbre"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MAESTRÍA"
+    },
+    {
+     "type": "check",
+     "id": "kit.k24",
+     "label": "Practiqué/perfeccioné una habilidad clave (mín. 30 min)"
+    },
+    {
+     "type": "check",
+     "id": "kit.k25",
+     "label": "Aprendí algo nuevo relacionado con mi cumbre"
+    },
+    {
+     "type": "check",
+     "id": "kit.k26",
+     "label": "Salí de mi zona de confort hoy"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VOZ"
+    },
+    {
+     "type": "check",
+     "id": "kit.k27",
+     "label": "Expresé mi opinión auténtica en al menos una situación"
+    },
+    {
+     "type": "check",
+     "id": "kit.k28",
+     "label": "Compartí mi trabajo/mensaje de alguna forma"
+    },
+    {
+     "type": "check",
+     "id": "kit.k29",
+     "label": "No me callé algo importante por miedo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "VALOR"
+    },
+    {
+     "type": "check",
+     "id": "kit.k30",
+     "label": "Trabajé en algo que genera valor económico"
+    },
+    {
+     "type": "check",
+     "id": "kit.k31",
+     "label": "Cobré/pedí lo que merezco sin culpa"
+    },
+    {
+     "type": "check",
+     "id": "kit.k32",
+     "label": "Invertí en mi crecimiento (tiempo o dinero)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "EVOLUCIÓN"
+    },
+    {
+     "type": "check",
+     "id": "kit.k33",
+     "label": "Reflexioné sobre algo que aprendí hoy (journaling 5 min)"
+    },
+    {
+     "type": "check",
+     "id": "kit.k34",
+     "label": "Pedí feedback o perspectiva externa"
+    },
+    {
+     "type": "check",
+     "id": "kit.k35",
+     "label": "Ajusté un hábito o estrategia que no funciona"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "TRASCEND."
+    },
+    {
+     "type": "check",
+     "id": "kit.k36",
+     "label": "Ayudé a alguien sin esperar nada a cambio"
+    },
+    {
+     "type": "check",
+     "id": "kit.k37",
+     "label": "Conecté con algo mayor que yo (naturaleza, arte, espiritualidad)"
+    },
+    {
+     "type": "check",
+     "id": "kit.k38",
+     "label": "Trabajé en mi legado o contribución al mundo"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "TOTAL, DE CHECKS HOY: ______ / 18"
+    },
+    {
+     "type": "paragraph",
+     "text": "No necesitas 18/18 todos los días. Con 10-12 checks estás en buen camino. Menos de 8, revisa qué está pasando."
+    }
+   ]
+  },
+  {
+   "id": "kit.sec3",
+   "title": "Herramienta 3: Tarjetas De Recordatorio",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Recorta estas tarjetas y llévalas en tu billetera, pégalas en tu espejo, o guárdalas como foto en tu teléfono"
+    },
+    {
+     "type": "table",
+     "headers": [
+      "VOLUNTAD ¿Esto me acerca o me aleja de mi cumbre?\"",
+      "MAESTRÍA \"No se trata de talento. Se trata de práctica consistente.\""
+     ],
+     "rows": [
+      [
+       "VOZ \"Tu voz auténtica es más valiosa que tu voz aceptable.\"",
+       "VALOR \"Cobro por el valor que genero, no por las horas que trabajo.\""
+      ],
+      [
+       "EVOLUCIÓN \"Si hoy soy igual que hace un mes, estoy retrocediendo.\"",
+       "TRASCENDENCIA \"Mi cumbre solo importa si ayuda a otros a subir.\""
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "kit.sec4",
+   "title": "Herramienta 4: Matriz De Decisiones",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Usa esta matriz cuando enfrentes una decisión importante. Evalúa cada opción con estas preguntas."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "DECISIÓN A TOMAR:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q39",
+     "label": ""
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PREGUNTA FILTRO"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "OPCIÓN A"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "OPCIÓN B"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Me acerca a mi cumbre?"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c40",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q41",
+     "label": ""
+    },
+    {
+     "type": "choice",
+     "id": "kit.c42",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q43",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Fortalece mis ejes más débiles?"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c44",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q45",
+     "label": "Ejes:"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c46",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q47",
+     "label": "Ejes:"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Está alineada con mis valores?"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c48",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q49",
+     "label": ""
+    },
+    {
+     "type": "choice",
+     "id": "kit.c50",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q51",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Puedo sostenerla a largo plazo?"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c52",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q53",
+     "label": ""
+    },
+    {
+     "type": "choice",
+     "id": "kit.c54",
+     "label": "",
+     "options": [
+      "Sí",
+      "No",
+      "Neutro"
+     ]
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q55",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Me genera energía o me drena?"
+    },
+    {
+     "type": "check",
+     "id": "kit.k56",
+     "label": "Energía"
+    },
+    {
+     "type": "check",
+     "id": "kit.k57",
+     "label": "Drena"
+    },
+    {
+     "type": "check",
+     "id": "kit.k58",
+     "label": "Neutro"
+    },
+    {
+     "type": "check",
+     "id": "kit.k59",
+     "label": "Energía"
+    },
+    {
+     "type": "check",
+     "id": "kit.k60",
+     "label": "Drena"
+    },
+    {
+     "type": "check",
+     "id": "kit.k61",
+     "label": "Neutro"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "PUNTOS TOTALES"
+    },
+    {
+     "type": "paragraph",
+     "text": "_____ / 5"
+    },
+    {
+     "type": "paragraph",
+     "text": "Cuenta 1 punto por cada SÍ o ENERGÍA. La opción con más puntos es generalmente la mejor."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MI DECISIÓN:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q62",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "kit.sec5",
+   "title": "Herramienta 5: Plan Semanal Simplificado",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Completa cada domingo para la semana siguiente. Enfoque > volumen."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "SEMANA DEL: ____________________ AL ____________________"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MI ENFOQUE PRINCIPAL DE LA SEMANA"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q63",
+     "label": "Esta semana, mi prioridad #1 es:"
+    },
+    {
+     "type": "paragraph",
+     "text": "(Si solo pudiera hacer 1 cosa esta semana, ¿cuál tendría el mayor impacto?)"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LAS 3 GRANDES DE LA SEMANA"
+    },
+    {
+     "type": "callout",
+     "blocks": [
+      {
+       "type": "paragraph",
+       "text": "Eje que fortalece: ___________________    Cuándo: _____________"
+      }
+     ]
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "LO QUE ELIMINO ESTA SEMANA"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q64",
+     "label": "Para hacer espacio a lo importante, esta semana digo NO a:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CUIDADO PERSONAL"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q65",
+     "label": "Esta semana me cuido con (mínimo 1 actividad no negociable):"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "REVISIÓN DE FIN DE SEMANA"
+    },
+    {
+     "type": "choice",
+     "id": "kit.c66",
+     "label": "¿Completé mis 3 grandes?",
+     "options": [
+      "Las 3",
+      "2 de 3",
+      "1 de 3",
+      "Ninguna"
+     ]
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué aprendí esta semana sobre mi forma de trabajar?"
+    }
+   ]
+  },
+  {
+   "id": "kit.sec6",
+   "title": "Herramienta 6: Tracker Visual De Progreso",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Actualiza semanalmente. Colorea una casilla por cada semana que trabajas en ese eje."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "MES: ___________________    AÑO: _______"
+    },
+    {
+     "type": "inputTable",
+     "id": "kit.t67",
+     "headers": [
+      "EJE",
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "TOTAL"
+     ],
+     "rowLabels": [
+      "VOLUNTAD",
+      "MAESTRÍA",
+      "VOZ",
+      "VALOR",
+      "EVOLUCIÓN",
+      "TRASCEND."
+     ],
+     "rows": 6
+    },
+    {
+     "type": "paragraph",
+     "text": "Meta: Mínimo 3 checks por eje al mes. Si un eje tiene 0-1, es tu señal de alerta."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "NOTAS DEL MES:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q68",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "kit.sec7",
+   "title": "Herramienta 7: Preguntas De Reorientación",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Usa estas preguntas cuando te sientas perdido, desenfocado o desconectado de tu cumbre."
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "FECHA:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q71",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "1. ¿Dónde estoy ahora?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q72",
+     "label": "Describe tu estado actual en 2-3 oraciones:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q73",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "2. ¿Qué me está desviando?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q75",
+     "label": "¿Qué actividades, personas o hábitos me están alejando de mi cumbre?"
+    },
+    {
+     "type": "paragraph",
+     "text": "3. ¿Cuál es mi cumbre (recordatorio)?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q76",
+     "label": "En una frase, ¿cuál es mi Cumbre Personal?"
+    },
+    {
+     "type": "paragraph",
+     "text": "4. ¿Qué UN paso puedo dar HOY?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q77",
+     "label": "Una acción concreta, pequeña, que puedo hacer hoy:"
+    },
+    {
+     "type": "paragraph",
+     "text": "5. ¿Qué estoy evitando?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q78",
+     "label": "¿Qué conversación, decisión o acción estoy posponiendo?"
+    },
+    {
+     "type": "paragraph",
+     "text": "6. ¿A quién puedo pedir ayuda?"
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Quién podría apoyarme en este momento?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q79",
+     "label": "Persona:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q80",
+     "label": "¿Qué le pediría?:"
+    },
+    {
+     "type": "paragraph",
+     "text": "7. ¿Qué me diría mi yo del futuro?"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q81",
+     "label": "Si mi yo que ya alcanzó la cumbre pudiera hablarme ahora, me diría:"
+    }
+   ]
+  },
+  {
+   "id": "kit.sec8",
+   "title": "Compromiso De Acción",
+   "blocks": [
+    {
+     "type": "prompt",
+     "id": "kit.q82",
+     "label": "Basado en mis respuestas, mi próxima acción concreta es:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q83",
+     "label": ""
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q85",
+     "label": "La haré antes de:"
+    },
+    {
+     "type": "prompt",
+     "id": "kit.q86",
+     "label": "Fecha:"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "CÓMO USAR ESTE KIT"
+    },
+    {
+     "type": "paragraph",
+     "text": "Este kit de emergencia está diseñado para momentos específicos:"
+    },
+    {
+     "type": "bullet",
+     "text": "Cuando te sientas perdido → Herramienta 7 (Preguntas de Reorientación)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Para tu rutina diaria → Herramienta 2 (Checklist Diario)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Al planear tu semana → Herramienta 5 (Plan Semanal)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Para revisar tu mes → Herramienta 1 (Revisión Mensual) + Herramienta 6 (Tracker Visual)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ante decisiones importantes → Herramienta 4 (Matriz de Decisiones)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Para recordatorios diarios → Herramienta 3 (Tarjetas)",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 3,
+     "text": "Recuerda:"
+    },
+    {
+     "type": "paragraph",
+     "text": "Estas herramientas funcionan cuando las usas. No cuando las guardas perfectamente en un folder."
+    },
+    {
+     "type": "paragraph",
+     "text": "Imprime este kit. Márcalo. Úsalo."
+    }
+   ]
+  }
+ ]
+}

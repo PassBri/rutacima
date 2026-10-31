@@ -1,0 +1,45 @@
+{
+  "id": "./",
+  "name": "SuRoute",
+  "short_name": "SuRoute",
+  "description": "Encuentra tu cumbre y súbela paso a paso: metas, hábitos, la Brújula de la Cima y una comunidad que sube contigo.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#EEF1F2",
+  "theme_color": "#F7F9F9",
+  "categories": [
+    "lifestyle",
+    "education",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "iconos/suroute-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "iconos/suroute-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "iconos/suroute-adaptable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://suroute.com/manifest.webmanifest"
+    }
+  ]
+}

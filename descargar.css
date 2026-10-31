@@ -1,0 +1,86 @@
+/* Página de descargas de SuRoute: tarjetas grandes por equipo, como la de WhatsApp, con el mundo de la marca
+   (noche de montaña, lacre burdeos y papel). Modo claro y oscuro. */
+:root {
+  --fondo: #F4F1EC; --hoja: #FFFFFF; --tinta: #1D2427; --suave: #5A666B; --linea: #E2DDD5;
+  --burdeos: #6B2A1A; --sobre-burdeos: #FFFFFF; --oro: #86683A; --noche: #0E1622; --noche-2: #1C2638;
+  --font-titulo: "Roboto Serif", Georgia, "Times New Roman", serif;
+  --font-texto: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root {
+  --fondo: #0A0E12; --hoja: #12181D; --tinta: #E8EDEF; --suave: #98A6AD; --linea: #243039;
+  --burdeos: #F0B3A1; --sobre-burdeos: #2B1209; --oro: #C9AE84; color-scheme: dark;
+} }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 16px/1.6 var(--font-texto); }
+a { color: var(--burdeos); }
+svg { fill: currentColor; }
+
+.barra { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px clamp(16px, 4vw, 40px); background: var(--fondo);
+  border-bottom: 1px solid var(--linea); }
+.marca { display: flex; align-items: center; gap: 10px; font: 600 20px/1 var(--font-titulo); color: var(--tinta); text-decoration: none; }
+.barra-abrir { font-weight: 600; text-decoration: none; padding: 10px 16px; border-radius: 999px; border: 1px solid var(--linea); color: var(--tinta); background: var(--hoja); }
+.barra-abrir:hover { border-color: var(--burdeos); }
+
+.hero { max-width: 1100px; margin: 24px auto 0; padding: clamp(28px, 5vw, 56px); border-radius: 28px; display: flex; align-items: center; gap: 32px;
+  color: #F7F2EA; background:
+    radial-gradient(1200px 300px at 70% 120%, #7A4A40 0%, transparent 60%),
+    linear-gradient(180deg, var(--noche) 0%, var(--noche-2) 70%, #3A2E3A 100%);
+  box-shadow: 0 12px 40px rgb(0 0 0 / .18); overflow: hidden; position: relative; }
+.hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 38%; pointer-events: none;
+  background: linear-gradient(170deg, transparent 0 40%, rgb(20 20 30 / .55) 41%), linear-gradient(195deg, transparent 0 52%, rgb(12 12 20 / .6) 53%); }
+.hero-txt { position: relative; z-index: 1; flex: 1; }
+.lema { margin: 0 0 6px; letter-spacing: .32em; text-transform: uppercase; font-size: 13px; font-weight: 600; color: #D6BE8C; }
+.hero h1 { margin: 0 0 10px; font: 700 clamp(34px, 6vw, 56px)/1.05 var(--font-titulo); }
+.hero p { margin: 0; max-width: 52ch; font-size: clamp(16px, 2vw, 18px); color: #E9E1D6; }
+.hero-sello { position: relative; z-index: 1; width: clamp(110px, 18vw, 168px); height: auto; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 22px clamp(12px, 3vw, 0px) 40px; display: grid; gap: 18px; }
+.plataforma { display: grid; grid-template-columns: 120px 1fr auto; align-items: center; gap: 24px; padding: 26px clamp(18px, 3vw, 36px);
+  background: var(--hoja); border: 1px solid var(--linea); border-radius: 28px; }
+.plataforma.recomendada { border: 2px solid var(--burdeos); box-shadow: 0 10px 30px rgb(60 30 20 / .10); }
+.ilus { width: 120px; height: 96px; border-radius: 20px; display: grid; place-items: center; background: color-mix(in srgb, var(--burdeos) 9%, var(--hoja)); color: var(--burdeos); }
+.ilus svg { width: 54px; height: 54px; }
+.txt h2 { margin: 0 0 6px; font: 600 clamp(20px, 2.4vw, 24px)/1.25 var(--font-titulo); }
+.txt p { margin: 0; color: var(--suave); }
+.txt p + p { margin-top: 6px; }
+.nota { font-size: 14px; }
+.nota.resaltada { color: var(--tinta); background: color-mix(in srgb, var(--oro) 14%, transparent); border-radius: 10px; padding: 8px 12px; }
+.etiqueta { display: inline-block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--burdeos); }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px;
+  font: 600 17px/1 var(--font-texto); text-decoration: none; cursor: pointer; white-space: nowrap;
+  border: 1.5px solid var(--burdeos); background: transparent; color: var(--burdeos); transition: transform .2s cubic-bezier(.2,0,0,1); }
+.btn.lleno { background: var(--burdeos); color: var(--sobre-burdeos); }
+.btn:hover:not(:disabled) { transform: translateY(-1px); }
+.btn:disabled { opacity: .6; cursor: default; }
+.btn svg { width: 20px; height: 20px; }
+.btn:focus-visible, .barra-abrir:focus-visible { outline: 3px solid color-mix(in srgb, var(--burdeos) 45%, transparent); outline-offset: 3px; }
+
+.qr-tel { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px; padding: 30px clamp(18px, 3vw, 36px);
+  background: var(--hoja); border: 1px solid var(--linea); border-radius: 28px; }
+.qr-tel h2 { margin: 0 0 10px; font: 600 24px/1.25 var(--font-titulo); }
+.qr-tel ol { margin: 0; padding-left: 22px; color: var(--suave); }
+.qr-tel li { margin: 6px 0; }
+.qr { position: relative; width: 188px; height: 188px; padding: 10px; border-radius: 16px; background: #fff; border: 1px solid var(--linea); }
+.qr img:first-child { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+.qr-sello { position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; transform: translate(-50%, -50%); border-radius: 50%; background: #fff; padding: 3px; }
+
+.pie { max-width: 1100px; margin: 0 auto; padding: 8px 16px 48px; text-align: center; color: var(--suave); font-size: 14px; }
+.pie p { margin: 4px 0; }
+.pie b { color: var(--tinta); }
+
+@media (max-width: 760px) {
+  .hero { margin: 12px 12px 0; flex-direction: column-reverse; text-align: center; gap: 14px; }
+  .hero p { margin-inline: auto; }
+  .plataforma { grid-template-columns: 1fr; text-align: left; gap: 14px; border-radius: 22px; }
+  .ilus { width: 72px; height: 64px; border-radius: 16px; }
+  .ilus svg { width: 36px; height: 36px; }
+  .accion .btn { width: 100%; }
+  .qr-tel { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } }
+[hidden] { display: none !important; }
+
+.nota.resaltada a { color: var(--burdeos); font-weight: 600; }

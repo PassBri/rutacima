@@ -1,0 +1,989 @@
+{
+ "id": "bono_indicadores",
+ "title": "Banco de Indicadores",
+ "subtitle": "Bono 1 · 150 indicadores por eje",
+ "category": "bonos",
+ "order": 15,
+ "sections": [
+  {
+   "id": "bono_indicadores.sec0",
+   "title": "Inicio",
+   "blocks": [
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "RUTA A LA CIMA"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "BONO 1"
+    },
+    {
+     "type": "paragraph",
+     "text": "Banco de Indicadores"
+    },
+    {
+     "type": "paragraph",
+     "text": "150 Indicadores listos para usar"
+    },
+    {
+     "type": "paragraph",
+     "text": "Organizados por los 6 Ejes"
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec1",
+   "title": "Cómo usar este banco de indicadores",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "Los indicadores son las señales que te dicen si vas por buen camino."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Qué es un indicador?"
+    },
+    {
+     "type": "paragraph",
+     "text": "Un indicador es una métrica observable y medible que te permite saber si estás progresando hacia tu cumbre. No es la meta en sí, es la señal que confirma que estás caminando en la dirección correcta."
+    },
+    {
+     "type": "paragraph",
+     "text": "Por ejemplo: \"Escribir un libro\" es una meta. \"Palabras escritas por día\" es un indicador."
+    },
+    {
+     "type": "paragraph",
+     "text": "¿Cómo elegir mis indicadores?"
+    },
+    {
+     "type": "paragraph",
+     "text": "1. Alineación con tus metas: Elige indicadores que realmente midan progreso hacia tus objetivos específicos."
+    },
+    {
+     "type": "paragraph",
+     "text": "2. Balance entre ejes: Intenta tener al menos 1-2 indicadores de cada eje, o enfócate en 3-4 ejes clave según tu momento."
+    },
+    {
+     "type": "paragraph",
+     "text": "3. Medibles y específicos: Deben ser números, porcentajes, frecuencias - algo que puedas rastrear objetivamente."
+    },
+    {
+     "type": "paragraph",
+     "text": "4. Accionables: Debes tener control directo sobre el indicador. \"Seguidores\" es menos accionable que \"Posts publicados\"."
+    },
+    {
+     "type": "paragraph",
+     "text": "5. No más de 10 por mes: Menos es más. 6-10 indicadores bien elegidos son mejor que 20 que no sigues."
+    },
+    {
+     "type": "paragraph",
+     "text": "Consejos de uso:"
+    },
+    {
+     "type": "bullet",
+     "text": "Marca con ✓ los indicadores que resuenen contigo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Modifica los indicadores para que se ajusten a tu realidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cambia indicadores cada mes o trimestre según evolucione tu enfoque",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "No todos los indicadores aplican a todos - elige los que tengan sentido para TI",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Combina indicadores de proceso (\"horas practicadas\") con de resultado (\"proyecto completado\")",
+     "mark": "•"
+    },
+    {
+     "type": "heading",
+     "level": 2,
+     "text": "Voluntad (VOL)"
+    },
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Días consecutivos cumpliendo hábito matutino",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de trabajo profundo/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin faltar al gimnasio/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Racha de meditación diaria",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Porcentaje de prioridades completadas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin romper ayuno intermitente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de sueño promedio (7-8h)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que dijiste NO a distracciones/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días cumpliendo horario de despertar",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sesiones de escritura completadas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin consumir azúcar refinado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas sin revisar redes sociales",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días cumpliendo rutina nocturna",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que resististe procrastinación/día",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin alcohol/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Minutos de ejercicio diario acumulados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Porcentaje de comidas saludables/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin compras impulsivas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de pantalla reducidas vs semana anterior",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que completaste tareas difíciles primero",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días siguiendo presupuesto establecido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Minutos de lectura antes de dormir",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días sin posponer alarma",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que mantuviste calma en conflicto",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días practicando gratitud matutina",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q1",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q2",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec2",
+   "title": "Maestría (MAE)",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de práctica deliberada/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Libros completados/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Cursos finalizados/trimestre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Proyectos completados de inicio a fin",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Certificaciones obtenidas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de estudio técnico/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Palabras escritas/día (si escribes)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Líneas de código escritas/semana (si programas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ejercicios resueltos de tu disciplina",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de mentoría recibida/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nuevas habilidades técnicas adquiridas/trimestre",
+     "mark": "•"
+    },
+    {
+     "type": "scale",
+     "id": "bono_indicadores.s6",
+     "label": "Nivel de dominio en herramienta clave",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "bullet",
+     "text": "Proyectos de portafolio publicados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Artículos técnicos leídos/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conferencias o webinars atendidos/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas practicando idioma extranjero",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nivel en plataforma de aprendizaje (ej: Duolingo)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Papers académicos leídos/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Experimentos o pruebas realizadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Feedback recibido e implementado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Mentorías ofrecidas a otros (enseñar refuerza)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Proyectos open source a los que contribuiste",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Competencias o concursos participados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Portfolio de trabajos actualizado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nuevas técnicas dominadas/mes",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q7",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q8",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec3",
+   "title": "Voz (VOZ)",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Posts publicados en blog/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Videos creados y subidos/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Seguidores ganados (orgánicos)/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Engagement rate en redes (%)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Charlas o presentaciones dadas/trimestre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Artículos publicados en medios",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Podcast episodes grabados/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comentarios significativos dejados en comunidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conversaciones profundas con personas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que compartiste tu trabajo públicamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Menciones o tags recibidos por tu contenido",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Newsletter enviados/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Alcance de publicaciones (personas)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Testimonios recibidos por tu trabajo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Colaboraciones con otros creadores",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que expresaste opinión auténtica",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Historias personales compartidas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Piezas de contenido original creadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Debates constructivos en los que participaste",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Feedback recibido sobre tu voz/estilo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comunidad construida (miembros activos)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Mensajes directos respondidos auténticamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que defendiste tus valores públicamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Entrevistas dadas o recibidas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Reseñas o reviews escritos con tu perspectiva",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q12",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q13",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec4",
+   "title": "Valor (VAL)",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Ingresos mensuales generados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Clientes activos/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ventas realizadas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Valor promedio por transacción",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tasa de conversión (%)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Proyectos facturados y cobrados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Propuestas enviadas/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Contratos firmados/trimestre",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "MRR (Monthly Recurring Revenue)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Productos vendidos/día",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Servicios prestados/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas facturables trabajadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "ROI de inversiones realizadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nuevos leads generados/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Testimonios de clientes satisfechos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tasa de retención de clientes (%)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Upsells o ventas adicionales",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ingresos pasivos generados/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Valor del pipeline de ventas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Reuniones comerciales realizadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Follow-ups completados con prospectos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Referidos recibidos de clientes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Ticket promedio incrementado (%)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Margen de ganancia mejorado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Impacto económico en clientes (valor entregado)",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q17",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q18",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec5",
+   "title": "Evolución (EVO)",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas en terapia o coaching/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Sesiones de journaling completadas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Libros de desarrollo personal leídos/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Hábitos negativos identificados y trabajados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Creencias limitantes confrontadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que saliste de zona de comfort/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conversaciones difíciles tenidas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Errores reconocidos y corregidos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Feedback difícil recibido y procesado",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Experimentos personales realizados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Días escribiendo en diario de auto-reflexión",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Meditaciones o mindfulness/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nivel de auto-conocimiento (1-10, autoevaluado)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Patrones negativos interrumpidos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nuevas perspectivas adoptadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conflictos internos resueltos",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Miedos enfrentados directamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Decisiones tomadas basadas en valores vs miedo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que pediste ayuda cuando la necesitabas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Retiros o inmersiones de crecimiento/año",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de introspección intencional/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Nivel de claridad sobre propósito de vida",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Relaciones tóxicas cortadas/transformadas",
+     "mark": "•"
+    },
+    {
+     "type": "scale",
+     "id": "bono_indicadores.s22",
+     "label": "Autenticidad en comunicación",
+     "min": 1,
+     "max": 10
+    },
+    {
+     "type": "bullet",
+     "text": "Consistencia entre valores y acciones",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q23",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q24",
+     "label": ""
+    }
+   ]
+  },
+  {
+   "id": "bono_indicadores.sec6",
+   "title": "Trascendencia (TRA)",
+   "blocks": [
+    {
+     "type": "paragraph",
+     "text": "25 indicadores disponibles"
+    },
+    {
+     "type": "bullet",
+     "text": "Horas de voluntariado/mes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Personas directamente ayudadas/semana",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Donaciones realizadas (dinero o tiempo)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Mentorías ofrecidas gratuitamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Proyectos de impacto social iniciados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Personas inspiradas por tu ejemplo (testimonios)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Contenido educativo compartido gratuitamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conexiones facilitadas entre personas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Causas sociales apoyadas activamente",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Comunidades positivas creadas o lideradas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Legado construido (proyecto duradero)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que priorizaste bien común vs beneficio propio",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Impacto ambiental reducido (huella carbono)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Árboles plantados o acciones ecológicas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Familias o personas transformadas por tu trabajo",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Generaciones futuras beneficiadas (educación, herencia)",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Conocimiento documentado para otros",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Tradiciones positivas iniciadas en familia/comunidad",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Veces que fuiste ejemplo de valores",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Estudiantes o aprendices formados",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Recursos compartidos con quien lo necesita",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Injusticias confrontadas o denunciadas",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Puentes construidos entre grupos diferentes",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Herencia cultural preservada o transmitida",
+     "mark": "•"
+    },
+    {
+     "type": "bullet",
+     "text": "Vidas tocadas indirectamente por tu trabajo",
+     "mark": "•"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q28",
+     "label": "Espacio para tus indicadores personalizados:"
+    },
+    {
+     "type": "prompt",
+     "id": "bono_indicadores.q29",
+     "label": ""
+    },
+    {
+     "type": "paragraph",
+     "text": "Los indicadores correctos iluminan el camino hacia tu cumbre."
+    }
+   ]
+  }
+ ]
+}
