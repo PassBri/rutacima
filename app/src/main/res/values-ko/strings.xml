@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s 오늘 마감</string>
     <string name="tr_notif_en">%1$s %2$d일 후 마감</string>
     <string name="tr_notif_pago">%1$s: 오늘 납부</string>
+    <string name="tr_aviso_hoy">오늘의 알림</string>
 </resources>

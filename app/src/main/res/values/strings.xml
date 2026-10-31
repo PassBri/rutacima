@@ -2889,4 +2889,5 @@
     <string name="tr_notif_hoy">%1$s vence hoy</string>
     <string name="tr_notif_en">%1$s vence en %2$d días</string>
     <string name="tr_notif_pago">%1$s: hoy se paga</string>
+    <string name="tr_aviso_hoy">Aviso de hoy</string>
 </resources>

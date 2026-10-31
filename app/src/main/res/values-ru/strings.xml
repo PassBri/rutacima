@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">Срок %1$s — сегодня</string>
     <string name="tr_notif_en">Срок %1$s — через %2$d дн.</string>
     <string name="tr_notif_pago">%1$s: оплата сегодня</string>
+    <string name="tr_aviso_hoy">Напоминание на сегодня</string>
 </resources>

@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s ist heute fällig</string>
     <string name="tr_notif_en">%1$s ist in %2$d Tagen fällig</string>
     <string name="tr_notif_pago">%1$s: heute zahlen</string>
+    <string name="tr_aviso_hoy">Heutige Erinnerung</string>
 </resources>

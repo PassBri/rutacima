@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s scade oggi</string>
     <string name="tr_notif_en">%1$s scade tra %2$d giorni</string>
     <string name="tr_notif_pago">%1$s: si paga oggi</string>
+    <string name="tr_aviso_hoy">Promemoria di oggi</string>
 </resources>

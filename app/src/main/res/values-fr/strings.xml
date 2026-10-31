@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s arrive à échéance aujourd’hui</string>
     <string name="tr_notif_en">%1$s arrive à échéance dans %2$d jours</string>
     <string name="tr_notif_pago">%1$s : paiement aujourd’hui</string>
+    <string name="tr_aviso_hoy">Rappel du jour</string>
 </resources>

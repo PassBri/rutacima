@@ -102,29 +102,8 @@ object Recordatorios {
             .setAutoCancel(true)
             .build()
         try { NotificationManagerCompat.from(c).notify(120, n) } catch (e: SecurityException) { }
-        avisarTramites(c, abrir)
     }
 
-    /** Trámites y plazos: los que vencen hoy o en los días de aviso que eligió la persona (igual que la web). */
-    private suspend fun avisarTramites(c: Context, abrir: PendingIntent) {
-        val r = (c.applicationContext as RutaApp).container.respuestas.cargar(com.rutaalacima.app.ui.tramites.Plazos.WB)
-        val hoy = LocalDate.now()
-        val lineas = com.rutaalacima.app.ui.tramites.Plazos.leer(r).filter { !it.listo && com.rutaalacima.app.ui.tramites.Plazos.avisarHoy(it, hoy) }.map { t ->
-            val p = com.rutaalacima.app.ui.tramites.Plazos.proximo(t, hoy)!!; val q = java.time.temporal.ChronoUnit.DAYS.between(hoy, p).toInt()
-            when { t.mensual && q == 0 -> c.getString(R.string.tr_notif_pago, t.n); q == 0 -> c.getString(R.string.tr_notif_hoy, t.n); else -> c.getString(R.string.tr_notif_en, t.n, q) }
-        }
-        if (lineas.isEmpty()) return
-        val texto = lineas.joinToString("\n")
-        val n = NotificationCompat.Builder(c, CANAL)
-            .setSmallIcon(R.drawable.ic_notificacion)
-            .setContentTitle(c.getString(R.string.tr_titulo))
-            .setContentText(lineas.first())
-            .setStyle(NotificationCompat.BigTextStyle().bigText(texto))
-            .setContentIntent(abrir)
-            .setAutoCancel(true)
-            .build()
-        try { NotificationManagerCompat.from(c).notify(121, n) } catch (e: SecurityException) { }
-    }
 }
 
 class RecordatorioWorker(context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {

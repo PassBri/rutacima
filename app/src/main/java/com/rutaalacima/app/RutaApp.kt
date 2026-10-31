@@ -15,6 +15,9 @@ class RutaApp : Application() {
         // Recordatorio diario del camino hacia los 120 años
         com.rutaalacima.app.notificaciones.Recordatorios.crearCanal(this)
         com.rutaalacima.app.notificaciones.Recordatorios.programar(this)
+        com.rutaalacima.app.notificaciones.AvisosTramites.crearCanal(this)
+        com.rutaalacima.app.notificaciones.AvisosTramites.programar(this)
+        com.rutaalacima.app.notificaciones.AvisosTramites.revisar(this)
         // Avisos de mensajes, solicitudes y coach de vida (cada 15 minutos, si hay cuenta)
         com.rutaalacima.app.notificaciones.AvisosMensajes.programar(this)
     }

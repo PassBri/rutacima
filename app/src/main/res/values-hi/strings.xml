@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s की समय-सीमा आज है</string>
     <string name="tr_notif_en">%1$s की समय-सीमा %2$d दिन में है</string>
     <string name="tr_notif_pago">%1$s: आज भुगतान</string>
+    <string name="tr_aviso_hoy">आज का अलर्ट</string>
 </resources>

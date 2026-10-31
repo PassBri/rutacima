@@ -20,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Alarm
 import androidx.compose.material.icons.filled.Balance
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
@@ -136,8 +137,12 @@ object Plazos {
 }
 
 class TramitesViewModel(private val c: AppContainer) : ViewModel() {
+    private val app = c.contexto
     val todos: StateFlow<List<Tramite>> = c.respuestas.observar(Plazos.WB).map { Plazos.leer(it) }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
-    fun guardar(t: Tramite) = viewModelScope.launch { c.respuestas.guardar(Plazos.WB, "tramite#" + t.id, Plazos.json.encodeToString(Tramite.serializer(), t)) }
+    fun guardar(t: Tramite) = viewModelScope.launch {
+        c.respuestas.guardar(Plazos.WB, "tramite#" + t.id, Plazos.json.encodeToString(Tramite.serializer(), t))
+        com.rutaalacima.app.notificaciones.AvisosTramites.revisar(app)   // si vence hoy, avisa ya
+    }
     fun borrar(id: String) = viewModelScope.launch { c.respuestas.guardar(Plazos.WB, "tramite#$id", "") }
 }
 
@@ -189,8 +194,11 @@ private fun FilaTramite(t: Tramite, f: LocalDate, onEditar: () -> Unit, onListo:
     }
     Row(Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).background(MaterialTheme.colorScheme.surfaceContainerLow).padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.secondaryContainer), contentAlignment = Alignment.Center) {
-            Icon(iconoTipo(t.tipo), null, Modifier.size(20.dp), tint = MaterialTheme.colorScheme.primary)
+        // Aviso de hoy: el ícono pasa a una alarma ámbar
+        val alarma = f == hoy && !t.listo && Plazos.avisarHoy(t, hoy)
+        Box(Modifier.size(40.dp).clip(CircleShape).background(if (alarma) Color(0xFFC98A00) else MaterialTheme.colorScheme.secondaryContainer), contentAlignment = Alignment.Center) {
+            Icon(if (alarma) Icons.Filled.Alarm else iconoTipo(t.tipo), if (alarma) stringResource(R.string.tr_aviso_hoy) else null, Modifier.size(20.dp),
+                tint = if (alarma) Color.White else MaterialTheme.colorScheme.primary)
         }
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {

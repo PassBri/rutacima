@@ -2880,4 +2880,5 @@
     <string name="tr_notif_hoy">%1$s is due today</string>
     <string name="tr_notif_en">%1$s is due in %2$d days</string>
     <string name="tr_notif_pago">%1$s: payment due today</string>
+    <string name="tr_aviso_hoy">Today’s reminder</string>
 </resources>
