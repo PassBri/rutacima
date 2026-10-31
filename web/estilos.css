@@ -5033,3 +5033,12 @@ html[data-theme="dark"] .md-c .mdp-num { color: color-mix(in srgb, var(--c) 45%,
 .rv-dia.tr-pago { position: relative; }
 .tr-hab { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 13.5px; cursor: pointer; }
 .tr-hab input { width: 18px; height: 18px; accent-color: var(--burdeos); flex: none; }
+
+/* Aviso de hoy: el ícono pasa a una alarma y la fila se resalta */
+.tr-fila.alarma { border-color: color-mix(in srgb, #C98A00 55%, transparent); background: color-mix(in srgb, #C98A00 7%, var(--hoja)); }
+.tr-fila.alarma .tr-ic { background: #C98A00; animation: tr-timbre 1.2s cubic-bezier(.2,0,0,1) 2; }
+.tr-fila.alarma .tr-ic svg { fill: #fff; }
+@keyframes tr-timbre { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-12deg); } 40% { transform: rotate(10deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+@media (prefers-reduced-motion: reduce) { .tr-fila.alarma .tr-ic { animation: none; } }
+.tr-permiso { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 8px; border-radius: 14px; background: var(--oro-suave); font-size: 13px; }
+.tr-permiso > svg { width: 20px; height: 20px; flex: none; fill: var(--burdeos); } .tr-permiso span { flex: 1; }

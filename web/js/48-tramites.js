@@ -75,8 +75,9 @@ function trEstado(t, f) {
 /* ---------- En cada día: la sección «Trámites y plazos» ---------- */
 function tramitesDia(fecha) {
   const xs = tramites().filter(t => trEnDia(t, fecha) || (fecha === iso(hoyFecha()) && !t.listo && trAvisoHoy(t)));
-  const fila = t => { const e = trEstado(t, fecha), [tn, ti] = TR_TIPOS[t.tipo] || TR_TIPOS.tramite;
-    return `<div class="tr-fila${t.listo ? " listo" : ""}"><span class="tr-ic">${ic(ti)}</span>
+  const esHoy = fecha === iso(hoyFecha());
+  const fila = t => { const e = trEstado(t, fecha), [tn, ti] = TR_TIPOS[t.tipo] || TR_TIPOS.tramite, alarma = esHoy && !t.listo && trAvisoHoy(t);
+    return `<div class="tr-fila${t.listo ? " listo" : ""}${alarma ? " alarma" : ""}"><span class="tr-ic"${alarma ? ' title="Aviso de hoy"' : ""}>${ic(alarma ? "alarma" : ti)}</span>
       <div class="tr-tx"><b>${esc(t.n)}</b><small class="tr-est ${e.cls}">${e.txt}</small>
         ${!t.mensual && e.pct != null && !t.listo ? `<span class="tr-barra" role="img" aria-label="${Math.round(e.pct * 100)} % del plazo"><i style="width:${(e.pct * 100).toFixed(1)}%"></i></span>` : ""}
         <small class="tr-fechas">${t.mensual ? `Cada mes, el día ${Number(t.ini.slice(8))}` : `${deIso(t.ini).getDate()} ${MES_CORTO[deIso(t.ini).getMonth()]} → ${deIso(t.fin).getDate()} ${MES_CORTO[deIso(t.fin).getMonth()]} ${deIso(t.fin).getFullYear()}`}${t.nota ? " · " + esc(t.nota) : ""}</small></div>
@@ -84,6 +85,8 @@ function tramitesDia(fecha) {
       ${t.mensual ? "" : `<button class="rb" data-acc="trListo" data-arg="${esc(t.id)}" aria-pressed="${!!t.listo}" aria-label="${t.listo ? "Marcar como pendiente" : "Marcar como listo"}" title="${t.listo ? "Pendiente" : "Listo"}">${ic("check")}</button>`}</div>`; };
   return seccionDia("tramites", cabSec("reloj", "Trámites y plazos", "Un trámite, un proceso o una cuota: desde su día de inicio hasta su día final, con avisos antes de vencer.",
       `<button class="btn mini" data-acc="trNuevo" data-arg="${fecha}">${ic("mas")} Nuevo</button>`) +
+    (esHoy && xs.some(t => !t.listo && trAvisoHoy(t)) && "Notification" in window && Notification.permission === "default"
+      ? `<div class="tr-permiso">${ic("alarma")}<span>Activa los avisos para recibir una notificación en este navegador cuando un plazo esté por vencer.</span><button class="btn mini lleno" data-acc="trPermiso">Activar avisos</button></div>` : "") +
     (xs.length ? `<div class="tr-lista">${xs.map(fila).join("")}</div>` : `<p class="suave" style="margin:4px 0 0">Nada en curso este día. Agrega un trámite, un proceso o una cuota para no perder el plazo.</p>`));
 }
 /** ¿Toca avisar hoy? Según los días antes que eligió la persona (y el mismo día). */
@@ -152,3 +155,24 @@ function trMarcarCal(html) {
 }
 if (typeof rvBarra === "function") { const base = rvBarra; rvBarra = function (...a) { return trMarcarCal(base(...a)); }; }
 window.tramites = tramites; window.festivosCO = festivosCO; window.trFin = trFin;
+
+/* ---------- Notificación: los avisos de hoy llegan como notificación del navegador (una vez por día y trámite) ---------- */
+function trTextoAviso(t) {
+  const hoyIso = iso(hoyFecha()), p = trProximo(t, hoyIso), q = trContar(hoyIso, p, false);
+  return t.mensual && q === 0 ? `${t.n}: hoy se paga` : q === 0 ? `${t.n} vence hoy` : `${t.n} vence en ${q} ${q === 1 ? "día" : "días"}`;
+}
+async function trNotificar() {
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  const hoyIso = iso(hoyFecha());
+  for (const t of tramites().filter(x => !x.listo && trAvisoHoy(x))) {
+    const k = `suroute-tr-avisado-${t.id}-${hoyIso}`;
+    try { if (localStorage.getItem(k)) continue; localStorage.setItem(k, "1"); } catch {}
+    const op = { body: trTextoAviso(t), tag: "tramite-" + t.id, icon: "iconos/icono-192.png", badge: "iconos/icono-192.png", requireInteraction: true };
+    try { const reg = await navigator.serviceWorker?.getRegistration(); if (reg) await reg.showNotification("Trámites y plazos", op); else new Notification("Trámites y plazos", op); }
+    catch { try { new Notification("Trámites y plazos", op); } catch {} }
+  }
+}
+ACC.trPermiso = async () => { try { await Notification.requestPermission(); } catch {} trNotificar(); pintarDetalle(); };
+setTimeout(trNotificar, 4000); setInterval(trNotificar, 30 * 60 * 1000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) trNotificar(); });
+{ const g = FORMULARIOS.tramite; FORMULARIOS.tramite = (...a) => { g(...a); setTimeout(trNotificar, 300); }; }
